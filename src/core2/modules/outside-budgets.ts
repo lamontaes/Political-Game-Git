@@ -1,28 +1,26 @@
 /**
- * Every other state's budget, in the one budget store (Nation, Nov 8, 2026).
+ * Every other state's budget, in the one budget store (Nation, Nov 8, 2026),
+ * as a view of that state's ledger in the country tier (country-model.ts).
  * Each state outside the town's chain keeps a budget row for its fiscal
  * year (the same `BudgetRow` the town's state keeps, level as data). The
  * published row (`publishedBudgetFor`, the state's Census finances) is the
- * year the world opens on; every later year is built from the state's own
- * economy and its own laws, line by line, not one factor on the whole:
- * a tax line is the base it taxes (the state's wage bill, jobs times pay,
- * from the regional engine's months; property by the state's price level)
- * times the rate the state's law has in force against the opening's
- * (`stateLawInForce`: the income, sales and property tax rates, with every
- * act the state has passed); federal aid follows the Medicaid match in
- * force; the other revenue lines follow the wage bill. A state balances its
- * budget, so each spending line moves with the year's revenue. Money does
- * not move here: these are results, read by screens, the news and the
- * state's own comparisons; what a legislature's acts add to a spending
- * line and the state's treasury follow when someone opens that state
- * (stopgap SG-NATION-outside-budget-lines).
+ * year the world opens on. Every later year reads the tier: the income,
+ * profit and general sales tax lines are the state's share of what its
+ * ledger took in under each over the last twelve months (under the law in
+ * force there, so a state that raises a tax shows it), and spending is its
+ * share of the budget the ledger adopted. The tier keeps a state's
+ * governments together, state and local; the shares that split off the state
+ * government are the published lines over the tier's first month, fixed
+ * then. The lines the tier does not model stay estimates at their published
+ * opening values. Money does not move here: these are results, read by
+ * screens, the news and the state's own comparisons (stopgap
+ * SG-NATION-outside-budget-lines).
  */
 import { stateJurisdictionId } from "../government-jurisdictions";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
-import { REGIONS } from "../regional-model";
-import type { RegionMonth } from "../regional-model";
+import type { CountryState } from "./macro";
 import { registerModule } from "../state";
-import { lawChain, stateLawInForce } from "./laws";
+import { lawChain } from "./laws";
 import { nationalDisasterDetail, NATIONAL_DISASTER } from "./national-events";
 import {
   BUDGETS_MODULE_ID,
@@ -55,91 +53,101 @@ export const STATES = (
 
 const monthOf = (date: string) => date.slice(0, "YYYY-MM".length);
 
-/** The state's regions (a state with metros has the rest-of-state region too). */
-const regionsOf = (usps: string) =>
-  REGIONS.filter((row) => row.stateUsps === usps);
+/**
+ * The published revenue lines the country tier keeps a source for: the
+ * income, profit and general sales taxes the state's own law sets. Every other
+ * line (selective sales taxes, property, fees, federal aid and the rest) is
+ * one the tier does not model.
+ */
+const TIER_SOURCES = {
+  individualIncomeTax: "incomeTaxRevenue",
+  corporateIncomeTax: "profitTaxRevenue",
+  generalSalesTax: "salesTaxRevenue",
+} as const;
+type TierSource = (typeof TIER_SOURCES)[keyof typeof TIER_SOURCES];
+const MACRO_MODULE_ID = "macro";
+/** The tier keeps dollars; a budget row keeps minor units. */
+const MINOR_PER_DOLLAR = 100;
 
-function wageBill(api: CoreAPI, usps: string, month: string): number | null {
-  const months = api.moduleState("regional").table("months");
-  let total = 0;
-  for (const region of regionsOf(usps)) {
-    const row = months.get(`${region.id}:${month}`) as unknown as
-      RegionMonth | undefined;
-    if (!row) return null;
-    total += row.jobsThousands * row.hourlyEarnings;
-  }
-  return total > 0 ? total : null;
+/** The state's row in the country tier: its governments' ledger and what each month moved. */
+const tierId = (stateKey: string) => `country-state:${stateKey}`;
+function tierState(api: CoreAPI, stateKey: string): CountryState | undefined {
+  if (!(api.state as CoreState).modules.has(MACRO_MODULE_ID)) return undefined;
+  return api
+    .moduleState(MACRO_MODULE_ID)
+    .table("countryStates")
+    .get(tierId(stateKey)) as unknown as CountryState | undefined;
 }
 
-/** Jobs times pay in a state now against the opening month (1 before the engines have a month). */
-function wageBillFactor(api: CoreAPI, usps: string): number {
-  if (!(api.state as CoreState).modules.has("regional")) return 1;
-  const macro = api.moduleState("macro").table("state").get("macro:state") as
-    { openingMonth: string; latestMonth: string } | undefined;
-  if (!macro) return 1;
-  const open = wageBill(api, usps, macro.openingMonth);
-  const now = wageBill(api, usps, macro.latestMonth);
-  return open && now ? now / open : 1;
-}
-
-/** The state's price level now against the opening month (1 before the engines have a month). */
-function priceFactor(api: CoreAPI, usps: string): number {
-  if (!(api.state as CoreState).modules.has("regional")) return 1;
-  const macro = api.moduleState("macro").table("state").get("macro:state") as
-    { openingMonth: string; latestMonth: string } | undefined;
-  if (!macro) return 1;
-  const months = api.moduleState("regional").table("months");
-  const at = (month: string) => {
-    let sum = 0;
-    let n = 0;
-    for (const region of regionsOf(usps)) {
-      const row = months.get(`${region.id}:${month}`) as unknown as
-        RegionMonth | undefined;
-      if (!row) return null;
-      sum += row.priceLevelPct;
-      n += 1;
-    }
-    return n ? sum / n : null;
+/** A year of the tier's revenue by source, in minor units: the months it keeps, as a year. Null before its first month. */
+function tierYear(
+  api: CoreAPI,
+  state: CountryState,
+): Record<TierSource, number> | null {
+  const months = state.whatMoved;
+  if (!months.length) return null;
+  const scale = api.parameter("monthsPerYear") / months.length;
+  const year = (source: TierSource) =>
+    months.reduce((n, m) => n + m[source], 0) * scale * MINOR_PER_DOLLAR;
+  return {
+    incomeTaxRevenue: year("incomeTaxRevenue"),
+    profitTaxRevenue: year("profitTaxRevenue"),
+    salesTaxRevenue: year("salesTaxRevenue"),
   };
-  const open = at(macro.openingMonth);
-  const now = at(macro.latestMonth);
-  return open && now ? now / open : 1;
-}
-
-/** The state's rate of a tax in force today against the day the world opened (1 where either is none). */
-function rateFactor(api: CoreAPI, stateKey: string, series: string): number {
-  const open = stateLawInForce(
-    api,
-    stateKey,
-    series,
-    api.state.startedAt,
-  ).value;
-  const now = stateLawInForce(api, stateKey, series).value;
-  return open && now ? now / open : 1;
 }
 
 /**
- * Each revenue line's change since the opening: the base it taxes times the
- * rate in force. A line with no tax law of its own follows the wage bill.
+ * What part of the tier's ledger is the state government's own: the tier
+ * keeps a state's governments together, state and local, and the budget row
+ * is the state's alone. Each modeled line's share is the published line over
+ * the tier's year of that source, and spending's is the published spending
+ * over the budget the ledger adopted, both fixed from the tier's first month,
+ * so the published figures set day one and the tier moves every year after.
  */
-function revenueFactor(api: CoreAPI, stateKey: string, line: string): number {
-  const usps = stateKey.slice("US-".length);
-  const wages = wageBillFactor(api, usps);
-  switch (line) {
-    case "individualIncomeTax":
-      return wages * rateFactor(api, stateKey, "income-tax");
-    case "generalSalesTax":
-      return wages * rateFactor(api, stateKey, "sales-tax");
-    case "propertyTax":
-      return priceFactor(api, usps) * rateFactor(api, stateKey, "property-tax");
-    case "federalAid":
-      return rateFactor(api, stateKey, "medicaid-match");
-    case "intergovernmental":
-      return 1;
-    default:
-      return wages;
-  }
+interface Shares {
+  readonly id: string;
+  readonly revenue: Readonly<
+    Partial<Record<keyof typeof TIER_SOURCES, number>>
+  >;
+  readonly spending: number;
+  /** The published year the shares were taken against: its lines are the base of every line the tier does not model. */
+  readonly baseYear: number;
 }
+
+function sharesOf(
+  api: CoreAPI,
+  stateKey: string,
+  base: StateBase,
+  state: CountryState,
+): Shares | null {
+  const table = api.moduleState(OUTSIDE_BUDGETS_MODULE_ID).table("shares");
+  const kept = table.get(stateKey) as unknown as Shares | undefined;
+  if (kept) return kept;
+  const year = tierYear(api, state);
+  if (!year || !(state.ledger.budgetYear > 0)) return null;
+  const baseYear = fiscalYearOn(api.state.startedAt, base.fiscalYearStart);
+  const published = publishedFor(api, stateKey, base, baseYear);
+  const revenue: Partial<Record<keyof typeof TIER_SOURCES, number>> = {};
+  for (const [line, source] of Object.entries(TIER_SOURCES) as [
+    keyof typeof TIER_SOURCES,
+    TierSource,
+  ][])
+    if (year[source] > 0)
+      revenue[line] = (published.revenueMinor[line] ?? 0) / year[source];
+  const shares: Shares = {
+    id: stateKey,
+    revenue,
+    spending:
+      sum(published.spendingMinor) /
+      (state.ledger.budgetYear * MINOR_PER_DOLLAR),
+    baseYear,
+  };
+  table.put(shares as unknown as { id: string });
+  return shares;
+}
+
+const sum = (lines: Readonly<Record<string, number>>) =>
+  Object.values(lines).reduce((n, v) => n + v, 0);
 
 /** The state's government row for the budget engine's base (no treasury: a result, not a payer). */
 function government(stateKey: string, base: StateBase): GovernmentRow {
@@ -161,42 +169,67 @@ function fiscalYearOn(date: string, start: string): number {
   return date.slice(5) >= start ? year : year - 1;
 }
 
+function publishedFor(
+  api: CoreAPI,
+  stateKey: string,
+  base: StateBase,
+  fiscalYear: number,
+): BudgetRow {
+  return publishedBudgetFor(
+    government(stateKey, base),
+    stateKey,
+    fiscalYear,
+    api.state.date,
+    { kind: "published" },
+  );
+}
+
+/**
+ * The state's budget for a fiscal year, as a view of its ledger in the
+ * country tier: the income, profit and sales tax lines are the state's share
+ * of the tier's last year of each, spending is its share of the budget the
+ * ledger adopted (in the published mix of lines), and the lines the tier does
+ * not model stay estimates at their published opening values. Before the
+ * tier's first month, the published year.
+ */
 function writeBudget(
   api: CoreAPI,
   stateKey: string,
   base: StateBase,
   fiscalYear: number,
 ): void {
-  const gov = government(stateKey, base);
-  const published = publishedBudgetFor(
-    gov,
-    stateKey,
-    fiscalYear,
-    api.state.date,
-    { kind: "published" },
-  );
-  const revenue = Object.fromEntries(
-    Object.entries(published.revenueMinor).map(([line, v]) => [
-      line,
-      Math.round(v * revenueFactor(api, stateKey, line)),
-    ]),
-  );
-  const sum = (lines: Readonly<Record<string, number>>) =>
-    Object.values(lines).reduce((n, v) => n + v, 0);
-  // A state balances its budget: spending moves with the year's revenue.
-  const balance = sum(published.revenueMinor)
-    ? sum(revenue) / sum(published.revenueMinor)
-    : 1;
+  const published = publishedFor(api, stateKey, base, fiscalYear);
+  const state = tierState(api, stateKey);
+  const shares = state ? sharesOf(api, stateKey, base, state) : null;
+  const year = state ? tierYear(api, state) : null;
+  if (!state || !shares || !year) {
+    putBudget(api, published);
+    return;
+  }
+  // stopgapId: SG-NATION-outside-budget-lines
+  api.stopgap("SG-NATION-outside-budget-lines");
+  const opening = publishedFor(api, stateKey, base, shares.baseYear);
+  const revenue: Record<string, number> = { ...opening.revenueMinor };
+  for (const [line, source] of Object.entries(TIER_SOURCES) as [
+    keyof typeof TIER_SOURCES,
+    TierSource,
+  ][]) {
+    const share = shares.revenue[line];
+    if (share !== undefined) revenue[line] = Math.round(share * year[source]);
+  }
+  const spent = shares.spending * state.ledger.budgetYear * MINOR_PER_DOLLAR;
+  const mix = sum(opening.spendingMinor);
   const budget: BudgetRow = {
     ...published,
     revenueMinor: revenue,
     spendingMinor: Object.fromEntries(
-      Object.entries(published.spendingMinor).map(([line, v]) => [
+      Object.entries(opening.spendingMinor).map(([line, v]) => [
         line,
-        Math.round(v * balance),
+        mix ? Math.round((v * spent) / mix) : 0,
       ]),
     ),
-    source: `${published.source}; each revenue line moved by the state's own base (jobs times pay, prices) and the tax rate its law has in force against the opening's, spending by the year's revenue (factor ${balance.toFixed(4)})`,
+    ledgerId: tierId(stateKey),
+    source: `The state's share of its governments' ledger in the country tier (${tierId(stateKey)}): income, profit and general sales tax lines from the tier's last ${state.whatMoved.length} months of each under the law in force, spending from the budget the ledger adopted, both at the shares the published FY${shares.baseYear} lines set; every other line is an estimate held at its published FY${shares.baseYear} value (${opening.source})`,
   };
   putBudget(api, budget);
 }
@@ -277,7 +310,7 @@ function disasterAid(api: CoreAPI, event: Readonly<CoreEventInput>): void {
 
 export const OUTSIDE_BUDGETS_MODULE: CoreModule = {
   id: OUTSIDE_BUDGETS_MODULE_ID,
-  state: { schemaVersion: 1, tables: { state: {} } },
+  state: { schemaVersion: 1, tables: { state: {}, shares: {} } },
   eventKinds: [NATIONAL_DISASTER],
   onEvent(api, event) {
     disasterAid(api, event);

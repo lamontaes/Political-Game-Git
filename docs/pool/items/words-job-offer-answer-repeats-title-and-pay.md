@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/pool-words-job-offer-answer-repeats-title-and-pay
-pr:
+status: merged
+claimed-by:
+pr: #8796
 after:
 blocked-on:
 lead: words
@@ -17,8 +17,9 @@ model: sonnet
 effort: medium
 root: rc3-thin-life-record
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T02:21:23.422Z
+claimed-at:
 branch: claude/pool-words-job-offer-answer-repeats-title-and-pay
+merged-at: 2026-11-11T18:59:50.040Z
 ---
 
 **What.** The job-offer call does what a scene should: it names the firm, the job and the pay and offers four replies. But when the player asks about the work, the caller says again what the offer already said. Measured by the audit with the crew's scene tool in Ninnekah, Oklahoma (seed 3dac8ffb3f3c, a 17-year-old, one year): asked "What would I be doing?", the caller repeats the title and the pay. Measured again by me on Nov 10's main (commit 8ac2262853), same seed: "We went through everybody, and we'd like to bring you on as a construction laborer, at $16.25 an hour." "What would I be doing?" "$16.25 an hour to start. We'd train you on the rest." In Odessa, Washington (seed fd7e212758b7) the answer to "Tell me more about it." was "We'd go over all of it on your first day." Read in the bank: the job-offer purpose has three answer lines in data/english/parts/scene-talk.json, "You'd be {position}, at {pay} an hour to start.", "{pay} an hour to start. We'd train you on the rest." and "We'd go over all of it on your first day.", and none says what the work is. `composeBinding` (src/director/purpose-scene.ts:310; the job-offer facts are near line 445) gives the scene four facts only: the employer, the position, the pay and the deadline. Fix the class: an answer to a question says something the line before it did not. For the job offer, the answer comes from what the jobs records already hold about the opening (the occupation, the hours and shift of the position's schedule, what the business does, whose place it fills when the opening replaces someone), each said only when the record holds it.
@@ -56,3 +57,5 @@ Released (2026-11-11): re-offered after release; see draft PR 8461. Continue on 
 Released (2026-11-11): needs Story's answer lines under data/english/parts; new facts without lines would be an unread record; see draft PR 8461. Continue on branch claude/pool-words-job-offer-answer-repeats-title-and-pay.
 
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:21 UTC) on branch claude/pool-words-job-offer-answer-repeats-title-and-pay.
+
+Released by next (2026-11-11): no push to claude/pool-words-job-offer-answer-repeats-title-and-pay since 2026-11-11 02:15 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-words-job-offer-answer-repeats-title-and-pay.

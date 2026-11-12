@@ -11,6 +11,7 @@ import { selectBenchPlace } from "./place-selection.mjs";
 import { gameStartDate } from "../core2/game-start";
 import { buildBenchWorld, type BenchWorld } from "./world";
 import { BenchPlayer, ownPick } from "./player";
+import { leaveHoldsToCharacter } from "./office";
 import { judgeJumpEnd } from "./jump-end-check";
 import type { IsoDate } from "../core2/kernel/brands";
 import { benchProgress } from "./progress";
@@ -113,6 +114,9 @@ const specs: Record<string, () => string> = {
         packet.kind === "stop",
         `A week opened a choice list at ${packet.at.date}.`,
       );
+      // A meeting or the desk holds the clock until it is answered: the
+      // check leaves it to the character, its act kept as their own choice.
+      leaveHoldsToCharacter(w.core, packet.controlledPersonId);
       const next = player.resume({ kind: "stop", pauseId: packet.pauseId });
       for (const row of next.selfChosen) own(row);
       result = { ...result, ...next };

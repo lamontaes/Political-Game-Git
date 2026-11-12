@@ -20,6 +20,10 @@ import {
   playerContests,
 } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { spoken } from "../director/words";
+import { expectUpToFourDifferent } from "../director/reply-set-check";
+import { seatSaid } from "../english/journal-words";
 import type { PersonId } from "../core2/types";
 import controls from "./data/controls.json" with { type: "json" };
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
@@ -96,6 +100,19 @@ it(`a first visit asks for the papers, the player says only what they chose, and
       tried.push(`${where}: ${filedWith} has no clerk`);
       continue;
     }
+    // The clerk greets the player by the town they run in, or the office.
+    const townName = spoken(
+      corePlaceByJurisdictionId(core.people.get(me)!.placeId as never)!,
+    );
+    const greeting = state.visit.lines[0]!.text;
+    process.stdout.write(`${where} greeting: ${greeting}\n`);
+    expect(
+      greeting.includes(townName) ||
+        greeting
+          .toLowerCase()
+          .includes(filedWith.toLowerCase().split(/[;(,]/)[0]!.trim()),
+      `${where}: ${greeting}`,
+    ).toBe(true);
     // The first visit: no folder of forms, no petition yet.
     const intro = state.intro.map((line) => line.text).join(" ");
     process.stdout.write(`${where} ${filedWith} first visit: ${intro}\n`);
@@ -118,6 +135,53 @@ it(`a first visit asks for the papers, the player says only what they chose, and
     expect(answer.text.split(/(?<=[.?!]) /).length, where).toBeGreaterThan(1);
     if (contest.body && /^municipalOffice/.test(contest.kind ?? ""))
       expect(answer.text, where).toContain(contest.body.name);
+    // Up to four replies, each a different move about the race.
+    const moveOf: Record<string, string> = {
+      file: "agree",
+      "ask-filed": "ask",
+      "ask-dates": "tell",
+      leave: "leave",
+    };
+    expectUpToFourDifferent(
+      state.visit.choices.map((row) => ({
+        move: moveOf[row.key] ?? row.key,
+        text: row.text,
+      })),
+      where,
+    );
+    // Filing names the office; no other reply names it again (one screen
+    // names a thing once).
+    for (const row of state.visit.choices)
+      if (row.control === "file")
+        expect(row.text, where).toContain(
+          seatSaid(contest.seat!, { first: false }),
+        );
+      else
+        expect(row.text, where).not.toContain(
+          seatSaid(contest.seat!, { first: false }),
+        );
+    // An office is said the way people say it, never a form's title with
+    // its parenthesis or a member word after "run for", "file for", "sign
+    // for" or "give" (Fable B, Nov 11).
+    for (const line of [...state.visit.lines, ...state.visit.choices])
+      expect(line.text, where).not.toMatch(
+        /\((?:District|[^)]*election)[^)]*\)|(?:run|file|sign) for (?:the )?[A-Za-z ]*\bmember\b|give [a-z ]*member/i,
+      );
+    // Who else has filed, from the filings: named when there is someone.
+    state = chooseAtCounter(core, state, "ask-filed");
+    for (const row of state.visit.choices) offered.add(shown(row));
+    const whoFiled = state.visit.lines.at(-1)!;
+    process.stdout.write(
+      `${where} filed so far ${contest.filed?.count ?? 0}: ${whoFiled.text}\n`,
+    );
+    expect(whoFiled.speaker, where).toBe("clerk");
+    if (contest.filed?.first)
+      expect(whoFiled.text, where).toContain(contest.filed.first.name);
+    else expect(whoFiled.text, where).toMatch(/nobody|first|not a soul/i);
+    expect(
+      state.visit.choices.some((row) => row.key === "ask-filed"),
+      where,
+    ).toBe(false);
     const file = state.visit.choices.find((row) => row.control === "file");
     expect(file, `${where}: a way to file`).toBeTruthy();
     process.stdout.write(`${where} the player's reply: ${file!.text}\n`);

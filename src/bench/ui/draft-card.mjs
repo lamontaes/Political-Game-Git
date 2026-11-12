@@ -17,6 +17,8 @@ import { rosterTitle, stripSection } from "./strips.mjs";
  * drafts the bill. Returns the screen's node.
  */
 export function draftCard({ groups, words, onDraft }) {
+  const unitOf = (item) =>
+    el("span", { className: "draft-unit", textContent: item.unit ?? "" });
   const page = (item) => {
     const typed = numberBox({ value: 0, label: words.newAmount });
     const draft = makeButton({
@@ -38,11 +40,13 @@ export function draftCard({ groups, words, onDraft }) {
       stripSection(
         2,
         words.newAmount,
+        // A dollar sign leads the amount; any other unit follows it.
         el(
           "div",
           { className: "draft-entry" },
-          typed,
-          el("span", { className: "draft-unit", textContent: item.unit ?? "" }),
+          ...(item.unit === "$"
+            ? [unitOf(item), typed]
+            : [typed, unitOf(item)]),
         ),
         ...(item.note
           ? [el("p", { className: "draft-note", textContent: item.note })]
@@ -63,7 +67,11 @@ export function draftCard({ groups, words, onDraft }) {
           key: item.value,
           label: item.label,
           aside: item.today ?? "",
-          data: { value: item.value },
+          // A subject this body may not write a bill about is listed dimmed.
+          data: {
+            value: item.value,
+            ...(item.blocked ? { blocked: "true" } : {}),
+          },
           item,
         })),
       })),
