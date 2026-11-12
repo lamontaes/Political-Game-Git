@@ -46,7 +46,7 @@ try {
       if (await page.locator("#talk:not([hidden])").count())
         await finishTalk(page).catch(() => undefined);
     }
-    const people = page.locator("#people .talkable");
+    const people = page.locator("#here .busts-person.talkable");
     const count = await people.count();
     for (let at = 0; at < count && !twoExchanges; at += 1) {
       tried += 1;

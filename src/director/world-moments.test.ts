@@ -101,6 +101,23 @@ describe(`moments from the economy over a year in ${input.placeMetadata?.placeNa
           (personId) =>
             watched.has(personId) &&
             !momentsCiting(event.id).includes(personId) &&
+            // Or, a person keeping only their strongest older moments (ledger.ts
+            // forget), that month's summary of the event's kind: it names one of
+            // the event's other subjects, or the person is the event's own
+            // subject (a mover's summary of their own move names no one else,
+            // because the book's own id is dropped from its counterparts).
+            ![
+              ...(director.ledger.people.get(personId)?.summaries.values() ??
+                []),
+            ].some(
+              (summary) =>
+                summary.month === event.date.slice(0, "YYYY-MM".length) &&
+                summary.label.endsWith(`:event:${event.kind}`) &&
+                (event.personIds.includes(personId) ||
+                  event.personIds.some((other) =>
+                    summary.counterpartIds.includes(other),
+                  )),
+            ) &&
             !(
               FLOOR_LABEL[event.kind] !== undefined &&
               [
