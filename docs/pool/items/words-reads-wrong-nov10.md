@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: merged
+status: done
 claimed-by: story/reads-wrong-nov10
 pr: #8138
 blocked-on:
@@ -13,6 +13,8 @@ lead: words
 source: "read-through of celebration and gathering, rescue, apology and accusation, new baby, reporter story, race told, rival filed late and the win side against the owner's batch 3 notes"
 claimed-at: 2026-11-10T12:00:00.000Z
 merged-at: 2026-11-10T11:34:57.457Z
+seen-by: second-session-2
+seen-at: 2026-11-11T01:25:32.709Z
 ---
 
 **What.** Composed in drawn worlds (seeds rw1 Casco, Wisconsin and rw2 Barrigada, Guam through the grading bench's staged year; the celebration, gathering and rescue tests' own printed scenes on seeds 101 and 102), read line by line, and the bank of every scene named above scanned for each class. Found and fixed:
@@ -32,3 +34,5 @@ Checked and clean: no article before a phrase slot (a bill, rivals, a source, a 
 **Time box.** 2 hours.
 
 **You will see.** "Come and see me in Casco. I would love to show you what it's like here." then "Thank you. I'm so glad you said yes."
+
+**Notes.** Seen in the game (2026-11-11, second-session-2): drawn seed 1611a4081e31 (test world), seed 1611a4081e31, main 32a6683b: reads-wrong-scenes.test.ts passed all 8 assertions on a fresh seed, covering every class the item lists

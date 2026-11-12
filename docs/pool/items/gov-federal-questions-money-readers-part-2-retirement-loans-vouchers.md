@@ -19,7 +19,7 @@ source: split from gov-federal-questions-money-readers in the pool redo, Nov 10,
 checked: fable 2026-11-10
 ---
 
-**What.** Write the effect reader for retirement age, student-loan forgiveness and housing vouchers: the enacted law row changes a federal rate or an outlay that the federal budget, payroll withholding or a household's check reads. Reuse the engines that exist and add data rows for the terms in `src/core2/data/laws/reach-group-a.json`, with the reader in `src/core2/law-reach/group-a-money.ts` or the engine that pays or taxes. Counted groups pay or receive by the same rule times their count.
+**What.** Write the effect reader for retirement age, student-loan forgiveness and housing vouchers: the enacted law row changes a federal rate or an outlay that the federal budget, payroll withholding or a household's check reads. Reuse the engines that exist and add data rows for the terms in `src/core2/data/laws/reach-group-a.json`, with the reader in `src/core2/law-reach/group-a-money.ts` or the engine that pays or taxes. Counted groups pay or receive by the same rule times their count. Feeds: gov-federal-questions-money-readers.
 
 **Cause.** Found in code: `src/core2/law-reach/group-a-money.ts` and `src/core2/data/laws/reach-group-a.json` hold reach rows for money questions (`budgetToday` there reads a government's budget in force and `baseLine` a line's amount), and none yet reads retirement age, student-loan forgiveness and housing vouchers.
 

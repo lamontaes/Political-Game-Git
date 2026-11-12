@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** gov-dual-office-law-by-place-part-1-states-a-to-f, gov-dual-office-law-by-place-part-2-states-g-to-n and gov-dual-office-law-by-place-part-3-states-o-to-z-and-territories (the rows the proof reads).
 
 **Files.** src/core2/office-incompatibility.ts, src/core2/modules/offices.ts, src/core2/office-incompatibility.test.ts (new)
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A proof of rows that are dropped.

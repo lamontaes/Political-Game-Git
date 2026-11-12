@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Network access to the state statute sites.
 
 **Files.** src/core2/data/offices/incompatibility.json, src/core2/office-incompatibility.ts, src/core2/office-incompatibility.test.ts (new)
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Research citations of dual-office law, seen nowhere.

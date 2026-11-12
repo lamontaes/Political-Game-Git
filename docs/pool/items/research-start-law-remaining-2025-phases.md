@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on: research-start-law-remaining-2025-phases-part-1-local-taxes, research-start-law-remaining-2025-phases-part-2-minimum-wage-tiers, research-start-law-remaining-2025-phases-part-3-corporate-and-unemployment, research-start-law-remaining-2025-phases-part-4-territories
@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** scripts/research/build-starting-law.py, scripts/research/check-start-law-2025.ts, src/core2/data/laws/starting-law.json, src/core2/modules/laws.ts, src/core2/data/stopgaps/gov.json, data/research/laws/local-starting-law/local-income-tax.json
 
-**Notes.** TODO
+**Notes.** TODO Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it sources January 2025 values for local taxes, wages, corporate tax and unemployment the opening carries back from 2026; no one reads the difference.

@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-gov-bill-catalog-no-county-level
+pr: #8683
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,9 +17,10 @@ model: sonnet
 effort: high
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:00:24.863Z
 ---
 
-**What.** The county board's bill catalog is answered from the city jurisdiction. The item first found that `src/core2/data/legislature/bill-catalog.json` listed nothing at the county level, so `billCatalog(api, "county")` was empty in every place: in a drawn Black Sands, Hawaii world (key 1502832, world seed 1dbcd755...a2b4) the county board's catalog held no entry while the state's held 58 allowed questions (measured Oct 26). On main today the JSON lists `county` among its `levels` and the seat screen's `menusFor` (`src/bench/legislature.ts`, line 598) passes a county body through as `county`. What remains is whether a county board now drafts from county-level entries with county-level authority, or still from the city's.
+**What.** The county board's bill catalog is answered from the city jurisdiction. The item first found that `src/core2/data/legislature/bill-catalog.json` listed nothing at the county level, so `billCatalog(api, "county")` was empty in every place: in a drawn Black Sands, Hawaii world (key 1502832, world seed 1dbcd755...a2b4) the county board's catalog held no entry while the state's held 58 allowed questions (measured Oct 26). On main today the JSON lists `county` among its `levels` and the seat screen's `menusFor` (`src/bench/legislature.ts`, line 598) passes a county body through as `county`. What remains is whether a county board now drafts from county-level entries with county-level authority, or still from the city's. Seen: the bill-drafting menu on a county board seat, which lists county questions at county authority instead of city ones.
 
 **Cause.** Found in code: `src/core2/bill-catalog.ts` line 73 maps `level === "county" ? "city" : level` for the default jurisdiction, so a county catalog is looked up under the city jurisdiction; county authority for a policy question is read from the county column (`policyAuthority(api, p.question, "county")`, lines 104 to 108) but the jurisdiction is not the county's. The JSON now names county in each entry's `levels`.
 

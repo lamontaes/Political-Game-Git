@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** Add a recorded local emergency order that names the mayor or county executive and the disaster record, allowed where the state's law gives local executives the power and decided by the executive's traits, that moves a named budget line through `amendBudget`.
 
-**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: a mayor or county executive's choice to sign an emergency order after a disaster, and the budget line it moves.
 
 **Rules.** No dice: whether and when an executive signs follows the power the state gives them, their recorded traits and the disaster on record, never a percentage. Wire to the world: the order is read by the budgets engine, which moves a line, and by the director. One rule, all 56 places: the power comes from the state's own law in the table and no place is named.
 

@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** Add the requirement to the claim terms, size weekly contacts from the claimant's drive and the regional labor market, and pay the share contacts over required capped at one, recording the contacts on the claim row.
 
-**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the unemployment benefit a claimant is paid; the owner's Oct 20 ruling asks for the state's contact rule to be followed in the background, with no form.
 
 **Rules.** No dice: contacts follow the claimant's drive, traits, hours and the regional labor market, so two claimants differ for stated reasons and never by a roll. Sliding scales and causes: the week's payment is the weekly benefit times contacts over the requirement, capped at one, and nothing flips at a threshold. One rule, all 56 places: the requirement is read from the state's law row in force, and a null row asks nothing; no state is named in code. This is a game, not a spreadsheet: the player files no contacts, a jobless player sees only the payment and the English engine's words for it. An effect is a read, not a record: payClaims reads the contacts and the household's cash shows the smaller week. One model, two tiers: a counted claimant takes the same rule times its weight.
 

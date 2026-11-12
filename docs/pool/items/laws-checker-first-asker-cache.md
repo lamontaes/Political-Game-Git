@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -35,7 +35,7 @@ checked: fable 2026-11-10
 
 **Files.** scripts/law-wiring/check.ts, src/core2/law-reach/group-a-voting.ts, scripts/law-wiring/matrix.ts
 
-**Notes.** From the laws lead's justice helper, Oct 24 (branch claude/laws-nine-links-justice).
+**Notes.** From the laws lead's justice helper, Oct 24 (branch claude/laws-nine-links-justice). Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it makes the law checker credit the right engine in a grade nobody but the crew reads.
 
 Folded in Oct 25 from laws-checker-file-reads-many-laws. Its done when: `scripts/law-wiring/check.ts` credits a post as direct only when the call that made it read the law (the read and the post share a call path in the same day's step), and a rerun of the housing-credit family in Prescott, Michigan (seed a91c03e7d2b84f10) and Uehling, Nebraska (seed 5e27b0c4196fd3a8) shows the by-right and inclusionary laws' money no longer resting on a down payment, by journal id, while every other family's matrix rows keep their grades or say why they changed.
 

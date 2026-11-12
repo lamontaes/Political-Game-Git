@@ -46,14 +46,8 @@ try {
       ? place.town.name
       : `${place.town.name}, ${place.state.name}`,
   );
-  // The figure's preview is drawn by the server; the picture waits for it.
-  await page.locator("#cr-portrait").evaluate((img) =>
-    img.complete && img.naturalHeight > 0
-      ? true
-      : new Promise((done) => {
-          img.onload = img.onerror = () => done(true);
-        }),
-  );
+  // The look's bust is a few stacked pictures; the screenshot waits for them.
+  await page.locator("#cr-bust .bust-stack:not(.loading)").waitFor();
   if (process.env.SHOT_DIR)
     await page.screenshot({
       path: `${process.env.SHOT_DIR}/04-creator-random-place.png`,

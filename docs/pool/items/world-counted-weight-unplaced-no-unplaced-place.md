@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** TODO Released from idle draft #5076 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/peaceful-ritchie-03780x` (2026-10-19). Cleared from the front matter and kept here.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have fixed a test that has nothing to check in a town with no unplaced workers; no player sees it.

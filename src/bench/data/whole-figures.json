@@ -37,21 +37,23 @@
     "governor": ["governor"]
   },
   "creator": {
-    "about": "The creator's worded labels for the pack's values (src/bench/appearance.ts). A value not listed is shown in sentence case: a build as itself, an outfit by its manifest outfitLabel, a part as '<Part> color'.",
+    "about": "The creator's worded labels (src/bench/appearance.ts). The words for a skin, a hairstyle, a hair color, facial hair and a color of clothes are in the bust bank's manifest (art/busts/v1/manifest.json, `names`).",
     "sex": {
       "woman": "Woman",
       "man": "Man"
     },
-    "everyday": "Everyday clothes",
-    "parts": {
-      "top": "Top color",
-      "trousers": "Pants color",
-      "shoes": "Shoes color",
-      "hair": "Hair color"
-    },
+    "none": "None",
     "rows": {
-      "everyday": "Everyday clothes",
-      "work": "Work clothes"
+      "body": "Body",
+      "skin": "Skin",
+      "hair": "Hair",
+      "hairColor": "Hair color",
+      "face": "Facial hair",
+      "top": "Top",
+      "topColor": "Top color",
+      "shirt": "Shirt",
+      "tie": "Tie",
+      "jacket": "Jacket"
     }
   },
   "propPlaces": {
@@ -95,6 +97,10 @@
     ]
   },
   "everydayDress": "casual",
+  "here": {
+    "about": "The who's-here strip (owner, Nov 11, 2026): how many people in a room the strip names before it says \"and N more\". The people the scene is about come first, then the people the player knows.",
+    "shown": 6
+  },
   "occasions": {
     "about": "How a scene's occasion (passed by the director with the cast, agreed with Words Oct 29) places an office holder: seated (a seat, the kept desk chair first), standing, or at a podium (a lectern spot, else standing). No occasion: the default (owner, Oct 29: \"the president shouldn't be hard coded to be sitting. That's just for certain occasions ... But yes, sitting is the idea right now\").",
     "default": "seated",

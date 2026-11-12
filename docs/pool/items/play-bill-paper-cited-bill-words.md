@@ -7,10 +7,10 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-bill-paper-cited-bill-words
+pr: #8587
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -18,6 +18,7 @@ model: sonnet
 effort: low
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T04:55:46.347Z
 ---
 
 **What.** With laws-bill-section-cites-research-source, a bill section's record cites the bill that passed the law it amends (before.statute, its designation, and before.statuteForm, its form) and cites nothing for a law in force when the game began. The bill paper passes only before.statute to the screen, and the estimate line shows it as 'Amends' plus the bare designation, so a town's law reads 'Amends 2025-3' where the section text says 'amending Ordinance 2025-3'. The two guards that kept a research web address off the paper can no longer match anything and are dead code.

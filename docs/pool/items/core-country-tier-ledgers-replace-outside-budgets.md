@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: merged
 claimed-by: claude/pool-core-country-tier-ledgers-replace-outside-budgets
 pr: #8329
 after:
@@ -19,6 +19,7 @@ root: design-country-tier
 checked: fable 2026-11-10
 claimed-at: 2026-11-10T23:45:25.004Z
 branch: claude/pool-core-country-tier-ledgers-replace-outside-budgets
+merged-at: 2026-11-12T18:03:06.080Z
 ---
 
 **What.** Each state in the country tier keeps a ledger: its revenue from the income, sales and profit taxes its own law sets, the budget it adopted, and its cash. The outside-budgets engine (src/core2/modules/outside-budgets.ts) still builds a budget row for every state each fiscal year from the published per-person lines moved by the state's wage bill, and no money moves (stopgap SG-NATION-outside-budget-lines). So a state that cuts a tax shows the change in the tier's ledger and not in the budget row the news, the nation engines and the screens read. This item makes the budget row a view of the ledger: revenue by its lines, spending, the balance and the change from last year come from the tier, and the published lines only set day one.

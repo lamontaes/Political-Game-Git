@@ -20,7 +20,7 @@ import {
   type ScheduleEntry,
 } from "./scheduling";
 import { properName, spoken } from "./words";
-import { dayOpening } from "../english/day-words";
+import { dayOpening, daySince } from "../english/day-words";
 
 const zero = P.zero;
 
@@ -70,6 +70,21 @@ export interface Scene {
   };
   /** The scene's occasion from its type's data ("ceremony"), for how the room is drawn. */
   occasion?: string;
+}
+
+/** Whether two people share a household. */
+function livesWith(
+  core: Readonly<CoreState>,
+  personId: string,
+  otherId: string,
+): boolean {
+  const person = core.people.get(personId as PersonId);
+  return (
+    !!person &&
+    (core.households.get(person.householdId)?.memberIds ?? []).includes(
+      otherId as PersonId,
+    )
+  );
 }
 
 export function composeScene(
@@ -185,6 +200,10 @@ export function composeScene(
           sourceRecordIds: [moment.id],
         },
       };
+      // A record made on an earlier day (a call that came in the evening,
+      // played the next morning) is told as past: "yesterday".
+      const since = daySince(moment.date, core.date);
+      if (since) facts.since = { text: since, sourceRecordIds: [moment.id] };
       if (meeting)
         facts.name = {
           text: `${meeting.givenName} ${meeting.familyName}`,
@@ -198,7 +217,12 @@ export function composeScene(
       return facts;
     },
     `${moment.id}:arrival`,
-    (facts) => (facts.name ? "other" : "alone"),
+    // Someone who lives with the player does not arrive: they are home, so
+    // the day opens as it does alone and the scene's lead says who is there.
+    (facts) =>
+      facts.name && !(meeting && livesWith(core, personId, meeting.id))
+        ? "other"
+        : "alone",
   );
   // The call or letter line is the fallback when no arrival is worded.
   const setting = arrival

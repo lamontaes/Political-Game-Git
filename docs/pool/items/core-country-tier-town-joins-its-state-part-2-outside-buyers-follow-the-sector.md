@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/fable-b2-outside-by-sector
-pr:
+pr: #8363
 after:
 blocked-on:
 lead: money

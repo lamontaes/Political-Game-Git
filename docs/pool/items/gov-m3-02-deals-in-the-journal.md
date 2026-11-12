@@ -19,7 +19,7 @@ after:
 checked: fable 2026-11-10
 ---
 
-**What.** M3-02's test sentence says favors and promises land on the record and in the journal. They land on the record: a taken deal writes the bill's deal row and an obligation row (`offerDeal`, src/core2/modules/legislature.ts), and legislature.test.ts checks `obligationsOf`. The journal never tells them: the office-act moments in src/director/journal.ts (about lines 655 to 680) tell town halls, interviews and the player's yes or no votes, and nothing reads a deal or an obligation. Add a journal moment for a deal the player made, taken or declined, and for a favor they owe, read from those rows by id.
+**What.** M3-02's test sentence says favors and promises land on the record and in the journal. They land on the record: a taken deal writes the bill's deal row and an obligation row (`offerDeal`, src/core2/modules/legislature.ts), and legislature.test.ts checks `obligationsOf`. The journal never tells them: the office-act moments in src/director/journal.ts (about lines 655 to 680) tell town halls, interviews and the player's yes or no votes, and nothing reads a deal or an obligation. Add a journal moment for a deal the player made, taken or declined, and for a favor they owe, read from those rows by id. Seen: the Journal, which tells the favors and promises the player's deals made.
 
 **Cause.** Found in code: src/director/journal.ts has no reader of the bill's deal row or of obligationsOf (src/core2/modules/legislature.ts, line 3592), although offerDeal (line 3477 of the same file) writes both.
 

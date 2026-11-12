@@ -13,6 +13,7 @@
  * pulled hardest. People arrive in the town the same way from every other
  * place. The regional engine reads each state's counts.
  */
+import { taxIndexOf } from "../tax-index";
 import { placeStateKey } from "../place-map";
 import { worldRateFactor } from "../world-base-rates";
 import { createStableId, stableHash } from "../kernel/ids";
@@ -292,6 +293,7 @@ function stateIncomeTax(
     // Only the income tax is weighed here: no payroll lines.
     socialSecurity: { ...answer, governing: null },
     medicare: { ...answer, governing: null },
+    index: taxIndexOf(api),
   });
   let minor = 0;
   for (const line of lines)
@@ -1782,6 +1784,27 @@ export function coarsePlace(
   usps: string,
 ): CoarsePlace | undefined {
   return runtimes.get(core)?.states.get(usps);
+}
+
+/**
+ * A person met by someone living elsewhere comes out of the state's coarse
+ * people, one in their age band, so a partnership adds no resident (one
+ * model, two tiers). False when the state holds no one in that band.
+ */
+export function takeCoarsePerson(
+  api: CoreAPI,
+  placeId: string,
+  age: number,
+): boolean {
+  const core = api.state as CoreState;
+  if (!core.modules.has(COUNTED_MOVES_MODULE_ID)) return false;
+  const usps = householdStateOf(core, placeId);
+  const state = usps ? runtimeOf(api)?.states.get(usps) : undefined;
+  if (!state) return false;
+  const band = coarseIndex(age, api.parameter("votingAge"));
+  if (!(state.people[band]! >= api.parameter("one"))) return false;
+  state.people[band] = state.people[band]! - api.parameter("one");
+  return true;
 }
 
 export const COUNTED_MOVES_MODULE: CoreModule = {

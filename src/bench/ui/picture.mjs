@@ -7,15 +7,3 @@ export function picture({ src, className = "", alt = "" }) {
   image.addEventListener("error", () => image.remove(), { once: true });
   return image;
 }
-
-/** A screen's side artwork: its room behind, the person's figure in front. */
-export function fillArtwork(into, { portraitUrl, backgroundUrl, name }) {
-  into.replaceChildren(
-    ...[
-      [backgroundUrl, "screen-backdrop", ""],
-      [portraitUrl, "screen-portrait", name],
-    ]
-      .filter(([src]) => src)
-      .map(([src, className, alt]) => picture({ src, className, alt })),
-  );
-}

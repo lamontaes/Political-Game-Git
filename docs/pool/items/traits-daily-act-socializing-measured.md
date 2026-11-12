@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -41,3 +41,5 @@ Newton, Pladevall-Guyer, Gonzalez and Smith (2018, Health and Retirement Study 2
 **Notes.** Filed Oct 26 by the traits lead; a helper fetched and quoted both studies (scratch research notes); the pick data pull is queued.
 
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/traits-daily-act` is kept; claiming this item takes it over.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have weighed extraversion on seeing someone at a time-use study's size; no player can tell.

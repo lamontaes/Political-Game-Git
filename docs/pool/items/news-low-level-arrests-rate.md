@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-news-low-level-arrests-rate
+pr: #8438
 blocked-on: justice-low-level-offenses
 source: added with npm run pool -- add
 after:
@@ -17,6 +17,8 @@ model: sonnet
 effort: low
 root: rc3-thin-life-record
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:21:02.110Z
+branch: claude/pool-news-low-level-arrests-rate
 ---
 
 **What.** Once `justice-low-level-offenses` lands, the case flow counts minor quality-of-life arrests each month (`src/core2/public-safety.ts`, `lowLevelStreams`), and the outcome web keeps their rate as `justice.low-level-arrests`. No news topic reports that rate, so no person learns of it and the effect web's "knowing" point fails for the `police-to-low-level-arrests` link (measured by the low-level helper on a scratch run of the effect matrix, Oct 25). A person can attribute more or fewer minor arrests to the police line only after hearing of them.
@@ -38,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** Filed by the laws lead, Oct 25, from the low-level offenses helper's report.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: drop the graded-hold clause; keep the news topic.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:21 UTC) on branch claude/pool-news-low-level-arrests-rate.

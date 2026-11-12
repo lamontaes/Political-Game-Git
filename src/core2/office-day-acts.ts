@@ -526,7 +526,7 @@ export function officeActHandlers(host: OfficeActHost) {
           duty = own.duty;
           decision = own.decision;
         }
-        handleCase(api, row.id, decision);
+        handleCase(api, row.id, decision, duty);
         host.keep(api, {
           personId: actorId,
           kind: "case",

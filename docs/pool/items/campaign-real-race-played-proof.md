@@ -5,14 +5,14 @@ area: elections
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-campaign-real-race-played-proof
+pr: #8389
 after:
 blocked-on:
 source: governing lead, Oct 30 (the played-year half of campaign-like-real-races)
 lead: governing
-claimed-at:
+claimed-at: 2026-11-11T00:10:54.166Z
 standard: 2
 model: sonnet
 effort: medium
@@ -40,3 +40,15 @@ branch: claude/pool-campaign-real-race-played-proof
 **Notes.** Nov 2, 01:40 (governing lead): branch governing/real-race-played-proof at ede6bf1934. Not re-checked since Nov 1. Next: run its played test on two fresh seeds against the done-when, then open the PR or write what is left here.
 
 Released (2026-11-10): Branch test ran on main (draw seed b1bd9499354f0084): clauses a b c hold by record id (Lake Lure NC, council, eve 2025-11-03); clause d fails: incumbent person_0ffc0a527c69b850 shows 0 polls and never stepped up on reading the player ahead; draws 2-5 offered the player no council race on the day tried; draw 1 TypeError at test line 374 (petition.signers undefined). Needs the incumbent step-up engine read before the test can pass; not opened as PR. Continue on branch claude/pool-campaign-real-race-played-proof.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:05 UTC) on branch claude/pool-campaign-real-race-played-proof.
+
+Released (2026-11-11): Fix is run-and-open but an earlier run showed the incumbent-step-up clause fails (engine gap); not re-run by me. Continue on branch claude/pool-campaign-real-race-played-proof.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:06 UTC) on branch claude/pool-campaign-real-race-played-proof.
+
+Released (2026-11-11): Ran the branch test on two fresh seeds (c1 d2f739a23d522ef1, c2 47ecaf54f68ac10e): 10 draws, none offered the player a council race on the day tried (e.g. Woodland Park NJ offered only governor and assembly), so no clause is reached; test needs to wait for a council contest, an owner-of-test change, not run-and-open. Continue on branch claude/pool-campaign-real-race-played-proof.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:10 UTC) on branch claude/pool-campaign-real-race-played-proof.
+
+Released (2026-11-11): Released again: clause d (incumbent step-up) needs engine work; see earlier release note. Continue on branch claude/pool-campaign-real-race-played-proof.

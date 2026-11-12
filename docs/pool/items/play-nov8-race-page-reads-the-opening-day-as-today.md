@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-play-nov8-race-page-reads-the-opening-day-as-today
+pr: #8469
 after:
 blocked-on:
 standard: 2
@@ -17,6 +17,7 @@ root: rc10-screens-keep-own-facts
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, point P18, partly fixed)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:22:03.512Z
 ---
 
 **What.** The owner, Nov 8, about 2:10 p.m. (v0.94.0, Manchester, Connecticut): "There's one date and there's one time. One date, one time." A race's page now lists the day filing opens, but its "filing opens" row is shown by comparing against the day the game was loaded, not today. In a sitting that started before filing opened, the page goes on saying filing opens on a day already past beside a File for it button, and from the second year on the year in that row is worded against the wrong year. No screen should read the load day as today; the one date is the clock's.

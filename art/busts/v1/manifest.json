@@ -1,0 +1,413 @@
+{
+  "pack": 1,
+  "about": "The bust bank: a person on a menu is a head, a top, facial hair and hair stacked on one canvas (src/bench/bust.ts is the only reader). Round 3 (accepted by the owner Nov 10, 2026) gave six heads and six hairstyles in four colors for each sex. Round 4 (accepted Nov 11) made the clothes layers in colors: a shirt, a tie and a jacket, or one whole top, each color its own painting; it replaced round 3's tops, all but the women's denim, which round 4 does not paint.",
+  "canvas": 1254,
+  "order": ["head", "top", "shirt", "tie", "jacket", "face", "hair"],
+  "people": [
+    {
+      "id": "woman-medium",
+      "sex": "woman",
+      "tone": "dark"
+    },
+    {
+      "id": "woman-slim",
+      "sex": "woman",
+      "tone": "medium"
+    },
+    {
+      "id": "woman-heavy",
+      "sex": "woman",
+      "tone": "light"
+    },
+    {
+      "id": "man-medium",
+      "sex": "man",
+      "tone": "medium"
+    },
+    {
+      "id": "man-slim",
+      "sex": "man",
+      "tone": "light"
+    },
+    {
+      "id": "man-heavy",
+      "sex": "man",
+      "tone": "dark"
+    }
+  ],
+  "hairColors": {
+    "light": ["black", "darkbrown", "blond"],
+    "medium": ["black", "darkbrown"],
+    "dark": ["black", "darkbrown"]
+  },
+  "olderHair": "gray",
+  "names": {
+    "light": "Light",
+    "medium": "Medium",
+    "dark": "Deep",
+    "bob": "Bob",
+    "curls": "Curls",
+    "pixie": "Pixie",
+    "shoulder": "Shoulder length",
+    "updo": "Updo",
+    "waves": "Waves",
+    "crop": "Cropped",
+    "receding": "Receding",
+    "sidepart": "Side part",
+    "swept": "Swept back",
+    "textured": "Textured",
+    "black": "Black",
+    "darkbrown": "Dark brown",
+    "blond": "Blond",
+    "gray": "Gray",
+    "beard": "Beard",
+    "mustache": "Mustache",
+    "white": "White",
+    "lightblue": "Light blue",
+    "cream": "Cream",
+    "navy": "Navy",
+    "burgundy": "Burgundy",
+    "forestgreen": "Forest green",
+    "navystripe": "Navy stripe",
+    "charcoal": "Charcoal",
+    "brown": "Brown",
+    "henley": "Henley",
+    "denim": "Denim shirt",
+    "cardigan": "Cardigan",
+    "chambray": "Chambray shirt",
+    "sweater": "Sweater",
+    "green": "Green",
+    "maroon": "Maroon",
+    "blue": "Blue",
+    "tan": "Tan",
+    "olive": "Olive",
+    "rust": "Rust"
+  },
+  "sets": {
+    "woman": {
+      "dir": "women/front",
+      "head": {
+        "top": 99,
+        "middle": 626,
+        "width": 436
+      },
+      "tones": ["light", "medium", "dark"],
+      "heads": {
+        "light": {
+          "adult": "head-light-adult.png",
+          "older": "head-light-older.png"
+        },
+        "medium": {
+          "adult": "head-medium-adult.png",
+          "older": "head-medium-older.png"
+        },
+        "dark": {
+          "adult": "head-dark-adult.png",
+          "older": "head-dark-older.png"
+        }
+      },
+      "face": [],
+      "hair": [
+        {
+          "style": "bob",
+          "files": {
+            "black": "hair-bob-black.png",
+            "blond": "hair-bob-blond.png",
+            "darkbrown": "hair-bob-darkbrown.png",
+            "gray": "hair-bob-gray.png"
+          }
+        },
+        {
+          "style": "curls",
+          "files": {
+            "black": "hair-curls-black.png",
+            "blond": "hair-curls-blond.png",
+            "darkbrown": "hair-curls-darkbrown.png",
+            "gray": "hair-curls-gray.png"
+          }
+        },
+        {
+          "style": "pixie",
+          "files": {
+            "black": "hair-pixie-black.png",
+            "blond": "hair-pixie-blond.png",
+            "darkbrown": "hair-pixie-darkbrown.png",
+            "gray": "hair-pixie-gray.png"
+          }
+        },
+        {
+          "style": "shoulder",
+          "files": {
+            "black": "hair-shoulder-black.png",
+            "blond": "hair-shoulder-blond.png",
+            "darkbrown": "hair-shoulder-darkbrown.png",
+            "gray": "hair-shoulder-gray.png"
+          }
+        },
+        {
+          "style": "updo",
+          "files": {
+            "black": "hair-updo-black.png",
+            "blond": "hair-updo-blond.png",
+            "darkbrown": "hair-updo-darkbrown.png",
+            "gray": "hair-updo-gray.png"
+          }
+        },
+        {
+          "style": "waves",
+          "files": {
+            "black": "hair-waves-black.png",
+            "blond": "hair-waves-blond.png",
+            "darkbrown": "hair-waves-darkbrown.png",
+            "gray": "hair-waves-gray.png"
+          }
+        }
+      ],
+      "clothes": {
+        "top": [
+          {
+            "style": "henley",
+            "files": {
+              "gray": "top-henley-gray.png",
+              "green": "top-henley-green.png",
+              "maroon": "top-henley-maroon.png"
+            }
+          },
+          {
+            "style": "denim",
+            "files": {
+              "blue": "top-denim.png"
+            }
+          },
+          {
+            "style": "cardigan",
+            "files": {
+              "cream": "top-cardigan-cream.png",
+              "navy": "top-cardigan-navy.png",
+              "rust": "top-cardigan-rust.png"
+            }
+          }
+        ],
+        "shirt": [
+          {
+            "style": "dress",
+            "files": {
+              "white": "shirt-dress-white.png",
+              "lightblue": "shirt-dress-lightblue.png",
+              "cream": "shirt-dress-cream.png"
+            }
+          }
+        ],
+        "tie": [],
+        "jacket": [
+          {
+            "style": "blazer",
+            "files": {
+              "charcoal": "jacket-blazer-charcoal.png",
+              "navy": "jacket-blazer-navy.png",
+              "burgundy": "jacket-blazer-burgundy.png"
+            }
+          }
+        ]
+      },
+      "dress": {
+        "everyday": [
+          {
+            "top": "henley"
+          },
+          {
+            "top": "denim"
+          }
+        ],
+        "work": [
+          {
+            "top": "cardigan"
+          },
+          {
+            "shirt": "dress"
+          }
+        ],
+        "official": [
+          {
+            "shirt": "dress",
+            "jacket": "blazer"
+          }
+        ]
+      }
+    },
+    "man": {
+      "dir": "men/front",
+      "head": {
+        "top": 83,
+        "middle": 614,
+        "width": 423
+      },
+      "tones": ["light", "medium", "dark"],
+      "heads": {
+        "light": {
+          "adult": "head-light-adult.png",
+          "older": "head-light-older.png"
+        },
+        "medium": {
+          "adult": "head-medium-adult.png",
+          "older": "head-medium-older.png"
+        },
+        "dark": {
+          "adult": "head-dark-adult.png",
+          "older": "head-dark-older.png"
+        }
+      },
+      "face": [
+        {
+          "style": "beard",
+          "files": {
+            "black": "face-beard-black.png",
+            "darkbrown": "face-beard-darkbrown.png",
+            "gray": "face-beard-gray.png"
+          }
+        },
+        {
+          "style": "mustache",
+          "files": {
+            "black": "face-mustache-black.png",
+            "darkbrown": "face-mustache-darkbrown.png",
+            "gray": "face-mustache-gray.png"
+          }
+        }
+      ],
+      "hair": [
+        {
+          "style": "crop",
+          "files": {
+            "black": "hair-crop-black.png",
+            "blond": "hair-crop-blond.png",
+            "darkbrown": "hair-crop-darkbrown.png",
+            "gray": "hair-crop-gray.png"
+          }
+        },
+        {
+          "style": "curls",
+          "files": {
+            "black": "hair-curls-black.png",
+            "blond": "hair-curls-blond.png",
+            "darkbrown": "hair-curls-darkbrown.png",
+            "gray": "hair-curls-gray.png"
+          }
+        },
+        {
+          "style": "receding",
+          "files": {
+            "black": "hair-receding-black.png",
+            "blond": "hair-receding-blond.png",
+            "darkbrown": "hair-receding-darkbrown.png",
+            "gray": "hair-receding-gray.png"
+          }
+        },
+        {
+          "style": "sidepart",
+          "files": {
+            "black": "hair-sidepart-black.png",
+            "blond": "hair-sidepart-blond.png",
+            "darkbrown": "hair-sidepart-darkbrown.png",
+            "gray": "hair-sidepart-gray.png"
+          }
+        },
+        {
+          "style": "swept",
+          "files": {
+            "black": "hair-swept-black.png",
+            "blond": "hair-swept-blond.png",
+            "darkbrown": "hair-swept-darkbrown.png",
+            "gray": "hair-swept-gray.png"
+          }
+        },
+        {
+          "style": "textured",
+          "files": {
+            "black": "hair-textured-black.png",
+            "blond": "hair-textured-blond.png",
+            "darkbrown": "hair-textured-darkbrown.png",
+            "gray": "hair-textured-gray.png"
+          }
+        }
+      ],
+      "clothes": {
+        "top": [
+          {
+            "style": "chambray",
+            "files": {
+              "blue": "top-chambray-blue.png",
+              "tan": "top-chambray-tan.png",
+              "olive": "top-chambray-olive.png"
+            }
+          },
+          {
+            "style": "sweater",
+            "files": {
+              "gray": "top-sweater-gray.png",
+              "green": "top-sweater-green.png",
+              "maroon": "top-sweater-maroon.png"
+            }
+          }
+        ],
+        "shirt": [
+          {
+            "style": "dress",
+            "files": {
+              "white": "shirt-dress-white.png",
+              "lightblue": "shirt-dress-lightblue.png",
+              "cream": "shirt-dress-cream.png"
+            }
+          }
+        ],
+        "tie": [
+          {
+            "style": "silk",
+            "files": {
+              "navy": "tie-silk-navy.png",
+              "burgundy": "tie-silk-burgundy.png",
+              "forestgreen": "tie-silk-forestgreen.png",
+              "navystripe": "tie-silk-navystripe.png"
+            }
+          }
+        ],
+        "jacket": [
+          {
+            "style": "suit",
+            "files": {
+              "charcoal": "jacket-suit-charcoal.png",
+              "navy": "jacket-suit-navy.png",
+              "brown": "jacket-suit-brown.png"
+            }
+          }
+        ]
+      },
+      "dress": {
+        "everyday": [
+          {
+            "top": "chambray"
+          },
+          {
+            "top": "sweater"
+          }
+        ],
+        "work": [
+          {
+            "shirt": "dress"
+          },
+          {
+            "shirt": "dress",
+            "tie": "silk"
+          }
+        ],
+        "official": [
+          {
+            "shirt": "dress",
+            "tie": "silk",
+            "jacket": "suit"
+          }
+        ]
+      }
+    }
+  }
+}

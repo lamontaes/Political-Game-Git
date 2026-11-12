@@ -20,7 +20,7 @@ source: split from release-m7-05-legal-check in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** List each real school, bank, business and institution that appears by name in the shipped data, and give each a decision (keep, rename or remove) for the owner. Real places themselves are the game's setting and stay; this part covers named organizations.
+**What.** List each real school, bank, business and institution that appears by name in the shipped data, and give each a decision (keep, rename or remove) for the owner. Real places themselves are the game's setting and stay; this part covers named organizations. Seen: the names of real schools and businesses on the map and in scenes, which the owner keeps, renames or removes before launch.
 
 **Cause.** Design: docs/roadmap/later-specs-draft.md section M7-05 (approved by the owner Oct 12) and docs/packages/M7-early-access.md.
 

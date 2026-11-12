@@ -15,6 +15,10 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
+import { advanceCore } from "./life";
+import { advanceToFilingOpen } from "./gov-test-clock";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { campaignParameter } from "./campaign-data";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
@@ -529,6 +533,51 @@ describe("campaigns that raise and spend", () => {
       return;
     }
     throw new Error(`no drawn town had an ad to test: ${tried.join("; ")}`);
+  }, 300_000);
+});
+
+describe("a race with a petition out is worked as its filing deadline nears", () => {
+  it("every race with a petition circulating gets a campaign turn in the three days before its filing deadline", () => {
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const w = world(`petition-turns:${attempt}`);
+      advanceToFilingOpen(w.core);
+      const pair = twoCandidates(w.api, w.core);
+      const petitioning = pair
+        ? [pair.you, pair.rival].find((f) => f.status === "petitioning")
+        : undefined;
+      if (!petitioning) {
+        tried.push(`${w.where}: no petition circulating`);
+        continue;
+      }
+      const contest = w.api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .get(petitioning.contestId) as unknown as ContestRow;
+      const races = w.api.moduleState(CAMPAIGNS_MODULE_ID).table("races");
+      const windowStart = addDays(
+        makeIsoDate(contest.filingDeadline),
+        -campaignParameter("campaignTurnDays"),
+      );
+      if (windowStart <= w.core.date) {
+        tried.push(`${w.where}: deadline too near to watch`);
+        continue;
+      }
+      advanceCore(w.core, contest.filingDeadline);
+      const race = races.get(contest.id) as unknown as
+        { lastTurn?: string } | undefined;
+      expect(race, w.where).toBeDefined();
+      // A turn is scheduled every `campaignTurnDays`, so one falls in the
+      // window; the race with a petition out was worked on it.
+      expect(
+        race!.lastTurn! >= windowStart,
+        `${w.where}: contest ${contest.id} last worked ${race!.lastTurn}, window opens ${windowStart}, deadline ${contest.filingDeadline}`,
+      ).toBe(true);
+      return;
+    }
+    throw new Error(
+      `no drawn place had a petition to watch in 8 draws (run seed ${runSeed}): ${tried.join("; ")}`,
+    );
   }, 300_000);
 });
 

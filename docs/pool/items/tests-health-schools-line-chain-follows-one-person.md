@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/law-wiring-health-schools.test.ts
 
-**Notes.** From the laws lead, Oct 25, on the health-schools helper's report.
+**Notes.** From the laws lead, Oct 25, on the health-schools helper's report. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it makes a test print one chain instead of two; the test passes and no player sees it.

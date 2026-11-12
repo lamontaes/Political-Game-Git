@@ -5,10 +5,10 @@ area: play
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-bench-reads-voting-age-row
+pr: #8536
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,11 +17,12 @@ model: sonnet
 effort: low
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:46:37.131Z
 ---
 
-**What.** Five bench sites still type the age of majority as 18 after the core moved to the one `votingAge` row in src/core2/data/parameters.json: src/bench/m0-check.ts (line 41), src/bench/scene-check.ts (line 21), src/bench/m1-10-check.ts (line 131), src/bench/verify.mjs (line 125) and src/bench/whole-figures.ts (line 29, the teen band). A view or check that types its own version of a fact is a duplicate (AGENTS.md, first bullet). The earlier play.mjs home-label sites no longer type an 18 and need nothing.
+**What.** Five bench sites still type the age of majority as 18 after the core moved to the one `votingAge` row in src/core2/data/parameters.json: src/bench/m0-check.ts (line 41), src/bench/m1-10-check.ts (line 131), src/bench/verify.mjs (line 125) and src/bench/whole-figures.ts (line 29, the teen band). A view or check that types its own version of a fact is a duplicate (AGENTS.md, first bullet). The earlier play.mjs home-label sites no longer type an 18 and need nothing.
 
-**Cause.** Found in code: `age >= 18` and `age < 18` are typed in src/bench/m0-check.ts (line 41), src/bench/scene-check.ts (21), src/bench/m1-10-check.ts (131), src/bench/verify.mjs (125) and `ageBandOf` in src/bench/whole-figures.ts (29), while src/core2/data/parameters.json holds the one `votingAge` row (line 211) that src/director/coming-of-age.ts already reads with `parameter("votingAge")`.
+**Cause.** Found in code: `age >= 18` and `age < 18` are typed in src/bench/m0-check.ts (line 41), src/bench/m1-10-check.ts (131), src/bench/verify.mjs (125) and `ageBandOf` in src/bench/whole-figures.ts (29), while src/core2/data/parameters.json holds the one `votingAge` row (line 211) that src/director/coming-of-age.ts already reads with `parameter("votingAge")`.
 
 **Fix.** Read the age from the `votingAge` row at every one of those five sites, the same way src/director/coming-of-age.ts does.
 
@@ -33,6 +34,6 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/m0-check.ts, src/bench/scene-check.ts, src/bench/m1-10-check.ts, src/bench/verify.mjs, src/bench/whole-figures.ts, src/core2/data/parameters.json
+**Files.** src/bench/m0-check.ts, src/bench/m1-10-check.ts, src/bench/verify.mjs, src/bench/whole-figures.ts, src/core2/data/parameters.json
 
 **Notes.** Filed by wire-elections-and-campaigns (law-reach age rows). lead: play-first.

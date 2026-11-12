@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** scripts/research/build-starting-law.py, scripts/research/check-start-law-2025.ts, src/core2/data/laws/starting-law.json, src/core2/modules/laws.ts
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): one part of the January 2025 start-law sourcing; the numbers may stay estimates.

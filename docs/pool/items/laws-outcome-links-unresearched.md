@@ -5,19 +5,20 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr: #5653
+claimed-by: claude/pool-laws-outcome-links-unresearched
+pr: #8548
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T04:01:19.074Z
 after:
 lead: laws-effects
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
+merged-at: 2026-11-12T19:30:51.850Z
 ---
 
 **What.** One law still moves no outcome-web measure because no researched link starts from it: local-minimum-wage-authority (outcome: local minimum wage adoption), the only row left in src/core2/data/laws/outcome-research-gaps.json. The list held 27 laws when this item was filed. Research the link's strength, shape and lag from the literature, add it to data/research/outcome-web/links.json, build it in the outcome web, remove the row from the gap file and close stopgap SG-LAW-outcome-link-unresearched.

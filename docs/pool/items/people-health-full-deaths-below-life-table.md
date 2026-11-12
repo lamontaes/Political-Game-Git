@@ -20,7 +20,7 @@ lead: lives
 checked: fable 2026-11-10
 ---
 
-**What.** Over one year from the opening in six drawn places, the full people (about 1,700 to 1,850 each) had 17 deaths where the SSA 2023 period life table expects 120.8, a ratio of 0.141. The resilience base scale was solved on two 10,000-resident towns where everyone was a full person, and a death comes only after a serious-illness onset when strain crosses the person's own line, with strain counted from the opening day. Find whether the shortfall is the opening-day start of strain, the lag from onset to death, or a scale that no longer fits the smaller full-person set, and make a game year's deaths follow the table.
+**What.** Over one year from the opening in six drawn places, the full people (about 1,700 to 1,850 each) had 17 deaths where the SSA 2023 period life table expects 120.8, a ratio of 0.141. The resilience base scale was solved on two 10,000-resident towns where everyone was a full person, and a death comes only after a serious-illness onset when strain crosses the person's own line, with strain counted from the opening day. Find whether the shortfall is the opening-day start of strain, the lag from onset to death, or a scale that no longer fits the smaller full-person set, and make a game year's deaths follow the table. Seen: the town's deaths in the paper and in households, at about a seventh of the real rate today.
 
 **Cause.** Needs cause. Looked at: scripts/health/mortality-band.ts, seed mb1, six drawn places (Fagatogo, St. Francis, Kenneth City, Lewisburg, Calera, Pomona): 17 deaths against 120.8 from the SSA table, ratio 0.141; St. Francis, Kansas over four years 26 of 90.9.
 

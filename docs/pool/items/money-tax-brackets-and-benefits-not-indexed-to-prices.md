@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-money-tax-brackets-and-benefits-not-indexed-to-prices
+pr: #8694
 blocked-on:
 lead: money
 source: Fable, Nov 10, 2026, while building the country tier (design: docs/design/country-tier.md; umbrella item core-country-tier-first-slice)
@@ -17,9 +17,12 @@ model: opus
 effort: medium
 root: rc5-full-detail-every-day
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:19:05.479Z
+branch: claude/pool-money-tax-brackets-and-benefits-not-indexed-to-prices
+merged-at: 2026-11-12T21:51:21.479Z
 ---
 
-**What.** The paycheck rule (withholdingFor in src/core2/tax-withholding.ts) reads each schedule's brackets, standard deduction and wage base as fixed dollar amounts from the law row in force. Pay rises with prices year after year and the amounts never move. Measured in the country tier's forty-year run on Nov 10 (scratch harness, the central bank's own view, no law changed): average hourly pay went from about 35 dollars to about 155, and the federal ledger, balanced on day one, ended about 74 trillion dollars in surplus, which is tax taken by brackets that stood still. Real federal brackets, the standard deduction and the wage base are indexed each year by statute, and most states index theirs. The same rule taxes a town paycheck, so a long played game has the same drift.
+**What.** The paycheck rule (withholdingFor in src/core2/tax-withholding.ts) reads each schedule's brackets, standard deduction and wage base as fixed dollar amounts from the law row in force. Pay rises with prices year after year and the amounts never move. Measured in the country tier's forty-year run on Nov 10 (scratch harness, the central bank's own view, no law changed): average hourly pay went from about 35 dollars to about 155, and the federal ledger, balanced on day one, ended about 74 trillion dollars in surplus, which is tax taken by brackets that stood still. Real federal brackets, the standard deduction and the wage base are indexed each year by statute, and most states index theirs. The same rule taxes a town paycheck, so a long played game has the same drift. Seen: the federal budget and the paycheck over decades, where every worker drifts into the top bracket and the ledger piles up a surplus of about 74 trillion dollars.
 
 **Cause.** Found in code: `withholdingFor` in src/core2/tax-withholding.ts (line 112) walks each schedule's brackets, standard deduction and wage base as fixed dollar amounts from the law row, with no index (the bracket loop is at line 79). Measured evidence: the country tier's forty-year run of Nov 10 (scratch harness, no law changed) took average hourly pay from about 35 to about 155 dollars and left the federal ledger about 74 trillion dollars in surplus.
 
@@ -36,3 +39,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/tax-withholding.ts, src/core2/tax-withholding.test.ts, src/core2/data/laws/starting-law.json, src/core2/country-law.ts, src/core2/country-model.ts
 
 **Notes.** Which states index their brackets is a research question for the starting law (kind research may be split out). Retirement income and other aid in the tier already keep up with prices.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:18 UTC) on branch claude/pool-money-tax-brackets-and-benefits-not-indexed-to-prices.

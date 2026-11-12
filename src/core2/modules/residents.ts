@@ -138,8 +138,8 @@ interface FlowState extends ResidentFlowInput {
   outsidePaidMinor?: number;
   /** What its payments sent to someone other than its payee (a business's ads in the town's outlets), all time. */
   splitPaidMinor?: number;
-  /** wages: what the payer's cash could not pay on its latest short payday, the most its credit line may draw for it. */
-  creditNeed?: { date: IsoDate; minor: number };
+  /** wages: what the payer's cash could not pay on its latest short payday (`due`, the day that pay fell due; `date`, the day it was paid), the most its credit line may draw for it. */
+  creditNeed?: { date: IsoDate; due: string; minor: number };
   endedAt?: IsoDate;
   endedReason?: string;
 }
@@ -222,7 +222,14 @@ export interface ResidentsRuntime {
   /** A household being filled in: its share of its group's money, paid to its people on release. */
   fillInCash: Map<
     string,
-    { group: number; amount: number; unplaced: number; weight: number }
+    {
+      group: number;
+      amount: number;
+      unplaced: number;
+      weight: number;
+      /** Its share of its group's living-cost arrears, owed on its own flow once it is a full household. */
+      arrears: number;
+    }
   >;
   /** Households released to full people so far: each release names its own transfers, since a household can return to the counts and be filled in again. */
   fillIns: number;
@@ -455,6 +462,9 @@ export function regroupHousehold(
   // Its share of the old group's money goes with it.
   if (rt.api && before !== h.group)
     moveShare(rt.api, rt, before, h.group, people, groupBefore);
+  // A group left with no people owes nothing: its creditors write it off.
+  if (before >= 0 && before !== h.group)
+    writeOffEmptyGroup(rt, before, h.placeId);
 }
 
 /** A household's share of its place's unplaced workers (their pay follows them out of the counts). */
@@ -476,6 +486,24 @@ export function householdCash(
   h: CountedHousehold,
 ): number {
   return householdCashReader(rt)(h);
+}
+
+/**
+ * What a counted record takes with it when it leaves: its group's fund per
+ * person times the people the record stands for (`weightedCount`), rounded
+ * down. A retired record is the whole record, so a weight of three takes three
+ * households' share and a weight of one half takes half of one.
+ */
+export function departingCash(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+): number {
+  if (!rt.api || !rt.funded || h.group < 0) return 0;
+  const people = peopleInGroup(rt, h.group);
+  if (people <= 0) return 0;
+  return Math.floor(
+    (fundBalance(rt.api, rt, h.group) * rt.store.weightedCount(h)) / people,
+  );
 }
 
 /**
@@ -502,6 +530,71 @@ export function householdCashReader(
       ? Math.floor((group.balance * rt.store.countedCount(h)) / group.people)
       : 0;
   };
+}
+
+/**
+ * What a counted household owes of its group's unpaid living cost: the
+ * group's arrears times its people over the group's people, rounded down, as
+ * `householdCash` shares the group's money. The last household of a group
+ * takes all of it, so an empty group owes none.
+ */
+export function householdArrears(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  /** The people the share is for: one real household's (the default) or a whole record's, which stands for its weight. */
+  standing = rt.store.countedCount(h),
+): number {
+  const owed = h.group < 0 ? 0 : (rt.livingArrears.get(h.group) ?? 0);
+  if (owed <= 0) return 0;
+  const people = peopleInGroup(rt, h.group);
+  return people > 0
+    ? Math.min(owed, Math.floor((owed * standing) / people))
+    : owed;
+}
+
+/**
+ * A counted household leaves its group (filled in, moved away or died out):
+ * the share of the group's living arrears it stood for leaves with it, so an
+ * empty group owes none. Returns that share (a filled-in household owes it on
+ * its own flow).
+ */
+function takeArrearsShare(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  standing?: number,
+): number {
+  const share = householdArrears(rt, h, standing);
+  if (share > 0)
+    rt.livingArrears.set(h.group, (rt.livingArrears.get(h.group) ?? 0) - share);
+  return share;
+}
+
+/**
+ * What a household that died out or moved away owed of its group's living
+ * cost is written off by its creditors, on the place's counted living-cost
+ * flow, as a charge-off is: the books say where the debt went.
+ */
+function writeOffArrears(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  share: number,
+): void {
+  if (share <= 0) return;
+  const flow = rt.flows.get(`residents:outside-living:counted:${h.placeId}`);
+  if (flow) flow.writtenOffMinor = (flow.writtenOffMinor ?? 0) + share;
+}
+
+/** A group with no people left owes no living cost: what it still owed is written off. */
+function writeOffEmptyGroup(
+  rt: ResidentsRuntime,
+  group: number,
+  placeId: string,
+): void {
+  const owed = rt.livingArrears.get(group) ?? 0;
+  if (owed <= 0 || peopleInGroup(rt, group) > 0) return;
+  rt.livingArrears.set(group, 0);
+  const flow = rt.flows.get(`residents:outside-living:counted:${placeId}`);
+  if (flow) flow.writtenOffMinor = (flow.writtenOffMinor ?? 0) + owed;
 }
 
 /** Working-age counted members without a recorded job. */
@@ -820,7 +913,10 @@ function spendable(core: CoreState, ownerId: string): number {
  * What a business can pay now: its cash, and when that falls short of what
  * it owes, the savings it holds at a local bank first (its own money, drawn
  * before a payroll or a bill goes unpaid and the firm fails with money in
- * the bank).
+ * the bank). The draw is named by the payment it covers, the flow and the
+ * day it fell due (`due`), as the payment itself is: on a results-mode
+ * catch-up one flow pays several skipped paydays on the same day, and each
+ * may draw.
  */
 function spendableFromSavings(
   api: CoreAPI,
@@ -828,11 +924,12 @@ function spendableFromSavings(
   ownerId: string,
   owed: number,
   flowId: string,
+  due: string,
 ): number {
   const cash = spendable(core, ownerId);
   if (cash >= owed) return cash;
   drawSavingsToCover(core, api, {
-    id: `savings-for-payment:${flowId}@${core.date}`,
+    id: `savings-for-payment:${flowId}@${due}`,
     holderId: ownerId,
     owedMinor: owed,
     asOf: core.date,
@@ -852,13 +949,21 @@ function spendableWithCredit(
   flow: FlowState,
   owed: number,
   payerBook: BusinessBooksState | undefined,
+  due: string,
 ): number {
-  const cash = spendableFromSavings(api, core, flow.payerId, owed, flow.id);
+  const cash = spendableFromSavings(
+    api,
+    core,
+    flow.payerId,
+    owed,
+    flow.id,
+    due,
+  );
   const facilityId = payerBook?.creditFacilityId;
   if (flow.kind !== "wages" || cash >= owed || !facilityId) return cash;
   const room = businessAvailableCredit(core, api, flow.payerId);
   if (room <= 0) return cash;
-  flow.creditNeed = { date: core.date, minor: owed - cash };
+  flow.creditNeed = { date: core.date, due, minor: owed - cash };
   const receipt = api.drawWageFlowCredit(
     facilityId,
     Math.min(owed - cash, room),
@@ -1220,7 +1325,7 @@ function settle(
         ? legs.reduce((n, leg) => n + leg.amount, 0)
         : Math.min(
             requested,
-            spendableWithCredit(api, core, flow, requested, payerBook),
+            spendableWithCredit(api, core, flow, requested, payerBook, date),
           );
     if (countedPaid && paid > 0) {
       // Each counted group is paid its part, less what the law withholds.
@@ -2124,7 +2229,7 @@ export function releaseResidentHousehold(
       payerId: payer.id,
       amountMinor: outsideLiving.amount,
       amountByContract: undefined,
-      arrearsMinor: 0,
+      arrearsMinor: cash?.arrears ?? 0,
     };
     rt.flows.set(flow.id, flow);
     schedule(rt, flow);
@@ -2180,11 +2285,20 @@ export function takeResidentHousehold(
       payers.length ? payers : people.slice(0, 1).map((row) => row.id),
     ),
   };
+  // Its share of the group's living arrears goes with it: the group owes
+  // only for the households it still stands for.
+  const arrears = householdArrears(rt, h);
+  if (arrears > 0)
+    rt.livingArrears.set(
+      h.group,
+      (rt.livingArrears.get(h.group) ?? 0) - arrears,
+    );
   rt.fillInCash.set(h.id, {
     group: h.group,
     amount: householdCash(rt, h),
     unplaced: unplacedShare(rt, h),
     weight: store.weightOf(h),
+    arrears,
   });
   // One real household is filled in; the rest it stood for stay counted.
   releaseToOne(core, rt, h);
@@ -2448,6 +2562,156 @@ export function residentCounts(core: CoreState): ResidentCounts[] {
     }
   }
   return [...byPlace.values()];
+}
+
+/** The places' own people as the country tier counts a state's: adults by its age bands, children, who is at work (by employer) and looking, and their cash. */
+export interface ResidentsPart {
+  /** Adults in each of the tier's age bands. */
+  adults: number[];
+  children: number;
+  workers: number[];
+  seekers: number[];
+  /** Workers by their employer's id; work outside a recorded employer under "". */
+  workersByEmployer: Map<string, number>;
+  /** The county sample's workers, by the NAICS sector of the county employer each works at. */
+  workersByIndustry: Map<string, number>;
+  /** Their households' cash, minor units. */
+  cashMinor: number;
+}
+
+/**
+ * The people of a set of places, full people and counted ones by the same rules, each counted
+ * record times the households it stands for: their age bands, who holds a job (once, at the
+ * job that stands for the most of them), works for the county employer its household's record
+ * names, or works outside a recorded employer, who is looking
+ * (a seeker's row in the jobs engine without a job), and what their accounts hold. Read on a
+ * month's first day from the records the engines keep today; it walks no history.
+ */
+export function residentsPart(
+  core: CoreState,
+  placeIds: ReadonlySet<string>,
+  bands: readonly string[],
+): ResidentsPart {
+  const at = makeIsoDate(core.date);
+  const part: ResidentsPart = {
+    adults: bands.map(() => 0),
+    children: 0,
+    workers: bands.map(() => 0),
+    seekers: bands.map(() => 0),
+    workersByEmployer: new Map(),
+    workersByIndustry: new Map(),
+    cashMinor: 0,
+  };
+  const bandOf = (birthDate: string) =>
+    bands.indexOf(ageBandOf(ageOn(birthDate, at)));
+  const atWork = (
+    band: number,
+    employer: string,
+    heads: number,
+    by = part.workersByEmployer,
+  ) => {
+    if (band < 0 || heads <= 0) return;
+    part.workers[band]! += heads;
+    by.set(employer, (by.get(employer) ?? 0) + heads);
+  };
+  const api = coreAPI(core);
+  const balance = (owner: string) => {
+    const account = core.cashJournal.residualAccountByOwner.get(owner);
+    return account ? api.accounts().balance(account) : 0;
+  };
+  // Full people: one job each, the first that is open.
+  const fullJob = new Map<string, string>();
+  for (const job of core.jobs.values())
+    if (job.endsAt === undefined && !fullJob.has(job.personId))
+      fullJob.set(job.personId, job.organizationId);
+  const heads = new Map<string, { band: number; heads: number }>();
+  for (const person of core.people.values()) {
+    // A demoted person is counted again: their group counts them.
+    if (!person.alive || isDemoted(person) || !placeIds.has(person.placeId))
+      continue;
+    const band = bandOf(person.birthDate);
+    if (band < 0) part.children += 1;
+    else part.adults[band]! += 1;
+    heads.set(person.id, { band, heads: 1 });
+    const employer = fullJob.get(person.id);
+    if (employer !== undefined) atWork(band, employer, 1);
+    part.cashMinor += balance(person.id);
+  }
+  const rt = runtimes.get(core);
+  if (rt) {
+    const store = rt.store;
+    const unplacedPool: number[] = bands.map(() => 0);
+    const from = countedParameter("countedWorkingAgeFrom"),
+      below = countedParameter("countedWorkingAgeBelow");
+    for (const h of store.liveHouseholds()) {
+      if (!placeIds.has(h.placeId)) continue;
+      const weight = store.weightOf(h);
+      const best = new Map<string, { heads: number; employer: string }>();
+      for (const job of h.jobs) {
+        const flow = rt.wageFlowByJob.get(job.id);
+        if (job.endsAt !== undefined || !flow || flow.endedAt) continue;
+        const n = store.headsOfJob(h, job.id);
+        if (n > (best.get(job.personId)?.heads ?? 0))
+          best.set(job.personId, { heads: n, employer: job.organizationId });
+      }
+      const open: number[] = [];
+      const adults: number[] = [];
+      for (const m of store.countedMembers(h)) {
+        const id = store.ids[m]!;
+        const full = core.people.get(id);
+        if (full && !isDemoted(full)) continue;
+        const age = ageOn(store.born[m]!, at);
+        const band = bands.indexOf(ageBandOf(age));
+        if (band < 0) part.children += weight;
+        else {
+          part.adults[band]! += weight;
+          adults.push(band);
+        }
+        heads.set(id, { band, heads: weight });
+        const job = best.get(id);
+        // A county sample worker's employer is its household's record of the county's employment.
+        const county = h.employment?.find((row) => row.personId === id);
+        // A counted job's heads can exceed the household's weight (a hire stands for the
+        // position's heads): the member is at work for no more people than they stand for.
+        if (job) atWork(band, job.employer, Math.min(job.heads, weight));
+        else if (county)
+          atWork(band, county.sector, weight, part.workersByIndustry);
+        else if (band >= 0 && age >= from && age < below) open.push(band);
+      }
+      // Its workers outside a recorded employer are its working-age members without a job, shared alike.
+      const unplaced = h.unplacedWorkers * weight;
+      const among = open.length ? open : adults;
+      for (const band of among) unplacedPool[band]! += unplaced / among.length;
+    }
+    // A band holds no more workers than it has adults: the unplaced share fills only what its
+    // recorded jobs leave of them.
+    unplacedPool.forEach((pool, band) => {
+      const room = Math.max(0, part.adults[band]! - part.workers[band]!);
+      atWork(band, "", Math.min(pool, room));
+    });
+    for (const [group, fund] of rt.funds)
+      if (placeIds.has(store.groups[group]?.placeId ?? "") && rt.api)
+        part.cashMinor += rt.api.accounts().balance(fund);
+  }
+  // Looking: a seeker's row in either of the jobs engine's tables, each person once.
+  if (core.modules.has("jobs")) {
+    const looked = new Set<string>();
+    for (const table of ["seekers", "countedSeekers"])
+      for (const row of api
+        .moduleState("jobs")
+        .table(table)
+        .rows() as unknown as {
+        personId: string;
+        employed?: boolean;
+      }[]) {
+        const who = heads.get(row.personId);
+        if (row.employed || !who || who.band < 0 || looked.has(row.personId))
+          continue;
+        looked.add(row.personId);
+        part.seekers[who.band]! += who.heads;
+      }
+  }
+  return part;
 }
 
 export interface MarketEntry {
@@ -2959,6 +3223,7 @@ export function removeCountedPerson(
     h.placeId,
     (rt.openingCashByPlace.get(h.placeId) ?? 0) - store.liquid[m]!,
   );
+  writeOffArrears(rt, h, takeArrearsShare(rt, h, store.weightedCount(h)));
   store.retire(h, MemberState.Dead);
   return [];
 }
@@ -3076,8 +3341,9 @@ export function departCountedHousehold(
   const own = store.countedMembers(h).reduce((n, m) => n + store.liquid[m]!, 0);
   const remaining = rt.openingCashByPlace.get(placeId) ?? 0;
   rt.openingCashByPlace.set(placeId, remaining - own);
-  // Its share of its group's money leaves with it.
-  const cash = householdCash(rt, h);
+  // Its share of its group's money leaves with it: the record's own people
+  // (its members times its weight), not one real household's share.
+  const cash = departingCash(rt, h);
   const outsideOwner = outsideMarketOf(core, rt, placeId);
   const paidFromFund = !!(rt.api && rt.funded && outsideOwner);
   if (paidFromFund && cash > 0)
@@ -3095,6 +3361,7 @@ export function departCountedHousehold(
       reasonKey: "residents.counted-departure.cash",
       source: rt.input.source,
     });
+  writeOffArrears(rt, h, takeArrearsShare(rt, h, store.weightedCount(h)));
   store.retire(h, MemberState.Moved);
   return {
     cashShare: paidFromFund ? 0 : remaining > 0 ? own / remaining : 0,

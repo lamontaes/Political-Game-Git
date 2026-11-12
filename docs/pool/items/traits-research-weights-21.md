@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -41,3 +41,5 @@ checked: fable 2026-11-10
 Sent back 2026-10-25 from PR #6009 (branch claude/traits-research-weights): main integration conflicts in production data/content/trait-decision-gaps.json; abort; reconcile bounded endorsement/estate delivery with still-unmerged all-family21-decision acceptance before completion; finish on that branch, merge main into it first.
 
 Oct 25 (traits lead): PR #6009's delivered subset (endorsing at its study's size; study and gap rows for planning a child, wills, trusts and contract awards) moved to `traits-research-weights-endorse-estates`. This item's 21-decision acceptance stays open until every traits family (#5587, #5657, #5715) is merged; the per-decision weights in flight are on #6017, #6039 and #6001.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have fitted temperament weights to fetched studies; precision no player sees.

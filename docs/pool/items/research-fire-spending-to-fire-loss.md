@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,4 +22,4 @@ source: added with npm run pool -- add
 
 **Notes.** From the laws lead's justice helper, Oct 24.
 
-**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. data/research/outcome-web/links.json holds fire-spending-to-fire-deaths (line 317), a researched about-zero link from budget.fire-added-pct to fire.civilian-casualties (Jennings 2002, Shoffner 2023, fetched Oct 24, 2026), and src/core2/data/laws/outcome-research-gaps.json no longer lists budget-line:fire. Medium confidence: no fire-loss dollar measure is kept, and src/core2/outcome-web.test.ts was not run; if the owner wants a sized dollar link, that is a new item.
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. data/research/outcome-web/links.json holds fire-spending-to-fire-deaths (line 317), a researched about-zero link from budget.fire-added-pct to fire.civilian-casualties (Jennings 2002, Shoffner 2023, fetched Oct 24, 2026), and src/core2/data/laws/outcome-research-gaps.json no longer lists budget-line:fire. Medium confidence: no fire-loss dollar measure is kept, and src/core2/outcome-web.test.ts was not run; if the owner wants a sized dollar link, that is a new item. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it sizes a link to a fire-loss measure the web does not keep and no screen shows.

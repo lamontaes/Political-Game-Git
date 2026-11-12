@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-director-no-scene-without-a-purpose
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ root: rc6-scenes-repeat
 lead: director
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 4, root cause 6)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:08:06.765Z
 ---
 
 **What.** Many kinds of scene stop the player and leave nothing behind. Read by me on Nov 10's main (commit 8ac2262853), from the data only: `src/director/data/situation-types.json` holds 103 kinds; 8 have no `purpose` (departure, news-arrives, visit, hearing, verdict, address, interview-sitting, debate-sitting); 9 have a purpose whose endings all keep "none"; and 17 keep only a promise or nothing. In the audit's browser play (Blodgett Landing, New Hampshire, a 17-year-old, ten weeks, no seed kept) seven scenes played and none had a purpose. The director still stages a kind whether or not anything reads what it leaves. This item also takes the new-adult skip leftovers from director-moments-for-a-new-adult: a skip that stops with no scene bound (Point of Rocks, Wyoming, no stop at all in eight months) and a stopping moment whose record id does not resolve.

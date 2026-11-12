@@ -8,7 +8,21 @@
     "why": "No record names the parent firm of a town's regional office (town-workplaces.ts builds it as a plain town workplace), so there is no payer to allocate from. Left as the old branch-or-institution route it opened with $0 and its staff were never paid (Boulevard CA 0607694, seed pp-a: organization_cd524c66abde5ef1, work-relationship_9f0d2babaf670fc8 earned 347,556, paid 0). With the professional kind it ends the year with cash 9,508,565 and that job is paid.",
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-09",
-    "replacement": "A named parent-firm allocation: the office is paid by the firm it belongs to, read from firm ownership records, once those exist (world-corporate-office-opens-unfunded).",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A named parent-firm allocation: the office is paid by the firm it belongs to, read from firm ownership records, once those exist (world-corporate-office-opens-unfunded).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
+  },
+  {
+    "id": "SG-JOBS-job-start-not-a-person-event",
+    "kind": "missing-record",
+    "file": "src/director/conversation.ts",
+    "line": 504,
+    "whatItFakes": "Someone the director does not watch is talked about only for what their own events in the core's log record (a move, an illness, a birth). A new job of theirs is never news, because a hire writes no event naming the person: the director infers a job start only for people it watches, by comparing their job before and after (src/director/ledger.ts, 'job-started').",
+    "why": "Found while building words-talk-never-adds-the-person-to-who-you-know (Nov 11, 2026): the jobs engine's hire changes the person's job record and writes no event to logByPerson, so recordedMoments has nothing to read for an unwatched person's new job.",
+    "addedBy": "Words builder W4",
+    "addedAt": "2026-11-11",
+    "replacement": "The jobs engine's hire writes one event naming the person and the employer (the event it already describes), which recordedMoments reads like a move.",
     "status": "open"
   }
 ]

@@ -22,6 +22,7 @@ import type { Fact } from "../english/scene-talk-words";
 import { SITUATION_LIBRARY } from "./scheduling";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import { purposeScene } from "./purpose-scene";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // The department head argues a cut (episode budget-cut-department-head,
 // docs/design/scenes/from-life/budget-cut-department-head.md). When the
@@ -29,10 +30,8 @@ import { purposeScene } from "./purpose-scene";
 // department that line pays for comes to the executive. Three things are
 // checked in a drawn town with a mayor who is a full person and an appointed
 // head on a named line:
-//  1. the engine's own year of records: none of its `budget-line-changed`
-//     records names the mayor today, so no scene fires from them (pool item
-//     `world-budget-cut-names-the-executive` asks the budgets engine to name
-//     the executive). If one ever does, the scene must fire from it.
+//  1. the engine's own year of records: every cut it records names the
+//     sitting mayor (and a raise names no one).
 //  2. a cut that names the mayor, shaped as that item will record it, fires
 //     the scene with the line's own head in the head's chair, a cause record
 //     the talk cites, and facts said from the record.
@@ -88,17 +87,29 @@ it(`a cut to a line brings its department head to the executive, seed ${seed}`, 
     for (let day = 1; day <= 365; day += 1)
       advanceCore(core, addDays(makeIsoDate(start), day));
     const book = director.ledger.people.get(mayor!)!;
-    const own = [...core.durableLog.values()].filter(
-      (row) =>
-        row.kind === "budget-line-changed" && row.personIds.includes(mayor!),
+    // Every cut the engine recorded names the sitting executive, a raise
+    // names no one (world-budget-cut-names-the-executive).
+    const changes = [...core.durableLog.values()].filter(
+      (row) => row.kind === "budget-line-changed",
     );
-    expect(own.length, `${where}: the engine names the executive`).toBe(0);
-    expect(
-      book.schedule.some((row) =>
-        row.bindings.some((b) => b.typeKey === "budget-cut"),
-      ),
-      `${where}: a scene fired from a record that names no one`,
-    ).toBe(false);
+    console.log(
+      `${where}: ${changes.filter((r) => Number(r.facts?.deltaMinor) < 0).length} cuts in the year`,
+    );
+    for (const row of changes) {
+      const lowers = Number(row.facts?.deltaMinor) < 0;
+      const named = row.personIds.length > 0;
+      if (lowers && row.facts?.level === "city")
+        expect(
+          row.personIds,
+          `${where}: the cut ${row.id} names the executive`,
+        ).toEqual([mayor!]);
+      else if (!lowers)
+        expect(named, `${where}: the raise ${row.id} names no one`).toBe(false);
+      if (named)
+        expect(row.facts?.executiveId, `${where}: ${row.id}`).toBe(
+          row.personIds[0],
+        );
+    }
 
     // 2. The record as the engine item will write it.
     const budget = [
@@ -215,11 +226,11 @@ it(`a cut to a line brings its department head to the executive, seed ${seed}`, 
         /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,
       );
 
-    // Four replies, four stances: four different moves, four different lines.
+    // Up to four replies, all different stances: different moves, different lines (owner, Nov 10).
     const root = scene.talk.tree.replies.map((reply) => reply.line);
-    expect(new Set(root.map((row) => row.move)), where).toEqual(
-      new Set(["agree", "refuse", "bargain", "ask"]),
-    );
+    expectUpToFourDifferent(root, where);
+    for (const row of root)
+      expect(["agree", "refuse", "bargain", "ask"], where).toContain(row.move);
     expect(new Set(root.map((row) => row.text)).size, where).toBe(root.length);
 
     // A different speaker says it differently: across trait profiles the

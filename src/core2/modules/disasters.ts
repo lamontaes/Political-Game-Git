@@ -19,7 +19,15 @@ import lookup from "../data/places/place-lookup.json" with { type: "json" };
 import { placeStateKey } from "../place-map";
 import { lawApplied } from "../law-reach/applied";
 import { lawInForce, LAWS_MODULE_ID } from "./laws";
-import type { CoreAPI, CoreModule, CoreState, PlaceId, Source } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonId,
+  PlaceId,
+  Source,
+} from "../types";
+import { OFFICES_MODULE_ID, townSeats } from "./offices";
 import { placePopulation } from "../gov-rules/place-population";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
@@ -75,6 +83,8 @@ interface Disaster {
 }
 
 interface Runtime {
+  /** The town the world opened in, whose FEMA figures these are: set at the first run, wherever the player lives later. */
+  town?: PlaceId;
   county?: string;
   countyOrgId?: string;
   townOrgId?: string;
@@ -113,7 +123,8 @@ function runtime(api: CoreAPI): Runtime {
   const known = runtimes.get(core);
   if (known) return known;
   const county = countyCode(core);
-  const town = core.people.get(core.playerId ?? "")?.placeId;
+  const town = (core.placeMetadata?.housingTown ??
+    core.people.get(core.playerId ?? "")?.placeId) as PlaceId | undefined;
   let countyOrgId: string | undefined, townOrgId: string | undefined;
   let treasuryId: string | undefined;
   for (const org of core.organizations.values()) {
@@ -158,6 +169,7 @@ function runtime(api: CoreAPI): Runtime {
     for (const row of rows[`${county.slice(0, 2)}000`] ?? []) add(row, true);
   }
   const rt: Runtime = {
+    ...(town ? { town } : {}),
     ...(county ? { county } : {}),
     ...(countyOrgId ? { countyOrgId } : {}),
     ...(townOrgId ? { townOrgId } : {}),
@@ -442,16 +454,38 @@ export function damagedHomesOf(
   );
 }
 
+/** The offices whose holder is the executive of a government the disaster touches: the town's mayor, the county's executive and the state's governor. */
+const EXECUTIVE_OFFICES: ReadonlySet<string> = new Set([
+  "mayor",
+  "county-executive",
+  "governor",
+]);
+
+/**
+ * Whoever sits in the executive offices over the town on the day, as full
+ * people: the record names them so a first-hours scene can find its executive.
+ */
+function executivesOf(api: CoreAPI): readonly PersonId[] {
+  const ids = new Set<PersonId>();
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  for (const { office, holder } of townSeats(api)) {
+    const id = holder?.personId as PersonId | undefined;
+    if (EXECUTIVE_OFFICES.has(office.kind) && id && api.state.people.has(id))
+      ids.add(id);
+  }
+  return [...ids].sort();
+}
+
 function begin(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   const core = api.state;
-  const town = core.people.get(core.playerId ?? "")?.placeId;
+  const town = rt.town;
   if (!town) return;
   api.stopgap(STOPGAP);
   api.emit({
     id: `disaster:${disaster.number}:${town}`,
     date: core.date,
     kind: "hazard.disaster",
-    personIds: [],
+    personIds: executivesOf(api),
     placeId: town,
     publicRecord: true,
     news: true,
@@ -573,8 +607,7 @@ function townShare(core: CoreState, town: PlaceId): number {
  */
 function payHouseholds(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   const core = api.state;
-  const town = core.people.get(core.playerId ?? "")?.placeId as
-    PlaceId | undefined;
+  const town = rt.town;
   const row = townRow(rt, disaster);
   const pool = town ? residentsAccountFor(core, town) : undefined;
   if (!row || !town || !pool) return;

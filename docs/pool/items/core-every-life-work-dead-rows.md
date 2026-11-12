@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-core-every-life-work-dead-rows
-pr:
+pr: #8364
 after:
 blocked-on:
 source: added with npm run pool -- add

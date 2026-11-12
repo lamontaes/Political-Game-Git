@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-laws-ui-base-period-played-proof
+pr: #8415
 blocked-on:
 lead: laws-effects
 source: added with npm run pool -- add
@@ -17,9 +17,11 @@ model: sonnet
 effort: low
 root: rc2-done-from-records
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:41:14.012Z
+branch: claude/pool-laws-ui-base-period-played-proof
 ---
 
-**What.** Unemployment claims read the person's pay by quarter (first four of the last five completed quarters, #7949). No played year has yet shown a claim after a real hours cut (Jobs' #7781 rehourJob) drawing the same benefit as steady hours. The first played pair found no claim because the layoff was refused for the day, and the state's weekly maximum capped both reads.
+**What.** Unemployment claims read the person's pay by quarter (first four of the last five completed quarters, #7949). No played year has yet shown a claim after a real hours cut (Jobs' #7781 rehourJob) drawing the same benefit as steady hours. The first played pair found no claim because the layoff was refused for the day, and the state's weekly maximum capped both reads. Seen: the unemployment benefit on a laid-off person's card after an hours cut.
 
 **Cause.** Found in code: `basePeriodWages` in src/core2/jobs-benefits.ts (line 299) reads pay by quarter (first four of the last five completed quarters, PR #7949), and stopgap SG-LAWS-ui-base-period-last-pay (src/core2/data/stopgaps/laws.json, line 108) is open because no played year has yet shown a claim after a real hours cut.
 
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/jobs-benefits.ts,src/core2/unemployment-base-period.test.ts
 
 **Notes.** Nov 9 (Laws and effects, #7949): the first played pair (Cutter AZ, seed 8a2cb07c) found no claim because layOffWorker returned worked-today, so the test must retry the layoff the next day. The twin needs a worker whose benefit is below the state's weekly maximum, since Arizona's 32,000 minor units caps both the base-period read and the last-pay read. A run takes about 13 minutes, so it is a run in the PR body, not a test in the suite.
+
+Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:41 UTC) on branch claude/pool-laws-ui-base-period-played-proof.

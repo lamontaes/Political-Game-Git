@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: claimed
+claimed-by: claude/pool-words-season-variety-thin-circle
+pr: #8490
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: rc6-scenes-repeat
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:38:31.740Z
+branch: claude/pool-words-season-variety-thin-circle
 ---
 
 **What.** src/director/campaign-season.test.ts asks that at least three of the season's kinds fire (an offer to help, word of a rival's campaign, an interview, a debate, a rival filing). In Ontario, Indiana (seed 0079b51fd8a9bc5bba59:0) the player knew ten people, so nobody offered to help; no rival bought ads and no outlet held a debate, so only a rival filing and the interview fired from January to November. Counting journal lines (words/red-campaign-season) fixes towns like Northford, Connecticut, but not a thin circle. The plan's step 6 scenes (door-knocking as porch scenes, the campaign team) and the manager offer (#6812) are the producers that fill it.
@@ -38,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** lead: words. Found Oct 29 while fixing the Northford seed red.
 
 Oct 30 (Words): more evidence, a first-beat gap: Pineland, Florida (seed chk2-b:0) failed campaign-season's first beat on main. Related: most of the people the player knows at the start are husks, and a talk with one opens empty (words-talk-husk-acquaintances-empty), which thins the circle a season can cast from.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:38 UTC) on branch claude/pool-words-season-variety-thin-circle.

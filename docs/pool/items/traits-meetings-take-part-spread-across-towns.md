@@ -6,7 +6,7 @@ lead: laws-effects
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** Filed by the laws-and-effects lead, Oct 27, from the recheck of PR #6143 on its merged head. Read with meetings-town-hall-evening-cost, whose fix may narrow the spread. CI on 99fc0b1579 drew a town at 2.320 (job 121947722002); a helper is refitting the weight on #6143's branch (Oct 27). Measured Oct 27 on 20 fresh places (the meetings test's own draw; places, seeds and nets in PR #6143's body): at 0.32 the net runs 0.31 to 2.52 log odds; at 0.26 it runs 0.31 to 2.04. Antelope Hills, Wyoming (54 residents weighed) and Whitney, Nebraska (59) fill a room of 40 from about 55 residents driven, the same people at every town hall, and stay near 0.3 at any weight.
 
 **Notes (Fable's check, Nov 10).** How to find the cause: in each of the six towns named, run src/core2/modules/meetings.traits.test.ts and print, for each contested room, its seats, the residents whose take-part drive (meetings.ts 185) was above zero, and each third's mean feeling before the trait weight is applied. A room that fills from fewer residents than about twice its seats points to room size against town size; thirds whose feeling is already at the top of its range point to saturated feeling; fewer than three contested rooms in the window points to too few rooms. Write which one holds in each town, with the room record ids, and only then write the Fix (refit the weight, or change the cause).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have narrowed a take-part fit that spreads from 0.94 to 2.16; calibration spread no player sees, and the town-hall item keeps who fills the room.

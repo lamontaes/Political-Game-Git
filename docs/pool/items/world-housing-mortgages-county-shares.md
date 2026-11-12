@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-world-housing-mortgages-county-shares
+pr: #8546
 blocked-on:
 after:
 lead: laws-effects
@@ -17,6 +17,8 @@ effort: medium
 root: rc9-place-facts-one-default
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:48:26.982Z
+merged-at: 2026-11-12T19:10:28.595Z
 ---
 
 **What.** openingMortgages in src/core2/housing-mortgages.ts gives every owner a purchase year from the nation's ACS B25038 move-in distribution and decides which owners still owe from the nation's B25027 mortgage shares by age, so a retirement county and a new suburb open with the same mortgages. The 2020-2024 ACS rows for every state and county are now in data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json, checked against the national shares. Read the town's county row (its state's where the county has too few owners, the nation's for the four island areas the ACS does not cover), so who owes and how long ago they bought follow the place. Refinancing from the rate history (historicalMortgageRate) belongs in the same change if the owner's reasons can carry it.

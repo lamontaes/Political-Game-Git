@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/school-outcomes.ts, src/core2/modules/outcome-web.ts, src/core2/modules/jobs.ts, src/core2/data/stopgaps/school.json, data/research/outcome-web/links.json
 
-**Notes.** From the laws lead, Oct 25. The same level-versus-stock question may apply to other links whose outcome is a stock; list them in the PR.
+**Notes.** From the laws lead, Oct 25. The same level-versus-stock question may apply to other links whose outcome is a stock; list them in the PR. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it changes how one college-completion measure accumulates over years; no player reads it.

@@ -37,3 +37,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/news.test.ts, src/core2/modules/news.ts
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/news.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=89974afab8e8ef9592bf602b64510149e1b7a1423695217f04d8ee4e19eb39c4 GOLDEN_PATH_PLACE_KEY=2912079 (Cave, Missouri): 6 of 6 passed. Fresh draw GOLDEN_PATH_SEED=sweep-fresh-<random> (the number was not kept; place not printed): 6 of 6 passed. Green on both. Proposed for the CTO: drop as fixed on main.

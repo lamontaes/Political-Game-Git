@@ -5,19 +5,20 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr: #5403
+claimed-by: claude/pool-laws-reach-rows-stale-as-people-age
+pr: #8576
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T04:41:52.247Z
 after:
 lead: laws-effects
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
+branch: claude/pool-laws-reach-rows-stale-as-people-age
 ---
 
 **What.** A law's reach rows for a person are written when the law takes effect and stay as they were. A row chosen by age or by a child in the home (the child access prevention storage duty, concealed carry age, juvenile age) is never ended when the last child turns 18 and never opened for a household that gains a child or an adult who turns of age. Measured on the household-firearms seed 2724fc27c0417f7c: the adults of household_024d52d706dd18ce keep a storage duty the day after their youngest member turned 18.
@@ -49,3 +50,5 @@ Sent back 2026-10-23 from PR #5403 (branch claude/reach-stale): Normal main inte
 Sent back 2026-10-24 from PR #5403 (branch claude/reach-stale): The household-event refresh still skips active laws with zero rows, the birthday witness can be empty, and the required age-18 and current storage-duty proofs are not supplied; finish on that branch, merge main into it first.
 
 Merger 1 recheck, 2026-10-26: PR #5397 at16924210760bb9670a22b0c990b859b5965fe0fe still fails current-main integration: src/core2/household-firearms.test.ts is deleted on main but modified on the branch, and src/core2/law-reach/group-a-records.ts has a content conflict. Merge aborted; no deleted test restored and no code conflict hand-merged. The existing code-conflict return remains applicable; no duplicate PR comment or completed gate is claimed. Finish on claude/reach-stale-causes and integrate current main before validation.
+
+Released (2026-11-11): read the code: applyRecords/writeRows (law-reach/group-a-records.ts) only run on law-took-effect; there is no birthday or birth event kind and no calendar hook to re-evaluate a person's age-gated rows, so it needs a per-person scheduled check at the threshold birthday (and on birth, move and a child's 18th birthday) plus ending rows in writeRows; not started, 6-hour design. Continue on branch claude/pool-laws-reach-rows-stale-as-people-age and pull request #5403.

@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/place-prices.ts, src/core2/cost-of-living.ts
 
 **Notes.** Found by the laws lead's helper on `claude/web-vehicle-miles-traveled-per-resident`, Oct 25. Check first which engine charges fuel today.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have made a household's pump spending follow the miles a mileage-fee law moves; its cause is not found, only that one law reads it, and no screen shows it.

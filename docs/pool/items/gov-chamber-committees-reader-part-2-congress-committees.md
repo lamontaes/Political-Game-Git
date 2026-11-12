@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** gov-chamber-committees-reader-part-1-chamber-aware-reader.
 
 **Files.** src/core2/data/office-day/federal-committees.json, src/core2/data/legislature/chamber-committees.json (new), src/core2/legislature-committees.test.ts
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Real congressional committee names for a federal office the player does not hold in early access.

@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** people-residents-cadence-mechanic-part-1-private-jobs-measure.
 
 **Files.** src/core2/work-attendance.ts, src/core2/residents.ts, src/core2/modules/residents.ts
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have made counted workers miss work for their own reasons; no player sees a counted worker's absence.

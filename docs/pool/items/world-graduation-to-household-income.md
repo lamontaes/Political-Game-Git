@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** None until the cause is found.
 
-**Time box.** 3 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 3 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the Metrics tab's household income and poverty share rising later in a place whose graduation share rose.
 
 **Rules.** An effect is a read, not a record: the hire pay must read the updated schooling. Wire to the world: shown in a played world, by record ids. No dice.
 

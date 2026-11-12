@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** laws-property-tax-cap-statutes-part-1-assessment-limit-states.
 
 **Files.** src/core2/data/laws/property-tax-caps.json, src/core2/housing-property-tax.ts, src/core2/law-reach/group-b-money.ts, src/core2/law-reach-group-b.test.ts, src/core2/data/stopgaps/gov.json
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): levy limits, exemptions and CPI-lesser terms for every place, to close a stopgap; the part it follows is dropped.

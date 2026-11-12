@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-screens-campaign-board
+pr: #8391
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: design-screen-principles
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:23:20.508Z
+branch: claude/pool-screens-campaign-board
 ---
 
 **What.** The owner ruled at 5 PM on Oct 27 that the campaign screen is one board. It carries an inbox of media requests and the like, and a campaign team the player builds from people they know and met in scenes, such as a partner or best friend as manager, as in The Political Process. The board itself now exists on main: src/bench/play.mjs builds a campaign-board with the race standing and the money. What is missing is the inbox and the team area, and the old Campaigns rows still sit beside the board. The owner sees the board before anything more is asked of him.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/bench/play.mjs, src/bench/play.css, src/bench/campaign.ts, src/bench/campaign.browser.mjs, src/core2/modules/campaigns.ts
 
 **Notes.** OWNER-DECISIONS Oct 27, 5 PM (the campaign screen: one board). Needs the campaign-team record from the systems integrator (Integration channel section). lead: play-first. Filed by the screens designer.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:23 UTC) on branch claude/pool-screens-campaign-board.

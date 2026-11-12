@@ -19,7 +19,7 @@ source: split from justice-federal-case-stream in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** With a federal case that can be opened (part 1), the player or dev mode needs a door that opens one, and the federal courts need their proof: the stock after ten years shown next to the Bureau of Prisons table by offense group, and an enacted mandatory-minimum bill changing the sentencing floor a case reads. The stock is produced by the flow and the stay shares, so the comparison is a report, not a target. Nothing is steered to the Bureau's figures.
+**What.** With a federal case that can be opened (part 1), the player or dev mode needs a door that opens one, and the federal courts need their proof: the stock after ten years shown next to the Bureau of Prisons table by offense group, and an enacted mandatory-minimum bill changing the sentencing floor a case reads. The stock is produced by the flow and the stay shares, so the comparison is a report, not a target. Nothing is steered to the Bureau's figures. Feeds: justice-federal-case-stream.
 
 **Cause.** Design: docs/design/country-tier.md (the rest of the country as counts stepped by the same rules, built into people when opened). Found in code: `openFederalCourts` (src/core2/modules/federal-courts.ts, line 251) installs the flow; no screen or dev control opens a federal case, and SG-LAWS-federal-position-no-reader in src/core2/data/stopgaps/laws.json still lists federal mandatory minimums.
 

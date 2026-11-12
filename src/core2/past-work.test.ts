@@ -25,6 +25,7 @@ import {
   preStartWindowOf,
   wholePastOpened,
 } from "./pre-start";
+import { BUSINESS_MODULE_ID } from "./modules/business";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson } from "./state";
 import type { PersonId } from "./types";
@@ -146,6 +147,22 @@ describe(`the working life before the start, ${label}`, () => {
         commitment.heldSince ?? commitment.startsAt,
       );
     }
+  });
+
+  it("never holds a job since a date before its employer's founding", () => {
+    const ages = coreAPI(core).moduleState(BUSINESS_MODULE_ID).table("ages");
+    let checked = 0;
+    for (const commitment of core.work.commitments.values()) {
+      const age = ages.get(commitment.organizationId) as
+        { foundedAt: string } | undefined;
+      if (!age) continue;
+      checked += 1;
+      expect(
+        age.foundedAt <= (commitment.heldSince ?? commitment.startsAt),
+        `${label}: ${commitment.id} held since ${commitment.heldSince ?? commitment.startsAt}, before ${commitment.organizationId} was founded ${age.foundedAt} (business.founded:${commitment.organizationId})`,
+      ).toBe(true);
+    }
+    expect(checked, label).toBeGreaterThan(0);
   });
 
   it("is told in the Journal from its own records", () => {

@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-elections-door-pledge-turnout-shown
+pr: #8443
 after:
 blocked-on:
 lead: governing
@@ -17,6 +17,7 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:24:58.766Z
 ---
 
 **What.** Confirmer replay of Lane 1 path 3 on main 2e321723d8: New Game in Murray, Nebraska (3133425, replay 1d3f0e18ca4ba7e5), Emily Carter (person_ea1ae075f260430c) filed for Council member on June 2, 2026, knocked doors every week (Campaigns shows 54 doors after the first evening and 4,105 by November), and won November 3, 2026, 110 to 37, 34 and 4. Path 3 also asks to see the race's record showing that people who promised voted more than their neighbors (17% against 19% before #7163). No screen, results row or printed run log carries that comparison, and path-check prints the count of door yeses but not their turnout. The comparison exists only inside `src/core2/door-pledge.test.ts`, which a confirmer cannot count.

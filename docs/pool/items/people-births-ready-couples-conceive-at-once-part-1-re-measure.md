@@ -5,10 +5,10 @@ area: people
 kind: research
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-people-births-ready-couples-conceive-at-once-part-1-re-measure
+pr: #8579
 after:
 blocked-on:
 lead: lives
@@ -17,9 +17,10 @@ effort: low
 root: none
 source: split from people-births-ready-couples-conceive-at-once in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T04:45:09.955Z
 ---
 
-**What.** Measure how many full births a played year makes against the CDC age-band counts on current main, in three drawn places. Two earlier measurements disagree: births were 1.3 times the expectation in Roche Harbor, Washington, and about ten times too few in three other places (3 births against about 38). On Oct 20 only 3 of 191 active couples planned a child (1.6 percent, age term averaging -2.96), against 12.2 percent a day before. Settle which is true now, so the other parts build on a real figure.
+**What.** Measure how many full births a played year makes against the CDC age-band counts on current main, in three drawn places. Two earlier measurements disagree: births were 1.3 times the expectation in Roche Harbor, Washington, and about ten times too few in three other places (3 births against about 38). On Oct 20 only 3 of 191 active couples planned a child (1.6 percent, age term averaging -2.96), against 12.2 percent a day before. Settle which is true now, so the other parts build on a real figure. Seen: the town's births in the paper and its population on the Metrics tab.
 
 **Cause.** Measured: Roche Harbor, Washington (5359075, seed 2cff037427070ab820471240abf093b2a383133b4fe484274019a40fd2076e26): 28 births against 21.7 expected; Concord, Illinois (1716054, seed 99f462cf428e4898d2861e98e43f4079d0ca4a485b604ed49d569c4bcc5d90a9): 9 against 3.39 (item, Oct 25). Command: src/core2/births-full-web.test.ts, with the CDC rates in data/research/renewal/natality-2024.json.
 

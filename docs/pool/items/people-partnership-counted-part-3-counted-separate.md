@@ -19,7 +19,7 @@ source: split from people-partnership-counted in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Counted couples never separate, so counted household types never change by parting. Full couples part by the NSFG curve for how long they have been together, and the lower-cash partner starts a household. Give the counted tier the same parting times its count, one member forming a counted household of their own.
+**What.** Counted couples never separate, so counted household types never change by parting. Full couples part by the NSFG curve for how long they have been together, and the lower-cash partner starts a household. Give the counted tier the same parting times its count, one member forming a counted household of their own. Feeds: people-partnership-counted.
 
 **Cause.** Found in code: src/core2/modules/partnerships.ts (header, line 33, and COUNTED_STOPGAP at line 88) leaves the counted population's partnerships as their own unit; the stopgap row SG-LIVES-partner-counted is in src/core2/data/stopgaps/lives.json (line 75): the counted population's household types never change by partnering or parting.
 

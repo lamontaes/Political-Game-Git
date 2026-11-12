@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: merged
+claimed-by: claude/pool-gov-elected-official-seated-without-money
+pr: #8537
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,9 +17,11 @@ model: sonnet
 effort: medium
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:35:11.707Z
+merged-at: 2026-11-12T21:12:42.653Z
 ---
 
-**What.** A newly elected state representative takes the seat with no living cost and no cash, so a bribe's pull on them is the whole bribe in cents. In Davie, Florida (seed 694f68f1f5df5250, `buildBenchWorld`, every module, `scripts/research/bribe-chain-years.ts`), two members elected on May 21, 2026 (official:term:seat:US-FL:lower:001:0:2026-05-21:elected and :002:) were offered bribes for a state schools contract on July 1, 2026 and took them. The corruption engine weighs the bribe against a month of the official's living costs plus their cash plus one cent, and both members had no living cost and no cash that day, so the need term equaled the bribe in cents (21,704,585 and 8,930,363, where every other official's was below 114). By the end of the run the same members carried the shared state-member living cost (7,314 a day). The state members also all open with the same living cost and cash (7,314 a day and 346,921), which may be the same seating path.
+**What.** A newly elected state representative takes the seat with no living cost and no cash, so a bribe's pull on them is the whole bribe in cents. In Davie, Florida (seed 694f68f1f5df5250, `buildBenchWorld`, every module, `scripts/research/bribe-chain-years.ts`), two members elected on May 21, 2026 (official:term:seat:US-FL:lower:001:0:2026-05-21:elected and :002:) were offered bribes for a state schools contract on July 1, 2026 and took them. The corruption engine weighs the bribe against a month of the official's living costs plus their cash plus one cent, and both members had no living cost and no cash that day, so the need term equaled the bribe in cents (21,704,585 and 8,930,363, where every other official's was below 114). By the end of the run the same members carried the shared state-member living cost (7,314 a day). The state members also all open with the same living cost and cash (7,314 a day and 346,921), which may be the same seating path. Seen: an official's card, which shows real money and living costs, and the bribe's pull on them.
 
 **Cause.** Measured: Davie, Florida, seed 694f68f1f5df5250, via `scripts/research/bribe-chain-years.ts`: two members elected 2026-05-21 took bribes on 2026-07-01 with no living cost and no cash that day (need terms 21,704,585 and 8,930,363). The seating path is `takeOffice` in `src/core2/modules/voting.ts` and the offices seating in `src/core2/modules/elections.ts`.
 

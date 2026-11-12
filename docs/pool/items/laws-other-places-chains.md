@@ -5,7 +5,7 @@ area: laws
 kind: feature
 priority: 3
 size: L
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -43,3 +43,5 @@ Folded in Oct 25 from laws-other-places-chains-record. Its done when: In a one-y
 Folded in Oct 25 from laws-other-places-chains-enacted. Its done when: In a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), a law enacted in a jurisdiction the town does not share changes the withholding of a named worker who lives there from its effective date, with the law row id, the payroll record id and the treasury journal entry named, and SG-WORLD-withholding-residence-law is marked resolved in stopgaps.json with its replacement reader named and its ID retained; src/core2/withholding-outside-governments.test.ts proves it.
 
 **Notes (pool redo, Nov 10).** Split into the three parts named in Waits on. gov-standin-withholding-residence covers the same stopgap row; the CTO is asked to fold it into part 1.
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have withheld a commuter's pay by the law of the place he lives in; the player would see one commuter's paycheck differ by a little.

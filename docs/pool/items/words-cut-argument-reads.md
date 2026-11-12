@@ -5,15 +5,15 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: merged
-claimed-by: story/director-cut-argument-reads
+status: open
+claimed-by:
 pr: #8097
 blocked-on:
 lead: words
 milestone: play-first
 source: "owner graded the cut-argument scene and could not follow it: a narrator line named a {post} and said the head 'has the page', and a reply asked for a list no one mentioned"
-claimed-at: 2026-11-10T03:00:00.000Z
-merged-at: 2026-11-10T19:41:52.540Z
+claimed-at:
+merged-at:
 ---
 
 **What.** The narrator line about the cut now says what the budget line pays for ("fire protection", "highways"), from the budget line's own name on the record, in a new fact `line`; it no longer says "has the page". The reply "Send me the list. I'll answer tomorrow." now stands alone ("Put it in writing. I'll answer tomorrow."), and the thank-you "I'll get the list to you" no longer names a list no one raised. Piece keys are unchanged, so grades carry over.
@@ -27,3 +27,7 @@ merged-at: 2026-11-10T19:41:52.540Z
 **Time box.** 1 hour.
 
 **You will see.** "The council cut fire protection by $62,000 in the budget it passed. Teresa Hall wants to talk about it."
+
+**Screenshot.** The department head's scene after a budget cut, on two cut days in one drawn town, side by side.
+
+**Notes.** Not seen in the game (2026-11-11, second-session-2): Ceredo, West Virginia (drawn), seed 03f336b4a1ea, main 32a6683b: budget-cut-scene.test.ts fails at line 261: the fire chief's scene text on one cut day is identical to the text on another day, so the argument does not vary

@@ -5,10 +5,10 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-words-eviction-moment-at-fill-in
+pr: #8477
 blocked-on:
 after: core-evicted-counted-stays-counted
 lead: words
@@ -17,6 +17,8 @@ effort: medium
 root: design-life-record
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:14:23.919Z
+branch: claude/pool-words-eviction-moment-at-fill-in
 ---
 
 **What.** Since evicted counted households stay counted (core-evicted-counted-stays-counted), a household evicted while counted holds its housing case and status row but no director moment labeled feeling:event:housing.eviction. When the player later meets one of its people and they are filled in, nothing they say brings up the eviction or where they are staying. The gap is registered as SG-WORDS-eviction-moment-at-fill-in, with its marker in src/director/conversation.ts.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/director/conversation.ts, src/director/ledger.ts, src/director/data/stopgaps.json
 
 **Notes.** Lead: words. Filed by the speed lead, Nov 1, from the second review of speed/evicted-stay-counted.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:14 UTC) on branch claude/pool-words-eviction-moment-at-fill-in.

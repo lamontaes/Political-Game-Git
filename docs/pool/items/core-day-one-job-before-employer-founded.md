@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: merged
+claimed-by: claude/pool-core-day-one-job-before-employer-founded
+pr: #8377
 after:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:18:29.298Z
+merged-at: 2026-11-12T18:04:28.280Z
 ---
 
 **What.** The opening's job start (population.ts openingJobStart, a commitment's heldSince) and the business pass's founding dates (business.ts businessHistory, ranked by size) are made separately, so a worker can hold a job since a date before the business pass says their employer was founded. Found by src/core2/past-work.test.ts (history-past-work) in a drawn place.

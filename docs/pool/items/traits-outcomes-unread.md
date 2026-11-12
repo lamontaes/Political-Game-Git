@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** data/content/trait-outcomes.json, src/core2/modules/work.ts, src/core2/modules/jobs.ts, src/core2/emotion.ts, scripts/traits/trait-wiring-matrix.ts, src/core2/data/stopgaps/traits.json
 
 **Notes.** Split Oct 24 by the CTO from `traits-wiring-audit` (order `docs/work-orders/lead-traits-2026-10-24.md`).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A wiring-audit roll-up; the live pieces are split into their own items, such as people-impressions-from-witnessed-acts.

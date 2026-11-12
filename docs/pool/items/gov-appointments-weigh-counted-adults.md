@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-appointments-weigh-counted-adults
+pr: #8830
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T14:44:50.979Z
 after:
 lead: governing
 standard: 2
@@ -20,7 +20,7 @@ root: design-one-model-two-tiers
 checked: fable 2026-11-10
 ---
 
-**What.** The appointer chooses a town's department heads from the town's full people only. In a two-level world those are the player's household and circle, officials and people met, about 120 in Anson, Texas (playtest seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213, 80 of them adults), so the player's household is a large share of the pool: on main two of Anson's eight heads came from it (the player's mother as city administrator, and a 17-year-old sister at public works, fixed for age in play-stop-20). The town's counted adults are never weighed. The design question (Oct 27 analysis in Notes) was settled in favor of option (a): a coarse counted score, then fill in only the top few.
+**What.** The appointer chooses a town's department heads from the town's full people only. In a two-level world those are the player's household and circle, officials and people met, about 120 in Anson, Texas (playtest seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213, 80 of them adults), so the player's household is a large share of the pool: on main two of Anson's eight heads came from it (the player's mother as city administrator, and a 17-year-old sister at public works, fixed for age in play-stop-20). The town's counted adults are never weighed. The design question (Oct 27 analysis in Notes) was settled in favor of option (a): a coarse counted score, then fill in only the top few. Seen: who the mayor's department heads are, on the town's officials list; the player's own household stops filling the posts.
 
 **Cause.** Found in code: `src/core2/modules/executive.ts` `townPostInput` (line 410) builds its pool from `peopleByPlace` full people only and ranks each by `personLean`, `appointmentQualification` and acquaintance with the appointer, all of which read a full person's work history, past facts and ties.
 

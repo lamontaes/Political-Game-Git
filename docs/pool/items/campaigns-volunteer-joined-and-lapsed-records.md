@@ -5,14 +5,14 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-campaigns-volunteer-joined-and-lapsed-records
+pr: #8393
 after:
 blocked-on:
 source: "Helper B, Oct 27, docs/design/scenes/from-life/quiet-weeks-listener-offers.md"
 lead: effects
-claimed-at:
+claimed-at: 2026-11-11T00:20:46.601Z
 standard: 2
 model: sonnet
 effort: medium
@@ -40,3 +40,5 @@ branch: claude/pool-campaigns-volunteer-joined-and-lapsed-records
 **Notes.** Found while packeting scene-listener-offers-to-work.
 
 Released (2026-11-10): Done-when needs the director's listener scene to read a lapse record, which needs scene lines under data/english/parts (Story session only) and a lapse rule the item does not define; join record alone is buildable. Continue on branch claude/pool-campaigns-volunteer-joined-and-lapsed-records.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 00:20 UTC) on branch claude/pool-campaigns-volunteer-joined-and-lapsed-records.

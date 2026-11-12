@@ -8,7 +8,7 @@ description: >
 
 # Ask why
 
-**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+**Look first (owner, Oct 27):** run `look-first` before building, fixing, filing or asking; a found ruling is built and cited, never asked again.
 
 Run this checklist over every result before it goes out. Each hit needs a cause, or it is a defect you file.
 
@@ -43,4 +43,4 @@ Run this checklist over every result before it goes out. Each hit needs a cause,
 - Mark each claim measured or inferred.
 - A cause that is a seeded roll or fixed percentage deciding one actor's outcome breaks `no-dice`.
 - Nobody attributes a change to a law unless they learned of it; cite the source (news, conversation, notice).
-- Put findings in the PR body, your channel section or `docs/play-first/PROGRESS.md`, in plain American English, per `civic-reports`. Run `npm run report:check -- <file>`.
+- Put findings on the item's own pull request (owner, Nov 10: the pull request is the item's thread, `docs/pool/START-A-BUILDER.md`), or in the job's report. A line for the whole crew goes in the leads channel (`docs/coordination/LEADS-2026-10-24.md`). Write in plain American English per `civic-reports` and run `npm run report:check -- <file>` on any file you send.

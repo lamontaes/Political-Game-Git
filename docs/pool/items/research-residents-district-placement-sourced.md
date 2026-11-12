@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -41,3 +41,5 @@ checked: fable 2026-11-10
 Tracking corrected 2026-10-20: this split item was created in-pr after PR #5698 had already been sent back for formatting src/core2/data/district-household-income.json. The branch claude/district-placement still has no commit after that review, so the item is open, matching the existing Cloud merger comment; finish on that branch and merge main into it first.
 
 Oct 29 (CTO, second account): PR #5698 closed as stale under the owner's standing approval; back to open. Branch `claude/district-placement` is kept; claiming this item takes it over.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have placed a split town's households into districts by each district's own Census mix; no player sees a split town's slice of the income ladder.

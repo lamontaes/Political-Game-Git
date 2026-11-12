@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-join-a-party-has-no-scene-and-no-headquarters
+pr: #8453
 after:
 blocked-on:
 lead: screens
@@ -17,6 +17,7 @@ model: opus
 effort: medium
 root: rc6-scenes-repeat
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:59:58.615Z
 ---
 
 **What.** Measured by the Nov 9 audit: "Join a party changes the tab to 'Registered Republican since January 20, 2025.' No scene plays and there is no headquarters to visit." The audit's browser life was in Blodgett Landing, New Hampshire (a random world, no seed). The owner said it on Nov 8 (v0.94.0, Manchester, Connecticut): "I clicked join Democrat. Nothing happened. I expected maybe a scene to play. Maybe I'd show up to the headquarters or whatever... But then I click now and it says that I'm registered Democrat already." Fix the cause for every party in every place: joining is an act with a place and a person, told by the director from the joining record, and the opening leaves the player's party for the player to choose.
