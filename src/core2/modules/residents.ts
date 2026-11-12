@@ -138,8 +138,8 @@ interface FlowState extends ResidentFlowInput {
   outsidePaidMinor?: number;
   /** What its payments sent to someone other than its payee (a business's ads in the town's outlets), all time. */
   splitPaidMinor?: number;
-  /** wages: what the payer's cash could not pay on its latest short payday, the most its credit line may draw for it. */
-  creditNeed?: { date: IsoDate; minor: number };
+  /** wages: what the payer's cash could not pay on its latest short payday (`due`, the day that pay fell due; `date`, the day it was paid), the most its credit line may draw for it. */
+  creditNeed?: { date: IsoDate; due: string; minor: number };
   endedAt?: IsoDate;
   endedReason?: string;
 }
@@ -846,7 +846,10 @@ function spendable(core: CoreState, ownerId: string): number {
  * What a business can pay now: its cash, and when that falls short of what
  * it owes, the savings it holds at a local bank first (its own money, drawn
  * before a payroll or a bill goes unpaid and the firm fails with money in
- * the bank).
+ * the bank). The draw is named by the payment it covers, the flow and the
+ * day it fell due (`due`), as the payment itself is: on a results-mode
+ * catch-up one flow pays several skipped paydays on the same day, and each
+ * may draw.
  */
 function spendableFromSavings(
   api: CoreAPI,
@@ -854,11 +857,12 @@ function spendableFromSavings(
   ownerId: string,
   owed: number,
   flowId: string,
+  due: string,
 ): number {
   const cash = spendable(core, ownerId);
   if (cash >= owed) return cash;
   drawSavingsToCover(core, api, {
-    id: `savings-for-payment:${flowId}@${core.date}`,
+    id: `savings-for-payment:${flowId}@${due}`,
     holderId: ownerId,
     owedMinor: owed,
     asOf: core.date,
@@ -878,13 +882,21 @@ function spendableWithCredit(
   flow: FlowState,
   owed: number,
   payerBook: BusinessBooksState | undefined,
+  due: string,
 ): number {
-  const cash = spendableFromSavings(api, core, flow.payerId, owed, flow.id);
+  const cash = spendableFromSavings(
+    api,
+    core,
+    flow.payerId,
+    owed,
+    flow.id,
+    due,
+  );
   const facilityId = payerBook?.creditFacilityId;
   if (flow.kind !== "wages" || cash >= owed || !facilityId) return cash;
   const room = businessAvailableCredit(core, api, flow.payerId);
   if (room <= 0) return cash;
-  flow.creditNeed = { date: core.date, minor: owed - cash };
+  flow.creditNeed = { date: core.date, due, minor: owed - cash };
   const receipt = api.drawWageFlowCredit(
     facilityId,
     Math.min(owed - cash, room),
@@ -1246,7 +1258,7 @@ function settle(
         ? legs.reduce((n, leg) => n + leg.amount, 0)
         : Math.min(
             requested,
-            spendableWithCredit(api, core, flow, requested, payerBook),
+            spendableWithCredit(api, core, flow, requested, payerBook, date),
           );
     if (countedPaid && paid > 0) {
       // Each counted group is paid its part, less what the law withholds.
