@@ -18,7 +18,7 @@ import { advanceCore } from "./life";
 import { CAMPAIGNS_MODULE_ID, type CauseRow } from "./modules/campaigns";
 import { ELECTIONS_MODULE_ID, type FilingRow } from "./modules/elections";
 import { coreAPI } from "./state";
-import type { ModuleRow } from "./types";
+import type { ModuleRow } from "./module-data";
 
 const seed = process.env.STANDING_SEED ?? randomBytes(8).toString("hex");
 
