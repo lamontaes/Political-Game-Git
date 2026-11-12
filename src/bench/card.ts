@@ -119,6 +119,7 @@ export function whatPeopleSay(core: CoreState, subjectId: string) {
         undefined,
         undefined,
         new Set(),
+        livesElsewhere(core, speaker),
       );
       return line ? [line] : [];
     });
@@ -158,7 +159,7 @@ export function whatPeopleSay(core: CoreState, subjectId: string) {
       // Who they are to the subject, from the subject's own family facts.
       relation: relationWord(core, speaker.id, kin.get(speaker.id)?.relation),
       // Their strongest leaning, by the pole's own label (the gold tag).
-      tag: sketchRows(speaker.traits, "-first", {}, 1)[0]?.label ?? null,
+      tag: leanings(speaker.traits)[0]?.label ?? null,
       face: faceOf(core, speaker.id, scenePlace(core, subjectId).place),
       said,
     });
