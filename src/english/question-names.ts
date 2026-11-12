@@ -18,6 +18,7 @@ const NAMES = data.names as Readonly<
       readonly for?: string;
       readonly against?: string;
       readonly repeal?: string;
+      readonly keep?: string;
       readonly today?: { readonly without: string; readonly with: string };
     }
   >
@@ -35,7 +36,7 @@ export function questionToday(
 /** The question as one side says it: what a supporter wants done, what an opponent will keep off the books, or what they will repeal. */
 export function questionSide(
   question: string,
-  side: "for" | "against" | "repeal",
+  side: "for" | "against" | "repeal" | "keep",
 ): string | null {
   return NAMES[question]?.[side] ?? null;
 }

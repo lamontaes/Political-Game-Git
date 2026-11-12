@@ -1358,7 +1358,9 @@ export function planSpeech(
                 questionSide(
                   pointStands[P.zero]!.question,
                   pointStands[P.zero]!.stance > P.zero
-                    ? "for"
+                    ? pointStands[P.zero]!.law.inForce
+                      ? "keep"
+                      : "for"
                     : pointStands[P.zero]!.law.inForce
                       ? "repeal"
                       : "against",
@@ -1395,7 +1397,14 @@ export function planSpeech(
   // one before it.
   let part = -P.one;
   const blocks = drafts.map((draft, at): Block => {
-    const together = draft.joins || drafts[at - P.one]?.key === "salutation";
+    // No paragraph of one aside: what the speaker believes joins the
+    // greeting's paragraph, and the hope joins the close.
+    const before = drafts[at - P.one]?.key;
+    const together =
+      draft.joins ||
+      before === "salutation" ||
+      (draft.key === "creed" && before === "occasion") ||
+      (draft.key === "close" && before === "hope");
     if (!together || part < P.zero) part += P.one;
     const { joins, ...rest } = draft;
     void joins;

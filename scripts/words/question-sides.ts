@@ -38,6 +38,7 @@ const data = JSON.parse(readFileSync(FILE, "utf8")) as {
       for?: string;
       against?: string;
       repeal?: string;
+      keep?: string;
       today?: { without: string; with: string };
     }
   >;
@@ -73,15 +74,18 @@ for (const row of Object.values(data.names)) {
     for: row.to,
     against: `keep ${row.about} off the books`,
     repeal: `repeal ${row.about}`,
+    keep: `keep ${row.about} on the books`,
   };
   if (
     row.for !== sides.for ||
     row.against !== sides.against ||
-    row.repeal !== sides.repeal
+    row.repeal !== sides.repeal ||
+    row.keep !== sides.keep
   ) {
     row.for = sides.for;
     row.against = sides.against;
     row.repeal = sides.repeal;
+    row.keep = sides.keep;
     count("2-3. a question's two sides are said as people say them");
   }
 }
