@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { employerSaidAs, jobSaidAs, saidAs, type SaidPerson } from "./said-as";
+import {
+  employerSaidAs,
+  jobSaidAs,
+  saidAs,
+  sentenceStarts,
+  type SaidPerson,
+} from "./said-as";
 import { clockOf, heardBefore, noteSaid, tellingOf } from "./telling";
 
 const vice: SaidPerson = {
@@ -125,5 +131,13 @@ describe("the telling", () => {
     expect(heardBefore(telling, "x")).toBe(false);
     noteSaid(telling, "x");
     expect(heardBefore(telling, "x")).toBe(true);
+  });
+});
+
+describe("sentence starts", () => {
+  it("capitalizes a sentence a filled slot opens", () => {
+    expect(sentenceStarts("the President said it. he meant it.")).toBe(
+      "The President said it. He meant it.",
+    );
   });
 });

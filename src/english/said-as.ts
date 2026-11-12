@@ -215,3 +215,14 @@ export function jobSaidAs(
   if (!sayableJobTitle(title)) return null;
   return { kind: "title", title, asJob: withArticle(title) };
 }
+
+/**
+ * Every sentence of a line starts with a capital: a slot the reader filled
+ * with a role or a pronoun ("the President", "he") may open a sentence.
+ */
+export function sentenceStarts(text: string): string {
+  return text.replace(
+    /(^|[.!?]["”]?\s+)(\p{Ll})/gu,
+    (_, before: string, letter: string) => before + letter.toUpperCase(),
+  );
+}
