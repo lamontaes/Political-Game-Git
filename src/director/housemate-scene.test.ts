@@ -9,6 +9,8 @@ import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import type { CoreState, PersonId } from "../core2/types";
 import type { Fact } from "../english/scene-talk-words";
+import { spacingAllows } from "./circumstance";
+import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import { purposeScene, replyInScene } from "./purpose-scene";
@@ -30,6 +32,9 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const ATTEMPTS = 6;
 const WAIT_DAYS = 30;
 const BASELINE_DAYS = 3;
+/** The days between two scenes from circumstance: the director's own number. */
+const EVERY_DAYS =
+  DEFAULT_DIRECTOR_DATA.parameters.directorCircumstanceEveryDays!.value;
 
 /** The player clock runs the days as the bench runs them; a stop is resumed, a choice takes its first offer. */
 function play(
@@ -101,9 +106,46 @@ it(`someone joining the household is a scene with a purpose, seed ${seed}`, () =
       continue;
     }
     const joiner = core.people.get(joinerId)!;
-    (home.memberIds as PersonId[]).splice(home.memberIds.indexOf(joinerId), 1);
+    const leave = () =>
+      (home.memberIds as PersonId[]).splice(
+        home.memberIds.indexOf(joinerId),
+        1,
+      );
+    leave();
     play(core, playerId as PersonId, clock, BASELINE_DAYS);
-    (home.memberIds as PersonId[]).push(joinerId);
+    // The director stages one scene from circumstance a week
+    // (directorCircumstanceEveryDays), and reads a joiner only on the day it
+    // first sees them (newHousemates in ledger.ts). An opening week can
+    // already hold one: in Zillah, Washington the governor's address of Jan
+    // 21 staged its hallway answer on Jan 22, and a join on Jan 23 was
+    // passed over. So the joiner comes back on a day the week allows, and a
+    // day another record took is named and staged again.
+    const lastAny = () => director.ledger.circumstanceLast.get(`${playerId}|*`);
+    const joinedRow = () =>
+      director.ledger.circumstanceLast.get(`${playerId}|new-housemate`);
+    const passedOver: string[] = [];
+    let waited = 0;
+    let read: string | undefined;
+    while (!read && waited < WAIT_DAYS) {
+      while (
+        !spacingAllows(lastAny(), EVERY_DAYS, makeIsoDate(core.date)) &&
+        waited < WAIT_DAYS
+      ) {
+        play(core, playerId as PersonId, clock, 1);
+        waited += 1;
+      }
+      (home.memberIds as PersonId[]).push(joinerId);
+      play(core, playerId as PersonId, clock, 1);
+      waited += 1;
+      read = joinedRow();
+      if (read) break;
+      passedOver.push(
+        `${core.date}: the week's scene went to another record (last ${lastAny() ?? "none"})`,
+      );
+      leave();
+      play(core, playerId as PersonId, clock, 1);
+      waited += 1;
+    }
 
     const book = director.ledger.people.get(playerId as PersonId)!;
     const find = () =>
@@ -119,7 +161,7 @@ it(`someone joining the household is a scene with a purpose, seed ${seed}`, () =
     const entry = find();
     if (!entry) {
       tried.push(
-        `${where}: no scene within ${WAIT_DAYS} days (${joinerId} ${core.date} moments ${[...book.momentsById.values()].map((m) => m.label + ":" + m.causeId).join(",")})`,
+        `${where}: no scene within ${WAIT_DAYS} days (passed over: ${passedOver.join(", ") || "none"}; ${joinerId} ${core.date} moments${[...book.momentsById.values()].map((m) => m.label + ":" + m.causeId).join(",")})`,
       );
       continue;
     }
