@@ -61,11 +61,11 @@ Names: the same few employers carry the work. St. George full adults: James's, A
 
 | Place | Spells with no employer | Of all spells | People | How they began |
 | --- | --- | --- | --- | --- |
-| St. George | 0 | 0 of 1,207 | 0 | none |
-| Voltaire | 0 | 0 of 3 hundred-odd | 0 | none |
-| Trappe | 0 | 0 | 0 | none |
-| Kingston, RI (e41b9d02a7c35f18) | 2 | about 0.4 percent | 1 (aged 53) | one first job (1994), one "after-out-of-work" (1997), both ended "let-go" |
-| Kaibito (7c1e5a90b3d24f68) | 3 | about 0.2 percent | 1 (aged 43) | first job (2004), "after-out-of-work" (2012), "after-out-of-work" (2018) |
+| St. George | 0 | 0 of 1,550 | 0 | none |
+| Voltaire | 0 | 0 of 155 | 0 | none |
+| Trappe | 0 | 0 of 1,237 | 0 | none |
+| Kingston, RI (e41b9d02a7c35f18) | 2 | 2 of 452 (0.4 percent) | 1 (aged 53) | one first job (1994), one "after-out-of-work" (1997), both ended "let-go" |
+| Kaibito (7c1e5a90b3d24f68) | 3 | 3 of 1,453 (0.2 percent) | 1 (aged 43) | first job (2004), "after-out-of-work" (2012), "after-out-of-work" (2018) |
 
 In both worlds the spells' place is **not** the person's home place today (`placeIsHome` false): the person lived in a place with no recorded business when they worked. That is the header's own "someone whose town has no business on record" case. It confirms the cause in the sheet. **It is rare: one person in about 1,200 adults, 0.2 to 0.4 percent of spells, and none in three of five towns.** So it will be seen on the Journal of an adult who came from elsewhere, not of a town-born one. The "found work again in Kingston" line is this case.
 
