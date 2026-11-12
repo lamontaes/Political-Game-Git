@@ -12,7 +12,7 @@ pr:
 after:
 blocked-on:
 lead: governing
-model: opus
+model: sonnet
 effort: medium
 root: none
 source: the lead (Fable A), Nov 12, 2026, on the CTO's line on #7365 (comment 6822377628)
@@ -20,11 +20,11 @@ source: the lead (Fable A), Nov 12, 2026, on the CTO's line on #7365 (comment 68
 
 **What.** Guards: the game may calibrate on real numbers and never reproduce them (CTO, Nov 12, 2026, #7365 comment 6822377628). `src/core2/realistic-not-real.test.ts` line 820 (row 44, past races) builds the same place with two seeds and requires every past race of a thousand votes or more to differ between the two worlds. It fails on clean main in two drawn places. Carolina, Rhode Island (4412340), REALISTIC_SEED=1f847ff6f693efc1: prior-election:seat:US-RI:lower:039:0:2024-11-05 has 6,731 votes in both worlds (Deterministic validation 43204347616 on main 3ed3915c59). Leusoali'i, American Samoa (territory:AS:leusoalii), REALISTIC_SEED=970a2d32fc2d63f1: prior-election:seat:US-AS:lower:At-large:0:2024-11-05 has 10,488 votes in both worlds (Merger codex-4629, #7365 comment 6817215400, on main cd2f4a44f8). Both are lower-house seats.
 
-**Cause.** Needs cause. Not yet traced: which function writes the total votes of a past state lower-house race at the opening, and why that total does not take the world's seed for these seats when other races do. The cause find runs the test with each seed above, names the function and the source row the 6,731 and the 10,488 come from, and says whether the number is a real count carried through unchanged or a drawn count whose draw ignores the seed for this kind of seat. `realistic-elections-per-world` is the wider feature (the 2024 vote drawn per world); this item is the two seats where a count is the same in every world today.
+**Cause.** Measured: a probe in `buildPriorElections` (src/core2/past-elections.ts, the one writer of a past race's `totalVotes`) on main cb0cf89f6e, with both seeds. The count is not a real count, and it does take the world's seed. For a state lower-house seat with no recorded result (`realResult` returns null), the center is `electorateBallots` (the state's or territory's ballots over its seats, or all of them for an at-large seat). That center is the same in both worlds. `worldLevel(center, town.seed, "past-votes:<seat>:<date>", "worldPastVotesSpreadShare")` then moves it once by the world's own offset: a sign and a size between 0.34 (`worldDrawOffsetFloorShare`) and 1 of 4% (`worldPastVotesSpreadShare`). Carolina, Rhode Island, REALISTIC_SEED=1f847ff6f693efc1, prior-election:seat:US-RI:lower:039:0:2024-11-05: the center is 6,845.15 in both worlds. World a's offset is -1.6685% (6,730.94) and world b's is -1.6704% (6,730.81), so both round to 6,731. Leusoali'i, American Samoa, REALISTIC_SEED=970a2d32fc2d63f1, prior-election:seat:US-AS:lower:At-large:0:2024-11-05: the center is 10,113 in both worlds (the territory's general-election ballots, at large), and both worlds draw 10,488. The other 20 at-large seats all differ (for example seat 1: 9,770 and 9,949). The test's per-race rule ("each race of a thousand votes or more must differ") fails by chance: a ±1.36% to 4% band around a center of N votes holds about 0.053 N possible counts. That is about 362 for 6,845 votes and 534 for 10,113, so two worlds share a count about once in 360 races, or once in 530. American Samoa's 21 at-large seats of about 10,000 votes each share one somewhere about one run in 25. Neither number is a real count: 6,731 and 10,488 are each world's own draw, and neither equals the center.
 
-**Fix.** None until the cause is found.
+**Fix.** Proposed, for the lead to confirm, because it changes what row 44 asserts. In src/core2/realistic-not-real.test.ts row 44 (line 815), replace the per-race inequality between the two worlds with the two checks the rule asks for. (1) **Never the real count:** each race of a thousand votes or more differs from the count it was drawn around. Export the center from src/core2/past-elections.ts as one function, `pastVotesCenter(api, town, office, seat, date)` (the `real?.total ?? electorateBallots(...) * turnoutRatio(date)` expression `buildPriorElections` already uses, moved into the function, which `buildPriorElections` then calls), and assert `Math.round(center) !== total` in each world. (2) **Every world differs:** across the large races taken together, the two worlds' lists of counts are not the same, and fewer than 1 in 50 races share a count. A shared count is then a reported coincidence, not a failure. The thousand-vote floor stays. No game behavior changes. If the lead rules that the per-race rule must stay, the other root fix is a finer draw. That cannot be made by a finer hash: the band holds only 0.053 N whole counts, so the only option would be to widen `worldPastVotesSpreadShare`, which is a calibration change for the researcher and is not proposed here.
 
-**Time box.** 2 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
+**Time box.** 1 hour for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
 **Rules.** No dice: seeded generation of who exists and of a world's own past is allowed; a real count is never printed as the world's. One rule, all 56 places. Estimate, never UNKNOWN. Never loosen the test or raise its thousand-vote floor.
 
@@ -32,8 +32,10 @@ source: the lead (Fable A), Nov 12, 2026, on the CTO's line on #7365 (comment 68
 
 **Waits on.** Nothing
 
-**Files.** src/core2/realistic-not-real.test.ts, and the opening code that writes past races (found by the cause find)
+**Files.** src/core2/realistic-not-real.test.ts, src/core2/past-elections.ts
 
 **Notes.**
 
 Added by the lead (Fable A) on Nov 12, 2026, on the CTO's line; after `core-world-stops-on-income-term-without-its-award` and `tests-budgets-public-pay-alega-has-a-public-employer` in the order of work.
+
+**Notes (Nov 12, R1).** Cause found with a temporary probe in `buildPriorElections`, removed. I ran `REALISTIC_SEED=1f847ff6f693efc1` and `REALISTIC_SEED=970a2d32fc2d63f1` `npx vitest run src/core2/realistic-not-real.test.ts -t "past races"` on main cb0cf89f6e: both still red, as the item says. The offsets were computed with `worldOffsetShare` directly. Not built: the Fix changes what the test asserts, so it waits for the lead's word.
