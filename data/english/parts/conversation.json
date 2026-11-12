@@ -7882,7 +7882,8 @@
           "move": "job-lost-answer-ask",
           "subject": "job-lost",
           "role": "answer",
-          "choice": "ask"
+          "choice": "ask",
+          "excludesFacts": ["layoff", "closure"]
         }
       ],
       "transcriptsUsing": 243,
@@ -11532,7 +11533,8 @@
           "move": "job-lost-answer-ask",
           "subject": "job-lost",
           "role": "answer",
-          "choice": "ask"
+          "choice": "ask",
+          "excludesFacts": ["layoff", "closure"]
         }
       ],
       "transcriptsUsing": 12,
@@ -35971,10 +35973,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-say-reason.it-paid-wage-an-hour",
+      "key": "conversation.job-lost-say-reason.it-paid-wage-an-hour-and-that-s-hard-to-find",
       "move": "job-lost-say-reason",
       "kind": "spoken",
-      "text": "It paid {wage} an hour.",
+      "text": "It paid {wage} an hour, and that's hard to find.",
       "uses": [
         {
           "move": "job-lost-say-reason",
@@ -35992,16 +35994,16 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-say-reason.i-m-already-looking-for-something-in-place",
+      "key": "conversation.job-lost-say-reason.i-m-already-looking-for-something-around-here",
       "move": "job-lost-say-reason",
       "kind": "spoken",
-      "text": "I'm already looking for something in {place}.",
+      "text": "I'm already looking for something around here.",
       "uses": [
         {
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["seeking", "place"]
+          "requiresFacts": ["seeking"]
         }
       ],
       "piece": {
@@ -36067,65 +36069,16 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.not-enough-work-at-employer-so-some-of-us-went",
+      "key": "conversation.job-lost-back-core.they-didn-t-say-much-you-just-that-i-was-done",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Not enough work at {employer}, so some of us went.",
+      "text": "They didn't say much, {you}. Just that I was done.",
       "uses": [
         {
           "move": "job-lost-back-core",
           "subject": "job-lost-back",
           "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["layoff"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-lost-back-core.employer-shut-its-doors-for-good-everybody-s-out",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "{employer} shut its doors for good. Everybody's out.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["closure"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-lost-back-core.employer-didn-t-give-me-much-of-a-reason",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "{employer} didn't give me much of a reason.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["layoff", "closure"]
+          "stages": ["ask"]
         }
       ],
       "piece": {
@@ -36139,41 +36092,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.i-m-looking-nothing-yet-in-place",
+      "key": "conversation.job-lost-back-core.i-m-looking-you-nothing-yet",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "I'm looking. Nothing yet in {place}.",
+      "text": "I'm looking, {you}. Nothing yet.",
       "uses": [
         {
           "move": "job-lost-back-core",
           "subject": "job-lost-back",
           "role": "core",
           "stages": ["hope"],
-          "requiresFacts": ["seeking", "place"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-lost-back-core.looking-for-anything-near-wage-an-hour-nothing-yet",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "Looking for anything near {wage} an hour. Nothing yet.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["hope"],
-          "requiresFacts": ["seeking", "wage"]
+          "requiresFacts": ["seeking"]
         }
       ],
       "piece": {
@@ -36235,17 +36164,16 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.thanks-keep-an-ear-out-for-work-in-place",
+      "key": "conversation.job-lost-back-core.thanks-you-just-keep-an-ear-out-for-me",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Thanks. Keep an ear out for work in {place}.",
+      "text": "Thanks, {you}. Just keep an ear out for me.",
       "uses": [
         {
           "move": "job-lost-back-core",
           "subject": "job-lost-back",
           "role": "core",
-          "stages": ["help"],
-          "requiresFacts": ["place"]
+          "stages": ["help"]
         }
       ],
       "piece": {
@@ -36283,35 +36211,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.thanks-nobody-thought-employer-would-close",
+      "key": "conversation.job-lost-back-core.thanks-you-i-never-thought-it-d-be-me",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Thanks. Nobody thought {employer} would close.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["comfort"],
-          "requiresFacts": ["closure"],
-          "excludesFacts": ["years"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-lost-back-core.thanks-i-never-thought-employer-would-let-me-go",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "Thanks. I never thought {employer} would let me go.",
+      "text": "Thanks, {you}. I never thought it'd be me.",
       "uses": [
         {
           "move": "job-lost-back-core",
@@ -37580,6 +37483,30 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.job-lost-back-core.thanks-you-nobody-saw-it-coming",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "Thanks, {you}. Nobody saw it coming.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["closure"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (a lost job told through the composer)",
       "date": "2026-11-12"
     }
   ]
