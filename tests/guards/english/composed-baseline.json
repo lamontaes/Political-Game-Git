@@ -21,8 +21,8 @@
   "rules": {
     "address-is-national-not-about-the-player": {
       "read": 6,
-      "breaks": 3,
-      "per100": 50
+      "breaks": 0,
+      "per100": 0
     },
     "speech-has-one-theme": {
       "read": 6,
@@ -35,32 +35,32 @@
       "per100": 0
     },
     "person-said-by-role-pronoun-or-relationship": {
-      "read": 58,
+      "read": 51,
       "breaks": 21,
-      "per100": 36.2
+      "per100": 41.2
     },
     "one-idea-to-a-sentence": {
-      "read": 58,
+      "read": 51,
       "breaks": 0,
       "per100": 0
     },
     "no-reply-asks-what-the-listener-cannot-know": {
-      "read": 25,
+      "read": 18,
       "breaks": 0,
       "per100": 0
     },
     "two-speakers-make-different-points": {
-      "read": 25,
+      "read": 18,
       "breaks": 0,
       "per100": 0
     },
     "line-fits-the-hour": {
-      "read": 30,
+      "read": 23,
       "breaks": 0,
       "per100": 0
     },
     "no-non-replies": {
-      "read": 25,
+      "read": 18,
       "breaks": 0,
       "per100": 0
     },
