@@ -1154,12 +1154,12 @@ function printedSubject(
   director: Director | undefined,
   tellerId: PersonId,
 ): Subject | null {
-  const words = director?.storyWords;
-  if (!words || story.kind !== PRINTED_STORY) return null;
+  if (story.kind !== PRINTED_STORY) return null;
   {
-    const said = words(core as CoreState, story);
-    if (!said?.headline) return null;
-    const cited = [story.id, ...said.sourceRecordIds];
+    // Told by its question, never by its headline: the story's words are
+    // only cited when the paper has them.
+    const said = director?.storyWords?.(core as CoreState, story);
+    const cited = [story.id, ...(said?.sourceRecordIds ?? [])];
     const outlet = story.outletId
       ? core.organizations.get(story.outletId as EntityId)
       : undefined;

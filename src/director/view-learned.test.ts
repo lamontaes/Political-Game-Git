@@ -23,7 +23,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { storiesHeard } from "../core2/modules/news";
+import { printStory, storiesHeard } from "../core2/modules/news";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import rules from "./data/conversation-rules.json" with { type: "json" };
@@ -45,6 +45,39 @@ import {
   viewTopicWeight,
   viewWillingness,
 } from "./view-learned";
+
+/**
+ * The cause a stand follows (lead, Nov 12: a stand never opens a talk; it
+ * follows its cause): the person reads a story on their strongest question,
+ * printed and delivered through the news engine's own route, the day before
+ * the talk.
+ */
+function stageNews(
+  core: Parameters<typeof coreAPI>[0],
+  id: PersonId,
+): string | null {
+  const api = coreAPI(core);
+  const top = strongestQuestion(api, id);
+  const person = core.people.get(id);
+  if (!top || !person) return null;
+  const storyId = `fixture:view-news:${id}:${core.date}`;
+  printStory(
+    api,
+    {
+      id: storyId,
+      kind: "press.printed",
+      date: core.date,
+      placeId: person.placeId,
+      topic: top.question,
+      desiredChange: "enact",
+      facts: {},
+    } as never,
+    [id],
+    [id],
+  );
+  advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  return storyId;
+}
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const DRAWS = 4;
@@ -97,6 +130,8 @@ it(`a close, outgoing person says where they stand and the card learns it; a str
         "You don't know where they stand yet.",
       );
       expect(api.knows(me, viewKey(id)), where).toBeUndefined();
+      // Changed (lead, Nov 12): the stand's cause is staged first.
+      stageNews(core, id);
       const talk = openConversation(core, me, id, { director });
       const answers: string[] = [];
       for (let turn = 0; turn < TURNS && talk.choices.length; turn += 1) {
@@ -350,7 +385,9 @@ function ownViewIn(drawSeed: string, skipped: string[]): boolean {
     openConversation(core, me, id, { director, look: true });
     if (!knew) expect(api.knows(me, viewKey(id)), where).toBeUndefined();
     // As in play: the first talk may be on something else (the day, the
-    // address), and where they stand comes up in a later one.
+    // address), and where they stand comes up in a later one, after its
+    // cause (changed, lead, Nov 12: the news on their question is staged).
+    stageNews(core, id);
     let talk = openConversation(core, me, id, { director });
     let line = talk.lines.find((row) => row.kind === "own-view");
     for (let again = 0; again < 3 && !line && talk.lines.length; again += 1) {
