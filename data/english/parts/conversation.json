@@ -37595,30 +37595,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.government-news-say-core.it-was-in-the-paper-body-moved-amount-purpose",
-      "move": "government-news-say-core",
-      "kind": "spoken",
-      "text": "It was in the paper. {body} moved {amount}, {purpose}.",
-      "uses": [
-        {
-          "move": "government-news-say-core",
-          "subject": "government-news-say",
-          "role": "core",
-          "stages": ["budget"],
-          "requiresFacts": ["body", "purpose", "amount"]
-        }
-      ],
-      "piece": {
-        "of": "government-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.government-news-say-core.i-read-body-voted-through-about",
       "move": "government-news-say-core",
       "kind": "spoken",
@@ -37722,7 +37698,7 @@
           "move": "government-news-say-closer",
           "subject": "government-news-say",
           "role": "closer",
-          "stages": ["address", "meeting", "budget", "ordinance"],
+          "stages": ["address", "meeting"],
           "excludesFacts": ["wants-it", "wants-not"]
         }
       ],
@@ -37736,10 +37712,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.government-news-answer-for.sounds-right-to-me-first",
+      "key": "conversation.government-news-answer-for.i-d-be-for-it-first",
       "move": "government-news-answer-for",
       "kind": "spoken",
-      "text": "Sounds right to me, {first}.",
+      "text": "I'd be for it, {first}.",
       "uses": [
         {
           "move": "government-news-answer-for",
@@ -37754,10 +37730,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.government-news-answer-for.good-somebody-had-to-first",
+      "key": "conversation.government-news-answer-for.i-m-for-it-first-somebody-had-to",
       "move": "government-news-answer-for",
       "kind": "spoken",
-      "text": "Good. Somebody had to, {first}.",
+      "text": "I'm for it, {first}. Somebody had to.",
       "uses": [
         {
           "move": "government-news-answer-for",
@@ -37772,10 +37748,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.government-news-answer-against.that-seems-like-the-wrong-call-first",
+      "key": "conversation.government-news-answer-against.i-d-be-against-it-first",
       "move": "government-news-answer-against",
       "kind": "spoken",
-      "text": "That seems like the wrong call, {first}.",
+      "text": "I'd be against it, {first}.",
       "uses": [
         {
           "move": "government-news-answer-against",
@@ -37790,10 +37766,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.government-news-answer-against.i-don-t-like-the-sound-of-that-first",
+      "key": "conversation.government-news-answer-against.i-m-against-it-first-it-s-the-wrong-call",
       "move": "government-news-answer-against",
       "kind": "spoken",
-      "text": "I don't like the sound of that, {first}.",
+      "text": "I'm against it, {first}. It's the wrong call.",
       "uses": [
         {
           "move": "government-news-answer-against",
@@ -37832,10 +37808,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.government-news-back-core.well-i-don-t-you-time-will-tell",
+      "key": "conversation.government-news-back-core.well-i-m-not-you-time-will-tell",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "Well, I don't, {you}. Time will tell.",
+      "text": "Well, I'm not, {you}. Time will tell.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -37880,10 +37856,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.government-news-back-core.i-think-it-s-right-you-we-ll-see-who-s-wrong",
+      "key": "conversation.government-news-back-core.i-m-for-it-you-we-ll-see-who-s-wrong",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "I think it's right, {you}. We'll see who's wrong.",
+      "text": "I'm for it, {you}. We'll see who's wrong.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -37947,6 +37923,29 @@
         "required": true
       },
       "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-closer.we-ll-see-what-that-does-around-here-you",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "We'll see what that does around here, {you}.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["budget", "ordinance"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
       "date": "2026-11-12"

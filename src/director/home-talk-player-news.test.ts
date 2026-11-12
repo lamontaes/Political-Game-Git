@@ -26,7 +26,11 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { acceptJobOffer, jobOffersFor } from "../core2/modules/jobs";
+import {
+  acceptJobOffer,
+  JOBS_MODULE_ID,
+  jobOffersFor,
+} from "../core2/modules/jobs";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -41,6 +45,16 @@ const DRAWS = Number(process.env.TALK_DRAWS ?? 3);
  * records the house reads are the engines' own.
  */
 const AS_OFFICIAL = process.env.PLAYER_AS === "official";
+/**
+ * `STAGE_OFFER=<day>` stages one thing, on that day, as dev mode would: an
+ * employer's offer to the player for the first open position in their town
+ * (the offer row and the hold on the position, written here). Taking it goes
+ * through the jobs engine's own hire (`acceptJobOffer`); the job record, the
+ * ledger's moment and every word said about it are the engines' own.
+ */
+const STAGE_OFFER = process.env.STAGE_OFFER
+  ? Number(process.env.STAGE_OFFER)
+  : undefined;
 const DAYS = 14;
 const EVENING = 20 * 60 + 30;
 const TURNS = 6;
@@ -98,6 +112,44 @@ it(`the house talks about the player's own news (seed ${seed})`, () => {
     const heardBy = new Map<string, string>();
     for (let day = 0; day < DAYS; day += 1) {
       if (day > 0) liveThrough(core, playerId, day);
+      if (day === STAGE_OFFER && !core.people.get(playerId)?.jobId) {
+        const positions = api.moduleState(JOBS_MODULE_ID).table("positions");
+        const open = (
+          positions.rows() as unknown as {
+            id: string;
+            organizationId: string;
+            placeId: string;
+            title: string;
+            hourlyMinor: number;
+            status: string;
+          }[]
+        ).find(
+          (row) =>
+            row.status === "open" &&
+            row.placeId === core.people.get(playerId)!.placeId,
+        );
+        if (open) {
+          const id = `job-offer:${open.id}:${playerId}`;
+          positions.put({ ...open, offeredTo: playerId, offerId: id } as never);
+          api
+            .moduleState(JOBS_MODULE_ID)
+            .table("offers")
+            .put({
+              id,
+              personId: playerId,
+              positionId: open.id,
+              organizationId: open.organizationId,
+              offeredBy: playerId,
+              title: open.title,
+              hourlyMinor: open.hourlyMinor,
+              fit: 1,
+              offeredAt: core.date,
+              deadline: core.date,
+              status: "pending",
+            } as never);
+          did.push(`day ${day}: STAGED an offer of ${open.title} (${open.id})`);
+        } else did.push(`day ${day}: no open position to stage an offer for`);
+      }
       for (const offer of jobOffersFor(api, playerId))
         if (offer.status === "pending" && acceptJobOffer(api, offer.id))
           did.push(`day ${day}: took the job offered (${offer.id})`);

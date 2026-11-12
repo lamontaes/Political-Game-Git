@@ -1667,9 +1667,19 @@ function governmentNews(
           ] = fact("yes", [...cites, viewRecordId(speaker.id)]);
       }
     }
+    // One telling for the house: the same measure read in two outlets, or
+    // the town halls of one evening, is one subject; one told already is
+    // passed over for the next.
+    const id = `government-news:${
+      stage === "meeting"
+        ? `${TOWN_HALL}:${row.date}`
+        : (facts.sourceRecordId ?? row.id)
+    }`;
+    if (heardRows.some((heard) => heard.key === `${HEARD_SUBJECT}${id}`))
+      continue;
     directorStopgap("SG-DIRECTOR-town-change-reach-unread", WORDS_STOPGAP_HITS);
     return {
-      id: `government-news:${row.id}`,
+      id,
       kind: "government-news",
       aboutId: row.id,
       stage,
