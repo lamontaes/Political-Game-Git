@@ -434,9 +434,9 @@ else {
 // published row: the Census table holds their sum, which is reported with
 // them.
 const spread = core.data.parameters.budgetWorldLineSpreadShare?.value ?? 0.06;
-const usPopulation = (
-  finances.places as unknown as Record<string, { population2023: number }>
-).US?.population2023;
+const usPopulation =
+  (finances.places as unknown as Record<string, { population2023: number }>).US
+    ?.population2023 ?? 0;
 const publishedFederal =
   usPopulation > 0
     ? {
