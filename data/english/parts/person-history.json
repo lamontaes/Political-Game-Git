@@ -6176,7 +6176,7 @@
     {
       "key": "person-history.story.partner.widowed.third",
       "move": "story",
-      "text": "{who} lost {name} in {year}.",
+      "text": "{who} was widowed when {name} died in {year}.",
       "origin": "authored",
       "author": "Words builder W2 (life records lines, Nov 12)",
       "date": "2026-11-12",
@@ -6185,7 +6185,7 @@
     {
       "key": "person-history.story.partner.widowed.they",
       "move": "story",
-      "text": "They lost {name} in {year}.",
+      "text": "They were widowed when {name} died in {year}.",
       "origin": "authored",
       "author": "Words builder W2 (life records lines, Nov 12)",
       "date": "2026-11-12",
@@ -6194,7 +6194,7 @@
     {
       "key": "person-history.story.partner.widowed.i",
       "move": "story",
-      "text": "I lost {name} in {year}.",
+      "text": "I was widowed when {name} died in {year}.",
       "origin": "authored",
       "author": "Words builder W2 (life records lines, Nov 12)",
       "date": "2026-11-12",
@@ -6203,7 +6203,7 @@
     {
       "key": "person-history.story.partner.widowed.third.w2",
       "move": "story",
-      "text": "{who} was widowed when {name} died in {year}.",
+      "text": "{name} died in {year}, and {who} was widowed.",
       "origin": "authored",
       "author": "Words builder W2 (life records lines, Nov 12)",
       "date": "2026-11-12",
@@ -6212,33 +6212,6 @@
     {
       "key": "person-history.story.partner.widowed.they.w2",
       "move": "story",
-      "text": "They were widowed when {name} died in {year}.",
-      "origin": "authored",
-      "author": "Words builder W2 (life records lines, Nov 12)",
-      "date": "2026-11-12",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.partner.widowed.i.w2",
-      "move": "story",
-      "text": "I was widowed when {name} died in {year}.",
-      "origin": "authored",
-      "author": "Words builder W2 (life records lines, Nov 12)",
-      "date": "2026-11-12",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.partner.widowed.third.w3",
-      "move": "story",
-      "text": "{name} died in {year}, and {who} was widowed.",
-      "origin": "authored",
-      "author": "Words builder W2 (life records lines, Nov 12)",
-      "date": "2026-11-12",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.partner.widowed.they.w3",
-      "move": "story",
       "text": "{name} died in {year}, and they were widowed.",
       "origin": "authored",
       "author": "Words builder W2 (life records lines, Nov 12)",
@@ -6246,7 +6219,7 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.partner.widowed.i.w3",
+      "key": "person-history.story.partner.widowed.i.w2",
       "move": "story",
       "text": "{name} died in {year}, and I was widowed.",
       "origin": "authored",
