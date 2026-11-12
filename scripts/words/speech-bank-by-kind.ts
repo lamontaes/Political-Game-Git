@@ -257,12 +257,12 @@ const SLOTS: Record<string, string> = {
     "how the policy question stands today, by the law in force and as the speaker's side describes it (question-names.json `today`)",
   "today-clause":
     "the same sentence as `today`, in the case it takes after an opener and a comma",
-  "today-2": "a second wording of `today` (question-names `todayMore`)",
-  "today-3": "a third wording of `today` (question-names `todayMore`)",
-  "today-clause-2": "`today-2` after an opener and a comma",
-  "today-clause-3": "`today-3` after an opener and a comma",
-  "today-question-2": "`today-2` inside a question to the audience",
-  "today-question-3": "`today-3` inside a question to the audience",
+  "today-second": "a second wording of `today` (question-names `todayMore`)",
+  "today-third": "a third wording of `today` (question-names `todayMore`)",
+  "today-clause-second": "`today-second` after an opener and a comma",
+  "today-clause-third": "`today-third` after an opener and a comma",
+  "today-question-second": "`today-second` inside a question to the audience",
+  "today-question-third": "`today-third` inside a question to the audience",
   "today-question":
     "the same sentence as `today-clause` without its period, said inside a question to the audience",
   belief:
@@ -817,10 +817,10 @@ const TODAY: [string | string[], string][] = [
   ["plain", "As it is now, {today-clause}"],
 ];
 // Each opener is said with any of a question's wordings (`{today}`, and
-// `{today-2}`, `{today-3}` where question-names holds more), so the
+// `{today-second}`, `{today-third}` where question-names holds more), so the
 // composer's own pick spreads them.
 for (const [voice, text] of TODAY)
-  for (const n of ["", "-2", "-3"]) {
+  for (const n of ["", "-second", "-third"]) {
     const slot = text.includes("{today}") ? "today" : "today-clause";
     ADD.push({
       role: "today",
@@ -929,7 +929,7 @@ const QUESTIONS: [string, string, string, string][] = [
 // The question carries how things stand, as the speaker's side tells it,
 // and names no question, so the ask after it names the question once.
 for (const [voice, side, law, text] of QUESTIONS)
-  for (const n of ["", "-2", "-3"])
+  for (const n of ["", "-second", "-third"])
     ADD.push({
       role: "question",
       subjects: ALL,
@@ -1859,8 +1859,11 @@ bank.parts = bank.parts.filter((part) => {
 const keysNow = new Set(bank.parts.map((part) => part.key));
 const textsNow = new Set(bank.parts.map((part) => part.text.toLowerCase()));
 for (const add of ADD) {
-  // A wording's number (`today-2`) is kept in the key, which slug drops.
-  const wording = add.needs.join(" ").match(/-(\d)\b/)?.[1];
+  // A wording's number is kept in the key, which slug drops; the slot says
+  // it in words (`today-second`), the key as it always has (`-2`).
+  const wording = ({ second: "2", third: "3" } as Record<string, string>)[
+    add.needs.join(" ").match(/-(second|third)\b/)?.[1] ?? ""
+  ];
   const key = `opening-speech.${add.role}.${Array.isArray(add.voice) ? "both" : add.voice}-${add.subjects[0]}-${slug(add.text)}-${slug(add.needs.join(" "))}${wording ? `-${wording}` : ""}`;
   if (keysNow.has(key) || textsNow.has(add.text.toLowerCase())) {
     const found = bank.parts.find(

@@ -53,12 +53,12 @@
     "today-clause": "the same sentence as `today`, in the case it takes after an opener and a comma",
     "belief": "what the speaker believes, a clause worded from the belief-words pieces by the question's family and the speaker's pole of it",
     "today-question": "the same sentence as `today-clause` without its period, said inside a question to the audience",
-    "today-2": "a second wording of `today` (question-names `todayMore`)",
-    "today-3": "a third wording of `today` (question-names `todayMore`)",
-    "today-clause-2": "`today-2` after an opener and a comma",
-    "today-clause-3": "`today-3` after an opener and a comma",
-    "today-question-2": "`today-2` inside a question to the audience",
-    "today-question-3": "`today-3` inside a question to the audience",
+    "today-second": "a second wording of `today` (question-names `todayMore`)",
+    "today-third": "a third wording of `today` (question-names `todayMore`)",
+    "today-clause-second": "`today-second` after an opener and a comma",
+    "today-clause-third": "`today-third` after an opener and a comma",
+    "today-question-second": "`today-second` inside a question to the audience",
+    "today-question-third": "`today-third` inside a question to the audience",
     "law-name": "the law in force on the question, as the thing itself (question-names.json `law`: \"paid family leave\", \"the higher federal minimum wage\")",
     "realm-name": "the governor's state or the mayor's town by name, from the speaker's jurisdiction record",
     "theme-name": "the speech's one theme said as people say it (speech-outlines.json `themeNames`, by the question family)",
@@ -229,7 +229,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -255,7 +255,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -281,7 +281,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -5964,7 +5964,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -5989,7 +5989,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -6017,7 +6017,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -6042,7 +6042,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -6067,7 +6067,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -6092,7 +6092,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -6117,7 +6117,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -6142,7 +6142,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -6167,7 +6167,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -6192,7 +6192,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -6217,7 +6217,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -6242,7 +6242,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6270,7 +6270,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6298,7 +6298,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6354,7 +6354,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6382,7 +6382,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6410,7 +6410,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6466,7 +6466,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6494,7 +6494,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6522,7 +6522,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6578,7 +6578,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6606,7 +6606,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6634,7 +6634,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6690,7 +6690,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6718,7 +6718,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6802,7 +6802,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6830,7 +6830,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6858,7 +6858,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6914,7 +6914,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -6942,7 +6942,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7026,7 +7026,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7054,7 +7054,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7082,7 +7082,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7138,7 +7138,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7166,7 +7166,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7194,7 +7194,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7250,7 +7250,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7278,7 +7278,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7362,7 +7362,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7390,7 +7390,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7474,7 +7474,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7502,7 +7502,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7530,7 +7530,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7586,7 +7586,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -7611,7 +7611,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -7636,7 +7636,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -7664,7 +7664,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -7689,7 +7689,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -7714,7 +7714,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -7739,7 +7739,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -7764,7 +7764,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -7789,7 +7789,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7817,7 +7817,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -7845,7 +7845,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7901,7 +7901,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -7929,7 +7929,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -7957,7 +7957,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8013,7 +8013,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8041,7 +8041,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -8069,7 +8069,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8125,7 +8125,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8153,7 +8153,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -8181,7 +8181,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8237,7 +8237,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8265,7 +8265,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -8349,7 +8349,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8377,7 +8377,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -8433,7 +8433,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8489,7 +8489,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8517,7 +8517,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -8545,7 +8545,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8601,7 +8601,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8629,7 +8629,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -8657,7 +8657,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8713,7 +8713,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8741,7 +8741,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -8769,7 +8769,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8825,7 +8825,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8853,7 +8853,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -8881,7 +8881,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8937,7 +8937,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -8965,7 +8965,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -9049,7 +9049,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -9077,7 +9077,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -9133,7 +9133,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -9300,7 +9300,7 @@
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -9309,7 +9309,7 @@
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -9670,7 +9670,7 @@
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -9679,7 +9679,7 @@
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -9892,7 +9892,7 @@
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -9901,7 +9901,7 @@
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -10854,7 +10854,7 @@
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -10863,7 +10863,7 @@
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -12052,7 +12052,7 @@
           "role": "oath",
           "choice": "oath",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -12892,7 +12892,7 @@
           "role": "oath",
           "choice": "oath",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -14768,7 +14768,7 @@
           "role": "unity",
           "choice": "unity",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -34882,7 +34882,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "unemployment-up",
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -34892,7 +34892,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "unemployment-up",
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -35155,7 +35155,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "wages-behind-prices",
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -35165,7 +35165,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "wages-behind-prices",
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -35428,7 +35428,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "inflation-up",
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -35438,7 +35438,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "inflation-up",
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -35662,7 +35662,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "rent-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -35672,7 +35672,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "rent-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -35896,7 +35896,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "crime-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -35906,7 +35906,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "crime-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -36130,7 +36130,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "schools-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -36140,7 +36140,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "schools-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -36247,7 +36247,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "schools-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -36257,7 +36257,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "schools-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -36364,7 +36364,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "health-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -36374,7 +36374,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "health-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -36481,7 +36481,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "health-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -36491,7 +36491,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "health-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -36598,7 +36598,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "roads-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -36608,7 +36608,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "roads-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -36715,7 +36715,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "roads-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -36725,7 +36725,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "roads-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -36832,7 +36832,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "environment-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -36842,7 +36842,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "environment-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -36949,7 +36949,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "environment-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -36959,7 +36959,7 @@
           "choice": "pledge",
           "requiresFacts": [
             "environment-worse",
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -37985,7 +37985,7 @@
           "choice": "to-congress",
           "requiresFacts": [
             "hardest",
-            "speaker"
+            "speaker-object"
           ]
         },
         {
@@ -37995,7 +37995,7 @@
           "choice": "to-congress",
           "requiresFacts": [
             "hardest",
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -38133,7 +38133,7 @@
           "choice": "to-congress",
           "requiresFacts": [
             "hardest",
-            "speaker"
+            "speaker-object"
           ]
         },
         {
@@ -38143,7 +38143,7 @@
           "choice": "to-congress",
           "requiresFacts": [
             "hardest",
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -38973,7 +38973,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -38982,7 +38982,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -39043,7 +39043,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -39052,7 +39052,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -39113,7 +39113,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -39122,7 +39122,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -39183,7 +39183,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -39192,7 +39192,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -41595,8 +41595,8 @@
           "role": "to-congress",
           "choice": "to-congress",
           "requiresFacts": [
-            "speaker",
-            "hardest"
+            "hardest",
+            "speaker-object"
           ]
         },
         {
@@ -41605,8 +41605,8 @@
           "role": "to-congress",
           "choice": "to-congress",
           "requiresFacts": [
-            "speaker",
-            "hardest"
+            "hardest",
+            "speaker-object"
           ]
         }
       ],
@@ -41916,7 +41916,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -41925,7 +41925,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -44541,7 +44541,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -44595,7 +44595,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -44649,7 +44649,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -44757,7 +44757,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -44811,7 +44811,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -44865,7 +44865,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -44919,7 +44919,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -45081,7 +45081,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -45135,7 +45135,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -45189,7 +45189,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -45243,7 +45243,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -45297,7 +45297,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -45351,7 +45351,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -45405,7 +45405,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -45432,7 +45432,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -45459,7 +45459,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -45513,7 +45513,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -45567,7 +45567,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -45621,7 +45621,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -45675,7 +45675,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -45729,7 +45729,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -45783,7 +45783,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -47886,7 +47886,7 @@
           "role": "unity",
           "choice": "unity",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -48048,7 +48048,7 @@
           "role": "unity",
           "choice": "unity",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -55585,7 +55585,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -55639,7 +55639,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -55720,7 +55720,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -55747,7 +55747,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -55801,7 +55801,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -55882,7 +55882,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -56287,7 +56287,7 @@
           "role": "unity",
           "choice": "unity",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -59395,7 +59395,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -59404,7 +59404,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -59430,7 +59430,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -59439,7 +59439,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -59465,7 +59465,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -60865,7 +60865,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -60892,7 +60892,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -60919,7 +60919,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -60973,7 +60973,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -61000,7 +61000,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -61135,7 +61135,7 @@
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -61144,7 +61144,7 @@
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -64426,7 +64426,7 @@
           "choice": "hope",
           "requiresFacts": [
             "kind-hopeful",
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -64436,7 +64436,7 @@
           "choice": "hope",
           "requiresFacts": [
             "kind-hopeful",
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -65289,8 +65289,8 @@
           "role": "to-congress",
           "choice": "to-congress",
           "requiresFacts": [
-            "vice-president",
-            "hardest"
+            "hardest",
+            "vice-president-object"
           ]
         },
         {
@@ -65299,8 +65299,8 @@
           "role": "to-congress",
           "choice": "to-congress",
           "requiresFacts": [
-            "vice-president",
-            "hardest"
+            "hardest",
+            "vice-president-object"
           ]
         }
       ],
@@ -72395,7 +72395,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -72404,7 +72404,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -72430,7 +72430,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -72439,7 +72439,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -72500,7 +72500,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -72509,7 +72509,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -72605,7 +72605,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -72614,7 +72614,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -75430,7 +75430,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -75439,7 +75439,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -75465,7 +75465,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -75474,7 +75474,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -75535,7 +75535,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -75544,7 +75544,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -75605,7 +75605,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -75614,7 +75614,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -75640,7 +75640,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -75649,7 +75649,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -75675,7 +75675,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -75684,7 +75684,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -75710,7 +75710,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -75719,7 +75719,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -75745,7 +75745,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -75754,7 +75754,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -75780,7 +75780,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -75789,7 +75789,7 @@
           "role": "to-vp",
           "choice": "to-vp",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -77200,7 +77200,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -77290,7 +77290,7 @@
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         },
         {
@@ -77299,7 +77299,7 @@
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -78793,8 +78793,8 @@
           "choice": "pledge",
           "requiresFacts": [
             "unemployment-up",
-            "vice-president",
-            "say-unemployment"
+            "say-unemployment",
+            "vice-president-object"
           ]
         },
         {
@@ -78804,8 +78804,8 @@
           "choice": "pledge",
           "requiresFacts": [
             "unemployment-up",
-            "vice-president",
-            "say-unemployment"
+            "say-unemployment",
+            "vice-president-object"
           ]
         }
       ],
@@ -81342,8 +81342,8 @@
           "choice": "pledge",
           "requiresFacts": [
             "inflation-up",
-            "vice-president",
-            "say-inflation"
+            "say-inflation",
+            "vice-president-object"
           ]
         },
         {
@@ -81353,8 +81353,8 @@
           "choice": "pledge",
           "requiresFacts": [
             "inflation-up",
-            "vice-president",
-            "say-inflation"
+            "say-inflation",
+            "vice-president-object"
           ]
         }
       ],
@@ -81522,7 +81522,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-object"
           ]
         }
       ],
@@ -82501,7 +82501,7 @@
           "role": "to-congress",
           "choice": "to-congress",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         },
         {
@@ -82510,7 +82510,7 @@
           "role": "to-congress",
           "choice": "to-congress",
           "requiresFacts": [
-            "speaker"
+            "speaker-object"
           ]
         }
       ],
@@ -88859,7 +88859,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -88882,7 +88882,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -88905,7 +88905,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -88928,7 +88928,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -88951,7 +88951,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -88974,7 +88974,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104336,7 +104336,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -104359,7 +104359,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104382,7 +104382,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -104405,7 +104405,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104428,7 +104428,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -104451,7 +104451,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104473,7 +104473,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104499,7 +104499,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104525,7 +104525,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104552,7 +104552,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -104575,7 +104575,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104598,7 +104598,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -104621,7 +104621,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104644,7 +104644,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -104667,7 +104667,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104690,7 +104690,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -104713,7 +104713,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104736,7 +104736,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -104759,7 +104759,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104782,7 +104782,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -104805,7 +104805,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104828,7 +104828,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -104851,7 +104851,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104874,7 +104874,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -104897,7 +104897,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104920,7 +104920,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -104943,7 +104943,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104965,7 +104965,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -104991,7 +104991,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -105017,7 +105017,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -105043,7 +105043,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -105951,7 +105951,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -105974,7 +105974,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -105996,7 +105996,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -106022,7 +106022,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -106048,7 +106048,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -106074,7 +106074,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -110476,7 +110476,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -110502,7 +110502,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -110528,7 +110528,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -110554,7 +110554,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -110580,7 +110580,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -110606,7 +110606,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -110632,7 +110632,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -110658,7 +110658,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -110676,7 +110676,7 @@
       "key": "opening-speech.today.both-inaugural--today-2",
       "move": "today",
       "kind": "spoken",
-      "text": "{today-2}",
+      "text": "{today-second}",
       "uses": [
         {
           "move": "today",
@@ -110684,7 +110684,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-2"
+            "today-second"
           ]
         },
         {
@@ -110693,7 +110693,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-2"
+            "today-second"
           ]
         },
         {
@@ -110702,7 +110702,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-2"
+            "today-second"
           ]
         },
         {
@@ -110711,7 +110711,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-2"
+            "today-second"
           ]
         },
         {
@@ -110720,7 +110720,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-2"
+            "today-second"
           ]
         },
         {
@@ -110729,7 +110729,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-2"
+            "today-second"
           ]
         }
       ],
@@ -110746,7 +110746,7 @@
       "key": "opening-speech.today.both-inaugural--today-3",
       "move": "today",
       "kind": "spoken",
-      "text": "{today-3}",
+      "text": "{today-third}",
       "uses": [
         {
           "move": "today",
@@ -110754,7 +110754,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-3"
+            "today-third"
           ]
         },
         {
@@ -110763,7 +110763,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-3"
+            "today-third"
           ]
         },
         {
@@ -110772,7 +110772,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-3"
+            "today-third"
           ]
         },
         {
@@ -110781,7 +110781,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-3"
+            "today-third"
           ]
         },
         {
@@ -110790,7 +110790,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-3"
+            "today-third"
           ]
         },
         {
@@ -110799,7 +110799,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-3"
+            "today-third"
           ]
         }
       ],
@@ -110816,7 +110816,7 @@
       "key": "opening-speech.today.polished-inaugural-as-things-stand-today-clause-2",
       "move": "today",
       "kind": "spoken",
-      "text": "As things stand, {today-clause-2}",
+      "text": "As things stand, {today-clause-second}",
       "uses": [
         {
           "move": "today",
@@ -110824,7 +110824,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -110833,7 +110833,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -110842,7 +110842,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -110851,7 +110851,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -110860,7 +110860,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -110869,7 +110869,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         }
       ],
@@ -110883,7 +110883,7 @@
       "key": "opening-speech.today.polished-inaugural-as-things-stand-today-clause-3",
       "move": "today",
       "kind": "spoken",
-      "text": "As things stand, {today-clause-3}",
+      "text": "As things stand, {today-clause-third}",
       "uses": [
         {
           "move": "today",
@@ -110891,7 +110891,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -110900,7 +110900,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -110909,7 +110909,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -110918,7 +110918,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -110927,7 +110927,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -110936,7 +110936,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         }
       ],
@@ -110950,7 +110950,7 @@
       "key": "opening-speech.today.plain-inaugural-for-now-today-clause-2",
       "move": "today",
       "kind": "spoken",
-      "text": "For now, {today-clause-2}",
+      "text": "For now, {today-clause-second}",
       "uses": [
         {
           "move": "today",
@@ -110958,7 +110958,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -110967,7 +110967,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -110976,7 +110976,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -110985,7 +110985,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -110994,7 +110994,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111003,7 +111003,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         }
       ],
@@ -111017,7 +111017,7 @@
       "key": "opening-speech.today.plain-inaugural-for-now-today-clause-3",
       "move": "today",
       "kind": "spoken",
-      "text": "For now, {today-clause-3}",
+      "text": "For now, {today-clause-third}",
       "uses": [
         {
           "move": "today",
@@ -111025,7 +111025,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111034,7 +111034,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111043,7 +111043,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111052,7 +111052,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111061,7 +111061,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111070,7 +111070,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         }
       ],
@@ -111084,7 +111084,7 @@
       "key": "opening-speech.today.polished-inaugural-today-today-clause-2",
       "move": "today",
       "kind": "spoken",
-      "text": "Today, {today-clause-2}",
+      "text": "Today, {today-clause-second}",
       "uses": [
         {
           "move": "today",
@@ -111092,7 +111092,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111101,7 +111101,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111110,7 +111110,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111119,7 +111119,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111128,7 +111128,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111137,7 +111137,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         }
       ],
@@ -111151,7 +111151,7 @@
       "key": "opening-speech.today.polished-inaugural-today-today-clause-3",
       "move": "today",
       "kind": "spoken",
-      "text": "Today, {today-clause-3}",
+      "text": "Today, {today-clause-third}",
       "uses": [
         {
           "move": "today",
@@ -111159,7 +111159,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111168,7 +111168,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111177,7 +111177,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111186,7 +111186,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111195,7 +111195,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111204,7 +111204,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         }
       ],
@@ -111218,7 +111218,7 @@
       "key": "opening-speech.today.plain-inaugural-in-fact-today-clause-2",
       "move": "today",
       "kind": "spoken",
-      "text": "In fact, {today-clause-2}",
+      "text": "In fact, {today-clause-second}",
       "uses": [
         {
           "move": "today",
@@ -111226,7 +111226,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111235,7 +111235,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111244,7 +111244,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111253,7 +111253,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111262,7 +111262,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111271,7 +111271,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         }
       ],
@@ -111285,7 +111285,7 @@
       "key": "opening-speech.today.plain-inaugural-in-fact-today-clause-3",
       "move": "today",
       "kind": "spoken",
-      "text": "In fact, {today-clause-3}",
+      "text": "In fact, {today-clause-third}",
       "uses": [
         {
           "move": "today",
@@ -111293,7 +111293,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111302,7 +111302,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111311,7 +111311,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111320,7 +111320,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111329,7 +111329,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111338,7 +111338,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         }
       ],
@@ -111352,7 +111352,7 @@
       "key": "opening-speech.today.polished-inaugural-as-matters-stand-today-clause-2",
       "move": "today",
       "kind": "spoken",
-      "text": "As matters stand, {today-clause-2}",
+      "text": "As matters stand, {today-clause-second}",
       "uses": [
         {
           "move": "today",
@@ -111360,7 +111360,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111369,7 +111369,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111378,7 +111378,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111387,7 +111387,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111396,7 +111396,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111405,7 +111405,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         }
       ],
@@ -111419,7 +111419,7 @@
       "key": "opening-speech.today.polished-inaugural-as-matters-stand-today-clause-3",
       "move": "today",
       "kind": "spoken",
-      "text": "As matters stand, {today-clause-3}",
+      "text": "As matters stand, {today-clause-third}",
       "uses": [
         {
           "move": "today",
@@ -111427,7 +111427,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111436,7 +111436,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111445,7 +111445,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111454,7 +111454,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111463,7 +111463,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111472,7 +111472,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         }
       ],
@@ -111486,7 +111486,7 @@
       "key": "opening-speech.today.plain-inaugural-these-days-today-clause-2",
       "move": "today",
       "kind": "spoken",
-      "text": "These days, {today-clause-2}",
+      "text": "These days, {today-clause-second}",
       "uses": [
         {
           "move": "today",
@@ -111494,7 +111494,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111503,7 +111503,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111512,7 +111512,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111521,7 +111521,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111530,7 +111530,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111539,7 +111539,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         }
       ],
@@ -111553,7 +111553,7 @@
       "key": "opening-speech.today.plain-inaugural-these-days-today-clause-3",
       "move": "today",
       "kind": "spoken",
-      "text": "These days, {today-clause-3}",
+      "text": "These days, {today-clause-third}",
       "uses": [
         {
           "move": "today",
@@ -111561,7 +111561,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111570,7 +111570,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111579,7 +111579,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111588,7 +111588,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111597,7 +111597,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111606,7 +111606,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         }
       ],
@@ -111620,7 +111620,7 @@
       "key": "opening-speech.today.polished-inaugural-as-we-meet-tonight-today-clause-2",
       "move": "today",
       "kind": "spoken",
-      "text": "As we meet tonight, {today-clause-2}",
+      "text": "As we meet tonight, {today-clause-second}",
       "uses": [
         {
           "move": "today",
@@ -111628,7 +111628,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111637,7 +111637,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111646,7 +111646,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111655,7 +111655,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111664,7 +111664,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111673,7 +111673,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         }
       ],
@@ -111687,7 +111687,7 @@
       "key": "opening-speech.today.polished-inaugural-as-we-meet-tonight-today-clause-3",
       "move": "today",
       "kind": "spoken",
-      "text": "As we meet tonight, {today-clause-3}",
+      "text": "As we meet tonight, {today-clause-third}",
       "uses": [
         {
           "move": "today",
@@ -111695,7 +111695,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111704,7 +111704,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111713,7 +111713,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111722,7 +111722,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111731,7 +111731,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111740,7 +111740,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         }
       ],
@@ -111754,7 +111754,7 @@
       "key": "opening-speech.today.polished-inaugural-at-this-moment-today-clause-2",
       "move": "today",
       "kind": "spoken",
-      "text": "At this moment, {today-clause-2}",
+      "text": "At this moment, {today-clause-second}",
       "uses": [
         {
           "move": "today",
@@ -111762,7 +111762,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111771,7 +111771,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111780,7 +111780,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111789,7 +111789,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111798,7 +111798,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111807,7 +111807,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         }
       ],
@@ -111821,7 +111821,7 @@
       "key": "opening-speech.today.polished-inaugural-at-this-moment-today-clause-3",
       "move": "today",
       "kind": "spoken",
-      "text": "At this moment, {today-clause-3}",
+      "text": "At this moment, {today-clause-third}",
       "uses": [
         {
           "move": "today",
@@ -111829,7 +111829,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111838,7 +111838,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111847,7 +111847,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111856,7 +111856,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111865,7 +111865,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111874,7 +111874,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         }
       ],
@@ -111888,7 +111888,7 @@
       "key": "opening-speech.today.polished-inaugural-as-we-stand-here-today-clause-2",
       "move": "today",
       "kind": "spoken",
-      "text": "As we stand here, {today-clause-2}",
+      "text": "As we stand here, {today-clause-second}",
       "uses": [
         {
           "move": "today",
@@ -111896,7 +111896,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111905,7 +111905,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111914,7 +111914,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111923,7 +111923,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111932,7 +111932,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -111941,7 +111941,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         }
       ],
@@ -111955,7 +111955,7 @@
       "key": "opening-speech.today.polished-inaugural-as-we-stand-here-today-clause-3",
       "move": "today",
       "kind": "spoken",
-      "text": "As we stand here, {today-clause-3}",
+      "text": "As we stand here, {today-clause-third}",
       "uses": [
         {
           "move": "today",
@@ -111963,7 +111963,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111972,7 +111972,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111981,7 +111981,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111990,7 +111990,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -111999,7 +111999,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112008,7 +112008,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         }
       ],
@@ -112022,7 +112022,7 @@
       "key": "opening-speech.today.plain-inaugural-as-of-today-today-clause-2",
       "move": "today",
       "kind": "spoken",
-      "text": "As of today, {today-clause-2}",
+      "text": "As of today, {today-clause-second}",
       "uses": [
         {
           "move": "today",
@@ -112030,7 +112030,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112039,7 +112039,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112048,7 +112048,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112057,7 +112057,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112066,7 +112066,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112075,7 +112075,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         }
       ],
@@ -112089,7 +112089,7 @@
       "key": "opening-speech.today.plain-inaugural-as-of-today-today-clause-3",
       "move": "today",
       "kind": "spoken",
-      "text": "As of today, {today-clause-3}",
+      "text": "As of today, {today-clause-third}",
       "uses": [
         {
           "move": "today",
@@ -112097,7 +112097,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112106,7 +112106,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112115,7 +112115,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112124,7 +112124,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112133,7 +112133,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112142,7 +112142,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         }
       ],
@@ -112156,7 +112156,7 @@
       "key": "opening-speech.today.plain-inaugural-as-of-right-now-today-clause-2",
       "move": "today",
       "kind": "spoken",
-      "text": "As of right now, {today-clause-2}",
+      "text": "As of right now, {today-clause-second}",
       "uses": [
         {
           "move": "today",
@@ -112164,7 +112164,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112173,7 +112173,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112182,7 +112182,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112191,7 +112191,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112200,7 +112200,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112209,7 +112209,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         }
       ],
@@ -112223,7 +112223,7 @@
       "key": "opening-speech.today.plain-inaugural-as-of-right-now-today-clause-3",
       "move": "today",
       "kind": "spoken",
-      "text": "As of right now, {today-clause-3}",
+      "text": "As of right now, {today-clause-third}",
       "uses": [
         {
           "move": "today",
@@ -112231,7 +112231,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112240,7 +112240,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112249,7 +112249,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112258,7 +112258,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112267,7 +112267,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112276,7 +112276,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         }
       ],
@@ -112290,7 +112290,7 @@
       "key": "opening-speech.today.plain-inaugural-as-it-is-now-today-clause-2",
       "move": "today",
       "kind": "spoken",
-      "text": "As it is now, {today-clause-2}",
+      "text": "As it is now, {today-clause-second}",
       "uses": [
         {
           "move": "today",
@@ -112298,7 +112298,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112307,7 +112307,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112316,7 +112316,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112325,7 +112325,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112334,7 +112334,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         },
         {
@@ -112343,7 +112343,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-2"
+            "today-clause-second"
           ]
         }
       ],
@@ -112357,7 +112357,7 @@
       "key": "opening-speech.today.plain-inaugural-as-it-is-now-today-clause-3",
       "move": "today",
       "kind": "spoken",
-      "text": "As it is now, {today-clause-3}",
+      "text": "As it is now, {today-clause-third}",
       "uses": [
         {
           "move": "today",
@@ -112365,7 +112365,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112374,7 +112374,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112383,7 +112383,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112392,7 +112392,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112401,7 +112401,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         },
         {
@@ -112410,7 +112410,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": [
-            "today-clause-3"
+            "today-clause-third"
           ]
         }
       ],
@@ -112424,7 +112424,7 @@
       "key": "opening-speech.question.plain-inaugural-is-it-fair-that-today-question-stance-for-law-not-in-force-2",
       "move": "question",
       "kind": "spoken",
-      "text": "Is it fair that {today-question-2}?",
+      "text": "Is it fair that {today-question-second}?",
       "uses": [
         {
           "move": "question",
@@ -112432,7 +112432,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -112444,7 +112444,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -112456,7 +112456,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -112468,7 +112468,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -112480,7 +112480,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -112492,7 +112492,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -112509,7 +112509,7 @@
       "key": "opening-speech.question.plain-inaugural-is-it-fair-that-today-question-stance-for-law-not-in-force-3",
       "move": "question",
       "kind": "spoken",
-      "text": "Is it fair that {today-question-3}?",
+      "text": "Is it fair that {today-question-third}?",
       "uses": [
         {
           "move": "question",
@@ -112517,7 +112517,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -112529,7 +112529,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -112541,7 +112541,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -112553,7 +112553,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -112565,7 +112565,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -112577,7 +112577,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -112594,7 +112594,7 @@
       "key": "opening-speech.question.plain-inaugural-why-fix-what-works-when-today-question-stance-against-law-not-in-force-2",
       "move": "question",
       "kind": "spoken",
-      "text": "Why fix what works, when {today-question-2}?",
+      "text": "Why fix what works, when {today-question-second}?",
       "uses": [
         {
           "move": "question",
@@ -112602,7 +112602,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -112614,7 +112614,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -112626,7 +112626,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -112638,7 +112638,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -112650,7 +112650,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -112662,7 +112662,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -112679,7 +112679,7 @@
       "key": "opening-speech.question.plain-inaugural-why-fix-what-works-when-today-question-stance-against-law-not-in-force-3",
       "move": "question",
       "kind": "spoken",
-      "text": "Why fix what works, when {today-question-3}?",
+      "text": "Why fix what works, when {today-question-third}?",
       "uses": [
         {
           "move": "question",
@@ -112687,7 +112687,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -112699,7 +112699,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -112711,7 +112711,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -112723,7 +112723,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -112735,7 +112735,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -112747,7 +112747,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -112764,7 +112764,7 @@
       "key": "opening-speech.question.plain-inaugural-why-would-we-go-back-when-today-question-stance-for-law-in-force-asks-2",
       "move": "question",
       "kind": "spoken",
-      "text": "Why would we go back, when {today-question-2}?",
+      "text": "Why would we go back, when {today-question-second}?",
       "uses": [
         {
           "move": "question",
@@ -112772,7 +112772,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -112784,7 +112784,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -112796,7 +112796,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -112808,7 +112808,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -112820,7 +112820,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -112832,7 +112832,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -112849,7 +112849,7 @@
       "key": "opening-speech.question.plain-inaugural-why-would-we-go-back-when-today-question-stance-for-law-in-force-asks-3",
       "move": "question",
       "kind": "spoken",
-      "text": "Why would we go back, when {today-question-3}?",
+      "text": "Why would we go back, when {today-question-third}?",
       "uses": [
         {
           "move": "question",
@@ -112857,7 +112857,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -112869,7 +112869,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -112881,7 +112881,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -112893,7 +112893,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -112905,7 +112905,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -112917,7 +112917,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -112934,7 +112934,7 @@
       "key": "opening-speech.question.polished-inaugural-should-we-accept-that-today-question-stance-against-law-in-force-asks-2",
       "move": "question",
       "kind": "spoken",
-      "text": "Should we accept that {today-question-2}?",
+      "text": "Should we accept that {today-question-second}?",
       "uses": [
         {
           "move": "question",
@@ -112942,7 +112942,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -112954,7 +112954,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -112966,7 +112966,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -112978,7 +112978,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -112990,7 +112990,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113002,7 +113002,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113019,7 +113019,7 @@
       "key": "opening-speech.question.polished-inaugural-should-we-accept-that-today-question-stance-against-law-in-force-asks-3",
       "move": "question",
       "kind": "spoken",
-      "text": "Should we accept that {today-question-3}?",
+      "text": "Should we accept that {today-question-third}?",
       "uses": [
         {
           "move": "question",
@@ -113027,7 +113027,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113039,7 +113039,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113051,7 +113051,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113063,7 +113063,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113075,7 +113075,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113087,7 +113087,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113104,7 +113104,7 @@
       "key": "opening-speech.question.plain-inaugural-does-it-make-sense-that-today-question-stance-against-law-in-force-asks-2",
       "move": "question",
       "kind": "spoken",
-      "text": "Does it make sense that {today-question-2}?",
+      "text": "Does it make sense that {today-question-second}?",
       "uses": [
         {
           "move": "question",
@@ -113112,7 +113112,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113124,7 +113124,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113136,7 +113136,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113148,7 +113148,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113160,7 +113160,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113172,7 +113172,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113189,7 +113189,7 @@
       "key": "opening-speech.question.plain-inaugural-does-it-make-sense-that-today-question-stance-against-law-in-force-asks-3",
       "move": "question",
       "kind": "spoken",
-      "text": "Does it make sense that {today-question-3}?",
+      "text": "Does it make sense that {today-question-third}?",
       "uses": [
         {
           "move": "question",
@@ -113197,7 +113197,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113209,7 +113209,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113221,7 +113221,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113233,7 +113233,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113245,7 +113245,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113257,7 +113257,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-in-force",
             "asks-question"
@@ -113367,7 +113367,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -113393,7 +113393,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -113419,7 +113419,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -113445,7 +113445,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -113471,7 +113471,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -113497,7 +113497,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -113523,7 +113523,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -113551,7 +113551,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         },
         {
@@ -113562,7 +113562,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -113591,7 +113591,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         },
         {
@@ -113602,7 +113602,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -113631,7 +113631,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -113660,7 +113660,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -113689,8 +113689,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-one"
+            "about-one",
+            "law-name"
           ]
         },
         {
@@ -113701,8 +113701,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-one"
+            "about-one",
+            "law-name"
           ]
         }
       ],
@@ -113731,8 +113731,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-many"
+            "about-many",
+            "law-name"
           ]
         },
         {
@@ -113743,8 +113743,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-many"
+            "about-many",
+            "law-name"
           ]
         }
       ],
@@ -113773,8 +113773,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-one"
+            "about-one",
+            "law-name"
           ]
         },
         {
@@ -113785,8 +113785,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-one"
+            "about-one",
+            "law-name"
           ]
         }
       ],
@@ -113815,8 +113815,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-many"
+            "about-many",
+            "law-name"
           ]
         },
         {
@@ -113827,8 +113827,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-many"
+            "about-many",
+            "law-name"
           ]
         }
       ],
@@ -113857,8 +113857,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-one"
+            "about-one",
+            "law-name"
           ]
         }
       ],
@@ -113887,8 +113887,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-many"
+            "about-many",
+            "law-name"
           ]
         }
       ],
@@ -113917,8 +113917,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-one"
+            "about-one",
+            "law-name"
           ]
         }
       ],
@@ -113947,8 +113947,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-many"
+            "about-many",
+            "law-name"
           ]
         }
       ],
@@ -113977,8 +113977,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-one"
+            "about-one",
+            "law-name"
           ]
         }
       ],
@@ -114007,8 +114007,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-many"
+            "about-many",
+            "law-name"
           ]
         }
       ],
@@ -114112,7 +114112,7 @@
       "key": "opening-speech.question.polished-inaugural-should-we-go-on-like-this-when-today-question-stance-for-law-not-in-force-2",
       "move": "question",
       "kind": "spoken",
-      "text": "Should we go on like this, when {today-question-2}?",
+      "text": "Should we go on like this, when {today-question-second}?",
       "uses": [
         {
           "move": "question",
@@ -114120,7 +114120,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -114132,7 +114132,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -114144,7 +114144,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -114156,7 +114156,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -114168,7 +114168,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -114180,7 +114180,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -114197,7 +114197,7 @@
       "key": "opening-speech.question.polished-inaugural-should-we-go-on-like-this-when-today-question-stance-for-law-not-in-force-3",
       "move": "question",
       "kind": "spoken",
-      "text": "Should we go on like this, when {today-question-3}?",
+      "text": "Should we go on like this, when {today-question-third}?",
       "uses": [
         {
           "move": "question",
@@ -114205,7 +114205,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -114217,7 +114217,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -114229,7 +114229,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -114241,7 +114241,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -114253,7 +114253,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -114265,7 +114265,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-not-in-force",
             "asks-question"
@@ -114367,7 +114367,7 @@
       "key": "opening-speech.question.polished-inaugural-why-would-we-change-course-when-today-question-stance-against-law-not-in-force-2",
       "move": "question",
       "kind": "spoken",
-      "text": "Why would we change course, when {today-question-2}?",
+      "text": "Why would we change course, when {today-question-second}?",
       "uses": [
         {
           "move": "question",
@@ -114375,7 +114375,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -114387,7 +114387,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -114399,7 +114399,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -114411,7 +114411,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -114423,7 +114423,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -114435,7 +114435,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -114452,7 +114452,7 @@
       "key": "opening-speech.question.polished-inaugural-why-would-we-change-course-when-today-question-stance-against-law-not-in-force-3",
       "move": "question",
       "kind": "spoken",
-      "text": "Why would we change course, when {today-question-3}?",
+      "text": "Why would we change course, when {today-question-third}?",
       "uses": [
         {
           "move": "question",
@@ -114460,7 +114460,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -114472,7 +114472,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -114484,7 +114484,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -114496,7 +114496,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -114508,7 +114508,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -114520,7 +114520,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-against",
             "law-not-in-force",
             "asks-question"
@@ -114622,7 +114622,7 @@
       "key": "opening-speech.question.polished-inaugural-who-would-want-to-turn-back-when-today-question-stance-for-law-in-force-asks-2",
       "move": "question",
       "kind": "spoken",
-      "text": "Who would want to turn back, when {today-question-2}?",
+      "text": "Who would want to turn back, when {today-question-second}?",
       "uses": [
         {
           "move": "question",
@@ -114630,7 +114630,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -114642,7 +114642,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -114654,7 +114654,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -114666,7 +114666,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -114678,7 +114678,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -114690,7 +114690,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-2",
+            "today-question-second",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -114707,7 +114707,7 @@
       "key": "opening-speech.question.polished-inaugural-who-would-want-to-turn-back-when-today-question-stance-for-law-in-force-asks-3",
       "move": "question",
       "kind": "spoken",
-      "text": "Who would want to turn back, when {today-question-3}?",
+      "text": "Who would want to turn back, when {today-question-third}?",
       "uses": [
         {
           "move": "question",
@@ -114715,7 +114715,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -114727,7 +114727,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -114739,7 +114739,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -114751,7 +114751,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -114763,7 +114763,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -114775,7 +114775,7 @@
           "role": "question",
           "choice": "question",
           "requiresFacts": [
-            "today-question-3",
+            "today-question-third",
             "stance-for",
             "law-in-force",
             "asks-question"
@@ -114802,8 +114802,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-one"
+            "about-one",
+            "law-name"
           ]
         },
         {
@@ -114814,8 +114814,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-one"
+            "about-one",
+            "law-name"
           ]
         }
       ],
@@ -114844,8 +114844,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-many"
+            "about-many",
+            "law-name"
           ]
         },
         {
@@ -114856,8 +114856,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-many"
+            "about-many",
+            "law-name"
           ]
         }
       ],
@@ -114886,7 +114886,7 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         },
         {
@@ -114897,7 +114897,7 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -114926,7 +114926,7 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         },
         {
@@ -114937,7 +114937,7 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -114966,7 +114966,7 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         },
         {
@@ -114977,7 +114977,7 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -115006,7 +115006,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         },
         {
@@ -115017,7 +115017,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -115046,7 +115046,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         },
         {
@@ -115057,7 +115057,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -115086,7 +115086,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         },
         {
@@ -115097,7 +115097,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -115126,7 +115126,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         },
         {
@@ -115137,7 +115137,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -115166,7 +115166,7 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -115195,7 +115195,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -115224,7 +115224,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -115455,8 +115455,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-one"
+            "about-one",
+            "law-name"
           ]
         }
       ],
@@ -115485,8 +115485,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "about-many"
+            "about-many",
+            "law-name"
           ]
         }
       ],
@@ -115515,7 +115515,7 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -115544,7 +115544,7 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -115573,7 +115573,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -115602,7 +115602,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -115631,8 +115631,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "body"
+            "body",
+            "law-name"
           ]
         }
       ],
@@ -115661,8 +115661,8 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about",
-            "body"
+            "body",
+            "law-name"
           ]
         }
       ],
@@ -115691,8 +115691,8 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about",
-            "body"
+            "body",
+            "law-name"
           ]
         }
       ],
@@ -115721,8 +115721,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "office-title"
+            "office-title",
+            "law-name"
           ]
         }
       ],
@@ -115751,8 +115751,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about",
-            "office-title"
+            "office-title",
+            "law-name"
           ]
         }
       ],
@@ -115781,8 +115781,8 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about",
-            "body"
+            "body",
+            "law-name"
           ]
         }
       ],
@@ -115811,9 +115811,9 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about",
             "about-one",
-            "body"
+            "body",
+            "law-name"
           ]
         }
       ],
@@ -115842,9 +115842,9 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about",
             "about-many",
-            "body"
+            "body",
+            "law-name"
           ]
         }
       ],
@@ -116059,7 +116059,7 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -116088,7 +116088,7 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -116117,7 +116117,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -116146,7 +116146,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -116517,7 +116517,7 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -116546,7 +116546,7 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -116575,7 +116575,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -116604,7 +116604,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "about"
+            "law-name"
           ]
         }
       ],
@@ -117643,7 +117643,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -117666,7 +117666,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -117689,7 +117689,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -117712,7 +117712,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -117735,7 +117735,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -117758,7 +117758,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -117781,7 +117781,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -117804,7 +117804,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -117827,7 +117827,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -117850,7 +117850,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -117873,7 +117873,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -117896,7 +117896,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -117919,7 +117919,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -117942,7 +117942,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -117965,7 +117965,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -117988,7 +117988,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -118011,7 +118011,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -118034,7 +118034,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -118057,7 +118057,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -118080,7 +118080,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -118103,7 +118103,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -118126,7 +118126,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -118149,7 +118149,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -118172,7 +118172,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -118195,7 +118195,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -118218,7 +118218,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -118241,7 +118241,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -118264,7 +118264,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -118287,7 +118287,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -118310,7 +118310,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -118333,7 +118333,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -118356,7 +118356,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -118379,7 +118379,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -118402,7 +118402,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -118425,7 +118425,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -118448,7 +118448,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -118471,7 +118471,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -118494,7 +118494,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -118517,7 +118517,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "vice-president"
+            "vice-president-addressed"
           ]
         }
       ],
@@ -118540,7 +118540,7 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "speaker"
+            "speaker-addressed"
           ]
         }
       ],
@@ -119108,6 +119108,138 @@
       },
       "restoredFrom": "opening-speech.state-of-the-union-salutation.thank-you-very-much",
       "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "opening-speech.ask.polished-keep-law-short",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will keep {law-name} in force.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-keep-law-short",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm keeping {law-name} on the books.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
+      "date": "2026-11-12"
     },
     {
       "key": "opening-speech.story-says.both-rent-since-i-took-this-office-we-have-seen-rise-and",

@@ -481,6 +481,10 @@
     "world": "the wider world",
     "trade": "trade"
   },
+  "todaySlots": ["", "-second", "-third"],
+  "todaySlotsAbout": "The slot endings of the first, second and third wordings of how a question stands today ({today}, {today-second}, {today-third}); a slot name holds no digit, so the bank test's no-figure check reads its text. A fourth wording is not offered: the bank says three.",
+  "lineSpent": "{about} beyond {spent} a year",
+  "lineSpentAbout": "A budget line's ask names what this government already spends on the line this year ({spent}, through moneySaid, from the budgets engine's row), so three towns asking against the same line do not say one sentence (local-address-versions, seed bab4ffbbf3ef6ae3). TUNABLE wording, checked by reading composed addresses.",
   "themeShortWords": {
     "value": 3,
     "tag": "TUNABLE",
