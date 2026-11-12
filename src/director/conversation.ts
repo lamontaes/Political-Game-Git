@@ -950,14 +950,31 @@ function evictionSubjects(
             "journal",
           )
         : undefined;
-      if (kin && phrase) {
-        facts.host = fact(phrase, [kin.factId, ...at]);
+      // A relative the listener shares by the same tie is said as the two
+      // of them say it ("Mom"), never "my mother" to her own child.
+      const shared =
+        kin && typeof hostId === "string"
+          ? core.people.get(listenerId) &&
+            familyFactsOf(core.people.get(listenerId)!).get(hostId as PersonId)
+          : undefined;
+      const address =
+        kin && shared?.relation === kin.relation
+          ? kinAddress(kin.relation, host?.looks?.gender ?? "other")
+          : undefined;
+      if (kin && (address ?? phrase)) {
+        facts.host = fact((address ?? phrase)!, [kin.factId, ...at]);
         // Their town, when it is not the one the speaker was put out of.
         const hostPlace = status.hostHouseholdId
           ? core.households.get(status.hostHouseholdId)?.placeId
           : undefined;
+        // Named only when it is another town than the speaker's and the
+        // listener's (never the town they both stand in).
+        const listenerPlace = core.people.get(listenerId)?.placeId;
         const there =
-          hostPlace && hostPlace !== status.placeId
+          hostPlace &&
+          hostPlace !== status.placeId &&
+          hostPlace !== speaker.placeId &&
+          hostPlace !== listenerPlace
             ? corePlaceByJurisdictionId(hostPlace as never)
             : undefined;
         if (there)
@@ -3959,6 +3976,8 @@ const DAY_TALK = (
       usualWeekDays: { value: number };
       rentCoveredMonths: { value: number };
       evictionJobLostDays: { value: number };
+      backOmitsTold: readonly string[];
+      toldFigures: readonly string[];
     };
   }
 ).dayTalk;
@@ -6048,11 +6067,30 @@ function sayNow(
   // A reply on a day's own subject (their shift): they answer it from the
   // same record, by the reply's move, and the talk carries on.
   if (dayBack(last.kind) && !choice.lie) {
+    // For news of their own life, the answer back never says again a figure
+    // the telling just said ("I owed about $1,000." "...about $1,000 still
+    // doesn't seem real."): those facts are left out of it, so it says
+    // what comes next instead (W1's strict review, Nov 12).
+    const told = DAY_TALK.backOmitsTold.includes(last.kind)
+      ? new Set(
+          conversation.lines.findLast(
+            (line) =>
+              line.speakerId === otherId &&
+              (line.subjectId === choice.answers ||
+                line.subjectId.endsWith(`>${choice.answers}`)),
+          )?.wording?.facts ?? [],
+        )
+      : new Set<string>();
+    const backFacts = Object.fromEntries(
+      Object.entries(last.facts).filter(
+        ([key]) => !told.has(key) || !DAY_TALK.toldFigures.includes(key),
+      ),
+    );
     const back = composedLine(
       core,
       otherId,
       `${last.kind}-back`,
-      { ...last.facts, you: calledBy(core, otherId, playerId) },
+      { ...backFacts, you: calledBy(core, otherId, playerId) },
       choice.move,
       `${eventId}:back`,
       saidParts(conversation, otherId),
