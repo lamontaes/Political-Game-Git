@@ -28,6 +28,7 @@ import {
   donationAsksView,
   campaignDay,
   campaignView,
+  playerRecord,
   debateAnswer,
   speechBegin,
   speechGive,
@@ -117,6 +118,7 @@ import {
   drawnAppearance,
   lookForGender,
   moveAppearance,
+  lookFaces,
   newGameFaces,
   portraitFace,
   readRecipe,
@@ -796,11 +798,12 @@ const ROUTES: readonly Route[] = [
             : readRecipe(q.get("recipe")!)
           : drawnAppearance(gender, seed, draw);
         const fitted = lookForGender(recipe, gender);
-        // The look, its rows and the bust every screen will draw for it.
+        // The look, its rows and the busts every screen will draw for it:
+        // in its everyday top and in its formal clothes (the creator's tabs).
         send(200, {
           recipe: fitted,
           rows: appearanceRows(fitted, gender),
-          face: portraitFace(fitted),
+          faces: lookFaces(fitted),
         });
       } else send(404, { error: "Unknown bench route." });
       return;
@@ -1763,6 +1766,15 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/campaign",
     run: async ({ url, send }) => {
       send(200, campaignView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    },
+  },
+  // The player's record in office, as voters read it: what the Campaigns screen plans a re-run from.
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/campaign/record",
+    run: async ({ url, send }) => {
+      send(200, playerRecord(requireCore(), url.searchParams.get("id") ?? ""));
       return;
     },
   },

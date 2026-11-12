@@ -984,7 +984,7 @@
     "id": "SG-WEB-unread-farmland-value-per-acre",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 272,
+    "line": 278,
     "whatItFakes": "farm-payments-cut-to-land-values moves farmland.value-per-acre only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: farmland.value-per-acre moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -996,7 +996,7 @@
     "id": "SG-WEB-unread-rail-intercity-ridership",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 278,
+    "line": 284,
     "whatItFakes": "federal-rail-expansion-to-riders moves rail.intercity-ridership only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: rail.intercity-ridership moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -1134,6 +1134,18 @@
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-09",
     "replacement": "Read the steeper-part slope from Colburn and Aldern 2022 (Homelessness Is a Housing Problem, UC Press) chapter data or its replication files, and set steeperExtraSize with its spread.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-fare-free-riders-unread",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/place-prices.ts",
+    "line": 104,
+    "whatItFakes": "fare-free-transit-to-ridership raises transit ridership 42 percent, but the added riders move no money or record: the fare they would pay is zero under the law that causes them, and no engine reads transit.ridership.",
+    "why": "The price engine scales a household's transit trips by the web's ridership factor, so it prices trips only where a fare is charged; what a rider no longer drives (vehicle-miles, fuel) is not read from riders. The golden path does not need it (this is a game, not a spreadsheet).",
+    "addedBy": "builder sonnet-8597",
+    "addedAt": "2026-11-11",
+    "replacement": "A reader of transit.ridership that moves the vehicle-miles or fuel spending of the households who ride, sized from a fetched source, or the link dropped.",
     "status": "open"
   }
 ]
