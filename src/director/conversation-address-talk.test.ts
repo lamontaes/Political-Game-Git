@@ -62,7 +62,14 @@ const BACK = rules.addressPoint.back;
 const MOVES = ["agree", "disagree", "here", "instead"];
 const WEEKS = 26;
 const TOWN_TALKS = 20;
-const INSERTS = ["about", "place", "president", "name"];
+const INSERTS = [
+  "about",
+  "place",
+  "president",
+  "president-object",
+  "president-possessive",
+  "name",
+];
 const DAYS_A_WEEK = 7;
 
 const BANK = JSON.parse(
@@ -183,7 +190,11 @@ it(`the relative raises a point of this world's address, with a stand and a reas
         `${here}: ${talk.choices.map((row) => row.text).join(" / ")}`,
       ).toBeLessThanOrEqual(1);
       for (const choice of talk.choices) {
-        // Each reply is answered, and the answer does not name the point again.
+        // A question is answered, and the answer does not name the point
+        // again; agreeing or disagreeing ends the talk on the player's reply
+        // (owner, Nov 12: "Good. We'll watch what it does to ..." "makes no
+        // sense": an answer that says nothing about the point is not said).
+        if (choice.move === "agree" || choice.move === "disagree") continue;
         const back = composedLine(
           core,
           otherId,
@@ -227,8 +238,12 @@ it(`the relative raises a point of this world's address, with a stand and a reas
       const before = talk.lines.length;
       say(core, talk, choice.key);
       const answer = talk.lines[before + 1];
-      expect(answer?.kind, `${here}: "${choice.text}"`).toBe(BACK);
-      expect(answer?.speakerId, here).toBe(otherId);
+      if (choice.move === "agree" || choice.move === "disagree")
+        expect(answer, `${here}: "${choice.text}"`).toBeUndefined();
+      else {
+        expect(answer?.kind, `${here}: "${choice.text}"`).toBe(BACK);
+        expect(answer?.speakerId, here).toBe(otherId);
+      }
       const kept = core.knowledgeByPerson
         .get(otherId)
         ?.get(`talk:${me}:address-point:${question}`);
@@ -240,7 +255,7 @@ it(`the relative raises a point of this world's address, with a stand and a reas
         here,
       ).not.toBe(question);
       process.stdout.write(
-        `${here}: "${talk.lines[0]!.text}" / you: "${talk.lines[1]!.text}" / "${line.text}" / you: "${choice.text}" / "${answer!.text}" (record ${kept!.sourceId})\n`,
+        `${here}: "${talk.lines[0]!.text}" / you: "${talk.lines[1]!.text}" / "${line.text}" / you: "${choice.text}" / "${answer?.text ?? "(the talk ends on the reply)"}" (record ${kept!.sourceId})\n`,
       );
       raised.push(line.text);
       pointsRaised.push(about!);

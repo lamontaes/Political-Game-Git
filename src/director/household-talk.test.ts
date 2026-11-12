@@ -78,11 +78,20 @@ it(`a household member opens from the day, and each reply moves the talk on (see
       const said = talk.lines.length;
       const next = say(core, talk, pick.key);
       const answer = next.lines[said + 1];
-      expect(answer?.speakerId, `${here}: ${pick.text}`).toBe(member.id);
-      expect(answer?.kind, `${here}: ${pick.text}`).toBe("address-point-back");
+      // A question is answered from their records; agreeing or disagreeing
+      // ends the talk on the player's reply (owner, Nov 12: an answer that
+      // says nothing about the point "makes no sense").
+      if (pick.move === "agree" || pick.move === "disagree")
+        expect(answer, `${here}: ${pick.text}`).toBeUndefined();
+      else {
+        expect(answer?.speakerId, `${here}: ${pick.text}`).toBe(member.id);
+        expect(answer?.kind, `${here}: ${pick.text}`).toBe(
+          "address-point-back",
+        );
+      }
       noteHeard(core, next);
       console.log(
-        `HOUSEHOLD TALK ${here}: "${opener!.text}" / you: "${pick.text}" / "${answer!.text}" / ${next.choices.map((row) => `"${row.text}"`).join(" ")}`,
+        `HOUSEHOLD TALK ${here}: "${opener!.text}" / you: "${pick.text}" / "${answer?.text ?? "(ends on the reply)"}" / ${next.choices.map((row) => `"${row.text}"`).join(" ")}`,
       );
     });
     // A month on, the address is no longer the day's news: nobody opens on
