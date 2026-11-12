@@ -5058,6 +5058,17 @@ function offerChoices(
     ...(other
       ? { "their-first": { text: other.givenName, sourceRecordIds: [otherId] } }
       : {}),
+    // News of their own life: each fact the telling just said is marked
+    // `told-<fact>`, so a reply that would ask it again ("How?" after "It
+    // was a car crash.") is held back (`excludesFacts`; W1's strict review).
+    ...(DAY_TALK.backOmitsTold.includes(last.kind)
+      ? Object.fromEntries(
+          (conversation.lines.at(-one)?.wording?.facts ?? []).map((key) => [
+            `told-${key}`,
+            { text: "yes", sourceRecordIds: [otherId] },
+          ]),
+        )
+      : {}),
   };
   const stage = own.stage ?? last.stage;
   const turn = conversation.lines.length;
