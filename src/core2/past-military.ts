@@ -34,7 +34,12 @@ export function pastServiceFor(
   for (const person of people) {
     if (!person.alive || !ownWindowOf(core, person)) continue;
     if (!wholePastOnce(core, person.id, "service")) continue;
-    const served = serviceOf(core, person);
+    // A relative elsewhere is read on the opening day, as the work pass reads them.
+    const served = serviceOf(
+      core,
+      person,
+      person.tier === "husk" ? core.startedAt : core.date,
+    );
     if (!served) continue;
     // stopgapId: SG-HIST-past-service-one-term
     stopgap("SG-HIST-past-service-one-term", core);

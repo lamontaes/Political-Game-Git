@@ -50,6 +50,7 @@ import {
 } from "./pre-start";
 import { ownPastKind } from "./own-past-kinds";
 import { residenceOn } from "./past-moves";
+import { openingWorkStatus } from "./jobs-elsewhere";
 import { registerWorldMapPart } from "./snapshot";
 import { stopgap } from "./stopgaps";
 import { coreAPI } from "./state";
@@ -63,6 +64,8 @@ import type {
 } from "./types";
 
 export const PAST_WORK_SPELL = ownPastKind("person.work-spell");
+/** The tier of relatives living elsewhere: kept out of the run over everyone, opened one at a time. */
+const ELSEWHERE_TIER = "husk";
 export const PAST_WORK_OUT = ownPastKind("person.out-of-work");
 
 /** How a spell ended: let go, left for another job, stopped for a reason on record, or still held on day one. */
@@ -249,11 +252,13 @@ function firmsOf(api: CoreAPI): Firm[] {
 export function educationLevelOf(
   core: Readonly<CoreState>,
   person: Readonly<PersonState>,
+  /** The day the profile is read on: a relative elsewhere is read on the opening day. */
+  on: string = core.date,
 ): string | undefined {
   return (
     (person.pastFacts?.find((row) => row.kind === "profile:education")?.facts
       ?.level as string | undefined) ??
-    profileFor(person, core.seed, core.date)?.education
+    profileFor(person, core.seed, on)?.education
   );
 }
 
@@ -282,12 +287,13 @@ export function highSchoolEndOf(person: Readonly<PersonState>): string {
 export function schoolingEndsOf(
   core: Readonly<CoreState>,
   person: Readonly<PersonState>,
+  on: string = core.date,
 ): string {
   const api = coreAPI(core as CoreState);
   return addDays(
     makeIsoDate(highSchoolEndOf(person)),
     Math.round(
-      collegeYearsOf(api, educationLevelOf(core, person)) *
+      collegeYearsOf(api, educationLevelOf(core, person, on)) *
         api.parameter("daysPerMeanYear"),
     ),
   );
@@ -331,6 +337,8 @@ export function veteranShare(
 export function serviceOf(
   core: Readonly<CoreState>,
   person: Readonly<PersonState>,
+  /** The day the person's schooling is read on (their profile's day). */
+  on: string = core.date,
 ): { enlisted: string; discharged: string; years: number } | undefined {
   const sex = person.looks?.gender;
   if (sex !== "female" && sex !== "male") return undefined;
@@ -348,7 +356,7 @@ export function serviceOf(
   if (pull < line) return undefined;
   const api = coreAPI(core as CoreState);
   const years = api.parameter("pastServiceYears");
-  const enlisted = schoolingEndsOf(core, person);
+  const enlisted = schoolingEndsOf(core, person, on);
   const term = addDays(
     makeIsoDate(enlisted),
     Math.round(years * api.parameter("daysPerMeanYear")),
@@ -362,9 +370,16 @@ export function serviceOf(
 }
 
 /** The day a person is out of school, by the schooling their record gives (the school pass's own day), or out of the service that followed it. */
-function entryOf(api: CoreAPI, person: PersonState): IsoDate {
-  const served = serviceOf(api.state, person);
-  return makeIsoDate(served?.discharged ?? schoolingEndsOf(api.state, person));
+function entryOf(
+  api: CoreAPI,
+  person: PersonState,
+  /** The day the person's schooling is read on (their profile's day). */
+  on: IsoDate,
+): IsoDate {
+  const served = serviceOf(api.state, person, on);
+  return makeIsoDate(
+    served?.discharged ?? schoolingEndsOf(api.state, person, on),
+  );
 }
 
 /** The person's day-one job, its start and pay, from the jobs engine's records. */
@@ -533,9 +548,15 @@ function planOf(
 ): Plan | undefined {
   const c = api.state as CoreState;
   const p = (key: string) => api.parameter(key);
-  const start = makeIsoDate(c.date);
-  const entry = entryOf(api, person);
+  // Someone living elsewhere keeps no job record: where they stood in work on
+  // the opening day (the lives-elsewhere rule) is where their run ends, read
+  // on that day so the past is the same whenever their card is opened.
+  const elsewhere = person.tier === ELSEWHERE_TIER;
+  if (elsewhere) stopgap("SG-LIVES-past-read-where-opened");
+  const start = makeIsoDate(elsewhere ? c.startedAt : c.date);
+  const entry = entryOf(api, person, start);
   if (entry > window.through) return undefined;
+  const dayOne = elsewhere ? openingWorkStatus(api, person) : undefined;
   const current = currentOf(c, person);
   const fallbackHourly =
     p("fallbackAnnualWageMinor") /
@@ -554,13 +575,16 @@ function planOf(
       endCause: "took-current-job",
       endCauseRecordId: current.jobId,
     };
+  // At work on day one, with no employer on record: the spell is still held.
+  if (dayOne === "employed")
+    return { ...base, end: start, endCause: "held-at-start" };
   // Jobless on day one: retired by their own claim, home since their youngest
   // child was born, or still looking for as long as their pull to find work says.
   const age = ageOnDate(person.birthDate, start);
   const claim = person.pastFacts?.find(
     (row) => row.kind === "opening-income:retirement-claim",
   );
-  if (claim || age >= p("jobsEarliestRetirementAge")) {
+  if (claim || dayOne === "retired" || age >= p("jobsEarliestRetirementAge")) {
     const retiredAt = makeIsoDate(
       claim?.date ??
         addDays(
@@ -575,7 +599,8 @@ function planOf(
       ...(claim ? { endCauseRecordId: claim.id } : {}),
     };
   }
-  const child = (person.pastFacts ?? [])
+  // Looking for work on day one: no child's birth ended their working life.
+  const child = (dayOne === "looking" ? [] : (person.pastFacts ?? []))
     .filter(
       (row) =>
         row.kind === "family:child" && row.date > entry && row.date < start,
@@ -642,7 +667,9 @@ export function runPastWork(
   // records (history-past-officials).
   const places = new Set(firms.map((firm) => firm.placeId));
   for (const person of [...people].sort((a, b) => a.id.localeCompare(b.id))) {
-    if (!places.has(person.placeId)) continue;
+    // A relative living elsewhere, opened one at a time, works where the
+    // world keeps no employers: no employer is named (SG-LIVES-work-no-employer).
+    if (!places.has(person.placeId) && person.tier !== ELSEWHERE_TIER) continue;
     const plan = planOf(api, person, window, months, mean);
     if (!plan || plan.end <= window.from) {
       if (plan?.current && !before) runs.push(heldOnly(plan, window));
@@ -775,6 +802,25 @@ export function runPastWork(
   const finish = (run: RunState) => {
     const { plan } = run;
     run.done = true;
+    if (plan.endCause === "held-at-start") {
+      // At work on day one: a stretch out of work ends in the job still held.
+      const out = run.outs.at(-1);
+      if (!run.employed && out && !out.endedAt) {
+        out.endedAt = plan.end;
+        begin(
+          run,
+          plan.end,
+          "after-out-of-work",
+          plan.end.slice(0, "YYYY-MM".length),
+          run.spells.at(-1)?.spell.organizationId,
+        );
+      }
+      if (run.employed) {
+        run.spells.push({ spell: run.employed, end: "held-at-start" });
+        run.employed = undefined;
+      }
+      return;
+    }
     if (plan.endCause === "took-current-job") {
       if (run.employed) close(run, plan.end, "moved-on", plan.current!.jobId);
       else if (run.outs.at(-1) && !run.outs.at(-1)!.endedAt)
@@ -1033,7 +1079,7 @@ function recordsOf(
 /** The people the run is for: full people who are not relatives living elsewhere. */
 export function pastWorkPeople(core: CoreState): PersonState[] {
   return [...core.people.values()].filter(
-    (person) => person.alive && person.tier !== "husk",
+    (person) => person.alive && person.tier !== ELSEWHERE_TIER,
   );
 }
 
