@@ -38,7 +38,12 @@ import type {
   OpeningMove,
   OpeningSpeechKind,
 } from "../english/english-opening-speech";
-import { ADDRESS_FACT, ADDRESS_PART_BREAK } from "./opening-facts";
+import {
+  ADDRESS_FACT,
+  ADDRESS_PART_BREAK,
+  addressPiecesFact,
+  earlierAddressPieces,
+} from "./opening-facts";
 import { keyChambersOf } from "../core2/opening-key-people";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
@@ -53,6 +58,7 @@ import {
   planSpeech,
   type Block,
   type Facts,
+  type PlannedPoint,
 } from "./speech-outline";
 
 export {
@@ -259,8 +265,10 @@ export function composeBlocks(
       .map((row) => row.id),
   ];
   const sentences: OpeningSentence[] = [];
-  // Pieces already said, so no wording is used twice while another can say it.
-  const said: string[] = [];
+  // Pieces already said, oldest first: those of the speaker's earlier
+  // addresses, then this one's as it is said, so no wording is used twice
+  // while another can say it, and the one said longest ago comes back first.
+  const said: string[] = earlierAddressPieces(core, president.id);
   // How often each of the world's names has been said in the address.
   const named = new Map<string, number>();
   // The seats of the people already said in this address, so a person is
@@ -704,6 +712,10 @@ export function recordOpeningStory(
       [ADDRESS_FACT.remembered]: story.address.rememberedLine.text,
       [ADDRESS_FACT.text]: story.address.text,
       [ADDRESS_FACT.parts]: story.address.parts.join(ADDRESS_PART_BREAK),
+      [ADDRESS_FACT.pieces]: addressPiecesFact(
+        story.address.sentences,
+        story.points,
+      ),
     },
   });
   return story;

@@ -68,6 +68,7 @@ import addressData from "./data/opening-address.json" with { type: "json" };
 import outlineData from "./data/speech-outlines.json" with { type: "json" };
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { P } from "../core2/parameters";
+import { earlierAddressPieces } from "./opening-facts";
 import { daysBetweenText } from "../core2/kernel/dates";
 import {
   TERM_AREAS,
@@ -795,6 +796,8 @@ export interface PlannedPoint {
   /** The measure the point's figure is about; null when the question's row lets the speaker's side use none. */
   readonly figure: string | null;
   readonly number: "one" | "many";
+  /** What the speaker believes on it, as the bank's clause, and the piece it was said with; null when the bank holds none. */
+  readonly belief: { readonly text: string; readonly piece: string } | null;
 }
 
 /**
@@ -838,8 +841,8 @@ function beliefWords(
   family: string,
   pole: "a" | "b",
   question: string,
-  said: Set<string>,
-): string | null {
+  said: string[],
+): { text: string; piece: string } | null {
   const move = openingMove(kind, voice, "belief-words");
   if (!move) return null;
   const result = composeAddress(
@@ -858,15 +861,16 @@ function beliefWords(
     [move],
     // A belief already said in this speech is said again only when its
     // family and pole hold no other wording.
-    { recentPartKeys: [...said] },
+    { recentPartKeys: said },
   );
   if (result.kind !== "rendered") return null;
   const part = result.moves[P.zero]?.parts[P.zero];
-  if (part) said.add(part.partKey);
-  const key = part?.variantKey;
-  return (
-    OPENING_SPEECH_BANK.parts.find((part) => part.key === key)?.text ?? null
-  );
+  if (!part) return null;
+  said.push(part.variantKey);
+  const text = OPENING_SPEECH_BANK.parts.find(
+    (row) => row.key === part.variantKey,
+  )?.text;
+  return text ? { text, piece: part.variantKey } : null;
 }
 
 /** A governor's or a mayor's year as claims, read from the term read of their realm. */
@@ -1357,7 +1361,8 @@ export function planSpeech(
   // traits pull), the speaker's side, how that side describes the question
   // today, the belief's family and pole, its figure and its name's number.
   const order = shapeOrder(person);
-  const beliefsSaid = new Set<string>();
+  // The beliefs this speaker said before, in earlier addresses, then here.
+  const beliefsSaid = earlierAddressPieces(core, person.id);
   const planned: PlannedPoint[] = pointStands.map((stand, at) => {
     const side = stand.stance > P.zero ? "for" : "against";
     const family = questionFamily(stand.question);
@@ -1377,6 +1382,22 @@ export function planSpeech(
         : null,
       figure: topicOf.get(stand.question) ?? null,
       number: questionNumber(stand.question),
+      belief: family
+        ? beliefWords(
+            core,
+            person.id,
+            kind,
+            voice,
+            family.family,
+            side === "for"
+              ? family.forPole
+              : family.forPole === "a"
+                ? "b"
+                : "a",
+            stand.question,
+            beliefsSaid,
+          )
+        : null,
     };
   });
   type Draft = Omit<Block, "part"> & { readonly joins?: boolean };
@@ -1445,19 +1466,7 @@ export function planSpeech(
         // A federal stand is said as federal only by a federal speaker.
         if (!federal) delete facts["federal-level"];
         const topic = topicOf.get(stand.question);
-        const belief =
-          plan.family && plan.pole
-            ? beliefWords(
-                core,
-                person.id,
-                kind,
-                voice,
-                plan.family,
-                plan.pole,
-                stand.question,
-                beliefsSaid,
-              )
-            : null;
+        const belief = plan.belief?.text ?? null;
         const cited = [`question:${stand.question}`, stand.law.id];
         const figureMoves = topic
           ? [

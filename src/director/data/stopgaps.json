@@ -1043,5 +1043,17 @@
     "addedAt": "2026-11-12",
     "replacement": "The laws engine seeds a starting row for every federal question (in force or not, from the record), and this default is deleted.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-address-pieces-log-scan",
+    "kind": "missing-record",
+    "file": "src/director/opening-facts.ts",
+    "line": 1,
+    "whatItFakes": "A speaker's earlier addresses are found by reading the durable log for address records that name them as speaker, once each time an address is composed (a few times a year), instead of through an index by speaker.",
+    "why": "The one writer of every address prefers the wordings a voice has not used in its earlier addresses, and no record lists a speaker's addresses with the pieces they were said with.",
+    "addedBy": "Words builder W-F",
+    "addedAt": "2026-11-12",
+    "replacement": "The speech module's addresses table (bySpeaker) keeps each address with its pieces, and this read uses its index.",
+    "status": "open"
   }
 ]

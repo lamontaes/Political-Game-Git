@@ -145,7 +145,10 @@ export interface CompositionContext {
   /**
    * Part keys this speaker used with the player before this moment, read from
    * saved records. Reading them from the record, never from memory, keeps the
-   * same moment producing the same line after Save and Continue.
+   * same moment producing the same line after Save and Continue. Oldest
+   * first: when every fitting wording has been used, the one used longest ago
+   * is said. An entry is a part key (`bank:part:variant`) or a bare piece key,
+   * which counts wherever that piece is said, under any bank.
    */
   readonly recentPartKeys?: readonly string[];
   /** Where the line is spoken. Parts limited to a register need one. */
@@ -272,7 +275,10 @@ export function composeGroundedLine(
   if (REASONED_ACTS.includes(bank.act) && !bank.parts.reason)
     return missing([`A ${bank.act} line needs a reason part.`]);
 
-  const recent = new Set(context.recentPartKeys ?? []);
+  // When each part was last said, by its place in the record (oldest first).
+  const lastSaid = new Map<string, number>();
+  for (const [at, key] of (context.recentPartKeys ?? []).entries())
+    lastSaid.set(key, at);
   const parts: ComposedPart[] = [];
   const sourceRecordIds = new Set<EntityId>();
   const reasons: string[] = [];
@@ -311,12 +317,24 @@ export function composeGroundedLine(
           context.partGrades ?? PART_GRADES,
         ),
     );
-    const isFresh = (variant: LinePartVariant) =>
-      !recent.has(`${bankKey}:${part}:${variant.key}`);
+    // A wording never said comes first; when every fitting one has been
+    // said, the one said longest ago (no dice: the record decides).
+    const saidAt = (variant: LinePartVariant) =>
+      Math.max(
+        lastSaid.get(`${bankKey}:${part}:${variant.key}`) ?? -1,
+        lastSaid.get(variant.key) ?? -1,
+      );
+    const isFresh = (variant: LinePartVariant) => saidAt(variant) < 0;
+    const leastRecent = (variants: readonly LinePartVariant[]) => {
+      const oldest = Math.min(...variants.map(saidAt));
+      return variants.filter((variant) => saidAt(variant) === oldest);
+    };
     const tiers = [
       unheld.filter(isFresh),
+      leastRecent(unheld),
       unheld,
       conditioned.filter(isFresh),
+      leastRecent(conditioned),
       conditioned,
     ];
     // The calibration table (weights only) re-weights the pick among the

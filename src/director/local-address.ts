@@ -23,7 +23,11 @@ import {
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { AddressKind } from "./address-kind";
-import { ADDRESS_FACT, ADDRESS_PART_BREAK } from "./opening-facts";
+import {
+  ADDRESS_FACT,
+  ADDRESS_PART_BREAK,
+  addressPiecesFact,
+} from "./opening-facts";
 import { composeBlocks, type OpeningSentence } from "./opening-story";
 import { planSpeech, type PlannedPoint } from "./speech-outline";
 import { recordAddressResponse } from "./address-response";
@@ -259,6 +263,7 @@ export function recordLocalAddress(
       ).text,
       [ADDRESS_FACT.text]: story.text,
       [ADDRESS_FACT.parts]: story.parts.join(ADDRESS_PART_BREAK),
+      [ADDRESS_FACT.pieces]: addressPiecesFact(story.sentences, story.points),
     },
   });
   // The other side answers a governor the same day.
