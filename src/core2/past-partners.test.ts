@@ -133,7 +133,14 @@ it(`an earlier partnership comes from the opening's chain, in ${where}`, () => {
   // and ended after the last, so no child comes before a partner.
   let aloneChecked = 0;
   for (const person of adults) {
-    if (partneredNow(core, person)) continue;
+    // Partnered now: only the children born before the present partnership.
+    const since = partneredNow(core, person)
+      ? preStartHistory(core, {
+          kind: "family.partnered",
+          personId: person.id,
+        })[0]?.date
+      : undefined;
+    if (partneredNow(core, person) && !since) continue;
     const births: string[] = [];
     for (const fact of person.pastFacts ?? []) {
       if (fact.kind !== "family:child") continue;
@@ -144,7 +151,8 @@ it(`an earlier partnership comes from the opening's chain, in ${where}`, () => {
           ["family:parent", "family:other-parent"].includes(parent.kind) &&
           String(parent.facts?.otherPersonId) !== person.id,
       );
-      if (!others.length) births.push(child.birthDate);
+      if (!others.length && (!since || child.birthDate < since))
+        births.push(child.birthDate);
     }
     const [row] = endedOf(core, person.id);
     if (!births.length || !row) continue;
