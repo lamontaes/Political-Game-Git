@@ -535,29 +535,40 @@ export const speechNamesNoStrayPlace: ComposedCheck = (text, sample) => {
       ? [sample.townName]
       : []),
   ];
+  // Every place the text could name, its own included: a name found inside a
+  // longer place's name is that longer place, whichever of the two is stray.
+  const known = [...new Set([...own, ...stray])];
   const found: ComposedBreak[] = [];
   screenTexts(text).forEach((said, at) => {
-    for (const name of stray) {
-      const pattern = wordPattern(PLACE_SAID_ONLY_AS[name] ?? name, "");
-      // A longer name that holds this one ("West Virginia", "Kansas City") is not this place.
-      const match = pattern.exec(said);
-      if (!match) continue;
-      const longer = stray.some(
+    const spans = known.flatMap((name) =>
+      [...said.matchAll(wordPattern(PLACE_SAID_ONLY_AS[name] ?? name))].map(
+        (match) => ({
+          name,
+          start: match.index,
+          end: match.index + match[0].length,
+        }),
+      ),
+    );
+    const named = new Set<string>();
+    for (const span of spans) {
+      if (own.has(span.name) || named.has(span.name)) continue;
+      const inside = spans.some(
         (other) =>
-          other !== name &&
-          other.includes(name) &&
-          wordPattern(other, "").test(said),
+          other.start <= span.start &&
+          other.end >= span.end &&
+          other.end - other.start > span.end - span.start,
       );
-      if (!longer && !own.has(name))
-        found.push(
-          breakOf(
-            "speech-names-no-stray-place",
-            text,
-            at,
-            `names ${name}, not this speech's own place`,
-            said,
-          ),
-        );
+      if (inside) continue;
+      named.add(span.name);
+      found.push(
+        breakOf(
+          "speech-names-no-stray-place",
+          text,
+          at,
+          `names ${span.name}, not this speech's own place`,
+          said,
+        ),
+      );
     }
   });
   return found;

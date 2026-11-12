@@ -15,6 +15,8 @@ import {
   type ComposedText,
 } from "../../../src/english/composed-text";
 import type { LineRulesFile } from "../../../src/english/line-rules";
+import { corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import checksData from "../../../data/english/composed-checks.json";
 import baseline from "./composed-baseline.json";
 
 /**
@@ -73,7 +75,15 @@ const sampleOf = (...texts: ComposedText[]): ComposedSample => ({
   playerId: PLAYER,
   householdIds: HOUSE,
   people,
-  stateNames: ["Ohio", "Oregon", "Kansas", "Arkansas", "Washington"],
+  stateNames: [
+    "Ohio",
+    "Oregon",
+    "Kansas",
+    "Arkansas",
+    "Washington",
+    "Virginia",
+    "West Virginia",
+  ],
   townName: "Millbrook",
   texts,
 });
@@ -222,6 +232,14 @@ const FIXTURES: Record<
         [["We can do what Washington State did for its ferries."]],
         { ownPlaces: ["Ohio"] },
       ),
+      text(
+        "speech:governor",
+        [["People of West Virginia, look at what Virginia built."]],
+        { ownPlaces: ["West Virginia"] },
+      ),
+      text("speech:governor", [["People of West Virginia, good evening."]], {
+        ownPlaces: ["Virginia"],
+      }),
     ),
     spares: sampleOf(
       text(
@@ -229,6 +247,12 @@ const FIXTURES: Record<
         [["Families across Ohio deserve it. Washington must help."]],
         { ownPlaces: ["Ohio"] },
       ),
+      text("speech:governor", [["People of West Virginia, good evening."]], {
+        ownPlaces: ["West Virginia"],
+      }),
+      text("speech:governor", [["Arkansas is open for business."]], {
+        ownPlaces: ["Arkansas"],
+      }),
     ),
   },
   "ask-said-once": {
@@ -271,6 +295,11 @@ const FIXTURES: Record<
     ),
   },
 };
+
+/** All 56: the 50 states, D.C. and the five territories. */
+const PLACE_COUNT = 56;
+const PLACE_SAID: Readonly<Record<string, string>> =
+  checksData.placeSaidOnlyAs.names;
 
 describe("composed rules: the registry and the rule rows", () => {
   it("every composed rule names checks that exist, and kinds that exist", () => {
@@ -385,5 +414,29 @@ describe("composed rules: each check on its fixtures", () => {
       expect(row.read, `${rule} read no texts in the baseline`).toBeGreaterThan(
         0,
       );
+  });
+
+  it("the stray-place check holds for every state and territory, as the speech's own and as a stray", () => {
+    const stateNames = corePlaceStateIdentities().map((row) => row.name);
+    expect(stateNames.length).toBe(PLACE_COUNT);
+    const check = COMPOSED_CHECKS["speech-names-no-stray-place"]!;
+    for (const name of stateNames) {
+      const said = PLACE_SAID[name] ?? name;
+      const line = `People of ${said}, good evening.`;
+      const own = { ...sampleOf(), stateNames };
+      const ownText = text("speech:governor", [[line]], { ownPlaces: [name] });
+      expect(check(ownText, own), `${name} as its own speech's place`).toEqual(
+        [],
+      );
+      const other = stateNames.find(
+        (one) => !one.includes(name) && !name.includes(one),
+      )!;
+      const strayText = text("speech:governor", [[line]], {
+        ownPlaces: [other],
+      });
+      const found = check(strayText, own);
+      expect(found.length, `${name} in ${other}'s speech`).toBe(1);
+      expect(found[0]!.why).toContain(`names ${name},`);
+    }
   });
 });
