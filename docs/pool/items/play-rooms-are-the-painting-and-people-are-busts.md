@@ -8,7 +8,7 @@ size: L
 status: in-pr
 standard: 2
 claimed-by:
-pr: 8643
+pr: "#8643"
 after: play-busts-stand-alone-without-the-people-pack
 blocked-on:
 lead: screens

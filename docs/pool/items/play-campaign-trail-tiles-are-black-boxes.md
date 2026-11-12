@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by:
-pr: 8681
+pr: "#8681"
 after:
 blocked-on:
 lead: screens

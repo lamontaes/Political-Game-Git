@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: blocked
 claimed-by: claude/pool-campaign-incumbent-hears-the-race
-pr: 8516
+pr: "#8516"
 after:
 blocked-on: campaign-incumbent-response-test-red-by-seed
 lead: governing

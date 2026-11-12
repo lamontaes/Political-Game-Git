@@ -163,6 +163,12 @@ export function validate(
     errs.push(`${file}: claimed-by is required when status is claimed`);
   if (fm.status === "in-pr" && !fm.pr)
     errs.push(`${file}: pr is required when status is in-pr`);
+  // The merge finds an item by its pull request number (done-on-merge.ts), so
+  // the field is empty or `#` and digits, as `pool status ... --pr N` writes it.
+  if (fm.pr && !/^#\d+$/.test(fm.pr.trim()))
+    errs.push(
+      `${file}: pr "${fm.pr}" must be empty or # and a number (for example #8171)`,
+    );
   if (fm.branch && !BRANCH.test(fm.branch))
     errs.push(`${file}: branch "${fm.branch}" is not a branch name`);
   return errs;

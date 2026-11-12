@@ -32,7 +32,7 @@ export function readPool(dir: string): {
     const fm = parseFrontMatter(readFileSync(join(items, file), "utf8"));
     if (!fm?.id) continue;
     ids.add(fm.id);
-    const pr = /^#(\d+)/.exec(fm.pr ?? "")?.[1];
+    const pr = /^#?(\d+)/.exec(fm.pr ?? "")?.[1];
     if (pr && fm.status === "in-pr") byPr.set(pr, fm.id);
   }
   return { ids, byPr };

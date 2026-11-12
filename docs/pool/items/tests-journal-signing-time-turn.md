@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by:
-pr: 8277
+pr: "#8277"
 blocked-on:
 lead: words
 source: CTO, Nov 10 5:48 p.m. (step 3); red on clean main in Beecher, Illinois, seed 6cfdf841317fd6e64d805ea8e76ba50dc930894d
