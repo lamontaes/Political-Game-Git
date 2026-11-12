@@ -8,6 +8,7 @@
  *
  * node --import tsx scripts/world-proofs/bds-job-flows.ts <seed> <placeKey> [years]
  */
+import { readFileSync } from "node:fs";
 import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
@@ -37,6 +38,19 @@ const classes = [
   { name: "500 to 999", from: 500 },
   { name: "1000+", from: 1000 },
 ];
+/** The national BDS rates the town's flows are read against (ESTIMATED, 2023 release). */
+type Rate = { readonly mean: number };
+const bds = JSON.parse(
+  readFileSync("data/research/business/bds-job-flows-2023.json", "utf8"),
+) as {
+  readonly nation: Record<
+    string,
+    {
+      readonly jobCreationRate: Rate;
+      readonly jobDestructionRate: Rate;
+    }
+  >;
+};
 const classOf = (heads: number) =>
   [...classes].reverse().find((row) => heads >= row.from)!.name;
 
@@ -122,6 +136,16 @@ for (let year = 1; year <= years; year += 1) {
     };
     console.log(
       `  ${name.padEnd(11)} firms ${String(r.firms).padStart(3)}: creation ${pct(r.creation + r.births, r.avg)} (births ${pct(r.births, r.avg)}, expanding ${pct(r.creation, r.avg)}), destruction ${pct(r.destruction + r.deaths, r.avg)} (deaths ${pct(r.deaths, r.avg)}, contracting ${pct(r.destruction, r.avg)})`,
+    );
+  }
+  console.log(
+    `  Census BDS nation, percent of average heads a year (creation / destruction):`,
+  );
+  for (const [name, r] of rows) {
+    const nation = bds.nation[name];
+    if (!r.firms || !nation) continue;
+    console.log(
+      `  ${name.padEnd(11)} nation ${nation.jobCreationRate.mean.toFixed(1)} / ${nation.jobDestructionRate.mean.toFixed(1)}; town ${pct(r.creation + r.births, r.avg)} / ${pct(r.destruction + r.deaths, r.avg)}`,
     );
   }
   console.log(
