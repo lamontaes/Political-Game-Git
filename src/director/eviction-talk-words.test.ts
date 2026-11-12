@@ -8,7 +8,7 @@
  * answer that says what comes next. The answer is composed from the facts
  * the conversation hands it after the telling (`backOmitsTold`): a figure the
  * telling said is never said again (owner, Nov 12: "basically saying the same
- * thing"). Played talks in drawn places: scripts/words/eviction-talk-proof.ts.
+ * thing"). Played talks in drawn places: scripts/words/told-talk-proof.ts --kind eviction.
  */
 import { describe, expect, it } from "vitest";
 import { composeConversationLine } from "../english/conversation-words";
