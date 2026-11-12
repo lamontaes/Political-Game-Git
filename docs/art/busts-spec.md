@@ -56,3 +56,72 @@ Head, the whole top or the shirt, the tie, the jacket, facial hair, hair. Glasse
 - Hair and facial hair are set once from the person's own appearance seed, so one person is one bust everywhere. This decides who someone looks like, never what anyone does.
 - A look made in the creator keeps its face: no facial hair is added.
 - The screen stacks the pieces as separate pictures, so the browser fetches each piece once for everyone who wears it.
+
+## Spec 2: clothing as layers, in colors (owner, Nov 10, 2026)
+
+The owner accepted round 3 and asked for more: "what about changing colors of stuff?" and "yes, I would like to be able to change ties and stuff. But conceptually, it looks good, but I want to see colors and stuff changing as well." His creator mock (`docs/mocks/2026-11-08-front`, fr-creator) has rows for Shirt, Jacket and Tie. This section is what the next round of painting must be for the code to draw that. Everything above still holds: the canvas, the framing, the angles, PNG, nothing moved, scaled or tinted.
+
+### Layer order
+
+Head, shirt, tie, jacket, facial hair, hair. Glasses, if painted, still go between facial hair and hair.
+
+### Which tops become layers and which stay whole
+
+Every person wears exactly one piece in the shirt layer. It is one of two kinds:
+
+- **A collared shirt** (`shirt-…`). A tie and a jacket can go over it. Round 3's `top-oxford` and `top-shirt` (men) and `top-oxford` (women) become these.
+- **A whole top** (`top-…`). Nothing goes over it. Round 3's `top-sweater` and `top-chambray` (men) and `top-henley`, `top-denim` and `top-cardigan` (women) stay whole.
+
+The suits become layers: round 3's `top-suit` and `top-charcoal` (men) and `top-blazer` and `top-pantsuit` (women) are repainted as a jacket over a collared shirt, with the tie as its own piece for men.
+
+- **Tie** (`tie-…`): men, over a collared shirt only.
+- **Jacket** (`jacket-…`): over a collared shirt, and over the tie where there is one.
+
+### What each layer must be so any combination stacks
+
+- A collared shirt is painted whole, shoulders and chest, as if nothing were over it. No hole is left where a tie or a jacket will sit.
+- A tie hangs from the collar's knot point and stays inside the shirt's own outline. It is drawn to show between a jacket's lapels and to stand alone on the shirt.
+- A jacket covers the shirt's shoulders and sides completely and leaves the collar, the tie and the strip of shirt between its lapels showing. Its outline is the widest piece, so no shirt edge shows beside it.
+- The neck join is the one round 3 uses. Every shirt and whole top meets every head at the same line.
+- The checks grow with the layers: every shirt with every tie and every jacket, and every whole top, on every head: 0 holes, 0 light rims, no shirt showing outside a jacket.
+
+### Colors for early access
+
+Each color is its own painted file from one master, like hair. Nothing is tinted in the game.
+
+| Garment                   | Men                                                      | Women                                                    |
+| ------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| Collared shirt, 1 style   | white, light blue, cream                                 | white, light blue, cream                                 |
+| Tie, 1 style              | navy, burgundy, forest green, navy with a silver stripe  | none                                                     |
+| Jacket, 1 style           | charcoal, navy, brown                                    | charcoal, navy, burgundy                                 |
+| Whole tops, 2 styles each | sweater: gray, green, maroon; chambray: blue, tan, olive | henley: gray, green, maroon; cardigan: cream, navy, rust |
+
+That is 16 new pieces for men and 12 for women, 28 in all. Round 3's denim top stays as it is, in its one color.
+
+### Files and tags
+
+- Names: `shirt-<name>-<color>.png`, `tie-<name>-<color>.png`, `jacket-<name>-<color>.png`, and for a whole top `top-<name>-<color>.png`. A color is one lowercase word or two joined (`lightblue`, `navystripe`).
+- `tags.json` gains, for each new row: `kind` (`shirt`, `tie`, `jacket` or `top`), `name`, `color`, and for a whole top its `use` (everyday or work), as round 3 has.
+- The manifest's `order` becomes head, shirt, tie, jacket, face, hair. A whole top is listed in the shirt layer.
+
+### What the game does with the layers
+
+The same garments, more or fewer of them by where the person is seen:
+
+- **Everyday:** the shirt layer alone (a whole top, or a collared shirt with no tie and no jacket).
+- **Work:** a collared shirt, with a tie for a man who wears one, and no jacket; or a whole top tagged for work.
+- **Official:** a collared shirt, a jacket, and a tie for a man.
+
+For everyone but the player, which shirt, tie and jacket they have is set once from their appearance seed, as hair is.
+
+### How the creator offers them
+
+One row for each garment, as his mock shows, each stepping with arrows through the painted choices by their color and name:
+
+- **Shirt:** every collared shirt and every whole top ("White shirt", "Gray sweater").
+- **Tie:** None, then each tie ("Navy tie"). The row is not shown for a whole top or where the set paints no tie.
+- **Jacket:** None, then each jacket ("Charcoal jacket"). Not shown for a whole top.
+
+The player wears what they picked, shown by the same rule as everyone: the shirt alone at home, the tie at work, the jacket in office. A player who picks a sweater wears the sweater everywhere. The creator's bust shows all the chosen layers at once, so he sees the tie and the jacket change as he steps.
+
+Hair color and the older face get their own rows from round 3's pieces (Hair, Hair color, Facial hair) when round 3 is swapped in; they need no new painting.
