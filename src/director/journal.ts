@@ -1089,8 +1089,16 @@ function officeActMoments(
               .table("interviews")
               .get(act.recordId) as unknown as InterviewRow | undefined)
           : undefined;
-        const outlet = row
-          ? core.organizations.get(row.outletId as never)?.name
+        // The outlet's name is its organization's.
+        const outletRow = row
+          ? (api
+              .moduleState(PRESS_MODULE_ID)
+              .table("outlets")
+              .get(row.outletId) as unknown as
+              { organizationId?: string } | undefined)
+          : undefined;
+        const outlet = outletRow?.organizationId
+          ? core.organizations.get(outletRow.organizationId as never)?.name
           : undefined;
         return [
           moment(
@@ -1295,6 +1303,16 @@ export function composeJournal(
       if (employer) facts.employer = employer;
     }
     if (moment.causeKind === "moved") {
+      const place = placeName(person.placeId);
+      if (place) facts.place = place;
+    }
+    // A lost job with no employer on record is told by where the person
+    // lived: "I lost my job in Sunbury, North Carolina."
+    if (
+      moment.causeKind.startsWith("job-ended") &&
+      !facts.employer &&
+      !facts.place
+    ) {
       const place = placeName(person.placeId);
       if (place) facts.place = place;
     }
