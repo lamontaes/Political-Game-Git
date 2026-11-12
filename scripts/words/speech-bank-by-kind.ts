@@ -2900,6 +2900,46 @@ for (const row of CONDITIONS) {
   );
 }
 
+// 31. A governor's or a local head's fixed sentence that says "this state"
+// or "here" says the place by name instead (the owner, Nov 12, through the
+// CTO: "lines left", every counted line carries an insert; the words lead,
+// Nov 12: "This state" eight times and the state's name never). The place's
+// name is the outline's `realm-name`, from the record of the government that
+// speaks.
+const REALM_SAID: [RegExp, string][] = [
+  [/\bthis state\b/g, "{realm-name}"],
+  [/\bwhere we stand\b/g, "where {realm-name} stands"],
+  [/\bthe people here\b/g, "the people of {realm-name}"],
+  [/\bpeople here\b/g, "people in {realm-name}"],
+  [/\bcounted us out\b/g, "counted {realm-name} out"],
+];
+const REALM_MOVES = new Set([
+  "occasion",
+  "story-open",
+  "story-says",
+  "story-turn",
+  "pledge",
+  "hope",
+  "salutation",
+]);
+const LOCAL_SUBJECTS = new Set(["state-of-the-state", "town-address"]);
+for (const part of bank.parts) {
+  if (/\{[^{}\s]+\}/.test(part.text) || !REALM_MOVES.has(part.move)) continue;
+  if (!part.uses.every((use) => LOCAL_SUBJECTS.has(use.subject ?? "")))
+    continue;
+  const text = REALM_SAID.reduce(
+    (said, [pattern, name]) => said.replace(pattern, name),
+    part.text,
+  );
+  if (text === part.text) continue;
+  part.text = text;
+  for (const use of part.uses)
+    use.requiresFacts = [
+      ...new Set([...(use.requiresFacts ?? []), "realm-name"]),
+    ];
+  count("31. a local speech's fixed sentence says the place by name");
+}
+
 writeFileSync(FILE, `${JSON.stringify(bank, null, 2)}\n`);
 for (const [rule, n] of Object.entries(counts).sort())
   console.log(`${String(n).padStart(4)}  ${rule}`);

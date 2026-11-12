@@ -16,7 +16,7 @@
     {
       "key": "speech-stages.stage-opener.thank-you-all-for-coming",
       "move": "stage-opener",
-      "text": "Thank you all for coming.",
+      "text": "Thank you all for coming out tonight in {place}.",
       "uses": [
         {
           "move": "stage-opener",
@@ -36,7 +36,7 @@
     {
       "key": "speech-stages.stage-opener.it-s-great-to-be-here",
       "move": "stage-opener",
-      "text": "It's great to be here.",
+      "text": "It's great to be here in {place}.",
       "uses": [
         {
           "move": "stage-opener",
@@ -56,7 +56,7 @@
     {
       "key": "speech-stages.stage-opener.i-m-glad-to-be-here",
       "move": "stage-opener",
-      "text": "I'm glad to be here.",
+      "text": "I'm glad to be with you in {place}.",
       "uses": [
         {
           "move": "stage-opener",
@@ -96,7 +96,7 @@
     {
       "key": "speech-stages.stage-opener.good-to-see-you-all",
       "move": "stage-opener",
-      "text": "Good to see you all.",
+      "text": "Good to see so many of you here in {place}.",
       "uses": [
         {
           "move": "stage-opener",
@@ -116,7 +116,7 @@
     {
       "key": "speech-stages.stage-closer.thank-you-very-much",
       "move": "stage-closer",
-      "text": "Thank you very much.",
+      "text": "Thank you very much, {place}.",
       "uses": [
         {
           "move": "stage-closer",
@@ -156,7 +156,7 @@
     {
       "key": "speech-stages.stage-closer.thank-you-and-god-bless-you",
       "move": "stage-closer",
-      "text": "Thank you, and God bless you.",
+      "text": "Thank you, {place}, and God bless you.",
       "uses": [
         {
           "move": "stage-closer",
@@ -176,7 +176,7 @@
     {
       "key": "speech-stages.stage-closer.god-bless-you-and-god-bless-america",
       "move": "stage-closer",
-      "text": "God bless you, and God bless America.",
+      "text": "God bless you, God bless {place}, and God bless America.",
       "uses": [
         {
           "move": "stage-closer",
@@ -196,7 +196,7 @@
     {
       "key": "speech-stages.stage-closer.that-s-all-i-have-to-say",
       "move": "stage-closer",
-      "text": "That's all I have to say.",
+      "text": "That's all I have to say tonight, {place}.",
       "uses": [
         {
           "move": "stage-closer",
@@ -216,7 +216,7 @@
     {
       "key": "speech-stages.stage-closer.let-s-get-to-work",
       "move": "stage-closer",
-      "text": "Let's get to work.",
+      "text": "Let's get to work for {place}.",
       "uses": [
         {
           "move": "stage-closer",
@@ -577,7 +577,7 @@
       "key": "speech-stages.stage-opener.thank-you-all-for-being-here",
       "move": "stage-opener",
       "kind": "spoken",
-      "text": "Thank you all for being here.",
+      "text": "Thank you all for being here, {place}.",
       "uses": [
         {
           "move": "stage-opener",

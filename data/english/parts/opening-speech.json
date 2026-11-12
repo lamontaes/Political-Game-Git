@@ -98,13 +98,16 @@
       "key": "opening-speech.salutation.polished-sos-crisis-members-of-the-legislature-and-citizens-of-this-state",
       "move": "salutation",
       "kind": "spoken",
-      "text": "Members of the legislature, and citizens of this state.",
+      "text": "Members of the legislature, and citizens of {realm-name}.",
       "uses": [
         {
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -202,13 +205,25 @@
       "key": "opening-speech.occasion.polished-sos-crisis-i-come-before-you-to-give-an-honest-account",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come before you to give an honest account of where this state stands, and it is not a comfortable one.",
+      "text": "I come before you to give an honest account of where {realm-name} stands, and it is not a comfortable one.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
+        },
+        {
+          "move": "occasion",
+          "subject": "town-address",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -222,13 +237,16 @@
       "key": "opening-speech.occasion.polished-sos-crisis-i-am-here-to-report-on-this-state-and",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I am here to report on this state, and I have decided to start with what has gone wrong.",
+      "text": "I am here to report on {realm-name}, and I have decided to start with what has gone wrong.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -259,36 +277,19 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.occasion.polished-twn-crisis-i-come-before-you-to-give-an-honest-account",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "I come before you to give an honest account of where we stand, and it is not a comfortable one.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "town-address",
-          "role": "occasion",
-          "choice": "occasion"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.occasion.polished-twn-crisis-i-am-here-to-report-on-this-town-and",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I am here to report on where we stand, and I have decided to start with what has gone wrong.",
+      "text": "I am here to report on where {realm-name} stands, and I have decided to start with what has gone wrong.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -452,13 +453,25 @@
       "key": "opening-speech.occasion.plain-sos-crisis-i-m-here-to-tell-you-straight-where-this",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm here to tell you straight where this state stands, and it's not great.",
+      "text": "I'm here to tell you straight where {realm-name} stands, and it's not great.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
+        },
+        {
+          "move": "occasion",
+          "subject": "town-address",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "plain",
@@ -477,26 +490,6 @@
         {
           "move": "occasion",
           "subject": "state-of-the-state",
-          "role": "occasion",
-          "choice": "occasion"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.occasion.plain-twn-crisis-i-m-here-to-tell-you-straight-where-this",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "I'm here to tell you straight where we stand, and it's not great.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "town-address",
           "role": "occasion",
           "choice": "occasion"
         }
@@ -535,13 +528,16 @@
       "key": "opening-speech.occasion.polished-sos-combative-i-come-before-you-to-say-where-this-state",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come before you to say where this state stands, and to name the people responsible for how it got there.",
+      "text": "I come before you to say where {realm-name} stands, and to name the people responsible for how it got there.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -575,13 +571,16 @@
       "key": "opening-speech.occasion.polished-sos-combative-i-will-report-on-this-state-tonight-without-apology",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I will report on this state tonight without apology, and I expect some of you will not like the report.",
+      "text": "I will report on {realm-name} tonight without apology, and I expect some of you will not like the report.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -595,13 +594,16 @@
       "key": "opening-speech.occasion.polished-twn-combative-i-come-before-you-to-say-where-this-town",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come before you to say where we stand, and to name the people responsible for how we got here.",
+      "text": "I come before you to say where {realm-name} stands, and to name the people responsible for how we got here.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -681,13 +683,25 @@
       "key": "opening-speech.occasion.plain-sos-combative-i-m-here-to-tell-you-where-this-state",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm here to tell you where this state stands and who let it slide.",
+      "text": "I'm here to tell you where {realm-name} stands and who let it slide.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
+        },
+        {
+          "move": "occasion",
+          "subject": "town-address",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "plain",
@@ -701,33 +715,16 @@
       "key": "opening-speech.occasion.plain-sos-combative-i-didn-t-come-to-flatter-anybody-people-let",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I didn't come to flatter anybody. People let this state down, and I'm going to say who.",
+      "text": "I didn't come to flatter anybody. People let {realm-name} down, and I'm going to say who.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.occasion.plain-twn-combative-i-m-here-to-tell-you-where-this-town",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "I'm here to tell you where we stand and who let it slide.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "town-address",
-          "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "plain",
@@ -787,13 +784,16 @@
       "key": "opening-speech.occasion.polished-sos-hopeful-i-come-before-you-glad-to-report-that-this",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come before you glad to report that this state is better placed than it has been in some time, and ready for more.",
+      "text": "I come before you glad to report that {realm-name} is better placed than it has been in some time, and ready for more.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -807,13 +807,16 @@
       "key": "opening-speech.occasion.polished-sos-hopeful-i-am-here-to-say-how-this-state-is",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I am here to say how this state is doing, and the short version is that there is reason to be hopeful.",
+      "text": "I am here to say how {realm-name} is doing, and the short version is that there is reason to be hopeful.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -827,13 +830,16 @@
       "key": "opening-speech.occasion.polished-sos-hopeful-let-me-begin-with-something-we-do-not-say",
       "move": "occasion",
       "kind": "spoken",
-      "text": "Let me begin with something we do not say often enough: there is good work being done across this state, and good people doing it.",
+      "text": "Let me begin with something we do not say often enough: there is good work being done across {realm-name}, and good people doing it.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -959,13 +965,16 @@
       "key": "opening-speech.occasion.plain-sos-hopeful-i-m-glad-to-tell-you-this-state-is",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm glad to tell you this state is in better shape than it's been in a while.",
+      "text": "I'm glad to tell you {realm-name} is in better shape than it's been in a while.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "plain",
@@ -979,13 +988,16 @@
       "key": "opening-speech.occasion.plain-sos-hopeful-let-me-start-with-something-we-don-t-say",
       "move": "occasion",
       "kind": "spoken",
-      "text": "Let me start with something we don't say enough. There's good work getting done across this state, by good people.",
+      "text": "Let me start with something we don't say enough. There's good work getting done across {realm-name}, by good people.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "plain",
@@ -1039,13 +1051,16 @@
       "key": "opening-speech.occasion.polished-sos-victory-i-come-before-you-to-report-that-this-state",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come before you to report that this state has had a strong year, and I intend to take a moment to say so.",
+      "text": "I come before you to report that {realm-name} has had a strong year, and I intend to take a moment to say so.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -1059,13 +1074,16 @@
       "key": "opening-speech.occasion.polished-sos-victory-i-am-proud-to-report-that-this-state-is",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I am proud to report that this state is further along than when we began, and that was no accident.",
+      "text": "I am proud to report that {realm-name} is further along than when we began, and that was no accident.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -1188,13 +1206,16 @@
       "key": "opening-speech.occasion.plain-sos-victory-i-m-here-to-report-that-this-state-had",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm here to report that this state had a strong year, and I'm going to enjoy saying that.",
+      "text": "I'm here to report that {realm-name} had a strong year, and I'm going to enjoy saying that.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "plain",
@@ -1294,13 +1315,16 @@
       "key": "opening-speech.occasion.polished-sos-mourning-there-is-a-report-to-give-on-this-state",
       "move": "occasion",
       "kind": "spoken",
-      "text": "There is a report to give on this state, and it will keep a moment while we remember the ones we have lost.",
+      "text": "There is a report to give on {realm-name}, and it will keep a moment while we remember the ones we have lost.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -1314,13 +1338,16 @@
       "key": "opening-speech.occasion.polished-sos-mourning-across-this-state-there-are-families-sitting-in-silence",
       "move": "occasion",
       "kind": "spoken",
-      "text": "Across this state, there are families sitting in silence right now, and I want them to know they are not alone.",
+      "text": "Across {realm-name}, there are families sitting in silence right now, and I want them to know they are not alone.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -1445,13 +1472,16 @@
       "key": "opening-speech.occasion.plain-sos-mourning-across-this-state-there-are-families-sitting-in-silence",
       "move": "occasion",
       "kind": "spoken",
-      "text": "Across this state, there are families sitting in silence right now. I want them to know they're not alone.",
+      "text": "Across {realm-name}, there are families sitting in silence right now. I want them to know they're not alone.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "plain",
@@ -1511,13 +1541,16 @@
       "key": "opening-speech.occasion.polished-sos-policy-i-am-here-to-report-on-the-work-of",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I am here to report on the work of this state and to put specific proposals before the legislature.",
+      "text": "I am here to report on the work of {realm-name} and to put specific proposals before the legislature.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -2585,13 +2618,16 @@
       "key": "opening-speech.occasion.polished-sos-i-come-before-you-to-say-how-this-state-is-doing-and",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come before you to say how this state is doing, and what I will ask of you.",
+      "text": "I come before you to say how {realm-name} is doing, and what I will ask of you.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -2604,13 +2640,16 @@
       "key": "opening-speech.occasion.plain-sos-im-here-to-tell-you-how-this-state-is-doing-and-what",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm here to tell you how this state is doing and what I'm going to ask of you.",
+      "text": "I'm here to tell you how {realm-name} is doing and what I'm going to ask of you.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "plain",
@@ -2623,7 +2662,7 @@
       "key": "opening-speech.story-open.polished-sos-i-want-to-speak-plainly-about-something-harder-than-any-one-budget",
       "move": "story-open",
       "kind": "spoken",
-      "text": "I want to speak plainly about something harder than any one budget: many of you have lost some of your confidence in how this state is run, and I have not always earned it back.",
+      "text": "I want to speak plainly about something harder than any one budget: many of you have lost some of your confidence in how {realm-name} is run, and I have not always earned it back.",
       "uses": [
         {
           "move": "story-open",
@@ -2631,7 +2670,8 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": [
-            "kind-crisis"
+            "kind-crisis",
+            "realm-name"
           ]
         }
       ],
@@ -2646,7 +2686,7 @@
       "key": "opening-speech.story-open.plain-sos-i-want-to-talk-straight-about-something-harder-than-a-budget-a",
       "move": "story-open",
       "kind": "spoken",
-      "text": "I want to talk straight about something harder than a budget. A lot of you have lost confidence in how this state is run, and I haven't always earned it back.",
+      "text": "I want to talk straight about something harder than a budget. A lot of you have lost confidence in how {realm-name} is run, and I haven't always earned it back.",
       "uses": [
         {
           "move": "story-open",
@@ -2654,7 +2694,8 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": [
-            "kind-crisis"
+            "kind-crisis",
+            "realm-name"
           ]
         }
       ],
@@ -2733,7 +2774,7 @@
       "key": "opening-speech.pledge.polished-sos-i-will-tell-you-the-truth-about-this-state-the-good-and",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I will tell you the truth about this state, the good and the bad, and I will ask the same of everyone who works for you.",
+      "text": "I will tell you the truth about {realm-name}, the good and the bad, and I will ask the same of everyone who works for you.",
       "uses": [
         {
           "move": "pledge",
@@ -2741,7 +2782,8 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": [
-            "kind-crisis"
+            "kind-crisis",
+            "realm-name"
           ]
         }
       ],
@@ -2756,7 +2798,7 @@
       "key": "opening-speech.pledge.plain-sos-ill-tell-you-the-truth-about-this-state-good-and-bad-and",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'll tell you the truth about this state, good and bad, and I'll ask the same of everyone who works for you.",
+      "text": "I'll tell you the truth about {realm-name}, good and bad, and I'll ask the same of everyone who works for you.",
       "uses": [
         {
           "move": "pledge",
@@ -2764,7 +2806,8 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": [
-            "kind-crisis"
+            "kind-crisis",
+            "realm-name"
           ]
         }
       ],
@@ -2843,7 +2886,7 @@
       "key": "opening-speech.story-open.polished-sos-let-us-be-honest-about-what-happened-to-this-state-for-years",
       "move": "story-open",
       "kind": "spoken",
-      "text": "Let us be honest about what happened to this state. For years you were told it was fine, and you paid for it.",
+      "text": "Let us be honest about what happened to {realm-name}. For years you were told it was fine, and you paid for it.",
       "uses": [
         {
           "move": "story-open",
@@ -2851,7 +2894,8 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": [
-            "kind-combative"
+            "kind-combative",
+            "realm-name"
           ]
         }
       ],
@@ -2866,7 +2910,7 @@
       "key": "opening-speech.story-open.plain-sos-lets-be-honest-about-what-happened-to-this-state-for-years-you",
       "move": "story-open",
       "kind": "spoken",
-      "text": "Let's be honest about what happened to this state. For years you were told it was fine, and you paid for it.",
+      "text": "Let's be honest about what happened to {realm-name}. For years you were told it was fine, and you paid for it.",
       "uses": [
         {
           "move": "story-open",
@@ -2874,7 +2918,8 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": [
-            "kind-combative"
+            "kind-combative",
+            "realm-name"
           ]
         }
       ],
@@ -2953,7 +2998,7 @@
       "key": "opening-speech.pledge.polished-sos-i-will-fight-for-the-people-of-this-state-and-i-will",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I will fight for the people of this state, and I will not be polite about it when the fight is worth having.",
+      "text": "I will fight for the people of {realm-name}, and I will not be polite about it when the fight is worth having.",
       "uses": [
         {
           "move": "pledge",
@@ -2961,7 +3006,8 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": [
-            "kind-combative"
+            "kind-combative",
+            "realm-name"
           ]
         }
       ],
@@ -2976,7 +3022,7 @@
       "key": "opening-speech.pledge.plain-sos-ill-fight-for-the-people-of-this-state-and-i-wont-be",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'll fight for the people of this state, and I won't be polite about it when the fight is worth having.",
+      "text": "I'll fight for the people of {realm-name}, and I won't be polite about it when the fight is worth having.",
       "uses": [
         {
           "move": "pledge",
@@ -2984,7 +3030,8 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": [
-            "kind-combative"
+            "kind-combative",
+            "realm-name"
           ]
         }
       ],
@@ -2999,7 +3046,7 @@
       "key": "opening-speech.hope.polished-sos-they-counted-this-state-out-before-they-were-wrong-then-and-they",
       "move": "hope",
       "kind": "spoken",
-      "text": "They counted this state out before. They were wrong then and they are wrong now.",
+      "text": "They counted {realm-name} out before. They were wrong then and they are wrong now.",
       "uses": [
         {
           "move": "hope",
@@ -3007,7 +3054,18 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": [
-            "kind-combative"
+            "kind-combative",
+            "realm-name"
+          ]
+        },
+        {
+          "move": "hope",
+          "subject": "town-address",
+          "role": "hope",
+          "choice": "hope",
+          "requiresFacts": [
+            "kind-combative",
+            "realm-name"
           ]
         }
       ],
@@ -3022,7 +3080,7 @@
       "key": "opening-speech.hope.plain-sos-they-counted-this-state-out-before-they-were-wrong-then-and-theyre",
       "move": "hope",
       "kind": "spoken",
-      "text": "They counted this state out before. They were wrong then and they're wrong now.",
+      "text": "They counted {realm-name} out before. They were wrong then and they're wrong now.",
       "uses": [
         {
           "move": "hope",
@@ -3030,7 +3088,18 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": [
-            "kind-combative"
+            "kind-combative",
+            "realm-name"
+          ]
+        },
+        {
+          "move": "hope",
+          "subject": "town-address",
+          "role": "hope",
+          "choice": "hope",
+          "requiresFacts": [
+            "kind-combative",
+            "realm-name"
           ]
         }
       ],
@@ -3045,7 +3114,7 @@
       "key": "opening-speech.story-open.polished-sos-i-am-more-hopeful-about-this-state-tonight-than-i-have-been",
       "move": "story-open",
       "kind": "spoken",
-      "text": "I am more hopeful about this state tonight than I have been in a long while.",
+      "text": "I am more hopeful about {realm-name} tonight than I have been in a long while.",
       "uses": [
         {
           "move": "story-open",
@@ -3053,7 +3122,8 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": [
-            "kind-hopeful"
+            "kind-hopeful",
+            "realm-name"
           ]
         }
       ],
@@ -3068,7 +3138,7 @@
       "key": "opening-speech.story-open.plain-sos-im-more-hopeful-about-this-state-tonight-than-ive-been-in-a",
       "move": "story-open",
       "kind": "spoken",
-      "text": "I'm more hopeful about this state tonight than I've been in a long while.",
+      "text": "I'm more hopeful about {realm-name} tonight than I've been in a long while.",
       "uses": [
         {
           "move": "story-open",
@@ -3076,7 +3146,8 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": [
-            "kind-hopeful"
+            "kind-hopeful",
+            "realm-name"
           ]
         }
       ],
@@ -3287,7 +3358,7 @@
       "key": "opening-speech.story-open.polished-sos-look-at-what-we-have-done-together-for-the-families-who-live",
       "move": "story-open",
       "kind": "spoken",
-      "text": "Look at what we have done together. For the families who live in this state, it is stronger than it was.",
+      "text": "Look at what we have done together. For the families who live in {realm-name}, it is stronger than it was.",
       "uses": [
         {
           "move": "story-open",
@@ -3295,7 +3366,8 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": [
-            "kind-victory"
+            "kind-victory",
+            "realm-name"
           ]
         }
       ],
@@ -3310,7 +3382,7 @@
       "key": "opening-speech.story-open.plain-sos-look-at-what-weve-done-together-for-the-families-who-live-in",
       "move": "story-open",
       "kind": "spoken",
-      "text": "Look at what we've done together. For the families who live in this state, it's stronger than it was.",
+      "text": "Look at what we've done together. For the families who live in {realm-name}, it's stronger than it was.",
       "uses": [
         {
           "move": "story-open",
@@ -3318,7 +3390,8 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": [
-            "kind-victory"
+            "kind-victory",
+            "realm-name"
           ]
         }
       ],
@@ -3397,7 +3470,7 @@
       "key": "opening-speech.hope.polished-sos-this-is-what-this-state-can-do-when-it-decides-to-let",
       "move": "hope",
       "kind": "spoken",
-      "text": "This is what this state can do when it decides to. Let us decide again.",
+      "text": "This is what {realm-name} can do when it decides to. Let us decide again.",
       "uses": [
         {
           "move": "hope",
@@ -3405,7 +3478,8 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": [
-            "kind-victory"
+            "kind-victory",
+            "realm-name"
           ]
         }
       ],
@@ -3420,7 +3494,7 @@
       "key": "opening-speech.hope.plain-sos-this-is-what-this-state-can-do-when-it-decides-to-lets",
       "move": "hope",
       "kind": "spoken",
-      "text": "This is what this state can do when it decides to. Let's decide again.",
+      "text": "This is what {realm-name} can do when it decides to. Let's decide again.",
       "uses": [
         {
           "move": "hope",
@@ -3428,7 +3502,8 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": [
-            "kind-victory"
+            "kind-victory",
+            "realm-name"
           ]
         }
       ],
@@ -3443,7 +3518,7 @@
       "key": "opening-speech.story-open.polished-sos-my-first-words-tonight-are-for-the-families-who-have-lost-someone",
       "move": "story-open",
       "kind": "spoken",
-      "text": "My first words tonight are for the families who have lost someone. All of this state grieves with you.",
+      "text": "My first words tonight are for the families who have lost someone. All of {realm-name} grieves with you.",
       "uses": [
         {
           "move": "story-open",
@@ -3451,7 +3526,8 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": [
-            "kind-mourning"
+            "kind-mourning",
+            "realm-name"
           ]
         }
       ],
@@ -3466,7 +3542,7 @@
       "key": "opening-speech.story-open.plain-sos-my-first-words-tonight-are-for-the-families-who-lost-someone-all",
       "move": "story-open",
       "kind": "spoken",
-      "text": "My first words tonight are for the families who lost someone. All of this state grieves with you.",
+      "text": "My first words tonight are for the families who lost someone. All of {realm-name} grieves with you.",
       "uses": [
         {
           "move": "story-open",
@@ -3474,7 +3550,8 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": [
-            "kind-mourning"
+            "kind-mourning",
+            "realm-name"
           ]
         }
       ],
@@ -3553,13 +3630,16 @@
       "key": "opening-speech.story-open.polished-sos-i-want-to-report-on-this-state-as-it-stands-in-plain",
       "move": "story-open",
       "kind": "spoken",
-      "text": "I want to report on this state as it stands, in plain words, and then say what I will do about it.",
+      "text": "I want to report on {realm-name} as it stands, in plain words, and then say what I will do about it.",
       "uses": [
         {
           "move": "story-open",
           "subject": "state-of-the-state",
           "role": "story-open",
-          "choice": "story-open"
+          "choice": "story-open",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -3572,13 +3652,16 @@
       "key": "opening-speech.story-open.plain-sos-i-want-to-tell-you-how-this-state-stands-plain-and-then",
       "move": "story-open",
       "kind": "spoken",
-      "text": "I want to tell you how this state stands, plain, and then say what I'm going to do about it.",
+      "text": "I want to tell you how {realm-name} stands, plain, and then say what I'm going to do about it.",
       "uses": [
         {
           "move": "story-open",
           "subject": "state-of-the-state",
           "role": "story-open",
-          "choice": "story-open"
+          "choice": "story-open",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "plain",
@@ -3591,13 +3674,25 @@
       "key": "opening-speech.story-turn.polished-sos-some-of-that-is-good-news-and-some-of-it-is-not",
       "move": "story-turn",
       "kind": "spoken",
-      "text": "Some of that is good news and some of it is not, and the people of this state are owed both.",
+      "text": "Some of that is good news and some of it is not, and the people of {realm-name} are owed both.",
       "uses": [
         {
           "move": "story-turn",
           "subject": "state-of-the-state",
           "role": "story-turn",
-          "choice": "story-turn"
+          "choice": "story-turn",
+          "requiresFacts": [
+            "realm-name"
+          ]
+        },
+        {
+          "move": "story-turn",
+          "subject": "town-address",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -3610,13 +3705,25 @@
       "key": "opening-speech.story-turn.plain-sos-some-of-thats-good-news-and-some-isnt-and-the-people-of",
       "move": "story-turn",
       "kind": "spoken",
-      "text": "Some of that's good news and some isn't, and the people of this state are owed both.",
+      "text": "Some of that's good news and some isn't, and the people of {realm-name} are owed both.",
       "uses": [
         {
           "move": "story-turn",
           "subject": "state-of-the-state",
           "role": "story-turn",
-          "choice": "story-turn"
+          "choice": "story-turn",
+          "requiresFacts": [
+            "realm-name"
+          ]
+        },
+        {
+          "move": "story-turn",
+          "subject": "town-address",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "plain",
@@ -3679,7 +3786,7 @@
       "key": "opening-speech.story-says.polished-sos-fewer-of-the-people-of-this-state-have-work-than-when-this",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Fewer of the people of this state have work than when this term began, and a paycheck missing is a hard thing to explain at a kitchen table.",
+      "text": "Fewer of the people of {realm-name} have work than when this term began, and a paycheck missing is a hard thing to explain at a kitchen table.",
       "uses": [
         {
           "move": "story-says",
@@ -3687,7 +3794,18 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": [
-            "jobs-worse"
+            "jobs-worse",
+            "realm-name"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "jobs-worse",
+            "realm-name"
           ]
         }
       ],
@@ -3702,7 +3820,7 @@
       "key": "opening-speech.story-says.plain-sos-fewer-people-here-have-work-than-when-this-term-began-and-a",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Fewer people here have work than when this term began, and a missing paycheck is hard to explain at a kitchen table.",
+      "text": "Fewer people in {realm-name} have work than when this term began, and a missing paycheck is hard to explain at a kitchen table.",
       "uses": [
         {
           "move": "story-says",
@@ -3710,7 +3828,8 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": [
-            "jobs-worse"
+            "jobs-worse",
+            "realm-name"
           ]
         },
         {
@@ -3719,7 +3838,8 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": [
-            "jobs-worse"
+            "jobs-worse",
+            "realm-name"
           ]
         }
       ],
@@ -3734,7 +3854,7 @@
       "key": "opening-speech.story-says.polished-sos-more-of-the-people-of-this-state-are-working-than-when-this",
       "move": "story-says",
       "kind": "spoken",
-      "text": "More of the people of this state are working than when this term began, and that shows in every shop on Main Street.",
+      "text": "More of the people of {realm-name} are working than when this term began, and that shows in every shop on Main Street.",
       "uses": [
         {
           "move": "story-says",
@@ -3742,7 +3862,18 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": [
-            "jobs-better"
+            "jobs-better",
+            "realm-name"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "jobs-better",
+            "realm-name"
           ]
         }
       ],
@@ -3757,7 +3888,7 @@
       "key": "opening-speech.story-says.plain-sos-more-people-here-are-working-than-when-this-term-began-and-it",
       "move": "story-says",
       "kind": "spoken",
-      "text": "More people here are working than when this term began, and it shows in every shop on Main Street.",
+      "text": "More people in {realm-name} are working than when this term began, and it shows in every shop on Main Street.",
       "uses": [
         {
           "move": "story-says",
@@ -3765,7 +3896,8 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": [
-            "jobs-better"
+            "jobs-better",
+            "realm-name"
           ]
         },
         {
@@ -3774,7 +3906,8 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": [
-            "jobs-better"
+            "jobs-better",
+            "realm-name"
           ]
         }
       ],
@@ -3789,7 +3922,7 @@
       "key": "opening-speech.story-says.polished-sos-pay-in-this-state-has-fallen-behind-what-a-family-needs-and",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Pay in this state has fallen behind what a family needs, and the shortfall is bigger than when this term began.",
+      "text": "Pay in {realm-name} has fallen behind what a family needs, and the shortfall is bigger than when this term began.",
       "uses": [
         {
           "move": "story-says",
@@ -3797,7 +3930,8 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": [
-            "pay-worse"
+            "pay-worse",
+            "realm-name"
           ]
         }
       ],
@@ -3844,7 +3978,7 @@
       "key": "opening-speech.story-says.polished-sos-pay-in-this-state-has-risen-since-this-term-began-and-for",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Pay in this state has risen since this term began, and for many families that is the first room to breathe in years.",
+      "text": "Pay in {realm-name} has risen since this term began, and for many families that is the first room to breathe in years.",
       "uses": [
         {
           "move": "story-says",
@@ -3852,7 +3986,8 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": [
-            "pay-better"
+            "pay-better",
+            "realm-name"
           ]
         }
       ],
@@ -3899,7 +4034,7 @@
       "key": "opening-speech.story-says.polished-sos-prices-in-this-state-have-climbed-faster-than-they-should-and-families",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Prices in this state have climbed faster than they should, and families feel it every time they fill a cart or a tank.",
+      "text": "Prices in {realm-name} have climbed faster than they should, and families feel it every time they fill a cart or a tank.",
       "uses": [
         {
           "move": "story-says",
@@ -3907,7 +4042,8 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": [
-            "prices-worse"
+            "prices-worse",
+            "realm-name"
           ]
         }
       ],
@@ -3954,7 +4090,7 @@
       "key": "opening-speech.story-says.polished-sos-prices-in-this-state-have-eased-since-this-term-began-and-the",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Prices in this state have eased since this term began, and the month stretches a little further.",
+      "text": "Prices in {realm-name} have eased since this term began, and the month stretches a little further.",
       "uses": [
         {
           "move": "story-says",
@@ -3962,7 +4098,8 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": [
-            "prices-better"
+            "prices-better",
+            "realm-name"
           ]
         }
       ],
@@ -4009,7 +4146,7 @@
       "key": "opening-speech.story-says.polished-sos-our-schools-are-doing-less-for-our-children-than-they-were-and",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Our schools are doing less for our children than they were, and this state cannot ask its young to carry what it has not taught them.",
+      "text": "Our schools are doing less for our children than they were, and {realm-name} cannot ask its young to carry what it has not taught them.",
       "uses": [
         {
           "move": "story-says",
@@ -4017,7 +4154,8 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": [
-            "schools-worse"
+            "schools-worse",
+            "realm-name"
           ]
         }
       ],
@@ -4032,7 +4170,7 @@
       "key": "opening-speech.story-says.plain-sos-our-schools-are-doing-less-for-our-kids-than-they-were-and",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Our schools are doing less for our kids than they were, and this state can't ask its young to carry what it hasn't taught them.",
+      "text": "Our schools are doing less for our kids than they were, and {realm-name} can't ask its young to carry what it hasn't taught them.",
       "uses": [
         {
           "move": "story-says",
@@ -4040,7 +4178,8 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": [
-            "schools-worse"
+            "schools-worse",
+            "realm-name"
           ]
         }
       ],
@@ -4055,7 +4194,7 @@
       "key": "opening-speech.story-says.polished-sos-our-children-are-learning-more-than-they-were-and-it-is-the",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Our children are learning more than they were, and it is the surest investment this state makes.",
+      "text": "Our children are learning more than they were, and it is the surest investment {realm-name} makes.",
       "uses": [
         {
           "move": "story-says",
@@ -4063,7 +4202,8 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": [
-            "schools-better"
+            "schools-better",
+            "realm-name"
           ]
         }
       ],
@@ -4078,7 +4218,7 @@
       "key": "opening-speech.story-says.plain-sos-our-kids-are-learning-more-than-they-were-and-its-the-surest",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Our kids are learning more than they were, and it's the surest investment this state makes.",
+      "text": "Our kids are learning more than they were, and it's the surest investment {realm-name} makes.",
       "uses": [
         {
           "move": "story-says",
@@ -4086,7 +4226,8 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": [
-            "schools-better"
+            "schools-better",
+            "realm-name"
           ]
         }
       ],
@@ -4325,7 +4466,7 @@
       "key": "opening-speech.pledge.polished-twn-i-will-tell-you-the-truth-about-this-town-the-good-and",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I will tell you the truth about where we stand, the good and the bad, and I will ask the same of everyone who works for you.",
+      "text": "I will tell you the truth about where {realm-name} stands, the good and the bad, and I will ask the same of everyone who works for you.",
       "uses": [
         {
           "move": "pledge",
@@ -4333,7 +4474,8 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": [
-            "kind-crisis"
+            "kind-crisis",
+            "realm-name"
           ]
         }
       ],
@@ -4348,7 +4490,7 @@
       "key": "opening-speech.pledge.plain-twn-ill-tell-you-the-truth-about-this-town-good-and-bad-and",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'll tell you the truth about where we stand, good and bad, and I'll ask the same of everyone who works for you.",
+      "text": "I'll tell you the truth about where {realm-name} stands, good and bad, and I'll ask the same of everyone who works for you.",
       "uses": [
         {
           "move": "pledge",
@@ -4356,7 +4498,8 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": [
-            "kind-crisis"
+            "kind-crisis",
+            "realm-name"
           ]
         }
       ],
@@ -4454,52 +4597,6 @@
       ],
       "voice": "plain",
       "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.polished-twn-they-counted-this-town-out-before-they-were-wrong-then-and-they",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "They counted us out before. They were wrong then and they are wrong now.",
-      "uses": [
-        {
-          "move": "hope",
-          "subject": "town-address",
-          "role": "hope",
-          "choice": "hope",
-          "requiresFacts": [
-            "kind-combative"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.plain-twn-they-counted-this-town-out-before-they-were-wrong-then-and-theyre",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "They counted us out before. They were wrong then and they're wrong now.",
-      "uses": [
-        {
-          "move": "hope",
-          "subject": "town-address",
-          "role": "hope",
-          "choice": "hope",
-          "requiresFacts": [
-            "kind-combative"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
       "addressKind": "combative",
       "origin": "authored",
       "author": "Story (Claude Code)",
@@ -4693,13 +4790,16 @@
       "key": "opening-speech.story-open.polished-twn-i-want-to-report-on-this-town-as-it-stands-in-plain",
       "move": "story-open",
       "kind": "spoken",
-      "text": "I want to report on where we stand, in plain words, and then say what I will do about it.",
+      "text": "I want to report on where {realm-name} stands, in plain words, and then say what I will do about it.",
       "uses": [
         {
           "move": "story-open",
           "subject": "town-address",
           "role": "story-open",
-          "choice": "story-open"
+          "choice": "story-open",
+          "requiresFacts": [
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -4723,90 +4823,6 @@
       ],
       "voice": "plain",
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.polished-twn-some-of-that-is-good-news-and-some-of-it-is-not",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "Some of that is good news and some of it is not, and the people here are owed both.",
-      "uses": [
-        {
-          "move": "story-turn",
-          "subject": "town-address",
-          "role": "story-turn",
-          "choice": "story-turn"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-twn-some-of-thats-good-news-and-some-isnt-and-the-people-of",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "Some of that's good news and some isn't, and the people here are owed both.",
-      "uses": [
-        {
-          "move": "story-turn",
-          "subject": "town-address",
-          "role": "story-turn",
-          "choice": "story-turn"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-twn-fewer-of-the-people-of-this-town-have-work-than-when-this",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Fewer of the people here have work than when this term began, and a paycheck missing is a hard thing to explain at a kitchen table.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": [
-            "jobs-worse"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "jobs",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-twn-more-of-the-people-of-this-town-are-working-than-when-this",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More of the people here are working than when this term began, and that shows in every shop on Main Street.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": [
-            "jobs-better"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "jobs",
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-08"

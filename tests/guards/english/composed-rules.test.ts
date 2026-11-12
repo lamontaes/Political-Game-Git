@@ -289,6 +289,32 @@ const FIXTURES: Record<
       ]),
     ),
   },
+  "point-made-once": {
+    // The lead, Nov 12: the today wording and the belief restate each other.
+    catches: sampleOf(
+      text("speech:mayor", [
+        [
+          "A complaint goes up the chain of command, to people who know the work. Because I believe an officer should be judged by people who have done the job, I'm against civilian oversight of the police.",
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      text("speech:mayor", [
+        [
+          "The department reviews complaints against its own officers. Because I believe an officer should be judged by people who have done the job, I'm against civilian oversight of the police.",
+        ],
+      ]),
+      // One wording in each of two paragraphs is one point in each.
+      text("speech:mayor", [
+        [
+          "A complaint goes up the chain of command, to people who know the work.",
+        ],
+        [
+          "I believe an officer should be judged by people who have done the job.",
+        ],
+      ]),
+    ),
+  },
   "note-stands-alone": {
     catches: sampleOf(
       text("journal:note", [["Six weeks later, I quit the bakery."]]),
