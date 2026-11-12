@@ -13,7 +13,11 @@
  * - no two people of the household say the same sentence on one day;
  * - the President's full name is said at most once in one talk;
  * - no answer is only "Okay." or "Oh, I see.";
- * - no job or employer is said as the outside market.
+ * - no job or employer is said as the outside market;
+ * - nobody asks whether the player saw the address they watched together;
+ * - no goodbye at home, and no reply offered that only takes a line in;
+ * - "the President" at most once in a talk (then the pronoun);
+ * - no policy question named by two people of the house on one day.
  *
  * `TALK_PLACE_SEED` and `TALK_PLACE_KEY` run a labeled world instead of a draw
  * (the grading life of Nov 12: seed a9c85de3-e7fa-4418-8499-569a5c5e6e10,
@@ -44,7 +48,8 @@ const MORNING = 7 * 60;
 const EVENING = 20 * 60 + 30;
 const TURNS = 8;
 const WEEK = 7;
-const SHOWN_DAYS = 3;
+/** The days whose lines are printed: the first evening, the next morning, a day in the second week. */
+const SHOWN_DAYS = new Set([0, 1, 9]);
 
 function build() {
   const labeled = process.env.TALK_PLACE_SEED;
@@ -116,6 +121,7 @@ it(`two weeks of talk at home hold the telling's rules (seed ${seed})`, () => {
   let talks = 0;
   for (let day = 0; day < DAYS; day += 1) {
     const saidToday = new Map<string, string>();
+    const questionsToday = new Map<string, string>();
     for (const minute of day === 0 ? [EVENING] : [MORNING, EVENING]) {
       if (day > 0) liveThrough(core, playerId, day, minute);
       const household = [
@@ -140,14 +146,17 @@ it(`two weeks of talk at home hold the telling's rules (seed ${seed})`, () => {
         if (!talk.lines.length) continue;
         noteHeard(core, talk);
         talks += 1;
-        for (let turn = 0; turn < TURNS && talk.choices.length; turn += 1)
+        const offered: string[] = [];
+        for (let turn = 0; turn < TURNS && talk.choices.length; turn += 1) {
+          offered.push(...talk.choices.map((row) => row.text));
           say(
             core,
             talk,
             talk.choices[(day + turn) % talk.choices.length]!.key,
           );
+        }
         const here = `${where}, day ${day} at ${Math.floor(minute / 60)}:${String(minute % 60).padStart(2, "0")}, with ${core.people.get(otherId)!.givenName}`;
-        if (day < SHOWN_DAYS) {
+        if (SHOWN_DAYS.has(day)) {
           played.push(`-- ${here}`);
           for (const line of talk.lines)
             played.push(
@@ -155,6 +164,35 @@ it(`two weeks of talk at home hold the telling's rules (seed ${seed})`, () => {
             );
         }
         const theirs = talk.lines.filter((line) => line.speakerId === otherId);
+        // What the household did together nobody asks about.
+        if (
+          day === 0 &&
+          theirs.some((line) => line.kind === "address" && line.act === "ask")
+        )
+          broken.push(
+            `${here}: asked whether the player saw the address they watched together`,
+          );
+        // A talk at home ends on its last line that says something.
+        for (const line of theirs.filter((row) => row.kind === "farewell"))
+          broken.push(`${here}: a goodbye at home: "${line.text}"`);
+        // A role is said once; later it is the pronoun.
+        const roles = theirs
+          .map((line) => line.text.match(/\bthe President\b/gi)?.length ?? 0)
+          .reduce((a, b) => a + b, 0);
+        if (roles > 1)
+          broken.push(`${here}: "the President" ${roles} times in one talk`);
+        // No reply that only takes the line in.
+        for (const text of offered)
+          if (NON_ANSWER.test(text.trim()))
+            broken.push(`${here}: a non-reply offered: "${text}"`);
+        // Two people in one house never name the same question on one day.
+        for (const question of talk.questions ?? []) {
+          if (question.startsWith("=")) continue;
+          const by = questionsToday.get(question);
+          if (by && by !== otherId)
+            broken.push(`${here}: the question ${question} named twice today`);
+          questionsToday.set(question, otherId);
+        }
         for (const line of theirs) {
           const asked = /^mutual:(.+)$/.exec(line.subjectId)?.[1];
           if (asked && (room.includes(asked) || household.includes(asked)))
