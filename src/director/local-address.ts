@@ -25,7 +25,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import type { AddressKind } from "./address-kind";
 import { ADDRESS_FACT, ADDRESS_PART_BREAK } from "./opening-facts";
 import { composeBlocks, type OpeningSentence } from "./opening-story";
-import { planSpeech } from "./speech-outline";
+import { planSpeech, type PlannedPoint } from "./speech-outline";
 import { recordAddressResponse } from "./address-response";
 import type { OpeningSpeechKind } from "../english/english-opening-speech";
 import localData from "./data/local-address.json" with { type: "json" };
@@ -56,6 +56,8 @@ export interface LocalStory {
   readonly theme: string | null;
   /** The questions the speaker asked for (their level's, not yet law). */
   readonly asks: readonly string[];
+  /** Each point as the outline planned it (shape, side, belief, figure). */
+  readonly points: readonly PlannedPoint[];
 }
 
 /** The day of a year a level's address is given. */
@@ -195,6 +197,7 @@ export function composeLocalAddress(
     addressKind: plan.addressKind,
     theme: plan.theme,
     asks: plan.asks,
+    points: plan.points,
     speakerId: speaker.id,
     sentences,
     text: sentences.map((row) => row.text).join(" "),

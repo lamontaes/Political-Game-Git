@@ -65,6 +65,7 @@ export {
   fact,
   type Block,
   type Facts,
+  type PlannedPoint,
   type Stand,
 } from "./speech-outline";
 
@@ -105,6 +106,8 @@ export interface OpeningStory {
   readonly theme: string | null;
   /** The questions the speech asks for or against, each once, by question. */
   readonly asks: readonly string[];
+  /** Each point as the outline planned it (shape, side, belief, figure). */
+  readonly points: readonly PlannedPoint[];
   readonly president: {
     readonly id: PersonId;
     readonly name: string;
@@ -214,6 +217,7 @@ function composeAddressOf(
   addressKind: AddressKind;
   theme: string | null;
   asks: readonly string[];
+  points: readonly PlannedPoint[];
 } | null {
   const plan = planSpeech(core, kind, {
     person: president,
@@ -228,6 +232,7 @@ function composeAddressOf(
         addressKind: plan.addressKind,
         theme: plan.theme,
         asks: plan.asks,
+        points: plan.points,
       }
     : null;
 }
@@ -589,7 +594,7 @@ export function composeOpeningStory(
     : "state-of-the-union";
   const composed = composeAddressOf(core, president, official, kind);
   if (!composed?.sentences.length) return null;
-  const { sentences, addressKind, theme, asks } = composed;
+  const { sentences, addressKind, theme, asks, points } = composed;
   const pastFact = (kindKey: string) =>
     (president.pastFacts ?? []).find((row) => row.kind === kindKey);
   const home = pastFact(PRESIDENT_FACT.homeState);
@@ -611,6 +616,7 @@ export function composeOpeningStory(
     addressKind,
     theme,
     asks,
+    points,
     president: {
       id: president.id,
       name: `${president.givenName} ${president.familyName}`,

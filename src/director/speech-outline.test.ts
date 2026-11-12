@@ -11,13 +11,20 @@ import { coreStateName } from "../core2/place-lookup";
 import { placeStateKey } from "../core2/place-map";
 import {
   questionAbout,
+  questionFamily,
+  questionFigures,
+  questionNumber,
   questionSide,
   questionTo,
   questionToday,
 } from "../english/question-names";
 import { composeLocalAddress } from "./local-address";
 import { composeOpeningStory } from "./opening-story";
-import { outlineOf, themeOfQuestion } from "./speech-outline";
+import {
+  outlineOf,
+  themeOfQuestion,
+  type PlannedPoint,
+} from "./speech-outline";
 
 // The one speech outline (words composer, unit 3; owner, Nov 12: "This should
 // apply to all speeches ... the problem is the engine"). Ten places drawn from
@@ -54,6 +61,7 @@ interface Speech {
   readonly text: string;
   readonly theme: string | null;
   readonly asks: readonly string[];
+  readonly points: readonly PlannedPoint[];
   /** The state whose speech it is; null for the President's, which names none. */
   readonly ownState: string | null;
   readonly sentences: readonly {
@@ -74,6 +82,7 @@ describe("every speech through the one outline planner", () => {
     () => {
       const leads: string[] = [];
       const failures: string[] = [];
+      const shapes: string[] = [];
       for (let at = 0; at < DRAWS; at += 1) {
         const place = drawPlace(`${seed}:${at}`, "speech-outline");
         const where = `${place.name} (${place.key}), seed ${seed}:${at}`;
@@ -92,6 +101,7 @@ describe("every speech through the one outline planner", () => {
             text: opening!.address.text,
             theme: opening!.theme,
             asks: opening!.asks,
+            points: opening!.points,
             ownState: null,
             sentences: opening!.address.sentences,
           },
@@ -104,6 +114,7 @@ describe("every speech through the one outline planner", () => {
                     text: local.text,
                     theme: local.theme,
                     asks: local.asks,
+                    points: local.points,
                     ownState: own,
                     sentences: local.sentences,
                   },
@@ -153,11 +164,110 @@ describe("every speech through the one outline planner", () => {
             failures.push(
               `${label}: ${points.size} point(s); a speech makes at least two`,
             );
+          // Each point says how its question stands today, in its paragraph:
+          // first, after the belief or the question, or after the ask.
           for (const [about, said] of points)
-            if (!said[0]!.facts.includes("today"))
+            if (
+              !said.some(
+                (sentence) =>
+                  sentence.facts.includes("today") ||
+                  sentence.facts.includes("today-clause"),
+              )
+            )
               failures.push(
-                `${label}: the point on ${about} opens without how it stands today: "${said[0]!.text}"`,
+                `${label}: the point on ${about} never says how it stands today: "${said.map((row) => row.text).join(" ")}"`,
               );
+          // The six points of the lead's Nov 12 reading, by the plan.
+          const pointShapes = new Set<string>();
+          for (const point of speech.points) {
+            const name = `${label}, point ${point.question}`;
+            shapes.push(point.shape);
+            // 3. No two points of a speech take the same shape.
+            if (pointShapes.has(point.shape))
+              failures.push(`${name}: shape ${point.shape} is used twice`);
+            pointShapes.add(point.shape);
+            // 1. The context's side is the ask's side, and it is said.
+            const forms = (side: "for" | "against") =>
+              [true, false].map((law) =>
+                questionToday(point.question, law, side),
+              );
+            const otherSide = point.side === "for" ? "against" : "for";
+            if (!point.today || !forms(point.side).includes(point.today))
+              failures.push(
+                `${name}: today is not the ${point.side} side's ("${point.today}")`,
+              );
+            // The sentence said is the speaker's side's, never the other's.
+            for (const other of forms(otherSide))
+              if (other && speech.text.includes(other.slice(1)))
+                failures.push(
+                  `${name}: says the other side's today ("${other}")`,
+                );
+            if (point.today && !speech.text.includes(point.today.slice(1)))
+              failures.push(
+                `${name}: its today is not said ("${point.today}")`,
+              );
+            // 2. The belief's family is the question's, on the speaker's pole.
+            const family = questionFamily(point.question);
+            const pole = family
+              ? point.side === "for"
+                ? family.forPole
+                : family.forPole === "a"
+                  ? "b"
+                  : "a"
+              : null;
+            if (
+              point.family !== (family?.family ?? null) ||
+              point.pole !== pole
+            )
+              failures.push(
+                `${name}: belief ${point.family}/${point.pole}, the question's is ${family?.family}/${pole}`,
+              );
+            // 4. A figure only where the question's row lets this side use it.
+            if (
+              point.figure &&
+              !questionFigures(point.question).some(
+                (row) =>
+                  row.measure === point.figure && row.side === point.side,
+              )
+            )
+              failures.push(
+                `${name}: figure ${point.figure} is not on the question's row for ${point.side}`,
+              );
+            // 5. A name that is several things never takes a singular verb.
+            const about = questionAbout(point.question)!;
+            if (questionNumber(point.question) === "many")
+              for (const bad of [
+                " is ",
+                " isn't ",
+                " does ",
+                " has ",
+                " comes ",
+              ])
+                if (
+                  speech.text
+                    .toLowerCase()
+                    .includes(`${about.toLowerCase()}${bad}`)
+                )
+                  failures.push(
+                    `${name}: "${about}${bad.trimEnd()}" disagrees in number`,
+                  );
+          }
+          // 2. "Because ..." leads into what the speaker will do, never into
+          // a statement of fact.
+          for (const sentence of speech.text.split(/(?<=[.!?])\s+/))
+            if (/^Because\b[^,]*,[^,]*\bis the law\b/.test(sentence))
+              failures.push(
+                `${label}: a belief leads into a fact: "${sentence}"`,
+              );
+          // 6. Removed by kind: the last office's lesson, a greeting that is
+          // not a list, a close that warns against its own ask.
+          for (const [pattern, why] of [
+            [/\bI learned\b/, "the last office's lesson"],
+            [/before anything else/, "a greeting fragment"],
+            [/folks will feel it for years/, "a close that reads as a warning"],
+          ] as const)
+            if (pattern.test(speech.text))
+              failures.push(`${label}: says ${why}`);
           // Each ask once.
           if (new Set(speech.asks).size !== speech.asks.length)
             failures.push(
@@ -182,8 +292,10 @@ describe("every speech through the one outline planner", () => {
               [
                 questionAbout(ask),
                 questionTo(ask),
-                questionToday(ask, true),
-                questionToday(ask, false),
+                questionToday(ask, true, "for"),
+                questionToday(ask, false, "for"),
+                questionToday(ask, true, "against"),
+                questionToday(ask, false, "against"),
                 questionSide(ask, "for"),
                 questionSide(ask, "against"),
                 questionSide(ask, "repeal"),
@@ -215,6 +327,13 @@ describe("every speech through the one outline planner", () => {
         );
       }
       expect(failures, failures.join("\n")).toEqual([]);
+      // 3. Across the draws no shape opens more than half the points.
+      console.log(`POINT SHAPES seed ${seed}: ${shapes.join(", ")}`);
+      for (const shape of new Set(shapes))
+        expect(
+          shapes.filter((row) => row === shape).length,
+          `seed ${seed}: shapes ${shapes.join(", ")}`,
+        ).toBeLessThanOrEqual(shapes.length / 2);
       // The leading ask is not one question in more than half the draws
       // ("why is it always stock trading?"): the theme comes from the
       // speaker's own issues first.

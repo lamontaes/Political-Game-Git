@@ -720,6 +720,32 @@
       "date": "2026-11-08"
     },
     {
+      "key": "opening-speech.salutation.polished-sta-hopeful-madam-speaker-and-everyone-watching-thank-you-for-having-f",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Madam Speaker, and everyone watching.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "stages": [
+        "chair-female"
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      }
+    },
+    {
       "key": "opening-speech.occasion.polished-sos-hopeful-i-come-before-you-glad-to-report-that-this",
       "move": "occasion",
       "kind": "spoken",
@@ -838,6 +864,32 @@
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
+    },
+    {
+      "key": "opening-speech.salutation.plain-sta-hopeful-mr-speaker-everybody-in-this-room-and-everybody-at-m",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Mr. Speaker, everybody in this room and everybody at home.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "stages": [
+        "chair-male"
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      }
     },
     {
       "key": "opening-speech.occasion.plain-sta-sos-twn-hopeful-short-version-there-s-a-lot-of-reason-to",
@@ -1303,6 +1355,25 @@
       "date": "2026-11-08"
     },
     {
+      "key": "opening-speech.salutation.plain-twn-mourning-everybody-in-this-room-and-everybody-watching-before-anything",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Everybody in this room, and everybody watching.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "town-address",
+          "role": "salutation",
+          "choice": "salutation"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08"
+    },
+    {
       "key": "opening-speech.occasion.plain-sta-sos-twn-mourning-i-m-here-to-report-but-first-i-m",
       "move": "occasion",
       "kind": "spoken",
@@ -1496,25 +1567,6 @@
       "voice": "polished",
       "bearing": "calm",
       "addressKind": "policy",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-twn-policy-everybody-in-this-room-and-everybody-watching-i-ll",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Everybody in this room, and everybody watching.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -4983,6 +5035,33 @@
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-08"
+    },
+    {
+      "key": "opening-speech.salutation.plain-sta-thank-you-very-much",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Thank you very much.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation"
+        }
+      ],
+      "voice": "plain",
+      "source": {
+        "document": "Remarks and an Exchange With Reporters Prior to Departure From Joint Base Andrews, Maryland",
+        "date": "2026-09-11",
+        "granule": "DCPD-202600596",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600596",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet"
+      },
+      "restoredFrom": "opening-speech.state-of-the-union-salutation.thank-you-very-much",
+      "restoredOn": "2026-11-08"
     },
     {
       "key": "opening-speech.change.polished-ina-sta-all-small-core-slightly",

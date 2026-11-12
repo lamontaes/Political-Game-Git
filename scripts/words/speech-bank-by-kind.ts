@@ -168,11 +168,53 @@ for (const part of bank.parts) {
   }
 }
 
+// The keys the owner graded good (data/english/part-grades.json): no rule
+// below drops or merges one away.
+const GRADED_GOOD = new Set(
+  Object.entries(
+    (
+      JSON.parse(readFileSync("data/english/part-grades.json", "utf8")) as {
+        parts: Record<string, { good: number }>;
+      }
+    ).parts,
+  )
+    .filter(([, row]) => row.good > 0)
+    .map(([key]) => key),
+);
+
+// A piece the owner graded good that becomes the same words as another is
+// merged into it, and its grade moves onto the live piece through the
+// restored-liked-lines file (scripts/dialogue-batch/liked-lines-kept.test.ts).
+const RESTORED = "data/english/grades/restored-liked-lines.json";
+const restored = JSON.parse(readFileSync(RESTORED, "utf8")) as {
+  grades: {
+    i: number;
+    parts: string[];
+    restoredFrom?: string;
+    [field: string]: unknown;
+  }[];
+};
+function moveGrade(from: string, onto: string): void {
+  if (!GRADED_GOOD.has(from)) return;
+  if (restored.grades.some((row) => row.restoredFrom === from)) return;
+  restored.grades.push({
+    i: restored.grades.length,
+    grade: "good",
+    by: "owner; moved Nov 12, 2026 (speech-bank-by-kind.ts: a greeting cut to its list became the same words as another)",
+    parts: [onto],
+    restoredFrom: from,
+  });
+  writeFileSync(RESTORED, `${JSON.stringify(restored, null, 2)}\n`);
+  count(
+    "13. a graded-good piece merged into another keeps its grade on the live piece",
+  );
+}
+
 // 7. A whole greeting is its list of people and nothing after it: the
 // sentence that follows a split greeting only announces ("I'll keep this
 // practical tonight."), so it goes, and a greeting that became the same as
 // another of its kind is dropped.
-const greetings = new Set<string>();
+const greetings = new Map<string, string>();
 bank.parts = bank.parts.filter((part) => {
   if (!hasRole(part, "salutation") || part.piece) return true;
   const first = /^[^.!?]*[.!?]/.exec(part.text)?.[0];
@@ -182,10 +224,11 @@ bank.parts = bank.parts.filter((part) => {
   }
   const same = `${JSON.stringify(part.voice)}|${String(part.addressKind)}|${part.text}|${part.uses.map((use) => use.subject).join()}`;
   if (greetings.has(same)) {
+    moveGrade(part.key, greetings.get(same)!);
     count("7. a greeting that became the same as another is dropped");
     return false;
   }
-  greetings.add(same);
+  greetings.set(same, part.key);
   return true;
 });
 
@@ -1110,6 +1153,18 @@ for (const part of [...bank.parts]) {
 // addressed, ending its own sentence ("Everybody here, and everybody
 // watching, before anything else.", "Thank you all for coming.") is not a
 // greeting.
+for (const part of bank.parts) {
+  if (!hasRole(part, "salutation") || part.piece?.part === "core") continue;
+  // The list ends its own sentence where a clause or an aside began.
+  const cut = part.text.replace(
+    /,\s+(?:before anything else|thank you|those who)\b.*$/is,
+    ".",
+  );
+  if (cut !== part.text) {
+    part.text = cut;
+    count("22. a greeting is cut to its list of who is addressed");
+  }
+}
 bank.parts = bank.parts.filter((part) => {
   if (
     hasRole(part, "occasion") &&
@@ -1124,9 +1179,8 @@ bank.parts = bank.parts.filter((part) => {
   if (
     hasRole(part, "salutation") &&
     part.piece?.part !== "core" &&
-    /\b(?:before anything else|thank you|thank|good evening|I come|I'm|will)\b/i.test(
-      part.text,
-    )
+    !GRADED_GOOD.has(part.key) &&
+    /\b(?:thank|good evening|I|I'm|I'll|will|we)\b/i.test(part.text)
   ) {
     count("22. a greeting that is not a list of who is addressed is dropped");
     return false;
@@ -1185,6 +1239,7 @@ bank.parts = bank.parts.filter((part) => {
     byText.set(text, part);
     return true;
   }
+  moveGrade(part.key, kept.key);
   for (const use of part.uses)
     if (
       !kept.uses.some(
