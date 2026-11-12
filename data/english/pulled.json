@@ -11,9 +11,6 @@
       "evasion-points-somewhere"
     ],
     "conversation.greet-answer-fine.im-all-right": ["alright-in-dialogue"],
-    "conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right": [
-      "alright-in-dialogue"
-    ],
     "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start": [
       "no-filler"
     ],
