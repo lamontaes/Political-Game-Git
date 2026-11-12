@@ -1,4 +1,4 @@
-/* global document, console, URL, URLSearchParams, process */
+/* global document, console, URL, URLSearchParams, process, fetch */
 // Continue on the opening evening keeps the first night's paper on the table:
 // a new life's reader, then the same life reloaded and continued at the same
 // date, reads the same kept stories and every unemployment rate they carry. Run with
@@ -88,33 +88,39 @@ try {
     .catch(() => false);
   if (shot) await page.screenshot({ path: `${shot}-continued.png` });
   assert.ok(onTable, "the first night's paper is on the table after Continue");
-  const kept = await (await opening)?.json();
+  // The night's paper is the news engine's own feed for the player (/api/news,
+  // the rows the reader draws through nightsNews); the opening no longer carries it.
+  await (await opening)?.json();
+  const stories = await page.evaluate(async () => {
+    const id = (await (await fetch("/api/dev/state")).json()).playerId;
+    // Still news that night, as nightsNews reads them.
+    return (await (await fetch(`/api/news?id=${id}`)).json()).filter(
+      (row) => row.fresh !== false && (row.headline || row.lede),
+    );
+  });
   const continued = await readRates();
   console.log("Continued reader rates:", continued);
   assert.ok(continued.length > 0, "the continued reader gives a rate");
   if (fresh) assert.deepEqual(continued, fresh, "the same kept rates");
-  // Each sentence the reader shows is the kept opening's record: the lead
-  // story's printed paragraphs (or its broadcast and the address), then each
-  // later story's headline.
-  const [lead, ...later] = kept?.news?.stories ?? [];
-  const headlineOf = (story) =>
-    story.headline ?? story.lede ?? story.broadcast?.[0]?.text;
+  // Each sentence the reader shows is one of those stories' own words: a
+  // headline, a lede, a printed paragraph or a broadcast line.
   const recorded = new Set(
-    [
-      ...(lead?.paragraphs ?? [
-        ...(lead?.broadcast ?? []).map((line) => line.text),
-        ...(kept?.news?.address ?? []),
-      ]),
-      ...later.map(headlineOf),
-    ].filter(Boolean),
+    stories
+      .flatMap((story) => [
+        story.headline,
+        story.lede,
+        ...(story.paragraphs ?? []),
+        ...(story.broadcast ?? []).map((line) => line.text),
+      ])
+      .filter(Boolean),
   );
   for (const text of continued)
     assert.ok(recorded.has(text), `kept in the opening record: ${text}`);
   // Every rate the kept paper carries is back: the nation's, and the
   // region's where the paper has one.
-  const keptRates = [...recorded].filter(
-    (text) => /unemployment/i.test(text) && /\d/.test(text),
-  );
+  const keptRates = stories
+    .map((story) => story.headline ?? story.lede)
+    .filter((text) => text && /unemployment/i.test(text) && /\d/.test(text));
   for (const text of keptRates)
     assert.ok(
       continued.some((shown) => shown.includes(text) || text.includes(shown)),

@@ -2,7 +2,7 @@
 // Run against the bench; fresh runs draw a world, later runs reuse its life.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { startLife, someoneToTalkTo } from "./start-life.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER || undefined,
 });
@@ -12,15 +12,15 @@ const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 try {
   await startLife(page, { url: process.env.BENCH_URL });
-  const clock = await page.locator("#card-clock").textContent();
   console.log(
     "Player:",
     await page.locator("#card-name").innerText(),
     "Place:",
     await page.locator("#card-place").innerText(),
   );
-  const figure = page.locator("#here .busts-person.talkable").first();
-  await figure.waitFor();
+  const figure = (await someoneToTalkTo(page)).first();
+  // The clock once someone is home (waiting for them spends hours).
+  const clock = await page.locator("#card-clock").textContent();
   const name = await figure.getAttribute("aria-label");
   // A person in the room is talked to by a click or a key; the talk box says
   // who they are in a sentence, and their name opens their card, which has no
@@ -56,6 +56,7 @@ try {
   );
   // The approved person card (owner, Nov 7, item 54): the name over a bust, sections as strips.
   assert.equal(await page.locator("#person .strip-name").innerText(), name);
+  // A bust is drawn in layers (head, top, hair): one bust when the card has a face.
   assert.equal(
     await page.locator("#person .mxbust .bust-stack").count(),
     card.face ? 1 : 0,

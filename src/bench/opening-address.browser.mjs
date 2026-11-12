@@ -45,7 +45,16 @@ try {
     );
     assert.match(life.sceneMomentId, /president\.address/);
     await page.locator("#talk").waitFor({ state: "visible" });
-    const said = await page.locator("#talk").innerText();
+    // The scene can set the evening first ("Late on ... finds you at home"):
+    // Continue, as a player does, until the address itself is said.
+    let said = await page.locator("#talk-lines").innerText();
+    for (let line = 0; line < 5 && said.length <= 80; line += 1) {
+      const next = page.locator("#talk-next:visible");
+      if (!(await next.count())) break;
+      await next.click();
+      await page.waitForTimeout(400);
+      said = await page.locator("#talk-lines").innerText();
+    }
     console.log(
       `${width}x${height}:`,
       said.slice(0, 300).replace(/\n/g, " | "),
