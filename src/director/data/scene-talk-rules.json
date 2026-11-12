@@ -187,5 +187,14 @@
       { "reason": "person.moved-away", "fact": "why-kin-moved" },
       { "reason": "life.death", "fact": "why-loss" }
     ]
+  },
+  "illnessFacts": {
+    "about": "What a visit to someone seriously ill may say about how long they have been ill (illness-facts.ts). Read from the illness record's date; nothing is rolled.",
+    "sickForDays": {
+      "value": 15,
+      "tag": "TUNABLE",
+      "spread": [7, 30],
+      "checkedAgainst": "People say how long they have been laid up once it is a stretch of time, about two weeks; under that it is 'a few days' and goes unsaid. Checked against the played-world test, which reads the same record a month after onset and finds the stretch said."
+    }
   }
 }

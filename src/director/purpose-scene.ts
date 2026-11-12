@@ -89,6 +89,8 @@ import { celebrationFacts } from "./celebration-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
+import { newsFacts } from "./news-facts";
+import { illnessFacts } from "./illness-facts";
 import { constituentFacts } from "./constituent-help-facts";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
@@ -206,8 +208,12 @@ export function purposeScene(
   // the day's sitting took in (one sponsor asking about several bills in one
   // evening): each is its own exchange, about its own record.
   const units = entry.bindings.flatMap((binding) => {
-    const type = TYPES.get(binding.typeKey) as
+    const found = TYPES.get(binding.typeKey) as
       (PurposeType & { repeatsBy?: string }) | undefined;
+    // A cause may give a type the purpose its other causes lack.
+    const type = found
+      ? typeForCause(found, moment.label, moment.counterpartIds.length)
+      : undefined;
     if (!type?.purpose) return [];
     const joined =
       type.repeatsBy === "bill"
@@ -272,12 +278,32 @@ export function destinationSaid(
 /**
  * The type as its cause plays it: a cause may name its own `sceneKey`, which
  * tags the exchange's pieces in place of the type's key, so one purpose speaks
- * for each cause's own reason (the cause is matched by the moment's label).
+ * for each cause's own reason (the cause is matched by the moment's label),
+ * and may name the purpose it plays when the type's other causes have none.
+ * The caller's own fields (a type's `repeatsBy`) come back with it.
  */
-export function typeForCause(type: PurposeType, label: string): PurposeType {
+export function typeForCause<T extends PurposeType>(
+  type: T,
+  label: string,
+  /** How many counterparts the moment names: two causes may share a label and differ in this. */
+  counterparts?: number,
+): T {
   const causes = (type as { causes?: SituationType["causes"] }).causes;
-  const sceneKey = causes?.find((row) => row.match?.label === label)?.sceneKey;
-  return sceneKey ? { ...type, tag: { ...type.tag, key: sceneKey } } : type;
+  const cause = causes?.find(
+    (row) =>
+      row.match?.label === label &&
+      (counterparts === undefined ||
+        (row.match.counterpart === "none" && counterparts > P.zero) !== true) &&
+      (counterparts === undefined ||
+        (row.match.counterpart === "some" && counterparts === P.zero) !== true),
+  );
+  return {
+    ...type,
+    ...(cause?.sceneKey ? { tag: { ...type.tag, key: cause.sceneKey } } : {}),
+    ...(cause?.purpose ? { purpose: cause.purpose } : {}),
+    ...(cause?.asker ? { asker: cause.asker } : {}),
+    ...(cause?.asked ? { asked: cause.asked } : {}),
+  };
 }
 
 /**
@@ -325,6 +351,7 @@ function composeBinding(
   const type = typeForCause(
     TYPES.get(binding.typeKey) as PurposeType,
     moment.label,
+    moment.counterpartIds.length,
   );
   const cast = (role: string | undefined) =>
     binding.roles.find((row) => row.role === role)?.personIds[P.zero];
@@ -690,8 +717,23 @@ function composeBinding(
     // A rescue (`health.rescued`): who got help, who was there to see it.
     // stopgapId: SG-WORDS-rescue-ask-unrecorded
     ...rescueFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // News a household member brings (a death, a pairing, a parting): who it
+    // is about, the other person, and whether the bearer lived with them.
+    // stopgapId: SG-WORDS-news-ask-unrecorded
+    ...newsFacts(
+      core,
+      binding.typeKey,
+      moment.causeId,
+      askerId,
+      askedId,
+      cast("about"),
+    ),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
+    // A visit to someone seriously ill (`health.serious-illness`): how long,
+    // who is at home and who else could be called. stopgapId:
+    // SG-WORDS-visit-ill-ask-unrecorded
+    ...illnessFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     ...birthFacts(
       core,
       binding.typeKey,
