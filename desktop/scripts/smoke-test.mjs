@@ -165,10 +165,20 @@ async function launch() {
       subtitle: Boolean(front.querySelector(".sub")),
       // A description line is a span of text under an item. The Continue
       // item's face (.bust) and its label span (<b>Continue</b> plus the
-      // life's name) are not description lines (#6283).
+      // life's name) are not description lines (#6283). Neither is the row
+      // of faces on New game's two choices (.new-busts, the approved front
+      // mock fr-new): it holds pictures, never words, and `faceRowText`
+      // below fails the check the day anyone writes a line into it.
       itemLines: [...front.querySelectorAll(".item span")].filter(
-        (s) => !s.classList.contains("bust") && !s.querySelector("b"),
+        (s) =>
+          !s.classList.contains("bust") &&
+          !s.classList.contains("new-busts") &&
+          !s.closest(".new-busts") &&
+          !s.querySelector("b"),
       ).length,
+      faceRowText: [...front.querySelectorAll(".item .new-busts")]
+        .map((s) => s.textContent.trim())
+        .join(""),
       continueShown: Boolean(document.getElementById("front-continue")),
       continueDisabled: document.getElementById("front-continue")?.disabled,
       continueHidden: document.getElementById("front-continue")?.hidden,
@@ -211,6 +221,11 @@ async function launch() {
   check(
     "title: no description line under any item",
     titleScreen.itemLines === 0,
+  );
+  check(
+    "title: New game's rows of faces hold pictures and no words",
+    titleScreen.faceRowText === "",
+    titleScreen.faceRowText,
   );
   check(
     "title: no seed or place controls on the title",
