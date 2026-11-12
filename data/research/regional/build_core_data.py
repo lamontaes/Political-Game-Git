@@ -44,7 +44,6 @@ for r in bea:
         income.setdefault(r["geoFips"], {})[r["lineCode"]] = v
 monthly = json.load(open(HERE / "series/state-monthly.json"))
 metro_u = json.load(open(HERE / "series/metro-unemployment.json"))
-stats = json.load(open(HERE / "series/stats.json"))
 
 by_state = {}
 for row in cbsa:
@@ -102,17 +101,5 @@ doc = {
     "series": {"stateUnemploymentPct": monthly["unemploymentPct"], "stateJobsThousands": monthly["jobsThousands"], "stateHourlyEarnings": monthly["hourlyEarnings"], "metroUnemploymentPct": keep_metros},
 }
 (OUT / "regions.json").write_text(json.dumps(doc, separators=(",", ":")) + "\n")
-def sourced(value, citation, low=None, high=None, unit=None):
-    row = {"value": value, "tag": "SOURCED", "citation": citation}
-    if low is not None: row["spread"] = {"low": low, "high": high, "unit": unit, "citation": citation}
-    return row
-P = {}
-for name, b in stats["sectorBetas"].items():
-    key = "".join(w.capitalize() for w in name.split("-"))
-    P[f"regionalSector{key}TrendMonthlyPct"] = sourced(round(b["intercept"], 5), f"OLS of national CES {name} monthly employment growth on total nonfarm growth, 1990-2019, intercept SE {b['seIntercept']:.3f}.", round(b["intercept"] - 2 * b["seIntercept"], 5), round(b["intercept"] + 2 * b["seIntercept"], 5), "percent per month")
-    P[f"regionalSector{key}Beta"] = sourced(round(b["beta"], 4), f"Same regression, slope on national job growth, SE {b['seBeta']:.3f}.", round(b["beta"] - 2 * b["seBeta"], 4), round(b["beta"] + 2 * b["seBeta"], 4), "points per national point")
-g = stats["stateUnemploymentGapPersistence"]
-P["regionalUnemploymentGapPersistence"] = sourced(round(g["rho"], 5), f"Pooled AR(1) of the state unemployment rate less the national rate, LAUS {g['window']}, SE {g['se']:.4f}.", round(g["rho"] - 2 * g["se"], 5), min(1, round(g["rho"] + 2 * g["se"], 5)), "monthly coefficient")
-P["regionalNationalMeanMonthlyJobGrowthPct"] = sourced(round(stats["nationalMeanMonthlyJobGrowthPct"], 5), "Mean monthly national payroll growth 1990-2019, BLS CES0000000001.")
-(OUT / "parameters.json").write_text(json.dumps(P, indent=2) + "\n")
+# parameters.json is kept by hand: the regional sector regressions, the gap persistence and the national mean job growth fed the regional pull, which the country tier replaced (country-model.ts).
 print(len(regions), sum(1 for r in regions if r["kind"] == "metro"), (OUT / "regions.json").stat().st_size)

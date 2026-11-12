@@ -30,6 +30,7 @@ function claimant(
     count: countedWeight(core, personId),
   };
 }
+import type { LawInForceAnswer } from "./laws-in-force";
 import type { LawRowInput } from "./laws-starting";
 import { residentFacts, residentsRuntime } from "./modules/residents";
 import { countedPersonOf } from "./counted-actor";
@@ -133,7 +134,25 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
   const asOf = api.state.date;
   if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID))
     return NO_PROGRAM(asOf);
-  const row = lawInForce(api, "unemployment-insurance").governing;
+  return unemploymentTermsOf(
+    lawInForce(api, "unemployment-insurance"),
+    lawInForce(api, "unemployment-weekly-maximum"),
+    (key) => api.parameter(key),
+    asOf,
+  );
+}
+
+/**
+ * The same terms from any state's law answers: the town reads its own state's,
+ * and the country tier reads every state's (one rule, two tiers).
+ */
+export function unemploymentTermsOf(
+  program: LawInForceAnswer,
+  maximumAnswer: LawInForceAnswer,
+  parameter: (key: string) => number,
+  asOf: string,
+): UnemploymentTerms {
+  const row = program.governing;
   const t = row?.terms as
     | {
         waitingWeek?: boolean;
@@ -146,23 +165,22 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
         };
       }
     | undefined;
-  const maximumAnswer = lawInForce(api, "unemployment-weekly-maximum");
   const maximum = maximumAnswer.value;
   // The enacted amount is availability. The starting research also carries
   // a hasProgram field, but retaining its formula must not override repeal.
   if (!row || !t || row.value !== 1) return NO_PROGRAM(asOf);
   if (typeof t.maxWeeks !== "number" || maximum === null)
     return NO_PROGRAM(asOf);
-  const minor = api.parameter("minorPerDollar");
+  const minor = parameter("minorPerDollar");
   const quarterWeeks =
-    api.parameter("jobsDaysPerYear") / DAYS_PER_WEEK / QUARTERS_PER_YEAR;
+    parameter("jobsDaysPerYear") / DAYS_PER_WEEK / QUARTERS_PER_YEAR;
   const quarters = t.weeklyBenefitBasisQuarters ?? undefined;
   // A fraction of the basis wages is a share of weekly pay once the basis's
   // weeks are counted; a row that gives none falls to the program's median.
   const weeklyShare =
     typeof t.weeklyBenefitFraction === "number" && quarters !== undefined
       ? t.weeklyBenefitFraction * (quarters === 0 ? 1 : quarters * quarterWeeks)
-      : api.parameter("jobsBenefitWeeklyShare");
+      : parameter("jobsBenefitWeeklyShare");
   const wages =
     t.baseEarnings?.minimumBasePeriodWages ??
     t.baseEarnings?.minimumHighQuarterWages;
@@ -181,7 +199,7 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
     minimumBasePeriodMinor:
       typeof wages === "number"
         ? Math.round(wages * minor)
-        : api.parameter("jobsBenefitMinimumBasePeriodMinor"),
+        : parameter("jobsBenefitMinimumBasePeriodMinor"),
     lawId: row.id,
     ...(maximumAnswer.governing
       ? { maximumLawId: maximumAnswer.governing.id }
@@ -310,8 +328,11 @@ function basePeriodWages(
   if (!fold?.length || terms.weeklyFraction === undefined || !q) return null;
   const now = quarterOf(c.date);
   const completed = fold.filter((row) => row.quarter < now).slice(-5);
+  // A record shorter than a base year (a world, or a job, under four completed
+  // quarters old) is not the base period: the earlier pay is not on record, so
+  // the lost job's last pay stands until four quarters are.
+  if (completed.length < 4) return null;
   const base = completed.length === 5 ? completed.slice(0, 4) : completed;
-  if (!base.length) return null;
   const gross = base.map((row) => row.grossMinor).sort((a, b) => b - a);
   return {
     wages: gross.slice(0, q).reduce((n, v) => n + v, 0),

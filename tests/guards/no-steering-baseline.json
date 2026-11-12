@@ -3,13 +3,11 @@
     "src/core2/finance-state.ts": 1,
     "src/core2/health-own.ts": 1,
     "src/core2/housing-mortgages.ts": 1,
-    "src/core2/macro-model.ts": 3,
     "src/core2/modules/campaigns.ts": 3,
     "src/core2/modules/employer-taxes.ts": 2,
     "src/core2/modules/jobs.ts": 1,
     "src/core2/modules/voting.ts": 2,
     "src/core2/opening-personality.ts": 1,
-    "src/core2/regional-model.ts": 2,
     "src/core2/starting-cash.ts": 1
   },
   "unlabeledRows": {
@@ -27,7 +25,7 @@
     "src/core2/data/elections/federal-qualifications.json": 2,
     "src/core2/data/elections/filing-fallbacks.json": 5,
     "src/core2/data/elections/parameters.json": 10,
-    "src/core2/data/electorate/parameters.json": 17,
+    "src/core2/data/electorate/parameters.json": 16,
     "src/core2/data/executive/emergency.json": 2,
     "src/core2/data/health/medical-bills.json": 8,
     "src/core2/data/housing/parameters.json": 43,
@@ -36,7 +34,7 @@
     "src/core2/data/justice/parameters.json": 32,
     "src/core2/data/laws/reach-group-a-parameters.json": 39,
     "src/core2/data/laws/reach-group-b-parameters.json": 60,
-    "src/core2/data/macro/parameters.json": 61,
+    "src/core2/data/macro/parameters.json": 51,
     "src/core2/data/meetings/parameters.json": 18,
     "src/core2/data/moves/parameters.json": 19,
     "src/core2/data/news/parameters.json": 8,
@@ -56,7 +54,7 @@
     "src/core2/data/projects/parameters.json": 2,
     "src/core2/data/public-action/actions.json": 8,
     "src/core2/data/public-safety/parameters.json": 68,
-    "src/core2/data/regional/parameters.json": 30,
+    "src/core2/data/regional/parameters.json": 3,
     "src/core2/data/renewal/parameters.json": 32,
     "src/core2/data/school/outcomes.json": 3,
     "src/core2/data/speech/parameters.json": 6,
@@ -154,7 +152,7 @@
       "lines": "143, 544, 729-784",
       "shape": "fixed rate",
       "owner": "Lives",
-      "what": "the destination fit refits migration totals to the ACS; departure rates are the survey's"
+      "what": "the destination fit matches migration totals to the ACS once, at the opening, and is kept; departure rates are the survey's"
     },
     {
       "file": "src/core2/modules/medical-bills.ts",

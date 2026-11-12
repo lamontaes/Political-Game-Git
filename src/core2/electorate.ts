@@ -28,12 +28,8 @@ import {
   type CountedStore,
   isDemoted,
 } from "./counted-groups";
-import {
-  countedLean,
-  VIEWS_KEYS,
-  VIEWS_MODULE_ID,
-  viewOf,
-} from "./modules/views";
+import { countedLean, VIEWS_MODULE_ID, viewOf } from "./modules/views";
+import { VIEWS_KEYS } from "./views-keys";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import { coreAPI } from "./state";
 import { reportOutcome } from "./trait-decisions";
@@ -491,6 +487,48 @@ export interface CountedAppeal {
   readonly scandal: number;
   /** Their own "yes" at the candidate's door, as far as it still holds. */
   readonly pledge: number;
+  /** What the held yes adds beyond its weight so it keeps the candidate ahead (`liftHeldPledges`); 0 where none holds. */
+  readonly pledgeLift?: number;
+}
+
+/**
+ * A door "yes" that still holds decides the voter's choice in proportion to
+ * how far it holds (owner, Oct 29: a yes at the door is near-binding), on a
+ * sliding scale with no threshold: the pledged candidate's total is lifted by
+ * `holds` times the gap to the best rival's total without any pledge, so a
+ * yes held in full keeps its candidate ahead by the pledge weight whatever
+ * the other reasons sum to, a yes half held closes half the gap, and one
+ * fully doubted adds nothing. The one rule for a named voter's appeal
+ * (voting.ts) and a counted voter's (`countedAppeal`), read by each after its
+ * totals are summed. `pledge` is the weight times how far the yes holds.
+ */
+export function liftHeldPledges(
+  appeal: Record<
+    string,
+    { total: number; pledge?: number; pledgeLift?: number }
+  >,
+): void {
+  const weight = campaignParameter("doorPledgeWeight");
+  if (!(weight > 0)) return;
+  for (const id in appeal) {
+    const own = appeal[id]!;
+    const holds = Math.min(1, (own.pledge ?? 0) / weight);
+    if (holds <= 0) continue;
+    let rival = -Infinity;
+    for (const other in appeal)
+      if (other !== id)
+        rival = Math.max(
+          rival,
+          appeal[other]!.total - (appeal[other]!.pledge ?? 0),
+        );
+    const gap = rival - (own.total - (own.pledge ?? 0));
+    own.pledgeLift = gap > 0 ? holds * gap : 0;
+  }
+  // Apply after every candidate's lift is read from the pledge-free totals.
+  for (const id in appeal) {
+    const own = appeal[id]!;
+    if (own.pledgeLift) own.total += own.pledgeLift;
+  }
 }
 
 /**
@@ -500,6 +538,8 @@ export interface CountedAppeal {
  * known for (the town's own people only), and the incumbent side of their
  * traits.
  */
+type Mutable<T> = { -readonly [K in keyof T]: T[K] };
+
 export function countedAppeal(
   lean: number,
   field: readonly CountedFieldEntry[],
@@ -527,8 +567,14 @@ export function countedAppeal(
      */
     readonly divides?: boolean;
   },
+  /**
+   * A record this call may refill in place, for a count that reads each
+   * voter's appeal once and keeps none of it (`countPlaces`): the same values
+   * in the same keys, without a new record for every voter.
+   */
+  into?: Record<string, CountedAppeal>,
 ): Record<string, CountedAppeal> {
-  const appeal: Record<string, CountedAppeal> = {};
+  const appeal: Record<string, CountedAppeal> = into ?? {};
   const pledgeWeight = campaignParameter("doorPledgeWeight");
   for (const entry of field) {
     const party = lean * entry.side;
@@ -551,18 +597,32 @@ export function countedAppeal(
       : 0;
     // Their own word at the door (owner, Oct 29: a "yes" is near-binding).
     const pledge = pledgeWeight * (where.pledges?.[entry.id] ?? 0);
-    appeal[entry.id] = {
-      total:
-        party + standing + recognition + incumbent + ballot + scandal + pledge,
-      party,
-      standing,
-      recognition,
-      incumbent,
-      ballot,
-      scandal,
-      pledge,
-    };
+    const total =
+      party + standing + recognition + incumbent + ballot + scandal + pledge;
+    const held = into?.[entry.id] as Mutable<CountedAppeal> | undefined;
+    if (held) {
+      held.total = total;
+      held.party = party;
+      held.standing = standing;
+      held.recognition = recognition;
+      held.incumbent = incumbent;
+      held.ballot = ballot;
+      held.scandal = scandal;
+      held.pledge = pledge;
+    } else
+      appeal[entry.id] = {
+        total,
+        party,
+        standing,
+        recognition,
+        incumbent,
+        ballot,
+        scandal,
+        pledge,
+      };
   }
+  // A held door yes keeps its candidate ahead, in proportion to how far it holds.
+  liftHeldPledges(appeal as Record<string, Mutable<CountedAppeal>>);
   // The audit's probe (off in play) sees whether the voter backs the
   // incumbent with and without the trait term: one person's first place, or
   // the share of a counted record's people the count gives them.
@@ -610,14 +670,27 @@ export function countedAppeal(
 export function countedChoice(
   appeal: Readonly<Record<string, { readonly total: number }>>,
 ): string | null {
-  const ranked = Object.entries(appeal).sort(
-    (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
-  );
-  if (ranked.length === 1)
-    return ranked[0]![1].total >= 0 ? ranked[0]![0] : null;
-  return ranked.length > 1 && ranked[0]![1].total > ranked[1]![1].total
-    ? ranked[0]![0]
-    : null;
+  // The first place and whether anyone ties it, in one pass over the keys
+  // in their own order: the ranking a sort gives without the sort or a list
+  // (counted for every sample voter of every place, millions of times an
+  // election year).
+  let best: string | null = null;
+  let top = -Infinity;
+  let tied = false;
+  let count = 0;
+  let only = "";
+  for (const id in appeal) {
+    count += 1;
+    only = id;
+    const total = appeal[id]!.total;
+    if (total > top) {
+      top = total;
+      best = id;
+      tied = false;
+    } else if (total === top) tied = true;
+  }
+  if (count === 1) return appeal[only]!.total >= 0 ? only : null;
+  return tied ? null : best;
 }
 
 /**
@@ -979,6 +1052,9 @@ export function countPlaces(
   readonly places: readonly PlaceResult[];
 } {
   const { voters, placement } = coarseSample(sample);
+  // One record refilled for every voter: each voter's appeal is read here
+  // and nothing keeps it (`countedAppeal`'s `into`).
+  const scratch: Record<string, CountedAppeal> = {};
   const rule = turnoutRule();
   const one = countedShareRule(field);
   const shares =
@@ -1011,14 +1087,19 @@ export function countPlaces(
             (primary.open && !identifies);
           if (!takesPart) continue;
         }
-        const appeal = countedAppeal(lean, field, {
-          inTown: place.inTown ?? false,
-          local: place.local ?? false,
-          incumbentLean: voter.incumbentLean,
-          // The place's voters hold each form of a rotated ballot in turn.
-          ballotForm: form,
-          divides: true,
-        });
+        const appeal = countedAppeal(
+          lean,
+          field,
+          {
+            inTown: place.inTown ?? false,
+            local: place.local ?? false,
+            incumbentLean: voter.incumbentLean,
+            // The place's voters hold each form of a rotated ballot in turn.
+            ballotForm: form,
+            divides: true,
+          },
+          scratch,
+        );
         // The one turnout rule (`turnout.ts`): each sample voter stands for
         // the place's people like them, who turn out at their propensity.
         const share =

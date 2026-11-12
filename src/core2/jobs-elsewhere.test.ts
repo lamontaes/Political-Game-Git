@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import cps from "../../data/research/labor/cps-2024-employment-by-age.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { advanceCore, createLifeCore } from "./life";
+import { JOBS_MODULE } from "./modules/jobs";
 import { livesElsewhere } from "./modules/moves";
 import {
   reviewWorkElsewhere,
@@ -32,7 +33,13 @@ const input = generatedOpening(
 const core = createLifeCore(input);
 registerModule(core, {
   id: "jobs",
-  state: { schemaVersion: 1, tables: { [WORK_ELSEWHERE_TABLE]: {} } },
+  state: {
+    schemaVersion: 1,
+    tables: { [WORK_ELSEWHERE_TABLE]: {}, state: {} },
+  },
+  // A death reaches the real jobs engine's own handler.
+  eventKinds: ["life.death"],
+  onEvent: (a, event) => JOBS_MODULE.onEvent!(a, event),
 });
 const events: CoreEventInput[] = [];
 registerModule(core, {
@@ -151,12 +158,28 @@ describe(`working lives elsewhere over a year in ${input.placeMetadata?.placeNam
 
   it("holds one working-life row per person living elsewhere of working age, and no more", () => {
     const rows = api.moduleState("jobs").table(WORK_ELSEWHERE_TABLE).rows();
-    const ids = new Set(people().map((row) => row.id));
     // The rows plus the one row of each state's conditions.
     for (const row of rows)
       if (!String(row.id).startsWith("lives-work:"))
         expect(
-          ids.has(String(row.id)) || !core.people.get(String(row.id))?.alive,
+          core.people.get(String(row.id))?.alive,
+          `${key}, seed ${seed}: ${row.id} is dead and still has a working-life row`,
         ).toBe(true);
+  });
+  it("drops a person's working-life row on their death", () => {
+    const row = api
+      .moduleState("jobs")
+      .table(WORK_ELSEWHERE_TABLE)
+      .rows()
+      .find((r) => core.people.get(String(r.id))?.alive);
+    expect(row, `${key}, seed ${seed}: a living row to end`).toBeTruthy();
+    const id = String(row!.id);
+    JOBS_MODULE.onEvent!(api, {
+      id: `life.death:${id}:test`,
+      date: core.date,
+      kind: "life.death",
+      personIds: [id],
+    } as never);
+    expect(rowOf(id), `${key}, seed ${seed}: ${id}`).toBeUndefined();
   });
 });

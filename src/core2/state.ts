@@ -11,14 +11,17 @@ import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 import {
   keptDecision,
+  isShortDetailKind,
   queueCampaignRecord,
   CAMPAIGN_RECORD_KINDS,
   queueCircleEntry,
+  queueShortEntry,
   queueDecisionDetail,
   queueRelationshipDetail,
 } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
-import { queueExperience } from "./knowledge-retention";
+import { isExperiencedKey, queueExperience } from "./knowledge-retention";
+import { queueEventId } from "./event-id-retention";
 import { meetAtWork } from "./encounters";
 import { workgroupOf } from "./shared-history";
 import { derivePersonAppearance } from "./appearance";
@@ -88,6 +91,7 @@ import {
   closeBusinessByChoice,
   closeEmployer,
   finishFinanceDay,
+  moveRecipientIncomeHome,
 } from "./finance-state";
 import {
   preflightModuleNotifications,
@@ -768,7 +772,11 @@ export function retainLog(
   // window, the player's own routine ones a year later (condenseCircleDecisions).
   if (row.decision) queueDecisionDetail(core, core.date, row.id);
   else if (row.visibility === "circle" && !row.publicRecord && !row.news)
-    queueCircleEntry(core, core.date, row.id);
+    (isShortDetailKind(row.kind) ? queueShortEntry : queueCircleEntry)(
+      core,
+      core.date,
+      row.id,
+    );
   else if (row.visibility === "public" && CAMPAIGN_RECORD_KINDS.has(row.kind))
     queueCampaignRecord(core, core.date, row.id);
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
@@ -1008,6 +1016,16 @@ export function coreAPI(core: CoreState): CoreAPI {
     observe(personId, fact) {
       const known = core.knowledgeByPerson.get(personId);
       if (!known) throw new Error(`Knowledge recipient is absent: ${personId}`);
+      // Someone back in the counts learns nothing but the events they take
+      // part in, as no counted person keeps knowledge (two-level rule, Oct
+      // 11): the day's appraisal reads that note and the forgetting pass
+      // drops it within weeks; their record keeps their results, and meeting
+      // them again fills them in to learn anew. Writers that reach them by
+      // place or county (a county story's readers) otherwise grew their
+      // facts for the rest of the run (Montpelier, Vermont, Nov 9: 921,660
+      // facts held by people back in the counts at year 4).
+      const person = core.people.get(personId);
+      if (person && isDemoted(person) && !isExperiencedKey(fact.key)) return;
       makeIsoDate(fact.learnedAt);
       if (fact.learnedAt > core.date)
         throw new Error("Cannot learn a future fact.");
@@ -1745,6 +1763,9 @@ export function coreAPI(core: CoreState): CoreAPI {
         actor.householdId = input.householdId;
         index(core.peopleByPlace, actor.placeId, actor.id);
         if (actor.countyId) index(core.peopleByPlace, actor.countyId, actor.id);
+        // A recorded income award (a pension, Social Security) is paid into
+        // the household where its person lives now, from its next due date.
+        moveRecipientIncomeHome(core, actor.id, input.householdId);
       }
     },
     changeHouseholdV1(input) {
@@ -1818,8 +1839,10 @@ export function coreAPI(core: CoreState): CoreAPI {
           memberIds: from.memberIds.filter((id) => !leaving.includes(id)),
         });
       }
-      for (const mover of movers as PersonState[])
+      for (const mover of movers as PersonState[]) {
         mover.householdId = input.householdId;
+        moveRecipientIncomeHome(core, mover.id, input.householdId);
+      }
     },
     setPartnersV1(input) {
       const [a, b] = [...input.personIds].sort() as [string, string];
@@ -2202,6 +2225,7 @@ export function applyCoreEvent(core: CoreState, event: CoreEventInput): void {
     if (!core.people.has(id) && !core.husks.has(id))
       throw new Error(`Event names an absent person: ${id}`);
   core.eventIds.add(event.id);
+  queueEventId(core, event.id);
   retainLog(core, event);
   const api = coreAPI(core);
   for (const id of new Set([...(event.witnessIds ?? []), ...event.personIds])) {

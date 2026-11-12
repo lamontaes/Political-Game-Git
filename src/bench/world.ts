@@ -17,6 +17,7 @@ import {
   worldCoreData,
 } from "../core2/modules/world";
 import { openLaws } from "../core2/modules/laws";
+import { openStartingCircle } from "../core2/modules/people";
 import { openOffices } from "../core2/modules/offices";
 import { openElections } from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
@@ -29,6 +30,7 @@ import { openOfficialPay } from "../core2/modules/official-pay";
 import { openCrime } from "../core2/modules/crime";
 import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/homeless-count";
+import { openGrievance } from "../core2/modules/people";
 import { openEstates } from "../core2/estates";
 import { openEmployerTaxes } from "../core2/modules/employer-taxes";
 import { openContracts } from "../core2/modules/contracts";
@@ -43,6 +45,7 @@ import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openPublicAction } from "../core2/modules/public-action";
+import { openNationalOpinion } from "../core2/modules/national-opinion";
 import { openFederalCourts } from "../core2/modules/federal-courts";
 import { openNationalEvents } from "../core2/modules/national-events";
 import {
@@ -532,6 +535,8 @@ function* benchWorldStages(
   // Officials are paid from the treasuries budgets just opened (OPUS-CORE).
   openOfficialPay(core);
   openHomelessCount(core);
+  // Disputes between two people from the layoffs and evictions above.
+  openGrievance(core);
   // Crimes that happen to households, from the national rates and the web's factors (OPUS-CORE).
   openCrime(core);
   openEstates(core);
@@ -566,6 +571,8 @@ function* benchWorldStages(
   openCases(core);
   // The town's strikes, protests and rallies, from how its term reads by area.
   openPublicAction(core);
+  // The country's approval of its president, from the economy and what happened.
+  openNationalOpinion(core);
   // What happens in the rest of the country, as results (disasters from FEMA's record).
   openNationalEvents(core);
   openClimate(core);
@@ -591,6 +598,8 @@ function* benchWorldStages(
   const preStart = defaultPreStart(core);
   if (preStart)
     runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
+  // The people the player starts out knowing have their whole past at the opening.
+  openStartingCircle(core);
   // Sessions already sitting take up their work at the opening, so their bills are filed on day one.
   openSittingSessions(core);
   // Last, so everyone the opening seated has a health coverage record on day one
@@ -623,6 +632,25 @@ function* benchWorldStages(
         ...(person.jobId ? { jobId: person.jobId } : {}),
       };
     });
+  recipes.set(core, {
+    seed,
+    date,
+    options: {
+      twoLevel: options.twoLevel,
+      placeKey: place.key,
+      ...(options.minimumPeople !== undefined
+        ? { minimumPeople: options.minimumPeople }
+        : {}),
+      ...(options.countScale !== undefined
+        ? { countScale: options.countScale }
+        : {}),
+      ...(options.playerBirthDate
+        ? { playerBirthDate: options.playerBirthDate }
+        : {}),
+      ...(options.playerGender ? { playerGender: options.playerGender } : {}),
+      ...(options.settings ? { settings: options.settings } : {}),
+    },
+  });
   return {
     core,
     director,
@@ -631,4 +659,22 @@ function* benchWorldStages(
     residents,
     ...(playerId ? { playerId } : {}),
   };
+}
+
+/** How a world was built: its seed, its start date and the choices that shaped it. */
+export interface BuildRecipe {
+  readonly seed: string;
+  readonly date: string;
+  readonly options: BuildOptions;
+}
+const recipes = new WeakMap<CoreState, BuildRecipe>();
+
+/**
+ * The recipe a world was built from, so the same world can be built again as a
+ * twin (dev mode's money check compares the played world with the same world
+ * left alone). Kept beside the world, not in it; a world restored from a save
+ * has none.
+ */
+export function buildRecipeOf(core: CoreState): BuildRecipe | undefined {
+  return recipes.get(core);
 }

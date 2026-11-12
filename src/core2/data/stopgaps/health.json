@@ -3,7 +3,7 @@
     "id": "SG-HEALTH-youth-cannabis-record-unread",
     "kind": "missing-reader",
     "file": "src/core2/modules/health.ts",
-    "line": 765,
+    "line": 779,
     "whatItFakes": "Each full teen's monthly past-month cannabis use record (and the counted teens' count in the counted monthly row) is decided from their own conscientiousness and the place's share, which the state's sales law moves through the outcome web, but no other engine reads the record yet: a teen who used is no different at school, at home or at 18.",
     "why": "The owner's Oct 29 ruling builds the record as a background simulation for the sales law; the readers the research names (school performance and leaving school, the adult substance-use condition at 18, a parent's worry) are engines that do not take a teen's use as an input today.",
     "addedBy": "laws lead (health-teen-substance-use-record)",
@@ -15,7 +15,7 @@
     "id": "SG-HEALTH-own-records-counted",
     "kind": "partial-model",
     "file": "src/core2/modules/health.ts",
-    "line": 596,
+    "line": 660,
     "whatItFakes": "coverage-to-mortality-55-64 cuts a full person's death hazard at 55 to 64 by their own Medicaid coverage, and job-loss-to-death-risk raises it for a worker whose long job ended in a closure or layoff (src/core2/health-own.ts, src/core2/job-displacement.ts), and long-hours-to-heart-and-stroke raises it for a worker whose job is recorded at long weekly hours. A counted person has none of these records of their own (the law reach keeps the town's counted adults' Medicaid coverage by person id, but the counted flows do not read it for illness; they read no closure and no job hours), so the counted flows (src/core2/births-counted.ts) keep the place-level twin, medicaid-expansion-to-mortality, which is the same cause averaged over the low-income 55- to 64-year-olds enrolled or not, and take no job-loss or long-hours excess. The research finds the excess only at firms that lost 30% or more of their jobs; the jobs engine keeps no firm peak, so a layoff counts when it reaches a worker with years on the job, which it lets go only after everyone it values less (a deep cut), and a worker's sex is not split although the paper's sample is men.",
     "why": "The counted flows that start a counted member's serious illness read only place-level factors; the counted tier's closures are not tied to the health flows.",
     "addedBy": "laws-lead-mortality-helper",
@@ -57,6 +57,18 @@
     "addedBy": "claude/laws-medical-debt",
     "addedAt": "2026-10-29",
     "replacement": "At fill-in, the owed bills of the households released from the record move to the records that take their weight, in proportion to the weight each takes, by the same rule that moves the group's living-cost arrears (world-fill-in-strands-group-living-arrears).",
+    "status": "open"
+  },
+  {
+    "id": "SG-HEALTH-results-mode-opening-gap",
+    "kind": "partial-model",
+    "file": "src/core2/modules/health.ts",
+    "line": 1214,
+    "whatItFakes": "When a world's first days are skipped in results mode, the health engine first runs on the first of the first skipped month, so the serious illnesses its opening booked for the days between the opening and that first (up to a month) begin on that first instead of on their own days, and their deaths follow from it.",
+    "why": "The fast clock, part 2 (pool item core-fast-clock-part-2-births-deaths-and-illness-in-skipped-time): results mode calls a module only on the first of each month (onResultsMonth, part 1), and the health engine's records open on its first run; an event can only enter on the current date, so a day already passed cannot be heard on its own day.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "Results mode opens every engine's records on the skip's first day (a start hook in life.ts that runs once per world before the first skipped day), so the health engine books its calendar days from the opening and no booked day is passed over.",
     "status": "open"
   }
 ]

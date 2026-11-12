@@ -24,11 +24,13 @@ import {
 import { lawChain } from "../core2/modules/laws";
 import {
   candidateIdentity,
+  pollingPlaceOf,
   resultOf,
   returnsOf,
 } from "../core2/modules/voting";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type { EntityId } from "../core2/kernel/brands";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -153,6 +155,28 @@ export function electionDay(
         : {}),
     });
   }
+  // Where the voter votes, from the voting engine's polling place record: the
+  // building (the town government's own), the precinct where the town has
+  // more than one, and one of the people who work it that day.
+  const polls = visit?.pollingPlaceId
+    ? pollingPlaceOf(api, personId, date)
+    : null;
+  const building = polls?.buildingId
+    ? core.organizations.get(polls.buildingId as EntityId)
+    : undefined;
+  if (polls) {
+    const cited = [polls.id, ...(polls.buildingId ? [polls.buildingId] : [])];
+    say("polls", {
+      ...(building ? { building: fact(building.name, ...cited) } : {}),
+      ...(polls.precincts > 1
+        ? { precinct: fact(polls.precinct, ...cited) }
+        : {}),
+    });
+  }
+  const workerId = polls?.pollWorkers?.ids.find((id) => id !== personId);
+  const worker = workerId ? nameOf(api, workerId) : null;
+  if (polls && workerId && worker)
+    say("poll-worker", { worker: fact(worker, polls.id, workerId) });
   const helper = own ? canvasser(api, own.filing.id, personId) : null;
   if (own && !canvassed)
     say("canvass", {
@@ -167,28 +191,23 @@ export function electionDay(
     lines,
     canvass:
       own && !canvassed ? { filingId: own.filing.id, helperId: helper } : null,
-    // No polling visit: a candidate who lives outside the town the count
-    // reads (an eviction, a move) has no ballot here, and the day says so.
+    // No polling visit: someone who lives outside the town the count reads (an
+    // eviction, a move) has no ballot here, so the day offers no vote.
     away: !visit,
-    // The choice itself is asked after the canvass, or at once.
-    ask: [
-      visit
-        ? electionDayLine(
+    // The choice itself is asked after the canvass, or at once, and only of a player
+    // who can vote here: with no polling visit nothing is asked and the day goes on
+    // to the count (owner, Nov 9: "It just shouldn't let you do it if you can't vote.").
+    ask: visit
+      ? [
+          electionDayLine(
             "vote-ask",
             withName && withId
               ? { with: fact("yes"), companion: fact(withName, withId) }
               : {},
             moment,
-          )
-        : core.people.get(personId as EntityId)?.placeId !==
-            lawChain(api).townPlaceId
-          ? electionDayLine(
-              "vote-away",
-              place ? { place: fact(place) } : {},
-              moment,
-            )
-          : electionDayLine("vote-none", {}, moment),
-    ].filter((line): line is Line => line !== null),
+          ),
+        ].filter((line): line is Line => line !== null)
+      : [],
   };
 }
 
@@ -253,6 +272,9 @@ export function electionNight(core: CoreState, personId: string) {
     night.find((row) => row.ballot?.voted) ??
     null;
   if (!race) return null;
+  // Election night is the night of the count and the day after: a night counted earlier is the
+  // record's, not news, so no reload or restart reopens it weeks later.
+  if (addDays(makeIsoDate(race.date), 1) < core.date) return null;
   const result = resultOf(api, race.contestId);
   if (!result) return null;
   const recordId = `election-result:${race.contestId}`;

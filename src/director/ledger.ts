@@ -123,6 +123,8 @@ export type StoryWords = (
   },
 ) => {
   readonly headline?: string;
+  /** The headline as a person says it in talk (a bill by what it does). */
+  readonly spoken?: string;
   readonly sourceRecordIds: readonly string[];
 } | null;
 
@@ -603,17 +605,21 @@ export function createDirector(
     return Math.pow(P.two, -nearest / param("directorAnniversaryHalfDays"));
   }
 
-  function fadingOf(thread: Thread, book: PersonLedger, date: IsoDate): number {
-    // Living in one home is contact, whether or not the core records it.
-    if (thread.sharedHome) return zero;
+  /** The last day the pair were in touch, as the thread stands now. */
+  function lastSeen(thread: Thread, book: PersonLedger): IsoDate | undefined {
     const fact = book.keptFacts.get(
       `knew-each-other:${[thread.personId, thread.otherId].sort().join(":")}`,
     );
     const known = thread.lastContact ?? fact?.since;
-    const last =
-      thread.renewedAt && (!known || thread.renewedAt > known)
-        ? thread.renewedAt
-        : known;
+    return thread.renewedAt && (!known || thread.renewedAt > known)
+      ? thread.renewedAt
+      : known;
+  }
+
+  function fadingOf(thread: Thread, book: PersonLedger, date: IsoDate): number {
+    // Living in one home is contact, whether or not the core records it.
+    if (thread.sharedHome) return zero;
+    const last = lastSeen(thread, book);
     if (!last) return one;
     const days = Math.max(
       zero,
@@ -965,6 +971,9 @@ export function createDirector(
     // Ties: every change in closeness, read once at the end of the day.
     directorStopgap("SG-P13-tie-day-order", ledger.stopgapHits);
     const fadedBefore = new Map<PersonId, number>();
+    // The last day each pair was in touch before today's change, kept for the
+    // turn that renews a faded thread (the reunion scene says how long).
+    const lastBefore = new Map<PersonId, IsoDate>();
     for (const id of core.relationshipsByPerson.get(book.personId) ?? []) {
       const row = core.relationships.get(id)!;
       const otherId = row.actorId === book.personId ? row.otherId : row.actorId;
@@ -982,6 +991,8 @@ export function createDirector(
         (knew !== undefined && knew.since < date);
       const fadingBefore = hadHistory ? fadingOf(thread, book, date) : zero;
       fadedBefore.set(otherId, fadingBefore);
+      const seenBefore = hadHistory ? lastSeen(thread, book) : undefined;
+      if (seenBefore) lastBefore.set(otherId, seenBefore);
       // Cites the relationship record; the moment id carries the date.
       const causeId = id;
       // A tie moves a little with each contact; it turns when the change since
@@ -1161,12 +1172,14 @@ export function createDirector(
             "re-entry",
             (row.raw.get("re-entry") ?? zero) + importance * fading,
           );
+        const away = lastBefore.get(otherId) ?? lastSeen(thread, book);
         thread.renewedAt = date;
         thread.turns.push({
           date,
           turn: "renewed",
           causeId: row.causeId,
           closeness: thread.closeness,
+          ...(away && away < date ? { since: away } : {}),
         });
         rescoreHindsight(book, otherId, date);
       }
@@ -1602,8 +1615,13 @@ export function createDirector(
     at: { date: IsoDate; minuteOfDay: number },
     kind: string | undefined,
   ): { date: IsoDate; minuteOfDay: number } {
-    const row = data.settingHours.rows[kind ?? "home"];
-    if (!row) return at;
+    // A setting with no hours of its own keeps the player's day: nothing
+    // stops the clock at midnight (owner, Oct 27).
+    const row = data.settingHours.rows[kind ?? "home"] ?? {
+      opens: null,
+      closes:
+        coreParam(core, "minutesPerHour") * coreParam(core, "hoursPerDay"),
+    };
     const opens = row.opens ?? coreParam(core, "playerDayStartMinute");
     if (at.minuteOfDay >= opens && at.minuteOfDay < row.closes) return at;
     return at.minuteOfDay < opens

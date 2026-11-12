@@ -992,6 +992,13 @@ export interface CoreModule {
   ) => void;
   /** End-of-day settlement/closure observes all chronological work receipts. */
   onAfterDay?: (api: CoreAPI) => void;
+  /**
+   * Results mode (advanceCore with `results: true`, for time nobody watches)
+   * skips every module's onDay and the people due; on the first day of each
+   * month it calls this instead, and the engine brings its own daily work up
+   * to date with its own functions, so day-by-day play resumes after the skip.
+   */
+  onResultsMonth?: (api: CoreAPI) => void;
   /** A household's people have just been filled in from the counts (or returned to them and filled in again): its engines move what they kept on the counted household to the full one. */
   onFillIn?: (
     api: CoreAPI,
@@ -1277,8 +1284,9 @@ export interface CoreAPI {
    * People leaving town for another place (moves): each takes the new place
    * and county and leaves the town's place index. When they are the whole
    * household, the household goes with them under its own id; otherwise they
-   * leave it for `householdId`, a new household at the new place. None may
-   * still hold a job here.
+   * leave it for `householdId`, a new household at the new place, and a
+   * recorded income award of theirs is paid into it. None may still hold a
+   * job here.
    */
   relocatePeopleV1(input: {
     personIds: readonly PersonId[];
@@ -1293,7 +1301,9 @@ export interface CoreAPI {
    * households they were in. Each moving household's share of the everyday
    * spending follows them, the home obligations they shared (the lease) are
    * paid by the household they now belong to, and one left with no payer
-   * ends. A household left with no member keeps its record and ends its own
+   * ends. A recorded income award (a pension, Social Security) is paid into
+   * the household its person joins, as it is when people relocate. A
+   * household left with no member keeps its record and ends its own
    * obligations; an owned home is for the caller to sell first. All movers
    * must be living full people at the same place.
    */

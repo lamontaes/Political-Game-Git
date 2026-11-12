@@ -20,6 +20,7 @@
  *
  * Views form when first read, so a person filled in later gets theirs too.
  */
+import { isDemoted } from "../counted-groups";
 import { stableHash, pairKey } from "../kernel/ids";
 import { livedQuestion } from "../outcome-news";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
@@ -30,7 +31,6 @@ import {
   type StanceProfile,
 } from "../campaign-views";
 import { currentCloseness } from "../closeness";
-import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import drivesJson from "../data/drives.json" with { type: "json" };
 import type {
@@ -48,45 +48,9 @@ import {
 } from "../trait-decisions";
 import { keepsWhy } from "../why-kept";
 import { placeStateKey } from "../place-map";
+import { registerStanceListener, stanceMoved } from "../stance-listeners";
+import { VIEWS_KEYS, type CellKey } from "../views-keys";
 
-interface CellKey {
-  n: number;
-  mean: number;
-  sd: number;
-  engagement?: number;
-  shares?: Readonly<Record<string, number>>;
-}
-interface StateKey extends CellKey {
-  byAge: Readonly<Record<string, CellKey>>;
-  educationShares: Readonly<
-    Record<string, Readonly<Record<string, number>> | null>
-  >;
-  faithShares: Readonly<
-    Record<string, Readonly<Record<string, number>> | null>
-  >;
-}
-export const VIEWS_KEYS = keysJson as unknown as {
-  version: string;
-  source: { citation: string };
-  ageBands: readonly string[];
-  national: CellKey;
-  states: Readonly<Record<string, StateKey>>;
-  counties: Readonly<Record<string, CellKey>>;
-  nationalEducationShares: Readonly<
-    Record<string, Readonly<Record<string, number>>>
-  >;
-  nationalFaithShares: Readonly<
-    Record<string, Readonly<Record<string, number>>>
-  >;
-  profileShift: Readonly<
-    Record<
-      string,
-      Readonly<
-        Record<string, Readonly<Record<string, { n: number; shift: number }>>>
-      >
-    >
-  >;
-};
 export const VIEWS_DATA = viewsJson as {
   version: string;
   stopgapId: string;
@@ -222,7 +186,7 @@ function normal(key: string): number {
   );
 }
 
-function ageBand(age: number): string {
+export function ageBand(age: number): string {
   for (const band of VIEWS_KEYS.ageBands) {
     const [low, high] = band.split("-");
     if (age >= Number(low) && (high === "plus" || age <= Number(high)))
@@ -501,6 +465,8 @@ export function standingWith(
   countedHearer?: Pick<PersonState, "traits">,
   /** The speaker's lean where they are still in the wider population (no view row of their own). */
   countedSpeakerLean?: number,
+  /** A group of hearers' mean closeness to the speaker, in place of one listener's tie (`hearAsGroups`). */
+  groupCloseness?: number,
 ): number {
   const speaker = viewOf(api, speakerId);
   const half = v("one") / v("two");
@@ -536,8 +502,12 @@ export function standingWith(
       withTerm ? trust : nearTrust,
     );
   }
-  const tie = api.state.relationships.get(pairKey(listener.id, speakerId));
-  const closeness = tie ? currentCloseness(api.state, tie) : v("zero");
+  const tie =
+    groupCloseness === undefined
+      ? api.state.relationships.get(pairKey(listener.id, speakerId))
+      : undefined;
+  const closeness =
+    groupCloseness ?? (tie ? currentCloseness(api.state, tie) : v("zero"));
   const partyOf = (id: string) =>
     api.state.modules.has(PARTIES_STORE)
       ? ((
@@ -590,6 +560,30 @@ export function stanceOn(
   if (!api.state.modules.has(VIEWS_MODULE_ID)) return v("zero");
   const stance = stancesTable(api).get(`${personId}:${question}`) as unknown as
     Stance | undefined;
+  return (
+    (stance ? direction(stance.desiredChange) * stance.strength : v("zero")) +
+    groupShift(api, personId, question)
+  );
+}
+
+/**
+ * The shift a person took as one of a group of like hearers nobody watches
+ * (`hearAsGroups`, owner's level of detail, Nov 9): the group's stance on the
+ * question, read by the group the person was first heard in. Zero for anyone
+ * never heard as a group. One row read for the membership, one for the stance.
+ */
+export function groupShift(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+): number {
+  const state = api.moduleState(VIEWS_MODULE_ID);
+  const member = state.table("groupHearers").get(personId) as unknown as
+    { groupId: string } | undefined;
+  if (!member) return v("zero");
+  const stance = state
+    .table("groupStances")
+    .get(`${member.groupId}:${question}`) as unknown as Stance | undefined;
   return stance ? direction(stance.desiredChange) * stance.strength : v("zero");
 }
 
@@ -748,16 +742,9 @@ export function agreementWith(
   return Math.max(-v("one"), Math.min(v("one"), sum / platform.length));
 }
 
-type StanceListener = (api: CoreAPI, personId: PersonId, topic: string) => void;
-const stanceListeners: StanceListener[] = [];
-
-/**
- * Engines that act on the day a stance moves (interest-group membership
- * follows the view) register here; each is called after the move is stored.
- */
-export function registerStanceListener(listener: StanceListener): void {
-  if (!stanceListeners.includes(listener)) stanceListeners.push(listener);
-}
+// Engines that act on the day a stance moves register in a file of their own
+// (../stance-listeners), so registering while they load never waits on this one.
+export { registerStanceListener, VIEWS_KEYS };
 
 export function stancesOf(api: CoreAPI, personId: PersonId): Stance[] {
   return stancesTable(api).query("byPerson", [personId]) as unknown as Stance[];
@@ -910,6 +897,12 @@ export const viewsModule: CoreModule = {
     tables: {
       people: {},
       countedStances: { indexes: { byGroup: { fields: ["groupId"] } } },
+      /** Groups of like full hearers nobody watches, and their member counts (`hearAsGroups`). */
+      hearerGroups: {},
+      /** Which hearer group each unwatched full person was first heard in. */
+      groupHearers: { indexes: { byGroup: { fields: ["groupId"] } } },
+      /** Each hearer group's stance by topic: the mean of its members' shifts. */
+      groupStances: { indexes: { byGroup: { fields: ["groupId"] } } },
       openings: { indexes: { byPerson: { fields: ["personId"] } } },
       stances: {
         indexes: {
@@ -937,6 +930,13 @@ export const viewsModule: CoreModule = {
       Math.max(v("zero"), event.stressImpulse ?? v("zero"));
     const size = impulse > v("zero") ? impulse : v("one");
     for (const personId of learnedBy) {
+      // Someone back in the counts holds no stance of their own while
+      // counted (two-level rule, Oct 11): their group's record speaks for
+      // them, and meeting them again fills them in from it. Writing theirs
+      // left more stance rows for them than for full people by year 3
+      // (Montpelier, Vermont, Nov 9: 21,093 against 12,880).
+      const hearer = api.state.people.get(personId);
+      if (hearer && isDemoted(hearer)) continue;
       const view = viewOf(api, personId);
       if (!view) continue;
       let desiredChange = event.desiredChange;
@@ -1004,7 +1004,7 @@ export const viewsModule: CoreModule = {
       if (!stance) continue;
       // Built fresh here and never touched again: frozen in place, not copied.
       stancesTable(api).putOwned(stance as unknown as { id: string });
-      for (const listener of stanceListeners) listener(api, personId, topic);
+      stanceMoved(api, personId, topic);
     }
   },
 };

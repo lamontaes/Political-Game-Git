@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -30,3 +30,7 @@ Sent back 2026-10-20 from PR #5555 (branch claude/other-places-coarse): see the 
 Sent back 2026-10-21 from PR #5555 (branch claude/other-places-coarse): The import, generated-file formatting and D.C. Senate fixes are present. Acceptance is still incomplete: docs/pool/items/world-other-places-coarse-population.md:20 requires a one-year played-world trip whose resident has a household, job and pay matching held place counts, by record ids. The new SG-WORLD-coarse-place-no-payroll row in src/core2/data/stopgaps.json:5401 says the new identity:work fact has no employer, payroll or household and no engine reads it; the body also says counts are not stored or stepped and the money half is not done. That does not meet this item or justify resolving SG-OFFICE-FED-trip-residents. Please finish the named chain, or give this first slice a bounded pool item with its own acceptance and leave the broader trip/payroll item open. No local gates are claimed for this review.; finish on that branch, merge main into it first.
 
 Oct 22 (claude): the first slice in PR 5555 (a trip resident drawn from the place counts) is tracked as world-trip-resident-from-place-counts; this item (household, job and pay over a played year) stays open.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. docs/design/country-tier.md, "7. Results first", says: "Another state: its cells and ledger are the results. A person met there is filled in from their cell, with a job and pay that agree with it (the existing fill-in path, now reading the tier)." That replaces keeping a coarse population per place. The trip-resident slice is already done (world-trip-resident-from-place-counts, status done), and the old pull request imported deleted old-simulation code. SG-OFFICE-FED-trip-residents stays open in src/core2/data/stopgaps/office.json and is owned by office-stopgap-office-day-federal-president-missing-record and the country-tier items, not by this item.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

@@ -13,20 +13,24 @@ import { writeFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { applyChosenPerson } from "../bench/creator";
-import { fileForOffice } from "../bench/government";
+import { fileForOffice, joinPartyAs } from "../bench/government";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { ballot, playerContests } from "../core2/modules/elections";
+import {
+  ballot,
+  partiesHere,
+  playerContests,
+} from "../core2/modules/elections";
 import { partyOf, seatParty } from "../core2/candidate-pool";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
-const DRAWS = 6;
+const DRAWS = 10;
 const WEEK = 7;
 const LEAD_DAYS = 60;
 
@@ -58,32 +62,48 @@ it(`a rival from the player's own party is told as one, seed ${seed}`, () => {
       if (core.people.get(id)?.alive) director.watch(core, id as PersonId);
     const api = coreAPI(core);
     // A race whose seat runs under party labels, entered under the player's
-    // own party, as the creator's party choice files it.
+    // own party. A new adult holds no party tie (the creator files none; a tie
+    // is the person's own act, parties.ts joinParty), so one with no party
+    // joins the party of the first such race's seat, as a player does at the
+    // party's table, and files under it.
+    // The player's clerk lists only the races whose filing is open, so the
+    // weeks pass until a party seat's race is open with its count at least
+    // two months off (a year at most).
+    const partisanRaces = () =>
+      [...playerContests(api)]
+        .filter(
+          (c) =>
+            c.electionDate >= addDays(makeIsoDate(core.date), LEAD_DAYS) &&
+            seatParty(api, c),
+        )
+        .sort(
+          (a, b) =>
+            a.electionDate.localeCompare(b.electionDate) ||
+            a.id.localeCompare(b.id),
+        );
+    for (let week = 0; !partisanRaces().length && week < 52; week += 1)
+      advanceCore(core, addDays(makeIsoDate(core.date), WEEK));
+    const partisan = partisanRaces();
+    const joining = partisan[0]
+      ? partiesHere(api).find(
+          (row) => row.name === seatParty(api, partisan[0]!),
+        )
+      : undefined;
+    if (!partyOf(api, me) && joining) joinPartyAs(core, me, joining.id);
     const own = partyOf(api, me);
     if (!own) {
-      tried.push(`${where}: the player has no party`);
+      tried.push(`${where}: no party the player could join`);
       continue;
     }
-    const filed = [...playerContests(api)]
-      .filter(
-        (c) =>
-          c.electionDate >= addDays(makeIsoDate(core.date), LEAD_DAYS) &&
-          seatParty(api, c),
-      )
-      .sort(
-        (a, b) =>
-          a.electionDate.localeCompare(b.electionDate) ||
-          a.id.localeCompare(b.id),
-      )
-      .find((c) =>
-        ["petitioning", "on-ballot"].includes(
-          (
-            fileForOffice(core, me, c.id, { party: own }) as {
-              filing?: { status?: string };
-            }
-          ).filing?.status ?? "",
-        ),
-      );
+    const filed = partisan.find((c) =>
+      ["petitioning", "on-ballot"].includes(
+        (
+          fileForOffice(core, me, c.id, { party: own }) as {
+            filing?: { status?: string };
+          }
+        ).filing?.status ?? "",
+      ),
+    );
     if (!filed) {
       tried.push(
         `${where}: no partisan race two months out the player could enter`,
@@ -91,6 +111,38 @@ it(`a rival from the player's own party is told as one, seed ${seed}`, () => {
       continue;
     }
     const mine = own;
+    // PROBE (hand-made): the world rarely sends a same-party rival in the
+    // weeks a test can wait (seed 5: twelve draws, none), so a resident of the
+    // player's town joins the player's party and files for the same race after
+    // them, the filing the scene is about. The other-party case is the world's
+    // own rival, whoever files.
+    const partyRow = partiesHere(api).find((row) => row.name === mine);
+    const rivalId = [...core.people.values()]
+      .filter(
+        (p) =>
+          p.alive &&
+          p.id !== me &&
+          p.placeId === player.placeId &&
+          p.householdId !== player.householdId &&
+          !director.ledger.people.has(p.id as PersonId),
+      )
+      .sort((a, b) => a.id.localeCompare(b.id))
+      .slice(0, 40)
+      .find((p) => {
+        if (!partyRow) return false;
+        joinPartyAs(core, p.id, partyRow.id);
+        return ["petitioning", "on-ballot"].includes(
+          (
+            fileForOffice(core, p.id, filed.id, { party: mine }) as {
+              filing?: { status?: string };
+            }
+          ).filing?.status ?? "",
+        );
+      })?.id;
+    if (!rivalId) {
+      tried.push(`${where}: no resident could file against ${filed.id}`);
+      continue;
+    }
     const seen = new Set<string>();
     while (core.date < filed.electionDate) {
       advanceCore(

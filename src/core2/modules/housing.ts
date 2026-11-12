@@ -1816,6 +1816,12 @@ function review(api: CoreAPI): void {
           caseId,
           owedMinor: String(lease?.arrearsMinor ?? late!.owedMinor),
           cureBy,
+          // What the notice is for, so a line can say it: the rent the lease
+          // asks each month and the day the first of it went unpaid.
+          ...(lease && lease.amountMinor > 0
+            ? { rentMinor: String(lease.amountMinor) }
+            : {}),
+          ...(lease?.firstUnpaidAt ? { unpaidSince: lease.firstUnpaidAt } : {}),
         },
         source: {
           tag: "ESTIMATED",
@@ -2558,14 +2564,16 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
       household?.placeId ??
       c.organizations.get(row.landlordId)?.placeId ??
       "",
-    ...(counted
-      ? {
-          facts: countedFacts(
+    // The case is the eviction's record, for the grievance it causes.
+    facts: {
+      caseId,
+      ...(counted
+        ? countedFacts(
             counted.id,
             memberIds.filter((id) => !c.people.has(id)),
-          ),
-        }
-      : {}),
+          )
+        : {}),
+    },
     source: {
       tag: "ESTIMATED",
       asOf: c.date,

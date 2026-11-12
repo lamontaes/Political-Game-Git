@@ -32,7 +32,7 @@ import {
 } from "../core2/modules/people";
 import type { ContestRow } from "../core2/modules/elections";
 import { meetingRule, upcomingMeeting } from "../core2/modules/office-day";
-import { billTitleOf } from "../english/bill-names";
+import { billTitleOf, spokenDesignation } from "../english/bill-names";
 import { backdropFile, faceOf } from "./scene";
 import { capitolPlaceFor } from "./backdrop-places";
 import { calendarItems } from "./calendar";
@@ -58,8 +58,12 @@ const CHAMBER_ORDER = [
   "legislature-upper",
   "us-senate",
 ];
-/** How many of a body's recorded roll calls the screen shows, newest first. */
-const RECENT_VOTES = 3;
+/**
+ * How many of a body's recorded roll calls the screen shows, newest first: a page of the term's
+ * record. It was 3, and a council that had voted 37 measures in 14 months (San Luis, Arizona,
+ * 0463470) showed three; the screen reads the record, so the cap is a page, not a handful.
+ */
+export const RECENT_VOTES = 50;
 /** How many coming dates the screen shows, soonest first. */
 const COMING_UP = 4;
 /** Noon: rooms are shown in daylight on a reference screen. */
@@ -215,6 +219,7 @@ function comingUpFor(
     kind: string;
     title: string | null;
     number?: string;
+    law?: string;
   }[] = [];
   const meeting = office.seats > 1 ? upcomingMeeting(api, office.id) : null;
   if (meeting) items.push({ date: meeting.date, kind: "meeting", title: null });
@@ -227,11 +232,25 @@ function comingUpFor(
         continue;
       const date = floorDateOf(api, bill.id) ?? meeting?.date ?? null;
       if (!date) continue;
+      const section = bill.provisions[0] as
+        | {
+            policyId?: string;
+            question?: string;
+            line?: string;
+            series?: string;
+          }
+        | undefined;
       items.push({
         date,
         kind: "bill",
         title: billTitleOf(bill)?.title ?? null,
-        number: bill.number,
+        // Said with its form's word ("Ordinance 2025-11"), never bare.
+        number: spokenDesignation(bill.number, bill.form.kind),
+        // The law the bill changes, for a bill no title was composed for.
+        law:
+          section?.series ??
+          section?.question ??
+          (section?.line ? `budget-line:${section.line}` : undefined),
       });
     }
   // The filing deadline and election day for the body's seats: the

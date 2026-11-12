@@ -1,6 +1,7 @@
 import { makeIsoDate, daysBetweenText } from "./kernel/dates";
 import dataJson from "./data/business-books.json" with { type: "json" };
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
+import { COUNTRY_SECTORS, type CountrySector } from "./country-model";
 import type { Source } from "./types";
 import { worldLevel, worldRate } from "./world-draw";
 
@@ -14,6 +15,13 @@ export interface BusinessKind {
   salesCostEstimated: boolean;
   creditLineDaysParameter: string | null;
   ownPriceElasticityParameter: string;
+  /**
+   * The country tier's sector this kind sells into, as the data file names it; null only for the
+   * all-corporations fallback row. Read it through `sectorOfKind`, which checks the name.
+   */
+  sector: string | null;
+  /** Why the kind belongs to that sector (its NAICS industry and the BLS supersector). */
+  sectorSource: string;
   stopgapIds: readonly string[];
 }
 
@@ -138,6 +146,24 @@ function kindById(data: BusinessBooksData, id: string): BusinessKind {
   const kind = data.kinds.find((row) => row.id === id);
   if (!kind) throw new Error(`Unregistered business kind: ${id}`);
   return kind;
+}
+
+/**
+ * The country tier's sector a kind of business belongs to, so a town seller meets the buyers its
+ * state and the nation hold. By kind, never by place. Null for the fallback row, which is no kind.
+ */
+export function sectorOfKind(
+  kindId: string,
+  options: BusinessBooksOptions = {},
+): CountrySector | null {
+  const sector = kindById(settings(options).data, kindId).sector;
+  if (sector === null) return null;
+  const known = COUNTRY_SECTORS.find((row) => row === sector);
+  if (!known)
+    throw new Error(
+      `Business kind ${kindId} names a sector the country tier does not have: ${sector}`,
+    );
+  return known;
 }
 
 export function classifyBusiness(

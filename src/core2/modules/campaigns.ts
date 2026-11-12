@@ -24,6 +24,7 @@ import {
 } from "../electorate";
 import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
+import { registerDerivedCache } from "../snapshot";
 import { discretionaryHours } from "./work";
 import { fillInPerson } from "../state";
 import { bookkeeping } from "../bookkeeping";
@@ -98,8 +99,10 @@ import {
   agreementWith,
   countedStanceProfile,
   viewOn,
+  VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
 } from "./views";
+import { hearAsGroups, hearsAsPerson } from "../hearer-groups";
 import {
   LEGISLATURE_MODULE_ID,
   obligationsOwedBetween,
@@ -213,6 +216,25 @@ export interface CampaignRow {
     readonly on: string;
     readonly filingId: string;
   }[];
+}
+
+/**
+ * A world candidate's ask for money that reached the controlled person
+ * (play-campaign-ask-reaches-player): theirs to answer, never taken. The
+ * engine never moves the player's money on its own (owner, Oct 14: the engine
+ * offers, the player decides).
+ */
+export interface AskRow {
+  readonly id: string;
+  readonly campaignId: string;
+  readonly donorId: string;
+  readonly candidateId: string;
+  /** What they would give by their own reasons and cash (`donationAnswer`'s sum); they may give another. */
+  readonly suggestedMinor: number;
+  readonly askedOn: string;
+  readonly status: "pending" | "given" | "declined";
+  readonly answeredOn?: string;
+  readonly givenMinor?: number;
 }
 
 /** One donor's running total to one campaign (the legal limit reads it). */
@@ -482,6 +504,12 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       gifts: {
         indexes: {
           byCampaign: { fields: ["campaignId"] },
+          byDonor: { fields: ["donorId"] },
+        },
+      },
+      /** Asks for money that reached the controlled person, and their answers. */
+      asks: {
+        indexes: {
           byDonor: { fields: ["donorId"] },
         },
       },
@@ -3327,6 +3355,8 @@ export function donationAnswer(
   api: CoreAPI,
   filingId: string,
   donorId: string,
+  /** Work out what they would give without giving it (an ask the player answers). */
+  options: { readonly suggestOnly?: boolean } = {},
 ): { readonly givenMinor: number; readonly why: DonationWhy } {
   const adultAge = api.parameter("votingAge");
   const campaign = campaignFor(api, filingId);
@@ -3385,7 +3415,7 @@ export function donationAnswer(
   // The law reached the donor when it held the gift below what they would
   // have given.
   const wouldGive = Math.min(wanted - given, donor.liquidMinor);
-  if (limit.law && room < wouldGive)
+  if (!options.suggestOnly && limit.law && room < wouldGive)
     lawApplied(api, {
       key: limit.law.key,
       lawId: limit.law.id,
@@ -3397,6 +3427,21 @@ export function donationAnswer(
     });
   if (amount <= 0)
     return { givenMinor: 0, why: room <= 0 ? "at-limit" : "small" };
+  if (options.suggestOnly) return { givenMinor: amount, why: "gave" };
+  giveDonation(api, filingId, donorId, amount);
+  return { givenMinor: amount, why: "gave" };
+}
+
+/** A gift moves from the donor's account to the campaign's through the journal, and their running total is kept in one row the next ask reads. */
+function giveDonation(
+  api: CoreAPI,
+  filingId: string,
+  donorId: string,
+  amount: number,
+): void {
+  const campaign = campaignFor(api, filingId);
+  const limit = contributionLimit(api, campaign.contestId);
+  const given = giftOf(api, filingId, donorId)?.totalMinor ?? 0;
   postMoney(
     api,
     DONATION_KIND,
@@ -3419,7 +3464,115 @@ export function donationAnswer(
     raisedMinor: campaignFor(api, filingId).raisedMinor + amount,
   });
   recordGift(api, filingId, donorId, amount, given + amount);
-  return { givenMinor: amount, why: "gave" };
+}
+
+const asksOf = (api: CoreAPI, personId: string) =>
+  table(api, "asks").query("byDonor", [personId]) as unknown as AskRow[];
+
+/**
+ * A world candidate's ask reaches the controlled person as a request: one
+ * open at a time per campaign, and none again once they have declined that
+ * candidate (the next ask reads the answer). The suggested sum is what they
+ * would give by their own reasons and cash; nothing moves until they answer.
+ * Returns whether a request was written.
+ */
+export function askPlayerForMoney(
+  api: CoreAPI,
+  filingId: string,
+  personId: string,
+): boolean {
+  if (
+    asksOf(api, personId).some(
+      (row) =>
+        row.campaignId === filingId &&
+        (row.status === "declined" || askOpen(api, row)),
+    )
+  )
+    return false;
+  const { givenMinor, why } = donationAnswer(api, filingId, personId, {
+    suggestOnly: true,
+  });
+  // Nothing to give from (no cash past their cushion, or at the limit): nobody asks.
+  if (why !== "gave" || givenMinor <= 0) return false;
+  table(api, "asks").put({
+    id: `ask:${filingId}:${personId}:${api.state.date}`,
+    campaignId: filingId,
+    donorId: personId,
+    candidateId: campaignFor(api, filingId).candidateId,
+    suggestedMinor: givenMinor,
+    askedOn: api.state.date,
+    status: "pending",
+  } satisfies AskRow as unknown as ModuleRow);
+  return true;
+}
+
+/** An ask is open while it waits on an answer and its candidate is still standing for a race not yet held. */
+function askOpen(api: CoreAPI, row: AskRow): boolean {
+  if (row.status !== "pending") return false;
+  const filing = filingOf(api, row.campaignId);
+  const contest = filing
+    ? (elections(api, "contests").get(filing.contestId) as
+        ContestRow | undefined)
+    : undefined;
+  return (
+    !!filing &&
+    standing(filing) &&
+    !!contest &&
+    contest.electionDate >= api.state.date
+  );
+}
+
+/** The requests for money waiting on a person's answer, newest first. */
+export function donationAsksFor(api: CoreAPI, personId: string): AskRow[] {
+  return asksOf(api, personId)
+    .filter((row) => askOpen(api, row))
+    .sort(
+      (a, b) => b.askedOn.localeCompare(a.askedOn) || a.id.localeCompare(b.id),
+    );
+}
+
+/**
+ * The person's answer to an ask: give a sum (the suggested one unless they
+ * size it), or decline. False when the ask is no longer open or the sum is
+ * not one they can give: whole dollars, within what they hold and within the
+ * law's limit.
+ */
+export function answerDonationAsk(
+  api: CoreAPI,
+  askId: string,
+  answer: "give" | "decline",
+  amountMinor?: number,
+): boolean {
+  const row = table(api, "asks").get(askId) as unknown as AskRow | undefined;
+  if (!row || !askOpen(api, row)) return false;
+  const settle = (patch: Partial<AskRow>) =>
+    table(api, "asks").put({
+      ...row,
+      ...patch,
+      answeredOn: api.state.date,
+    } satisfies AskRow as unknown as ModuleRow);
+  if (answer === "decline") {
+    settle({ status: "declined" });
+    return true;
+  }
+  const donor = api.state.people.get(row.donorId);
+  const amount = amountMinor ?? row.suggestedMinor;
+  const campaign = campaignFor(api, row.campaignId);
+  const limit = contributionLimit(api, campaign.contestId);
+  const given = giftOf(api, row.campaignId, row.donorId)?.totalMinor ?? 0;
+  const room = limit.minor === null ? Infinity : limit.minor - given;
+  if (
+    !donor?.alive ||
+    !Number.isInteger(amount) ||
+    amount <= 0 ||
+    amount % 100 !== 0 ||
+    amount > donor.liquidMinor ||
+    amount > room
+  )
+    return false;
+  giveDonation(api, row.campaignId, row.donorId, amount);
+  settle({ status: "given", givenMinor: amount });
+  return true;
 }
 
 /**
@@ -4305,6 +4458,7 @@ export function makeStatements(
         topic: statement.question,
         desiredChange: statement.position > 0 ? "enact" : "repeal",
         audienceIds,
+        groupUnwatched: true,
       }),
     );
   }
@@ -4582,6 +4736,34 @@ function emitMessage(
     kept.noted = messages.get(input.id);
   }
   if (input.kind === CANVASS_MESSAGE_KIND) return;
+  // Level of detail (owner, Nov 9): a world candidate's paid message reaches
+  // the viewers nobody watches once per group of like hearers, the rest as
+  // people (`hearAsGroups`). The message row above keeps every viewer.
+  let asPeople = witnessIds;
+  if (
+    campaign.candidateId !== api.state.playerId &&
+    api.state.modules.has(VIEWS_MODULE_ID)
+  ) {
+    asPeople = witnessIds.filter((id) => hearsAsPerson(api, id));
+    if (asPeople.length < witnessIds.length) {
+      const people = new Set(asPeople);
+      const impulse = Math.abs(campaignParameter("adViewsImpulse"));
+      hearAsGroups(
+        api,
+        {
+          event: { id: input.id, date: api.state.date },
+          speakerId: campaign.candidateId,
+          topic: lead.question,
+          desiredChange: lead.position > 0 ? "enact" : "repeal",
+          size: impulse > 0 ? impulse : 1,
+        },
+        witnessIds.filter(
+          (id) => !people.has(id) && api.state.people.get(id)?.alive,
+        ),
+      );
+    }
+    if (!asPeople.length) return;
+  }
   api.emit({
     id: input.id,
     date: api.state.date,
@@ -4589,7 +4771,7 @@ function emitMessage(
     personIds: api.state.people.has(campaign.candidateId)
       ? [campaign.candidateId]
       : [],
-    witnessIds,
+    witnessIds: asPeople,
     placeId: townRow(api).townPlaceId,
     topic: lead.question,
     desiredChange: lead.position > 0 ? "enact" : "repeal",
@@ -5221,6 +5403,72 @@ export function answerPollReason(
  * toward a candidate but avoids conflict says "no opinion". True support is
  * never reported, only what people said.
  */
+type PollFrameEntry = {
+  readonly id: string;
+  readonly traits: Readonly<Record<string, number>>;
+  readonly birthDate: string;
+};
+/**
+ * The counted adults of a town, sorted by id, read once a day for each change
+ * to the counts (the store's `version` moves with every change to who is
+ * counted or grouped). Whoever was filled in since is dropped when read.
+ */
+const countedPollFrames = new WeakMap<
+  object,
+  { key: string; store: object; entries: readonly PollFrameEntry[] }
+>();
+registerDerivedCache(countedPollFrames);
+const byId = (a: PollFrameEntry, b: PollFrameEntry) => a.id.localeCompare(b.id);
+
+/**
+ * A poll's frame: the town's full adults and its counted adults, in id order
+ * (the order the full list sorted by id gives).
+ */
+function pollFrame(
+  api: CoreAPI,
+  town: string,
+  date: string,
+  adultAge: number,
+): PollFrameEntry[] {
+  const core = api.state as CoreState;
+  const named = [...api.state.people.values()]
+    .filter((p) => p.alive && p.placeId === town && ageOn(p, date) >= adultAge)
+    .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate }))
+    .sort(byId);
+  const rt = residentsRuntime(core);
+  if (!rt) return named;
+  const store = rt.store;
+  const key = `${date}|${town}|${adultAge}|${store.version}`;
+  let held = countedPollFrames.get(core);
+  if (held?.store !== store || held.key !== key) {
+    const entries = [...store.liveHouseholds()]
+      .filter((h) => h.placeId === town)
+      .flatMap((h) => store.countedMembers(h))
+      .filter((m) => ageOn({ birthDate: store.born[m]! }, date) >= adultAge)
+      .map((m) => ({
+        id: store.ids[m]!,
+        traits: store.packedTraits(m),
+        birthDate: store.born[m]!,
+      }))
+      .sort(byId);
+    held = { key, store, entries };
+    countedPollFrames.set(core, held);
+  }
+  const counted = held.entries.filter((m) => !api.state.people.has(m.id));
+  // Merge the two id-ordered lists.
+  const out: PollFrameEntry[] = [];
+  let i = 0,
+    j = 0;
+  while (i < named.length || j < counted.length)
+    out.push(
+      j >= counted.length ||
+        (i < named.length && byId(named[i]!, counted[j]!) <= 0)
+        ? named[i++]!
+        : counted[j++]!,
+    );
+  return out;
+}
+
 export function commissionPoll(
   api: CoreAPI,
   input: { readonly filingId: string; readonly sampleSize: number },
@@ -5231,27 +5479,7 @@ export function commissionPoll(
   const date = api.state.date;
   const core = api.state as CoreState;
   // The whole town is the frame: full people and the counted residents.
-  const rt = residentsRuntime(core);
-  const frame = [
-    ...[...api.state.people.values()]
-      .filter(
-        (p) => p.alive && p.placeId === town && ageOn(p, date) >= adultAge,
-      )
-      .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate })),
-    ...[...(rt?.store.liveHouseholds() ?? [])]
-      .filter((h) => h.placeId === town)
-      .flatMap((h) => rt!.store.countedMembers(h))
-      .filter(
-        (m) =>
-          !api.state.people.has(rt!.store.ids[m]!) &&
-          ageOn({ birthDate: rt!.store.born[m]! }, date) >= adultAge,
-      )
-      .map((m) => ({
-        id: rt!.store.ids[m]!,
-        traits: rt!.store.packedTraits(m),
-        birthDate: rt!.store.born[m]!,
-      })),
-  ].sort((a, b) => a.id.localeCompare(b.id));
+  const frame = pollFrame(api, town, date, adultAge);
   // The pollster is paid per completed interview, from the campaign's money.
   const perInterview = campaignParameter("pollCostPerInterviewMinor");
   const available = core.cashJournal.accounts.get(
@@ -6487,11 +6715,21 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         : race.electionDate;
     const daysLeft = daysBetween(date, toward);
     // stopgapId: SG-SPEED-fast-forward-campaigns (a development switch: a coarser calendar, turns less often)
-    const every =
-      turnDays *
-      (fastForward() ? FAST_FORWARD_STRIDE : 1) *
-      (1 + daysLeft / campaignParameter("campaignRampDays"));
-    if (race.lastTurn && daysBetween(race.lastTurn, date) < every) continue;
+    // The wait is counted in whole scheduled turns (they fall `turnDays`
+    // apart), so a day nearer than one more turn never costs a skipped turn:
+    // near a deadline or an election every scheduled turn works the race.
+    const everyTurns = Math.max(
+      1,
+      Math.round(
+        (fastForward() ? FAST_FORWARD_STRIDE : 1) *
+          (1 + daysLeft / campaignParameter("campaignRampDays")),
+      ),
+    );
+    if (
+      race.lastTurn &&
+      daysBetween(race.lastTurn, date) < everyTurns * turnDays
+    )
+      continue;
     races.put({ ...race, lastTurn: date } as unknown as ModuleRow);
     // The town's organizations weigh the race first, so the volunteers they
     // send work this turn; then every campaign's volunteers walk its doors on

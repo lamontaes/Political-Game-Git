@@ -44,6 +44,7 @@ import {
 } from "../laws-starting";
 import {
   inForceOn,
+  rowsCarriedToStart,
   inTownChain,
   LAW_SERIES,
   resolveLawInForce,
@@ -328,7 +329,8 @@ const WAGE_HISTORY = wageHistory as unknown as {
 /**
  * Earlier minimum wage rows for the federal level and the town's state: each
  * step ends where the next begins, and the last ends where that level's first
- * starting row begins. Levels without a starting row get none (no state law).
+ * general starting row begins (a side tier recorded from an earlier date, such
+ * as a small employer's rate, does not cut the general wage's history short). Levels without a starting row get none (no state law).
  */
 function minimumWageHistoryRows(
   stateKey: string,
@@ -345,6 +347,7 @@ function minimumWageHistoryRows(
       .filter(
         (r) =>
           r.series === "minimum-wage" &&
+          r.tier === "general" &&
           r.level === level &&
           r.jurisdiction === jurisdiction,
       )
@@ -374,42 +377,6 @@ function minimumWageHistoryRows(
         estimate: step.estimated !== undefined || step.sourceId === "RECALL",
       });
     }
-  }
-  return out;
-}
-
-/**
- * Rows for laws recorded only from a later date: for each level's series with
- * no phase in force on the start date, its earliest phase (every tier of it)
- * applies from the start until that phase begins, marked as an estimate.
- */
-function rowsCarriedToStart(
-  rows: readonly LawRowInput[],
-  today: string,
-): LawRowInput[] {
-  const groups = new Map<string, LawRowInput[]>();
-  for (const row of rows) {
-    const key = `${row.jurisdiction}|${row.level}|${row.series}`;
-    groups.set(key, [...(groups.get(key) ?? []), row]);
-  }
-  const out: LawRowInput[] = [];
-  for (const group of groups.values()) {
-    if (group.some((row) => inForceOn(row, today))) continue;
-    const later = group.filter((row) => row.effectiveDate > today);
-    if (!later.length) continue;
-    const first = later.map((row) => row.effectiveDate).sort()[0]!;
-    for (const row of later.filter((r) => r.effectiveDate === first))
-      out.push({
-        ...row,
-        id: `${row.id}:from-start`,
-        effectiveDate: today,
-        endDate: first,
-        source: [
-          ...(Array.isArray(row.source) ? row.source : [row.source]),
-          `estimate: the phase recorded from ${first}, applied from the start date until then`,
-        ].join(" ; "),
-        estimate: true,
-      });
   }
   return out;
 }
@@ -618,6 +585,49 @@ export function lawInForce(
 
 /** The starting law of each state outside the town's chain, read once from the research. */
 const outsideStartingRows = new Map<string, readonly LawRowInput[]>();
+/** The chain a state is read by from outside it: the nation and the state, no county or town. */
+const outsideChain = (stateKey: string): LawChain => ({
+  placeKey: "",
+  placeName: stateKey,
+  townPlaceId: "",
+  stateKey,
+  countyGeoids: [],
+  incorporated: false,
+  levels: [
+    { level: "federal", jurisdiction: "US" },
+    { level: "state", jurisdiction: stateKey },
+  ],
+});
+
+/**
+ * A state's law as a world opens with it, for a state read from outside: the
+ * research's starting rows, the minimum wage's dated history before them, and
+ * every series recorded only from a later date carried to the world's first
+ * day. The same three steps the played town's own state is opened with (one
+ * rule, all 56 places), so no state waits a year for its own law.
+ */
+export function stateOpeningLawRows(
+  stateKey: string,
+  startedAt: string,
+): readonly LawRowInput[] {
+  const kept = `${stateKey}|${startedAt}`;
+  let rows = outsideStartingRows.get(kept);
+  if (!rows) {
+    const starting = startingLawRows(outsideChain(stateKey));
+    const held = new Set(starting.map((row) => row.id));
+    const dated = [
+      ...starting,
+      ...minimumWageHistoryRows(stateKey, starting).filter(
+        (row) => !held.has(row.id),
+      ),
+    ];
+    outsideStartingRows.set(
+      kept,
+      (rows = [...dated, ...rowsCarriedToStart(dated, startedAt)]),
+    );
+  }
+  return rows;
+}
 
 /**
  * The law on a series in any state, on a date, by the same rule as the
@@ -633,21 +643,8 @@ export function stateLawInForce(
   date: string = api.state.date,
 ): LawInForceAnswer {
   if (stateKey === lawChain(api).stateKey) return lawInForce(api, series, date);
-  const chain: LawChain = {
-    placeKey: "",
-    placeName: stateKey,
-    townPlaceId: "",
-    stateKey,
-    countyGeoids: [],
-    incorporated: false,
-    levels: [
-      { level: "federal", jurisdiction: "US" },
-      { level: "state", jurisdiction: stateKey },
-    ],
-  };
-  let starting = outsideStartingRows.get(stateKey);
-  if (!starting)
-    outsideStartingRows.set(stateKey, (starting = startingLawRows(chain)));
+  const chain = outsideChain(stateKey);
+  const starting = stateOpeningLawRows(stateKey, api.state.startedAt);
   const enacted = seriesRows(api, series).filter(
     (row) =>
       row.jurisdiction === stateKey ||
@@ -1152,7 +1149,11 @@ export function recordPublicPay(api: CoreAPI, source: Source): void {
 
 // The bribe a dev control forces runs through the corruption engine, which is in this family: its
 // entry carries the way in, so a caller outside the family imports one entry, not the file.
-export { considerBribe, CORRUPTION_MODULE_ID } from "./corruption";
+export {
+  bribeRefusal,
+  considerBribe,
+  CORRUPTION_MODULE_ID,
+} from "./corruption";
 
 // Re-exported so other engine families import through this entry, not the file (families guard).
 export { policyAuthority } from "../policy-authority";

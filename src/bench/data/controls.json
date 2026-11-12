@@ -46,6 +46,17 @@
   "raceStanding": {
     "title": "Where the race stands"
   },
+  "campaignAsks": {
+    "title": "Asking you for money",
+    "race": "Running for",
+    "asked": "Asked",
+    "suggested": "You would give",
+    "cash": "You have",
+    "amount": "Amount in dollars",
+    "give": "Give",
+    "decline": "Decline",
+    "notGiven": "You can't give that sum."
+  },
   "speech": {
     "begin": "Give a speech",
     "give": "Give the speech",
@@ -73,7 +84,7 @@
   "campaignUnavailable": {
     "noHouseholds": "No households in town",
     "noPlatform": "Choose your platform first",
-    "eventMoney": "Hall {price} \u00b7 campaign {cash}",
+    "eventMoney": "The hall costs {price}. The campaign has {cash}.",
     "forumHeld": "You hosted a forum today",
     "noMeetings": "No public meetings here",
     "noOutlet": "No paper or station here",
@@ -165,6 +176,7 @@
     "whoIs": "Who {lower} is",
     "whoAre": "Who they are",
     "howISee": "How I see {object}",
+    "howISeeThem": "How I see them",
     "betweenUs": "Between us",
     "lifeStory": "{possessive} story",
     "lifeStoryThey": "Their story",
@@ -363,6 +375,40 @@
     "jump": "Jump to hour",
     "held": "A stop or choice holds the clock; answer it first",
     "run": "Run",
+    "skip": {
+      "title": "Skip years",
+      "explanation": "Moves the played world and the game's date ahead. This changes the game and is not undone. A skipped year does not do everything a played year does:",
+      "one": "Skip 1 year",
+      "five": "Skip 5 years",
+      "twenty": "Skip 20 years",
+      "yearDone": "Year {n} of {total} done: {date}",
+      "took": "Took {n} seconds",
+      "possible": "Every count stayed possible.",
+      "impossible": "Some counts could not be: {n} problems.",
+      "notYet": "The economy opens on the first day. Run one day first.",
+      "held": "A stop or choice holds the clock; answer it first"
+    },
+    "outlook": {
+      "title": "The country in 20 years",
+      "explanation": "Runs every state and the nation twenty years ahead under the laws already passed. Your town and the date do not move.",
+      "button": "Show 20 years",
+      "took": "Took {n} seconds",
+      "notYet": "The economy opens on the first day. Run one day, then show it again.",
+      "possible": "Every count stayed possible.",
+      "impossible": "Some counts could not be: {n} months.",
+      "today": "Today",
+      "year": "Year {n}",
+      "yearColumn": "When",
+      "unemployment": "Out of work",
+      "inflation": "Price growth",
+      "policyRate": "Bank rate",
+      "pay": "Hourly pay",
+      "stateUnemployment": "Your state: out of work",
+      "statePeople": "Your state: people",
+      "stateJobs": "Your state: jobs",
+      "stateBudget": "Your state: public budgets",
+      "percent": "%"
+    },
     "events": {
       "bill-passes": "A bill passes",
       "bill-fails": "A bill fails",
@@ -406,7 +452,12 @@
         "label": "Night",
         "hour": 22
       }
-    ]
+    ],
+    "anywhere": "Anywhere in the world",
+    "where": {
+      "mine": "My town, county, state and nation",
+      "anywhere": "Anywhere"
+    }
   },
   "options": {
     "on": "On",
@@ -444,9 +495,12 @@
     "sign": "Signed",
     "veto": "Vetoed",
     "speakFor": "Speak for",
-    "speakAgainst": "Speak against"
+    "speakAgainst": "Speak against",
+    "spokeFor": "Spoke for",
+    "spokeAgainst": "Spoke against"
   },
   "filing": {
+    "petition": "Signatures the clerk will count: {needed}, handed in by {date}",
     "status": {
       "petitioning": "Collecting signatures",
       "on-ballot": "You are on the ballot",
@@ -508,7 +562,19 @@
     "left": "Laws that gave way",
     "mySeat": "My seat",
     "onMyDesk": "On my desk",
-    "officeHours": "Office hours"
+    "officeHours": "Office hours",
+    "aides": "Your staff",
+    "hire": "Hire",
+    "aideRole": "Aide",
+    "reasons": {
+      "work": "Work",
+      "reach": "Lives near",
+      "workingAge": "Age for the work",
+      "known": "Knows you",
+      "family": "Family"
+    },
+    "fromKnown": "Someone you know",
+    "fromApplicant": "Applied"
   },
   "officeStops": {
     "aYear": "a year",
@@ -538,13 +604,13 @@
   },
   "bill": {
     "open": "Read the bill",
-    "back": "Back to your seat",
     "sponsor": "Sponsor",
     "sections": "Sections",
     "where": "Where it is",
     "bill": "The bill",
     "vote": "The vote",
     "estimate": "What it would do",
+    "noFigure": "No dollar figure on record for this section.",
     "amends": "Amends",
     "from": "from",
     "to": "to",
@@ -581,8 +647,11 @@
     "federal": "Federal"
   },
   "travel": {
+    "memberHere": "Your party's office",
     "filing": "Filing office",
     "go": "Go to",
+    "home": "Home",
+    "goHome": "Go home",
     "open": "Open now",
     "closed": "Closed now",
     "opensAt": "Closed now. Opens {day} at {time}.",
@@ -633,6 +702,16 @@
     "veryConservative": "Very conservative",
     "notSure": "Not sure yet"
   },
+  "lifeGroups": [
+    ["partner", "child"],
+    ["school"],
+    ["work", "business"],
+    ["moved", "home"],
+    ["health"],
+    ["law"],
+    ["office"],
+    ["loss"]
+  ],
   "who": {
     "age": "Age",
     "born": "Born",
@@ -645,10 +724,12 @@
     "whoIAm": "Who I am",
     "whatImLike": "What I'm like",
     "myPeople": "My people",
+    "myLife": "My life",
     "strong": "Strong",
     "mild": "Moderate",
     "views": "Politics",
     "viewUnknown": "You don't know where they stand yet.",
+    "viewAbout": "Cares most about {about}.",
     "townPeople": "Population {n}",
     "townMoves": "{in} moved in, {out} moved out this year"
   },
@@ -664,7 +745,8 @@
   "news": {
     "title": "News",
     "nation": "Nation",
-    "briefs": "Briefs"
+    "briefs": "Briefs",
+    "noStoryText": "The paper ran this story as a headline only; the full account has not come in."
   },
   "jobs": {
     "work": "Work",
@@ -693,6 +775,22 @@
     "elected": "Elected",
     "takesOffice": "Takes office",
     "searchIssues": "Search issues",
+    "issueFilter": {
+      "level": "Level",
+      "force": "In force",
+      "subject": "Subject",
+      "all": "All",
+      "inForce": "In force",
+      "notInForce": "Not in force yet",
+      "levels": {
+        "federal": "Federal",
+        "state": "{level}",
+        "county": "County",
+        "city": "City",
+        "township": "Township"
+      },
+      "none": "No laws match these choices."
+    },
     "issueGroups": {
       "fiscal": "Taxes and money",
       "labor-workforce": "Work and pay",
@@ -707,7 +805,18 @@
       "government-operations": "Government",
       "technology-privacy": "Technology and privacy",
       "transportation-infrastructure": "Roads and transit",
-      "agriculture-natural-resources": "Farms and land"
+      "agriculture-natural-resources": "Farms and land",
+      "trade": "Trade",
+      "immigration": "Immigration",
+      "energy-environment": "Energy policy",
+      "budget": "Budget",
+      "emergencies": "Emergencies",
+      "territories-culture": "Territories and culture",
+      "government": "Elections and offices",
+      "health": "Health care",
+      "housing": "Housing",
+      "justice-rights": "Civil rights",
+      "science-communications": "Science and communications"
     },
     "issueGroupOf": {
       "minimum-wage": "labor-workforce",
@@ -733,6 +842,8 @@
     "inForce": "In force",
     "coming": "Coming",
     "changed": "What changed",
+    "repeal": "Repeal",
+    "repealElsewhere": "Only {body} can repeal this law",
     "revenue": "Revenue",
     "spending": "Spending",
     "balance": "Balance",
@@ -756,22 +867,7 @@
       "legislative": "Legislative",
       "executive": "Executive"
     },
-    "meets": "Meets {schedule}",
-    "meetsWeekly": "every {weekday}",
-    "meetsTwice": "the {first} and {second} {weekday} of the month",
-    "meetsMonthly": "the {first} {weekday} of the month",
-    "weekdays": [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-    ],
-    "ordinals": ["1st", "2nd", "3rd", "4th", "5th"],
     "nextMeeting": "next meeting {date}",
-    "nextElection": "next election {date}",
     "seatsTotal": "{n} seats",
     "recentVotes": "Recent votes",
     "noVotes": "No roll calls on record yet",
@@ -794,7 +890,6 @@
     "nonpartisan": "Nonpartisan",
     "vacantCount": "{n} vacant",
     "officers": "Officers",
-    "delegation": "{state}'s members",
     "district": "District {n}",
     "atLarge": "At large",
     "partySince": "{party} \u00b7 since {date}",
@@ -817,7 +912,17 @@
     "priorities": "Your priorities",
     "partiesTitle": "Parties",
     "subjects": "Subjects",
-    "backToGovernment": "Back to the government"
+    "lawDid": {
+      "title": "What this did",
+      "from": "from {date}",
+      "until": "until {date}",
+      "repealed": "Repealed",
+      "noOneYet": "It has reached no one yet.",
+      "fullHere": "{n} people here",
+      "fullElsewhere": "{n} people elsewhere",
+      "counted": "{n} more in households here",
+      "stopped": "stopped {date}"
+    }
   },
   "results": {
     "you": "You",
@@ -908,6 +1013,10 @@
     "bad": "Bad",
     "note": "One word",
     "saved": "Graded"
+  },
+  "here": {
+    "label": "Here",
+    "more": "and {count} more"
   },
   "talkBox": {
     "continue": "Continue",
@@ -1008,6 +1117,7 @@
     "since": "since last year"
   },
   "titles": {
+    "watch": "Watch",
     "people": "People",
     "who": "You",
     "money": "Money and property",
@@ -1117,10 +1227,6 @@
     "callOverride": "Take up the veto message"
   },
   "billFollow": {
-    "open": "Read the bill",
-    "back": "Back to the bills",
-    "reaches": "Reaches your town",
-    "yourMembers": "Your members",
     "empty": "No bill is before your town, county, state or Congress yet."
   },
   "frontTitles": {
@@ -1137,9 +1243,14 @@
     "spent": "Spent",
     "volunteers": "Volunteers",
     "doors": "Doors knocked",
+    "signatures": "Signatures",
+    "signaturesHeld": "{signed} of {needed}, due {date}",
+    "clerkCount": "The clerk's count",
+    "clerkCounted": "{valid} counted, {struck} struck",
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",
+    "notToday": "Not today",
     "groupOut": "Out and about",
     "groupAsk": "Ask",
     "groupMoney": "Money",
@@ -1194,7 +1305,8 @@
     "to": "to",
     "notVoting": "Didn't vote",
     "noParty": "No party",
-    "yours": "Your member"
+    "yours": "Your member",
+    "yourMembers": "Your members"
   },
   "devBill": {
     "title": "Dev mode",
@@ -1205,7 +1317,7 @@
     "passOrFail": "Pass or fail",
     "passesBy": "Passes by {n}",
     "failsBy": "Fails by {n}",
-    "margins": [-10, -5, -3, -1, 1, 3, 5, 10],
+    "margins": [-30, -20, -10, -5, -3, -1, 1, 3, 5, 10, 20, 30],
     "firstMargin": 5,
     "fewer": "Fewer",
     "more": "More",
@@ -1213,7 +1325,66 @@
     "hold": "Hold the vote",
     "sign": "Sign",
     "veto": "Veto",
-    "override": "Override"
+    "override": "Override",
+    "chairHears": "Chair hears it",
+    "outcome": "What came of it",
+    "addedSections": "Sections added by a trade: {n}",
+    "noLaw": "No law row yet",
+    "inForce": "In force",
+    "notYetInForce": "Takes effect {date}",
+    "runToEffect": "Run until it takes effect",
+    "reach": {
+      "title": "Who it reached",
+      "records": "Records",
+      "fullPeople": "Full people",
+      "inTown": "In town",
+      "elsewhere": "Elsewhere",
+      "counted": "Counted people",
+      "organizations": "Organizations",
+      "governments": "Governments",
+      "money": "Money moved",
+      "none": "No record names this law yet"
+    },
+    "endings": {
+      "pending": "Not decided yet",
+      "law": "Became law",
+      "blocked": "Blocked: the body lacks the power ({reasons})",
+      "moot": "Never voted: the law was already made ({question})",
+      "committee-held": "Held in committee, never heard: {chamber}, {committee}, chair {chair} (position {position}, temperament {trait})",
+      "committee-held-petition": "Held in committee, never heard: {chamber}, {committee}, chair {chair}; discharge petition {signed} of {needed}",
+      "committee-lost": "Lost in committee: {chamber}, {committee}, {yes}\u2013{no}",
+      "floor-lost": "Lost on the floor: {chamber}, {yes}\u2013{no}",
+      "cloture-short": "Short of the votes to end debate: {chamber}, {yes}\u2013{no}, needed {needed}",
+      "vetoed": "Vetoed",
+      "vetoed-override": "Vetoed; the override fell short: {tallies}",
+      "session-ended": "The session ended before a vote"
+    },
+    "twin": {
+      "title": "The money, against the same world left alone",
+      "run": "Follow the money",
+      "running": "Building the twin and running it to today",
+      "span": "{from} to {to}",
+      "done": "Done here and not in the twin",
+      "nothing": "Nothing was done here that the twin lacks",
+      "here": "Here",
+      "twin": "Twin",
+      "difference": "Difference",
+      "holders": "Whose cash moved most ({n} holders differ)",
+      "classes": {
+        "player-household": "My household",
+        "people-in-town": "Full people in town",
+        "people-elsewhere": "Full people elsewhere",
+        "people-returned-to-counts": "People returned to the counts",
+        "counted-in-town": "Counted households in town",
+        "counted-elsewhere": "Counted households elsewhere",
+        "businesses": "Businesses",
+        "banks": "Banks",
+        "governments": "Governments",
+        "public-employers": "Public employers",
+        "other-organizations": "Other organizations",
+        "outside": "Outside the books"
+      }
+    }
   },
   "devTrace": {
     "title": "Dev mode",

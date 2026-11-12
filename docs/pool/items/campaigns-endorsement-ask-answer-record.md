@@ -25,3 +25,5 @@ claimed-at:
 **Files.** src/core2/modules/campaigns.ts, src/bench/campaign.ts
 
 **Notes.** Found while packeting scene-endorsement-refused; the same function is called for every known person at once, which the scene item turns into one person at a time.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. `askForEndorsement` in src/core2/modules/campaigns.ts (line 5081) now keeps every answer through `keepEndorsement`: an `EndorsementRow` (line 360) with `answer`, `reason` (`EndorsementReason`: agrees, close-tie, disagrees, prefers-rival, declines), the platform `issue`, the preferred `rivalFilingId` and `askerId`, so a refusal is kept with its reason. src/director/filing-visit.ts reads the endorsements table. Not checked: whether the director's endorsement-refused scene reads one row by id; if it does not, that is a director item, not this one.

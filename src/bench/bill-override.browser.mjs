@@ -166,11 +166,7 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Bills", exact: true })
     .click();
-  await page
-    .locator("#sheet-body")
-    .getByRole("button", { name: "Read the bill" })
-    .first()
-    .waitFor();
+  await page.locator(".roster-screen.bills .roster-row").first().waitFor();
   // Two chambers can each have an "SB 2" with the same title: the bill is found by its place in the
   // list the Bills tab draws, which is the order the server follows them in.
   const place = await page.evaluate(async (id) => {
@@ -178,11 +174,18 @@ try {
     return list.findIndex((item) => item.id === id);
   }, result.billId);
   assert.ok(place >= 0, "the Bills tab follows the bill dev mode decided");
+  // The bill by its own row in the list (the row carries the bill's id).
   await page
-    .locator("#sheet-body")
-    .getByRole("button", { name: "Read the bill" })
-    .nth(place)
+    .locator(
+      `.roster-screen.bills .roster-row[data-key=${JSON.stringify(result.billId)}]`,
+    )
     .click();
+  // The page of that bill, not the one that was on screen before the click.
+  await page
+    .locator(
+      `.roster-screen.bills .roster-page[data-key=${JSON.stringify(result.billId)}]`,
+    )
+    .waitFor();
   // The veto message waits for the player's own vote on overriding it.
   await page.getByText("Override the veto", { exact: true }).waitFor();
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/override-waiting.png` });
@@ -206,6 +209,30 @@ try {
   assert.ok(
     results.some((text) => /Yes:/.test(text) && /No:/.test(text)),
     "the override roll call is on the paper",
+  );
+  // The committee stage is on the same paper: where the bill was referred, who chaired it, and
+  // whom it heard from (or that the chair held it).
+  const paper = await page.locator("#sheet-body").innerText();
+  assert.match(paper, /In committee: /, "the paper shows the committee stage");
+  assert.match(
+    paper,
+    /Referred to /,
+    "the paper names the committee it went to",
+  );
+  assert.match(paper, /Chaired by /, "the paper names the chair");
+  assert.match(
+    paper,
+    /Heard from|The chair held it and did not hear it/,
+    "the paper says whom the committee heard from, or that the chair held it",
+  );
+  console.log(
+    "committee on the paper:",
+    paper
+      .split("\n")
+      .filter((line) =>
+        /In committee|Referred to|Chaired by|Heard from|held it/.test(line),
+      )
+      .join(" | "),
   );
   assert.deepEqual(errors, [], "page errors");
   console.log(

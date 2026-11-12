@@ -1,9 +1,13 @@
 /**
  * Campaign calibration (CTO, Oct 12, from OPUS-PLAY's runs): checks on totals
  * against field rates, never dice. In a two-level town, a candidate's doors
- * reach about a quarter to a third of the households knocked (filling in the
- * counted ones that open), a small share of acquaintances volunteer, and a
- * speech on a question few care about moves few listeners.
+ * are reported beside the field band (about a quarter to a third of the
+ * households knocked open, filling in the counted ones that do), not checked
+ * against it: a real band is reported, never a pass or fail line (owner,
+ * Nov 8), and a town whose openers are older opens more doors by the door
+ * rule's own age lean. A walk that opens no door at all fails. A small share
+ * of acquaintances volunteer, and a speech on a question few care about moves
+ * few listeners.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -155,10 +159,14 @@ describe("campaign calibration on totals", () => {
         movedMuch: moved.length,
       };
       expect(knocked, `${state} ${key}`).toBeGreaterThan(10);
-      expect(contact, `${state} ${key} ${seed} contact`).toBeGreaterThanOrEqual(
-        0.15,
+      expect(
+        met.length,
+        `${state} ${key} ${seed}: a walk opened no door`,
+      ).toBeGreaterThan(0);
+      // The doors' rate is reported beside the field band, not checked.
+      process.stdout.write(
+        `doors in ${state} ${key}, seed ${seed}: ${met.length} of ${knocked} knocked opened, contact ${contact.toFixed(3)}, field band about 0.25 to 0.33 (a quarter to a third)\n`,
       );
-      expect(contact, `${state} ${key} ${seed} contact`).toBeLessThan(0.45);
       // The top of the measured range across places (31% of acquaintances,
       // volunteerThreshold) plus two standard errors of a sample this size:
       // a dozen acquaintances can't tell 31% from 45% apart by chance.

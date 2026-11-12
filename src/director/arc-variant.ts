@@ -18,7 +18,7 @@
  * data; the words are the scene bank's, by the variant's own purpose id, and
  * the family's pieces serve where a variant has none of its own
  * (`SceneMove.family`). It holds no sentence and no kind's name: what a read
- * looks at is data, and the reads are four ways of looking.
+ * looks at is data, and the reads are fifteen ways of looking.
  *
  * The reads use only what stays true while the scene is open (the record the
  * cause names, the tie as that record kept it, what happened before the
@@ -26,6 +26,19 @@
  * matched against.
  */
 import { P, parameter } from "../core2/parameters";
+import { closenessBetween } from "../core2/closeness";
+import { daysBetweenText } from "../core2/kernel/dates";
+import { outletsHere } from "../core2/modules/press";
+import { careNeedOf } from "../core2/modules/health";
+import { votesOf } from "../core2/modules/people";
+import {
+  LEADERSHIP_MODULE_ID,
+  LEGISLATURE_MODULE_ID,
+  billOf,
+  provisionStance,
+} from "../core2/modules/legislature";
+import { partyTie } from "../core2/modules/elections";
+import { electorateSides, scandalStoriesOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { directorStopgap, WORDS_STOPGAP_HITS } from "./stopgaps";
@@ -36,7 +49,12 @@ interface Tagged {
 }
 
 /** One way of looking at the records, by its kind. */
-type ReadSpec =
+type ReadSpec = ReadKind & {
+  /** The read counts only where the cause record's fact holds this value (a wage case's shortfall means nothing on a job seeker's case); else 0. */
+  when?: { fact: string; is: string };
+};
+
+type ReadKind =
   | {
       /** A number kept on a module's record, named by a fact of the cause record. */
       kind: "record";
@@ -50,6 +68,8 @@ type ReadSpec =
       against?: "asked-year";
       /** A share of this much: field / (field + scale). Without either, the field itself between 0 and 1. */
       scale?: Tagged;
+      /** 1 where the field holds exactly this value (a complaint's basis, a taken bribe), else 0: a fact about the row, not a number on it. */
+      equals?: string | boolean;
     }
   | {
       /** How many earlier records of these kinds name both people, as count / (count + scale). */
@@ -57,7 +77,63 @@ type ReadSpec =
       events: readonly string[];
       /** A record sharing this fact's value with the cause is the same matter, not an earlier one. */
       exceptSameFact: string;
+      /** Only records whose facts hold all of these values count (a scene reply that ended a donor's ask). */
+      where?: Readonly<Record<string, string>>;
+      /** `asked`: a record that names only the asked person counts (a story printed about them); the default needs both people named. */
+      named?: "both" | "asked";
+      /** Only records this many days old or newer count: a story from last month is open, one from years ago is not. */
+      within?: Tagged;
       scale: Tagged;
+    }
+  | {
+      /**
+       * How many stories of scandal stand against the asked person (a bribe
+       * reported to the press, a conviction made public: the same stories
+       * voters weigh), as count / (count + scale).
+       */
+      kind: "scandal";
+      scale: Tagged;
+    }
+  | {
+      /**
+       * How far the town stands against the side the asked person took on the
+       * cause's bill, from their vote on the record and where the electorate
+       * stands on its question (the same shares a platform is weighed by): the
+       * share on the other side less the share on theirs, never below nothing.
+       */
+      kind: "town-against";
+    }
+  | {
+      /** 1 where the tie's last contact between the two was a quarrel (the tie's own record), else 0. */
+      kind: "quarrel";
+    }
+  | {
+      /** 1 where the asker writes for a national outlet (the press engine's outlet row), else 0. */
+      kind: "national-outlet";
+    }
+  | {
+      /** A number between 0 and 1 for the value a fact of the cause record holds (the level of a bill, by how far it reaches). */
+      kind: "fact-map";
+      fact: string;
+      values: Readonly<Record<string, number>>;
+    }
+  | {
+      /**
+       * A number the cause record itself carries as a fact (a gift's amount, its
+       * share of what others gave). With `against`, a share of that person's
+       * year of living costs, the half point at `of` times the year; with
+       * `scale`, a share of this much; with neither, the fact itself between 0
+       * and 1.
+       */
+      kind: "fact";
+      fact: string;
+      against?: "asker-year" | "asked-year";
+      of?: Tagged;
+      scale?: Tagged;
+    }
+  | {
+      /** How close the two people are now, from their tie's record (closeness.ts), between 0 and 1. */
+      kind: "closeness";
     }
   | {
       /**
@@ -66,6 +142,81 @@ type ReadSpec =
        * shape for an official's money pressure), 1 with nothing put by.
        */
       kind: "strain";
+    }
+  | {
+      /**
+       * 1 where the asker and the asked belong to the same party (the parties
+       * engine's tie of each), else 0.
+       */
+      kind: "shared-party";
+    }
+  | {
+      /**
+       * 1 where the asker holds a post in a body's leadership (speaker, a
+       * party's leader or whip: the leadership engine's post rows), else 0.
+       */
+      kind: "holds-post";
+    }
+  | {
+      /**
+       * How many earlier bills of the asked person's own the asker voted for
+       * (the vote records of the asker, the bill's sponsor), as count /
+       * (count + scale): a vote already given the asked person's way.
+       */
+      kind: "favor-given";
+      scale: Tagged;
+    }
+  | {
+      /**
+       * How far the town stands for (or against) the cause's bill, from the
+       * questions its sections change and where the electorate stands on each
+       * (the same shares a platform is weighed by): the mean of the share on
+       * the side the bill takes less the share on the other, never below nothing.
+       */
+      kind: "town-on-bill";
+      side: "for" | "against";
+    }
+  | {
+      /**
+       * How many rows of a module's table kept for the asker (a layoff in the
+       * jobs module's changes) fall in the last `within` days before the
+       * cause's day, as count / (count + scale). Rows from the cause's day on
+       * are not earlier and do not count.
+       */
+      kind: "person-rows";
+      module: string;
+      table: string;
+      /** The table's index on the person id. */
+      index: string;
+      /** Only rows whose fields hold all of these values count. */
+      where?: Readonly<Record<string, string>>;
+      within: Tagged;
+      scale: Tagged;
+    }
+  | {
+      /**
+       * An open row of a module's table kept for the asker's household (a
+       * rent notice served on it): 1 where one stands, else 0. With `field`,
+       * the number the newest open row holds, as a share of the asker's year
+       * of living costs (`against`) or of `scale`.
+       */
+      kind: "household-case";
+      module: string;
+      table: string;
+      /** The table's index on the household id. */
+      index: string;
+      field?: string;
+      against?: "asker-year";
+      scale?: Tagged;
+    }
+  | {
+      /**
+       * How much care a person's health asks of them and the people close to
+       * them (the health engine's own sliding scale, 0 up toward 1): the
+       * asker's own, or the most any other member of their household needs.
+       */
+      kind: "care-need";
+      whose: "self" | "household";
     }
   | {
       /** 1 where the scene is set at this kind of place, else 0. */
@@ -86,6 +237,13 @@ interface VariantRow {
   base: number;
   terms?: readonly Term[];
   pull?: readonly string[];
+  /**
+   * The cause this variant speaks to: where the cause's record carries this
+   * fact, the variant plays only for this value (a visitor whose case is about
+   * work never states a relative's illness instead). A cause without the fact
+   * leaves every variant open.
+   */
+  forCause?: { fact: string; is: string };
   /** The variant's arc; absent for the family's own purpose, whose arc is in purpose-arcs.json. */
   arc?: unknown;
 }
@@ -108,9 +266,45 @@ const ARCS = new Map<string, unknown>(
   ),
 );
 
+/** Each variant purpose to the family purpose it is a variant of (the family's pieces serve it too). */
+export function variantFamilies(): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(DATA.families).flatMap(([family, row]) =>
+      Object.values(row.variants).map((variant) => [variant.purpose, family]),
+    ),
+  );
+}
+
 /** The arc a variant purpose plays, or undefined for a purpose that is not a variant. */
 export function variantArc(purpose: string): unknown {
   return ARCS.get(purpose);
+}
+
+/**
+ * The earlier bills of the asked person's own that the asker voted for, newest
+ * first: the vote already given the asked person's way, with the bill it was
+ * on. Bills before the cause's day, other than the cause's own bill.
+ */
+export function favorsGiven(
+  core: Readonly<CoreState>,
+  askerId: PersonId,
+  askedId: PersonId,
+  before: string,
+  exceptBillId?: string,
+): readonly { readonly voteId: string; readonly billId: string }[] {
+  if (!core.modules.has(LEGISLATURE_MODULE_ID)) return [];
+  const api = coreAPI(core as CoreState);
+  return votesOf(api, askerId)
+    .filter(
+      (row) =>
+        row.date < before &&
+        row.billId !== exceptBillId &&
+        row.stance.position > P.zero &&
+        (billOf(api, row.billId) as { sponsorId?: string } | undefined)
+          ?.sponsorId === askedId,
+    )
+    .reverse()
+    .map((row) => ({ voteId: row.id, billId: row.billId }));
 }
 
 /** What the scene is, as the choice reads it. */
@@ -205,6 +399,8 @@ function readOf(
   input: VariantInput,
   recordIds: Set<string>,
 ): number {
+  if (spec.when && input.cause.facts[spec.when.fact] !== spec.when.is)
+    return P.zero;
   if (spec.kind === "setting")
     return input.setting === spec.is ? P.one : P.zero;
   if (spec.kind === "strain") {
@@ -216,6 +412,199 @@ function readOf(
       parameter("daysPerMeanYear", core.data.parameters);
     return clamp(year / (year + asker.liquidMinor + P.one));
   }
+  if (spec.kind === "care-need") {
+    const person = core.people.get(input.askerId);
+    if (!person) return P.zero;
+    if (spec.whose === "self") {
+      const need = careNeedOf(core, input.askerId);
+      if (need > P.zero) recordIds.add(input.askerId);
+      return clamp(need);
+    }
+    let most = P.zero;
+    let who: PersonId | undefined;
+    for (const id of core.households.get(person.householdId)?.memberIds ?? []) {
+      if (id === input.askerId || !core.people.get(id)?.alive) continue;
+      const need = careNeedOf(core, id);
+      if (need > most) [most, who] = [need, id];
+    }
+    if (who) recordIds.add(who);
+    return clamp(most);
+  }
+  if (spec.kind === "person-rows") {
+    if (!core.modules.has(spec.module)) return P.zero;
+    const rows = coreAPI(core as CoreState)
+      .moduleState(spec.module)
+      .table(spec.table)
+      .query(spec.index, [input.askerId]) as unknown as {
+      id: string;
+      date: string;
+    }[];
+    let count = P.zero;
+    for (const row of rows) {
+      if (row.date >= input.cause.date) continue;
+      if (daysBetweenText(row.date, input.cause.date) > spec.within.value)
+        continue;
+      if (
+        Object.entries(spec.where ?? {}).some(
+          ([key, want]) =>
+            (row as unknown as Record<string, unknown>)[key] !== want,
+        )
+      )
+        continue;
+      count += P.one;
+      recordIds.add(row.id);
+    }
+    return count / (count + spec.scale.value);
+  }
+  if (spec.kind === "household-case") {
+    const person = core.people.get(input.askerId);
+    if (!person || !core.modules.has(spec.module)) return P.zero;
+    const rows = (
+      coreAPI(core as CoreState)
+        .moduleState(spec.module)
+        .table(spec.table)
+        .query(spec.index, [person.householdId]) as unknown as {
+        id: string;
+        open?: boolean;
+      }[]
+    )
+      .filter((row) => row.open)
+      .sort((a, b) => b.id.localeCompare(a.id));
+    const row = rows[P.zero];
+    if (!row) return P.zero;
+    recordIds.add(row.id);
+    if (!spec.field) return P.one;
+    const value = fieldOf(row, spec.field);
+    if (value === undefined) return P.zero;
+    if (spec.against) {
+      const year = yearOf(core, input.askerId);
+      return clamp(value / (value + year + P.one));
+    }
+    if (spec.scale) return clamp(value / (value + spec.scale.value));
+    return clamp(value);
+  }
+  if (spec.kind === "closeness") {
+    const a = input.askerId < input.askedId ? input.askerId : input.askedId;
+    const b = a === input.askerId ? input.askedId : input.askerId;
+    const tieId = `${a}:${b}`;
+    if (!core.relationships.has(tieId)) return P.zero;
+    recordIds.add(tieId);
+    return clamp(closenessBetween(core, input.askerId, input.askedId));
+  }
+  if (spec.kind === "shared-party") {
+    const mine = partyTie(coreAPI(core as CoreState), input.askerId)?.partyId;
+    const theirs = partyTie(coreAPI(core as CoreState), input.askedId)?.partyId;
+    if (!mine || mine !== theirs) return P.zero;
+    recordIds.add(mine);
+    return P.one;
+  }
+  if (spec.kind === "holds-post") {
+    if (!core.modules.has(LEADERSHIP_MODULE_ID)) return P.zero;
+    const post = coreAPI(core as CoreState)
+      .moduleState(LEADERSHIP_MODULE_ID)
+      .table("posts")
+      .rows()
+      .find((row) => (row as { holderId?: string }).holderId === input.askerId);
+    if (!post) return P.zero;
+    recordIds.add(post.id);
+    return P.one;
+  }
+  if (spec.kind === "favor-given") {
+    const given = favorsGiven(
+      core,
+      input.askerId,
+      input.askedId,
+      input.cause.date,
+      input.cause.facts.billId,
+    );
+    for (const row of given) recordIds.add(row.voteId);
+    return given.length / (given.length + spec.scale.value);
+  }
+  if (spec.kind === "town-on-bill") {
+    const billId = input.cause.facts.billId;
+    if (!billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return P.zero;
+    const api = coreAPI(core as CoreState);
+    const bill = billOf(api, billId);
+    if (!bill) return P.zero;
+    const margins = bill.provisions.flatMap((provision) => {
+      const stance = provisionStance(api, provision);
+      if (!stance || stance.position === P.zero) return [];
+      const sides = electorateSides(api, stance.question);
+      return [
+        stance.position > P.zero ? sides.yes - sides.no : sides.no - sides.yes,
+      ];
+    });
+    if (!margins.length) return P.zero;
+    recordIds.add(bill.id);
+    const mean = margins.reduce((a, b) => a + b, P.zero) / margins.length;
+    return clamp(spec.side === "for" ? mean : -mean);
+  }
+  if (spec.kind === "fact-map") {
+    const level = input.cause.facts[spec.fact];
+    const value = level === undefined ? undefined : spec.values[level];
+    if (value === undefined) return P.zero;
+    recordIds.add(input.cause.id);
+    return clamp(value);
+  }
+  if (spec.kind === "quarrel") {
+    const a = input.askerId < input.askedId ? input.askerId : input.askedId;
+    const b = a === input.askerId ? input.askedId : input.askerId;
+    const tieId = `${a}:${b}`;
+    const change = core.relationships.get(tieId)?.latestChange?.requestedChange;
+    if (change === undefined || change >= P.zero) return P.zero;
+    recordIds.add(tieId);
+    return P.one;
+  }
+  if (spec.kind === "national-outlet") {
+    const outlet = outletsHere(coreAPI(core as CoreState)).find((row) =>
+      row.reporterIds.includes(input.askerId),
+    );
+    if (!outlet || outlet.tier !== "national") return P.zero;
+    recordIds.add(outlet.id);
+    return P.one;
+  }
+  if (spec.kind === "scandal") {
+    const stories = scandalStoriesOf(
+      coreAPI(core as CoreState),
+      input.askedId,
+      input.cause.date,
+    );
+    for (const id of stories) recordIds.add(id);
+    return stories.length / (stories.length + spec.scale.value);
+  }
+  if (spec.kind === "town-against") {
+    const billId = input.cause.facts.billId;
+    const vote = billId
+      ? votesOf(coreAPI(core as CoreState), input.askedId).find(
+          (row) => row.billId === billId,
+        )
+      : undefined;
+    if (!vote || vote.stance.position === P.zero) return P.zero;
+    const sides = electorateSides(
+      coreAPI(core as CoreState),
+      vote.stance.question,
+    );
+    const mine = vote.stance.position > P.zero;
+    recordIds.add(vote.id);
+    return clamp(mine ? sides.no - sides.yes : sides.yes - sides.no);
+  }
+  if (spec.kind === "fact") {
+    const value = Number(input.cause.facts[spec.fact]);
+    if (!Number.isFinite(value)) return P.zero;
+    recordIds.add(input.cause.id);
+    if (spec.against) {
+      const year = yearOf(
+        core,
+        spec.against === "asker-year" ? input.askerId : input.askedId,
+      );
+      // No year of living costs on record reads as nothing, never as a gift
+      // that dwarfs a year of zero.
+      if (year <= P.zero) return P.zero;
+      return clamp(value / (value + year * (spec.of?.value ?? P.one) + P.one));
+    }
+    if (spec.scale) return clamp(value / (value + spec.scale.value));
+    return clamp(value);
+  }
   if (spec.kind === "history") {
     const own = input.cause.facts[spec.exceptSameFact];
     let count = P.zero;
@@ -224,11 +613,23 @@ function readOf(
         const event = core.durableLog.get(id);
         if (!event || event.id === input.cause.id) continue;
         if (event.date >= input.cause.date) continue;
+        if (
+          spec.where &&
+          Object.entries(spec.where).some(
+            ([key, want]) => event.facts?.[key] !== want,
+          )
+        )
+          continue;
         if (own !== undefined && event.facts?.[spec.exceptSameFact] === own)
           continue;
-        const named = [...event.personIds, ...(event.witnessIds ?? [])];
-        if (!named.includes(input.askerId) || !named.includes(input.askedId))
+        if (
+          spec.within &&
+          daysBetweenText(event.date, input.cause.date) > spec.within.value
+        )
           continue;
+        const named = [...event.personIds, ...(event.witnessIds ?? [])];
+        if (!named.includes(input.askedId)) continue;
+        if (spec.named !== "asked" && !named.includes(input.askerId)) continue;
         count += P.one;
         recordIds.add(event.id);
       }
@@ -241,6 +642,17 @@ function readOf(
     .moduleState(spec.module)
     .table(spec.table)
     .get(rowId);
+  if (spec.equals !== undefined) {
+    let at: unknown = row;
+    for (const step of spec.field.split("."))
+      at =
+        typeof at === "object" && at !== null
+          ? (at as Record<string, unknown>)[step]
+          : undefined;
+    if (at !== spec.equals) return P.zero;
+    recordIds.add(rowId);
+    return P.one;
+  }
   const value = row ? fieldOf(row, spec.field) : undefined;
   if (value === undefined) return P.zero;
   recordIds.add(rowId);
@@ -275,7 +687,16 @@ export function chooseVariant(
   const reads: Record<string, number> = {};
   const read = (name: string) =>
     (reads[name] ??= readOf(core, DATA.reads[name]!, input, recordIds));
+  // Every read the family names is read, whichever variants are open: the
+  // scene's facts cite them (`read-...`), and a closed variant's records are
+  // still true of the asker.
+  for (const row of Object.values(family.variants))
+    for (const term of row.terms ?? []) read(term.read);
   const scores: VariantScore[] = Object.entries(family.variants)
+    .filter(([, row]) => {
+      const named = row.forCause && input.cause.facts[row.forCause.fact];
+      return !named || named === row.forCause!.is;
+    })
     .map(([variant, row]) => {
       const world = (row.terms ?? []).reduce((total, term) => {
         const value = read(term.read);

@@ -9,7 +9,10 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { gatherSignatures } from "../core2/campaign-petition-kit";
-import { playerContests } from "../core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  playerContests,
+} from "../core2/modules/elections";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
@@ -20,6 +23,7 @@ import type { Moment } from "./types";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // The day after a race is counted, someone the player knows who is tied to a
 // candidate tells who won (situation type `race-told`, purpose `race-told`,
@@ -31,7 +35,7 @@ import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
 // different moves, the same speaker says the same thing twice and opposite
 // speakers say it differently, and a reply is written back as a record.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const ATTEMPTS = 8;
+const ATTEMPTS = 24;
 const DAYS = 365;
 const TYPE = SITUATION_LIBRARY.types.find(
   (row) => row.key === "race-told",
@@ -46,8 +50,8 @@ const PROFILE = [
   "personality-v1:facet-sensitive",
 ];
 
-/** The last day a race may be held and still have its day after inside the played year. */
-const lastDayOfRace = () => addDays(makeIsoDate(gameStartDate()), DAYS - 2);
+/** The last day a race may be held and still have its second day after (a player who ran hears it then) inside the played year. */
+const lastDayOfRace = () => addDays(makeIsoDate(gameStartDate()), DAYS - 3);
 
 /** The new adult filed for the soonest race held inside the year once they turn 18, or false. */
 function fileNewAdult(world: ReturnType<typeof buildBenchWorld>): boolean {
@@ -149,7 +153,9 @@ it(`the day after a count, someone tied to a candidate tells who won, and the re
     const { core, director } = world;
     const personId = world.playerId as PersonId;
     let summary = "";
+    const labels = new Map<string, number>();
     const count = told(core, director, personId, (entry, moment) => {
+      labels.set(moment.label, (labels.get(moment.label) ?? 0) + 1);
       if (!summary)
         summary = check(where, core, director, personId, entry, moment);
     });
@@ -158,7 +164,7 @@ it(`the day after a count, someone tied to a candidate tells who won, and the re
       continue;
     }
     process.stdout.write(
-      `RACE TOLD ${where}${tried.length ? ` after ${tried.join("; ")}` : ""}: ${count} told in the year, the first ${summary}\n`,
+      `RACE TOLD ${where}${tried.length ? ` after ${tried.join("; ")}` : ""}: ${count} told in the year (${[...labels].map(([k, n]) => `${k} ${n}`).join(", ")}), the first ${summary}\n`,
     );
     return;
   }
@@ -178,8 +184,22 @@ function check(
 ): string {
   const record = core.durableLog.get(moment.causeId);
   expect(record?.kind, `${where}: the cause record`).toBe("election-result");
-  expect(moment.label, where).toBe("circumstance:race-result-known");
-  expect(moment.date, where).toBe(addDays(makeIsoDate(record!.date), P.one));
+  // The day after the count; for a player who ran, two days after, because
+  // the morning after takes the day before (one scene a day reaches them).
+  const ranIn = (
+    coreAPI(core)
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byPerson", [personId]) as unknown as { contestId: string }[]
+  ).some((filing) => filing.contestId === record!.facts!.contestId);
+  expect(moment.label, where).toBe(
+    ranIn
+      ? "circumstance:race-result-known-after-ran"
+      : "circumstance:race-result-known",
+  );
+  expect(moment.date, where).toBe(
+    addDays(makeIsoDate(record!.date), ranIn ? P.two : P.one),
+  );
 
   const result = purposeScene(core, director, personId, entry, {
     typeKey: "race-told",
@@ -228,12 +248,25 @@ function check(
       /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,
     );
 
-  // Four replies, four stances: four different moves, four different lines.
+  // Up to four replies, all different stances: different moves, different lines (owner, Nov 10).
   const root = scene.talk.tree.replies.map((reply) => reply.line);
-  expect(new Set(root.map((row) => row.move)), where).toEqual(
-    new Set(["ask", "comfort", "tell", "deflect"]),
-  );
+  expectUpToFourDifferent(root, where);
+  for (const row of root)
+    expect(["ask", "comfort", "tell", "deflect"], where).toContain(row.move);
   expect(new Set(root.map((row) => row.text)).size, where).toBe(root.length);
+
+  // Who turned out is the count's own: where the voting engine kept the
+  // winner's share, the scene carries it cited to the result row, and the
+  // answer to "who turned out" never falls back to "that's all I know".
+  const share = scene.facts.find((row) => row.key === "vote-share");
+  const asking = scene.talk.tree.replies.find((row) => row.line.move === "ask");
+  const answered = (asking?.next?.lines ?? []).map((row) => row.text).join(" ");
+  if (share) {
+    expect(share.recordIds, where).toContain(
+      `result:${record!.facts!.contestId}`,
+    );
+    expect(answered, where).not.toMatch(/that's all i know for sure/i);
+  }
 
   // The reply is written back: a record that names the cause, and the tie.
   const replyId = replyInScene(core, director, personId, entry, [P.zero], {

@@ -21,6 +21,13 @@ import { lawApplied } from "../law-reach/applied";
 import { lawInForce, LAWS_MODULE_ID } from "./laws";
 import type { CoreAPI, CoreModule, CoreState, PlaceId, Source } from "../types";
 import { placePopulation } from "../gov-rules/place-population";
+import { addDays, makeIsoDate } from "../kernel/dates";
+import {
+  hazardOfIncident,
+  hazardRate,
+  RECORD_END,
+  type Hazard,
+} from "./climate";
 import type { ModuleRow } from "../module-data";
 import { dwellingKind, ownedHomes } from "./housing";
 import {
@@ -58,6 +65,8 @@ type Row = [string, string, number, number, number];
 
 interface Disaster {
   number: number;
+  /** The FEMA disaster whose figures (aid, homes damaged) this one reads: its own number for a recorded one, the template's for one the climate made. */
+  recorded?: number;
   title: string;
   type: string;
   begins: string;
@@ -77,6 +86,10 @@ interface Runtime {
   paid: { disaster: number; orgId: string; cents: number }[];
   /** Repairs households paid: disaster, receiving account, cents. */
   repairs: { disaster: number; to: string; cents: number }[];
+  /** Disasters the climate made, by their number. */
+  made: Map<number, Disaster>;
+  /** The county's recorded disasters by hazard, oldest first: the figures a made one takes in turn. */
+  templates: Map<Hazard, Disaster[]>;
 }
 const runtimes = new WeakMap<CoreState, Runtime>();
 
@@ -156,9 +169,135 @@ function runtime(api: CoreAPI): Runtime {
     byDeclared,
     paid: [],
     repairs: [],
+    made: new Map(),
+    templates: recordedByHazard(rows, county),
   };
   runtimes.set(core, rt);
   return rt;
+}
+
+/** The county's recorded disasters (its own and its state's) by hazard, oldest first. */
+function recordedByHazard(
+  rows: Record<string, Row[]>,
+  county: string | undefined,
+): Map<Hazard, Disaster[]> {
+  const out = new Map<Hazard, Disaster[]>();
+  if (!county) return out;
+  const seen = new Set<number>();
+  const all: [Row, boolean][] = [
+    ...(rows[county] ?? []).map((row): [Row, boolean] => [row, false]),
+    ...(rows[`${county.slice(0, 2)}000`] ?? []).map((row): [Row, boolean] => [
+      row,
+      true,
+    ]),
+  ];
+  // The county's own and its state's together, oldest first.
+  for (const [row, statewide] of all.sort((a, b) =>
+    a[0][0].localeCompare(b[0][0]),
+  )) {
+    const hazard = hazardOfIncident(declarations.types[row[2]] ?? "");
+    if (!hazard || row[0] < "2000-01-01" || row[0] > RECORD_END) continue;
+    if (seen.has(row[4])) continue;
+    seen.add(row[4]);
+    out.set(hazard, [
+      ...(out.get(hazard) ?? []),
+      {
+        number: row[4],
+        title: (declarations.titles as Record<string, string>)[row[4]] ?? "",
+        type: declarations.types[row[2]] ?? "",
+        begins: row[0],
+        declared: row[1],
+        statewide,
+      },
+    ]);
+  }
+  return out;
+}
+
+interface Exposure {
+  readonly id: string;
+  readonly hazard: Hazard;
+  readonly expected: number;
+  readonly fired: number;
+}
+
+const GENERATED_HAZARDS: readonly Hazard[] = ["flood", "storm", "wildfire"];
+
+/**
+ * After the record, the town's weather: on the first of each month the
+ * county's exposure to each hazard grows by the climate's rate for the month
+ * (`hazardRate`, the county's recorded declarations by season moved by the
+ * warming); a disaster happens the month the exposure holds one more whole
+ * one than have happened. It takes the days and the figures of a recorded
+ * disaster of the county in turn (SG-NATION-hazard-replay) under a number of
+ * its own, and goes through the same begin and declare as a recorded one.
+ */
+function makeWeather(api: CoreAPI, rt: Runtime): void {
+  const core = api.state;
+  const month = core.date.slice(0, "YYYY-MM".length);
+  const state = api.moduleState(DISASTERS_MODULE_ID).table("state");
+  const done = state.get("weather:state") as
+    { generatedMonth: string } | undefined;
+  if (!rt.county || done?.generatedMonth === month) return;
+  state.put({
+    id: "weather:state",
+    generatedMonth: month,
+  } as unknown as ModuleRow);
+  if (`${month}-01` <= RECORD_END) return;
+  const exposures = api.moduleState(DISASTERS_MODULE_ID).table("exposure");
+  const monthNumber = Number(month.slice(5, 7));
+  const lastDay = Number(
+    addDays(
+      addDays(makeIsoDate(`${month}-01`), 32),
+      -Number(addDays(makeIsoDate(`${month}-01`), 32).slice(8, 10)),
+    ).slice(8, 10),
+  );
+  for (const hazard of GENERATED_HAZARDS) {
+    const list = rt.templates.get(hazard) ?? [];
+    if (!list.length) continue;
+    const id = `exposure:${rt.county}:${hazard}`;
+    const row = (exposures.get(id) as unknown as Exposure | undefined) ?? {
+      id,
+      hazard,
+      expected: 0,
+      fired: 0,
+    };
+    const expected =
+      row.expected + hazardRate(api, rt.county, hazard, monthNumber);
+    const due = Math.floor(expected) - row.fired;
+    for (let i = 0; i < due; i++) {
+      const k = row.fired + i;
+      const template = list[k % list.length]!;
+      // The template's day of the month (the second at the earliest: the first is today).
+      const day = Math.min(
+        Math.max(Number(template.begins.slice(8, 10)), 2),
+        lastDay,
+      );
+      const begins = `${month}-${String(day).padStart(2, "0")}`;
+      const lag = Math.round(
+        (Date.parse(template.declared) - Date.parse(template.begins)) /
+          86_400_000,
+      );
+      const made: Disaster = {
+        ...template,
+        number: template.number + 1_000_000 * (k + 1),
+        recorded: template.number,
+        begins,
+        declared: addDays(makeIsoDate(begins), Math.max(0, lag)),
+      };
+      rt.made.set(made.number, made);
+      rt.byBegin.set(begins, [...(rt.byBegin.get(begins) ?? []), made]);
+      rt.byDeclared.set(made.declared, [
+        ...(rt.byDeclared.get(made.declared) ?? []),
+        made,
+      ]);
+    }
+    exposures.put({
+      ...row,
+      expected,
+      fired: row.fired + Math.max(0, due),
+    } as unknown as ModuleRow);
+  }
 }
 
 const source = (api: CoreAPI, detail: string): Source => ({
@@ -346,7 +485,7 @@ function declare(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
       string,
       { county: number; towns: Record<string, number> }
     >
-  )[`${rt.county}|${disaster.number}`];
+  )[`${rt.county}|${disaster.recorded ?? disaster.number}`];
   if (!row) return;
   const accounts = api.accounts();
   // A law having states share disaster costs lowers the federal share of
@@ -406,7 +545,7 @@ function townRow(rt: Runtime, disaster: Disaster): TownRow | undefined {
       string,
       Record<string, TownRow>
     >
-  )[`${rt.county}|${disaster.number}`]?.[rt.townName];
+  )[`${rt.county}|${disaster.recorded ?? disaster.number}`]?.[rt.townName];
 }
 
 /**
@@ -638,11 +777,14 @@ export const DISASTERS_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       damaged: { indexes: { byHousehold: { fields: ["householdId"] } } },
+      exposure: {},
+      state: {},
     },
   },
   onDay(api) {
     const rt = runtime(api);
     const date = api.state.date;
+    makeWeather(api, rt);
     for (const disaster of rt.byBegin.get(date) ?? []) begin(api, rt, disaster);
     for (const disaster of rt.byDeclared.get(date) ?? [])
       declare(api, rt, disaster);
@@ -657,6 +799,7 @@ export const DISASTERS_MODULE: CoreModule = {
  */
 export function federalAidFor(api: CoreAPI, disasterNumber: number): number {
   const rt = runtime(api);
+  disasterNumber = rt.made.get(disasterNumber)?.recorded ?? disasterNumber;
   if (!rt.county) return 0;
   const row = (
     assistance.byCountyDisaster as Record<

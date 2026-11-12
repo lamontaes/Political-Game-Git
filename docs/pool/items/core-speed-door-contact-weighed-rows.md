@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,6 @@ source: added with npm run pool -- add
 
 Nov 7 (State Sessions): the cut was built and measured, and it does not shorten the year. A list of routine voter choices (parties.attend, conversation.believe-claim, campaigns.retell, campaigns.sign-petition) kept as results only for someone whose sole tie to the player is a contact and who is no kin cut the weighed rows at day 100 of Montpelier's year 4 from 106,628 to 41,904; with take-up-cause, speech-retell, carry-on and speech-keep added as well, a full four-year run (Upper Witter Gulch's twin, same seed, key 5046000) ended with 335,950 log rows against 350,462, and year 4 took 1,696 s against 1,009 s the day before on the same code without the cut (years 1 to 3 were also about 20% slower that day, so the machine was slower, but not by 68%). So the weighed log is not what makes Montpelier's year 4 slow. The change was reverted. The donor-meeting and campaign-turn reds seen with the first try fail on plain main under the same seeds (donor-meeting seed 81aeaba1... Banner Hill TN: no candidate had a host), so they were not caused by the cut. The year-4 profile of Montpelier is the next step.
 
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into core-speed-colorado-election-year-persuasion. Built and measured twice (Nov 6, Nov 7): the cut dropped Montpelier's weighed rows from 106,628 to 41,904 at day 100 but year 4 did not get shorter, so the weighed log is not the cost. Same seed (5a1c0de7a11ce5e1) as the Upper Witter Gulch profile. The kept item now takes the finding that campaign-turn and the donor meeting read a guest's kept weighed record, so any cut must keep it one day.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `core-speed-colorado-election-year-persuasion`, which carries this item's remaining work.

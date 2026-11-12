@@ -6,20 +6,35 @@ kind: research
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr: #5805
 blocked-on:
+after:
+lead: jobs
+model: opus
+effort: medium
+root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** The hiring engine needs a sourced table of how much more often employers call back some applicants than others, with a spread between employers, before a hiring decision can cite a recorded attitude (world-hiring-bias-reasons) or a discrimination ban can refuse one. PR #5191 built src/core2/data/jobs/employer-callback-gaps.json from Quillian et al. 2017, Bertrand and Mullainathan 2004, Kline, Rose and Walters 2022 and others, but was sent back because no engine reads it. Finish it with its first reader: each employer's owner is generated with an attitude drawn once from the table's between-employer spread (seeded generation of who exists), and the hiring score in the jobs engine reads it, so the table is not dead data. Tag the older-applicant and Pager 2003 rows ESTIMATED until read from the papers.
+**What.** The hiring engine needs a sourced table of how much more often employers call back some applicants than others, with a spread between employers, before a hiring decision can cite a recorded attitude (world-hiring-bias-reasons) or a discrimination ban can refuse one. PR #5191 built src/core2/data/jobs/employer-callback-gaps.json from Quillian et al. 2017, Bertrand and Mullainathan 2004, Kline, Rose and Walters 2022 and others, but was sent back because no engine reads it. Finish it with its first reader: each employer's owner is generated with an attitude drawn once from the table's between-employer spread (seeded generation of who exists), and the hiring score in the jobs engine reads it, so the table is not dead data. Tag the older-applicant and Pager 2003 rows ESTIMATED until read from the papers. Feeds: world-hiring-bias-reasons
 
-**Rules.** An effect is a read, not a record: the table lands only with the jobs engine reading it when an employer ranks applicants. No dice: the per-employer attitude is a generated trait of who exists, and the hire follows from it with the applicant's records, never a roll at the decision. Research before building: every ratio carries its citation and spread, and real callback rates check totals across employers, never one employer's answer.
+**Cause.** Found in code: src/core2/data/jobs/employer-callback-gaps.json is imported only by its test, src/core2/employer-callback-gaps.test.ts; the one hiring-bias reader in the jobs engine is src/core2/jobs-age-bias.ts, applied in the hire loop `runWeek` in src/core2/modules/jobs.ts.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and seed the builder did not choose, both named), the jobs engine reads an employer's attitude from the table when it ranks applicants, named by record id, and across all hires the callback gap by group falls inside the table's sourced spread; src/core2/data/jobs/employer-callback-gaps.test.ts checks every row has a source and spread. **On screen.** Nothing yet: it would show on News, and nothing there reads it.
+**Fix.** Draw each employer owner's attitude once from the table's between-employer spread and have the jobs engine (src/core2/modules/jobs.ts) read it when ranking applicants; keep the ESTIMATED tags on the older-applicant and Pager rows.
 
-**Files.** src/core2/data/jobs/employer-callback-gaps.json, src/core2/modules/jobs.ts, src/core2/data/jobs/employer-callback-gaps.test.ts
+**Time box.** 8 hours for one session of the Opus model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** An effect is a read, not a record: the table lands only with the jobs engine reading it when an employer ranks applicants. No dice: the per-employer attitude is a generated trait of who exists, and the hire follows from it with the applicant's records, never a roll at the decision. Research before building: every ratio carries its citation and spread, and real callback rates are reported across employers, never used to decide one employer's answer (owner, Nov 8: ranges aren't targets).
+
+**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, a drawn place and seed the builder did not choose, both named) and sees the jobs engine read an employer's attitude from the table when it ranks applicants, named by record id, with the callback gap by group across all hires reported beside the table's sourced spread; src/core2/employer-callback-gaps.test.ts checks every row has a source and spread. On screen: nothing yet; it would show on News, and nothing there reads it.
+
+**Waits on.** Nothing. world-hiring-bias-reasons builds on this reader.
+
+**Files.** src/core2/data/jobs/employer-callback-gaps.json, src/core2/modules/jobs.ts, src/core2/employer-callback-gaps.test.ts, src/core2/jobs-age-bias.ts
 
 **Notes.** Sent back 2026-10-20 from PR #5191 (branch claude/employer-attitude): Morning check failed because employer-callback-gaps.json is not read by any engine in core2; finish on that branch, merge main into it first.
 

@@ -60,6 +60,7 @@
  * Only households in the places whose money the world keeps are billed
  * (billedPlaces); the care norm is theirs.
  */
+import { bookkeeping } from "./bookkeeping";
 import data from "./data/health/medical-bills.json" with { type: "json" };
 import customers from "./data/opening-customers.json" with { type: "json" };
 import { chargeGroups, fundGroups } from "./counted-money";
@@ -938,7 +939,8 @@ export function billMedicalCare(
       debtId: debtId ?? prior.get(h.householdId)?.debtId ?? null,
       source,
     };
-    table(api, input.module).put(row as never);
+    // Built fresh for this write and never touched again: frozen in place, not copied.
+    table(api, input.module).putOwned(row as never);
   }
   if (medicaidBySeller.size) {
     const { paidBySeller } = payMedicaidCare(api, {
@@ -948,6 +950,31 @@ export function billMedicalCare(
     });
     for (const [sellerId, paid] of paidBySeller) bookSale(core, sellerId, paid);
   }
+  if (!bookkeeping()) dropSettledRows(api, input.module, households);
+}
+
+/**
+ * Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): a household
+ * not billed this month (it died out, moved beyond the billed places or
+ * merged) that owes nothing and holds no medical-debt record leaves its row.
+ * The billing pass reads a row only for what is owed, the debt and its
+ * seller, so a household billed again later is billed as it would be from
+ * that row. Kept, they were 104 MB of a long run's heap (Montpelier,
+ * Vermont, year 6: 46,917 rows). With bookkeeping on (tests, proofs) every
+ * row stays.
+ */
+function dropSettledRows(
+  api: CoreAPI,
+  module: string,
+  households: readonly Household[],
+): void {
+  const billedNow = new Set(
+    households.map((h) => `medical-bill:${h.householdId}`),
+  );
+  const rows = table(api, module);
+  for (const row of [...(rows.rows() as unknown as MedicalBillRow[])])
+    if (!billedNow.has(row.id) && !row.owed.length && row.debtId === null)
+      rows.remove(row.id);
 }
 
 /** A household's latest month of medical bills, if it was billed. */

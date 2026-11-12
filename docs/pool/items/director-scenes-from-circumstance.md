@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #6263
 blocked-on:
@@ -27,3 +27,7 @@ claimed-at:
 **Notes.** TODO
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (merged #6263).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Merged as #6263 (Oct 27 look-first audit): `src/director/circumstance.ts`, `src/director/data/circumstances.json` and `src/director/circumstance.test.ts` exist, and the test header lists the row families (price, rent, death, hire, rival message, lobbyist). The follow-ups are director-circumstance-counted-cast-filled-in and director-circumstance-rare-families-asserted.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

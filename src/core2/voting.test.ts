@@ -12,6 +12,7 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { setKeepEveryonesWhy } from "./why-kept";
@@ -95,19 +96,25 @@ function filedRace(place: string) {
     )
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
   const platform = [`${pick(PLATFORM_QUESTIONS, "q1")}=1`];
-  for (const open of openContests(api).filter((c) => c.level !== "federal")) {
-    const filed: FilingRow[] = [];
-    for (const person of adults.slice(0, 2)) {
-      const result = fileCandidacy(api, {
-        personId: person.id,
-        contestId: open.id,
-        platform,
-      });
-      if (result.status === "refused") break;
-      if (["petitioning", "on-ballot"].includes(result.filing.status ?? ""))
-        filed.push(result.filing);
+  // Every race opens its filing on a real day, so at the start most places
+  // have none open yet: the world runs a week at a time, at most 60 weeks,
+  // until a race two residents can file for is open.
+  for (let weeks = 0; weeks <= 60; weeks += 1) {
+    for (const open of openContests(api).filter((c) => c.level !== "federal")) {
+      const filed: FilingRow[] = [];
+      for (const person of adults.slice(0, 2)) {
+        const result = fileCandidacy(api, {
+          personId: person.id,
+          contestId: open.id,
+          platform,
+        });
+        if (result.status === "refused") break;
+        if (["petitioning", "on-ballot"].includes(result.filing.status ?? ""))
+          filed.push(result.filing);
+      }
+      if (filed.length === 2) return { core, api, contest: open, filed, weeks };
     }
-    if (filed.length === 2) return { core, api, contest: open, filed };
+    if (weeks < 60) advanceCore(core, addDays(makeIsoDate(core.date), 7));
   }
   return undefined;
 }
@@ -137,10 +144,9 @@ describe("M2-07 elections", () => {
         if (world) break;
         tried.push(place);
       }
-      if (tried.length)
-        console.log(
-          `M2-07: seed ${seed}; no race two residents could file for in ${tried.join(", ")}; ran in ${place}`,
-        );
+      process.stdout.write(
+        `M2-07: seed ${seed}; passed over ${tried.length ? tried.join(", ") : "no place"} (no race two residents could file for within 60 weeks); ran in ${place} after waiting ${world?.weeks ?? "?"} weeks\n`,
+      );
       expect(
         world,
         `no open local or state race in ${tried.join(", ")}`,
@@ -171,10 +177,23 @@ describe("M2-07 elections", () => {
       // election), and no one wins on no votes.
       if (result.winnerId === null) {
         const totals = Object.values(result.totals).sort((a, b) => b - a);
+        // An at-large race seats its top finishers; a tie straddling its last
+        // seat goes to the place's tie law like a single seat's, so that seat
+        // has a kept tie record (a second election, when it has no winner yet).
+        const seats = atLargeGroup(api, contest!).length;
+        const lastSeatTied = seats > 1 && totals[seats - 1] === totals[seats];
         expect(
-          totals[0] === 0 || totals[0] === totals[1],
+          totals[0] === 0 || totals[0] === totals[1] || lastSeatTied,
           `${place}: no winner with ${JSON.stringify(result.totals)}`,
         ).toBe(true);
+        if (lastSeatTied)
+          expect(
+            api
+              .moduleState(ELECTIONS_MODULE_ID)
+              .table("ties")
+              .get(`tie:${contest!.id}`),
+            `${place}: the tie across the last seat of ${contest!.id}`,
+          ).toBeDefined();
         return;
       }
       const candidates = ballot(api, contest!.id).map((f) => f.personId);

@@ -5581,15 +5581,27 @@
       "citation": "A season to a three-year term; checked against the memory check (scripts/core2-guard/memory.mjs) and the journal."
     }
   },
-  "experiencedKeyRetentionDays": {
-    "value": 90,
+  "candidacyDecisionRetentionDays": {
+    "value": 60,
     "tag": "TUNABLE",
-    "citation": "Owner ruling, Oct 12 (running memory stays small): how long a person keeps the bare 'I lived through this event' key after the day, once it is no longer the source of a drive they hold. Its only readers are the same-day appraisal and a drive's update; the event's own facts stay.",
+    "role": "coefficient",
+    "citation": "Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): how long after a race's election day a person's decision not to run in it is kept (candidacy.ts dropPastNonRunners). Every reader asks about a race still being run or about those who ran, which stay; two months covers a runoff's own contest and the seating. Kept forever, declined decisions were 28,733 of 30,181 rows at Montpelier, Vermont, year 4 (Nov 9, 2026).",
     "spread": {
       "low": 30,
+      "high": 400,
+      "unit": "days",
+      "citation": "A month (the monthly pass) to a year and a month; checked against the records proof of a two-year Montpelier run."
+    }
+  },
+  "experiencedKeyRetentionDays": {
+    "value": 14,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling, Oct 12 (running memory stays small); window shortened from 90 to 14 days on Nov 8, 2026 (Memory and long runs): how long a person keeps the bare 'I lived through this event' key after the day, once it is no longer the source of a drive they hold. Its only readers are the same-day appraisal (module-notifications.ts requires the event's own date) and a drive's source check, which a held drive keeps. The event's own facts stay. In Futiga, American Samoa (seed dpA), these keys were 550,000 of 2.3 million facts and 280 MB in the 2030 election year at 90 days.",
+    "spread": {
+      "low": 7,
       "high": 365,
       "unit": "days",
-      "citation": "A month to a year; checked against the 450-day play digest (unchanged) and the yearly heap in scripts/core2-year/years-profile.ts."
+      "citation": "A week (the weekly forgetting pass) to a year; checked against the 450-day play digest and the yearly heap in scripts/core2-year/years-profile.ts."
     }
   },
   "openingTeacherAnnualWageUsd": {
@@ -8428,6 +8440,30 @@
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "eventIdRetentionDays": {
+    "value": 400,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): how long past the newest date written in an event id the world keeps the id in core.eventIds. Every reader asks about today, a race still ahead or an id with no date (event-id-retention.ts), so a year and a month covers an annual address and a race's whole season. Kept forever the set was 117 MB at Montpelier, Vermont, year 6 (Nov 9, 2026).",
+    "spread": {
+      "low": 366,
+      "high": 1100,
+      "unit": "days",
+      "citation": "One year (an annual address on the same day) to three (a race decided and contested); checked against the records proof of a two-year Montpelier run."
+    }
+  },
+  "countedBallotRetentionDays": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): how long after its election a race's counted ballots (each counted voter's turnout, split and reasons) are kept for the why-lookups; the result, returns and named ballots stay (voting.ts dropOldCountedBallots). Kept forever they were 80 MB in 45 rows at Montpelier, Vermont, year 4 (Nov 9, 2026).",
+    "spread": {
+      "low": 30,
+      "high": 400,
+      "unit": "days",
+      "citation": "A month (a canvass and recount) to a year and a month; checked against the records proof of a two-year Montpelier run."
     }
   }
 }

@@ -71,7 +71,11 @@ import { collegeOf, graduationOf } from "../school-outcomes";
 import { SCHOOL_MODULE_ID } from "../school-measures";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
-import { regionalConditions, reviewWorkElsewhere } from "../jobs-elsewhere";
+import {
+  forgetWorkElsewhere,
+  regionalConditions,
+  reviewWorkElsewhere,
+} from "../jobs-elsewhere";
 import { livesElsewhere } from "./people";
 import {
   findPerQuarter,
@@ -285,6 +289,11 @@ function staffHeads(c: CoreState, jobs: readonly JobInput[]): number {
   return heads;
 }
 
+/** How many people an employer has on staff now, full people and counted workers alike. */
+export function staffCount(api: CoreAPI, organizationId: string): number {
+  return staffHeads(core(api), currentJobs(api, organizationId));
+}
+
 /** The jobs an opening stands for. */
 const positionHeads = (position: Pick<PositionRow, "heads">): number =>
   position.heads ?? 1;
@@ -313,6 +322,18 @@ function controlled(c: CoreState, personId: string): boolean {
 function isCounted(api: CoreAPI, personId: string): boolean {
   const person = core(api).people.get(personId);
   return !person || isDemoted(person);
+}
+
+/**
+ * Someone the counts no longer hold and who is not a full person: they died
+ * or moved away with their counted household. A full person returned to the
+ * counts keeps their record, so the record alone does not mean they are here
+ * (Montpelier, Vermont, seed mont1: a returned household moved away in March
+ * 2027 and its member was hired in April, and the press later tried to fill
+ * in a worker no longer in the counts).
+ */
+function goneFromCounts(api: CoreAPI, personId: string): boolean {
+  return isCounted(api, personId) && !residentFacts(core(api), personId);
 }
 
 function definition(kind: Kind): ActionDefinition {
@@ -412,7 +433,7 @@ function noteLeaver(
 }
 
 /** A job by id, a full person's or a counted worker's. */
-function jobById(api: CoreAPI, jobId: string): JobInput | undefined {
+export function jobById(api: CoreAPI, jobId: string): JobInput | undefined {
   return (
     core(api).jobs.get(jobId) ?? residentsRuntime(core(api))?.jobs.get(jobId)
   );
@@ -1069,6 +1090,9 @@ function open(api: CoreAPI): void {
   }
   openCountedSeekers(api);
   openSeekers(api);
+  // The adults who would be looking at the opening are found now, partway through their spells, not all at the first monthly review with their progress at zero.
+  reviewCountedEntry(api, true);
+  reviewJobless(api, true);
   store(api).table("state").put({ id: "jobs:state", openedAt: c.date });
   scheduleReview(api);
   scheduleWeek(api);
@@ -1888,6 +1912,8 @@ export function layOff(
     facts: {
       decidedBy: decidedBy ?? organizationId,
       organizationId,
+      // The change record this layoff wrote, for the grievance it causes.
+      jobChangeId: `job-change:${api.state.date}:${job.id}:layoff`,
       ...(full ? {} : { "counted-subject": job.personId }),
     },
   };
@@ -2130,6 +2156,11 @@ function reviewRegionalFinds(api: CoreAPI): void {
       .table(table)
       .query("all", [true]) as unknown as SeekerRow[]) {
       if (seeker.employed) continue;
+      // A counted seeker who died or moved away with their household finds no work here.
+      if (table === "countedSeekers" && goneFromCounts(api, seeker.personId)) {
+        store(api).table("countedSeekers").remove(seeker.personId);
+        continue;
+      }
       const person = c.people.get(seeker.personId);
       // A seeker returned to the counts goes on as a counted seeker, keeping their progress (matching may find no opening for a long while to move them).
       if (person && isDemoted(person) && table === "seekers") {
@@ -2787,7 +2818,7 @@ function raisePay(api: CoreAPI): void {
 }
 
 /** Jobless working-age adults choose whether to look for work, pushed by how few days their household's money covers. */
-export function reviewJobless(api: CoreAPI): void {
+export function reviewJobless(api: CoreAPI, opening = false): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),
     [young, old] = jobsData.workingAge as [number, number];
@@ -2862,6 +2893,7 @@ export function reviewJobless(api: CoreAPI): void {
           false,
           jobsData.reasons.startedLooking,
           lastPay(api, person.id),
+          opening ? openingProgress(c, person.id) : undefined,
         ),
     );
   }
@@ -3139,7 +3171,7 @@ function runWeek(api: CoreAPI): void {
   for (const seeker of counted) {
     if (inCustody(api, seeker.personId)) continue;
     // A seeker who died or moved away with their household is no one to hire.
-    if (!c.people.has(seeker.personId) && !residentFacts(c, seeker.personId)) {
+    if (goneFromCounts(api, seeker.personId)) {
       store(api).table("countedSeekers").remove(seeker.personId);
       continue;
     }
@@ -3317,11 +3349,13 @@ function runWeek(api: CoreAPI): void {
         );
         placed = accepts && hireCounted(api, position, best, fit(best));
       } else if (controlled(c, best.personId)) {
-        // A past decline or lapse is an answer, not a permanent hold.
+        // A past decline or lapse is an answer, not a permanent hold, but the
+        // employer asks again only with something changed since.
         if (
           store(api)
             .table("offers")
-            .get(`job-offer:${position.id}:${best.personId}`)
+            .get(`job-offer:${position.id}:${best.personId}`) ||
+          !offerChanged(api, position, best.personId)
         )
           continue;
         offerToPlayer(api, position, best.personId, fit(best));
@@ -4029,7 +4063,7 @@ function reviewCountedWorkers(
  * household's money covers, the place's unemployment and their traits. The
  * same comparison starts the search and, for someone already looking, ends it.
  */
-export function reviewCountedEntry(api: CoreAPI): void {
+export function reviewCountedEntry(api: CoreAPI, opening = false): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),
     rt = residentsRuntime(c);
@@ -4041,6 +4075,12 @@ export function reviewCountedEntry(api: CoreAPI): void {
     if (job && !job.endsAt && !flow.endedAt) working.add(job.personId);
   }
   const seekers = store(api).table("countedSeekers");
+  // Counted people who found work in the wider region hold it as a regional job, not a wage flow of the town's: they are at work, not jobless.
+  const abroad = new Set(
+    (
+      store(api).table("regional").rows() as unknown as { personId: string }[]
+    ).map((row) => row.personId),
+  );
   const monthDays = p("jobsDaysPerYear") / p("macroMonthsPerYear");
   const counted = rt.store;
   for (const h of counted.liveHouseholds()) {
@@ -4049,7 +4089,7 @@ export function reviewCountedEntry(api: CoreAPI): void {
     let days: number | undefined;
     for (const m of counted.countedMembers(h)) {
       const personId = counted.ids[m]!;
-      if (working.has(personId)) continue;
+      if (working.has(personId) || abroad.has(personId)) continue;
       const age =
         daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
       if (age < young || age >= old) continue;
@@ -4104,6 +4144,7 @@ export function reviewCountedEntry(api: CoreAPI): void {
             reasonKey: jobsData.reasons.startedLooking,
             referenceHourlyMinor: 0,
             reasons: reasonsOf(result),
+            ...(opening ? { regionalPull: openingProgress(c, personId) } : {}),
           } as never),
       );
     }
@@ -4333,6 +4374,61 @@ function openToOffers(api: CoreAPI): SeekerRow | undefined {
     reasonKey: jobsData.reasons.offered,
     referenceHourlyMinor: lastPay(api, person.id),
   };
+}
+
+/**
+ * Whether an employer has something new to offer a person it offered before:
+ * the person turned down or let lapse each earlier offer the employer made
+ * them, so it calls again only with a job of another title or better pay than
+ * every one of those (the records of the earlier offers, never a count of
+ * days). An employer that never offered them has nothing to compare.
+ */
+function offerChanged(
+  api: CoreAPI,
+  position: PositionRow,
+  personId: string,
+): boolean {
+  const offers = store(api).table("offers");
+  const earlier = (["declined", "lapsed"] as const).flatMap(
+    (status) =>
+      offers.query("byPerson", [personId, status]) as unknown as JobOfferRow[],
+  );
+  const same = earlier.filter(
+    (row) =>
+      row.organizationId === position.organizationId &&
+      row.title === position.title,
+  );
+  if (!same.length) return true;
+  const pay = hirePay(api, position, personId);
+  // Better pay is a real raise: beyond what pay everywhere has moved since
+  // the earlier offer (the economy's hourly earnings), by as much as makes it
+  // a new offer rather than the same call (jobsReofferRealRaiseShare).
+  const raise =
+    api.parameter("one") + api.parameter("jobsReofferRealRaiseShare");
+  return same.every(
+    (row) =>
+      pay >= row.hourlyMinor * earningsMovedSince(api, row.offeredAt) * raise,
+  );
+}
+
+/** How far the nation's hourly earnings have moved from a day's month to the latest month recorded (one where the economy keeps none). */
+function earningsMovedSince(api: CoreAPI, date: string): number {
+  if (!(api.state as CoreState).modules.has("macro")) return 1;
+  const macro = api.moduleState("macro");
+  const latest = (
+    macro.table("state").get("macro:state") as
+      { latestMonth?: string } | undefined
+  )?.latestMonth;
+  const earnings = (month: string | undefined) =>
+    month
+      ? (
+          macro.table("months").get(`macro-month:${month}`) as
+            { hourlyEarnings?: number } | undefined
+        )?.hourlyEarnings
+      : undefined;
+  const then = earnings(date.slice(0, "YYYY-MM".length));
+  const now = earnings(latest);
+  return then && now ? now / then : 1;
 }
 
 /**
@@ -4878,6 +4974,11 @@ export const JOBS_MODULE: CoreModule = {
       }
       return;
     }
+    // A death ends the working-life row of someone living elsewhere, whether or
+    // not the engine has opened its state yet.
+    if (event.kind === "life.death")
+      for (const personId of event.personIds)
+        forgetWorkElsewhere(api, personId);
     if (!store(api).table("state").get("jobs:state")) return;
     if (event.kind === "life.death") {
       for (const personId of event.personIds)
@@ -4993,10 +5094,16 @@ export const JOBS_MODULE: CoreModule = {
       scheduleWeek(api);
     }
   },
-  onDay(api) {
-    if (!store(api).table("state").get("jobs:state")) open(api);
-  },
+  onDay: openOnce,
+  // Results mode (time nobody watches): the engine's only daily work is its
+  // opening; its weekly matching and monthly reviews are dated work and run.
+  onResultsMonth: openOnce,
 };
+
+/** The labor market opens on the first day the engine runs, in play or skipped. */
+function openOnce(api: CoreAPI): void {
+  if (!store(api).table("state").get("jobs:state")) open(api);
+}
 
 /** A newly founded business joins the labor market, staffing toward what its books call for. */
 /**
@@ -5043,3 +5150,4 @@ export function registerEmployer(
 export { residentEmploymentRate } from "../opening-employment";
 export { countySectorEmployment } from "../town-employment-mix";
 export { nationalMedianAnnualWage } from "../town-pay";
+export { workedToday } from "../job-lifecycle";

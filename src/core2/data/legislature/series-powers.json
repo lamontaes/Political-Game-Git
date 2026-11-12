@@ -117,6 +117,10 @@
     "energy-assistance-income-limit": {
       "levels": ["state"],
       "source": "Low-Income Home Energy Assistance Act, 42 U.S.C. 8624(b)(2): a state sets the household income limit for its home energy assistance, within the statute's floor and ceiling"
+    },
+    "meeting-notice-hours": {
+      "levels": ["state"],
+      "source": "State open-meetings acts: the notice a local public body must give before a regular meeting (research draft data/research/laws/open-meetings-and-records-2026.json; a place with no statutory number uses the median of those that have one)"
     }
   },
   "questions": {

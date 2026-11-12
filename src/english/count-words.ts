@@ -4,6 +4,7 @@
  * $400", never the exact tally of a large count or a sum to the cent.
  */
 import data from "../../data/english/count-words.json" with { type: "json" };
+import filedWords from "../../data/english/filed-words.json" with { type: "json" };
 
 type Step = { below: number | null; step: number };
 
@@ -30,4 +31,31 @@ export function moneySaid(minor: number): string {
     data.aboutMoney,
     Math.max(step, Math.round(dollars / step) * step),
   );
+}
+
+/** How long rent has gone unpaid, in days, as people say it: "about two months". */
+export function lateSaid(days: number): string {
+  const rows = data.lateSteps.rows as readonly {
+    below: number | null;
+    said: string;
+  }[];
+  return rows.find((row) => row.below === null || days < row.below)!.said;
+}
+
+/**
+ * The days a number of months of rent stand for, so a household that owes
+ * two months of rent has been behind about two months whatever day its first
+ * payment was missed.
+ */
+export function monthsOfRentDays(months: number): number {
+  return Math.round(months * data.lateSteps.daysPerMonth);
+}
+
+/**
+ * How many others have filed for an office, as a clerk says it ("two other
+ * candidates"), from `data/english/filed-words.json`; empty for none.
+ */
+export function filedSaid(count: number): string {
+  if (count < 1) return "";
+  return filedWords.others[count - 1] ?? filedWords.many;
 }

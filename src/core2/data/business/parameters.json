@@ -370,6 +370,19 @@
       "citation": "Small businesses judge viability over six months to two years (Federal Reserve Small Business Credit Survey 2023 reports on 12-month performance)."
     }
   },
+  "businessLossSmoothingMonths": {
+    "value": 3,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "The months a business's operating result is read over: its costs fall due on a quarterly cycle (federal estimated tax is due four times a year, IRS Form 1040-ES and Form 1120-W; supplier and lease terms run monthly to quarterly) while its sales arrive through the month. At Clinton CT (0915420, seed r7) a retail firm's costs paid ran about 2,350 in months 4, 7, 10 and 12 against about 1,750 in the others, and each such month read as a loss that cut its staffing target by about a quarter the next month.",
+    "estimatedFrom": "One quarter, the length of the payment cycle.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months",
+      "citation": "One month (the old reading) to half a year of books."
+    }
+  },
   "businessComplianceInPartShare": {
     "value": 0.5,
     "tag": "ESTIMATED",

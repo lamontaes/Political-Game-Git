@@ -46,7 +46,6 @@ import {
   hardshipReason,
 } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
-import { moveRecipientIncomeHome } from "../finance-state";
 import { sellHome } from "../housing-sale";
 import { endLivingPlan } from "../cost-of-living";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
@@ -67,8 +66,10 @@ import type {
   CoreState,
   PersonId,
   PersonState,
+  Source,
 } from "../types";
 import { placeStateKey } from "../place-map";
+import { registerReturnedMembersLeave } from "../returned-members-move";
 
 export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
@@ -969,9 +970,6 @@ function leave(
     householdId: arrivalHousehold,
     source,
   });
-  // A recorded income award (a pension, Social Security) is paid into the
-  // household where its person lives now, the same amount from its next due date.
-  for (const id of going) moveRecipientIncomeHome(core, id, arrivalHousehold);
   api.emit({
     id: departure.id,
     date: api.state.date,
@@ -1696,6 +1694,18 @@ function addEventPull(api: CoreAPI, event: CoreEventInput): void {
 
 /** The departure record rides on its event, for tests and proofs that watch departures. */
 const DEPARTURE_FACT = "moves:departure";
+
+/**
+ * The departure a `person.moved-away` record carries: who left and with whom,
+ * where they went and the reasons the pull read. A reader of the record (the
+ * farewell scene) takes it here, not by the fact's key.
+ */
+export function departureOf(
+  facts: Readonly<Record<string, string>> | undefined,
+): Departure | null {
+  const raw = facts?.[DEPARTURE_FACT];
+  return raw ? (JSON.parse(raw) as Departure) : null;
+}
 const watched = new WeakMap<object, Departure[]>();
 
 /**
@@ -1773,3 +1783,71 @@ export const movesModule: CoreModule = {
     },
   },
 };
+
+/**
+ * The people of a departed counted household who keep their own records
+ * leave with it: their records move to the state the household went to, as a
+ * full mover's do (`destinationFor`'s state basis), and the move is
+ * told as a full mover's is, so every engine holding their records lets them
+ * go (a search for work, an office, a party). Without it a record stayed in
+ * the counted town with no household behind it, a hire named that person, and
+ * the press's fill-in of the new hire stopped the game (pool item
+ * core-press-staff-counted-job-not-resident; Montpelier, Vermont, seed mont1,
+ * 2027; South Hero, Vermont, seed 9bf1ede27ce5a00e).
+ */
+function returnedMembersLeave(
+  api: CoreAPI,
+  people: readonly PersonState[],
+  fromPlace: string,
+  toUsps: string,
+): void {
+  if (!people.length) return;
+  const core = api.state as CoreState;
+  const date = core.date;
+  const destination =
+    coreStateJurisdiction(`US-${toUsps}`)?.id ??
+    coreStateJurisdiction(placeStateKey(fromPlace) ?? "")?.id;
+  if (!destination) return;
+  const source: Source = {
+    tag: "ESTIMATED",
+    asOf: date,
+    citation: `Moved away with their counted household (${toUsps}).`,
+    estimatedFrom: "Counted moves: the household's destination state",
+  };
+  // One relocation per household record they share.
+  const byHousehold = new Map<string, PersonState[]>();
+  for (const person of people)
+    byHousehold.set(person.householdId, [
+      ...(byHousehold.get(person.householdId) ?? []),
+      person,
+    ]);
+  for (const [householdId, movers] of byHousehold) {
+    const ids = movers.map((person) => person.id);
+    const home = core.households.get(householdId);
+    const whole =
+      home?.memberIds
+        .filter((id) => core.people.get(id)?.alive)
+        .every((id) => ids.includes(id as PersonId)) ?? false;
+    api.relocatePeopleV1({
+      personIds: ids,
+      placeId: destination,
+      householdId: whole ? householdId : `${householdId}:moved:${date}`,
+      source,
+    });
+  }
+  api.emit({
+    id: `${MOVED_AWAY_EVENT}:counted:${people[0]!.id}:${date}`,
+    date,
+    kind: MOVED_AWAY_EVENT,
+    personIds: people.map((person) => person.id),
+    placeId: fromPlace,
+    publicRecord: false,
+    topic: destination,
+    source,
+    facts: Object.fromEntries(
+      people.map((person) => [`person:${person.id}:residence`, destination]),
+    ),
+  });
+}
+
+registerReturnedMembersLeave(returnedMembersLeave);

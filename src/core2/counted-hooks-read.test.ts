@@ -8,7 +8,7 @@ import { gameStartDate } from "./game-start";
 import { paydayLaw } from "./counted-money";
 import { BUDGETS_MODULE_ID } from "./modules/budgets";
 import { residentsRuntime } from "./modules/residents";
-import { countedStateGrowth } from "./modules/counted-moves";
+import { countryStateNow } from "./modules/macro";
 import { regionalMonth, regionOfPlace } from "./modules/regional";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
@@ -60,26 +60,25 @@ describe(`counted hooks read by other engines (${place.name}, seed ${seed})`, ()
     expect(old).toEqual([]);
   });
 
-  it("the regional engine moves a region's population by the state's counted totals", () => {
+  it("the regional engine moves a region's population by its state's people in the country tier", () => {
     const placeId = world.placeId as string;
     const region = regionOfPlace(placeId);
     expect(region, `${place.name}'s region`).toBeTruthy();
-    const growth = countedStateGrowth(core, place.state.replace(/^US-/, ""));
-    expect(growth, "two months of counted totals").toBeDefined();
-    const months: string[] = [];
-    for (let i = 0; i < 4; i += 1) {
-      const d = new Date(`${core.date.slice(0, 7)}-01T00:00:00Z`);
-      d.setUTCMonth(d.getUTCMonth() - i);
-      months.push(d.toISOString().slice(0, 7));
-    }
-    const rows = months
-      .map((month) => regionalMonth(api, placeId, month))
-      .filter((row) => row !== undefined);
-    expect(rows.length).toBeGreaterThanOrEqual(2);
-    const ratio = rows[0]!.population / rows[1]!.population;
-    // The latest step used the counted growth of its own moment; a region
-    // follows its state's counts, not its own unemployment term.
-    expect(Math.abs(ratio - 1)).toBeLessThan(0.2);
-    expect(ratio).not.toBeNaN();
+    const macro = api.moduleState("macro").table("state").get("macro:state") as
+      { openingMonth: string; latestMonth: string } | undefined;
+    expect(macro, "the macro module's state").toBeDefined();
+    const first = regionalMonth(api, placeId, macro!.openingMonth)!,
+      latest = regionalMonth(api, placeId, macro!.latestMonth)!;
+    expect(first, `${place.name} at the opening`).toBeDefined();
+    expect(latest, `${place.name} now`).toBeDefined();
+    expect(latest.month > first.month, `${place.name}`).toBe(true);
+    const fips = latest.stateFips;
+    const own = countryStateNow(api, fips)!;
+    expect(own, `state ${fips}`).toBeDefined();
+    // A region follows its state's people in the tier, not its own unemployment.
+    expect(
+      latest.population / first.population,
+      `${place.name} ${first.month} to ${latest.month}`,
+    ).toBeCloseTo(own.now.population / own.base.population, 6);
   });
 });

@@ -28,11 +28,11 @@
     "kind": "data-gap",
     "file": "src/core2/modules/laws.ts",
     "line": 128,
-    "whatItFakes": "A law whose first recorded phase begins after the January 20, 2025 start (most income tax, sales tax, property tax, SNAP, unemployment and Medicaid rows begin October 2025 or January 2026) is in force from the start at that phase's terms, labeled as an estimate.",
+    "whatItFakes": "A law whose first recorded phase begins after the January 20, 2025 start (most income tax, sales tax, property tax, SNAP, unemployment and Medicaid rows begin October 2025 or January 2026) is in force from the start at that phase's terms, labeled as an estimate. Since Nov 10, 2026 the rule runs for every state, not only the played town's own: a state read from outside (stateLawInForce and the country tier's starting reader, through stateOpeningLawRows) opens with the same starting rows, the same minimum-wage history and the same carry to the first day.",
     "why": "The starting-law research was compiled for a 2026 start; the owner moved the start to January 20, 2025 on October 14, 2026, and a law in force must never be unknown.",
     "addedBy": "start/inauguration-2025",
     "addedAt": "2026-10-14",
-    "replacement": "Oct 23, 2026 (research-law-reach-sourced-parameters): the phases in force on January 20, 2025 are now sourced and built for the federal income tax and Social Security wage base (IRS Rev. Proc. 2024-40, Publication 15 2025), every state's income and sales tax and average local sales tax (Tax Foundation, January 1, 2025), SNAP maximums (USDA FNS FY2025), the Medicaid match for all 56 places (HHS FY2025, FR Doc. 2023-25636 and 2024-27938) and unemployment weekly bounds (DOL, January 2025), in data/research/laws/*-2025-*.json, written by scripts/research/build-starting-law.py and checked by scripts/research/check-start-law-2025.ts; rowsCarriedToStart in src/core2/modules/laws.ts no longer reaches those series. Still carried back (research-start-law-remaining-2025-phases): county and city income taxes, city sales taxes, county, city and some state minimum-wage tiers, state corporate income tax, local income tax authority, unemployment program terms, and the five territories' income and sales taxes.",
+    "replacement": "Oct 23, 2026 (research-law-reach-sourced-parameters): the phases in force on January 20, 2025 are now sourced and built for the federal income tax and Social Security wage base (IRS Rev. Proc. 2024-40, Publication 15 2025), every state's income and sales tax and average local sales tax (Tax Foundation, January 1, 2025), SNAP maximums (USDA FNS FY2025), the Medicaid match for all 56 places (HHS FY2025, FR Doc. 2023-25636 and 2024-27938) and unemployment weekly bounds (DOL, January 2025), in data/research/laws/*-2025-*.json, written by scripts/research/build-starting-law.py and checked by scripts/research/check-start-law-2025.ts; rowsCarriedToStart (src/core2/laws-in-force.ts since Nov 10, 2026) no longer reaches those series. Still carried back (research-start-law-remaining-2025-phases): county and city income taxes, city sales taxes, county, city and some state minimum-wage tiers, state corporate income tax, local income tax authority, unemployment program terms, and the five territories' income and sales taxes.",
     "status": "open"
   },
   {
@@ -1040,7 +1040,7 @@
     "addedBy": "SIM-ELECTORATE",
     "addedAt": "2026-10-13",
     "replacement": "Presidential approval read from the president's own record and the public's views (the executive engine and the views engine), moving the president's party's candidates by its measured effect on the vote.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-township-law-level",
@@ -2243,6 +2243,18 @@
     "addedBy": "Nation",
     "addedAt": "2026-11-09",
     "replacement": "Each municipio's own revenue lines and spending by function from the OGP files and its federal grants; rows for the other territories' local governments.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-counted-case-view-kept-on-the-case",
+    "kind": "partial-model",
+    "file": "src/core2/modules/constituent-cases.ts",
+    "line": 678,
+    "whatItFakes": "A counted resident's case moves no view of the official while they stay counted: the case row keeps the outcome, and their impression of the official and their tie to them are written only when they are filled in, dated the day of the fill-in. A counted group's ballot does not read the cases its members brought.",
+    "why": "Counted residents keep no impression of an official of their own, and the counted electorate's warmth toward a candidate is read from the town's named adults (voting.ts, townContacts). Filling a resident in to hold the view was the largest part of a played year's memory growth (play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth).",
+    "addedBy": "opus-5251",
+    "addedAt": "2026-11-11",
+    "replacement": "The counted electorate reads its members' decided cases as warmth toward the official, times their count, by the same rule touchImpression applies to a full person.",
     "status": "open"
   }
 ]

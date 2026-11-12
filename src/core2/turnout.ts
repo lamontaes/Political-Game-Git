@@ -58,7 +58,9 @@ export function interestOf(
 ): number {
   let first = -Infinity,
     second = -Infinity;
-  for (const a of Object.values(appeal)) {
+  // The keys in their own order, without a list of the values.
+  for (const id in appeal) {
+    const a = appeal[id]!;
     if (a.total > first) {
       second = first;
       first = a.total;

@@ -16,6 +16,7 @@
  * it returns and the ordinary scheduler stages the situation type whose
  * cause carries the row's label.
  */
+import { receives, type ReceiveRule } from "./scheduling";
 import {
   INTEREST_GROUPS_MODULE_ID,
   meetingsOn,
@@ -25,6 +26,7 @@ import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
+  ballot,
   ELECTIONS_MODULE_ID,
   PARTIES_MODULE_ID,
 } from "../core2/modules/elections";
@@ -47,6 +49,8 @@ const one = P.one;
 
 export interface CircumstanceRow {
   id: string;
+  /** Who may receive the row's scene (scheduling.ts `receives`); a cast that breaks it is not made. */
+  receive?: ReceiveRule;
   /** Trigger record kinds ("job" is a job record started today). */
   recordKinds: readonly string[];
   /** Facts the record must carry. */
@@ -356,6 +360,15 @@ function playerHolds(
           .query("byPerson", [playerId]) as unknown as { contestId: string }[]
       ).some((filing) => filing.contestId === contestId);
     }
+    case "filed-late": {
+      // The player's own filing in a contest where others filed before them:
+      // someone is already on its ballot to be told of.
+      const contestId = record.facts.contestId;
+      if (!contestId || !core.modules.has(ELECTIONS_MODULE_ID)) return false;
+      return ballot(coreAPI(core as CoreState), contestId).some(
+        (filing) => filing.personId !== playerId,
+      );
+    }
     case "lost-again":
       // The player ran in the contest the record settled, lost it, and has
       // lost another before.
@@ -652,6 +665,9 @@ export function circumstancePicks(
           if (id === playerId || core.people.get(id)?.alive !== true) continue;
           if (options.castDue && !options.castDue(id, row)) continue;
           if (!placedWith(row.where, core, playerId, id)) continue;
+          // The one who comes does not live with the player where the row
+          // says apart, and a seat's scene reaches only a player in office.
+          if (!receives(core, playerId, row.receive, [id], row.place)) continue;
           const importance = options.importance(id);
           const closeness = importance / (one + importance);
           const sociability =

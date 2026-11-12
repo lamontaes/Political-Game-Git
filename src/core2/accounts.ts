@@ -18,6 +18,7 @@ import type { CashJournalPosting } from "./journal";
 import type { CashJournalSourceSlot } from "./journal-state";
 import type { CoreAPI, CoreModule, CoreState, IsoDate, Source } from "./types";
 import { registerWorldMapPart } from "./snapshot";
+import { bookkeeping } from "./bookkeeping";
 
 export const ACCOUNTS_MODULE_ID = "core2-accounts-v1";
 const SOURCE_KIND = "accounts.transfer";
@@ -99,7 +100,18 @@ export interface Accounts {
 
 interface Runtime {
   pending: Map<string, CashJournalSourceSlot>;
+  /**
+   * Transfer ids used, to refuse a repeat. In play this holds the current
+   * month's ids and `transferIdsBefore` the month before's, so a repeat
+   * within a month or two still stops the run; with bookkeeping on (tests,
+   * proofs) every id is kept. Kept forever in play, it was the largest
+   * engine part a long run held (Montpelier, Vermont, Nov 9: 208 MB of a
+   * 3,178 MB live heap at year 4).
+   */
   transferIds: Set<string>;
+  transferIdsBefore?: Set<string>;
+  /** The month (yyyy-mm) `transferIds` holds, in play. */
+  transferIdsMonth?: string;
   obligations: Map<string, ObligationState>;
   due: Map<IsoDate, Set<string>>;
   deposits: Map<string, BankDeposit>;
@@ -123,6 +135,27 @@ export interface BankDeposit {
 
 const runtimes = new WeakMap<CoreState, Runtime>();
 registerWorldMapPart("core2-accounts", runtimes);
+
+/** Whether a transfer id was already used (in play: this month or last). */
+function usedTransferId(rt: Runtime, date: IsoDate, id: string): boolean {
+  if (!bookkeeping()) {
+    const month = date.slice(0, 7);
+    if (rt.transferIdsMonth !== month) {
+      if (rt.transferIdsMonth !== undefined) {
+        rt.transferIdsBefore = rt.transferIds;
+        rt.transferIds = new Set();
+      }
+      rt.transferIdsMonth = month;
+    }
+  }
+  return rt.transferIds.has(id) || rt.transferIdsBefore?.has(id) === true;
+}
+
+/** How many transfer ids the world holds to refuse a repeat (tests and probes). */
+export function heldTransferIds(core: CoreState): number {
+  const rt = runtimes.get(core);
+  return (rt?.transferIds.size ?? 0) + (rt?.transferIdsBefore?.size ?? 0);
+}
 
 function runtime(core: CoreState): Runtime {
   let rt = runtimes.get(core);
@@ -342,7 +375,7 @@ export function transfer(
 ): TransferReceipt {
   const rt = runtime(core),
     date = makeIsoDate(core.date);
-  if (!input.id.trim() || rt.transferIds.has(input.id))
+  if (!input.id.trim() || usedTransferId(rt, date, input.id))
     throw new Error(`Transfer id is empty or reused: ${input.id}`);
   if (!Number.isSafeInteger(input.amountMinor) || input.amountMinor < 0)
     throw new Error("A transfer amount is a nonnegative whole amount.");
@@ -439,7 +472,7 @@ export function transferSplit(
 ): void {
   const rt = runtime(core),
     date = makeIsoDate(core.date);
-  if (!input.id.trim() || rt.transferIds.has(input.id))
+  if (!input.id.trim() || usedTransferId(rt, date, input.id))
     throw new Error(`Transfer id is empty or reused: ${input.id}`);
   if (!input.reasonKey.trim()) throw new Error("A transfer needs a reason.");
   if (input.source.asOf > date)

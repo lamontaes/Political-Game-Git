@@ -1,0 +1,57 @@
+---
+id: core-fast-clock-twenty-years
+title: "The fast clock: unwatched time runs in months for the whole world, a 20 years button in dev mode, and the present is rebuilt on return"
+area: core
+kind: feature
+priority: 1
+size: L
+status: open
+claimed-by:
+pr:
+after:
+blocked-on:
+lead: fable
+source: Fable, Nov 10, 2026, while building the country tier (design: docs/design/country-tier.md; umbrella item core-country-tier-first-slice)
+standard: 2
+model: sonnet
+effort: medium
+root: design-country-tier
+checked: fable 2026-11-10
+---
+
+**What.** Everything in the game steps day by day, so twenty years take 17 to 51 minutes where they finish at all. The owner asked on Nov 8 for a 20-year run in about five seconds, and said he is fine with it simulating everything as long as it makes sense in the end. The country tier already steps every state by the month in a few milliseconds. This item adds the second speed: when nobody is watching, the played town runs as results too (its monthly engines run; the daily loop, rival campaigns event by event, interviews and the press do not; elections are counted from the voters), and on return the day-by-day detail is rebuilt from the results. Dev mode's Run panel gets a 20 years control. The past before the start already runs this way (src/core2/pre-start.ts), so one coarse engine serves the past, other places and skipped years, and the campaign-stride switch (src/core2/fast-forward.ts) is deleted.
+
+**Cause.** Measured: Chumuckla, Florida (953 people; world seed aa4665b284a797eb671c6eafef8865086489b881e3eb81e1116a200598fb6482), one year: day by day 41.5 seconds, calendar only 14.6 seconds with no deaths and a failing resume, calendar plus one day a month 27.8 seconds. South Fork, Missouri (key 2968762): twenty years day by day take 1,799 seconds, and years 17 to 20 take about five times as long as years 1 to 4 (Notes). Design: docs/design/country-tier.md.
+
+**Fix.** Build the parts in order; each is an item a session can build from the item alone. Part 1 adds a results mode for skipped time that play can resume from. Parts 2 to 4 give births, deaths and illness, prices and hiring, and elections their monthly steps, and delete src/core2/fast-forward.ts. Part 5 keeps the life record writing through a skip. Part 6 adds the control to dev mode's Run panel. Part 7 measures what a skipped year still costs. Part 8 is the design that takes it to seconds, which does not exist yet. This parent is the last check: the Done when below.
+
+**Time box.** 3 hours for one Sonnet session, for the last check once the parts are done. When it runs out, push what passes, set the state honestly with a one-line note and stop.
+
+**Rules.** Speed (owner, Oct 29 and Nov 8): a country's year under two minutes, and long runs must not slow down. Two-level population: nobody gets a full past until they are filled in, but the CTO's note of Nov 10 on the design holds: the life record keeps writing remembered events for the player and the people around them during a skip. Replace, never layer. This item is size L, so the session that claims it splits it first.
+
+**Done when.** A second session, on main in a drawn place with a seed nobody chose, presses 20 years in dev mode's Run panel: the game reaches the date twenty years on and says how long it took; the Metrics tab's country, state and town rows show no state with more jobs than adults and no negative count in any month; the player's journal and the person cards of three people around them hold dated entries from the skipped years; and playing one more week day by day works. The nightly twenty-year test on main passes in a drawn place named with its seed.
+
+**Waits on.** Its parts: core-fast-clock-part-1-a-results-mode-for-skipped-time, core-fast-clock-part-2-births-deaths-and-illness-in-skipped-time, core-fast-clock-part-3-prices-pay-and-jobs-in-skipped-time, core-fast-clock-part-4-elections-counted-from-the-voters-in-skipped-time, core-fast-clock-part-5-the-life-record-keeps-writing-in-skipped-time, core-fast-clock-part-6-a-run-years-control-in-dev-mode, core-fast-clock-part-7-what-a-skipped-year-still-costs, core-fast-clock-part-8-design-the-town-as-counts-in-a-skip. The town joining its state (core-country-tier-town-joins-its-state) is not needed for parts 1 to 7.
+
+**Files.** src/core2/life.ts, src/core2/pre-start.ts, src/core2/fast-forward.ts, src/core2/modules/macro.ts, src/core2/country-model.ts, src/bench/dev-mode.ts, src/bench/ui/dev-run.mjs
+
+**Notes.** Related: release-nightly-twenty-year-game-on-main, core-speed-world-campaign-days-as-group-results. The check for counts that cannot be is countryProblems in src/core2/country-model.ts; the macro module throws on it when bookkeeping is on. After: core-country-tier-town-joins-its-state.
+
+**Notes (Fable, Nov 10, measured).** What skipping days costs and loses, in Chumuckla, Florida (953 people, draw seed k3 with the label skip-probe, world seed aa4665b284a797eb671c6eafef8865086489b881e3eb81e1116a200598fb6482), one year each way on the tier branch:
+
+- Day by day: 41.5 seconds. 59 deaths, the town's unemployment 4.0%, prices up 1.2%.
+- Only each engine's dated work from the module calendar, no daily loops and nobody acting: 14.6 seconds. No deaths at all, unemployment 7.2%, prices flat, and day-by-day play then fails on its first day ("Business reviews must advance chronologically", the finance day).
+- The calendar plus one whole day a month: 27.8 seconds. One death, unemployment 4.3%, prices up 4.5%. Play resumes.
+- The largest costs in the calendar-only year: the press week 1.8 s, other governments' floor weeks 1.6 s, the housing review 1.4 s, the jobs review 1.3 s, counted renewal 0.9 s, local meetings 0.9 s. The daily loops that cost most per month: the health producer 1.1 s, jobs 0.8 s, the news pass 0.7 s.
+
+So twenty years in seconds cannot come from skipping days in the engines as they are: their own monthly work is about 15 seconds a year in the smallest town, and deaths and prices live in the daily loops. The town has to be kept as counts during a skip (item core-country-tier-town-joins-its-state first), with only the player's household and circle kept as people, and rebuilt on return. Not yet measured: the same year with everyone outside one household's circle sent back to the counts first.
+
+What exists today instead: the country's outlook (`countryOutlook` in src/core2/modules/macro.ts, branch claude/fable-twenty-years), which runs every state and the nation twenty years ahead on a copy in about four seconds and equals the months the game then plays. It does not move the game's date.
+
+**Notes (second session, acceptance check, Nov 10).** Chemult, Oregon, seed 32c6ae87-0ae5-4c24-b67f-16248f9d1e2d, main fe8180c9, Chromium 1440x900 on the bench. First day (2025-01-20): the section says "The economy opens on the first day. Run one day, then show it again." After one day (2025-01-21): "Took 2.3 seconds", "Every count stayed possible.", Today = 3.4 % out of work, 3.7 % price growth, 3.9 % bank rate, $36 hourly pay, state 3.8 % out of work, 4,276,981 people, 2,027,839 jobs, $73.2 billion public budgets; Year 20 = 3.8 %, 1.6 %, 2.4 %, $69, state 4.0 %, 5,450,165 people, 2,270,978 jobs, $118.5 billion. The game's date was 2025-01-21 before and after the press (GET /api/dev/state). Nation income tax set to 0 by passing S. 1 through the Politics tab's dev bill card (Senate 63-37, House 230-205, federal row 0 from 2025-01-21; a scheduled 37 % row dated 2026-01-01 was still pending): Show 20 years took 2.5 seconds and the Year 1 row changed from 4.6 % out of work, 2.9 % price growth, 3.4 % bank rate, $38, state 4.9 %, 4,332,175 people, 2,007,331 jobs, $75.1 billion to 1.7 %, 5.0 %, 6.4 %, $39, state 1.9 %, 4,333,893 people, 2,071,869 jobs, $76.8 billion. No raw ids, ISO dates or unrounded numbers in the section. Not as the check described: the table has one row per time and the state as extra columns ("Your state: ..."), not separate nation and state rows; there is no "Laws panel" with a set-to-zero control, so the tax was changed by a passed bill (not seen: whether a tax of zero from today should still show the 37 % row pending for 2026). Left open as instructed; screenshots in docs/seen/pr-8121-country-in-20-years/.
+
+**Notes (Fable, Nov 10, later).** Sending people back to the counts is not the lever for the skip, and my earlier note pointed at it wrongly. A helper fixing the back-to-the-counts error (item people-back-to-the-counts-throws-on-a-trait-that-is-not-whole) found who the full people in Chumuckla, Florida are: about 820 state and federal officials from the officials roster, who live at state or national places and cannot go back to the town's counts at all. The town's own people are already nearly all counted. So the 14.6 seconds a calendar-only year costs there is the engines' own monthly work on the counts plus those officials, not a crowd of full townspeople. What that leaves: the town's monthly engines have to be the tier's kind of step for a skip (item core-country-tier-town-joins-its-state), or the skip stays at tens of seconds a year. Also on main since this morning: every state opens under its own law (the January 2026 jump is gone), which changes every outlook reading after year 1 recorded above.
+
+**Notes (Fable, Nov 10, a 20-year game on main).** A played world left alone, day by day, in South Fork, Missouri (key 2968762, world seed a499835260b786a6f03656c7b468096d095bdd4534cd0d04275bc3186d34d28f; script outside the repo: build the bench world, advance 365 days twenty times, read the macro months, countryProblems and scripts/dev-tests/vitals.ts each year). First run on main at 1f24a6a892: stopped in year 13 with "Money cannot move between two outside accounts" (an estate's home sale; fixed and merged, pull request 8142). With the fix: it reached 2045-01-15 in 1,799 seconds. The nation stayed between 3.8 and 5.8 percent out of work and 1.4 to 2.9 percent price growth, the lowest and highest states ended at 2.3 and 10.9 percent, and no state had an impossible count in any year. What did not make sense at the end: the surrounding county's counted households held 92,919 workers against 35,705 adults (item world-regional-work-piles-unplaced-workers-on-a-household). What did not hold the speed rule: years 1 to 4 took 26, 33, 30 and 44 seconds, years 17 to 20 took 128, 171, 161 and 196, about five times as long, and the heap went from 677 MB after year 1 to 2,338 MB after year 20. So a 20-year game finishes on main in half an hour in a small town; it is not yet a game that makes sense in the end, and it is nowhere near seconds.
+
+**Notes (Fable, Nov 10, split).** Split into parts so that no part needs a Fable-level model (owner, Nov 10: every assignment works without Fable): core-fast-clock-part-1-a-results-mode-for-skipped-time, core-fast-clock-part-2-births-deaths-and-illness-in-skipped-time, core-fast-clock-part-3-prices-pay-and-jobs-in-skipped-time, core-fast-clock-part-4-elections-counted-from-the-voters-in-skipped-time, core-fast-clock-part-5-the-life-record-keeps-writing-in-skipped-time, core-fast-clock-part-6-a-run-years-control-in-dev-mode, core-fast-clock-part-7-what-a-skipped-year-still-costs, core-fast-clock-part-8-design-the-town-as-counts-in-a-skip. The parent is now only the last check by a second session.

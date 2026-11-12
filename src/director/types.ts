@@ -142,6 +142,8 @@ export interface ThreadTurn {
   causeId: string;
   momentId?: string;
   closeness: number;
+  /** A "renewed" turn: the last day the pair were in touch before it. */
+  since?: IsoDate;
 }
 
 export interface Thread {

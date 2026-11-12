@@ -13,6 +13,7 @@ Inputs (all under data/research):
   money/death-taxes-2026.json                   estate and inheritance taxes
   laws/local-starting-law/*.json                local and benefit research (incl. territory corporate income tax)
   laws/starting-law-2026/labor-workforce.json   local minimum-wage authority
+  laws/open-meetings-and-records-2026.json      public notice before a regular meeting, by state (ESTIMATED draft)
   laws/irs-2025-federal-tax.json, laws/taxfoundation-2025-*.json,
   laws/fns-2025-snap-maximums.json, laws/hhs-2025-fmap.json,
   laws/dol-2025-ui-weekly-bounds.json           the phases in force on the start date
@@ -231,6 +232,20 @@ def energy_assistance(rows):
                         terms={"floorPct": 110, "ceilingPct": 150},
                         note="ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up.",
                         retrieved="2026-11-08"))
+
+
+# stopgapId: SG-LAWS-records-response-unread (the same file's recordsDays are not loaded: no records request to read them)
+def meeting_notice(rows):
+    """Each place's minimum public notice before a regular meeting of a local body, in hours (data/research/laws/open-meetings-and-records-2026.json)."""
+    data = load(RESEARCH / "laws/open-meetings-and-records-2026.json")
+    for state, item in sorted(data["rows"].items()):
+        estimated = item.get("noticeHours") is None or item["tag"] == "ESTIMATED"
+        terms = {"cite": item["statute"]} if item.get("statute") else {}
+        rows.append(row(state, "state", "meeting-notice-hours", item["noticeHoursUsed"], "2000-01-01", FOREVER,
+                        item.get("source") or "open-meetings-and-records-2026.json", estimated, unit="hours",
+                        terms=terms or None,
+                        note=item.get("noticeHoursEstimate") or item.get("noticeNote"),
+                        retrieved="2026-11-09"))
 
 
 def ssi(rows):
@@ -619,6 +634,7 @@ def main():
     payroll_taxes(rows)
     business_taxes(rows)
     ssi(rows)
+    meeting_notice(rows)
     energy_assistance(rows)
     governor_term_limits(rows)
     campaign_finance(rows)
