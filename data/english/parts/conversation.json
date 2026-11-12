@@ -33839,10 +33839,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.asked-mutual-answer-brief.no-why",
+      "key": "conversation.asked-mutual-answer-brief.not-lately-why",
       "move": "asked-mutual-answer-brief",
       "kind": "spoken",
-      "text": "No. Why?",
+      "text": "Not lately. Why?",
       "uses": [
         {
           "move": "asked-mutual-answer-brief",
@@ -33929,25 +33929,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.home-raise-still-in.still-in-place",
-      "move": "home-raise-still-in",
-      "kind": "spoken",
-      "text": "Still in {place}?",
-      "uses": [
-        {
-          "move": "home-raise-still-in",
-          "subject": "home",
-          "role": "raise",
-          "choice": "still-in",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder W1 (small talk said short or from the record)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.job-new-detail-reply-answer-brief.it-s-a-start",
       "move": "job-new-detail-reply-answer-brief",
       "kind": "spoken",
@@ -34001,24 +33982,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-new-detail-reply-answer-hope.hope-they-re-good",
-      "move": "job-new-detail-reply-answer-hope",
-      "kind": "spoken",
-      "text": "Hope they're good.",
-      "uses": [
-        {
-          "move": "job-new-detail-reply-answer-hope",
-          "subject": "job-new-detail-reply",
-          "role": "answer",
-          "choice": "hope"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder W1 (small talk said short or from the record)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.job-new-reply-answer-brief.how-d-that-happen",
       "move": "job-new-reply-answer-brief",
       "kind": "spoken",
@@ -34032,24 +33995,6 @@
         }
       ],
       "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder W1 (small talk said short or from the record)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-new-told-reply-answer-thank.it-came-through",
-      "move": "job-new-told-reply-answer-thank",
-      "kind": "spoken",
-      "text": "It came through.",
-      "uses": [
-        {
-          "move": "job-new-told-reply-answer-thank",
-          "subject": "job-new-told-reply",
-          "role": "answer",
-          "choice": "thank"
-        }
-      ],
-      "bearing": "glad",
       "origin": "authored",
       "author": "Words builder W1 (small talk said short or from the record)",
       "date": "2026-11-12"
@@ -34073,41 +34018,11 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.own-work-new-ask-where.working-anywhere",
-      "move": "own-work-new-ask-where",
-      "kind": "spoken",
-      "text": "Working anywhere?",
-      "uses": [
-        {
-          "move": "own-work-new-ask-where",
-          "subject": "own-work-new",
-          "role": "ask",
-          "choice": "where"
-        },
-        {
-          "move": "their-work-raise-ask",
-          "subject": "their-work",
-          "role": "raise",
-          "choice": "ask"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder W1 (small talk said short or from the record)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.own-work-new-ask-where.what-s-your-work",
       "move": "own-work-new-ask-where",
       "kind": "spoken",
       "text": "What's your work?",
       "uses": [
-        {
-          "move": "own-work-new-ask-where",
-          "subject": "own-work-new",
-          "role": "ask",
-          "choice": "where"
-        },
         {
           "move": "their-work-raise-ask",
           "subject": "their-work",
@@ -34193,17 +34108,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.quiet-raise-day.how-was-weekday",
+      "key": "conversation.quiet-raise-day.good-day",
       "move": "quiet-raise-day",
       "kind": "spoken",
-      "text": "How was {weekday}?",
+      "text": "Good day?",
       "uses": [
         {
           "move": "quiet-raise-day",
           "subject": "quiet",
           "role": "raise",
           "choice": "day",
-          "requiresFacts": ["dayDone", "weekday"]
+          "requiresFacts": ["dayDone"]
         }
       ],
       "bearing": "curious",
