@@ -1,6 +1,31 @@
 {
   "entries": [
     {
+      "version": "0.106.0",
+      "releasedOn": "2026-11-12",
+      "revision": "5dcfc34fff7fd52ca236e45cec7eb7239b236a69",
+      "changeIds": [
+        "campaign-day-test-spring-election-weeks",
+        "core-group-quarters-turnover-part-1-settle-the-red-test",
+        "core-speed-counted-cases-stay-counted",
+        "daily-register-election-year-costs",
+        "dev-mode-reach-count",
+        "laws-price-laws-public-payee-nearest-treasury",
+        "red-labeled-two-level-elections-test",
+        "red-main-director-numbers",
+        "red-main-words-rules-tests",
+        "red-nobody-files",
+        "tests-campaign-calibration-door-contact-by-seed",
+        "tests-counted-demotion-not-counted-on-return-day",
+        "tests-press-money-dawson-springs-red",
+        "tests-staff-work-no-office-witness",
+        "tests-two-level-third-candidate-no-votes",
+        "tests-world-moments-husk-mover-oak-grove",
+        "words-composed-checks",
+        "words-composer-rules"
+      ]
+    },
+    {
       "version": "0.105.0",
       "releasedOn": "2026-11-11",
       "revision": "f34418f384ff38b24c609bef867afa802467508f",
