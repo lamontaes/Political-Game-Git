@@ -17,13 +17,14 @@ import {
   noteTownRevenue,
   treasuryParameter,
 } from "./budgets-treasury";
-import { setLivingCostSplit } from "./living-cost-split";
+import { setLivingCostSplit, setOutsideCostSplit } from "./living-cost-split";
 import {
   budgetWorldShares,
   BUDGETS_MODULE_ID,
   governments,
   type GovernmentRow,
 } from "./modules/budgets";
+import { registerWorldMapPart } from "./snapshot";
 import { lawChain } from "./modules/laws";
 import { monthlyLivingCostMinor, residentsRuntime } from "./modules/residents";
 import type { ModuleRow } from "./module-data";
@@ -38,6 +39,22 @@ interface PlaceRow {
   local: Level;
 }
 const PLACES = charges.places as unknown as Record<string, PlaceRow>;
+
+/** The service the first by-use slice charges: sewer and trash, flat per dwelling and per firm. */
+const SEWER = "sewerage-and-solid-waste";
+
+/**
+ * A firm's sewer and trash bill against a dwelling's, by weight (ESTIMATED,
+ * spread 1.3 to 5). No national figure splits the service between households
+ * and firms. UNC Environmental Finance Center's North Carolina rates reports
+ * put the typical commercial connection (15,000 gallons a month) at $115 a
+ * month for water and sewer (2018 data) against $42 for the typical
+ * residential one (5,000 gallons; 184 utilities with separate commercial
+ * rates, 2021): 2.7 times, from mixed years. Owatonna, Minnesota's ordinance
+ * bills a flat $18.90 a month to residents and a $24.94 base to commercial
+ * accounts before use (1.3 times, before use). Both are small samples.
+ */
+const FIRM_TO_DWELLING_WEIGHT = 2.7;
 
 /** A government's charges for the coming month, as a part of the town's living cost. */
 export interface ServiceChargeShareRow {
@@ -55,6 +72,10 @@ export interface ServiceChargeShareRow {
   readonly share: number;
   readonly tag: "SOURCED" | "ESTIMATED";
   readonly services: readonly { service: string; share: number }[];
+  /** Sewer and trash for one month, flat per dwelling (a full household or a counted one); the rest is the uniform share. */
+  readonly sewerPerDwellingMinor: number;
+  /** The same service for one firm (its weight times a dwelling's). */
+  readonly sewerPerFirmMinor: number;
 }
 
 /** What households paid a government in one month, by what the charges are for. */
@@ -76,6 +97,65 @@ function modeledResidents(api: CoreAPI, townPlaceId: string): number {
   for (const person of core.people.values())
     if (person.alive && person.placeId === townPlaceId) n += 1;
   return n;
+}
+
+/** Who pays a flat charge in the town: the full households' payers, the counted households together, and the firms. */
+interface TownPayers {
+  /** Full households' payers (the member who pays the living cost). */
+  readonly people: ReadonlySet<string>;
+  /** The counted households' residents accounts, with how many dwellings each pays for. */
+  readonly counted: ReadonlyMap<string, number>;
+  /** Firms that pay outside costs, with how many payments a month they make (a weekly flow makes four and a third). */
+  readonly firms: ReadonlyMap<string, number>;
+  readonly dwellings: number;
+}
+
+export function townPayers(api: CoreAPI, townPlaceId: string): TownPayers {
+  const core = api.state as CoreState;
+  const people = new Set<string>();
+  for (const home of core.households.values()) {
+    if (home.placeId !== townPlaceId) continue;
+    // The member the household's living-cost flow is paid by: the first with a cost.
+    const payer = home.memberIds
+      .map((id) => core.people.get(id))
+      .find((row) => row?.alive && row.livingCostDailyMinor > 0);
+    if (payer) people.add(payer.id);
+  }
+  const counted = new Map<string, number>();
+  const rt = residentsRuntime(core);
+  const firms = new Map<string, number>();
+  if (rt) {
+    const store = rt.store;
+    let homes = 0;
+    for (const h of store.liveHouseholds()) {
+      if (h.placeId !== townPlaceId) continue;
+      let cost = 0;
+      for (const m of store.countedMembers(h)) cost += store.living[m] ?? 0;
+      if (cost > 0) homes += store.weightOf(h);
+    }
+    for (const flow of rt.flows.values()) {
+      if (flow.endedAt || flow.placeId !== townPlaceId) continue;
+      // A firm with several outside-costs flows pays on all of them: its
+      // month's charge is spread over every payment it makes.
+      if (flow.kind === "outside-costs")
+        firms.set(
+          flow.payerId,
+          (firms.get(flow.payerId) ?? 0) +
+            (flow.cadence.kind === "days"
+              ? 365 / 12 / flow.cadence.every
+              : 1 / flow.cadence.every),
+        );
+      if (
+        flow.kind === "purchase" &&
+        flow.payerId === flow.residentsId &&
+        homes > 0
+      )
+        counted.set(flow.payerId, homes);
+    }
+  }
+  const dwellings =
+    people.size + [...counted.values()].reduce((n, v) => Math.max(n, v), 0);
+  return { people, counted, firms, dwellings };
 }
 
 export function serviceChargeShares(api: CoreAPI): ServiceChargeShareRow[] {
@@ -126,11 +206,25 @@ function servicesOf(
  * it to the residents engine. Run when the treasuries open, at each close,
  * and when a budget changes.
  */
+/** What each payer has paid toward its sewer and trash charge this month, by government and payer; it starts over each month. */
+const sewerTakenByMonth = new WeakMap<
+  CoreState,
+  { month: string; taken: Map<string, number> }
+>();
+registerWorldMapPart("core2-sewer-taken", sewerTakenByMonth);
+function sewerTaken(core: CoreState, month: string): Map<string, number> {
+  let entry = sewerTakenByMonth.get(core);
+  if (!entry || entry.month !== month)
+    sewerTakenByMonth.set(core, (entry = { month, taken: new Map() }));
+  return entry.taken;
+}
+
 export function syncServiceCharges(api: CoreAPI): void {
   const core = api.state as CoreState;
   const chain = lawChain(api);
   const living = monthlyLivingCostMinor(core, chain.townPlaceId);
   const modeled = modeledResidents(api, chain.townPlaceId);
+  const payers = townPayers(api, chain.townPlaceId);
   const months = treasuryParameter("monthsPerYear");
   for (const gov of governments(api)) {
     if (gov.level === "federal") continue;
@@ -144,6 +238,15 @@ export function syncServiceCharges(api: CoreAPI): void {
       gov.level === "city" ? Math.max(modeled, gov.residents) : gov.residents;
     const modeledShare = residents > 0 ? Math.min(1, modeled / residents) : 0;
     const target = Math.round((annual * modeledShare) / months);
+    // Sewer and trash is charged to its users: flat per dwelling and per firm,
+    // taken out of the uniform share. A service with no users in the town
+    // keeps the uniform share.
+    const sewerShare = services.find((s) => s.service === SEWER)?.share ?? 0;
+    const weight =
+      payers.dwellings + FIRM_TO_DWELLING_WEIGHT * payers.firms.size;
+    const sewerMonthly = weight > 0 ? Math.round(target * sewerShare) : 0;
+    const perDwelling = weight > 0 ? Math.floor(sewerMonthly / weight) : 0;
+    const uniformTarget = Math.round(target - perDwelling * weight);
     table(api, "serviceCharges").put({
       id: gov.id,
       governmentId: gov.id,
@@ -153,57 +256,137 @@ export function syncServiceCharges(api: CoreAPI): void {
       targetMonthlyMinor: target,
       livingMonthlyMinor: living,
       share:
-        living > 0 && target > 0 && services.length
-          ? Math.min(1, target / living)
+        living > 0 && uniformTarget > 0 && services.length
+          ? Math.min(1, uniformTarget / living)
           : 0,
+      sewerPerDwellingMinor: perDwelling,
+      sewerPerFirmMinor: Math.round(perDwelling * FIRM_TO_DWELLING_WEIGHT),
       tag,
       services,
     } as unknown as ModuleRow);
   }
   if (serviceChargeShares(api).some((row) => row.share > 0))
     api.stopgap("SG-GOV-service-charges-by-living-cost");
+  // What a payer owes a government for sewer and trash: a dwelling's charge
+  // for each dwelling it pays for, a firm's charge for a firm.
+  const sewerOwed = (row: ServiceChargeShareRow, payerId?: string): number => {
+    if (!payerId) return 0;
+    if (payers.people.has(payerId)) return row.sewerPerDwellingMinor;
+    const homes = payers.counted.get(payerId);
+    if (homes) return homes * row.sewerPerDwellingMinor;
+    const perMonth = payers.firms.get(payerId);
+    // A firm pays its month's charge across its payments, whatever their cadence.
+    if (perMonth) return row.sewerPerFirmMinor / perMonth;
+    return 0;
+  };
+  const sharesOf = (
+    placeId: string,
+    payerId?: string,
+    total?: number,
+  ): { organizationId: string; share: number }[] =>
+    placeId !== chain.townPlaceId
+      ? []
+      : serviceChargeShares(api).flatMap((row) => {
+          const owed = total && total > 0 ? sewerOwed(row, payerId) : 0;
+          const share = row.share + (total ? Math.min(1, owed / total) : 0);
+          return share > 0
+            ? [{ organizationId: row.organizationId, share }]
+            : [];
+        });
+  const paidTo = (
+    organizationId: string,
+    minor: number,
+    payerId?: string,
+  ): void => {
+    const row = serviceChargeShares(api).find(
+      (r) => r.organizationId === organizationId,
+    );
+    if (!row) return;
+    const month = api.state.date.slice(0, 7);
+    const id = `${row.governmentId}:${month}`;
+    const prior = table(api, "serviceChargeMonths").get(id) as unknown as
+      ServiceChargeMonthRow | undefined;
+    const byService: Record<string, number> = { ...(prior?.byService ?? {}) };
+    // The sewer part is what the payer owes for its dwellings or firm; the
+    // rest is spread over the other services by their shares.
+    // However many payments a payer makes in a month, it pays its month's
+    // sewer and trash charge once: what it owes this month, less what it
+    // has already paid toward it.
+    const monthTaken = sewerTaken(core, month);
+    const takenKey = `${row.governmentId}|${payerId ?? ""}`;
+    const monthlyOwed = payerId
+      ? payers.people.has(payerId)
+        ? row.sewerPerDwellingMinor
+        : payers.counted.has(payerId)
+          ? payers.counted.get(payerId)! * row.sewerPerDwellingMinor
+          : payers.firms.has(payerId)
+            ? row.sewerPerFirmMinor
+            : 0
+      : 0;
+    // Whole minor units: a firm's share of a month's charge on one payment
+    // is rounded, and the month's cap holds the rounding to one unit.
+    const sewer = Math.round(
+      Math.min(
+        minor,
+        sewerOwed(row, payerId),
+        Math.max(0, monthlyOwed - (monthTaken.get(takenKey) ?? 0)),
+      ),
+    );
+    if (sewer > 0)
+      monthTaken.set(takenKey, (monthTaken.get(takenKey) ?? 0) + sewer);
+    if (sewer > 0) byService[SEWER] = (byService[SEWER] ?? 0) + sewer;
+    const others = row.services.filter((s) => s.service !== SEWER);
+    const whole = others.reduce((n, s) => n + s.share, 0);
+    let left = minor - sewer;
+    others.forEach(({ service, share }, i) => {
+      const part =
+        i === others.length - 1
+          ? left
+          : Math.round((minor - sewer) * (whole > 0 ? share / whole : 0));
+      const taken = Math.min(left, part);
+      byService[service] = (byService[service] ?? 0) + taken;
+      left -= taken;
+    });
+    table(api, "serviceChargeMonths").put({
+      id,
+      governmentId: row.governmentId,
+      month,
+      paidMinor: (prior?.paidMinor ?? 0) + minor,
+      byService,
+    } satisfies ServiceChargeMonthRow as unknown as ModuleRow);
+    // What the town paid comes off what the government's other service users
+    // owe at their next installment.
+    noteTownRevenue(api, {
+      governmentId: row.governmentId,
+      line: "chargesAndFees",
+      paidMinor: minor,
+    });
+  };
   setLivingCostSplit(core, {
-    shares: (placeId) =>
-      placeId !== chain.townPlaceId
-        ? []
-        : serviceChargeShares(api)
-            .filter((row) => row.share > 0)
-            .map((row) => ({
-              organizationId: row.organizationId,
-              share: row.share,
-            })),
-    paid: (_placeId, organizationId, minor) => {
-      const row = serviceChargeShares(api).find(
-        (r) => r.organizationId === organizationId,
-      );
-      if (!row) return;
-      const month = api.state.date.slice(0, 7);
-      const id = `${row.governmentId}:${month}`;
-      const prior = table(api, "serviceChargeMonths").get(id) as unknown as
-        ServiceChargeMonthRow | undefined;
-      const byService: Record<string, number> = { ...(prior?.byService ?? {}) };
-      let left = minor;
-      row.services.forEach(({ service, share }, i) => {
-        const part =
-          i === row.services.length - 1 ? left : Math.round(minor * share);
-        const taken = Math.min(left, part);
-        byService[service] = (byService[service] ?? 0) + taken;
-        left -= taken;
-      });
-      table(api, "serviceChargeMonths").put({
-        id,
-        governmentId: row.governmentId,
-        month,
-        paidMinor: (prior?.paidMinor ?? 0) + minor,
-        byService,
-      } satisfies ServiceChargeMonthRow as unknown as ModuleRow);
-      // What the town's households paid comes off what the government's
-      // other service users owe at their next installment.
-      noteTownRevenue(api, {
-        governmentId: row.governmentId,
-        line: "chargesAndFees",
-        paidMinor: minor,
-      });
-    },
+    shares: sharesOf,
+    paid: (_placeId, organizationId, minor, payerId) =>
+      paidTo(organizationId, minor, payerId),
   });
+  // The firms' sewer and trash comes out of what they pay outside the town for their costs.
+  setOutsideCostSplit(
+    core,
+    {
+      shares: (placeId, payerId, total) =>
+        placeId !== chain.townPlaceId || !payerId || !payers.firms.has(payerId)
+          ? []
+          : sharesOf(placeId, payerId, total)
+              .map((row) => ({
+                organizationId: row.organizationId,
+                share:
+                  row.share -
+                  (serviceChargeShares(api).find(
+                    (r) => r.organizationId === row.organizationId,
+                  )?.share ?? 0),
+              }))
+              .filter((row) => row.share > 0),
+      paid: (_placeId, organizationId, minor, payerId) =>
+        paidTo(organizationId, minor, payerId),
+    },
+    "budgets-sewer",
+  );
 }

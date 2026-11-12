@@ -1,0 +1,44 @@
+{
+ "town": "murray",
+ "replay": "1d3f0e18ca4ba7e5",
+ "newlifeURL": "http://localhost:3000/api/newlife?seed=1d3f0e18ca4ba7e5&date=&placeKey=3133425&person=%7B%22givenName%22%3A%22Emily%22%2C%22familyName%22%3A%22Carter%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A2006%2C%22birthMonth%22%3A7%2C%22birthDay%22%3A16%2C%22recipe%22%3A%7B%22person%22%3A%22woman-medium%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitnavy%22%2C%22colors%22%3A%7B%22top%22%3A%22olive%22%2C%22trousers%22%3A%22brown%22%2C%22shoes%22%3A%22gray%22%2C%22hair%22%3A%22dark+brown%22%7D%7D%7D",
+ "place": "Murray, Nebraska",
+ "player": "person_5a4e8e4ee05efa99",
+ "clock": "Monday, January 20, 2025\n8:30 PM",
+ "backdrop": [
+  "http://localhost:3000/art/backdrops/house-suburban-living__night.jpg"
+ ],
+ "money": "Money and property\nCASH AVAILABLE\n$422\nHOME\nOWNED\nHouse",
+ "pageErrors": [],
+ "httpErrors": [],
+ "cards": [
+  {
+   "label": "Sage Carter\nfather",
+   "text": "Sage Carter\n\nFather \u00b7 Age 48\n\nLives with you\n\nHe would rather find common ground than fight. When he says he'll do something, he does it. He plays it safe.\n\nHOME\nMurray, Nebraska\nHISTORY\n1976\n\nBorn in Murray, Nebraska.\n\n2006\n\nStarted work at Meyer Manufacturing.\n\n2006\n\nYou were born."
+  },
+  {
+   "label": "Joshua Orr\nuncle",
+   "text": "Joshua Orr\n\nUncle \u00b7 Age 33\n\nHe keeps to himself. He would rather find common ground than fight. He lets things slip.\n\nHOME\nCass County, Nebraska\nHISTORY\n1991\n\nBorn."
+  },
+  {
+   "label": "Brett Orr\nuncle",
+   "text": "Brett Orr\n\nUncle \u00b7 Age 39\n\nHe acts on impulse. He plays it safe. He keeps to himself.\n\nHOME\nCass County, Nebraska\nHISTORY\n1985\n\nBorn."
+  },
+  {
+   "label": "Jorge Orr\nuncle",
+   "text": "Jorge Orr\n\nUncle \u00b7 Age 36\n\nHe acts on impulse. He would rather find common ground than fight. He'll take a chance most people wouldn't.\n\nHOME\nNebraska\nHISTORY\n1988\n\nBorn."
+  },
+  {
+   "label": "Madeline Rosario\nmother",
+   "text": "Madeline Rosario\n\nMother \u00b7 Age 45\n\nShe acts on impulse. She would rather find common ground than fight.\n\nHOME\nNebraska\nHISTORY\n1979\n\nBorn.\n\n2006\n\nYou were born."
+  },
+  {
+   "label": "Michael Orr\nuncle",
+   "text": "Michael Orr\n\nUncle \u00b7 Age 45\n\nHe acts on impulse. He lets things slip. He would rather find common ground than fight.\n\nHOME\nNebraska\nHISTORY\n1979\n\nBorn."
+  },
+  {
+   "label": "Nathaniel Orr\nuncle",
+   "text": "Nathaniel Orr\n\nUncle \u00b7 Age 42\n\nHe acts on impulse. He keeps to himself. He plays it safe.\n\nHOME\nNebraska\nHISTORY\n1982\n\nBorn."
+  }
+ ]
+}

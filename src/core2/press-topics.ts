@@ -10,7 +10,11 @@
  * key the campaign views read; a race is about its contest.
  */
 import type { CoreAPI, CoreEventInput } from "./types";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import {
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "./modules/offices";
 import type { OfficeInput } from "./offices-local";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
@@ -34,6 +38,8 @@ export interface WireItem {
   readonly subjectIds: readonly string[];
   /** Serving officials the record names who are not full people (a president's term), for renown. */
   readonly officialIds?: readonly string[];
+  /** How many people saw the record happen (its witnesses), where any did. */
+  readonly witnessCount?: number;
 }
 
 const LEVELS: Readonly<Record<string, WireLevel>> = {
@@ -110,30 +116,42 @@ export function wireItem(
   town: { readonly placeId: string; readonly stateKey: string },
 ): WireItem | null {
   const facts = event.facts ?? {};
-  // An oath or a vacancy is the paper's news only on a seat the town's
-  // records hold: its town's, county's, state's and nation's. Another
-  // state's seat, which the officials engine samples, is that state's news;
-  // its record sits in town only because the town keeps the world's log (a
-  // Florida state representative's oath printed in Blunt, South Dakota,
-  // seed paper-nov1:2).
+  // An oath or a vacancy is the paper's news only on a seat of the town's
+  // own governments: its town's, county's, state's and nation's. Another
+  // state's seat is that state's news, whether the offices engine seats it
+  // (every other place's chambers and statewide offices since
+  // gov-every-state-and-town-governs U1, decided by isOutsideOffice) or holds
+  // no such seat; its record sits in town only because the town keeps the
+  // world's log (a Florida state representative's oath printed in Blunt,
+  // South Dakota, seed paper-nov1:2).
   const seat =
     event.kind === "took-office" || event.kind === "seat-vacated"
       ? seatOffice(api, facts.seatId)
       : undefined;
-  if (seat === null) return null;
+  if (seat === null || (seat && isOutsideOffice(api, seat))) return null;
   // Where it happened: the town's own records, its state's, the nation's.
   let level: WireLevel | null = null;
   const authority = officeLevel(api, event, town.stateKey);
-  if (seat) level = LEVELS[seat.level] ?? "town";
+  // Another state's act is national news (law.ts emits it for national:<state>),
+  // whatever level the act itself was passed at.
+  if (String(event.placeId).startsWith("national:")) level = "nation";
+  else if (seat) level = LEVELS[seat.level] ?? "town";
   else if (facts.level && LEVELS[facts.level]) level = LEVELS[facts.level]!;
   else if (authority) level = authority;
   else if (event.placeId === town.placeId) level = "town";
-  else if (String(event.placeId).startsWith("national:")) level = "nation";
   else if (String(event.placeId).startsWith("state:")) {
     const usps = town.stateKey.slice(town.stateKey.lastIndexOf("-") + 1);
     level = String(event.placeId) === `state:${usps}` ? "state" : null;
   } else if (event.placeId === town.stateKey) level = "state";
   if (!level) return null;
+  // Another state's measure result has no place in its news bank yet, so it
+  // would read as local; the law it enacts reaches the national press as the
+  // law (stopgap SG-NATION-outside-measure-news-unworded).
+  if (
+    event.kind === "ballot-measure-result" &&
+    String(event.placeId).startsWith("national:")
+  )
+    return null;
   const people = event.personIds.filter((id) => api.state.people.has(id));
   const officialIds = [
     ...new Set(
@@ -149,6 +167,9 @@ export function wireItem(
     level,
     subjectIds: people,
     ...(officialIds.length ? { officialIds } : {}),
+    ...(event.witnessIds?.length
+      ? { witnessCount: event.witnessIds.length }
+      : {}),
     facts: { ...facts },
   };
   switch (event.kind) {
@@ -156,6 +177,10 @@ export function wireItem(
     // population filling in, not news: no paper prints it.
     case "person.recorded":
     case "organization.recorded":
+      return null;
+    // A concession, or a refusal, is told in the race's own story (the
+    // paper's election story reads it), not as a story of its own.
+    case "concession":
       return null;
     case "law-took-effect": {
       const topic = facts.series ?? event.kind;

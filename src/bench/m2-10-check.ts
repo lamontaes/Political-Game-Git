@@ -17,6 +17,7 @@ import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
   VOTING_MODULE_ID,
+  countedPlace,
   placesOf,
   presidentialOf,
   raceResult,
@@ -64,18 +65,22 @@ function serving(api: ReturnType<typeof coreAPI>, seatId: string) {
 // 1. November 2026: every kind of race runs on the engine, and is seated.
 const midterm = world("2026-10-13");
 const where = `${midterm.w.place.displayName} (${midterm.w.place.key}), seed ${seed}`;
-// The seats up in November 2026, read before the election moves their cycle on.
+// The seats up in November 2026 (the seat's own election year, else its
+// office's cycle, as the voting engine reads them), read before the election
+// moves their cycle on.
 const offices = midterm.api.moduleState(OFFICES_MODULE_ID);
-const legislativeOffices = new Set(
+const legislativeOffices = new Map(
   (
     offices.table("offices").rows() as unknown as {
       id: string;
       kind: string;
       elected: boolean;
+      jurisdiction: string;
+      nextElectionYear?: number;
     }[]
   )
     .filter((o) => o.elected && o.kind.startsWith("legislature-"))
-    .map((o) => o.id),
+    .map((o) => [o.id, o] as const),
 );
 const seats2026 = (
   offices.table("seats").rows() as unknown as {
@@ -84,7 +89,10 @@ const seats2026 = (
     coversTown: boolean;
     electionYear?: number;
   }[]
-).filter((s) => legislativeOffices.has(s.officeId) && s.electionYear === 2026);
+).filter((s) => {
+  const office = legislativeOffices.get(s.officeId);
+  return office && (s.electionYear ?? office.nextElectionYear) === 2026;
+});
 advanceCore(midterm.w.core, "2027-01-21");
 const races = racesOf(midterm.api).filter((r) => r.date === "2026-11-03");
 // Play on to the last real seating day, so no race is left unchecked.
@@ -103,7 +111,12 @@ const byOffice = (test: (office: string) => boolean) =>
 const house = byOffice((o) => o === "us-house");
 const senate = byOffice((o) => o === "us-senate");
 const legislative = byOffice((o) => o.startsWith("legislature-"));
-const governors = byOffice((o) => o.includes("governor"));
+// Every other place's statewide officers: its governor, and the others (a
+// lieutenant governor, an attorney general) raced by the same seat rule.
+const executives = byOffice(
+  (o) => o !== "us-house" && o !== "us-senate" && !o.startsWith("legislature-"),
+);
+const governors = executives.filter((r) => r.office === "governor");
 const report: Record<string, unknown> = {
   place: where,
   races: races.length,
@@ -111,6 +124,7 @@ const report: Record<string, unknown> = {
   senate: senate.length,
   legislative: legislative.length,
   governors: governors.length,
+  otherExecutives: executives.length - governors.length,
 };
 // The town's own district and its own state's statewide races run on the
 // town's named ballot, not here: the rest of the House, at least.
@@ -121,7 +135,14 @@ check(senate.length >= 30, `${where}: ${senate.length} Senate races in 2026`);
 // that do not (Guam's fifteen senators are all at-large and all cover the
 // town). Every legislative seat up in 2026 is accounted for one way or the
 // other: a world race, or a winner serving from after election day.
-const outsideTown = seats2026.filter((s) => !s.coversTown);
+// A seat in a place the voting engine counts no electorate for (a territory)
+// is not raced, by the same rule the engine reads
+// (SG-GOV-territory-legislature-race).
+const outsideTown = seats2026.filter(
+  (s) =>
+    !s.coversTown &&
+    countedPlace(midterm.api, legislativeOffices.get(s.officeId)!.jurisdiction),
+);
 const onTownBallot = seats2026.filter((s) => s.coversTown);
 check(
   legislative.length === outsideTown.length,
@@ -199,33 +220,33 @@ for (const r of [...house, ...senate, ...legislative]) {
     check(false, `${where}: ${problem}`);
 }
 report.seated = [...house, ...senate, ...legislative].length;
-// A governor race's winner is recorded in the world races' seats from the
-// state's inauguration day. No engine seats them as governor yet: the
-// officials roster keeps the opening governor (SG-GOV-world-governor-executive,
-// pool item gov-world-races-run-no-governors), so this is a record, not a term.
-for (const r of governors) {
-  const kept = midterm.api
-    .moduleState(VOTING_MODULE_ID)
-    .table("seats")
-    .get(r.seatId) as unknown as { party: string; since: string } | undefined;
-  const recorded: Holder[] = kept
-    ? [{ party: kept.party, from: kept.since }]
-    : [];
-  for (const problem of seatingProblems(r, recorded, sideOf))
-    check(false, `${where}: ${problem} (governor winner record)`);
+// A governor's or other statewide officer's race's winner is seated on the
+// office's term from the state's own start day, by the same term writer as
+// every other seat.
+for (const r of executives) {
+  const holders: Holder[] = serving(midterm.api, r.seatId).map((t) => ({
+    party: t.party,
+    from: t.startDate,
+  }));
+  for (const problem of seatingProblems(r, holders, sideOf))
+    check(false, `${where}: ${problem} (${r.office} term)`);
 }
-report.governorsRecorded = governors.length;
+check(
+  executives.length > governors.length,
+  `${where}: no statewide officer other than a governor raced in 2026`,
+);
+report.executivesSeated = executives.length;
 report.governorSample = governors
   .slice(0, 5)
   .map(
     (r) =>
-      `${r.id}: ${r.winnerParty} ${raceShare(midterm.api, r).toFixed(3)} over ${placesOf(midterm.api, r.id).length} places, recorded from ${r.seatedOn}`,
+      `${r.id}: ${r.winnerParty} ${raceShare(midterm.api, r).toFixed(3)} over ${placesOf(midterm.api, r.id).length} places, seated ${r.seatedOn}`,
   );
 report.sample = races
   .slice(0, 3)
   .map(
     (r) =>
-      `${r.id}: ${r.winnerParty} ${raceShare(midterm.api, r).toFixed(3)}, ${governors.includes(r) ? "recorded from" : "seated"} ${r.seatedOn}`,
+      `${r.id}: ${r.winnerParty} ${raceShare(midterm.api, r).toFixed(3)}, seated ${r.seatedOn}`,
   );
 
 // 2. November 2028: the presidency, in the electoral college, from January 20.

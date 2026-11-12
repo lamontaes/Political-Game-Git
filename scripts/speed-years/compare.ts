@@ -13,6 +13,10 @@ export interface YearTiming {
   readonly rssMiB?: number;
   readonly records?: number;
 }
+/** The records a world keeps: the rows of every table in dev mode's records proof. */
+export function recordsKept(tables: RecordProof["tables"]): number {
+  return Object.values(tables).reduce((sum, table) => sum + table.rows, 0);
+}
 export interface SpeedReceipt {
   readonly seed: string;
   readonly place: string;
@@ -26,6 +30,9 @@ export interface SpeedReceipt {
   readonly coordinated?: boolean;
   readonly rows: readonly YearTiming[];
 }
+
+/** No change makes a year more than 5 percent slower (CTO, Nov 8; the median of three runs is the caller's). */
+export const SLOWER_LIMIT = 1.05;
 
 /** Timing is comparable only for the same route, host and complete years. */
 export function compareYears(
@@ -57,11 +64,11 @@ export function compareYears(
       after.seconds <= 0
     )
       problems.push(`Year ${after.year}: invalid elapsed time`);
-    else if (after.seconds > before.seconds * 1.2)
+    else if (after.seconds > before.seconds * SLOWER_LIMIT)
       problems.push(
         `Year ${after.year}: ${after.seconds.toFixed(3)}s exceeds ${(
-          before.seconds * 1.2
-        ).toFixed(3)}s (120% of main)`,
+          before.seconds * SLOWER_LIMIT
+        ).toFixed(3)}s (105% of main)`,
       );
     if (requireIdentical && before.fingerprint !== after.fingerprint) {
       if (!before.tables || !after.tables)

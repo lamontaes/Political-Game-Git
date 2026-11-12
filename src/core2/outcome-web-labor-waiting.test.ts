@@ -15,7 +15,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import unwired from "./data/outcome-web/unwired.json" with { type: "json" };
-import stopgaps from "./data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "./stopgaps";
 import { engineMeasure, WEB_LINKS } from "./outcome-web-model";
 
 const WAITING = {
@@ -36,13 +36,16 @@ const WAITING = {
 
 /**
  * Files that name an outcome for another use, not to read the web's factor
- * on it: the voting engine reads the unemployment rate as a cause, and the
- * news keeps it as a topic.
+ * on it: the voting engine reads the unemployment rate as a cause, the news
+ * keeps it as a topic, and the term read names it as an area an official's
+ * term is graded on (it reads the outcome's value, never multiplies an
+ * engine's rate by the link).
  */
 const OTHER_USES: Readonly<Record<string, readonly string[]>> = {
   "labor.unemployment-pct": [
     "src/core2/electorate-inputs.ts",
     "src/core2/data/news/outcome-news.json",
+    "src/core2/data/term-read/areas.json",
   ],
 };
 
@@ -55,8 +58,10 @@ function sources(dir = "src/core2"): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     const path = join(dir, entry.name);
     if (entry.isDirectory())
-      return path === "src/core2/data/outcome-web" ? [] : sources(path);
-    if (path === "src/core2/data/stopgaps.json") return [];
+      return path === "src/core2/data/outcome-web" ||
+        path === "src/core2/data/stopgaps"
+        ? []
+        : sources(path);
     return /\.(ts|json)$/.test(path) && !path.endsWith(".test.ts")
       ? [path]
       : [];
@@ -179,7 +184,7 @@ describe("labor links whose cause nothing in the game produces", () => {
     expect(category.policies).toEqual([]);
   });
 
-  it("no engine reads the law that admits more immigrants or admits people from abroad", () => {
+  it("only counted moves reads the law that admits more immigrants, and no engine reads the web's dial for it", () => {
     const question = link("more-immigration-to-workforce").from.replace(
       /^law:/,
       "",
@@ -187,9 +192,12 @@ describe("labor links whose cause nothing in the game produces", () => {
     expect(question).toBe(
       "us-federal-positions:immigration.admit-more-immigrants",
     );
-    // No starting row, handler or reader names the question or its dial.
-    expect(naming(question)).toEqual([]);
-    expect(naming("immigration-admission")).toEqual([]);
+    // The law is read where people from abroad arrive (the researched extra
+    // admissions); the web link's own dial, and so its labor effect, is not.
+    const engines = (text: string) =>
+      naming(text).filter((path) => path.endsWith(".ts"));
+    expect(engines(question)).toEqual(["src/core2/modules/counted-moves.ts"]);
+    expect(engines("immigration-admission")).toEqual([]);
   });
 
   it("the transit and broadband causes are the web's own ledgers, each moved by one law's link and recorded by no engine", () => {

@@ -57,66 +57,51 @@ try {
     .locator('[data-tab="travel"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".entries-tiles .entry-go").first().waitFor();
+  await page.locator(".travel-tile").first().waitFor();
   // Travel always lists somewhere to go, even on the opening night at 8:30 p.m.
   // (owner, Oct 27): a public place joins the list when the player's own
-  // reasons are few, and every card says whether it is open now.
-  const places = await page.locator(".entries-tiles .entry-go").count();
+  // reasons are few; the chosen place says whether it is open now.
+  const places = await page.locator(".travel-tile").count();
   console.log("Destinations:", places, clock.replace("\n", " "));
   assert.ok(places >= 3, `at least three destinations, got ${places}`);
-  let open = 0;
-  for (const card of await page.locator(".entry-go").all()) {
-    assert.equal(await card.locator("img.entry-picture").count(), 1);
-    const name = await card.locator("h3").innerText();
-    assert.ok(name.trim() && !/[()]/.test(name), `card name: ${name}`);
-    const here = (await card.locator(".entry-line").innerText()).trim();
-    assert.ok(/^(Open now|Closed now|Filing office)/.test(here), here);
-    if (here.startsWith("Open now")) open += 1;
-    assert.ok(await card.getAttribute("data-reason"));
+  for (const tile of await page.locator(".travel-tile").all()) {
+    assert.equal(await tile.locator("img.travel-art").count(), 1);
+    const name = await tile.locator("b").innerText();
+    assert.ok(name.trim() && !/[()]/.test(name), `tile name: ${name}`);
   }
-  console.log("Open now:", open);
-  // Tiles page two rows of three under arrows; the sheet never scrolls.
-  assert.ok(places <= 6, `a page holds at most six tiles, got ${places}`);
+  // The chosen place's side: its picture, hours and a Go that names it.
+  await page.locator(".travel-detail .travel-facts").waitFor();
+  assert.match(
+    await page.locator(".travel-facts").innerText(),
+    /Open|Closed|Filing office/,
+  );
+  assert.equal(await page.locator(".travel-hero img").count(), 1);
+  assert.match(
+    await page.locator('[data-testid="place-go"]').innerText(),
+    /^Go to /,
+  );
+  // Nothing explains itself under a heading or tile (owner, Nov 8, 2:15 a.m.).
+  assert.equal(
+    await page.locator(".travel-tile p, .travel-group + p").count(),
+    0,
+  );
   const fit = await page.evaluate(() => {
     const body = document.getElementById("sheet-body");
     return body.scrollHeight <= body.clientHeight + 1;
   });
   assert.ok(fit, "the sheet body scrolls");
-  const pages = await page.locator(".pager-controls:visible").count();
-  if (pages) {
-    const before = await page.locator(".entry-info h3").allInnerTexts();
-    await page.getByRole("button", { name: "Next page" }).click();
-    assert.notDeepEqual(
-      await page.locator(".entry-info h3").allInnerTexts(),
-      before,
-      "the arrow turns to other destinations",
-    );
-    await page.getByRole("button", { name: "Previous page" }).click();
-  }
-  // A mark on the picture where people are to be met.
-  assert.ok(
-    (await page.locator(".entry-badge").count()) > 0 ||
-      open + (await page.locator(".entry-note").count()) === 0,
-    "places with people carry the people mark",
+  assert.equal(
+    await page.locator(".pager-arrow").count(),
+    0,
+    "Travel has arrows",
   );
-  // No line under the title restating where you are (owner, Oct 27).
-  assert.equal(await page.locator(".travel-from").count(), 0);
-  assert.ok(!/you are at home/i.test(await page.locator("#sheet").innerText()));
-  const first = await page.locator(".entry-info h3").first().innerText();
-  await page
-    .getByRole("searchbox", { name: "Search destinations" })
-    .fill(first);
-  assert.ok((await page.locator(".entry-go").count()) >= 1);
-  await page.getByRole("searchbox", { name: "Search destinations" }).fill("");
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
     path: `${process.env.SHOTS ?? "docs/reports/travel-cards-2026-10-27"}/travel.png`,
   });
   assert.equal(await page.locator("#card-clock").textContent(), clock);
   assert.deepEqual(errors, []);
-  console.log(
-    "PASS destinations, search, optional artwork omitted and unchanged clock",
-  );
+  console.log("PASS destinations, the chosen place and unchanged clock");
 } finally {
   await browser.close();
 }

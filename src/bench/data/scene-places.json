@@ -89,6 +89,7 @@
       "grocery-store",
       "gas-station"
     ],
+    "membership:political-party": ["campaign-office-storefront"],
     "membership:labor-union": ["union-hall"]
   },
   "variantByHour": [
@@ -145,7 +146,9 @@
     "public": ["main-street", "park"],
     "venue": ["community-room", "union-hall"],
     "phone": ["@home"],
-    "letter": ["@home"]
+    "letter": ["@home"],
+    "chamber": ["public-meeting-room", "council-chamber"],
+    "office": ["city-hall-hallway", "office"]
   },
   "bodyPlaces": {
     "about": "Where each kind of elected body meets, by the office kind on its records; the first painted picture in a list is used. A legislature with no upper chamber meets in the one-house chamber. A council or county board picks its list from bodyPlacesBySize first.",
@@ -214,6 +217,11 @@
     "farmhouse": "door-knocking-rural"
   },
   "phoneBankPlace": "phone-bank-room",
+  "volunteerOfficePlace": "campaign-office-storefront",
+  "adBuyPlace": "local-newspaper-office",
+  "interviewPlace": "newsroom",
+  "debatePlace": "tv-studio",
+  "endorsementMeetingPlace": "campaign-office-storefront",
   "dwellingPlaces": {
     "about": "The home pictures for each kind of dwelling OPUS-WORLD's housing records (dwellingKind), by room and by the household's third among the town's homes of the same kind (value for owners, rent for renters). Each household gets one picture per room from its own id, so the same home always looks the same; a state's regional house styles join every third of 'house'. A list may name pictures still to be painted: the first painted ones are used.",
     "house": {

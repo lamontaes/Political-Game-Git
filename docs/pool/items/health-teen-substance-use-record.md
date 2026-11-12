@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/laws-teen-substance-use
 pr: #6782
 lead: laws

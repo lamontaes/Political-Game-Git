@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: lane-4/results-raw-words
+pr: #7197
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T06:47:47.516Z
 ---
 
 **What.** On election night the Campaigns results show the exit poll as 'left-blank 5 · declined 3' and a state House race's 'Where it was won' as 'seat:US-NV:lower:033:0' (Lund, Nevada, seed statewide-shot-1, November 3, 2026). Developer words on a play screen. The exit-poll answers come from src/core2/modules/voting.ts (around line 2364), and src/bench/results.ts passes any exit-poll key that is not a person or an official through unchanged, while the district names come from the places table that placesOf in voting.ts reads.

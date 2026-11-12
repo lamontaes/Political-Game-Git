@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by: claude/political-game-pool-76ksvw
+status: dropped
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:32:17.754Z
+claimed-at:
 ---
 
 **What.** Relabel the release note to say only a player governor can use the commute power and no screen offers it, and add a pool item for computer governors acting on clemency.
@@ -22,3 +22,9 @@ claimed-at: 2026-10-20T04:32:17.754Z
 **Files.** docs/release/changes, docs/pool/items
 
 **Notes.** Item 16 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Both halves are gone: the computer-governor item docs/pool/items/governor-clemency-computer-governors.md exists with status done, and the release note it would relabel is not in docs/release/changes (8 files, none about the commute; the shipped notes were consumed by Release 0.100.0 per docs/release/consumed-changes.json).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

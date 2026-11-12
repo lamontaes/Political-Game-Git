@@ -31,7 +31,8 @@
     },
     "unemployment-insurance": {
       "levels": ["state"],
-      "source": "State unemployment insurance law under 26 U.S.C. § 3304"
+      "retainTerms": true,
+      "source": "26 U.S.C. § 3304(a)(19): rights, privileges, or immunities subject to the power of the legislature to amend or repeal such law at any time; https://www.law.cornell.edu/uscode/text/26/3304"
     },
     "social-security-tax": {
       "levels": ["federal"],
@@ -48,6 +49,10 @@
     "federal-unemployment-tax": {
       "levels": ["federal"],
       "source": "26 U.S.C. §§ 3301-3302"
+    },
+    "executive-term-limit": {
+      "levels": ["state"],
+      "source": "State constitutions (a governor's limit on terms) and the amendments that change it"
     },
     "state-unemployment-tax": {
       "levels": ["state"],
@@ -68,6 +73,54 @@
     "local-income-tax-authority": {
       "levels": ["state"],
       "source": "State law decides whether its cities, towns and counties may tax income; 16 states allow it (data/research/laws/local-starting-law/local-income-tax.json)"
+    },
+    "social-security-earliest-claim-age": {
+      "levels": ["federal"],
+      "source": "42 U.S.C. § 402(a)(2); 42 U.S.C. § 1304 reserves alteration, amendment and repeal of Social Security provisions to Congress."
+    },
+    "social-security-full-retirement-age": {
+      "levels": ["federal"],
+      "source": "42 U.S.C. § 416(l); 42 U.S.C. § 1304 reserves alteration, amendment and repeal of Social Security provisions to Congress."
+    },
+    "social-security-delayed-credit-age": {
+      "levels": ["federal"],
+      "source": "42 U.S.C. § 402(w)(2)(A); 42 U.S.C. § 1304 reserves alteration, amendment and repeal of Social Security provisions to Congress."
+    },
+    "federal-campaign-contribution-limit": {
+      "levels": ["federal"],
+      "source": "52 U.S.C. § 30116(a)(1)(A)"
+    },
+    "state-contribution-limit-governor": {
+      "levels": ["state"],
+      "source": "each state's campaign finance statute (NCSL, State Limits on Contributions to Candidates, 2025-2026)"
+    },
+    "state-contribution-limit-state-senate": {
+      "levels": ["state"],
+      "source": "each state's campaign finance statute (NCSL, State Limits on Contributions to Candidates, 2025-2026)"
+    },
+    "state-contribution-limit-state-house": {
+      "levels": ["state"],
+      "source": "each state's campaign finance statute (NCSL, State Limits on Contributions to Candidates, 2025-2026)"
+    },
+    "state-contribution-limit-local": {
+      "levels": ["state"],
+      "source": "each state's campaign finance statute (NCSL, State Limits on Contributions to Candidates, 2025-2026)"
+    },
+    "child-care-income-limit": {
+      "levels": ["state"],
+      "source": "Child Care and Development Block Grant Act, 42 U.S.C. 9858c(c)(2)(B): a state sets the family income limit for its subsidies, up to 85 percent of the state median income"
+    },
+    "ssi-federal-benefit-rate": {
+      "levels": ["federal"],
+      "source": "Social Security Act title XVI, 42 U.S.C. 1382(b): Congress sets the federal benefit rate (adjusted each January by the cost-of-living increase)"
+    },
+    "energy-assistance-income-limit": {
+      "levels": ["state"],
+      "source": "Low-Income Home Energy Assistance Act, 42 U.S.C. 8624(b)(2): a state sets the household income limit for its home energy assistance, within the statute's floor and ceiling"
+    },
+    "meeting-notice-hours": {
+      "levels": ["state"],
+      "source": "State open-meetings acts: the notice a local public body must give before a regular meeting (research draft data/research/laws/open-meetings-and-records-2026.json; a place with no statutory number uses the median of those that have one)"
     }
   },
   "questions": {
@@ -286,6 +339,10 @@
     "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
       "levels": ["federal", "state"],
       "source": "23 U.S.C. flexible funding; state transportation budgets"
+    },
+    "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
+      "levels": ["state"],
+      "source": "State statutes and governors' executive orders on state-agency hiring (NELP Ban the Box guide, October 2021; data/research/executive/ban-the-box-public-hiring-2025-01.json)"
     }
   },
   "questionsAbout": "Which levels of government may answer each policy question, ESTIMATED by OPUS-GOV from where such laws are enacted in practice (the cited statutes; NCSL and NLC surveys). A local body also needs the state not to have preempted it (authorityFor). A level not listed has no power to pass the question."

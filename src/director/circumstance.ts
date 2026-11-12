@@ -16,11 +16,20 @@
  * it returns and the ordinary scheduler stages the situation type whose
  * cause carries the row's label.
  */
+import { receives, type ReceiveRule } from "./scheduling";
+import {
+  INTEREST_GROUPS_MODULE_ID,
+  meetingsOn,
+} from "../core2/modules/elections";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
-import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
+import {
+  ballot,
+  ELECTIONS_MODULE_ID,
+  PARTIES_MODULE_ID,
+} from "../core2/modules/elections";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -40,6 +49,8 @@ const one = P.one;
 
 export interface CircumstanceRow {
   id: string;
+  /** Who may receive the row's scene (scheduling.ts `receives`); a cast that breaks it is not made. */
+  receive?: ReceiveRule;
   /** Trigger record kinds ("job" is a job record started today). */
   recordKinds: readonly string[];
   /** Facts the record must carry. */
@@ -71,6 +82,19 @@ export interface CircumstanceRow {
    * hold it back.
    */
   lived?: boolean;
+  /**
+   * The cast may be someone the director cast in another scene from
+   * circumstance lately: the record is the player's own and the household has
+   * few to tell it (a home a disaster damaged is talked over by the one other
+   * person who lives there, however lately the news came to them).
+   */
+  recast?: boolean;
+  /**
+   * The scene comes ahead of the day's other scenes from circumstance (the
+   * floor before the roll comes before the word in the hallway after the
+   * sitting); only one scene a day reaches the player.
+   */
+  before?: boolean;
   /** The kind of place it happens at: the situation type's setting. */
   place: string;
   pool: readonly string[];
@@ -243,6 +267,52 @@ function bodyOfRecord(
   return bill?.bodyOfficeId;
 }
 
+/** Whether the player filed in the contest and someone else won it. */
+function ranAndLost(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  contestId: string | undefined,
+  winnerId: string | undefined,
+): boolean {
+  if (!contestId || !winnerId || winnerId === playerId) return false;
+  if (!core.modules.has(ELECTIONS_MODULE_ID)) return false;
+  return (
+    coreAPI(core as CoreState)
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byPerson", [playerId]) as unknown as { contestId: string }[]
+  ).some((filing) => filing.contestId === contestId);
+}
+
+/**
+ * How many contests the player filed in and lost on an earlier day than the
+ * count at hand (the count's record names someone else). The races settled
+ * on the same ballot are one election, not a habit of losing.
+ */
+export function earlierLosses(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  contestId: string | undefined,
+): number {
+  if (!core.modules.has(ELECTIONS_MODULE_ID)) return zero;
+  const settled = core.durableLog.get(`election-result:${contestId}` as never);
+  if (!settled) return zero;
+  const beforeDate = settled.date;
+  return (
+    coreAPI(core as CoreState)
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byPerson", [playerId]) as unknown as { contestId: string }[]
+  ).filter((filing) => {
+    if (filing.contestId === contestId) return false;
+    const result = core.durableLog.get(
+      `election-result:${filing.contestId}` as never,
+    );
+    const winner = result?.facts?.winnerId;
+    return !!winner && winner !== playerId && result.date < beforeDate;
+  }).length;
+}
+
 function playerHolds(
   rule: string,
   core: Readonly<CoreState>,
@@ -290,6 +360,26 @@ function playerHolds(
           .query("byPerson", [playerId]) as unknown as { contestId: string }[]
       ).some((filing) => filing.contestId === contestId);
     }
+    case "filed-late": {
+      // The player's own filing in a contest where others filed before them:
+      // someone is already on its ballot to be told of.
+      const contestId = record.facts.contestId;
+      if (!contestId || !core.modules.has(ELECTIONS_MODULE_ID)) return false;
+      return ballot(coreAPI(core as CoreState), contestId).some(
+        (filing) => filing.personId !== playerId,
+      );
+    }
+    case "lost-again":
+      // The player ran in the contest the record settled, lost it, and has
+      // lost another before.
+      return (
+        ranAndLost(
+          core,
+          playerId,
+          record.facts.contestId,
+          record.facts.winnerId,
+        ) && earlierLosses(core, playerId, record.facts.contestId) > zero
+      );
     case "named-in-it":
       // The record is the player's own (their school year's end).
       return record.personIds.includes(playerId);
@@ -306,6 +396,60 @@ function playerHolds(
           .includes(playerId);
       throw new Error(`Unknown circumstance player rule: ${rule}`);
   }
+}
+
+/**
+ * The seated officeholders of the party that asked a member to run, who live
+ * in the member's town and have held a seat for a year or more: the veterans
+ * a member asked to run would hear from. Read from the offices engine's
+ * serving terms; a term whose holder is not a full person is left out.
+ */
+export function partyOfficeholders(
+  core: Readonly<CoreState>,
+  record: Pick<QueuedRecord, "personIds" | "facts">,
+  on: IsoDate,
+): PersonId[] {
+  // stopgapId: SG-WORDS-mentor-is-officeholder
+  const asked = core.people.get(record.personIds[zero] ?? ("" as PersonId));
+  const partyId = record.facts.partyId;
+  if (
+    !asked ||
+    !partyId ||
+    !core.modules.has(OFFICES_MODULE_ID) ||
+    !core.modules.has(PARTIES_MODULE_ID)
+  )
+    return [];
+  const api = coreAPI(core as CoreState);
+  const members = new Set(
+    (
+      api
+        .moduleState(PARTIES_MODULE_ID)
+        .table("ties")
+        .query("byParty", [partyId]) as unknown as {
+        personId: string;
+        tie: string;
+      }[]
+    )
+      .filter((tie) => tie.tie === "party")
+      .map((tie) => tie.personId),
+  );
+  const heldSince = addDays(makeIsoDate(on), -Math.round(P.daysPerMeanYear));
+  const serving = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .query("byStatus", ["serving"]) as unknown as TermRow[];
+  return serving
+    .filter(
+      (term) =>
+        !!term.personId &&
+        members.has(term.personId) &&
+        term.personId !== asked.id &&
+        core.people.get(term.personId as PersonId)?.alive === true &&
+        core.people.get(term.personId as PersonId)?.placeId === asked.placeId &&
+        (term.serviceStart ?? term.startDate) <= heldSince,
+    )
+    .map((term) => term.personId as PersonId)
+    .sort();
 }
 
 /** Who has a reason from the record to be there, before where is checked. */
@@ -371,11 +515,40 @@ function poolOf(
       named: record.personIds.includes(id),
     }));
   }
+  if (source === "party-officeholders")
+    return partyOfficeholders(core, record, record.dueOn ?? core.date).map(
+      (id) => ({ id, named: false }),
+    );
   if (source === "classmates")
     // The others at the player's school that year.
     return classmatesOf(core, playerId).map((id) => ({ id, named: false }));
   if (source === "new-coworker")
     return record.personIds.map((id) => ({ id, named: true }));
+  if (source === "lobbied-against") {
+    // stopgapId: SG-WORDS-lobby-remembers-writeback
+    // The lobbyists of the groups that met the voter on this bill and whose
+    // way on it the voter's vote went against (an employers' group is against
+    // the bill unless the meeting says otherwise).
+    const billId = record.facts.billId;
+    const vote = record.facts.vote;
+    const voterId = record.personIds[zero];
+    if (
+      !billId ||
+      !voterId ||
+      (vote !== "yes" && vote !== "no") ||
+      !core.modules.has(INTEREST_GROUPS_MODULE_ID)
+    )
+      return [];
+    const cast = vote === "yes" ? P.one : P.negativeOne;
+    return meetingsOn(coreAPI(core as CoreState), billId)
+      .filter(
+        (meeting) =>
+          meeting.memberId === voterId &&
+          meeting.lobbyistId !== null &&
+          (meeting.side ?? P.negativeOne) * cast < zero,
+      )
+      .map((meeting) => ({ id: meeting.lobbyistId as PersonId, named: false }));
+  }
   if (source.startsWith("fact:")) {
     // The person a fact of the record names (a message's candidate).
     const id = record.facts[source.slice("fact:".length)];
@@ -454,7 +627,7 @@ export function circumstancePicks(
     staged: ReadonlySet<string>;
     due: (row: CircumstanceRow) => boolean;
     /** Whether a person may be cast today (not cast again inside the repeat window). */
-    castDue?: (id: PersonId) => boolean;
+    castDue?: (id: PersonId, row: CircumstanceRow) => boolean;
     byKind?: Map<string, CircumstanceRow[]>;
   },
 ): CircumstancePick[] {
@@ -490,8 +663,11 @@ export function circumstancePicks(
       for (const source of row.pool)
         for (const { id, named } of poolOf(source, core, playerId, record)) {
           if (id === playerId || core.people.get(id)?.alive !== true) continue;
-          if (options.castDue && !options.castDue(id)) continue;
+          if (options.castDue && !options.castDue(id, row)) continue;
           if (!placedWith(row.where, core, playerId, id)) continue;
+          // The one who comes does not live with the player where the row
+          // says apart, and a seat's scene reaches only a player in office.
+          if (!receives(core, playerId, row.receive, [id], row.place)) continue;
           const importance = options.importance(id);
           const closeness = importance / (one + importance);
           const sociability =

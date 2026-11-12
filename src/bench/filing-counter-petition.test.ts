@@ -2,14 +2,14 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
   checkEligibility,
   filingOfficeFor,
-  openContests,
+  playerContests,
   petitionOf,
 } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
@@ -63,7 +63,8 @@ it(`the clerk tells the petition's signatures and due day once, in the scene aft
     director.watch(core, playerId);
     // A local race the player may file for, as the town's weeks go by.
     const open = () =>
-      openContests(api).find(
+      // The races the player may file for, as the counter offers them.
+      playerContests(api).find(
         (row) =>
           row.level !== "federal" &&
           row.level !== "state" &&

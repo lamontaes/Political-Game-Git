@@ -47,17 +47,6 @@
       "replacement": null
     },
     {
-      "file": "src/bench/m0-check.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "sample.add(ids[hash(`${seed}:m0-04:${i}`) % ids.length]!);",
-      "class": "PRESENTATION",
-      "keyedBy": "seed + check index",
-      "reason": "Which saved records a bench check opens: the observer's sample, not a choice anyone in the world makes.",
-      "replacement": null
-    },
-    {
       "file": "src/bench/scene.ts",
       "kind": "list-pick",
       "build": null,
@@ -194,6 +183,26 @@
       "code": "const COUNCIL_TERM_SHARES: readonly Share[] = ["
     },
     {
+      "file": "src/core2/jobs-elsewhere.ts",
+      "kind": "roll",
+      "count": 1,
+      "code": "line < employed",
+      "class": "GENERATION",
+      "keyedBy": "world seed + person id",
+      "reason": "Whether someone living elsewhere is at work, looking or out of the labor force on day one is who they are: their own seeded line read against CPS 2024 employment and participation for their age, so the shares hold over everyone, as citizenship is drawn. What they do after (let go, find work, move on, retire) is the working-life pulls from rates, causes and their traits.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/jobs-elsewhere.ts",
+      "kind": "roll",
+      "count": 1,
+      "code": ": line < inForce",
+      "class": "GENERATION",
+      "keyedBy": "world seed + person id",
+      "reason": "Whether someone living elsewhere is at work, looking or out of the labor force on day one is who they are: their own seeded line read against CPS 2024 employment and participation for their age, so the shares hold over everyone, as citizenship is drawn. What they do after (let go, find work, move on, retire) is the working-life pulls from rates, causes and their traits.",
+      "replacement": null
+    },
+    {
       "file": "src/core2/modules/campaigns.ts",
       "kind": "fixed-share",
       "build": "pool:core-zero-dice-shares-in-code",
@@ -260,6 +269,17 @@
       "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
       "code": "const apart = r.fork(\"marriage\").next() >= marriageIntact(married);"
+    },
+    {
+      "file": "src/core2/opening-origin.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const pick = new SeededRng(seed) .fork(`origin:${childId}`) .integer(0, known.length);",
+      "class": "GENERATION",
+      "keyedBy": "the newborn's own id + world seed",
+      "reason": "Which parent's origin a newborn carries: drawn once, from the child's own id, when the person is created (who exists); nothing a person does afterward reads it.",
+      "replacement": null
     },
     {
       "file": "src/core2/opening-partnership.ts",
@@ -423,6 +443,17 @@
       "class": "IDENTITY",
       "keyedBy": "world seed + outlet id + role + index",
       "reason": "A fictional reporter's or editor's family name from the place's corpus; who they are.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/sibling-names.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const givenName = new SeededRng(seed) .fork(`sibling-name:${key}`) .pick(available);",
+      "class": "IDENTITY",
+      "keyedBy": "seed + sibling key",
+      "reason": "A sibling's given name from the name corpus, one no one in the family already has: who they are, never what they do.",
       "replacement": null
     },
     {

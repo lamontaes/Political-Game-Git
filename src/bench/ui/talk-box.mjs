@@ -35,7 +35,7 @@ export function talkLine({ kind = "speech", text, who, lying, held, grade }) {
  * the player's last line). `lines` are `{ text, mine, lying, held, grade }`, oldest first;
  * `keep` is how many past lines stay above the line said now.
  */
-export function transcript(lines, { mineWho, theirWho, keep = 3 }) {
+export function transcript(lines, { mineWho, theirWho, keep = 1 }) {
   const lastMine = lines.findLastIndex((line) => line.mine);
   const past = lastMine < 0 ? [] : lines.slice(0, lastMine + 1).slice(-keep);
   const now = lines.slice(lastMine + 1);
@@ -78,14 +78,14 @@ function gradeControl({ labels, send }) {
 }
 
 /**
- * The head every speaking panel carries: a face, a name and what they are. The ids are
- * `<prefix>-who`, `-bust`, `-name` and `-role`, which the play screen fills.
+ * The head every speaking panel carries: a name and what they are (the speaker's face is
+ * on the strip of busts above the box, ui/bust-strip.mjs). The ids are `<prefix>-who`,
+ * `-name` and `-role`, which the play screen fills.
  */
 export function speakerHead(prefix, { role = true } = {}) {
   return el(
     "div",
     { id: `${prefix}-who`, className: "who" },
-    el("div", { id: `${prefix}-bust`, className: "bust" }),
     el(
       "div",
       {},
@@ -104,11 +104,6 @@ export function mountSpeakers(root = document) {
     slot.replaceWith(
       speakerHead(slot.dataset.speaker, { role: slot.dataset.role !== "none" }),
     );
-}
-
-/** Say one line in the list of lines with id `listId` (the opening box says them one at a time). */
-export function sayInBox(listId, text) {
-  $(listId).replaceChildren(talkLine({ kind: "speech", text }));
 }
 
 /**

@@ -3,7 +3,12 @@ import { spokenDate } from "../core2/kernel/dates";
 import type { CoreState } from "../core2/types";
 import { composeNewsStory, type StoryKind } from "../english/english-newscast";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
-import { archivedFacts, archivedLawFacts, printedFacts } from "./printed-words";
+import {
+  archivedFacts,
+  archivedLawFacts,
+  archivedLawPassedFacts,
+  printedFacts,
+} from "./printed-words";
 import type { ownRace } from "./results";
 import { policyNames } from "./words";
 
@@ -22,6 +27,11 @@ export interface WordedStory {
   readonly paragraphs?: readonly string[];
   /** A side item: a headline and one line, never paragraphs; the screen does not open it. */
   readonly brief?: true;
+  /**
+   * The headline as a person says it in talk: a bill by what it does (its
+   * purpose), never by its number. Absent where the headline names no bill.
+   */
+  readonly spoken?: string;
   readonly sourceRecordIds: readonly string[];
 }
 
@@ -65,6 +75,21 @@ export function wordArchiveStory(
               told.facts,
             )
           : null;
+      if (text) return text;
+    }
+    // A law enacted is told for what it does and where, the way one taking
+    // effect is, when its row says so; else by its name and the day.
+    if (recordKind === "law-enacted") {
+      const passed = archivedLawPassedFacts(core, story);
+      const text = passed
+        ? worded(
+            core,
+            story.id,
+            passed.kind,
+            passed.speaker || story.id,
+            passed.facts,
+          )
+        : null;
       if (text) return text;
     }
     NAMES ??= policyNames();
@@ -117,12 +142,22 @@ export function wordPrintedStory(
     read.facts,
   );
   if (!text) return null;
+  // In talk a bill is said by what it does: the same words, with the
+  // designation's place taken by the bill's purpose.
+  const spoken =
+    read.facts.designation && read.facts.purpose
+      ? worded(core, story.id, read.kind, read.speaker || story.id, {
+          ...read.facts,
+          designation: read.facts.purpose,
+        })?.headline
+      : undefined;
   const organization = story.outletId
     ? core.organizations.get(story.outletId as EntityId)
     : undefined;
   const kind = story.outletId?.split(":")[2] ?? "";
   return {
     ...text,
+    ...(spoken && spoken !== text.headline ? { spoken } : {}),
     ...(organization
       ? {
           outlet: {
@@ -220,4 +255,43 @@ export function wordOwnResult(
       ...story,
     }
   );
+}
+
+/**
+ * A law another state passed, told as the press tells one: its name on the
+ * bill catalog, the state, and the day it was enacted. Null for a law the
+ * catalog has no name for, which stays a record.
+ */
+export function wordNationLaw(
+  core: CoreState,
+  law: {
+    readonly id: string;
+    readonly series: string;
+    readonly date: string;
+    readonly stateName: string;
+  },
+): WordedStory | null {
+  // Told as the press tells a law in play, from the law's own row: the amount
+  // it moved from and to, or what the law is for, in the state that passed it.
+  const told = archivedLawFacts(core, {
+    id: law.id,
+    kind: "press.archived",
+    date: law.date,
+    facts: { lawId: law.id },
+  });
+  const row =
+    told && told.kind !== "law-rule"
+      ? worded(core, law.id, told.kind, told.speaker || law.id, told.facts)
+      : null;
+  if (row) return row;
+  NAMES ??= policyNames();
+  const measure = NAMES[law.series];
+  if (!measure) return null;
+  const ids = [law.id] as EntityId[];
+  const fact = (text: string) => ({ text, sourceRecordIds: ids });
+  return worded(core, law.id, "vote-or-law", law.id, {
+    measure: fact(`${measure} in ${law.stateName}`),
+    date: fact(spokenDate(law.date)),
+    enacted: fact("yes"),
+  });
 }

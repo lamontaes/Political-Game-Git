@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: speed/fold-cash-receipts
-pr:
+pr: #7128
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-01T21:16:00.492Z
@@ -22,3 +22,5 @@ claimed-at: 2026-11-01T21:16:00.492Z
 **Files.** src/core2/journal-state.ts,src/core2/decision-detail.ts,src/core2/data/parameters.json,src/bench/dev-why.ts
 
 **Notes.** lead: speed. Round four of core-long-run-tables-grow-with-history; reader map in the speed lead's scratchpad r4/round-four-map.json. Lane (Nov 1, 21:15) and laws (21:14) agreed the window.
+
+Nov 2, 01:20 UTC (speed lead, handoff record; the first account is near its weekly limit): branch speed/fold-cash-receipts, head ae0a0d7047 (built on main 15059c66cc), built, reviewed and fixed; folds receipts older than the window into per-person, per-kind yearly totals as the CTO ruled. Its four-year proof against main 15059c66cc is running. Next: proof (only core.cashJournal.detailedReceipts, its index and the new totals may differ), PR, checker by PR number mod 5.

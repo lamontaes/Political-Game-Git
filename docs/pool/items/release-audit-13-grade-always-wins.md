@@ -5,12 +5,12 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by: claude/political-game-pool-76ksvw
+status: dropped
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:32:27.396Z
+claimed-at:
 ---
 
 **What.** Require several grades or keep variety so one grade no longer forces a piece to win, and set the release note to impact none until grades exist.
@@ -22,3 +22,9 @@ claimed-at: 2026-10-20T04:32:27.396Z
 **Files.** docs/release/changes, the grading module #5286 touched
 
 **Notes.** Item 13 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. docs/design/words-machine.md (line 3) says the odds that made a disliked kind of line a little rarer are deleted and rules, not weights, judge lines (owner, Nov 9). The calibration weight that made one grade win (`pieceFactor` in src/english/calibration.ts, line 98) is being removed by that design, so a fix to it is moot.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

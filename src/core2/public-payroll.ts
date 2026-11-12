@@ -6,6 +6,7 @@
  * recorded local job where one exists, otherwise the government's calendar.
  */
 import { inCustody } from "./modules/justice";
+import { outsideLaborForce } from "./gov-rules/place-population";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { governmentPayrollTerms } from "./opening-payroll-calendar";
 import type { WorkPayrollCalendarInput } from "./work-pay-period";
@@ -38,9 +39,12 @@ export function startPublicJob(
 ): string | null {
   const c = api.state as CoreState;
   const person = c.people.get(input.personId);
+  // Nobody in custody or in a room outside the civilian labor force (an
+  // institution or barracks) holds a public post, by the jobs engine's rule.
   if (
     !person?.alive ||
     inCustody(api, input.personId) ||
+    outsideLaborForce(c.households.get(person.householdId)?.quarters) ||
     !c.organizations.has(input.employerId)
   )
     return null;

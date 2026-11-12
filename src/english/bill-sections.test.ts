@@ -7,8 +7,15 @@ import { advanceCore } from "../core2/life";
 import { billForm, type BillRow } from "../core2/modules/legislature";
 import { coreAPI } from "../core2/state";
 import seriesPowers from "../core2/data/legislature/series-powers.json" with { type: "json" };
+import federalQuestions from "../../data/research/campaigns/federal-questions-2026.json" with { type: "json" };
+import bankData from "../../data/english/bill-sections.json" with { type: "json" };
 import { storyTopicName } from "./policy-names";
-import { BILL_SECTIONS, composeBill, valueWords } from "./bill-sections";
+import {
+  amountWords,
+  BILL_SECTIONS,
+  composeBill,
+  valueWords,
+} from "./bill-sections";
 
 // A bill's sections are worded from the record (owner, Oct 14, 2026: bill
 // text is real; a local measure has its own form). The words come from
@@ -26,15 +33,20 @@ describe("the bill-sections data", () => {
   it("words every policy and law series on the bill catalog", () => {
     for (const [key, description] of Object.entries(policyNames())) {
       const id = key.replace(/^[a-z]+(?:-[a-z]+)*:/, "");
-      const row = BILL_SECTIONS.policies[id] ?? BILL_SECTIONS.amounts[id];
+      const row = BILL_SECTIONS.policies[id] ?? amountWords(key);
       expect(row, `${key} (${description}) needs a row`).toBeTruthy();
       expect(row!.subject.length, key).toBeGreaterThan(3);
       expect(row!.purpose.length, key).toBeGreaterThan(3);
     }
+    // A row is for a question some bill can carry: one on the catalog, or
+    // one of the federal questions Congress files on.
+    const federal = federalQuestions.questions.map((row) => row.question);
     for (const id of Object.keys(BILL_SECTIONS.policies))
       expect(
-        Object.keys(policyNames()).some((k) => k.endsWith(`:${id}`)),
-        `${id} is not on the catalog`,
+        [...Object.keys(policyNames()), ...federal].some((k) =>
+          k.endsWith(`:${id}`),
+        ),
+        `${id} is not on the catalog or the federal record`,
       ).toBe(true);
   });
 
@@ -234,6 +246,27 @@ describe("every law amount a body can draft has words", () => {
   });
 });
 
+describe("the federal questions Congress files on", () => {
+  // Congress files bills on every question in the federal record; a question
+  // with no row leaves its bill with no paper (red on main, Nov 11:
+  // "H.R. 14: expected null to be truthy"). The next question added to the
+  // record fails here until it is worded.
+  it("has a subject, purpose and enacting clause for every federal question", () => {
+    const unworded = federalQuestions.questions
+      .map((row) => row.question.replace(/^[a-z]+(?:-[a-z]+)*:/, ""))
+      .filter((key) => {
+        const row = (
+          bankData.policies as Record<
+            string,
+            { subject?: string; purpose?: string; enact?: string }
+          >
+        )[key];
+        return !row?.subject || !row.purpose || !row.enact;
+      });
+    expect(unworded).toEqual([]);
+  });
+});
+
 describe("a bill composed from the played world", () => {
   const place = drawPlace(seed, "bill-text");
   const world = buildBenchWorld(place.seed, opening, {
@@ -289,4 +322,47 @@ describe("a bill composed from the played world", () => {
     });
     expect(made).toBeNull();
   });
+});
+
+describe("a clause words both its values in the law row's unit", () => {
+  // A section that names no unit (a seat's draft) takes the law row's unit on both sides of
+  // "from ... to ...", across the unit kinds: dollars an hour, percent, dollars a week.
+  const cases = [
+    {
+      series: "minimum-wage",
+      unit: "minor/hour",
+      was: 725,
+      now: 1500,
+      say: ["from $7.25 an hour", "to $15 an hour"],
+    },
+    {
+      series: "sales-tax",
+      unit: "percent",
+      was: 4,
+      now: 6,
+      say: ["from 4 percent", "to 6 percent"],
+    },
+    {
+      series: "unemployment-weekly-maximum",
+      unit: "USD/week",
+      was: 427,
+      now: 500,
+      say: ["from $427 a week", "to $500 a week"],
+    },
+  ] as const;
+  for (const c of cases)
+    it(`${c.series} (${c.unit})`, () => {
+      const text = composeBill({
+        id: "bill:fixture",
+        number: "2026-5",
+        form: {
+          kind: "act",
+          enactingClause: "Be it enacted by the Legislature",
+        },
+        provisions: [{ kind: "law-amount", series: c.series, value: c.now }],
+        before: [{ value: c.was, unit: c.unit, statute: null }],
+      } as unknown as Parameters<typeof composeBill>[0])!.sections[0]!;
+      expect(text, c.series).toContain(c.say[0]);
+      expect(text, c.series).toContain(c.say[1]);
+    });
 });

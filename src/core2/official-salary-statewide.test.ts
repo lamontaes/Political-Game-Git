@@ -18,6 +18,8 @@ import { corePlaceStateIdentities } from "./place-lookup";
 import { coreAPI } from "./state";
 import { OFFICIALS_MODULE_ID, type OfficialRow } from "./modules/officials";
 import { OFFICIAL_PAY_MODULE_ID, officialSalary } from "./modules/official-pay";
+import { placeStateKey } from "./place-map";
+import { keepsWhy } from "./why-kept";
 
 const statewide = (stateKey: string, officeKind: string): OfficialRow =>
   ({
@@ -82,11 +84,32 @@ it(`every seated official is priced and has a pay row in ${place.name} (${place.
       .rows() as unknown as OfficialRow[]
   ).filter((row) => row.ended === null && core.people.get(row.id)?.alive);
   expect(seated.length, where).toBeGreaterThan(0);
-  const unpaid = seated
+  // Federal officials and the player's own state are paid from the start;
+  // another state's officials stay counted (no pay row) until the player
+  // knows them or they are in focus (SG-GOV-outside-officials-counted).
+  const own = placeStateKey(core.placeMetadata?.placeKey ?? "");
+  const federal = (row: OfficialRow) =>
+    row.stateKey === "US" ||
+    ["president", "vice-president", "us-senate", "us-house"].some(
+      (k) => row.officeKind === k || row.bodyKind === k,
+    );
+  const paidFromStart = seated.filter(
+    (row) => federal(row) || row.stateKey === own || keepsWhy(core, row.id),
+  );
+  expect(paidFromStart.length, where).toBeGreaterThan(0);
+  const unpaid = paidFromStart
     .filter((row) => officialSalary(row) === null || !pay.get(row.id))
     .map((row) => `${row.id} (${row.officeKind})`);
   expect(
     unpaid,
-    `${where}: seated officials with no salary or no pay row`,
+    `${where}: seated officials who should be paid with no salary or no pay row`,
+  ).toEqual([]);
+  const counted = seated.filter((row) => !paidFromStart.includes(row));
+  expect(counted.length, `${where}: other states' officials`).toBeGreaterThan(
+    0,
+  );
+  expect(
+    counted.filter((row) => pay.get(row.id)).map((row) => row.id),
+    `${where}: counted officials with a pay row`,
   ).toEqual([]);
 }, 300_000);

@@ -1,0 +1,41 @@
+name: Pool index
+# docs/pool/INDEX.md is main's alone (pool-generated-index-merge-starvation).
+# Branches never change it, so a pull request that adds or edits items merges
+# without an index conflict; this job regenerates it on main after every push
+# that changes an item, and pushes only when it moved.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/pool/items/**"
+  workflow_dispatch:
+permissions:
+  contents: write
+# The newest run reads the newest main, so a newer push may replace a waiting run.
+concurrency:
+  group: pool-index
+  cancel-in-progress: false
+jobs:
+  reindex:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          # Branch protection refuses a push to main from the workflow token
+          # (GH006), so the regenerated index is pushed with the owner's token,
+          # as the done-on-merge flip does. The job runs main's code only.
+          token: ${{ secrets.RELEASE_PUSH_TOKEN || github.token }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - name: Regenerate the index on main
+        env:
+          OCD_STORAGE_OVERRIDE: "cloud session, owner approved Oct 14"
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          node --import tsx scripts/pool/index.ts reindex

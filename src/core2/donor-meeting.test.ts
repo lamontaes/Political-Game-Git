@@ -36,7 +36,7 @@ import {
 import { openParties } from "./modules/parties";
 import { openPress } from "./modules/press";
 import { viewsModule } from "./modules/views";
-import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-views";
+import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
 
 const START = "2026-01-05";

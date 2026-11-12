@@ -5,15 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: claimed
-claimed-by: words/staff-bad-news
+status: dropped
+claimed-by:
 pr:
 blocked-on:
 after:
 source: added by the acting CTO, Oct 25 (owner ruling)
 lead: words
 milestone: play-first
-claimed-at: 2026-10-26T07:20:24.853Z
 ---
 
 **What.** The owner ruled Oct 25 that staff bringing bad news is a scene when a press record names the player or their bill. Today a story that names the player sits in the news box and no one in the player's office reacts. The scene reads the press record (an outlet's story whose subjects include the player or a bill they sponsored) and, where the player has staff, stages a staffer bringing the story in: who ran it, what it says, what it moved, with the player's reply from controls (respond, ignore, call the outlet) recorded as an event the press and views engines read. A player with no staff hears it through the news box as today; a story that names neither the player nor their bill produces no scene.
@@ -31,3 +30,9 @@ claimed-at: 2026-10-26T07:20:24.853Z
 **Files.** src/director/situations/, src/director/scene.ts, src/director/scene-talk.ts, src/core2/modules/press.ts (read only), data/english/parts/, src/bench/play.mjs
 
 **Notes.** Owner, Oct 25; build all three scenes without asking (OWNER-DECISIONS, Oct 25). The staffer is a person on the record, introduced before speaking (Oct 15 ruling).
+
+Words handoff, Nov 2 02:50 UTC (the account at its weekly limit): branch words/staff-bad-news, head c2b2c8c579, fully merged. Next step: check the done-when against main (one scene per press record naming the player or their bill, and its 1440x900 shot) and set it done or finish what is missing.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The staff-news situation exists with three causes (src/director/data/situation-types.json line 4956) and its build half, words-scene-staff-bad-news-a, is status done. The item's old path src/director/situations/ is now src/director/data/situation-types.json.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

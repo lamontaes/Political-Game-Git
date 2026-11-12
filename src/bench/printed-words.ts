@@ -16,7 +16,12 @@ import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { BUSINESS_MODULE_ID } from "../core2/modules/business";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  stateLawInForce,
+} from "../core2/modules/laws";
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
@@ -31,13 +36,15 @@ import {
 } from "../core2/modules/offices";
 import { OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
 import { officialOf } from "../core2/modules/officials";
-import { PRESS_MODULE_ID } from "../core2/modules/press";
+import { commentOn, PRESS_MODULE_ID } from "../core2/modules/press";
 import {
   corePlaceByJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
+import { familyFactsOf } from "../core2/modules/people";
+import { preStartHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
-import type { CoreState } from "../core2/types";
+import type { CoreState, PersonId, PersonState } from "../core2/types";
 import {
   billNameFor,
   billNameOf,
@@ -46,8 +53,11 @@ import {
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
 import { storyTopicName } from "../english/policy-names";
+import { causeGroupName } from "../english/group-names";
+import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
+import { placeLabel } from "../director/journal";
 import { stateInSentence } from "../director/words";
 
 /**
@@ -250,10 +260,33 @@ export function printedFacts(
     story,
     sourceId,
     kind,
-    source?.personIds ?? [],
+    // A household event the log doesn't keep (a home bought in a place the
+    // player can't see) still names its household as the story's topic: its
+    // members are who the story is about.
+    source?.personIds ??
+      (story.topic ? core.households.get(story.topic as EntityId) : undefined)
+        ?.memberIds ??
+      [],
     happened,
   );
-  return BUILDERS[kind]?.(read, facts) ?? null;
+  const built = BUILDERS[kind]?.(read, facts) ?? null;
+  if (!built) return null;
+  // What the person told a reporter who asked about this record, or that
+  // they declined (press.ts keepComment), by the day the story is read.
+  const comment = commentOn(read.api, sourceId);
+  if (!comment || comment.date > story.date) return built;
+  const who = read.who(comment.personId, "commenter", false);
+  if (!who.commenter) return built;
+  return {
+    ...built,
+    facts: {
+      ...built.facts,
+      ...who,
+      ...(comment.quote
+        ? { quote: read.fact(comment.quote, comment.replyId) }
+        : { declined: read.fact("comment", comment.replyId) }),
+    },
+  };
 }
 
 /** What a builder reads with: names, offices, bills and places, each cited by record. */
@@ -477,10 +510,18 @@ class Reader {
     ) as unknown as { title?: string } | undefined;
     return contest?.title ?? null;
   }
-  /** An organization's name; null where its record keeps none but its key. */
+  /**
+   * An organization's name; a founded cause group, which keeps only its key,
+   * is named by the English engine from its topic. Null where there is neither.
+   */
   organization(id: string | undefined): string | null {
-    const name = id ? this.core.organizations.get(id as EntityId)?.name : null;
-    return name && !/[:_]/.test(name) ? name : null;
+    const org = id ? this.core.organizations.get(id as EntityId) : undefined;
+    if (!org) return null;
+    if (/[:_]/.test(org.name))
+      return org.kind === "cause-group" && org.topic
+        ? causeGroupName(org.id, org.topic)
+        : null;
+    return org.name || null;
   }
   /** An outlet's name, from its organization. */
   outlet(id: string | undefined): string | null {
@@ -495,9 +536,18 @@ class Reader {
     if (!officeId) return null;
     const office = this.table(OFFICES_MODULE_ID, "offices")?.get(
       officeId,
-    ) as unknown as { bodyName?: string } | undefined;
-    // "Legislature (unicameral)" is the body's name; the note is the record's.
-    return office?.bodyName?.replace(/\s*\([^)]*\)$/, "") ?? null;
+    ) as unknown as { bodyName?: string; jurisdiction?: string } | undefined;
+    const name = office?.bodyName ?? null;
+    if (!name) return null;
+    // A state's chamber is named with its state ("Connecticut House of Representatives"): the
+    // record's body name alone ("House of Representatives") does not say which one voted.
+    const usps = /^US-([A-Z]{2})$/.exec(office?.jurisdiction ?? "")?.[1];
+    const state = usps ? coreStateName(usps) : null;
+    return state &&
+      !name.includes(state) &&
+      !/^(Legislature|United States)\b/.test(name)
+      ? `${state} ${name}`
+      : name;
   }
   /**
    * The town's own name ("Stockport"), or a state's ("Ohio") by its key. A
@@ -583,7 +633,7 @@ function amount(unit: string, value: number): string | null {
   if (unit === "minor/hour") return dollars(value, true);
   if (unit === "minor") return dollars(value);
   // A benefit or a limit kept in whole dollars for a period.
-  if (/^(?:USD|dollars)\/(?:week|month|year)$/i.test(unit))
+  if (/^(?:USD|dollars)\/(?:week|month|year|election)$/i.test(unit))
     return dollars(value * 100);
   if (unit.startsWith("percent")) return percent(value);
   return null;
@@ -626,13 +676,14 @@ const lawTookEffect: Builder = (read, f) => {
       : {}),
   };
   if (f.unit && f.unit !== "program") {
-    // An amount: the town's law in force the day before, and now.
-    const was = lawInForce(
-      read.api,
-      series,
-      addDays(makeIsoDate(read.story.date), -1),
-    ).value;
-    const now = lawInForce(read.api, series, read.story.date).value;
+    // An amount: the law in force the day before, and now, in the state that
+    // passed it (another state's law is read from its own, never the town's).
+    const inForce = (date: string) =>
+      state && f.jurisdiction
+        ? stateLawInForce(read.api, f.jurisdiction, series, date)
+        : lawInForce(read.api, series, date);
+    const was = inForce(addDays(makeIsoDate(read.story.date), -1)).value;
+    const now = inForce(read.story.date).value;
     const to = typeof now === "number" ? amount(f.unit, now) : null;
     const from = typeof was === "number" ? amount(f.unit, was) : null;
     if (!to || !from) return rule(read, f, base);
@@ -699,6 +750,96 @@ export function archivedLawFacts(
     unit: row.unit ?? "",
     ...(row.terms?.enactedBy ? { enactedBy: String(row.terms.enactedBy) } : {}),
   });
+}
+
+/**
+ * A law enacted in the year before day one, told for what it does: the amount
+ * it moves from and to, or what the policy is for, where it applies and when it
+ * starts, from the law's own row (never the record's kind, series or
+ * jurisdiction as written). Null when the row is gone or says too little, and
+ * the story keeps its name and date.
+ */
+export function archivedLawPassedFacts(
+  core: CoreState,
+  printed: PrintedStory,
+): PrintedFacts | null {
+  const lawId = String(printed.facts.lawId ?? "");
+  const row = coreAPI(core)
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .get(lawId) as unknown as
+    | {
+        series: string;
+        level: string;
+        jurisdiction: string;
+        value?: number;
+        unit?: string;
+        effectiveDate?: string;
+      }
+    | undefined;
+  if (!row) return null;
+  const read = new Reader(core, printed, lawId, "law-enacted", []);
+  const state = row.level === "state";
+  const federal = row.level === "federal";
+  const place = federal
+    ? null
+    : read.place(state ? row.jurisdiction : undefined);
+  const form = state || federal ? "act" : "ordinance";
+  const base: Facts = {
+    date: read.date(),
+    // The word "passed" in a piece is said only where the record holds it.
+    passed: read.yes(),
+    ...(place ? { place: read.fact(place) } : {}),
+    ...(federal ? { federal: read.yes() } : {}),
+    ...(row.effectiveDate && row.effectiveDate > printed.date
+      ? { starts: read.fact(spokenDate(row.effectiveDate), lawId) }
+      : {}),
+  };
+  if (row.unit && row.unit !== "program") {
+    // An amount: what the law in force reads the day before the law starts and
+    // the day it does, so a state's rate is told as the town's reader meets it.
+    const starts = makeIsoDate(row.effectiveDate ?? printed.date);
+    const inForce = (date: string) =>
+      state
+        ? stateLawInForce(read.api, row.jurisdiction, row.series, date)
+        : lawInForce(read.api, row.series, date);
+    const before = inForce(addDays(starts, -1)).value;
+    const after = inForce(starts).value;
+    const to = typeof after === "number" ? amount(row.unit, after) : null;
+    // With no law before it on the books, the story says what it sets.
+    const from = typeof before === "number" ? amount(row.unit, before) : null;
+    // The amount is told only when the law's own row is what holds from its
+    // start; a rate another level sets on top of it is that level's story.
+    if (!to || after !== row.value) return null;
+    return story(
+      "law-amount-passed",
+      {
+        ...base,
+        measure: read.fact(measureName(row.series), lawId),
+        to: read.fact(to, lawId),
+        ...(from && from !== to
+          ? { from: read.fact(from, lawId), changed: read.yes() }
+          : {}),
+        ...(from && from === to ? { same: read.yes() } : {}),
+        ...(from && after! < before! ? { down: read.yes() } : {}),
+        ...(from && after! > before! ? { up: read.yes() } : {}),
+      },
+      ["measure", "to"],
+    );
+  }
+  const ended = Number(row.value) === 0;
+  const named = billNameFor(row.series, form, ended);
+  if (!named) return null;
+  return story(
+    "law-passed",
+    {
+      ...base,
+      law: read.fact(named.title, lawId),
+      purpose: read.fact(named.purpose, lawId),
+      ...(ended ? { ended: read.yes() } : {}),
+    },
+    ["law"],
+  );
 }
 
 /** A floor vote on a bill: the count and whether it carried. */
@@ -978,6 +1119,27 @@ const disaster: Builder = (read, f) => {
         ? { incident: read.fact(f.incidentType.toLowerCase()) }
         : {}),
       ...(homes ? { number: read.fact(count(homes)) } : {}),
+      date: read.date(),
+    },
+    ["place"],
+  );
+};
+
+/**
+ * A disaster elsewhere in the country (the national events engine's record,
+ * placed at national:<state>), told with the same hazard bank under the
+ * state it struck.
+ */
+const nationalDisaster: Builder = (read, f) => {
+  const state = f.stateKey ? read.place(f.stateKey) : null;
+  if (!state) return null;
+  return story(
+    "hazard",
+    {
+      place: read.fact(state),
+      ...(f.incidentType
+        ? { incident: read.fact(f.incidentType.toLowerCase()) }
+        : {}),
       date: read.date(),
     },
     ["place"],
@@ -1379,7 +1541,16 @@ const electionResult: Builder = (read, f) => {
       ...read.who(f.winnerId, "name", false),
       ...read.who(rival, "opponent"),
       ...(f.office ? { office: read.fact(f.office, f.contestId ?? "") } : {}),
+      ...seatFacts(
+        read,
+        read.row<{ seatId?: string }>(
+          ELECTIONS_MODULE_ID,
+          "contests",
+          f.contestId,
+        )?.seatId,
+      ),
       won: read.yes(),
+      ...concessionFacts(read, f.contestId, rival),
       ...voteFacts(
         read,
         num(f.winnerVotes) ?? totals[f.winnerId ?? ""],
@@ -1391,6 +1562,77 @@ const electionResult: Builder = (read, f) => {
     f.winnerId,
   );
 };
+
+/**
+ * Whether the runner-up conceded on the call after the count, or would not
+ * that night, from the press's concession record (press.ts,
+ * reportConcession): a concession on the record by the day the story is
+ * read says so; a refusal says so until a concession follows it.
+ */
+function concessionFacts(
+  read: Reader,
+  contestId: string | undefined,
+  rival: string | undefined,
+): Facts {
+  if (!contestId || !rival) return {};
+  for (const [said, key] of [
+    ["yes", "conceded"],
+    ["no", "declined"],
+  ] as const) {
+    const id = `concession:${contestId}:${rival}:${said}`;
+    const record = read.core.durableLog.get(id as EntityId);
+    // The fact is the word the sentence turns on, so the paper does not take
+    // the sentence for a repeat of the runner-up's name.
+    if (record && record.date <= read.story.date)
+      return { [key]: read.fact("concede", id) };
+  }
+  return {};
+}
+
+/**
+ * Where a race's seat is, as its story says it, from the seat's record: its
+ * district's number where the record numbers it ("State Senate District 4",
+ * "004" say District 4), or that the seat is at large where the record says
+ * so or its office's other seats have districts. A seat its office holds
+ * alone (a mayor, a governor, a state's one member of Congress) is the
+ * office, and a seat elected by the whole body's voters, all at large, says
+ * nothing more. A district the record names by place ("1st Barnstable
+ * District") or as a ward is not numbered, and its story names the office
+ * only (SG-GOV-named-district-story).
+ */
+function seatFacts(read: Reader, seatId: string | undefined): Facts {
+  type Seat = {
+    officeId: string;
+    district: string | null;
+    districtName?: string;
+  };
+  const seat = read.row<Seat>(OFFICES_MODULE_ID, "seats", seatId);
+  if (!seat) return {};
+  const all = read.query<Seat>(OFFICES_MODULE_ID, "seats", "byOffice", [
+    seat.officeId,
+  ]);
+  if (all.length < 2) return {};
+  const name = seat.districtName ?? seat.district ?? "";
+  if (
+    /large/i.test(name) ||
+    (!seat.district && all.some((other) => other.district))
+  )
+    return { atLarge: read.fact("yes", seatId ?? "") };
+  if (!seat.district) return {};
+  const ward =
+    read.row<{ seatTerm?: string }>(OFFICES_MODULE_ID, "offices", seat.officeId)
+      ?.seatTerm === "ward";
+  const district = ward
+    ? null
+    : /(?:^|\bDistrict )(\d+[A-Z]?|[A-Z])$/
+        .exec(name)?.[1]
+        ?.replace(/^0+(?=\w)/, "");
+  if (district && district !== "0")
+    return { district: read.fact(district, seatId ?? "") };
+  // stopgapId: SG-GOV-named-district-story (a district named by place or a ward prints the office only)
+  read.api.stopgap("SG-GOV-named-district-story");
+  return {};
+}
 
 /** The winner's share of the vote and how many votes were cast, when the count is kept. */
 function voteFacts(
@@ -1542,27 +1784,82 @@ const exposed: Builder = (read, f) => {
   const id = read.first();
   const acts = Object.values(f);
   const office = id ? read.officeOf(id) : null;
+  const conflict = acts.includes("conflict-of-interest");
+  const firm = conflict ? read.organization(f.organizationId) : null;
+  // The same official's earlier votes for the same firm that a paper
+  // exposed, each award once however many outlets ran it: a repeat is told
+  // as the time it is, not in the first story's words (one council member's
+  // six votes for a family firm, six times in the same words in one paper,
+  // Cogswell, North Dakota, seed paper-nov1:1).
+  const award = (facts: Readonly<Record<string, string>> | undefined) =>
+    Object.keys(facts ?? {}).find((key) => key.startsWith("award:"));
+  const mine = award(f);
+  const earlier = new Set<string>();
+  if (conflict && firm && id && mine)
+    for (const logId of read.core.logByKind.get("press.exposed") ?? []) {
+      const row = read.core.durableLog.get(logId as EntityId);
+      const theirs = award(row?.facts);
+      if (
+        row &&
+        theirs &&
+        theirs !== mine &&
+        row.personIds[0] === id &&
+        row.facts?.organizationId === f.organizationId &&
+        row.date <= (read.happened || read.story.date)
+      )
+        earlier.add(theirs);
+    }
+  const time = earlier.size + 1;
   return story(
     "exposed",
     {
       ...read.who(id, "name", false),
       ...(office ? { office: read.fact(office) } : {}),
       ...(acts.includes("bribe-taken") ? { bribe: read.yes() } : {}),
-      ...(acts.includes("conflict-of-interest")
-        ? { conflict: read.yes() }
+      ...(acts.includes("bribe-offered") ? { offered: read.yes() } : {}),
+      ...(conflict && firm
+        ? { firm: read.fact(firm, f.organizationId ?? "") }
         : {}),
+      ...(conflict && time > 1 && firm
+        ? {
+            again: read.yes(),
+            ordinal: read.fact(TIMES[time] ?? `${ordinalOf(time)}`),
+          }
+        : conflict
+          ? { conflict: read.yes() }
+          : {}),
     },
     ["name"],
     id,
   );
 };
 
+/** The time something happened, as a paper says it ("second", "fifth"). */
+const TIMES: readonly (string | undefined)[] = [
+  undefined,
+  "first",
+  "second",
+  "third",
+  "fourth",
+  "fifth",
+  "sixth",
+  "seventh",
+  "eighth",
+  "ninth",
+  "tenth",
+];
+
 /**
- * A recorded bribe that someone who learned of it took to the press (the
- * corruption engine reports only bribes): told as the exposure it is.
+ * A recorded bribe that someone who learned of it took to the press, or an
+ * offer an official turned down and told the press of: told as the exposure
+ * it is.
  */
 const scandalReported: Builder = (read, f) =>
-  exposed(read, { ...f, crime: "bribe-taken" });
+  exposed(read, {
+    ...f,
+    // An official told the press of an offer they turned down: the offer is the story.
+    crime: f.attempt ? "bribe-offered" : "bribe-taken",
+  });
 
 /** An appointment to a public post. */
 const appointed: Builder = (read, f) => {
@@ -1799,10 +2096,10 @@ function businessExtras(
   const industry = read.industry(id);
   const extras: Facts = industry ? { industry: read.fact(industry, id) } : {};
   if (kind === "staff-cut") {
-    // The staff the employer plans for after the cut, which its staffing
-    // review kept on the record (the staff it has changes day to day).
-    const planned = Math.round(num(f.targetStaff) ?? 0);
-    if (planned > 1) extras.staff = read.fact(count(planned), id);
+    // The staff the business has after the cut, which its jobs engine kept on
+    // the record with the event (the staff it has changes day to day).
+    const staff = Math.round(num(f.staffAfter) ?? 0);
+    if (staff > 1) extras.staff = read.fact(count(staff), id);
   }
   if (kind === "owner-changed") {
     const handover = read.row<{
@@ -2248,7 +2545,83 @@ const birth: Builder = (read, f) => {
   );
 };
 
-/** A death: who, the age they reached, and the town they lived in. */
+/**
+ * A government's treasury, which pays its public workers, named as the
+ * government people say they worked for ("the government of Arizona", "the
+ * federal government"), never as the account ("Arizona treasury"). Null for
+ * any other employer.
+ */
+function governmentEmployer(
+  read: Reader,
+  organizationId: string | undefined,
+): string | null {
+  const org = organizationId
+    ? read.core.organizations.get(organizationId as EntityId)
+    : undefined;
+  if (org?.kind !== "government-treasury") return null;
+  const row = read.row<{ level: string; name: string }>(
+    BUDGETS_MODULE_ID,
+    "governments",
+    organizationId!.replace(/^organization:treasury:/, ""),
+  );
+  if (!row) return null;
+  if (row.level === "federal") return "the federal government";
+  return `the government of ${row.level === "state" ? stateInSentence(row.name) : row.name}`;
+}
+
+/**
+ * An obituary: who died, the age they reached and the town they lived in,
+ * then the life's facts the records hold (words-paper-and-journal-everyday-
+ * life; owner, Nov 1: "real ones with some good fluff"): where they were
+ * born (the run's birth record, as the Journal reads it), the office they
+ * served in (their term), where they last worked and for how long (their
+ * latest work record), and the partner and
+ * children who survive them (their family records, by name). A fact the
+ * records do not hold is left out, never guessed.
+ */
+/** What a relative's own record calls someone, and what that makes the relative to them. */
+const SURVIVOR_BY_THEIR_RECORD: Readonly<Record<string, "partner" | "child">> =
+  { partner: "partner", parent: "child" };
+
+/**
+ * Someone's partner and children, partner first and then the children oldest
+ * first, from the family records: the person's own, else each relative's
+ * record of them (a relative who records them as a parent is their child).
+ * A person filled in from the wider population can carry the family ties
+ * with only the relatives holding the facts.
+ */
+export function survivorsOf(
+  core: Readonly<CoreState>,
+  person: Readonly<PersonState>,
+): readonly {
+  kinId: PersonId;
+  relation: "partner" | "child";
+  factId: string;
+}[] {
+  const own = familyFactsOf(person);
+  const rows: {
+    kinId: PersonId;
+    relation: "partner" | "child";
+    factId: string;
+  }[] = [];
+  for (const [kinId, row] of own)
+    if (row.relation === "partner" || row.relation === "child")
+      rows.push({ kinId, relation: row.relation, factId: row.factId });
+  for (const kinId of [...person.familyIds].sort()) {
+    if (own.has(kinId)) continue;
+    const theirs = familyFactsOf(core.people.get(kinId)).get(person.id);
+    const relation = theirs && SURVIVOR_BY_THEIR_RECORD[theirs.relation];
+    if (relation) rows.push({ kinId, relation, factId: theirs.factId });
+  }
+  const born = (id: PersonId) => core.people.get(id)?.birthDate ?? "";
+  return rows.sort(
+    (a, b) =>
+      (a.relation === b.relation ? 0 : a.relation === "partner" ? -1 : 1) ||
+      born(a.kinId).localeCompare(born(b.kinId)) ||
+      a.kinId.localeCompare(b.kinId),
+  );
+}
+
 const death: Builder = (read) => {
   const id = read.first();
   const person = id ? read.core.people.get(id as EntityId) : undefined;
@@ -2257,6 +2630,60 @@ const death: Builder = (read) => {
     person && read.happened
       ? yearsBetween(person.birthDate, read.happened)
       : undefined;
+  const born = person
+    ? preStartHistory(read.core, {
+        kind: "person.birth",
+        personId: person.id,
+      })[0]
+    : undefined;
+  const bornIn = placeLabel(born?.placeId);
+  // Their latest work: the commitment that started last, and its employer.
+  const work = person
+    ? [...(read.core.work.commitmentsByPerson.get(person.id) ?? [])]
+        .flatMap((cid) => read.core.work.commitments.get(cid) ?? [])
+        .sort((a, b) => b.startsAt.localeCompare(a.startsAt))[0]
+    : undefined;
+  // The office they held, from their latest term's own record, serving or
+  // ended at their death (an official's obituary says what they served as).
+  // The table's own rows are read-only: sort a copy.
+  const lastTerm = id
+    ? [
+        ...read.query<{ officeId: string; startDate: string }>(
+          OFFICES_MODULE_ID,
+          "terms",
+          "byPerson",
+          [id],
+        ),
+      ].sort((a, b) => b.startDate.localeCompare(a.startDate))[0]
+    : undefined;
+  const office = id
+    ? (read.officeOf(id) ??
+      (lastTerm ? read.officeTitle(lastTerm.officeId) : null))
+    : null;
+  // Work for the outside account (buyers and sellers outside the town) is
+  // work out of town, not an employer the paper can name.
+  const away =
+    !!work &&
+    read.core.organizations.get(work.organizationId as EntityId)
+      ?.outsideFlow !== undefined;
+  // A government that pays for the office they held is told by the office.
+  const government = away
+    ? null
+    : governmentEmployer(read, work?.organizationId);
+  const paidBy = office ? null : government;
+  const employer =
+    away || government ? null : read.organization(work?.organizationId);
+  const tenure =
+    work && read.happened
+      ? yearsBetween(work.heldSince ?? work.startsAt, read.happened)
+      : 0;
+  // The partner first, then the children, oldest first: each living and
+  // named in the records, theirs or the person's own.
+  const survivors = person
+    ? survivorsOf(read.core, person).filter(
+        (row) => read.core.people.get(row.kinId)?.alive && read.name(row.kinId),
+      )
+    : [];
   return story(
     "death",
     {
@@ -2266,9 +2693,169 @@ const death: Builder = (read) => {
         ? { age: read.fact(String(age), id ?? "") }
         : {}),
       ...(town ? { place: read.fact(town, id ?? "") } : {}),
+      ...(bornIn && born
+        ? {
+            born: read.fact(bornIn, born.id),
+            ...(town && born.placeId === person?.placeId
+              ? { native: read.yes() }
+              : { elsewhere: read.yes() }),
+          }
+        : {}),
+      ...(office ? { office: read.fact(office, id ?? "") } : {}),
+      ...(away && town ? { away: read.fact("yes", work!.id) } : {}),
+      ...(paidBy && work
+        ? {
+            government: read.fact(paidBy, work.id),
+            ...(tenure > 1
+              ? { years: read.fact(String(tenure), work.id) }
+              : {}),
+          }
+        : {}),
+      ...(employer && work
+        ? {
+            employer: read.fact(employer, work.id),
+            ...(tenure > 1
+              ? { years: read.fact(String(tenure), work.id) }
+              : {}),
+          }
+        : {}),
+      ...(survivors.length
+        ? {
+            survivors: read.fact(
+              joinList(
+                survivors.map((row) => read.name(row.kinId)!),
+                "and",
+              ),
+              ...survivors.map((row) => row.factId),
+            ),
+          }
+        : {}),
     },
     ["name"],
     id,
+  );
+};
+
+/** An age as an ordinal ("80th", "101st"), for a birthday brief. */
+function ordinalOf(n: number): string {
+  const tens = n % 100;
+  const suffix =
+    tens >= 11 && tens <= 13
+      ? "th"
+      : (["th", "st", "nd", "rd"][n % 10] ?? "th");
+  return `${n}${suffix}`;
+}
+
+/** A resident's round birthday, from the press's week of milestones. */
+const milestoneBirthday: Builder = (read, f) => {
+  const age = num(f.age);
+  const town = read.residence(f.personId);
+  if (!age) return null;
+  return story(
+    "birthday",
+    {
+      ...read.who(f.personId, "name", false),
+      age: read.fact(String(age), f.personId ?? ""),
+      ordinal: read.fact(ordinalOf(age), f.personId ?? ""),
+      ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
+      date: read.date(),
+    },
+    ["name", "age"],
+    f.personId,
+  );
+};
+
+/**
+ * A resident's retirement, from the press's week of milestones: who, from
+ * which employer and after how many years, from the jobs engine's record of
+ * their leaving and their work record. Work for the outside account is not
+ * named as an employer.
+ */
+const retirement: Builder = (read, f) => {
+  const org = f.organizationId
+    ? read.core.organizations.get(f.organizationId as EntityId)
+    : undefined;
+  // A government's treasury is said as the government they worked for.
+  const government = governmentEmployer(read, f.organizationId);
+  const employer =
+    org && org.outsideFlow === undefined && !government
+      ? read.organization(f.organizationId)
+      : null;
+  const years =
+    f.since && read.happened ? yearsBetween(f.since, read.happened) : 0;
+  const town = read.residence(f.personId);
+  return story(
+    "retirement",
+    {
+      ...read.who(f.personId, "name", false),
+      date: read.date(),
+      ...(employer
+        ? { employer: read.fact(employer, f.organizationId ?? "") }
+        : {}),
+      ...(government
+        ? { government: read.fact(government, f.organizationId ?? "") }
+        : {}),
+      ...(years > 1 ? { years: read.fact(String(years), f.jobId ?? "") } : {}),
+      ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
+    },
+    ["name"],
+    f.personId,
+  );
+};
+
+/**
+ * A reader's letter to the editor, from the press's weekly letters step: who
+ * wrote, from where, and for or against which policy, from the stance the
+ * story they read last moved (cited by that story).
+ */
+const letter: Builder = (read, f) => {
+  // The bill the story reported, by its name or its number; or the law that
+  // took effect, by the name its policy goes by.
+  const bill = f.billId ? read.billFacts(f.billId) : {};
+  const form =
+    f.level === "state" || f.level === "federal" ? "act" : "ordinance";
+  const named =
+    !f.billId && f.series
+      ? billNameFor(f.series, form, f.change === "ended")
+      : null;
+  const law =
+    bill.law ?? (named ? read.fact(named.title, f.lawId ?? "") : null);
+  const designation = bill.designation;
+  const town = read.residence(f.personId);
+  if ((!law && !designation) || (f.side !== "for" && f.side !== "against"))
+    return null;
+  return story(
+    "letter",
+    {
+      ...read.who(f.personId, "name", false),
+      ...(law ? { law } : { designation: designation! }),
+      ...(f.side === "for"
+        ? { supports: read.yes() }
+        : { opposes: read.yes() }),
+      ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
+    },
+    ["name"],
+    f.personId,
+  );
+};
+
+/** A business's round year since its founding, from the press's week of milestones. */
+const anniversary: Builder = (read, f) => {
+  const id = f.organizationId ?? "";
+  const name = read.organization(id);
+  const years = num(f.years);
+  const place = read.place();
+  if (!name || !years) return null;
+  return story(
+    "anniversary",
+    {
+      subject: read.fact(name, id),
+      years: read.fact(String(years), id),
+      ...(f.since ? { year: read.fact(f.since.slice(0, 4), id) } : {}),
+      ...(place ? { place: read.fact(place) } : {}),
+      ...businessExtras(read, "anniversary", id, f),
+    },
+    ["subject", "years"],
   );
 };
 
@@ -2297,8 +2884,10 @@ const CRIME_FLAGS: Readonly<Record<string, string>> = {
 };
 /** One victimization the town's records hold: what kind, where, which of the month's it was. */
 const crime: Builder = (read) => {
+  // The household's id can hold colons (a household that moved is
+  // `<household>:moved:<person>:<date>`), so it is read up to the date.
   const hit =
-    /^(?:event:)?crime\.victimized:([a-z-]+):[^:]+:\d{4}-\d{2}-\d{2}(?::\d+)?$/.exec(
+    /^(?:event:)?crime\.victimized:([a-z-]+):.+:\d{4}-\d{2}-\d{2}(?::\d+)?$/.exec(
       read.sourceId,
     );
   const flag = hit ? CRIME_FLAGS[hit[1]!] : undefined;
@@ -2466,8 +3055,14 @@ const address: Builder = (read, f) => {
     "address",
     {
       ...read.who(id, "name", false),
+      // An inaugural is told as the taking of office, citing the offices
+      // engine's inauguration record the address was given at.
       ...(f["address:kind"] === "inaugural"
-        ? { inaugural: read.yes() }
+        ? {
+            inaugural: f["address:inauguration"]
+              ? read.fact("yes", f["address:inauguration"])
+              : read.yes(),
+          }
         : { "joint-session": read.yes() }),
       date: read.date(),
     },
@@ -2475,6 +3070,114 @@ const address: Builder = (read, f) => {
     id,
   );
 };
+
+/**
+ * A strike, protest or rally in the town (src/core2/modules/public-action.ts):
+ * where, when, how many and what it was over, from the record the engine kept.
+ * A protest or strike with no named demand is not told.
+ */
+const publicAction =
+  (kind: "protest" | "strike" | "rally" | "movement"): Builder =>
+  (read, f) => {
+    const place = read.place();
+    if (!place) return null;
+    // A protest or strike is told by its demand, a rally by the area that went well.
+    const issue = kind !== "rally" && f.question ? read.issue(f.question) : {};
+    const area = kind === "rally" && f.area ? areaName(f.area) : null;
+    return story(
+      "public-action",
+      {
+        place: read.fact(place, f.actionId ?? ""),
+        date: read.date(),
+        ...(f.size ? { number: read.fact(f.size, f.actionId ?? "") } : {}),
+        ...issue,
+        ...(area ? { area: read.fact(area, f.actionId ?? "") } : {}),
+        [kind]: read.fact("yes", f.actionId ?? ""),
+      },
+      kind === "rally" ? ["place", "area"] : ["place", "issue"],
+    );
+  };
+
+/** A cabinet nominee told: the president's pick, the Senate's vote that confirmed or rejected them (office-day-federal-president.ts). */
+const cabinet =
+  (
+    kind: "cabinet-nominated" | "cabinet-confirmed" | "cabinet-rejected",
+  ): Builder =>
+  (read, f) => {
+    const yeas = num(f.yes);
+    const nays = num(f.no);
+    return story(
+      kind,
+      {
+        ...read.who(f.nomineeId, "name", false),
+        ...read.who(
+          read.people.find((id) => id !== f.nomineeId),
+          "by",
+          false,
+        ),
+        ...(f.title ? { office: read.fact(f.title, f.postId ?? "") } : {}),
+        ...(kind !== "cabinet-nominated" &&
+        yeas !== undefined &&
+        nays !== undefined
+          ? {
+              yeas: read.fact(count(yeas), f.postId ?? ""),
+              nays: read.fact(count(nays), f.postId ?? ""),
+            }
+          : {}),
+      },
+      ["name", "office"],
+    );
+  };
+
+/** The other side's answer to a governor's address (director/address-response.ts): who answered, whom, and the ask they objected to. */
+const addressResponse: Builder = (read, f) =>
+  story(
+    "address-response",
+    {
+      ...read.who(f.responderId, "name", false),
+      ...read.who(f.governorId, "opponent", false),
+      ...(f.question ? read.issue(f.question) : {}),
+    },
+    ["name", "opponent", "issue"],
+    f.responderId,
+  );
+
+/** The floor before a roll call (legislature.ts recordFloorDebate): who spoke for the bill and who against. */
+const floorDebate: Builder = (read, f) => {
+  const bill = read.billFacts(f.billId, f.number);
+  return story(
+    "floor-debate",
+    {
+      ...read.who(f.forId, "name", false),
+      ...read.who(f.againstId, "opponent", false),
+      ...(bill.designation ? { designation: bill.designation } : {}),
+    },
+    ["name", "opponent", "designation"],
+    f.forId,
+  );
+};
+
+/** A governor's or mayor's yearly address, told by its kind and one line they said. */
+const localAddress =
+  (level: "state" | "town"): Builder =>
+  (read, f) => {
+    const id = f["address:speaker"];
+    const style = f["address:style"];
+    return story(
+      "local-address",
+      {
+        ...read.who(id, "name", false),
+        date: read.date(),
+        [level]: read.yes(),
+        ...(style ? { [`style-${style}`]: read.yes() } : {}),
+        ...(f["address:remembered"]
+          ? { quote: read.fact(f["address:remembered"], id ?? "") }
+          : {}),
+      },
+      ["name"],
+      id,
+    );
+  };
 
 /**
  * The stories the press archived from the year before day one, told from the
@@ -2489,6 +3192,7 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       {
         ...read.who(f.winnerId, "name", false),
         ...(office ? { office: read.fact(office, f.officeId ?? "") } : {}),
+        ...seatFacts(read, f.seatId),
         won: read.yes(),
         ...voteFacts(read, num(f.winnerVotes), num(f.totalVotes), f.recordId),
       },
@@ -2548,7 +3252,9 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       ["subject"],
     );
   },
-  // Reported once, to the survivor: the parent is named from the fact's own names.
+  // Reported once, to the survivor: the parent is named from the fact's own
+  // names, and survived by the resident whose record holds the death, said as
+  // an obituary says its survivors.
   "parent-died": (read, f) => {
     const name = [f.givenName, f.familyName].filter(Boolean).join(" ");
     const survivor = read.name(f.survivorId);
@@ -2557,10 +3263,13 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       {
         ...(name ? { name: read.fact(name, f.survivorId ?? "") } : {}),
         date: read.date(),
-        ...(survivor && f.relation
+        ...(survivor
           ? {
-              relation: read.fact(f.relation, f.survivorId ?? ""),
-              survivor: read.fact(survivor, f.survivorId ?? ""),
+              survivors: read.fact(
+                survivor,
+                f.survivorId ?? "",
+                f.recordId ?? "",
+              ),
             }
           : {}),
       },
@@ -2607,6 +3316,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "budget-line-changed": budgetLine,
   "budget-adopted": budgetAdopted,
   "hazard.disaster": disaster,
+  "national.disaster": nationalDisaster,
   "economy.state-jobs-report": jobsReport,
   "outcome-web.month": conditions,
   "central-bank-rate-decision": rateDecision,
@@ -2615,6 +3325,10 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "public-meeting": publicMeeting,
   "meeting-held": publicMeeting,
   "meetings-week": meetingsWeek,
+  birthday: milestoneBirthday,
+  anniversary,
+  retirement,
+  letter,
   profile,
   interview,
   claim: claimCheck,
@@ -2694,6 +3408,17 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "person-birth": birth,
   "life.death": death,
   "president.address": address,
+  "governor.address": localAddress("state"),
+  "mayor.address": localAddress("town"),
+  "governor.response": addressResponse,
+  "cabinet-nominated": cabinet("cabinet-nominated"),
+  "cabinet-confirmed": cabinet("cabinet-confirmed"),
+  "cabinet-rejected": cabinet("cabinet-rejected"),
+  "floor-debate": floorDebate,
+  "civic.protest": publicAction("protest"),
+  "civic.strike": publicAction("strike"),
+  "civic.rally": publicAction("rally"),
+  "civic.movement": publicAction("movement"),
   "estate.settled": estate,
   "carry-asked": carry,
   "campaign-endorsed": endorsement,

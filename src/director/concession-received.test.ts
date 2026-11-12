@@ -21,6 +21,7 @@ import type { PersonId } from "../core2/types";
 import { storyReply, storyScene } from "../bench/story";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // The call after the count, from the winner's side (episode
 // docs/design/scenes/from-life/concession-call-received.md). In the played
@@ -32,6 +33,8 @@ import type { TreeNode } from "./scene-talk";
 // reply and reaches the pair's tie.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const ATTEMPTS = 32;
+// Hours of time together per step, warming the tie toward a friend.
+const TIE_HOURS = 120;
 const YEAR = 365;
 
 const run = (drawSeed: string): string | null => {
@@ -186,10 +189,12 @@ const run = (drawSeed: string): string | null => {
       margin,
     );
   }
-  // Four replies that are four stances.
+  // Up to four replies, all different stances (owner, Nov 10).
   const replies = scene.talk.tree.replies;
-  expect(replies.length, where).toBe(4);
-  expect(new Set(replies.map((row) => row.line.move)).size, where).toBe(4);
+  expectUpToFourDifferent(
+    replies.map((row) => row.line),
+    where,
+  );
   // Each stance leads somewhere and the scene ends in a named ending.
   for (const reply of replies)
     expect(
@@ -258,6 +263,40 @@ const run = (drawSeed: string): string | null => {
     Object.keys(scene.talk.endingCounts).length,
     `${where}: ${JSON.stringify(scene.talk.endingCounts)}`,
   ).toBeGreaterThan(2);
+
+  // A friend and a rival say different things on the same call: the tie
+  // between caller and winner warmed, then cooled, through the closeness
+  // engine, each version citing the relationship record.
+  const tieId =
+    callerId! < winner ? `${callerId}:${winner}` : `${winner}:${callerId}`;
+  const versions: string[] = [];
+  for (const [side, hours] of [
+    ["tie-friend", TIE_HOURS],
+    ["tie-rival", -3 * TIE_HOURS],
+  ] as const) {
+    let again = null as ReturnType<typeof purposeScene>;
+    for (let step = 0; step < 6; step += 1) {
+      api.relationship(winner, callerId as PersonId, "contact", hours);
+      again = purposeScene(core, director, winner, entry!, {
+        typeKey: "concession-received",
+      });
+      if (
+        again?.kind === "composed" &&
+        again.scene.facts.some((row) => row.key === side)
+      )
+        break;
+    }
+    expect(again?.kind, `${where}: ${side}`).toBe("composed");
+    if (again?.kind !== "composed") continue;
+    const fact = again.scene.facts.find((row) => row.key === side);
+    expect(fact?.recordIds, `${where}: ${side}`).toContain(tieId);
+    versions.push(`${side}: "${again.scene.talk.state.text}"`);
+  }
+  expect(
+    new Set(versions.map((v) => v.split(": ")[1])).size,
+    `${where}: ${versions.join(" / ")}`,
+  ).toBe(2);
+  console.log(`BY TIE ${where} (${tieId}): ${versions.join(" / ")}`);
 
   // CONCESSION_DUMP=<file> writes every branch of the scene for review.
   if (process.env.CONCESSION_DUMP) {

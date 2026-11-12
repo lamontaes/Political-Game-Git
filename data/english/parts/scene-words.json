@@ -13,7 +13,14 @@
     "weekday": "The day of the week, from the moment's date.",
     "month": "The month, from the moment's date.",
     "name": "The member the scene is about, by name, from the member's term.",
-    "issue": "The bill's question, named as the bill catalog records it."
+    "issue": "The bill's question, named as the bill catalog records it.",
+    "cost": "What a law costs the household each month, from the price record it moved.",
+    "law": "A law in force, by its policy's name, from the law record.",
+    "refund": "What a law gave back to the household, from the payment record.",
+    "topic": "What a law is about, as the policy catalog names it, from the law record.",
+    "begins": "The day a scene starts on, with the part of the day, as people say it ('First thing on June 7th'), from the clock.",
+    "where": "The workplace, office or school the scene is set in, from the setting's organization record.",
+    "since": "The day of the record that caused the scene, told as past from the day it plays ('yesterday', 'the other day', 'on January 3rd'), from daySince; absent when the record is from the same day."
   },
   "maxWords": 10,
   "mining": {
@@ -392,6 +399,166 @@
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
       "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.law-cost-your-household-cost",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "{law} cost your household {cost}.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.you-worked-out-that-law-is-why-your-household-paid-cost",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "You worked out that {law} is why your household paid {cost}.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.law-put-refund-back-in-your-household-s-hands",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "{law} put {refund} back in your household's hands.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.you-worked-out-that-law-is-why-your-household-got-refund-back",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "You worked out that {law} is why your household got {refund} back.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.the-law-on-topic-cost-your-household-cost",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "The law on {topic} cost your household {cost}.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.the-law-on-topic-is-why-your-household-paid-cost",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "The law on {topic} is why your household paid {cost}.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.the-law-on-topic-put-refund-back-in-your-household-s-hands",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "The law on {topic} put {refund} back in your household's hands.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.the-law-on-topic-is-why-your-household-got-refund-back",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "The law on {topic} is why your household got {refund} back.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
       "tag": {
         "move": "deliver-news"
       }
@@ -3128,10 +3295,10 @@
       }
     },
     {
-      "key": "scene-words.lead-news-arrives-other.other-asks-you-to-sit-down-first",
+      "key": "scene-words.lead-news-arrives-other.other-has-something-to-tell-you-the-moment-youre-in",
       "move": "lead-news-arrives-other",
       "kind": "spoken",
-      "text": "{other} asks you to sit down first.",
+      "text": "{other} has something to tell you the moment you're in.",
       "uses": [
         {
           "move": "lead-news-arrives-other",
@@ -3142,8 +3309,8 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
+      "author": "Lane 3, words and scenes (Confirmer's note, path 1)",
+      "date": "2026-11-04",
       "tag": {
         "move": "narrate"
       }
@@ -3824,6 +3991,2686 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-30",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-chair-calls-the-roll",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The chair calls the roll.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-chair-puts-the-question-the-clerk-begins-the-roll",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The chair puts the question. The clerk begins the roll.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-clerk-reads-the-bill-the-chair-calls-the-vote",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The clerk reads the bill. The chair calls the vote.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-chair-asks-for-the-vote",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The chair asks for the vote.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.nobody-else-seeks-the-floor-the-chair-puts-the-question",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "Nobody else seeks the floor. The chair puts the question.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-roll-is-called-one-name-at-a-time",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The roll is called, one name at a time.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-chair-puts-the-question-to-the-body",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The chair puts the question to the body.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.debate-is-closed-the-chair-calls-the-roll",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "Debate is closed. The chair calls the roll.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.others-handwriting-leans-hard-right-same-as-always",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "{other}'s handwriting leans hard right, same as always.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.the-stamp-is-crooked-pressed-down-in-a-hurry",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "The stamp is crooked, pressed down in a hurry.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.the-envelope-smells-faintly-of-cedar-you-hold-it-close",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "The envelope smells faintly of cedar. You hold it close.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.a-photo-is-tucked-in-with-the-pages",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "A photo is tucked in with the pages.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.other-filled-both-sides-and-kept-writing-up-the-margin",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "{other} filled both sides and kept writing up the margin.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.you-know-others-hand-before-you-turn-it-over",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "You know {other}'s hand before you turn it over.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.other-went-over-some-lines-twice-pressing-deep",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "{other} went over some lines twice, pressing deep.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.other-drew-a-small-star-beside-the-signature",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "{other} drew a small star beside the signature.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.one-line-near-the-end-is-crossed-out-and-rewritten",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "One line near the end is crossed out and rewritten.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.other-left-room-at-the-bottom-for-your-answer",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "{other} left room at the bottom for your answer.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.one-chair-stays-pushed-in-nobody-sits-there",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "One chair stays pushed in. Nobody sits there.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.you-cut-one-slice-more-than-there-are-people",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "You cut one slice more than there are people.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.the-phone-lies-face-up-beside-the-cake",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "The phone lies face up beside the cake.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.a-card-signed-by-other-is-propped-against-the-cake-stand",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "A card signed by {other} is propped against the cake stand.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.you-count-the-plates-twice-other-would-have-made-one-more",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "You count the plates twice. {other} would have made one more.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.someone-starts-to-say-others-name-then-stops",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "Someone starts to say {other}'s name, then stops.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.they-sing-anyway-a-little-quieter-than-usual",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "They sing anyway, a little quieter than usual.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.someone-makes-a-joke-then-waits-for-other-to-answer",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "Someone makes a joke, then waits for {other} to answer.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.you-wrap-a-slice-for-other-nobody-asks-why",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "You wrap a slice for {other}. Nobody asks why.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.you-lift-your-cup-toward-the-empty-chair",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "You lift your cup toward the empty chair.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.your-legs-give-out-and-the-cup-slips-other-catches-you",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "Your legs give out and the cup slips. {other} catches you.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-slides-a-hand-under-your-head-and-says-your-name",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} slides a hand under your head and says your name.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.the-pain-in-your-chest-tightens-other-counts-your-breaths",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "The pain in your chest tightens. {other} counts your breaths.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-gives-the-address-in-a-level-voice",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} gives the address in a level voice.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.breathing-comes-hard-other-says-help-is-on-the-way",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "Breathing comes hard. {other} says help is on the way.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-pulls-a-coat-over-you-and-stays-close",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} pulls a coat over you and stays close.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.you-try-to-sit-up-other-gently-keeps-you-down",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "You try to sit up. {other} gently keeps you down.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-stays-on-the-line-and-answers-each-question-calmly",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} stays on the line and answers each question calmly.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.the-crew-comes-in-other-steps-back-to-let-them-work",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "The crew comes in. {other} steps back to let them work.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-holds-your-hand-the-whole-way-to-the-hospital",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} holds your hand the whole way to the hospital.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "relieved",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.the-door-opens-before-anyone-knocks-other-stands-there",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "The door opens before anyone knocks. {other} stands there.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.the-bag-on-the-step-still-has-its-paper-tag",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "The bag on the step still has its paper tag.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-looks-at-the-coat-too-big-in-the-shoulders",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} looks at the coat, too big in the shoulders.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.the-smell-of-a-meal-kept-warm-reaches-the-door",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "The smell of a meal kept warm reaches the door.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.the-key-still-fits-other-is-close-enough-to-hear-it",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "The key still fits. {other} is close enough to hear it.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "relieved",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-takes-a-breath-and-steps-back-from-the-doorway",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} takes a breath and steps back from the doorway.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-reaches-for-the-bag-with-the-prison-tag-on-it",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} reaches for the bag with the prison tag on it.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.your-hands-dont-know-where-to-go-other-reaches-first",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "Your hands don't know where to go. {other} reaches first.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-says-your-name-once-quietly",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} says your name once, quietly.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.the-welcome-mat-is-the-same-one-other-nudges-it-straight",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "The welcome mat is the same one. {other} nudges it straight.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-other.begins-name-comes-to-the-house",
+      "move": "arrival-home-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} comes to the house.",
+      "uses": [
+        {
+          "move": "arrival-home-other",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-other.begins-name-stops-in-at-the-house",
+      "move": "arrival-home-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} stops in at the house.",
+      "uses": [
+        {
+          "move": "arrival-home-other",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-other.begins-name-is-at-your-door",
+      "move": "arrival-home-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} is at your door.",
+      "uses": [
+        {
+          "move": "arrival-home-other",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-other.begins-you-sit-down-at-home-with-name",
+      "move": "arrival-home-other",
+      "kind": "spoken",
+      "text": "{begins}, you sit down at home with {name}.",
+      "uses": [
+        {
+          "move": "arrival-home-other",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-alone.begins-the-house-is-quiet",
+      "move": "arrival-home-alone",
+      "kind": "spoken",
+      "text": "{begins}, the house is quiet.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-alone.begins-you-stay-in",
+      "move": "arrival-home-alone",
+      "kind": "spoken",
+      "text": "{begins}, you stay in.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-alone.begins-finds-you-at-home",
+      "move": "arrival-home-alone",
+      "kind": "spoken",
+      "text": "{begins} finds you at home.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-other-home-other.begins-you-stop-by-name-s-place",
+      "move": "arrival-other-home-other",
+      "kind": "spoken",
+      "text": "{begins}, you stop by {name}'s place.",
+      "uses": [
+        {
+          "move": "arrival-other-home-other",
+          "subject": "arrival",
+          "role": "other-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-other-home-other.begins-you-knock-on-name-s-door",
+      "move": "arrival-other-home-other",
+      "kind": "spoken",
+      "text": "{begins}, you knock on {name}'s door.",
+      "uses": [
+        {
+          "move": "arrival-other-home-other",
+          "subject": "arrival",
+          "role": "other-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-other-home-other.begins-you-go-over-to-see-name",
+      "move": "arrival-other-home-other",
+      "kind": "spoken",
+      "text": "{begins}, you go over to see {name}.",
+      "uses": [
+        {
+          "move": "arrival-other-home-other",
+          "subject": "arrival",
+          "role": "other-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-other-home-alone.begins-you-stop-in-at-a-neighbor-s",
+      "move": "arrival-other-home-alone",
+      "kind": "spoken",
+      "text": "{begins}, you stop in at a neighbor's.",
+      "uses": [
+        {
+          "move": "arrival-other-home-alone",
+          "subject": "arrival",
+          "role": "other-home",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-other-home-alone.begins-you-stop-by-a-friend-s-place",
+      "move": "arrival-other-home-alone",
+      "kind": "spoken",
+      "text": "{begins}, you stop by a friend's place.",
+      "uses": [
+        {
+          "move": "arrival-other-home-alone",
+          "subject": "arrival",
+          "role": "other-home",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-other.begins-the-phone-rings-it-s-name",
+      "move": "arrival-phone-other",
+      "kind": "spoken",
+      "text": "{begins}, the phone rings. It's {name}.",
+      "uses": [
+        {
+          "move": "arrival-phone-other",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-other.begins-your-phone-lights-up-with-name-s-name",
+      "move": "arrival-phone-other",
+      "kind": "spoken",
+      "text": "{begins}, your phone lights up with {name}'s name.",
+      "uses": [
+        {
+          "move": "arrival-phone-other",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-other.begins-you-pick-up-the-phone-and-it-s-name",
+      "move": "arrival-phone-other",
+      "kind": "spoken",
+      "text": "{begins}, you pick up the phone and it's {name}.",
+      "uses": [
+        {
+          "move": "arrival-phone-other",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-other.begins-name-calls",
+      "move": "arrival-phone-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} calls.",
+      "uses": [
+        {
+          "move": "arrival-phone-other",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-alone.begins-the-phone-rings",
+      "move": "arrival-phone-alone",
+      "kind": "spoken",
+      "text": "{begins}, the phone rings.",
+      "uses": [
+        {
+          "move": "arrival-phone-alone",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-alone.begins-your-phone-rings",
+      "move": "arrival-phone-alone",
+      "kind": "spoken",
+      "text": "{begins}, your phone rings.",
+      "uses": [
+        {
+          "move": "arrival-phone-alone",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-letter-other.begins-a-letter-comes-from-name",
+      "move": "arrival-letter-other",
+      "kind": "spoken",
+      "text": "{begins}, a letter comes from {name}.",
+      "uses": [
+        {
+          "move": "arrival-letter-other",
+          "subject": "arrival",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-letter-other.begins-you-open-a-letter-from-name",
+      "move": "arrival-letter-other",
+      "kind": "spoken",
+      "text": "{begins}, you open a letter from {name}.",
+      "uses": [
+        {
+          "move": "arrival-letter-other",
+          "subject": "arrival",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-letter-other.begins-the-mail-brings-a-letter-from-name",
+      "move": "arrival-letter-other",
+      "kind": "spoken",
+      "text": "{begins}, the mail brings a letter from {name}.",
+      "uses": [
+        {
+          "move": "arrival-letter-other",
+          "subject": "arrival",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-letter-alone.begins-a-letter-comes-for-you",
+      "move": "arrival-letter-alone",
+      "kind": "spoken",
+      "text": "{begins}, a letter comes for you.",
+      "uses": [
+        {
+          "move": "arrival-letter-alone",
+          "subject": "arrival",
+          "role": "letter",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-letter-alone.begins-you-open-a-letter-that-came-in-the-mail",
+      "move": "arrival-letter-alone",
+      "kind": "spoken",
+      "text": "{begins}, you open a letter that came in the mail.",
+      "uses": [
+        {
+          "move": "arrival-letter-alone",
+          "subject": "arrival",
+          "role": "letter",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-other.begins-you-get-to-where-and-name-comes-over",
+      "move": "arrival-workplace-other",
+      "kind": "spoken",
+      "text": "{begins}, you get to {where}, and {name} comes over.",
+      "uses": [
+        {
+          "move": "arrival-workplace-other",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-other.begins-name-finds-you-at-work-at-where",
+      "move": "arrival-workplace-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} finds you at work at {where}.",
+      "uses": [
+        {
+          "move": "arrival-workplace-other",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-other.begins-name-stops-by-while-you-work",
+      "move": "arrival-workplace-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} stops by while you work.",
+      "uses": [
+        {
+          "move": "arrival-workplace-other",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-other.begins-at-work-you-talk-with-name",
+      "move": "arrival-workplace-other",
+      "kind": "spoken",
+      "text": "{begins}, at work, you talk with {name}.",
+      "uses": [
+        {
+          "move": "arrival-workplace-other",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-alone.begins-you-head-in-to-work-at-where",
+      "move": "arrival-workplace-alone",
+      "kind": "spoken",
+      "text": "{begins}, you head in to work at {where}.",
+      "uses": [
+        {
+          "move": "arrival-workplace-alone",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-alone.begins-you-start-your-shift",
+      "move": "arrival-workplace-alone",
+      "kind": "spoken",
+      "text": "{begins}, you start your shift.",
+      "uses": [
+        {
+          "move": "arrival-workplace-alone",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-other.begins-you-head-to-where-and-speak-to-name",
+      "move": "arrival-office-other",
+      "kind": "spoken",
+      "text": "{begins}, you head to {where} and speak to {name}.",
+      "uses": [
+        {
+          "move": "arrival-office-other",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-other.begins-you-walk-into-where-to-see-name",
+      "move": "arrival-office-other",
+      "kind": "spoken",
+      "text": "{begins}, you walk into {where} to see {name}.",
+      "uses": [
+        {
+          "move": "arrival-office-other",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-other.begins-you-stop-by-the-office-to-speak-with-name",
+      "move": "arrival-office-other",
+      "kind": "spoken",
+      "text": "{begins}, you stop by the office to speak with {name}.",
+      "uses": [
+        {
+          "move": "arrival-office-other",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-other.begins-name-meets-you-at-the-office",
+      "move": "arrival-office-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} meets you at the office.",
+      "uses": [
+        {
+          "move": "arrival-office-other",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-alone.begins-you-head-to-where",
+      "move": "arrival-office-alone",
+      "kind": "spoken",
+      "text": "{begins}, you head to {where}.",
+      "uses": [
+        {
+          "move": "arrival-office-alone",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-alone.begins-you-head-into-the-office",
+      "move": "arrival-office-alone",
+      "kind": "spoken",
+      "text": "{begins}, you head into the office.",
+      "uses": [
+        {
+          "move": "arrival-office-alone",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-chamber-other.begins-you-walk-into-the-chamber-and-name-turns-to-you",
+      "move": "arrival-chamber-other",
+      "kind": "spoken",
+      "text": "{begins}, you walk into the chamber, and {name} turns to you.",
+      "uses": [
+        {
+          "move": "arrival-chamber-other",
+          "subject": "arrival",
+          "role": "chamber",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-chamber-other.begins-you-take-your-seat-and-name-is-beside-you",
+      "move": "arrival-chamber-other",
+      "kind": "spoken",
+      "text": "{begins}, you take your seat, and {name} is beside you.",
+      "uses": [
+        {
+          "move": "arrival-chamber-other",
+          "subject": "arrival",
+          "role": "chamber",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-chamber-other.begins-in-the-chamber-you-speak-with-name",
+      "move": "arrival-chamber-other",
+      "kind": "spoken",
+      "text": "{begins}, in the chamber, you speak with {name}.",
+      "uses": [
+        {
+          "move": "arrival-chamber-other",
+          "subject": "arrival",
+          "role": "chamber",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-chamber-alone.begins-you-take-your-seat-in-the-chamber",
+      "move": "arrival-chamber-alone",
+      "kind": "spoken",
+      "text": "{begins}, you take your seat in the chamber.",
+      "uses": [
+        {
+          "move": "arrival-chamber-alone",
+          "subject": "arrival",
+          "role": "chamber",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-chamber-alone.begins-the-chamber-is-filling-up",
+      "move": "arrival-chamber-alone",
+      "kind": "spoken",
+      "text": "{begins}, the chamber is filling up.",
+      "uses": [
+        {
+          "move": "arrival-chamber-alone",
+          "subject": "arrival",
+          "role": "chamber",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-school-other.begins-you-walk-into-where-and-name-finds-you",
+      "move": "arrival-school-other",
+      "kind": "spoken",
+      "text": "{begins}, you walk into {where}, and {name} finds you.",
+      "uses": [
+        {
+          "move": "arrival-school-other",
+          "subject": "arrival",
+          "role": "school",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-school-other.begins-at-school-you-talk-with-name",
+      "move": "arrival-school-other",
+      "kind": "spoken",
+      "text": "{begins}, at school, you talk with {name}.",
+      "uses": [
+        {
+          "move": "arrival-school-other",
+          "subject": "arrival",
+          "role": "school",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-school-other.begins-name-catches-you-at-school",
+      "move": "arrival-school-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} catches you at school.",
+      "uses": [
+        {
+          "move": "arrival-school-other",
+          "subject": "arrival",
+          "role": "school",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-school-alone.begins-you-walk-into-where",
+      "move": "arrival-school-alone",
+      "kind": "spoken",
+      "text": "{begins}, you walk into {where}.",
+      "uses": [
+        {
+          "move": "arrival-school-alone",
+          "subject": "arrival",
+          "role": "school",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-school-alone.begins-you-head-to-school",
+      "move": "arrival-school-alone",
+      "kind": "spoken",
+      "text": "{begins}, you head to school.",
+      "uses": [
+        {
+          "move": "arrival-school-alone",
+          "subject": "arrival",
+          "role": "school",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-public-other.begins-you-run-into-name-on-the-street",
+      "move": "arrival-public-other",
+      "kind": "spoken",
+      "text": "{begins}, you run into {name} on the street.",
+      "uses": [
+        {
+          "move": "arrival-public-other",
+          "subject": "arrival",
+          "role": "public",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-public-other.begins-out-and-about-you-stop-to-talk-with-name",
+      "move": "arrival-public-other",
+      "kind": "spoken",
+      "text": "{begins}, out and about, you stop to talk with {name}.",
+      "uses": [
+        {
+          "move": "arrival-public-other",
+          "subject": "arrival",
+          "role": "public",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-public-other.begins-name-walks-up-to-you-in-the-street",
+      "move": "arrival-public-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} walks up to you in the street.",
+      "uses": [
+        {
+          "move": "arrival-public-other",
+          "subject": "arrival",
+          "role": "public",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-public-alone.begins-you-run-errands-in-town",
+      "move": "arrival-public-alone",
+      "kind": "spoken",
+      "text": "{begins}, you run errands in town.",
+      "uses": [
+        {
+          "move": "arrival-public-alone",
+          "subject": "arrival",
+          "role": "public",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-public-alone.begins-you-head-out-into-town",
+      "move": "arrival-public-alone",
+      "kind": "spoken",
+      "text": "{begins}, you head out into town.",
+      "uses": [
+        {
+          "move": "arrival-public-alone",
+          "subject": "arrival",
+          "role": "public",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-venue-other.begins-you-meet-name-downtown",
+      "move": "arrival-venue-other",
+      "kind": "spoken",
+      "text": "{begins}, you meet {name} downtown.",
+      "uses": [
+        {
+          "move": "arrival-venue-other",
+          "subject": "arrival",
+          "role": "venue",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-venue-other.begins-you-head-out-and-name-comes-over",
+      "move": "arrival-venue-other",
+      "kind": "spoken",
+      "text": "{begins}, you head out, and {name} comes over.",
+      "uses": [
+        {
+          "move": "arrival-venue-other",
+          "subject": "arrival",
+          "role": "venue",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-venue-other.begins-name-is-waiting-for-you-downtown",
+      "move": "arrival-venue-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} is waiting for you downtown.",
+      "uses": [
+        {
+          "move": "arrival-venue-other",
+          "subject": "arrival",
+          "role": "venue",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-venue-alone.begins-you-head-out-for-the-evening",
+      "move": "arrival-venue-alone",
+      "kind": "spoken",
+      "text": "{begins}, you head out for the evening.",
+      "uses": [
+        {
+          "move": "arrival-venue-alone",
+          "subject": "arrival",
+          "role": "venue",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-venue-alone.begins-you-ve-come-out-to-a-public-place",
+      "move": "arrival-venue-alone",
+      "kind": "spoken",
+      "text": "{begins}, you've come out to a public place.",
+      "uses": [
+        {
+          "move": "arrival-venue-alone",
+          "subject": "arrival",
+          "role": "venue",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "move": "lead-job-offer-alone",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "lead-job-offer-alone",
+          "subject": "lead",
+          "role": "job-offer",
+          "choice": "alone"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "key": "scene-words.lead-job-offer-alone.a-call-has-come-in-about-your-application",
+      "text": "A call has come in about your application.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 1)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "cause-shared-other",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "cause-shared-other",
+          "subject": "cause",
+          "role": "feeling:event:cause.shared",
+          "choice": "other"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news"
+      },
+      "key": "scene-words.cause-shared-other.on-one-issue-you-and-other-agree",
+      "text": "On one issue, you and {other} agree.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 1)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "cause-shared-other",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "cause-shared-other",
+          "subject": "cause",
+          "role": "feeling:event:cause.shared",
+          "choice": "other"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news"
+      },
+      "key": "scene-words.cause-shared-other.other-and-you-stand-on-the-same-side-of-an-issue",
+      "text": "{other} and you stand on the same side of an issue.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 1)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "opening-request-request",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "opening-request-request",
+          "subject": "opening",
+          "role": "request",
+          "choice": "request"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "key": "scene-words.opening-request-request.who-wants-to-ask-you-something",
+      "text": "{who} wants to ask you something.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 1)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "opening-request-request",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "opening-request-request",
+          "subject": "opening",
+          "role": "request",
+          "choice": "request"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "key": "scene-words.opening-request-request.who-has-a-request-for-you",
+      "text": "{who} has a request for you.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 1)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "opening-farewell-farewell",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "opening-farewell-farewell",
+          "subject": "opening",
+          "role": "farewell",
+          "choice": "farewell"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "key": "scene-words.opening-farewell-farewell.who-is-here-to-say-goodbye",
+      "text": "{who} is here to say goodbye.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 3)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "opening-farewell-farewell",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "opening-farewell-farewell",
+          "subject": "opening",
+          "role": "farewell",
+          "choice": "farewell"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "key": "scene-words.opening-farewell-farewell.who-came-to-say-goodbye",
+      "text": "{who} came to say goodbye.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 3)",
+      "date": "2026-11-10"
+    },
+    {
+      "key": "scene-words.arrival-home-other.begins-name-comes-to-the-house-about-what-happened-since",
+      "move": "arrival-home-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} comes to the house about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-home-other",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-other.begins-you-sit-down-with-name-over-the-news-since",
+      "move": "arrival-home-other",
+      "kind": "spoken",
+      "text": "{begins}, you sit down with {name} over the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-home-other",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-alone.begins-you-stay-in-still-thinking-about-what-happened-since",
+      "move": "arrival-home-alone",
+      "kind": "spoken",
+      "text": "{begins}, you stay in, still thinking about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-other-home-other.begins-you-stop-by-name-s-place-about-what-happened-since",
+      "move": "arrival-other-home-other",
+      "kind": "spoken",
+      "text": "{begins}, you stop by {name}'s place about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-other-home-other",
+          "subject": "arrival",
+          "role": "other-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-other-home-alone.begins-you-stop-at-a-neighbor-s-over-the-news-since",
+      "move": "arrival-other-home-alone",
+      "kind": "spoken",
+      "text": "{begins}, you stop at a neighbor's over the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-other-home-alone",
+          "subject": "arrival",
+          "role": "other-home",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-other.begins-name-calls-about-what-happened-since",
+      "move": "arrival-phone-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} calls about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-phone-other",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-other.begins-the-phone-rings-it-s-name-about-the-news-since",
+      "move": "arrival-phone-other",
+      "kind": "spoken",
+      "text": "{begins}, the phone rings. It's {name}, about the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-phone-other",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-alone.begins-the-phone-rings-it-s-about-what-happened-since",
+      "move": "arrival-phone-alone",
+      "kind": "spoken",
+      "text": "{begins}, the phone rings. It's about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-phone-alone",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-letter-other.begins-a-letter-comes-from-name-about-what-happened-since",
+      "move": "arrival-letter-other",
+      "kind": "spoken",
+      "text": "{begins}, a letter comes from {name} about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-letter-other",
+          "subject": "arrival",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-letter-alone.begins-a-letter-comes-for-you-about-what-happened-since",
+      "move": "arrival-letter-alone",
+      "kind": "spoken",
+      "text": "{begins}, a letter comes for you about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-letter-alone",
+          "subject": "arrival",
+          "role": "letter",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-other.begins-name-finds-you-at-work-about-what-happened-since",
+      "move": "arrival-workplace-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} finds you at work about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-workplace-other",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-alone.begins-you-head-in-to-work-still-on-the-news-since",
+      "move": "arrival-workplace-alone",
+      "kind": "spoken",
+      "text": "{begins}, you head in to work, still on the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-workplace-alone",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-other.begins-you-head-to-where-to-see-name-about-what-happened-sin",
+      "move": "arrival-office-other",
+      "kind": "spoken",
+      "text": "{begins}, you head to {where} to see {name} about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-office-other",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-alone.begins-you-head-into-the-office-still-on-the-news-since",
+      "move": "arrival-office-alone",
+      "kind": "spoken",
+      "text": "{begins}, you head into the office, still on the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-office-alone",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-chamber-other.begins-in-the-chamber-name-brings-up-what-happened-since",
+      "move": "arrival-chamber-other",
+      "kind": "spoken",
+      "text": "{begins}, in the chamber, {name} brings up what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-chamber-other",
+          "subject": "arrival",
+          "role": "chamber",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-chamber-alone.begins-the-chamber-fills-up-everyone-on-the-news-since",
+      "move": "arrival-chamber-alone",
+      "kind": "spoken",
+      "text": "{begins}, the chamber fills up, everyone on the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-chamber-alone",
+          "subject": "arrival",
+          "role": "chamber",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-school-other.begins-name-catches-you-at-school-about-what-happened-since",
+      "move": "arrival-school-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} catches you at school about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-school-other",
+          "subject": "arrival",
+          "role": "school",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-school-alone.begins-you-head-to-school-still-on-the-news-since",
+      "move": "arrival-school-alone",
+      "kind": "spoken",
+      "text": "{begins}, you head to school, still on the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-school-alone",
+          "subject": "arrival",
+          "role": "school",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-public-other.begins-name-stops-you-in-the-street-about-what-happened-sinc",
+      "move": "arrival-public-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} stops you in the street about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-public-other",
+          "subject": "arrival",
+          "role": "public",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-public-alone.begins-in-town-people-are-talking-about-what-happened-since",
+      "move": "arrival-public-alone",
+      "kind": "spoken",
+      "text": "{begins}, in town, people are talking about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-public-alone",
+          "subject": "arrival",
+          "role": "public",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-venue-other.begins-you-meet-name-downtown-to-talk-over-what-happened-sin",
+      "move": "arrival-venue-other",
+      "kind": "spoken",
+      "text": "{begins}, you meet {name} downtown to talk over what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-venue-other",
+          "subject": "arrival",
+          "role": "venue",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-venue-alone.begins-you-head-out-and-the-talk-is-the-news-since",
+      "move": "arrival-venue-alone",
+      "kind": "spoken",
+      "text": "{begins}, you head out, and the talk is the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-venue-alone",
+          "subject": "arrival",
+          "role": "venue",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
       "tag": {
         "move": "narrate"
       }

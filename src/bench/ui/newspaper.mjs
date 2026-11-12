@@ -1,14 +1,6 @@
-/* global document */
-// The newspaper: the menu type of News. The sheet is the paper itself (owner, Oct 28,
-// point 25: "the page, the type, the columns, every story on it"): a front page per
-// outlet (its masthead, the dateline, the lead story with its text and photo, the next
-// stories beside it, the briefs across the foot), a story opened in place on the same page
-// as its lead, and the outlet tabs. Nothing pages: every story's whole text is printed. The screen hands it the outlets with their stories in
-// words, the labels, the day, and how to name a story and find its photo.
+// The newspaper's art and the reader: the engraved masthead art, a story's fixed picture, and
+// the reader that opens a story (the news toast). The News screen itself is `news-board.mjs`.
 import { el } from "./dom.mjs";
-import { makeButton } from "./button.mjs";
-import { makeTab, chooseTab } from "./tab.mjs";
-import { dateWords } from "../../english/plain-words.mjs";
 
 /**
  * The newspaper art (art/newspaper-mockups, owner Oct 28). Each paper keeps
@@ -41,7 +33,6 @@ const MASTHEADS = {
     },
   ],
 };
-const LAYOUTS = ["broadsheet", "modern", "tabloid", "weekly"];
 /** One of `list`, always the same one for the same record. */
 export const sameFor = (list, key) =>
   list[
@@ -74,217 +65,29 @@ export function engraveMasthead(name, outlet) {
   name.replaceChildren(plate);
 }
 
-/** The outlet tabs and the paper, for the sheet's body. */
-export function newspaperScreen({
-  outlets,
-  labels,
-  date,
-  headlineOf,
-  photoOf,
-}) {
-  let chosen = outlets.keys().next().value;
-  // A story the player opened: it takes the lead's place on the same page.
-  let opened = null;
-  const paper = el("section", { className: "paper" });
-  const outletPicker = el("nav", { className: "outlet-picker" });
-  const imageFor = (story) => {
-    const url =
-      story.presentation?.imageUrl ?? story.imageUrl ?? photoOf(story);
-    if (!url) return [];
-    const image = el("img", {
-      className: "story-image",
-      src: url,
-      alt: story.presentation?.imageAlt ?? "",
-    });
-    image.onerror = () => image.remove();
-    return [image];
-  };
-  // A story's printed text: its written paragraphs, else its lede when the
-  // lede is not the headline said again; a newscast's spoken lines (greetings,
-  // hand-offs) are not print, and a headline is never its own body.
-  const told = (story) =>
-    story.paragraphs ??
-    (story.lede && story.headline && story.lede !== story.headline
-      ? [story.lede]
-      : []);
-  // The masthead: the paper's name (clicking it returns to the front page), the
-  // dateline under it. A broadsheet or weekly sets its name in the engraved
-  // plate of the mockups' art; a modern paper or a tabloid runs it on a bar.
-  const masthead = (outlet, layout) => {
-    const name = makeButton({
-      className: "paper-masthead-name",
-      textContent: outlet.name ?? labels.title,
-    });
-    name.onclick = () => {
-      opened = null;
-      draw();
-    };
-    if (layout === "broadsheet" || layout === "weekly")
-      engraveMasthead(name, outlet);
-    return [
-      el("header", { className: "paper-masthead" }, name),
-      el(
-        "div",
-        { className: "paper-dateline" },
-        el("span", { textContent: dateWords(date, { weekday: true }) }),
-      ),
-    ];
-  };
-  const layoutOf = (outlet) =>
-    LAYOUTS.includes(outlet.layout) ? outlet.layout : "broadsheet";
-  const draw = () => {
-    const outlet = outlets.get(chosen);
-    const layout = layoutOf(outlet);
-    paper.className = `paper paper-${layout}`;
-    // The front page, every story on it: the lead with its text and photo,
-    // the next stories with text beside it, and the stories with only a
-    // headline as briefs across the foot. Every word is the English engine's;
-    // record rows with kinds and series names are not printed.
-    // The lead is the story with the most to print (the paper's written
-    // story before a one-line notice); the rest keep their order, newest first.
-    // Side stories (the words engine's `brief`): a line or two, set in a side column,
-    // never opened as a story.
-    const side = outlet.stories.filter((story) => story.brief);
-    const front = outlet.stories.filter((story) => !story.brief);
-    const lead = front.includes(opened)
-      ? opened
-      : front.reduce(
-          (best, story) =>
-            best && told(best).length >= told(story).length ? best : story,
-          undefined,
-        );
-    const rest = front.filter((story) => story !== lead);
-    const withText = rest.filter((story) => told(story).length);
-    const briefs = rest.filter((story) => !told(story).length);
-    const storyBlock = (story, className) => {
-      const headline = makeButton({
-        className: "story-headline",
-        textContent: headlineOf(story),
-      });
-      headline.onclick = () => {
-        opened = story === lead ? null : story;
-        draw();
-        document.getElementById("sheet-body")?.scrollTo(0, 0);
-      };
-      const text = told(story);
-      return el(
-        "article",
-        { className: `paper-story ${className}` },
-        headline,
-        ...(text.length && className === "lead"
-          ? [el("p", { className: "story-lede", textContent: text[0] })]
-          : []),
-        ...(className === "lead" ? imageFor(story) : []),
-        ...(className === "lead"
-          ? text.length > 1
-            ? [
-                el(
-                  "div",
-                  { className: "story-body" },
-                  ...text
-                    .slice(1)
-                    .map((line) =>
-                      el("p", { className: "story-text", textContent: line }),
-                    ),
-                ),
-              ]
-            : []
-          : text.map((line, at) =>
-              el("p", {
-                className: at === 0 ? "story-lede" : "story-text",
-                textContent: line,
-              }),
-            )),
-      );
-    };
-    paper.replaceChildren(
-      ...masthead(outlet, layout),
-      el(
-        "div",
-        { className: "paper-stories" },
-        ...(lead ? [storyBlock(lead, "lead")] : []),
-        ...(withText.length
-          ? [
-              el(
-                "div",
-                { className: "paper-column" },
-                ...withText.map((story) => storyBlock(story, "second")),
-              ),
-            ]
-          : []),
-        ...(side.length
-          ? [
-              el(
-                "aside",
-                { className: "paper-side" },
-                ...side.map((story) =>
-                  el(
-                    "article",
-                    { className: "paper-story side" },
-                    el("h4", {
-                      className: "side-headline",
-                      textContent: headlineOf(story),
-                    }),
-                    ...told(story).map((line) =>
-                      el("p", { className: "story-text", textContent: line }),
-                    ),
-                  ),
-                ),
-              ),
-            ]
-          : []),
-        ...(briefs.length
-          ? [
-              el(
-                "div",
-                { className: "paper-briefs" },
-                ...briefs.map((story) => storyBlock(story, "brief")),
-              ),
-            ]
-          : []),
-      ),
-    );
-    chooseTab(outletPicker, "outlet", chosen);
-  };
-  if (outlets.size > 1)
-    for (const [key, outlet] of outlets) {
-      outletPicker.append(
-        makeTab({
-          key,
-          attr: "outlet",
-          label: outlet.name,
-          onSelect: () => {
-            chosen = key;
-            opened = null;
-            draw();
-          },
-        }),
-      );
-    }
-  draw();
-  return [outletPicker, paper];
-}
-
-/** The reader's body: the lead story's photo, its printed or spoken text, the address. */
-export function readerBody({ lead, address, photo }) {
+/** The reader's body: the lead story's photo, then whatever text it holds (printed, spoken, its lede, the address), else the worded reason it has none. */
+export function readerBody({ lead, address, photo, none }) {
+  const prose = (text, className = "prose") =>
+    el("p", { className, textContent: text });
+  const printed = lead.paragraphs ?? [];
+  const spoken = (lead.broadcast ?? []).map((line) => line.text);
+  const lede =
+    lead.lede && lead.lede !== lead.headline && !printed.length
+      ? [lead.lede]
+      : [];
+  const text = [
+    ...printed.map((t) => prose(t)),
+    ...(printed.length ? [] : spoken.map((t) => prose(t))),
+    ...lede.map((t) => prose(t)),
+    ...(printed.length
+      ? []
+      : (address ?? []).map((t) => prose(t, "speech quote"))),
+  ];
   return [
     ...(photo
       ? [el("img", { className: "story-image", src: photo, alt: "" })]
       : []),
-    // A story the paper prints (lede, figures, one quote) reads as printed;
-    // otherwise the broadcast, then the address as the record quotes it.
-    ...(lead.paragraphs
-      ? lead.paragraphs.map((text) =>
-          el("p", { className: "prose", textContent: text }),
-        )
-      : [
-          ...lead.broadcast.map((line) =>
-            el("p", { className: "prose", textContent: line.text }),
-          ),
-          ...address.map((text) =>
-            el("p", { className: "speech quote", textContent: text }),
-          ),
-        ]),
+    ...(text.length ? text : none ? [prose(none)] : []),
   ];
 }
 

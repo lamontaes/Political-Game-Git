@@ -62,34 +62,31 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Issues", exact: true })
     .click();
-  await page.locator("#sheet-body .issue-cards .entry").first().waitFor();
+  await page.locator("#sheet-body .issues-laws .roster-row").first().waitFor();
   if (shots)
     await page.screenshot({
       path: `${shots}/${process.env.SHOT_NAME ?? "after"}-issues.png`,
     });
-  // Every card on every page of every subject, by its heading: the subjects
-  // sit on a rail and each pages its cards (owner, Oct 29: no scrolling).
+  // Every law row on every page of every subject, by its name and the law now in force.
   const cards = new Map();
-  const subjects = await page
-    .locator("#sheet-body [data-subject]")
-    .evaluateAll((tabs) => tabs.map((t) => t.dataset.subject));
-  for (const subject of subjects) {
-    await page.locator(`#sheet-body [data-subject="${subject}"]`).click();
-    for (;;) {
-      for (const card of await page
-        .locator("#sheet-body .issue-cards .entry")
+  await eachSubject(page, async () => {
+    {
+      for (const row of await page
+        .locator("#sheet-body .issues-laws .roster-row")
         .all()) {
-        const name = await card.locator("h3").innerText();
+        const name = await row.locator("b").innerText();
+        await row.click();
+        await page.waitForTimeout(60);
+        // The law's page says who sets it: the card's text is its name, value and page.
         cards.set(
           name.toLowerCase(),
-          await card.locator(".entry-value").innerText(),
+          `${(await row.locator("span").count()) ? await row.locator("span").innerText() : ""} ${await page
+            .locator("#sheet-body .issues-laws .roster-page")
+            .innerText()}`,
         );
       }
-      const next = page.locator("#sheet-body .issue-cards .pager-arrow").nth(1);
-      if (!(await next.isVisible()) || !(await next.isEnabled())) break;
-      await next.click();
     }
-  }
+  });
   assert.ok(cards.size >= 3, "Issues shows no laws");
   const controls = await (
     await page.request.get(`${base}/api/controls`)
@@ -148,4 +145,22 @@ try {
   );
 } finally {
   await browser.close();
+}
+
+// The Subject filter's choices; visit each subject.
+async function eachSubject(page, visit) {
+  {
+    const select = page.locator("#sheet-body select.issue-filter");
+    const subjects = await select
+      .locator("option")
+      .evaluateAll((all) => all.map((o) => o.value).filter((v) => v !== "all"));
+    for (const subject of subjects) {
+      await select.selectOption(subject);
+      await page
+        .locator("#sheet-body .issues-laws .roster-row")
+        .first()
+        .waitFor();
+      if ((await visit()) === true) return;
+    }
+  }
 }

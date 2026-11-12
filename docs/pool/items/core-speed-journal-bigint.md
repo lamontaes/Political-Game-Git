@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -30,3 +30,7 @@ Oct 20 (claude/political-game-pool-b6g0dl): built the same change a second time 
 Oct 25 (speed lead), on main 01f5cd4715: a sampling heap profile of seed m7a's played year (Discovery Harbour, Hawaii, key 1505900, the world `npm run speed:year -- --seed m7a` plays; 17,420 MB allocated) puts `plusTotals` at 135 MB and `volumes` at 91 MB, 226 MB together, under half of the 770 MB this item started from; the `exactSum` path is on main. The journal tests pass on main (`journal` 18, `journal-state` 63, `journal-facade` 17) and `accounts` (6). Recommend the CTO mark it done; no PR during the play-first freeze. <!-- british-spelling-ok: Discovery Harbour is the place's name -->
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (journal-state.ts:addExact).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. Measured twice (Oct 20, and a sampling heap profile Oct 25): plain safe-integer sums cut allocation about 2.6 percent but the year was 36.2/36.8 s against 35.7/35.9 s on main, so the journal's cost is not its number type, and the item itself says it should not merge. The posting cost it names was cut by core-speed-journal-posting-in-play (#5907) and core-speed-alloc-cash-journal (done); `exactSum` is gone.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

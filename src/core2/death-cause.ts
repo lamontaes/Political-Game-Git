@@ -15,7 +15,7 @@
  */
 import causeData from "./data/health/death-causes.json" with { type: "json" };
 import { ssa2023AnnualProbability } from "./health-mortality-table";
-import { webReach, type Subject } from "./outcome-web-reach";
+import { webDayCache, webReach, type Subject } from "./outcome-web-reach";
 import { registerWorldMapPart } from "./snapshot";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -150,11 +150,6 @@ export interface CauseMix {
   readonly recordId: string | null;
 }
 
-const CACHE = new WeakMap<
-  object,
-  { date: string; rows: Map<string, CauseMix> }
->();
-
 /**
  * The web's factor on every cause for a person of this age and income fifth,
  * cached by place, age and fifth for the day. The hazard factor is the base
@@ -166,15 +161,10 @@ export function causeMix(
   age: number,
   incomeFifth?: number,
 ): CauseMix {
-  const core = api.state as CoreState;
-  let cache = CACHE.get(core);
-  if (!cache || cache.date !== core.date) {
-    cache = { date: core.date, rows: new Map() };
-    CACHE.set(core, cache);
-  }
+  const cache = webDayCache<CauseMix>(api, "cause-mix");
   const whole = Math.max(0, Math.floor(age));
   const key = `${placeId}|${whole}|${incomeFifth ?? "-"}`;
-  const found = cache.rows.get(key);
+  const found = cache.get(key);
   if (found) return found;
   const subject: Subject = {
     age: whole,
@@ -203,7 +193,7 @@ export function causeMix(
   for (const cause of CAUSES)
     shares[cause.id] = (base[cause.id]! * causeFactors[cause.id]!) / factor;
   const result: CauseMix = { factor, shares, causeFactors, recordId };
-  cache.rows.set(key, result);
+  cache.set(key, result);
   return result;
 }
 
@@ -257,4 +247,46 @@ export function assignDeathCause(
     pick = OVERDOSE_CAUSE;
   carry.set(keyOf(pick), carry.get(keyOf(pick))! - weight);
   return { cause: pick, recordId: mix.recordId };
+}
+
+/**
+ * PLACEHOLDER(research: how-long-a-serious-illness-lasts-by-age). How many
+ * days a serious episode runs before the death it ends in: the longest for a
+ * young person with no recorded condition, shrinking smoothly with age, with
+ * the recorded conditions that multiplied their strain, and without coverage.
+ */
+export const SERIOUS_EPISODE_REMAINING_DAYS = {
+  shortest: 30,
+  longest: 300,
+  /** The age at which the age share is one half, and the span of its turn. */
+  ageTurn: { atAge: 75, widthYears: 40 },
+  /** How much of the days a person whose coverage record says uncovered keeps. */
+  uncoveredDaysFactor: 0.75,
+} as const;
+
+/**
+ * The days a serious episode runs before the death it ends in. `severity` is
+ * the product of the recorded multipliers on the person's strain (1 when
+ * nothing is recorded); `covered` is their coverage record, or null when none
+ * exists. Smooth in age and severity; at least one day.
+ */
+export function remainingDaysAfterOnset(input: {
+  readonly age: number;
+  readonly severity: number;
+  readonly covered: boolean | null;
+}): number {
+  const days = SERIOUS_EPISODE_REMAINING_DAYS;
+  const youth =
+    1 /
+    (1 +
+      Math.exp(
+        (input.age - days.ageTurn.atAge) / (days.ageTurn.widthYears / 4),
+      ));
+  const share =
+    (youth / Math.max(1, input.severity)) *
+    (input.covered === false ? days.uncoveredDaysFactor : 1);
+  return Math.max(
+    1,
+    Math.round(days.shortest + (days.longest - days.shortest) * share),
+  );
 }

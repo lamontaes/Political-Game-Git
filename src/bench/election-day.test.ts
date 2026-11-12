@@ -22,7 +22,7 @@ import {
   ELECTIONS_MODULE_ID,
   playerContests,
 } from "../core2/modules/elections";
-import { ballotOf } from "../core2/modules/voting";
+import { ballotOf, pollingPlaceOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { composeJournal } from "../director/journal";
@@ -56,23 +56,48 @@ it("election morning offers a canvass and the vote, staying home casts nothing, 
     const md = born.slice(5) === "02-29" ? "03-01" : born.slice(5);
     const eighteen = makeIsoDate(`${Number(born.slice(0, 4)) + 18}-${md}`);
     if (eighteen > core.date) advanceCore(core, eighteen);
-    const filed = [...playerContests(api)]
-      .sort(
+    // Every race opens its filing on a real day, so on the birthday most
+    // places have none open yet, and the first to open may refuse an
+    // 18-year-old (age for governor or Congress). The world runs a week at a
+    // time, at most 60 weeks, until a race on the clerk's list takes the
+    // player's filing, as the game offers it then.
+    let weeksWaited = 0;
+    const refused = new Map<string, string>();
+    let filed: ReturnType<typeof playerContests>[number] | undefined;
+    for (;;) {
+      for (const contest of [...playerContests(api)].sort(
         (a, b) =>
           a.electionDate.localeCompare(b.electionDate) ||
           a.id.localeCompare(b.id),
-      )
-      .find((contest) =>
-        ["petitioning", "on-ballot"].includes(
-          (
-            fileForOffice(core, playerId!, contest.id) as {
-              filing?: { status?: string };
-            }
-          ).filing?.status ?? "",
-        ),
-      );
+      )) {
+        const result = fileForOffice(core, playerId!, contest.id) as {
+          status?: string;
+          filing?: { status?: string };
+          unmet?: readonly { rule: string }[];
+        };
+        if (
+          ["petitioning", "on-ballot"].includes(result.filing?.status ?? "")
+        ) {
+          filed = contest;
+          break;
+        }
+        refused.set(
+          contest.id,
+          (result.unmet ?? []).map((check) => check.rule).join("+") ||
+            String(result.status),
+        );
+      }
+      if (filed || weeksWaited >= 60) break;
+      advanceCore(core, addDays(makeIsoDate(core.date), 7));
+      weeksWaited += 1;
+    }
     if (!filed) {
-      tried.push(`${where}: no race the player could enter`);
+      tried.push(
+        `${where}: no race took the player's filing after ${weeksWaited} weeks (reached ${core.date}); refused: ${
+          [...refused].map(([id, rule]) => `${id} (${rule})`).join(", ") ||
+          "none open"
+        }`,
+      );
       continue;
     }
     // Filing is a petition: the player canvasses for signatures until it
@@ -104,7 +129,9 @@ it("election morning offers a canvass and the vote, staying home casts nothing, 
       tried.push(`${where}: election morning never came for ${filed.id}`);
       continue;
     }
-    console.log(`election-day: ${where}, race ${filed.id}`);
+    console.log(
+      `election-day: ${where}, waited ${weeksWaited} weeks (to ${core.date}), race ${filed.id}`,
+    );
 
     // Election morning: the narrator, the canvass for a candidate, the ask.
     const day = electionDay(core, playerId!, visit, false);
@@ -113,8 +140,48 @@ it("election morning offers a canvass and the vote, staying home casts nothing, 
       day.lines.some((line) => line.sourceRecordIds.includes(filed.id)),
       `${where}: the morning cites ${filed.id}`,
     ).toBe(true);
+    // The morning says where the voter votes, from the voting engine's
+    // polling place record: its building by name, the precinct where the town
+    // has several, and one of the people working it.
+    expect(visit.pollingPlaceId, `${where}: a polling place`).toBeTruthy();
+    const polls = pollingPlaceOf(api, playerId!, visit.record.electionDate)!;
+    const building = core.organizations.get(polls.buildingId as EntityId);
+    if (building) {
+      const where_ = day.lines.find((line) =>
+        line.text.includes(building.name),
+      );
+      expect(
+        where_,
+        `${where}: the morning names ${building.name}`,
+      ).toBeTruthy();
+      expect(where_!.sourceRecordIds, where).toContain(polls.id);
+    }
+    if (polls.precincts > 1)
+      expect(
+        day.lines.some((line) =>
+          line.text.includes(`precinct ${polls.precinct}`),
+        ),
+        `${where}: the morning names precinct ${polls.precinct}`,
+      ).toBe(true);
+    console.log(
+      `election-day: polling place ${polls.id} (precinct ${polls.precinct} of ${polls.precincts}), "${day.lines.map((l) => l.text).join(" ")}"`,
+    );
     expect(day.canvass, `${where}: a candidate canvasses`).not.toBeNull();
     expect(day.ask.length, where).toBeGreaterThan(0);
+    // The same morning for the same person with no polling visit (they live outside the town
+    // the count reads): nothing is asked, and the day goes on to the count.
+    const away = electionDay(
+      core,
+      playerId!,
+      null,
+      false,
+      visit.record.electionDate,
+    );
+    expect(away.away, where).toBe(true);
+    expect(
+      away.ask,
+      `${where}: a vote is offered to someone who cannot vote`,
+    ).toEqual([]);
     const canvass = campaignDay(core, playerId!, {
       filingId: day.canvass!.filingId,
       kind: "canvass",

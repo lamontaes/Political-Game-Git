@@ -63,6 +63,7 @@ export { seededUnit } from "./seeded";
 // The one history, for the engines that run or read it (light imports only:
 // the engines load this entry while the core is still loading).
 export {
+  ownWindowOf,
   pastForLater,
   preStartHistory,
   preStartWindowOf,
@@ -82,6 +83,7 @@ export {
 } from "./past-work";
 export {
   PERSON_MOVED_IN,
+  pastMovesFor,
   pastMovesHistory,
   residenceOn,
   type DepartureRate,
@@ -132,6 +134,12 @@ export interface PastElectionRow {
   readonly winnerId: string;
   readonly candidates: readonly PastCandidate[];
   readonly totalVotes: number;
+  /**
+   * The count this world's `totalVotes` was drawn around (the recorded total
+   * where the corpus has the race, else the electorate's ballots times
+   * turnout), whole votes: the world never prints it as its own.
+   */
+  readonly sourceVotes: number;
   /** The town's voter groups: their ballots and the winner's share of them. */
   readonly townGroups: readonly {
     readonly groupId: string;

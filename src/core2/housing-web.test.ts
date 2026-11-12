@@ -153,7 +153,7 @@ function play(shift: boolean, built?: PlayedWorld): Run {
   let exited = false;
   reviewHomeless(
     api,
-    (_id, income) => income / (multiple * 0.8),
+    (_id, _placeId, income) => income / (multiple * 0.8),
     () => {
       exited = true;
       return "lease:test";

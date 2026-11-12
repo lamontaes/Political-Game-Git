@@ -4,6 +4,7 @@
 // their views fit it, and the join buttons go away.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
@@ -33,6 +34,11 @@ try {
     await page.locator("#new-life").click();
     await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
+    // The opening plays first, as a player sees it (start-life.mjs).
+    await playOpening(
+      page,
+      (await (await response).json()).sceneMomentId ?? null,
+    );
     const r = await response;
     assert.equal(r.status(), 200);
     lastLife = r.url();
@@ -105,21 +111,19 @@ try {
   await sheet.waitFor();
   // Joining lives on the Parties tab (since Government drew the mock).
   await page.locator('#sheet-tabs [data-tab="parties"]').click();
-  // How the views fit is said in words, one of the controls' bands.
-  const bands = (
-    await (await page.request.get(at("/api/controls"))).json()
-  ).party.fit.map((band) => band.label);
   if (member) {
     // A member sees their party, the tie's record and how the views fit,
     // and no party to join.
     const line = sheet.locator("[data-tie-id]");
     await line.waitFor();
     const text = await line.innerText();
-    assert.ok(
-      bands.some((band) => text.includes(band)),
-      `${text}: the fit in words`,
-    );
     assert.ok(await line.getAttribute("data-tie-id"), "the tie record id");
+    // The line says what it stands on (owner, Nov 1: "How do you know?").
+    assert.match(
+      text,
+      /Registered .+ since .+\d{4}/,
+      `${text}: the registration`,
+    );
     assert.equal(
       await sheet.getByRole("button", { name: /^Join / }).count(),
       0,
@@ -146,10 +150,6 @@ try {
     await line.waitFor();
     const text = await line.innerText();
     assert.ok(text.includes(label), `${text} names ${label}`);
-    assert.ok(
-      bands.some((band) => text.includes(band)),
-      `${text}: the fit in words`,
-    );
     assert.ok(await line.getAttribute("data-tie-id"), "the tie record id");
     assert.equal(
       await sheet.getByRole("button", { name: /^Join / }).count(),

@@ -1,7 +1,13 @@
 import { coreAPI } from "../core2/state";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { AMOUNT_SERIES, lawChain, lawHere } from "../core2/modules/laws";
 import { composeBill } from "../english/bill-sections";
-import { billTitleOf, spokenDesignation } from "../english/bill-names";
+import {
+  billTitleOf,
+  budgetSectionSaid,
+  spokenDesignation,
+} from "../english/bill-names";
+import { moneySaid } from "../english/count-words";
 import { screenLine } from "../english/screen-words";
 import { budgetLineNames, policyNames } from "./words";
 import {
@@ -10,9 +16,11 @@ import {
   bodyRow,
   currentAmount,
   draftBill,
+  FEDERAL_HOUSE,
+  FEDERAL_SENATE,
   floorDateOf,
-  lawInForceRow,
   memberKey,
+  members as bodyMembersOf,
   votesOn,
   whipCount,
   type BillRow,
@@ -23,7 +31,7 @@ import { townSeats, type TermRow } from "../core2/modules/offices";
 import { appointmentsIn } from "../core2/modules/executive";
 import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
-import { backdropFor, faceOf, stagePeople } from "./scene";
+import { backdropFor, faceOf, peopleHere } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -43,41 +51,25 @@ export function personName(core: CoreState, key: string): string {
 }
 
 /** The bodies the person sits on (more than one seat), with their colleagues. */
-function bodiesOf(core: CoreState, personId: string) {
+export function bodiesOf(core: CoreState, personId: string) {
   const api = coreAPI(core);
   const offices = api.moduleState(OFFICES);
   const mine = (
     terms(core).query("byPerson", [personId]) as unknown as TermRow[]
   ).filter((row) => row.status === "serving");
-  return mine.flatMap((term) => {
-    const office = offices.table("offices").get(term.officeId) as
-      | {
-          id: string;
-          title: string;
-          seats: number;
-          level: string;
-          kind: string;
-        }
-      | undefined;
-    if (!office || office.seats < 2) return [];
-    const members = (
-      offices.table("seats").query("byOffice", [office.id]) as unknown as {
-        id: string;
-      }[]
-    ).flatMap(
-      (seat) =>
-        terms(core).query("bySeatStatus", [
-          seat.id,
-          "serving",
-        ]) as unknown as TermRow[],
-    );
+  // A member of Congress sits on the national chamber (each holds a one-seat office of their
+  // own district or state), which is the body their bills go before.
+  const federal = [FEDERAL_HOUSE, FEDERAL_SENATE].flatMap((chamberId) => {
+    const roster = bodyMembersOf(api, chamberId);
+    const body = bodyOf(api, chamberId);
+    if (!body || !roster.some((row) => row.personId === personId)) return [];
     return [
       {
-        officeId: office.id,
-        title: office.title,
-        level: office.level,
-        kind: office.kind,
-        members: members.map((row) => ({
+        officeId: chamberId,
+        title: body.bodyName ?? body.governmentName,
+        level: "federal",
+        kind: body.kind,
+        members: roster.map((row) => ({
           key: memberKey(row),
           name: personName(core, memberKey(row)),
           party: row.party,
@@ -86,6 +78,46 @@ function bodiesOf(core: CoreState, personId: string) {
       },
     ];
   });
+  return [
+    ...federal,
+    ...mine.flatMap((term) => {
+      const office = offices.table("offices").get(term.officeId) as
+        | {
+            id: string;
+            title: string;
+            seats: number;
+            level: string;
+            kind: string;
+          }
+        | undefined;
+      if (!office || office.seats < 2) return [];
+      const members = (
+        offices.table("seats").query("byOffice", [office.id]) as unknown as {
+          id: string;
+        }[]
+      ).flatMap(
+        (seat) =>
+          terms(core).query("bySeatStatus", [
+            seat.id,
+            "serving",
+          ]) as unknown as TermRow[],
+      );
+      return [
+        {
+          officeId: office.id,
+          title: office.title,
+          level: office.level,
+          kind: office.kind,
+          members: members.map((row) => ({
+            key: memberKey(row),
+            name: personName(core, memberKey(row)),
+            party: row.party,
+            you: row.personId === personId,
+          })),
+        },
+      ];
+    }),
+  ];
 }
 
 /** The seats this person left on taking another, with the law that required it. */
@@ -185,7 +217,7 @@ export function seatView(core: CoreState, personId: string) {
   // Each body's own catalog: what its level can pass, with the amount in force.
   const bodies = bodiesOf(core, personId).map((body) => ({
     ...body,
-    menus: menusFor(api, body.level),
+    menus: menusFor(api, body.level, body.officeId),
   }));
   return {
     bodies,
@@ -215,6 +247,13 @@ export function seatView(core: CoreState, personId: string) {
  * Draft a bill from your seat: it goes on the body's next agenda that is not
  * yet posted. Asking a colleague, offering a deal and taking the vote are
  * acts in the day and the meeting scene (office-day), not buttons here.
+ *
+ * A phase-in is the same bill in dated steps (the owner's ruling, Sept 12
+ * travel clarification, item 1): one section per step, each the same law
+ * with its own amount and date, never a second bill. The legislature
+ * engine puts each section into law on its own date when the bill is
+ * enacted, for the bill's government and by that government's rule
+ * (`enact`), so the seat names no jurisdiction and computes no date.
  */
 export function seatAct(
   core: CoreState,
@@ -227,33 +266,81 @@ export function seatAct(
     /** A budget line the bill changes, by the amount in cents. */
     line?: string;
     value?: number;
+    /** A phase-in: each step's amount and the date it takes effect, in place of `value`. */
+    steps?: readonly { value: number; effectiveDate: string }[];
   },
 ) {
   const api = coreAPI(core);
   if (input.kind !== "draft") throw new Error("Unknown act from your seat.");
-  if (!bodiesOf(core, personId).some((b) => b.officeId === input.officeId))
-    throw new Error("You don't sit on that body.");
-  const provision: Provision = input.line
-    ? { kind: "budget-line", line: input.line, value: input.value ?? 0 }
-    : input.series
+  const body = bodiesOf(core, personId).find(
+    (b) => b.officeId === input.officeId,
+  );
+  if (!body) throw new Error("You don't sit on that body.");
+  // A budget line's amount in force today, as the writing screen shows it
+  // beside the box: the player types the line's new amount, and a budget-line
+  // section records the change to the line (`value`) on that amount (`of`),
+  // as every other drafter of a budget bill does (legislature.ts
+  // `budgetProvisions`, world-legislating), so the law sets the line to what
+  // was typed.
+  const lineToday = input.line
+    ? (menusFor(api, body.level, input.officeId!)
+        .flatMap((menu) => menu.items)
+        .find((row) => row.line === input.line)?.inForce ?? null)
+    : null;
+  const sectionOf = (value: number | undefined): Provision =>
+    input.line
       ? {
-          kind: "law-amount",
-          series: input.series,
-          value: input.value ?? 0,
-          unit:
-            lawHere(api, undefined, [input.series]).find(
-              (row) => row.series === input.series,
-            )?.unit ?? undefined,
+          kind: "budget-line",
+          line: input.line,
+          value: value === undefined ? 0 : value - (lineToday ?? 0),
+          ...(lineToday ? { of: lineToday } : {}),
         }
-      : {
-          kind: "policy-question",
-          question: input.question ?? "",
-          value: input.value ?? 1,
-        };
+      : input.series
+        ? {
+            kind: "law-amount",
+            series: input.series,
+            value: value ?? 0,
+            unit:
+              menusFor(api, body.level, input.officeId!)
+                .flatMap((menu) => menu.items)
+                .find((row) => row.series === input.series)?.unit ?? undefined,
+          }
+        : {
+            kind: "policy-question",
+            question: input.question ?? "",
+            value: value ?? 1,
+          };
+  // stopgapId: SG-LEGISLATURE-phase-in-percent-a-year
+  // The ruling's other form, a percent a year, is not drafted from the seat:
+  // a phase-in is the dated steps the sponsor names.
+  if (input.steps?.length) {
+    if (input.value !== undefined)
+      throw new Error("A phase-in gives each step's amount, not a value.");
+    // Only a law amount reads a section's date: a budget line is amended the
+    // day the bill becomes law (SG-LEGISLATURE-dated-budget-line-amended-on-enactment),
+    // so its steps would land at once, and a policy question has no amount.
+    if (!input.series || input.line)
+      throw new Error("A phase-in steps a law amount.");
+    let last = core.date;
+    for (const step of input.steps) {
+      const date = makeIsoDate(step.effectiveDate);
+      if (date <= last)
+        throw new Error(
+          "Each step of a phase-in takes effect after today and after the step before it.",
+        );
+      last = date;
+    }
+  }
+  const provisions: Provision[] = input.steps?.length
+    ? input.steps.map((step) => ({
+        ...sectionOf(step.value),
+        effectiveDate: makeIsoDate(step.effectiveDate),
+      }))
+    : [sectionOf(input.value)];
   const bill = draftBill(api, {
     bodyOfficeId: input.officeId!,
     sponsorId: personId,
-    provisions: [provision],
+    provisions,
   });
   // The bill on paper, worded from its record: title, sections with the old
   // and new values and the statute amended, and the effective date.
@@ -272,6 +359,53 @@ export function seatAct(
     floorDate: floor.floorDate,
     whip: floor.whip,
   };
+}
+
+/**
+ * A repeal from this seat: the player's own body that can repeal the law at
+ * this level (the body's bill catalog allows the series), or, for an
+ * officeholder whose bodies lack the power, the legislature bodies that hold
+ * it, named from the record. A resident with no office gets neither, and the
+ * law page shows no Repeal action. Single-seat executives sit on no body, so
+ * the action appears for them only with the mayors' and governors' bill menu.
+ */
+export function repealFor(
+  core: CoreState,
+  personId: string,
+  series: string,
+  level: string,
+): { officeId: string | null; body: string | null } {
+  const api = coreAPI(core);
+  const mine = bodiesOf(core, personId)
+    .filter((body) => body.level === level)
+    .sort((a, b) => a.officeId.localeCompare(b.officeId));
+  for (const body of mine) {
+    const hit = menusFor(api, body.level, body.officeId)
+      .flatMap((menu) => menu.items)
+      .find(
+        (item) =>
+          (item.kind === "law-amount" && item.series === series) ||
+          (item.kind === "policy-question" && item.question === series),
+      );
+    // A repeal is a draft with the value 0 (an amount zeroed, a yes-or-no
+    // law answered No): the same value dev mode's Repeal button sends, and
+    // the seat's draft marks it blocked where the catalog does not allow it.
+    if (hit?.allowed) return { officeId: body.officeId, body: null };
+  }
+  const serving = (
+    terms(core).query("byPerson", [personId]) as unknown as TermRow[]
+  ).some((row) => row.status === "serving");
+  if (!serving) return { officeId: null, body: null };
+  const names = [
+    ...new Set(
+      townSeats(api)
+        .filter(
+          (seat) => seat.office.level === level && bodyRow(seat.office.kind),
+        )
+        .map((seat) => seat.office.bodyName ?? seat.office.title),
+    ),
+  ].sort();
+  return { officeId: null, body: names.length ? names.join(" or ") : null };
 }
 
 /**
@@ -314,6 +448,20 @@ function disputedWarning(
 }
 
 /**
+ * The amount a budget-line section sets its line to: the engine's own after
+ * (the line in force plus the change), else the change on the amount the
+ * section names it is made on.
+ */
+function lineSets(
+  provision: Provision,
+  section: { after: { value: number | null } } | null,
+): number {
+  return typeof section?.after.value === "number"
+    ? section.after.value
+    : (provision.of ?? 0) + provision.value;
+}
+
+/**
  * The bill as one paper document, read from its records: the designation and
  * title in the English engine's words, the sponsor by name, each section with
  * the estimate the records give for it (the statute it amends with the values
@@ -349,12 +497,15 @@ export function billPaper(core: CoreState, billId: string) {
       (provision.series ? names[provision.series] : undefined) ??
       null;
     const section = form.sections[index] ?? null;
-    // A citation that is a web address never reaches the screen: the
-    // estimate names the law record instead, and the PR body cites it.
-    const clause = (
+    // A budget line says its own name and amount (rounded as people say it), not the bill's one
+    // purpose again on every line.
+    const clause =
       composed?.sections[index] ??
-      (purpose && named ? `${named}: ${purpose}` : (purpose ?? named))
-    )?.replace(/, amending https?:\/\/\S+\.?$/, "");
+      (provision.kind === "budget-line" && named
+        ? budgetSectionSaid(named, moneySaid(lineSets(provision, section)))
+        : purpose && named
+          ? `${named}: ${purpose}`
+          : (purpose ?? named));
     // The section's authority row as the drafting engine recorded it.
     const authority = bill.authority[index];
     return {
@@ -369,15 +520,30 @@ export function billPaper(core: CoreState, billId: string) {
           }
         : null,
       estimate: {
-        statute: section?.before.statute ?? null,
+        // The bill that passed the law this section amends, said as the section
+        // text names it ("Ordinance 2025-3"): the record's designation and form
+        // through the English engine's `spokenDesignation`.
+        statute: section?.before.statute
+          ? spokenDesignation(
+              section.before.statute,
+              section.before.statuteForm ?? "",
+            )
+          : null,
         lawId: section?.before.lawId ?? null,
         beforeValue: section?.before.value ?? null,
         beforeUnit: section?.before.unit ?? null,
         afterValue: section?.after.value ?? null,
         afterUnit: section?.after.unit ?? null,
+        // The date this section names for itself (a phase-in's step), or
+        // null when it takes effect by the bill's closing section.
+        effectiveDate: section?.after.effectiveDate ?? null,
         line: provision.line ?? null,
-        lineAmountMinor:
-          provision.kind === "budget-line" ? provision.value : null,
+        // The amount the bill sets the line to for the year: the change added
+        // to the amount it is made on, as the law would pay it.
+        lineNewMinor:
+          provision.kind === "budget-line"
+            ? lineSets(provision, section)
+            : null,
         ofMinor: provision.of ?? null,
       },
     };
@@ -390,6 +556,7 @@ export function billPaper(core: CoreState, billId: string) {
     title: composed?.title ?? titled?.title ?? bill.number,
     purpose: titled?.purpose ?? null,
     sponsor: personName(core, bill.sponsorId),
+    bodyOfficeId: bill.bodyOfficeId,
     sections,
     authorityWarning: bill.authority.some((row) => row.warning === "disputed")
       ? disputedWarning(api, bill)
@@ -411,19 +578,27 @@ export function billPaper(core: CoreState, billId: string) {
     decision:
       bill.status === "drafted"
         ? null
-        : { status: bill.status, passedOn: bill.passedOn ?? null },
+        : {
+            status: bill.status,
+            passedOn: bill.passedOn ?? null,
+            // The day the bill's fate was decided: it passed, or a vote or a committee ended it.
+            decidedOn: bill.passedOn ?? bill.failedOn ?? null,
+          },
   };
 }
 
-/** The body in its meeting room: the player at the front, colleagues behind. */
-export function bodyScene(
+/**
+ * The picture of a body's own meeting room, by its kind and size (scene-places
+ * bodyPlaces and bodyPlacesBySize); null when the person does not sit on it.
+ * The body scene and any scene staged in that chamber show the same room.
+ */
+export function bodyPicture(
   core: CoreState,
   personId: string,
   officeId: string,
-  minute: number,
-) {
+): string | null {
   const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
-  if (!body) throw new Error("You don't sit on that body.");
+  if (!body) return null;
   const places = scenePlaces.bodyPlaces as unknown as Record<string, string[]>;
   const offices = coreAPI(core).moduleState(OFFICES).table("offices");
   // A legislature with no upper chamber on record meets in a one-house chamber.
@@ -451,6 +626,19 @@ export function bodyScene(
     [...(sized ?? []), ...(places[kind] ?? []), ...places.default!].find(
       hasBackdrop,
     ) ?? places.default![0]!;
+  return place;
+}
+
+/** The body in its meeting room: the player at the front, colleagues behind. */
+export function bodyScene(
+  core: CoreState,
+  personId: string,
+  officeId: string,
+  minute: number,
+) {
+  const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
+  if (!body) throw new Error("You don't sit on that body.");
+  const place = bodyPicture(core, personId, officeId)!;
   const cast = [
     ...body.members.filter((m) => m.you),
     ...body.members.filter((m) => !m.you),
@@ -464,7 +652,7 @@ export function bodyScene(
     title: body.title,
     place,
     backdrop,
-    ...stagePeople(core, backdrop.file, cast),
+    ...peopleHere(core, backdrop.file, cast),
   };
 }
 
@@ -493,11 +681,21 @@ export function bodyMembers(
  * its level can pass, with the amount in force today and whether the state
  * lets a town act (`billCatalog`, never the raw catalog file).
  */
-function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
+function menusFor(
+  api: ReturnType<typeof coreAPI>,
+  bodyLevel: string,
+  officeId: string,
+) {
   const lineNames = budgetLineNames();
   const level =
-    bodyLevel === "federal" || bodyLevel === "state" ? bodyLevel : "city";
-  return billCatalog(api, level).map((menu) => ({
+    bodyLevel === "federal" || bodyLevel === "state" || bodyLevel === "county"
+      ? bodyLevel
+      : "city";
+  const body = bodyOf(api, officeId);
+  // A senator's seat is of a state; its lawmaking body is the one US chamber.
+  const jurisdiction =
+    bodyRow(body?.kind ?? "")?.jurisdiction ?? body?.jurisdiction;
+  return billCatalog(api, level, jurisdiction).map((menu) => ({
     id: menu.id,
     name: menu.name,
     items: menu.topics
@@ -522,12 +720,11 @@ function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
         inForce: row.inForce,
         // The amount the law in force holds, as the bill's paper cites it ("before"): the
         // draft card shows this beside the new amount so both screens say one thing.
-        today: row.series
-          ? (() => {
-              const law = lawInForceRow(api, row.series);
-              return law ? { value: law.value, unit: law.unit ?? null } : null;
-            })()
-          : null,
+        today: {
+          value: row.inForce,
+          unit: row.inForceUnit ?? row.unit ?? null,
+          recordId: row.inForceRecordId,
+        },
         allowed: row.authority.allowed,
         warning: row.authority.warning,
         reason: row.authority.reason,

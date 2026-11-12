@@ -2,8 +2,7 @@
 name: asset-scene-admission
 description: >
   Admits art into Our Civic Duty: records a candidate's source and parent,
-  derives runtime tiers, keeps world text in dynamic slots, runs the
-  art gates and confirms the asset in play. Use for people figures and hair
+  keeps world text in dynamic slots and confirms the asset in play. Use for people figures and hair
   pieces, environment intake, scene geometry, asset-bank disposition, or
   release review; do not use to approve pixels without review. Rights and
   licenses are never checked or asked about (owner, Oct 26 and 27).
@@ -11,32 +10,29 @@ description: >
 
 # Asset fit and scene admission
 
-**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+**Look first (owner, Oct 27):** run `look-first` before building, fixing, filing or asking; a found ruling is built and cited, never asked again.
 
 Read the relevant contracts before acting:
 
-- `docs/systems/art-assets.md` for candidate versus runtime release;
-- `docs/systems/scene-authoring-pipeline.md` and `docs/systems/scene-and-person-presentation.md` for scenes;
 - `art/people-engine/v4/README.md` for the current people pack (whole painted people, read only through `src/bench/people-pack.ts`), and `art/people-rooms/mannequin-plates/README.md` for where people may stand;
-- `play-first` ("The browser check") for the check in play.
+- `play-first` ("Work", the screenshot acceptance) for the check in play.
 
-Reuse `scripts/art-asset-factory/`. Don't add a parallel validator or a scene-specific screen path.
+The old art pipeline was deleted at the owner's word, Nov 5; there is no art validator or tier-derivation script to run. Backdrops are imported with `scripts/backdrops/` (`import-place-backdrops.mjs`, `import-capitol-backdrops.mjs`). Don't add a parallel validator or a scene-specific screen path.
 
 ## Workflow
 
 1. Name the candidate, where it came from (a painted set, a generator and its prompt, an upscale of which parent), its manifest disposition, and the room, figure family or surface it serves. **Never a rights or license question (owner, Oct 26: Developer ID, signing and licenses are never raised; Oct 27: "Nothing I use is license... No questions"). Generated art is admitted like any other.**
 2. Keep source master, derived tier, candidate and released runtime asset distinct.
    - An external upscale must declare its parent. Repository tooling never enlarges a raster.
-3. Environments: derive runtime tiers with `npm run derive:scene-tiers`.
-   - Geometry starts unresolved.
+3. Environments: a backdrop enters `art/backdrops/` through `scripts/backdrops/` and its manifest row.
+   - Geometry starts unresolved. Room staging waits while busts are coming (owner, Nov 10): do not file or reopen full-body staging defects (who stands where, people blocking each other); how busts are shown is his call.
    - Never infer a world label or access grant from a filename, family or tag.
    - Anything the simulation owns (names, seals, headlines, dates) goes in a dynamic slot, never in the picture.
 4. People:
    - one whole figure per pose and angle, bald, with hair pieces fitted per angle;
    - seated people come from cut, per-seat occupants checked by hand;
    - scale, front and seat lines come from the room's staging data, not the art.
-5. Run the art gates: `npm run validate:art`, `npm run inventory:art` and `npm run qa:art`.
-6. Show the asset used by its real consumer in a drawn place, with a screenshot (`play-first`, "The browser check"). A count of derived files is not a usable room or person.
+5. Show the asset used by its real consumer in a drawn place, with a 1440×900 screenshot (`play-first`, "Work"). A count of derived files is not a usable room or person.
 
 Deliberately authored and generated imagery is allowed; its source and role are recorded so it can be made again. Missing measurements stay missing and carry their real confidence class.
 

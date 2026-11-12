@@ -13,10 +13,12 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { advanceToFilingOpen } from "./gov-test-clock";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
   ELECTIONS_MODULE_ID,
@@ -68,6 +70,8 @@ function world(placeKey: string) {
   const core = createLifeCore(
     buildPopulation({ seed, placeKey, startedAt: START, minimumPeople: 200 }),
   );
+  // The filing check reads the state's term-limit law, so the laws engine is in.
+  openLaws(core);
   openOffices(core, seed);
   openElections(core);
   return core;
@@ -109,7 +113,15 @@ describe("M2-02 election calendars and filing rules", () => {
           const deadline =
             read.filing.deadlines2026?.["us-house"] ??
             read.filing.deadlines2026?.all;
-          if (deadline) expect(contest.filingDeadline).toBe(deadline);
+          // One deadline per contest and side (filing-clerk-deadline-differs-
+          // from-rules): the filing law's own date for the party side where
+          // it falls before the first vote, else the nomination calendar's.
+          const own = filingRequirements(stateKey, contest.family).deadline;
+          const expected =
+            own && own < (contest.primaryDate ?? contest.electionDate)
+              ? own
+              : deadline;
+          if (expected) expect(contest.filingDeadline).toBe(expected);
         }
       }
       const rules = filingRequirements(stateKey, contest.family);
@@ -144,6 +156,7 @@ describe("M2-02 election calendars and filing rules", () => {
 describe("M2-03 filing (engine)", () => {
   it("a resident files once, at no charge, and stands in the race while the petition circulates; an ineligible person is told the rule", () => {
     const core = world(randomPlace("file").key);
+    advanceToFilingOpen(core);
     const api = coreAPI(core);
     const open = openContests(api);
     expect(open.length).toBeGreaterThan(0);

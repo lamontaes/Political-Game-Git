@@ -25,12 +25,22 @@ import { LEGISLATURE_MODULE_ID } from "./modules/legislature";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { isPublicFigure } from "./past-public";
 import { reachedBy } from "./law-reach/host";
+import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
 import {
   stancesOf,
   viewOf,
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
 } from "./modules/views";
+import { residentsRuntime } from "./modules/residents";
+
+/**
+ * The facts that name the counted household a record happened to and its
+ * members (the drives engine's countedHousehold and countedSubjects keys,
+ * written by housing-homeless `countedFacts`).
+ */
+const COUNTED_HOUSEHOLD = "counted-household";
+const COUNTED_SUBJECTS = "counted-subjects";
 
 /** The record kinds a local outlet prints in its briefs column. */
 const BRIEF_KINDS: ReadonlySet<string> = new Set(briefs.kinds);
@@ -39,6 +49,8 @@ const TOWN_WIDE_BRIEFS: ReadonlySet<string> = new Set(briefs.townWide);
 
 /** A body's regular sitting, as office-day records it. */
 const MEETING_KIND = "public-meeting";
+/** A reader's letter to the editor (the press's weekly letters step). */
+const LETTER_KIND = "press.letter";
 /** The week's sittings that took up nothing, printed as one brief. */
 export const MEETINGS_WEEK_KIND = "meetings-week";
 
@@ -606,6 +618,26 @@ function servesLocally(api: CoreAPI, personId: string): boolean {
 }
 
 /**
+ * Between two items of equal score, the one more people saw happen leads
+ * (the witnesses its record names), then the earlier, and only then the id:
+ * never the alphabet alone (the President's inaugural address lost every
+ * national desk to a cabinet nomination on its id, Arrowhead Springs,
+ * Wyoming, seed da5c1844fcee4270). Returns the rule that decided.
+ */
+export function tieRule(
+  a: WireItem,
+  b: WireItem,
+): { readonly order: number; readonly rule: "witnesses" | "date" | "id" } {
+  const witnesses = (b.witnessCount ?? 0) - (a.witnessCount ?? 0);
+  if (witnesses) return { order: witnesses, rule: "witnesses" };
+  const date = a.date.localeCompare(b.date);
+  if (date) return { order: date, rule: "date" };
+  return { order: a.id.localeCompare(b.id), rule: "id" };
+}
+
+const tieOrder = (a: WireItem, b: WireItem): number => tieRule(a, b).order;
+
+/**
  * One week at an outlet: each reporter, in turn, weighs the fresh items its
  * outlet has not printed and files their best, up to their week's count.
  */
@@ -649,11 +681,39 @@ export function runDesk(
   const core = api.state as CoreState;
   const inTown = (id: string) =>
     core.people.get(id)?.placeId === ctx.townPlaceId;
+  // The counted people a record happened to (a counted household's eviction
+  // names its members by its facts, not as people), in town by the same rule
+  // as a full subject: where their counted record lives, or where they live
+  // once filled in.
+  const counted = residentsRuntime(core)?.store;
+  const countedInTown = (item: WireItem): number => {
+    const listed = item.facts?.[COUNTED_SUBJECTS];
+    if (!listed) return api.parameter("zero");
+    const h = counted?.liveHousehold(item.facts?.[COUNTED_HOUSEHOLD] ?? "");
+    const here =
+      h?.placeId === ctx.townPlaceId
+        ? new Set(counted!.memberIdsOf(h))
+        : undefined;
+    return (JSON.parse(listed) as string[]).filter((id) =>
+      core.people.has(id) ? inTown(id) : here?.has(id) === true,
+    ).length;
+  };
   // A law taking effect names no one, but it involves the outlet's followers
   // it reaches: the named ones the law-reach records name (every named
   // follower where they hold no record for it, since a law in force binds the
   // town) and the counted followers, who are read by the same rule as a
   // full follower.
+  // The jurisdictions whose law binds the town: the nation, its state, its
+  // county, its township and the town itself (the laws engine's chain).
+  const chainJurisdictions = api.state.modules.has(LAWS_MODULE_ID)
+    ? new Set(lawChain(api).levels.map((level) => level.jurisdiction))
+    : null;
+  const bindsTown = (lawId: string): boolean => {
+    if (!chainJurisdictions) return true;
+    const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
+      { jurisdiction?: string } | undefined;
+    return !row?.jurisdiction || chainJurisdictions.has(row.jurisdiction);
+  };
   const involved = (item: WireItem): number => {
     // A charge against, or an exposure of, someone serving in a local office
     // is the town's business: it involves every follower, named or counted,
@@ -702,14 +762,24 @@ export function runDesk(
       : item.facts?.series;
     if ((item.kind !== "law-took-effect" && !lineChange) || !lawId || !key)
       return 0;
+    // Another state's or town's law binds no one here: it involves none of
+    // the outlet's followers (Hawaii's cannabis law outranked the
+    // President's inaugural address on every national desk in Arrowhead
+    // Springs, Wyoming, seed da5c1844fcee4270).
+    if (item.kind === "law-took-effect" && !bindsTown(String(lawId))) return 0;
     const reached = new Set(reachedBy(api, key, lawId).map((r) => r.personId));
     const named = reached.size
       ? followers.filter((id) => reached.has(id)).length
       : followers.length;
     return named + ctx.countedFollowers(outlet);
   };
+  // A reader's letter is the outlet's own page, never a reporter's pick or
+  // the briefs column's: printed after the column, in the writer's words.
+  const letters = open.filter(
+    (item) => item.kind === LETTER_KIND && item.facts?.outletId === outlet.id,
+  );
   const base = open
-    .filter((item) => !told.has(item.id))
+    .filter((item) => !told.has(item.id) && item.kind !== LETTER_KIND)
     .map((item) => ({
       item,
       proximity: p(
@@ -719,7 +789,10 @@ export function runDesk(
       ),
       readerCare: Math.max(care.get(item.topic) ?? 0, amountMove(item)),
       people: Math.log1p(
-        Math.max(item.subjectIds.filter(inTown).length, involved(item)),
+        Math.max(
+          item.subjectIds.filter(inTown).length + countedInTown(item),
+          involved(item),
+        ),
       ),
       renown: Math.log1p(
         item.subjectIds.filter((id) => isPublicFigure(api, id)).length +
@@ -750,7 +823,7 @@ export function runDesk(
               p("storyDriveWeight") * drive),
         };
       })
-      .sort((a, b) => b.score - a.score || a.item.id.localeCompare(b.item.id));
+      .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item));
     const count = Math.min(
       p(
         outlet.tier === "national"
@@ -823,7 +896,7 @@ export function runDesk(
             p("storyPeopleWeight") * row.people +
             p("storyRenownWeight") * row.renown),
       }))
-      .sort((a, b) => b.score - a.score || a.item.id.localeCompare(b.item.id));
+      .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item));
     const space = Math.min(p("briefsPerOutletWeek"), column.length);
     for (let rank = 0; rank < space; rank += 1) {
       const row = column[rank]!;
@@ -891,6 +964,41 @@ export function runDesk(
         ),
       );
     }
+  }
+  // The week's letter, in the writer's own voice: the change it argues is
+  // the writer's, and its readers are moved by their standing with the
+  // writer, as with a reporter's story.
+  for (const item of letters) {
+    const writer = item.subjectIds[0];
+    if (!writer || !api.state.people.get(writer)?.alive) continue;
+    const proximity = p(PROXIMITY.town);
+    out.push(
+      printItem(
+        api,
+        ctx,
+        outlet,
+        // A letter is printed under its writer's name.
+        writer,
+        item,
+        {
+          proximity,
+          readerCare: 0,
+          people: 0,
+          renown: 0,
+          drive: 0,
+          score: proximity,
+          rank: 1,
+          weighed: letters.length,
+        },
+        {
+          slant: {
+            slant: Math.min(1, Number(item.facts?.strength ?? 0)),
+            reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
+          },
+          facts: { [VIEWS_SPEAKER_KEY]: writer },
+        },
+      ),
+    );
   }
   return out;
 }

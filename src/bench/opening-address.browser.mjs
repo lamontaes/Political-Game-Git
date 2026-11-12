@@ -55,6 +55,20 @@ try {
       await page.screenshot({
         path: `${shots}/opening-address-${width}x${height}.png`,
       });
+    // The address ends in Skip scene (owner, Oct 26), and the box is the talk box.
+    const skip = page.locator("#talk-skip");
+    assert.ok(await skip.isVisible(), "the address offers Skip scene");
+    assert.equal((await skip.innerText()).trim(), "Skip scene");
+    assert.ok(
+      await page.locator("#talk-name").innerText(),
+      "the speaker is named",
+    );
+    await skip.click();
+    await page.locator("#talk-skip").waitFor({ state: "hidden" });
+    assert.ok(
+      !(await page.locator("#talk").innerText()).includes("Thank you all"),
+      "Skip scene ended the address",
+    );
     await page.close();
   }
   assert.deepEqual(errors, []);

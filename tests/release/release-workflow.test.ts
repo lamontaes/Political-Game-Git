@@ -41,6 +41,8 @@ describe("the release event", () => {
     ]) {
       expect(pushWorkflow).toContain(`      - "${path}"`);
     }
+    // And the lanes' state files, written straight to main by every lane.
+    expect(pushWorkflow).toContain('      - "docs/lanes/**"');
     expect(pushWorkflow).toContain("workflow_dispatch:");
     expect(pushWorkflow).not.toContain("pull_request_target");
   });
@@ -166,11 +168,16 @@ describe("privilege separation", () => {
     expect(validator).toContain('git checkout -q --detach "$CANDIDATE_SHA"');
   });
 
-  it("proves the built game carries the new version", () => {
+  it("proves the version the player sees is the new one", () => {
+    // The title carries no version (owner, Nov 8); the version is in Patch
+    // notes, which read PATCH_NOTES.md, and in package.json.
     expect(validator).toContain("Prove the built game shows the new version");
+    expect(validator).toContain("patchNoteReleases");
+    expect(validator).toContain('[[ "$shown" == "${NEXT_VERSION}" ]]');
     expect(validator).toContain(
-      'grep -rqF "v${NEXT_VERSION}" dist/client/assets',
+      '[[ "$(jq -er \'.version\' package.json)" == "${NEXT_VERSION}" ]]',
     );
+    expect(validator).not.toContain("dist/client/assets");
   });
 
   it("passes the push token only from the caller that publishes", () => {
@@ -272,6 +279,11 @@ describe("exact validated candidate identity", () => {
     expect(publisher).toContain('"${main_tip}:${path}"');
     expect(publisher).toContain(
       "main changed $path after the candidate was validated. Nothing was published",
+    );
+    // A consumed declaration reworded after validation does not stop the
+    // release; a file the release rewrites changing does.
+    expect(publisher).toContain(
+      '"$status" == "D" && "$path" == docs/release/changes/*.md',
     );
     expect(publisher).toContain('git commit-tree "$tree" -p "$main_tip"');
     // The laid commit changes exactly what the validated candidate changed.

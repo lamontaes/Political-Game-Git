@@ -6,6 +6,9 @@
  * nothing; each kind names the record it comes from.
  */
 import { stableHash } from "./kernel/ids";
+import { schoolSpans } from "./past-school";
+import { PAST_WORK_SPELL } from "./past-work";
+import { preStartHistory } from "./pre-start";
 import { parameter } from "./parameters";
 import { coreAPI } from "./state";
 import { stopgap } from "./stopgaps";
@@ -25,14 +28,20 @@ export type SharedHistoryKind =
   | "coworker"
   /** Both attended one school in one school year (the school engine's records). */
   | "schoolmate"
-  /** One works on the other's campaign (its volunteers). */
+  /**
+   * One works on the other's campaign (its volunteers), or did until they
+   * filed in its race themselves (its `leftToRun`).
+   */
   | "campaign";
 
 export interface SharedHistory {
   kind: SharedHistoryKind;
   /** The record that says so: the household, the employer, the school or the filing. */
   recordId: string;
-  /** Shared work that ended: the later of the two jobs' end dates. */
+  /**
+   * Shared work that ended: the later of the two jobs' end dates, or the day a
+   * volunteer left the campaign to run in its race.
+   */
   endedOn?: IsoDate;
   /** Schoolmates: the school year they shared (its first calendar year). */
   year?: number;
@@ -142,11 +151,86 @@ export function workgroupOf(
     .sort();
 }
 
-/** The campaigns a candidate runs, by their filings, with their volunteers. */
+/** An employer's spell a person's past records hold: who, from when to when. */
+interface WorkSpan {
+  organizationId: string;
+  startedAt: string;
+  endedAt?: string;
+}
+
+function workSpans(core: Readonly<CoreState>, personId: PersonId): WorkSpan[] {
+  return preStartHistory(core as CoreState, {
+    kind: PAST_WORK_SPELL,
+    personId,
+  }).flatMap((row) =>
+    row.facts.organizationId
+      ? [
+          {
+            organizationId: String(row.facts.organizationId),
+            startedAt: String(row.facts.startedAt),
+            ...(row.facts.endedAt
+              ? { endedAt: String(row.facts.endedAt) }
+              : {}),
+          },
+        ]
+      : [],
+  );
+}
+
+/**
+ * Work two people shared before the start: an employer both have a past spell
+ * at, in spans that overlap (the past's `person.work-spell` records). An
+ * employer the jobs engine's own rows already named is not said twice.
+ */
+function pastWork(
+  core: Readonly<CoreState>,
+  a: PersonId,
+  b: PersonId,
+  said: readonly SharedHistory[],
+): SharedHistory[] {
+  const theirs = workSpans(core, b);
+  if (!theirs.length) return [];
+  const out: SharedHistory[] = [];
+  for (const mine of workSpans(core, a)) {
+    if (
+      said.some(
+        (row) =>
+          row.kind === "coworker" && row.recordId === mine.organizationId,
+      ) ||
+      out.some((row) => row.recordId === mine.organizationId)
+    )
+      continue;
+    const peer = theirs.find(
+      (row) =>
+        row.organizationId === mine.organizationId &&
+        row.startedAt <= (mine.endedAt ?? "9999-12-31") &&
+        mine.startedAt <= (row.endedAt ?? "9999-12-31"),
+    );
+    if (!peer) continue;
+    const ends = [mine.endedAt, peer.endedAt].filter(
+      (date): date is string => date !== undefined,
+    );
+    out.push({
+      kind: "coworker",
+      recordId: mine.organizationId,
+      ...(ends.length === 2 ? { endedOn: ends.sort().at(-1) as IsoDate } : {}),
+    });
+  }
+  return out;
+}
+
+/** A campaign's volunteers, and who left it on what day to run in its race (`leaveForOwnRun`). */
+interface CampaignHelpers {
+  filingId: string;
+  volunteerIds: readonly string[];
+  leftOn: ReadonlyMap<string, IsoDate>;
+}
+
+/** The campaigns a candidate runs, by their filings, with their volunteers past and present. */
 function campaignsOf(
   core: Readonly<CoreState>,
   candidateId: PersonId,
-): { filingId: string; volunteerIds: readonly string[] }[] {
+): CampaignHelpers[] {
   if (
     !core.modules.has(ELECTIONS_MODULE_ID) ||
     !core.modules.has(CAMPAIGNS_MODULE_ID)
@@ -160,9 +244,24 @@ function campaignsOf(
   const campaigns = api.moduleState(CAMPAIGNS_MODULE_ID).table("campaigns");
   return filings.flatMap((filing) => {
     const row = campaigns.get(filing.id) as unknown as
-      { volunteerIds?: readonly string[] } | undefined;
-    return row?.volunteerIds?.length
-      ? [{ filingId: filing.id, volunteerIds: row.volunteerIds }]
+      | {
+          volunteerIds?: readonly string[];
+          leftToRun?: readonly {
+            personId: string;
+            role: string;
+            on: IsoDate;
+          }[];
+        }
+      | undefined;
+    // A volunteer who filed in the race left that day; the work they shared
+    // with the candidate is still theirs.
+    const leftOn = new Map(
+      (row?.leftToRun ?? [])
+        .filter((left) => left.role === "volunteer")
+        .map((left) => [left.personId, left.on] as const),
+    );
+    return row?.volunteerIds?.length || leftOn.size
+      ? [{ filingId: filing.id, volunteerIds: row?.volunteerIds ?? [], leftOn }]
       : [];
   });
 }
@@ -195,12 +294,39 @@ export function sharedHistory(
       recordId: schoolA.schoolId,
       year: schoolA.year,
     });
+  // The school years before the start: two people share a school when their
+  // runs at it overlap. A school the school engine's own rows already named is
+  // not said twice.
+  if (!out.some((row) => row.kind === "schoolmate")) {
+    const theirs = schoolSpans(core, b);
+    for (const mine of schoolSpans(core, a)) {
+      const peer = theirs.find(
+        (row) =>
+          row.schoolId === mine.schoolId &&
+          row.from <= mine.to &&
+          mine.from <= row.to,
+      );
+      if (peer) {
+        out.push({
+          kind: "schoolmate",
+          recordId: mine.schoolId,
+          year: Math.max(mine.from, peer.from),
+        });
+        break;
+      }
+    }
+  }
+  out.push(...pastWork(core, a, b, out));
   for (const [candidate, helper] of [
     [a, b],
     [b, a],
   ] as const)
-    for (const row of campaignsOf(core, candidate))
+    for (const row of campaignsOf(core, candidate)) {
+      const left = row.leftOn.get(helper);
       if (row.volunteerIds.includes(helper))
         out.push({ kind: "campaign", recordId: row.filingId });
+      else if (left)
+        out.push({ kind: "campaign", recordId: row.filingId, endedOn: left });
+    }
   return out;
 }

@@ -108,7 +108,8 @@
       "stageWords": {
         "false": "\\bwithout a diploma\\b",
         "true": "\\b(?:graduated|got my diploma|finished high school)\\b"
-      }
+      },
+      "follow": ["schoolFor", "schoolAge"]
     },
     {
       "kindPrefix": "work:opening",
@@ -119,23 +120,27 @@
       "kindPrefix": "job-started:first",
       "turn": false,
       "entry": "story",
-      "wordsFrom": "job-started"
+      "wordsFrom": "job-started",
+      "follow": ["firstPay"]
     },
     {
       "kindPrefix": "job-started:again",
       "turn": false,
-      "entry": "story"
+      "entry": "story",
+      "follow": ["againWait", "againPay", "againFelt"]
     },
     {
       "kindPrefix": "job-ended:let-go",
       "turn": false,
       "entry": "story",
-      "framesAge": true
+      "framesAge": true,
+      "follow": ["letGoHeld", "letGoPay"]
     },
     {
       "kindPrefix": "job-ended:moved-on",
       "turn": false,
-      "entry": "story"
+      "entry": "story",
+      "follow": ["movedHeld", "movedPay"]
     },
     {
       "kindPrefix": "job-ended:child",
@@ -163,6 +168,7 @@
     {
       "kindPrefix": "family:child",
       "turn": true,
+      "turnFor": "self-or-kin",
       "title": [
         {
           "key": "born",
@@ -170,7 +176,8 @@
         }
       ],
       "entry": "story",
-      "lookBack": "memorable"
+      "lookBack": "memorable",
+      "follow": ["birthAge", "birthFirst"]
     },
     {
       "kindPrefix": "moved",
@@ -184,7 +191,8 @@
       ],
       "sameDay": "event:person.moved-away",
       "entry": "story",
-      "framesAge": true
+      "framesAge": true,
+      "follow": ["movedFrom", "movedWith", "movedAge"]
     },
     {
       "kindPrefix": "unpaid-wages",
@@ -222,14 +230,16 @@
     {
       "kindPrefix": "event:life.death",
       "turn": true,
+      "turnFor": "self-or-kin",
       "title": [
         {
           "key": "after",
-          "text": "{{name}}"
+          "text": "{{other}}"
         }
       ],
       "entry": "story",
-      "framesAge": true
+      "framesAge": true,
+      "follow": ["deathBoth|deathAge|deathIllness"]
     },
     {
       "kindPrefix": "event:housing.eviction",
@@ -259,6 +269,7 @@
     {
       "kindPrefix": "event:person-birth",
       "turn": true,
+      "turnFor": "self-or-kin",
       "title": [
         {
           "key": "born",
@@ -335,10 +346,16 @@
     {
       "kindPrefix": "event:candidate-filed",
       "turn": true,
+      "turnFor": "self",
       "eventFacts": {
         "office": {
           "fact": "office",
           "format": "text"
+        },
+        "election": {
+          "fact": "electionDate",
+          "format": "date",
+          "optional": true
         }
       },
       "hasOtherLine": true,
@@ -442,6 +459,7 @@
     {
       "kindPrefix": "event:took-office",
       "turn": true,
+      "turnFor": "self",
       "entry": "story",
       "eventFacts": {
         "office": {
@@ -473,6 +491,26 @@
       "entry": "story"
     },
     {
+      "kindPrefix": "event:volunteer-shift",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true,
+      "eventFacts": {
+        "office": { "fact": "office", "format": "text" },
+        "doors": { "fact": "doorsKnocked", "format": "count" }
+      }
+    },
+    {
+      "kindPrefix": "event:petition-checked",
+      "turn": false,
+      "entry": "story",
+      "eventFacts": {
+        "office": { "fact": "office", "format": "text" },
+        "valid": { "fact": "valid", "format": "count" },
+        "needed": { "fact": "needed", "format": "count" }
+      }
+    },
+    {
       "kindPrefix": "act:interview",
       "turn": false,
       "entry": "story"
@@ -480,12 +518,8 @@
     {
       "kindPrefix": "household:partners-met",
       "turn": false,
-      "entry": "story"
-    },
-    {
-      "kindPrefix": "household:moment:parent-new-job",
-      "turn": false,
-      "entry": "story"
+      "entry": "story",
+      "follow": ["togetherFor"]
     },
     {
       "kindPrefix": "household:parents-met:hometown",
@@ -535,6 +569,56 @@
       "framesAge": true
     },
     {
+      "kindPrefix": "household:livelihood:seat-and-job-plain",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:office-plain-and-job",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:office-plain",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:seat-and-job",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:seat",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:office-and-job",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:office",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:since",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:moved",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:at",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "household:livelihood",
       "turn": false,
       "entry": "story"
@@ -557,7 +641,8 @@
     {
       "kindPrefix": "life:came-of-age",
       "turn": false,
-      "entry": "story"
+      "entry": "story",
+      "ownTime": true
     },
     {
       "kindPrefix": "scene-ending:promise",

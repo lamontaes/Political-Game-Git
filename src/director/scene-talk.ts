@@ -24,11 +24,14 @@
  * stand (the arc's `asks`). One numbering and one ending decider serve both.
  */
 import { traitLean } from "../core2/choice";
-import { decisionKinds } from "../core2/trait-decisions";
+import { decisionKinds } from "../core2/trait-decision-table";
 import { P } from "../core2/parameters";
 import { stableHash } from "../core2/kernel/ids";
 import type { CoreState, PersonId } from "../core2/types";
 import arcsFile from "./data/purpose-arcs.json" with { type: "json" };
+import { variantArc, variantFamilies } from "./arc-variant";
+import type { ReplyFollowsTable } from "../english/reply-follows";
+import situationFile from "./data/situation-types.json" with { type: "json" };
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import {
   pieceAnswers,
@@ -148,6 +151,8 @@ export interface SceneTalkLine {
   /** The situation's key (vote-wanted, favor-asked, ...). */
   key: string;
   purpose: string;
+  /** The purpose this one is a variant of, when it is one (arc-variant.ts). */
+  family?: string;
   /** How deep in the exchange it is (0 for the setup and the open). */
   round: number;
   /** On the branch the page follows first, the reply the player's traits lean toward. */
@@ -210,6 +215,8 @@ export interface TreeReply {
 export interface SceneTalk {
   typeKey: string;
   purpose: string;
+  /** The purpose this one is a variant of, when it is one (arc-variant.ts). */
+  family?: string;
   askerId: PersonId;
   askedId: PersonId;
   narration: SceneTalkLine[];
@@ -241,6 +248,11 @@ export interface SceneTalk {
 export interface PurposeType {
   key: string;
   purpose?: string;
+  /**
+   * Set when `purpose` is one of a family's variants (arc-variant.ts): the
+   * family's own purpose, whose bank pieces serve the variant where it has none.
+   */
+  family?: string;
   asker?: string;
   asked?: string;
   stakes?: readonly string[];
@@ -261,6 +273,12 @@ export interface AskStanding {
 }
 
 export interface SceneTalkCast {
+  /**
+   * The record that caused the scene. Two scenes of one kind between the same
+   * two people are told apart by it: their lines are picked on it, so a second
+   * cause never repeats the first's words.
+   */
+  causeId?: string;
   askerId: PersonId;
   /** The player's seat: whose replies are offered. */
   askedId: PersonId;
@@ -302,6 +320,8 @@ export interface SceneTalkOptions {
    * only words are held stays out of play.
    */
   includeHeld?: boolean;
+  /** The "no" verdicts of the reply rule to read instead of the file's (tests). */
+  replyFollows?: ReplyFollowsTable;
 }
 
 export type SceneTalkResult =
@@ -316,10 +336,15 @@ type FitUse = SceneMove;
 
 /** How closely a line's piece was written to answer this reply: 2 for that exact piece, 1 for its move, 0 for neither. */
 function linkedTo(line: SceneTalkLine, reply: SceneTalkLine): number {
-  return pieceAnswers(line.parts[zero] ?? "", line.purpose, {
-    pieceKey: reply.parts[zero] ?? "",
-    move: reply.move,
-  });
+  return pieceAnswers(
+    line.parts[zero] ?? "",
+    line.purpose,
+    {
+      pieceKey: reply.parts[zero] ?? "",
+      move: reply.move,
+    },
+    line.family,
+  );
 }
 
 /** The lines most closely written for this reply, or all of them when none is. */
@@ -457,7 +482,10 @@ export function composeSceneTalk(
   // situation the director fires has a coherent exchange.
   const purpose = type.purpose ?? "*";
   const fallback = !type.purpose;
-  const arc = type.purpose ? ARCS.purposes[type.purpose] : ARCS.keys?.[key];
+  const arc = type.purpose
+    ? (ARCS.purposes[type.purpose] ??
+      (variantArc(type.purpose) as PurposeArc | undefined))
+    : ARCS.keys?.[key];
   if (!arc)
     return {
       kind: "skipped",
@@ -477,8 +505,11 @@ export function composeSceneTalk(
   };
   const askerTraits = { ...asker.traits, ...(voice.askerTraits ?? {}) };
   const askedTraits = { ...asked.traits, ...(voice.askedTraits ?? {}) };
-  const scene = `${type.key}:${cast.askerId}:${cast.askedId}`;
-  const base = { purpose, key };
+  // The scene's own key: its cause tells it from another of the same kind
+  // between the same two people.
+  const scene = `${type.key}:${cast.askerId}:${cast.askedId}${cast.causeId ? `:${cast.causeId}` : ""}`;
+  const family = type.family;
+  const base = { purpose, key, ...(family ? { family } : {}) };
   const gaps = new Set<string>();
   const gap = (step: string, move: string, after?: string) =>
     gaps.add(`${gapLabel}/${step}/${move}${after ? ` after ${after}` : ""}`);
@@ -486,6 +517,10 @@ export function composeSceneTalk(
   const maxReplies = RULES.tree.maxReplies.value;
   const maxNodes = RULES.tree.maxNodes.value;
 
+  /** The pieces said as closes anywhere in this talk. */
+  const closesSaid = new Set<string>();
+  /** How many closes of each move this talk has said. */
+  const closesByMove = new Map<string, number>();
   const render = (
     use: FitUse,
     speakerId: PersonId,
@@ -496,6 +531,10 @@ export function composeSceneTalk(
   ): SceneTalkLine | null => {
     // The English engine picks and words the piece; the director only says
     // which move this is, who says it and what it answers.
+    // A talk does not close two branches on the same words while another close
+    // fits: the closes already said anywhere in this talk are shown (the
+    // English engine leaves a shown piece out while an unseen one fits).
+    const closing = use.step === "close";
     const worded = wordSceneMove({
       move: use,
       facts,
@@ -505,8 +544,15 @@ export function composeSceneTalk(
       momentKey: `${scene}:${moment}`,
       said,
       tagged: onlyTagged,
-      options,
+      options: closing
+        ? {
+            ...options,
+            shown: new Set([...(options?.shown ?? []), ...closesSaid]),
+          }
+        : options,
     });
+    if (worded && "pieceKey" in worded && closing)
+      closesSaid.add(worded.pieceKey);
     if (!worded) return null;
     if ("unused" in worded) {
       unusedGap = worded.unused;
@@ -527,10 +573,16 @@ export function composeSceneTalk(
       ...(worded.bearing ? { bearing: worded.bearing } : {}),
       key,
       purpose,
+      ...(family ? { family } : {}),
       round: zero,
       ...(use.after ? { after: use.after } : {}),
       ...(use.outcome ? { outcome: use.outcome } : {}),
-      parts: [worded.pieceKey],
+      // The piece the line answers by first: a joined sentence's core, then
+      // the other pieces it was made of.
+      parts: [
+        worded.pieceKey,
+        ...(worded.pieceKeys ?? []).filter((k) => k !== worded.pieceKey),
+      ],
       slotRecordIds: [...worded.slotRecordIds],
       ...(worded.tag ? { tag: worded.tag } : {}),
       asks: worded.asks,
@@ -736,6 +788,7 @@ export function composeSceneTalk(
       talk: {
         typeKey: type.key,
         purpose,
+        ...(family ? { family } : {}),
         askerId: cast.askerId,
         askedId: cast.askedId,
         narration: narrate ? [narrate] : [],
@@ -949,9 +1002,12 @@ export function composeSceneTalk(
   let said = addParts(none, narrate);
   // The open's move: a purpose may open on a detail ("react") instead of a greeting.
   const openMove =
-    sceneMovesWritten({ step: "open", role: "asker", purpose }).find(
-      (move) => move !== "greet",
-    ) ?? "greet";
+    sceneMovesWritten({
+      step: "open",
+      role: "asker",
+      purpose,
+      ...(family ? { family } : {}),
+    }).find((move) => move !== "greet") ?? "greet";
   // Not everyone says hello first: an asker who keeps to themself goes
   // straight to why they came.
   const blunt =
@@ -1249,10 +1305,19 @@ export function composeSceneTalk(
     path: Path,
     reply: SceneTalkLine,
   ): SceneTalkLine | undefined => {
+    // The written closes for a walk-away are tried in a hash order of the
+    // branch, the move this talk has closed on least first, so branches do not all close
+    // on the first move alphabetically.
     const moves = sceneMovesWritten({
       step: "close",
       after: reply.move,
-    }).sort();
+    }).sort(
+      (a, b) =>
+        (closesByMove.get(a) ?? zero) - (closesByMove.get(b) ?? zero) ||
+        stableHash(`${scene}:${path.id}:leave:${a}`).localeCompare(
+          stableHash(`${scene}:${path.id}:leave:${b}`),
+        ),
+    );
     for (const move of moves) {
       const line = render(
         {
@@ -1723,3 +1788,120 @@ export function lastAnswerAlong(
   }
   return last;
 }
+
+/**
+ * Every scene the director can word: each situation type with a purpose (and
+ * each variant of its family), and each type with none under its key's
+ * generic arc. The English engine's reply pairs
+ * (`src/english/reply-pairs.ts`) are listed for these.
+ */
+export function talkScenes(): {
+  purpose: string;
+  family?: string;
+  key: string;
+}[] {
+  const families = variantFamilies();
+  return (
+    situationFile as unknown as {
+      types: { key: string; purpose?: string; tag?: { key: string } }[];
+    }
+  ).types.flatMap((type) => {
+    const key = type.tag?.key ?? type.key;
+    if (!type.purpose) return ARCS.keys?.[key] ? [{ purpose: "*", key }] : [];
+    return [
+      { purpose: type.purpose, key },
+      ...Object.entries(families)
+        .filter(([, family]) => family === type.purpose)
+        .map(([variant]) => ({
+          purpose: variant,
+          family: type.purpose!,
+          key,
+        })),
+    ];
+  });
+}
+
+/**
+ * Which moves the scene's arc lets come right after a line of this step and
+ * move, from the same tables the tree builder reads (`candidatesFor`, the
+ * arc's `replies`, `again`, `auto`, `continue`, the lie and the player's own
+ * ask). It is a union across rounds, so it may allow a move the tree never
+ * reaches from a given node; it never leaves out one the tree can.
+ */
+export function talkFlow(scene: { purpose: string; key: string }): {
+  next(step: string, move: string): ReadonlySet<string> | undefined;
+} {
+  const arc = (
+    scene.purpose === "*"
+      ? ARCS.keys?.[scene.key]
+      : (ARCS.purposes[scene.purpose] ?? variantArc(scene.purpose))
+  ) as PurposeArc | undefined;
+  if (!arc) return { next: () => undefined };
+  const lie = ARCS.lie;
+  const asks = arc.asks;
+  const askMoves = asks ? [asks.yes, asks.carried, asks.no] : [];
+  const againMoves = asks ? asks.again.map((row) => row.move) : [];
+  /** The replies the player's character may make after an asker line of this move. */
+  const repliesAfter = (move: string): string[] => [
+    ...(move === arc.state ? arc.replies : []),
+    ...(arc.again?.[move] ?? ARCS.again[move] ?? []),
+    ...(arc.repeatable?.[move] ?? []),
+    ...(arc.continue ?? [])
+      .filter((row) => row.asker === move)
+      .flatMap((row) => row.replies),
+    ...(lie && move === lie.caught.move ? lie.caught.replies : []),
+    ...(asks && move === arc.state ? askMoves : []),
+    ...(asks && (move === asks.thanks || againMoves.includes(move))
+      ? [...asks.relent, asks.no]
+      : []),
+  ];
+  /** The asker's answers to a reply of this move. */
+  const answersTo = (move: string): string[] => {
+    const moves = candidatesFor(arc, move);
+    return [
+      ...(moves.length ? moves : ["answer"]),
+      ...(lie?.afterCaught[move] ?? []).filter((name) => name !== "close"),
+      ...(lie && move === "lie" ? [lie.caught.move, ...lie.believed] : []),
+      ...(arc.continue ?? [])
+        .filter((row) => row.on === move || row.on === "resolved")
+        .map((row) => row.asker),
+      ...(asks && askMoves.includes(move) ? [asks.thanks, ...againMoves] : []),
+    ];
+  };
+  /** The player's character's unprompted line after an asker line, and the asker's answer to it. */
+  const autoAfter = (step: string, move: string): string[] =>
+    (arc.auto ?? [])
+      .filter(
+        (row) =>
+          row.after === move ||
+          (row.after === "open" && step === "open") ||
+          (row.after === "state" && step === "state"),
+      )
+      .map((row) => row.move);
+  return {
+    next(step, move) {
+      if (step === "open") return new Set(autoAfter(step, move));
+      if (step === "auto") return new Set(answersTo(move));
+      if (step === "reply") return new Set(answersTo(move));
+      if (step === "state" || step === "follow" || step === "continue")
+        return new Set([...repliesAfter(move), ...autoAfter(step, move)]);
+      return undefined;
+    },
+  };
+}
+
+const FLOWS = new Map<string, ReturnType<typeof talkFlow>>();
+
+/** `talkFlow` for any scene, read once per purpose and key: the flow the reply pairs ask. */
+export const talkReplyFlow = {
+  next(
+    scene: { purpose: string; key: string },
+    step: string,
+    move: string,
+  ): ReadonlySet<string> | undefined {
+    const at = `${scene.purpose}|${scene.key}`;
+    let flow = FLOWS.get(at);
+    if (!flow) FLOWS.set(at, (flow = talkFlow(scene)));
+    return flow.next(step, move);
+  },
+};

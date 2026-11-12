@@ -22,6 +22,7 @@ import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import { stakeholders } from "./family-stake";
 import { attendedSchool } from "../core2/past";
 import type { Moment, PersonLedger } from "./types";
+import { LETTER_TYPE, letterFacts } from "./letter-facts";
 
 const zero = P.zero;
 const one = P.one;
@@ -100,8 +101,61 @@ export interface SituationCause {
   setting?: readonly string[];
 }
 
+/** Who may receive a scene (director-casting-rule-on-every-scene-kind): read before a cast is staged. */
+export interface ReceiveRule {
+  /** "any": no age rule beyond the type's own causes. */
+  age: "any";
+  /** "apart": the one who comes, calls or asks does not live with the person. */
+  counterpart: "any" | "apart";
+  /** "serving": a seat or chamber setting is staged only for someone who holds an office. */
+  seat: "any" | "serving";
+}
+
+/** Settings at an office's seat: the chamber and the members' own seats. */
+const SEAT_SETTINGS: ReadonlySet<string> = new Set(["seat", "chamber"]);
+
+/**
+ * Whether a cast may be staged for the person whose scene it is, by the
+ * type's receive rule: the asker does not live with them where the rule says
+ * apart, and a seat or chamber scene reaches only someone serving in office.
+ */
+export function receives(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  rule: ReceiveRule | undefined,
+  askerIds: readonly PersonId[],
+  settingKind: string,
+): boolean {
+  const person = core.people.get(personId);
+  if (!person) return false;
+  if (rule?.counterpart === "apart") {
+    const home = new Set(
+      core.households.get(person.householdId)?.memberIds ?? [],
+    );
+    if (askerIds.some((id) => id !== personId && home.has(id))) return false;
+  }
+  if (SEAT_SETTINGS.has(settingKind) && !serving(core, personId)) return false;
+  return true;
+}
+
+/** Whether a person serves a term in any office now. */
+function serving(core: Readonly<CoreState>, personId: PersonId): boolean {
+  const api = coreAPI(core as CoreState);
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
+  return (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("byPerson", [personId]) as unknown as { status: string }[]
+  ).some((term) => term.status === "serving");
+}
+
 export interface SituationType {
   key: string;
+  /** The role that comes, calls or asks. */
+  asker?: string;
+  /** Who may receive the scene; a cast that breaks it goes to the journal. */
+  receive?: ReceiveRule;
   roles: readonly SituationRole[];
   setting: readonly string[];
   timing: string;
@@ -127,7 +181,9 @@ export interface SituationType {
   /**
    * What the repeat window tells scenes apart by besides the cast: "bill"
    * for a scene about one bill (a vote asked for), so the same two people
-   * about another bill on a later day is a new scene.
+   * about another bill on a later day is a new scene; "cause" for a scene
+   * about one record (a reporter's call), so the same reporter calling about
+   * a bill's vote after its introduction is a new scene.
    */
   repeatsBy?: string;
   /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
@@ -227,6 +283,12 @@ export interface ScheduleEntry {
   pace: number;
   bindings: SceneBinding[];
   /**
+   * The types this cause bound that were held back, and why: the type's
+   * season was full (`season-cap`), or a letter would have asked the same with
+   * nothing on record since (`nothing-changed`). The journal tells these.
+   */
+  heldBack?: { typeKey: string; reason: "season-cap" | "nothing-changed" }[];
+  /**
    * The bound scenes with a purpose the player has answered, by type: a
    * record that stages several plays each in turn, the next once one ends.
    */
@@ -295,6 +357,9 @@ export function speechOccasion(
   const [head, first, , act] = causeId.split(":");
   if (head !== "speech" || !first) return undefined;
   if (!core.people.has(first as never)) return first;
+  // A debate's answers are broadcast, not given in a room: the debate is its
+  // own occasion, never a campaign stop (words-debate-answers-not-campaign-stops).
+  if (act === "debate") return "debate";
   return act === "attack" ? "press" : "campaign";
 }
 
@@ -489,6 +554,24 @@ function fillRole(
       const id = core.durableLog.get(moment.causeId)?.facts?.winnerId;
       return id && id !== moment.personId && alive(core, id) ? [id] : [];
     }
+    case "kin-visiting": {
+      // Kin who come to see what the cause record is about, never someone the
+      // record names (a new baby's own parents are not its visitors).
+      const named = new Set<string>(
+        core.durableLog.get(moment.causeId)?.personIds ?? [],
+      );
+      return closest(
+        [...book.threads.values()]
+          .filter(
+            (thread) =>
+              thread.kin.length &&
+              !named.has(thread.otherId) &&
+              alive(core, thread.otherId) &&
+              !taken.has(thread.otherId),
+          )
+          .map((thread) => thread.otherId),
+      );
+    }
     case "kin":
       return closest(
         [...book.threads.values()]
@@ -617,7 +700,9 @@ function resolveSetting(
         ? { kind, recordId: job.organizationId }
         : undefined;
     }
+    case "letter":
     case "phone":
+      // A letter, like a call, is between two people; its record is the cause.
       return peopleBound > one ? { kind, recordId: moment.causeId } : undefined;
     case "public":
       return { kind, recordId: subject.placeId };
@@ -648,9 +733,14 @@ function bindType(
   book: PersonLedger,
   moment: Moment,
   library: SituationLibrary,
+  preferred?: string,
 ): SceneBinding | { failure: string; detail: string } {
   let failure: { failure: string; detail: string } | undefined;
-  const settings = cause.setting ?? type.setting;
+  const own = cause.setting ?? type.setting;
+  const settings =
+    preferred && own.includes(preferred)
+      ? [preferred, ...own.filter((kind) => kind !== preferred)]
+      : own;
   for (const settingKind of settings) {
     const taken = new Set<PersonId>();
     const roles: SceneBinding["roles"] = [];
@@ -739,6 +829,11 @@ export function scheduleMoment(
      * becomes a journal line and stops nothing.
      */
     allowedKinds?: ReadonlySet<string>;
+    /**
+     * A kind of place tried first for a type (situation-type key to setting
+     * kind), set by dev mode's force-scene; the type's own order follows.
+     */
+    preferredSettings?: ReadonlyMap<string, string>;
   },
   library: SituationLibrary = SITUATION_LIBRARY,
 ): ScheduleEntry {
@@ -751,7 +846,15 @@ export function scheduleMoment(
   for (const type of library.types)
     for (const cause of type.causes) {
       if (!causeMatches(cause, book, moment, core)) continue;
-      const bound = bindType(type, cause, core, book, moment, library);
+      const bound = bindType(
+        type,
+        cause,
+        core,
+        book,
+        moment,
+        library,
+        options.preferredSettings?.get(type.key),
+      );
       if ("failure" in bound)
         coverage ??= {
           momentId: moment.id,
@@ -787,14 +890,18 @@ export function scheduleMoment(
   // A type whose scene is about one bill (a vote asked for) repeats by the
   // bill: on an earlier day in the window the same people about another bill
   // is a new scene; the same day still folds into one sitting.
-  const byBill = (row: SceneBinding) =>
-    library.types.find((type) => type.key === row.typeKey)?.repeatsBy ===
-    "bill";
+  const repeatsBy = (row: SceneBinding) =>
+    library.types.find((type) => type.key === row.typeKey)?.repeatsBy;
+  const causeOf = (momentId: string) =>
+    book.momentsById.get(momentId)?.causeId ?? "";
   const billOf = (momentId: string) =>
-    core.durableLog.get(book.momentsById.get(momentId)?.causeId ?? "")?.facts
-      ?.billId ?? "";
+    core.durableLog.get(causeOf(momentId))?.facts?.billId ?? "";
   const windowKey = (row: SceneBinding, momentId: string) =>
-    byBill(row) ? `${castOf(row)}|${billOf(momentId)}` : castOf(row);
+    repeatsBy(row) === "bill"
+      ? `${castOf(row)}|${billOf(momentId)}`
+      : repeatsBy(row) === "cause"
+        ? `${castOf(row)}|${causeOf(momentId)}`
+        : castOf(row);
   const sittingToday = new Set(
     book.schedule
       .filter(
@@ -835,10 +942,74 @@ export function scheduleMoment(
     )
       for (const typeKey of new Set(entry.bindings.map((row) => row.typeKey)))
         inSeason.set(typeKey, (inSeason.get(typeKey) ?? zero) + one);
+  // A cast the type's receive rule refuses goes to the journal: nobody who
+  // lives with the person comes to the house, and a seat scene reaches only
+  // someone in office.
+  const receivable = (row: SceneBinding) => {
+    const type = library.types.find((t) => t.key === row.typeKey);
+    const askerIds = type?.asker
+      ? (row.roles.find((role) => role.role === type.asker)?.personIds ?? [])
+      : [];
+    return receives(
+      core,
+      book.personId,
+      type?.receive,
+      askerIds,
+      row.setting.kind,
+    );
+  };
+  // A letter from a writer whose earlier letter was already staged plays
+  // again only with something on record since: news of the writer's life, a
+  // birthday they missed at the reader's table or their own birthday near
+  // (letter-facts.ts). The same ask with nothing changed goes to the journal.
+  const lettered = new Set(
+    book.schedule
+      .filter(
+        (entry) =>
+          entry.date <= moment.date &&
+          entry.momentId !== moment.id &&
+          entry.outcome !== "journal-line",
+      )
+      .flatMap((entry) =>
+        entry.bindings
+          .filter((row) => row.typeKey === LETTER_TYPE)
+          .map((row) => castOf(row)),
+      ),
+  );
+  const sameLetter = (row: SceneBinding) => {
+    if (row.typeKey !== LETTER_TYPE || !lettered.has(castOf(row))) return false;
+    const writer = row.roles.find((role) => role.role === "writer")?.personIds[
+      zero
+    ];
+    const reader = row.roles.find((role) => role.role === "reader")?.personIds[
+      zero
+    ];
+    if (!writer || !reader) return false;
+    const said = letterFacts(
+      core,
+      LETTER_TYPE,
+      moment.causeId,
+      writer,
+      reader,
+      () => null,
+    );
+    return Object.keys(said).length === zero;
+  };
+  const seasonFull = (row: SceneBinding) =>
+    (inSeason.get(row.typeKey) ?? zero) >= library.scheduling.seasonCap.value;
+  const heldBack = wanted.flatMap(
+    (row): NonNullable<ScheduleEntry["heldBack"]> =>
+      seasonFull(row)
+        ? [{ typeKey: row.typeKey, reason: "season-cap" }]
+        : sameLetter(row)
+          ? [{ typeKey: row.typeKey, reason: "nothing-changed" }]
+          : [],
+  );
+  const held = new Set(heldBack.map((row) => row.typeKey));
   const bindings = wanted.filter(
     (row) =>
-      (inSeason.get(row.typeKey) ?? zero) <
-        library.scheduling.seasonCap.value &&
+      receivable(row) &&
+      !held.has(row.typeKey) &&
       (eachCause(row) ||
         (!sittingToday.has(castOf(row)) &&
           !sittingToday.has(windowKey(row, moment.id)))),
@@ -948,6 +1119,7 @@ export function scheduleMoment(
     rank,
     pace,
     bindings,
+    ...(heldBack.length ? { heldBack } : {}),
     ...(found.length ? {} : { coverage }),
   };
 }

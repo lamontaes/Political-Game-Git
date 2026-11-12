@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,7 @@ source: added with npm run pool -- add
 **Files.** src/core2/public-safety.ts,src/core2/data/outside-flows.json
 
 **Notes.** Found working gov-outside-revenue-fees (#5926).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into gov-outside-revenue-fees. Same fix family: fees reach the issuing treasury and clear check 6, and the permit-fee transfers are in src/core2/public-safety.ts near line 1648. The kept item should take the permit-fee rows.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `gov-outside-revenue-fees`, which carries this item's remaining work.

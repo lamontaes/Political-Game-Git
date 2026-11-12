@@ -167,7 +167,9 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
     }
     add(household.id, household.placeId, true, ages, income, 1);
   }
-  // Counted residents: the same line on each record, times its weight.
+  // Counted residents: the same line on each record, times its weight (a
+  // zero-income group-quarters room reads as a poor household).
+  // stopgapId: SG-GQ-means-tests-poverty
   const rt = residentsRuntime(core);
   if (rt)
     for (const h of rt.store.liveHouseholds()) {

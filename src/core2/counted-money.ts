@@ -33,6 +33,7 @@ import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import { residentsRuntime, type ResidentsRuntime } from "./modules/residents";
 import type { CountedHousehold } from "./counted-groups";
+import { withCountedQuarterPay } from "./pay-by-quarter";
 import type { ResidentFlowInput } from "./residents";
 import type { CoreAPI, CoreState, PersonId, PlaceId, Source } from "./types";
 
@@ -47,6 +48,8 @@ type SplitFlow = Pick<
   | "placeId"
   | "perDayMinorByJob"
   | "amountByContract"
+  | "quarters"
+  | "organizationId"
 >;
 
 export const HOUSING_KINDS = new Set(["household.rent", "household.mortgage"]);
@@ -260,7 +263,11 @@ function weighFlow(rt: ResidentsRuntime, flow: SplitFlow): Weighed {
       };
   } else if (flow.financeKind === "work.unplaced-residents") {
     for (const h of rt.store.liveHouseholds())
-      if (h.placeId === flow.placeId && h.unplacedWorkers > 0)
+      if (
+        h.placeId === flow.placeId &&
+        h.unplacedWorkers > 0 &&
+        !h.quarters === !flow.quarters
+      )
         out.set(
           h.group,
           (out.get(h.group) ?? 0) + h.unplacedWorkers * rt.store.weightOf(h),
@@ -547,7 +554,11 @@ export function workersByGroup(
   const out = new Map<number, number>();
   if (flow.financeKind === "work.unplaced-residents") {
     for (const h of rt.store.liveHouseholds())
-      if (h.placeId === flow.placeId && h.unplacedWorkers > 0)
+      if (
+        h.placeId === flow.placeId &&
+        h.unplacedWorkers > 0 &&
+        !h.quarters === !flow.quarters
+      )
         out.set(
           h.group,
           (out.get(h.group) ?? 0) + h.unplacedWorkers * rt.store.weightOf(h),
@@ -608,6 +619,19 @@ export function payGroups(
       : Math.round((365 / 12) * input.flow.cadence.every);
   for (const [group, gross] of shares) {
     let taxes = 0;
+    // The base period's wage of one worker of the group, gross before withholding.
+    const heads = workers?.get(group) ?? 0;
+    if (wages && heads > 0 && input.flow.organizationId) {
+      const key = `${rt.store.groups[group]!.id}|${input.flow.organizationId}`;
+      api.state.work.countedPayByQuarter.set(
+        key,
+        withCountedQuarterPay(
+          api.state.work.countedPayByQuarter.get(key),
+          api.state.date,
+          Math.round(gross / heads),
+        ),
+      );
+    }
     if (wages)
       for (const line of groupWithholding(
         api,

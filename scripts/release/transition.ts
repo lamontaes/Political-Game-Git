@@ -252,15 +252,18 @@ export function checkDeclarationTransition(
   }
 
   const paths = changedPaths(root, comparisonBase, head);
-  // Session status files (docs/coordination) and the pool (docs/pool, whose
-  // claims are pushed straight to main) carry no release impact, and so does
-  // the play-first lane's progress log (docs/play-first/PROGRESS.md), which
-  // every lane session appends to straight on main.
+  // Session status files (docs/coordination), the pool (docs/pool, whose
+  // claims are pushed straight to main) and the lanes' pages, state files and
+  // agreements (docs/lanes, written straight to main by every lane and the
+  // merge desk) carry no release impact, and so does the play-first lane's
+  // progress log (docs/play-first/PROGRESS.md), which every lane session
+  // appends to straight on main.
   const eligiblePaths = paths.filter(
     (path) =>
       !isDeclarationPath(path) &&
       !path.startsWith("docs/coordination/") &&
       !path.startsWith("docs/pool/") &&
+      !path.startsWith("docs/lanes/") &&
       !LANE_STATUS_PATHS.has(path),
   );
   const declarationPaths = paths.filter(

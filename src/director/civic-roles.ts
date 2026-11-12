@@ -19,6 +19,7 @@
  * town's or the county's (`localClerkFor`), and an official's aide is one of
  * the staff they hired (`servingStaffOf`).
  */
+import { remarkOf } from "./remark";
 import { closenessBetween } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
@@ -139,6 +140,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "poll-workers",
   "chair",
   "members",
+  "subject-on-body",
   "bill-sponsor",
   "executive",
   "appointer",
@@ -511,6 +513,24 @@ export function civicFill(
       if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
       const sponsor = billOf(api, moment)?.sponsorId;
       return free(living(core, sponsor ? [sponsor] : []));
+    }
+    case "subject-on-body": {
+      // The subject, when they sit on the body a heard public comment was
+      // made to (the comment's bill, from the meetings engine's remark).
+      if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
+      const remark = remarkOf(core, moment.causeId);
+      const bill = remark
+        ? (api
+            .moduleState(LEGISLATURE_MODULE_ID)
+            .table("bills")
+            .get(remark.billId) as unknown as BillRow | undefined)
+        : undefined;
+      if (!bill) return [];
+      return members(api, bill.bodyOfficeId)
+        .map((term) => memberKey(term))
+        .includes(moment.personId)
+        ? [moment.personId]
+        : [];
     }
     case "chair":
     case "members": {

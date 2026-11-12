@@ -12,6 +12,7 @@ import {
   countedJob,
   countedParameter,
   residentsRuntime,
+  unplacedPayPerWorker,
 } from "../modules/residents";
 import type {
   CoreAPI,
@@ -269,8 +270,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
           size: ages.length,
           incomeDollars:
             jobIncome(jobs) +
-            (h.unplacedWorkers * (rt.unplacedPerWorker.get(h.placeId) ?? 0)) /
-              cents +
+            (h.unplacedWorkers * unplacedPayPerWorker(rt, h)) / cents +
             h.retirementMinorYear / cents,
           ...(h.retirementMinorYear
             ? { retirementDollars: h.retirementMinorYear / cents }

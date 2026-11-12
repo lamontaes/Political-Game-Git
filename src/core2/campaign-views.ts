@@ -11,32 +11,15 @@
  * question is that lean along the question's measured left-right axis
  * (`data/research/campaigns/issue-axes-2026.json`).
  */
-import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
 import support from "../../data/research/campaigns/policy-support-2026.json" with { type: "json" };
 import lineAxes from "./data/legislature/budget-line-axes.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
-import parameters from "./data/campaigns/parameters.json" with { type: "json" };
 import stanceLoadings from "../../data/research/people/opening-stance-loadings.json" with { type: "json" };
+import { axisOf, campaignParameter, type Stance } from "./campaign-data";
 import { stableHash } from "./kernel/ids";
 import { worldRate } from "./world-draw";
 import type { PersonState } from "./types";
-
-/** One stated position: support (+1) or oppose (-1) a policy question. */
-export interface Stance {
-  readonly question: string;
-  readonly position: number;
-}
-
-export function campaignParameter(key: string): number {
-  const row = (parameters as { parameters: Record<string, { value: number }> })
-    .parameters[key];
-  if (!row) throw new Error(`Unknown campaign parameter: ${key}`);
-  return row.value;
-}
-
-const axisOf = (axes as { axes: Record<string, { axis: number }> }).axes;
-export const PLATFORM_QUESTIONS: readonly string[] = Object.keys(axisOf).sort();
 
 const districtShare = new Map<string, number>(
   (
@@ -389,11 +372,27 @@ export function loadingShift(
 }
 
 /**
+ * A person's or counted group's own stance on a question, in [-1, 1]: their
+ * lean along the question's axis and what their faith and degree add. A full
+ * person's current view is the views engine's `viewOn`, the same rule with
+ * what they have heard since.
+ */
+export function groupStance(
+  lean: number,
+  question: string,
+  profile: StanceProfile | null | undefined,
+): number {
+  return Math.max(
+    -1,
+    Math.min(1, personStance(lean, question) + loadingShift(profile, question)),
+  );
+}
+
+/**
  * How much a person or counted group agrees with a platform, in [-1, 1]: the
- * mean, over the stated positions, of their stance on each (their lean along
- * the question's axis, and what their faith and degree add) times the
- * position. A counted voter and a full person of the same lean and profile
- * agree alike (one model, two tiers).
+ * mean, over the stated positions, of their stance on each (`groupStance`)
+ * times the position. A counted voter and a full person of the same lean and
+ * profile agree alike (one model, two tiers).
  */
 export function groupAgreement(
   lean: number,
@@ -406,14 +405,6 @@ export function groupAgreement(
   // question is barely moved either way by it; someone who holds it strongly
   // is drawn or put off (owner, Oct 9: most people hold weak views or none).
   for (const stance of platform)
-    sum +=
-      Math.max(
-        -1,
-        Math.min(
-          1,
-          personStance(lean, stance.question) +
-            loadingShift(profile, stance.question),
-        ),
-      ) * stance.position;
+    sum += groupStance(lean, stance.question, profile) * stance.position;
   return Math.max(-1, Math.min(1, sum / platform.length));
 }

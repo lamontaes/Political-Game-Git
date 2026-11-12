@@ -12,28 +12,33 @@
  * Congress); a member they met weighs the group's case among their reasons,
  * in proportion to how many of the bill's losers the group speaks for.
  */
+import { ageInYears } from "../kernel/dates";
 import { coreAPI, registerModule } from "../state";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { currentCloseness } from "../closeness";
 import { countedPersonOf } from "../counted-actor";
 import { parameter } from "../parameters";
 import { leanedYes } from "../trait-decisions";
 import { lawChain } from "./laws";
 import {
+  billJurisdiction,
   chambersOf,
   employerCosts,
   LEGISLATURE_MODULE_ID,
   members,
   provisionStance,
+  reachesTown,
+  registerHearingWitnessProvider,
   registerLegislatureHooks,
   votesOn,
   type BillRow,
 } from "./legislature";
 import { personLean } from "../campaign-views";
-import { registerStanceListener, viewOf, viewOn } from "./views";
+import { registerStanceListener } from "../stance-listeners";
+import { viewOf, viewOn } from "./views";
 import { makeCase } from "./speech";
 import { concerns, meetingParameter } from "./meetings";
 import type { PersonState } from "../types";
@@ -144,6 +149,8 @@ const table = (api: CoreAPI, name: string) =>
   api.moduleState(INTEREST_GROUPS_MODULE_ID).table(name);
 
 export function openInterestGroups(core: CoreState): void {
+  // Registered here, not at import: the legislature module is still loading when this file is.
+  registerHearingWitnessProvider(hearingWitnesses);
   if (!core.modules.has(INTEREST_GROUPS_MODULE_ID))
     registerModule(core, INTEREST_GROUPS_MODULE);
   registerLegislatureHooks({
@@ -202,6 +209,9 @@ export function ownerJoins(
 function organize(api: CoreAPI, billId: string): void {
   if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return;
   const b = bill(api, billId);
+  // The town's residents and employers organize over law that reaches them:
+  // the nation's and the town's own chain's, never another state's.
+  if (!reachesTown(api, billJurisdiction(api, b))) return;
   organizeResidents(api, b);
   for (const stake of employerStakes(api, b)) organizeEmployers(api, b, stake);
 }
@@ -551,9 +561,7 @@ function lobbyTerm(api: CoreAPI, b: BillRow, memberId: string): number {
 }
 
 const ageOn = (p: Readonly<PersonState>, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 
 /**
  * Residents organize over a bill: each feels its pull by how strongly they
@@ -832,6 +840,85 @@ function joinSide(
   api.join(personId, `organization:${groupId}`);
 }
 
+/** The id of the group that stands for a question in a town (the demand side). */
+export const movementGroupId = (town: string, question: string) =>
+  groupIdFor(town, question, 1);
+
+/**
+ * A crowd that keeps coming back over the same grievance becomes a standing
+ * residents' group (owner, Nov 8: "can you start a movement?"): the same group
+ * a bill's fiscal losers form (same id, same organization, same lobbying of
+ * the next bill on its question), founded by the people who keep turning out
+ * and not by a bill. Returns the group, or null where the engine is not
+ * installed or no one who is alive can speak for it. A group already standing
+ * on the question takes the new members.
+ */
+export function foundMovement(
+  api: CoreAPI,
+  input: {
+    readonly town: string;
+    readonly question: string;
+    readonly memberIds: readonly string[];
+    readonly formedOver: string;
+    readonly citation: string;
+    /** The member who decided to found it, who speaks for it. */
+    readonly organizerId?: string;
+  },
+): GroupRow | null {
+  if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return null;
+  const alive = input.memberIds.filter((id) => api.state.people.get(id)?.alive);
+  if (!alive.length) return null;
+  const groupId = groupIdFor(input.town, input.question, 1);
+  const organizationId = `organization:${groupId}`;
+  const existing = table(api, "groups").get(groupId) as unknown as
+    GroupRow | undefined;
+  if (!api.state.organizations.has(organizationId))
+    api.addOrganization({
+      id: organizationId,
+      placeId: input.town,
+      name: groupId,
+      kind: "interest-group",
+      topic: input.question,
+      liquidMinor: 0,
+      source: {
+        tag: "SOURCED",
+        citation: input.citation,
+        asOf: api.state.date,
+      },
+    });
+  const members = [
+    ...new Set([...(existing?.memberPersonIds ?? []), ...alive]),
+  ].sort();
+  const speaker =
+    existing?.lobbyistId &&
+    members.includes(existing.lobbyistId) &&
+    api.state.people.get(existing.lobbyistId)?.alive &&
+    lobbyingBarredUntil(api, existing.lobbyistId) === null
+      ? existing.lobbyistId
+      : input.organizerId &&
+          members.includes(input.organizerId) &&
+          lobbyingBarredUntil(api, input.organizerId) === null
+        ? input.organizerId
+        : (members.find(
+            (id) =>
+              api.state.people.get(id)?.alive &&
+              lobbyingBarredUntil(api, id) === null,
+          ) ?? null);
+  const row = {
+    id: groupId,
+    organizationId,
+    interest: input.question,
+    formedOn: existing?.formedOn ?? api.state.date,
+    formedOver: existing?.formedOver ?? input.formedOver,
+    memberOrganizationIds: [],
+    memberPersonIds: existing?.memberPersonIds ?? [],
+    lobbyistId: speaker,
+  } satisfies GroupRow;
+  table(api, "groups").put(row as unknown as ModuleRow);
+  for (const id of alive) joinSide(api, id, input.town, input.question, 1);
+  return table(api, "groups").get(groupId) as unknown as GroupRow;
+}
+
 /**
  * Membership follows the view, on the day it moves: a member whose view on
  * the group's question has crossed to the other side, by a margin that
@@ -882,6 +969,34 @@ function reviewMember(api: CoreAPI, personId: string, question: string): void {
 }
 
 registerStanceListener(reviewMember);
+
+// A hearing on a question hears the residents the interest groups' records show on each side of
+// it, alternating sides: a for-witness, then an against-witness (the stake is the side, as a code).
+function hearingWitnesses(
+  api: CoreAPI,
+  bill: BillRow,
+  question: string,
+): readonly { personId: string; stake: string }[] {
+  // The town's groups are its residents: they testify on law that reaches
+  // them (the nation's and their own chain's), as they organize over it
+  // (`organize`), never at another state's committee.
+  if (!reachesTown(api, billJurisdiction(api, bill))) return [];
+  const sides = groupsHere(api)
+    .filter((group) => group.interest === question)
+    .map((group) => ({
+      side: group.id.endsWith(":against") ? "against" : "for",
+      people: (group.memberPersonIds ?? []).filter(
+        (id) => api.state.people.get(id)?.alive,
+      ),
+    }));
+  const out: { personId: string; stake: string }[] = [];
+  const longest = Math.max(0, ...sides.map((row) => row.people.length));
+  for (let at = 0; at < longest; at += 1)
+    for (const row of sides)
+      if (row.people[at])
+        out.push({ personId: row.people[at]!, stake: row.side });
+  return out;
+}
 
 export function groupsHere(api: CoreAPI): readonly GroupRow[] {
   return table(api, "groups").rows() as unknown as GroupRow[];

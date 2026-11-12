@@ -15,8 +15,9 @@
  * the law of the state, a recorded lot where the law says lot.
  */
 import ties from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
-import { stableHash } from "./kernel/ids";
-import { campaignParameter, type Stance } from "./campaign-views";
+import { pairKey, stableHash } from "./kernel/ids";
+import { bookkeeping } from "./bookkeeping";
+import { campaignParameter, type Stance } from "./campaign-data";
 import { agreementWith } from "./modules/views";
 import { partySide } from "./appointments";
 import {
@@ -32,6 +33,7 @@ import { holderOf, officialLean, officialOf } from "./modules/officials";
 import type { ModuleRow } from "./module-data";
 import type { OfficeInput } from "./offices-local";
 import type { CoreAPI } from "./types";
+import { placeStateKey } from "./place-map";
 
 interface TieRule {
   readonly method: string;
@@ -75,13 +77,8 @@ export function ruleField(contest: ContestRow): string {
   return "generalElectionTie";
 }
 
-function stateOf(api: CoreAPI): string {
-  return (
-    api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("town")
-      .get("town") as unknown as { stateKey: string }
-  ).stateKey;
+function tieState(api: CoreAPI): string {
+  return placeStateKey(api.state.placeMetadata?.placeKey) ?? "";
 }
 
 function keep(api: CoreAPI, row: TieRow): void {
@@ -108,7 +105,7 @@ export function breakElectionTie(
   raceVotes?: number,
 ): string | null {
   const sorted = [...tied].sort();
-  const rule = rules[stateOf(api)]?.[ruleField(contest)];
+  const rule = rules[tieState(api)]?.[ruleField(contest)];
   let method = rule?.method ?? "new-election";
   if (rule?.smallRace && raceVotes !== undefined) {
     // The statute's own line, read from the state's row (data).
@@ -209,6 +206,23 @@ function relationshipOf(
 ): number {
   const member = api.state.people.get(memberId);
   if (!member?.knownIds.has(candidateId)) return 0;
+  // A tie is kept under its pair's key, among each of the two's ties.
+  if (memberId !== candidateId) {
+    const row = api.state.relationships.get(pairKey(memberId, candidateId));
+    const level = row ? Math.max(-1, Math.min(1, row.level)) : 0;
+    if (bookkeeping() && level !== levelAmongTies(api, memberId, candidateId))
+      throw new Error("A member's tie is not the one among their ties.");
+    return level;
+  }
+  return levelAmongTies(api, memberId, candidateId);
+}
+
+/** The last of a member's ties that names the candidate, -1 to 1. */
+function levelAmongTies(
+  api: CoreAPI,
+  memberId: string,
+  candidateId: string,
+): number {
   let level = 0;
   for (const id of api.state.relationshipsByPerson.get(memberId) ?? []) {
     const row = api.state.relationships.get(id);

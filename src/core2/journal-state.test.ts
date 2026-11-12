@@ -15,6 +15,7 @@ import {
   cashJournalSetWrite,
   completeCashJournalSource,
   emptyCashJournalRuntime,
+  foldCashJournalDetail,
   postCashJournal,
   registerCashAccount,
   registerCashJournalSourceProviders,
@@ -2725,4 +2726,144 @@ describe("final native factory control identity on actual journal hosts", () => 
       expect(core.people.get(ownerA)!.tier).toBe("weekly");
     },
   );
+});
+
+describe("folding itemized receipts past their readers' windows", () => {
+  const later = "2022-03-01",
+    afterAll = "2023-03-01";
+  const post = (
+    f: Fixture,
+    day: string,
+    id: string,
+    retainFull = false,
+  ): { input: CashJournalInput; canonical: CanonicalSource } => {
+    f.host.state.date = day;
+    const made = f.addSource(payment(100), id);
+    made.canonical.retainFull = retainFull;
+    postCashJournal(f.runtime, f.host, made.input);
+    return made;
+  };
+  const keepNone = (before: string, named: readonly string[] = []) => ({
+    before,
+    householdSince: before,
+    householdIds: new Set<string>(),
+    named: new Set(named),
+  });
+  const money = (f: Fixture) =>
+    JSON.stringify(
+      [
+        f.runtime.totals,
+        f.runtime.totalsByOwner,
+        f.runtime.totalsByAccount,
+        f.runtime.latestByOwner,
+        f.runtime.accounts,
+        f.host.state.people,
+        f.host.state.organizations,
+      ],
+      (_key, row: unknown) =>
+        row instanceof Map
+          ? [...row]
+          : typeof row === "bigint"
+            ? `${row}n`
+            : row,
+    );
+
+  it("folds a followed person's old receipt into their yearly total by kind, leaves their index, and folds nothing twice", () => {
+    const f = fixture();
+    (f.host.state.focusPersonIds as Set<string>).add(ownerA);
+    const old = post(f, date, "fixture:old");
+    const recent = post(f, later, "fixture:recent");
+    const books = money(f);
+    expect(foldCashJournalDetail(f.runtime, keepNone(future))).toBe(P.one);
+    expect(f.runtime.detailedReceipts.has(old.input.id)).toBe(false);
+    expect(f.runtime.detailedReceipts.has(recent.input.id)).toBe(true);
+    expect(f.runtime.detailedByOwner.get(ownerA)).toEqual(
+      new Set([recent.input.id]),
+    );
+    expect([...f.runtime.foldedByOwner.get(ownerA)!.values()]).toEqual([
+      {
+        ownerId: ownerA,
+        year: 2021,
+        kind: sourceKind,
+        inMinor: P.zero,
+        outMinor: 100,
+        count: P.one,
+      },
+    ]);
+    // The organization paid was never followed: no total, no index.
+    expect(f.runtime.foldedByOwner.has(ownerB)).toBe(false);
+    expect(money(f)).toBe(books);
+    const once = snapshot(f);
+    expect(foldCashJournalDetail(f.runtime, keepNone(future))).toBe(P.zero);
+    expect(snapshot(f)).toBe(once);
+    // A year on, the last one folds too, into its own year, and the emptied index goes.
+    expect(foldCashJournalDetail(f.runtime, keepNone(afterAll))).toBe(P.one);
+    expect(f.runtime.detailedReceipts.size).toBe(P.zero);
+    expect(f.runtime.detailedByOwner.has(ownerA)).toBe(false);
+    expect([...f.runtime.foldedByOwner.get(ownerA)!.keys()]).toEqual([
+      `2021 ${sourceKind}`,
+      `2022 ${sourceKind}`,
+    ]);
+    expect(money(f)).toBe(books);
+  });
+
+  it("keeps what a source still requires until it is released, what a kept record names, and every observer receipt", () => {
+    const f = fixture();
+    (f.host.state.focusPersonIds as Set<string>).add(ownerA);
+    const required = post(f, date, "fixture:required", true);
+    const named = post(f, date, "fixture:named");
+    const plain = post(f, date, "fixture:plain");
+    expect(
+      foldCashJournalDetail(f.runtime, keepNone(later, [named.input.id])),
+    ).toBe(P.one);
+    expect(f.runtime.detailedReceipts.has(plain.input.id)).toBe(false);
+    expect(f.runtime.detailedByOwner.get(ownerA)).toEqual(
+      new Set([required.input.id, named.input.id]),
+    );
+    expect(
+      f.runtime.requiredBySource.get(sourceKind)!.get(required.canonical.id),
+    ).toBe(required.input.id);
+    // Once released, it is an ordinary followed receipt and folds.
+    required.canonical.retainFull = false;
+    releaseCashJournalSource(f.runtime, required.input.sourceRef);
+    expect(f.runtime.requiredBySource.size).toBe(P.zero);
+    expect(
+      foldCashJournalDetail(f.runtime, keepNone(later, [named.input.id])),
+    ).toBe(P.one);
+    expect(f.runtime.detailedByOwner.get(ownerA)).toEqual(
+      new Set([named.input.id]),
+    );
+    expect(
+      f.runtime.foldedByOwner.get(ownerA)!.get(`2021 ${sourceKind}`)!.count,
+    ).toBe(P.one + P.one);
+
+    const watched = fixture();
+    watched.host.state.observer = true;
+    const seen = post(watched, date, "fixture:observed");
+    const before = snapshot(watched);
+    expect(foldCashJournalDetail(watched.runtime, keepNone(later))).toBe(
+      P.zero,
+    );
+    expect(watched.runtime.detailedReceipts.has(seen.input.id)).toBe(true);
+    expect(snapshot(watched)).toBe(before);
+  });
+
+  it("keeps the player's household's receipts from their window's start and folds older ones", () => {
+    const f = fixture();
+    f.host.state.playerId = ownerA;
+    const kept = post(f, future, "fixture:household");
+    const household = {
+      before: later,
+      householdSince: future,
+      householdIds: new Set([ownerA]),
+      named: new Set<string>(),
+    };
+    expect(foldCashJournalDetail(f.runtime, household)).toBe(P.zero);
+    expect(f.runtime.detailedReceipts.has(kept.input.id)).toBe(true);
+    expect(
+      foldCashJournalDetail(f.runtime, { ...household, householdSince: later }),
+    ).toBe(P.one);
+    expect(f.runtime.detailedReceipts.size).toBe(P.zero);
+    expect(f.runtime.detailedByOwner.size).toBe(P.zero);
+  });
 });

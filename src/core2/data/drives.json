@@ -46,6 +46,7 @@
     "originEvent": "origin-event",
     "countedSubject": "counted-subject",
     "countedPerceivers": "counted-perceivers",
+    "countedSubjects": "counted-subjects",
     "countedHousehold": "counted-household"
   },
   "driveKinds": [

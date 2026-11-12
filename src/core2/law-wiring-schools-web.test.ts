@@ -46,7 +46,7 @@ import {
   type SchoolGroupRow,
   type SchoolResultRow,
 } from "./school-outcomes";
-import stopgaps from "./data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "./stopgaps";
 import { coreAPI } from "./state";
 
 const seed = process.env.SCHOOLS_WEB_SEED ?? randomBytes(20).toString("hex");
@@ -204,7 +204,7 @@ describe("school-move-to-scores is carried by the school engine", () => {
     const notRunning = (stopgaps as { id: string; whatItFakes: string }[]).find(
       (s) => s.id === "SG-SCHOOL-links-not-running",
     )!;
-    expect(notRunning.whatItFakes).toMatch(/^Seven researched links/);
+    expect(notRunning.whatItFakes).toMatch(/^Six researched links/);
   });
 
   it(
@@ -357,7 +357,6 @@ describe("the other school links stay unread, each with the engine that would re
   it("names, for each link whose cause is not recorded, the engine that would read it", () => {
     const stop = row("SG-SCHOOL-links-not-running");
     for (const key of [
-      "class-size-to-scores",
       "police-killing-to-graduation",
       "daca-to-graduation",
       "homicide-nearby-to-scores",

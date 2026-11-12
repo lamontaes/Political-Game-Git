@@ -43,6 +43,26 @@ director.start(core);
 advanceCore(core, addDays(makeIsoDate(core.date), 31));
 const chapters = composeJournal(core, director, player.id);
 
+/**
+ * The watched people first, then any other full person of the world, each in
+ * order. A drawn place may give the watched none with the relatives a test
+ * needs, so the test takes the next person who has them and has the director
+ * watch them (`watching`).
+ */
+const peopleToTry = (): string[] => [
+  ...[...director.ledger.people.keys()].sort(),
+  ...[...core.people.values()]
+    .filter((row) => row.alive && row.tier !== "husk")
+    .map((row) => row.id as string)
+    .filter((id) => !director.ledger.people.has(id as PersonId))
+    .sort(),
+];
+const watching = (id: string) => {
+  if (!director.ledger.people.has(id as PersonId))
+    director.watch(core, id as PersonId);
+  return id;
+};
+
 /** Every record id a journal line may cite. */
 function resolves(state: CoreState, id: string): boolean {
   const person = state.people.get(player.id)!;
@@ -307,20 +327,24 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       row.lines.map((line) => line.text),
     );
     // A death in the family is a hard time; running begins with deciding to.
-    // The relative is named by relation, or by their given name when another
-    // relative already holds the relation (two sons are not both "my son").
+    // A line may open on the time since the one before it ("One month on,").
+    // The relative is named by relation, with their given name too when
+    // another relative holds the same relation (two sons are each "my son
+    // Mark" and "my son Tom").
     const relative = core.people.get(relativeId)!;
     expect(
       text.some((line) =>
         new RegExp(
-          `^(My \\w+|${relative.givenName}) (died|passed away)\\.`,
+          `^(?:[^.]*, )?(?:[Mm]y \\w+(?: ${relative.givenName})?|${relative.givenName}) (died|passed away)\\.`,
         ).test(line),
       ),
       text.join(" | "),
     ).toBe(true);
     expect(
       text.some((line) =>
-        /^(I ran for City Council, Seat 2\.|So I ran\.)/.test(line),
+        /^(?:[^.]*, )?(?:[Ss]o )?[Ii] filed to run for City Council, Seat 2[.,]/.test(
+          line,
+        ),
       ),
     ).toBe(true);
   });
@@ -499,8 +523,13 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       );
     const mine = under("election-result:contest:fixture-mine");
     expect(mine?.title).toBe("Fixture Seat A");
+    // A relative's race is a line in the chapter the player is living, never
+    // a chapter titled after someone else (lane 3, path 9).
     const kin = under("election-result:contest:fixture-kin");
-    if (kin) expect(kin.title).toBe("Fixture Seat B");
+    if (kin) expect(kin.title).toBe("Fixture Seat A");
+    expect(journal.some((chapter) => chapter.title === "Fixture Seat B")).toBe(
+      false,
+    );
   });
 
   it("tells the player's own race when nobody ran against them", () => {
@@ -545,7 +574,9 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       expect(line.text).toMatch(/\b(son|daughter|child|[A-Z][a-z]+)\b/);
     // "My daughter Jane was born." or, for a second child, "Jane was born."
     for (const line of births.filter((row) => / was born\./.test(row.text)))
-      expect(line.text).toMatch(/^(My \w+ )?[A-Z][a-z]+ was born\./);
+      expect(line.plain ?? line.text).toMatch(
+        /^(My \w+ )?[A-Z][a-z]+ was born\./,
+      );
     for (const line of lines) {
       expect(line.text).not.toMatch(/Little did I know\.?$/);
       // A turning point needs a later chapter of another kind in the record.
@@ -570,23 +601,23 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       const other = core.people.get(id);
       return !!other?.alive && other.tier !== "husk";
     };
-    const watcherId = [...director.ledger.people.keys()]
-      .sort()
-      .find(
-        (id) =>
-          inTown(id) &&
-          [...core.people.get(id)!.familyIds].some(
-            (other) => other !== id && inTown(other),
-          ),
-      )!;
+    const watcherId = peopleToTry().find(
+      (id) =>
+        inTown(id) &&
+        [...core.people.get(id)!.familyIds].some(
+          (other) => other !== id && inTown(other),
+        ),
+    )!;
+    watching(watcherId);
     const watcher = core.people.get(watcherId)!;
     const relativeId = [...watcher.familyIds].find(
       (id) => id !== watcherId && inTown(id),
     )!;
     const relative = core.people.get(relativeId)!;
     // The shape src/core2/modules/moves.ts emits when someone leaves town.
+    const moveId = `person.moved-away:${relativeId}:${core.date}`;
     applyCoreEvent(core, {
-      id: `person.moved-away:${relativeId}:${core.date}`,
+      id: moveId,
       date: core.date,
       kind: "person.moved-away",
       personIds: [relativeId],
@@ -608,11 +639,22 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     );
     // The engine words it from the move record: who moved, by relation, and
     // the line cites the record it came from.
-    const told = lines.filter((line) => /moved away/.test(line.text));
+    // The lines of this move, by its record: a relative's earlier move in the
+    // past chapter is told with its age ("When I was 15 years old, my brother
+    // ... moved away."; Highland, Kansas, seed
+    // aa73e37ebdc41b538771fe51249d8514cb45eea4).
+    const told = lines.filter(
+      (line) =>
+        /moved away/.test(line.text) && line.sourceRecordIds.includes(moveId),
+    );
     expect(told.length).toBeGreaterThan(0);
     for (const line of told) {
-      // A second relative of one relation is said by given name ("Olivia moved away.").
-      expect(line.text).toMatch(/^(My \w+( \w+)?|[A-Z][a-z]+) moved away\.$/);
+      // A second relative of one relation is said by given name ("Olivia
+      // moved away."); a young watcher's line is framed by their age ("When
+      // I was 15 years old, my brother ... moved away.").
+      expect(line.plain ?? line.text).toMatch(
+        /^(?:When I was [^,]+, )?(?:[Mm]y \w+( \w+)?|[A-Z][a-z]+) moved away\.$/,
+      );
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
     }
   });
@@ -624,19 +666,18 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       const other = core.people.get(id);
       return !!other?.alive && other.tier !== "husk";
     };
-    const moverId = [...director.ledger.people.keys()]
-      .sort()
-      .find(
-        (id) =>
-          inTown(id) &&
-          (core.households.get(core.people.get(id)!.householdId)?.memberIds
-            .length ?? 0) > 1 &&
-          [...core.people.get(id)!.familyIds].some(
-            (other) =>
-              core.people.get(other)?.householdId ===
-                core.people.get(id)!.householdId && inTown(other),
-          ),
-      )!;
+    const moverId = peopleToTry().find(
+      (id) =>
+        inTown(id) &&
+        (core.households.get(core.people.get(id)!.householdId)?.memberIds
+          .length ?? 0) > 1 &&
+        [...core.people.get(id)!.familyIds].some(
+          (other) =>
+            core.people.get(other)?.householdId ===
+              core.people.get(id)!.householdId && inTown(other),
+        ),
+    )!;
+    watching(moverId);
     const mover = core.people.get(moverId)!;
     const withIds = [
       moverId,
@@ -720,10 +761,18 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         .filter((line) =>
           line.momentIds.some((id) => [own.id, movedMoment.id].includes(id)),
         )
-        .map((line) => line.text);
+        .map((line) => line.plain ?? line.text);
     const named = told(mover.placeId);
-    const moved = named.filter((line) => /^We /.test(line));
+    // Told as the person's own move, after an age frame when they were young
+    // ("When I was 15 years old, we moved back to Highland, Kansas."), and
+    // the age said once.
+    const moved = named.filter((line) =>
+      /^(?:When I was [^,]+, )?We /i.test(line),
+    );
     expect(moved).toHaveLength(1);
+    expect(
+      moved[0]!.match(/\b\d+\b(?= (?:years old|that year))/g)?.length ?? 0,
+    ).toBeLessThanOrEqual(1);
     expect(moved[0]).toContain(
       corePlaceByJurisdictionId(mover.placeId as never)!.displayName,
     );
@@ -748,9 +797,16 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
             (row) => row.kind === "coworker",
           ),
         );
+    // The player and the watched first; a drawn place where none of them has a
+    // coworker on record falls back to any full person of the world, whom the
+    // director then watches (the world draws who the player knows).
     const holderId = [
       player.id,
       ...[...director.ledger.people.keys()].sort(),
+      ...[...core.people.values()]
+        .filter((row) => row.alive && row.tier !== "husk")
+        .map((row) => row.id)
+        .sort(),
     ].find(
       (id) =>
         mateOf(id) &&
@@ -758,7 +814,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
           (fact) => fact.kind === "work:opening",
         ),
     )!;
-    expect(holderId, "nobody watched knows a coworker").toBeDefined();
+    expect(holderId, "nobody in the world knows a coworker").toBeDefined();
     const person = core.people.get(holderId)!;
     const mateId = mateOf(holderId)!;
     const employerId = core.jobs.get(person.jobId!)!.organizationId;
@@ -780,6 +836,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       hindsightAt: makeIsoDate(setting.date),
       echoes: [],
     };
+    if (!director.ledger.people.has(holderId)) director.watch(core, holderId);
     const book = director.ledger.people.get(holderId)!;
     const fixture = {
       ...director,

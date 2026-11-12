@@ -1,0 +1,13 @@
+PAGE 0 1440x900 {"inside":true,"scrollers":[],"outside":[]} Selectman | The polls closed. Everyone is watching the numbers for Selectman. | AVERY COOPER | 0 votes | EMILY CARTER | 0 votes | Next returns
+PAGE 0 1280x800 {"inside":true,"scrollers":[],"outside":[]} Selectman | The polls closed. Everyone is watching the numbers for Selectman. | AVERY COOPER | 0 votes | EMILY CARTER | 0 votes | Next returns
+PAGE 0 1024x768 {"inside":true,"scrollers":[],"outside":[]} Selectman | The polls closed. Everyone is watching the numbers for Selectman. | AVERY COOPER | 0 votes | EMILY CARTER | 0 votes | Next returns
+PAGE 1 1440x900 {"inside":true,"scrollers":[],"outside":[]} Selectman | The rest of the town is in. Avery Cooper leads there, 2 to 0. | AVERY COOPER | 2 votes | EMILY CARTER | 0 votes | Next returns
+PAGE 1 1280x800 {"inside":true,"scrollers":[],"outside":[]} Selectman | The rest of the town is in. Avery Cooper leads there, 2 to 0. | AVERY COOPER | 2 votes | EMILY CARTER | 0 votes | Next returns
+PAGE 1 1024x768 {"inside":true,"scrollers":[],"outside":[]} Selectman | The rest of the town is in. Avery Cooper leads there, 2 to 0. | AVERY COOPER | 2 votes | EMILY CARTER | 0 votes | Next returns
+PAGE 2 1440x900 {"inside":true,"scrollers":[],"outside":[]} Selectman | Avery Cooper has won the race for Selectman. | It wasn't enough. Avery Cooper won. | AVERY COOPER | 552 votes | EMILY CARTER | 223 votes | Next returns
+PAGE 2 1280x800 {"inside":true,"scrollers":[],"outside":[]} Selectman | Avery Cooper has won the race for Selectman. | It wasn't enough. Avery Cooper won. | AVERY COOPER | 552 votes | EMILY CARTER | 223 votes | Next returns
+PAGE 2 1024x768 {"inside":true,"scrollers":[],"outside":[]} Selectman | Avery Cooper has won the race for Selectman. | It wasn't enough. Avery Cooper won. | AVERY COOPER | 552 votes | EMILY CARTER | 223 votes | Next returns
+PAGE 3 1440x900 {"inside":true,"scrollers":[],"outside":[]} Selectman | Elsewhere tonight, 2 states chose a governor. | NEW JERSEY | Democratic · by 30 points | VIRGINIA | Republican · by 25 points | Close
+PAGE 3 1280x800 {"inside":true,"scrollers":[],"outside":[]} Selectman | Elsewhere tonight, 2 states chose a governor. | NEW JERSEY | Democratic · by 30 points | VIRGINIA | Republican · by 25 points | Close
+PAGE 3 1024x768 {"inside":true,"scrollers":[],"outside":[]} Selectman | Elsewhere tonight, 2 states chose a governor. | NEW JERSEY | Democratic · by 30 points | VIRGINIA | Republican · by 25 points | Close
+ERRORS []

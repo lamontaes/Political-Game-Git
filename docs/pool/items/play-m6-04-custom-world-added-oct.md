@@ -5,13 +5,13 @@ area: play
 kind: feature
 priority: 3
 size: L
-status: open
-claimed-by: claude/political-game-pool-76ksvw
+status: dropped
+claimed-by:
 pr:
 blocked-on:
 milestone: M6
 source: "docs/roadmap/later-specs-draft.md M6-04"
-claimed-at: 2026-10-20T01:14:36.124Z
+claimed-at:
 ---
 
 **What.** A new game starts from real data in a random place, or from a customized world (place, demographics, ideology, turnout, party strength, economy and more), like _The Political Process_'s advanced options. (Owner: OPUS-PLAY (the new-game screen), with OPUS-CORE (world generation).)
@@ -23,3 +23,9 @@ claimed-at: 2026-10-20T01:14:36.124Z
 **Files.** see spec
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting. Released from idle draft #5180 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. It is replaced by the Advanced start: docs/coordination/OWNER-DECISIONS.md, Oct 26 ('Watch the World and the custom world become one dev mode... get rid of the opening questions'), built as play-dev-mode-one-advanced-start (done, src/bench/advanced.browser.mjs) and play-new-game-world-options (done). Any remaining unhonored setting is a new bounded item.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

@@ -23,7 +23,8 @@ import salaries from "../../../data/research/offices/official-salaries-2026.json
 import { coreAPI, registerModule } from "../state";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
 import { notePublicPay, outsideAccountOf } from "../budgets-treasury";
-import { OFFICIALS_MODULE_ID, type OfficialRow } from "./officials";
+import { OFFICIALS_MODULE_ID, officialOf, type OfficialRow } from "./officials";
+import { registerHuskIncome } from "../husk-promoters";
 import {
   addDays,
   daysBetween,
@@ -35,6 +36,8 @@ import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import { giveLivingCost, spendLivingCost } from "../official-living";
 import payFacts from "../../../data/source/official-office-pay/facts.json" with { type: "json" };
 import { outsideGovernment } from "../outside-governments";
+import { placeStateKey } from "../place-map";
+import { keepsWhy } from "../why-kept";
 
 export const OFFICIAL_PAY_MODULE_ID = "core2-official-pay-v1";
 
@@ -90,6 +93,8 @@ interface PayRow {
   endedOn: string | null;
   /** The official's household was estimated here, so they spend what it costs each payday. */
   spends: boolean;
+  /** False for a post a non-government payer funds (an outlet's staff living outside the town): no treasury line records it. */
+  publicPay?: boolean;
 }
 
 const table = (api: CoreAPI, name: string) =>
@@ -207,9 +212,30 @@ function payerFor(api: CoreAPI, row: OfficialRow): string {
   return outsideGovernment(api, isFederal(row) ? "US" : row.stateKey);
 }
 
+/**
+ * An official of another state is counted, not paid person by person, until
+ * the player knows them or they are in focus (owner, Nov 5: simulate from the
+ * people there, keep only the result, generate on demand; the same people the
+ * "why" records are kept for, `keepsWhy`). Their salary is still the seat's;
+ * the pay row, post, living cost and monthly paycheck start the payday after
+ * they are met, with no back pay. Federal officials and the player's own
+ * state are paid from the start. stopgapId: SG-GOV-outside-officials-counted
+ */
+function countedUntilMet(api: CoreAPI, row: OfficialRow): boolean {
+  if (isFederal(row)) return false;
+  const core = api.state as CoreState;
+  const own = placeStateKey(core.placeMetadata?.placeKey ?? "");
+  if (own === undefined || row.stateKey === own) return false;
+  return !keepsWhy(core, row.id);
+}
+
 function seat(api: CoreAPI, row: OfficialRow): void {
   const person = api.state.people.get(row.id);
   if (!person?.alive || table(api, "pay").get(row.id)) return;
+  if (countedUntilMet(api, row)) {
+    api.stopgap("SG-GOV-outside-officials-counted");
+    return;
+  }
   const salary = officialSalary(row);
   if (!salary) {
     // An office the table has no pay for still has a person with a household to keep, on no pay.
@@ -217,7 +243,14 @@ function seat(api: CoreAPI, row: OfficialRow): void {
     return;
   }
   const payerId = payerFor(api, row);
-  const jobId = `job:office:${row.seatId}:${row.id}`;
+  const firstJobId = `job:office:${row.seatId}:${row.id}`;
+  const firstJob = (api.state as CoreState).jobs.get(firstJobId);
+  // Returning to a seat starts a new service record; the ended post stays
+  // in the person's history. Uninterrupted service keeps its original job.
+  const jobId =
+    firstJob?.endsAt !== undefined
+      ? `${firstJobId}:${row.termId ?? api.state.date}`
+      : firstJobId;
   const source = salarySource(salary, api.state.date);
   // Someone already working keeps their job (many legislatures sit part
   // time) and is paid the salary besides; anyone else holds the office as
@@ -263,9 +296,65 @@ function keepHousehold(
   });
 }
 
+/**
+ * One paycheck from a government's treasury to an official (a salary or a
+ * part-time seat's stipend): what the treasury holds is paid, the treasury's
+ * spending on the post's line is noted, the law's taxes come out, and what it
+ * could not cover is returned to be paid first on the next payday it can.
+ */
+export function payOfficialPaycheck(
+  api: CoreAPI,
+  input: {
+    readonly id: string;
+    readonly payerId: string;
+    readonly personId: string;
+    readonly dueMinor: number;
+    readonly reasonKey: string;
+    readonly source: Source;
+    readonly jobId: string;
+    readonly fromAt: string;
+    readonly throughAt: string;
+    /** False for a post a non-government payer funds: no treasury line records it. */
+    readonly publicPay?: boolean;
+  },
+): { readonly paidMinor: number; readonly owedMinor: number } {
+  if (input.dueMinor <= 0 || !api.state.people.get(input.personId)?.alive)
+    return { paidMinor: 0, owedMinor: 0 };
+  const accounts = api.accounts();
+  const receipt = accounts.transfer({
+    id: input.id,
+    from: accounts.main(input.payerId),
+    to: accounts.main(input.personId),
+    amountMinor: input.dueMinor,
+    reasonKey: input.reasonKey,
+    partial: true,
+    source: input.source,
+  });
+  if (receipt.paidMinor > 0 && api.state.modules.has(BUDGETS_MODULE_ID)) {
+    if (input.publicPay !== false)
+      notePublicPay(api, {
+        id: receipt.id,
+        organizationId: input.payerId,
+        jobId: input.jobId,
+        personId: input.personId,
+        paidMinor: receipt.paidMinor,
+      });
+    withholdPay(api, {
+      id: receipt.id,
+      personId: input.personId,
+      paidMinor: receipt.paidMinor,
+      fromAt: input.fromAt,
+      throughAt: input.throughAt,
+    });
+  }
+  return {
+    paidMinor: receipt.paidMinor,
+    owedMinor: input.dueMinor - receipt.paidMinor,
+  };
+}
+
 /** Pays each official for the days served since their last pay, on the 1st. */
 function payMonth(api: CoreAPI): void {
-  const accounts = api.accounts();
   const today = makeIsoDate(api.state.date);
   // The town's outside account, the same for every official this payday:
   // paying them adds no organization.
@@ -282,37 +371,22 @@ function payMonth(api: CoreAPI): void {
     const dueMinor = earnedMinor + (row.owedMinor ?? 0);
     let owedMinor = 0;
     if (dueMinor > 0 && api.state.people.get(row.personId)?.alive) {
-      const receipt = accounts.transfer({
+      owedMinor = payOfficialPaycheck(api, {
         id: `salary:${row.personId}:${today}`,
-        from: accounts.main(row.payerId),
-        to: accounts.main(row.personId),
-        amountMinor: dueMinor,
+        payerId: row.payerId,
+        personId: row.personId,
+        dueMinor,
         reasonKey: "official.salary",
-        partial: true,
         source: {
           ...row.source,
           asOf: today,
           citation: `${days} days in office at ${row.annualMinor} a year${row.owedMinor ? `, with ${row.owedMinor} still owed from earlier paydays` : ""}. ${row.citation}`,
         },
-      });
-      owedMinor = dueMinor - receipt.paidMinor;
-      if (receipt.paidMinor > 0 && api.state.modules.has(BUDGETS_MODULE_ID)) {
-        // The treasury's spending on the post's line, and the taxes out of the paycheck.
-        notePublicPay(api, {
-          id: receipt.id,
-          organizationId: row.payerId,
-          jobId: `job:office:${row.id}`,
-          personId: row.personId,
-          paidMinor: receipt.paidMinor,
-        });
-        withholdPay(api, {
-          id: receipt.id,
-          personId: row.personId,
-          paidMinor: receipt.paidMinor,
-          fromAt: row.paidFrom,
-          throughAt: addDays(makeIsoDate(through), -1),
-        });
-      }
+        jobId: `job:office:${row.id}`,
+        fromAt: row.paidFrom,
+        throughAt: addDays(makeIsoDate(through), -1),
+        publicPay: row.publicPay,
+      }).owedMinor;
       if (row.spends) spendLivingCost(api, row.personId, days, outside);
     } else if (dueMinor <= 0 && days <= 0) continue;
     if (row.endedOn && row.endedOn <= today && owedMinor === 0)
@@ -325,6 +399,49 @@ function payMonth(api: CoreAPI): void {
       } as unknown as ModuleRow);
   }
 }
+
+/**
+ * A salaried post its holder works outside the town, paid on the 1st of each
+ * month by the employer that funds it, the way officials outside the town are
+ * paid (people-press-out-of-town-staff-paid): a news outlet's staff who live in
+ * the state's market city or with a national outlet. The paycheck leaves the
+ * employer's account and is taxed as any paycheck is; their household cost is
+ * spent by whoever gave it to them. False when the pay engine is not running
+ * in this world.
+ */
+export function payPostFromOutside(
+  api: CoreAPI,
+  input: {
+    readonly personId: string;
+    readonly payerId: string;
+    readonly annualMinor: number;
+    readonly citation: string;
+    readonly source: Source;
+  },
+): boolean {
+  if (!api.state.modules.has(OFFICIAL_PAY_MODULE_ID)) return false;
+  const id = `post:${input.personId}`;
+  if (table(api, "pay").get(id)) return true;
+  table(api, "pay").put({
+    id,
+    personId: input.personId,
+    jobId: id,
+    payerId: input.payerId,
+    annualMinor: input.annualMinor,
+    citation: input.citation,
+    source: input.source,
+    paidFrom: api.state.date,
+    endedOn: null,
+    spends: false,
+    publicPay: false,
+  } satisfies PayRow as unknown as ModuleRow);
+  return true;
+}
+
+registerHuskIncome((core, personId) => {
+  const row = officialOf(coreAPI(core), personId);
+  return row?.husk ? officialSalary(row)?.annualMinor : undefined;
+});
 
 /** Seat new officials, and end the post of anyone whose term ended. */
 function review(api: CoreAPI): void {

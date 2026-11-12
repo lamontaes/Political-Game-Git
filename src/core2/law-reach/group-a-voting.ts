@@ -15,7 +15,9 @@
  *   law returns; `barredFromVoting` for a named person.
  * - `termLimitReached` and `lobbyingBarredUntil`: an officeholder's limits.
  */
-import { yesLevels } from "../modules/laws";
+import { placeStateKey } from "../place-map";
+import { lawInForce, yesLevels } from "../modules/laws";
+const EXECUTIVE_TERM_LIMIT = "executive-term-limit";
 import {
   PHOTO_ID,
   AUTO_REGISTRATION,
@@ -39,10 +41,14 @@ export {
 import type { CoreAPI, CoreState, PersonState, Source } from "../types";
 import felonyData from "../data/elections/felony-disenfranchisement.json" with { type: "json" };
 import { electionsParameter } from "../elections-calendar";
-import { corePlaceByKey } from "../place-lookup";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { incarceratedMayVote } from "../justice-law";
-import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  executiveTermLimit,
+  termLimitReachedBy,
+  type TermRow,
+} from "../modules/offices";
 import { ELECTIONS_MODULE_ID } from "../modules/elections";
 import {
   convictionsOf,
@@ -499,9 +505,9 @@ export function applyElectionLaws(
  * (SG-GOV-REACH-A-convictions).
  */
 export function felonyDisenfranchisedShare(api: CoreAPI): number {
-  const stateKey = corePlaceByKey(
+  const stateKey = placeStateKey(
     String(api.state.placeMetadata.placeKey ?? ""),
-  )?.stateJurisdictionKey;
+  );
   const shares = felonyData.states as Record<string, number>;
   const own = stateKey ? shares[stateKey] : undefined;
   if (own === undefined) {
@@ -526,9 +532,9 @@ export function felonyDisenfranchisedShare(api: CoreAPI): number {
  * felony-grade, so any conviction on record counts.
  */
 export function barredFromVoting(api: CoreAPI, personId: string): boolean {
-  const stateKey = corePlaceByKey(
+  const stateKey = placeStateKey(
     String(api.state.placeMetadata.placeKey ?? ""),
-  )?.stateJurisdictionKey;
+  );
   if (incarceratedMayVote(api, stateKey ?? "").may) return false;
   if (inCustody(api, personId)) return true;
   if (!convictionsOf(api, personId).length) return false;
@@ -557,11 +563,21 @@ export function termLimitReached(
   personId: string,
   officeId: string,
 ): boolean {
-  if (!inForce(api, TERM_LIMITS)) return false;
   const office = api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
-    .get(officeId) as { kind?: string } | undefined;
+    .get(officeId) as
+    { kind?: string; level?: string; jurisdiction?: string } | undefined;
+  if (office?.level === "state" && office.kind === "governor")
+    return governorLimitReached(api, personId, officeId);
+  // Another statewide executive (lieutenant governor, attorney general...)
+  // keeps the limit its state's constitution gives, from the office research.
+  if (office?.level === "state" && office.jurisdiction && office.kind) {
+    const limit = executiveTermLimit(office.jurisdiction, office.kind);
+    if (limit.kind !== "none")
+      return termLimitReachedBy(limit, governorTerms(api, personId, officeId));
+  }
+  if (!inForce(api, TERM_LIMITS)) return false;
   const legislative = selectorGroup("legislators").some((k) =>
     (office?.kind ?? "").startsWith(k),
   );
@@ -577,6 +593,51 @@ export function termLimitReached(
 }
 
 /**
+ * The governor's limit on terms: the state's `executive-term-limit` law in
+ * force (0 for none), against the terms the person has held or holds in the
+ * office. A law that raises, lowers or repeals the limit changes who may file
+ * the day it takes effect.
+ */
+function governorLimit(
+  api: CoreAPI,
+  officeId: string,
+): { terms: number; lawId: string | null } {
+  // A world without the laws engine has no law in force (as `inForce` reads it).
+  if (!api.state.modules.has("core2-laws-v1")) return { terms: 0, lawId: null };
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as { jurisdiction?: string } | undefined;
+  const level = lawInForce(api, EXECUTIVE_TERM_LIMIT).levels.find(
+    (l) => l.level === "state" && l.jurisdiction === office?.jurisdiction,
+  );
+  return {
+    terms: level?.row?.value ?? 0,
+    lawId: level?.row?.id ?? null,
+  };
+}
+
+function governorTerms(
+  api: CoreAPI,
+  personId: string,
+  officeId: string,
+): number {
+  const date = api.state.date;
+  return termsOf(api, personId).filter(
+    (t) => t.officeId === officeId && t.startDate <= date,
+  ).length;
+}
+
+function governorLimitReached(
+  api: CoreAPI,
+  personId: string,
+  officeId: string,
+): boolean {
+  const { terms } = governorLimit(api, officeId);
+  return terms > 0 && governorTerms(api, personId, officeId) >= terms;
+}
+
+/**
  * A person files for a legislative office under a term limit in force: the
  * elections engine counted their years against it, and the limit kept them
  * off the ballot or let them on. Called where the filing is decided, never
@@ -587,6 +648,25 @@ export function recordTermLimitFiling(
   personId: string,
   officeId: string,
 ): void {
+  const governor = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as { kind?: string; level?: string } | undefined;
+  if (governor?.level === "state" && governor.kind === "governor") {
+    const { terms, lawId: governorLaw } = governorLimit(api, officeId);
+    if (!governorLaw || terms <= 0) return;
+    lawApplied(api, {
+      key: EXECUTIVE_TERM_LIMIT,
+      lawId: governorLaw,
+      targetId: personId,
+      target: "person",
+      engine: "core2-elections-v1",
+      what: governorLimitReached(api, personId, officeId)
+        ? "kept-off-ballot"
+        : "term-count-checked",
+    });
+    return;
+  }
   if (!inForce(api, TERM_LIMITS)) return;
   const lawId = yesLevels(api, TERM_LIMITS)[0]?.lawId;
   const office = api
@@ -618,23 +698,65 @@ export function lobbyingBarredUntil(
   api: CoreAPI,
   personId: string,
 ): string | null {
-  if (!inForce(api, LOBBYING_BAN)) return null;
-  const ended = termsOf(api, personId)
-    // A term that ended in re-election isn't leaving office.
+  const laws = yesLevels(api, LOBBYING_BAN);
+  if (!laws.length) return null;
+  const terms = termsOf(api, personId);
+  const ended = terms
+    // Opening history explicitly records re-election. Live seating instead
+    // ends the old term as "term ended", so read its continuing service.
     .filter(
-      (t) => t.status === "ended" && t.endDate && t.endedBy !== "re-elected",
+      (t) =>
+        t.status === "ended" &&
+        t.endDate &&
+        t.endDate <= api.state.date &&
+        t.endedBy !== "re-elected" &&
+        !terms.some(
+          (next) =>
+            next.id !== t.id &&
+            next.officeId === t.officeId &&
+            next.startDate <= t.endDate! &&
+            (next.endDate === null || next.endDate > t.endDate!),
+        ),
     )
     .map((t) => t.endDate!)
     .sort()
     .pop();
-  if (!ended) return null;
-  const until = new Date(Date.parse(`${ended}T00:00:00Z`));
-  until.setUTCFullYear(
-    until.getUTCFullYear() + reachParameter("lobbyingCoolingOffYears"),
-  );
-  const date = until.toISOString().slice(0, 10);
+  if (!ended) {
+    lawNoLongerApplies(api, LOBBYING_BAN, personId);
+    return null;
+  }
+  const bans = laws.map((law) => {
+    const provisions = law.row.terms?.lawTerms;
+    const period = Array.isArray(provisions)
+      ? provisions.find(
+          (term) =>
+            term.questionKey === LOBBYING_BAN &&
+            term.key === "period" &&
+            term.unit === "years" &&
+            typeof term.value === "number" &&
+            Number.isFinite(term.value) &&
+            term.value >= 0,
+        )?.value
+      : undefined;
+    // stopgapId: SG-LAWS-lobbying-period-unspecified
+    if (period === undefined)
+      api.stopgap("SG-LAWS-lobbying-period-unspecified");
+    const years = period ?? reachParameter("lobbyingCoolingOffYears");
+    const until = new Date(Date.parse(`${ended}T00:00:00Z`));
+    // The researched six-month provision is half a year, not zero years.
+    const day = until.getUTCDate();
+    until.setUTCDate(1);
+    until.setUTCMonth(
+      until.getUTCMonth() + years * reachParameter("monthsPerYear"),
+    );
+    const lastDay = new Date(
+      Date.UTC(until.getUTCFullYear(), until.getUTCMonth() + 1, 0),
+    ).getUTCDate();
+    until.setUTCDate(Math.min(day, lastDay));
+    return { lawId: law.lawId, date: until.toISOString().slice(0, 10) };
+  });
+  const { date, lawId } = bans.sort((a, b) => b.date.localeCompare(a.date))[0]!;
   const barred = date > (api.state as CoreState).date;
-  const lawId = yesLevels(api, LOBBYING_BAN)[0]?.lawId;
   if (lawId) {
     if (barred)
       lawApplied(api, {
@@ -726,7 +848,15 @@ function payRedistrictingCommission(api: CoreAPI, source: Source): void {
     amountMinor: -paid,
   });
 }
-registerMonthlyProgram(payRedistrictingCommission);
+
+/**
+ * Registers the commission's monthly payment with the budgets engine. Called
+ * from `registerGroupA` (the law reach's init), never at module load: the
+ * budgets module's registry may not be built yet when this file is imported.
+ */
+export function registerVotingMonthlyProgram(): void {
+  registerMonthlyProgram(payRedistrictingCommission);
+}
 
 /**
  * The town's ward lines were drawn (the districts engine's only line-drawing

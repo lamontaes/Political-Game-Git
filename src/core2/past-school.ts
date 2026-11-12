@@ -13,13 +13,15 @@ import {
   SCHOOL_STAGE_CALENDAR,
 } from "./past-school-calendar";
 import {
+  ownWindowOf,
   preStartHistory,
-  preStartWindowOf,
   recordPreStartLater,
+  wholePastOnce,
   type HistoryRecord,
   type HistoryWriter,
   type PreStartWindow,
 } from "./pre-start";
+import { ownPastKind } from "./own-past-kinds";
 import { residenceOn } from "./past-moves";
 import { hasModuleState } from "./module-state";
 import { coreAPI } from "./state";
@@ -69,7 +71,7 @@ export function schoolName(
   return name;
 }
 
-export const SCHOOL_STARTED = "school.started";
+export const SCHOOL_STARTED = ownPastKind("school.started");
 /**
  * The years after kindergarten each stage starts, from the parameter table
  * (ESTIMATED from the CPS October 2024 modal ages by grade).
@@ -172,23 +174,29 @@ export function schoolHistory(
     history.record(row);
 }
 
-/** The school years of people filled in after the run, by the same rule. */
+/**
+ * A person's school years over their own life, once (the owner's ruling,
+ * Nov 9, 2026): the same rule as the run, over the window from their birth.
+ * A full person's clipped records are restated, not kept beside it.
+ */
 export function schoolHistoryFor(
   core: CoreState,
   people: readonly Readonly<PersonState>[],
 ): void {
-  const window = preStartWindowOf(core);
-  if (!window) return;
-  const fresh = people.filter(
-    (person) =>
-      !preStartHistory(core, { kind: SCHOOL_STARTED, personId: person.id })
-        .length,
-  );
-  recordPreStartLater(
-    core,
-    SCHOOL_MODULE_ID,
-    schoolRecords(core, fresh, window),
-  );
+  for (const person of people) {
+    const window = ownWindowOf(core, person);
+    if (!window || !wholePastOnce(core, person.id, "school")) continue;
+    const held = preStartHistory(core, {
+      kind: SCHOOL_STARTED,
+      personId: person.id,
+    }).map((row) => row.id);
+    recordPreStartLater(
+      core,
+      SCHOOL_MODULE_ID,
+      schoolRecords(core, [person], window),
+      { person: person.id, drop: held },
+    );
+  }
 }
 
 /** A school a person attended: where, from when, at what stage, by its record. */
@@ -258,4 +266,46 @@ export function schoolsAttended(
     });
   }
   return rows;
+}
+
+/** A run of school years at one school: its first and last school year (by calendar year the year starts in), and the record it opens on. */
+export interface SchoolSpan {
+  schoolId: string;
+  from: number;
+  to: number;
+  recordId: string;
+}
+
+/**
+ * The school years a person spent at each school, read from their school
+ * records: a record opens a run at its school, and the run lasts until the
+ * next record or, for the last one, until the person's last school year or
+ * today's school year, whichever comes first.
+ */
+export function schoolSpans(
+  core: Readonly<CoreState>,
+  personId: string,
+): SchoolSpan[] {
+  const person = core.people.get(personId as PersonId);
+  if (!person) return [];
+  const rows = schoolsAttended(core, personId);
+  if (!rows.length) return [];
+  const kindergarten = kindergartenYear(makeIsoDate(person.birthDate));
+  const today = Number(core.date.slice(0, 4));
+  const thisYear =
+    core.date.slice(5) >= data.schoolYear.firstDay ? today : today - 1;
+  const lastYear = Math.min(
+    kindergarten + SCHOOL_STAGE_CALENDAR.endsAfterYears.high - 1,
+    thisYear,
+  );
+  return rows.map((row, index) => {
+    const from = kindergarten + row.grade;
+    const next = rows[index + 1];
+    return {
+      schoolId: row.schoolId,
+      from,
+      to: next ? kindergarten + next.grade - 1 : lastYear,
+      recordId: row.recordId,
+    };
+  });
 }

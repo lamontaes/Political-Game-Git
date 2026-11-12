@@ -34,7 +34,6 @@ export function planCadence(changedFiles, options = {}) {
   const skillOps = has(
     /^scripts\/skill-ops\/|^\.agents\/|^\.claude\/|^AGENTS\.md$|^CLAUDE\.md$|^\.cursor\/|^\.codex\//,
   );
-  const art = has(/^art\/|^scripts\/art-asset-factory\//);
   const receipt = has(/^scripts\/agent-(run-receipt|test-cadence|preflight)/);
   const changedTests = paths.filter((file) =>
     /\.test\.(ts|tsx|mjs)$/.test(file),
@@ -109,16 +108,6 @@ export function planCadence(changedFiles, options = {}) {
         "npx vitest run src/bench/title.test.ts && node src/bench/title-motion.browser.mjs",
       receiptStage: "title",
       kind: "focus",
-    });
-  }
-
-  if (art) {
-    stages.push({
-      label: "Art validation trio",
-      command:
-        "npm run validate:art && npm run inventory:art && npm run qa:art",
-      receiptStage: "art",
-      kind: options.readiness ? "readiness" : "focus",
     });
   }
 

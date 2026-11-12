@@ -1,7 +1,7 @@
 import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
-import { buildPopulation } from "../core2/population";
+import { buildPopulation, inHousehold } from "../core2/population";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
@@ -11,11 +11,13 @@ import { defaultPreStart } from "../core2/saves";
 import { createDirector, type Director } from "../director/ledger";
 import { wordPrintedStory } from "./archive-words";
 import {
+  openClimate,
   WORLD_MODULES,
   withWorldEconomy,
   worldCoreData,
 } from "../core2/modules/world";
 import { openLaws } from "../core2/modules/laws";
+import { openStartingCircle } from "../core2/modules/people";
 import { openOffices } from "../core2/modules/offices";
 import { openElections } from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
@@ -23,10 +25,12 @@ import { openParties } from "../core2/modules/parties";
 import { openVoting, openWorldRaces } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
+import { openOutsideBudgets } from "../core2/modules/outside-budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
 import { openCrime } from "../core2/modules/crime";
 import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/homeless-count";
+import { openGrievance } from "../core2/modules/people";
 import { openEstates } from "../core2/estates";
 import { openEmployerTaxes } from "../core2/modules/employer-taxes";
 import { openContracts } from "../core2/modules/contracts";
@@ -40,12 +44,20 @@ import { openLeadership } from "../core2/modules/leadership";
 import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
-import { openWorldLegislating } from "../core2/modules/world-legislating";
+import { openPublicAction } from "../core2/modules/public-action";
+import { openNationalOpinion } from "../core2/modules/national-opinion";
+import { openFederalCourts } from "../core2/modules/federal-courts";
+import { openNationalEvents } from "../core2/modules/national-events";
+import {
+  openSittingSessions,
+  openWorldLegislating,
+} from "../core2/modules/world-legislating";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
 import { officeDayData, openOfficeDay } from "../core2/office-day-levels";
+import { openPresidentActs } from "../core2/modules/president-acts";
 import { openCases } from "../core2/modules/constituent-cases";
 import { openJustice } from "../core2/modules/justice";
 import { openPublicSafety } from "../core2/modules/public-safety";
@@ -57,10 +69,17 @@ import { OPENING_KIN } from "../core2/opening-kin";
 import { scaleFirmsToCensus } from "../core2/census-firms";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
-import { addOutsideMarket } from "../core2/opening-outside-market";
+import {
+  addOutsideMarket,
+  addTradeArea,
+} from "../core2/opening-outside-market";
 import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
+import { withOrigins } from "../core2/opening-origin";
 import { representativeSample } from "../core2/representative-sample";
+import { withCountySample } from "../core2/opening-county-sample";
+import { withRoles } from "../core2/opening-roles";
+import { withYearsInPlace } from "../core2/opening-tenure";
 import { initialFocusPeople } from "../core2/focus";
 import { selectBenchPlace } from "./place-selection.mjs";
 import { recordOpeningStory } from "../director/opening-story";
@@ -69,7 +88,7 @@ import {
   checkSettings as checkWorldSettings,
   scaleOutsideSales,
   type WorldSettings,
-} from "../core2/world-settings";
+} from "../core2/life";
 
 export interface BenchResident {
   id: string;
@@ -110,8 +129,9 @@ export function entrantOf(
   input: CoreInput,
   placeId: string,
   birthDate?: string,
+  gender?: string,
 ): string {
-  return entrantChoice(input, placeId, birthDate).id;
+  return entrantChoice(input, placeId, birthDate, gender).id;
 }
 
 /**
@@ -125,11 +145,19 @@ export function entrantChoice(
   input: CoreInput,
   placeId: string,
   birthDate?: string,
+  gender?: string,
 ): { id: string; age: number; estimated: boolean } {
-  if (birthDate) return entrantBornNear(input, placeId, makeIsoDate(birthDate));
+  if (birthDate)
+    return entrantBornNear(input, placeId, makeIsoDate(birthDate), gender);
   const at = makeIsoDate(input.startedAt);
+  const household = inHousehold(input);
   const residents = input.people
-    .filter((person) => person.placeId === placeId && person.tier !== "husk")
+    .filter(
+      (person) =>
+        person.placeId === placeId &&
+        person.tier !== "husk" &&
+        household(person),
+    )
     .map((person) => ({
       id: person.id,
       age: ageOnDate(makeIsoDate(person.birthDate), at),
@@ -174,6 +202,7 @@ function entrantBornNear(
   input: CoreInput,
   placeId: string,
   chosen: ReturnType<typeof makeIsoDate>,
+  gender?: string,
 ): { id: string; age: number; estimated: boolean } {
   const at = makeIsoDate(input.startedAt);
   const born = new Map(input.people.map((row) => [row.id, row.birthDate]));
@@ -192,8 +221,14 @@ function entrantBornNear(
         return ageOnDate(chosen, makeIsoDate(other)) >= minParentAge;
       return true;
     });
+  const household = inHousehold(input);
   const nearest = input.people
-    .filter((person) => person.placeId === placeId && person.tier !== "husk")
+    .filter(
+      (person) =>
+        person.placeId === placeId &&
+        person.tier !== "husk" &&
+        household(person),
+    )
     .map((person) => ({
       person,
       apart: Math.abs(daysBetween(chosen, makeIsoDate(person.birthDate))),
@@ -201,7 +236,16 @@ function entrantBornNear(
     .sort(
       (a, b) => a.apart - b.apart || a.person.id.localeCompare(b.person.id),
     );
-  const pick = nearest.find((row) => kinFit(row.person)) ?? nearest[0];
+  // A woman or a man is drawn from the residents of that sex, so the partner
+  // the place gave the resident is one the chosen gender fits (owner, Nov 1,
+  // v0.73.0: "it has chosen to make my character gay again"); nonbinary and
+  // a place with none of that sex at the age take the nearest birthday.
+  const sexed =
+    gender === "female" || gender === "male"
+      ? nearest.filter((row) => row.person.looks?.gender === gender)
+      : [];
+  const pool = sexed.length ? sexed : nearest;
+  const pick = pool.find((row) => kinFit(row.person)) ?? pool[0];
   if (!pick) throw new Error("No resident here.");
   const age = ageOnDate(makeIsoDate(pick.person.birthDate), at);
   return {
@@ -213,7 +257,19 @@ function entrantBornNear(
 
 /** The stages a world builds in, by key; the screen names each (`loading` in controls.json). */
 export type BuildStage =
-  "people" | "past" | "economy" | "core" | "government" | "opening" | "done";
+  | "people"
+  | "past"
+  | "economy"
+  | "core"
+  | "government"
+  | "elections"
+  | "budgets"
+  | "legislature"
+  | "cabinet"
+  | "workings"
+  | "history"
+  | "opening"
+  | "done";
 type BuildOptions = {
   placeKey?: string;
   minimumPeople?: number;
@@ -235,6 +291,13 @@ type BuildOptions = {
    * who turns 18, so their past fits the age they chose.
    */
   playerBirthDate?: string;
+  /**
+   * With `playerBirthDate`: the gender the creator chose. The player is a
+   * resident of that sex where the place has one at the age, so the partner
+   * and household drawn for the resident are the ones that fit the player
+   * (a woman drawn with a husband is not made a man beside him).
+   */
+  playerGender?: string;
   /** A custom world (M6-04): what the player changed from real data. */
   settings?: WorldSettings;
   /**
@@ -242,6 +305,11 @@ type BuildOptions = {
    * (the speed guard measures and hashes it; scripts/core2-guard/month.mjs).
    */
   onOpening?: (input: CoreInput) => void;
+  /**
+   * The built world, once its past and people exist and before the opening
+   * story and first scene are drawn: the loading screen plays from it.
+   */
+  onWorld?: (core: CoreState, playerId: string | undefined) => void;
 };
 type Built = BenchWorld & { playerId?: string };
 
@@ -349,6 +417,7 @@ function* benchWorldStages(
       input,
       place.context.jurisdiction.id,
       options.playerBirthDate,
+      options.playerGender,
     );
     // A town opens at its real Census size: the sample is the
     // people generated, and each counted household stands for as many real
@@ -394,25 +463,34 @@ function* benchWorldStages(
     // generated route: housing gives counted households rent and mortgage
     // flows, and the core's stand-in owner payouts come off. People it adds
     // (the central bank's board) are named officials and stay full people.
+    // The county's counted sample, weighted to its eligible voters, and years
+    // in place on every household.
+    const countySample = withCountySample(economy, kept);
+    const weights = {
+      ...(countScale !== 1
+        ? { [place.context.jurisdiction.id]: countScale }
+        : {}),
+    };
     opening = scaleOutsideSales(
       settings.economy?.outsideDemand ?? 1,
-      withWorldEconomy(
-        collapseToTwoLevels(economy, {
-          keep: kept,
-          ...(countScale !== 1
-            ? {
-                weights: {
-                  [place.context.jurisdiction.id]: countScale,
-                },
-              }
-            : {}),
-        }),
+      addTradeArea(
+        withWorldEconomy(
+          collapseToTwoLevels(
+            withOrigins(
+              withRoles(withYearsInPlace(countySample?.input ?? economy)),
+            ),
+            {
+              keep: kept,
+              ...(Object.keys(weights).length ? { weights } : {}),
+            },
+          ),
+        ),
       ),
     );
   } else
     opening = withWorldEconomy(
       withPrivateTuition({
-        ...input,
+        ...withOrigins(input),
         finance: createOpeningFinance(input),
       }),
     );
@@ -444,19 +522,26 @@ function* benchWorldStages(
   // Officials outside the town are people before anyone files, so state and
   // federal races draw named candidates from them (OPUS-OFFICIALS).
   openOfficials(core);
+  yield "elections";
   openElections(core);
   openCampaigns(core);
   openParties(core);
   openVoting(core);
   openRecord(core);
+  yield "budgets";
   openBudgets(core);
+  // Every other state's budget, in the same store, moved by the state's own economy.
+  openOutsideBudgets(core);
   // Officials are paid from the treasuries budgets just opened (OPUS-CORE).
   openOfficialPay(core);
   openHomelessCount(core);
+  // Disputes between two people from the layoffs and evictions above.
+  openGrievance(core);
   // Crimes that happen to households, from the national rates and the web's factors (OPUS-CORE).
   openCrime(core);
   openEstates(core);
   openEmployerTaxes(core);
+  yield "legislature";
   openLegislature(core);
   // Each government's body awards the town's public contracts (gov-public-contract-awards).
   openContracts(core);
@@ -464,6 +549,7 @@ function* benchWorldStages(
   // Chambers elect their leaders and seat committees; the executives
   // appoint their department heads and cabinets (OPUS-GOV).
   openLeadership(core);
+  yield "cabinet";
   openExecutive(core, seed);
   // The president's cabinet and the line of succession (OPUS-GOV).
   openSuccession(core);
@@ -473,6 +559,7 @@ function* benchWorldStages(
   // on every bill's vote), other governments' lawmaking, state and federal
   // races elsewhere, ballot measures, recalls, the press, public meetings
   // (debates need the press's outlets) and constituent cases.
+  yield "workings";
   openStaff(core);
   openInterestGroups(core);
   openWorldLegislating(core);
@@ -482,14 +569,26 @@ function* benchWorldStages(
   openPress(core);
   openMeetings(core);
   openCases(core);
+  // The town's strikes, protests and rallies, from how its term reads by area.
+  openPublicAction(core);
+  // The country's approval of its president, from the economy and what happened.
+  openNationalOpinion(core);
+  // What happens in the rest of the country, as results (disasters from FEMA's record).
+  openNationalEvents(core);
+  openClimate(core);
   // The officeholder's day (OFFICE-LOCAL): each local body's own meeting
   // calendar, the meeting as a scene, the player's chosen stops and the
   // character's own votes and desk decisions when the player does not stop.
   openOfficeDay(core, seed);
+  // The President nominates and the Senate confirms when nobody plays the President.
+  openPresidentActs(core);
   // Prosecutors, trials and prisons: reads the corruption engine's records.
   openJustice(core);
   // Ordinary crime, courts, jail, firearm laws and fire service.
   openPublicSafety(core);
+  // The federal courts as a national flow and stock, from the Commission and the Bureau.
+  openFederalCourts(core);
+  yield "history";
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
   openThePast(core, seed);
@@ -499,10 +598,15 @@ function* benchWorldStages(
   const preStart = defaultPreStart(core);
   if (preStart)
     runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
+  // The people the player starts out knowing have their whole past at the opening.
+  openStartingCircle(core);
+  // Sessions already sitting take up their work at the opening, so their bills are filed on day one.
+  openSittingSessions(core);
   // Last, so everyone the opening seated has a health coverage record on day one
   // (people who arrive later get theirs on the next 1st); the household pays its premium.
   openCoverage(core);
   director.start(core);
+  options.onWorld?.(core, playerId);
   yield "opening";
   // The opening, told as a story from the records (owner, Oct 14, 2026): the
   // President's address and that night's news, composed once while the
@@ -528,6 +632,25 @@ function* benchWorldStages(
         ...(person.jobId ? { jobId: person.jobId } : {}),
       };
     });
+  recipes.set(core, {
+    seed,
+    date,
+    options: {
+      twoLevel: options.twoLevel,
+      placeKey: place.key,
+      ...(options.minimumPeople !== undefined
+        ? { minimumPeople: options.minimumPeople }
+        : {}),
+      ...(options.countScale !== undefined
+        ? { countScale: options.countScale }
+        : {}),
+      ...(options.playerBirthDate
+        ? { playerBirthDate: options.playerBirthDate }
+        : {}),
+      ...(options.playerGender ? { playerGender: options.playerGender } : {}),
+      ...(options.settings ? { settings: options.settings } : {}),
+    },
+  });
   return {
     core,
     director,
@@ -536,4 +659,22 @@ function* benchWorldStages(
     residents,
     ...(playerId ? { playerId } : {}),
   };
+}
+
+/** How a world was built: its seed, its start date and the choices that shaped it. */
+export interface BuildRecipe {
+  readonly seed: string;
+  readonly date: string;
+  readonly options: BuildOptions;
+}
+const recipes = new WeakMap<CoreState, BuildRecipe>();
+
+/**
+ * The recipe a world was built from, so the same world can be built again as a
+ * twin (dev mode's money check compares the played world with the same world
+ * left alone). Kept beside the world, not in it; a world restored from a save
+ * has none.
+ */
+export function buildRecipeOf(core: CoreState): BuildRecipe | undefined {
+  return recipes.get(core);
 }

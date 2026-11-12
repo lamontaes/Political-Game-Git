@@ -6,9 +6,9 @@ lead: governing
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: governing/phase-in-dated-steps
-pr:
+pr: #7054
 blocked-on:
 source: governing lead Oct 29
 claimed-at: 2026-10-30T07:20:28.526Z

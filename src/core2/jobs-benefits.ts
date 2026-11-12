@@ -30,9 +30,11 @@ function claimant(
     count: countedWeight(core, personId),
   };
 }
+import type { LawInForceAnswer } from "./laws-in-force";
 import type { LawRowInput } from "./laws-starting";
 import { residentFacts, residentsRuntime } from "./modules/residents";
 import { countedPersonOf } from "./counted-actor";
+import { countedGroupIdOf } from "./modules/residents";
 import { appraiseEvent } from "./emotion";
 import { parameter, parameterValues } from "./parameters";
 import { initialPersonState } from "./person-state";
@@ -55,6 +57,9 @@ export interface UnemploymentTerms {
   readonly hasProgram: boolean;
   /** The weekly benefit's share of the lost job's weekly pay. */
   readonly weeklyShare: number;
+  /** The state's fraction of the basis wages, and how many quarters of them (0: the weekly wage), where its row gives both. */
+  readonly weeklyFraction?: number;
+  readonly basisQuarters?: number;
   readonly weeklyMaximumMinor: number;
   readonly maxWeeks: number;
   readonly waitingWeek: boolean;
@@ -129,10 +134,27 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
   const asOf = api.state.date;
   if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID))
     return NO_PROGRAM(asOf);
-  const row = lawInForce(api, "unemployment-insurance").governing;
+  return unemploymentTermsOf(
+    lawInForce(api, "unemployment-insurance"),
+    lawInForce(api, "unemployment-weekly-maximum"),
+    (key) => api.parameter(key),
+    asOf,
+  );
+}
+
+/**
+ * The same terms from any state's law answers: the town reads its own state's,
+ * and the country tier reads every state's (one rule, two tiers).
+ */
+export function unemploymentTermsOf(
+  program: LawInForceAnswer,
+  maximumAnswer: LawInForceAnswer,
+  parameter: (key: string) => number,
+  asOf: string,
+): UnemploymentTerms {
+  const row = program.governing;
   const t = row?.terms as
     | {
-        hasProgram?: boolean;
         waitingWeek?: boolean;
         maxWeeks?: number | null;
         weeklyBenefitFraction?: number | null;
@@ -143,34 +165,41 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
         };
       }
     | undefined;
-  const maximumAnswer = lawInForce(api, "unemployment-weekly-maximum");
   const maximum = maximumAnswer.value;
-  if (!row || !t || t.hasProgram !== true) return NO_PROGRAM(asOf);
+  // The enacted amount is availability. The starting research also carries
+  // a hasProgram field, but retaining its formula must not override repeal.
+  if (!row || !t || row.value !== 1) return NO_PROGRAM(asOf);
   if (typeof t.maxWeeks !== "number" || maximum === null)
     return NO_PROGRAM(asOf);
-  const minor = api.parameter("minorPerDollar");
+  const minor = parameter("minorPerDollar");
   const quarterWeeks =
-    api.parameter("jobsDaysPerYear") / DAYS_PER_WEEK / QUARTERS_PER_YEAR;
+    parameter("jobsDaysPerYear") / DAYS_PER_WEEK / QUARTERS_PER_YEAR;
   const quarters = t.weeklyBenefitBasisQuarters ?? undefined;
   // A fraction of the basis wages is a share of weekly pay once the basis's
   // weeks are counted; a row that gives none falls to the program's median.
   const weeklyShare =
     typeof t.weeklyBenefitFraction === "number" && quarters !== undefined
       ? t.weeklyBenefitFraction * (quarters === 0 ? 1 : quarters * quarterWeeks)
-      : api.parameter("jobsBenefitWeeklyShare");
+      : parameter("jobsBenefitWeeklyShare");
   const wages =
     t.baseEarnings?.minimumBasePeriodWages ??
     t.baseEarnings?.minimumHighQuarterWages;
   return {
     hasProgram: true,
     weeklyShare,
+    ...(typeof t.weeklyBenefitFraction === "number" && quarters !== undefined
+      ? {
+          weeklyFraction: t.weeklyBenefitFraction,
+          basisQuarters: quarters,
+        }
+      : {}),
     weeklyMaximumMinor: maximum * minor,
     maxWeeks: t.maxWeeks,
     waitingWeek: t.waitingWeek === true,
     minimumBasePeriodMinor:
       typeof wages === "number"
         ? Math.round(wages * minor)
-        : api.parameter("jobsBenefitMinimumBasePeriodMinor"),
+        : parameter("jobsBenefitMinimumBasePeriodMinor"),
     lawId: row.id,
     ...(maximumAnswer.governing
       ? { maximumLawId: maximumAnswer.governing.id }
@@ -251,6 +280,66 @@ export function filingDecision(
  * returns it, or nothing when they don't qualify. `lost` is the layoff event
  * just emitted (see `claimantFeeling`).
  */
+/** A person's pay folded by calendar quarter, oldest first (the payroll's own record). */
+interface QuarterPay {
+  readonly quarter: string;
+  readonly grossMinor: number;
+}
+
+const quarterOf = (date: string): string =>
+  `${date.slice(0, 4)}Q${Math.floor((Number(date.slice(5, 7)) - 1) / 3) + 1}`;
+
+/**
+ * The wages a state's formula starts from, out of the person's recorded pay
+ * by quarter: the base period is the first four of the last five completed
+ * quarters; the basis is the highest quarter, the two highest, or the whole
+ * base year, as the state's row says. Null where no pay is recorded, the row
+ * gives no basis, or the state pays on the weekly wage.
+ */
+function basePeriodWages(
+  c: CoreState,
+  job: Readonly<JobInput>,
+  terms: UnemploymentTerms,
+): { wages: number; total: number } | null {
+  const work = c.work as unknown as {
+    payByQuarter?: ReadonlyMap<string, readonly QuarterPay[]>;
+    countedPayByQuarter?: ReadonlyMap<
+      string,
+      readonly { quarter: string; perWorkerGrossMinor: number }[]
+    >;
+  };
+  // A named worker's own list; a counted worker's is one worker of their
+  // group at the employer (the payroll keeps it per group and employer).
+  let fold: readonly QuarterPay[] | undefined = work.payByQuarter?.get(
+    job.personId,
+  );
+  if (!fold) {
+    const group = countedGroupIdOf(c, job.personId);
+    fold = group
+      ? work.countedPayByQuarter
+          ?.get(`${group}|${job.organizationId}`)
+          ?.map((row) => ({
+            quarter: row.quarter,
+            grossMinor: row.perWorkerGrossMinor,
+          }))
+      : undefined;
+  }
+  const q = terms.basisQuarters;
+  if (!fold?.length || terms.weeklyFraction === undefined || !q) return null;
+  const now = quarterOf(c.date);
+  const completed = fold.filter((row) => row.quarter < now).slice(-5);
+  // A record shorter than a base year (a world, or a job, under four completed
+  // quarters old) is not the base period: the earlier pay is not on record, so
+  // the lost job's last pay stands until four quarters are.
+  if (completed.length < 4) return null;
+  const base = completed.length === 5 ? completed.slice(0, 4) : completed;
+  const gross = base.map((row) => row.grossMinor).sort((a, b) => b - a);
+  return {
+    wages: gross.slice(0, q).reduce((n, v) => n + v, 0),
+    total: gross.reduce((n, v) => n + v, 0),
+  };
+}
+
 export function fileClaim(
   api: CoreAPI,
   table: ModuleTable,
@@ -261,6 +350,11 @@ export function fileClaim(
   lost?: CoreEventInput,
 ): ClaimRow | undefined {
   const c = api.state as CoreState;
+  // One open claim a person: a second layoff while a claim is paying files
+  // nothing new (two claims paid the same person on one day and reused a
+  // payment id; Montpelier, Vermont, seed mont1, August 18, 2031).
+  if ((table.query("byPerson", [job.personId, true]) as unknown[]).length > 0)
+    return undefined;
   const full = c.people.get(job.personId);
   const placeId = (full ?? residentFacts(c, job.personId))?.placeId;
   if (!placeId) return undefined;
@@ -272,6 +366,8 @@ export function fileClaim(
   if (!payee) return undefined;
   const terms = unemploymentTerms(api);
   if (!terms.hasProgram) return undefined;
+  // stopgapId: SG-LAWS-ui-base-period-last-pay (the benefit reads the lost job's pay on the last day, not base-period wages by quarter)
+  api.stopgap("SG-LAWS-ui-base-period-last-pay");
   const weeklyPay = job.wageDailyMinor * DAYS_PER_WEEK;
   // Base-period earnings: the lost job's pay over the weeks of the last year it ran.
   const basePeriodWeeks = Math.min(
@@ -280,9 +376,16 @@ export function fileClaim(
   );
   if (weeklyPay * basePeriodWeeks < terms.minimumBasePeriodMinor)
     return undefined;
-  const weekly = Math.round(
-    Math.min(terms.weeklyMaximumMinor, terms.weeklyShare * weeklyPay),
-  );
+  // The base period: the first four of the last five completed quarters of
+  // the person's recorded pay (the one payroll's fold, core.work.payByQuarter),
+  // and the state's basis quarters of them, so a recent hours cut barely moves
+  // the benefit. With no pay history the lost job's last pay stands (the
+  // stopgap above).
+  const basis = basePeriodWages(c, job, terms);
+  if (basis && basis.total < terms.minimumBasePeriodMinor) return undefined;
+  const share = basis ? basis.wages * terms.weeklyFraction! : undefined;
+  const lawWeekly = share ?? terms.weeklyShare * weeklyPay;
+  const weekly = Math.round(Math.min(terms.weeklyMaximumMinor, lawWeekly));
   if (!(weekly > 0)) return undefined;
   let reasons: Record<string, number> | undefined;
   if (filer) {
@@ -309,8 +412,7 @@ export function fileClaim(
       };
   }
   const capped =
-    terms.maximumLawId &&
-    terms.weeklyShare * weeklyPay > terms.weeklyMaximumMinor
+    terms.maximumLawId && lawWeekly > terms.weeklyMaximumMinor
       ? terms.maximumLawId
       : undefined;
   const row: ClaimRow = {

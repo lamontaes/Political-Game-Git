@@ -52,40 +52,28 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Issues", exact: true })
     .click();
-  await page.locator("#sheet-body .issue-cards .entry").first().waitFor();
+  await page.locator("#sheet-body .issues-laws .roster-row").first().waitFor();
   const wordsOf = (text) =>
     [...text.matchAll(/\b([A-Za-z]+) law\b/gi)].map(
       (m) => m[1][0].toUpperCase() + m[1].slice(1).toLowerCase(),
     );
   const seen = new Set();
-  // Every subject on the rail, each card's own line ("Commonwealth law since 2024").
-  const subjects = await page
-    .locator("#sheet-body [data-subject]")
-    .evaluateAll((tabs) => tabs.map((t) => t.dataset.subject));
-  for (const subject of subjects) {
-    await page.locator(`#sheet-body [data-subject="${subject}"]`).click();
-    await page.waitForTimeout(200);
-    for (const line of await page.locator(".entry-line").allInnerTexts())
-      wordsOf(line).forEach((w) => seen.add(w));
-  }
+  // Every subject in the list, its first law's page: the in-force rows name their level
+  // ("Commonwealth law").
+  await eachSubject(page, async () => {
+    await page
+      .locator("#sheet-body .issues-laws .roster-page .sec")
+      .first()
+      .waitFor();
+    wordsOf(
+      await page.locator("#sheet-body .issues-laws .roster-page").innerText(),
+    ).forEach((w) => seen.add(w));
+  });
   if (shots)
     await page.screenshot({
       path: `${shots}/${process.env.SHOT_NAME ?? "after"}-issues.png`,
     });
-  // The law page of a card names its levels the same way.
-  await page.locator("#sheet-body .issue-cards .entry").first().click();
-  await page.locator("#sheet-body .law-page").waitFor();
-  await page.waitForTimeout(400);
-  const onPage = wordsOf(
-    await page.locator("#sheet-body .law-page").innerText(),
-  );
-  onPage.forEach((w) => seen.add(w));
-  assert.ok(onPage.length > 0, "the law page names no level");
-  if (shots)
-    await page.screenshot({
-      path: `${shots}/${process.env.SHOT_NAME ?? "after"}-law-page.png`,
-    });
-  console.log("level words on the cards:", [...seen].join(", "));
+  console.log("level words on the law pages:", [...seen].join(", "));
   if (word !== "State")
     assert.ok(!seen.has("State"), `"State law" shown in ${gov.homeState.name}`);
   assert.ok(seen.has(word), `no card says "${word} law": ${[...seen]}`);
@@ -93,4 +81,22 @@ try {
   console.log(`PASS Issues says "${word} law" for ${gov.homeState.name}`);
 } finally {
   await browser.close();
+}
+
+// The Subject filter's choices; visit each subject.
+async function eachSubject(page, visit) {
+  {
+    const select = page.locator("#sheet-body select.issue-filter");
+    const subjects = await select
+      .locator("option")
+      .evaluateAll((all) => all.map((o) => o.value).filter((v) => v !== "all"));
+    for (const subject of subjects) {
+      await select.selectOption(subject);
+      await page
+        .locator("#sheet-body .issues-laws .roster-row")
+        .first()
+        .waitFor();
+      if ((await visit()) === true) return;
+    }
+  }
 }

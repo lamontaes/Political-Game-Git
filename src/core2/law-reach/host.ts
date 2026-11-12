@@ -103,7 +103,12 @@ export function openLawReach(core: CoreState): void {
 }
 
 /** Law series whose amount, not a yes or no, sets a benefit that is paid from the opening. */
-const STANDING_BENEFITS: readonly string[] = ["snap-maximum"];
+const STANDING_BENEFITS: readonly string[] = [
+  "snap-maximum",
+  "child-care-income-limit",
+  "ssi-federal-benefit-rate",
+  "energy-assistance-income-limit",
+];
 
 /**
  * What a policy does once it's law: one handler per policy key, registered
@@ -141,6 +146,9 @@ export function policyHandlerKeys(): readonly string[] {
 }
 
 function runHandlers(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  // Another state's act is a national event, not the town's law: no handler
+  // of the town's effects runs for it.
+  if (String(event.placeId).startsWith("national:")) return;
   const facts = event.facts ?? {};
   const key =
     event.kind === "budget-line-changed"

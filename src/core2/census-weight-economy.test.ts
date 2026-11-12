@@ -70,19 +70,11 @@ it("opens a town above 10,000 at its Census size, with workers, rentals and macr
   const people = counts.people + full;
   expect(people / reference, where).toBeGreaterThan(0.9);
   expect(people / reference, where).toBeLessThan(1.1);
-  // Macro hears the places it covers at the size the records weigh them.
+  // Macro covers the town's place.
   const macro = api
     .moduleState("macro")
     .table("state")
-    .get("macro:state") as unknown as {
-    townResidents: number;
-    placeIds: string[];
-  };
-  const covered = residentCounts(core)
-    .filter((row) => macro.placeIds.includes(row.placeId))
-    .reduce((n, row) => n + row.people, 0);
-  expect(macro.townResidents / covered, where).toBeGreaterThan(0.9);
-  expect(macro.townResidents / covered, where).toBeLessThan(1.1);
+    .get("macro:state") as unknown as { placeIds: string[] };
   expect(macro.placeIds, where).toContain(counts.placeId);
   // Employers' counted headcount stands for the workers the records weigh.
   let heads = 0;

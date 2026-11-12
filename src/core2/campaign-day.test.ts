@@ -27,6 +27,7 @@ import {
   contributeOwnMoney,
   doorsKnockedOf,
   donorReason,
+  giftBudget,
   giftOf,
   impressionOf,
   openCampaigns,
@@ -40,12 +41,12 @@ import {
   townHallDrives,
   type TownHallRow,
 } from "./modules/meetings";
+import { personLean } from "./campaign-views";
 import {
   campaignParameter,
-  personLean,
   PLATFORM_QUESTIONS,
   type Stance,
-} from "./campaign-views";
+} from "./campaign-data";
 import type { ModuleRow } from "./module-data";
 import { openParties } from "./modules/parties";
 import { openPress } from "./modules/press";
@@ -248,17 +249,20 @@ describe("a campaign day", () => {
         if (canvassLeft(api, id)) takeCampaignDayChoice(api, id, "canvass");
       }
     });
-    // A reachable adult who has money beyond their cushion of living costs
-    // can give; where nobody does, the asks rightly raise nothing and the
-    // rest of this day (which needs the committee's cash) has nothing to run.
-    const cushion = campaignParameter("caseCushionMonths") * 30;
+    // A reachable adult with something to give from (the month's income
+    // after the bills, or savings beyond their cushion) can give; where
+    // nobody does, the asks rightly raise nothing and the rest of this day
+    // (which needs the committee's cash) has nothing to run.
     const canGive = reachablePeople(api, campaignFor(api, id)).filter((pid) => {
       const p = core.people.get(pid);
+      if (!p) return false;
+      const budget = giftBudget(api, p);
       return (
-        !!p?.alive &&
+        p.alive &&
         p.tier !== "husk" &&
         Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 18 &&
-        p.liquidMinor - cushion * p.livingCostDailyMinor > 0 &&
+        p.liquidMinor > 0 &&
+        (budget.discretionaryMinor > 0 || budget.savingsMinor > 0) &&
         // Giving is the donor's own choice: only someone whose reasons for
         // this candidate are above zero would give.
         donorReason(api, id, pid) > 0
@@ -267,7 +271,7 @@ describe("a campaign day", () => {
     if (!canGive.length) {
       expect(
         total,
-        `nobody reachable has money beyond their cushion: ${where}`,
+        `nobody reachable has anything to give from: ${where}`,
       ).toBe(0);
       return;
     }
@@ -386,6 +390,21 @@ describe("a campaign day", () => {
     let weeks = 0;
     let knocked = 0;
     let reached = 0;
+    // The weeks the drawn place's own calendar leaves before its election day (its contest record's
+    // date), at most a year: a town with a spring election closes its campaign sooner.
+    const electionDate = openContests(api).find(
+      (c) => c.id === filing!.contestId,
+    )?.electionDate;
+    expect(
+      electionDate,
+      `the filing's contest has an election date: ${where}`,
+    ).toBeTruthy();
+    const weeksLeft = Math.min(
+      52,
+      Math.floor(
+        (Date.parse(electionDate!) - Date.parse(core.date)) / 604_800_000,
+      ),
+    );
     // A shift a week up to a year, until the election closes the campaign:
     // the oldest households first, then round again, a week apart.
     while (
@@ -409,7 +428,12 @@ describe("a campaign day", () => {
       weeks += 1;
       core.date = addDays(makeIsoDate(core.date), 7);
     }
-    expect(weeks, `weeks of knocking: ${where}`).toBeGreaterThan(20);
+    // Every week the calendar leaves is a week of knocking (the last may be the election week itself).
+    expect(
+      weeks,
+      `weeks of knocking, ${weeksLeft} left to ${electionDate}: ${where}`,
+    ).toBeGreaterThanOrEqual(weeksLeft - 1);
+    expect(weeks, `weeks of knocking: ${where}`).toBeGreaterThan(0);
     // The field contact rate, a quarter to a third of doors (Green and
     // Gerber 2019; Arceneaux 2005), with room for a small town's ages.
     expect(reached / knocked, `contact rate: ${where}`).toBeGreaterThanOrEqual(
@@ -630,8 +654,12 @@ describe("a campaign day", () => {
 
   it("offers an interview where an outlet has room, and the press desk records it", () => {
     const { api, filing, where } = setup();
-    if (!filing) return;
-    const interview = campaignDayChoices(api, filing.id).find(
+    // `setup` redraws places until the player can file; none is a failure that names them.
+    expect(
+      filing,
+      `the player could file for nothing: ${where}`,
+    ).not.toBeNull();
+    const interview = campaignDayChoices(api, filing!.id).find(
       (c) => c.kind === "interview",
     )!;
     if (interview.kind !== "interview") throw new Error("interview first");
@@ -639,8 +667,8 @@ describe("a campaign day", () => {
       expect(interview.facts.outlets, where).toHaveLength(0);
       return;
     }
-    const got = takeCampaignDayChoice(api, filing.id, "interview");
-    expect(got.interview?.filingId, where).toBe(filing.id);
+    const got = takeCampaignDayChoice(api, filing!.id, "interview");
+    expect(got.interview?.filingId, where).toBe(filing!.id);
   });
 });
 

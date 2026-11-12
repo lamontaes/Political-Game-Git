@@ -5,14 +5,14 @@ area: director
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: lane3/member-hears-testimony
+pr: #7218
 blocked-on:
 source: "words-and-scenes lead, Oct 27, scene web legislating pass (packet three-minutes-at-the-microphone)"
 lead: director
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-04T09:07:23.974Z
 ---
 
 **What.** `public-hearing` casts only the resident who speaks (subject, `causeNames: subject`). So a player who sits on the body never gets a scene when residents testify. Testimony reaches members only as a room balance in their lobby reason (`roomTerm`, `src/core2/modules/meetings.ts`), with no speaker named. The packet `docs/design/scenes/from-life/three-minutes-at-the-microphone.md` draws on hearings in Pasadena, California and Highland Village, Texas and Raleigh's comment rules, calibration only. It shows the member's side: thank and engage, ask a question, promise to look into it, or stay silent.

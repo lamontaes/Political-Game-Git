@@ -104,12 +104,51 @@
   },
   "links": {
     "schoolMove": "school-move-to-scores",
-    "collegeCompletion": "higher-education-spending-to-college-completion"
+    "collegeCompletion": "higher-education-spending-to-college-completion",
+    "classSize": "class-size-to-scores"
   },
   "stopgaps": {
     "collegeDecidedAtGraduation": "SG-SCHOOL-college-decided-at-graduation",
     "collegeStockLedger": "SG-SCHOOL-college-stock-ledger",
     "equalizedFunding": "SG-SCHOOL-equalized-funding-budget",
-    "switchWindow": "SG-SCHOOL-switch-window"
+    "switchWindow": "SG-SCHOOL-switch-window",
+    "classSize": "SG-SCHOOL-class-size-cohort"
+  },
+  "classSize": {
+    "firstGradePercentilePoints": {
+      "value": 4.4,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "source": "Krueger and Whitmore (2001), NBER w7656, Figure 1: the small-class advantage on standardized tests by the end of grade 3, read off the chart (about 4.4 percentile points); the text says a 5 percentile-point gap opened by the end of kindergarten and stayed roughly constant. Krueger (1999), NBER w6051: about 4 percentile points the first year in a small class.",
+      "spread": [4, 5]
+    },
+    "percentileSd": {
+      "value": 26.5,
+      "role": "coefficient",
+      "tag": "SOURCED",
+      "source": "Krueger and Whitmore (2001), NBER w7656, footnote 7: the standard deviation of the average percentile ranks across students on the exams was typically 26 to 27.",
+      "spread": [26, 27]
+    },
+    "contrastPupils": {
+      "value": 8.5,
+      "role": "coefficient",
+      "tag": "SOURCED",
+      "source": "Krueger (1999), NBER w6051: small classes of 13 to 17 pupils against regular classes of 22 to 25; the gap between the class means (23.5 less 15) is 8.5 pupils.",
+      "spread": [5, 12]
+    },
+    "gradeEightRetained": {
+      "value": 0.25,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "source": "Krueger and Whitmore (2001), NBER w7656: after pupils returned to regular classes in grade 4 the effect in mean percentile ranks fell to 'approximately half to one quarter of its previous magnitude'; the full-sample chart reads about 1.0 percentile point at grade 8 against about 4.4 at grade 3.",
+      "spread": [0.1, 0.5]
+    },
+    "gradesPerDistrict": {
+      "value": 13,
+      "role": "coefficient",
+      "tag": "SOURCED",
+      "source": "Kindergarten through grade 12: thirteen grades; the tested grade's cohort stands for each grade's pupils.",
+      "spread": [13, 13]
+    }
   }
 }

@@ -19,6 +19,7 @@
  *
  * Prints one line per table and exits nonzero naming each failure.
  */
+import { readStopgapFolder } from "../../src/core2/stopgaps-folder";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -100,10 +101,8 @@ const report = (name: string, detail: string) =>
   process.stdout.write(`${name}: ${detail}\n`);
 
 // The reruns name stopgap rows that exist.
-const stopgaps = read("src/core2/data/stopgaps.json") as unknown as
-  { id: string }[] | { stopgaps: { id: string }[] };
 const stopgapIds = new Set(
-  (Array.isArray(stopgaps) ? stopgaps : stopgaps.stopgaps).map((r) => r.id),
+  readStopgapFolder<{ id: string }>(ROOT).map((r) => r.id),
 );
 const reruns = JSON.parse(
   readFileSync(join(ROOT, CENSUS, "census-rerun.results.json"), "utf8"),

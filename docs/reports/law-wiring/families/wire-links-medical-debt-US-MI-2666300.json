@@ -1,0 +1,2087 @@
+{
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "medicaid-match",
+      "kind": "amount",
+      "family": "healthcare",
+      "inForceAtOpening": false,
+      "change": "medicaid-match 65.13 -> 71.64 at federal (law:US-MI:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MI:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741",
+        "law:US-MI:federal:medicaid-match:general:2024-10-01",
+        "law:US-MI:federal:medicaid-match:general:2026-01-22:law-wiring-82e83741-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|medicaid-match|US"]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|medicaid-match|US"]
+      },
+      "inPlay": [
+        {
+          "id": "law:US-MI:federal:medicaid-match:general:2025-10-01",
+          "level": "federal",
+          "effectiveDate": "2025-10-01",
+          "value": 65.3
+        },
+        {
+          "id": "law:US-MI:federal:medicaid-match:general:2026-10-01",
+          "level": "federal",
+          "effectiveDate": "2026-10-01",
+          "value": 65.7
+        }
+      ],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": ["applied|medicaid-match|US"]
+      },
+      "readers": {
+        "src/core2/law-reach/group-b-money.ts:855 <- src/core2/medical-bills.ts:903": 24,
+        "src/core2/life.ts:565": 11
+      },
+      "openingRow": "law:US-MI:federal:medicaid-match:general:2024-10-01",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 714186871519212,
+            "control": 714186872009251,
+            "ids": [
+              "journal:2025-02-01:1761",
+              "journal:2025-02-01:1762",
+              "journal:2025-02-01:1763"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 87296886,
+            "control": 87280068,
+            "ids": [
+              "journal:2025-01-21:1640",
+              "journal:2025-01-21:1641",
+              "journal:2025-01-21:1642"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 443698103,
+            "control": 443714329,
+            "ids": [
+              "journal:2025-01-26:1672",
+              "journal:2025-01-27:1688",
+              "journal:2025-01-28:1691"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 324065191,
+            "control": 324062518,
+            "ids": [
+              "journal:2025-01-21:1622",
+              "journal:2025-01-21:1623",
+              "journal:2025-01-21:1624"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+            "treatment": 175864436398904,
+            "control": 175864436396377,
+            "ids": [
+              "journal:2025-02-01:1751",
+              "journal:2025-02-01:1752",
+              "journal:2025-02-01:1753"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
+            "treatment": 3365605659,
+            "control": 3365607641,
+            "ids": [
+              "journal:2025-01-26:1673",
+              "journal:2025-01-27:1689",
+              "journal:2025-01-28:1692"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:735",
+            "treatment": 36979968,
+            "control": 36981215,
+            "ids": [
+              "journal:2025-01-25:1663",
+              "journal:2025-01-25:1665",
+              "journal:2025-01-25:1667"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+            "treatment": 579587418,
+            "control": 579586694,
+            "ids": [
+              "journal:2025-02-01:2975",
+              "journal:2025-02-01:2976",
+              "journal:2025-02-01:2977"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 233385807,
+            "control": 233386444,
+            "ids": [
+              "journal:2025-02-01:1981",
+              "journal:2025-02-01:1982",
+              "journal:2025-02-01:1983"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1290",
+            "treatment": 1147118558,
+            "control": 1147118135,
+            "ids": [
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597",
+              "journal:2025-01-21:1598"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+            "treatment": 278569549,
+            "control": 278569866,
+            "ids": [
+              "journal:2025-02-01:2964",
+              "journal:2025-02-01:2965",
+              "journal:2025-02-01:2966"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+            "treatment": 1100932528,
+            "control": 1100932684,
+            "ids": [
+              "journal:2025-01-25:1662",
+              "journal:2025-01-25:1664",
+              "journal:2025-01-25:1666"
+            ]
+          }
+        ],
+        "diffKinds": 30,
+        "cited": [
+          {
+            "token": "medicaid-match",
+            "gross": 5873177,
+            "ids": [
+              "journal:2025-02-01:7813",
+              "journal:2025-03-01:15360",
+              "journal:2025-04-01:23314"
+            ],
+            "control": 5343692
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:889 <- src/core2/medical-bills.ts:903",
+              "way": "out",
+              "targets": 1,
+              "moved": 65439,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:889 <- src/core2/medical-bills.ts:903",
+                  "way": "out",
+                  "treatment": -720136,
+                  "control": -654697,
+                  "journal": "journal:2025-02-01:7813"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "moved": 65439,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                  "way": "in",
+                  "treatment": -58804576996858,
+                  "control": -58804577062297,
+                  "journal": "journal:2025-03-01:9061"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+              "way": "in",
+              "targets": 1,
+              "moved": 2579,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+                  "way": "in",
+                  "treatment": 18329340074918,
+                  "control": 18329340072339,
+                  "journal": "journal:2025-04-01:16917"
+                }
+              ]
+            },
+            {
+              "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:735",
+              "way": "out",
+              "targets": 1,
+              "moved": 1338,
+              "earliest": "2025-03-29",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-03-29",
+                  "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:735",
+                  "way": "out",
+                  "treatment": 41427,
+                  "control": 42765,
+                  "journal": "journal:2025-03-29:16843"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
+              "way": "out",
+              "targets": 1,
+              "moved": 1241,
+              "earliest": "2025-03-29",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-03-29",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
+                  "way": "out",
+                  "treatment": 26271,
+                  "control": 27512,
+                  "journal": "journal:2025-03-29:16842"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+              "way": "out",
+              "targets": 1,
+              "moved": 100,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+                  "way": "out",
+                  "treatment": 7650947798851,
+                  "control": 7650947798951,
+                  "journal": "journal:2025-05-01:24851"
+                }
+              ]
+            },
+            {
+              "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:735",
+              "way": "in",
+              "targets": 1,
+              "moved": 98,
+              "earliest": "2025-04-12",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-04-12",
+                  "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:735",
+                  "way": "in",
+                  "treatment": 45673,
+                  "control": 45575,
+                  "journal": "journal:2025-04-12:24246"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
+              "way": "in",
+              "targets": 1,
+              "moved": 1,
+              "earliest": "2025-04-05",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-04-05",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
+                  "way": "in",
+                  "treatment": 423891,
+                  "control": 423890,
+                  "journal": "journal:2025-04-05:23784"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:889 <- src/core2/medical-bills.ts:903|out",
+          "sample": [
+            {
+              "target": "US",
+              "row": "applied|medicaid-match|US",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:889 <- src/core2/medical-bills.ts:903",
+              "way": "out",
+              "treatment": -720136,
+              "control": -654697,
+              "journal": "journal:2025-02-01:7813"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:889 <- src/core2/medical-bills.ts:903",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "US",
+                "row": "applied|medicaid-match|US",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:889 <- src/core2/medical-bills.ts:903",
+                "way": "out",
+                "treatment": -720136,
+                "control": -654697,
+                "journal": "journal:2025-02-01:7813"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 81,
+        "sample": [
+          "person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741",
+          "person_b2532c2bb80a61d2:printed:outlet:cable:0:national:law-took-effect:law:US-MI:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|medicaid-match|US"]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 72
+    },
+    {
+      "key": "budget-line:welfareAndMedicaid",
+      "kind": "budget-line",
+      "family": "assistance",
+      "inForceAtOpening": false,
+      "change": "place:2666300 welfareAndMedicaid 7002 -> 10007002 by law-wiring-380be418",
+      "lawIds": ["law-wiring-380be418"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 12,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 14,
+        "ended": 0,
+        "sample": [
+          "budget-line:welfareAndMedicaid|person_64420c52d99b1844|2025-01-20",
+          "budget-line:welfareAndMedicaid|person_8ff861de2f15d13f|2025-01-20",
+          "budget-line:welfareAndMedicaid|person_ae720310206891fe|2025-01-20",
+          "budget-line:welfareAndMedicaid|person_c48fe4a2b934aa3e|2025-01-20"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 5,
+        "sample": [
+          "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": [
+          "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430"
+        ]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+            "treatment": 589542262,
+            "control": 579587417,
+            "ids": [
+              "journal:2025-02-01:2975",
+              "journal:2025-02-01:2976",
+              "journal:2025-02-01:2977"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1290",
+            "treatment": 1137935981,
+            "control": 1147118559,
+            "ids": [
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597",
+              "journal:2025-01-21:1598"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:570",
+            "treatment": 50540970,
+            "control": 46367968,
+            "ids": [
+              "journal:2025-01-21:1589",
+              "journal:2025-01-21:1590",
+              "journal:2025-01-21:1591"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 714186867856491,
+            "control": 714186872009250,
+            "ids": [
+              "journal:2025-02-01:1761",
+              "journal:2025-02-01:1762",
+              "journal:2025-02-01:1763"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+            "treatment": 279731589,
+            "control": 278569549,
+            "ids": [
+              "journal:2025-02-01:2964",
+              "journal:2025-02-01:2965",
+              "journal:2025-02-01:2966"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 75804319,
+            "control": 74872272,
+            "ids": [
+              "journal:2025-02-01:1998",
+              "journal:2025-02-01:2000",
+              "journal:2025-02-01:2002"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 234209294,
+            "control": 233385806,
+            "ids": [
+              "journal:2025-02-01:1981",
+              "journal:2025-02-01:1982",
+              "journal:2025-02-01:1983"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:303",
+            "treatment": 3376280,
+            "control": 2708938,
+            "ids": [
+              "journal:2025-09-01:57756",
+              "journal:2025-09-01:57757",
+              "journal:2025-09-01:57758"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 443255872,
+            "control": 443698103,
+            "ids": [
+              "journal:2025-01-26:1672",
+              "journal:2025-01-27:1688",
+              "journal:2025-01-28:1691"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+            "treatment": 1100495657,
+            "control": 1100932528,
+            "ids": [
+              "journal:2025-01-25:1662",
+              "journal:2025-01-25:1664",
+              "journal:2025-01-25:1666"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1859",
+            "treatment": 2928508,
+            "control": 2670739,
+            "ids": [
+              "journal:2025-02-04:8345",
+              "journal:2025-02-04:8346",
+              "journal:2025-02-04:8347"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 87123078,
+            "control": 87296886,
+            "ids": [
+              "journal:2025-01-21:1640",
+              "journal:2025-01-21:1641",
+              "journal:2025-01-21:1642"
+            ]
+          }
+        ],
+        "diffKinds": 44,
+        "cited": [
+          {
+            "token": "budget-line:welfareAndMedicaid",
+            "gross": 2549084100643,
+            "ids": [
+              "journal:2025-02-01:1812",
+              "journal:2025-02-01:1813",
+              "journal:2025-02-01:1814"
+            ],
+            "control": 2549078018717
+          },
+          {
+            "token": "law-wiring-380be418",
+            "gross": 3656622,
+            "ids": [
+              "journal:2025-02-01:1882",
+              "journal:2025-02-01:1882",
+              "journal:2025-02-01:1883"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:2666300",
+            "line": "welfareAndMedicaid",
+            "moved": 10000000,
+            "treatment": 1829562,
+            "control": 3888,
+            "ids": [
+              "journal:2025-02-01:1882",
+              "journal:2025-02-01:1883",
+              "journal:2025-02-01:1884"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "out",
+              "targets": 1,
+              "moved": 765610,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                  "way": "out",
+                  "treatment": 59298283458930,
+                  "control": 59298284224540,
+                  "journal": "journal:2025-03-01:9092"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:570",
+              "way": "in",
+              "targets": 1,
+              "moved": 576909,
+              "earliest": "2025-02-02",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+                  "date": "2025-02-02",
+                  "kind": "accounts.transfer @ src/core2/life.ts:570",
+                  "way": "in",
+                  "treatment": 1379809,
+                  "control": 802900,
+                  "journal": "journal:2025-02-02:7848"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1290",
+              "way": "out",
+              "targets": 1,
+              "moved": 223359,
+              "earliest": "2025-04-22",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+                  "date": "2025-04-22",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1290",
+                  "way": "out",
+                  "treatment": -15333408,
+                  "control": -15110049,
+                  "journal": "journal:2025-04-22:24644"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "in",
+              "targets": 1,
+              "moved": 168837,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "in",
+                  "treatment": 21099756,
+                  "control": 20930919,
+                  "journal": "journal:2025-04-01:17184"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+              "way": "out",
+              "targets": 1,
+              "moved": 56600,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+                  "way": "out",
+                  "treatment": 6687970,
+                  "control": 6744570,
+                  "journal": "journal:2025-03-01:9295"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1859",
+              "way": "out",
+              "targets": 1,
+              "moved": 42734,
+              "earliest": "2025-02-04",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+                  "date": "2025-02-04",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1859",
+                  "way": "out",
+                  "treatment": -222363,
+                  "control": -179629,
+                  "journal": "journal:2025-02-04:8347"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1290",
+              "way": "in",
+              "targets": 1,
+              "moved": 37243,
+              "earliest": "2025-04-08",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+                  "date": "2025-04-08",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1290",
+                  "way": "in",
+                  "treatment": -10841315,
+                  "control": -10878558,
+                  "journal": "journal:2025-04-08:24168"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "out",
+              "targets": 1,
+              "moved": 34222,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "out",
+                  "treatment": 20248895,
+                  "control": 20283117,
+                  "journal": "journal:2025-03-01:9246"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+              "way": "in",
+              "targets": 1,
+              "moved": 25534,
+              "earliest": "2025-02-02",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+                  "date": "2025-02-02",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+                  "way": "in",
+                  "treatment": 85067,
+                  "control": 59533,
+                  "journal": "journal:2025-02-02:7853"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+              "way": "out",
+              "targets": 1,
+              "moved": 16141,
+              "earliest": "2025-02-02",
+              "sample": [
+                {
+                  "target": "jurisdiction_971998ff58477430",
+                  "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+                  "date": "2025-02-02",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+                  "way": "out",
+                  "treatment": -20400,
+                  "control": -4259,
+                  "journal": "journal:2025-02-02:7852"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/life.ts:570|in",
+          "sample": [
+            {
+              "target": "jurisdiction_971998ff58477430",
+              "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+              "date": "2025-02-02",
+              "kind": "accounts.transfer @ src/core2/life.ts:570",
+              "way": "in",
+              "treatment": 1379809,
+              "control": 802900,
+              "journal": "journal:2025-02-02:7848"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:570",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_971998ff58477430",
+                "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+                "date": "2025-02-02",
+                "kind": "accounts.transfer @ src/core2/life.ts:570",
+                "way": "in",
+                "treatment": 1379809,
+                "control": 802900,
+                "journal": "journal:2025-02-02:7848"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_971998ff58477430",
+                "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+                "date": "2025-02-02",
+                "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+                "way": "in",
+                "treatment": 85067,
+                "control": 59533,
+                "journal": "journal:2025-02-02:7853"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_971998ff58477430",
+                "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+                "date": "2025-02-02",
+                "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+                "way": "out",
+                "treatment": -20400,
+                "control": -4259,
+                "journal": "journal:2025-02-02:7852"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1859",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_971998ff58477430",
+                "row": "applied|budget-line:welfareAndMedicaid|jurisdiction_971998ff58477430",
+                "date": "2025-02-04",
+                "kind": "accounts.transfer @ src/core2/modules/residents.ts:1859",
+                "way": "out",
+                "treatment": -222363,
+                "control": -179629,
+                "journal": "journal:2025-02-04:8347"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "welfare-spending-to-poverty",
+            "status": "size-not-set",
+            "to": "household.poverty-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 111,
+        "sample": [
+          "person_b2532d2bb80a6385:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:welfareAndMedicaid:law-wiring-380be418",
+          "person_cced9380e845bfe8:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:welfareAndMedicaid:law-wiring-380be418",
+          "person_64420c52d99b1844:printed:outlet:television:1:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:welfareAndMedicaid:law-wiring-380be418"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 6,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 8,
+        "ended": 13,
+        "sample": [
+          "budget-line:welfareAndMedicaid|person_64420c52d99b1844|2025-01-20",
+          "budget-line:welfareAndMedicaid|person_ae720310206891fe|2025-01-20",
+          "budget-line:welfareAndMedicaid|person_c48fe4a2b934aa3e|2025-01-20",
+          "budget-line:welfareAndMedicaid|person_507b786a6834007d|2025-09-01"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 5,
+        "sample": []
+      },
+      "seconds": 68
+    },
+    {
+      "key": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "kind": "question",
+      "family": "healthcare",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:starting",
+        "law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035",
+        "law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2026-01-22:law-wiring-861da035-b"
+      ],
+      "openingReach": {
+        "fullPeople": 40,
+        "countedGroups": 2,
+        "countedPeople": 22,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 42,
+        "ended": 9,
+        "sample": [
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_ae720410206893b1|2025-01-20",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_ae720310206891fe|2025-01-20",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_64420d52d99b19f7|2025-01-20",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_64420c52d99b1844|2025-01-20"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 9,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 9,
+        "sample": []
+      },
+      "inPlay": [
+        {
+          "id": "law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-08-04:HB 4001",
+          "level": "state",
+          "effectiveDate": "2025-08-04",
+          "value": 1
+        }
+      ],
+      "applied": {
+        "rows": 18,
+        "withAmount": 0,
+        "sample": [
+          "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0bbe6a59b6ca584c",
+          "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0bbe6b59b6ca59ff",
+          "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_3e57e994446bdc3c"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2669": 845,
+        "src/core2/modules/outcome-web.ts:216": 455,
+        "src/core2/modules/legislature.ts:3847": 264,
+        "src/core2/modules/world-legislating.ts:301": 154,
+        "src/core2/modules/world-legislating.ts:231": 90,
+        "src/core2/law-reach/group-b.ts:236 <- src/core2/modules/budgets.ts:830": 17,
+        "src/core2/life.ts:565": 10,
+        "src/core2/modules/world-legislating.ts:386": 4,
+        "src/core2/modules/legislature.ts:5130": 1,
+        "src/core2/modules/world-legislating.ts:676": 1
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 714186880348644,
+            "control": 714186872124460,
+            "ids": [
+              "journal:2025-02-01:1761",
+              "journal:2025-02-01:1762",
+              "journal:2025-02-01:1763"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:889 <- src/core2/medical-bills.ts:898",
+            "treatment": 3147835,
+            "control": 8198182,
+            "ids": [
+              "journal:2025-09-01:63533",
+              "journal:2025-09-01:63534",
+              "journal:2025-10-01:71386"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/medical-bills.ts:577",
+            "treatment": 10998112,
+            "control": 10916921,
+            "ids": [
+              "journal:2025-02-01:7791",
+              "journal:2025-02-01:7792",
+              "journal:2025-02-01:7793"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+            "treatment": 278629563,
+            "control": 278568759,
+            "ids": [
+              "journal:2025-02-01:2964",
+              "journal:2025-02-01:2965",
+              "journal:2025-02-01:2966"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 323949453,
+            "control": 323898604,
+            "ids": [
+              "journal:2025-01-21:1622",
+              "journal:2025-01-21:1623",
+              "journal:2025-01-21:1624"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+            "treatment": 175864436411732,
+            "control": 175864436445692,
+            "ids": [
+              "journal:2025-02-01:1751",
+              "journal:2025-02-01:1752",
+              "journal:2025-02-01:1753"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 443434880,
+            "control": 443452929,
+            "ids": [
+              "journal:2025-01-26:1672",
+              "journal:2025-01-27:1688",
+              "journal:2025-01-28:1691"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 87294640,
+            "control": 87312356,
+            "ids": [
+              "journal:2025-01-21:1640",
+              "journal:2025-01-21:1641",
+              "journal:2025-01-21:1642"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/coverage.ts:598",
+            "treatment": 11560431,
+            "control": 11577964,
+            "ids": [
+              "journal:2025-02-01:7752",
+              "journal:2025-02-01:7753",
+              "journal:2025-02-01:7754"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 233384894,
+            "control": 233397727,
+            "ids": [
+              "journal:2025-02-01:1981",
+              "journal:2025-02-01:1982",
+              "journal:2025-02-01:1983"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:337",
+            "treatment": 7620843,
+            "control": 7610291,
+            "ids": [
+              "journal:2025-07-01:47317",
+              "journal:2025-07-01:47321",
+              "journal:2025-10-01:71260"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
+            "treatment": 3365556187,
+            "control": 3365563867,
+            "ids": [
+              "journal:2025-01-26:1673",
+              "journal:2025-01-27:1689",
+              "journal:2025-01-28:1692"
+            ]
+          }
+        ],
+        "diffKinds": 36,
+        "cited": [
+          {
+            "token": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "gross": 3147835,
+            "ids": [
+              "journal:2025-09-01:63533",
+              "journal:2025-09-01:63534",
+              "journal:2025-10-01:71386"
+            ],
+            "control": 8198182
+          }
+        ],
+        "controlCited": [
+          {
+            "token": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "gross": 8198182,
+            "ids": [
+              "journal:2025-02-01:7813",
+              "journal:2025-02-01:7814",
+              "journal:2025-03-01:15360"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 26,
+          "among": "reached",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/medical-bills.ts:577",
+              "way": "in",
+              "targets": 2,
+              "moved": 36946,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_0bbe6a59b6ca584c",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0bbe6a59b6ca584c",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:577",
+                  "way": "in",
+                  "treatment": -23430,
+                  "control": -15307,
+                  "journal": "journal:2025-04-01:23314"
+                },
+                {
+                  "target": "person_8ff861de2f15d13f",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_8ff861de2f15d13f",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:577",
+                  "way": "in",
+                  "treatment": -41314,
+                  "control": -12491,
+                  "journal": "journal:2025-04-01:23291"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/coverage.ts:598",
+              "way": "out",
+              "targets": 1,
+              "moved": 7443,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "person_0bbe6a59b6ca584c",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0bbe6a59b6ca584c",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/modules/coverage.ts:598",
+                  "way": "out",
+                  "treatment": -18520,
+                  "control": -25963,
+                  "journal": "journal:2025-05-01:31214"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+              "way": "out",
+              "targets": 1,
+              "moved": 1,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "person_0bbe6b59b6ca59ff",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0bbe6b59b6ca59ff",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+                  "way": "out",
+                  "treatment": -160641,
+                  "control": -160642,
+                  "journal": "journal:2025-05-01:26238"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1290",
+              "way": "in",
+              "targets": 1,
+              "moved": 1,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "person_0bbe6b59b6ca59ff",
+                  "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0bbe6b59b6ca59ff",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1290",
+                  "way": "in",
+                  "treatment": -18792,
+                  "control": -18791,
+                  "journal": "journal:2025-05-01:26401"
+                }
+              ]
+            }
+          ],
+          "paid": 2,
+          "pick": "accounts.transfer @ src/core2/medical-bills.ts:577|in",
+          "sample": [
+            {
+              "target": "person_0bbe6a59b6ca584c",
+              "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0bbe6a59b6ca584c",
+              "date": "2025-04-01",
+              "kind": "accounts.transfer @ src/core2/medical-bills.ts:577",
+              "way": "in",
+              "treatment": -23430,
+              "control": -15307,
+              "journal": "journal:2025-04-01:23314"
+            },
+            {
+              "target": "person_8ff861de2f15d13f",
+              "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_8ff861de2f15d13f",
+              "date": "2025-04-01",
+              "kind": "accounts.transfer @ src/core2/medical-bills.ts:577",
+              "way": "in",
+              "treatment": -41314,
+              "control": -12491,
+              "journal": "journal:2025-04-01:23291"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/medical-bills.ts:577",
+              "way": "in",
+              "targets": 2,
+              "first": {
+                "target": "person_0bbe6a59b6ca584c",
+                "row": "applied|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_0bbe6a59b6ca584c",
+                "date": "2025-04-01",
+                "kind": "accounts.transfer @ src/core2/medical-bills.ts:577",
+                "way": "in",
+                "treatment": -23430,
+                "control": -15307,
+                "journal": "journal:2025-04-01:23314"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "medicaid-expansion-to-coverage",
+            "status": "built",
+            "to": "health.uninsured-pct"
+          },
+          {
+            "key": "medicaid-expansion-to-mortality",
+            "status": "built",
+            "to": "health.mortality-55-64"
+          },
+          {
+            "key": "medicaid-expansion-to-medical-debt",
+            "status": "built",
+            "to": "finance.medical-debt-in-collections"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "medicaid-expansion-to-mortality",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "medicaid-expansion-to-medical-debt",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 6,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "medicaid-expansion-to-mortality",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "medicaid-expansion-to-medical-debt",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 6,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "medicaid-expansion-to-mortality",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "medicaid-expansion-to-medical-debt",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 6,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "medicaid-expansion-to-mortality",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "medicaid-expansion-to-medical-debt",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 6,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "medicaid-expansion-to-mortality",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "medicaid-expansion-to-medical-debt",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 6,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "medicaid-expansion-to-mortality",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "medicaid-expansion-to-medical-debt",
+            "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+            "lagMonths": 6,
+            "treated": 0,
+            "control": 1
+          }
+        ],
+        "reenacted": {
+          "id": "law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-08-04:HB 4001",
+          "level": "state",
+          "effectiveDate": "2025-08-04",
+          "value": 1
+        },
+        "records": {
+          "treatment": {
+            "recordedLinks": ["medicaid-expansion-to-medical-debt"],
+            "carriedLinks": ["medicaid-expansion-to-coverage"],
+            "reads": {
+              "medicaid-expansion-to-medical-debt": {
+                "count": 0,
+                "sample": []
+              }
+            },
+            "carried": {
+              "medicaid-expansion-to-coverage": {
+                "count": 148,
+                "sample": [
+                  {
+                    "id": "medical-bill:household_1093168c88d35e93",
+                    "date": "2025-09-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_7b570565dc6dd202",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_7b570565dc6dd202|2025-08-05"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_1093168c88d35e93",
+                    "date": "2025-09-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_7b570665dc6dd3b5",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_7b570665dc6dd3b5|2025-08-05"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_1093178c88d36046",
+                    "date": "2025-09-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_507b786a6834007d",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_507b786a6834007d|2025-08-05"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_10931b8c88d36712",
+                    "date": "2025-09-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_ae720410206893b1",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_ae720410206893b1|2025-08-05"
+                    ]
+                  }
+                ]
+              }
+            },
+            "own": {
+              "medicaid-expansion-to-medical-debt": {
+                "by": "the town residents' own Medicaid coverage records (recordCoverage in src/core2/law-reach/group-b-money.ts keeps each covered resident's coverage, named and counted, by person id, read through coverageSpellsNow), by which the bills price each covered member at Medicaid's 9.1 percent share of their care (plans and billMembers in src/core2/medical-bills.ts): the household's smaller bill leaves less unpaid past the wait, and the place-level row is left out of its collections share (collectionsShare; the bill record's ownRecordsFor names it), so the expansion reaches the household's medical debt once, through its own records",
+                "count": 148,
+                "sample": [
+                  {
+                    "id": "medical-bill:household_1093168c88d35e93",
+                    "date": "2025-09-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_7b570565dc6dd202",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_7b570565dc6dd202|2025-08-05"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_1093168c88d35e93",
+                    "date": "2025-09-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_7b570665dc6dd3b5",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_7b570665dc6dd3b5|2025-08-05"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_1093178c88d36046",
+                    "date": "2025-09-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_507b786a6834007d",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_507b786a6834007d|2025-08-05"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_10931b8c88d36712",
+                    "date": "2025-09-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_ae720410206893b1",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_ae720410206893b1|2025-08-05"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "control": {
+            "recordedLinks": ["medicaid-expansion-to-medical-debt"],
+            "carriedLinks": ["medicaid-expansion-to-coverage"],
+            "reads": {
+              "medicaid-expansion-to-medical-debt": {
+                "count": 0,
+                "sample": []
+              }
+            },
+            "carried": {
+              "medicaid-expansion-to-coverage": {
+                "count": 385,
+                "sample": [
+                  {
+                    "id": "medical-bill:household_1093178c88d36046",
+                    "date": "2025-02-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_507b786a6834007d",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_507b786a6834007d|2025-01-21"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_1093198c88d363ac",
+                    "date": "2025-02-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_a4689d4c0a9e7f13",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_a4689d4c0a9e7f13|2025-01-21"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_1093198c88d363ac",
+                    "date": "2025-02-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_a4689c4c0a9e7d60",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_a4689c4c0a9e7d60|2025-01-21"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_10931b8c88d36712",
+                    "date": "2025-02-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_ae720410206893b1",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_ae720410206893b1|2025-01-21"
+                    ]
+                  }
+                ]
+              }
+            },
+            "own": {
+              "medicaid-expansion-to-medical-debt": {
+                "by": "the town residents' own Medicaid coverage records (recordCoverage in src/core2/law-reach/group-b-money.ts keeps each covered resident's coverage, named and counted, by person id, read through coverageSpellsNow), by which the bills price each covered member at Medicaid's 9.1 percent share of their care (plans and billMembers in src/core2/medical-bills.ts): the household's smaller bill leaves less unpaid past the wait, and the place-level row is left out of its collections share (collectionsShare; the bill record's ownRecordsFor names it), so the expansion reaches the household's medical debt once, through its own records",
+                "count": 385,
+                "sample": [
+                  {
+                    "id": "medical-bill:household_1093178c88d36046",
+                    "date": "2025-02-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_507b786a6834007d",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_507b786a6834007d|2025-01-21"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_1093198c88d363ac",
+                    "date": "2025-02-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_a4689d4c0a9e7f13",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_a4689d4c0a9e7f13|2025-01-21"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_1093198c88d363ac",
+                    "date": "2025-02-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_a4689c4c0a9e7d60",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_a4689c4c0a9e7d60|2025-01-21"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_10931b8c88d36712",
+                    "date": "2025-02-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_ae720410206893b1",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.expand-medicaid-eligibility|person_ae720410206893b1|2025-01-21"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "heard": {
+        "people": 82,
+        "sample": [
+          "person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035",
+          "person_b2532c2bb80a61d2:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-01-21:law-wiring-861da035"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 29,
+        "countedGroups": 2,
+        "countedPeople": 22,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 31,
+        "ended": 16,
+        "sample": [
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_ae720410206893b1|2025-08-04",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_ae720310206891fe|2025-08-04",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_64420d52d99b19f7|2025-08-04",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_64420c52d99b1844|2025-08-04"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 9,
+        "sample": []
+      },
+      "seconds": 64
+    },
+    {
+      "key": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "kind": "question",
+      "family": "healthcare",
+      "inForceAtOpening": false,
+      "change": "enacted at state (law:US-MI:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-01-21:law-wiring-0186f8c2) effective 2025-01-21; then repealed at no level effective 2026-01-22",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-01-21:law-wiring-0186f8c2"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 6,
+        "countedGroups": 2,
+        "countedPeople": 10,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 8,
+        "ended": 2,
+        "sample": [
+          "us-policy-positions:health-human-services.medicaid-work-requirement|person_8ff861de2f15d13f|2025-01-21",
+          "us-policy-positions:health-human-services.medicaid-work-requirement|person_0dee516f6fc3f37d|2025-03-01",
+          "us-policy-positions:health-human-services.medicaid-work-requirement|jurisdiction_971998ff58477430",
+          "applied|us-policy-positions:health-human-services.medicaid-work-requirement|person_f93fce40e60bdc0c"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 4,
+        "sample": []
+      },
+      "inPlay": [
+        {
+          "id": "law:US-MI:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-08-04:HB 4007",
+          "level": "state",
+          "effectiveDate": "2025-08-04",
+          "value": 0
+        }
+      ],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2669": 1646,
+        "src/core2/modules/world-legislating.ts:301": 284,
+        "src/core2/modules/legislature.ts:3847": 258,
+        "src/core2/modules/world-legislating.ts:231": 90,
+        "src/core2/modules/outcome-web.ts:216": 73,
+        "src/core2/law-reach/group-b.ts:293 <- src/core2/modules/budgets.ts:830": 31,
+        "src/core2/life.ts:565": 10,
+        "src/core2/modules/world-legislating.ts:386": 8,
+        "src/core2/law-reach/group-b.ts:236 <- src/core2/modules/budgets.ts:830": 7,
+        "src/core2/modules/world-legislating.ts:676": 4,
+        "src/core2/law-reach/group-b.ts:293 <- src/core2/life.ts:565": 2,
+        "src/core2/modules/legislature.ts:5130": 1
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 714186875026812,
+            "control": 714186872124460,
+            "ids": [
+              "journal:2025-02-01:1761",
+              "journal:2025-02-01:1762",
+              "journal:2025-02-01:1763"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:889 <- src/core2/medical-bills.ts:898",
+            "treatment": 6498639,
+            "control": 8198182,
+            "ids": [
+              "journal:2025-02-01:7814",
+              "journal:2025-02-01:7815",
+              "journal:2025-03-01:15361"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 443119169,
+            "control": 443452929,
+            "ids": [
+              "journal:2025-01-26:1672",
+              "journal:2025-01-27:1688",
+              "journal:2025-01-28:1691"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 323636847,
+            "control": 323898604,
+            "ids": [
+              "journal:2025-01-21:1622",
+              "journal:2025-01-21:1623",
+              "journal:2025-01-21:1624"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1762",
+            "treatment": 3365475074,
+            "control": 3365563867,
+            "ids": [
+              "journal:2025-01-26:1673",
+              "journal:2025-01-27:1689",
+              "journal:2025-01-28:1692"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 87243979,
+            "control": 87312356,
+            "ids": [
+              "journal:2025-01-21:1640",
+              "journal:2025-01-21:1641",
+              "journal:2025-01-21:1642"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/medical-bills.ts:577",
+            "treatment": 10979220,
+            "control": 10916921,
+            "ids": [
+              "journal:2025-02-01:7792",
+              "journal:2025-02-01:7793",
+              "journal:2025-02-01:7794"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+            "treatment": 278628933,
+            "control": 278568759,
+            "ids": [
+              "journal:2025-02-01:2964",
+              "journal:2025-02-01:2965",
+              "journal:2025-02-01:2966"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+            "treatment": 175864436502471,
+            "control": 175864436445692,
+            "ids": [
+              "journal:2025-02-01:1751",
+              "journal:2025-02-01:1752",
+              "journal:2025-02-01:1753"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:337",
+            "treatment": 7637906,
+            "control": 7610291,
+            "ids": [
+              "journal:2025-07-01:47333",
+              "journal:2025-07-01:47337",
+              "journal:2025-10-01:71281"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:735",
+            "treatment": 36932649,
+            "control": 36958815,
+            "ids": [
+              "journal:2025-01-25:1663",
+              "journal:2025-01-25:1665",
+              "journal:2025-01-25:1667"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 233421800,
+            "control": 233397727,
+            "ids": [
+              "journal:2025-02-01:1981",
+              "journal:2025-02-01:1982",
+              "journal:2025-02-01:1983"
+            ]
+          }
+        ],
+        "diffKinds": 36,
+        "cited": [
+          {
+            "token": "us-policy-positions:health-human-services.medicaid-work-requirement",
+            "gross": 81127,
+            "ids": [
+              "journal:2025-02-01:7790",
+              "journal:2025-06-01:39279",
+              "journal:2025-07-01:47437"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 5,
+          "among": "reached",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/medical-bills.ts:577",
+              "way": "out",
+              "targets": 1,
+              "moved": 28823,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_8ff861de2f15d13f",
+                  "row": "applied|us-policy-positions:health-human-services.medicaid-work-requirement|person_8ff861de2f15d13f",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:577",
+                  "way": "out",
+                  "treatment": -41314,
+                  "control": -12491,
+                  "journal": "journal:2025-04-01:23289"
+                }
+              ]
+            }
+          ],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "work-requirement-to-coverage",
+            "status": "built",
+            "to": "health.uninsured-pct"
+          },
+          {
+            "key": "work-requirement-to-employment",
+            "status": "about-zero",
+            "to": "labor.employment-rate"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null,
+        "records": {
+          "treatment": {
+            "recordedLinks": [],
+            "carriedLinks": ["work-requirement-to-coverage"],
+            "reads": {},
+            "carried": {
+              "work-requirement-to-coverage": {
+                "count": 85,
+                "sample": [
+                  {
+                    "id": "medical-bill:household_1093178c88d36046",
+                    "date": "2025-02-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_507b786a6834007d",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.medicaid-work-requirement|person_507b786a6834007d|2025-01-22"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_fd4a71cc7f26bc3c",
+                    "date": "2025-02-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_8ff861de2f15d13f",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.medicaid-work-requirement|person_8ff861de2f15d13f|2025-01-22"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_fd4a72cc7f26bdef",
+                    "date": "2025-02-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_341d24c290238fc2",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.medicaid-work-requirement|person_341d24c290238fc2|2025-01-22"
+                    ]
+                  },
+                  {
+                    "id": "medical-bill:household_fd4a72cc7f26bdef",
+                    "date": "2025-02-01",
+                    "placeId": "jurisdiction_971998ff58477430",
+                    "personId": "person_341d25c290239175",
+                    "recordIds": [
+                      "coverage|us-policy-positions:health-human-services.medicaid-work-requirement|person_341d25c290239175|2025-01-22"
+                    ]
+                  }
+                ]
+              }
+            },
+            "own": {}
+          }
+        }
+      },
+      "heard": {
+        "people": 131,
+        "sample": [
+          "person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-01-21:law-wiring-0186f8c2",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-01-21:law-wiring-0186f8c2",
+          "person_b2532c2bb80a61d2:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-01-21:law-wiring-0186f8c2"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 5,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 4,
+        "sample": []
+      },
+      "seconds": 63
+    }
+  ]
+}

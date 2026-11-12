@@ -1,6 +1,10 @@
 {
-  "about": "Ballots cast in each territory's most recent delegate and governor races, standing in for the presidential vote its electorate does not cast. ESTIMATED FROM tabulations read through web search summaries (Wikipedia, Ballotpedia, Book of the States), not the territories' certified results, which were not read. A missing governor entry means the total was not found (Puerto Rico 2024, American Samoa 2024) and the town's own ballots still stand in.",
+  "about": "Ballots cast in each territory's most recent delegate and governor races, standing in for the presidential vote its electorate does not cast. ESTIMATED FROM tabulations read through web search summaries (Wikipedia, Ballotpedia, Book of the States), not the territories' certified results, which were not read. A missing governor entry means the total was not found (Puerto Rico 2024) and the town's own ballots still stand in. American Samoa 2024 (added Nov 1, 2026): delegate 9,888 ballots, the governor's first round 10,113 (Wikipedia, 2024 American Samoan general election, read through web fetch; not the Election Office's certified results).",
   "places": {
+    "AS": {
+      "delegate": { "ballots": 9888, "year": 2024 },
+      "governor": { "ballots": 10113, "year": 2024 }
+    },
     "GU": {
       "delegate": { "ballots": 29271, "year": 2024 },
       "governor": { "ballots": 33561, "year": 2022 }

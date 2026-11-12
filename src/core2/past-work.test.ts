@@ -20,7 +20,12 @@ import {
   pastWorkPeople,
   runPastWork,
 } from "./past-work";
-import { preStartHistory, preStartWindowOf } from "./pre-start";
+import {
+  preStartHistory,
+  preStartWindowOf,
+  wholePastOpened,
+} from "./pre-start";
+import { BUSINESS_MODULE_ID } from "./modules/business";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson } from "./state";
 import type { PersonId } from "./types";
@@ -144,6 +149,22 @@ describe(`the working life before the start, ${label}`, () => {
     }
   });
 
+  it("never holds a job since a date before its employer's founding", () => {
+    const ages = coreAPI(core).moduleState(BUSINESS_MODULE_ID).table("ages");
+    let checked = 0;
+    for (const commitment of core.work.commitments.values()) {
+      const age = ages.get(commitment.organizationId) as
+        { foundedAt: string } | undefined;
+      if (!age) continue;
+      checked += 1;
+      expect(
+        age.foundedAt <= (commitment.heldSince ?? commitment.startsAt),
+        `${label}: ${commitment.id} held since ${commitment.heldSince ?? commitment.startsAt}, before ${commitment.organizationId} was founded ${age.foundedAt} (business.founded:${commitment.organizationId})`,
+      ).toBe(true);
+    }
+    expect(checked, label).toBeGreaterThan(0);
+  });
+
   it("is told in the Journal from its own records", () => {
     // The player when they worked, else the first worker the run let go,
     // with or without an employer on record (a held-at-start job is told by
@@ -207,7 +228,14 @@ describe(`the working life before the start, ${label}`, () => {
     );
     const key = (row: { id: string; facts: object }) =>
       `${row.id}:${JSON.stringify(row.facts)}`;
-    expect(again.map(key).sort()).toEqual([...spells, ...outs].map(key).sort());
+    // The run of the window is the same; the people whose whole past has been
+    // opened (the player's circle) also hold the years before it, which join
+    // their first record (src/core2/whole-past.test.ts).
+    const closed = (row: { personIds?: readonly PersonId[] }) =>
+      !wholePastOpened(core, row.personIds![0]!, ["work"]);
+    expect(again.filter(closed).map(key).sort()).toEqual(
+      [...spells, ...outs].filter(closed).map(key).sort(),
+    );
   });
 
   it("gives someone filled in from the counts their working life too", () => {

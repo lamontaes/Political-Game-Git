@@ -5,12 +5,12 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by: claude/event-platform-stance
+status: dropped
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T13:41:41.135Z
+claimed-at:
 ---
 
 **What.** In the Oct 20 browser run (PR 5680) Hold an event was disabled for a candidate who filed with an empty platform, because campaignDayChoices requires at least one platform stance and venue cash. The screen shows a grayed control with no reason. Decide whether an event should need a stance at all (Political Process baseline: check docs/roadmap/political-process-baseline.md and DECISION-REGISTER.md first), and if it does, let the player set a stance from the Campaigns screen or word why the control is off.
@@ -22,3 +22,9 @@ claimed-at: 2026-10-20T13:41:41.135Z
 **Files.** src/core2/campaign-day.ts,src/bench/campaign.ts,src/bench/play.mjs
 
 **Notes.** Unblocked Oct 23: #5549 merged, so the Today list and its Hold an event control are gone; CTO to confirm the bug is closed and drop, or keep for the stance-first scene.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/event-platform-stance` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The control is no longer silent: `campaignDayChoices` in src/core2/campaign-day.ts (lines 496 and 506) returns a `noPlatform` reason, worded 'Choose your platform first' in src/bench/data/controls.json, and the Today list this item was found in is gone (the item's Notes, Oct 23).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

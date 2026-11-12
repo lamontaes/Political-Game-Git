@@ -1,9 +1,10 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
+import { storyScene } from "../bench/story";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
@@ -30,6 +31,7 @@ import type { Fact } from "../english/scene-talk-words";
 import { purposeScene } from "./purpose-scene";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import { SITUATION_LIBRARY } from "./scheduling";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // Someone comes to argue before the decision (episode desk-decision-both-sides,
 // docs/design/scenes/from-life/desk-decision-both-sides.md). When a bill is
@@ -143,6 +145,24 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
     if (result?.kind !== "composed") return;
     const { scene } = result;
     expect(scene.typeKey, where).toBe("desk-visit");
+    // Pictured at the office, never in a dwelling
+    // (director-scene-settings-chamber-office-seat).
+    if (visit.setting.kind === "office") {
+      const story = storyScene(
+        core,
+        director,
+        mayor!,
+        first.entry!.momentId,
+        10 * 60,
+      );
+      expect(
+        ["city-hall-hallway", "office"],
+        `${where}: ${story.backdrop.file}`,
+      ).toContain(story.place);
+      process.stdout.write(
+        `OFFICE ${where}: desk-visit pictured in ${story.place} (${story.backdrop.file})\n`,
+      );
+    }
     expect(scene.askerId, where).toBe(first.sponsor);
     expect(scene.cause.id, where).toBe(`bill-presented:${first.bill.id}`);
     const said = (key: string) => scene.facts.find((row) => row.key === key);
@@ -154,7 +174,7 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
     expect(said("ayes")?.recordIds, where).toContain(first.bill.id);
     expect(said("deadline")?.recordIds, where).toContain(scene.cause.id);
 
-    // Plain words on every path, and four replies that are four stances.
+    // Plain words on every path, and up to four replies that are different stances.
     const lines = [
       ...scene.talk.lines,
       ...(function* walk(
@@ -174,9 +194,9 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
         /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined/,
       );
     const root = scene.talk.tree.replies.map((reply) => reply.line);
-    expect(new Set(root.map((row) => row.move)), where).toEqual(
-      new Set(["agree", "refuse", "bargain", "ask"]),
-    );
+    expectUpToFourDifferent(root, where);
+    for (const row of root)
+      expect(["agree", "refuse", "bargain", "ask"], where).toContain(row.move);
     expect(new Set(root.map((row) => row.text)).size, where).toBe(root.length);
     // Every ending hands the player to the desk.
     const ends: string[] = [];

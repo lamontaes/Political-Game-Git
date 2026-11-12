@@ -315,7 +315,7 @@
         "US-OR": {
           "answer": "yes",
           "operativeAt": "2019-02-28",
-          "preempts": false,
+          "preempts": true,
           "cite": "ORS 90.323 (SB 608, 2019; amended by SB 611, 2023)",
           "source": "https://olis.oregonlegislature.gov/liz/2019R1/Downloads/MeasureDocument/SB608/Enrolled",
           "lawTerms": [
@@ -345,7 +345,7 @@
             {
               "answer": "yes",
               "operativeAt": "2026-01-01",
-              "preempts": false,
+              "preempts": true,
               "cite": "ORS 90.323 and 90.324; Oregon Office of Economic Analysis 2026 maximum annual rent increase",
               "source": "https://www.oregon.gov/das/oea/pages/rent-stabilization.aspx",
               "sourceQuote": "The allowable rent increase percentage for the previous year, 2026, was 9.5%.",
@@ -374,7 +374,7 @@
             {
               "answer": "yes",
               "operativeAt": "2027-01-01",
-              "preempts": false,
+              "preempts": true,
               "cite": "ORS 90.323 and 90.324; Oregon Office of Economic Analysis 2027 maximum annual rent increase",
               "source": "https://www.oregon.gov/das/oea/pages/rent-stabilization.aspx",
               "sourceQuote": "For 2027, the maximum allowable rent increase percentage for tenancies subject to ORS 90.324(b) is 10%.",
@@ -400,7 +400,8 @@
               ],
               "note": "The annual cap replaces the ceiling scalar for this calendar year. The 15-year construction exemption remains. ORS 90.323(5)(b) also exempts specified regulated-affordable rent changes; recorded tenancy regimes do not establish every exemption fact."
             }
-          ]
+          ],
+          "preemptionCite": "Or. Rev. Stat. § 91.225"
         },
         "US-PA": {
           "answer": "no",
@@ -480,7 +481,7 @@
         "US-WA": {
           "answer": "yes",
           "operativeAt": "2025-05-07",
-          "preempts": false,
+          "preempts": true,
           "cite": "RCW 59.18 (HB 1217, 2025)",
           "source": "https://www.commerce.wa.gov/housing-policy/hb1217-landlord-resource-center/",
           "constructionSource": "https://app.leg.wa.gov/RCW/default.aspx?cite=59.18.710",
@@ -510,7 +511,7 @@
             {
               "answer": "yes",
               "operativeAt": "2026-01-01",
-              "preempts": false,
+              "preempts": true,
               "cite": "RCW 59.18.700; Washington Department of Commerce 2026 maximum annual rent increase",
               "source": "https://www.commerce.wa.gov/housing-policy/hb1217-landlord-resource-center/",
               "sourceQuote": "Maximum annual rent increase percent through 12/31/2026: 9.683%",
@@ -539,7 +540,7 @@
             {
               "answer": "yes",
               "operativeAt": "2027-01-01",
-              "preempts": false,
+              "preempts": true,
               "cite": "RCW 59.18.700; Washington Department of Commerce 2027 maximum annual rent increase",
               "source": "https://www.commerce.wa.gov/housing-policy/hb1217-landlord-resource-center/",
               "sourceQuote": "Maximum annual rent increase percent through 12/31/2027: 10%",
@@ -565,7 +566,8 @@
               ],
               "note": "The announced calendar-year maximum replaces the statutory ceiling scalar. The sourced 12-year construction exemption remains; RCW 59.18.710 contains additional property and landlord exemptions not established by a tenancy regime alone."
             }
-          ]
+          ],
+          "preemptionCite": "Wash. Rev. Code § 35.21.830"
         },
         "US-WI": {
           "answer": "no",
@@ -1716,6 +1718,17 @@
           "preempts": false,
           "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
           "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        }
+      }
+    },
+    "us-federal-positions:housing.vouchers-for-every-eligible-family": {
+      "source": "https://www.law.cornell.edu/uscode/text/42/1437f",
+      "note": "The question asks whether Congress guarantees a voucher to every eligible family. Housing Choice Vouchers are discretionary: 42 U.S.C. 1437f(o)(1)(A) says the Secretary \"may provide assistance to public housing agencies for tenant-based assistance\". There is no entitlement, so the answer is no.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "source": "https://www.law.cornell.edu/uscode/text/42/1437f",
+          "cite": "42 U.S.C. 1437f(o)(1)(A)"
         }
       }
     }

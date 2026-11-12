@@ -166,6 +166,12 @@
       "repealName": "Public Employee Bargaining Repeal",
       "repealPurpose": "an end to collective bargaining for public employees"
     },
+    "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
+      "name": "Fair Chance Hiring",
+      "purpose": "a ban on asking about criminal records on state job applications",
+      "repealName": "Fair Chance Hiring Repeal",
+      "repealPurpose": "an end to the ban on asking about criminal records on state job applications"
+    },
     "us-policy-positions:labor-workforce.right-to-work": {
       "name": "Right to Work",
       "purpose": "a ban on requiring union dues as a condition of a job",
@@ -465,6 +471,156 @@
       "purpose": "a higher pay floor for public employees",
       "repealName": "Public Pay Floor Reduction",
       "repealPurpose": "a lower pay floor for public employees"
+    },
+    "us-federal-positions:health.medicare-drug-price-negotiation": {
+      "name": "Medicare Drug Price Negotiation",
+      "purpose": "Medicare negotiating the prices it pays for prescription drugs",
+      "repealName": "Medicare Drug Price Negotiation Repeal",
+      "repealPurpose": "ending Medicare's negotiation of prescription drug prices"
+    },
+    "us-federal-positions:budget.pay-for-a-higher-debt-limit": {
+      "name": "Debt Limit Offset",
+      "purpose": "raising the debt limit only with spending cuts or new revenue to pay for it",
+      "repealName": "Debt Limit Offset Repeal",
+      "repealPurpose": "letting the debt limit rise without a matching offset"
+    },
+    "us-federal-positions:education.forgive-student-loans": {
+      "name": "Student Loan Relief",
+      "purpose": "forgiving federal student loan debt",
+      "repealName": "Student Loan Relief Repeal",
+      "repealPurpose": "ending federal student loan forgiveness"
+    },
+    "us-federal-positions:emergencies.states-share-disaster-costs": {
+      "name": "Disaster Cost Sharing",
+      "purpose": "states paying a share of their own disaster costs",
+      "repealName": "Full Federal Disaster Aid",
+      "repealPurpose": "the federal government paying the full cost of disaster response"
+    },
+    "us-federal-positions:energy-environment.limit-power-plant-carbon": {
+      "name": "Clean Power Plant Standards",
+      "purpose": "limits on the carbon power plants may emit",
+      "repealName": "Power Plant Carbon Limits Repeal",
+      "repealPurpose": "ending the limits on carbon from power plants"
+    },
+    "us-federal-positions:government.ban-congressional-stock-trading": {
+      "name": "Congressional Stock Trading Ban",
+      "purpose": "barring members of Congress from trading stocks",
+      "repealName": "Congressional Stock Trading Allowance",
+      "repealPurpose": "letting members of Congress trade stocks again"
+    },
+    "us-federal-positions:housing.vouchers-for-every-eligible-family": {
+      "name": "Universal Housing Vouchers",
+      "purpose": "a housing voucher for every eligible family",
+      "repealName": "Housing Voucher Limits",
+      "repealPurpose": "capping housing vouchers below every eligible family"
+    },
+    "us-federal-positions:immigration.admit-more-immigrants": {
+      "name": "Immigration Expansion",
+      "purpose": "admitting more immigrants each year",
+      "repealName": "Immigration Reduction",
+      "repealPurpose": "admitting fewer immigrants each year"
+    },
+    "us-federal-positions:justice-rights.reduce-mandatory-minimums": {
+      "name": "Sentencing Flexibility",
+      "purpose": "reducing mandatory minimum sentences",
+      "repealName": "Mandatory Minimum Restoration",
+      "repealPurpose": "restoring mandatory minimum sentences"
+    },
+    "us-federal-positions:science-communications.national-data-privacy": {
+      "name": "National Data Privacy Protection",
+      "purpose": "one national standard for personal data privacy",
+      "repealName": "National Data Privacy Repeal",
+      "repealPurpose": "ending the national standard for personal data privacy"
+    },
+    "us-federal-positions:territories-culture.statehood-for-dc": {
+      "name": "Washington Statehood Admission",
+      "purpose": "admitting the District of Columbia as a state",
+      "repealName": "Washington Statehood Repeal",
+      "repealPurpose": "returning the District of Columbia to non-state status"
+    },
+    "us-federal-positions:trade.raise-tariffs": {
+      "name": "Tariff Increase",
+      "purpose": "raising tariffs on imported goods",
+      "repealName": "Tariff Reduction",
+      "repealPurpose": "lowering tariffs on imported goods"
+    },
+    "us-policy-positions:environment-energy.allow-retail-electric-choice": {
+      "name": "Electric Choice",
+      "purpose": "letting customers pick their electricity supplier",
+      "repealName": "Electric Choice Repeal",
+      "repealPurpose": "ending customers' choice of electricity supplier"
+    },
+    "us-federal-positions:tax.raise-top-income-tax-rate": {
+      "name": "Top Rate Increase",
+      "purpose": "raising the top income tax rate",
+      "repealName": "Top Rate Reduction",
+      "repealPurpose": "lowering the top income tax rate"
+    },
+    "us-federal-positions:foreign-affairs.increase-foreign-aid": {
+      "name": "Foreign Aid Increase",
+      "purpose": "more money for aid abroad",
+      "repealName": "Foreign Aid Reduction",
+      "repealPurpose": "less money for aid abroad"
+    },
+    "us-federal-positions:monetary-financial.cap-consumer-loan-interest": {
+      "name": "Federal Lending Limit",
+      "purpose": "a federal cap on the interest charged on consumer loans",
+      "repealName": "Federal Lending Limit Repeal",
+      "repealPurpose": "lifting the federal cap on consumer loan interest"
+    },
+    "us-federal-positions:social-insurance.raise-retirement-age": {
+      "name": "Retirement Age Increase",
+      "purpose": "a later full retirement age for Social Security",
+      "repealName": "Retirement Age Restoration",
+      "repealPurpose": "returning the full retirement age to its earlier level"
+    },
+    "us-federal-positions:agriculture.cut-farm-subsidies": {
+      "name": "Farm Subsidy Reduction",
+      "purpose": "lower federal payments to farms",
+      "repealName": "Farm Subsidy Restoration",
+      "repealPurpose": "restoring federal payments to farms"
+    },
+    "us-federal-positions:defense.grow-defense-spending": {
+      "name": "Defense Spending Increase",
+      "purpose": "more spending on national defense",
+      "repealName": "Defense Spending Reduction",
+      "repealPurpose": "less spending on national defense"
+    },
+    "us-federal-positions:transport-water.expand-passenger-rail": {
+      "name": "Passenger Rail Expansion",
+      "purpose": "more passenger rail service",
+      "repealName": "Passenger Rail Cutback",
+      "repealPurpose": "less passenger rail service"
+    },
+    "us-tax-terms:federal.income-tax-terms": {
+      "name": "Income Tax Terms",
+      "purpose": "new terms for the federal income tax",
+      "repealName": "Income Tax Terms Restoration",
+      "repealPurpose": "the earlier terms of the federal income tax"
+    },
+    "us-tax-terms:federal.payroll-tax-terms": {
+      "name": "Payroll Tax Terms",
+      "purpose": "new terms for the Social Security and Medicare taxes",
+      "repealName": "Payroll Tax Terms Restoration",
+      "repealPurpose": "the earlier terms of the Social Security and Medicare taxes"
+    },
+    "us-tax-terms:federal.excise-tax-terms": {
+      "name": "Excise Tax Terms",
+      "purpose": "new terms for the federal excise taxes",
+      "repealName": "Excise Tax Terms Restoration",
+      "repealPurpose": "the earlier terms of the federal excise taxes"
+    },
+    "us-tax-terms:federal.sales-tax-terms": {
+      "name": "Federal Sales Tax",
+      "purpose": "a federal tax on retail sales",
+      "repealName": "Federal Sales Tax Repeal",
+      "repealPurpose": "ending the federal tax on retail sales"
+    },
+    "us-tax-terms:federal.corporate-tax-terms": {
+      "name": "Corporate Tax Terms",
+      "purpose": "new terms for the corporate income tax",
+      "repealName": "Corporate Tax Terms Restoration",
+      "repealPurpose": "the earlier terms of the corporate income tax"
     }
   },
   "list": {
@@ -472,6 +628,7 @@
   },
   "budget": {
     "name": "Budget",
-    "purpose": "the government's spending for the year"
+    "purpose": "the government's spending for the year",
+    "section": "{line}: {amount} for the year"
   }
 }

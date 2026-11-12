@@ -80,6 +80,14 @@ function unfilledSeats(core: CoreState, since: string): string[] {
         `${row.seatId} ${row.status} since ${row.since} (${row.rule && (row.rule as Row).method})`,
       );
   }
+  // A seat with a serving term is held: a winner of a special election or a
+  // race elsewhere is seated as a person the first time their seat is read
+  // (`holderOf`), so the roster may not hold them yet.
+  const serving = new Set(
+    rows(core, OFFICES, "terms")
+      .filter((term) => term.status === "serving")
+      .map((term) => term.seatId as string),
+  );
   const bySeat = new Map<string, Row[]>();
   for (const row of rows(core, OFFICIALS, "officials")) {
     const list = bySeat.get(row.seatId as string) ?? [];
@@ -87,7 +95,7 @@ function unfilledSeats(core: CoreState, since: string): string[] {
     bySeat.set(row.seatId as string, list);
   }
   for (const [seatId, list] of bySeat) {
-    if (awaiting.has(seatId)) continue;
+    if (awaiting.has(seatId) || serving.has(seatId)) continue;
     if (list.some((row) => row.ended === null || row.ended === undefined))
       continue;
     // A nominee the confirming bodies passed over was never seated: no seat emptied.
@@ -124,9 +132,20 @@ function missingContests(
   );
   // Every term, serving or since ended: an election that has already been
   // held leaves the term it closed behind as an ended row.
+  // A term that ended because its holder left (took another office, resigned,
+  // died) opens a vacancy that day and is filled by the office's own rule
+  // (an appointment, then a special election), so its end date is not the
+  // seat's scheduled election (Kentucky's auditor, whose holder took a seat
+  // in Congress on January 3, 2027, is due in 2027, not 2026).
+  const left = new Set(
+    rows(core, OFFICES, "vacancies").map((row) => `${row.seatId}@${row.since}`),
+  );
   const ends = new Map<string, string[]>();
   for (const row of rows(core, OFFICES, "terms"))
-    if (typeof row.endDate === "string")
+    if (
+      typeof row.endDate === "string" &&
+      !left.has(`${row.seatId}@${row.endDate}`)
+    )
       ends.set(row.seatId as string, [
         ...(ends.get(row.seatId as string) ?? []),
         row.endDate,

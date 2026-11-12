@@ -49,17 +49,16 @@ for (const seed of seeds.length ? seeds : ["store-a", "store-b"]) {
   await page.click("#new-life");
   await page.click("#new-advanced");
   await page.fill("#seed", seed);
-  await page.click("#advanced-back");
+  await page.click("#front-close");
   await page.click("#new-start");
   // The creator: a drawn name and birthday, the first state and town.
-  await page.waitForSelector("#cr-character:not([hidden])");
+  await page.waitForSelector("#cr-screen:not([hidden])");
   await page.click("[data-gender=male]");
   await page.click("#cr-random-name");
   await page.waitForFunction(() => document.getElementById("cr-given").value);
-  await page.click("#cr-character-next");
   await page.click("#cr-states button");
   await page.click("#cr-towns button");
-  await page.waitForSelector("#cr-look:not([hidden])");
+  await page.waitForSelector("#cr-screen:not([hidden])");
   await page.click("#cr-begin");
   // The opening: the President, then the Senate.
   await page.waitForSelector("#caption:not([hidden])", { timeout: 300000 });
@@ -73,7 +72,7 @@ for (const seed of seeds.length ? seeds : ["store-a", "store-b"]) {
   await page.waitForSelector("#card:not([hidden])", { timeout: 60000 });
   await page.waitForTimeout(2500);
   await shot(`${seed}-home`);
-  const other = await page.$("#people .figure[style*='pointer']");
+  const other = await page.$("#here .busts-person.talkable");
   if (other) {
     await other.evaluate((e) => e.click());
     // The talk first; their name in it opens their card.

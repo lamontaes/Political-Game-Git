@@ -361,6 +361,18 @@ function play(
   );
   if (startedUnderLaw.length === 0)
     return `no subject: no apartment building was started while the by-right law stood (in force on ${lawDays.inForce} of ${lawDays.checked} monthly checks)`;
+  // An eviction hearing comes only from a full household's lease that went
+  // unpaid past the grace period, so a town can go the 700 days with none
+  // (Clemmons, North Carolina, seed hr-fresh-9c2: no case at all); the right
+  // to counsel then has nothing to reach, and the place is redrawn.
+  const hearings = api
+    .moduleState("housing")
+    .table("cases")
+    .rows() as unknown as {
+    counselLawId?: string | null;
+  }[];
+  if (!hearings.some((row) => row.counselLawId))
+    return `no subject: no eviction hearing had a lawyer in ${DAYS} days (${hearings.length} hearings)`;
 
   // Rent stabilization: every renewed lease under the law, full and counted.
   {
@@ -790,10 +802,19 @@ function play(
         cap.every((r) => r.what !== "interest-capped" || r.amountMinor > 0),
       "the rate cap recorded interest that was not capped",
     );
+    // A counted household is read by the same rule as a full one (one model,
+    // two tiers): its quote is a group row, and the small-dollar lender that
+    // lends it is quoted under the same ceiling, so both lenders' loans and
+    // both kinds of row count. In East Providence, Rhode Island (seed
+    // 3ac3c153…) every household that borrowed in the year was a counted one
+    // at a storefront lender.
     for (const row of cap) {
-      if (row.target !== "household") continue;
+      if (row.target !== "household" && row.target !== "group") continue;
       const loan = posts.find(
-        (p) => p.ref.startsWith(`loan:${row.targetId}:`) && p.gross > 0,
+        (p) =>
+          (p.ref.startsWith(`loan:${row.targetId}:`) ||
+            p.ref.startsWith(`loan:small-dollar:${row.targetId}:`)) &&
+          p.gross > 0,
       );
       if (!loan) continue;
       trails.cap = {

@@ -37,8 +37,7 @@ provenance matches this checkout (source revision, dirty flag, and
 content hash). Stale `dist/client` cannot be relabelled with a newer
 HEAD. Pass `--rebuild` to `stage.mjs` to run `npm run build` and restage.
 `composition: accepted-main` is refused unless HEAD is `origin/main`.
-Nothing outside `dist/client` is packaged: no `art/references`, no
-research archives, no repository metadata, no secrets.
+Nothing outside `dist/client` is packaged: no research archives, no repository metadata, no secrets.
 
 ## Identity, storage, saves
 

@@ -10,6 +10,7 @@ import { createHash } from "node:crypto";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { repealStartingAnswers } from "./law-test-start";
+import { POLICY_QUESTIONS } from "./policy-answers";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -51,11 +52,13 @@ import {
 } from "./law-reach/group-b-people";
 import {
   budgetNow,
+  medicaidCoverageSpells,
   modeledShare,
   source,
   residentsOf,
   townShare,
 } from "./law-reach/group-b-money";
+import { spellOn } from "./health-own";
 
 const START = "2026-01-05";
 let seed =
@@ -274,6 +277,20 @@ function jurisdictionOf(level: string): string {
 
 /** Enact a law row at a level, effective tomorrow, and run past it. */
 function enact(series: string, value: number, level: string, unit?: string) {
+  // A lower level's income tax takes effect only where the state grants its
+  // places the power (law levels), so the state acts first.
+  if (
+    level !== "state" &&
+    level !== "federal" &&
+    value > 0 &&
+    (series === "income-tax" ||
+      series.endsWith("fiscal.adopt-income-tax") ||
+      series.endsWith("fiscal.graduated-income-tax")) &&
+    lawInForce(api, "local-income-tax-authority").levels.find(
+      (l) => l.level === "state",
+    )?.row?.value !== 1
+  )
+    enact("local-income-tax-authority", 1, "state");
   measure += 1;
   enactLaw(api, {
     jurisdiction: jurisdictionOf(level),
@@ -618,7 +635,12 @@ describe("law reach, group B: every policy reaches people through its engine", (
   const householdRecords = [Q("fiscal.exempt-groceries-from-sales-tax")];
   for (const key of householdRecords)
     it(`${key}: every household reached (its head carries the terms); employers bound; repeal ends it`, () => {
-      enact(key, 1, LOCAL);
+      // Where the state bars its places from the rule, only the state makes it.
+      const at = POLICY_QUESTIONS[key]?.answers[lawChain(api).stateKey]
+        ?.preempts
+        ? "state"
+        : LOCAL;
+      enact(key, 1, at);
       expect(reached(key), `${where} ${key}`).toBe(householdsWithAdults());
       const def = groupBPolicy(key)!;
       for (const row of openPeople(key))
@@ -630,7 +652,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
         households: reached(key),
         employers: openOrgs(key).length,
       };
-      enact(key, 0, LOCAL);
+      enact(key, 0, at);
       expectEnded(key);
     });
 
@@ -1053,57 +1075,47 @@ describe("law reach, group B: Medicaid expansion and its work requirement", () =
     expectEnded(expand);
   });
 
-  it("Medicaid expansion has the state and federal treasuries pay each covered adult's medical spending; the work requirement stops it for those it reaches, and a repeal ends it", () => {
+  it("Medicaid expansion keeps each covered adult's coverage by person id, named and counted, with no payment to the adult; the work requirement ends it for those it reaches, and a repeal ends it", () => {
     const expand = Q("health-human-services.expand-medicaid-eligibility");
     const work = Q("health-human-services.medicaid-work-requirement");
-    const accounts = api.accounts();
     const stateKey = lawChain(api).stateKey;
     const open = () =>
-      table<{
-        key: string;
-        recipientId: string;
-        obligationId: string;
-        amountMinor: number;
-      }>("taken").filter(
-        (r) =>
-          r.key === `coverage|${expand}` &&
-          !accounts.obligation(r.obligationId)?.endedAt,
-      );
-    const monthly = Math.round(
-      reachParameter("medicaidMonthlyMedicalDollars") * 100,
-    );
+      table<{ key: string; personId: string; to: string | null }>(
+        "coverage",
+      ).filter((r) => r.key === expand && r.to === null);
     enact(expand, 1, "state");
-    const facts = townFacts(api, town);
     const eligible = selectResidents(
-      facts,
+      townFacts(api, town),
       groupBPolicy(expand)!.people!,
       stateKey,
     );
-    const namedEligible = eligible.filter((r) => r.named);
-    const paid = open();
     expect(
-      namedEligible.length,
+      eligible.filter((r) => r.named).length,
       `${where} named covered adults`,
     ).toBeGreaterThan(0);
-    expect(paid.length, `${where} coverage payments`).toBeGreaterThan(0);
-    for (const r of namedEligible) {
-      // The state and, at the match in force, the federal treasury share it.
-      const shares = paid.filter((p) => p.recipientId === r.id);
+    // Every adult the expansion reaches, named or counted, holds a coverage
+    // record by their own id, and the stretches the bills read join them.
+    const covered = new Set(open().map((r) => r.personId));
+    for (const r of eligible)
+      expect(covered.has(r.id), `${where} ${r.id} covered`).toBe(true);
+    const spells = medicaidCoverageSpells(api, expand)!;
+    const tomorrow = after(api.state.date, 1);
+    for (const r of eligible)
       expect(
-        shares.reduce((n, p) => n + p.amountMinor, 0),
-        `${where} ${r.id} covered`,
-      ).toBe(monthly);
-    }
-    // The treasury pays it: a month on, a covered adult has received it.
-    advanceCore(core, after(api.state.date, 35));
-    expect(open().length, `${where} coverage still open`).toBeGreaterThan(0);
-    for (const row of open())
-      expect(
-        accounts.obligation(row.obligationId)!.paidMinor,
-        `${where} ${row.recipientId} paid`,
-      ).toBeGreaterThan(0);
+        spellOn(spells.get(r.id), tomorrow),
+        `${where} ${r.id} covered from tomorrow`,
+      ).toBeDefined();
+    // The bill is the expansion's one path into a covered adult's money: it
+    // opens no standing payment to the adult from any treasury (Medicaid's
+    // part of the care is paid to the seller on the bill's day).
+    expect(
+      table<{ key: string }>("taken").filter((r) =>
+        r.key.endsWith(`|${expand}`),
+      ),
+      `${where} no Medicaid payment to the adult`,
+    ).toEqual([]);
     // The work requirement ends coverage for the adults it reaches.
-    const coveredBefore = new Set(open().map((r) => r.recipientId));
+    const coveredBefore = new Set(open().map((r) => r.personId));
     enact(work, 1, "state");
     const ended = new Set(
       selectResidents(
@@ -1118,8 +1130,8 @@ describe("law reach, group B: Medicaid expansion and its work requirement", () =
     ).toBe(true);
     for (const row of open())
       expect(
-        ended.has(row.recipientId),
-        `${where} ${row.recipientId} still covered`,
+        ended.has(row.personId),
+        `${where} ${row.personId} still covered`,
       ).toBe(false);
     enact(work, 0, "state");
     enact(expand, 0, "state");

@@ -63,6 +63,7 @@ import powerQuestions from "../../data/research/powers-catalog/question-powers.j
 import { placeLocalities, placeStateKeys } from "../../src/core2/places";
 import { linkCoverage, WEB_LINKS } from "../../src/core2/outcome-web-model";
 import { allLaws, webLinksOf, type LawEntry } from "./catalog";
+import { billRecords, recordsFor, type BillRecords } from "./bill-records";
 import legislaturePowers from "../../src/core2/data/legislature/series-powers.json" with { type: "json" };
 import startingLawData from "../../src/core2/data/laws/starting-law.json" with { type: "json" };
 
@@ -1076,8 +1077,12 @@ function moveRowsOf(core: CoreState, key: string) {
 
 // ---- one law ---------------------------------------------------------------
 
+/** The bill records read in the window being played (bill-records.ts), fed each step while the trace is on. */
+let billCollector: ReturnType<typeof billRecords> | null = null;
+
 function step(core: CoreState, days: number): void {
   advanceCore(core, addDays(makeIsoDate(core.date), days));
+  if (trace.on) billCollector?.collect(core);
 }
 
 function build(drawn: ReturnType<typeof drawLawPlace>) {
@@ -1103,6 +1108,8 @@ interface Control {
   byAccount: Map<string, Posting[]>;
   /** Whom each law in force reached in the control world (a repeal stops their money). */
   targets: Map<string, Reached[]>;
+  /** The bill records that read or carry the laws' links in the control window. */
+  records: BillRecords;
 }
 
 /** The series a null law sets: no engine, handler or link reads it. */
@@ -1140,6 +1147,11 @@ function runControl(
   // window: over a long window a body in play may change a law already in
   // force, and the people it reached until then still count.
   const reach = new Map<string, ReachCount>();
+  billCollector = billRecords([
+    ...new Map(
+      laws.flatMap((law) => webLinksOf(law)).map((l) => [l.key, l]),
+    ).values(),
+  ]);
   trace.on = true;
   for (let left = 1 + WINDOW; left > 0;) {
     const d = Math.min(28, left);
@@ -1151,6 +1163,8 @@ function runControl(
     }
   }
   trace.on = false;
+  const records = billCollector.result();
+  billCollector = null;
   const money = snapshotMoney();
   const reads = trace.reads;
   const cited = new Map(trace.cited);
@@ -1178,6 +1192,7 @@ function runControl(
     cited,
     treasury,
     byAccount,
+    records,
     targets,
   };
 }
@@ -1261,6 +1276,7 @@ function checkLaw(
   // an enactment by whom it reached at any step of the window.
   const peak = opening ? undefined : { reach: null as ReachCount | null };
   let earlyMoves: ReturnType<typeof moveRowsOf> | undefined;
+  billCollector = billRecords(webLinksOf(law));
   trace.on = true;
   if (drafts) {
     // An authority law is read when a body drafts a bill under it: once the
@@ -1285,6 +1301,8 @@ function checkLaw(
     );
   }
   trace.on = false;
+  const records = billCollector.result();
+  billCollector = null;
   const money = snapshotMoney();
   const reads = trace.reads.get(law.key) ?? new Map();
   const controlReads = control.reads.get(law.key) ?? new Map();
@@ -1530,6 +1548,18 @@ function checkLaw(
       windowDays: WINDOW,
       cause: cause.slice(0, 12),
       reenacted,
+      // The bill records that read or carry its links: in this world, and in
+      // the control world where a law in force at the opening stays in force.
+      ...(records.recordedLinks.length || records.carriedLinks.length
+        ? {
+            records: {
+              treatment: records,
+              ...(opening
+                ? { control: recordsFor(control.records, links) }
+                : {}),
+            },
+          }
+        : {}),
     },
     heard,
     afterUndo: after,

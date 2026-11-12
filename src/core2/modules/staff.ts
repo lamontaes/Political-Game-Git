@@ -32,11 +32,14 @@ import {
   corePlaceByJurisdictionId,
   coreSeatOfGovernmentPlace,
 } from "../place-lookup";
-import { countyPopulationSharesForPlace } from "../reference/government-units";
+import { placeCountyPopulationShares } from "../place-map";
 import type { EntityId } from "../kernel/brands";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
+import { outsideLaborForce } from "../gov-rules/place-population";
+import { residentsRuntime } from "./residents";
 import type { ModuleRow } from "../module-data";
-import { campaignParameter, personLean } from "../campaign-views";
+import { personLean } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
 import { keepsWhy } from "../why-kept";
 import {
@@ -46,7 +49,12 @@ import {
 } from "../trait-decisions";
 import { lawChain } from "./laws";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  ageInYears,
+  daysBetweenText,
+  makeIsoDate,
+} from "../kernel/dates";
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { inCustody } from "./justice";
@@ -163,9 +171,7 @@ const table = (api: CoreAPI, name: string) =>
   api.moduleState(STAFF_MODULE_ID).table(name);
 
 const ageOn = (p: Readonly<PersonState>, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 
 export interface StaffCandidate {
   readonly personId: string;
@@ -185,9 +191,7 @@ export interface StaffCandidate {
 }
 
 const ageOnDay = (birthDate: string, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(birthDate.slice(0, 4)) -
-  (date.slice(5) < birthDate.slice(5) ? 1 : 0);
+  ageInYears(birthDate, date);
 
 const WORKING_AGE_POINTS = [18, 22, 30, 40, 50, 60, 70, 80] as const;
 
@@ -248,9 +252,7 @@ function officeSiteOf(api: CoreAPI, officialId: string): OfficeSite {
   const geoid = seat.place.sourceGeoid ?? "";
   return {
     placeId: seat.place.context.jurisdiction.id,
-    countyGeoids: countyPopulationSharesForPlace(geoid).map(
-      ([county]) => county,
-    ),
+    countyGeoids: placeCountyPopulationShares(geoid).map(([county]) => county),
     stateKey: seat.place.stateJurisdictionKey ?? chain.stateKey,
   };
 }
@@ -375,6 +377,20 @@ function currentPay(state: CoreState, personId: string): number {
 }
 
 /**
+ * Whether a household is a group-quarters room outside the civilian labor
+ * force (an institution or barracks): its residents take no staff post, by
+ * the rule the jobs engine reads (`outOfCivilianWork`), for a full household
+ * and a counted one alike (one model, two tiers).
+ */
+function roomOutsideLaborForce(state: CoreState, householdId: string): boolean {
+  const full = state.households.get(householdId);
+  if (full) return outsideLaborForce(full.quarters);
+  const store = residentsRuntime(state)?.store;
+  const at = store?.householdOf.get(householdId);
+  return at !== undefined && outsideLaborForce(store!.households[at]!.quarters);
+}
+
+/**
  * Who an official can hire: people they know, and applicants (town adults
  * out of work, or whose current pay is under the post's, and the town's
  * counted adults with no work in the records). Each is someone the records
@@ -407,6 +423,7 @@ export function staffCandidates(
   for (const person of reachablePeople(state, official, town, review)) {
     if (person.id === officialId || hired.has(person.id)) continue;
     if (owners.has(person.id)) continue;
+    if (roomOutsideLaborForce(state, person.householdId)) continue;
     const facts = personFacts(api, person, minimum, review);
     if (!facts.open) continue;
     if (person.tier === HUSK_TIER) {
@@ -548,12 +565,14 @@ function countedPool(api: CoreAPI, town: string, minimum: number) {
   const state = api.state as CoreState;
   const held = pools.get(state);
   if (held?.date === state.date) return held.rows;
-  // Anyone earning less than the post pays may apply, not only the jobless.
+  // Anyone earning less than the post pays may apply, not only the jobless,
+  // except residents of institutions and barracks, outside the labor force.
   const postHourly = campaignParameter("staffHourlyMinor");
   const rows = countedResidents(state)
     .filter(
       (voter) =>
         voter.placeId === town &&
+        !roomOutsideLaborForce(state, voter.householdId) &&
         voter.hourlyMinor < postHourly &&
         ageOnDay(voter.birthDate, state.date) >= minimum,
     )
@@ -930,7 +949,9 @@ export function briefOnBill(
     .filter((id) => id !== staffer.officialId)
     .sort();
   const covered = body.slice(0, Math.round(q.quality * body.length));
-  const stakes = covered.map((id) => learnStake(api, billId, id, "record"));
+  const stakes = covered.map((id) =>
+    learnStake(api, billId, id, "record", staffer.officialId),
+  );
   const work = record(api, staffer, "brief", q, {
     billId,
     covered: covered.length,

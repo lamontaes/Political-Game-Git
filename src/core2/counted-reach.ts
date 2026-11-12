@@ -8,7 +8,11 @@
  */
 import { ageOn } from "./counted-groups";
 import { isNoncitizen } from "./citizenship";
-import { countedParameter, residentsRuntime } from "./modules/residents";
+import {
+  countedParameter,
+  residentsRuntime,
+  unplacedPayPerWorker,
+} from "./modules/residents";
 import type { CoreState, PlaceId } from "./types";
 
 export interface ReachRule {
@@ -197,9 +201,11 @@ export function reachOf(
     const store = rt.store;
     const from = countedParameter("countedWorkingAgeFrom"),
       below = countedParameter("countedWorkingAgeBelow");
-    const perUnplaced = (rt.unplacedPerWorker.get(placeId) ?? 0) / 100;
     for (const h of store.liveHouseholds()) {
       if (h.placeId !== placeId) continue;
+      // A zero-income group-quarters room reads as an eligible household.
+      // stopgapId: SG-GQ-means-tests-poverty
+      const perUnplaced = unplacedPayPerWorker(rt, h) / 100;
       const members = store.countedMembers(h);
       const jobs = new Map<string, { wage: number; minutes: number }>();
       for (const job of h.jobs)

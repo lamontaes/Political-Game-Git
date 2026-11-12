@@ -1,0 +1,14 @@
+[
+  {
+    "id": "SG-JUSTICE-counted-custody-pay",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/justice.ts",
+    "line": 1706,
+    "whatItFakes": "Counted people serving a jail, prison or juvenile term keep their pay: a counted case's custody is a head count by counted group (CountedCustodyRow), with no record of which member serves, so no counted member's job ends and no counted household loses an earner, as a named prisoner's household does (endCustodyJobs, parent-incarceration-to-household-income).",
+    "why": "The justice engine files counted defendants as fractional cases by group and age band (arrest and resolveDue in src/core2/public-safety.ts); the counts carry no member, and choosing one without a record would be a roll.",
+    "addedBy": "wire-effects crime-and-justice helper 2",
+    "addedAt": "2026-10-29",
+    "replacement": "A record of which counted members a counted term holds, decided from their own records (the age band, the group's members and their jobs), so the jobs engine ends their jobs for the term as it does a named prisoner's, and the counted household's income loses that pay.",
+    "status": "open"
+  }
+]

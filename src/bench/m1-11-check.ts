@@ -76,19 +76,26 @@ const closureWorkers = (eventId: string) => {
   });
 };
 const { factKeys: driveFacts } = DEFAULT_DRIVES_DATA as unknown as {
-  factKeys: { countedSubject: string; countedPerceivers: string };
+  factKeys: {
+    countedSubject: string;
+    countedPerceivers: string;
+    countedSubjects: string;
+  };
 };
 // Every event of these kinds the producers emit, with the people it named
 // then: full people, and the counted people its records name (its counted
-// subject and perceivers, and the counted workers a closure ended).
+// subject and perceivers, the counted household it happened to, and the
+// counted workers a closure ended).
 const occurred: OccurredEvent[] = [];
 coreAPI(core).subscribeEvents("m1-11-check", [...KINDS], (_api, event) => {
   watch();
   const facts = (event.facts ?? {}) as Record<string, string | undefined>;
   const perceivers = facts[driveFacts.countedPerceivers];
+  const household = facts[driveFacts.countedSubjects];
   const counted = [
     facts[driveFacts.countedSubject],
     ...(perceivers ? (JSON.parse(perceivers) as string[]) : []),
+    ...(household ? (JSON.parse(household) as string[]) : []),
   ].filter((id): id is string => !!id);
   // The engine answers a full person who is alive and a counted person still
   // in the counts; anyone else the records name is kept, by id, as unable to.

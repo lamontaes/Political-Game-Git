@@ -4,8 +4,8 @@
   "questions": {
     "us-policy-positions:fiscal.adopt-income-tax": {
       "dial": "income-tax",
-      "levels": ["state"],
-      "why": "It asks whether the state levies an income tax. A local income tax is levied under state law, and is not this question."
+      "levels": ["federal", "state"],
+      "why": "Each level levies its own income tax. Congress imposes the federal tax under 26 U.S.C. 1, including subsection (j); state income taxes remain concurrent. Local income-tax authority is a separate question under state law."
     },
     "us-policy-positions:fiscal.graduated-income-tax": {
       "dial": "income-tax",
@@ -92,6 +92,10 @@
       "levels": ["state"]
     },
     "us-policy-positions:health-human-services.medicaid-work-requirement": {
+      "federalPreemption": {
+        "whenValue": 1,
+        "source": "P.L. 119-21, §71119; 42 U.S.C. §1396a(xx)(1): the state shall require community engagement for applicable individuals. https://www.congress.gov/119/plaws/publ21/PLAW-119publ21.pdf"
+      },
       "dial": "medicaid",
       "levels": ["federal", "state"],
       "why": "Federal law requires it of expansion adults from 2027 (the starting law's federal row), and a state may also impose one."
@@ -99,7 +103,12 @@
     "us-policy-positions:health-human-services.work-requirement-for-assistance": {
       "dial": "food-aid",
       "levels": ["federal", "state", "county"],
-      "why": "Federal food-aid work rules answer it nationwide (the starting law's federal row)."
+      "why": "Federal SNAP work rules answer it in participating jurisdictions (the starting law's federal row); separate territorial nutrition-assistance programs are outside that rule.",
+      "federalPreemption": {
+        "whenValue": 1,
+        "excludedStateKeys": ["US-PR", "US-AS", "US-MP"],
+        "source": "7 U.S.C. §2015(d), (o), as amended by P.L. 119-21 §10102: SNAP work conditions for covered individuals, subject to statutory exemptions and waivers. 7 U.S.C. §2012(r) defines the participating States as the fifty states, D.C., Guam and the U.S. Virgin Islands (and qualifying tribal reservations). This rule does not govern separate territorial nutrition-assistance programs. https://www.law.cornell.edu/uscode/text/7/2015 ; https://www.law.cornell.edu/uscode/text/7/2012"
+      }
     },
     "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response": {
       "dial": "public-health",
@@ -202,8 +211,13 @@
     },
     "us-policy-positions:business-commerce.legalize-cannabis-sales": {
       "dial": "marijuana",
-      "levels": ["state"],
-      "why": "Whether adults may buy cannabis is state law. A town can only refuse stores the state allows, which is a different question."
+      "levels": ["federal", "state"],
+      "why": "Congress regulates cannabis commerce under 21 U.S.C. 841(a) and Gonzales v. Raich, 545 U.S. 1, 22 (2005). State retail licensing remains independent: 21 U.S.C. 903 disclaims field preemption and requires a positive conflict. Federal decriminalization here removes the federal prohibition; it does not confer a state retail license. Town store exclusions remain a different question.",
+      "sources": [
+        "https://www.law.cornell.edu/uscode/text/21/841",
+        "https://www.law.cornell.edu/uscode/text/21/903",
+        "https://tile.loc.gov/storage-services/service/ll/usrep/usrep545/usrep545001/usrep545001.pdf"
+      ]
     },
     "us-policy-positions:business-commerce.cap-development-incentives": {
       "dial": "business-incentives",
@@ -215,8 +229,15 @@
     },
     "us-policy-positions:labor-workforce.raise-minimum-wage": {
       "dial": "minimum-wage",
-      "levels": ["state"],
-      "why": "It asks about the state minimum wage. A city's own wage floor is a question the catalog does not ask yet."
+      "levels": ["federal", "state"],
+      "seriesByLevel": {
+        "federal": "us-federal-positions:labor-commerce.raise-federal-minimum-wage"
+      },
+      "source": [
+        "https://www.law.cornell.edu/uscode/text/29/206",
+        "https://www.law.cornell.edu/uscode/text/29/218"
+      ],
+      "why": "29 U.S.C. 206(a) sets the federal minimum wage; 218(a) preserves higher state and municipal floors. Congress uses the existing federal wage question's record and producer, so its two catalog names cannot create independent competing wage rules. The state's existing scope is unchanged."
     },
     "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
       "dial": "local-preemption",
@@ -552,6 +573,14 @@
       "dial": "emissions-permits",
       "levels": ["state"],
       "why": "A state writes the plan for counties that fail the federal standard, and enforces it on polluters. A county or city does not."
+    },
+    "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
+      "dial": "nondiscrimination",
+      "levels": ["state"]
+    },
+    "us-policy-positions:environment-energy.allow-retail-electric-choice": {
+      "dial": "utility-rates",
+      "levels": ["state"]
     }
   }
 }

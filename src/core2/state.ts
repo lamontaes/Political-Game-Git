@@ -1,3 +1,4 @@
+import { promoteHusk as promoteHuskOfficial } from "./husk-promoters";
 import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
@@ -10,11 +11,17 @@ import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 import {
   keptDecision,
+  isShortDetailKind,
+  queueCampaignRecord,
+  CAMPAIGN_RECORD_KINDS,
   queueCircleEntry,
+  queueShortEntry,
   queueDecisionDetail,
+  queueRelationshipDetail,
 } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
-import { queueExperience } from "./knowledge-retention";
+import { isExperiencedKey, queueExperience } from "./knowledge-retention";
+import { queueEventId } from "./event-id-retention";
 import { meetAtWork } from "./encounters";
 import { workgroupOf } from "./shared-history";
 import { derivePersonAppearance } from "./appearance";
@@ -27,7 +34,7 @@ import {
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
-import { rerateCountedJobs } from "./residents-economy";
+import { rehourCountedJobs, rerateCountedJobs } from "./residents-economy";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
 import { forgetTraitLean } from "./choice";
@@ -47,6 +54,7 @@ import {
   settleWorkResult,
   recordActivityTime,
   recordDiscretionaryTime,
+  rehourNamedJob,
 } from "./work-state";
 import {
   admitWorkAttendanceOwner,
@@ -83,6 +91,7 @@ import {
   closeBusinessByChoice,
   closeEmployer,
   finishFinanceDay,
+  moveRecipientIncomeHome,
 } from "./finance-state";
 import {
   preflightModuleNotifications,
@@ -102,13 +111,13 @@ import {
   releaseCashJournalSource,
 } from "./journal-state";
 import { cashJournalHost } from "./cash-host";
-import { settleLegacyWorkResultJournal } from "./work-cash";
 import { admitPublicPayAuthority } from "./public-work-pay";
 import type { CashJournalSourceRef } from "./journal";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { moveLivingShare } from "./cost-of-living";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "./data";
 import { parameter, parameterValues } from "./parameters";
+import { openingTiesOf } from "./opening-ties";
 import {
   isExplicitlyControlledPersonV1,
   prepareControlledActTraceV1,
@@ -117,6 +126,7 @@ import { recordStopgapsIn, stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
 import { nativityFact } from "./nativity";
 import { spacedSiblingBirths } from "./sibling-births";
+import { distinctSiblingGivenName } from "./sibling-names";
 import type {
   ActOffer,
   CompactChoiceTraceV1,
@@ -375,7 +385,6 @@ export function createCore(
     quietChoiceByPerson: new Map(),
     logByPerson: new Map(),
     logByKind: new Map(),
-    logByPlace: new Map(),
     latestPublicViews: new Map(),
     actCounters: new Map(),
     actCountersByMonth: new Map(),
@@ -491,7 +500,6 @@ export function createCore(
   }
   for (const actor of core.people.values()) {
     assertKnownIdSources(core, actor);
-    api.stopgap("SG-P8-opening-family-closeness");
     if (!core.households.get(actor.householdId)?.memberIds.includes(actor.id))
       throw new Error(`Person has no consistent household: ${actor.id}`);
     for (const id of actor.familyIds) {
@@ -764,11 +772,16 @@ export function retainLog(
   // window, the player's own routine ones a year later (condenseCircleDecisions).
   if (row.decision) queueDecisionDetail(core, core.date, row.id);
   else if (row.visibility === "circle" && !row.publicRecord && !row.news)
-    queueCircleEntry(core, core.date, row.id);
+    (isShortDetailKind(row.kind) ? queueShortEntry : queueCircleEntry)(
+      core,
+      core.date,
+      row.id,
+    );
+  else if (row.visibility === "public" && CAMPAIGN_RECORD_KINDS.has(row.kind))
+    queueCampaignRecord(core, core.date, row.id);
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
   index(core.logByKind, row.kind, row.id);
-  index(core.logByPlace, row.placeId, row.id);
 }
 
 /** Shared act admission is pure so coupled money writers can validate before payment. */
@@ -881,6 +894,30 @@ export function coreAPI(core: CoreState): CoreAPI {
   };
   const journalHost = cashJournalHost(core);
   const api: CoreAPI = {
+    addPersonV1(input) {
+      const zero = parameter("zero", core.data.parameters);
+      const household = core.households.get(input.householdId);
+      if (
+        !household ||
+        household.placeId !== input.placeId ||
+        household.memberIds.includes(input.id) ||
+        core.people.has(input.id) ||
+        core.husks.has(input.id) ||
+        input.liquidMinor !== zero ||
+        input.jobId !== undefined ||
+        input.birthDate > core.date ||
+        input.familyIds.some((id) => !core.people.has(id)) ||
+        input.knownIds.some((id) => !core.people.has(id))
+      )
+        throw new Error("Invalid adult admission.");
+      // admitPerson validates identity, tier, traits and knowledge before indexing.
+      const person = admitPerson(core, input);
+      core.households.set(household.id, {
+        ...household,
+        memberIds: [...household.memberIds, person.id],
+      });
+      return person;
+    },
     addBornPersonV1(input, parents, relations) {
       const zero = parameter("zero", core.data.parameters);
       const household = core.households.get(input.householdId);
@@ -979,6 +1016,16 @@ export function coreAPI(core: CoreState): CoreAPI {
     observe(personId, fact) {
       const known = core.knowledgeByPerson.get(personId);
       if (!known) throw new Error(`Knowledge recipient is absent: ${personId}`);
+      // Someone back in the counts learns nothing but the events they take
+      // part in, as no counted person keeps knowledge (two-level rule, Oct
+      // 11): the day's appraisal reads that note and the forgetting pass
+      // drops it within weeks; their record keeps their results, and meeting
+      // them again fills them in to learn anew. Writers that reach them by
+      // place or county (a county story's readers) otherwise grew their
+      // facts for the rest of the run (Montpelier, Vermont, Nov 9: 921,660
+      // facts held by people back in the counts at year 4).
+      const person = core.people.get(personId);
+      if (person && isDemoted(person) && !isExperiencedKey(fact.key)) return;
       makeIsoDate(fact.learnedAt);
       if (fact.learnedAt > core.date)
         throw new Error("Cannot learn a future fact.");
@@ -1092,9 +1139,6 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     settleWorkResult(row) {
       return settleWorkResult(core, api, row);
-    },
-    settleLegacyWorkResult(row) {
-      return settleLegacyWorkResultJournal(core, api, row);
     },
     recordActivityTime(personId, category, minutes, source) {
       recordActivityTime(core, api, personId, category, minutes, source);
@@ -1263,11 +1307,21 @@ export function coreAPI(core: CoreState): CoreAPI {
         row.kind !== storedKind
       )
         throw new Error("Stale relationship change basis.");
-      api.stopgap("SG-P8-relationship-closeness-update");
       row.level = nextLevel;
       row.lastContactDate = at;
       row.latestChange = latestChange;
       core.relationships.set(id, row);
+      // A circle member's full decision is condensed on the log's schedule.
+      if (
+        (latestChange?.decision as { scores?: unknown } | undefined)?.scores &&
+        actorId !== core.playerId &&
+        !core.observer &&
+        !isExplicitlyControlledPersonV1(core, actorId)
+      )
+        queueRelationshipDetail(core, at, id);
+      // Ties are only ever added here, never removed: tiedTo in
+      // modules/people.ts reads a person's set of the same size as the same
+      // ties. Anything that removes a tie must also drop that kept copy.
       index(core.relationshipsByPerson, actorId, id);
       index(core.relationshipsByPerson, otherId, id);
       if (actorId === core.playerId) core.focusPersonIds.add(otherId);
@@ -1621,7 +1675,25 @@ export function coreAPI(core: CoreState): CoreAPI {
         siblings.map((row) => row.birthDate),
         [identity.birthDate],
       );
-      siblings.forEach((row, i) => (row.birthDate = births[i]!));
+      const siblingNames = [given];
+      siblings.forEach((row, i) => {
+        row.birthDate = births[i]!;
+        // A brother or sister living elsewhere carries the family name too (C27).
+        if (row.familyName === drawn) row.familyName = family;
+        if (!row.alive) return;
+        row.givenName = distinctSiblingGivenName(
+          core.seed,
+          row.id,
+          {
+            givenName: row.givenName,
+            familyName: row.familyName,
+            birthDate: row.birthDate,
+            gender: row.looks?.gender,
+          },
+          siblingNames,
+        );
+        siblingNames.push(row.givenName);
+      });
     },
     relocatePeopleV1(input) {
       const ids = [...input.personIds];
@@ -1691,6 +1763,9 @@ export function coreAPI(core: CoreState): CoreAPI {
         actor.householdId = input.householdId;
         index(core.peopleByPlace, actor.placeId, actor.id);
         if (actor.countyId) index(core.peopleByPlace, actor.countyId, actor.id);
+        // A recorded income award (a pension, Social Security) is paid into
+        // the household where its person lives now, from its next due date.
+        moveRecipientIncomeHome(core, actor.id, input.householdId);
       }
     },
     changeHouseholdV1(input) {
@@ -1764,8 +1839,10 @@ export function coreAPI(core: CoreState): CoreAPI {
           memberIds: from.memberIds.filter((id) => !leaving.includes(id)),
         });
       }
-      for (const mover of movers as PersonState[])
+      for (const mover of movers as PersonState[]) {
         mover.householdId = input.householdId;
+        moveRecipientIncomeHome(core, mover.id, input.householdId);
+      }
     },
     setPartnersV1(input) {
       const [a, b] = [...input.personIds].sort() as [string, string];
@@ -1827,7 +1904,10 @@ export function coreAPI(core: CoreState): CoreAPI {
           placeId: left.placeId,
           publicRecord: false,
           source: input.source,
-          facts: { linkId: id },
+          ...(input.witnessIds?.length
+            ? { witnessIds: [...input.witnessIds] }
+            : {}),
+          facts: { ...(input.facts ?? {}), linkId: id },
         });
       } else {
         if (!between) throw new Error("These two are not partners.");
@@ -1854,7 +1934,10 @@ export function coreAPI(core: CoreState): CoreAPI {
           placeId: left.placeId,
           publicRecord: false,
           source: input.source,
-          facts: { linkId: between.id },
+          ...(input.witnessIds?.length
+            ? { witnessIds: [...input.witnessIds] }
+            : {}),
+          facts: { ...(input.facts ?? {}), linkId: between.id },
         });
       }
     },
@@ -1934,6 +2017,18 @@ export function coreAPI(core: CoreState): CoreAPI {
           sourceId: job.id,
           access: "self",
         });
+    },
+    rehourJob(jobId, hoursDaily, source) {
+      if (!Number.isFinite(hoursDaily) || hoursDaily <= 0)
+        throw new Error("New daily hours must be positive.");
+      makeIsoDate(source.asOf);
+      if (source.asOf > core.date)
+        throw new Error("An hours change cannot cite a later source.");
+      if (!core.jobs.has(jobId)) {
+        if (rehourCountedJobs(core, new Map([[jobId, hoursDaily]])) > 0) return;
+        throw new Error(`No recorded job to change the hours of: ${jobId}`);
+      }
+      rehourNamedJob(core, api, jobId, hoursDaily, source);
     },
     addOrganization(row) {
       if (
@@ -2085,6 +2180,22 @@ export function coreAPI(core: CoreState): CoreAPI {
  * record (trace audit item 2): who or what came in, why, and where. In the
  * town's own places it is a public record; elsewhere a plain one.
  */
+/**
+ * The record behind each entry that is about to be admitted: a producer names
+ * it (the birth, the founding, the move) just before it admits the person or
+ * the organization, and the entry record keeps it as a fact Trace opens.
+ */
+const entryCauses = new WeakMap<CoreState, Map<string, string>>();
+export function noteEntryCause(
+  core: CoreState,
+  entryId: string,
+  causeId: string,
+): void {
+  let causes = entryCauses.get(core);
+  if (!causes) entryCauses.set(core, (causes = new Map()));
+  causes.set(entryId, causeId);
+}
+
 function recordEntry(
   core: CoreState,
   entry: {
@@ -2098,6 +2209,8 @@ function recordEntry(
   if (core.date <= core.startedAt) return;
   const id = `${entry.kind}.recorded:${entry.id}:${core.date}`;
   if (core.eventIds.has(id)) return;
+  const causeId = entryCauses.get(core)?.get(entry.id);
+  entryCauses.get(core)?.delete(entry.id);
   coreAPI(core).emit({
     id,
     date: core.date,
@@ -2110,7 +2223,11 @@ function recordEntry(
       citation: `Entered the world: ${entry.reason}`,
     },
     publicRecord: core.visiblePlaceIds.has(entry.placeId),
-    facts: { recordId: entry.id, reason: entry.reason },
+    facts: {
+      recordId: entry.id,
+      reason: entry.reason,
+      ...(causeId ? { causeId } : {}),
+    },
   });
 }
 
@@ -2130,6 +2247,7 @@ export function applyCoreEvent(core: CoreState, event: CoreEventInput): void {
     if (!core.people.has(id) && !core.husks.has(id))
       throw new Error(`Event names an absent person: ${id}`);
   core.eventIds.add(event.id);
+  queueEventId(core, event.id);
   retainLog(core, event);
   const api = coreAPI(core);
   for (const id of new Set([...(event.witnessIds ?? []), ...event.personIds])) {
@@ -2206,6 +2324,10 @@ export function personOrFillIn(
   personId: PersonId,
 ): PersonState | undefined {
   const full = core.people.get(personId);
+  if (!full && core.husks.has(personId)) {
+    const promoted = promoteHuskOfficial(core, personId);
+    if (promoted) return promoted;
+  }
   // Someone returned to the counts comes back as the same person.
   if (full && !isDemoted(full)) return full;
   if (!residentFacts(core, personId)) return full;
@@ -2305,10 +2427,15 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     const active = recorded
       ? countedJob(core, recorded.id) !== undefined
       : false;
+    // Neighbors and county coworkers they know from their years in place.
+    const ties = openingTiesOf(core, row, home);
     admitted.push(
       admitPerson(core, {
         ...row,
         liquidMinor: 0,
+        ...(ties.length
+          ? { knownIds: [...new Set([...row.knownIds, ...ties])] }
+          : {}),
         ...(active ? {} : { jobId: undefined }),
       }),
     );
@@ -2406,7 +2533,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
               other.id,
               id,
               "family",
-              api.parameter("relationInitial"),
+              openingClosenessHours(core, other.id, id),
+              undefined,
+              { cause: OPENING_FAMILY_CAUSE },
             );
         }
   for (const actor of admitted) {
@@ -2426,7 +2555,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
             actor.id,
             id,
             "family",
-            api.parameter("relationInitial"),
+            openingClosenessHours(core, actor.id, id),
+            undefined,
+            { cause: OPENING_FAMILY_CAUSE },
           );
       }
     openOpeningPeerTies(core, api, actor);
@@ -2802,11 +2933,7 @@ export function assertCoreIntegrity(core: CoreState): void {
       `membership:${id}`,
     );
   for (const [id, row] of core.durableLog) {
-    fail(
-      core.logByKind.get(row.kind)?.has(id) === true &&
-        core.logByPlace.get(row.placeId)?.has(id) === true,
-      `log:${id}`,
-    );
+    fail(core.logByKind.get(row.kind)?.has(id) === true, `log:${id}`);
     for (const actorId of row.personIds)
       fail(core.logByPerson.get(actorId)?.has(id) === true, `log-person:${id}`);
   }

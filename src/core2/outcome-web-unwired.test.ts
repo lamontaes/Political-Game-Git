@@ -7,7 +7,7 @@
  */
 import { describe, expect, it } from "vitest";
 import data from "./data/outcome-web/unwired.json" with { type: "json" };
-import stopgaps from "./data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "./stopgaps";
 import { unwiredRows } from "../../scripts/outcome-web/write-unwired";
 import { linkCoverage, WEB_LINKS } from "./outcome-web-model";
 

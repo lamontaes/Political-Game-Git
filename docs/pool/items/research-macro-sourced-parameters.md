@@ -6,23 +6,37 @@ kind: research
 priority: 3
 size: M
 status: open
-claimed-by: claude/political-game-pool-yucp92-v
+claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from world-stopgap-macro-model-estimated-series, world-stopgap-regional-model-estimated-series"
-claimed-at: 2026-10-20T02:17:41.176Z
+claimed-at:
+standard: 2
+model: sonnet
+effort: medium
+root: none
+lead: researcher
+after:
+checked: fable 2026-11-10
 ---
 
-**What.** Source the numbers behind the macro and regional models. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 2 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/world/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
+**What.** Source the numbers behind the regional (territory) model. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/world/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. The mortgage-spread row is resolved: src/core2/data/macro/history.json already holds a monthly mortgage30Pct through 2026-09 citing Freddie Mac's Primary Mortgage Market Survey, so it is left out of the list below. What remains is SG-WORLD-regional-territory-estimate: each territory's own labor and price statistics (Guam BLS-funded surveys, USVI Bureau of Economic Research, CNMI and American Samoa statistical offices), or the nearest comparable economy, labeled with its source. Feeds: world-stopgap-macro-model-estimated-series and world-stopgap-regional-model-estimated-series, which wait on it; drop it if the lead drops them.
 
-- `SG-WORLD-macro-mortgage-spread` in src/core2/macro-model.ts: Opening 30-year mortgage rates after April 2019 are the 10-year Treasury plus the 1990-2019 mean FHFA spread, not a published monthly rate. Replacement: A government monthly mortgage-rate series, or monthly HMDA origination dates if CFPB publishes them.
 - `SG-WORLD-regional-territory-estimate` in src/core2/regional-model.ts: Guam, American Samoa, the Northern Marianas and the Virgin Islands start from their own latest published unemployment rate held flat (src/core2/data/regional/territories.json; American Samoa from the 2020 Census, the Marianas from a 2017 survey), with the nation's pay and price level and no industry mix. Replacement: Each territory's own published labor and price statistics (Guam BLS-funded surveys, USVI Bureau of Economic Research, CNMI and American Samoa statistical offices), or the nearest comparable economy, labeled with its source.
+
+**Cause.** Design: each stopgap row named below is still open in its family file under src/core2/data/stopgaps/ and waits on sourced data. The rule is AGENTS.md "Placeholders" (every shortcut registered, every number tagged SOURCED, ESTIMATED or TUNABLE), and the research is in docs/research/core-parameter-sources-2026-10-12.md.
+
+**Fix.** Source only the territories' labor and price statistics for SG-WORLD-regional-territory-estimate, keep the row registered where a territory's statistics cannot be reached, and say so with the reason.
+
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named where its figure is now SOURCED, and where a figure stays ESTIMATED or the row needs a mechanic the research does not build, the row stays open with its `replacement` naming the research file, the estimate's source and spread, and the figure or builder item that would close it; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+**Done when.** A second session reads the parameter tables for the territories' labor and price statistics and finds each SOURCED or ESTIMATED with a citation (publisher, year, URL) and a spread (low, high, unit, citation). In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) it sees the engine read each new value by record id, with where the town landed reported next to the real figure; the real figure is reported only and is not a pass mark. Each stopgap row this item takes is resolved in its family file under src/core2/data/stopgaps/ with the source named, or stays open with its replacement naming the research file, the estimate's source and spread, and the item that would close it. tests/guards/research-data-has-reader.test.ts and the tripwire and calibration-guard tests pass.
 
-**Files.** src/core2/macro-model.ts, src/core2/regional-model.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/world/
+**Waits on.** Nothing.
+
+**Files.** src/core2/macro-model.ts, src/core2/regional-model.ts, src/core2/data/parameters.json, src/core2/data/stopgaps/world.json, data/research/world/, src/core2/data/regional/territories.json
 
 **Notes.** Folded from: world-stopgap-macro-model-estimated-series, world-stopgap-regional-model-estimated-series. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
 
@@ -31,3 +45,5 @@ Looked at Oct 20 (claude, claude/political-game-pool-yucp92-v), nothing sourced.
 Deferred Oct 25: nothing on screen reads it yet.
 
 Oct 25 audit: unblocked; the Notes already confirm history.json carries Freddie Mac PMMS monthly through 2026-09, which answers the CTO question.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-yucp92-v` (2026-10-20). Cleared from the front matter and kept here.

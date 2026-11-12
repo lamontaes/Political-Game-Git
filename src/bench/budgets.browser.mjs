@@ -6,6 +6,7 @@
 // Run against a fresh bench: node src/bench/budgets.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 
 const shots = process.argv[2];
 const browser = await chromium.launch({
@@ -50,6 +51,8 @@ try {
   if (await page.locator("#new-advanced").isVisible())
     await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
+  // The opening plays first, as a player sees it (start-life.mjs).
+  await playOpening(page, (await (await made).json()).sceneMomentId ?? null);
   const asked = new URL((await made).url()).searchParams;
   const world = { seed: asked.get("seed"), date: asked.get("date") };
   console.log("Seed:", world.seed);
@@ -91,7 +94,7 @@ try {
     .locator('[data-tab="travel"]')
     .first()
     .evaluate((e) => e.click());
-  const go = page.locator("#sheet-body .entry", { hasText: /You file here/ });
+  const go = page.locator(".travel-tile[data-filing]");
   await go.first().waitFor();
   let atCounter = false;
   for (let i = 0; i < (await go.count()) && !atCounter; i++) {
@@ -138,7 +141,7 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: /^budgets$/i })
     .click();
-  await page.locator(".budget-screen .donut-share").first().waitFor();
+  await page.locator(".strip-board .bsdept").first().waitFor();
   // Budgets opens on the town's own books: its city government, or the county
   // that serves it where the place has no city, never the federal default.
   assert.ok(budget, "the budget view did not load");
@@ -150,22 +153,20 @@ try {
   const levels = budget.governments.map((g) => g.level).join(", ");
   assert.ok(local, `no local budget to open on: ${levels}`);
   assert.equal(
-    await page.locator("#sheet-body select").evaluate((e) => e.value),
+    await page.locator("#sheet-body .tab.on").evaluate((e) => e.dataset.gov),
     local.id,
     `Budgets did not open on the local books (${local.level}) of ${levels}`,
   );
   console.log(`PASS Budgets opens on the ${local.level} books of ${levels}`);
-  // Every amount on the rings, in their keys and in the books.
+  // Every amount in the departments list, the typed page and the town's money.
   const sums = await page
-    .locator(
-      ".budget-screen .donut-total, .budget-screen .donut-share, .budget-screen .record-value, .budget-screen .record-chart-line strong",
-    )
+    .locator(".strip-board .bsdept em, .strip-board .dotvalue")
     .allInnerTexts();
   assert.ok(sums.length > 3, "the budget shows no sums");
   for (const sum of sums)
     assert.match(
       sum.trim(),
-      /^−?\$(\d{1,3}(,\d{3})*|\d+(\.\d)? (million|billion|trillion))$/,
+      /^−?\$(\d{1,3}(,\d{3})*|\d+(\.\d)? (million|billion|trillion))( (short|ahead))?$/,
       `a budget sum is not rounded: ${sum}`,
     );
   console.log("PASS after filing Politics offers", grown.join(", "));

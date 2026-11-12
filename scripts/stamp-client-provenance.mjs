@@ -34,14 +34,6 @@ const revision = git(["rev-parse", "HEAD"]) ?? "unknown";
 const status = git(["status", "--porcelain", "--untracked-files=no"]);
 const profile = "production";
 
-execFileSync(
-  process.execPath,
-  ["--import", "tsx", "scripts/dev-lab/compiled-art-usage.ts"],
-  {
-    cwd: repoRoot,
-    stdio: "inherit",
-  },
-);
 const treeSha256 = hashClientTree(clientDir);
 const provenance = {
   sourceRevision: revision,

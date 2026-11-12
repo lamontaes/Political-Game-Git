@@ -10,9 +10,11 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
+branch: lane-2/counted-news-views
 ---
 
-**What.** When a printed story reaches an outlet's followers, the views engine moves the stance of each full reader it reached (news.ts emits the read event with the readers as witnesses). The outlet's counted followers are reached only as a count (receivedCounted on the printed story) and their group's views never move, for a policy story, a law story or a story about the town's conditions. A counted group's view is read from its opening profile alone, so the wider population's opinion never responds to the news.
+**What.** When a printed story reaches an outlet's followers, the views engine moves the stance of each full reader it reached (news.ts emits the read event with the readers as witnesses). The outlet's counted followers are reached only as a count (receivedCounted on the printed story) and their group's views never move, for a policy story, a law story or a story about the town's conditions. A counted group's view is read from its opening profile alone, so the wider population's opinion never responds to the news. Seen: the town's poll and election result after a printed story runs.
 
 **Rules.** One model, two tiers: a counted group reached by a story moves by the full reader's rule (the speaker's standing, the heard-event amount, the repeat wear-out) times the count it stands for. Ask why: the group's moved view cites the story's news record. No dice: which groups the story reached follows the press's delivery shares, never a roll.
 
@@ -21,3 +23,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/views.ts, src/core2/modules/news.ts, src/core2/modules/press.ts
 
 **Notes.** Found by the effects lead on Oct 24 while building web-views-hear-conditions-moves-stance; the full readers' step is on that item's PR.
+
+Released by next (2026-11-10): no push to lane-2/counted-news-views since 2026-11-04 08:26 UTC, more than twice its 4-hour time box. Continue on branch lane-2/counted-news-views.

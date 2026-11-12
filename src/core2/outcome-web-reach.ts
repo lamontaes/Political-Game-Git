@@ -16,6 +16,7 @@ import type { CensusRegion } from "./reference/census-regions";
 import type { HeadWork, HouseholdKind } from "./counted-groups";
 import type { WebMonth } from "./modules/outcome-web";
 import {
+  moderatorScale,
   OUTCOME_WEB_MODULE_ID,
   scaleOf,
   WEB_LINKS,
@@ -97,28 +98,45 @@ export function nationalMeanWeight(linkKey: string): number {
  */
 export type WebHost = Pick<CoreAPI, "state" | "moduleState">;
 
-/** Each place's latest web month, read once a day however many subjects ask. */
-const LATEST = new WeakMap<
+/**
+ * The web's answers kept for the day, one store for every reader (the latest
+ * month, a cause mix, a death factor). The stamp is the date and the web
+ * module's writes so far, so a month the web writes after the first read is
+ * seen by the next read the same day, never a stale answer.
+ */
+const DAY_CACHES = new WeakMap<
   object,
-  { date: string; rows: Map<string, WebMonth | null> }
+  { stamp: string; named: Map<string, Map<string, unknown>> }
 >();
+
+export function webDayCache<T>(api: WebHost, name: string): Map<string, T> {
+  const core = api.state as CoreState;
+  const writes = core.modules.has(OUTCOME_WEB_MODULE_ID)
+    ? api.moduleState(OUTCOME_WEB_MODULE_ID).writes
+    : 0;
+  const stamp = `${core.date}|${writes}`;
+  let cache = DAY_CACHES.get(core);
+  if (!cache || cache.stamp !== stamp) {
+    cache = { stamp, named: new Map() };
+    DAY_CACHES.set(core, cache);
+  }
+  let rows = cache.named.get(name);
+  if (!rows) cache.named.set(name, (rows = new Map()));
+  return rows as Map<string, T>;
+}
 
 function latestRow(api: WebHost, placeId: string): WebMonth | null {
   const core = api.state as CoreState;
   if (!core.modules.has(OUTCOME_WEB_MODULE_ID)) return null;
-  let cache = LATEST.get(core);
-  if (!cache || cache.date !== core.date) {
-    cache = { date: core.date, rows: new Map() };
-    LATEST.set(core, cache);
-  }
-  if (cache.rows.has(placeId)) return cache.rows.get(placeId)!;
+  const rows = webDayCache<WebMonth | null>(api, "latest");
+  if (rows.has(placeId)) return rows.get(placeId)!;
   let latest: WebMonth | null = null;
   for (const row of api
     .moduleState(OUTCOME_WEB_MODULE_ID)
     .table("months")
     .query("byPlace", [placeId]) as unknown as readonly WebMonth[])
     if (!latest || row.month > latest.month) latest = row;
-  cache.rows.set(placeId, latest);
+  rows.set(placeId, latest);
   return latest;
 }
 
@@ -155,7 +173,9 @@ export function webReach(
   /**
    * Links the caller reads from the subject's own records instead (the
    * person-level twin of a place-level row), left out so one cause moves the
-   * subject once.
+   * subject once. A cause's measure in the set (a law's "law:" key) is left
+   * out as a moderator too: a link it moderates is read as if it did not,
+   * since its own records carry what it does.
    */
   except?: ReadonlySet<string>,
 ): WebReach {
@@ -169,8 +189,23 @@ export function webReach(
   const parts: WebPart[] = [];
   for (const link of links) {
     if (except?.has(link.key)) continue;
-    const effect = row.effects[link.key];
+    let effect = row.effects[link.key];
     if (effect === undefined || effect === 0) continue;
+    // The Medicaid expansion halves how far unemployment leaves people
+    // uninsured; where the caller leaves the expansion out (an employer plan,
+    // which Medicaid coverage is not), the link is read without that halving.
+    const moderator = link.moderator;
+    if (
+      moderator &&
+      moderator.mode !== "only-when" &&
+      except?.has(moderator.measure)
+    ) {
+      const scale = moderatorScale(
+        moderator,
+        row.values[moderator.measure] ?? 0,
+      );
+      if (scale > 0) effect /= scale;
+    }
     const weight = subjectWeight(link.key, subject);
     parts.push({ link: link.key, effect, weight });
     if (level) added += effect * weight;

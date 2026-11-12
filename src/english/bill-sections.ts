@@ -138,6 +138,25 @@ interface Words {
   repeal: boolean;
 }
 
+/**
+ * The words for a law amount by its series. A state's bar on its places' own
+ * rule for one policy question (`local-power:<question>`) is worded from that
+ * question's own subject, so the one switch needs no row a question.
+ */
+export function amountWords(series: string): AmountWords | undefined {
+  const row = BILL_SECTIONS.amounts[series];
+  if (row || !series.startsWith("local-power:")) return row;
+  const key = series.replace(/^local-power:[a-z]+(?:-[a-z]+)*:/, "");
+  const subject = BILL_SECTIONS.policies[key]?.subject;
+  if (!subject) return undefined;
+  return {
+    subject: `local governments' power to make their own rules on ${subject}`,
+    purpose: `decide whether local governments may make their own rules on ${subject}`,
+    grant: `each city, town and county may make its own rules on ${subject}, by ordinance`,
+    withdraw: `no city, town or county shall make its own rule on ${subject}, and any such rule in force shall end`,
+  };
+}
+
 function wordsOf(
   input: BillWordsInput,
   form: FormWords,
@@ -158,7 +177,7 @@ function wordsOf(
     };
   }
   if (p.kind === "law-amount" && p.series) {
-    const row = BILL_SECTIONS.amounts[p.series];
+    const row = amountWords(p.series);
     if (!row) return null;
     if (row.grant && row.withdraw)
       return {
@@ -175,7 +194,8 @@ function wordsOf(
       : old != null && p.value < old;
     // The value the law had, in its own unit when the record gives one.
     const slots = {
-      value: valueWords(p.value, p.unit),
+      // A section that names no unit takes the law row's, never a default percent.
+      value: valueWords(p.value, p.unit ?? was?.unit ?? undefined),
       before: old != null ? valueWords(old, was?.unit ?? p.unit) : "",
     };
     const words =

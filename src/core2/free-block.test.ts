@@ -20,13 +20,7 @@ describe("filling free hours", () => {
   const residents = [...core.people.values()].filter(
     (person) => person.alive && person.tier !== "husk",
   );
-  const free = new Set(
-    core.data.actions
-      .filter(
-        (row) => !core.data.work?.discretionaryExclusions.includes(row.effect),
-      )
-      .map((row) => row.id),
-  );
+  const free = new Set(core.data.actions.map((row) => row.id));
   const needOf = new Map(core.data.actions.map((row) => [row.id, row.need]));
   const days = p("daysPerWeek") * p("two");
   const actedOff: string[] = [];

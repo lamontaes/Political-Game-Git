@@ -15,6 +15,10 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
+import { advanceCore } from "./life";
+import { advanceToFilingOpen } from "./gov-test-clock";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { campaignParameter } from "./campaign-data";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { setJournalTrace } from "./journal-state";
@@ -58,7 +62,7 @@ import {
 } from "./modules/press";
 import { stancesOf, VIEWS_MODULE_ID, viewsModule } from "./modules/views";
 import { candidateStance, stanceReader } from "./campaign-stances";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 
 const START = "2026-01-05";
 const runSeed =
@@ -499,7 +503,14 @@ describe("campaigns that raise and spend", () => {
         (a, b) =>
           Math.abs(b.position) - Math.abs(a.position) ||
           a.question.localeCompare(b.question),
-      )[0]!;
+      )[0];
+      // A candidate with neither a view nor a party, or a seat that takes up
+      // no question, has an empty platform (candidatePlatform): an ad with no
+      // question has no stance to move, as the chooser case passes it over.
+      if (!lead) {
+        tried.push(`${where}: ${rival.id} has no platform`);
+        continue;
+      }
       // A town where no one the campaign reached would give has no ad to
       // test: its donors decide for their own reasons.
       if (campaign.raisedMinor === 0) {
@@ -547,6 +558,51 @@ describe("campaigns that raise and spend", () => {
       return;
     }
     throw new Error(`no drawn town had an ad to test: ${tried.join("; ")}`);
+  }, 300_000);
+});
+
+describe("a race with a petition out is worked as its filing deadline nears", () => {
+  it("every race with a petition circulating gets a campaign turn in the three days before its filing deadline", () => {
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const w = world(`petition-turns:${attempt}`);
+      advanceToFilingOpen(w.core);
+      const pair = twoCandidates(w.api, w.core);
+      const petitioning = pair
+        ? [pair.you, pair.rival].find((f) => f.status === "petitioning")
+        : undefined;
+      if (!petitioning) {
+        tried.push(`${w.where}: no petition circulating`);
+        continue;
+      }
+      const contest = w.api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .get(petitioning.contestId) as unknown as ContestRow;
+      const races = w.api.moduleState(CAMPAIGNS_MODULE_ID).table("races");
+      const windowStart = addDays(
+        makeIsoDate(contest.filingDeadline),
+        -campaignParameter("campaignTurnDays"),
+      );
+      if (windowStart <= w.core.date) {
+        tried.push(`${w.where}: deadline too near to watch`);
+        continue;
+      }
+      advanceCore(w.core, contest.filingDeadline);
+      const race = races.get(contest.id) as unknown as
+        { lastTurn?: string } | undefined;
+      expect(race, w.where).toBeDefined();
+      // A turn is scheduled every `campaignTurnDays`, so one falls in the
+      // window; the race with a petition out was worked on it.
+      expect(
+        race!.lastTurn! >= windowStart,
+        `${w.where}: contest ${contest.id} last worked ${race!.lastTurn}, window opens ${windowStart}, deadline ${contest.filingDeadline}`,
+      ).toBe(true);
+      return;
+    }
+    throw new Error(
+      `no drawn place had a petition to watch in 8 draws (run seed ${runSeed}): ${tried.join("; ")}`,
+    );
   }, 300_000);
 });
 

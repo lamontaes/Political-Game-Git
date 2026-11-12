@@ -15,7 +15,7 @@ import {
   type FilingRow,
 } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
-import { SPEECH_MODULE_ID } from "../core2/modules/speech";
+import { SPEECH_HEARD, SPEECH_MODULE_ID } from "../core2/modules/speech";
 import { askToVolunteer, campaignFor } from "../core2/modules/campaigns";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
@@ -161,6 +161,8 @@ it(`a candidate's night of the count is a won or lost scene citing the result, i
 // that has a clerk, or whose campaign gives no speech to a crowd before the
 // election, is redrawn a bounded number of times; running out of draws fails.
 const FILING_DRAWS = 6;
+/** Weeks a draw waits for a local contest to open for filing. */
+const SEARCH_WEEKS = 52;
 /** One draw's budget, the case's limit before it redrew. */
 const DRAW_MS = 900_000;
 
@@ -177,15 +179,24 @@ function filingAndStops(
   const { core, director } = world;
   const api = coreAPI(core);
   const where = `${drawn.name} (${drawn.key}), seed ${drawSeed}`;
+  // The weeks pass until a local contest with a clerk is open for filing,
+  // bounded; only how the test finds its race changes (agreements/1-3.md).
+  const local = () =>
+    openContests(api).find(
+      (row) =>
+        (row.family === "municipalOffice" || row.family === "countyOffice") &&
+        filingClerkFor(api, row.id),
+    );
+  let contest = local();
+  for (let week = 0; !contest && week < SEARCH_WEEKS; week += 1) {
+    advanceCore(core, addDays(makeIsoDate(core.date), 7));
+    contest = local();
+  }
+  if (!contest)
+    return `${where}: no local contest with a clerk opened in ${SEARCH_WEEKS} weeks`;
   const town = [...core.people.values()]
     .filter((p) => p.alive && p.id !== core.playerId)
     .sort((a, b) => a.id.localeCompare(b.id));
-  const contest = openContests(api).find(
-    (row) =>
-      (row.family === "municipalOffice" || row.family === "countyOffice") &&
-      filingClerkFor(api, row.id),
-  );
-  if (!contest) return `${where}: no local contest with a clerk`;
   const clerk = filingClerkFor(api, contest.id)!;
   const filings: FilingRow[] = [];
   for (const person of town) {
@@ -195,7 +206,20 @@ function filingAndStops(
     // to election day, and most of a town cannot run for its offices.
     if (checkEligibility(api, person.id, contest.id, null).some((c) => !c.met))
       continue;
+    // A resident already running (filed on their own, for this body's other
+    // seat or another race) has had their filing scene; filing them again
+    // the same day folds into that one sitting.
+    const running = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byPerson", [person.id]) as unknown as FilingRow[]
+    ).some((row) => ["petitioning", "on-ballot"].includes(row.status ?? ""));
+    if (running) continue;
     director.watch(core, person.id);
+    // The log keeps a private record (a speech they give) only for the people
+    // in focus; the crowd is checked against that record on election eve.
+    core.focusPersonIds.add(person.id);
     const result = fileCandidacy(api, {
       personId: person.id,
       contestId: contest.id,
@@ -225,8 +249,20 @@ function filingAndStops(
       `${filing.personId} filed ${filing.id}; clerk ${clerk.personId} (${clerk.basis} ${clerk.recordId}); scene ${entry!.momentId}`,
     );
   }
+  // Each speech's crowd as the speech engine emits it: the durable log drops
+  // a speech (a circle entry) three months after its day, so the crowd of an
+  // early speech is kept here, from the same event, when it is given.
+  const crowds = new Map<string, readonly string[]>();
+  const unsubscribe = api.subscribeEvents(
+    "electoral-scenes-test",
+    [SPEECH_HEARD],
+    (_api, event) => {
+      crowds.set(event.id, event.witnessIds ?? []);
+    },
+  );
   // The campaign runs to election day; each speech to a crowd is a stop.
   advanceCore(core, addDays(makeIsoDate(contest.electionDate), -1));
+  unsubscribe();
   let stops = 0;
   // A speech's address row is kept for good; its retellings are dropped 30
   // days after it, so a speech early in the campaign has none left by now.
@@ -248,7 +284,11 @@ function filingAndStops(
         `${where}: ${entry.momentId} cites no recorded speech`,
       ).toBeTruthy();
       // The crowd is the speech's recorded audience, kept on its event.
-      const heard = new Set(core.durableLog.get(speechId!)?.witnessIds ?? []);
+      const heard = new Set(crowds.get(speechId!) ?? []);
+      expect(
+        crowds.has(speechId!),
+        `${where}: ${speechId} was never heard`,
+      ).toBe(true);
       expect(
         scene.roles.find((row) => row.role === "candidate")!.personIds,
       ).toEqual([filing.personId]);

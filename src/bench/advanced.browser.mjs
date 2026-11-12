@@ -44,14 +44,25 @@ try {
   const choices = page.locator("#pick-list button");
   assert.ok((await choices.count()) > 0, "officeholders are listed");
   const text = (await choices.first().innerText()).trim();
-  assert.ok(/·/.test(text), `each names an office: ${text}`);
+  const role = (await choices.first().locator(".pick-role").innerText()).trim();
+  assert.ok(role.length > 0, `each names an office: ${text}`);
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
     path: "docs/reports/advanced-start-2026-10-27/pick.png",
   });
   // The chosen person is the player.
-  const name = text.split(" · ")[0];
+  const name = (await choices.first().locator(".pick-name").innerText()).trim();
   await choices.first().click();
+  // Choosing shows their bust and a Play as button; the button steps in.
+  await page.locator("#pick-detail .mxbust img").waitFor();
+  assert.match(
+    (await page.locator("#pick-play").innerText()).trim(),
+    new RegExp(`^Play as ${name}$`),
+  );
+  await page.screenshot({
+    path: "docs/reports/advanced-start-2026-10-27/pick-chosen.png",
+  });
+  await page.locator("#pick-play").click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );

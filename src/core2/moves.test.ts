@@ -112,7 +112,14 @@ const expectedBirths =
 const end = new Date(`${input.startedAt}T00:00:00Z`);
 end.setUTCMonth(end.getUTCMonth() + MONTHS);
 advanceCore(core, end.toISOString().slice(0, 10));
-const departures = departuresSeen(core);
+// The town's own departures; relatives living elsewhere move through the
+// same engine too (src/core2/moves-elsewhere.test.ts).
+const townIds = new Set(
+  input.people.filter((row) => row.tier !== "husk").map((row) => row.id),
+);
+const departures = departuresSeen(core).filter((row) =>
+  townIds.has(row.personId),
+);
 const departedAdults = departures
   .flatMap((row) => row.withIds)
   .filter((id) => adults.some((row) => row.id === id));
@@ -155,12 +162,15 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
 
   it("builds each pull from the person's records, never a draw: the opening reads their pushes and holds", () => {
     const pulls = api.moduleState("moves").table("pulls").rows() as unknown as {
+      id: string;
       causes: Record<string, number>;
       reads: Record<string, readonly string[]>;
       openingNet?: number;
       openingMonths?: number;
     }[];
-    const opened = pulls.filter((row) => row.causes.opening !== undefined);
+    const opened = pulls.filter(
+      (row) => row.causes.opening !== undefined && townIds.has(row.id),
+    );
     expect(opened.length).toBeGreaterThan(0);
     for (const row of opened) {
       expect(row.reads.opening?.length).toBeGreaterThan(0);

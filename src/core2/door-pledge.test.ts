@@ -13,6 +13,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { countedChoice, countedResidents } from "./electorate";
+import { electorateParameter } from "./electorate-inputs";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { describe, expect, it } from "vitest";
 import { buildPopulation } from "./population";
@@ -50,7 +51,7 @@ import {
   resultOf,
   type BallotRow,
 } from "./modules/voting";
-import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-views";
+import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { addDays, makeIsoDate } from "./kernel/dates";
 
@@ -134,6 +135,7 @@ describe("a door yes is near-binding", () => {
       }
       expect(world, `no race two residents could file for`).toBeDefined();
       const { core, api, contest, filed } = world!;
+      console.log(`door pledges: playing ${place}, seed ${seed}`);
       openVoting(core);
       const [mine, theirs] = filed as [FilingRow, FilingRow];
       // A door that carries a petition asks for a signature, not the vote:
@@ -194,11 +196,15 @@ describe("a door yes is near-binding", () => {
         hours: 6,
         fillCounted: false,
       });
+      // Yes's to a candidate in this race: a candidate who is also running
+      // elsewhere holds yes's there too.
       const allPledges = (candidateId: string) =>
-        api
-          .moduleState(CAMPAIGNS_MODULE_ID)
-          .table("pledges")
-          .query("byCandidate", [candidateId]) as unknown as PledgeRow[];
+        (
+          api
+            .moduleState(CAMPAIGNS_MODULE_ID)
+            .table("pledges")
+            .query("byCandidate", [candidateId]) as unknown as PledgeRow[]
+        ).filter((p) => p.contestId === contest.id);
       const countedPledges = allPledges(theirs.personId).filter(
         (p) => p.causeId === null,
       );
@@ -232,7 +238,10 @@ describe("a door yes is near-binding", () => {
       expect(after, `${place}: closeness to a rival`).toBeGreaterThan(before);
       expect(after).toBeLessThanOrEqual(1);
 
-      advanceCore(core, addDays(makeIsoDate(contest.electionDate), 1));
+      // The count is in at the end of election day; the pledges are read
+      // then, as the ballot read them, since the race's first campaign turn
+      // after election day drops them (`closeRace`).
+      advanceCore(core, contest.electionDate);
       expect(resultOf(api, contest.id), `${place}: no result`).not.toBeNull();
       const ballots = api
         .moduleState(VOTING_MODULE_ID)
@@ -240,12 +249,47 @@ describe("a door yes is near-binding", () => {
         .query("byContest", [contest.id]) as unknown as BallotRow[];
       const weight = campaignParameter("doorPledgeWeight");
       const onBallot = new Set(ballot(api, contest.id).map((f) => f.personId));
+      // The yes a voter holds on election day is the record's, not the list
+      // the first knock made. A later knock that ends in a no leaves it as it
+      // was (near-binding, owner Oct 29); only a yes to a rival in the race
+      // replaces it (`answerAtDoor`), so a voter met at the first knock who
+      // holds none by the count holds a rival's.
+      const keptYes = (voterId: string) =>
+        pledgeOf(api, voterId, mine.personId, contest.id);
+      const movedOn = pledged.filter((v) => !keptYes(v));
+      const rivalYes = (voterId: string) =>
+        pledgesOf(api, voterId).some(
+          (p) => p.contestId === contest.id && p.candidateId !== mine.personId,
+        );
+      // A voter's word goes only to a rival who now outweighs it: one who
+      // holds no yes to the candidate holds a rival's in this race, and their
+      // ballot carries no pledge part for the candidate.
+      for (const voterId of movedOn) {
+        expect(
+          rivalYes(voterId),
+          `${place} (seed ${seed}): ${voterId} lost a yes with no yes to a rival`,
+        ).toBe(true);
+        const part = ballots.find((x) => x.voterId === voterId)?.appeal[
+          mine.personId
+        ];
+        expect(
+          part?.pledge ?? 0,
+          `${place} (seed ${seed}): ${voterId} voted on a yes it gave a rival`,
+        ).toBe(0);
+      }
+      console.log(
+        `door pledges: ${place}, seed ${seed}; ${movedOn.length} of ${pledged.length} voters who said yes at the first knock gave a rival their yes by election day`,
+      );
       // Only a candidate still on the ballot holds anyone to a door "yes".
       if (!onBallot.has(mine.personId)) return;
       let held = 0;
       for (const voterId of pledged) {
         const b = ballots.find((x) => x.voterId === voterId);
         if (!b?.voted || b.voterId === tested.id) continue;
+        // A voter who gave a rival their yes holds no word to weigh here
+        // (read above).
+        const word = keptYes(b.voterId);
+        if (!word) continue;
         // A candidate in the race backs themselves; a voter who also told
         // another candidate yes weighs both words.
         if (
@@ -266,7 +310,7 @@ describe("a door yes is near-binding", () => {
             api,
             voter,
             b.lean ?? 0,
-            pledgeOf(api, b.voterId, mine.personId, contest.id)!,
+            word,
             ballot(api, contest.id).map((f) => ({ id: f.personId })),
           );
         expect(part, `${place}: ${b.id} pledge as held`).toBeCloseTo(
@@ -283,31 +327,21 @@ describe("a door yes is near-binding", () => {
           held += 1;
         }
       }
-      // The counted residents' kept ballots carry their door answers too.
-      // Their word at the door is also a word to vote: the pledged turn out
-      // more than the town's other adults, each by their own reasons.
-      const pledgedIds = new Set(pledged.map((c) => c.voterId));
-      const share = (rows: readonly BallotRow[]) =>
-        rows.length ? rows.filter((b) => b.voted).length / rows.length : 0;
-      const pledgedBallots = ballots.filter(
-        (b) =>
-          pledgedIds.has(b.voterId) &&
-          !onBallot.has(b.voterId) &&
-          pledgeOf(api, b.voterId, mine.personId, contest.id),
-      );
-      for (const b of pledgedBallots.filter((x) => x.voted))
-        expect(
-          b.turnoutReasons.pledge ?? 0,
-          `${place}: ${b.id} turnout without its word`,
-        ).toBeGreaterThan(0);
-      const others = ballots.filter(
-        (b) => !pledgedIds.has(b.voterId) && !onBallot.has(b.voterId),
-      );
-      if (pledgedBallots.length >= 5)
-        expect(
-          share(pledgedBallots),
-          `${place} (seed ${seed}): pledged turnout ${share(pledgedBallots).toFixed(2)} of ${pledgedBallots.length} vs others ${share(others).toFixed(2)} of ${others.length}`,
-        ).toBeGreaterThan(share(others));
+      // Their word at the door is also a word to vote, each voter's by their
+      // own reasons: where the ballot still holds the yes, the turnout of
+      // one who voted carries the pledge reason. Whether the pledged as a
+      // group turn out more than the town's others is the parameter's total
+      // check, the next test.
+      for (const b of ballots.filter((x) => x.voted))
+        if (
+          keptYes(b.voterId) &&
+          (b.appeal[mine.personId]?.pledge ?? 0) > 0 &&
+          !onBallot.has(b.voterId)
+        )
+          expect(
+            b.turnoutReasons.pledge ?? 0,
+            `${place}: ${b.id} turnout without its word`,
+          ).toBeGreaterThan(0);
       // A record standing for one household carries the pledge on its own
       // ballot; one standing for several votes one household on its word.
       const counted = countedBallotsOf(api, contest.id);
@@ -342,7 +376,121 @@ describe("a door yes is near-binding", () => {
       setKeepEveryonesWhy(previousWhy);
     }
   }, 300_000);
+
+  it("the pledged as a group turn out at the rate stated intent predicts, above the town's others (the parameter's total check)", () => {
+    // campaign-door-pledge-turnout-total: over played races in three drawn
+    // places, the voters who still hold a yes on election day turn out
+    // inside the cited 46% to 87% (Rogers and Aida; Pew's 61% to 73%), and
+    // more than the adults who gave no yes. Each voter turns out by their
+    // own reasons; the band checks the total, never one voter.
+    const previousWhy = setKeepEveryonesWhy(true);
+    const draws = Array.from(
+      { length: 12 },
+      (_, n) => randomPlace(`:total:${n}`).key,
+    );
+    const lines: string[] = [];
+    let heldN = 0;
+    let heldVoted = 0;
+    let heldShare = 0;
+    let otherN = 0;
+    let otherVoted = 0;
+    let places = 0;
+    for (const place of draws) {
+      if (places >= 3) break;
+      const world = filedRace(place);
+      if (!world) {
+        lines.push(`${place}: no race two residents could file for`);
+        continue;
+      }
+      const { core, api, contest, filed } = world;
+      openVoting(core);
+      const [mine, theirs] = filed as [FilingRow, FilingRow];
+      const dues = filed
+        .filter((f) => petitionCirculating(api, f.id))
+        .map((f) => petitionOf(api, f.id)!.due)
+        .sort();
+      if (dues.length) advanceCore(core, addDays(makeIsoDate(dues.at(-1)!), 1));
+      if (core.date >= contest.electionDate) {
+        lines.push(`${place}: the petitions close after the election`);
+        continue;
+      }
+      for (let evening = 0; evening < 14; evening++)
+        knockDoors(api, {
+          filingId: mine.id,
+          canvasserId: mine.personId,
+          hours: 4,
+        });
+      knockDoors(api, {
+        filingId: theirs.id,
+        canvasserId: theirs.personId,
+        hours: 6,
+        fillCounted: false,
+      });
+      advanceCore(core, contest.electionDate);
+      const holds = new Set(
+        (
+          api
+            .moduleState(CAMPAIGNS_MODULE_ID)
+            .table("pledges")
+            .query("byCandidate", [mine.personId]) as unknown as PledgeRow[]
+        )
+          .filter((p) => p.contestId === contest.id)
+          .map((p) => p.voterId),
+      );
+      const ballots = (
+        api
+          .moduleState(VOTING_MODULE_ID)
+          .table("ballots")
+          .query("byContest", [contest.id]) as unknown as BallotRow[]
+      ).filter((b) => !filed.some((f) => f.personId === b.voterId));
+      const propensity = (b: BallotRow) =>
+        (b.turnoutReasons as unknown as { propensity?: number }).propensity ??
+        0;
+      const held = ballots.filter((b) => holds.has(b.voterId));
+      const other = ballots.filter(
+        (b) =>
+          !holds.has(b.voterId) &&
+          !pledgesOf(api, b.voterId).some((p) => p.contestId === contest.id),
+      );
+      if (!held.length || !other.length) {
+        lines.push(
+          `${place}: ${held.length} holding a yes, ${other.length} others`,
+        );
+        continue;
+      }
+      const mean = (rows: readonly BallotRow[]) =>
+        rows.reduce((n, b) => n + propensity(b), 0) / rows.length;
+      // In each race the pledged are likelier to vote than their neighbors.
+      expect(mean(held), `${place} (seed ${seed})`).toBeGreaterThan(
+        mean(other),
+      );
+      heldN += held.length;
+      heldVoted += held.filter((b) => b.voted).length;
+      heldShare += held.reduce((n, b) => n + propensity(b), 0);
+      otherN += other.length;
+      otherVoted += other.filter((b) => b.voted).length;
+      places += 1;
+      lines.push(
+        `${place}: ${held.filter((b) => b.voted).length} of ${held.length} holding a yes voted (share ${mean(held).toFixed(2)}), ${other.filter((b) => b.voted).length} of ${other.length} others (${mean(other).toFixed(2)})`,
+      );
+    }
+    process.stdout.write(
+      `PLEDGE TURNOUT seed ${seed}: ${lines.join("; ")}; pooled ${heldVoted} of ${heldN} pledged voted (share ${(heldShare / heldN).toFixed(3)}) against ${otherVoted} of ${otherN} others\n`,
+    );
+    expect(places, `seed ${seed}: ${lines.join("; ")}`).toBe(3);
+    // The pledged's own shares, pooled, sit inside the cited band, and more
+    // of them voted than of the others.
+    expect(heldShare / heldN).toBeGreaterThanOrEqual(0.46);
+    expect(heldShare / heldN).toBeLessThanOrEqual(0.87);
+    expect(heldVoted / heldN).toBeGreaterThan(otherVoted / otherN);
+    setKeepEveryonesWhy(previousWhy);
+  }, 1_800_000);
 });
+
+/** Places the weighted-record case draws before it gives up (each costs a world build and a few evenings of knocking). */
+const DRAWS = 8;
+/** Weeks the world goes on, at most, until a race is open for filing. */
+const MOST_WEEKS = 78;
 
 describe("a door yes holds for the one household the door reached", () => {
   it("in a town whose counted records each stand for several households, the pledged household votes on its word and the rest as they would have", () => {
@@ -350,7 +498,9 @@ describe("a door yes holds for the one household the door reached", () => {
     // households (the opening's count scale, as a town opened at its Census
     // size above its generated sample has): draws go on until a door reaches
     // a counted record that votes in the race.
-    for (let draw = 0; draw < 8; draw += 1) {
+    // Each place passed over is named with the gate that rejected it.
+    const passedOver: string[] = [];
+    for (let draw = 0; draw < DRAWS; draw += 1) {
       const place = drawPlace(`${seed}:${draw}`, "door-pledge-weighted");
       const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
       setBookkeeping(false);
@@ -364,7 +514,12 @@ describe("a door yes holds for the one household the door reached", () => {
           .filter((v) => v.weight > 1)
           .map((v) => v.id),
       );
-      if (!weighted.size) continue;
+      if (!weighted.size) {
+        passedOver.push(
+          `${where}: no counted record stands for several households`,
+        );
+        continue;
+      }
       const api = coreAPI(core);
       const adults = [...core.people.values()]
         .filter(
@@ -377,24 +532,34 @@ describe("a door yes holds for the one household the door reached", () => {
       let filed: FilingRow[] = [];
       let contestId = "";
       let electionDate = "";
-      for (const contest of openContests(api)) {
-        filed = [];
-        for (const [n, person] of adults.slice(0, 2).entries()) {
-          const result = fileCandidacy(api, {
-            personId: person.id,
-            contestId: contest.id,
-            platform: [`${PLATFORM_QUESTIONS[0]}=${n ? -1 : 1}`],
-          });
-          if (result.status === "refused") break;
-          filed.push(result.filing);
-        }
-        if (filed.length === 2) {
-          contestId = contest.id;
-          electionDate = contest.electionDate;
-          break;
+      // The opening has no race open for filing yet: the world goes on a week at a time, bounded,
+      // until one is open to two residents.
+      for (let week = 0; week <= MOST_WEEKS && !contestId; week += 1) {
+        if (week) advanceCore(core, addDays(makeIsoDate(core.date), 7));
+        for (const contest of openContests(api)) {
+          filed = [];
+          for (const [n, person] of adults.slice(0, 2).entries()) {
+            const result = fileCandidacy(api, {
+              personId: person.id,
+              contestId: contest.id,
+              platform: [`${PLATFORM_QUESTIONS[0]}=${n ? -1 : 1}`],
+            });
+            if (result.status === "refused") break;
+            filed.push(result.filing);
+          }
+          if (filed.length === 2) {
+            contestId = contest.id;
+            electionDate = contest.electionDate;
+            break;
+          }
         }
       }
-      if (!contestId) continue;
+      if (!contestId) {
+        passedOver.push(
+          `${where}: no open race two residents could file for in ${MOST_WEEKS} weeks`,
+        );
+        continue;
+      }
       // A door that carries a petition asks for a signature, not the vote:
       // the candidates gather their signatures at the doors, then knock for
       // votes once the petitions are in.
@@ -403,7 +568,7 @@ describe("a door yes holds for the one household the door reached", () => {
           let evening = 0;
           evening < 30 &&
           petitionCirculating(api, f.id) &&
-          petitionOf(api, f.id)!.signers.length < petitionOf(api, f.id)!.needed;
+          petitionOf(api, f.id)!.signed < petitionOf(api, f.id)!.needed;
           evening++
         )
           knockDoors(api, {
@@ -422,8 +587,12 @@ describe("a door yes holds for the one household the door reached", () => {
         filed.some((f) => petitionCirculating(api, f.id)) ||
         core.date >= electionDate ||
         !onBallot.has(filed[0]!.personId)
-      )
+      ) {
+        passedOver.push(
+          `${where}: the candidates were not on the ballot before the election`,
+        );
         continue;
+      }
       const mine = filed[0]!;
       // A volunteer-style evening (counted openers stay counted) until a
       // weighted record says yes.
@@ -435,14 +604,24 @@ describe("a door yes holds for the one household the door reached", () => {
           hours: 4,
           fillCounted: false,
         });
+        // A yes in this race: a candidate who is also running elsewhere
+        // (a world official in the town) holds yes's there too.
         pledged = (
           api
             .moduleState(CAMPAIGNS_MODULE_ID)
             .table("pledges")
             .query("byCandidate", [mine.personId]) as unknown as PledgeRow[]
-        ).find((p) => p.causeId === null && weighted.has(p.voterId));
+        ).find(
+          (p) =>
+            p.contestId === contestId &&
+            p.causeId === null &&
+            weighted.has(p.voterId),
+        );
       }
-      if (!pledged) continue;
+      if (!pledged) {
+        passedOver.push(`${where}: no door reached a weighted counted record`);
+        continue;
+      }
       // A counted resident's visit is read as a full person's knowledge is:
       // their own recognition of the candidate in place of the town's share,
       // and the visit's warmth; the other candidates are as they were.
@@ -480,15 +659,23 @@ describe("a door yes holds for the one household the door reached", () => {
         .moduleState(VOTING_MODULE_ID)
         .table("countedBallots")
         .get(`counted:${contestId}`) as unknown as {
-        readonly field: readonly { readonly id: string }[];
+        readonly field: readonly {
+          readonly id: string;
+          readonly side: number;
+        }[];
         readonly voterIds: readonly string[];
         readonly weight: readonly number[];
-        readonly choice: readonly number[];
         readonly pledgedChoice?: readonly number[];
+        readonly split: readonly (readonly number[])[];
       };
       const at = kept.voterIds.indexOf(pledged.voterId);
       // Not in the race's electorate (a ward seat elsewhere in town): redraw.
-      if (at < 0) continue;
+      if (at < 0) {
+        passedOver.push(
+          `${where}: the reached record is not in the race's electorate`,
+        );
+        continue;
+      }
       expect(kept.weight[at], `${where}: weight`).toBeGreaterThan(1);
       // The pledged household voted for the candidate on its word.
       const mineAt = kept.field.findIndex((f) => f.id === mine.personId);
@@ -498,19 +685,40 @@ describe("a door yes holds for the one household the door reached", () => {
       expect(kept.pledgedChoice?.[at], `${where}: pledged household`).toBe(
         mineAt,
       );
-      // The record's own kept choice is the rest's: the top of its appeal
-      // without the pledge.
+      // The rest of the record divide by their appeal without the pledge
+      // (CTO, Nov 1): whole to its top on a ballot with party labels, by each
+      // candidate's logistic share at appealPerShare's slope without them,
+      // and the pledged household's one vote on top.
       const recordBallot = countedBallotsOf(api, contestId)[at]!;
       expect(recordBallot.appeal[mine.personId]?.pledge ?? 0).toBe(0);
-      const rest = countedChoice(recordBallot.appeal);
-      expect(
-        kept.choice[at],
-        `${where}: the rest of ${kept.weight[at]} households`,
-      ).toBe(rest === null ? -1 : kept.field.findIndex((f) => f.id === rest));
+      const restWeight = kept.weight[at]! - 1;
+      const ids = kept.field.map((f) => f.id);
+      const expected: Record<string, number> = { [mine.personId]: 1 };
+      const top = countedChoice(recordBallot.appeal);
+      if (kept.field.some((f) => f.side !== 0) || ids.length === 1) {
+        if (top) expected[top] = (expected[top] ?? 0) + restWeight;
+      } else {
+        const k = 4 / electorateParameter("appealPerShare");
+        const pull = (id: string) =>
+          Math.exp(k * recordBallot.appeal[id]!.total);
+        const sum = ids.reduce((n, id) => n + pull(id), 0);
+        for (const id of ids)
+          expected[id] = (expected[id] ?? 0) + (restWeight * pull(id)) / sum;
+      }
+      for (const [j, id] of ids.entries())
+        expect(
+          kept.split[at]![j]!,
+          `${where}: the rest of ${kept.weight[at]} households for ${id}`,
+        ).toBeCloseTo(expected[id] ?? 0, 9);
+      // Name the place used and every place passed over, so a passing run says
+      // where it proved the case.
+      process.stdout.write(
+        `WEIGHTED RECORD seed ${seed}: proved in ${where}; passed over ${passedOver.length}: ${passedOver.join("; ") || "none"}\n`,
+      );
       return;
     }
     throw new Error(
-      `seed ${seed}: no drawn town had a weighted counted record that a door reached and that votes in the race`,
+      `seed ${seed}: no drawn town had a weighted counted record that a door reached and that votes in the race; passed over: ${passedOver.join("; ")}`,
     );
-  }, 900_000);
+  }, 3_600_000);
 });

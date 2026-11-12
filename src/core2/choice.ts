@@ -3,6 +3,7 @@ import { bookkeeping } from "./bookkeeping";
 import { initialPersonState } from "./person-state";
 import { countedPersonOf } from "./counted-actor";
 import { parameter } from "./parameters";
+import { registerRestoreReset } from "./snapshot";
 import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
 import { coreAPI, retainLog } from "./state";
 import { traitProbe } from "./trait-probe";
@@ -60,6 +61,9 @@ export function forgetTraitLeans(): void {
   kindLeans = new WeakMap();
   leansByTraits = new WeakMap();
 }
+// A restore refills each person's traits in place, so a lean kept from the
+// rebuilt opening would outlive the traits it was built from.
+registerRestoreReset(forgetTraitLeans);
 
 /** Every trait value, weighted by its place, so any edit changes the sum. */
 function traitChecksum(traits: Readonly<Record<string, number>>): number {

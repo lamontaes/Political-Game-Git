@@ -226,7 +226,8 @@ function nextMonth(at: IsoDate, day: number): IsoDate {
   );
 }
 
-function mainBalance(core: CoreState, ownerId: string): number {
+/** What a person holds in their main account, less what is set aside. */
+export function mainBalance(core: CoreState, ownerId: string): number {
   const owner = core.people.get(ownerId);
   if (!owner) return 0;
   let allocated = 0;
@@ -250,9 +251,10 @@ function dailyPay(core: CoreState, memberIds: readonly string[]): number {
  * living (rent or mortgage first): any arrears, and each payment that falls due
  * by its next everyday day (one due that day is paid before it spends), less
  * the members' pay due in before then. A payment already made today has moved
- * its due date on, so it is counted once, against the month's pay.
+ * its due date on, so it is counted once, against the month's pay. The
+ * coverage engine's medical bills keep the same back (medical-bills.ts).
  */
-function housingKeptBack(
+export function housingKeptBack(
   core: CoreState,
   householdId: string,
   until: IsoDate,

@@ -18,7 +18,7 @@
  * the order their own record carries (`namedTurnout`), so the same person in
  * the same circumstances does the same thing and nothing is rolled.
  */
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 
 /** The parts of one voter's turnout, as numbers the English engine words. */
 export interface TurnoutParts {
@@ -58,7 +58,9 @@ export function interestOf(
 ): number {
   let first = -Infinity,
     second = -Infinity;
-  for (const a of Object.values(appeal)) {
+  // The keys in their own order, without a list of the values.
+  for (const id in appeal) {
+    const a = appeal[id]!;
     if (a.total > first) {
       second = first;
       first = a.total;

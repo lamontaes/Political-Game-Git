@@ -46,16 +46,10 @@
     "citation": "The pull of staying out, against which running is weighed, for every adult in town: named people through the chooser and counted residents from their counted records (their own engagement, the value the views engine gives them when filled in). Checked against candidates per local seat: most local seats draw one or two candidates, the incumbent and at most one challenger (Ballotpedia, 'Annual Competitiveness Report', local elections in the 100 largest cities and school districts, 2020 to 2024). In six drawn towns (seeds 02ef01243a3d2b97, 708e6071ef433886, f5e3a5796b3b8ef3, 340b15b3e6772787, 488331b4a95b8a20 and Vayas, Puerto Rico; 5,569 to 8,990 counted adults each), the adults whose recorded pull for a local seat exceeds 5.0 number 3, 0, 8, 2, 3 and 2 (at 4.8: 8, 1, 30, 13, 16 and 4); each runs for one seat, and a crowded race spreads them over the town's seats. The chooser's own run-over-stay-out score sits within 0.12 of the reason sum. Those counts were taken when a money term (cash against the filing fee, weight 1) still sat in the sum, near its full weight for almost everyone (a median of 0.96 to 1.0 across the named adults of two played worlds, Oct 13, 2026); filing fees were removed (owner, Oct 13), and the bar came down by that weight to keep the same people over it. Spread 3.8 to 4.4. Measured Oct 20, 2026 in played towns (buildBenchWorld, 400 days, local seats whose filing had closed, specials left out; places drawn with drawPlace('unc-batch:<n>', 'unc') for n = 100 to 189): with the pull at 3.8, 85.0 percent of 107 local seats (15 towns) had no more than one candidate; at 3.9, 91.7 percent of 132 seats (25 towns); at 4.0 an earlier batch of 111 seats gave 85 percent. Ballotpedia's band is 58 to 75 percent, so the pull inside its documented spread does not move the share to the band; the gap is not in this weight (pool item elections-local-races-share-above-band). Lowered from 4.0 to 3.94 when the run decision's trait weight was refitted among newcomers (0.91 to 0.2), so the same 40 of 14,430 newcomers in four drawn election years run as before.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
-  "candidacyFilingWindowDays": {
-    "value": 60,
-    "tag": "ESTIMATED",
-    "citation": "Where a place's records give no opening day for filing, the window is taken to open this many days before the deadline. State candidate filing periods commonly run from two weeks to about three months before the deadline (National Conference of State Legislatures, 'Filing Deadlines for State Legislative Candidates'; Ballotpedia, 'Signature requirements and deadlines for 2026 local elections').",
-    "estimatedFrom": "NCSL and Ballotpedia filing periods; spread 14 to 120 days"
-  },
   "candidacyPlatformQuestions": {
     "value": 3,
     "tag": "TUNABLE",
-    "citation": "How many policy questions a runner states a position on when filing: the ones where their own views are strongest. Local candidate questionnaires and campaign sites typically lead with two to five issues (Ballotpedia Candidate Connection surveys). Spread 2 to 5."
+    "citation": "How many policy questions a runner states a position on when filing: the seat's questions with the highest scores by the platform rule (campaigns parameter platformSupportSlope: how strongly they hold it, weighed by how much of the electorate is on their side). Local candidate questionnaires and campaign sites typically lead with two to five issues (Ballotpedia Candidate Connection surveys). Spread 2 to 5."
   },
   "candidacyStandingCircle": {
     "value": 50,
@@ -101,7 +95,7 @@
   "candidacyOpenSeatWeight": {
     "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "The pull of a seat no incumbent holds. Open seats draw more and stronger candidates than seats an incumbent defends (Gaddie and Bullock 2000, Elections to Open Seats in the U.S. House; Jacobson and Kernell 1983). Checked by open local seats drawing at least one named resident in drawn towns without crowding them. Set at the low end so one open seat in a town of about a thousand adults still draws only a handful. Spread 0.5 to 1.5.",
+    "citation": "The pull of a seat no incumbent holds. Open seats draw more and stronger candidates than seats an incumbent defends (Gaddie and Bullock 2000, Elections to Open Seats in the U.S. House; Jacobson and Kernell 1983). Checked by open local seats drawing at least one named resident in drawn towns without crowding them. Held at 0.5 (Nov 9, 2026): 0.7 was tried after an ask-why by record and put 22 of about 994 Houlton ME adults on one open seat (golden-path M2-04, seed 09aaf43f286df80c5d7485ce1a78b6a4c0c4f89c5c462bfce9c0804d255a41dd), and 1 put 51 of 1,038 Oneonta NY adults there, both past M2-04's 2% crowding limit, which binds. The record behind it: at Peapack and Gladstone NJ (seed o2, 2 years) the county seats whose holder stood down drew 1.0 filer each against 2.17 for held seats, the reverse of the research; their strongest stayers pulled 1.8 to 2.6 with standing 0.1, reach -0.5 and field -0.5 to -1.0, and only 0.5 of openSeat. Checked as a direction (an open seat draws no fewer than the same office held), not a count. Spread 0.5 to 1.5.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyRecordGapWeight": {
@@ -222,6 +216,94 @@
     "value": 3,
     "tag": "TUNABLE",
     "citation": "How many of its members a local party asks in turn, those the most people know first, for a partisan seat it has no one filed for, before it leaves the seat. Spread 1 to 5.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyHouseholdPull": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Encouragement from people close to a would-be candidate is among the strongest pushes toward running (Lawless and Fox 2010, It Still Takes a Candidate, Cambridge University Press, ch. 5, the recruitment finding the party-ask pull reads); a relative's answer after a loss is read the same way, at half the party's strength because it is one person's word, raised by how close they are. Spread 0.25 to 1.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyWaveWeight": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "citation": "How strongly the national tide moves the decision to run for a partisan seat: the share of the two-party vote the president's party is expected to lose this cycle (the national economy and the midterm penalty, the same figure the count reads: tideAgainstPresident) times this weight, a pull toward running for people outside the president's party and away for people in it. Strategic politicians run when conditions favor their party (Jacobson and Kernell 1983, Strategy and Choice in Congressional Elections; Jacobson 2004, The Politics of Congressional Elections), and the 2018 midterm drew a record number of challengers against the president's party (Ballotpedia, 'Candidates and elections in 2018: filing statistics'). At the midterm swing of 0.025 the pull is 1.5, which clears a stay-out bar the open-seat weight already puts within half a point for the most drawn residents. Spread 20 to 80.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyWideStayOutPull": {
+    "value": 3.2,
+    "tag": "ESTIMATED",
+    "citation": "The pull of staying out for a wide race (a statewide or congressional seat, whose candidates come from a state's whole pool of people with standing), against which running is weighed. Local seats keep candidacyStayOutPull, fit on town seats, where the cost of a campaign is a town's. A wide seat's pool is already people with standing (candidacyStandingWeight, ambition, means), so the same bar left the strongest residents' pulls for governor at 3.0 to 3.6 and almost no one entered; 3.2 is our estimate of the lower cost-to-reward bar a state-wide pool faces. It was checked, not steered, against Ballotpedia's 2024 House primaries (1,773 candidates over 435 seats, about 4.1 a seat, by state from 2.3 to 10.9; src/core2/data/candidacy/benchmarks.json): in three drawn places the House filings averaged 3.0, within that by-state range. Per the owner's Nov 8 rule, real ranges are checked against and never steered to; a small or large field passes when the world's records (pulls, the pool, an incumbent's strength) explain it. Each person already running lowers the next one's pull by candidacyFieldWeight, so the field limits itself. Spread 3.0 to 3.6.",
+    "estimatedFrom": "Our own estimate of a state-wide pool's bar, checked against Ballotpedia's 2024 House primary counts; spread 3.0 to 3.6",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyChanceWeight": {
+    "value": 1,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "Weight on the person's own read of their chance of winning, in the pull toward running. People run when they think they have a chance, and what they think is not what the odds are (owner, Nov 8, 10:20 a.m.: candidates need not be the strongest, 'maybe they think they have a good chance... some inside knowledge'). Viability perceptions drive the decision to run (Lawless and Fox 2010, It Still Takes a Candidate, ch. 4). Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyChallengerOdds": {
+    "value": 0.15,
+    "role": "level",
+    "tag": "ESTIMATED",
+    "citation": "The chance an outsider's campaign has against a sitting incumbent, before any overconfidence: incumbents who ran won 95 to 98 percent of U.S. House general elections since 1980, and state legislative incumbents about 95 percent (Ballotpedia incumbent win rates, benchmarks.json stateLegislativeIncumbentsLostPrimaryShare is the primary side). An open seat has no such penalty, so the odds there are the person's standing alone.",
+    "estimatedFrom": "incumbent re-election rates of 90 to 98 percent in Ballotpedia and Brookings Vital Statistics on Congress; spread 0.05 to 0.3",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyOverconfidenceShare": {
+    "value": 0.5,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "How much of the gap between the person's real odds and certainty an overconfident person (an enterprising, risk-taking one: the officials engine's ambition formula) fills with hope, 0 to 1. People overestimate their own chances, the more so the bolder they are (Moore and Healy 2008, The trouble with overconfidence, Psychological Review 115(2):502-517). A long shot who files anyway comes from here. Spread 0.25 to 0.75.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyPartyRoleWeight": {
+    "value": 1.5,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Weight on how active a person is in a party (0 to 1) in the pull toward running for a seat near them. Party activists, committee members and precinct workers are the pool local candidates come from: people recruited through party and civic networks run far more than those outside them (Lawless and Fox 2010, It Still Takes a Candidate; Maisel and Stone 1997 on potential candidates' political involvement). Checked, not steered, against the uncontested share of county seats.",
+    "estimatedFrom": "Lawless and Fox 2010 and Maisel and Stone 1997 on how political involvement predicts considering a run; spread 0.5 to 3",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyOwnerRoleWeight": {
+    "value": 0.8,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Pull toward running for a local seat for a person who owns an employer in the place: owners have a stake in local rules (permits, taxes), more standing, and flexible time (Lawless and Fox 2010 on business owners among potential candidates; local officials are disproportionately business owners and professionals, Hajnal and Trounstine 2014). Checked, not steered. Spread 0.3 to 1.5.",
+    "estimatedFrom": "Lawless and Fox 2010; Hajnal and Trounstine 2014; spread 0.3 to 1.5",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyCivicRoleWeight": {
+    "value": 1.0,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Pull toward running for a person who holds a civic role (a board, a party committee, a group's office), capped at one role's worth: people already serving on local boards and committees are the main pipeline to elected local office. Checked, not steered. Spread 0.5 to 2.",
+    "estimatedFrom": "Lawless and Fox 2010 on community-organization leaders among potential candidates; spread 0.5 to 2",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyDependentsWeight": {
+    "value": 0.6,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Most a household's children take from the pull toward running: people with children at home are less likely to consider running, mothers especially, because of the second shift of care work (Lawless and Fox 2010, ch. 4; Fulton and others 2006). The cost grows with each child and flattens (candidacyDependentsHalf is the number of children at half the maximum). Checked, not steered. Spread 0.2 to 1.2.",
+    "estimatedFrom": "Lawless and Fox 2010; Fulton and others 2006 on family responsibilities and political ambition; spread 0.2 to 1.2",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyDependentsHalf": {
+    "value": 2,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "The number of children at home at which the family cost reaches half its maximum; a sliding curve, not a cutoff. Spread 1 to 4.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyJobRiskWeight": {
+    "value": 0.5,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Most a run can cost a person with a job and thin savings: a campaign costs time away from work and, for an employee, a risk to the job and pay that cash on hand (the runway of living costs, candidacyMeansRunwayDays) softens. Occupational flexibility and financial cushion shape who can afford to run (Carnes 2018, White-Collar Government; Lawless and Fox 2010 on time and money). Checked, not steered. Spread 0.2 to 1.",
+    "estimatedFrom": "Carnes 2018 and Lawless and Fox 2010 on who can afford to run; spread 0.2 to 1",
     "stopgapId": "SG-P15-candidacy-weights"
   }
 }

@@ -432,6 +432,172 @@
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
       "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-area-worse.i-keep-hearing-about-issue-here-in-place-and",
+      "move": "stage-area-worse",
+      "text": "I keep hearing about {issue} here in {place}, and it is worse than it was. I won't pretend otherwise.",
+      "uses": [
+        {
+          "move": "stage-area-worse",
+          "subject": "stage",
+          "role": "area-worse",
+          "choice": "stage-area-worse"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-area-worse.ask-anyone-in-place-about-issue-and-you-will",
+      "move": "stage-area-worse",
+      "text": "Ask anyone in {place} about {issue} and you will hear the same thing: it has gotten worse.",
+      "uses": [
+        {
+          "move": "stage-area-worse",
+          "subject": "stage",
+          "role": "area-worse",
+          "choice": "stage-area-worse"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-area-worse.something-has-gone-wrong-with-issue-in-place-and",
+      "move": "stage-area-worse",
+      "text": "Something has gone wrong with {issue} in {place}, and we owe it to each other to say so.",
+      "uses": [
+        {
+          "move": "stage-area-worse",
+          "subject": "stage",
+          "role": "area-worse",
+          "choice": "stage-area-worse"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-area-worse.when-this-term-began-issue-in-place-was-better",
+      "move": "stage-area-worse",
+      "text": "When this term began, {issue} in {place} was better than it is today. That is what I am hearing, and I am here to talk about it.",
+      "uses": [
+        {
+          "move": "stage-area-worse",
+          "subject": "stage",
+          "role": "area-worse",
+          "choice": "stage-area-worse"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-area-better.let-me-say-something-good-about-issue-in-place",
+      "move": "stage-area-better",
+      "text": "Let me say something good about {issue} in {place}: it is better than it was, and that is down to the people here.",
+      "uses": [
+        {
+          "move": "stage-area-better",
+          "subject": "stage",
+          "role": "area-better",
+          "choice": "stage-area-better"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-area-better.not-everything-tonight-is-a-complaint-issue-in-place",
+      "move": "stage-area-better",
+      "text": "Not everything tonight is a complaint. {issue} in {place} is getting better, and we should say so.",
+      "uses": [
+        {
+          "move": "stage-area-better",
+          "subject": "stage",
+          "role": "area-better",
+          "choice": "stage-area-better"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-area-better.lets-be-glad-about-issue-in-place-it-has",
+      "move": "stage-area-better",
+      "text": "Let's be glad about {issue} in {place}. It has improved, and we should not take that for granted.",
+      "uses": [
+        {
+          "move": "stage-area-better",
+          "subject": "stage",
+          "role": "area-better",
+          "choice": "stage-area-better"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-opener.thank-you-all-for-being-here",
+      "move": "stage-opener",
+      "kind": "spoken",
+      "text": "Thank you all for being here.",
+      "uses": [
+        {
+          "move": "stage-opener",
+          "subject": "stage",
+          "role": "opener",
+          "choice": "opener"
+        }
+      ],
+      "source": {
+        "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
+        "date": "2026-09-09",
+        "granule": "DCPD-202600590",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet"
+      },
+      "restoredFrom": "address.hearing-open.thank-you-all-for-being-here",
+      "restoredOn": "2026-11-08"
     }
   ]
 }

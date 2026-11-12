@@ -1,7 +1,7 @@
 {
   "id": "state-offices-2026",
   "retrieved": "2026-10-12",
-  "notes": "sourceRetrieved=true means checked against a page fetched 2026-10-12 (Wikipedia wikitext of List of U.S. state legislatures, Term limits in the United States, Gubernatorial lines of succession; Pew Research Center 2024 Senate-vacancy survey). sourceRetrieved=false means the citation names the governing constitution/statute section from compiled knowledge; NCSL, Ballotpedia and the Wayback Machine refused automated access. The Book of the States was not used. vacancyRule.method adds 'succession' (governor) and 'remains-vacant' (some lieutenant governors) beyond the three requested values.",
+  "notes": "sourceRetrieved=true means checked against a page fetched 2026-10-12 (Wikipedia wikitext of List of U.S. state legislatures, Term limits in the United States, Gubernatorial lines of succession; Pew Research Center 2024 Senate-vacancy survey). sourceRetrieved=false means the citation names the governing constitution/statute section from compiled knowledge; NCSL, Ballotpedia and the Wayback Machine refused automated access. The Book of the States was not used. vacancyRule.method adds 'succession' (governor) and 'remains-vacant' (some lieutenant governors) beyond the three requested values. memberTitle (added Nov 1, 2026) is the title a chamber's members hold, read from the chamber's own name and the notes above: a House of Delegates seats Delegates; an Assembly seats Assemblymembers, except Wisconsin's, whose members are Representatives; a territory's chambers drop \"State\"; the unicameral bodies are D.C.'s Councilmembers, Guam's and the Virgin Islands' Senators and Nebraska's State Senators.",
   "places": {
     "US-AL": {
       "name": "Alabama",
@@ -11,6 +11,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 35,
             "termYears": 4,
             "termLimit": {
@@ -36,6 +37,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 105,
             "termYears": 4,
             "termLimit": {
@@ -338,6 +340,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 20,
             "termYears": 4,
             "termLimit": {
@@ -363,6 +366,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 40,
             "termYears": 2,
             "termLimit": {
@@ -489,6 +493,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 30,
             "termYears": 2,
             "termLimit": {
@@ -517,6 +522,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 60,
             "termYears": 2,
             "termLimit": {
@@ -817,6 +823,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 35,
             "termYears": 4,
             "termLimit": {
@@ -844,6 +851,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 100,
             "termYears": 2,
             "termLimit": {
@@ -1106,6 +1114,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 40,
             "termYears": 4,
             "termLimit": {
@@ -1133,6 +1142,7 @@
           {
             "chamber": "lower",
             "name": "Assembly",
+            "memberTitle": "Assemblymember",
             "seats": 80,
             "termYears": 2,
             "termLimit": {
@@ -1428,6 +1438,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 35,
             "termYears": 4,
             "termLimit": {
@@ -1456,6 +1467,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 65,
             "termYears": 2,
             "termLimit": {
@@ -1679,6 +1691,7 @@
           {
             "chamber": "upper",
             "name": "State Senate",
+            "memberTitle": "State Senator",
             "seats": 36,
             "termYears": 2,
             "termLimit": {
@@ -1704,6 +1717,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 151,
             "termYears": 2,
             "termLimit": {
@@ -1924,6 +1938,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 21,
             "termYears": 4,
             "termLimit": {
@@ -1949,6 +1964,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 41,
             "termYears": 2,
             "termLimit": {
@@ -2172,6 +2188,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 40,
             "termYears": 4,
             "termLimit": {
@@ -2199,6 +2216,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 120,
             "termYears": 2,
             "termLimit": {
@@ -2411,6 +2429,7 @@
           {
             "chamber": "upper",
             "name": "State Senate",
+            "memberTitle": "State Senator",
             "seats": 56,
             "termYears": 2,
             "termLimit": {
@@ -2436,6 +2455,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 180,
             "termYears": 2,
             "termLimit": {
@@ -2737,6 +2757,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 25,
             "termYears": 4,
             "termLimit": {
@@ -2762,6 +2783,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 51,
             "termYears": 2,
             "termLimit": {
@@ -2916,6 +2938,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 35,
             "termYears": 2,
             "termLimit": {
@@ -2941,6 +2964,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 70,
             "termYears": 2,
             "termLimit": {
@@ -3186,6 +3210,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 59,
             "termYears": 4,
             "termLimit": {
@@ -3211,6 +3236,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 118,
             "termYears": 2,
             "termLimit": {
@@ -3432,6 +3458,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 50,
             "termYears": 4,
             "termLimit": {
@@ -3457,6 +3484,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 100,
             "termYears": 2,
             "termLimit": {
@@ -3695,6 +3723,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 50,
             "termYears": 4,
             "termLimit": {
@@ -3720,6 +3749,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 100,
             "termYears": 2,
             "termLimit": {
@@ -3965,6 +3995,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 40,
             "termYears": 4,
             "termLimit": {
@@ -3990,6 +4021,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 125,
             "termYears": 2,
             "termLimit": {
@@ -4221,6 +4253,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 38,
             "termYears": 4,
             "termLimit": {
@@ -4246,6 +4279,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 100,
             "termYears": 2,
             "termLimit": {
@@ -4512,6 +4546,7 @@
           {
             "chamber": "upper",
             "name": "State Senate",
+            "memberTitle": "State Senator",
             "seats": 39,
             "termYears": 4,
             "termLimit": {
@@ -4540,6 +4575,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 105,
             "termYears": 4,
             "termLimit": {
@@ -4802,6 +4838,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 35,
             "termYears": 2,
             "termLimit": {
@@ -4830,6 +4867,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 151,
             "termYears": 2,
             "termLimit": {
@@ -4943,6 +4981,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 47,
             "termYears": 4,
             "termLimit": {
@@ -4968,6 +5007,7 @@
           {
             "chamber": "lower",
             "name": "House of Delegates",
+            "memberTitle": "Delegate",
             "seats": 141,
             "termYears": 4,
             "termLimit": {
@@ -5145,6 +5185,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 40,
             "termYears": 2,
             "termLimit": {
@@ -5170,6 +5211,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 160,
             "termYears": 2,
             "termLimit": {
@@ -5397,6 +5439,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 38,
             "termYears": 4,
             "termLimit": {
@@ -5424,6 +5467,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 110,
             "termYears": 2,
             "termLimit": {
@@ -5661,6 +5705,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 67,
             "termYears": 4,
             "termLimit": {
@@ -5686,6 +5731,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 134,
             "termYears": 2,
             "termLimit": {
@@ -5882,6 +5928,7 @@
           {
             "chamber": "upper",
             "name": "State Senate",
+            "memberTitle": "State Senator",
             "seats": 52,
             "termYears": 4,
             "termLimit": {
@@ -5907,6 +5954,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 122,
             "termYears": 4,
             "termLimit": {
@@ -6190,6 +6238,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 34,
             "termYears": 4,
             "termLimit": {
@@ -6218,6 +6267,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 163,
             "termYears": 2,
             "termLimit": {
@@ -6445,6 +6495,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 50,
             "termYears": 4,
             "termLimit": {
@@ -6473,6 +6524,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 100,
             "termYears": 2,
             "termLimit": {
@@ -6721,6 +6773,7 @@
           {
             "chamber": "unicameral",
             "name": "Legislature (unicameral)",
+            "memberTitle": "State Senator",
             "seats": 49,
             "termYears": 4,
             "termLimit": {
@@ -6974,6 +7027,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 21,
             "termYears": 4,
             "termLimit": {
@@ -7002,6 +7056,7 @@
           {
             "chamber": "lower",
             "name": "Assembly",
+            "memberTitle": "Assemblymember",
             "seats": 42,
             "termYears": 2,
             "termLimit": {
@@ -7244,6 +7299,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 24,
             "termYears": 2,
             "termLimit": {
@@ -7269,6 +7325,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 400,
             "termYears": 2,
             "termLimit": {
@@ -7378,6 +7435,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 40,
             "termYears": 4,
             "termLimit": {
@@ -7403,6 +7461,7 @@
           {
             "chamber": "lower",
             "name": "General Assembly",
+            "memberTitle": "Assemblymember",
             "seats": 80,
             "termYears": 2,
             "termLimit": {
@@ -7527,6 +7586,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 42,
             "termYears": 4,
             "termLimit": {
@@ -7552,6 +7612,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 70,
             "termYears": 2,
             "termLimit": {
@@ -7826,6 +7887,7 @@
           {
             "chamber": "upper",
             "name": "State Senate",
+            "memberTitle": "State Senator",
             "seats": 63,
             "termYears": 2,
             "termLimit": {
@@ -7851,6 +7913,7 @@
           {
             "chamber": "lower",
             "name": "State Assembly",
+            "memberTitle": "Assemblymember",
             "seats": 150,
             "termYears": 2,
             "termLimit": {
@@ -8021,6 +8084,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 50,
             "termYears": 2,
             "termLimit": {
@@ -8046,6 +8110,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 120,
             "termYears": 2,
             "termLimit": {
@@ -8396,6 +8461,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 47,
             "termYears": 4,
             "termLimit": {
@@ -8423,6 +8489,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 94,
             "termYears": 4,
             "termLimit": {
@@ -8778,6 +8845,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 33,
             "termYears": 4,
             "termLimit": {
@@ -8806,6 +8874,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 99,
             "termYears": 2,
             "termLimit": {
@@ -9054,6 +9123,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 48,
             "termYears": 4,
             "termLimit": {
@@ -9081,6 +9151,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 101,
             "termYears": 2,
             "termLimit": {
@@ -9404,6 +9475,7 @@
           {
             "chamber": "upper",
             "name": "State Senate",
+            "memberTitle": "State Senator",
             "seats": 30,
             "termYears": 4,
             "termLimit": {
@@ -9429,6 +9501,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 60,
             "termYears": 2,
             "termLimit": {
@@ -9638,6 +9711,7 @@
           {
             "chamber": "upper",
             "name": "State Senate",
+            "memberTitle": "State Senator",
             "seats": 50,
             "termYears": 4,
             "termLimit": {
@@ -9663,6 +9737,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 203,
             "termYears": 2,
             "termLimit": {
@@ -9873,6 +9948,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 38,
             "termYears": 2,
             "termLimit": {
@@ -9898,6 +9974,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 75,
             "termYears": 2,
             "termLimit": {
@@ -10108,6 +10185,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 46,
             "termYears": 4,
             "termLimit": {
@@ -10133,6 +10211,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 124,
             "termYears": 2,
             "termLimit": {
@@ -10410,6 +10489,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 35,
             "termYears": 2,
             "termLimit": {
@@ -10438,6 +10518,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 70,
             "termYears": 2,
             "termLimit": {
@@ -10735,6 +10816,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 33,
             "termYears": 4,
             "termLimit": {
@@ -10760,6 +10842,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 99,
             "termYears": 2,
             "termLimit": {
@@ -10865,6 +10948,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 31,
             "termYears": 4,
             "termLimit": {
@@ -10890,6 +10974,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 150,
             "termYears": 2,
             "termLimit": {
@@ -11146,6 +11231,7 @@
           {
             "chamber": "upper",
             "name": "State Senate",
+            "memberTitle": "State Senator",
             "seats": 29,
             "termYears": 4,
             "termLimit": {
@@ -11171,6 +11257,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 75,
             "termYears": 2,
             "termLimit": {
@@ -11375,6 +11462,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 30,
             "termYears": 2,
             "termLimit": {
@@ -11400,6 +11488,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 150,
             "termYears": 2,
             "termLimit": {
@@ -11620,6 +11709,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 40,
             "termYears": 4,
             "termLimit": {
@@ -11645,6 +11735,7 @@
           {
             "chamber": "lower",
             "name": "House of Delegates",
+            "memberTitle": "Delegate",
             "seats": 100,
             "termYears": 2,
             "termLimit": {
@@ -11793,6 +11884,7 @@
           {
             "chamber": "upper",
             "name": "State Senate",
+            "memberTitle": "State Senator",
             "seats": 49,
             "termYears": 4,
             "termLimit": {
@@ -11818,6 +11910,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 98,
             "termYears": 2,
             "termLimit": {
@@ -12113,6 +12206,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 34,
             "termYears": 4,
             "termLimit": {
@@ -12138,6 +12232,7 @@
           {
             "chamber": "lower",
             "name": "House of Delegates",
+            "memberTitle": "Delegate",
             "seats": 100,
             "termYears": 2,
             "termLimit": {
@@ -12360,6 +12455,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 33,
             "termYears": 4,
             "termLimit": {
@@ -12385,6 +12481,7 @@
           {
             "chamber": "lower",
             "name": "State Assembly",
+            "memberTitle": "State Representative",
             "seats": 99,
             "termYears": 2,
             "termLimit": {
@@ -12605,6 +12702,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "State Senator",
             "seats": 31,
             "termYears": 4,
             "termLimit": {
@@ -12630,6 +12728,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "State Representative",
             "seats": 62,
             "termYears": 2,
             "termLimit": {
@@ -12827,6 +12926,7 @@
           {
             "chamber": "unicameral",
             "name": "Council (unicameral)",
+            "memberTitle": "Councilmember",
             "seats": 13,
             "termYears": 4,
             "termLimit": {
@@ -13006,6 +13106,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "Senator",
             "seats": 27,
             "termYears": 4,
             "termLimit": {
@@ -13031,6 +13132,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "Representative",
             "seats": 51,
             "termYears": 4,
             "termLimit": {
@@ -13124,6 +13226,7 @@
           {
             "chamber": "unicameral",
             "name": "Legislature (unicameral)",
+            "memberTitle": "Senator",
             "seats": 15,
             "termYears": 2,
             "termLimit": {
@@ -13327,6 +13430,7 @@
           {
             "chamber": "unicameral",
             "name": "Legislature (unicameral)",
+            "memberTitle": "Senator",
             "seats": 15,
             "termYears": 2,
             "termLimit": {
@@ -13503,6 +13607,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "Senator",
             "seats": 18,
             "termYears": 4,
             "termLimit": {
@@ -13528,6 +13633,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "Representative",
             "seats": 21,
             "termYears": 2,
             "termLimit": {
@@ -13653,6 +13759,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
+            "memberTitle": "Senator",
             "seats": 9,
             "termYears": 4,
             "termLimit": {
@@ -13678,6 +13785,7 @@
           {
             "chamber": "lower",
             "name": "House of Representatives",
+            "memberTitle": "Representative",
             "seats": 20,
             "termYears": 2,
             "termLimit": {

@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by: claude/peaceful-ritchie-03780x
+status: dropped
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T01:48:52.575Z
+claimed-at:
 ---
 
 **What.** An anonymous function in src/core2/births-counted.ts and countedFollowers in src/core2/modules/press.ts allocate 1,265 MB and 1,569 MB in one played year while they walk counted groups. It was found by an allocation profile of a played year in Long Hill, Connecticut (seed m7b, 365 days, 60 GB sampled), where it allocated 4.7 percent (2,830 MB) of the bytes. The year takes 194 to 214 seconds against the 120-second limit, and garbage collection is about 19 percent of it. Cut the allocation without changing any result.
@@ -22,3 +22,9 @@ claimed-at: 2026-10-20T01:48:52.575Z
 **Files.** src/core2/births-counted.ts, src/core2/modules/press.ts
 
 **Notes.** TODO Released from idle draft #5076 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/peaceful-ritchie-03780x` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Both named hot spots were rebuilt: `countedFollowers` in src/core2/modules/press.ts (line 1189) sums per-age-band counts from a cached `townAdultsByBand` (line 1156; core-speed-press-counted-followers and core-speed-press-town-adults, both done), and the counted births pass is core-speed-counted-renewal-pass (done). The allocation profile script it needs (scripts/speed-years/alloc-profile.ts) is not on main.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

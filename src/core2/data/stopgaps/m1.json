@@ -1,0 +1,26 @@
+[
+  {
+    "id": "SG-M1-births-circumstances",
+    "kind": "unmeasured-life-loop-model",
+    "file": "src/core2/data/renewal/parameters.json",
+    "line": 10,
+    "whatItFakes": "Old smooth family-plan coefficients; living-cost and household-size housing proxies, recorded affect health proxy, identity gender carrier proxy, successful planned singleton pregnancy with fixed conception-relative duration, infant inactive discretionary tier until future development work.",
+    "why": "Part 1 precedes housing/jobs integrations; clinical reproductive capacity, infertility and pregnancy outcomes are not represented by the current people records. Rates cannot select pregnancies.",
+    "addedBy": "CODEX-RENEWAL",
+    "addedAt": "2026-10-11",
+    "replacement": "Researched Oct 24, 2026 (research-people-sourced-parameters): renewalGestationDays SOURCED at 268 days from ovulation (Jukic and others, Human Reproduction 2013); renewalAgeCenter 30.0 and renewalAgeSpread 8.7 years ESTIMATED from the NCHS 2024 fertility schedule (data/research/renewal/natality-2024.json); renewalTimingPeakYears 2.25 ESTIMATED from NCHS Data Brief 240 (2016); renewalMedianAnnualIncomeMinor ESTIMATED from the HUD FY2025 income limits every other place reads; all checked by scripts/research/people-parameters-check.ts and read by birthCircumstances in src/core2/births-plan.ts and birthStanding in src/core2/births-counted.ts. Still open: the 14 weights and pulls have no convertible source (the plan is a utility-max choice, and no study publishes its coefficients), so they stay TUNABLE and the town's births per 1,000 women 15 to 44 are reported against the place's NCHS rate by scripts/research/people-year.ts; the 91-day review is a fixed step (people-renewal-renewalReviewDays-as-cause); each place's own age shape is people-births-age-shape-by-place. Source-matched individual reproductive/clinical records, dated pregnancy outcomes, dwelling capacity and coupled choice calibration; infant development producer. Finisher must review these limits against Part 1.",
+    "status": "open"
+  },
+  {
+    "id": "SG-M1-opening-pregnancies",
+    "kind": "opening-prehistory-estimate",
+    "file": "src/core2/modules/renewal.ts",
+    "line": 339,
+    "whatItFakes": "Opening still-pregnant plans use current opening money, housing, health and temperament as pre-opening proxies, with real recorded partnership and child dates. Reviews occur at 91-day phases anchored to partnership or youngest child; both partners must agree through the chooser. No surveyed fertility rate decides pregnancy.",
+    "why": "No prenatal records exist in P15 opening population; starting with none depresses the entire first year and synchronizes deliveries.",
+    "addedBy": "CODEX-RENEWAL",
+    "addedAt": "2026-10-11",
+    "replacement": "OPUS-PEOPLE dated lived pregnancy/resource/medical history, or a finisher/CTO accepted reconstruction with validated first-year calibration. Researched Oct 23, 2026 (research-core-sourced-parameters): the share of women 15 to 44 carrying a pregnancy to a live birth on a given day is the place's fertility rate (NCHS 2024, data/research/renewal/natality-2024.json, all 56 places; 53.8 per 1,000 nationally) times the median 268 days from ovulation to birth (Jukic et al., Human Reproduction, 2013): about 3.9% nationally and 2.2% to 5.7% across places, in data/research/core/opening-pregnancy-2024.json; scripts/research/core-year.ts reports a town's opening pregnancies against it. The rate checks the town and never decides who is pregnant. Still open: no dated pre-opening history; the builder item people-opening-pregnancy-first-year-calibration.",
+    "status": "open"
+  }
+]

@@ -1,0 +1,5 @@
+     × the filing announcement's tag follows the contest's basis; a next contest points at the serving term 2665ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  src/core2/elections-law.test.ts > election law from data (place Waimea, Hawaii, US-HI, seed e7e4517e988c) > the filing announcement's tag follows the contest's basis; a next contest points at the serving term
+AssertionError: [["contest:seat:US:president:2028-11-07","2028-04-07","2028-06-06"],["contest:seat:US-HI:us-senate:0:2030-11-05","2030-04-05","2030-06-04"],["contest:seat:US-HI:us-senate:1:2028-11-07","2028-04-07","2028-06-06"],["contest:seat:US-HI:us-house:02:2026-11-03","2026-04-03","2026-06-02"],["contest:seat:US-HI:governor:2026-11-03","2026-04-03","2026-06-02"],["contest:seat:US-HI:lieutenant
+      Tests  1 failed | 17 passed (18)

@@ -14,8 +14,8 @@
  */
 import deathWeb from "./data/health/death-web.json" with { type: "json" };
 import { causeMix } from "./death-cause";
-import { webReach, type Subject } from "./outcome-web-reach";
-import type { CoreAPI, CoreState } from "./types";
+import { webDayCache, webReach, type Subject } from "./outcome-web-reach";
+import type { CoreAPI } from "./types";
 
 export const DEATH_WEB_REFRESH_DAY = deathWeb.refreshDayOfMonth;
 
@@ -25,11 +25,6 @@ export interface DeathWeb {
   /** The web month row the factor stands on, or null. */
   readonly recordId: string | null;
 }
-
-const CACHE = new WeakMap<
-  object,
-  { date: string; rows: Map<string, DeathWeb> }
->();
 
 /** The web's factor on one person's death hazard this month, cached by place, age and income fifth. */
 export function deathWebFactor(
@@ -44,15 +39,10 @@ export function deathWebFactor(
    */
   ownRecords = false,
 ): DeathWeb {
-  const core = api.state as CoreState;
-  let cache = CACHE.get(core);
-  if (!cache || cache.date !== core.date) {
-    cache = { date: core.date, rows: new Map() };
-    CACHE.set(core, cache);
-  }
+  const cache = webDayCache<DeathWeb>(api, "death-web");
   const whole = Math.max(0, Math.floor(age));
   const key = `${placeId}|${whole}|${incomeFifth ?? "-"}|${ownRecords ? "own" : "place"}`;
-  const found = cache.rows.get(key);
+  const found = cache.get(key);
   if (found) return found;
   const subject: Subject = {
     age: whole,
@@ -82,7 +72,7 @@ export function deathWebFactor(
     factor: (own?.factor ?? 1) * causes.factor,
     recordId: own?.recordId ?? causes.recordId,
   };
-  cache.rows.set(key, result);
+  cache.set(key, result);
   return result;
 }
 
@@ -103,7 +93,7 @@ export function youthCannabisWeb(
 
 /** The health links no engine reads yet, each named by its registered stopgap. */
 const WAITING_STOPGAPS = [
-  "SG-EW-HEALTH-medical-debt-reader",
+  "SG-EW-HEALTH-marriage-equality-cause",
   "SG-EW-HEALTH-death-cause",
   "SG-EW-HEALTH-condition-record",
   "SG-EW-HEALTH-unsized-links",

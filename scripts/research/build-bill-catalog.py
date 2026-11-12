@@ -17,12 +17,35 @@ development inventory the design asks for, never an empty docket.
 Run: python3 scripts/research/build-bill-catalog.py
 """
 
+import re
 import glob
 import json
 import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 OUT = ROOT / "src/core2/data/legislature/bill-catalog.json"
+SERIES_POWERS = json.loads((ROOT / "src/core2/data/legislature/series-powers.json").read_text())["series"]
+QUESTION_POWERS = json.loads((ROOT / "data/research/powers-catalog/question-powers.json").read_text())["questions"]
+
+
+
+# Names of programs keep their capital inside a name read as words.
+PROPER_WORDS = {"medicaid": "Medicaid", "medicare": "Medicare"}
+
+
+def proper(words):
+    """Words with each program's name capitalized: medicaid reads Medicaid."""
+    return " ".join(PROPER_WORDS.get(word, word) for word in words.split(" "))
+
+
+def words_of(code):
+    """A code word as a person says it: healthAndHospitals reads health and hospitals."""
+    return proper(re.sub(r"(?<=[a-z])([A-Z])", lambda m: " " + m.group(1).lower(), code))
+
+def catalog_levels(levels):
+    """The authority table calls county and city powers 'local'."""
+    return [expanded for level in levels for expanded in (["county", "city"] if level == "local" else [level])]
+
 
 SUBJECTS = [
     ("infrastructure", "Infrastructure", ["Transportation", "Water and wastewater", "Flood control and drainage", "Waste collection and disposal", "Public buildings and facilities", "Digital infrastructure"]),
@@ -52,6 +75,18 @@ CATEGORY_SUBJECT = {
     "education": "education",
     "environment-energy": "energy-environment",
     "fiscal": "taxes-finance",
+    # Federal questions (us-federal-positions) use short category names.
+    "trade": "foreign-trade",
+    "budget": "taxes-finance",
+    "immigration": "immigration",
+    "emergencies": "justice",
+    "science-communications": "technology",
+    "territories-culture": "government",
+    "justice-rights": "justice",
+    "government": "government",
+    "energy-environment": "energy-environment",
+    "housing": "housing",
+    "health": "healthcare",
     "government-operations": "government",
     "health-human-services": "healthcare",
     "housing-land-use": "housing",
@@ -64,11 +99,15 @@ CATEGORY_SUBJECT = {
 
 # Topic placement by words in the question key; the subject's first topic otherwise.
 TOPIC_WORDS = [
+    ("retail-electric", "Utility regulation"),
+    ("debt-limit", "Debt and borrowing"), ("admit-more", "Entry and visas"), ("forgive", "Student aid"), ("states-share-disaster", "Emergency management and disaster recovery"),
+    ("national-data-privacy", "Data protection"), ("statehood", "Constitutional and institutional reform"), ("mandatory-minimum", "Criminal law and sentencing"), ("stock-trading", "Ethics and conflicts"),
+    ("tariff", "Trade and customs"), ("voucher", "Affordable and public housing"), ("power-plant", "Air and emissions"),
     ("minimum-wage", "Wages and working hours"), ("paid-family-leave", "Paid and unpaid leave"),
     ("collective-bargaining", "Unions and collective bargaining"), ("right-to-work", "Unions and collective bargaining"),
     ("voter", "Elections and representation"), ("voting", "Elections and representation"), ("redistricting", "Elections and representation"),
     ("term-limits", "Constitutional and institutional reform"), ("lobbying", "Ethics and conflicts"), ("local-authority", "Local-government powers"),
-    ("medicaid", "Coverage and insurance"), ("work-requirement", "Cash assistance"),
+    ("medicare-drug", "Medicines and medical products"), ("medicaid", "Coverage and insurance"), ("work-requirement", "Cash assistance"),
     ("handgun", "Firearms and weapons rules"), ("carry", "Firearms and weapons rules"), ("stand-your-ground", "Firearms and weapons rules"), ("child-access", "Firearms and weapons rules"),
     ("police", "Policing"), ("bail", "Courts and legal aid"), ("juvenile", "Juvenile justice"), ("voting-after-sentence", "Prisons, probation and reentry"), ("immigration", "Policing"),
     ("rent", "Rental rules"), ("eviction", "Rental rules"), ("inclusionary", "Affordable and public housing"), ("multifamily", "Planning and zoning"),
@@ -91,43 +130,82 @@ BUDGET_LINES = {
     "administration": ("government", "Agencies and public employment"),
 }
 
+# The federal budget's lines (data/research/money/federal-budget-fy2025.json, the
+# Treasury's statement) Congress changes in an appropriations act, each under the
+# topic whose subject it funds. A line shares its id with a state line of the
+# same name only when it is the same line; these are the nation's own.
+FEDERAL_BUDGET_LINES = {
+    "nationalDefense": ("defense-veterans", "Readiness and procurement", "National defense"),
+    "veterans": ("defense-veterans", "Veterans' healthcare", "Veterans benefits and services"),
+    "internationalAffairs": ("foreign-trade", "Foreign aid", "International affairs and foreign aid"),
+    "agriculture": ("agriculture", "Farm support and insurance", "Agriculture programs"),
+    "transportation": ("infrastructure", "Transportation", "Federal transportation"),
+    "education": ("education", "Student aid", "Federal education programs"),
+    "communityAndRegionalDevelopment": ("housing", "Neighborhood redevelopment", "Community and regional development"),
+    "incomeSecurity": ("assistance", "Cash assistance", "Income security programs"),
+    "medicare": ("healthcare", "Coverage and insurance", "Medicare"),
+    "health": ("healthcare", "Public health", "Federal health programs"),
+    "socialSecurity": ("assistance", "Retirement and survivor benefits", "Social Security"),
+}
+
 SERIES = {
-    "minimum-wage": ("labor", "Wages and working hours", "Minimum wage", "minor/hour", ["federal", "state", "city"]),
-    "income-tax": ("taxes-finance", "Taxes", "Income tax rate", "percent", ["city"]),
-    "sales-tax": ("taxes-finance", "Taxes", "Sales tax rate", "percent", ["city"]),
+    "minimum-wage": ("labor", "Wages and working hours", "Minimum wage", "minor/hour"),
+    "income-tax": ("taxes-finance", "Taxes", "Income tax rate", "percent"),
+    "sales-tax": ("taxes-finance", "Taxes", "Sales tax rate", "percent"),
     # Each government sets its own employees' pay floor (CTO ruling, Oct 14, 2026).
-    "public-pay-floor": ("government", "Agencies and public employment", "Public pay floor", "dollars/year", ["federal", "state", "city"]),
+    "public-pay-floor": ("government", "Agencies and public employment", "Public pay floor", "dollars/year"),
     # The other amounts the starting law holds, at the levels series-powers.json
-    # gives each (a local level is "city" here).
-    "property-tax": ("taxes-finance", "Taxes", "Property tax rate", "percent of home value per year", ["state", "city"]),
-    "corporate-income-tax": ("taxes-finance", "Taxes", "Corporate income tax rate", "percent-flat", ["federal", "state"]),
-    "estate-tax": ("taxes-finance", "Taxes", "Estate tax rate", "percent-top-rate", ["federal", "state"]),
-    "inheritance-tax": ("taxes-finance", "Taxes", "Inheritance tax rate", "percent-top-rate", ["state"]),
-    "social-security-tax": ("assistance", "Retirement and survivor benefits", "Social Security tax rate", "percent-of-wages", ["federal"]),
-    "medicare-tax": ("healthcare", "Coverage and insurance", "Medicare tax rate", "percent-of-wages", ["federal"]),
-    "medicaid-match": ("healthcare", "Coverage and insurance", "Medicaid federal match", "percent", ["federal"]),
-    "snap-maximum": ("assistance", "Food assistance", "SNAP maximum benefit", "USD/month", ["federal"]),
-    "federal-unemployment-tax": ("assistance", "Unemployment benefits", "Federal unemployment tax rate", "percent-of-wages", ["federal"]),
-    "state-unemployment-tax": ("assistance", "Unemployment benefits", "State unemployment tax rate", "percent-of-wages", ["state"]),
-    "unemployment-weekly-maximum": ("assistance", "Unemployment benefits", "Unemployment weekly maximum", "USD/week", ["state"]),
+    # gives each (local expands to county and city in the catalog).
+    "property-tax": ("taxes-finance", "Taxes", "Property tax rate", "percent of home value per year"),
+    "corporate-income-tax": ("taxes-finance", "Taxes", "Corporate income tax rate", "percent-flat"),
+    "estate-tax": ("taxes-finance", "Taxes", "Estate tax rate", "percent-top-rate"),
+    "inheritance-tax": ("taxes-finance", "Taxes", "Inheritance tax rate", "percent-top-rate"),
+    # Federal age statutes; 42 U.S.C. 1304 reserves amendment to Congress.
+    "social-security-earliest-claim-age": ("assistance", "Retirement and survivor benefits", "Social Security earliest claim age", "years"),
+    "social-security-full-retirement-age": ("assistance", "Retirement and survivor benefits", "Social Security full retirement age", "years"),
+    "social-security-delayed-credit-age": ("assistance", "Retirement and survivor benefits", "Social Security delayed credit age", "years"),
+    "social-security-tax": ("assistance", "Retirement and survivor benefits", "Social Security tax rate", "percent-of-wages"),
+    "medicare-tax": ("healthcare", "Coverage and insurance", "Medicare tax rate", "percent-of-wages"),
+    "medicaid-match": ("healthcare", "Coverage and insurance", "Medicaid federal match", "percent"),
+    "state-contribution-limit-governor": ("government", "Campaign finance", "State campaign contribution limit: governor", "USD/election"),
+    "state-contribution-limit-state-senate": ("government", "Campaign finance", "State campaign contribution limit: state senate", "USD/election"),
+    "state-contribution-limit-state-house": ("government", "Campaign finance", "State campaign contribution limit: state house", "USD/election"),
+    "state-contribution-limit-local": ("government", "Campaign finance", "State campaign contribution limit: local", "USD/election"),
+    "executive-term-limit": ("government", "Elections and representation", "Governor term limit (terms; 0 for none)", "terms"),
+    "federal-campaign-contribution-limit": ("government", "Campaign finance", "Federal campaign contribution limit", "USD/election"),
+    "meeting-notice-hours": ("government", "Public records and meetings", "Public notice before a regular meeting (hours)", "hours"),
+    "ssi-federal-benefit-rate": ("assistance", "Disability support", "SSI federal benefit rate (individual)", "USD/month"),
+    "snap-maximum": ("assistance", "Food assistance", "SNAP maximum benefit", "USD/month"),
+    "energy-assistance-income-limit": ("assistance", "Utility-bill assistance", "Home energy assistance income limit (percent of the poverty line)", "percent-of-poverty-line"),
+    "child-care-income-limit": ("assistance", "Child-care assistance", "Child care income limit (family of three)", "USD/month"),
+    "federal-unemployment-tax": ("assistance", "Unemployment benefits", "Federal unemployment tax rate", "percent-of-wages"),
+    "state-unemployment-tax": ("assistance", "Unemployment benefits", "State unemployment tax rate", "percent-of-wages"),
+    # 26 USC 3304(a)(19) expressly reserves amendment or repeal.
+    "unemployment-insurance": ("assistance", "Unemployment benefits", "Unemployment insurance program", "program"),
+    "unemployment-weekly-maximum": ("assistance", "Unemployment benefits", "Unemployment weekly maximum", "USD/week"),
     # A state's grant of its towns' power to tax income: raised to 1 it
     # grants, lowered to 0 it withdraws (no unit; the Words row words each).
-    "local-income-tax-authority": ("taxes-finance", "Taxes", "Local income tax authority", None, ["state"]),
+    "local-income-tax-authority": ("taxes-finance", "Taxes", "Local income tax authority", None),
 }
 
 
 def main():
     subjects = {key: {"id": key, "name": name, "topics": {t: {"name": t, "policies": []} for t in topics}} for key, name, topics in SUBJECTS}
-    for series, (subject, topic, name, unit, levels) in SERIES.items():
+    for series, (subject, topic, name, unit) in SERIES.items():
         subjects[subject]["topics"][topic]["policies"].append({
             "id": f"law:{series}", "name": name, "kind": "law-amount", "series": series,
             **({"unit": unit} if unit else {}),
-            "operations": ["raise", "lower"], "levels": levels,
+            "operations": ["raise", "lower"], "levels": catalog_levels(SERIES_POWERS[series]["levels"]),
         })
     for line, (subject, topic) in BUDGET_LINES.items():
         subjects[subject]["topics"][topic]["policies"].append({
-            "id": f"budget:{line}", "name": f"Spending: {line}", "kind": "budget-line", "line": line,
-            "operations": ["expand", "restrict"], "levels": ["state", "city"],
+            "id": f"budget:{line}", "name": f"Spending: {words_of(line)}", "kind": "budget-line", "line": line,
+            "operations": ["expand", "restrict"], "levels": ["state", "county", "city"],
+        })
+    for line, (subject, topic, name) in FEDERAL_BUDGET_LINES.items():
+        subjects[subject]["topics"][topic]["policies"].append({
+            "id": f"budget:federal:{line}", "name": f"Spending: {name}", "kind": "budget-line", "line": line,
+            "operations": ["expand", "restrict"], "levels": ["federal"],
         })
     questions = []
     for path in sorted(glob.glob(str(ROOT / "data/research/laws/starting-law-2026/*.json"))):
@@ -143,9 +221,17 @@ def main():
         topic = topic or next(iter(subjects[subject]["topics"]))
         federal = key.startswith("us-federal-positions")
         subjects[subject]["topics"][topic]["policies"].append({
-            "id": f"question:{key}", "name": slug.replace("-", " "), "kind": "policy-question", "question": key,
-            "operations": ["enact", "repeal"], "levels": ["federal"] if federal else ["state", "city"],
+            "id": f"question:{key}", "name": proper(slug.replace("-", " ")), "kind": "policy-question", "question": key,
+            "operations": ["enact", "repeal"], "levels": QUESTION_POWERS[key]["levels"],
         })
+        if not federal:
+            # A state's bar on its places' own rule for this question, as a
+            # dated state law like the grant of local income-tax power: raised
+            # to 1 it grants, lowered to 0 it bars (laws.ts localPowerBarred).
+            subjects[subject]["topics"][topic]["policies"].append({
+                "id": f"law:local-power:{slug}", "name": f"Local power: {proper(slug.replace('-', ' '))}", "kind": "law-amount",
+                "series": f"local-power:{key}", "operations": ["raise", "lower"], "levels": ["state"],
+            })
     out = []
     for key, name, topics in SUBJECTS:
         s = subjects[key]

@@ -34,6 +34,8 @@ export function schoolsOf(core: CoreState, personId: string) {
                 name: properName(row.name),
                 date: row.date,
                 recordId: row.recordId,
+                stage: row.stage,
+                grade: row.grade,
               },
             ]
           : [],

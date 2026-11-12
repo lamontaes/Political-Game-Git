@@ -65,6 +65,43 @@
       "citation": "Between 6:00 AM and 8:00 AM, the span of typical workday wake times in American Time Use Survey diaries."
     }
   },
+  "talkMinutesPerLine": {
+    "value": 2,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "A line said or heard in a talk takes about two minutes, so a talk of ten lines is a twenty-minute conversation; the talk spends the sum of its lines on the player's clock when it ends. A pacing choice, not a measured rate; no source has been fetched for it.",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "minutes per line",
+      "citation": "From a quick exchange to a long answer; to be checked against American Time Use Survey conversation lengths once fetched."
+    }
+  },
+  "tripMinutes": {
+    "value": 17,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Summary of Travel Trends: 2022 National Household Travel Survey (https://nhts.ornl.gov/assets/2022/pub/2022_NHTS_Summary_Travel_Trends.pdf, fetched Nov 8, 2026). Table 3-3, average person trip length by purpose, 2022: shopping 5.8 miles and family/personal errands 8.6 miles. Table 7-4, average commute speed, 2022: 25.51 miles per hour for all modes, 26.59 for a privately owned vehicle.",
+    "estimatedFrom": "The survey's summary gives trip length by purpose and speed for commutes, not trip time by purpose: 5.8 miles at about 25 miles per hour is 14 minutes (shopping) and 8.6 miles is 20 minutes (errands); 17 minutes is between them. Every trip to a place in town takes this, because the records hold no distance between two places (SG-PLAY-trip-time-average); a place's own distance and travel speed replace it.",
+    "spread": {
+      "low": 14,
+      "high": 21,
+      "unit": "minutes",
+      "citation": "NHTS 2022 Table 3-3 trip lengths (shopping, errands) over the Table 7-4 speeds (25.51 to 26.59 miles per hour)."
+    }
+  },
+  "visitHours": {
+    "value": 1,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "The hours a visit to a place in town (a shop, a school, an office, a diner) takes the player: one hour spent there, so the clock moves and the people at the next place are the ones there at that hour (Nov 8: visits, talks and trips spend game time). Checked against the American Time Use Survey's Using Government Services, 0.91 hours for the people who did it that day (the lookupHours row), and shopping, under an hour a trip.",
+    "spread": {
+      "low": 0.5,
+      "high": 1,
+      "unit": "hours",
+      "citation": "From a short errand to the ATUS hour for government services."
+    }
+  },
   "filingVisitHours": {
     "value": 3,
     "tag": "TUNABLE",
@@ -180,6 +217,18 @@
     "value": 10000,
     "tag": "SOURCED",
     "citation": "00s PACKAGES, P8 CORE, owner decision October 9, 2026."
+  },
+  "groupQuartersRoomMembers": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Residents per group-quarters room record (a dormitory double, a two-person cell, a barracks room): the opening pairs a type's residents of the same sex in age order this many at a time. It changes only how many records exist and who is filled in together, never a count.",
+    "stopgapId": "SG-GQ-room-size",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "residents per room record",
+      "citation": "A single room to a four-person suite or barracks room; each type's sourced occupancy replaces it where one exists."
+    }
   },
   "yearSecondsBudget": {
     "value": 120,
@@ -500,13 +549,15 @@
     }
   },
   "stressHalfLifeDays": {
-    "value": 7,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-stressHalfLifeDays",
+    "value": 1,
+    "tag": "ESTIMATED",
+    "citation": "Bolger, DeLongis, Kessler and Schilling (1989), 'Effects of daily stress on negative mood', Journal of Personality and Social Psychology 57(5):808-18, doi 10.1037/0022-3514.57.5.808 (PubMed 2810026, abstract read): a 6-week daily diary of 166 married couples found emotional habituation by the second day of a run of stressors for almost every event except interpersonal conflicts, and that on the days after a stressful event mood was better than it would have been without it.",
+    "estimatedFrom": "The study measures mood, not the model's stress stock, and gives no half-life: a stressor's effect is largely gone within a day or two, so one day is read as the half-life, with interpersonal conflict (which does not habituate) the case the spread must cover.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+      "low": 0.5,
+      "high": 7,
+      "unit": "days",
+      "citation": "Half a day (effect gone by the next day) to the old stand-in of a week, which a played half-year shows changes the town's mean stress by about 0.03 on a 0 to 1 scale (Reynolds, Georgia: 0.240 at seven days, 0.267 at one)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -714,19 +765,6 @@
     "value": 120,
     "tag": "SOURCED",
     "citation": "Verduyn and Lavrijsen (2015), doi:10.1007/s11031-014-9445-y, Fig. 1; recalled emotion-duration medians in 233 Belgian high-school students. Not an adult US range or exponential half-life."
-  },
-  "relationInitial": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-relationInitial",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
   },
   "relationContactGain": {
     "value": 0.05,
@@ -2913,6 +2951,20 @@
     "citation": "BLS CEX All consumer units, calendar 2024 detail table, B4217, Personal care services, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
+  "openingCustomerReligiousGivingAnnualNationalUsd": {
+    "value": 781,
+    "tag": "SOURCED",
+    "role": "opening",
+    "citation": "BLS Consumer Expenditure Surveys, calendar 2024, all consumer units, annual mean per consumer unit: cash contributions $2,292 (2.9 percent of spending), of which contributions to churches and other religious organizations $781; https://www.bls.gov/opub/reports/consumer-expenditures/2024/home.htm. Applicability: published aggregate mean, not individual dispersion; the size and region shape is borrowed from the other-household-expenses parent (estimated, not the contributions category's own).",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerCharitableGivingAnnualNationalUsd": {
+    "value": 322,
+    "tag": "SOURCED",
+    "role": "opening",
+    "citation": "BLS Consumer Expenditure Surveys, calendar 2024, all consumer units, annual mean per consumer unit: cash contributions $2,292 (2.9 percent of spending), of which contributions to charities and other organizations $322; https://www.bls.gov/opub/reports/consumer-expenditures/2024/home.htm. Applicability: published aggregate mean, not individual dispersion; the size and region shape is borrowed from the other-household-expenses parent (estimated, not the contributions category's own).",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
   "openingCustomerHousekeepingAnnualNationalUsd": {
     "value": 186.25,
     "tag": "SOURCED",
@@ -3960,6 +4012,37 @@
       "citation": "CPS 2023 ASEC public use file, data/research/core/cps-asec-2023-partner-age-gap.json: the even width matching each open row's own mean gap, 13.82 years where the husband is 20 or more years older and 21.55 where the wife is."
     },
     "stopgapId": "SG-P15-partnership-model"
+  },
+  "groupKnownScale": {
+    "value": 4.5,
+    "tag": "ESTIMATED",
+    "citation": "How many people one knows by name in a group or workplace of N people grows slower than N: known(N) = scale * N^exponent, capped at groupKnownCap and at N - 1. Anchors: Jacobs and Watts, 'A Large-Scale Comparative Study of Informal Social Networks in Firms', Management Science 67(9), 2021 (65 U.S. firms, 1.4 million users: average contacts grow with firm size and run near 27 in a mid-size firm); a survey of 3,000 U.S. full-time workers (Olivet Nazarene University, 2019) found five friends at work on average; Dunbar's limit of about 150 stable ties.",
+    "estimatedFrom": "A power law through those anchors (about 15 known at 20 people, 28 at 100, 54 at 500). The source papers were not fetched in full, so the scale and exponent are an estimate with the spread below.",
+    "spread": {
+      "low": 3,
+      "high": 7,
+      "unit": "people known in a group of 10, before the power law's exponent",
+      "citation": "Five work friends (Olivet Nazarene University, 2019) to the near-27 average contacts in a mid-size firm (Jacobs and Watts, 2021)."
+    },
+    "stopgapId": "SG-P15-encounters"
+  },
+  "groupKnownExponent": {
+    "value": 0.4,
+    "tag": "ESTIMATED",
+    "citation": "Exponent of the people-known power law (see groupKnownScale); Jacobs and Watts (2021) report that firm size shapes average degree sublinearly.",
+    "estimatedFrom": "Fitted by eye through the anchors named at groupKnownScale.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.5,
+      "unit": "exponent",
+      "citation": "Range that keeps 100 people at 18 to 45 known."
+    },
+    "stopgapId": "SG-P15-encounters"
+  },
+  "groupKnownCap": {
+    "value": 150,
+    "tag": "SOURCED",
+    "citation": "Dunbar, R. I. M. (1993), 'Coevolution of neocortical size, group size and language in humans', Behavioral and Brain Sciences 16(4): about 150 stable relationships; Dunbar says under about 500 people colleagues tend also to be friends (NPR transcript, https://www.npr.org/transcripts/136723316)."
   },
   "openingCoworkerGroupSize": {
     "value": 8,
@@ -5386,6 +5469,61 @@
       "citation": "Starting range; the site reasons it joins run about -1 to 1 (views, warmth, grievance), so the trait term stays a minority share of the total."
     }
   },
+  "nationNewsDays": {
+    "value": 14,
+    "tag": "TUNABLE",
+    "citation": "How many days back the Nation heading on News tells laws other states passed: a window of the newest, not a count, so a quiet fortnight is short and a busy one long. Two weeks is a news cycle; the stories are a view over the other states' law rows and keep nothing of their own (owner, Oct 28: every screen is a view of the same records; Nov 5: other places keep only the result).",
+    "spread": {
+      "low": 7,
+      "high": 30,
+      "unit": "days",
+      "citation": "A week to a month; checked against how long the News screen stays readable (about 55 places enact about 7 laws each in a year)."
+    }
+  },
+  "nationNewsReachBar": {
+    "value": 0.025,
+    "tag": "TUNABLE",
+    "citation": "How far a law passed in another state must reach to be told under the Nation heading on News: the state's share of the nation's people, times one plus the reader's ties to that state (nationNewsFamilyTie, nationNewsWorkTie, nationNewsNeighborTie). 0.025 is a state of about 8.4 million people, so only the ten largest states clear it on size alone and any other state needs a tie. Population from the Census Bureau's 2020 base (src/core2/data/places/state-reach.json).",
+    "spread": {
+      "low": 0.01,
+      "high": 0.05,
+      "unit": "share of the nation",
+      "citation": "Checked against how many other-state laws the News screen shows a reader in a played year: a few large states and the reader's own ties, not every state's every law."
+    }
+  },
+  "nationNewsFamilyTie": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "What a reader's family living in a state adds to how newsworthy a law there is to them, as a multiple of its reach.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "multiple",
+      "citation": "Checked against how many other-state laws the News screen shows a reader in a played year: a few large states and the reader's own ties, not every state's every law."
+    }
+  },
+  "nationNewsWorkTie": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "What a reader's work in a state adds to how newsworthy a law there is to them, as a multiple of its reach.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "multiple",
+      "citation": "Checked against how many other-state laws the News screen shows a reader in a played year: a few large states and the reader's own ties, not every state's every law."
+    }
+  },
+  "nationNewsNeighborTie": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "What living next to a state adds to how newsworthy a law there is, as a multiple of its reach: its news crosses the border.",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "multiple",
+      "citation": "Checked against how many other-state laws the News screen shows a reader in a played year: a few large states and the reader's own ties, not every state's every law."
+    }
+  },
   "circleDecisionDetailDays": {
     "value": 7,
     "tag": "TUNABLE",
@@ -5397,10 +5535,21 @@
       "citation": "A week (the routine retention window, routineRetentionDays) to a season; checked against the memory guard and the 'why' view."
     }
   },
+  "cashJournalDetailDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "How long the cash journal keeps a followed person's itemized payment before it folds into their yearly total by kind (CTO, Nov 1, 21:25; play-first lane and laws lead, Nov 1). Dev mode's person ledger reads the last 365 days (src/bench/dev-why.ts, ledgerPanels) and no law reader needs itemized payments past a year; the player and their household keep the current and prior calendar year, which always covers this window. Balances and lifetime totals keep the money itself.",
+    "spread": {
+      "low": 365,
+      "high": 730,
+      "unit": "days",
+      "citation": "One year (dev mode's 365-day person ledger) to two; checked against the long save's records count (npm run speed:year) and dev mode's ledger."
+    }
+  },
   "playerDecisionDetailDays": {
     "value": 365,
     "tag": "TUNABLE",
-    "citation": "How long the player's own routine act keeps every option's score before only its chosen reasons remain; after a year the summary and reasons are kept, not every detail.",
+    "citation": "How long the player's own routine act or weighed choice keeps every option's score before only its chosen reasons remain; after a year the summary and reasons are kept, not every detail.",
     "spread": {
       "low": 180,
       "high": 730,
@@ -5408,10 +5557,23 @@
       "citation": "Half a year to two years; checked against the memory guard (scripts/core2-guard/memory.mjs) and the 'why' view."
     }
   },
-  "circleActRetentionMonths": {
+  "campaignRecordRetentionMonths": {
     "value": 12,
+    "tag": "ESTIMATED",
+    "citation": "How long a public campaign gift or endorsement stays as a row in the log: a year, past the news cycle that printed it and the scene that reads it within days. The gift's money and the endorsement's answer stay in the campaigns engine's own tables. CTO ruling, Nov 1: itemized cash receipts fold to totals; the same shape applies here.",
+    "estimatedFrom": "One election cycle's news life; the log row is read only on the day by the director and the press.",
+    "spread": {
+      "low": 3,
+      "high": 24,
+      "unit": "months",
+      "citation": "A quarter (the circle's act window) to one full cycle plus a year."
+    },
+    "stopgapId": "SG-P15-params-uncalibrated"
+  },
+  "circleActRetentionMonths": {
+    "value": 3,
     "tag": "TUNABLE",
-    "citation": "Owner ruling, Oct 12 (running memory stays small: keep current state, each person's key facts and recent detail; summarize or drop old detail): how long a circle member's routine act stays in the log after its reasons are condensed.",
+    "citation": "Owner ruling, Oct 12 (running memory stays small: keep current state, each person's key facts and recent detail; summarize or drop old detail): how long a circle member's routine act stays in the log after its reasons are condensed. Set to the spread's low end: at 12 months a large town (Arcadia, California) ran out of the desktop app's 4,096 MiB heap in its fourth year, its log holding a year of routine rows for each of about 200 people met once in the campaign; nothing reads a member's row after its own day except debug views.",
     "spread": {
       "low": 3,
       "high": 36,
@@ -5419,15 +5581,27 @@
       "citation": "A season to a three-year term; checked against the memory check (scripts/core2-guard/memory.mjs) and the journal."
     }
   },
-  "experiencedKeyRetentionDays": {
-    "value": 90,
+  "candidacyDecisionRetentionDays": {
+    "value": 60,
     "tag": "TUNABLE",
-    "citation": "Owner ruling, Oct 12 (running memory stays small): how long a person keeps the bare 'I lived through this event' key after the day, once it is no longer the source of a drive they hold. Its only readers are the same-day appraisal and a drive's update; the event's own facts stay.",
+    "role": "coefficient",
+    "citation": "Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): how long after a race's election day a person's decision not to run in it is kept (candidacy.ts dropPastNonRunners). Every reader asks about a race still being run or about those who ran, which stay; two months covers a runoff's own contest and the seating. Kept forever, declined decisions were 28,733 of 30,181 rows at Montpelier, Vermont, year 4 (Nov 9, 2026).",
     "spread": {
       "low": 30,
+      "high": 400,
+      "unit": "days",
+      "citation": "A month (the monthly pass) to a year and a month; checked against the records proof of a two-year Montpelier run."
+    }
+  },
+  "experiencedKeyRetentionDays": {
+    "value": 14,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling, Oct 12 (running memory stays small); window shortened from 90 to 14 days on Nov 8, 2026 (Memory and long runs): how long a person keeps the bare 'I lived through this event' key after the day, once it is no longer the source of a drive they hold. Its only readers are the same-day appraisal (module-notifications.ts requires the event's own date) and a drive's source check, which a held drive keeps. The event's own facts stay. In Futiga, American Samoa (seed dpA), these keys were 550,000 of 2.3 million facts and 280 MB in the 2030 election year at 90 days.",
+    "spread": {
+      "low": 7,
       "high": 365,
       "unit": "days",
-      "citation": "A month to a year; checked against the 450-day play digest (unchanged) and the yearly heap in scripts/core2-year/years-profile.ts."
+      "citation": "A week (the weekly forgetting pass) to a year; checked against the 450-day play digest and the yearly heap in scripts/core2-year/years-profile.ts."
     }
   },
   "openingTeacherAnnualWageUsd": {
@@ -6359,6 +6533,18 @@
       "citation": "The weight scales with the log odds ratio: the study's 95% Bayesian credibility interval for the odds ratio is 0.47 to 0.60 (Section 3.1: \"HH resulted in a medium to large effect of OR = 0.53 with a 95% BCI of [0.47; 0.60]\"; Table 2: 0.53, 2.5% 0.47, 97.5% 0.60)."
     }
   },
+  "traitWeightPressLetter": {
+    "value": 0.0068,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the press.letter decision (who writes a letter to the editor about a story they read), from its row in data/research/trait-effect-sizes.json: Mondak and Halperin (2008), agreeableness and writing letters to the editor, ordered logit 0.27 per scale unit (trait SD 0.64), carried to the thirds of readers leaning most and least toward writing: target odds ratio 1.46. Fitted with the strength bar at 0.02 (letterStrength) on two played years of Blunt, South Dakota (key 4606180), by scripts/traits/trait-calibrate.ts's formula on a finer sweep than its 0.005 grid, net of the same gap with personality off: seed letters-cal-1, 313 weighings, best 0.0048; seed letters-cal-2, 2,696 weighings, best 0.0097 (the script's own grid gives 0.01, calibrated). The value is the two worlds' geometric mean; at it the odds between thirds are 1.72 and 1.33, and temperament turns 9 of 313 and 55 of 2,696 weighings. Strength of feeling on a question a story moved runs 0.0001 to 0.09 in the first world (median 0.0075) and to 0.45 in the second (median 0.08), so the weight is small on that scale and strength does most of the deciding.",
+    "estimatedFrom": "press.letter in data/research/trait-effect-sizes.json (Mondak and Halperin 2008), fitted in two played years at 27f014c4e3.",
+    "spread": {
+      "low": 0.0048,
+      "high": 0.0097,
+      "unit": "weight",
+      "citation": "The two worlds' own best fits."
+    }
+  },
   "traitWeightPressTip": {
     "value": 1,
     "tag": "TUNABLE",
@@ -6813,6 +6999,36 @@
       "citation": "The BLS OEWS wage tables publish the 10th, 25th, 50th, 75th and 90th percentiles; the player's own town starts a worker at the 25th and moves toward the 75th with tenure, so the median sits inside that range."
     }
   },
+  "schoolMeasureMinimumStudents": {
+    "value": 20,
+    "tag": "ESTIMATED",
+    "citation": "The fewest students a school measure (math, reading, graduation) stands on before it reports the place's own count rather than an estimate from the place's rate: states set a minimum group size for reporting results under the Every Student Succeeds Act, 28 states between 11 and 25 students and 8 at 26 or more, up to 30 (All4Ed, N-Size in ESSA State Plans, https://all4ed.org/wp-content/uploads/2018/11/N-Size-in-ESSA-State-Plans.pdf; Ohio's April 2026 amendment request uses 15). Below it, a count of 0 passing is noise, not a finding, so the measure reads the expected rate.",
+    "estimatedFrom": "The middle of the states' range, 10 to 30 students; the 2018 fact sheet is not current and no single state is the town's.",
+    "spread": {
+      "low": 10,
+      "high": 30,
+      "unit": "students",
+      "citation": "States' minimum n-size for reporting, All4Ed 2018: from 10 to 30 students."
+    }
+  },
+  "disasterStatutoryFederalShare": {
+    "value": 0.75,
+    "tag": "SOURCED",
+    "citation": "The federal share of eligible public assistance costs under a major disaster declaration is not less than 75 percent (Stafford Act, 42 U.S.C. 5172(b)(1))."
+  },
+  "disasterFederalShareWhenStatesShare": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "The federal share of eligible public assistance costs once the states share more of disaster costs. Today the federal share is not less than 75 percent (Stafford Act, 42 U.S.C. 5172(b)(1) and 5170b(b)). FEMA's head said the cost share would move to 50 percent federal, 50 percent state: \"It's 75/25 right now, but 50/50's coming\" (David Richardson, FEMA staff town hall, May 15, 2025, as reported by Reuters in Insurance Journal, https://www.insurancejournal.com/news/national/2025/05/15/823980.htm). The FEMA Review Council later recommended a 50 percent federal floor. No enacted bill sets it, so the stated plan is the size.",
+    "estimatedFrom": "The administration's stated 50/50 plan; replace it from the first enacted text.",
+    "stopgapId": "SG-LAWS-disaster-share-size",
+    "spread": {
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "federal share of eligible costs",
+      "citation": "From a quarter of costs (the federal government pays far less) to today's 75 percent (no change)."
+    }
+  },
   "schoolStandingAttendanceWeight": {
     "value": 1,
     "tag": "TUNABLE",
@@ -6885,15 +7101,16 @@
     }
   },
   "pastWorkLayoffsPerQuarter": {
-    "value": 0.035,
+    "value": 0.029,
+    "role": "coefficient",
     "tag": "ESTIMATED",
-    "citation": "U.S. Bureau of Labor Statistics, Job Openings and Labor Turnover Survey (JOLTS), total nonfarm, annual averages 2001-2019, layoffs and discharges rate (series JTS000000000000000LDR): about 1.2% of employment a month.",
+    "citation": "U.S. Bureau of Labor Statistics, Current Population Survey gross flows, employment to unemployment (FRED series LNS17400000, monthly, Jan 2023 to Oct 2026: 1.42 to 1.56 million a month against about 162 million employed, about 0.96% of employment a month). The inflow into unemployment from losing a job, not the JOLTS layoffs-and-discharges rate (about 1.2%), which also counts separations that go straight to another job.",
     "estimatedFrom": "The monthly rate times three, as one quarter's pull toward being let go in a quarter when unemployment holds steady, before age and the employer's lean (jobs.value-worker).",
     "spread": {
-      "low": 0.03,
-      "high": 0.045,
+      "low": 0.025,
+      "high": 0.035,
       "unit": "layoffs per worker per quarter",
-      "citation": "JOLTS layoffs and discharges, annual averages 1.0% (2019) to 1.5% (2001), monthly."
+      "citation": "CPS employment-to-unemployment flows, 0.85% to 1.1% of employment a month across 2023-2026."
     }
   },
   "pastWorkLayoffRisePerPoint": {
@@ -6948,12 +7165,38 @@
     "value": 0.9,
     "tag": "ESTIMATED",
     "citation": "CPS mean weeks unemployed about 17 at 3.7% unemployment (2019) and about 40 at 9% (2011).",
-    "estimatedFrom": "ln(40/17)/ln(9/3.7) is about 0.96, held a little lower because the 2011 duration also reflects the length of the recession: how finding work slows as unemployment rises against its mean.",
+    "estimatedFrom": "ln(40/17)/ln(9/3.7) is about 0.96, held a little lower because the 2011 duration also reflects the length of the recession: how finding work slows as unemployment rises against its mean. This one elasticity is the whole market-tightness input of the find: job openings per unemployed worker are a function of the unemployment rate (the Beveridge curve, the matching function's reduced form), so a separate openings term would repeat it. FRED carries JOLTS job openings only by Census region and nationally (JTS00NEJOR, JTS00MWJOR, JTS00SOJOR, JTS00WEJOR, JTSJOR), and the world simulates its own later months, so no real openings series exists to read past the opening. A true second input needs regional employers with postings (Jobs and economy and the Coordinator, Nov 8, 2026).",
     "spread": {
       "low": 0.4,
       "high": 1.0,
       "unit": "elasticity",
       "citation": "CPS duration of unemployment, 2001-2019."
+    }
+  },
+  "pastWorkFindAgeReferenceYears": {
+    "value": 40,
+    "role": "level",
+    "tag": "ESTIMATED",
+    "citation": "BLS CPS duration of unemployment by age: the all-ages mean about 23 weeks (FRED UEMPMEAN, 2025 average of 11 months retrieved Nov 8, 2026) sits near the 35-44 band; nobody is modeled as finding work faster for being young.",
+    "estimatedFrom": "The reference age is the one at which the all-ages mean duration applies; the 25-54 bands are not on file (SG-LABOR-find-age-estimated: BLS cpsaat31 to replace).",
+    "spread": {
+      "low": 35,
+      "high": 45,
+      "unit": "years of age",
+      "citation": "CPS duration of unemployment, 2025."
+    }
+  },
+  "pastWorkFindAgeElasticity": {
+    "value": 0.4,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "BLS CPS 2025 annual table cpsaat31 as quoted in a search snippet (unverified): mean weeks unemployed 25.0 at 55-64 and 29.8 at 65 and over, against 23.1 all ages (FRED UEMPMEAN, 2025).",
+    "estimatedFrom": "ln(25.0/23.1)/ln(59.5/40) is about 0.2 and ln(29.8/23.1)/ln(70/40) is about 0.45; 0.4 is taken between them, held wide. Duration itself is not penalized: Krueger and Mueller (2016, IZA DP 7957, Table 9) find unemployment duration does not predict acceptance once the reservation wage is controlled.",
+    "spread": {
+      "low": 0.1,
+      "high": 1,
+      "unit": "elasticity",
+      "citation": "CPS duration of unemployment by age, 2025 (snippet; replace with cpsaat31)."
     }
   },
   "pastWorkTraitSpread": {
@@ -7821,6 +8064,406 @@
       "high": 0.3,
       "unit": "share of the sourced volume",
       "citation": "FDIC 2023 survey, Table 5.2, payday loan use 2019 (1.5) against 2021 and 2023 (1.1); Pew 2012, Exhibit 8, 6.3 against 6.6 percent between regulatory types."
+    }
+  },
+  "traitWeightPeoplePartner": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the people.partner decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightPeoplePart": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the people.part decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "partnerDatingMonths": {
+    "value": 10,
+    "tag": "TUNABLE",
+    "citation": "Months a dating couple in the played town stay in separate homes before one moves in, at a typical couple's lean. Owner-unreviewed stopgap length (SG-LIVES-partner-stage-lengths), tuned so about half of first unions begin with living together, as NSFG reports for women's first unions (Copen, Daniels, Vespa and Mosher 2012, NHSR 49).",
+    "spread": {
+      "low": 4,
+      "high": 24,
+      "unit": "months",
+      "citation": "Checked against the chain's yearly union count in src/core2/partnerships.test.ts: the stage lengths move when a couple moves in and marries, never how many couples form (the chain's pace sets that)."
+    }
+  },
+  "partnerLivingTogetherMonths": {
+    "value": 20,
+    "tag": "TUNABLE",
+    "citation": "Months a couple living together wait before one asks the other to marry, at a typical couple's lean (SG-LIVES-partner-stage-lengths).",
+    "spread": {
+      "low": 8,
+      "high": 48,
+      "unit": "months",
+      "citation": "Checked against the chain's yearly union count in src/core2/partnerships.test.ts: the stage lengths move when a couple moves in and marries, never how many couples form (the chain's pace sets that)."
+    }
+  },
+  "partnerEngagedMonths": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Months between a proposal accepted and the wedding, at a typical couple's lean (SG-LIVES-partner-stage-lengths).",
+    "spread": {
+      "low": 3,
+      "high": 18,
+      "unit": "months",
+      "citation": "Checked against the chain's yearly union count in src/core2/partnerships.test.ts: the stage lengths move when a couple moves in and marries, never how many couples form (the chain's pace sets that)."
+    }
+  },
+  "partnerProposalLapseMonths": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Months a proposal to the player waits for their answer in the proposal scene before it lapses back to living together, unanswered (SG-LIVES-partner-stage-lengths).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months",
+      "citation": "Not a rate: a wait for the player's own choice; checked against how soon scenes stage after their record in the played year."
+    }
+  },
+  "kinContactsPerYearAtFull": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "Contacts a year (a letter, a call, a message) from a relative living elsewhere to a town resident at full closeness; a tie writes in proportion to its closeness. Stand-in for the GSS frequencies of seeing parents, siblings and relatives behind the opening closeness (data/closeness.json).",
+    "spread": {
+      "low": 4,
+      "high": 26,
+      "unit": "contacts per year at full closeness",
+      "citation": "Checked against the played year's count of family.contact records against the opening's visits-per-year stand-ins (CLOSENESS.visitsPerYearByCategory, 1 to 30 a month)."
+    }
+  },
+  "kinContactHours": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Hours of time together one letter or call from a relative elsewhere counts as on their tie (SG-LIVES-kin-contact-traits).",
+    "spread": {
+      "low": 0.1,
+      "high": 1,
+      "unit": "hours",
+      "citation": "The hours a short call takes; closeness fades by half-life, so the effect is read in the played year's tie levels."
+    }
+  },
+  "federalStayShareDrug": {
+    "value": 0.515,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.258,
+      "high": 1.03,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareWeapons": {
+    "value": 0.928,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table. Category mismatch: The Bureau's weapons, explosives and arson stock includes firearm counts from cases the Commission files under another primary offense, so the stock is larger than the firearms flow alone explains.",
+    "spread": {
+      "low": 0.464,
+      "high": 1.856,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareImmigration": {
+    "value": 0.336,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.168,
+      "high": 0.672,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareSexOffenses": {
+    "value": 0.497,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.249,
+      "high": 0.994,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareFraud": {
+    "value": 0.787,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.394,
+      "high": 1.574,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareRobbery": {
+    "value": 0.295,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.148,
+      "high": 0.59,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "mentorAgeGapYears": {
+    "value": 10,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "Years older a coworker must be to take a new hire under their wing (SG-LIVES-mentorship-model).",
+    "spread": {
+      "low": 7,
+      "high": 15,
+      "unit": "years",
+      "citation": "Checked against how many hires in a played year get a mentor next to the hires the jobs engine records."
+    }
+  },
+  "mentorFirstHours": {
+    "value": 2,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "Hours together a mentor's first sit-down with a new hire counts as on their coworker tie (SG-LIVES-mentorship-model).",
+    "spread": {
+      "low": 0.5,
+      "high": 8,
+      "unit": "hours",
+      "citation": "A first-week sit-down; closeness fades by half-life so the effect is read in the played year."
+    }
+  },
+  "rescueHours": {
+    "value": 6,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "Hours together a rescue at the start of an illness counts as on the tie between the sufferer and the one who stayed with them (SG-LIVES-rescue-acute).",
+    "spread": {
+      "low": 2,
+      "high": 24,
+      "unit": "hours",
+      "citation": "A night in a hospital waiting room against a call and a ride; closeness fades by half-life so the effect is read in the played year."
+    }
+  },
+  "quarrelStrainHours": {
+    "value": 4,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "Hours of time together a money quarrel takes off the tie between the borrower and the housemate wronged by their missed payment (SG-LIVES-quarrel-model).",
+    "spread": {
+      "low": 1,
+      "high": 16,
+      "unit": "hours",
+      "citation": "A bad evening against a week of silence; closeness fades by half-life so the effect is read in the played year."
+    }
+  },
+  "studentLoanHolderShare": {
+    "value": 0.218,
+    "tag": "SOURCED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: the share of families with education debt, Federal Reserve Survey of Consumer Finances 2022, Table 4 (21.8 percent). The survey is 2022; the engine marks any 2026 adjustment ESTIMATED."
+  },
+  "studentLoanMedianBalanceUsd": {
+    "value": 24500,
+    "tag": "SOURCED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: the median balance among families holding education debt, Survey of Consumer Finances 2022, Table 4 (2022 dollars)."
+  },
+  "studentLoanMeanBalanceUsd": {
+    "value": 46600,
+    "tag": "SOURCED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: the mean balance among families holding education debt, Survey of Consumer Finances 2022, Table 4 (2022 dollars)."
+  },
+  "studentLoanBalanceShare18to29": {
+    "value": 0.1862,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.149,
+      "high": 0.223,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare30to39": {
+    "value": 0.3178,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.254,
+      "high": 0.381,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare40to49": {
+    "value": 0.233,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.186,
+      "high": 0.28,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare50to59": {
+    "value": 0.1582,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.127,
+      "high": 0.19,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare60to69": {
+    "value": 0.0786,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.063,
+      "high": 0.094,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare70plus": {
+    "value": 0.0261,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.021,
+      "high": 0.031,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "countySampleHouseholds": {
+    "value": 150,
+    "role": "opening",
+    "tag": "TUNABLE",
+    "citation": "How many households of the county outside the town the opening samples; each stands for as many real households as the county's eligible voters ask for. Sized so a county seat's weighing has hundreds of adults to draw from while the opening stays light.",
+    "stopgapId": "SG-LIVES-county-sample-employers",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "A sample size, not a real rate; the weights keep the county's total at its real eligible count at any size."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "neighborsKnownCap": {
+    "value": 8,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Neighbors an adult knows by name once settled. Ownerly 2020 survey of 2,700 US adults (ownerly.com/data-analysis/do-you-know-your-neighbors-survey): 14% know none, 51% know 1 to 5, 19% know 6 to 10, 15% know 11 or more; the cap is the middle of the 6 to 10 band. Pew Research Center 2019 (pewresearch.org/short-reads/2019/08/15/facts-about-neighbors-in-u-s): 26% know most of their neighbors.",
+    "estimatedFrom": "No published source gives neighbors known by years of residence; the anchor is the settled count, the slope below is an assumption.",
+    "spread": {
+      "low": 3,
+      "high": 14,
+      "unit": "neighbors",
+      "citation": "Ownerly 2020: the 1-to-5 band holds half of adults and the 11-or-more tail 15%."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "neighborsKnownYears": {
+    "value": 6,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Years of living in one place for a household to know about two thirds of the neighbors it will ever know (known = cap x (1 - exp(-years / this))). Pew Research Center 2018 (pewresearch.org/social-trends/2018/05/22/how-urban-suburban-and-rural-residents-interact-with-their-neighbors): trusting a neighbor with keys rises from 34% under a year to 47% at 1 to 5 years to 64% at 6 or more, leveling off at six.",
+    "estimatedFrom": "Assumed time constant anchored loosely on Pew's key-trust rise.",
+    "spread": {
+      "low": 3,
+      "high": 12,
+      "unit": "years",
+      "citation": "Assumed range around the six-year level-off in Pew 2018."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "partyActiveShare": {
+    "value": 0.05,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Share of adults who work or volunteer for a party, candidate or campaign. Pew Research Center, November 2020 post-election survey (n=11,818): 5 percent (pewresearch.org/short-reads/2020/12/14/key-findings-about-voter-engagement-in-the-2020-election). ANES 2020 (codebook, unweighted): 3.5 percent did other work for a party or candidate and 5.5 percent go to political meetings, rallies, speeches or dinners. Figures as reported in a search summary of those pages (not the pages themselves); check the weighted estimates before relying on the exact percentages.",
+    "estimatedFrom": "One national share for every county; the survey does not publish county shares, and the ANES figures are the codebook's unweighted frequencies.",
+    "spread": {
+      "low": 0.035,
+      "high": 0.06,
+      "unit": "share of adults",
+      "citation": "ANES 2020 (3.5 percent) to Pew 2020 rally attendance (6 percent)."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "ownerAgeAfterVoting": {
+    "value": 7,
+    "role": "opening",
+    "tag": "TUNABLE",
+    "citation": "Years after voting age before the engine lets someone be drawn as an employer's owner (25 in all). No source was fetched for owners' ages: this floor only keeps students and the youngest adults from owning firms, and the draw within it is a hash, not an age curve. Source it from the Census Bureau's Annual Business Survey owner-age table.",
+    "stopgapId": "SG-LIVES-civic-roles-not-recorded",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No owner-age table was read; the floor is a modeling choice."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "eventIdRetentionDays": {
+    "value": 400,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): how long past the newest date written in an event id the world keeps the id in core.eventIds. Every reader asks about today, a race still ahead or an id with no date (event-id-retention.ts), so a year and a month covers an annual address and a race's whole season. Kept forever the set was 117 MB at Montpelier, Vermont, year 6 (Nov 9, 2026).",
+    "spread": {
+      "low": 366,
+      "high": 1100,
+      "unit": "days",
+      "citation": "One year (an annual address on the same day) to three (a race decided and contested); checked against the records proof of a two-year Montpelier run."
+    }
+  },
+  "countedBallotRetentionDays": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): how long after its election a race's counted ballots (each counted voter's turnout, split and reasons) are kept for the why-lookups; the result, returns and named ballots stay (voting.ts dropOldCountedBallots). Kept forever they were 80 MB in 45 rows at Montpelier, Vermont, year 4 (Nov 9, 2026).",
+    "spread": {
+      "low": 30,
+      "high": 400,
+      "unit": "days",
+      "citation": "A month (a canvass and recount) to a year and a month; checked against the records proof of a two-year Montpelier run."
     }
   }
 }

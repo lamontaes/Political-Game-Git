@@ -22,11 +22,11 @@ import {
 } from "./gov-rules/names-data";
 import { isRealOfficeholderName } from "./officials-names";
 import { fillInIdentity, fillInPerson } from "./state";
-import { parameter } from "./parameters";
-import { medianTransactionBalance } from "./starting-cash";
 import { countedResidents } from "./electorate";
 import { startPublicJob } from "./public-payroll";
 import { giveLivingCost } from "./official-living";
+import { payPostFromOutside } from "./modules/official-pay";
+import { outsideAccountOf } from "./budgets-treasury";
 import staffJson from "./data/press/staff.json" with { type: "json" };
 import mastheadsJson from "./data/press/mastheads.json" with { type: "json" };
 import type { CoreAPI, CoreState, PersonId, Source } from "./types";
@@ -113,7 +113,7 @@ export interface StaffRow {
   readonly role: StaffRole;
   readonly jobId: string | null;
   readonly hiredOn: string;
-  /** An owner given a household cost at hire, which they spend out of each week through this date. */
+  /** Someone given a household cost at hire (an owner, or staff from outside the town), which they spend out of each week through this date. */
   readonly livedThrough?: string;
   /** When they left the outlet (another job, a move, death). */
   readonly leftOn?: string;
@@ -188,7 +188,6 @@ export function hireStaffMember(
     const person = fillInPerson(core, resident);
     return seatStaff(api, input, key, person.id);
   }
-  const minorPerDollar = parameter("minorPerDollar", core.data.parameters);
   const neighbor =
     home === input.townPlaceId
       ? [...(core.peopleByPlace.get(input.townPlaceId) ?? [])]
@@ -207,18 +206,6 @@ export function hireStaffMember(
     gender: gender === "female" || gender === "male" ? gender : "nonbinary",
     // The town's own cadence, as its neighbors live.
     ...(neighbor?.tier ? { tier: neighbor.tier } : {}),
-    // What a family at their pay keeps in its accounts (SCF 2022), as the
-    // town's generated residents do; later hires arrive with what they have.
-    ...(input.role.payParameter && core.date === core.startedAt
-      ? {
-          openingLiquidMinor: Math.round(
-            medianTransactionBalance(
-              input.parameter(input.role.payParameter) / minorPerDollar,
-              core.seed,
-            ) * minorPerDollar,
-          ),
-        }
-      : {}),
     source: input.source,
   } as Parameters<typeof fillInIdentity>[1]);
   return seatStaff(api, input, key, id);
@@ -253,11 +240,22 @@ function seatStaff(
   const core = api.state as CoreState;
   const home = input.livesAt ?? input.townPlaceId;
   const pay = input.role.payParameter;
-  // A national outlet's people sit outside the town's economy: the shared
-  // payroll path finds no schedule there to follow, and they go unpaid.
-  // stopgapId: SG-PEOPLE-press-national-payroll
-  if (home !== input.townPlaceId)
-    api.stopgap("SG-PEOPLE-press-national-payroll");
+  // Staff who live outside the town (a station's news director in the
+  // market city, a national outlet's people) hold a salaried post paid each
+  // month from outside the town, as officials outside the town are paid
+  // (people-press-out-of-town-staff-paid): their outlet's money comes from
+  // an audience and advertisers outside the town, which the world keeps as
+  // the town's outside account, not the outlet's town books.
+  const outside =
+    home !== input.townPlaceId && pay ? outsideAccountOf(api) : undefined;
+  if (outside && pay)
+    payPostFromOutside(api, {
+      personId: id,
+      payerId: outside,
+      annualMinor: input.parameter(pay),
+      citation: `${input.role.title}'s pay at the press parameters' ${pay}. ${input.source.citation}`,
+      source: input.source,
+    });
   // Only people living in the town hold a job on the town's payroll path.
   const jobId =
     pay && home === input.townPlaceId
@@ -272,17 +270,18 @@ function seatStaff(
           citation: input.source.citation,
         })
       : null;
-  // An owner holds the outlet and is on no payroll, so nothing gives them a
-  // household: a wealthy owner's cost and savings, at the income the press
-  // parameters set, with the savings paid in from outside.
-  const lives =
-    !pay &&
-    giveLivingCost(api, {
-      personId: id,
-      stateKey: input.stateKey,
-      annualMinor: input.parameter("ownerHouseholdIncomeMinor"),
-      governmentKey: input.stateKey,
-    });
+  // Someone seated from a recorded identity (an owner, or staff who live
+  // outside the town) has no household to give them a cost, so they get the
+  // one-person household officials get: the Consumer Expenditure basket and a
+  // studio's rent, and the savings a family keeps at their pay (an owner's,
+  // at the income the press parameters set), paid in from outside. Staff
+  // drawn from the town's people keep their household's own costs.
+  const lives = giveLivingCost(api, {
+    personId: id,
+    stateKey: input.stateKey,
+    annualMinor: input.parameter(pay ?? "ownerHouseholdIncomeMinor"),
+    governmentKey: input.stateKey,
+  });
   return {
     id,
     outletId: input.outletId,

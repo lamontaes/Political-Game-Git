@@ -42,7 +42,11 @@ import {
   residentsRuntime,
 } from "../../src/core2/modules/residents";
 import { departuresSeen, watchDepartures } from "../../src/core2/modules/moves";
-import { budgetsOf, governments } from "../../src/core2/modules/budgets";
+import {
+  budgetsOf,
+  governments,
+  lineChangedInYear,
+} from "../../src/core2/modules/budgets";
 import { LEGISLATURE_MODULE_ID } from "../../src/core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
 import {
@@ -110,6 +114,28 @@ const importHeapMiB = heapMiB();
 const LOAN_TO_FOUNDER_CASH = 9;
 const SCHOOL_AGES = [5, 17] as const;
 const ROUTINE_ACTS = new Set(["rest", "contact-known-person"]);
+
+/**
+ * Modules that wait for a cause an ordinary year may not raise (M0-13, CTO
+ * ruling Nov 8). Each is listed only because `src/core2/forced-causes.test.ts`
+ * forces its cause in a played world and shows the module acting on it. Such a
+ * module idle in the year reads "unobserved", not broken. Every other module
+ * idle or unchanged is still broken; add a module here only with its forced test.
+ */
+const CAUSE_GATED: Record<string, string> = {
+  "core2-ballot-measures-v1": "a measure placed on a ballot",
+  "core2-estates-v1": "a person of means dying",
+  "core2-executive-v1": "an appointed post losing its holder",
+  // Forced by src/core2/recalls.test.ts (an ordinance starts a recall).
+  "core2-recalls-v1":
+    "an ordinance that aggrieves enough residents to petition",
+  // Forced in a played world by src/core2/succession.test.ts (the president dies).
+  "core2-succession-v1": "a president or vice president dying",
+  // Forced by src/core2/office-day-federal.test.ts (a federal office day).
+  "core2-office-day-federal-v1": "a federal officeholder's working day",
+  // Forced by src/bench/dev-bribe.test.ts (dev mode's forced bribe).
+  corruption: "an official offered a bribe",
+};
 
 /**
  * Assertions failing today, by the session fixing each. When a fix makes one
@@ -218,6 +244,44 @@ function countCalls(core: CoreState): void {
       subscribers.set(key, wrap(key.replace(/^module:/, ""), listener));
 }
 /** Every module table's contents, as a hash. */
+/**
+ * Rows in every table the world keeps: each module table and each of the
+ * core's maps and lists, by count only (no digest), so the memory check can
+ * name what grew.
+ */
+function tableRows(core: CoreState): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const [field, value] of Object.entries(core))
+    if (value instanceof Map || value instanceof Set)
+      out.set(`core.${field}`, value.size);
+    else if (Array.isArray(value)) out.set(`core.${field}`, value.length);
+  for (const module of core.modules.values()) {
+    if (!module.state) continue;
+    const store = coreAPI(core).moduleState(module.id);
+    for (const name of Object.keys(module.state.tables))
+      out.set(`${module.id}.${name}`, store.table(name).size);
+  }
+  return out;
+}
+
+/** The five tables that gained the most rows between two counts, largest first. */
+function topGrowers(
+  before: ReadonlyMap<string, number>,
+  after: ReadonlyMap<string, number>,
+): string {
+  return [...after]
+    .map(([name, rows]) => ({
+      name,
+      rows,
+      gained: rows - (before.get(name) ?? 0),
+    }))
+    .filter((row) => row.gained > 0)
+    .sort((a, b) => b.gained - a.gained || a.name.localeCompare(b.name))
+    .slice(0, 5)
+    .map((row) => `${row.name} +${row.gained} to ${row.rows} rows`)
+    .join("; ");
+}
+
 function moduleRecords(core: CoreState): Map<string, string> {
   const out = new Map<string, string>();
   for (const module of core.modules.values()) {
@@ -329,6 +393,7 @@ function playWorld(seed: string) {
   // (the first payrolls, contests and stories) are not growth.
   const firstMonthEnd = addDays(makeIsoDate(start), 30);
   let firstMonthHeapMiB: number | undefined;
+  let firstMonthRows: Map<string, number> | undefined;
   for (let day = start; day < end;) {
     for (const p of core.people.values()) {
       cashYesterday.set(p.id, p.liquidMinor);
@@ -339,8 +404,10 @@ function playWorld(seed: string) {
     }
     const next = addDays(makeIsoDate(day), 1);
     advanceCore(core, next);
-    if (firstMonthHeapMiB === undefined && next >= firstMonthEnd)
+    if (firstMonthHeapMiB === undefined && next >= firstMonthEnd) {
       firstMonthHeapMiB = heapMiB();
+      firstMonthRows = tableRows(core);
+    }
     if (foundingTable.size !== foundingsSeen) {
       foundingsSeen = foundingTable.size;
       for (const row of foundingTable.rows() as unknown as Row[]) {
@@ -399,7 +466,7 @@ function playWorld(seed: string) {
     growthMiBPerMonth,
     policies.heapGrowthMiBPerMonth,
     `heap growth a month after the first (${years * 12 - 1} months)`,
-    "something keeps history it should let go: the durable log (OPUS-CORE) grows most",
+    `the tables that gained the most rows after the first month: ${topGrowers(firstMonthRows!, tableRows(core))}`,
   );
 
   // Break 17 and the module audit: every installed module did something.
@@ -423,12 +490,22 @@ function playWorld(seed: string) {
   const unchanged = [...recordsAtEnd.keys()].filter(
     (id) => recordsAtEnd.get(id) === recordsAtStart.get(id),
   );
+  const gatedIdle = [...new Set([...idle, ...unchanged])].filter(
+    (id) => id in CAUSE_GATED,
+  );
+  const idleBroken = idle.filter((id) => !(id in CAUSE_GATED));
+  const unchangedBroken = unchanged.filter((id) => !(id in CAUSE_GATED));
+  const unobservedNote = gatedIdle.length
+    ? ` Unobserved (cause did not arise; a forced test proves it): ${gatedIdle.map((id) => `${id} waits for ${CAUSE_GATED[id]}`).join("; ")}.`
+    : "";
   verdicts["every module"] =
-    idle.length || unchanged.length
+    idleBroken.length || unchangedBroken.length
       ? fail(
-          `Installed modules that never ran: ${idle.join(", ") || "none"}; modules whose records never changed in ${years} year(s): ${unchanged.join(", ") || "none"}.`,
+          `Installed modules that never ran: ${idleBroken.join(", ") || "none"}; modules whose records never changed in ${years} year(s): ${unchangedBroken.join(", ") || "none"}.${unobservedNote}`,
         )
-      : pass(`all ${engines.length} engines ran and changed their records`);
+      : gatedIdle.length
+        ? unobserved(unobservedNote.trim())
+        : pass(`all ${engines.length} engines ran and changed their records`);
   const missing = [
     ...(worldRacesOpen(coreAPI(core)) ? [] : ["the world's races"]),
     ...[WORLD_LEGISLATING_MODULE_ID, OUTCOME_WEB_MODULE_ID].filter(
@@ -534,12 +611,29 @@ function playWorld(seed: string) {
   const unchangedBudgets = passedBudgets.filter(
     (bill) =>
       !budgets.some((adopted) => {
+        // A mid-year amendment (a local body's budget-line bill) reaches
+        // spending through the budget it amends: that budget names the bill
+        // and the government's enacted record carries a change on one of the
+        // bill's lines in that fiscal year.
+        if (
+          adopted.adoptedBy.amendedBy?.includes(String(bill.number)) &&
+          ((bill.provisions as { line?: string; value?: number }[]) ?? []).some(
+            (p) =>
+              p.line &&
+              p.value &&
+              lineChangedInYear(
+                api,
+                adopted.governmentId,
+                adopted.fiscalYear,
+                p.line,
+              ) !== 0,
+          )
+        )
+          return true;
         if (
           adopted.adoptedOn < String(bill.introduced) ||
-          // Amendments after adoption are appended ("; amended by ...").
-          !adopted.adoptedBy
-            .split("; ")[0]!
-            .endsWith(`, ${String(bill.number)}`)
+          // Amendments after adoption are listed apart from the vote's own bill.
+          adopted.adoptedBy.bill?.number !== String(bill.number)
         )
           return false;
         const before = budgetsOf(api, adopted.governmentId)
@@ -689,11 +783,11 @@ function playWorld(seed: string) {
   // counted population. Whether counted adults live in the town is read from
   // the residents' books at the start and the end of the run; when they do,
   // every local race with someone on its ballot must keep a counted ballot
-  // record. Each record keeps every counted voter's choice, the share of the
-  // people they stand for who turn out, and how many they stand for; a race
-  // is silent when its record is missing, when no counted voter chose
-  // anyone, or when the counted votes those ballots add up to are missing
-  // from the result. A town whose counted adults add up to under two
+  // record. Each record keeps how every counted voter's people divide among
+  // the candidates (each one's share of their appeal) and the share of them
+  // who turn out; a race is silent when its record is missing, when no
+  // counted voter backed anyone, or when the counted votes those ballots add
+  // up to are missing from the result. A town whose counted adults add up to under two
   // expected voters (a tiny town is nearly all full people; the result also
   // takes out non-citizens) can record zero votes honestly: that is
   // rounding, not a silent counted population.
@@ -702,9 +796,8 @@ function playWorld(seed: string) {
       (r) => r.contestId === contestId,
     ) as
       | {
-          choice: number[];
+          split: number[][];
           voted: number[];
-          weight: number[];
         }
       | undefined;
   const countedAdultsLive = countedAdultsAtStart > 0 && countedAdultsAtEnd > 0;
@@ -715,11 +808,9 @@ function playWorld(seed: string) {
   const silent = judged.filter((c) => {
     const kept = countedOf(String(c.id));
     if (!kept) return true;
-    const chose = kept.choice.some((x) => x >= 0);
-    const expected = kept.choice.reduce(
-      (n, x, i) => (x >= 0 ? n + kept.voted[i]! * kept.weight[i]! : n),
-      0,
-    );
+    const backing = kept.split.map((row) => row.reduce((n, x) => n + x, 0));
+    const chose = backing.some((x) => x > 0);
+    const expected = backing.reduce((n, x, i) => n + kept.voted[i]! * x, 0);
     const recorded = Object.values(
       resultOf(api, String(c.id))!.countedVotes,
     ).reduce((n, v) => n + v, 0);
@@ -827,10 +918,14 @@ function playWorld(seed: string) {
   const dwellings = rowsOf(core, "housing", "dwellings");
   // A former home (evicted, foreclosed or sold) keeps the last rent or value
   // of how the household held it (src/core2/housing-former-home.ts).
-  const unpriced = dwellings.filter((d) =>
-    d.tenure === "rent" || d.formerTenure === "rent"
-      ? !Number(d.rentMinor)
-      : !Number(d.valueMinor),
+  // A group-quarters room (a cell, a barracks bed, a dormitory double) is the
+  // institution's, held by no household's rent or value, so it has neither.
+  const unpriced = dwellings.filter(
+    (d) =>
+      d.tenure !== "group" &&
+      (d.tenure === "rent" || d.formerTenure === "rent"
+        ? !Number(d.rentMinor)
+        : !Number(d.valueMinor)),
   );
   const renters = dwellings.filter((d) => d.tenure === "rent");
   // A rented home is required only where the records expect a renter

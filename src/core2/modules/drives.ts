@@ -21,6 +21,11 @@ import { initialPersonState } from "../person-state";
 import { fillInPerson, resolveOperation } from "../state";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
 import type { CashJournalPostedMarker } from "../journal-state";
+import {
+  declareSnapshotCovered,
+  registerDerivedCache,
+  registerWorldMapPart,
+} from "../snapshot";
 import type {
   ActOffer,
   ActionDefinition,
@@ -137,6 +142,7 @@ type FactKey =
   | "originEvent"
   | "countedSubject"
   | "countedPerceivers"
+  | "countedSubjects"
   | "countedHousehold";
 
 export const DEFAULT_DRIVES_DATA = drivesJson as unknown as DrivesData;
@@ -216,6 +222,7 @@ export interface HeldDrive {
   anchorStrength: number;
   halfLifeDays: number;
   shareable: boolean;
+  /** The response that formed it; every later reinforcement too only with bookkeeping on. */
   formations: FormationTrace[];
   /** Most recent act traces (bounded); actCount is exact. */
   acts: DriveActTrace[];
@@ -240,12 +247,17 @@ interface DrivesRuntime {
    */
   countedByPerson: Map<PersonId, Map<string, HeldDrive>>;
   groupsByTopic: Map<string, Set<string>>;
+  /** Each cause group's topic (its groupsByTopic entry) and known-fact key. */
+  causeGroups: Map<string, CauseGroupKeys>;
   /**
-   * Each topic's cause groups in id order with the fact key that says each is
-   * known, built from groupsByTopic when first read and dropped when a group
-   * on the topic is founded.
+   * The cause groups each person may know of, by topic, in id order: every
+   * group whose known fact or membership was written for them (founding,
+   * joining, being told). Neither is ever undone, so nothing leaves a living
+   * person's list, and readers still check each group, so it only has to
+   * hold all they know. The dead are let go on the first of each month: no
+   * reader asks about them.
    */
-  topicGroups: Map<string, TopicGroups>;
+  mayKnow: Map<PersonId, Map<string, string[]>>;
   /**
    * Each holder's drives with strength left, strongest first (ties by id),
    * ranked once a day and dropped whenever their drives change.
@@ -274,13 +286,13 @@ interface DrivesRuntime {
   decisions: FormationTrace[];
   /** Today's scored choice for each drive holder, matched against the act recorded. */
   predicted: Map<PersonId, PredictedChoice>;
-  /** Canonical donation records the cash journal resolves through this module's provider. */
+  /** Canonical donation records the cash journal resolves through this module's provider: in play only while the entry posts. */
   donations: Map<string, DonationRecord>;
 }
 
-interface TopicGroups {
-  ids: readonly string[];
-  knownKeys: readonly string[];
+interface CauseGroupKeys {
+  topic: string;
+  knownKey: string;
 }
 
 interface ServingDrive {
@@ -303,9 +315,16 @@ interface PredictedChoice {
   runnerUp?: { actionId: string; targetId: string; score: number };
 }
 
-const runtimes = new WeakMap<object, DrivesRuntime>();
+/**
+ * The engine's state for a world. It is saved with the world (a restored world
+ * weighs the same drives, groups and giving as the saved one); the drive
+ * objects it shares with the core stay shared through the snapshot's refs.
+ */
+const runtimes = new WeakMap<CoreState, DrivesRuntime>();
+registerWorldMapPart("core2-drives-runtime", runtimes);
 
-function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
+function runtimeFor(readonlyState: Readonly<CoreState>): DrivesRuntime {
+  const state = readonlyState as CoreState;
   let row = runtimes.get(state);
   if (!row) {
     const zero = parameter("zero", state.data.parameters);
@@ -314,7 +333,8 @@ function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
       byPerson: new Map(),
       countedByPerson: new Map(),
       groupsByTopic: new Map(),
-      topicGroups: new Map(),
+      causeGroups: new Map(),
+      mayKnow: new Map(),
       serving: new Map(),
       given: new Map(),
       groupFounder: new Map(),
@@ -750,11 +770,12 @@ export function respond(
   const p = (key: string) => api.parameter(key);
   // A person still in the wider population responds by the same rule, from
   // their counted record (the shared chooser reads them the same way).
-  const counted = !api.state.people.has(actorId);
-  const actor = counted
+  let counted = !api.state.people.has(actorId);
+  const first = counted
     ? countedActor(api, actorId)
     : api.state.people.get(actorId);
-  if (!actor?.alive) return [];
+  if (!first?.alive) return [];
+  let actor: Readonly<PersonState> = first;
   const out: FormationTrace[] = [];
   const params = parameterValues(api.state.data.parameters);
   for (const rule of data.eventRules) {
@@ -971,6 +992,19 @@ export function respond(
       )!.urgency;
       const identity = driveIdentity(data, kind, actor, event, api);
       trace.driveId = identity.id;
+      // Naming the one responsible fills them in with their household (an owner who lets a relative go): a counted
+      // actor filled in just now is a full person, and they lived through the event as its subject.
+      if (counted && api.state.people.has(actor.id)) {
+        counted = false;
+        actor = api.state.people.get(actor.id)!;
+        api.observe(actor.id, {
+          key: `event:${event.id}:experienced`,
+          value: event.id,
+          learnedAt: event.date,
+          sourceId: event.id,
+          access: "perceived",
+        });
+      }
       const holders = counted ? runtime.countedByPerson : runtime.byPerson;
       let mine = holders.get(actor.id);
       if (!mine) holders.set(actor.id, (mine = new Map()));
@@ -1007,7 +1041,14 @@ export function respond(
           api,
         );
       }
-      drive.formations.push(trace);
+      // Play reads only the response that formed the drive (its role and
+      // source facts); each later reinforcement's full trace is kept only
+      // with bookkeeping on, for the proofs and tests (Keep it simple, Oct
+      // 11). Kept for every reinforcement, they were the largest piece of
+      // history a world held: Montpelier, Vermont (5046000, seed mont1)
+      // held 83,352 traces, 154 MB of live heap, after two years.
+      if (!drive.formations.length || bookkeeping())
+        drive.formations.push(trace);
       trace.strengthAdded = reinforce(
         api,
         drive,
@@ -1111,6 +1152,20 @@ function rankDrives(
     );
 }
 
+/** A living person, not the holder, whom the drive has not been told to. */
+function untold(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  drive: Readonly<HeldDrive>,
+  id: PersonId,
+): boolean {
+  return (
+    !drive.told.has(id) &&
+    id !== actor.id &&
+    api.state.people.get(id)?.alive === true
+  );
+}
+
 /** A grudge's confrontation weighs how recently the holder last had it out with the person. */
 const CONFRONT_RECENCY: readonly ReasonBinding[] = [
   {
@@ -1134,22 +1189,72 @@ function driveOffer(
   };
 }
 
-const NO_GROUPS: TopicGroups = { ids: [], knownKeys: [] };
+const NO_GROUPS: readonly string[] = [];
 
 /** The offer round's entry for the nearby groups a person knows of, by topic. */
 const REACHABLE_GROUPS = "drives:reachable-groups";
 
-/** A topic's cause groups in id order, with each one's known-fact key. */
-function topicGroupsOf(runtime: DrivesRuntime, topic: string): TopicGroups {
-  let row = runtime.topicGroups.get(topic);
-  if (!row) {
-    const set = runtime.groupsByTopic.get(topic);
-    if (!set) return NO_GROUPS;
-    const ids = [...set].sort();
-    row = { ids, knownKeys: ids.map((id) => `cause-group:${id}:known`) };
-    runtime.topicGroups.set(topic, row);
+/**
+ * Adds a cause group to those a person may know of, before its known fact or
+ * membership is written. A group this runtime did not see founded is in no
+ * groupsByTopic list, so the old walk never read it either; it is not kept.
+ */
+function noteGroup(runtime: DrivesRuntime, personId: PersonId, id: string) {
+  const group = runtime.causeGroups.get(id);
+  if (!group) return;
+  let byTopic = runtime.mayKnow.get(personId);
+  if (!byTopic) runtime.mayKnow.set(personId, (byTopic = new Map()));
+  const ids = byTopic.get(group.topic);
+  if (!ids) byTopic.set(group.topic, [id]);
+  else if (!ids.includes(id)) {
+    ids.push(id);
+    ids.sort();
   }
-  return row;
+}
+
+/** The groups on a topic a person may know of, in id order. */
+function mayKnowOn(
+  runtime: DrivesRuntime,
+  actorId: PersonId,
+  topic: string,
+): readonly string[] {
+  return runtime.mayKnow.get(actorId)?.get(topic) ?? NO_GROUPS;
+}
+
+/** Every group on a topic, as the readers walked them before mayKnow. */
+function everyGroupOn(runtime: DrivesRuntime, topic: string): string[] {
+  return [...(runtime.groupsByTopic.get(topic) ?? [])].sort();
+}
+
+function sameIds(left: readonly string[], right: readonly string[]) {
+  return left.length === right.length && left.every((id, i) => id === right[i]);
+}
+
+/**
+ * The groups on a topic a person knows of (a known fact or a membership),
+ * in id order. Under bookkeeping every group on the topic is asked as well,
+ * and the two must agree.
+ */
+function knownGroups(
+  api: CoreAPI,
+  runtime: DrivesRuntime,
+  actorId: PersonId,
+  topic: string,
+): string[] {
+  const known = mayKnowOn(runtime, actorId, topic).filter((id) =>
+    groupKnown(api, actorId, id, runtime.causeGroups.get(id)!.knownKey),
+  );
+  if (
+    bookkeeping() &&
+    !sameIds(
+      known,
+      everyGroupOn(runtime, topic).filter((id) =>
+        groupKnown(api, actorId, id, `cause-group:${id}:known`),
+      ),
+    )
+  )
+    throw new Error("A person's known cause groups no longer match.");
+  return known;
 }
 
 function groupKnown(
@@ -1184,12 +1289,28 @@ function reachableGroups(
   actor: Readonly<PersonState>,
   topic: string,
 ): string[] {
-  const groups = topicGroupsOf(runtime, topic);
-  return groups.ids.filter(
-    (id, index) =>
-      groupNearby(api, actor, id) &&
-      groupKnown(api, actor.id, id, groups.knownKeys[index]!),
+  return knownGroups(api, runtime, actor.id, topic).filter((id) =>
+    groupNearby(api, actor, id),
   );
+}
+
+/** The nearby groups on a topic a person belongs to, in id order. */
+function memberGroups(
+  api: CoreAPI,
+  runtime: DrivesRuntime,
+  actor: Readonly<PersonState>,
+  topic: string,
+): string[] {
+  const member = (id: string) =>
+    groupNearby(api, actor, id) &&
+    api.state.memberships.has(`${actor.id}:${id}`);
+  const ids = mayKnowOn(runtime, actor.id, topic).filter(member);
+  if (
+    bookkeeping() &&
+    !sameIds(ids, everyGroupOn(runtime, topic).filter(member))
+  )
+    throw new Error("A person's cause groups no longer match.");
+  return ids;
 }
 
 function drivesOf(api: CoreAPI, actorId: PersonId, offer: ActOffer) {
@@ -1463,13 +1584,21 @@ function payDonation(
     },
     marker: {},
   });
-  api.postJournal({
-    id: `journal:${state.date}:${journal.nextSequence}`,
-    date: state.date,
-    expectedSequence: journal.nextSequence,
-    sourceRef: { kind: data.donationJournalSourceKind, id },
-    postings,
-  });
+  try {
+    api.postJournal({
+      id: `journal:${state.date}:${journal.nextSequence}`,
+      date: state.date,
+      expectedSequence: journal.nextSequence,
+      sourceRef: { kind: data.donationJournalSourceKind, id },
+      postings,
+    });
+  } finally {
+    // The journal reads the canonical record only while the entry posts (as
+    // the accounts engine's pending transfers); kept for every gift it was
+    // 68 MB of a long run's heap (Montpelier, Vermont, year 4: 22,062
+    // records). With bookkeeping on, tests and proofs keep every one.
+    if (!bookkeeping()) runtimeFor(api.state).donations.delete(id);
+  }
   return amount;
 }
 
@@ -1727,6 +1856,10 @@ export function createDrivesModule(
               mine.delete(drive.id);
           if (!mine.size) runtime.countedByPerson.delete(personId);
         }
+        // The groups the dead may have known of: no reader asks about them.
+        for (const personId of runtime.mayKnow.keys())
+          if (!api.state.people.get(personId)?.alive)
+            runtime.mayKnow.delete(personId);
       }
       for (const [personId, mine] of runtime.byPerson) {
         if (!api.state.people.get(personId)?.alive) {
@@ -1857,6 +1990,19 @@ export function createDrivesModule(
         for (const id of JSON.parse(around) as PersonId[])
           if (!api.state.people.has(id))
             respond(api, data, id, { ...event, personIds: [subject] });
+      // A counted household the event happened to (an eviction): every
+      // member still counted is a subject with the whole household named,
+      // as each member of a full household is.
+      const household = event.facts?.[data.factKeys.countedSubjects];
+      if (household) {
+        const named = JSON.parse(household) as PersonId[];
+        for (const id of named)
+          if (
+            !api.state.people.has(id) &&
+            countedPersonOf(api.state as CoreState, id) !== undefined
+          )
+            respond(api, data, id, { ...event, personIds: named });
+      }
     },
     offerProviders: {
       "drive-confidant": (api, actor, action) => {
@@ -1868,17 +2014,26 @@ export function createDrivesModule(
           (drive) => drive.shareable,
         );
         if (!serving.length) return out;
-        const ids = [
-          ...new Set([...actor.familyIds, ...actor.knownIds]),
-        ].sort();
+        // The lowest id among the living relatives and acquaintances not yet
+        // told, in one pass: the first of them in id order, with no copy or sort.
         for (const drive of serving) {
-          const id = ids.find(
-            (id) =>
-              !drive.told.has(id) &&
-              id !== actor.id &&
-              api.state.people.get(id)?.alive,
-          );
-          if (id) out.push(driveOffer(api, action, id, drive));
+          let lowest: PersonId | undefined;
+          for (const ids of [actor.familyIds, actor.knownIds])
+            for (const id of ids)
+              if (
+                (lowest === undefined || id < lowest) &&
+                untold(api, actor, drive, id)
+              )
+                lowest = id;
+          if (
+            bookkeeping() &&
+            lowest !==
+              [...new Set([...actor.familyIds, ...actor.knownIds])]
+                .sort()
+                .find((id) => untold(api, actor, drive, id))
+          )
+            throw new Error("A drive's confidant is not the first in order.");
+          if (lowest) out.push(driveOffer(api, action, lowest, drive));
         }
         return out;
       },
@@ -1939,12 +2094,8 @@ export function createDrivesModule(
         associations.sort();
         const out: ActOffer[] = [];
         for (const drive of serving) {
-          for (const id of topicGroupsOf(runtime, drive.topic).ids)
-            if (
-              groupNearby(api, actor, id) &&
-              api.state.memberships.has(`${actor.id}:${id}`)
-            )
-              out.push(driveOffer(api, action, id, drive));
+          for (const id of memberGroups(api, runtime, actor, drive.topic))
+            out.push(driveOffer(api, action, id, drive));
           for (const id of associations)
             out.push(driveOffer(api, action, id, drive));
         }
@@ -1978,10 +2129,8 @@ export function createDrivesModule(
           ? heldFor(api, actor.id)?.get(offer.driveId)
           : undefined;
         if (!drive) return false;
-        const groups = topicGroupsOf(runtimeFor(api.state), drive.topic);
-        return !groups.ids.some((id, index) =>
-          groupKnown(api, actor.id, id, groups.knownKeys[index]!),
-        );
+        return !knownGroups(api, runtimeFor(api.state), actor.id, drive.topic)
+          .length;
       },
       "can-afford-donation": (api, actor, offer) => {
         const drive = offer.driveId
@@ -2002,10 +2151,8 @@ export function createDrivesModule(
         const impulse =
           currentStrength(api, drive) *
           api.parameter(offer.definition.effectParameter);
-        const groups = topicGroupsOf(runtimeFor(api.state), drive.topic);
-        const knownKeys = groups.knownKeys.filter((knownKey, index) =>
-          groupKnown(api, actorId, groups.ids[index]!, knownKey),
-        );
+        const runtime = runtimeFor(api.state);
+        const known = knownGroups(api, runtime, actorId, drive.topic);
         api.relationship(
           actorId,
           offer.targetId,
@@ -2014,6 +2161,8 @@ export function createDrivesModule(
         );
         api.updatePerson(actorId, { lastContactDate: api.state.date });
         api.updatePerson(offer.targetId, { lastContactDate: api.state.date });
+        // The one told learns of the groups the teller knows of.
+        for (const id of known) noteGroup(runtime, offer.targetId, id);
         api.emit(
           actEvent(
             api,
@@ -2027,7 +2176,10 @@ export function createDrivesModule(
               stressImpulse: impulse,
               moodImpulse: -impulse,
               facts: Object.fromEntries(
-                knownKeys.map((knownKey) => [knownKey, drive.topic]),
+                known.map((id) => [
+                  runtime.causeGroups.get(id)!.knownKey,
+                  drive.topic,
+                ]),
               ),
             },
           ),
@@ -2038,7 +2190,6 @@ export function createDrivesModule(
         const actor = api.state.people.get(actorId)!;
         traceAct(api, actorId, offer, drive);
         const id = `organization:${data.causeGroupKind}:${actorId}:${drive.id}`;
-        api.stopgap("SG-P10-group-name-key");
         api.addOrganization({
           id,
           placeId: actor.placeId,
@@ -2057,12 +2208,14 @@ export function createDrivesModule(
         let set = runtime.groupsByTopic.get(drive.topic);
         if (!set) runtime.groupsByTopic.set(drive.topic, (set = new Set()));
         set.add(id);
-        runtime.topicGroups.delete(drive.topic);
+        const knownKey = `cause-group:${id}:known`;
+        runtime.causeGroups.set(id, { topic: drive.topic, knownKey });
         runtime.groupFounder.set(id, actorId);
         runtime.groupChange.set(id, drive.desiredChange);
+        noteGroup(runtime, actorId, id);
         api.join(actorId, id, drive.id);
         api.observe(actorId, {
-          key: `cause-group:${id}:known`,
+          key: knownKey,
           value: drive.topic,
           learnedAt: api.state.date,
           sourceId: id,
@@ -2075,6 +2228,7 @@ export function createDrivesModule(
       "join-cause-group": (api, actorId, offer) => {
         const drive = drivesOf(api, actorId, offer);
         traceAct(api, actorId, offer, drive);
+        noteGroup(runtimeFor(api.state), actorId, offer.targetId);
         api.join(actorId, offer.targetId, drive.id);
         const founder = founderOf(api, offer.targetId);
         if (
@@ -2207,6 +2361,9 @@ export function createDrivesModule(
 }
 
 export const DRIVES_MODULE = createDrivesModule();
+// Its runtime is a saved world part; the other maps are caches (rows of static
+// data, or rebuilt from the restored organizations).
+declareSnapshotCovered(DRIVES_MODULE.id);
 
 /** Adds the drive act rows to the shared data; mods add rows the same way. */
 export function withDrives(
@@ -2272,10 +2429,12 @@ export interface CauseGroupView {
   readonly memberIds: readonly PersonId[];
 }
 
+/** Built from the world's organizations: cleared when a world is restored. */
 const causeGroupIds = new WeakMap<
-  object,
+  CoreState,
   { size: number; ids: readonly string[] }
 >();
+registerDerivedCache(causeGroupIds);
 
 /**
  * The cause groups founded in a place, read-only. The founder and the change
@@ -2345,7 +2504,7 @@ export function causeGroupsIn(
 
 /** Read-only report for observers and proofs; writes nothing. */
 export function drivesReport(core: Readonly<CoreState>) {
-  const runtime = runtimes.get(core);
+  const runtime = runtimes.get(core as CoreState);
   return {
     drives: runtime ? [...runtime.drives.values()] : [],
     formedByYearKind: Object.fromEntries(runtime?.formedByYearKind ?? []),

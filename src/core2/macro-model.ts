@@ -1,4 +1,4 @@
-/** The national month as pure math: last month's figures, the rate in force and the town's own totals. */
+/** The national month as the game reads it: the past from the published series, each month since from the sum of the states (country-model.ts). */
 import history from "./data/macro/history.json" with { type: "json" };
 import { worldOffsetUnit } from "./world-draw";
 
@@ -19,14 +19,12 @@ export interface MacroMonth {
   primeRatePct: number;
   treasury10Pct: number;
   mortgage30Pct: number;
-  /** The town's own paid-income growth that entered this month, annual percent; absent when no comparable paid-income history exists. */
-  townIncomeGrowthPct?: number;
-  /** The nation's payroll-income growth the town was assumed to share, annual percent. */
-  townGrowthEstimatePct?: number;
-  /** The weight on the town's own paid-income growth in what the national step heard: 0 with no comparable months, 1 at twelve. */
-  townGrowthOwnWeight?: number;
-  /** The town's own paid-income growth over its comparable months, annual percent; absent until it has any. */
-  townGrowthOwnPct?: number;
+  /** The unemployment rate the economy has come to treat as normal, percent: it drifts toward the rate people have lived at (hysteresis), so it has no fixed resting point. */
+  naturalUnemploymentPct: number;
+  /** The real interest rate the economy has come to treat as neutral, percent: it follows the real long-term rate people have lived with (the 10-year yield less inflation), so it has no fixed resting point. */
+  neutralRealRatePct: number;
+  /** The inflation rate people expect, percent: it follows the inflation they have experienced, so inflation has no fixed anchor. */
+  expectedInflationPct: number;
 }
 
 interface HistoryRow {
@@ -140,6 +138,27 @@ export function publishedMonths(
     );
     const unemployment = field(byMonth, month, "unemploymentPct", p);
     const policy = field(byMonth, month, "policyRatePct", p);
+    const before = months.at(-p("one"));
+    const natural = drift(
+      before?.naturalUnemploymentPct,
+      before?.unemploymentPct,
+      p("macroNaturalUnemploymentPct"),
+      p("macroNaturalHysteresisMonths"),
+    );
+    const expected = drift(
+      before?.expectedInflationPct,
+      before?.inflationPct,
+      p("macroInflationAnchorPct"),
+      p("macroInflationExpectationMonths"),
+    );
+    const neutral = drift(
+      before?.neutralRealRatePct,
+      before ? before.treasury10Pct - before.inflationPct : undefined,
+      p("macroNeutralRealRatePct"),
+      p("macroNeutralRateMonths"),
+    );
+    const gapNow =
+      -p("macroOkunOutputPerUnemploymentPoint") * (unemployment - natural);
     months.push({
       id: `macro-month:${month}`,
       month,
@@ -150,9 +169,10 @@ export function publishedMonths(
       payrollJobsThousands: field(byMonth, month, "payrollJobsThousands", p),
       hourlyEarnings: field(byMonth, month, "hourlyEarnings", p),
       realOutput: realOutputAt(month, p),
-      outputGapPct:
-        -p("macroOkunOutputPerUnemploymentPoint") *
-        (unemployment - p("macroNaturalUnemploymentPct")),
+      outputGapPct: gapNow,
+      naturalUnemploymentPct: natural,
+      neutralRealRatePct: neutral,
+      expectedInflationPct: expected,
       policyRatePct: policy,
       primeRatePct: policy + p("macroPrimeSpreadPct"),
       treasury10Pct: field(byMonth, month, "treasury10Pct", p),
@@ -160,6 +180,22 @@ export function publishedMonths(
     });
   }
   return months;
+}
+
+/**
+ * A belief that follows experience: one month of the way from what it was
+ * toward what was lived, over `months`. With nothing before it, it starts at
+ * `opening` (the long-run figure the history begins from, not a place it
+ * returns to).
+ */
+function drift(
+  belief: number | undefined,
+  lived: number | undefined,
+  opening: number,
+  months: number,
+): number {
+  if (belief === undefined || lived === undefined) return opening;
+  return belief + (lived - belief) / months;
 }
 
 /** How far one world's past ran from the published series, drawn once from its seed at Start. */
@@ -241,17 +277,21 @@ export function historyMonths(
       floor,
       row.policyRatePct + o.policyRatePoints,
     );
+    const inflationPct =
+      ((one + row.inflationPct / hundred) *
+        (one + o.inflationPoints / hundred) -
+        one) *
+      hundred;
+    const outputGapPct =
+      -p("macroOkunOutputPerUnemploymentPoint") *
+      (unemploymentPct - row.naturalUnemploymentPct);
     return {
       ...row,
       unemploymentPct,
       priceIndex:
         row.priceIndex * grown(row.month, o.priceLevelShare, o.inflationPoints),
       // The 12-month change of the moved price index, exactly.
-      inflationPct:
-        ((one + row.inflationPct / hundred) *
-          (one + o.inflationPoints / hundred) -
-          one) *
-        hundred,
+      inflationPct,
       payrollJobsThousands:
         row.payrollJobsThousands *
         grown(row.month, o.jobsLevelShare, o.jobsGrowthPoints),
@@ -261,9 +301,7 @@ export function historyMonths(
       realOutput:
         row.realOutput *
         grown(row.month, o.outputLevelShare, o.outputGrowthPoints),
-      outputGapPct:
-        -p("macroOkunOutputPerUnemploymentPoint") *
-        (unemploymentPct - p("macroNaturalUnemploymentPct")),
+      outputGapPct,
       policyRatePct,
       primeRatePct: policyRatePct + p("macroPrimeSpreadPct"),
       treasury10Pct: Math.max(floor, row.treasury10Pct + o.longRatePoints),
@@ -272,78 +310,78 @@ export function historyMonths(
   });
 }
 
+/** What the sum of the states came to in a month, as the national row needs it (country-model.ts). */
+export interface NationFigures {
+  unemploymentPct: number;
+  priceIndex: number;
+  jobs: number;
+  hourlyPay: number;
+  realOutput: number;
+  /** Sales asked of firms against what their staff makes at normal hours, less one. */
+  busy: number;
+}
+
 /**
- * One month forward. Output's distance from its trend fades and answers the
- * real policy rate against neutral; unemployment follows output (Okun);
- * inflation fades toward its anchor and leans on last month's gap; jobs,
- * pay and long rates follow the regressions recorded in the parameter table.
+ * The national month, from the sum of the states. Nothing here moves the
+ * economy: the levels are the opening month's figures times how far the
+ * states' sums have moved since, the 12-month price change is read from the
+ * rows themselves, and the rates a bank quotes follow the central bank's.
+ * What people have come to treat as normal (the unemployment rate, the real
+ * rate, the price rises they expect) follows what they have lived.
  */
-export function stepMacroMonth(
+export function countryMacroMonth(
   previous: Readonly<MacroMonth>,
+  opening: Readonly<{ row: MacroMonth; nation: NationFigures }>,
+  nation: Readonly<NationFigures>,
+  yearEarlier: Readonly<MacroMonth> | undefined,
   policyRatePct: number,
-  townIncomeGrowthPct: number | undefined,
-  townResidents: number,
   p: MacroParameter,
 ): MacroMonth {
-  const months = p("macroMonthsPerYear"),
-    hundred = p("macroHundred"),
+  const hundred = p("macroHundred"),
     one = p("one");
   const month = shiftMonth(previous.month, one, p);
-  const realRate = previous.policyRatePct - previous.inflationPct;
-  // One town is its share of the nation: its own income growth over the trend.
-  // Public budgets reach the national step only here, as the wages, benefits
-  // and business receipts actually paid in town (no implicit
-  // multiplier; the federal-dollar report checks the response against
-  // macroFederalOutlayResponseBand).
-  const town =
-    townIncomeGrowthPct === undefined
-      ? p("zero")
-      : townResidents *
-        p("macroTownWeightPerPerson") *
-        (townIncomeGrowthPct -
-          p("macroTrendGrowthPct") -
-          p("macroInflationAnchorPct"));
-  const outputGapPct =
-    p("macroOutputGapPersistence") * previous.outputGapPct -
-    p("macroRealRateEffectOnGap") * (realRate - p("macroNeutralRealRatePct")) +
-    town / months;
-  const unemploymentPct =
-    p("macroNaturalUnemploymentPct") -
-    outputGapPct / p("macroOkunOutputPerUnemploymentPoint");
-  const anchor = p("macroInflationAnchorPct");
-  const inflationPct =
-    anchor +
-    p("macroInflationPersistence") * (previous.inflationPct - anchor) +
-    p("macroPhillipsSlope") * previous.outputGapPct;
-  const wageGrowthPct =
-    p("macroWageGrowthIntercept") +
-    p("macroWageGrowthPerInflation") * previous.inflationPct +
-    p("macroWageGrowthPerUnemployment") * previous.unemploymentPct;
+  const since = (now: number, then: number) => (then > 0 ? now / then : one);
+  const priceIndex =
+    opening.row.priceIndex *
+    since(nation.priceIndex, opening.nation.priceIndex);
   return {
     id: `macro-month:${month}`,
     month,
     kind: "simulated",
-    unemploymentPct,
-    priceIndex:
-      previous.priceIndex * (one + inflationPct / hundred) ** (one / months),
-    inflationPct,
+    unemploymentPct: nation.unemploymentPct,
+    priceIndex,
+    inflationPct: yearEarlier
+      ? (priceIndex / yearEarlier.priceIndex - one) * hundred
+      : previous.inflationPct,
     payrollJobsThousands:
-      previous.payrollJobsThousands *
-      Math.exp(
-        (p("macroJobsTrendMonthlyPct") -
-          p("macroJobsPerUnemploymentPoint") *
-            (unemploymentPct - previous.unemploymentPct)) /
-          hundred,
-      ),
+      opening.row.payrollJobsThousands *
+      since(nation.jobs, opening.nation.jobs),
     hourlyEarnings:
-      previous.hourlyEarnings *
-      (one + wageGrowthPct / hundred) ** (one / months),
+      opening.row.hourlyEarnings *
+      since(nation.hourlyPay, opening.nation.hourlyPay),
     realOutput:
-      previous.realOutput *
-      (one + p("macroTrendGrowthPct") / hundred) ** (one / months) *
-      ((one + outputGapPct / hundred) /
-        (one + previous.outputGapPct / hundred)),
-    outputGapPct,
+      opening.row.realOutput *
+      since(nation.realOutput, opening.nation.realOutput),
+    // perception: nobody observes the gap; it is read as the opening month's reading plus how busy firms' staff have become since
+    outputGapPct: opening.row.outputGapPct + nation.busy * hundred,
+    naturalUnemploymentPct: drift(
+      previous.naturalUnemploymentPct,
+      previous.unemploymentPct,
+      previous.naturalUnemploymentPct,
+      p("macroNaturalHysteresisMonths"),
+    ),
+    neutralRealRatePct: drift(
+      previous.neutralRealRatePct,
+      previous.treasury10Pct - previous.inflationPct,
+      previous.neutralRealRatePct,
+      p("macroNeutralRateMonths"),
+    ),
+    expectedInflationPct: drift(
+      previous.expectedInflationPct,
+      previous.inflationPct,
+      previous.expectedInflationPct,
+      p("macroInflationExpectationMonths"),
+    ),
     policyRatePct,
     primeRatePct: policyRatePct + p("macroPrimeSpreadPct"),
     treasury10Pct:
@@ -354,7 +392,6 @@ export function stepMacroMonth(
       p("macroMortgageIntercept") +
       p("macroMortgagePersistence") * previous.mortgage30Pct +
       p("macroMortgagePerPolicy") * policyRatePct,
-    ...(townIncomeGrowthPct === undefined ? {} : { townIncomeGrowthPct }),
   };
 }
 

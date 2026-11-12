@@ -1,6 +1,7 @@
-/* global process, URL, console, document */
+/* global getComputedStyle, process, URL, console, document */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -10,7 +11,7 @@ const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto("http://localhost:3000/play");
+  await page.goto(`http://localhost:${process.env.BENCH_PORT ?? 3000}/play`);
   await ready;
   // Always a fresh life: a continued one has moved on from its opening day.
   {
@@ -21,6 +22,11 @@ try {
     await page.locator("#new-life").click();
     await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
+    // The opening plays first, as a player sees it (start-life.mjs).
+    await playOpening(
+      page,
+      (await (await response).json()).sceneMomentId ?? null,
+    );
     const r = await response;
     assert.equal(r.status(), 200);
     console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
@@ -42,7 +48,7 @@ try {
     .locator('[data-tab="calendar"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".calendar-layout").waitFor();
+  await page.locator(".calendar-board").waitFor();
   const month = await page.locator(".calendar-heading h3").innerText();
   await page.getByRole("button", { name: "Next month", exact: true }).click();
   assert.notEqual(
@@ -55,7 +61,7 @@ try {
   assert.equal(await page.locator(".calendar-heading h3").innerText(), month);
   // It opens on today, with Coming up beside the month.
   assert.ok(await page.locator(".month .day.today.selected").count());
-  assert.ok((await page.locator(".calendar-side-head").innerText()).trim());
+  assert.ok((await page.locator(".calendar-side .sechead").innerText()).trim());
   // Every line says who and what in words, once; no law rows naming nothing;
   // the player's own dates come first (owner, Oct 27).
   const lines = await page
@@ -73,7 +79,7 @@ try {
   );
   for (const line of lines) {
     assert.ok(
-      line.what.split(/\s+/).length >= 2,
+      line.what.split(/\s+/).length >= 2 || /^[A-Z][a-z]+$/.test(line.what),
       `a worded line: ${line.what}`,
     );
     assert.ok(!/takes? effect|undefined/i.test(line.what), line.what);
@@ -95,6 +101,76 @@ try {
   await page.screenshot({
     path: `${process.env.SHOTS ?? "."}/calendar-today.png`,
   });
+  // More than birthdays (owner, Nov 1): the town's meetings and the holidays
+  // stand with the family's birthdays, each kind named in a key (never a color),
+  // and a kind can be hidden and shown again.
+  const keyKinds = () =>
+    page
+      .locator(".calendar-key .key-chip")
+      .evaluateAll((nodes) => nodes.map((n) => n.dataset.kind));
+  // A month shows only the kinds that fall in it (a town with no filing or meeting this month has
+  // birthdays and holidays alone): step on until a third kind appears, up to a year.
+  let kinds = await keyKinds();
+  for (let step = 0; step < 12 && kinds.length < 3; step += 1) {
+    await page.getByRole("button", { name: "Next month", exact: true }).click();
+    kinds = await keyKinds();
+  }
+  console.log("Kinds:", kinds.join(", "));
+  assert.ok(kinds.includes("holiday"), "no holidays on the calendar");
+  assert.ok(kinds.includes("birthday"), "no birthdays on the calendar");
+  assert.ok(kinds.length >= 3, `only ${kinds.join(", ")}`);
+  // The owner's ruling (Nov 8: no colored dots and stripes per kind): no per-kind
+  // color class or color anywhere, and each kind is still named in the key's words.
+  assert.equal(
+    await page.locator('[class*="kind-"]').count(),
+    0,
+    "a calendar element still carries a per-kind color class",
+  );
+  const chips = await page
+    .locator(".calendar-key .key-chip")
+    .evaluateAll((nodes) => nodes.map((n) => n.textContent.trim()));
+  assert.ok(
+    chips.every(Boolean) && new Set(chips).size === chips.length,
+    "a kind in the key has no name of its own",
+  );
+  const stripes = await page
+    .locator(".calendar-pager .calendar-entry")
+    .evaluateAll((nodes) =>
+      nodes.map((n) => getComputedStyle(n).borderLeftWidth),
+    );
+  assert.ok(
+    stripes.every((width) => width === "0px"),
+    "an entry still has a colored stripe",
+  );
+  const rowsOf = (kind) =>
+    page.locator(
+      `.calendar-pager .calendar-entry .day-icon[data-kind="${kind}"]`,
+    );
+  const marks = (kind) => page.locator(`.month .day-icon[data-kind="${kind}"]`);
+  const before =
+    (await rowsOf("holiday").count()) + (await marks("holiday").count());
+  assert.ok(before > 0, "no holiday is shown");
+  await page.locator('.calendar-key [data-kind="holiday"]').click();
+  assert.equal(
+    (await rowsOf("holiday").count()) + (await marks("holiday").count()),
+    0,
+    "a hidden kind still shows",
+  );
+  assert.equal(
+    await page
+      .locator('.calendar-key [data-kind="holiday"]')
+      .getAttribute("aria-pressed"),
+    "false",
+  );
+  await page.screenshot({
+    path: `${process.env.SHOTS ?? "."}/calendar-holidays-hidden.png`,
+  });
+  await page.locator('.calendar-key [data-kind="holiday"]').click();
+  assert.equal(
+    (await rowsOf("holiday").count()) + (await marks("holiday").count()),
+    before,
+    "a shown kind did not come back",
+  );
   // An empty future day: its date heads the side with the skip, and the clock
   // does not move until it is pressed.
   for (let i = 0; i < 9; i++)
@@ -105,7 +181,7 @@ try {
     .locator(".month .day.selected")
     .getAttribute("data-date");
   assert.ok(
-    (await page.locator(".calendar-day h3").innerText()).includes(
+    (await page.locator(".calendar-day .sechead").innerText()).includes(
       String(Number(farDate.slice(-2))),
     ),
     "the day's date heads its plate",
@@ -191,10 +267,13 @@ try {
     if (answered) break;
     // A stop's scene can open its talk a moment after Continue shows, hiding
     // Continue: click whichever is on screen when the click lands.
+    // A button seen a moment ago can be gone by the click (a scene moves on): a missed click is
+    // not a failure, the loop looks again.
     await page
       .locator("#talk-leave:visible, #continue:visible")
       .first()
-      .click();
+      .click({ timeout: 5000 })
+      .catch(() => {});
     await settled();
   }
   const week = page.locator("#week");

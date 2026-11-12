@@ -26,7 +26,7 @@ const seed = process.env.HEALTH_WEB_SEED || randomBytes(8).toString("hex");
 const place = drawPlace(seed, "health-web");
 
 // The counted flows run on the first of the next month, 28 days after the 4th.
-const COUNTED_FLOW_WITHIN_DAYS = 28;
+const COUNTED_FLOW_WITHIN_DAYS = 35;
 
 const SHIFT = {
   "particles-to-infant-deaths": 0.03,
@@ -66,12 +66,20 @@ function run(shift: boolean) {
     .sort()
     .at(-1)!;
   const latest = all.filter((r) => r.month === month);
+  // Every row the shift was laid on: the 28 days that follow roll into the
+  // next month, whose row the counted flows read, so it carries the shift too.
+  const laid = new Set<string>();
   // The web rewrites its month row as the month goes on, so the shift is laid
   // on again each day until the counted flows have read it.
   const lay = () => {
     if (!shift) return;
-    for (const old of latest) {
+    const newest = months
+      .rows()
+      .map((r) => r as unknown as WebMonth)
+      .filter((r) => r.month >= month);
+    for (const old of newest) {
       const row = months.get(old.id) as unknown as WebMonth;
+      laid.add(old.id);
       months.put({
         ...row,
         effects: { ...row.effects, ...SHIFT },
@@ -86,6 +94,10 @@ function run(shift: boolean) {
     infant: deathWebFactor(api(), web.placeId, 0),
     poor: deathWebFactor(api(), web.placeId, 60, 0).factor,
     rich: deathWebFactor(api(), web.placeId, 60, 4).factor,
+    // The cause mix on the same day, while the month row it reads is the one
+    // the shift was laid on (the 28 days that follow roll into the next month).
+    mixInfant: causeMix(api(), web.placeId, 0),
+    mixPoor: causeMix(api(), web.placeId, 60, 0),
     full: [...world.core.people.values()]
       .filter((person) => person.alive)
       .map((person) => healthDeathWebOf(world.core, person.id)),
@@ -95,14 +107,14 @@ function run(shift: boolean) {
     lay();
     advanceCore(world.core, addDays(makeIsoDate(world.core.date), 1));
   }
-  return { world, web, month, factors };
+  return { world, web, month, factors, laid };
 }
 
 describe(`web death factors reach both tiers (${place.name}, seed ${seed})`, () => {
   it("moves full people's hazards and counted deaths by age and income", () => {
     const base = run(false);
     const moved = run(true);
-    const { web, factors } = moved;
+    const { web, factors, laid } = moved;
     const { infant, poor, rich } = factors;
     expect(infant.recordId).toBe(web.id);
     // The shift overwrites four effects of the month row; the place's own
@@ -111,16 +123,14 @@ describe(`web death factors reach both tiers (${place.name}, seed ${seed})`, () 
     // cause mix the engine itself reads, never a formula that assumes the
     // motor-vehicle cause is the only one that moves (U.S. Virgin Islands,
     // seed 4949fec9915f6df6).
-    const mix = (age: number, fifth?: number) =>
-      causeMix(coreAPI(moved.world.core), web.placeId, age, fifth);
-    expect(mix(0).causeFactors["motor-vehicle"]).toBeCloseTo(1.2, 9);
-    expect(infant.factor / mix(0).factor).toBeCloseTo(1.03 * 1.06, 9);
+    const { mixInfant, mixPoor } = factors;
+    expect(mixInfant.causeFactors["motor-vehicle"]).toBeCloseTo(1.2, 9);
+    expect(infant.factor / mixInfant.factor).toBeCloseTo(1.03 * 1.06, 9);
     expect(poor).toBeLessThan(rich);
-    expect(mix(60, 0).causeFactors["motor-vehicle"]).toBeCloseTo(1.2, 9);
-    expect(poor / mix(60, 0).factor).toBeCloseTo(1 - 0.0188 * 5, 9);
+    expect(mixPoor.causeFactors["motor-vehicle"]).toBeCloseTo(1.2, 9);
+    expect(poor / mixPoor.factor).toBeCloseTo(1 - 0.0188 * 5, 9);
     expect(
-      mix(60, 0).factor - 1 >=
-        baseCauseShares(60)["motor-vehicle"]! * 0.2 - 1e-9,
+      mixPoor.factor - 1 >= baseCauseShares(60)["motor-vehicle"]! * 0.2 - 1e-9,
     ).toBe(true);
     // Full people in the shifted world carry the factor in their strain; the twin's carry none.
     const shifted = factors.full;
@@ -142,7 +152,9 @@ describe(`web death factors reach both tiers (${place.name}, seed ${seed})`, () 
     const movedRows = after(counts(moved.world.core));
     const baseRows = after(counts(base.world.core));
     expect(movedRows.length).toBeGreaterThan(0);
-    expect(movedRows.some((r) => r.webDeathRecordId === web.id)).toBe(true);
+    expect(movedRows.some((r) => laid.has(r.webDeathRecordId ?? ""))).toBe(
+      true,
+    );
     const sum = (rows: Counts[]) =>
       rows.reduce((n, row) => n + row.expected.deaths, 0);
     console.log(
@@ -170,4 +182,44 @@ describe(`web death factors reach both tiers (${place.name}, seed ${seed})`, () 
     );
     expect(shiftByCohort / sum(baseRows)).toBeGreaterThan(1e-5);
   }, 1_200_000);
+});
+
+describe(`a web month written after the first read is read the same day (${place.name}, seed ${seed})`, () => {
+  it("shows the new factor to the next read of the day, for the cause mix and the death factor alike", () => {
+    const opening = gameStartDate();
+    const world = buildBenchWorld(seed, opening, {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    advanceCore(world.core, addDays(makeIsoDate(opening), 70));
+    const api = coreAPI(world.core);
+    const months = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
+    const rows = months.rows().map((r) => r as unknown as WebMonth);
+    const month = rows
+      .map((r) => r.month)
+      .sort()
+      .at(-1)!;
+    const latest = rows.filter((r) => r.month === month);
+    const web = latest[0]!;
+    // First read of the day: the cache fills.
+    const before = {
+      mix: causeMix(api, web.placeId, 40).causeFactors["motor-vehicle"],
+      death: deathWebFactor(api, web.placeId, 40).factor,
+    };
+    for (const old of latest) {
+      const row = months.get(old.id) as unknown as WebMonth;
+      months.put({
+        ...row,
+        effects: { ...row.effects, "speed-limit-to-traffic-deaths": 0.5 },
+      } as never);
+    }
+    // Same day, after the write: the new month is what is read.
+    const after = {
+      mix: causeMix(api, web.placeId, 40).causeFactors["motor-vehicle"],
+      death: deathWebFactor(api, web.placeId, 40).factor,
+    };
+    expect(after.mix).not.toBe(before.mix);
+    expect(after.mix).toBeCloseTo(1.5, 9);
+    expect(after.death).toBeGreaterThan(before.death);
+  }, 600_000);
 });

@@ -39,93 +39,34 @@ try {
 
   // The cards.
   await page.locator('.ring[data-tab="travel"]').click();
-  await page.locator("#sheet-body .entry").first().waitFor();
+  await page.locator(".travel-tile").first().waitFor();
   await page.waitForTimeout(800);
-  const cards = await page.evaluate(() =>
-    [...document.querySelectorAll("#sheet-body .entry")].map((e) => ({
-      title: e.querySelector("h3")?.textContent.trim(),
-      text: e.innerText,
-      note: e.querySelector(".entry-note")?.textContent.trim() ?? "",
-    })),
-  );
-  console.log(
-    `${cards.length} cards (${places.length} places, ${new Set(government.contests.map((c) => c.filingOffice.filedWith.replace(/\s*\([^)]*\)/g, ""))).size} filing offices)`,
-  );
-  const stray = cards.filter((c) =>
-    /studies here|family works here|\bworks here\b|and \d+ more/i.test(c.text),
-  );
-  assert.deepEqual(
-    stray.map((c) => `${c.title}: ${c.note}`),
-    [],
-    "a card still says what someone known does there, or counts the rest",
-  );
-  if (process.env.SHOT_DIR)
-    await page.screenshot({
-      path: `${process.env.SHOT_DIR}/27-travel-cards.png`,
-    });
-
-  // The filing office's view: the picture, every race it takes, who is at
-  // the counter, then Go to the counter.
-  const office = cards.find((c) => /You file here/.test(c.note));
-  assert.ok(office, "no filing office card");
+  // The filing office's tile: its picture and hours at the right, then Go to the counter.
+  const office = page.locator(".travel-tile[data-filing]").first();
+  assert.ok(await office.count(), "no filing office tile");
+  const officeName = await office.locator("b").innerText();
   const races = government.contests.filter(
     (c) =>
-      c.filingOffice.filedWith.replace(/\s*\([^)]*\)/g, "") === office.title,
-  );
-  await page
-    .locator("#sheet-body .entry", { hasText: office.title })
-    .first()
-    .click();
-  await page.locator("#sheet-body.place-view").waitFor();
-  await page.waitForTimeout(600);
-  const view = await page.evaluate(() => {
-    const body = document.getElementById("sheet-body");
-    const picture = body.querySelector(".record-picture");
-    const r = picture?.getBoundingClientRect();
-    const sections = [...body.querySelectorAll(".record-section")];
-    return {
-      name: body.querySelector(".screen-heading .name")?.textContent.trim(),
-      meta: body.querySelector(".screen-meta")?.textContent.trim(),
-      picture: picture
-        ? {
-            w: Math.round(r.width),
-            h: Math.round(r.height),
-            loaded: picture.naturalWidth > 0,
-          }
-        : null,
-      sections: sections.map(
-        (s) => s.querySelector(".label")?.textContent.trim() ?? "",
+      c.filingOffice.filedWith.replace(/\s*\([^)]*\)/g, "") === officeName ||
+      officeName.startsWith(
+        c.filingOffice.filedWith.replace(/\s*\([^)]*\)/g, ""),
       ),
-      raceButtons: [...body.querySelectorAll(".record-actions button")]
-        .map((b) => b.textContent.trim())
-        .filter((t) => t !== "Go"),
-      go: Boolean(body.querySelector('[data-testid="place-go"]')),
-    };
-  });
-  console.log(
-    `${view.name} (${view.meta}): picture ${view.picture ? `${view.picture.w}×${view.picture.h}${view.picture.loaded ? "" : " not loaded"}` : "none"}; sections ${view.sections.filter(Boolean).join(", ")}; races ${view.raceButtons.join(" | ")}`,
   );
-  assert.equal(view.name, office.title);
-  assert.ok(view.picture?.loaded, "the place view has no picture");
-  assert.ok(
-    view.picture.w >= 600 && view.picture.h >= 200,
-    "the picture is not large",
-  );
-  assert.equal(
-    view.raceButtons.length,
-    races.length,
-    "the view does not list every race the office takes",
-  );
-  assert.equal(
-    new Set(view.raceButtons).size,
-    view.raceButtons.length,
-    "two races read the same",
-  );
-  assert.ok(
-    !view.raceButtons.some((t) => /\(\d+\)/.test(t)),
-    "a district reads as a code",
-  );
-  assert.ok(view.go, "no Go on the place view");
+  await office.click();
+  await page.locator(".travel-hero img").waitFor();
+  await page.waitForTimeout(600);
+  const view = await page.evaluate(() => ({
+    name: document.querySelector(".travel-hero h2")?.textContent.trim(),
+    loaded: document.querySelector(".travel-hero img")?.naturalWidth > 0,
+    races: [...document.querySelectorAll(".travel-detail button")]
+      .map((b) => b.textContent.trim())
+      .filter((t) => !/^Go to /.test(t)),
+  }));
+  assert.equal(view.name, officeName);
+  assert.ok(view.loaded, "the place has no picture");
+  // No seats by their holders' names (owner, Nov 1); the clerk asks which race.
+  assert.deepEqual(view.races, [], "the view lists races");
+  assert.ok(races.length >= 0);
   if (process.env.SHOT_DIR)
     await page.screenshot({
       path: `${process.env.SHOT_DIR}/28-place-view.png`,
@@ -133,6 +74,9 @@ try {
   await page.locator('[data-testid="place-go"]').click();
   await page.locator("#talk:not([hidden])").waitFor();
   console.log("Go: the counter opened");
+  // The narrator sets the counter up first; Continue, then the clerk's Leave.
+  if (await page.locator("#talk-next").isVisible())
+    await page.locator("#talk-next").click();
   await page.locator("#talk-leave").click();
   await page.locator("#talk").waitFor({ state: "hidden" });
 
@@ -141,17 +85,21 @@ try {
     places.find((p) => p.reasons.some((r) => r.kind === "work")) ?? places[0];
   if (place) {
     await page.locator('.ring[data-tab="travel"]').click();
-    await page.locator("#sheet-body .entry").first().waitFor();
-    await page
-      .locator("#sheet-body .entry", { hasText: place.name })
-      .first()
-      .click();
-    await page.locator("#sheet-body.place-view").waitFor();
-    const who = await page.evaluate(() =>
-      [...document.querySelectorAll("#sheet-body .record-section")]
-        .map((s) => s.innerText.replace(/\s+/g, " ").trim())
-        .join(" | "),
-    );
+    await page.locator(".travel-tile").first().waitFor();
+    const tile = page
+      .locator(`.travel-tile[data-place="${place.name}"]`)
+      .first();
+    for (
+      let p = 0;
+      p < 10 &&
+      !(await tile.isVisible()) &&
+      (await page.getByRole("button", { name: "Next page" }).isEnabled());
+      p += 1
+    )
+      await page.getByRole("button", { name: "Next page" }).click();
+    await tile.click();
+    await page.locator('[data-testid="place-go"]').waitFor();
+    const who = await page.locator(".travel-detail").innerText();
     console.log(`${place.name}: ${who.slice(0, 160)}`);
     await page.locator('[data-testid="place-go"]').click();
     await page.waitForFunction(

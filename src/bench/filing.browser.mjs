@@ -48,13 +48,11 @@ async function openNavigationTab(tab) {
 // and Go opens the counter.
 async function toCounter() {
   await openNavigationTab("travel");
-  const office = page
-    .locator("#sheet-body .entry", { hasText: /You file here/ })
-    .first();
+  const office = page.locator(".travel-tile[data-filing]").first();
   await office.waitFor();
-  const name = await office.locator("h3").innerText();
+  const name = await office.getAttribute("data-place");
   await office.click();
-  await page.locator("#sheet-body.place-view").waitFor();
+  await page.locator('[data-testid="place-go"]').waitFor();
   await page.locator('[data-testid="place-go"]').click();
   await page.locator("#talk:not([hidden])").waitFor();
   // The narrator sets the counter up first, alone; Continue, then the clerk.
@@ -62,6 +60,30 @@ async function toCounter() {
   if (await next.isVisible().catch(() => false)) await next.click();
   await page.locator("#talk-choices button").first().waitFor();
   return name;
+}
+// The place's filing opens on its own date: advance dev mode a month at a time until the
+// government's contests name an office that takes filings (up to fourteen months).
+async function openFiling() {
+  for (let month = 0; month < 14; month += 1) {
+    const me = (await (await page.request.get(`${base}/api/title`)).json()).life
+      .personId;
+    const government = await (
+      await page.request.get(
+        `${base}/api/government?id=${encodeURIComponent(me)}`,
+      )
+    ).json();
+    if (government.contests?.length) break;
+    const moved = await page.request.post(`${base}/api/dev/advance`, {
+      data: { step: "month" },
+      timeout: 600000,
+    });
+    assert.equal(moved.status(), 200, "dev mode did not advance");
+  }
+  await page.reload();
+  await page.locator("#front-continue").click();
+  await page.waitForFunction(() =>
+    document.getElementById("card-name").textContent.trim(),
+  );
 }
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
@@ -87,7 +109,28 @@ try {
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
+  // A 17-year-old cannot file, so the life that goes to the counter is a grown
+  // resident of the same world (a 17-year-old has no contests, so no filing tile).
+  const person = JSON.stringify({
+    givenName: "Pat",
+    familyName: "Candidate",
+    gender: "nonbinary",
+    birthYear: 1980,
+    birthMonth: 6,
+    birthDay: 15,
+  });
+  const adult = await page.request.post(
+    `${base}/api/newlife?${new URLSearchParams({ ...world, person })}`,
+    { timeout: 600000 },
+  );
+  assert.equal(adult.status(), 200);
+  await page.reload();
+  await page.locator("#front-continue").click();
+  await page.waitForFunction(() =>
+    document.getElementById("card-name").textContent.trim(),
+  );
   console.log("Place:", await page.locator("#card-place").innerText());
+  await openFiling();
   console.log("Office:", await toCounter());
   // No panel beside the counter: the Open races menu and the rules panel are gone.
   const panels = await page.evaluate(() => ({
@@ -107,36 +150,30 @@ try {
     choices.length,
     "two choices read the same",
   );
-  // The office explained on hover: the card names the office and what the
-  // records know of it, with nothing to mark learned.
+  // The counter shows at most four races, each told apart in its own line
+  // (seat, election day, who holds it) and no hover card over the next line
+  // (owner, Nov 1: "a terribly designed menu").
+  assert.ok(choices.length <= 4, `the counter lists ${choices.length} choices`);
   const pick = page
     .locator("#talk-choices button", { has: page.locator(".reply-facts") })
     .first();
   assert.ok(await pick.count(), "no race to pick at the counter");
-  const picked = (
-    await pick.evaluate((b) => b.childNodes[0]?.textContent ?? "")
-  ).trim();
-  await pick.hover();
-  await page.locator("#tip:not([hidden])").waitFor();
-  const tip = await page.evaluate(() => ({
-    term: document.getElementById("tip-term").textContent.trim(),
-    short: document.getElementById("tip-short").textContent.trim(),
-    learned: document.getElementById("tip-learned").hidden,
-  }));
-  console.log(`Hover "${picked}": ${tip.term} — ${tip.short}`);
-  assert.ok(
-    tip.term && picked.includes(tip.term),
-    "the card names another office",
+  const picked = (await pick.innerText()).replace(/\s+/g, " ").trim();
+  console.log(`Choice: ${picked}`);
+  assert.match(
+    picked,
+    /\b(January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}\b/,
+    "the race's line names no election day",
   );
-  assert.ok(tip.short.length > 8, "the card says nothing of the office");
-  assert.ok(tip.learned, "an office card offers Mark as learned");
-  assert.doesNotMatch(
-    tip.short,
-    /\b\d{4}-\d{2}-\d{2}\b/,
-    "a date reads as a code",
+  await pick.hover();
+  await page.waitForTimeout(600);
+  assert.equal(
+    await page.locator("#tip:not([hidden])").count(),
+    0,
+    "a hover card covers the choices",
   );
   await page.screenshot({
-    path: "docs/play-first/shots/sitting-oct28/30-office-hover.png",
+    path: "docs/play-first/shots/play-clerk-choices-designed/counter-1440x900.png",
   });
   await page.mouse.move(10, 10);
   await pick.click();
@@ -146,26 +183,7 @@ try {
   });
   await page.locator("#talk-leave").click();
   await page.locator("#talk").waitFor({ state: "hidden", timeout: 10000 });
-  // A grown resident of the same world joins a party and files: the filing
-  // keeps that party with no form at the counter.
-  const person = JSON.stringify({
-    givenName: "Pat",
-    familyName: "Candidate",
-    gender: "nonbinary",
-    birthYear: 1980,
-    birthMonth: 6,
-    birthDay: 15,
-  });
-  const adult = await page.request.post(
-    `${base}/api/newlife?${new URLSearchParams({ ...world, person })}`,
-    { timeout: 600000 },
-  );
-  assert.equal(adult.status(), 200);
-  await page.reload();
-  await page.locator("#front-continue").click();
-  await page.waitForFunction(() =>
-    document.getElementById("card-name").textContent.trim(),
-  );
+  // The grown resident joins a party and files: the filing keeps that party with no form at the counter.
   // Join a party on Politics, as a player does. Three honest cases: parties
   // on offer (join the first), already a member (that party), or no party in
   // this place (run as an independent).
@@ -200,8 +218,10 @@ try {
     .locator("#talk-choices button", { has: page.locator(".reply-facts") })
     .first()
     .click();
+  // The reply that files is the one reply without a race's facts under it, whatever the
+  // clerk's words are: the bank's wording is not the check's business.
   const file = page.locator("#talk-choices button", {
-    hasText: /file for this office/i,
+    hasNot: page.locator(".reply-facts"),
   });
   await file.first().waitFor();
   const filed = page.waitForResponse(
@@ -217,8 +237,14 @@ try {
   console.log(
     `Clock: ${before.date} minute ${before.minuteOfDay} -> ${after.date} minute ${after.minuteOfDay} (${spent} minutes)`,
   );
+  // The filing is recorded at the minute of the visit, and its own story may
+  // hold the clock there until the player lives through it (the office now
+  // opens at its clerk's hour, so the visit and the story share a minute).
+  const held =
+    (await (await page.request.get(`${base}/api/title`)).json()).life.packet
+      ?.kind === "stop";
   assert.ok(
-    spent > 0 && spent <= parameters.filingVisitHours.value * 60,
+    (spent > 0 || held) && spent <= parameters.filingVisitHours.value * 60,
     `filing moved the clock ${spent} minutes`,
   );
   // The visit lands in the day: never at 3:00 AM after a midnight start.
@@ -238,6 +264,36 @@ try {
     ["petitioning", "on-ballot"].includes(result?.filing?.status),
     `the filing was refused: ${JSON.stringify(result?.unmet ?? result)}`,
   );
+  // A petition is shown from its record: the signatures the clerk will count
+  // and the last day, at the counter; the held count and the deadline on the
+  // campaign board's data.
+  if (result.filing.status === "petitioning") {
+    assert.ok(
+      result.petition?.needed > 0 && result.petition?.due,
+      `a petitioning filing carries its petition: ${JSON.stringify(result.petition)}`,
+    );
+    await page.waitForFunction(
+      (needed) =>
+        document.body.innerText
+          .toLowerCase()
+          .includes(`signatures the clerk will count: ${needed}`),
+      result.petition.needed,
+    );
+    const board = await (
+      await page.request.get(
+        `${base}/api/campaign?id=${encodeURIComponent(
+          (await (await page.request.get(`${base}/api/title`)).json()).life
+            .personId,
+        )}`,
+      )
+    ).json();
+    const held = board.campaigns?.[0]?.petition;
+    assert.equal(held?.needed, result.petition.needed, "the board's count");
+    assert.equal(held?.due, result.petition.due, "the board's deadline");
+    console.log(
+      `Petition ${held.id}: ${held.signed} of ${held.needed} by ${held.due}`,
+    );
+  }
   // The party on the filing is the resident's tie on record (joined now, or
   // held before), never a form's.
   const me = (await (await page.request.get(`${base}/api/title`)).json()).life
@@ -259,7 +315,7 @@ try {
     assert.equal(onRecord, joined, "the join did not reach the record");
   assert.deepEqual(errors, []);
   console.log(
-    "PASS the counter with no panels: races read apart and explain their office on hover; the filing keeps the party joined",
+    "PASS the counter with no panels: at most four races, each told apart in its own line with no hover card; the filing keeps the party joined",
   );
 } finally {
   await browser.close();

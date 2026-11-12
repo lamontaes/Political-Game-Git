@@ -131,7 +131,6 @@ function money(core: CoreState) {
     },
     cashSources: core.work.cashSources,
     cashSelections: core.work.cashActSelections,
-    legacy: core.work.latestLegacyCashResultByPerson,
     oldResults: core.work.lastResultByJob,
   });
 }
@@ -146,7 +145,6 @@ function saved(core: CoreState) {
     logs: core.durableLog,
     byPerson: core.logByPerson,
     byKind: core.logByKind,
-    byPlace: core.logByPlace,
     money: money(core),
   });
 }

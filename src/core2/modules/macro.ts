@@ -1,6 +1,7 @@
 /**
- * The national economy and the central bank. Monthly figures move from last
- * month, the rate in force and the town's own totals; eight meetings a year
+ * The national economy and the central bank. Every state is kept as counts
+ * (country-model.ts) and stepped once a month under the law in force and the
+ * central bank's rate; the national figures are the states' sum; eight meetings a year
  * the board votes from each member's own view; each month's prices, pay and
  * demand reach every business as dated conditions; a decision reprices
  * prime-linked credit lines on its effective date.
@@ -31,20 +32,58 @@ import {
   monthKey,
   publishedMonth,
   shiftMonth,
-  stepMacroMonth,
+  countryMacroMonth,
   type MacroMonth,
+  type NationFigures,
   type MacroParameter,
 } from "../macro-model";
+import countryParameters from "../data/country/parameters.json" with { type: "json" };
+import { countryLaw, startingLawReader } from "../country-law";
+import {
+  COUNTRY_AGE_BANDS,
+  countryMoney,
+  countryPartFigures,
+  countryPeople,
+  countryProblems,
+  countryRules,
+  countryStateFigures,
+  openCountry,
+  resolveCountryPart,
+  stepCountry,
+  type CountryMonth,
+  type CountryPart,
+  type CountryPartCounts,
+  type CountryRules,
+  type CountrySector,
+  type CountryState,
+  type CountryTier,
+} from "../country-model";
+import employerSectors from "../data/country/employer-sectors.json" with { type: "json" };
+import { classifyBusiness, sectorOfKind } from "../business-books";
+import { placeStateKey } from "../place-map";
+import { stopgap } from "../stopgaps";
+import { residentsPart, residentsRuntime } from "./residents";
+import { countryOpening } from "../country-opening";
+/** The country tier's sectors and state rows, for screens that read a state's record (dev mode's Trace). */
+export {
+  COUNTRY_SECTORS,
+  type CountrySector,
+  type CountryState,
+} from "../country-model";
+import { bookkeeping } from "../bookkeeping";
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
 import { scaleOutsideSales } from "../residents-economy";
-import { residentCounts } from "./residents";
+import { firmStaffing } from "./jobs";
+import { LAWS_MODULE_ID, stateLawInForce } from "./laws";
+import { openingRegionMonths, stateFigures } from "../regional-model";
 import { coarseSteps, type PreStartModule } from "../pre-start";
 import {
   REGIONAL_PARAMETERS,
   openRegional,
   regionalFactors,
   regionalRegistered,
+  regionalShocksStarting,
   stepRegional,
 } from "./regional";
 import type { CoreAPI, CoreData, CoreInput, CoreState, Source } from "../types";
@@ -52,10 +91,13 @@ import type { CoreAPI, CoreData, CoreInput, CoreState, Source } from "../types";
 /** Where a custom world's chosen national economy rides in the opening input (see worldGameOptions). */
 export const CUSTOM_ECONOMY_KEY = "customEconomy";
 export const MACRO_MODULE_ID = "macro";
-export const MACRO_PARAMETERS = macroParameters as unknown as Readonly<
-  Record<string, Parameter>
->;
+/** The national economy's numbers: the central bank's and the published past's, and the country tier's (data/country). */
+export const MACRO_PARAMETERS = {
+  ...macroParameters,
+  ...countryParameters,
+} as unknown as Readonly<Record<string, Parameter>>;
 const STATE_ID = "macro:state";
+const COUNTRY_ID = "country";
 
 interface MacroStateRow {
   id: string;
@@ -65,7 +107,18 @@ interface MacroStateRow {
   /** Target-range midpoint in force. */
   policyRatePct: number;
   placeIds: string[];
-  townResidents: number;
+  /** The states' sums at the opening: the national figures since are the opening month's times how far these have moved. */
+  countryBase: NationFigures;
+}
+
+/** One state's figures at the opening, kept so its regions can be read against them. */
+export interface CountryStateBase {
+  id: string;
+  fips: string;
+  unemploymentPct: number;
+  jobs: number;
+  hourlyPay: number;
+  population: number;
 }
 
 export interface LinkedLineRow {
@@ -109,108 +162,6 @@ function firstOfNextMonth(date: string, p: MacroParameter): string {
   return `${shiftMonth(monthKey(date), p("one"), p)}-01`;
 }
 
-/**
- * Paid income in the town's places over the latest months against the same
- * months a year earlier, annual percent. Twelve months against twelve when
- * the records reach that far back; otherwise the longest run of at least a
- * quarter that has a year-earlier run, so a month's count of paydays doesn't
- * read as growth. Null before even that is recorded.
- */
-function townIncomeGrowth(
-  api: CoreAPI,
-  places: readonly string[],
-  month: string,
-  p: MacroParameter,
-): { pct: number; months: number } | null {
-  const paid = api.state.finance.paidIncomeByPlaceMonth;
-  const sum = (at: string) =>
-    places.reduce<number | null>((total, place) => {
-      const value = paid.get(`${at}:${place}`);
-      return value === undefined ? total : (total ?? p("zero")) + value;
-    }, null);
-  const run = (end: string, months: number) => {
-    let total = p("zero");
-    for (let k = 0; k < months; k++) {
-      const value = sum(shiftMonth(end, -k, p));
-      if (value === null) return null;
-      total += value;
-    }
-    return total;
-  };
-  const yearAgo = shiftMonth(month, -p("macroMonthsPerYear"), p);
-  for (
-    let months = p("macroMonthsPerYear");
-    months >= p("macroTownGrowthMinMonths");
-    months--
-  ) {
-    const now = run(month, months),
-      before = run(yearAgo, months);
-    if (now !== null && before !== null && before > p("zero"))
-      return {
-        pct: (now / before - p("one")) * p("macroHundred"),
-        months,
-      };
-  }
-  return null;
-}
-
-/**
- * What the town's paid income grows by before its own months can say: the
- * nation's payroll income (jobs times hourly pay) over the same twelve
- * months, which the macro history records from before the opening. A town's
- * growth differs from the nation's by a few points either way; that spread is
- * the estimate's, and the town's own months replace it as they come in.
- */
-function incomeGrowthEstimate(
-  api: CoreAPI,
-  month: string,
-  p: MacroParameter,
-): number | undefined {
-  const months = store(api).table("months");
-  const income = (at: string) => {
-    const row = months.get(`macro-month:${at}`) as unknown as
-      MacroMonth | undefined;
-    return row ? row.payrollJobsThousands * row.hourlyEarnings : undefined;
-  };
-  const now = income(month),
-    before = income(shiftMonth(month, -p("macroMonthsPerYear"), p));
-  if (now === undefined || before === undefined || before <= p("zero"))
-    return undefined;
-  return (now / before - p("one")) * p("macroHundred");
-}
-
-/**
- * The growth the national step hears from the town: the estimate while the
- * town has no comparable months, then the town's own growth with a weight
- * that rises by a twelfth for each month it covers.
- */
-function townGrowthHeard(
-  api: CoreAPI,
-  placeIds: readonly string[],
-  month: string,
-  p: MacroParameter,
-):
-  | {
-      pct: number;
-      estimatePct: number;
-      ownPct?: number;
-      ownWeight: number;
-    }
-  | undefined {
-  const estimate = incomeGrowthEstimate(api, month, p);
-  if (estimate === undefined) return undefined;
-  const own = townIncomeGrowth(api, placeIds, month, p);
-  const weight = own
-    ? Math.min(p("one"), own.months / p("macroMonthsPerYear"))
-    : p("zero");
-  return {
-    pct: own ? weight * own.pct + (p("one") - weight) * estimate : estimate,
-    estimatePct: estimate,
-    ...(own ? { ownPct: own.pct } : {}),
-    ownWeight: weight,
-  };
-}
-
 function publishConditions(
   api: CoreAPI,
   state: MacroStateRow,
@@ -238,6 +189,7 @@ function publishConditions(
       api.state as CoreState,
       placeId,
       prices * (row.realOutput / opening.realOutput) * region.demand,
+      (organizationId) => firmStaffing(api, organizationId)?.serviceLevel,
     );
     api.addFinanceCondition({
       id: `macro-condition:${placeId}:${api.state.date}`,
@@ -256,6 +208,208 @@ function publishConditions(
   }
 }
 
+/** The rules' numbers, read once per parameter registry. */
+const rulesByData = new WeakMap<object, CountryRules>();
+function rulesOf(api: CoreAPI): CountryRules {
+  const data = (api.state as CoreState).data.parameters;
+  let rules = rulesByData.get(data);
+  if (!rules) rulesByData.set(data, (rules = countryRules(params(api))));
+  return rules;
+}
+
+/** The law in force in every state on a day (today unless one is given), read through the laws module where the world has one, else from the starting law. */
+function lawNow(api: CoreAPI, date: string = api.state.date) {
+  const read = (api.state as CoreState).modules.has(LAWS_MODULE_ID)
+    ? (stateKey: string, series: string) =>
+        stateLawInForce(api, stateKey, series, date)
+    : startingLawReader(date, api.state.startedAt);
+  return countryLaw(read, params(api), date);
+}
+
+/**
+ * The law the world began with: the research's starting law on the first day, with no act of
+ * play in it. The tier opens and fits its first month under it, so a law enacted on day one is
+ * a change the economy answers.
+ */
+function lawAtTheStart(api: CoreAPI) {
+  const start = api.state.startedAt;
+  return countryLaw(startingLawReader(start, start), params(api), start);
+}
+
+/** The country tier as the tables keep it: one row for the nation's accounts, one for each state. A copy, so a month can change it. */
+function readCountry(api: CoreAPI): CountryTier {
+  const kept = store(api).table("country").get(COUNTRY_ID) as unknown as Omit<
+    CountryTier,
+    "states"
+  >;
+  const states = store(api)
+    .table("countryStates")
+    .rows() as unknown as CountryState[];
+  return structuredClone({ ...kept, states: [...states] }) as CountryTier;
+}
+
+function writeCountry(api: CoreAPI, tier: CountryTier): void {
+  const { states, ...nation } = tier;
+  store(api)
+    .table("country")
+    .put(nation as unknown as { id: string });
+  for (const state of states)
+    store(api)
+      .table("countryStates")
+      .put(state as unknown as { id: string });
+}
+
+/** Every state's tier row today: its households by fifth and age, its sectors and its ledger. Read-only. */
+export function countryStates(api: CoreAPI): readonly CountryState[] {
+  return store(api).table("countryStates").rows() as unknown as CountryState[];
+}
+
+/** One state's figures today and at the opening, by FIPS code. */
+export function countryStateNow(api: CoreAPI, fips: string) {
+  const state = store(api)
+    .table("countryStates")
+    .query("byFips", [fips])[0] as unknown as CountryState | undefined;
+  const base = store(api).table("countryBases").get(`country-base:${fips}`) as
+    CountryStateBase | undefined;
+  return state && base
+    ? { now: countryStateFigures(state, rulesOf(api)), base, state }
+    : undefined;
+}
+
+/** A state's part held in full (the played town and its county), as the tables keep it: one row per state, replaced each month. */
+export interface CountryPartRow extends CountryPart {
+  id: string;
+  /** The state's jurisdiction key, as `US-UT`. */
+  key: string;
+  /** The month it was counted for, and the places it counts. */
+  month: string;
+  placeIds: string[];
+}
+
+const partId = (key: string) => `country-part:${key}`;
+const UNSORTED_JOBS = "SG-NATION-town-part-unsorted-jobs";
+const SECTOR_TABLE = employerSectors as unknown as {
+  classifications: Record<string, CountrySector>;
+  kinds: Record<string, CountrySector>;
+  naics: Record<string, CountrySector>;
+};
+
+/** An employer's sector: its business kind's, else its classification's or its kind's in the table; none when it has none. */
+function sectorOfEmployer(
+  core: CoreState,
+  organizationId: string,
+): CountrySector | undefined {
+  const org = core.organizations.get(organizationId);
+  if (!org) return undefined;
+  const kind = org.classification
+    ? classifyBusiness(org.classification).kind?.id
+    : undefined;
+  const ofKind = kind ? sectorOfKind(kind) : null;
+  if (ofKind) return ofKind;
+  return (
+    (org.classification && SECTOR_TABLE.classifications[org.classification]) ||
+    SECTOR_TABLE.kinds[org.kind]
+  );
+}
+
+/**
+ * What the played places' own records count today, by the state they are in: the town and
+ * its county, their people by the tier's age bands, at work and looking, the jobs they hold
+ * by their employer's sector, and their cash. Read on a month's first day.
+ */
+function townPartCounts(
+  api: CoreAPI,
+): Map<string, { placeIds: string[]; counts: CountryPartCounts }> {
+  const core = api.state as CoreState;
+  const out = new Map<
+    string,
+    { placeIds: string[]; counts: CountryPartCounts }
+  >();
+  const byState = new Map<string, string[]>();
+  for (const row of residentsRuntime(core)?.input.accounts ?? []) {
+    const key = placeStateKey(row.placeId);
+    if (key) byState.set(key, [...(byState.get(key) ?? []), row.placeId]);
+  }
+  const p = params(api);
+  for (const [key, placeIds] of byState) {
+    const part = residentsPart(core, new Set(placeIds), COUNTRY_AGE_BANDS);
+    const jobs: Partial<Record<CountrySector, number>> = {};
+    let unsortedJobs = p("zero");
+    const add = (sector: CountrySector | undefined, workers: number) => {
+      if (sector) jobs[sector] = (jobs[sector] ?? p("zero")) + workers;
+      else unsortedJobs += workers;
+    };
+    for (const [employer, workers] of part.workersByEmployer)
+      add(employer ? sectorOfEmployer(core, employer) : undefined, workers);
+    for (const [industry, workers] of part.workersByIndustry)
+      add(SECTOR_TABLE.naics[industry], workers);
+    if (unsortedJobs > p("zero")) stopgap(UNSORTED_JOBS);
+    out.set(key, {
+      placeIds: [...placeIds].sort(),
+      counts: {
+        people: part.adults,
+        workers: part.workers,
+        seekers: part.seekers,
+        children: part.children,
+        jobs,
+        unsortedJobs,
+        cash: part.cashMinor / p("minorPerDollar"),
+      },
+    });
+  }
+  return out;
+}
+const partOf = (api: CoreAPI, key: string) =>
+  store(api).table("countryParts").get(partId(key)) as unknown as
+    CountryPartRow | undefined;
+
+/**
+ * A state's people and jobs, and of them the part held in full and the rest the tier steps:
+ * the part and the rest add to the state's figures. By jurisdiction key (`US-UT`).
+ */
+export function countryStateParts(api: CoreAPI, key: string) {
+  const state = store(api)
+    .table("countryStates")
+    .get(`country-state:${key}`) as unknown as CountryState | undefined;
+  if (!state) return undefined;
+  const total = countryStateFigures(state, rulesOf(api));
+  const row = partOf(api, key);
+  const part = row
+    ? countryPartFigures(row)
+    : { population: 0, jobs: 0, workers: 0, seekers: 0 };
+  return {
+    stateId: state.id,
+    partId: row?.id,
+    month: row?.month,
+    placeIds: row?.placeIds ?? [],
+    total: { people: total.population, jobs: total.jobs },
+    part: { people: part.population, jobs: part.jobs },
+    rest: {
+      people: total.population - part.population,
+      jobs: total.jobs - part.jobs,
+    },
+  };
+}
+
+const nationFigures = (
+  month: Pick<
+    CountryMonth,
+    | "unemploymentPct"
+    | "priceIndex"
+    | "jobs"
+    | "hourlyPay"
+    | "realOutput"
+    | "busy"
+  >,
+): NationFigures => ({
+  unemploymentPct: month.unemploymentPct,
+  priceIndex: month.priceIndex,
+  jobs: month.jobs,
+  hourlyPay: month.hourlyPay,
+  realOutput: month.realOutput,
+  busy: month.busy,
+});
+
 function runMonth(api: CoreAPI, state: MacroStateRow): void {
   const p = params(api);
   const months = store(api).table("months");
@@ -263,33 +417,102 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     `macro-month:${state.latestMonth}`,
   ) as unknown as MacroMonth;
   const month = shiftMonth(state.latestMonth, p("one"), p);
-  const heard = townGrowthHeard(
-    api,
-    state.placeIds,
-    shiftMonth(month, -p("one"), p),
+  // Every state's month, under the law in force there and the central bank's rate; a recorded disaster ends jobs in its state.
+  const tier = readCountry(api);
+  const lost = regionalRegistered(api)
+    ? regionalShocksStarting(api, month)
+    : new Map<string, number>();
+  // The played town and its county are counted from their own records: the part their state's
+  // cells held for them last month comes out before the state steps (the opening's totals
+  // held them the first time), and today's count goes in after it.
+  const counted = townPartCounts(api);
+  const parts = new Map<string, { out: CountryPart; in: CountryPartRow }>();
+  for (const row of tier.states) {
+    const held = partOf(api, row.key);
+    const now = counted.get(row.key);
+    if (!held && !now) continue;
+    const today = now
+      ? resolveCountryPart(row, now.counts)
+      : resolveCountryPart(row, {
+          people: COUNTRY_AGE_BANDS.map(() => p("zero")),
+          workers: COUNTRY_AGE_BANDS.map(() => p("zero")),
+          seekers: COUNTRY_AGE_BANDS.map(() => p("zero")),
+          children: p("zero"),
+          jobs: {},
+          unsortedJobs: p("zero"),
+          cash: p("zero"),
+        });
+    parts.set(row.key, {
+      out: held ?? today,
+      in: {
+        ...today,
+        id: partId(row.key),
+        key: row.key,
+        month,
+        placeIds: now?.placeIds ?? [],
+      },
+    });
+  }
+  const nation = stepCountry(
+    tier,
+    {
+      // The tier's first month fits its hiring and matching constants, so it runs under the
+      // law the world began with, as the opening does; a law enacted on the first day
+      // reaches paychecks from the second month.
+      law: tier.month === p("zero") ? lawAtTheStart(api) : lawNow(api),
+      policyRate: state.policyRatePct / p("macroHundred"),
+      jobsLost: (row) => lost.get(row.usps) ?? p("zero"),
+      parts: (row) => parts.get(row.key),
+    },
+    rulesOf(api),
+  );
+  for (const part of parts.values())
+    store(api)
+      .table("countryParts")
+      .put(part.in as unknown as { id: string });
+  if (bookkeeping()) {
+    const problems = countryProblems(tier);
+    if (problems.length)
+      throw new Error(
+        `The country tier holds counts that cannot be: ${problems.join("; ")}`,
+      );
+  }
+  writeCountry(api, tier);
+  const opening = months.get(
+    `macro-month:${state.openingMonth}`,
+  ) as unknown as MacroMonth;
+  const row = countryMacroMonth(
+    previous,
+    { row: opening, nation: state.countryBase },
+    nationFigures(nation),
+    months.get(
+      `macro-month:${shiftMonth(month, -p("macroMonthsPerYear"), p)}`,
+    ) as unknown as MacroMonth | undefined,
+    state.policyRatePct,
     p,
   );
-  const row = {
-    ...stepMacroMonth(
-      previous,
-      state.policyRatePct,
-      heard?.pct,
-      state.townResidents,
-      p,
-    ),
-    ...(heard
-      ? {
-          townGrowthEstimatePct: heard.estimatePct,
-          townGrowthOwnWeight: heard.ownWeight,
-          ...(heard.ownPct === undefined
-            ? {}
-            : { townGrowthOwnPct: heard.ownPct }),
-        }
-      : {}),
-  };
-  // The town's own income growth, once a year of it is recorded, is what the national step heard from the town.
   months.put(row as unknown as { id: string });
-  if (regionalRegistered(api)) stepRegional(api, previous, row);
+  if (regionalRegistered(api)) {
+    const prices = tier.priceIndex;
+    stepRegional(api, previous, row, (fips) => {
+      const own = countryStateNow(api, fips);
+      if (!own) return undefined;
+      const since = (now: number, then: number) =>
+        then > p("zero") ? now / then : p("one");
+      return {
+        unemploymentPct: own.now.unemploymentPct,
+        unemploymentAtStartPct: own.base.unemploymentPct,
+        jobs: since(own.now.jobs, own.base.jobs),
+        pay:
+          (since(own.now.hourlyPay, own.base.hourlyPay) /
+            since(nation.hourlyPay, state.countryBase.hourlyPay)) *
+          since(row.hourlyEarnings, opening.hourlyEarnings),
+        people: since(own.now.population, own.base.population),
+        // The state's prices against the nation's: both opened at one.
+        prices: since(own.now.prices, prices),
+      };
+    });
+  }
   const next = { ...state, latestMonth: row.month };
   store(api).table("state").put(next);
   publishConditions(api, next, row);
@@ -301,6 +524,75 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     source: recordSource(api),
     sourceRecordIds: [row.id],
   });
+}
+
+/**
+ * The country tier's day one: every state from the world's own opening figures
+ * (the regional rows this seed drew), with its books made to add up under the
+ * law in force.
+ */
+function openCountryTier(
+  api: CoreAPI,
+  opening: Readonly<MacroMonth>,
+): NationFigures {
+  const p = params(api),
+    rules = rulesOf(api);
+  const regionMonths = openingRegionMonths(
+    opening,
+    api.state.startedAt,
+    api.state.seed,
+    p,
+  );
+  const tier = openCountry(
+    countryOpening(
+      (fips) => {
+        const own = stateFigures(regionMonths, fips);
+        return {
+          unemploymentPct: own.unemploymentPct,
+          hourlyPay: own.hourlyEarnings,
+          priceLevelPct: own.priceLevelPct,
+        };
+      },
+      {
+        unemploymentPct: opening.unemploymentPct,
+        policyRatePct: opening.policyRatePct,
+        // People open expecting the price rises the last twelve months gave them.
+        expectedInflationPct: opening.inflationPct,
+      },
+      p,
+    ),
+    // The opening is fitted under the law the world began with: the law in force the day
+    // before the start. A law enacted on the first day (dev mode's law control, before the
+    // economy opens) is a change the first month then answers, never part of the baseline.
+    lawAtTheStart(api),
+    rules,
+  );
+  writeCountry(api, tier);
+  let jobs = p("zero"),
+    paid = p("zero");
+  for (const state of tier.states) {
+    const figures = countryStateFigures(state, rules);
+    jobs += figures.jobs;
+    paid += figures.jobs * figures.hourlyPay;
+    store(api)
+      .table("countryBases")
+      .put({
+        id: `country-base:${state.fips}`,
+        fips: state.fips,
+        unemploymentPct: figures.unemploymentPct,
+        jobs: figures.jobs,
+        hourlyPay: figures.hourlyPay,
+        population: figures.population,
+      } satisfies CountryStateBase);
+  }
+  return {
+    unemploymentPct: opening.unemploymentPct,
+    priceIndex: tier.priceIndex,
+    jobs,
+    hourlyPay: jobs > p("zero") ? paid / jobs : p("zero"),
+    realOutput: tier.openingRealSales,
+    busy: p("zero"),
+  };
 }
 
 function scheduleMeeting(api: CoreAPI, after: string): void {
@@ -336,10 +628,27 @@ function open(api: CoreAPI): MacroStateRow {
       inflationPct: chosen.inflationPct ?? last.inflationPct,
       outputGapPct:
         -p("macroOkunOutputPerUnemploymentPoint") *
-        (unemploymentPct - p("macroNaturalUnemploymentPct")),
+        (unemploymentPct - last.naturalUnemploymentPct),
       policyRatePct,
       primeRatePct: policyRatePct + p("macroPrimeSpreadPct"),
     };
+    // A chosen inflation is the rise in prices over the year before the opening, so the year's
+    // price history is the chosen pace: the months after it then measure their own year from it.
+    if (chosen.inflationPct !== undefined) {
+      const perMonth =
+        (p("one") + chosen.inflationPct / p("macroHundred")) **
+        (p("one") / p("macroMonthsPerYear"));
+      const end = rows.length - p("one");
+      for (
+        let back = p("one");
+        back <= p("macroMonthsPerYear") && end - back >= p("zero");
+        back += p("one")
+      )
+        rows[end - back] = {
+          ...rows[end - back]!,
+          priceIndex: last.priceIndex / perMonth ** back,
+        };
+    }
   }
   for (const row of rows) months.put(row as unknown as { id: string });
   const board = generateBoard(core, p);
@@ -369,15 +678,7 @@ function open(api: CoreAPI): MacroStateRow {
       Math.floor(opening.policyRatePct / step) * step + step / p("two"),
     ),
     placeIds,
-    // The town's people: the full people (less the board's) and the counted
-    // residents of its places, each record times the households it stands for.
-    townResidents:
-      core.people.size -
-      board.members.length +
-      residentCounts(core).reduce(
-        (n, row) => n + (placeIds.includes(row.placeId) ? row.people : 0),
-        0,
-      ),
+    countryBase: openCountryTier(api, opening),
   };
   store(api)
     .table("state")
@@ -625,6 +926,10 @@ export const MACRO_MODULE: PreStartModule = {
     tables: {
       state: {},
       months: {},
+      country: {},
+      countryStates: { indexes: { byFips: { fields: ["fips"] } } },
+      countryBases: {},
+      countryParts: {},
       members: { indexes: { all: { fields: ["isMember"] } } },
       meetings: {},
       votes: { indexes: { byMeeting: { fields: ["meetingId"] } } },
@@ -645,10 +950,16 @@ export const MACRO_MODULE: PreStartModule = {
     else if (work.kind === "macro-rate-effective")
       takeEffect(api, work.sourceRecordIds[0]!);
   },
-  onDay(api) {
-    if (!readState(api)) open(api);
-  },
+  onDay: openOnce,
+  // Results mode (time nobody watches): the engine's only daily work is its
+  // opening; its months, meetings and rate changes are dated work and run.
+  onResultsMonth: openOnce,
 };
+
+/** The economy opens on the first day the engine runs, in play or skipped. */
+function openOnce(api: CoreAPI): void {
+  if (!readState(api)) open(api);
+}
 
 /** The board members are people in the world; add them to the opening input. */
 export function withCentralBank(input: CoreInput): CoreInput {
@@ -674,6 +985,193 @@ export function macroCoreData(base: CoreData = DEFAULT_DATA): CoreData {
       ...JOBS_PARAMETERS,
     },
   });
+}
+
+/** One year's end in the outlook: the nation's figures, or one state's. */
+export interface OutlookPoint {
+  month: string;
+  unemploymentPct: number;
+  people: number;
+  hourlyPay: number;
+}
+export interface CountryOutlook {
+  /** The month the outlook starts from: the latest month the game has lived. */
+  from: string;
+  months: number;
+  /** The nation at the start and at each year's end, with its prices and the board's rate. */
+  nation: (OutlookPoint & {
+    inflationPct: number;
+    policyRatePct: number;
+    /** Payroll jobs in thousands, as the national month keeps them. */
+    jobsThousands: number;
+  })[];
+  /** Each state at the start and at each year's end, by postal code, with its jobs and its budget for the year. */
+  states: Record<
+    string,
+    (OutlookPoint & { jobs: number; budgetYear: number })[]
+  >;
+  /** Months in which some count could not be (more at work than people, a negative count), and the first few. */
+  monthsWithProblems: number;
+  problems: string[];
+  /** The most the country's dollars strayed from their sum at the start, as a share: zero but for rounding. */
+  moneyDrift: number;
+}
+
+const OUTLOOK_PROBLEMS_KEPT = 8;
+
+/**
+ * The country some years on if nothing else changes: a copy of every state's counts, stepped by
+ * the same month the game steps (`stepCountry`, `countryMacroMonth`) under the law in force
+ * today, with today's board meeting on its own calendar and each member voting by the rule they
+ * vote by in play. Read-only: it writes no record and moves no date, so it is what the tier
+ * would do, not what the town will (the town and county held in full stay as they are today).
+ */
+/** Whether the national economy has opened: it opens on the game's first day, and there is no outlook before it. */
+export function countryOpened(api: CoreAPI): boolean {
+  return readState(api) !== undefined;
+}
+
+/** The tier's own check for counts that cannot be (negative, more working than people, jobs not matching workers); empty before the economy opens. */
+export function countryTierProblems(api: CoreAPI): string[] {
+  return readState(api) ? countryProblems(readCountry(api)) : [];
+}
+
+export function countryOutlook(api: CoreAPI, months: number): CountryOutlook {
+  const p = params(api),
+    core = api.state as CoreState;
+  const state = readState(api);
+  if (!state) throw new Error("The national economy has not opened yet.");
+  const table = store(api).table("months");
+  const lived = (month: string) =>
+    table.get(`macro-month:${month}`) as unknown as MacroMonth | undefined;
+  const opening = lived(state.openingMonth)!;
+  const tier = readCountry(api);
+  const rules = rulesOf(api);
+  const members = store(api)
+    .table("members")
+    .query("all", [true]) as unknown as BoardMember[];
+  const made = new Map<string, MacroMonth>();
+  const hundred = p("macroHundred"),
+    year = p("macroMonthsPerYear");
+  let previous = lived(state.latestMonth)!;
+  let rate = state.policyRatePct;
+  // A decision takes effect some days after its meeting; the month that starts on or after that day is stepped at the new rate.
+  let pending: { at: string; rate: number } | undefined;
+  let meeting = nextMeetingDate(core.date);
+  const nationPoint = (row: MacroMonth) => ({
+    month: row.month,
+    unemploymentPct: row.unemploymentPct,
+    inflationPct: row.inflationPct,
+    policyRatePct: rate,
+    people: tier.states.reduce((sum, own) => sum + countryPeople(own), 0),
+    jobsThousands: row.payrollJobsThousands,
+    hourlyPay: row.hourlyEarnings,
+  });
+  const statePoint = (own: CountryState, month: string) => {
+    const now = countryStateFigures(own, rules);
+    return {
+      month,
+      unemploymentPct: now.unemploymentPct,
+      people: now.population,
+      jobs: now.jobs,
+      hourlyPay: now.hourlyPay,
+      budgetYear: own.ledger.budgetYear,
+    };
+  };
+  const out: CountryOutlook = {
+    from: previous.month,
+    months,
+    nation: [nationPoint(previous)],
+    states: Object.fromEntries(
+      tier.states.map((own) => [own.usps, [statePoint(own, previous.month)]]),
+    ),
+    monthsWithProblems: 0,
+    problems: [],
+    moneyDrift: 0,
+  };
+  // The board meets on its calendar and votes on the month it has just read.
+  const meetIn = (row: MacroMonth) => {
+    while (monthKey(meeting) === row.month) {
+      if (pending) {
+        rate = pending.rate;
+        pending = undefined;
+      }
+      const readings = meetingReadings(row, rate, p);
+      const options = rateOptions(rate, p);
+      const seated = votersOn(meeting, members);
+      const moves = (seated.length ? seated : members).map((member) =>
+        moveOfTarget(
+          chooseAct(
+            core,
+            member.personId,
+            rateOffers(
+              memberView(member, readings, p),
+              options,
+              `outlook:${meeting}`,
+              p,
+            ),
+          ).selected!.targetId,
+        ),
+      );
+      const move = moves.length ? committeeDecision(moves) : p("zero");
+      pending = {
+        at: addDays(makeIsoDate(meeting), BOARD.effectiveDaysAfterDecision),
+        rate: rate + move,
+      };
+      meeting = nextMeetingDate(meeting);
+    }
+  };
+  // A meeting still to come this month reads the month the game has already lived.
+  meetIn(previous);
+  const dollars = countryMoney(tier);
+  for (let step = 1; step <= months; step += 1) {
+    const month = shiftMonth(previous.month, p("one"), p);
+    if (pending && pending.at <= `${month}-01`) {
+      rate = pending.rate;
+      pending = undefined;
+    }
+    // The law already on the books for that month: a change enacted with a later date arrives on its date.
+    const nation = stepCountry(
+      tier,
+      {
+        law: lawNow(api, `${month}-01`),
+        policyRate: rate / hundred,
+        parts: (own) => {
+          const held = partOf(api, own.key);
+          return held && { out: held, in: held };
+        },
+      },
+      rules,
+    );
+    const found = countryProblems(tier);
+    if (found.length) {
+      out.monthsWithProblems += 1;
+      if (out.problems.length < OUTLOOK_PROBLEMS_KEPT)
+        out.problems.push(`${month}: ${found[0]}`);
+    }
+    out.moneyDrift = Math.max(
+      out.moneyDrift,
+      Math.abs(countryMoney(tier) - dollars) / Math.abs(dollars),
+    );
+    const earlier = shiftMonth(month, -year, p);
+    const row = countryMacroMonth(
+      previous,
+      { row: opening, nation: state.countryBase },
+      nationFigures(nation),
+      made.get(earlier) ?? lived(earlier),
+      rate,
+      p,
+    );
+    made.set(month, row);
+    previous = row;
+    meetIn(row);
+    if (step % year === 0) {
+      out.nation.push(nationPoint(row));
+      for (const own of tier.states)
+        out.states[own.usps]!.push(statePoint(own, month));
+    }
+  }
+  return out;
 }
 
 /** What the bench's national panel shows: each month against its band, each meeting with every vote's reasons. Read-only. */

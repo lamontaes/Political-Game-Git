@@ -33,6 +33,7 @@ import type { ScheduleEntry } from "./scheduling";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const ATTEMPTS = 6;
 const DAYS = 330;
+const MONTH = 30;
 const LABEL = "circumstance:notice-home";
 
 /** Every path of a tree: the replies chosen, the node it reaches. */
@@ -64,26 +65,42 @@ it(`a notice to pay or leave is talked over at home, from the record (seed ${see
       // The year as it plays: the first full household of two or more the
       // landlord serves, and the day.
       const first = build();
-      advanceCore(first.core, addDays(makeIsoDate(first.core.date), DAYS));
-      const served = (
-        coreAPI(first.core)
-          .moduleState(HOUSING_MODULE_ID)
-          .table("cases")
-          .rows() as unknown as CaseRow[]
-      )
-        .filter(
-          (row) =>
-            !row.counted &&
-            (first.core.households.get(row.householdId)?.memberIds.length ??
-              0) > 1,
+      // A month at a time, stopping at the first household the landlord
+      // serves, so a year is not played where a few weeks show one.
+      // Only the played town's own households: a household of an official
+      // filled in from elsewhere is not one the player's town lives beside.
+      const townHouseholds = new Set(
+        first.residents.map((row) => row.householdId),
+      );
+      const firstServed = () =>
+        (
+          coreAPI(first.core)
+            .moduleState(HOUSING_MODULE_ID)
+            .table("cases")
+            .rows() as unknown as CaseRow[]
         )
-        .sort((a, b) => a.noticeAt.localeCompare(b.noticeAt))[0];
+          .filter(
+            (row) =>
+              !row.counted &&
+              townHouseholds.has(row.householdId) &&
+              (first.core.households.get(row.householdId)?.memberIds.length ??
+                0) > 1,
+          )
+          .sort((a, b) => a.noticeAt.localeCompare(b.noticeAt))[0];
+      let served: CaseRow | undefined;
+      for (let played = 0; played < DAYS && !served; played += MONTH) {
+        advanceCore(first.core, addDays(makeIsoDate(first.core.date), MONTH));
+        served = firstServed();
+      }
       if (!served) {
         tried.push(`${where}: no household of two served notice`);
         continue;
       }
-      // The same world, played as an adult of that household.
+      // The same world, played again without a player up to the day before
+      // the notice (the clock for one person is only needed around it), then
+      // as an adult of that household through the player's clock.
       const { core, director } = build();
+      advanceCore(core, addDays(served.noticeAt, -1));
       const start = makeIsoDate(core.date);
       const personId = (
         core.households.get(served.householdId)?.memberIds ?? []
@@ -153,7 +170,34 @@ it(`a notice to pay or leave is talked over at home, from the record (seed ${see
       const said = scene.talk.lines.map((row) => row.text).join(" | ");
       const owed = scene.facts.find((row) => row.key === "owed");
       expect(owed?.recordIds, where).toContain(moment.causeId);
-      // The four answers are four moves.
+      // What is owed is said as people say it ("about $400"), never to the
+      // dollar; how long the rent has gone unpaid is said in months, from the
+      // day the lease first went unpaid; and the state line says both. A few
+      // dollars is not "that far behind", and no line names a season (owner,
+      // Nov 8 playtest, P39).
+      expect(owed?.text, where).toMatch(/^about \$[\d,]+$/);
+      const late = scene.facts.find((row) => row.key === "late");
+      expect(late?.text, where).toMatch(/^(?:a week|a couple|about|a year)/);
+      expect(scene.talk.state.text, where).toContain(owed!.text);
+      expect(scene.talk.state.text, where).toContain(late!.text);
+      const deep = scene.facts.some((row) => row.key === "short-deep");
+      const lines = scene.talk.lines.map((row) => row.text);
+      for (const line of lines) {
+        expect(line, where).not.toMatch(
+          /\b(?:spring|summer|fall|autumn|winter)\b/i,
+        );
+        if (!deep) expect(line, where).not.toMatch(/that far behind/i);
+      }
+      process.stdout.write(
+        `NOTICE SHORTFALL ${where}: owed ${owed!.text}, unpaid ${late!.text}, rent ${core.durableLog.get(moment.causeId)?.facts?.rentMinor}, band ${
+          scene.facts.some((row) => row.key === "short-little")
+            ? "little"
+            : deep
+              ? "deep"
+              : "between"
+        }\n`,
+      );
+      // Up to four answers, all different moves.
       const root = scene.talk.tree.replies.map((reply) => reply.line);
       expect(new Set(root.map((row) => row.move)).size, where).toBe(
         root.length,

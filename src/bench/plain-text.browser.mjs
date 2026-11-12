@@ -5,6 +5,8 @@
 // no field name, status code, ISO date or developer button.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
+import { devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -105,6 +107,7 @@ try {
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
+  await playOpening(page, (await (await made).json()).sceneMomentId ?? null);
   console.log("Place:", await page.locator("#card-place").innerText());
   await sheet("news");
   await read("News", "#sheet");
@@ -127,13 +130,20 @@ try {
   // The filing counter: the first office in Travel that takes filings.
   const counter = async (who) => {
     await sheet("travel");
-    const go = page.locator("#sheet-body .entry", { hasText: /You file here/ });
+    const go = page.locator(".travel-tile[data-filing]");
     await go.first().waitFor();
     let opened = false;
     for (let i = 0; i < (await go.count()) && !opened; i++) {
       await go.nth(i).click();
       const placeGo = page.locator('[data-testid="place-go"]');
-      if (await placeGo.isVisible().catch(() => false)) await placeGo.click();
+      // The place card draws after its tile is chosen (it loads what the place offers first).
+      if (
+        await placeGo.waitFor({ timeout: 5000 }).then(
+          () => true,
+          () => false,
+        )
+      )
+        await placeGo.click();
       opened = await page
         .locator("#talk:not([hidden])")
         .waitFor({ timeout: 5000 })
@@ -142,10 +152,23 @@ try {
     }
     assert.ok(opened, "no place in Travel takes filings");
     await read(`Talk box (${who})`, "#talk");
-    await page.locator("#talk-choices button").first().click();
+    // The clerk's scene leads in before the race choices: Continue until they are offered.
+    const choice = page.locator("#talk-choices button").first();
+    const next = page.locator("#talk-next:visible");
+    for (let turn = 0; turn < 12 && !(await choice.count()); turn += 1) {
+      await choice.or(next).first().waitFor();
+      if (await choice.count()) break;
+      await next.click();
+      await read(`Talk box, lead-in (${who})`, "#talk");
+    }
+    await choice.click();
     await page.waitForTimeout(600);
     await read(`Talk box, race picked (${who})`, "#talk");
   };
+  // A seat the player may file for has its window open: the world runs until one does (dev mode, on the Calendar).
+  await devModeOn(page);
+  const opened = await devRunUntilMayFile(page);
+  assert.equal(opened.reason, "event", "no seat opened its filing window");
   await counter("seventeen");
   await page.locator("#talk-leave").click();
   // A grown resident of the same world files, so the clerk's reply and
@@ -169,6 +192,8 @@ try {
     document.getElementById("card-name").textContent.trim(),
   );
   console.log("Place:", await page.locator("#card-place").innerText());
+  await devModeOn(page);
+  await devRunUntilMayFile(page);
   await counter("grown");
   const choices = page.locator("#talk-choices button");
   const labels = await choices.allInnerTexts();
@@ -185,9 +210,9 @@ try {
   await sheet("politics");
   await page
     .locator("#sheet-tabs")
-    .getByRole("button", { name: "Campaigns", exact: true })
+    .getByRole("button", { name: "Campaign", exact: true })
     .click();
-  await page.locator(".row.campaign").first().waitFor();
+  await page.locator(".campaign-board").first().waitFor();
   await read("Politics Campaigns after filing", "#sheet");
   // Two weeks on, News carries the region's numbers and the month's stories.
   await page.locator("#sheet-close").click();

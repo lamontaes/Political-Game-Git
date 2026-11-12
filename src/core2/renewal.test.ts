@@ -292,6 +292,15 @@ it.each([false, true])(
       const plan = renewal.table("plans").get(String(pregnancy.planId))!;
       const decision = (plan.decisions as unknown as Decision[])[0]!;
       expect(decision.continues, label).toBe(false);
+      // The cash on hand is read the day the pregnancy ends, not the day the
+      // couple was picked: a household whose cash is gone by then pays nothing
+      // (the filter above), so this draw cannot show the trip being paid.
+      if (decision.cashMinor < decision.travelMinor) {
+        tried.push(
+          `${label}: her household's cash was gone by the day it ended`,
+        );
+        continue;
+      }
       expectDistance(api, plan, decision, draw.state, label);
       expect(plan.lawId, label).toBe(
         lawInForce(api, ABORTION_LAW_SERIES, String(plan.date)).governing?.id ??

@@ -10,6 +10,7 @@ import {
   appliedOn,
   appliedTo,
   lawApplied,
+  lawNoLongerApplies,
   lawReachRuns,
   type AppliedTarget,
 } from "./applied";
@@ -25,7 +26,8 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
-import { enactLaw, lawChain, lawInForce } from "../modules/laws";
+import { enactLaw, lawChain, lawInForce, lawRows } from "../modules/laws";
+import { lawRowIsLater } from "../laws-in-force";
 import {
   countedJob,
   residentsRuntime,
@@ -39,9 +41,21 @@ import {
   type ResidentFacts,
   type TownFacts,
 } from "./group-b-people";
-import { flowWeights, fundOf } from "../counted-money";
-import { getRow, putRow, REACH_B_MODULE_ID, rowsOf } from "./group-b-store";
-import { fundFederalStanding, registerLinePayments } from "../budgets-treasury";
+import { flowWeights, fundOf, peopleInGroup } from "../counted-money";
+import {
+  getRow,
+  putRow,
+  REACH_B_MODULE_ID,
+  reachTable,
+  rowsOf,
+} from "./group-b-store";
+import type { ModuleRow } from "../module-data";
+import {
+  budgetInForce,
+  fundFederalStanding,
+  noteLinePaid,
+  registerLinePayments,
+} from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 
 export const source = (api: CoreAPI, citation: string): Source => ({
@@ -321,6 +335,17 @@ interface BenefitRow {
  * Each month's close counts the benefits and vouchers a treasury pays in town
  * as that line's spending, so the line pays only the rest outside.
  */
+/**
+ * The line a benefit with no line of its own counts against: the paying government's own budget
+ * line for it, read from the budget it keeps (a town or state's welfare and Medicaid; the federal
+ * budget's lines are the Treasury's outlays by function, so its income security).
+ */
+const BENEFIT_LINES = ["welfareAndMedicaid", "incomeSecurity"] as const;
+function benefitLineOf(api: CoreAPI, gov: { readonly id: string }): string {
+  const lines = budgetInForce(api, gov.id)?.spendingMinor ?? {};
+  return BENEFIT_LINES.find((line) => line in lines) ?? BENEFIT_LINES[0];
+}
+
 registerLinePayments((api, gov) => {
   const accounts = api.accounts();
   const out: Record<string, number> = {};
@@ -329,14 +354,13 @@ registerLinePayments((api, gov) => {
       !(
         row.key.startsWith("benefit|") ||
         row.key.startsWith("voucher|") ||
-        row.key.startsWith("coverage|") ||
         row.key.startsWith("preschool|")
       ) ||
       row.governmentId !== gov.id
     )
       continue;
     if (accounts.obligation(row.obligationId)?.endedAt) continue;
-    const line = row.line ?? "welfareAndMedicaid";
+    const line = row.line ?? benefitLineOf(api, gov);
     out[line] = (out[line] ?? 0) + row.amountMinor;
   }
   return out;
@@ -354,7 +378,13 @@ const FUND = "fund-account:";
 export function reconcileObligations(
   api: CoreAPI,
   input: {
-    readonly rowKind: "benefit" | "voucher" | "coverage" | "preschool";
+    readonly rowKind:
+      | "benefit"
+      | "voucher"
+      | "preschool"
+      | "child-care"
+      | "energy-assistance"
+      | "ssi";
     readonly key: string;
     readonly want: ReadonlyMap<string, number>;
     readonly line?: string;
@@ -363,8 +393,8 @@ export function reconcileObligations(
     /**
      * The laws a payment from this government carries the keys of in its id,
      * so the journal entry of its money names them (the policy's key unless
-     * the payment is set by other laws too: the federal share of Medicaid is
-     * the match's, the SNAP benefit the maximum's).
+     * the payment is set by other laws too: the SNAP benefit is the
+     * maximum's).
      */
     readonly cites?: (governmentId: string) => readonly string[];
   },
@@ -590,8 +620,6 @@ export function payBenefits(
     readonly service: ServiceRow;
     readonly heads: readonly ResidentFacts[];
     readonly modeledShare: number;
-    /** A work requirement in force: who it reaches, and how long it lets them draw. */
-    readonly timeLimit?: AssistanceTimeLimit | null;
   },
 ): Map<string, Record<string, number>> {
   const core = api.state as CoreState;
@@ -605,15 +633,9 @@ export function payBenefits(
   for (const [govId, delta] of Object.entries(input.service.byGovernment)) {
     const gov = governments(api).find((g) => g.id === govId);
     if (!gov || delta <= 0 || !input.heads.length) continue;
-    // The work requirement lets those it reaches draw only for its time limit;
-    // the line's money goes to those still drawing.
-    const limited = timeLimitedNow(api, govId, input.key, input.timeLimit);
-    const drawing = input.heads.filter((h) => !limited.has(h.id));
-    recordDraws(
-      api,
-      input.timeLimit,
-      drawing.map((h) => h.id),
-    );
+    // This is cash assistance from a budget amendment, not SNAP. Only the
+    // food-aid engine applies and consumes 7 USC 2015(o)'s SNAP month limit.
+    const drawing = input.heads;
     const named = drawing.filter((h) => h.named);
     // Real heads: a counted row stands for as many households as its weight says.
     const everyone = drawing.reduce((n, h) => n + (h.scale ?? 1), 0);
@@ -691,22 +713,35 @@ export function assistanceIncomeByHousehold(
 }
 
 /**
- * Medicaid expansion as a payment: the state treasury pays each covered
- * adult's monthly medical spending (the Consumer Expenditure Survey's drugs
- * and medical supplies), a month at a time from the welfare and Medicaid line.
- * Named adults are paid to their own account; counted adults through the
- * town's residents account, times their weights. Those the work requirement
- * ends, and everyone on repeal, are no longer wanted, so their payment ends.
- * Returns each named adult's monthly amount and how many counted adults are
- * covered (stopgap SG-GOV-REACH-B-medicaid-coverage: no itemized medical bills).
+ * Medicaid expansion as coverage: who the expansion covers today, named and
+ * counted, kept by person id as stretches of coverage (the reach's coverage
+ * table): a stretch opens the day after an adult is first covered and ends
+ * the day they no longer are (the work requirement ends it, they leave the
+ * town, or the expansion is repealed). The coverage engine's medical bills
+ * read it (medical-bills.ts: a covered member pays Medicaid's patient share),
+ * and the health engine's monthly look reads a named adult's
+ * (coverage-to-mortality-55-64). No payment to the adult: the bill is the
+ * expansion's one path into a covered adult's money, and Medicaid's own part
+ * of the care is paid to the seller (payMedicaidCare). Returns each named
+ * adult's terms and how many counted adults are covered, times their weights.
  */
-export function payCoverage(
+export function recordCoverage(
   api: CoreAPI,
   input: {
     readonly key: string;
     readonly lawId: string;
     readonly inForce: boolean;
     readonly covered: readonly ResidentFacts[];
+    /**
+     * The adults the expansion reaches whose coverage the work requirement
+     * ends (its key and law row): kept as stretches under the requirement's
+     * key, by person id, so the bills can name the law that priced them.
+     */
+    readonly ended?: {
+      readonly key: string;
+      readonly lawId: string;
+      readonly ids: readonly string[];
+    };
   },
 ): {
   readonly named: ReadonlyMap<string, Record<string, number>>;
@@ -715,110 +750,223 @@ export function payCoverage(
   const core = api.state as CoreState;
   if (!core.modules.has(BUDGETS_MODULE_ID))
     return { named: new Map(), counted: 0 };
+  const ended = input.inForce ? input.ended : undefined;
+  if (ended) keepStretches(api, ended.key, ended.lawId, new Set(ended.ids));
+  else closeStretches(api, ENDED_BY_REQUIREMENT);
   const town = lawChain(api).townPlaceId;
-  const state = governmentAt(api, "state");
-  const federal = governmentAt(api, "federal");
-  const want = new Map<string, number>();
+  const want = new Set<string>();
   const named = new Map<string, Record<string, number>>();
   let counted = 0;
-  if (input.inForce && state) {
-    const monthly = Math.round(
-      reachParameter("medicaidMonthlyMedicalDollars") *
-        reachParameter("centsPerDollar"),
-    );
-    // The federal share of Medicaid spending is the match in force (a
-    // percent), paid by the federal treasury; the state pays the rest.
-    const match = lawInForce(api, "medicaid-match");
-    const federalShare = federal
-      ? Math.min(
-          1,
-          Math.max(0, (match.value ?? 0) / reachParameter("percentPerWhole")),
-        )
-      : 0;
-    const split = (total: number, to: string) => {
-      const fromFederal = Math.round(total * federalShare);
-      if (total - fromFederal > 0)
-        want.set(`${state.id}|${to}`, total - fromFederal);
-      if (federal && fromFederal > 0)
-        want.set(`${federal.id}|${to}`, fromFederal);
-      return fromFederal;
-    };
-    const residentsOrg = residentsRuntime(core)?.input.accounts.find(
-      (a) => a.placeId === town,
-    )?.accountId;
+  if (input.inForce && governmentAt(api, "state")) {
     let countedPeople = 0;
-    let federalMinor = 0;
     for (const r of input.covered) {
+      want.add(r.id);
       if (r.named) {
-        federalMinor += split(monthly, r.id);
-        named.set(r.id, { monthlyMinor: monthly });
+        named.set(r.id, {});
         recordApplied(api, {
           key: input.key,
           lawId: input.lawId,
           targetId: r.id,
           target: "person",
-          what: "medicaid-coverage-paid",
-          amountMinor: monthly,
+          what: "medicaid-coverage",
         });
       } else countedPeople += (r.weight ?? 1) * (r.scale ?? 1);
     }
-    if (residentsOrg && countedPeople > 0) {
+    if (countedPeople > 0) {
       counted = Math.round(countedPeople);
-      const total = Math.floor(monthly * countedPeople);
-      federalMinor += split(total, residentsOrg);
       recordApplied(api, {
         key: input.key,
         lawId: input.lawId,
         targetId: `${town}:medicaid-covered-adults`,
         target: "group",
-        what: "medicaid-coverage-paid",
+        what: "medicaid-coverage",
         count: counted,
-        amountMinor: total,
       });
     }
-    // The match law is read here, at the moment the federal share is paid.
-    if (federal && match.governing && federalMinor > 0)
-      recordApplied(api, {
-        key: "medicaid-match",
-        lawId: match.governing.id,
-        targetId: federal.id,
-        target: "government",
-        what: "federal-share-of-medicaid-paid",
-        amountMinor: federalMinor,
-      });
   }
-  reconcileObligations(api, {
-    rowKind: "coverage",
-    key: input.key,
-    want,
-    line: "welfareAndMedicaid",
-    cites: (governmentId) =>
-      governmentId === federal?.id
-        ? [input.key, "medicaid-match"]
-        : [input.key],
-    reasonKey: "law-reach:medicaid-coverage",
-    citation: `Medicaid expansion (${input.key}): the state and, at the federal match, the federal government pay a covered adult's medical spending`,
-  });
+  keepStretches(api, input.key, input.lawId, want);
   return { named, counted };
 }
 
-/** One stretch of a named person's coverage being paid by a government (its obligation records). */
-export interface CoverageSpell {
-  /** The first day a payment for the stretch could fall due. */
+/** The work requirement's key, under which the reach keeps whose coverage it ends. */
+export const ENDED_BY_REQUIREMENT =
+  "us-policy-positions:health-human-services.medicaid-work-requirement";
+
+/**
+ * A policy's stretches by person id, kept current: a stretch opens the day
+ * after a person is first wanted and ends the day they no longer are.
+ */
+function keepStretches(
+  api: CoreAPI,
+  key: string,
+  lawId: string,
+  want: ReadonlySet<string>,
+): void {
+  const table = reachTable(api, "coverage");
+  const today = api.state.date;
+  const open = table.query("byKey", [key, null]) as unknown as CoverageRow[];
+  for (const row of open)
+    if (!want.has(row.personId))
+      table.put({ ...row, to: today } as unknown as ModuleRow);
+  const holding = new Set(open.map((row) => row.personId));
+  const from = makeIsoDate(addDays(makeIsoDate(today), 1));
+  for (const personId of want) {
+    if (holding.has(personId)) continue;
+    table.put({
+      id: `coverage|${key}|${personId}|${from}`,
+      key,
+      personId,
+      lawId,
+      from,
+      to: null,
+    } satisfies CoverageRow as unknown as ModuleRow);
+  }
+}
+
+function closeStretches(api: CoreAPI, key: string): void {
+  if (!api.state.modules.has(REACH_B_MODULE_ID)) return;
+  keepStretches(api, key, "", new Set());
+}
+
+/** The federal budget line that carries Medicaid's grants to the states (OMB function 550, health). */
+export const FEDERAL_MEDICAID_LINE = "health";
+/** The state budget line whose Census total counts Medicaid vendor payments, federally financed included. */
+export const STATE_MEDICAID_LINE = "welfareAndMedicaid";
+
+/**
+ * Medicaid's own part of its covered members' care, the cost of the care less
+ * what each member pays (medical-bills.ts bills them), paid to the medical
+ * seller the bill names the day it is billed: the federal treasury pays its
+ * share at the Medicaid match in force, read here at the moment it pays (42
+ * U.S.C. 1396d(b)), and the state treasury the rest. Each dollar is paid
+ * inside a budget line, so no close pays it again: the federal leg counts
+ * against the federal health line (the budget function that carries
+ * Medicaid's grants), and the whole care, both legs, against the state's
+ * welfare and Medicaid line, whose Census total already counts federally
+ * financed vendor payments. A payment's id names the expansion, and the
+ * federal one the match too. A treasury pays what it holds. Returns what each
+ * seller was paid and the journal entries.
+ */
+export function payMedicaidCare(
+  api: CoreAPI,
+  input: {
+    /** The expansion's policy key, whose coverage records priced the members. */
+    readonly key: string;
+    /** Medicaid's part of the month's bills, by seller (owner id), in minor units. */
+    readonly bySeller: ReadonlyMap<string, number>;
+    readonly source: Source;
+  },
+): {
+  readonly paidBySeller: ReadonlyMap<string, number>;
+  readonly journalIds: readonly string[];
+} {
+  const paidBySeller = new Map<string, number>();
+  const journalIds: string[] = [];
+  const state = governmentAt(api, "state");
+  if (!state) return { paidBySeller, journalIds };
+  const federal = governmentAt(api, "federal");
+  const match = lawInForce(api, "medicaid-match");
+  const federalShare = federal
+    ? Math.min(
+        1,
+        Math.max(0, (match.value ?? 0) / reachParameter("percentPerWhole")),
+      )
+    : 0;
+  const accounts = api.accounts();
+  const today = api.state.date;
+  let federalMinor = 0;
+  const sellers = [...input.bySeller].sort(([a], [b]) => a.localeCompare(b));
+  // The federal treasury, which borrows any day, covers its shares today.
+  if (federal)
+    fundFederalStanding(
+      api,
+      sellers.reduce(
+        (n, [, minor]) => n + Math.round(Math.max(0, minor) * federalShare),
+        0,
+      ),
+    );
+  for (const [sellerId, minor] of sellers) {
+    if (minor <= 0) continue;
+    const fromFederal = Math.round(minor * federalShare);
+    const legs = [
+      {
+        gov: federal,
+        amount: fromFederal,
+        cites: `${input.key}+medicaid-match`,
+      },
+      { gov: state, amount: minor - fromFederal, cites: input.key },
+    ];
+    let paid = 0;
+    for (const { gov, amount, cites } of legs) {
+      if (!gov || amount <= 0) continue;
+      const receipt = accounts.transfer({
+        id: `reach-b:medicaid-care:${cites}:${gov.id}|${sellerId}:${today}`,
+        from: accounts.main(gov.organizationId),
+        to: accounts.main(sellerId),
+        amountMinor: amount,
+        reasonKey: "law-reach:medicaid-coverage",
+        partial: true,
+        source: input.source,
+      });
+      if (receipt.paidMinor <= 0) continue;
+      paid += receipt.paidMinor;
+      if (gov === federal) {
+        federalMinor += receipt.paidMinor;
+        // stopgapId: SG-GOV-REACH-B-medicaid-federal-leg — the federal share
+        // is paid to the seller directly from the federal health line and
+        // also counted in the state's welfare line, while the federal aid to
+        // the state (a twelfth of its Census federal aid, which already holds
+        // the federal share of the state's Medicaid) stays as it was.
+        api.stopgap("SG-GOV-REACH-B-medicaid-federal-leg");
+        noteLinePaid(api, gov.id, FEDERAL_MEDICAID_LINE, receipt.paidMinor);
+      }
+      // The state's line counts the whole care, the federal leg included.
+      noteLinePaid(api, state.id, STATE_MEDICAID_LINE, receipt.paidMinor);
+      if (receipt.journalSequence !== undefined)
+        journalIds.push(`journal:${today}:${receipt.journalSequence}`);
+    }
+    paidBySeller.set(sellerId, paid);
+  }
+  // The match law is read here, at the moment the federal share is paid.
+  if (federal && match.governing && federalMinor > 0)
+    recordApplied(api, {
+      key: "medicaid-match",
+      lawId: match.governing.id,
+      targetId: federal.id,
+      target: "government",
+      what: "federal-share-of-medicaid-paid",
+      amountMinor: federalMinor,
+    });
+  return { paidBySeller, journalIds };
+}
+
+/** One stretch of a resident's coverage under a policy, as the reach keeps it. */
+interface CoverageRow {
+  readonly id: string;
+  readonly key: string;
+  readonly personId: string;
+  /** The law row that first covered them in this stretch. */
+  readonly lawId: string;
   readonly from: string;
-  /** The day the payment ended, or null while it is still paid. */
   readonly to: string | null;
-  /** The accounts obligations that paid it (the state's share and the federal share, one record each). */
-  readonly obligationIds: readonly string[];
+}
+
+/** One stretch of a resident's coverage (its coverage records). */
+export interface CoverageSpell {
+  /** The first day covered. */
+  readonly from: string;
+  /** The day the coverage ended, or null while it holds. */
+  readonly to: string | null;
+  /** The reach's coverage records the stretch is joined from. */
+  readonly recordIds: readonly string[];
 }
 
 /**
- * Each named person's Medicaid coverage as the payment keeps it: the
- * obligations `payCoverage` opened for them, open and ended, joined into
- * stretches (the state's and the federal share cover the same days, and a
- * change of the match ends one pair and opens the next). Null where no
- * payment engine runs (no law reach or no budgets), so a caller can tell an
- * uncovered person from a world that does not model coverage. Read-only.
+ * Each resident's Medicaid coverage as the reach keeps it, named and counted
+ * by person id: the coverage records `recordCoverage` opened for them, open
+ * and ended, joined into stretches. Null where no law reach runs with budgets
+ * (the reach covers nobody there), so a caller can tell an uncovered person
+ * from a world that does not model coverage. Read-only.
  */
 export function medicaidCoverageSpells(
   api: CoreAPI,
@@ -828,23 +976,16 @@ export function medicaidCoverageSpells(
   if (!core.modules.has(BUDGETS_MODULE_ID) || !lawReachRuns(core)) return null;
   const out = new Map<string, CoverageSpell[]>();
   if (!core.modules.has(REACH_B_MODULE_ID)) return out;
-  const accounts = api.accounts();
   const found = new Map<
     string,
     { from: string; to: string | null; id: string }[]
   >();
-  for (const row of rowsOf<BenefitRow>(api, "taken")) {
-    // An ended payment is re-keyed `ended|<policy>` (reconcileObligations).
-    if (row.key !== `coverage|${key}` && row.key !== `ended|${key}`) continue;
-    // A counted group's fund account is no named person.
-    if (row.recipientId.startsWith(FUND)) continue;
-    const obligation = accounts.obligation(row.obligationId);
-    if (!obligation) continue;
-    const to = obligation.endedAt ?? null;
-    if (to !== null && to <= obligation.firstDueAt) continue;
-    const list = found.get(row.recipientId) ?? [];
-    list.push({ from: obligation.firstDueAt, to, id: row.obligationId });
-    found.set(row.recipientId, list);
+  for (const row of rowsOf<CoverageRow>(api, "coverage")) {
+    if (row.key !== key) continue;
+    if (row.to !== null && row.to <= row.from) continue;
+    const list = found.get(row.personId) ?? [];
+    list.push({ from: row.from, to: row.to, id: row.id });
+    found.set(row.personId, list);
   }
   for (const [personId, list] of found) {
     list.sort(
@@ -863,7 +1004,7 @@ export function medicaidCoverageSpells(
     }
     out.set(
       personId,
-      spells.map((s) => ({ from: s.from, to: s.to, obligationIds: s.ids })),
+      spells.map((s) => ({ from: s.from, to: s.to, recordIds: s.ids })),
     );
   }
   return out;
@@ -965,6 +1106,322 @@ export function payPreschool(
     line: "schools",
     reasonKey: "law-reach:preschool",
     citation: `Universal preschool (${input.key}): the state pays its spending for each enrolled 3- and 4-year-old`,
+  });
+  return { named, counted };
+}
+
+/**
+ * Child care assistance as a payment: the state treasury pays the household
+ * of each eligible child (the law's income limit, working parents) the
+ * average CCDF subsidy a month, times the share of eligible children who
+ * receive one (ASPE: 20 percent under state rules). The household is its
+ * oldest resident; counted households are paid through the town's residents
+ * account, times their weights. A change to the limit or a repeal re-reads who
+ * is eligible. (Stopgap SG-GOV-REACH-B-child-care-enrollment: no enrollment
+ * record or provider bill; the payment is the expected spending.)
+ */
+export function payChildCare(
+  api: CoreAPI,
+  input: {
+    readonly key: string;
+    readonly lawId: string;
+    readonly inForce: boolean;
+    readonly children: readonly ResidentFacts[];
+    readonly residents: readonly ResidentFacts[];
+  },
+): {
+  readonly named: ReadonlyMap<string, Record<string, number>>;
+  readonly counted: number;
+} {
+  const core = api.state as CoreState;
+  if (!core.modules.has(BUDGETS_MODULE_ID))
+    return { named: new Map(), counted: 0 };
+  const town = lawChain(api).townPlaceId;
+  const state = governmentAt(api, "state");
+  const want = new Map<string, number>();
+  const named = new Map<string, Record<string, number>>();
+  let counted = 0;
+  if (input.inForce && state) {
+    const monthly = Math.round(
+      reachParameter("childCareMonthlySubsidyDollars") *
+        reachParameter("childCareTakeUpShare") *
+        reachParameter("centsPerDollar"),
+    );
+    const heads = new Map<string, ResidentFacts>();
+    for (const r of input.residents) {
+      if (!r.named || r.age < reachParameter("votingAge")) continue;
+      const prior = heads.get(r.householdId);
+      if (
+        !prior ||
+        r.age > prior.age ||
+        (r.age === prior.age && r.id < prior.id)
+      )
+        heads.set(r.householdId, r);
+    }
+    const residentsOrg = residentsRuntime(core)?.input.accounts.find(
+      (a) => a.placeId === town,
+    )?.accountId;
+    let countedChildren = 0;
+    for (const child of input.children) {
+      if (!child.named) {
+        countedChildren += (child.weight ?? 1) * (child.scale ?? 1);
+        continue;
+      }
+      const head = heads.get(child.householdId);
+      if (!head) continue;
+      const pair = `${state.id}|${head.id}`;
+      want.set(pair, (want.get(pair) ?? 0) + monthly);
+      named.set(head.id, { monthlyMinor: want.get(pair)! });
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: child.householdId,
+        target: "household",
+        what: "child-care-paid",
+        amountMinor: monthly,
+      });
+    }
+    if (residentsOrg && countedChildren > 0) {
+      counted = Math.round(countedChildren);
+      want.set(
+        `${state.id}|${residentsOrg}`,
+        Math.floor(monthly * countedChildren),
+      );
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: `${town}:child-care-children`,
+        target: "group",
+        what: "child-care-paid",
+        count: counted,
+        amountMinor: Math.floor(monthly * countedChildren),
+      });
+    }
+  }
+  reconcileObligations(api, {
+    rowKind: "child-care",
+    key: input.key,
+    want,
+    line: "welfareAndMedicaid",
+    reasonKey: "law-reach:child-care",
+    citation: `Child care assistance (${input.key}): the state pays the average subsidy for the share of eligible children who receive one`,
+  });
+  return { named, counted };
+}
+
+/**
+ * Home energy assistance as a payment: the state treasury pays each eligible
+ * household (income within the law's limit, as a percent of the poverty line
+ * for its size) the average yearly benefit, a twelfth a month, times the share
+ * of eligible households the program serves. The household is paid through
+ * its oldest resident; counted households through the town's residents
+ * account, times their weights. A change to the limit or a repeal re-reads who
+ * is eligible. (Stopgap SG-GOV-REACH-B-energy-assistance-enrollment: no
+ * application or utility bill; the payment is the expected spending.)
+ */
+export function payEnergyAssistance(
+  api: CoreAPI,
+  input: {
+    readonly key: string;
+    readonly lawId: string;
+    readonly inForce: boolean;
+    readonly households: readonly {
+      readonly id: string;
+      readonly named: boolean;
+      readonly scale?: number;
+    }[];
+    readonly residents: readonly ResidentFacts[];
+  },
+): {
+  readonly named: ReadonlyMap<string, Record<string, number>>;
+  readonly counted: number;
+} {
+  const core = api.state as CoreState;
+  if (!core.modules.has(BUDGETS_MODULE_ID))
+    return { named: new Map(), counted: 0 };
+  const town = lawChain(api).townPlaceId;
+  const state = governmentAt(api, "state");
+  const want = new Map<string, number>();
+  const named = new Map<string, Record<string, number>>();
+  let counted = 0;
+  if (input.inForce && state) {
+    const monthly = Math.round(
+      (reachParameter("energyAssistanceAnnualBenefitDollars") *
+        reachParameter("energyAssistanceTakeUpShare") *
+        reachParameter("centsPerDollar")) /
+        reachParameter("monthsPerYear"),
+    );
+    const heads = new Map<string, ResidentFacts>();
+    for (const r of input.residents) {
+      if (!r.named || r.age < reachParameter("votingAge")) continue;
+      const prior = heads.get(r.householdId);
+      if (
+        !prior ||
+        r.age > prior.age ||
+        (r.age === prior.age && r.id < prior.id)
+      )
+        heads.set(r.householdId, r);
+    }
+    const residentsOrg = residentsRuntime(core)?.input.accounts.find(
+      (a) => a.placeId === town,
+    )?.accountId;
+    let countedHouseholds = 0;
+    for (const household of input.households) {
+      if (!household.named) {
+        countedHouseholds += household.scale ?? 1;
+        continue;
+      }
+      const head = heads.get(household.id);
+      if (!head) continue;
+      want.set(`${state.id}|${head.id}`, monthly);
+      named.set(head.id, { monthlyMinor: monthly });
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: household.id,
+        target: "household",
+        what: "energy-assistance-paid",
+        amountMinor: monthly,
+      });
+    }
+    if (residentsOrg && countedHouseholds > 0) {
+      counted = Math.round(countedHouseholds);
+      want.set(
+        `${state.id}|${residentsOrg}`,
+        Math.floor(monthly * countedHouseholds),
+      );
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: `${town}:energy-assistance-households`,
+        target: "group",
+        what: "energy-assistance-paid",
+        count: counted,
+        amountMinor: Math.floor(monthly * countedHouseholds),
+      });
+    }
+  }
+  reconcileObligations(api, {
+    rowKind: "energy-assistance",
+    key: input.key,
+    want,
+    line: "welfareAndMedicaid",
+    reasonKey: "law-reach:energy-assistance",
+    citation: `Home energy assistance (${input.key}): the state pays the average benefit for the share of eligible households the program serves`,
+  });
+  return { named, counted };
+}
+
+/**
+ * Supplemental Security Income as a payment: the federal Treasury pays each
+ * aged resident the law's federal benefit rate less their countable income
+ * (the household's monthly income per member, less the $20 general exclusion),
+ * through the household's oldest resident; counted households through the
+ * town's residents account, times their weights. A change to the rate or a
+ * repeal re-reads every household. (Stopgap SG-GOV-REACH-B-ssi-eligibility:
+ * only the aged are read, not the blind or disabled; no resource test; income
+ * is the household's per member; no state supplement; couples draw as two.)
+ */
+export function paySsi(
+  api: CoreAPI,
+  input: {
+    readonly key: string;
+    readonly lawId: string;
+    readonly inForce: boolean;
+    /** The federal benefit rate, dollars a month. */
+    readonly rateDollars: number;
+    readonly households: readonly {
+      readonly id: string;
+      readonly named: boolean;
+      readonly scale?: number;
+      readonly agedCount: number;
+      readonly size: number;
+      readonly incomeDollars: number;
+    }[];
+    readonly residents: readonly ResidentFacts[];
+  },
+): {
+  readonly named: ReadonlyMap<string, Record<string, number>>;
+  readonly counted: number;
+} {
+  const core = api.state as CoreState;
+  if (!core.modules.has(BUDGETS_MODULE_ID))
+    return { named: new Map(), counted: 0 };
+  const town = lawChain(api).townPlaceId;
+  const payer = governmentAt(api, "federal");
+  const want = new Map<string, number>();
+  const named = new Map<string, Record<string, number>>();
+  let counted = 0;
+  if (input.inForce && payer) {
+    const cents = reachParameter("centsPerDollar");
+    const months = reachParameter("monthsPerYear");
+    const share = reachParameter("ssiTakeUpShare");
+    const exclusion = reachParameter("ssiGeneralIncomeExclusionDollars");
+    const heads = new Map<string, ResidentFacts>();
+    for (const r of input.residents) {
+      if (!r.named || r.age < reachParameter("votingAge")) continue;
+      const prior = heads.get(r.householdId);
+      if (
+        !prior ||
+        r.age > prior.age ||
+        (r.age === prior.age && r.id < prior.id)
+      )
+        heads.set(r.householdId, r);
+    }
+    const residentsOrg = residentsRuntime(core)?.input.accounts.find(
+      (a) => a.placeId === town,
+    )?.accountId;
+    let countedMinor = 0;
+    let countedHouseholds = 0;
+    for (const household of input.households) {
+      // Each aged member's countable income is the household's per member.
+      const perMember = household.incomeDollars / months / household.size;
+      const each = Math.max(
+        0,
+        input.rateDollars - Math.max(0, perMember - exclusion),
+      );
+      const monthly = Math.round(each * household.agedCount * share * cents);
+      if (monthly <= 0) continue;
+      if (!household.named) {
+        const weight = household.scale ?? 1;
+        countedMinor += monthly * weight;
+        countedHouseholds += weight;
+        continue;
+      }
+      const head = heads.get(household.id);
+      if (!head) continue;
+      want.set(`${payer.id}|${head.id}`, monthly);
+      named.set(head.id, { monthlyMinor: monthly });
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: household.id,
+        target: "household",
+        what: "ssi-paid",
+        amountMinor: monthly,
+      });
+    }
+    if (residentsOrg && countedHouseholds > 0) {
+      counted = Math.round(countedHouseholds);
+      want.set(`${payer.id}|${residentsOrg}`, Math.floor(countedMinor));
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: `${town}:ssi-households`,
+        target: "group",
+        what: "ssi-paid",
+        count: counted,
+        amountMinor: Math.floor(countedMinor),
+      });
+    }
+  }
+  reconcileObligations(api, {
+    rowKind: "ssi",
+    key: input.key,
+    want,
+    line: "incomeSecurity",
+    reasonKey: "law-reach:ssi",
+    citation: `Supplemental Security Income (${input.key}): the federal Treasury pays the federal benefit rate less countable income to aged residents`,
   });
   return { named, counted };
 }
@@ -1073,7 +1530,8 @@ export function payVouchers(
             targetId: `${town}:private-tuition-group:${group}`,
             target: "group",
             what: "private-tuition-voucher-paid",
-            count: Math.max(1, Math.round(weight)),
+            // The people the group stands for, never its dollar weight in the flow.
+            count: Math.max(1, Math.round(peopleInGroup(rt, group))),
             amountMinor: amount,
           });
           paidGroups += 1;
@@ -1127,6 +1585,7 @@ export function moveBudget(
   const prior = getRow<MoveRow>(api, "taken", id);
   const stamp = `${input.lawId}#${api.state.date}`;
   if (!input.inForce) {
+    lawNoLongerApplies(api, input.key, gov.id);
     if (!prior || prior.undone || prior.budgetId !== budget.id)
       return prior ?? null;
     for (const [line, delta] of Object.entries(prior.moves))
@@ -1276,6 +1735,8 @@ interface ReserveRow {
   /** The day of the last set-aside, and how many were made that day. */
   readonly setAsideOn?: string;
   readonly setAsidesThatDay?: number;
+  readonly releasedOn?: string;
+  readonly releasesThatDay?: number;
 }
 
 /**
@@ -1299,6 +1760,12 @@ export function holdReserve(
   const accounts = api.accounts();
   const main = accounts.main(gov.organizationId);
   const accountId = `reserve:${gov.organizationId}`;
+  if (!input.inForce) {
+    lawNoLongerApplies(api, input.key, gov.id);
+    // Reading a government with no reserve rule must not create an account.
+    if (!core.cashJournal.accounts.has(accountId))
+      return { held: 0, target: 0 };
+  }
   if (!core.cashJournal.accounts.has(accountId))
     accounts.open({
       id: accountId,
@@ -1308,10 +1775,15 @@ export function holdReserve(
     });
   const held = accounts.balance(accountId);
   const id = `reserve|${input.key}|${gov.id}`;
+  // Keep both counts across repeal and restoration: the same treasury can
+  // set aside and release money more than once today.
+  const prior = getRow<ReserveRow>(api, "taken", id);
   if (!input.inForce) {
+    const releases =
+      prior?.releasedOn === api.state.date ? (prior.releasesThatDay ?? 0) : 0;
     if (held > 0)
       accounts.transfer({
-        id: `reach-b:reserve-release:${input.key}:${gov.id}:${api.state.date}`,
+        id: `reach-b:reserve-release:${input.key}:${gov.id}:${api.state.date}${releases ? `:${releases + 1}` : ""}`,
         from: accountId,
         to: main,
         amountMinor: held,
@@ -1319,11 +1791,15 @@ export function holdReserve(
         source: source(api, "Minimum reserve balance repealed"),
       });
     putRow(api, "taken", {
+      ...prior,
       id,
       key: input.key,
       governmentId: gov.id,
       accountId,
       targetMinor: 0,
+      ...(held > 0
+        ? { releasedOn: api.state.date, releasesThatDay: releases + 1 }
+        : {}),
     } satisfies ReserveRow);
     return { held: 0, target: 0 };
   }
@@ -1342,7 +1818,6 @@ export function holdReserve(
   // first of the fiscal year, when the treasury's close reads it again); a
   // set-aside the treasury could pay only in part tops up at the second
   // read, under its own transfer id.
-  const prior = getRow<ReserveRow>(api, "taken", id);
   const sameDay = prior?.setAsideOn === api.state.date;
   const count = sameDay ? (prior?.setAsidesThatDay ?? 1) : 0;
   const receipt =
@@ -1358,6 +1833,7 @@ export function holdReserve(
         })
       : null;
   putRow(api, "taken", {
+    ...prior,
     id,
     key: input.key,
     governmentId: gov.id,
@@ -1384,6 +1860,7 @@ export function holdReserve(
 }
 
 interface TaxRow {
+  readonly policyLawId?: string;
   readonly id: string;
   readonly key: string;
   readonly level: string;
@@ -1396,6 +1873,8 @@ interface TaxRow {
   readonly undone: boolean;
   /** This row flattened a starting schedule, rather than adopting a new tax. */
   readonly flattened?: boolean;
+  /** This row removed an existing tax, rather than undoing a new adoption. */
+  readonly removed?: boolean;
 }
 
 function levelRow(api: CoreAPI, level: string): LawRowInput | null {
@@ -1467,37 +1946,51 @@ export function incomeTaxAct(
   const hasTax = !!current && (current.value ?? 0) > 0;
   const scope = input.level === "state" ? "state" : "local";
   if (!input.enacting) {
-    // Repeated reviews leave the flattened schedule (or a later independent act) alone.
-    if (prior?.flattened && !prior.undone) return prior;
-    if (prior?.undone && !prior.flattened) return prior;
+    // Repeated reviews leave the replacement (or a later independent act) alone.
+    if ((prior?.flattened || prior?.removed) && !prior.undone) return prior;
+    if (prior?.undone && !prior.flattened && !prior.removed) return prior;
     if (!prior || prior.undone || !prior.lawRowId) {
-      if (!input.graduated || !hasTax || !graduatedTax(current))
+      if (!hasTax || (input.graduated && !graduatedTax(current)))
         return prior ?? null;
-      // stopgapId: SG-GOV-REACH-B-flat-tax-replacement — the catalog's binary
-      // question carries no enacted replacement rate or deduction rules.
-      api.stopgap("SG-GOV-REACH-B-flat-tax-replacement");
-      const flat = enact(
-        reachParameter(
-          scope === "state"
-            ? "stateFlatIncomeTaxPercent"
-            : "localFlatIncomeTaxPercent",
-        ),
-        "percent-flat",
-        undefined,
-        "flatten",
-      );
+      // Repealing adoption removes the existing tax, including one already
+      // in force at the opening. Its own terms survive for exact restoration;
+      // the withholding reader scales every retained bracket to zero.
+      let replacement: LawRowInput;
+      if (!input.graduated) {
+        replacement = enact(
+          0,
+          current!.unit ?? "percent",
+          current!.terms as Record<string, unknown> | undefined,
+          "remove",
+        );
+      } else {
+        // stopgapId: SG-GOV-REACH-B-flat-tax-replacement — the catalog's binary
+        // question carries no enacted replacement rate or deduction rules.
+        api.stopgap("SG-GOV-REACH-B-flat-tax-replacement");
+        replacement = enact(
+          reachParameter(
+            scope === "state"
+              ? "stateFlatIncomeTaxPercent"
+              : "localFlatIncomeTaxPercent",
+          ),
+          "percent-flat",
+          undefined,
+          "flatten",
+        );
+      }
       const row: TaxRow = {
         id,
+        policyLawId: input.lawId,
         key: input.key,
         level: input.level,
-        lawRowId: flat.id,
+        lawRowId: replacement.id,
         prior: {
           value: current!.value,
           unit: current!.unit ?? null,
           terms: current!.terms as Record<string, unknown>,
         },
         undone: false,
-        flattened: true,
+        ...(input.graduated ? { flattened: true } : { removed: true }),
       };
       putRow(api, "taken", row);
       return row;
@@ -1509,11 +2002,58 @@ export function incomeTaxAct(
         prior.prior?.terms ?? undefined,
         "repeal",
       );
-    const row = { ...prior, undone: true };
+    const row = { ...prior, policyLawId: input.lawId, undone: true };
     putRow(api, "taken", row);
     return row;
   }
-  if (prior?.flattened) {
+  // A fresh adoption can restore a tax separately set to zero by an amount
+  // bill. Read this level's actual enacted history, never another level's
+  // default schedule. A standing review of the same policy cannot undo a
+  // later rate bill.
+  if (
+    !input.graduated &&
+    !hasTax &&
+    prior?.policyLawId !== input.lawId &&
+    (!prior || prior.undone || (!prior.flattened && !prior.removed))
+  ) {
+    let basis: LawRowInput | undefined;
+    for (const row of lawRows(api, "income-tax", at.jurisdiction)) {
+      if (
+        row.level !== at.level ||
+        row.tier !== "general" ||
+        row.effectiveDate > api.state.date ||
+        !(Number(row.value) > 0)
+      )
+        continue;
+      if (!basis || lawRowIsLater(row, basis)) basis = row;
+    }
+    if (basis) {
+      const restored = enact(
+        basis.value!,
+        basis.unit ?? "percent",
+        basis.terms as Record<string, unknown> | undefined,
+        "adopt",
+      );
+      const row: TaxRow = {
+        id,
+        key: input.key,
+        level: input.level,
+        policyLawId: input.lawId,
+        lawRowId: restored.id,
+        undone: false,
+        prior: current
+          ? {
+              value: current.value,
+              unit: current.unit ?? null,
+              terms: (current.terms as Record<string, unknown>) ?? null,
+            }
+          : null,
+      };
+      putRow(api, "taken", row);
+      return row;
+    }
+  }
+  if (prior?.flattened || prior?.removed) {
     // Restore once, only while the replacement is still our own law row.
     if (prior.undone) return prior;
     if (current?.id === prior.lawRowId)
@@ -1523,7 +2063,7 @@ export function incomeTaxAct(
         prior.prior?.terms ?? undefined,
         "restore",
       );
-    const row = { ...prior, undone: true };
+    const row = { ...prior, policyLawId: input.lawId, undone: true };
     putRow(api, "taken", row);
     return row;
   }
@@ -1552,6 +2092,7 @@ export function incomeTaxAct(
   }
   const row: TaxRow = {
     id,
+    policyLawId: input.lawId,
     key: input.key,
     level: input.level,
     lawRowId: written?.id ?? null,

@@ -1279,6 +1279,17 @@
           "note": "Weak: teachers are placed on each district's own salary schedule; no statewide minimum found."
         }
       }
+    },
+    "us-federal-positions:education.forgive-student-loans": {
+      "source": "https://www.law.cornell.edu/uscode/text/20/1087e",
+      "note": "The question asks whether Congress forgives student loans. Only Public Service Loan Forgiveness (20 U.S.C. 1087e(m)(1)) cancels balances, after 120 qualifying payments; P.L. 119-21 sec. 82001 moves borrowers to a repayment assistance plan. No general forgiveness is law, so the answer is no.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "source": "https://www.law.cornell.edu/uscode/text/20/1087e",
+          "cite": "20 U.S.C. 1087e(m)(1)"
+        }
+      }
     }
   }
 }

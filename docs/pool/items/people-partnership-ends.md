@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -29,3 +29,8 @@ Sent back 2026-10-17 from PR #4970 (branch claude/partnership-ends): Morning che
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: rewrite SMART, apply OD:588; stacked on people-partnership-forms.
 
 Oct 29 (CTO, second account): PR #4970 closed as stale under the owner's standing approval; back to open. Branch `claude/partnership-ends` is kept; claiming this item takes it over.
+Nov 2, 01:45 UTC (lives lead, handoff): released. Nothing built and branch lives/partners-town was never pushed. Next step: after people-partnership-forms, the town's couples part through the same partnerships module from strain, closeness and money, one moving out through changeHouseholdV1, written through setPartnersV1 (together false). Closes SG-LIVES-partner-town with forms. Method: the lives skill.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Full people separate in play: the header of src/core2/modules/partnerships.ts describes the monthly NSFG curve for parting, family.separated through setPartnersV1, and the lower-cash partner starting a household through changeHouseholdV1; it is installed as partnershipsModule in src/director/play-modules.ts (line 44) and tested in src/core2/partnerships-town.test.ts. Counted pairs are people-partnership-counted.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

@@ -5,6 +5,7 @@
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 const SHOTS = process.env.SHOTS_DIR;
 if (SHOTS) mkdirSync(SHOTS, { recursive: true });
 const browser = await chromium.launch({
@@ -31,6 +32,8 @@ try {
   await page.locator("#new-life").click();
   await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
+  // The opening plays first, as a player sees it (start-life.mjs).
+  await playOpening(page, (await (await made).json()).sceneMomentId ?? null);
   const r = await made;
   console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
   await page.waitForFunction(() =>
@@ -58,34 +61,26 @@ try {
     .locator('#rings [data-tab="people"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".people-node").first().waitFor();
+  await page.locator(".roster-screen.people .roster-row").first().waitFor();
   await page.waitForTimeout(1500);
-  const count = await page.locator(".people-node").count();
+  const count = await page.locator(".roster-screen.people .roster-row").count();
   for (let n = 0; n < count; n += 1) {
-    // The card closes the sheet under it: open People again for each person.
-    if (n > 0) {
-      await page
-        .locator('#rings [data-tab="people"]')
-        .first()
-        .evaluate((e) => e.click());
-      await page.locator(".people-node").first().waitFor();
-      await page.waitForTimeout(1200);
-    }
-    await page.locator(".people-node").nth(n).click();
-    await page.waitForTimeout(500);
-    await page.locator(".people-selection button").first().click();
-    await page.locator("#person:not([hidden])").waitFor();
+    // The card sits beside the roster: pick each person in turn.
+    await page.locator(".roster-screen.people .roster-row").nth(n).click();
+    await page
+      .locator(".roster-screen.people .roster-page .strip-screen")
+      .waitFor();
     await page.waitForTimeout(800);
     const found = await page.evaluate(() => ({
-      name: document.getElementById("person-name").textContent.trim(),
-      empty: [...document.querySelectorAll("#person-facts .record-section")]
-        .filter((section) => section.children.length < 2)
-        .map((section) => section.textContent.trim())
-        .concat(
-          [...document.querySelectorAll("#person-facts .record-value")]
-            .filter((value) => !value.textContent.trim())
-            .map((value) => value.parentElement.textContent.trim()),
-        ),
+      name: document
+        .querySelector(".roster-screen.people .roster-page .strip-name")
+        .textContent.trim(),
+      // A strip with nothing under it is an empty heading.
+      empty: [
+        ...document.querySelectorAll(".roster-screen.people .roster-page .sec"),
+      ]
+        .filter((sec) => !sec.querySelector(".secbody")?.textContent.trim())
+        .map((sec) => sec.querySelector(".sechead")?.textContent.trim()),
     }));
     console.log(`${found.name}: ${found.empty.length} empty`, found.empty);
     assert.deepEqual(
@@ -95,7 +90,6 @@ try {
     );
     if (SHOTS && n === 0)
       await page.screenshot({ path: `${SHOTS}/card-1.png` });
-    await page.locator("#person-close").click();
   }
   assert.deepEqual(errors, [], "page errors");
   console.log("ok: no empty heading on any card");

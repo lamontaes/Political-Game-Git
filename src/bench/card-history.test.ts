@@ -6,10 +6,13 @@ import { gameStartDate } from "../core2/game-start";
 import { buildBenchWorld } from "./world";
 import { preStartHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
+import { servingTermsOf } from "../core2/modules/offices";
 import { countedHouseholdsByPlace } from "../core2/modules/residents";
 import { personOrFillIn } from "../core2/state";
 import { knownCard } from "./card";
 import { schoolsOf } from "./words";
+// After the world, whose modules it reads (an import cycle otherwise).
+import { lifeOf } from "../core2/person-life";
 
 describe("a person's history on their card", () => {
   it("tells a parent's life from their records, with your own birth as yours", () => {
@@ -42,11 +45,16 @@ describe("a person's history on their card", () => {
     const card = knownCard(core, child.id, parentId!);
     const records = new Set([
       ...(core.people.get(parentId!)?.pastFacts ?? []).map((fact) => fact.id),
+      // Every event of their life the one reader returns.
+      ...lifeOf(core, parentId!).map((event) => event.id),
       ...preStartHistory(core, { personId: parentId! as PersonId }).map(
         (row) => row.id,
       ),
       ...schoolsOf(core, parentId!).map((row) => row.recordId),
       ...core.relationships.keys(),
+      // The term they serve now: a board member seated with the world, whom
+      // no earlier record names, is told as taking office on that term.
+      ...servingTermsOf(coreAPI(core), parentId!).map((term) => term.id),
       parentId!,
     ]);
     expect(card.history.length, where).toBeGreaterThan(0);
@@ -58,15 +66,17 @@ describe("a person's history on their card", () => {
         true,
       );
     // Each line names its kind of record, the bank's move, which picks the
-    // timeline's icon on the card.
+    // paragraph it is told in on the card.
     for (const line of card.history)
       expect(line.kind, `${where}: ${line.text}`).toMatch(
-        /^(born|school|moved|partner|child|work|loss|office|tie)$/,
+        /^(born|school|moved|home|partner|child|work|business|loss|health|law|office|tie)$/,
       );
-    // Your own birth is said to you, not by your name.
+    // Your own birth is said to you, not by your name: by the piece that
+    // worded it ("You were born to him.", "In 2007, he had you.").
     const yours = card.history.filter((line) =>
-      line.text.startsWith("You were born"),
+      line.piece.startsWith("person-history.story.child.you."),
     );
+    for (const line of yours) expect(line.text, where).toMatch(/\byou\b/i);
     expect(yours, where).toHaveLength(1);
     expect(
       card.history.some((line) =>
@@ -106,7 +116,7 @@ describe("a person's history on their card", () => {
         preStartHistory(core, {
           kind: "office.seat-reached",
           personId: person.id,
-        }).length && linesOf(person) >= 3,
+        }).length && linesOf(person) >= 2,
     );
     const worker = strangers.find(
       (person) =>
@@ -115,7 +125,7 @@ describe("a person's history on their card", () => {
           kind: "person.work-spell",
           personId: person.id,
         }).length &&
-        linesOf(person) >= 4,
+        linesOf(person) >= 3,
     );
     const neighbor = strangers.find(
       (person) =>
@@ -123,7 +133,7 @@ describe("a person's history on their card", () => {
         person !== worker &&
         person.placeId === viewer.placeId &&
         person.alive &&
-        linesOf(person) >= 4,
+        linesOf(person) >= 3,
     );
     const chosen = { seatHolder, worker, neighbor };
     for (const [role, person] of Object.entries(chosen)) {
@@ -151,10 +161,11 @@ describe("a person's history on their card", () => {
         expect(records.has(line.recordId), `${where}: ${line.recordId}`).toBe(
           true,
         );
-      // An official's records hold their birth and each term they won (three or
-      // more); a resident's hold school, work and family (four or more).
+      // An official's records hold each term they won (two or more; their birth is
+      // told under their name); a resident's hold school, work and family (three or
+      // more).
       expect(card.history.length, `${where}: ${role}`).toBeGreaterThanOrEqual(
-        role === "seatHolder" ? 3 : 4,
+        role === "seatHolder" ? 2 : 3,
       );
     }
   }, 600_000);
@@ -206,13 +217,15 @@ describe("a person's history on their card", () => {
     );
     for (const term of earlier)
       expect(
-        card.history.some((line) => line.recordId === term.id),
+        card.history.some((line) => line.records.includes(term.id)),
         `${where}: ${term.id} is on the card`,
       ).toBe(true);
-    // Their birth and each earlier term, at least.
-    expect(card.history.length, where).toBeGreaterThanOrEqual(
-      earlier.length + 1,
+    // The run of terms in the seat is one sentence, told on every term's
+    // record (owner, Nov 1: "it needs to be told like a story").
+    const run = card.history.filter((line) =>
+      earlier.some((term) => line.records.includes(term.id)),
     );
+    expect(run, where).toHaveLength(1);
   }, 600_000);
 
   it("tells a couple among people filled in from the counts, on a record both share", () => {
@@ -246,7 +259,7 @@ describe("a person's history on their card", () => {
         expect(
           card.history.some(
             (line) =>
-              line.recordId === couple.id && /Set up home/.test(line.text),
+              line.recordId === couple.id && /made a home/.test(line.text),
           ),
           `${where}: ${couple.id} on ${b!.id}'s card`,
         ).toBe(true);

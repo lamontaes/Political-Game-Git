@@ -4,8 +4,9 @@
  * someone in their household or family. A counted person's response carries
  * their own id as its subject, so for them the event's own records decide:
  * the counted subject it names, the counted people it lists as perceiving it,
- * the counted workers a closure ended, or someone in the same counted
- * household as one of those. Being counted is never enough by itself.
+ * the counted household it happened to (every member a subject), the counted
+ * workers a closure ended, or someone in the same counted household as one of
+ * those. Being counted is never enough by itself.
  */
 export interface AnswerRow {
   personId: string;
@@ -25,7 +26,11 @@ export interface NamedLookups {
   /** The counted workers a closure ended, by the closure's event id. */
   endedCountedWorkers: (eventId: string) => readonly string[];
   /** The fact keys the drives data names. */
-  factKeys: { countedSubject: string; countedPerceivers: string };
+  factKeys: {
+    countedSubject: string;
+    countedPerceivers: string;
+    countedSubjects?: string;
+  };
 }
 
 /** The people the event's own records name, before any response. */
@@ -36,6 +41,11 @@ function namedBy(row: AnswerRow, lookups: NamedLookups): Set<string> {
   if (subject) named.add(subject);
   const around = facts[lookups.factKeys.countedPerceivers];
   if (around) for (const id of JSON.parse(around) as string[]) named.add(id);
+  const household = lookups.factKeys.countedSubjects
+    ? facts[lookups.factKeys.countedSubjects]
+    : undefined;
+  if (household)
+    for (const id of JSON.parse(household) as string[]) named.add(id);
   for (const id of lookups.endedCountedWorkers(row.eventId)) named.add(id);
   return named;
 }

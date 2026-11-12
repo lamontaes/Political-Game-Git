@@ -6,6 +6,7 @@
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 const SHOTS = process.env.SHOTS_DIR;
 if (SHOTS) mkdirSync(SHOTS, { recursive: true });
 const SIX =
@@ -36,6 +37,8 @@ try {
   await page.locator("#new-life").click();
   await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
+  // The opening plays first, as a player sees it (start-life.mjs).
+  await playOpening(page, (await (await made).json()).sceneMomentId ?? null);
   const r = await made;
   console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
   await page.waitForFunction(() =>
@@ -75,9 +78,9 @@ try {
   await page.waitForTimeout(1500);
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/travel.png` });
   const cards = await page.evaluate(() =>
-    [...document.querySelectorAll("#sheet-body .entry, #sheet-body button")]
-      .map((n) => n.textContent.replace(/\s+/g, " ").trim())
-      .filter((t) => /Filing office/i.test(t)),
+    [...document.querySelectorAll("#sheet-body .travel-tile[data-filing]")].map(
+      (n) => n.textContent.replace(/\s+/g, " ").trim(),
+    ),
   );
   console.log(
     "filing offices on Travel:",

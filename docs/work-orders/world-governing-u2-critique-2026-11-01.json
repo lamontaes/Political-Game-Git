@@ -1,0 +1,91 @@
+{
+  "gaps": [
+    {
+      "gap": "No map mentions that U1 (#7020, open, not on c9b60ce1ed) already adds an outside-office test and a place helper. That makes the agreed inTownChain plus billPlace/bodyPlace a second and third copy of the same rule, and the two rules disagree for U4.",
+      "evidence": "On origin/claude/gov-every-state-and-town-governs, src/core2/modules/offices.ts:239-261 isOutsideOffice is documented as 'The one test every engine reads for another place's office'. It returns false for any federal or local office and is true only for a 'US-' jurisdiction other than the town's. offices.ts:263-280 seatingPlace places an outside office's took-office and seat-vacated records at office.jurisdiction, the same placeId choice as billPlace. Callers: candidate-pool.ts:336,420; officials.ts:486,1030; voting.ts:4491; office-day-state.ts:1252; law-reach/group-a-records.ts:477. The same branch also adds the state-jurisdiction check to legislature.ts executivePriorities (~1111-1128), which is one of the legislature map's sites. Under U4, another town's council (a gus2025 unit id) gets isOutsideOffice false but inTownChain false.",
+      "fix": "Before U2 builds, agree with the U1 builder on one rule. isOutsideOffice(api, office) becomes !inTownChain(lawChain(api), bodyJurisdiction(api, office.id)), with federal kept as chain. seatingPlace and the U2 emit helper become one function keyed by office id; leadership.ts:446 and meetings.ts:462 call it too. Rebase the legislature map's executivePriorities site on #7020. Re-run offices-every-legislature.test.ts and wide-races.test.ts from that branch."
+    },
+    {
+      "gap": "Oath and vacancy records (took-office, seat-vacated) leave U2's wire check once U1 seats every place's chambers. The readers map ruled them out as #7022's, but #7022's check stops working after U1 merges.",
+      "evidence": "#7022 merged after c9b60ce1ed (75308ec05a). On origin/main 708514a1b9, press-topics.ts:83-101 seatOffice returns null only when the offices engine holds no such seat, and :113-123 drops only `seat === null`. If a seat exists, :127 sets level = LEVELS[seat.level]. That runs before any placeId fallback. U1 puts every outside chamber's seats into the offices table (offices.ts:785-822 seatOutsideOffices, putOffice). seatOffice then returns the outside office (level 'state'), so a Florida representative's oath is filed as the town's state news, whatever seatingPlace sets placeId to. The test #7022 added is src/bench/printed-words.test.ts.",
+      "fix": "The U2 wireItem change must also cover took-office and seat-vacated. Either inTownChain on the seat office's law jurisdiction, or facts.jurisdiction set by the offices engine (through the shared bodyJurisdiction). Place it before officeLevel and after the cheap kind drops (vote-recorded at press-topics.ts:139-142 on c9). Otherwise the readers map's billJurisdiction fallback runs once per member vote record before the drop. Add an outside-oath case to printed-words.test.ts."
+    },
+    {
+      "gap": "One government, two ids. In a township-governed town, the law chain keys the township by its government-unit id, but the budget keys the same government `place:<geoid>`. U2's single bodyJurisdiction has to settle this. Today the township board's budget-line acts already land nowhere.",
+      "evidence": "budgets.ts:671: city = local.municipal[0] ?? local.townships[0], with id `place:${geoid}` (:722). laws-starting.ts:110-115 and legislature.ts:5000-5009 put the township board's law at unit.id. In enact (legislature.ts:5110-5124), amendBudget(governmentId: jurisdiction) finds no government (budgets.ts:1796-1798 returns null). payProjectGrant also returns early (:2146-2149). budgetChambers matches the board only by level (legislature.ts:1222-1229, `gov.level === 'city' && office.level === 'township'`). A read-only probe over src/core2/data/places/localities.json found 4,382 of 32,350 localities township-governed: municipal empty, township board built. Puerto Rico has the same split: its budget government is `county:72xxx` (budgets.ts:689-716, comment 'the law chain holds no county for it').",
+      "fix": "bodyJurisdiction returns the law key. Add a second function, budgetGovernmentOf(api, officeId), or a field on the government row, that maps a body to its budget id. enact's amendBudget and payProjectGrant use it, and so does budgetChambers. Register a stopgap if the township-board budget-line fix is deferred. Test with a drawn township-governed place (CT, NJ, PA, MI) and a Puerto Rico place."
+    },
+    {
+      "gap": "localMeeting works out a body's jurisdiction on its own: one more copy besides billJurisdiction, and the world map proposes a third (governmentUnit when coversTown is false). After the legislature map's countyOfBody fix, the meeting and the enactment read different counties.",
+      "evidence": "world-legislating.ts:1411-1420: county-board gets the first chain county level, township-board the first chain township, anything else the chain's city level, with `?? chain.townPlaceId`. needsChange (:1435-1438) reads ownRow(api, own, ...) at countyGeoids[0]. enact writes at billJurisdiction (legislature.ts:1790-1800). Once countyOfBody returns the board's own county, the two disagree in the five towns where that county is not countyGeoids[0] (probe: e.g. 1309040 Blythe GA, board 13033, chain first 13245). The world map's claim that mapping every office through its unit 'would risk churn' holds only for county boards. For councils, governmentUnit(...).placeGeoid always equals the chain's city geoid (local-governments.ts:111-114 takes municipal units from governmentUnitsForPlace(sourceGeoid)). For township boards, the unit id is the chain's township level.",
+      "fix": "Export bodyJurisdiction(api, officeId) from legislature.ts. billJurisdiction calls it with bill.bodyOfficeId. localMeeting's `own`, recordHomeRule's target, the emit helper, budgetChambers and votesAreTownNews all call it too. Drop the `?? chain.townPlaceId` fallback, which writes an entity id as a session jurisdiction."
+    },
+    {
+      "gap": "Speed: the settledness, current-amount and stance reads U2 changes run once per member, often several times per member per vote. The maps price them as 'one Set.has per row'.",
+      "evidence": "positionOn (legislature.ts:2730-2830) calls provisionStance per provision. That calls currentAmount, which calls lawInForce with no cache (:1318-1329). It also calls recordConsistency (:2698-2719: settledness per provision) and billSettledness (:2807). positionOn runs per member at :542, 903, 948, 1095, 2090, 2109-2110, 2929, 3106, 3138, 3162, 3898-4041 (the floor-amendment loops) and 4354. chamberVote calls provisionStance inside the member loop (:3493-3494). settledness goes to lastEnactment (laws.ts:456-479), which scans seriesRows bySeriesOnly (:407-412): every jurisdiction's rows, plus enactmentOf per row. After U2, bodyJurisdictions (for another town, a lawChainForPlace) and the new own-jurisdiction amount read would be rebuilt inside each of these calls. With U3, bySeriesOnly holds every state's enactments.",
+      "fix": "Compute the bill's jurisdiction, jurisdiction set, settledness per series and status-quo amount once per bill per day, and pass them into positionOn and recordVote. Have lastEnactment query bySeries [jurisdiction, series] for each member of the set, not filter bySeriesOnly. Measure with npm run speed:year against the 20% bar on the same base."
+    },
+    {
+      "gap": "considerTownHalls is a reader of every local body's bills that no map names. It fills in that body's members, and a town resident on an outside local body holds a town hall in the player's town.",
+      "evidence": "meetings.ts:824-948 runs weekly (debateWeek :1293). It scans legislature bills.rows() filtered only by local() (:873-879). For each bill, members(api, bill.bodyOfficeId) (:882) goes through holderOf (legislature.ts:2304-2318) and fills each holder in. It then weighs evenness over the town's adults (:853-866) and holds town halls with placeId = town, publicRecord and news (:791-811). Under U4, every other council's or board's members are filled in weekly, which breaks the two-level population rule.",
+      "fix": "In considerTownHalls, skip a bill unless inTownChain(lawChain(api), billJurisdiction(api, bill)). Do the same in publicComment (meetings.ts:415). Neither goes inside local(): see the wrong entry on local()."
+    },
+    {
+      "gap": "Bills are read by full-table scans on per-day and per-gift paths, and U3 multiplies the bills table about 50 times. No map adds an index.",
+      "evidence": "legislature.ts:301 `bills: {}` declares no index. campaigns.ts:3182-3215 donorsBill scans bills.rows() on every gift (recordGift :3147). Further scans: office-day-acts.ts:497-506 pendingBillsOf (:375, :633); world-legislating.ts:1446-1457 liveBills; meetings.ts:873-879 (weekly); bench/office.ts:272. The world map notes chamberBills and the readers map recentVotesOf, but neither covers these per-day and per-gift paths.",
+      "fix": "Add byBody (bodyOfficeId) and bySponsor indexes to the bills table and query them in the five readers. File it as a U3 pool item if it is not built in U2, and name it in U2's PR body under speed."
+    },
+    {
+      "gap": "outcome-web lawValue does not take a place. The laws map's town-chain filter gives every other place the web computes the town's law.",
+      "evidence": "On c9b60ce1ed, outcome-web.ts:201-229 lawValue(api, series, date) takes no place. It is called with a Reading that carries r.placeId and r.stateKey at :430-435 (causeAt), :471-478 (baselineOf) and :586-587 (recordMonth), once for each place in placesOf (:165-190). placesOf covers the town plus every place with businesses in world-metrics months (world-metrics.ts: one row per place with businesses). Once U4 gives a neighboring place its own ordinances, that place's outcomes still move on the town's law.",
+      "fix": "Pass the Reading's place into lawValue and filter with inTownChain(chainOf(r.placeId), row.jurisdiction). Use the town's chain when the place is the town, and lawChainForPlace(place key) otherwise, cached per call. The fallback store branch keeps no filter."
+    },
+    {
+      "gap": "The agreed rule 'legislative-vote keeps personIds naming the members' will throw under U3 as U1 plans it, because outside holders are not full people. The emits list members unfiltered.",
+      "evidence": "U1's stopgap SG-GOV-other-legislatures-not-sitting (stopgaps.json on the U1 branch) says U3 bodies vote from the official rows 'never filling them in', and that members() must stop calling holderOf for outside bodies. legislature.ts:3509-3514 builds personIds from members(...).flatMap(m.personId) with no people check. committee-hearing and bill-amendment do the same. applyCoreEvent throws 'Event names an absent person' for an id in neither people nor husks (state.ts:2129-2131).",
+      "fix": "The one emit helper filters personIds to api.state.people or husks. The ledger's watched-member read still works, since a watched member is filled in. Note it in the U2 PR body as a U3 dependency."
+    },
+    {
+      "gap": "Each bill's after-vote hook scans the whole crimes table, outside bills included. The organize gate does not cover it.",
+      "evidence": "interest-groups.ts:151-162 registers afterVote \u2192 settleBribes. corruption.ts:570-572 runs table('crimes').rows().filter(subjectId === billId) for every voted bill (legislature.ts:4207-4213 holdVote). Bribes are offered only on bills that pass the organize gate (offerBribe, interest-groups.ts:390-406).",
+      "fix": "Return early in the afterVote hook under the same inTownChain test as organize, or index crimes by subjectId."
+    }
+  ],
+  "wrong": [
+    {
+      "claim": "Legislature map, countyOfBody: today it 'misfiles in a town whose largest-land county has no county government (Connecticut parts, Virginia independent-city parts)'. Its risks section says the fix moves the board's ordinances from countyGeoids[0] to its own county, and that 'both are chain levels'.",
+      "evidence": "A read-only probe over all 32,350 localities found 328 towns whose county board's county is not countyGeoids[0]. In 323 of them the chain has no county level at all, and 292 of those are in Puerto Rico. Example: 7200186 Aceitunas has levels US, US-PR, place:7200186, countyGeoids [], and a county-board office at municipio:72099. Today countyOfBody returns null there (legislature.ts:5011-5024), so billReach gives 'city' and billJurisdiction gives `place:<geoid>`, a chain level. With the proposed `county:${governmentUnit(...).countyGeoid}`, the PR municipio's own legislature lands at county:72099. That is not a chain level, so under U2's gates its ordinances never take effect (lawTookEffect), leave the town's wire, and lose office.voted and interest groups. Connecticut builds no county board at all.",
+      "correction": "A body with coversTown must resolve to a chain level. Either keep today's mapping for coversTown boards, or add the governing municipio or county to lawChainForPlace's county levels when countyGeoidsForPlace is empty (this changes Puerto Rico's chain; name it and re-baseline tests that draw Puerto Rico). Fix the risks line: the affected set is Puerto Rico plus about 31 towns missing from the 2020 place-county parts, not Connecticut and Virginia."
+    },
+    {
+      "claim": "Legislature map, budgetChambers and executivePriorities: 'Match the body or executive to the government (bodyJurisdiction(office) === gov.id)'. It says this is needed only once U3/U4 add offices, because 'today ... each level has one office', so it changes nothing today.",
+      "evidence": "In 4,382 township-governed towns, the budget government is `place:<geoid>` (budgets.ts:671, :722), while the township board's jurisdiction is its unit id. budgetChambers finds the board only by level (legislature.ts:1222-1229), so the proposed match leaves those towns' budgets with no voting body. That changes today's worlds, and no re-baseline is named (office-day-budget-season, budget-desk and budget-line-schools-staffing all draw random places). The timing is also wrong: U1 (#7020) already seats every place's chambers and chief executive in the offices table (offices-every-legislature.test.ts on that branch) and already adds the state-jurisdiction check to executivePriorities.",
+      "correction": "Keep the level match for coversTown bodies. Exclude only rows with coversTown false, or test inTownChain on the office's law jurisdiction. Rebase the site on #7020."
+    },
+    {
+      "claim": "World map, fileChanges concern weight: gate it on inTownChain(lawChain(api), input.jurisdiction), with 'No change today (US, the town's state and the town's bodies are all chain)'.",
+      "evidence": "For a county-board meeting in a town whose chain has no county level, localMeeting passes jurisdiction = chain.townPlaceId (world-legislating.ts:1413-1420), which is a stable entity id and not a chain level. Per the probe, that is every Puerto Rico town plus about 31 others. The gate would set the concern weight to 0 there and reorder those boards' agendas today. needsChange's repeal branch is already off there (`!!own`).",
+      "correction": "Pass the session the body's law jurisdiction from the shared bodyJurisdiction, not localMeeting's own lookup with its townPlaceId fallback. Then gate on that, and name the test draws in Puerto Rico."
+    },
+    {
+      "claim": "Readers map, meetings.ts: 'local(bill) also requires inTownChain(chain, billJurisdiction(api, bill))'.",
+      "evidence": "local() also picks billQuestion's level: meetings.ts:272 `local(bill) ? 'city' : 'state'`, which feeds provisionStance and currentAmount. It also sets signUpToSpeak's kind (:314). An outside council's wage bill would then be read against the state amount, and its comment would be called testimony.",
+      "correction": "Leave local() as a body-kind test. Add the inTownChain check at publicComment (:415) and considerTownHalls (:878)."
+    },
+    {
+      "claim": "Readers map: billPlace's foreign placeId 'gives zero readers, but only after a full scan' in news.ts, and ledger place reach 'no longer fires'.",
+      "evidence": "For another state's body, billPlace's placeId is that state's key. Every filled-in official has placeId = stateKey (officials.ts:800), so readersOf returns them directly from peopleByPlace (news.ts:225-226). The ledger's place reach fires for watched officials of that state (ledger.ts:1660-1663).",
+      "correction": "State the real readers: that state's filled-in officials when the press is absent, and watched officials of that state by place. Zero readers after a scan holds only for county:, place: and unit-id placeIds."
+    },
+    {
+      "claim": "Readers map: inTownChain keeps only the first township, so 'a second township's board whose seats cover part of the town counts as outside' and its town-resident members lose office.voted.",
+      "evidence": "offices-local.ts:281-283 also builds only units.townships.slice(0, 1), from the same placeLocalGovernmentUnits order as laws-starting.ts:110-115. No second township board exists.",
+      "correction": "Drop this risk. The first-township rule matches on both sides."
+    },
+    {
+      "claim": "Readers map: 'Words' PR #7022 is not available locally', so its wireItem lines were not read.",
+      "evidence": "#7022 merged to main after c9b60ce1ed (75308ec05a). On origin/main 708514a1b9, press-topics.ts:83-101 adds seatOffice and :113-127 the held-seat check, which now sets the level before facts.level.",
+      "correction": "Write U2's wireItem change against main's press-topics.ts:107-150, and cover took-office and seat-vacated (see the oath gap)."
+    }
+  ]
+}

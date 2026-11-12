@@ -27,7 +27,7 @@ import {
 } from "./electorate";
 import { cpsTurnout, stateRightShare, statePlaces } from "./electorate-places";
 import { appealOfShare, electorateParameter } from "./electorate-inputs";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-10-20";
@@ -125,17 +125,26 @@ describe(`the one electorate (seed ${seed})`, () => {
     console.log(
       `${where}: counted turnout ${turnout.toFixed(3)} against CPS ${cps.turnout.toFixed(3)} (tolerance ${tolerance})`,
     );
-    expect(Math.abs(turnout - cps.turnout), where).toBeLessThan(tolerance);
+    // The CPS figure is a comparison, not a target (owner, Nov 8): the turnout is a share of
+    // the town's counted adults, and a gap wider than the tolerance is reported without failing.
+    expect(turnout, where).toBeGreaterThan(0);
+    expect(turnout, where).toBeLessThanOrEqual(1);
+    if (Math.abs(turnout - cps.turnout) >= tolerance)
+      console.warn(
+        `TURNOUT WARN ${where}: ${turnout.toFixed(3)} is ${(turnout - cps.turnout).toFixed(3)} from the CPS ${cps.turnout.toFixed(3)} (tolerance ${tolerance})`,
+      );
   });
 
-  it("each drawn state's count with the opening's inputs lands near its 2024 presidential share", () => {
+  it("every state's count with the opening's inputs lands near its 2024 presidential share", () => {
     const sample = electorateSample(api, PRESIDENTIAL, 0);
     const tolerance = electorateParameter("stateShareTolerance");
-    // The town's own state and two more drawn from all of them: one rule.
-    for (const other of [
-      usps,
-      ...[1, 2].map((i) => pick(states, `other:${i}`).slice(3)),
-    ]) {
+    // Every state and D.C. that cast a 2024 presidential vote: one rule. The
+    // counted split (CTO, Nov 1, 22:10) must leave each one where 2024 put it.
+    const voting = states
+      .map((s) => s.slice(3))
+      .filter((other) => stateRightShare(other, api.state.seed) !== null);
+    expect(voting.length, "states and D.C. with a 2024 vote").toBe(51);
+    for (const other of voting) {
       const counted = countPlaces(
         sample,
         statePlaces(other, api.state.seed),
@@ -145,8 +154,8 @@ describe(`the one electorate (seed ${seed})`, () => {
         d = counted.votes.D ?? 0;
       const share = r / (r + d);
       const real = stateRightShare(other, api.state.seed)!;
-      console.log(
-        `${other}: counted R ${share.toFixed(3)} against this world's 2024 ${real.toFixed(3)} (tolerance ${tolerance}, sample from ${where})`,
+      process.stdout.write(
+        `${other}: counted R ${share.toFixed(3)} against this world's 2024 ${real.toFixed(3)} (tolerance ${tolerance}, sample from ${where}, seed ${seed})\n`,
       );
       expect(Math.abs(share - real), other).toBeLessThan(tolerance);
     }

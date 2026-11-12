@@ -40,7 +40,7 @@ const ICONS = {
 
 /**
  * The one rail part: a straight column of round icons, one per screen, in this order,
- * each opening its screen through `data-tab` the way a Menu entry does (MOCKS:24).
+ * each opening its screen through `data-tab` the way a Menu entry does.
  * `titles` names each key.
  */
 export function mountRail(host, keys, titles) {
@@ -48,7 +48,7 @@ export function mountRail(host, keys, titles) {
     ...keys.map((key) => {
       const ring = makeButton({ className: "ring" });
       ring.dataset.tab = key;
-      ring.title = titles[key];
+      ring.dataset.name = titles[key];
       ring.setAttribute("aria-label", titles[key]);
       ring.innerHTML = `<svg viewBox="0 0 24 24">${ICONS[key].join("")}</svg>`;
       return ring;

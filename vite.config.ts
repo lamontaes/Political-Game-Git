@@ -1,5 +1,5 @@
-import { runtimeArtBuild } from "./scripts/dev-lab/runtime-art-build";
 import { runtimeContentOrigin } from "./scripts/dev-lab/runtime-content-origin";
+import { jsonFromDisk } from "./scripts/dev-lab/json-from-disk";
 import { renameSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
 import { sites } from "@openai/sites-vite-plugin";
@@ -15,6 +15,15 @@ import {
 // The same defines apply under Vitest, which is how the tests can assert that
 // what the game would display equals what the package says.
 const buildIdentity = resolveBuildIdentity(process.cwd());
+
+// Heap limit for each Vitest worker, in megabytes. Tests that build a played
+// world need more than Node's default (about 2 GB on a 16 GB machine), so every
+// run gets the same limit as the hosted workflows (NODE_OPTIONS
+// --max-old-space-size=5120) with no environment variable to remember.
+// TUNABLE: checked against the world tests that failed at the default
+// (school-outcomes, school-pay, press-turnover); the limit is a ceiling, not a
+// reservation.
+const TEST_WORKER_HEAP_MB = 5120;
 
 import { identifiedBuild } from "./scripts/dev-lab/vite-identity";
 import { RoundRobinSequencer } from "./scripts/dev-lab/round-robin-sequencer";
@@ -45,8 +54,9 @@ export default defineConfig({
     process.env.PG_CACHE_DIR ??
     resolve("test-results", "cache", process.env.PG_RUN_ID ?? "dev"),
   plugins: [
+    // Tests only: JSON is parsed at run time, not kept as module code.
+    ...(process.env.VITEST ? [jsonFromDisk()] : []),
     playIsIndex(),
-    runtimeArtBuild(),
     runtimeContentOrigin(),
     sites(),
     identifiedBuild(),
@@ -65,6 +75,9 @@ export default defineConfig({
     rolldownOptions: { input: { play: "src/bench/play.html" } },
   },
   test: {
+    // Workers are child processes (the default pool), so the heap limit is set
+    // where Vitest starts them.
+    execArgv: [`--max-old-space-size=${TEST_WORKER_HEAP_MB}`],
     // Hosted shards deal the path-sorted suite out one file per shard so
     // expensive alphabetical clusters do not land on one runner.
     sequence: { sequencer: RoundRobinSequencer },

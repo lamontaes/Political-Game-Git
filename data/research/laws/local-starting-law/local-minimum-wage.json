@@ -2258,9 +2258,10 @@
     },
     {
       "stateKey": "US-MT",
-      "preempts": false,
-      "source": "https://www.epi.org/preemption-map/ (EPI Workers' rights preemption map; page blocked to this reader, list reconstructed)",
-      "estimate": true
+      "preempts": true,
+      "source": "Mont. Code Ann. 7-1-111(2), https://mca.legmt.gov/bills/mca/title_0070/chapter_0010/part_0010/section_0110/0070-0010-0010-0110.html (read in full Nov 8, 2026); minimum wage is Mont. Code Ann. 39-3-404",
+      "estimate": false,
+      "note": "A local government unit with self-government powers \"is prohibited from exercising ... any power that applies to or affects the provisions of 7-33-4128 or Title 39, except that subject to those provisions, it may exercise any power of a public employer with regard to its employees.\" The state minimum wage is in Title 39, chapter 3, part 4 (39-3-404); no section of that part delegates a local wage power (39-3-401 to 39-3-409 read)."
     },
     {
       "stateKey": "US-NJ",
@@ -2276,9 +2277,10 @@
     },
     {
       "stateKey": "US-VT",
-      "preempts": false,
-      "source": "https://www.epi.org/preemption-map/ (EPI Workers' rights preemption map; page blocked to this reader, list reconstructed)",
-      "estimate": true
+      "preempts": true,
+      "source": "24 V.S.A. 2291, https://legislature.vermont.gov/statutes/section/24/061/02291",
+      "estimate": true,
+      "note": "No express statute bars a local minimum wage (21 V.S.A. 381, 383, 384 and 385 read verbatim Nov 7; none names towns). The bar is Dillon's Rule: Vermont has no home rule and the enumerated municipal powers in 24 V.S.A. 2291 include no power to set wages. Reconciled with the authority list Nov 8; weak, so an estimate."
     },
     {
       "stateKey": "US-WA",
@@ -2302,24 +2304,24 @@
     },
     {
       "stateKey": "US-NH",
-      "preempts": false,
-      "source": "https://www.epi.org/preemption-map/ (EPI Workers' rights preemption map; page blocked to this reader, list reconstructed)",
+      "preempts": true,
+      "source": "RSA 31:39, https://gc.nh.gov/rsa/html/III/31/31-39.htm",
       "estimate": true,
-      "note": "No express preemption statute confirmed; no local minimum wage exists. Local government authority may be limited by Dillon's rule or home-rule limits."
+      "note": "No express statute bars a local minimum wage was found (the RSA 279 pages could not be read here). The bar is Dillon's Rule: New Hampshire has no home rule and the town bylaw powers in RSA 31:39 list no wage power. Reconciled with the authority list Nov 8; weak, so an estimate."
     },
     {
       "stateKey": "US-NV",
-      "preempts": false,
-      "source": "https://www.epi.org/preemption-map/ (EPI Workers' rights preemption map; page blocked to this reader, list reconstructed)",
+      "preempts": true,
+      "source": "NRS 268.001 and 268.003(1)(c), https://www.leg.state.nv.us/nrs/nrs-268.html",
       "estimate": true,
-      "note": "No express preemption statute confirmed; no local minimum wage exists. Local government authority may be limited by Dillon's rule or home-rule limits."
+      "note": "No express statute bars a local minimum wage (NRS 608.250 and Nev. Const. art. 15, sec. 16 read verbatim Nov 7 and name no city or county). The bar is Dillon's Rule: Nevada cities have only powers granted, 'matters of local concern' exclude matters needing statewide uniformity (NRS 268.003(1)(c)), and no statute grants wage-setting power. Reconciled with the authority list Nov 8; weak, so an estimate."
     },
     {
       "stateKey": "US-ND",
-      "preempts": false,
-      "source": "https://www.epi.org/preemption-map/ (EPI Workers' rights preemption map; page blocked to this reader, list reconstructed)",
-      "estimate": true,
-      "note": "No express preemption statute confirmed; no local minimum wage exists. Local government authority may be limited by Dillon's rule or home-rule limits."
+      "preempts": true,
+      "source": "N.D. Cent. Code 34-06-23(2), https://ndlegis.gov/cencode/t34c06.pdf (read in full Nov 8, 2026)",
+      "estimate": false,
+      "note": "\"A political subdivision may not enact, maintain, or enforce by charter, ordinance, purchase agreement, contract, regulation, rule, or resolution a living wage mandate in an amount greater than the applicable minimum wage rate of this state.\" A living wage mandate is a requirement that an employer pay a wage rate not otherwise required by state or federal law (34-06-23(1)(c)); a political subdivision includes a city, county, township or school district (34-06-23(1)(d))."
     },
     {
       "stateKey": "US-SD",

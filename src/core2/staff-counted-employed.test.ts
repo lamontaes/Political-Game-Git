@@ -2,7 +2,7 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import { setBookkeeping } from "./bookkeeping";
 import { countedResidents } from "./electorate";
 import { gameStartDate } from "./game-start";

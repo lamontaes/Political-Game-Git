@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: lane-4/race-row-heights
+pr: #7203
 blocked-on:
 source: Merger 7, Oct 27 (gating #6350)
 lead: play-first
 milestone: play-first
+claimed-at: 2026-11-04T07:16:05.022Z
 ---
 
 **What.** buttons.browser.mjs fails on some draws: in Charlotte Amalie, U.S. Virgin Islands (seed 4aafd390-c9b4-489c-85a8-f1e2de3fb41d) the filing race list's 'Talk box' buttons differ in height because a long label ('Legislator (At-large)' with the date and number) wraps on some rows. Seen by Merger 7 after #6350 merged (it fixed the empty Travel and Politics panels but not this).

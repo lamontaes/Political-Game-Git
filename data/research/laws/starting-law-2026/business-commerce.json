@@ -536,6 +536,12 @@
         },
         "US-WY": {
           "answer": "no"
+        },
+        "US": {
+          "answer": "no",
+          "cite": "21 U.S.C. 841(a)(1), 903; Gonzales v. Raich, 545 U.S. 1, 22 (2005)",
+          "source": "https://www.law.cornell.edu/uscode/text/21/841",
+          "note": "Nonmedical adult-use marijuana retail sales, not lawful hemp or federally authorized controlled-substance distribution. State permission does not remove federal prohibition. Section 903 does not occupy the field; neither this federal prohibition nor its repeal automatically sets aside state retail licensing. No schedule classification or invented effective date is asserted."
         }
       }
     },
@@ -1030,6 +1036,17 @@
           "cite": "Wyo. Stat. Ann. § 40-14-310",
           "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
           "note": "Payday loans are legal at about 316% APR (CRL), though installment loans are capped at 36% on the first $1,000 (NCLC)."
+        }
+      }
+    },
+    "us-federal-positions:trade.raise-tariffs": {
+      "source": "https://www.law.cornell.edu/uscode/text/19/2411",
+      "note": "The question asks whether Congress raises tariffs by statute. Tariffs rest on delegated authority (Section 232, 19 U.S.C. 1862; Section 301, 19 U.S.C. 2411(c)(1)); Learning Resources, Inc. v. Trump (Feb. 20, 2026) held that IEEPA confers no tariff power. No act of Congress set the current rates, so the answer is no.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "source": "https://www.law.cornell.edu/uscode/text/19/2411",
+          "cite": "19 U.S.C. 1862; 19 U.S.C. 2411(c)(1)"
         }
       }
     }

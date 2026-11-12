@@ -1,0 +1,50 @@
+[
+  {
+    "id": "SG-SPEED-fast-forward-campaigns",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 6402,
+    "whatItFakes": "With fast-forward on (development only), a world campaign takes its turns four times as far apart, so a race is decided on fewer impressions than a played one.",
+    "why": "The owner asked for 20 years in seconds, accepted if the result makes sense in the end (Nov 8, 1:58 a.m.); a campaign's town halls, speeches and doors are most of an election year's time.",
+    "addedBy": "speed",
+    "addedAt": "2026-11-08",
+    "replacement": "A stride engine that steps the whole day loop in months for people nobody is watching; the campaign then reads the aggregate effect of its spending and reach.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SPEED-hearer-groups",
+    "kind": "partial-model",
+    "file": "src/core2/hearer-groups.ts",
+    "line": 111,
+    "whatItFakes": "A full person nobody watches who hears a world candidate's speech takes the mean shift of their group of like hearers (place, lean, age band, how readily they yield), weighed by the members' mean closeness to the speaker, instead of their own; one who joins a group later takes its mean so far, and a grouped hearer does not weigh retelling it at home.",
+    "why": "Owner, Nov 9: \"not to track everything at every day\"; the level-of-detail design (docs/speed/off-screen-campaigns-as-results.md, stage 1 step 1). Per-listener speech delivery was most of a campaign event's cost.",
+    "addedBy": "speed",
+    "addedAt": "2026-11-09",
+    "replacement": "Opening a grouped hearer builds their own detail (that they came, what they heard) from the group's result and the record ids (step 3), and a household retelling read by group.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SPEED-results-mode-daily-work",
+    "kind": "partial-model",
+    "file": "src/core2/life.ts",
+    "line": 589,
+    "whatItFakes": "A day in results mode (time nobody watches) runs only the module calendar's dated work and the day's compaction: no module's daily work, no planned acts, no person due to act and no end-of-day hooks. On the first of each month the engines with a monthly step catch up: finance settles the budgets, business reviews, bills and buyers' purchases that fell due; health and renewal run births, illness and deaths (part 2); the residents engine pays counted households, and the jobs, economy and place-prices engines open so their dated work moves prices, pay and hiring (part 3). Still not done in a skipped year: a full worker records no shift and is paid nothing (SG-SPEED-results-mode-work-attendance), people do not move or pair up, nobody campaigns, and the engines with no monthly step never open (business, credit, the outcome web, climate, disasters, national events, national opinion, the federal courts, counted demotion, public action, outside budgets and world metrics).",
+    "why": "The fast clock, part 1 (pool item core-fast-clock-part-1-a-results-mode-for-skipped-time): one year day by day took 41.5 seconds in the smallest measured town; the base that the later parts add their monthly steps to.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "Parts 2 and 3 of the fast clock are on main (births, deaths and illness; prices, pay and jobs). Part 4 (elections counted from the voters) and the parts after it give each remaining engine whose daily work a skipped year needs its own onResultsMonth step, each the engine's own code at a monthly pace.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SPEED-results-mode-work-attendance",
+    "kind": "partial-model",
+    "file": "src/core2/modules/work.ts",
+    "line": 1007,
+    "whatItFakes": "In results mode (time nobody watches) the work engine records no shift for a full worker, since attendance is each worker's own dated decision and payroll pays what attendance earned: a full worker at a business, an outlet or a public employer earns and is paid nothing in a skipped month, and a pay period earned before the skip that falls due during it is not paid. Counted workers are paid their wages by the residents engine's monthly catch-up, and the jobs, economy and place-prices engines open and run their dated work.",
+    "why": "The fast clock, part 3 (pool item core-fast-clock-part-3-prices-pay-and-jobs-in-skipped-time): paying a full worker for a skipped shift would write an attendance record with no decision behind it. In the measured town the work engine's commitments were about one job in seven; a day-by-day year with the work engine's day switched off moved the town's prices by under half a point and its share out of work by under one point.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "A skipped month's attendance as a result the attendance writer admits without a decision (each commitment's planned minutes, the way counted workers are paid their schedule), then the payroll dispatch for every due date the month passed.",
+    "status": "open"
+  }
+]

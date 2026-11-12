@@ -1,0 +1,57 @@
+{
+  "version": "cps-2024-employment-by-age-v1",
+  "source": {
+    "tag": "SOURCED",
+    "asOf": "2026-11-01",
+    "citation": "U.S. Bureau of Labor Statistics, Current Population Survey, 2024 annual averages, civilian noninstitutional population, not seasonally adjusted: employment-population ratio (series LNU023000xx) and labor force participation rate (series LNU013000xx) by age, fetched from the BLS Public Data API v2 (api.bls.gov) on 2026-11-01. All ages 16+: employment-population 60.1, participation 62.6; ages 25-54: 80.7 and 83.6."
+  },
+  "ageBands": ["16-19", "20-24", "25-34", "35-44", "45-54", "55-64", "65+"],
+  "employedPctByAge": {
+    "16-19": 32.2,
+    "20-24": 66.3,
+    "25-34": 80.1,
+    "35-44": 81.9,
+    "45-54": 80.0,
+    "55-64": 64.1,
+    "65+": 18.9
+  },
+  "laborForcePctByAge": {
+    "16-19": 36.9,
+    "20-24": 71.5,
+    "25-34": 83.7,
+    "35-44": 84.7,
+    "45-54": 82.3,
+    "55-64": 65.9,
+    "65+": 19.5
+  },
+  "seriesByAge": {
+    "16-19": {
+      "employed": "LNU02300012",
+      "laborForce": "LNU01300012"
+    },
+    "20-24": {
+      "employed": "LNU02300036",
+      "laborForce": "LNU01300036"
+    },
+    "25-34": {
+      "employed": "LNU02300089",
+      "laborForce": "LNU01300089"
+    },
+    "35-44": {
+      "employed": "LNU02300091",
+      "laborForce": "LNU01300091"
+    },
+    "45-54": {
+      "employed": "LNU02300093",
+      "laborForce": "LNU01300093"
+    },
+    "55-64": {
+      "employed": "LNU02300095",
+      "laborForce": "LNU01300095"
+    },
+    "65+": {
+      "employed": "LNU02300097",
+      "laborForce": "LNU01300097"
+    }
+  }
+}

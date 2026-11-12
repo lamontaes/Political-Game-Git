@@ -1,0 +1,89 @@
+{
+  "id": "treasury-opening-cash",
+  "publisher": "U.S. Treasury; University of Michigan CLOSUP; Kioko et al., Public Administration Review",
+  "vintage": "Federal FY 2024–2025; local FY 2022–2024; state FY 2011–2021",
+  "table": "Financial Report, Government Financial Position, Cash and Other Monetary Assets",
+  "title": "Available opening treasury stock calibrations",
+  "universe": "Federal operating cash; estimated available state and local reserves",
+  "geography": "United States; local and state samples extrapolated explicitly to all 56 places",
+  "sourceUrl": "https://fiscal.treasury.gov/accounting/us-financial-report/government-financial-position",
+  "retrievedOn": "2026-11-04",
+  "limits": "Opening stock is not current-year revenue or a new appropriation. Fund balance is net resources, not a dated bank balance: state and local stock is an estimate. The state sample excludes 13 states and all territories. Local observations cover Michigan only, and general-government revenue is a proxy for general-fund revenue. Restricted/non-spendable assets are not added. A negative generated state net reserve contributes zero cash; opening legacy deficits are not supplied by this calibration.",
+  "profiles": {
+    "federal": {
+      "value": 871350000000,
+      "tag": "ESTIMATED",
+      "unit": "dollars",
+      "citation": "Treasury FY 2025 Financial Report, Government Financial Position: operating cash was $871.9 billion in FY 2025 and $870.8 billion in FY 2024. https://fiscal.treasury.gov/accounting/us-financial-report/government-financial-position",
+      "estimatedFrom": "Mean of FY 2024 and FY 2025 operating cash, with a once-per-world offset within those observations. Other monetary assets are excluded.",
+      "spread": {
+        "low": 870800000000,
+        "high": 871900000000,
+        "unit": "dollars",
+        "citation": "FY 2024 and FY 2025 operating cash in the same Treasury Financial Report; a two-year range, not a population distribution."
+      },
+      "stopgapId": "SG-WORLD-government-opening-fund-balance",
+      "basis": "dollars"
+    },
+    "state": {
+      "value": 0.013719,
+      "tag": "ESTIMATED",
+      "basis": "annualSpending",
+      "unit": "share of annual spending",
+      "citation": "Kioko et al., Governing Reserves: Managerial Discretion and Government Creditworthiness, Public Administration Review (2026), Table 2: unassigned general fund balance as percent of total expenditures; 407 state-year observations, 37 states, FY 2011–2021. https://onlinelibrary.wiley.com/doi/10.1111/puar.70220",
+      "estimatedFrom": "Sample mean 1.3719% / 100, scaled by this government’s generated annual general-government spending. Same estimate for places outside the sample. Uses only unassigned net resources; excludes assigned, committed, restricted and non-spendable balances. Negative reserve estimates add zero cash; they do not create a positive reserve floor.",
+      "spread": {
+        "low": -0.006863,
+        "high": 0.038866,
+        "unit": "share",
+        "citation": "Table 2 sample interquartile range, -0.6863% to 3.8866%, divided by 100; not the entire observed range."
+      },
+      "stopgapId": "SG-WORLD-government-opening-fund-balance"
+    },
+    "county": {
+      "value": 0.3076666666666667,
+      "tag": "ESTIMATED",
+      "basis": "annualRevenue",
+      "unit": "share of annual revenue",
+      "citation": "University of Michigan CLOSUP, The Fiscal Health of Michigan Local Governments 2024 (March 2026), Table 2, unrestricted general fund balance/revenue medians, FY 2022–2024; Table 1, reporting units. https://closup.umich.edu/sites/closup/files/2026-03/CLOSUP-Fiscal-Health-Local-Gov-2024-Final.pdf",
+      "estimatedFrom": "Mean of the three annual county medians, scaled by this government’s generated general-government revenue as a proxy for general-fund revenue. Michigan is the available county sample, not a measured average for each state. Fund balance is treated as available cash; exact fund assignments are not modeled.",
+      "spread": {
+        "low": 0.279,
+        "high": 0.332,
+        "unit": "share",
+        "citation": "County medians across FY 2022–2024; range of annual medians, not individual counties."
+      },
+      "stopgapId": "SG-WORLD-government-opening-fund-balance"
+    },
+    "municipality": {
+      "value": 0.5835631067961164,
+      "tag": "ESTIMATED",
+      "basis": "annualRevenue",
+      "unit": "share of annual revenue",
+      "citation": "University of Michigan CLOSUP, The Fiscal Health of Michigan Local Governments 2024 (March 2026), Table 2, unrestricted general fund balance/revenue medians, FY 2022–2024; Table 1, reporting units. https://closup.umich.edu/sites/closup/files/2026-03/CLOSUP-Fiscal-Health-Local-Gov-2024-Final.pdf",
+      "estimatedFrom": "FY 2024 city and village medians weighted by their reporting-unit counts (274 and 241), not the pooled empirical median or mean. Applied to the government’s general-government revenue as a general-fund proxy. Outside Michigan this is a type proxy. Fund balance is treated as available cash; exact fund assignments are not modeled.",
+      "spread": {
+        "low": 0.38,
+        "high": 0.815,
+        "unit": "share",
+        "citation": "FY 2022–2024 city/village medians range from 0.380 to 0.815; not the range of individual municipalities."
+      },
+      "stopgapId": "SG-WORLD-government-opening-fund-balance"
+    },
+    "township": {
+      "value": 1.421,
+      "tag": "ESTIMATED",
+      "basis": "annualRevenue",
+      "unit": "share of annual revenue",
+      "citation": "University of Michigan CLOSUP, The Fiscal Health of Michigan Local Governments 2024 (March 2026), Table 2, unrestricted general fund balance/revenue medians, FY 2022–2024; Table 1, reporting units. https://closup.umich.edu/sites/closup/files/2026-03/CLOSUP-Fiscal-Health-Local-Gov-2024-Final.pdf",
+      "estimatedFrom": "Mean of FY 2022–2024 township medians, scaled by this government’s generated general-government revenue as a general-fund proxy. Outside Michigan this is a type proxy. Fund balance is treated as available cash; exact fund assignments are not modeled.",
+      "spread": {
+        "low": 1.379,
+        "high": 1.468,
+        "unit": "share",
+        "citation": "Township medians across FY 2022–2024; not the range of individual townships."
+      },
+      "stopgapId": "SG-WORLD-government-opening-fund-balance"
+    }
+  }
+}

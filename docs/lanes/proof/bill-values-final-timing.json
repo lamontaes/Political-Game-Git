@@ -1,0 +1,67 @@
+{
+  "town": "Brownville Junction, Maine",
+  "place": "2308360",
+  "replay": "d0a859c3fc33a41f",
+  "host": "4c46091479ea",
+  "baseHead": "080e7582942020c2bceef75d86555c1b30f61ecd",
+  "head": "652523c28ae88859a64857218a5a6f50503fc3eb",
+  "exclusive": true,
+  "rows": [
+    {
+      "year": 1,
+      "baseSeconds": 29.2,
+      "headSeconds": 29.2,
+      "changePercent": 0.0,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "b8eda562b4ff3449",
+      "headFingerprint": "b8eda562b4ff3449",
+      "differingTables": []
+    },
+    {
+      "year": 2,
+      "baseSeconds": 59.7,
+      "headSeconds": 57.8,
+      "changePercent": -3.18,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "e5d1547ce6b72087",
+      "headFingerprint": "e5d1547ce6b72087",
+      "differingTables": []
+    },
+    {
+      "year": 3,
+      "baseSeconds": 46.2,
+      "headSeconds": 46,
+      "changePercent": -0.43,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "b9d211ce419777ee",
+      "headFingerprint": "b9d211ce419777ee",
+      "differingTables": []
+    },
+    {
+      "year": 4,
+      "baseSeconds": 80.4,
+      "headSeconds": 81.2,
+      "changePercent": 1.0,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "5442c20824cee4d0",
+      "headFingerprint": "5442c20824cee4d0",
+      "differingTables": []
+    }
+  ],
+  "withinTwentyPercent": true,
+  "bothUnder120Seconds": true,
+  "allTablesEqual": true,
+  "productionSha256": {
+    "src/bench/legislature.ts": "0c0145353c9d595388bafcc08ebcabd213270916936d7fa3c783bae033f0d4fa",
+    "src/bench/play.mjs": "0b3dee9c37ba6cd9405422e58d01ce75890e32ca5d6afe0bebe412c2efad8715",
+    "src/core2/bill-catalog.ts": "0766cca766116613abb1dfc6de2e2b4b7acd558b58e35fd28bedb65a6720c8cd",
+    "src/core2/laws-bill-values.ts": "f69f1e35fea53a0f8ad731648545bd3dcdd9ea1c131b75f23a404b7167060b70",
+    "src/core2/modules/budgets.ts": "c6f42cab6df88ed0463ee48693664622b9ce4c0f3000071c71153b13b57c8578",
+    "src/core2/modules/laws.ts": "e33ffc5fae137b1bf5c5628945b11bb4ea91a45976fcd6b34a665840b1b7f779",
+    "src/core2/modules/legislature.ts": "1488e27e8967a7641185e7b4b027d1b658d8c86eb2bb0856b07749144e17a787"
+  },
+  "rawSha256": {
+    "base": "7085da214ca02b981b316e87df4a2b03fce5c141fbc0af6333e146b7e295342f",
+    "head": "7aa016b9849218036f7cf3cd02e66e6add6a46e18b6482dad59646337394d8b6"
+  }
+}

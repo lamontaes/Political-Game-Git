@@ -8,7 +8,7 @@
  */
 
 import { corePlaceByJurisdictionId } from "./place-lookup";
-import { countyGeoidsForPlace } from "./reference/government-units";
+import { placeCountyGeoids } from "./place-map";
 import {
   COUNTY_SECTOR_EMPLOYMENT,
   STATE_PUBLIC_EMPLOYMENT,
@@ -81,7 +81,7 @@ export function townEmploymentMix(town: EntityId): TownEmploymentMix {
   const stateFips = geoid?.slice(0, 2) ?? null;
   const sectors = new Map<Sector, number>();
   let basis: TownEmploymentBasis = "national";
-  const parts = geoid ? countyGeoidsForPlace(geoid) : [];
+  const parts = geoid ? placeCountyGeoids(geoid) : [];
   const found = parts.filter((county) => counties().has(county));
   if (found.length > 0) {
     basis = "county";
@@ -260,4 +260,18 @@ function weightsOf(
   spread(moved("state", mix.state), [["state-office", 1]]);
   spread(moved("federal", mix.federal), [["post-office", 1]]);
   return weights;
+}
+
+/**
+ * A county's private employment by two-digit sector (Census 2023 County
+ * Business Patterns), a withheld cell counting nothing; empty where the
+ * county is not in the file.
+ */
+export function countySectorEmployment(
+  countyGeoid: string,
+): ReadonlyMap<string, number> {
+  const out = new Map<Sector, number>();
+  const cells = counties().get(countyGeoid);
+  if (cells) addSectors(out, cells, 1);
+  return out;
 }

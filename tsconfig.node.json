@@ -25,7 +25,6 @@
     "scripts/release/**/*.ts",
     "scripts/runtime-text/**/*.ts",
     "scripts/source/**/*.ts",
-    "src/authoring/**/*.ts",
     "src/cli/**/*.ts",
     "src/maps/**/*.ts",
     "src/content/**/*.ts",
@@ -33,7 +32,6 @@
     "src/districts/**/*.ts",
     "src/environment/**/*.ts",
     "src/persistence/**/*.ts",
-    "src/appearance/**/*.ts",
     "src/release/**/*.ts",
     "src/core2/kernel/**/*.ts",
     "src/core2/reference/**/*.ts",
@@ -65,6 +63,7 @@
     "src/core2/people-mind.ts",
     "src/core2/person-names.ts",
     "src/core2/place-lookup.ts",
+    "src/core2/place-map.ts",
     "src/core2/past-school-calendar.ts",
     "src/core2/town-households.ts",
     "src/core2/town-employment-mix.ts",
@@ -77,7 +76,10 @@
     "src/core2/bookkeeping.ts",
     "src/core2/seeded.ts",
     "src/core2/housing-prices.ts",
+    "src/core2/group-quarters-types.ts",
+    "src/core2/stopgap-families.ts",
     "src/core2/stopgaps.ts",
+    "src/core2/stopgaps-folder.ts",
     "src/player/LifeStartTransition.tsx",
     "src/player/observer-run-controller.ts",
     "src/player/observer-run-protocol.ts",
@@ -89,5 +91,5 @@
     "tests/source/**/*.ts",
     "vite.config.ts"
   ],
-  "exclude": ["src/appearance/**/*.test.ts", "src/authoring/**/*.test.ts"]
+  "exclude": []
 }

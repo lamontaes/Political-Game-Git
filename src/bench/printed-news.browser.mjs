@@ -61,9 +61,22 @@ try {
     }
     const packet = body.packet;
     if (packet?.kind === "stop") {
-      await page.request.post(
-        `${base}/api/resume?${new URLSearchParams({ pauseId: packet.pauseId })}`,
-      );
+      // Resume answers with the next packet, which may be another stop: each
+      // is continued past, as a player presses Continue. The same stop coming
+      // back (a held deadline) cannot be waived, so the run names it and fails.
+      let stop = packet;
+      for (let guard = 0; stop?.kind === "stop"; guard += 1) {
+        const resumed = await page.request.post(
+          `${base}/api/resume?${new URLSearchParams({ pauseId: stop.pauseId })}`,
+        );
+        const answer = await resumed.json().catch(() => ({}));
+        const next = answer.packet;
+        if (!resumed.ok() || guard > 200 || next?.pauseId === stop.pauseId)
+          throw new Error(
+            `a stop stays open after its resume: ${stop.stop?.modules?.[0]?.kind ?? "stop"} on ${stop.at?.date}, record ${stop.stop?.modules?.[0]?.recordId ?? "none"}`,
+          );
+        stop = next;
+      }
       continue;
     }
     if (packet?.at?.date >= target || packet?.kind === "complete") break;
@@ -86,14 +99,15 @@ try {
     .locator('[data-tab="news"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".paper").waitFor();
+  await page.locator(".news-board").waitFor();
   await page.evaluate(() => document.fonts.ready);
-  const outlets = await page.locator(".outlet-picker button").allInnerTexts();
+  const outlets = await page.locator(".news-board .tab").allInnerTexts();
   console.log("Outlets:", outlets.join(" | "));
   const read = async () => ({
-    masthead: await page.locator(".paper-masthead h2").innerText(),
-    headlines: await page.locator(".story-headline").allInnerTexts(),
-    ledes: await page.locator(".story-lede").allInnerTexts(),
+    masthead:
+      (await page.locator(".news-masthead h2").allInnerTexts())[0] ?? "",
+    headlines: await page.locator(".news-headline").allInnerTexts(),
+    ledes: await page.locator(".news-text .intro").allInnerTexts(),
     text: await page.locator(".story-text").allInnerTexts(),
   });
   const front = await read();
@@ -101,7 +115,7 @@ try {
   if (shots) await page.screenshot({ path: `${shots}/news-front.png` });
   // Each outlet's own page: the second one photographed too.
   if (outlets.length > 1) {
-    await page.locator(".outlet-picker button").nth(1).click();
+    await page.locator(".news-board .tab").nth(1).click();
     const second = await read();
     console.log(JSON.stringify(second, null, 1));
     if (shots) await page.screenshot({ path: `${shots}/news-outlet-2.png` });
@@ -112,12 +126,12 @@ try {
   // A front page: the lead story is printed with its text, and no record row
   // with a kind, series or jurisdiction label is on it (owner, Oct 27).
   assert.ok(
-    (await page.locator(".paper-story.lead .story-lede").count()) > 0,
+    (await page.locator(".news-story.lead .news-text .intro").count()) > 0,
     "the lead story has no text",
   );
   assert.equal(await page.locator(".paper-records").count(), 0);
   assert.doesNotMatch(
-    await page.locator(".paper").innerText(),
+    await page.locator(".news-board").innerText(),
     /\bSeries\b|\bJurisdiction\b|Public record/,
   );
   assert.deepEqual(errors, []);

@@ -180,6 +180,11 @@
       "purpose": "let public employees bargain together over pay and conditions",
       "enact": "public employees shall have the right to bargain together over their pay and working conditions"
     },
+    "labor-workforce.ban-the-box-public-hiring": {
+      "subject": "criminal records on state job applications",
+      "purpose": "bar state agencies from asking about criminal records on a first job application",
+      "enact": "a state agency shall not ask about an applicant's criminal record on a first job application"
+    },
     "labor-workforce.right-to-work": {
       "subject": "workers who do not join a union",
       "purpose": "bar contracts that make workers pay a union to hold a job",
@@ -199,6 +204,11 @@
       "subject": "new gas hookups in buildings",
       "purpose": "bar new natural gas hookups in buildings",
       "enact": "a new building shall not be connected to the natural gas system"
+    },
+    "environment-energy.allow-retail-electric-choice": {
+      "subject": "retail electric choice",
+      "purpose": "let households buy their electricity from a competitive supplier",
+      "enact": "residential customers may buy electricity from a competitive supplier"
     },
     "environment-energy.clean-electricity-standard": {
       "subject": "clean electricity",
@@ -344,6 +354,126 @@
       "subject": "protection of farmland",
       "purpose": "protect working farmland from development",
       "enact": "working farmland shall not be developed except as this measure allows"
+    },
+    "trade.raise-tariffs": {
+      "subject": "higher tariffs",
+      "purpose": "set higher tariffs on imported goods",
+      "enact": "a duty shall be charged on imported goods at the rates set here"
+    },
+    "housing.vouchers-for-every-eligible-family": {
+      "subject": "a housing voucher for every eligible family",
+      "purpose": "guarantee a housing voucher to every family that qualifies",
+      "enact": "every eligible family shall receive a housing voucher"
+    },
+    "energy-environment.limit-power-plant-carbon": {
+      "subject": "limits on power plant carbon",
+      "purpose": "limit the carbon that power plants release",
+      "enact": "power plants shall not release more carbon than the limit set here"
+    },
+    "health.medicare-drug-price-negotiation": {
+      "subject": "Medicare drug price negotiation",
+      "purpose": "let Medicare negotiate the prices of the drugs it pays for",
+      "enact": "the Secretary shall negotiate the prices Medicare pays for the drugs it covers most"
+    },
+    "budget.pay-for-a-higher-debt-limit": {
+      "subject": "paying for a higher debt limit",
+      "purpose": "pay for any rise in the debt limit",
+      "enact": "any rise in the debt limit shall be matched by the spending cuts set here"
+    },
+    "immigration.admit-more-immigrants": {
+      "subject": "more immigrants admitted each year",
+      "purpose": "raise the number of immigrants admitted each year",
+      "enact": "the yearly limits on family-sponsored and employment-based immigrants shall be raised to the levels set here"
+    },
+    "education.forgive-student-loans": {
+      "subject": "forgiveness of student loans",
+      "purpose": "forgive federal student loans",
+      "enact": "federal student loan balances shall be canceled as set here"
+    },
+    "emergencies.states-share-disaster-costs": {
+      "subject": "states sharing disaster costs",
+      "purpose": "have states pay a larger share of disaster costs",
+      "enact": "the federal share of disaster assistance shall be reduced to the share set here"
+    },
+    "science-communications.national-data-privacy": {
+      "subject": "a national data privacy law",
+      "purpose": "set one national rule for personal data",
+      "enact": "operators shall follow the one national rule on personal data set here"
+    },
+    "territories-culture.statehood-for-dc": {
+      "subject": "statehood for the District of Columbia",
+      "purpose": "make the District of Columbia a state",
+      "enact": "the District of Columbia shall be admitted to the Union as a state"
+    },
+    "justice-rights.reduce-mandatory-minimums": {
+      "subject": "shorter federal mandatory minimums",
+      "purpose": "reduce federal mandatory minimum sentences",
+      "enact": "the mandatory minimum terms for the offenses named here shall be reduced as set here"
+    },
+    "government.ban-congressional-stock-trading": {
+      "subject": "a ban on members trading stock",
+      "purpose": "bar members of Congress from trading stock",
+      "enact": "members of Congress shall not buy or sell individual stocks while in office"
+    },
+    "tax.raise-top-income-tax-rate": {
+      "subject": "a higher top income tax rate",
+      "purpose": "raise the top rate of the federal income tax",
+      "enact": "the tax rate on the highest bracket of taxable income shall be raised to the rate set here"
+    },
+    "foreign-affairs.increase-foreign-aid": {
+      "subject": "more foreign aid",
+      "purpose": "increase the money the United States spends on aid abroad",
+      "enact": "the sums made available for economic and development aid abroad shall be raised to the amounts set here"
+    },
+    "monetary-financial.cap-consumer-loan-interest": {
+      "subject": "a cap on consumer loan interest",
+      "purpose": "cap the interest rate on consumer loans",
+      "enact": "no lender shall charge an annual percentage rate on a consumer loan above the limit set here"
+    },
+    "social-insurance.raise-retirement-age": {
+      "subject": "a later Social Security retirement age",
+      "purpose": "raise the full retirement age for Social Security",
+      "enact": "the age at which full Social Security retirement benefits begin shall be raised to the age set here"
+    },
+    "agriculture.cut-farm-subsidies": {
+      "subject": "lower farm subsidies",
+      "purpose": "cut federal payments to farms",
+      "enact": "the reference prices and payment rates for covered crops shall be lowered to the levels set here"
+    },
+    "defense.grow-defense-spending": {
+      "subject": "more defense spending",
+      "purpose": "increase spending on national defense",
+      "enact": "the sums authorized for national defense shall be raised to the amounts set here"
+    },
+    "transport-water.expand-passenger-rail": {
+      "subject": "more passenger rail",
+      "purpose": "expand passenger rail service",
+      "enact": "grants shall be made to build and run new and longer passenger rail routes"
+    },
+    "federal.income-tax-terms": {
+      "subject": "the terms of the federal income tax",
+      "purpose": "change the terms of the federal income tax",
+      "enact": "the federal income tax shall be figured on the brackets, deductions and credits set here"
+    },
+    "federal.payroll-tax-terms": {
+      "subject": "the terms of the federal payroll taxes",
+      "purpose": "change the terms of the Social Security and Medicare taxes on wages",
+      "enact": "the Social Security and Medicare taxes on wages shall be charged on the terms set here"
+    },
+    "federal.excise-tax-terms": {
+      "subject": "the terms of the federal excise taxes",
+      "purpose": "change the terms of the federal excise taxes",
+      "enact": "the federal excise taxes on motor fuel and other goods shall be charged on the terms set here"
+    },
+    "federal.sales-tax-terms": {
+      "subject": "a federal sales tax",
+      "purpose": "set the terms of a federal tax on retail sales",
+      "enact": "a federal tax on retail sales shall be charged on the terms set here"
+    },
+    "federal.corporate-tax-terms": {
+      "subject": "the terms of the federal corporate income tax",
+      "purpose": "change the terms of the federal corporate income tax",
+      "enact": "the income tax on corporations shall be figured on the terms set here"
     }
   },
   "amounts": {
@@ -451,6 +581,14 @@
       "raiseTo": "the federal share of Medicaid costs shall be raised to {value}",
       "lowerTo": "the federal share of Medicaid costs shall be lowered to {value}"
     },
+    "child-care-income-limit": {
+      "subject": "the family income limit for child care assistance",
+      "purpose": "set the most a family of three may earn a month and still receive child care assistance",
+      "raise": "the family income limit for child care assistance shall be raised from {before} to {value}",
+      "lower": "the family income limit for child care assistance shall be lowered from {before} to {value}",
+      "raiseTo": "the family income limit for child care assistance shall be raised to {value}",
+      "lowerTo": "the family income limit for child care assistance shall be lowered to {value}"
+    },
     "snap-maximum": {
       "subject": "the maximum monthly food assistance benefit",
       "purpose": "set the maximum monthly food assistance benefit",
@@ -472,6 +610,108 @@
       "purpose": "decide whether local governments may tax income",
       "grant": "each city, town and county may levy a tax on income, at a rate its governing body sets by ordinance",
       "withdraw": "no city, town or county shall levy a tax on income, and any such tax in force shall end"
+    },
+    "social-security-earliest-claim-age": {
+      "subject": "the earliest age to claim Social Security retirement benefits",
+      "purpose": "set the earliest age to claim Social Security retirement benefits",
+      "raise": "the earliest age to claim Social Security retirement benefits shall be raised from {before} to {value}",
+      "lower": "the earliest age to claim Social Security retirement benefits shall be lowered from {before} to {value}",
+      "raiseTo": "the earliest age to claim Social Security retirement benefits shall be raised to {value}",
+      "lowerTo": "the earliest age to claim Social Security retirement benefits shall be lowered to {value}"
+    },
+    "social-security-full-retirement-age": {
+      "subject": "the age for full Social Security retirement benefits",
+      "purpose": "set the age for full Social Security retirement benefits",
+      "raise": "the age for full Social Security retirement benefits shall be raised from {before} to {value}",
+      "lower": "the age for full Social Security retirement benefits shall be lowered from {before} to {value}",
+      "raiseTo": "the age for full Social Security retirement benefits shall be raised to {value}",
+      "lowerTo": "the age for full Social Security retirement benefits shall be lowered to {value}"
+    },
+    "social-security-delayed-credit-age": {
+      "subject": "the age when Social Security delayed retirement credits stop",
+      "purpose": "set the age when Social Security delayed retirement credits stop",
+      "raise": "the age when Social Security delayed retirement credits stop shall be raised from {before} to {value}",
+      "lower": "the age when Social Security delayed retirement credits stop shall be lowered from {before} to {value}",
+      "raiseTo": "the age when Social Security delayed retirement credits stop shall be raised to {value}",
+      "lowerTo": "the age when Social Security delayed retirement credits stop shall be lowered to {value}"
+    },
+    "federal-campaign-contribution-limit": {
+      "subject": "the federal limit on a gift to a candidate",
+      "purpose": "set the most a person may give a federal candidate for each election",
+      "raise": "the most a person may give a federal candidate for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give a federal candidate for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give a federal candidate for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give a federal candidate for each election shall be lowered to {value}"
+    },
+    "state-contribution-limit-governor": {
+      "subject": "the state limit on a gift to the governor",
+      "purpose": "set the most a person may give the governor for each election",
+      "raise": "the most a person may give the governor for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give the governor for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give the governor for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give the governor for each election shall be lowered to {value}"
+    },
+    "state-contribution-limit-state-senate": {
+      "subject": "the state limit on a gift to a state senate candidate",
+      "purpose": "set the most a person may give a state senate candidate for each election",
+      "raise": "the most a person may give a state senate candidate for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give a state senate candidate for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give a state senate candidate for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give a state senate candidate for each election shall be lowered to {value}"
+    },
+    "state-contribution-limit-state-house": {
+      "subject": "the state limit on a gift to a state house candidate",
+      "purpose": "set the most a person may give a state house candidate for each election",
+      "raise": "the most a person may give a state house candidate for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give a state house candidate for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give a state house candidate for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give a state house candidate for each election shall be lowered to {value}"
+    },
+    "state-contribution-limit-local": {
+      "subject": "the state limit on a gift to a local candidate",
+      "purpose": "set the most a person may give a local candidate for each election",
+      "raise": "the most a person may give a local candidate for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give a local candidate for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give a local candidate for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give a local candidate for each election shall be lowered to {value}"
+    },
+    "executive-term-limit": {
+      "subject": "the limit on a governor's terms",
+      "purpose": "set how many terms a governor may serve",
+      "raise": "the limit on a governor's terms shall be raised from {before} to {value}",
+      "lower": "the limit on a governor's terms shall be lowered from {before} to {value}",
+      "raiseTo": "the limit on a governor's terms shall be raised to {value}",
+      "lowerTo": "the limit on a governor's terms shall be lowered to {value}"
+    },
+    "ssi-federal-benefit-rate": {
+      "subject": "the federal benefit rate for supplemental security income",
+      "purpose": "set the monthly federal benefit rate for supplemental security income",
+      "raise": "the monthly federal benefit rate for supplemental security income shall be raised from {before} to {value}",
+      "lower": "the monthly federal benefit rate for supplemental security income shall be lowered from {before} to {value}",
+      "raiseTo": "the monthly federal benefit rate for supplemental security income shall be raised to {value}",
+      "lowerTo": "the monthly federal benefit rate for supplemental security income shall be lowered to {value}"
+    },
+    "energy-assistance-income-limit": {
+      "subject": "the income limit for home energy assistance",
+      "purpose": "set the household income limit for home energy assistance, as a percent of the poverty line",
+      "raise": "the household income limit for home energy assistance shall be raised from {before} to {value}",
+      "lower": "the household income limit for home energy assistance shall be lowered from {before} to {value}",
+      "raiseTo": "the household income limit for home energy assistance shall be raised to {value}",
+      "lowerTo": "the household income limit for home energy assistance shall be lowered to {value}"
+    },
+    "unemployment-insurance": {
+      "subject": "the unemployment insurance program",
+      "purpose": "decide whether the state pays weekly benefits to workers who lose their jobs through no fault of their own",
+      "grant": "the state shall pay weekly unemployment insurance benefits to eligible workers who lose their jobs",
+      "withdraw": "the state shall pay no unemployment insurance benefits, and any such program in force shall end"
+    },
+    "meeting-notice-hours": {
+      "subject": "the notice required before a public meeting",
+      "purpose": "set how many hours of public notice a regular meeting of a local body must be given",
+      "raise": "the public notice a regular meeting of a local body requires shall be raised from {before} to {value}",
+      "lower": "the public notice a regular meeting of a local body requires shall be lowered from {before} to {value}",
+      "raiseTo": "the public notice a regular meeting of a local body requires shall be raised to {value}",
+      "lowerTo": "the public notice a regular meeting of a local body requires shall be lowered to {value}"
     }
   },
   "units": {
@@ -479,7 +719,10 @@
     "minor/hour": "{dollars} an hour",
     "dollars/year": "{dollars} a year",
     "USD/month": "{dollars} a month",
-    "USD/week": "{dollars} a week"
+    "USD/week": "{dollars} a week",
+    "years": "{value} years",
+    "USD/election": "{dollars} for each election",
+    "hours": "{value} hours"
   },
   "cited": "{clause}, amending {statute}"
 }

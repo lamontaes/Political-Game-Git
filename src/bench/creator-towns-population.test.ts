@@ -1,7 +1,7 @@
 /**
  * The creator's town list shows each town's population from the one source
  * the world opens from (play-first-04): in a drawn place, the world built
- * there opens on its own count, drawn around the one the list gives.
+ * there opens on the very count the list shows for its seed.
  */
 import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
@@ -27,7 +27,7 @@ it(
     console.log(where);
     const stateKey = corePlaceByKey(place.key)?.stateJurisdictionKey;
     expect(stateKey, where).toBeTruthy();
-    const listed = creatorTowns(stateKey!, "").find(
+    const listed = creatorTowns(stateKey!, "", place.seed).find(
       (row) => row.key === place.key,
     );
     expect(
@@ -40,21 +40,10 @@ it(
     });
     const opened = world.core.placeMetadata?.referencePopulation;
     console.log(`listed ${listed!.population}, world opens with ${opened}`);
-    // The list is shown before Start, so it reads the published count; the
-    // world opens on its own count drawn around it, inside the population
-    // spread (stopgap SG-WORLD-creator-town-count-published).
+    // The list reads the world's own count for the seed the creator drew, so
+    // the number it shows is the number the world opens on.
     if (opened !== undefined && opened !== "not-held")
-      expect(
-        Math.abs(Number(opened) - listed!.population),
-        where,
-      ).toBeLessThanOrEqual(
-        Math.max(
-          parameter("one"),
-          Math.ceil(
-            listed!.population * parameter("worldPopulationSpreadShare"),
-          ),
-        ),
-      );
+      expect(listed!.population, where).toBe(Number(opened));
     else {
       // No count on record: the world opens at the model's own size, and the
       // list says so as an estimate.

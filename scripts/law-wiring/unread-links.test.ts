@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import stopgaps from "../../src/core2/data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "../../src/core2/stopgaps";
 import unwired from "../../src/core2/data/outcome-web/unwired.json" with { type: "json" };
 import { splitByReader } from "./unread-links";
 

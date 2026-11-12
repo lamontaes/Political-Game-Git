@@ -13,6 +13,8 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
+import { lawApplied } from "../law-reach/applied";
+import { FAST_FORWARD_STRIDE, fastForward } from "../fast-forward";
 import { townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
 import {
@@ -22,12 +24,13 @@ import {
 } from "../electorate";
 import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
+import { registerDerivedCache } from "../snapshot";
 import { discretionaryHours } from "./work";
 import { fillInPerson } from "../state";
 import { bookkeeping } from "../bookkeeping";
 import { tableTraceOn } from "../module-state";
 import { keepsWhy } from "../why-kept";
-import { closenessBetween, ENCOUNTERS } from "./people";
+import { closenessBetween, ENCOUNTERS, householdIncome } from "./people";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -65,14 +68,13 @@ import { logistic } from "../kernel/deterministic-math";
 import { OPENING_CARRY } from "../turnout";
 import { transferCash } from "../world-transfer";
 import { medianTransactionBalance } from "../starting-cash";
+import { districtLean, groupAgreement, personLean } from "../campaign-views";
 import {
   campaignParameter,
-  districtLean,
-  groupAgreement,
-  personLean,
   PLATFORM_QUESTIONS,
+  platformLead,
   type Stance,
-} from "../campaign-views";
+} from "../campaign-data";
 import {
   candidatePlatform,
   partyLean,
@@ -97,15 +99,22 @@ import {
   agreementWith,
   countedStanceProfile,
   viewOn,
+  VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
 } from "./views";
+import { hearAsGroups, hearsAsPerson } from "../hearer-groups";
 import {
   LEGISLATURE_MODULE_ID,
+  obligationsOwedBetween,
+  obligationsOwedTo,
   provisionStance,
+  settleObligation,
   type BillRow,
 } from "./legislature";
-import { recordAppeal } from "./record";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { promisesOf, recordAppeal, votesOf } from "./record";
+import { withholdingOnPay } from "./budgets";
+import { lawInForce, LAWS_MODULE_ID } from "./laws";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   ACCEPTING_MOVES,
@@ -185,6 +194,10 @@ export interface CampaignRow {
     readonly full: number;
     readonly counted: number;
   }[];
+  /** The share of an event the town has been owed but not yet had (`heldInTown`), 0 up to one. */
+  readonly townEventCredit?: number;
+  /** The same for the interviews the town's outlets ask of the candidate (`interviewHeldInTown`). */
+  readonly townInterviewCredit?: number;
   /** Money set aside toward an event's venue and a poll, not yet paid. */
   readonly eventFundMinor?: number;
   readonly pollFundMinor?: number;
@@ -196,6 +209,38 @@ export interface CampaignRow {
   readonly shiftCarries?: Readonly<Record<string, number>>;
   /** The day each volunteer's last evening of doors was kept as an event. */
   readonly shiftNotedOn?: Readonly<Record<string, string>>;
+  /**
+   * Each volunteer or staffer who left the campaign to stand in its race
+   * themselves (`leaveForOwnRun`): who, which list they left, the day, and
+   * their own filing, whose `candidate-filed` record is the cause. The work a
+   * volunteer shared with the candidate stays theirs after they leave
+   * (`sharedHistory` reads it).
+   */
+  readonly leftToRun?: readonly {
+    readonly personId: string;
+    readonly role: "volunteer" | "staff";
+    readonly on: string;
+    readonly filingId: string;
+  }[];
+}
+
+/**
+ * A world candidate's ask for money that reached the controlled person
+ * (play-campaign-ask-reaches-player): theirs to answer, never taken. The
+ * engine never moves the player's money on its own (owner, Oct 14: the engine
+ * offers, the player decides).
+ */
+export interface AskRow {
+  readonly id: string;
+  readonly campaignId: string;
+  readonly donorId: string;
+  readonly candidateId: string;
+  /** What they would give by their own reasons and cash (`donationAnswer`'s sum); they may give another. */
+  readonly suggestedMinor: number;
+  readonly askedOn: string;
+  readonly status: "pending" | "given" | "declined";
+  readonly answeredOn?: string;
+  readonly givenMinor?: number;
 }
 
 /** One donor's running total to one campaign (the legal limit reads it). */
@@ -255,6 +300,8 @@ export interface CauseRow {
   readonly agreement: number | null;
   readonly rapport: number;
   readonly weight: number;
+  /** The record items an attack ad showed this voter: the rival's votes and broken promises, by id. */
+  readonly shownIds?: readonly string[];
 }
 
 /**
@@ -336,6 +383,8 @@ export type EndorsementReason =
  * campaign row keeps no list of its own.
  */
 export interface EndorsementRow {
+  /** A favor the speaker owed the candidate from a deal, weighed in this answer (campaign-favor-called-in). */
+  readonly obligationId?: string;
   /** endorsement:<filingId>:<the person asked, or the group's organization>. */
   readonly id: string;
   readonly filingId: string;
@@ -438,7 +487,7 @@ export const CAMPAIGNS_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       campaigns: { indexes: { byContest: { fields: ["contestId"] } } },
-      /** Each household a campaign's doors reached, one row each. */
+      /** Each household a campaign's doors reached, one row each, kept until its race closes (`closeRace`; the campaign row keeps the counts). */
       doors: { indexes: { byCampaign: { fields: ["campaignId"] } } },
       impressions: {
         indexes: {
@@ -457,7 +506,13 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       /** Folded causes a voter's known fact still names as its source, kept for the trace. */
       foldedCauses: {},
       promises: { indexes: { byCandidate: { fields: ["candidateId"] } } },
-      /** Each resident's "yes" at a campaign's door, one row a voter and candidate in a contest. */
+      /**
+       * Each resident's "yes" at a campaign's door, one row a voter and
+       * candidate in a contest, kept while the contest is open: a closed
+       * contest's rows go at its close (`closeRace`), except in a contest the
+       * player filed in, which keeps every row (CTO, Nov 1 21:25), and a
+       * voter's yes in a race still open stays.
+       */
       pledges: {
         indexes: {
           byVoter: { fields: ["voterId"] },
@@ -465,23 +520,40 @@ export const CAMPAIGNS_MODULE: CoreModule = {
         },
       },
       polls: { indexes: { byContest: { fields: ["contestId"] } } },
+      /** A decision cast for a person on a campaign's ask (the player's, or a dev pick): read in place of their own lean (`castVolunteer`). */
+      casts: {},
       gifts: {
         indexes: {
           byCampaign: { fields: ["campaignId"] },
           byDonor: { fields: ["donorId"] },
         },
       },
+      /** Asks for money that reached the controlled person, and their answers. */
+      asks: {
+        indexes: {
+          byDonor: { fields: ["donorId"] },
+        },
+      },
       /** Contests the town votes in whose campaigns are under way. */
       races: {},
       /**
-       * Each paid message's reach, by contest, for word of it passed on. Rows
-       * are put only by `emitMessage`, which keeps each contest's latest
-       * message date (`latestMessageDates`); a fold may remove rows, and any
-       * other writer must drop that record (`latestMessages.delete`) after it
-       * writes.
+       * Each paid message's reach, by contest, for word of it passed on, kept
+       * while it is newer than `rivalWordDays` back, the window
+       * `rivalWordPassedOn` reads (a closed race's last week included); at
+       * each campaign turn an older row goes (`foldRivalWord`). `emitMessage`
+       * stays the only writer, and keeps each contest's latest message date
+       * (`latestMessageDates`); a row the fold removes lowers the table's
+       * size, so that record is filled again from the rows. Any other writer
+       * must drop the record (`latestMessages.delete`) after it writes.
        */
       messages: { indexes: { byContest: { fields: ["contestId"] } } },
-      /** Word of a rival's message passed to a candidate, one row each. */
+      /**
+       * Word of a rival's message passed to a candidate, one row each, kept
+       * while it is newer than `rivalWordDays` back (`rivalWordPassedOn`
+       * reads it there), and after that only while it is the candidate's
+       * newest word in a race still under way (`raceReading`); at each
+       * campaign turn any other row goes (`foldRivalWord`).
+       */
       rivalWord: { indexes: { byCandidate: { fields: ["candidateId"] } } },
       /** Each reading of the race that made a world candidate campaign harder, one row each. */
       steppedUp: { indexes: { byFiling: { fields: ["filingId"] } } },
@@ -499,15 +571,21 @@ export const CAMPAIGNS_MODULE: CoreModule = {
   onDay: (api) => {
     offersToHelp(api);
     rivalWordPassedOn(api);
-    if (api.state.date.endsWith("-01-01")) foldQuietCauses(api);
+    if (Number(api.state.date.slice(8)) % 7 === 1) {
+      foldOldCauses(api);
+      dropOldFoldedCauses(api);
+    }
   },
   // The candidate's answer to an offer, said in the scene it stages; a
-  // count closes a race, and its causes fold.
-  eventKinds: ["scene.reply", "election-result"],
+  // count closes a race, and its causes fold; a filing's announcement takes
+  // its candidate off the rival campaigns they worked for.
+  eventKinds: ["scene.reply", "election-result", "candidate-filed"],
   onEvent: (api, event) =>
     event.kind === "election-result"
       ? foldClosedRaceCauses(api, String(event.facts?.contestId ?? ""))
-      : answerOffer(api, event),
+      : event.kind === "candidate-filed"
+        ? leaveForOwnRun(api, String(event.facts?.filingId ?? ""))
+        : answerOffer(api, event),
   journalSourceProviders: {
     [DONATION_KIND]: (api, reference) => moneySlot(api, reference.id),
     [AD_KIND]: (api, reference) => moneySlot(api, reference.id),
@@ -762,8 +840,11 @@ export function registerDoorChoice(choice: DoorChoice): void {
 /**
  * The answer to a campaign's ask for a vote at the door: a "yes" when the
  * candidate is the one the resident would vote for now, kept as their word
- * (and in place of any earlier word to a rival in the race); a no at a later
- * knock takes back an earlier yes.
+ * (and in place of any earlier word to a rival in the race). A no at a later
+ * knock leaves an earlier yes as it was: a word given is near-binding, and
+ * only something heavy changes it (owner, Oct 29: a scandal they learned of,
+ * a rival they are close to, a broken promise), which the ballot reads from
+ * records (`pledgeDoubt`), or a yes they give a rival who now outweighs it.
  */
 function answerAtDoor(
   api: CoreAPI,
@@ -783,10 +864,7 @@ function answerAtDoor(
   const choice = doorChoice?.(api, voterId, campaign.contestId, visit);
   const yes =
     choice === undefined ? warmth > 0 : choice === campaign.candidateId;
-  if (!yes) {
-    if (pledges.get(id)) pledges.remove(id);
-    return;
-  }
+  if (!yes) return;
   // A new word replaces an earlier one to a rival in the same contest.
   for (const earlier of pledgesOf(api, voterId))
     if (
@@ -823,6 +901,19 @@ function keepCause(api: CoreAPI, cause: CauseRow): void {
     table(api, "causes").put(cause as unknown as ModuleRow);
 }
 
+/**
+ * What a fact learned through a cause names as its source. The player's
+ * circle and people in focus keep the cause itself; for everyone else the
+ * cause folds into the voter's summary row for the candidate (CTO, Nov 8:
+ * other places keep only the result, detail is built on demand), so the fact
+ * names that row.
+ */
+function causeSourceId(api: CoreAPI, cause: CauseRow): string {
+  return keepsWhy(api.state as CoreState, cause.voterId)
+    ? cause.id
+    : `${cause.voterId}|${cause.candidateId}`;
+}
+
 function reach(
   api: CoreAPI,
   campaign: CampaignRow,
@@ -834,6 +925,7 @@ function reach(
     readonly weight: number;
     readonly rapport: number;
     readonly target?: number;
+    readonly shownIds?: readonly string[];
   },
 ): CauseRow | null {
   const voter = api.state.people.get(voterId);
@@ -863,6 +955,7 @@ function reach(
     agreement,
     rapport: options.rapport,
     weight: options.weight,
+    ...(options.shownIds?.length ? { shownIds: options.shownIds } : {}),
   };
   keepCause(api, cause);
   table(api, "impressions").put({
@@ -880,7 +973,11 @@ function reach(
       key: `candidate:${campaign.candidateId}`,
       value: campaign.contestId,
       learnedAt: date,
-      sourceId: cause.id,
+      // The player's circle and people in focus keep the cause itself as the
+      // fact's source; for everyone else the cause folds into the voter's
+      // summary row for this candidate (CTO, Nov 8: keep only the result,
+      // build detail on demand), so the fact points at that row.
+      sourceId: causeSourceId(api, cause),
       access:
         act === "retold" ? "told" : act.endsWith("ad") ? "public" : "perceived",
     });
@@ -1755,6 +1852,65 @@ function minutesAtWork(
 }
 
 /**
+ * A rival's own filing in a campaign's race: the person's filing standing in
+ * the same contest (on its ballot, or with its petition out) when they are
+ * not the campaign's candidate, else null. Someone running for a seat
+ * campaigns for themselves, so a rival never volunteers for or runs another
+ * candidate's campaign, hosts or comes to their donor meeting, or endorses
+ * them. A fact of the elections engine's ballot, not a lean, read alike for
+ * world candidates and the player.
+ */
+export function rivalFiling(
+  api: CoreAPI,
+  campaign: Pick<CampaignRow, "contestId" | "candidateId">,
+  personId: string,
+): FilingRow | null {
+  if (personId === campaign.candidateId) return null;
+  return (
+    ballot(api, campaign.contestId).find((f) => f.personId === personId) ?? null
+  );
+}
+
+/**
+ * Someone who files campaigns for themselves from that day: the filing's
+ * announcement (`candidate-filed`, every filing's one record) takes them off
+ * the volunteers and staff of every other campaign in the same contest, and
+ * each departure is kept on the campaign they left (`leftToRun`) with the day
+ * and the filing that caused it. While the filing stands, every way back on
+ * reads `rivalFiling` and is shut.
+ */
+function leaveForOwnRun(api: CoreAPI, filingId: string): void {
+  const filing = elections(api, "filings").get(filingId) as unknown as
+    FilingRow | undefined;
+  if (!filing) return;
+  const personId = filing.personId;
+  for (const campaign of table(api, "campaigns").query("byContest", [
+    filing.contestId,
+  ]) as unknown as CampaignRow[]) {
+    const staffed = campaign.staffIds.includes(personId);
+    if (
+      (!staffed && !campaign.volunteerIds.includes(personId)) ||
+      rivalFiling(api, campaign, personId)?.id !== filing.id
+    )
+      continue;
+    save(api, {
+      ...campaign,
+      volunteerIds: campaign.volunteerIds.filter((id) => id !== personId),
+      staffIds: campaign.staffIds.filter((id) => id !== personId),
+      leftToRun: [
+        ...(campaign.leftToRun ?? []),
+        {
+          personId,
+          role: staffed ? "staff" : "volunteer",
+          on: api.state.date,
+          filingId,
+        },
+      ],
+    });
+  }
+}
+
+/**
  * An ask to volunteer that comes through an organization that endorsed the
  * candidate: who asked for it, and how far the person shares its cause.
  */
@@ -1806,7 +1962,8 @@ export function volunteerReason(
  * Ask someone to volunteer. They say yes when liking the candidate,
  * closeness, an outgoing or dutiful temperament (and, asked through a group
  * that endorsed, their tie to its speaker and their share in its cause)
- * outweigh the hours their work already takes.
+ * outweigh the hours their work already takes. A rival standing in the same
+ * race is not asked (`rivalFiling`).
  */
 export function askToVolunteer(
   api: CoreAPI,
@@ -1818,23 +1975,46 @@ export function askToVolunteer(
   const person = api.state.people.get(personId);
   if (
     !person?.alive ||
-    ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge")
+    ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge") ||
+    rivalFiling(api, campaign, personId)
   )
     return false;
-  const yes = leanedYes(
-    api.state,
-    person,
-    "campaigns.volunteer",
-    "volunteer",
-    "decline",
-    volunteerReason(api, campaign, person, ask),
-  );
+  const cast = table(api, "casts").get(
+    `${campaign.filingId}|${personId}|volunteer`,
+  ) as unknown as { yes: boolean } | undefined;
+  const yes = cast
+    ? cast.yes
+    : leanedYes(
+        api.state,
+        person,
+        "campaigns.volunteer",
+        "volunteer",
+        "decline",
+        volunteerReason(api, campaign, person, ask),
+      );
   if (yes && !campaign.volunteerIds.includes(personId))
     save(api, {
       ...campaign,
       volunteerIds: [...campaign.volunteerIds, personId],
     });
   return yes;
+}
+
+/**
+ * A decision cast for a person on a campaign's volunteer ask, before they are asked (the player's, or a
+ * dev pick): `askToVolunteer` reads it in place of their own lean, as the legislature reads a signature
+ * cast for a member. A person who is a rival's or under the volunteering age is still not asked.
+ */
+export function castVolunteer(
+  api: CoreAPI,
+  filingId: string,
+  personId: string,
+  yes: boolean,
+): void {
+  table(api, "casts").put({
+    id: `${filingId}|${personId}|volunteer`,
+    yes,
+  } as unknown as ModuleRow);
 }
 
 /**
@@ -1863,6 +2043,7 @@ export function managerReason(
 /**
  * Ask someone to run the campaign. They say yes by the manager's reasons and
  * their own temperament; a yes puts them on its staff, off its volunteers.
+ * A rival standing in the same race is not asked (`rivalFiling`).
  */
 export function askToManage(
   api: CoreAPI,
@@ -1874,7 +2055,8 @@ export function askToManage(
   if (
     !person?.alive ||
     personId === campaign.candidateId ||
-    ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge")
+    ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge") ||
+    rivalFiling(api, campaign, personId)
   )
     return false;
   const yes = leanedYes(
@@ -1980,7 +2162,9 @@ function offersToHelp(api: CoreAPI): void {
           (person): person is PersonState =>
             !!person?.alive &&
             ageOn(person, date) >= campaignParameter("minimumVolunteerAge") &&
-            (person.householdId === candidate.householdId || heard(person.id)),
+            (person.householdId === candidate.householdId ||
+              heard(person.id)) &&
+            !rivalFiling(api, campaign, person.id),
         )
         .sort(
           (a, b) => closeness(b) - closeness(a) || a.id.localeCompare(b.id),
@@ -2026,7 +2210,8 @@ function offersToHelp(api: CoreAPI): void {
         !person?.alive ||
         person.householdId === candidate.householdId ||
         ageOn(person, date) < campaignParameter("minimumVolunteerAge") ||
-        !heard(id)
+        !heard(id) ||
+        rivalFiling(api, campaignFor(api, filing.id), id)
       )
         continue;
       weighed.add(id);
@@ -2261,6 +2446,51 @@ function rivalWordPassedOn(api: CoreAPI): void {
 }
 
 /**
+ * Word of a rival is kept while a reader can still reach it (governing lead,
+ * Oct 30). `rivalWordPassedOn` reads a message, and a candidate's word, only
+ * while it is newer than the day `rivalWordDays` back, a day that only moves
+ * forward; a filing stays on the ballot after the count, so it reads a
+ * closed race's last week too. `raceReading` reads a candidate's newest word
+ * in a race still under way (`newestWord`), however old. So at each campaign
+ * turn a message older than the window goes, and a word row older than it
+ * goes unless it is that newest word in a race in `races`. A closed race's
+ * rows go as its last week leaves the window, and both tables hold about a
+ * week of rows, so this pass does not grow with the years.
+ */
+export function foldRivalWord(api: CoreAPI): void {
+  const since = addDays(
+    makeIsoDate(api.state.date),
+    -campaignParameter("rivalWordDays"),
+  );
+  const messages = table(api, "messages");
+  for (const row of messages.rows() as unknown as MessageRow[])
+    if (!(row.date > since)) messages.remove(row.id);
+  const words = table(api, "rivalWord"),
+    races = table(api, "races");
+  // Each candidate's newest word in a race under way, by candidate and
+  // contest, read before any of that pair's rows go.
+  const newest = new Map<string, string | undefined>();
+  for (const row of words.rows() as unknown as RivalWordRow[]) {
+    if (row.date > since) continue;
+    if (row.contestId && races.get(row.contestId)) {
+      const key = JSON.stringify([row.candidateId, row.contestId]);
+      if (!newest.has(key))
+        newest.set(
+          key,
+          newestWord(
+            words.query("byCandidate", [
+              row.candidateId,
+            ]) as unknown as RivalWordRow[],
+            row.contestId,
+          )?.id,
+        );
+      if (newest.get(key) === row.id) continue;
+    }
+    words.remove(row.id);
+  }
+}
+
+/**
  * Whether someone who heard of a filing offers to help unasked: the same
  * reasons as an ask to volunteer, against the offer's own bar.
  */
@@ -2350,6 +2580,11 @@ function raceElectorate(api: CoreAPI, contest: ContestRow): number {
   const { places } = basePlaces(api, contest);
   if (places.length)
     return places.reduce((sum, place) => sum + place.eligible, 0);
+  return townElectorate(api);
+}
+
+/** The town's own adults, named and counted. */
+function townElectorate(api: CoreAPI): number {
   const core = api.state as CoreState;
   const { townPlaceId } = townRow(api);
   const adult = api.parameter("votingAge");
@@ -2367,12 +2602,75 @@ function raceElectorate(api: CoreAPI, contest: ContestRow): number {
   return total;
 }
 
+const townShares = new WeakMap<
+  object,
+  Map<string, { readonly asOf: string; readonly share: number }>
+>();
+
+/**
+ * The share of a race's voters who live in the town, 0 to 1: one for a town
+ * race, and for a county, district or state race the town's adults over the
+ * race's eligible voters (Census counts in the places' rows). Read again a
+ * quarter after it was last read, since a town's size moves slowly.
+ */
+function townShareOfRace(api: CoreAPI, contestId: string): number {
+  const held = townShares.get(api.state) ?? new Map();
+  townShares.set(api.state, held);
+  const kept = held.get(contestId);
+  if (kept && daysBetween(kept.asOf, api.state.date) < 90) return kept.share;
+  const contest = elections(api, "contests").get(contestId) as unknown as
+    ContestRow | undefined;
+  const whole = contest ? raceElectorate(api, contest) : 0;
+  const share =
+    !contest || !basePlaces(api, contest).places.length || whole <= 0
+      ? 1
+      : Math.min(1, townElectorate(api) / whole);
+  held.set(contestId, { asOf: api.state.date, share });
+  return share;
+}
+
+/**
+ * Whether a world candidate's event this turn is held in the town. A
+ * candidate for an office the town is only part of spreads their evenings
+ * over the whole district, so the town has its share of them: each event they
+ * would hold adds the town's share of the race's voters to what the town is
+ * owed, and the event is held here when that reaches one. No dice, and a
+ * town race (share one) holds every event. (Speed, Nov 8: a House candidate
+ * held about a town hall a day in a town of 600.)
+ */
+function heldInTown(
+  api: CoreAPI,
+  filingId: string,
+  credit: "townEventCredit" | "townInterviewCredit" = "townEventCredit",
+): boolean {
+  const campaign = campaignFor(api, filingId);
+  const share = townShareOfRace(api, campaign.contestId);
+  if (share >= 1) return true;
+  const owed = (campaign[credit] ?? 0) + share;
+  const held = owed >= 1;
+  save(api, {
+    ...campaign,
+    [credit]: held ? owed - 1 : owed,
+  });
+  return held;
+}
+
+/**
+ * Whether an interview a town outlet would ask of a candidate is held: the
+ * town's outlets interview a candidate for an office the town is only part of
+ * in proportion to the town's share of the race, as events are (`heldInTown`).
+ */
+export function interviewHeldInTown(api: CoreAPI, filingId: string): boolean {
+  return heldInTown(api, filingId, "townInterviewCredit");
+}
+
 /**
  * Someone has said, to the candidate's face, that they will work the
  * campaign (a relative's answer in the talk at home after the filing): they
  * are counted among its volunteers, whom the canvass and the turnout read.
- * Returns whether they were newly enlisted; a child, the dead and anyone
- * already counted are not.
+ * Returns whether they were newly enlisted; a child, the dead, anyone
+ * already counted and a rival standing in the same race (`rivalFiling`) are
+ * not.
  */
 export function enlistVolunteer(
   api: CoreAPI,
@@ -2384,7 +2682,8 @@ export function enlistVolunteer(
   if (
     !person?.alive ||
     ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge") ||
-    campaign.volunteerIds.includes(personId)
+    campaign.volunteerIds.includes(personId) ||
+    rivalFiling(api, campaign, personId)
   )
     return false;
   save(api, {
@@ -2607,6 +2906,14 @@ export function volunteerShifts(
   return shifts;
 }
 
+/** The law series holding each office class's limit, where the research gives a state a number. */
+const STATE_CONTRIBUTION_SERIES: Readonly<Record<string, string>> = {
+  governor: "state-contribution-limit-governor",
+  stateSenate: "state-contribution-limit-state-senate",
+  stateHouse: "state-contribution-limit-state-house",
+  local: "state-contribution-limit-local",
+};
+
 /** The individual contribution limit for this contest, in minor units (null: no limit), and its source. */
 export function contributionLimit(
   api: CoreAPI,
@@ -2615,6 +2922,8 @@ export function contributionLimit(
   readonly minor: number | null;
   readonly source: string;
   readonly estimate: boolean;
+  /** The law row the limit stands on (its series and record id), where one is open. */
+  readonly law?: { readonly key: string; readonly id: string };
 } {
   const contest = elections(api, "contests").get(
     contestId,
@@ -2638,11 +2947,29 @@ export function contributionLimit(
     >;
   };
   if (contest.family === "usHouse" || contest.officeId.endsWith(":us-senate")) {
+    // The limit is federal law in force (Congress can raise or lower it);
+    // the research's figure stays the fallback where no law row is open.
     const federal = research.federal.individualToCandidate;
+    const law = (api.state as CoreState).modules.has(LAWS_MODULE_ID)
+      ? lawInForce(api, "federal-campaign-contribution-limit")
+      : null;
+    const fromLaw =
+      law && law.value !== null && law.governing ? law.value : null;
     return {
-      minor: federal.usd * 100,
-      source: `${federal.source} ${federal.sourceUrl}`,
+      minor: (fromLaw ?? federal.usd) * 100,
+      source:
+        fromLaw !== null && law?.governing
+          ? `${String(law.governing.source)}`
+          : `${federal.source} ${federal.sourceUrl}`,
       estimate: false,
+      ...(fromLaw !== null && law?.governing
+        ? {
+            law: {
+              key: "federal-campaign-contribution-limit",
+              id: law.governing.id,
+            },
+          }
+        : {}),
     };
   }
   const key =
@@ -2653,6 +2980,21 @@ export function contributionLimit(
           ? "stateSenate"
           : "stateHouse"
         : "local";
+  // The state's law in force on the limit, where the research gives it a number.
+  const series = STATE_CONTRIBUTION_SERIES[key];
+  if (series && (api.state as CoreState).modules.has(LAWS_MODULE_ID)) {
+    const law = lawInForce(api, series);
+    const stateRow = law.levels.find(
+      (level) => level.level === "state" && !level.setAside,
+    )?.row;
+    if (stateRow && typeof stateRow.value === "number")
+      return {
+        minor: stateRow.value * 100,
+        source: String(stateRow.source),
+        estimate: stateRow.estimate === true,
+        law: { key: series, id: stateRow.id },
+      };
+  }
   const row = research.limits[townRow(api).stateKey]?.[key];
   if (row && typeof row === "object") {
     const source = [row.source, row.sourceUrl].filter(Boolean).join(" ");
@@ -2852,14 +3194,17 @@ export function giftOf(
 
 /**
  * A donor's own reasons to give to a candidate: warmth, agreement with the
- * platform, party, how they stand with the candidate and every trait's lean
- * between giving and keeping. Above zero they would give if they have the
- * cash; at or below it they keep it (and a minor or the dead never give).
+ * platform, party, how they stand with the candidate, what they have to
+ * spare against a typical gift (`spareAgainstGift`, from `giftBudget`) and
+ * every trait's lean between giving and keeping. Above zero they would give
+ * if they have the cash; at or below it they keep it (and a minor or the
+ * dead never give).
  */
 export function donorReason(
   api: CoreAPI,
   filingId: string,
   donorId: string,
+  budget?: ReturnType<typeof giftBudget>,
 ): number {
   const adultAge = api.parameter("votingAge");
   const campaign = campaignFor(api, filingId);
@@ -2867,6 +3212,7 @@ export function donorReason(
   if (!donor?.alive || ageOn(donor, api.state.date) < adultAge)
     return Number.NEGATIVE_INFINITY;
   const why = backingReasons(api, campaign, donor);
+  const means = spareAgainstGift(budget ?? giftBudget(api, donor));
   return leanedScore(
     api.state,
     donor,
@@ -2876,17 +3222,135 @@ export function donorReason(
     why.warmth +
       why.agreement +
       campaignParameter("donorPartyWeight") * why.party +
-      campaignParameter("donorRelationshipWeight") * why.relationship,
+      campaignParameter("donorRelationshipWeight") * why.relationship +
+      campaignParameter("donorMeansWeight") * means,
   );
 }
 
 /**
+ * What a person has to spare against a typical gift, -1 to 1: the month's
+ * income left after taxes and bills plus the savings beyond their cushion
+ * (`giftBudget`), set against `donorSpareGiftsAtEven` typical gifts
+ * (`donorTypicalGiftMinor`), sliding as (spare - even) / (spare + even). With
+ * nothing to spare it reads -1 (a gift would come out of the bills), at that
+ * many gifts 0, and it nears 1 as a gift becomes a small part of what they
+ * have; never a threshold.
+ */
+export function spareAgainstGift(
+  budget: Pick<
+    ReturnType<typeof giftBudget>,
+    "discretionaryMinor" | "savingsMinor"
+  >,
+): number {
+  const spare = Math.max(0, budget.discretionaryMinor + budget.savingsMinor);
+  const even =
+    campaignParameter("donorSpareGiftsAtEven") *
+    campaignParameter("donorTypicalGiftMinor");
+  return (spare - even) / (spare + even);
+}
+
+/**
+ * What a person has to give from, read from their records: their share of
+ * their household's monthly income after the taxes payroll withholds from it
+ * and the household's monthly living costs (the month's discretionary budget,
+ * where a small political gift of $25 to $100 comes from), and the savings
+ * they hold beyond a cushion of months of their own living costs (where a
+ * larger gift can come from). Income is read through moves' household
+ * reader (`householdIncome`: its living members' open jobs and recorded
+ * income awards); each job's month of pay loses what the law in force where
+ * its worker lives withholds from it (`withholdingOnPay`: income tax, Social
+ * Security, Medicare). Shared evenly among the household's adults.
+ *
+ * A member built in a child role carries no living costs of their own (the
+ * opening population puts a household's costs on its heads), so a grown
+ * child at home lives on their share of the household's month: that share
+ * is their month of living costs for the cushion and for the span their
+ * money is weighed against (`weighedAgainst`). Only a household with no
+ * recorded living costs at all leaves the month at zero.
+ */
+export function giftBudget(
+  api: CoreAPI,
+  person: Readonly<
+    Pick<
+      PersonState,
+      "id" | "householdId" | "liquidMinor" | "livingCostDailyMinor"
+    >
+  >,
+): {
+  readonly monthlyIncomeMinor: number;
+  readonly monthlyWithheldMinor: number;
+  readonly monthlyLivingMinor: number;
+  readonly discretionaryMinor: number;
+  readonly savingsMinor: number;
+  readonly ownMonthLivingMinor: number;
+  readonly cushionMinor: number;
+} {
+  const core = api.state as CoreState;
+  const adultAge = api.parameter("votingAge");
+  const members = core.households.get(person.householdId)?.memberIds ?? [
+    person.id,
+  ];
+  const income = householdIncome(api, person.householdId);
+  // One month length for the pay, the taxes on it, the bills and the
+  // cushion: the household income reader's.
+  const perMonth = income.monthDays;
+  let withheld = 0;
+  for (const pay of income.wages)
+    withheld += withholdingOnPay(api, {
+      personId: pay.personId,
+      paidMinor: pay.minor,
+      periodDays: income.monthDays,
+    });
+  let living = 0;
+  let adults = 0;
+  for (const memberId of members) {
+    const member = core.people.get(memberId);
+    if (!member?.alive) continue;
+    if (ageOn(member, api.state.date) >= adultAge) adults += 1;
+    living += member.livingCostDailyMinor * perMonth;
+  }
+  const share = Math.max(1, adults);
+  const householdShare = living / share;
+  const recordedOwn = perMonth * person.livingCostDailyMinor;
+  const ownMonth = recordedOwn > 0 ? recordedOwn : householdShare;
+  const cushion = campaignParameter("caseCushionMonths") * ownMonth;
+  return {
+    monthlyIncomeMinor: income.minor / share,
+    monthlyWithheldMinor: withheld / share,
+    monthlyLivingMinor: householdShare,
+    discretionaryMinor: Math.max(0, income.minor - withheld - living) / share,
+    savingsMinor: Math.max(0, person.liquidMinor - cushion),
+    ownMonthLivingMinor: ownMonth,
+    cushionMinor: cushion,
+  };
+}
+
+/**
+ * Money weighed on a log scale of a span of the person's own living costs,
+ * the one shape both of a donor's sources slide on: about one for one while
+ * it is small against the span, a few spans for many spans, never in
+ * proportion (a dollar weighs less the more of them there are), and never a
+ * threshold. The month's spare is weighed against
+ * `donationMonthScaleMonths` of their month of living costs, savings against
+ * their cushion (`caseCushionMonths`); a donor with no living costs of their
+ * own takes both from their share of the household's month (`giftBudget`).
+ * Every household holds living costs (a press person seated from a recorded
+ * identity gets the one-person household officials get), so a donor always
+ * has a span; money weighed against no span counts for nothing, never one
+ * for one.
+ */
+function weighedAgainst(minor: number, spanMinor: number): number {
+  return spanMinor > 0 ? spanMinor * Math.log1p(minor / spanMinor) : 0;
+}
+
+/**
  * Ask someone for money. What they'd give in all slides with their own
- * reasons (`donorReason`) and with the cash they have beyond a few months of
- * their own living costs; they give what they'd give beyond what they've
- * already given, never past the legal limit. The money moves from their
- * account to the campaign's through the journal, and their running total is
- * kept in one row the next ask reads.
+ * reasons (`donorReason`) and with what they have to give from
+ * (`giftBudget`): a share of the month's income left after their bills (never
+ * more than that month's spare), and a share of their savings beyond a
+ * cushion; they give what they'd give beyond what they've already given,
+ * never past the legal limit or the cash they hold. The money moves from their account to the campaign's through
+ * the journal, and their running total is kept in one row the next ask reads.
  */
 export function askForDonation(
   api: CoreAPI,
@@ -2902,44 +3366,103 @@ export type DonationWhy =
 
 /**
  * An ask answered: what the person gave, or the record-side reason they did
- * not: their reasons to give are at or below zero (`not-warm`), they hold no
- * cash beyond their cushion (`no-spare`), they have given what the law allows
- * (`at-limit`), or what they'd give is under a whole dollar (`small`).
+ * not: their reasons to give are at or below zero (`not-warm`), nothing is
+ * left of their month's income after their bills and they hold no savings
+ * beyond their cushion, or no cash at all (`no-spare`), they have given what
+ * the law allows (`at-limit`), or what they'd give is under a whole dollar
+ * (`small`).
  */
 export function donationAnswer(
   api: CoreAPI,
   filingId: string,
   donorId: string,
+  /** Work out what they would give without giving it (an ask the player answers). */
+  options: { readonly suggestOnly?: boolean } = {},
 ): { readonly givenMinor: number; readonly why: DonationWhy } {
   const adultAge = api.parameter("votingAge");
   const campaign = campaignFor(api, filingId);
   const donor = api.state.people.get(donorId);
   if (!donor?.alive || ageOn(donor, api.state.date) < adultAge)
     return { givenMinor: 0, why: "no-spare" };
-  const reason = donorReason(api, filingId, donorId);
-  const spare =
-    donor.liquidMinor -
-    campaignParameter("caseCushionMonths") * 30 * donor.livingCostDailyMinor;
+  const budget = giftBudget(api, donor);
+  const reason = donorReason(api, filingId, donorId, budget);
   if (reason <= 0) return { givenMinor: 0, why: "not-warm" };
-  if (spare <= 0) return { givenMinor: 0, why: "no-spare" };
+  if (
+    donor.liquidMinor <= 0 ||
+    (budget.discretionaryMinor <= 0 && budget.savingsMinor <= 0)
+  )
+    return { givenMinor: 0, why: "no-spare" };
   const limit = contributionLimit(api, campaign.contestId);
   const gift = giftOf(api, filingId, donorId);
   const given = gift?.totalMinor ?? 0;
-  const wanted =
-    spare *
-    Math.min(1, reason) *
-    campaignParameter("donationShareOfCashPerWarmth");
-  // Whole dollars: what they'd give in all, less what they've given.
-  // A candidate's own money has no limit (Buckley v. Valeo, 424 U.S. 1,
-  // 1976; state limits on contributions likewise cover others' gifts).
+  // A small gift comes out of the month's income after the bills, a larger
+  // one out of savings too; both slide with how much the donor wants this
+  // candidate to win. Each counts on a log scale of the donor's own living
+  // costs (a dollar weighs less the more they have): the month's spare
+  // against a part of a month of them, so a better-paid donor gives more but
+  // not in proportion to the pay, and savings against their cushion, so a
+  // nest egg counts about one for one and a fortune a few nest eggs. What
+  // comes out of the month never passes the month's spare itself: a warm
+  // donor with little left gives at most what is left, not more of the
+  // month than they have.
+  const reasonToGive = Math.min(1, reason);
+  const fromMonth = Math.min(
+    budget.discretionaryMinor,
+    reasonToGive *
+      campaignParameter("donationShareOfMonthPerWarmth") *
+      weighedAgainst(
+        budget.discretionaryMinor,
+        campaignParameter("donationMonthScaleMonths") *
+          budget.ownMonthLivingMinor,
+      ),
+  );
+  const fromSavings =
+    reasonToGive *
+    campaignParameter("donationShareOfCashPerWarmth") *
+    weighedAgainst(budget.savingsMinor, budget.cushionMinor);
+  const wanted = fromMonth + fromSavings;
+  // Whole dollars: what they'd give in all, less what they've given, never
+  // more than they hold. A candidate's own money has no limit (Buckley v.
+  // Valeo, 424 U.S. 1, 1976; state limits on contributions likewise cover
+  // others' gifts).
   const room =
     limit.minor === null || donorId === campaign.candidateId
       ? Infinity
       : limit.minor - given;
   const amount =
-    Math.floor(Math.max(0, Math.min(wanted - given, room)) / 100) * 100;
+    Math.floor(
+      Math.max(0, Math.min(wanted - given, room, donor.liquidMinor)) / 100,
+    ) * 100;
+  // The law reached the donor when it held the gift below what they would
+  // have given.
+  const wouldGive = Math.min(wanted - given, donor.liquidMinor);
+  if (!options.suggestOnly && limit.law && room < wouldGive)
+    lawApplied(api, {
+      key: limit.law.key,
+      lawId: limit.law.id,
+      targetId: donorId,
+      target: "person",
+      engine: CAMPAIGNS_MODULE_ID,
+      what: "gift-held-to-the-limit",
+      amountMinor: -(wouldGive - Math.max(0, room)),
+    });
   if (amount <= 0)
     return { givenMinor: 0, why: room <= 0 ? "at-limit" : "small" };
+  if (options.suggestOnly) return { givenMinor: amount, why: "gave" };
+  giveDonation(api, filingId, donorId, amount);
+  return { givenMinor: amount, why: "gave" };
+}
+
+/** A gift moves from the donor's account to the campaign's through the journal, and their running total is kept in one row the next ask reads. */
+function giveDonation(
+  api: CoreAPI,
+  filingId: string,
+  donorId: string,
+  amount: number,
+): void {
+  const campaign = campaignFor(api, filingId);
+  const limit = contributionLimit(api, campaign.contestId);
+  const given = giftOf(api, filingId, donorId)?.totalMinor ?? 0;
   postMoney(
     api,
     DONATION_KIND,
@@ -2962,7 +3485,115 @@ export function donationAnswer(
     raisedMinor: campaignFor(api, filingId).raisedMinor + amount,
   });
   recordGift(api, filingId, donorId, amount, given + amount);
-  return { givenMinor: amount, why: "gave" };
+}
+
+const asksOf = (api: CoreAPI, personId: string) =>
+  table(api, "asks").query("byDonor", [personId]) as unknown as AskRow[];
+
+/**
+ * A world candidate's ask reaches the controlled person as a request: one
+ * open at a time per campaign, and none again once they have declined that
+ * candidate (the next ask reads the answer). The suggested sum is what they
+ * would give by their own reasons and cash; nothing moves until they answer.
+ * Returns whether a request was written.
+ */
+export function askPlayerForMoney(
+  api: CoreAPI,
+  filingId: string,
+  personId: string,
+): boolean {
+  if (
+    asksOf(api, personId).some(
+      (row) =>
+        row.campaignId === filingId &&
+        (row.status === "declined" || askOpen(api, row)),
+    )
+  )
+    return false;
+  const { givenMinor, why } = donationAnswer(api, filingId, personId, {
+    suggestOnly: true,
+  });
+  // Nothing to give from (no cash past their cushion, or at the limit): nobody asks.
+  if (why !== "gave" || givenMinor <= 0) return false;
+  table(api, "asks").put({
+    id: `ask:${filingId}:${personId}:${api.state.date}`,
+    campaignId: filingId,
+    donorId: personId,
+    candidateId: campaignFor(api, filingId).candidateId,
+    suggestedMinor: givenMinor,
+    askedOn: api.state.date,
+    status: "pending",
+  } satisfies AskRow as unknown as ModuleRow);
+  return true;
+}
+
+/** An ask is open while it waits on an answer and its candidate is still standing for a race not yet held. */
+function askOpen(api: CoreAPI, row: AskRow): boolean {
+  if (row.status !== "pending") return false;
+  const filing = filingOf(api, row.campaignId);
+  const contest = filing
+    ? (elections(api, "contests").get(filing.contestId) as
+        ContestRow | undefined)
+    : undefined;
+  return (
+    !!filing &&
+    standing(filing) &&
+    !!contest &&
+    contest.electionDate >= api.state.date
+  );
+}
+
+/** The requests for money waiting on a person's answer, newest first. */
+export function donationAsksFor(api: CoreAPI, personId: string): AskRow[] {
+  return asksOf(api, personId)
+    .filter((row) => askOpen(api, row))
+    .sort(
+      (a, b) => b.askedOn.localeCompare(a.askedOn) || a.id.localeCompare(b.id),
+    );
+}
+
+/**
+ * The person's answer to an ask: give a sum (the suggested one unless they
+ * size it), or decline. False when the ask is no longer open or the sum is
+ * not one they can give: whole dollars, within what they hold and within the
+ * law's limit.
+ */
+export function answerDonationAsk(
+  api: CoreAPI,
+  askId: string,
+  answer: "give" | "decline",
+  amountMinor?: number,
+): boolean {
+  const row = table(api, "asks").get(askId) as unknown as AskRow | undefined;
+  if (!row || !askOpen(api, row)) return false;
+  const settle = (patch: Partial<AskRow>) =>
+    table(api, "asks").put({
+      ...row,
+      ...patch,
+      answeredOn: api.state.date,
+    } satisfies AskRow as unknown as ModuleRow);
+  if (answer === "decline") {
+    settle({ status: "declined" });
+    return true;
+  }
+  const donor = api.state.people.get(row.donorId);
+  const amount = amountMinor ?? row.suggestedMinor;
+  const campaign = campaignFor(api, row.campaignId);
+  const limit = contributionLimit(api, campaign.contestId);
+  const given = giftOf(api, row.campaignId, row.donorId)?.totalMinor ?? 0;
+  const room = limit.minor === null ? Infinity : limit.minor - given;
+  if (
+    !donor?.alive ||
+    !Number.isInteger(amount) ||
+    amount <= 0 ||
+    amount % 100 !== 0 ||
+    amount > donor.liquidMinor ||
+    amount > room
+  )
+    return false;
+  giveDonation(api, row.campaignId, row.donorId, amount);
+  settle({ status: "given", givenMinor: amount });
+  return true;
 }
 
 /**
@@ -2971,9 +3602,10 @@ export function donationAnswer(
  * adults of its district or state, counted by place at the coarser level.
  * Each turn the campaign's lists reach another share of the adults who lean
  * its candidate's way (`outsideReachPerTurn`); of those, `outsideDonorShare`
- * give, each by the person rule (the cash a typical donor holds beyond a
- * cushion times the share they give per unit of agreement), never past the
- * individual limit. The gift is one record per place group, from the
+ * give, each the savings share of the person rule (the cash a typical donor
+ * holds times the share they give per unit of agreement), never past the
+ * individual limit; the month's-income share a named donor also gives from
+ * is not read here (stopgap SG-GOV-outside-donor-month-income). The gift is one record per place group, from the
  * outside account to the campaign's, so the dollars balance on the journal.
  * Returns the minor units raised.
  */
@@ -3059,6 +3691,7 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
       place.eligible * aligned * step * campaignParameter("outsideDonorShare"),
     );
     if (donors <= 0) continue;
+    // stopgapId: SG-GOV-outside-donor-month-income
     const each =
       Math.floor(
         Math.min(
@@ -3069,6 +3702,21 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
     const amount = donors * each;
     if (amount <= 0) continue;
     const donorId = `outside:${place.id}`;
+    // The law reached this place's donors when it held each gift below what
+    // they would have given.
+    const wouldGive =
+      spare * reason * campaignParameter("donationShareOfCashPerWarmth");
+    if (limit.law && limit.minor !== null && limit.minor < wouldGive)
+      lawApplied(api, {
+        key: limit.law.key,
+        lawId: limit.law.id,
+        targetId: donorId,
+        target: "group",
+        engine: CAMPAIGNS_MODULE_ID,
+        what: "gift-held-to-the-limit",
+        count: donors,
+        amountMinor: -Math.round(donors * (wouldGive - limit.minor)),
+      });
     const given = giftOf(api, filingId, donorId)?.totalMinor ?? 0;
     // The outside account pays the campaign's account through the accounts
     // API, a flow recorded in outside-flows.json as the donors' own money.
@@ -3349,7 +3997,8 @@ function circleOf(
  * live in town, each adult whose own reasons to back the candidate (warmth,
  * agreement, party, how they stand with the candidate) and every trait's
  * lean toward attending outweigh the hours their work already takes. The
- * campaign's volunteers come.
+ * campaign's volunteers come. A rival standing in the same race gives their
+ * evenings to their own run (`rivalFiling`) and does not come.
  */
 export function whoComes(
   api: CoreAPI,
@@ -3363,6 +4012,7 @@ export function whoComes(
     const person = core.people.get(id);
     if (!person?.alive || person.placeId !== town) return false;
     if (ageOn(person, api.state.date) < adultAge) return false;
+    if (rivalFiling(api, campaign, id)) return false;
     return volunteers.has(id) || comes(api, campaign, person, 0);
   });
 }
@@ -3394,9 +4044,10 @@ function comes(
  * An adult's reasons to give a candidate an evening, before personality:
  * their reasons to back the candidate (warmth, agreement, party, how they
  * stand with the candidate) and an invitation's pull, less the hours their
- * work already takes.
+ * work already takes. A read: nothing is asked or kept (`comes` and a donor
+ * meeting's host settle it with their trait lean).
  */
-function eveningReason(
+export function eveningReason(
   api: CoreAPI,
   campaign: CampaignRow,
   person: Readonly<PersonState>,
@@ -3417,7 +4068,7 @@ function eveningReason(
   );
 }
 
-/** Someone a donor meeting could seat or ask: a living, filled-in adult in town who is neither the candidate nor the controlled person. */
+/** Someone a donor meeting could seat or ask: a living, filled-in adult in town who is neither the candidate, the controlled person nor a rival standing in the same race (`rivalFiling`). */
 function canJoinDonorMeeting(
   api: CoreAPI,
   campaign: CampaignRow,
@@ -3430,7 +4081,8 @@ function canJoinDonorMeeting(
     person.id !== campaign.candidateId &&
     // The controlled person's home and money move only by their own choice.
     person.id !== (api.state as CoreState).playerId &&
-    ageOn(person, api.state.date) >= api.parameter("votingAge")
+    ageOn(person, api.state.date) >= api.parameter("votingAge") &&
+    !rivalFiling(api, campaign, person.id)
   );
 }
 
@@ -3590,8 +4242,8 @@ export interface DonorMeetingResult {
  * invitation's pull (`donorMeetingHostTieWeight`), and the campaign's
  * volunteers come. The candidate meets everyone there they did not know (the
  * encounter engine's meeting, at the host's home), speaks to the room on
- * what they feel most strongly about (a face-to-face speech, heard and
- * retold as one), and the evening ends by asking each person there, the
+ * the question the campaign leads with (`platformLead`: a face-to-face
+ * speech, heard and retold as one), and the evening ends by asking each person there, the
  * host first, through `donationAnswer`: the gift rows, the journal and the
  * public `campaign-gift` record follow from it. No venue is paid; the host's
  * hours are recorded. While the petition circulates, the room is asked to
@@ -3646,11 +4298,7 @@ export function holdDonorMeeting(
         cause: ENCOUNTERS.causes.metOnVisit,
         hours: hours / room.length,
       });
-  const lead = [...campaign.platform].sort(
-    (a, b) =>
-      Math.abs(b.position) - Math.abs(a.position) ||
-      a.question.localeCompare(b.question),
-  )[0];
+  const lead = platformLead(campaign.platform);
   const venue = `home:${host.householdId}`;
   const causes = makeStatements(api, {
     filingId,
@@ -3819,7 +4467,7 @@ export function makeStatements(
         key: promiseId,
         value: "heard",
         learnedAt: api.state.date,
-        sourceId: cause.id,
+        sourceId: causeSourceId(api, cause),
         access: input.faceToFace ? "perceived" : "public",
       });
   }
@@ -3851,6 +4499,7 @@ export function makeStatements(
         topic: statement.question,
         desiredChange: statement.position > 0 ? "enact" : "repeal",
         audienceIds,
+        groupUnwatched: true,
       }),
     );
   }
@@ -3979,7 +4628,12 @@ export function runAd(
   )
     ? campaign.raisedMinor - campaign.spentMinor
     : 0;
-  const amount = Math.min(input.amountMinor, available);
+  // A campaign for an office the town is only part of spreads its ad money
+  // over the whole district, so this town's outlet sells it the town's share.
+  const amount = Math.floor(
+    Math.min(input.amountMinor, available) *
+      townShareOfRace(api, campaign.contestId),
+  );
   void account;
   if (amount <= 0) return [];
   const sold = adAudience(api, amount);
@@ -4056,7 +4710,10 @@ export function runAd(
         weight: campaignParameter("adWarmthWeight"),
         rapport: 0,
         ...(attack
-          ? { target: clamp(attack.reduce((sum, r) => sum + r.effect, 0)) }
+          ? {
+              target: clamp(attack.reduce((sum, r) => sum + r.effect, 0)),
+              shownIds: attack.map((r) => r.itemId),
+            }
           : {}),
       },
     );
@@ -4074,8 +4731,8 @@ export function runAd(
 }
 
 /**
- * A campaign's message, kept as a `messages` row (its kind, the campaign's
- * strongest stance as its topic, and who it reached) that word of a rival
+ * A campaign's message, kept as a `messages` row (its kind, the question
+ * the campaign leads with as its topic, `platformLead`, and who it reached) that word of a rival
  * passes on from (`rivalWordPassedOn`). A paid message (an ad, a mailer) is
  * also an event its audience learns: it carries that topic and the change
  * the candidate wants, and the candidate's lean on the views engine's scale,
@@ -4094,11 +4751,7 @@ function emitMessage(
     readonly witnessIds: readonly string[];
   },
 ): void {
-  const lead = [...campaign.platform].sort(
-    (a, b) =>
-      Math.abs(b.position) - Math.abs(a.position) ||
-      a.question.localeCompare(b.question),
-  )[0];
+  const lead = platformLead(campaign.platform);
   const witnessIds = [...new Set(input.witnessIds)].filter(
     (id) => id !== campaign.candidateId && api.state.people.has(id),
   );
@@ -4126,6 +4779,34 @@ function emitMessage(
     kept.noted = messages.get(input.id);
   }
   if (input.kind === CANVASS_MESSAGE_KIND) return;
+  // Level of detail (owner, Nov 9): a world candidate's paid message reaches
+  // the viewers nobody watches once per group of like hearers, the rest as
+  // people (`hearAsGroups`). The message row above keeps every viewer.
+  let asPeople = witnessIds;
+  if (
+    campaign.candidateId !== api.state.playerId &&
+    api.state.modules.has(VIEWS_MODULE_ID)
+  ) {
+    asPeople = witnessIds.filter((id) => hearsAsPerson(api, id));
+    if (asPeople.length < witnessIds.length) {
+      const people = new Set(asPeople);
+      const impulse = Math.abs(campaignParameter("adViewsImpulse"));
+      hearAsGroups(
+        api,
+        {
+          event: { id: input.id, date: api.state.date },
+          speakerId: campaign.candidateId,
+          topic: lead.question,
+          desiredChange: lead.position > 0 ? "enact" : "repeal",
+          size: impulse > 0 ? impulse : 1,
+        },
+        witnessIds.filter(
+          (id) => !people.has(id) && api.state.people.get(id)?.alive,
+        ),
+      );
+    }
+    if (!asPeople.length) return;
+  }
   api.emit({
     id: input.id,
     date: api.state.date,
@@ -4133,7 +4814,7 @@ function emitMessage(
     personIds: api.state.people.has(campaign.candidateId)
       ? [campaign.candidateId]
       : [],
-    witnessIds,
+    witnessIds: asPeople,
     placeId: townRow(api).townPlaceId,
     topic: lead.question,
     desiredChange: lead.position > 0 ? "enact" : "repeal",
@@ -4289,6 +4970,26 @@ function platformRead(
 }
 
 /** The campaigns of everyone standing in a contest who has filed by today. */
+/**
+ * The rival in a campaign's race whose record in office an attack ad could
+ * show: the one with the most recorded votes and promises, other than the
+ * candidate; none where no rival has a record.
+ */
+function attackTarget(
+  api: CoreAPI,
+  campaign: CampaignRow,
+): CampaignRow | undefined {
+  let best: { row: CampaignRow; items: number } | undefined;
+  for (const row of raceCampaigns(api, campaign.contestId)) {
+    if (row.candidateId === campaign.candidateId) continue;
+    const items =
+      votesOf(api, row.candidateId).length +
+      promisesOf(api, row.candidateId).length;
+    if (items > 0 && (!best || items > best.items)) best = { row, items };
+  }
+  return best?.row;
+}
+
 function raceCampaigns(api: CoreAPI, contestId: string): CampaignRow[] {
   return ballot(api, contestId)
     .filter((filing) => filing.filedOn <= api.state.date)
@@ -4296,7 +4997,9 @@ function raceCampaigns(api: CoreAPI, contestId: string): CampaignRow[] {
 }
 
 /** What weighing one candidate against the race came to (`weighEndorsement`). */
-interface EndorsementWeighing extends PlatformRead {
+export interface EndorsementWeighing extends PlatformRead {
+  /** A favor the endorser owed the candidate, weighed in and settled by a yes. */
+  readonly obligationId?: string;
   readonly yes: boolean;
   readonly reason: EndorsementReason;
   readonly tie: number;
@@ -4320,7 +5023,10 @@ interface EndorsementWeighing extends PlatformRead {
  * it declines, and that candidate is no rival either), and it backs only a
  * candidate it agrees with, its speaker's tie adding to that agreement but
  * never standing in for it. A person may back a friend whose platform they
- * do not share; that yes is kept as the tie it is (`close-tie`).
+ * do not share; that yes is kept as the tie it is (`close-tie`). Someone
+ * standing in the race backs their own run (`rivalFiling`): asked for
+ * themselves or speaking for a group, they endorse no rival in it, their own
+ * filing the rival they prefer.
  */
 function weighEndorsement(
   api: CoreAPI,
@@ -4336,15 +5042,41 @@ function weighEndorsement(
       row.candidateId === endorser.id
         ? 0
         : closenessBetween(api.state, endorser.id, row.candidateId);
+    // A favor the endorser owes this candidate from a deal they took
+    // (campaign-favor-called-in): worth what a favor is worth in the
+    // legislature, more the closer they are; a person speaks for themselves.
+    const owed =
+      speaksFor === "self"
+        ? obligationsOwedBetween(api, endorser.id, row.candidateId)[0]
+        : undefined;
+    const favor = owed
+      ? campaignParameter("dealWeight") * (1 + Math.max(0, tie))
+      : 0;
     return {
       ...read,
       tie,
-      backing: read.agreement + campaignParameter("endorsementTieWeight") * tie,
+      backing:
+        read.agreement +
+        campaignParameter("endorsementTieWeight") * tie +
+        favor,
+      ...(owed ? { obligationId: owed.id } : {}),
     };
   };
   const weighed = (read: PlatformRead) =>
     speaksFor === "self" || read.shared > 0;
   const mine = backingOf(campaign);
+  const own = rivalFiling(api, campaign, endorser.id);
+  if (own)
+    return {
+      ...mine,
+      score: 0,
+      rival: {
+        filingId: own.id,
+        backing: backingOf(campaignFor(api, own.id)).backing,
+      },
+      yes: false,
+      reason: "prefers-rival",
+    };
   if (!weighed(mine))
     return { ...mine, score: 0, rival: null, yes: false, reason: "declines" };
   const score = leanedScore(
@@ -4467,6 +5199,7 @@ function endorsementRow(
     askerId: input.askerId,
     answer: w.yes ? "yes" : "no",
     reason: w.reason,
+    ...(w.obligationId ? { obligationId: w.obligationId } : {}),
     issue: w.issue,
     // A group speaks for its stance; a person's own word stands on no group's.
     stance: input.organizationId !== null ? w.agreesOn : null,
@@ -4505,6 +5238,33 @@ function endorsementHeard(
 }
 
 /**
+ * How someone asked for themselves weighs endorsing a campaign's candidate
+ * today, by the one rule (`weighEndorsement`) against everyone standing in
+ * its race, reading their own views: what `askForEndorsement` settles, with
+ * no answer kept.
+ */
+export function endorsementWeighing(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  endorser: Readonly<PersonState>,
+): EndorsementWeighing {
+  const lean = personLean(api.state.people, endorser, townRow(api).lean);
+  return weighEndorsement(
+    api,
+    endorser,
+    campaign,
+    raceCampaigns(api, campaign.contestId),
+    (platform) => ({
+      ...platformRead(platform, (question) =>
+        viewOn(api, endorser.id, question, lean),
+      ),
+      agreement: agreementWith(api, endorser.id, lean, platform),
+    }),
+    "self",
+  );
+}
+
+/**
  * Ask someone to endorse. They endorse only the candidate they back most
  * among those standing (`weighEndorsement`: their agreement with the
  * platform and their tie to the candidate), never for a price; everyone who
@@ -4523,20 +5283,7 @@ export function askForEndorsement(
   const held = table(api, "endorsements").get(id) as unknown as
     EndorsementRow | undefined;
   if (held?.answer === "yes") return true;
-  const lean = personLean(api.state.people, endorser, townRow(api).lean);
-  const weighing = weighEndorsement(
-    api,
-    endorser,
-    campaign,
-    raceCampaigns(api, campaign.contestId),
-    (platform) => ({
-      ...platformRead(platform, (question) =>
-        viewOn(api, endorserId, question, lean),
-      ),
-      agreement: agreementWith(api, endorserId, lean, platform),
-    }),
-    "self",
-  );
+  const weighing = endorsementWeighing(api, campaign, endorser);
   const reached = weighing.yes
     ? endorsementHeard(
         api,
@@ -4559,6 +5306,9 @@ export function askForEndorsement(
       volunteerIds: [],
     }),
   );
+  // A favor owed and weighed in is repaid by the endorsement.
+  if (weighing.yes && weighing.obligationId)
+    settleObligation(api, weighing.obligationId, id);
   return weighing.yes;
 }
 
@@ -4696,6 +5446,72 @@ export function answerPollReason(
  * toward a candidate but avoids conflict says "no opinion". True support is
  * never reported, only what people said.
  */
+type PollFrameEntry = {
+  readonly id: string;
+  readonly traits: Readonly<Record<string, number>>;
+  readonly birthDate: string;
+};
+/**
+ * The counted adults of a town, sorted by id, read once a day for each change
+ * to the counts (the store's `version` moves with every change to who is
+ * counted or grouped). Whoever was filled in since is dropped when read.
+ */
+const countedPollFrames = new WeakMap<
+  object,
+  { key: string; store: object; entries: readonly PollFrameEntry[] }
+>();
+registerDerivedCache(countedPollFrames);
+const byId = (a: PollFrameEntry, b: PollFrameEntry) => a.id.localeCompare(b.id);
+
+/**
+ * A poll's frame: the town's full adults and its counted adults, in id order
+ * (the order the full list sorted by id gives).
+ */
+function pollFrame(
+  api: CoreAPI,
+  town: string,
+  date: string,
+  adultAge: number,
+): PollFrameEntry[] {
+  const core = api.state as CoreState;
+  const named = [...api.state.people.values()]
+    .filter((p) => p.alive && p.placeId === town && ageOn(p, date) >= adultAge)
+    .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate }))
+    .sort(byId);
+  const rt = residentsRuntime(core);
+  if (!rt) return named;
+  const store = rt.store;
+  const key = `${date}|${town}|${adultAge}|${store.version}`;
+  let held = countedPollFrames.get(core);
+  if (held?.store !== store || held.key !== key) {
+    const entries = [...store.liveHouseholds()]
+      .filter((h) => h.placeId === town)
+      .flatMap((h) => store.countedMembers(h))
+      .filter((m) => ageOn({ birthDate: store.born[m]! }, date) >= adultAge)
+      .map((m) => ({
+        id: store.ids[m]!,
+        traits: store.packedTraits(m),
+        birthDate: store.born[m]!,
+      }))
+      .sort(byId);
+    held = { key, store, entries };
+    countedPollFrames.set(core, held);
+  }
+  const counted = held.entries.filter((m) => !api.state.people.has(m.id));
+  // Merge the two id-ordered lists.
+  const out: PollFrameEntry[] = [];
+  let i = 0,
+    j = 0;
+  while (i < named.length || j < counted.length)
+    out.push(
+      j >= counted.length ||
+        (i < named.length && byId(named[i]!, counted[j]!) <= 0)
+        ? named[i++]!
+        : counted[j++]!,
+    );
+  return out;
+}
+
 export function commissionPoll(
   api: CoreAPI,
   input: { readonly filingId: string; readonly sampleSize: number },
@@ -4706,27 +5522,7 @@ export function commissionPoll(
   const date = api.state.date;
   const core = api.state as CoreState;
   // The whole town is the frame: full people and the counted residents.
-  const rt = residentsRuntime(core);
-  const frame = [
-    ...[...api.state.people.values()]
-      .filter(
-        (p) => p.alive && p.placeId === town && ageOn(p, date) >= adultAge,
-      )
-      .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate })),
-    ...[...(rt?.store.liveHouseholds() ?? [])]
-      .filter((h) => h.placeId === town)
-      .flatMap((h) => rt!.store.countedMembers(h))
-      .filter(
-        (m) =>
-          !api.state.people.has(rt!.store.ids[m]!) &&
-          ageOn({ birthDate: rt!.store.born[m]! }, date) >= adultAge,
-      )
-      .map((m) => ({
-        id: rt!.store.ids[m]!,
-        traits: rt!.store.packedTraits(m),
-        birthDate: rt!.store.born[m]!,
-      })),
-  ].sort((a, b) => a.id.localeCompare(b.id));
+  const frame = pollFrame(api, town, date, adultAge);
   // The pollster is paid per completed interview, from the campaign's money.
   const perInterview = campaignParameter("pollCostPerInterviewMinor");
   const available = core.cashJournal.accounts.get(
@@ -4889,38 +5685,66 @@ export function foldClosedRaceCauses(api: CoreAPI, contestId: string): void {
 }
 
 /**
- * On January 1 every candidate in no race still to be counted has their
- * causes folded too: an official's service to a resident (`touchImpression`)
- * belongs to no race, and a race's count may have come before a cause did.
+ * A folded cause kept for the trace goes once it is older than
+ * `circleActRetentionMonths`, the window the circle's routine acts already
+ * keep (`decision-detail.ts`; CTO, Nov 8: a folded cause keeps its own row
+ * only for the player's circle and people in focus, and only while someone
+ * can ask why). Readers: dev mode's `findRecord` and a fact's `sourceId`
+ * lookup in the why view; a fact older than the window names a source the
+ * trace no longer finds, as for any circle act past its window. The player's
+ * own rows stay. The campaign summary row already counts every folded cause.
  */
-export function foldQuietCauses(api: CoreAPI): void {
-  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return;
-  const open = new Set<string>();
-  for (const contest of elections(api, "contests").rows() as unknown as {
-    id: string;
-    electionDate: string;
-  }[])
-    if (contest.electionDate >= api.state.date)
-      for (const filing of elections(api, "filings").query("byContest", [
-        contest.id,
-      ]) as unknown as { personId: string }[])
-        open.add(filing.personId);
-  const quiet = new Set<string>();
+export function dropOldFoldedCauses(api: CoreAPI): void {
+  const folded = table(api, "foldedCauses");
+  const cutoff = new Date(`${api.state.date}T00:00:00Z`);
+  cutoff.setUTCMonth(
+    cutoff.getUTCMonth() - api.parameter("circleActRetentionMonths"),
+  );
+  const before = cutoff.toISOString().slice(0, 10);
+  const player = api.state.playerId;
+  for (const row of folded.rows() as unknown as CauseRow[])
+    if (row.date < before && row.voterId !== player) folded.remove(row.id);
+}
+
+/**
+ * Every seventh day of the month the causes older than the keeping window fold
+ * for every candidate with any (an open race's too), so a race's causes do not
+ * pile up as rows until its count (Montpelier, Vermont's election year added
+ * about 330,000 cause rows a month and ran out of memory at 8 GB before the
+ * count; core-speed-large-town-year-heap-nightly). The rows folded are each
+ * voter's oldest for the candidate, in the order they were kept, so a summary
+ * plus the rows still kept add to the same sums, in the same order, that
+ * `contestStanding` reads. An official's service to a resident
+ * (`touchImpression`) belongs to no race and folds the same way.
+ */
+export function foldOldCauses(api: CoreAPI): void {
+  const cutoff = addDays(
+    makeIsoDate(api.state.date),
+    -campaignParameter("causeKeepDays"),
+  );
+  const old = new Set<string>();
   for (const row of table(api, "causes").rows() as unknown as CauseRow[])
-    if (!open.has(row.candidateId)) quiet.add(row.candidateId);
-  foldCauses(api, quiet);
+    if (row.date < cutoff) old.add(row.candidateId);
+  foldCauses(api, old, cutoff);
 }
 
 /**
  * Fold candidates' causes into one summary row a voter. A voter and
  * candidate fold whole, so a summary's sum is the same sum, in the same
  * order, that `contestStanding` reads. The player's own causes stay as rows.
- * A folded cause that a voter's known fact names as its source, or that a
- * pledge names as its visit, moves to `foldedCauses`, where the trace still
- * finds it; no other folded cause is read, so none other is kept (CTO, Oct
- * 30 08:15, amending 03:05).
+ * A folded cause that a voter's known fact names as its source moves to
+ * `foldedCauses`, where the trace still finds it; no other folded cause is
+ * read, so none other is kept (CTO, Oct 30 08:15, amending 03:05). A pledge
+ * keeps no cause: a closed race's pledges go at its close (`closeRace`), and
+ * the warmth those visits moved stays in the summary (governing lead, Nov 1
+ * 21:22; CTO's amendment 21:25).
  */
-function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
+function foldCauses(
+  api: CoreAPI,
+  candidateIds: Iterable<string>,
+  /** Only the causes dated before this day fold; all of them when absent. */
+  before?: string,
+): void {
   const core = api.state as CoreState;
   const causes = table(api, "causes"),
     summaries = table(api, "causeSummaries"),
@@ -4930,17 +5754,11 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
   const sourcesOf = new Map<string, Set<string>>();
   for (const candidateId of candidateIds) {
     if (candidateId === core.playerId) continue;
-    const pledged = new Set(
-      (
-        table(api, "pledges").query("byCandidate", [
-          candidateId,
-        ]) as unknown as PledgeRow[]
-      ).map((pledge) => pledge.causeId),
-    );
     const byVoter = new Map<string, CauseRow[]>();
     for (const row of causes.query("byCandidate", [
       candidateId,
     ]) as unknown as CauseRow[]) {
+      if (before !== undefined && row.date >= before) continue;
       const rows = byVoter.get(row.voterId) ?? [];
       rows.push(row);
       byVoter.set(row.voterId, rows);
@@ -4979,7 +5797,7 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
           (firstDoor === null || row.date < firstDoor)
         )
           firstDoor = row.date;
-        if (sources.has(row.id) || pledged.has(row.id))
+        if (sources.has(row.id) && keepsWhy(core, voterId))
           folded.put(row as unknown as ModuleRow);
         causes.remove(row.id);
       }
@@ -5020,9 +5838,15 @@ export function sendMail(
   )
     ? campaign.raisedMinor - campaign.spentMinor
     : 0;
+  // The mail a district campaign sends is spread over the district: the
+  // town gets its share of the pieces.
   const pieces = Math.min(
     list.length,
-    Math.floor(Math.min(amountMinor, available) / perPiece),
+    Math.floor(
+      (Math.min(amountMinor, available) *
+        townShareOfRace(api, campaign.contestId)) /
+        perPiece,
+    ),
   );
   if (pieces <= 0) return [];
   spend(api, filingId, {
@@ -5099,18 +5923,14 @@ export function rentVenue(
 
 /**
  * An event: the campaign rents an evening at a venue in town and the
- * candidate speaks on what they feel most strongly about to whoever chooses
- * to come (`whoComes`). Only a candidate who is a full person speaks in a
+ * candidate speaks on the question the campaign leads with (`platformLead`)
+ * to whoever chooses to come (`whoComes`). Only a candidate who is a full person speaks in a
  * room.
  */
 export function holdEvent(api: CoreAPI, filingId: string): readonly CauseRow[] {
   const campaign = campaignFor(api, filingId);
   if (!api.state.people.get(campaign.candidateId)?.alive) return [];
-  const lead = [...campaign.platform].sort(
-    (a, b) =>
-      Math.abs(b.position) - Math.abs(a.position) ||
-      a.question.localeCompare(b.question),
-  )[0];
+  const lead = platformLead(campaign.platform);
   if (!lead) return [];
   const venue = rentVenue(api, filingId, "event").sellerId;
   const audienceIds = whoComes(api, campaign);
@@ -5252,6 +6072,21 @@ interface RivalWordRow {
 }
 
 /**
+ * A candidate's newest word of a rival in a contest, the row `raceReading`
+ * reads: the latest by date, then by id (`foldRivalWord` keeps this row).
+ */
+function newestWord(
+  rows: readonly RivalWordRow[],
+  contestId: string,
+): RivalWordRow | undefined {
+  return rows
+    .filter((row) => row.rivalId && row.contestId === contestId)
+    .sort(
+      (a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id),
+    )[0];
+}
+
+/**
  * Where a candidate believes their race stands, from what they know and never
  * from anyone's true support: the newer of two records. Their own campaign's
  * latest poll of the contest gives each candidate's share as what that
@@ -5281,15 +6116,12 @@ export function raceReading(
     .sort(
       (a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id),
     )[0];
-  const word = (
+  const word = newestWord(
     table(api, "rivalWord").query("byCandidate", [
       candidate.id,
-    ]) as unknown as RivalWordRow[]
-  )
-    .filter((row) => row.rivalId && row.contestId === campaign.contestId)
-    .sort(
-      (a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id),
-    )[0];
+    ]) as unknown as RivalWordRow[],
+    campaign.contestId,
+  );
   const fromWord =
     word && (!poll || word.date > poll.date)
       ? wordReading(api, campaign.contestId, candidate, town, word)
@@ -5403,7 +6235,7 @@ export function rivalDay(
     : null;
   const target = petition?.needed ? signaturesToGather(petition.needed) : 0;
   const shortfall = target
-    ? Math.max(0, target - petition!.signers.length) / target
+    ? Math.max(0, target - petition!.signed) / target
     : 0;
   const home = candidate.placeId === town;
   const campaign = campaignFor(api, filingId);
@@ -5682,13 +6514,26 @@ export function campaignTurn(
   // traits. The controlled person's money moves only by their own choice, so
   // asks skip them.
   askOutsideDonors(api, filingId);
+  // The candidate calls in the favors owed them from deals in office: each
+  // colleague who owes one is asked to endorse (campaign-favor-called-in).
+  // The player is never answered for: a favor asked of them waits for the
+  // player (stopgap SG-GOV-player-favor-asked).
+  if (candidate?.alive)
+    for (const owed of obligationsOwedTo(api, candidate.id)) {
+      if (owed.owedBy === (api.state as CoreState).playerId) {
+        // stopgapId: SG-GOV-player-favor-asked
+        api.stopgap("SG-GOV-player-favor-asked");
+        continue;
+      }
+      askForEndorsement(api, filingId, owed.owedBy);
+    }
   let doors = 0;
   let asks = 0;
   let dayAct: CampaignTurnResult["dayAct"] = null;
   if (candidate?.alive) {
     const day = rivalDay(api, filingId, candidate, town);
     if (day.steppedUp) recordSteppedUp(api, campaign, day.steppedUp);
-    if (day.act === "event") {
+    if (day.act === "event" && heldInTown(api, filingId)) {
       takeCampaignDayChoice(api, filingId, "event", { world: true });
       dayAct = "event";
     } else if (day.act === "interview") {
@@ -5762,12 +6607,38 @@ export function campaignTurn(
   // views engine reads once for each person it reached.
   const told: string[] = [];
   if (part("ad") > 0) {
+    // A challenger facing a rival with a record in office (their votes, the
+    // promises they made) puts part of the ad money on showing it, by their
+    // own temperament (rival-ad-quotes-a-real-vote; register D-2 and D-5:
+    // never a fixed share). The rest carries their own platform.
+    const target = attackTarget(api, campaignFor(api, filingId));
+    const attackShare = target
+      ? Math.min(
+          1,
+          Math.max(
+            0,
+            campaignParameter("attackAdShare") *
+              (1 + w * trait("people-mind-v1:conflict")),
+          ),
+        )
+      : 0;
+    const attackMinor = Math.floor(part("ad") * attackShare);
+    if (target && attackMinor > 0) {
+      const shown = runAd(api, {
+        filingId,
+        amountMinor: attackMinor,
+        attackFilingId: target.filingId,
+        quiet: true,
+      });
+      adReached += shown.length;
+      for (const c of shown) told.push(c.voterId);
+    }
     const seen = runAd(api, {
       filingId,
-      amountMinor: part("ad"),
+      amountMinor: part("ad") - attackMinor,
       quiet: true,
     });
-    adReached = seen.length;
+    adReached += seen.length;
     for (const c of seen) told.push(c.voterId);
   }
   if (part("mail") > 0) {
@@ -5792,7 +6663,8 @@ export function campaignTurn(
     pollFundMinor: pollFund,
   });
   if (eventFund >= unitPrice(api, "event-venue") && daysLeft > 0) {
-    eventAudience = holdEvent(api, filingId).length;
+    if (heldInTown(api, filingId))
+      eventAudience = holdEvent(api, filingId).length;
     eventFund -= unitPrice(api, "event-venue");
   }
   const perInterview = campaignParameter("pollCostPerInterviewMinor");
@@ -5835,7 +6707,8 @@ const contestsSeen = new WeakMap<object, number>();
  * filed to election day, and every candidate's volunteers, the player's
  * included, weigh an evening of doors (`volunteerShifts`). Races are noted
  * when their contest appears (the contests table read only when it has
- * grown) and dropped once decided.
+ * grown) and closed once decided (`closeRace`), and word no reader can reach
+ * again goes (`foldRivalWord`).
  */
 function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "campaign-turn") return;
@@ -5865,6 +6738,11 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     }[]
   ).slice()) {
     if (race.electionDate < date) {
+      // Once its election day has passed, a race's door rows and pledges
+      // have no reader (`closeRace`; a race the player ran in keeps its
+      // pledges). Its messages and word go as they leave word's window
+      // (`foldRivalWord`, after the races are worked).
+      closeRace(api, race.id);
       races.remove(race.id);
       continue;
     }
@@ -5879,9 +6757,22 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         ? contest.filingDeadline
         : race.electionDate;
     const daysLeft = daysBetween(date, toward);
-    const every =
-      turnDays * (1 + daysLeft / campaignParameter("campaignRampDays"));
-    if (race.lastTurn && daysBetween(race.lastTurn, date) < every) continue;
+    // stopgapId: SG-SPEED-fast-forward-campaigns (a development switch: a coarser calendar, turns less often)
+    // The wait is counted in whole scheduled turns (they fall `turnDays`
+    // apart), so a day nearer than one more turn never costs a skipped turn:
+    // near a deadline or an election every scheduled turn works the race.
+    const everyTurns = Math.max(
+      1,
+      Math.round(
+        (fastForward() ? FAST_FORWARD_STRIDE : 1) *
+          (1 + daysLeft / campaignParameter("campaignRampDays")),
+      ),
+    );
+    if (
+      race.lastTurn &&
+      daysBetween(race.lastTurn, date) < everyTurns * turnDays
+    )
+      continue;
     races.put({ ...race, lastTurn: date } as unknown as ModuleRow);
     // The town's organizations weigh the race first, so the volunteers they
     // send work this turn; then every campaign's volunteers walk its doors on
@@ -5895,6 +6786,39 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         campaignTurn(api, filing.id, race.electionDate);
     }
   }
+  foldRivalWord(api);
+}
+
+/**
+ * A decided race's rows that only the race read go once its election day has
+ * passed (governing lead, Oct 30 and Nov 1): its door rows (the campaign row
+ * keeps its door counts) and its pledges, the "yes" voters gave at its doors,
+ * which the door's answer read during the race and the ballot on primary and
+ * election day. Every filing of the contest is read by its id, so no
+ * campaign row is made. Only this contest's pledges go, by their contest: a
+ * voter's yes in another race still open stays. A contest the player filed in
+ * keeps every pledge, its rivals' too (CTO, Nov 1 21:25). No cause is kept
+ * for a pledge (`foldCauses`), so the drop leaves nothing behind. Its
+ * messages and word are not touched here: a filing stays on the ballot after
+ * the count, so word of it may still pass on (`foldRivalWord`).
+ */
+export function closeRace(api: CoreAPI, contestId: string): void {
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return;
+  const filings = elections(api, "filings").query("byContest", [
+    contestId,
+  ]) as unknown as { id: string; personId: string }[];
+  const doors = table(api, "doors");
+  for (const filing of filings)
+    for (const row of doors.query("byCampaign", [filing.id]))
+      doors.remove(row.id);
+  const playerId = (api.state as CoreState).playerId;
+  if (filings.some((f) => f.personId === playerId)) return;
+  const pledges = table(api, "pledges");
+  for (const candidateId of new Set(filings.map((f) => f.personId)))
+    for (const row of pledges.query("byCandidate", [
+      candidateId,
+    ]) as unknown as PledgeRow[])
+      if (row.contestId === contestId) pledges.remove(row.id);
 }
 
 /**

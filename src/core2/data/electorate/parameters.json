@@ -37,17 +37,11 @@
       "source": "Coverage, a party label and the ballot itself reach voters even for a candidate who spends nothing, so spending counts from a floor of this share of the typical race's spending. Checked against Jacobson's finding that challengers spending almost nothing still win about a third of the two-party vote in districts their party could compete in.",
       "spread": [0.01, 0.2]
     },
-    "unemploymentShare": {
-      "value": 0.008,
+    "approvalVoteShare": {
+      "value": 0.003,
       "tag": "ESTIMATED",
-      "source": "The two-party share the president's party loses per point the national unemployment rate rose since the opening: about 0.5 to 1.5 points (Kramer, American Political Science Review, 1971; Lewis-Beck and Stegmaier, Annual Review of Political Science, 2000).",
-      "spread": [0.003, 0.015]
-    },
-    "inflationShare": {
-      "value": 0.0072,
-      "tag": "ESTIMATED",
-      "source": "The two-party share the president's party loses per point of annual inflation above the opening's: 0.72 points in Fair's presidential vote equation (Fair, Predicting Presidential Elections and Other Things, 2020 update).",
-      "spread": [0.003, 0.01]
+      "source": "The two-party share the president's party gains per point the country's approval of the president stands above its long-run mean. Tufte (American Political Science Review, 1975) finds a 10-point approval change moves the president's party's national midterm House vote about 1.3 points (0.0013 per point); presidential-year and whole-ballot effects are steeper (Abramowitz, PS, 2010), so the middle of 0.0013 to 0.005 is taken.",
+      "spread": [0.0013, 0.005]
     },
     "downBallotNationalShare": {
       "value": 0.5,
@@ -94,7 +88,7 @@
     "appealPerShare": {
       "value": 4,
       "tag": "SOURCED",
-      "source": "How much appeal on the lean scale moves one share of the two-party vote. Each place's voters stand evenly along the lean order across a width of 2 (personLean: lean = 2 x (right share - rank)), and a voter backs the right-hand candidate when lean exceeds half the appeal gap; one unit of appeal therefore moves a quarter of the vote. Arithmetic of the engine's own lean order, not an estimate.",
+      "source": "How much appeal on the lean scale moves one share of the two-party vote. Each place's voters stand evenly along the lean order across a width of 2 (personLean: lean = 2 x (right share - rank)); on a ballot with party labels each voter (a named person, or a counted record's people whole) backs the right-hand candidate when lean exceeds half the appeal gap, so one unit of appeal moves a quarter of the vote: arithmetic of the engine's own lean order, not an estimate. On a ballot without party labels, where the voters' gaps bunch, a counted record's people divide by the logistic share exp(k a_i) / sum_j exp(k a_j) with k = 4 / appealPerShare, which moves the same quarter of the record per unit at an even race (CTO, Nov 1, 18:20 as amended at 22:10; src/core2/electorate.ts countedShareRule).",
       "spread": [4, 4]
     },
     "coarseSampleVoters": {

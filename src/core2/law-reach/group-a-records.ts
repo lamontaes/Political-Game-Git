@@ -6,6 +6,7 @@
  * gets a legal reach record; counted groups get one row
  * with their count. A repeal ends every open row the same day.
  */
+import { ageInYears } from "../kernel/dates";
 import reach from "../data/laws/reach-group-a.json" with { type: "json" };
 import parameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import publicPayFloor from "../data/laws/public-pay-floor.json" with { type: "json" };
@@ -30,7 +31,11 @@ import {
 import { lawChain } from "../modules/laws";
 import { residentsRuntime } from "../modules/residents";
 import { countedJobHeads } from "../residents-economy";
-import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
+import {
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../modules/offices";
 
 export const REACH_A_MODULE_ID = "core2-law-reach-a-v1";
 export const PREMIUM_KIND = "law-reach-a:leave-premium";
@@ -78,6 +83,8 @@ export interface ReachSpec {
 export interface PolicySpec {
   readonly source: string;
   readonly mechanic: string;
+  /** Governments whose permission creates these particular record effects. */
+  readonly effectLevels?: readonly string[];
   readonly stopgapId?: string;
   readonly reaches: readonly ReachSpec[];
 }
@@ -238,10 +245,7 @@ export function putMechanic(api: CoreAPI, row: MechanicRow): void {
 
 // --- reading the law and the town's records -----------------------------------
 
-const ageOn = (birthDate: string, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(birthDate.slice(0, 4)) -
-  (date.slice(5) < birthDate.slice(5) ? 1 : 0);
+const ageOn = (birthDate: string, date: string) => ageInYears(birthDate, date);
 export { ageOn };
 
 export const tomorrow = (date: string) =>
@@ -466,7 +470,11 @@ export function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
         .query("byStatus", ["serving"]) as unknown as TermRow[]) {
         if (!term.personId || !api.state.people.has(term.personId)) continue;
         const office = offices.table("offices").get(term.officeId) as
-          { kind?: string } | undefined;
+          { kind?: string; level?: string; jurisdiction?: string } | undefined;
+        // The town's law reaches its own offices (its state's and the
+        // federal ones included), never another place's (a holder filled in
+        // when the player met them included).
+        if (isOutsideOffice(api, office)) continue;
         if (kinds && !kinds.some((k) => (office?.kind ?? "").startsWith(k)))
           continue;
         out.push({ id: term.personId, personId: term.personId, count: null });

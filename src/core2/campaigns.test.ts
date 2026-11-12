@@ -8,10 +8,12 @@
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { advanceToFilingOpen } from "./gov-test-clock";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
-import { createLifeCore } from "./life";
+import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
   fileCandidacy,
@@ -43,7 +45,7 @@ import {
   type CauseRow,
   type ImpressionRow,
 } from "./modules/campaigns";
-import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-views";
+import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { setKeepEveryonesWhy } from "./why-kept";
 import { discretionaryHours } from "./modules/work";
@@ -96,8 +98,7 @@ function fileAndQualify(
     ? filing
     : null;
 }
-
-describe("M2-05 and M2-06 campaigning and polls", () => {
+describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
   it("every activity moves specific people with a recorded cause; a rival campaigns; polls report what people said", () => {
     const place = process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace().key;
     const core = createLifeCore(
@@ -108,9 +109,11 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
         minimumPeople: 300,
       }),
     );
+    openLaws(core);
     openOffices(core, seed);
     openElections(core);
     openCampaigns(core);
+    advanceToFilingOpen(core);
     const api = coreAPI(core);
     const adults = [...core.people.values()]
       .filter(
@@ -129,15 +132,23 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     );
     let you: FilingRow | null = null;
     let rival: FilingRow | null = null;
-    for (const contest of openContests(api)) {
-      you = fileAndQualify(api, adults[0]!.id, contest.id, platformA);
-      if (!you) continue;
-      rival = fileAndQualify(api, adults[1]!.id, contest.id, platformB);
-      if (rival) break;
+    // Filing opens on a set day (elections-filing-window-opens): the weeks go
+    // by until a contest both candidates can file for is open.
+    for (let week = 0; week < 104 && !rival; week += 1) {
+      if (week) advanceCore(core, addDays(makeIsoDate(core.date), 7));
+      for (const contest of openContests(api)) {
+        you = fileAndQualify(api, adults[0]!.id, contest.id, platformA);
+        if (!you) continue;
+        rival = fileAndQualify(api, adults[1]!.id, contest.id, platformB);
+        if (rival) break;
+      }
     }
+    process.stdout.write(
+      `CAMPAIGNS ${place}, seed ${seed}: filed ${you?.contestId ?? "none"} on ${core.date}\n`,
+    );
     expect(
       you,
-      `no open contest the two candidates could both qualify for in ${place}`,
+      `no open contest the two candidates could both qualify for in ${place} by ${core.date}`,
     ).not.toBeNull();
     expect(rival).not.toBeNull();
     const candidate = core.people.get(you!.personId)!;
@@ -270,9 +281,11 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
           minimumPeople: 300,
         }),
       );
+      openLaws(core);
       openOffices(core, drawSeed);
       openElections(core);
       openCampaigns(core);
+      advanceToFilingOpen(core);
       const api = coreAPI(core);
       const adults = [...core.people.values()]
         .filter((p) => year(p) >= 35)
@@ -350,6 +363,8 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
           : drawn.label;
     const { place, drawSeed, core, api, filing, willing } = drawn;
     expect(filing, `no open contest to file for in ${where}`).not.toBeNull();
+    // The day the world stands on once a contest is open (the start day where one already is).
+    const openedOn = core.date;
     const candidateId = filing!.personId;
     const campaign = drawn.campaign!;
     const goes = drawn.goes!;
@@ -466,7 +481,7 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
       expect(event?.personIds).toContain(shift.volunteerId);
       expect(event?.facts?.doorsKnocked).toBe(String(shift.doorsKnocked));
       expect(event?.facts?.firstShift).toBe("true");
-      expect(held.shiftNotedOn?.[shift.volunteerId]).toBe(START);
+      expect(held.shiftNotedOn?.[shift.volunteerId]).toBe(openedOn);
     }
     const byCandidate = causes.query("byCandidate", [
       candidateId,
@@ -479,7 +494,7 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     expect(volunteerShifts(api, filing!.id, walked)).toEqual([]);
     // The next day they may walk again, but an evening is kept as an event
     // at most once a week: only the one who stayed home has a first to note.
-    const nextDay = addDays(makeIsoDate(START), 1);
+    const nextDay = addDays(makeIsoDate(openedOn), 1);
     core.date = nextDay;
     const again = volunteerShifts(api, filing!.id);
     const noted = events.filter((e) => e.date === nextDay);
@@ -495,7 +510,7 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     // A week on, an evening of the two noted on the first day is noted again
     // (the one at work has their evening shift that day again).
     const weekOn = addDays(
-      makeIsoDate(START),
+      makeIsoDate(openedOn),
       campaignParameter("volunteerShiftEventDays"),
     );
     core.date = weekOn;

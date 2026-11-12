@@ -22,6 +22,7 @@
  * No offender, police or court is modeled here: see the stopgaps
  * SG-CORE-crime-offenders and SG-CORE-crime-arrests.
  */
+import { ageInYears } from "../kernel/dates";
 import data from "../data/crime/victimization.json" with { type: "json" };
 import { registerModule } from "../state";
 import { residentsRuntime, incomeBandOf } from "./residents";
@@ -95,10 +96,7 @@ const table = (api: CoreAPI, name: string) =>
   api.moduleState(CRIME_MODULE_ID).table(name);
 const core = (api: CoreAPI) => api.state as CoreState;
 
-const ageOn = (birthDate: string, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(birthDate.slice(0, 4)) -
-  (date.slice(5) < birthDate.slice(5) ? 1 : 0);
+const ageOn = (birthDate: string, date: string) => ageInYears(birthDate, date);
 
 const HOUSEHOLD = data.householdExposure;
 const PERSON = data.personExposure;
@@ -242,11 +240,19 @@ function countedUnits(api: CoreAPI, placeId: string): Unit[] {
       households,
       persons,
       persons12,
+      // A group-quarters room's tenure reads as an owner's here.
+      // stopgapId: SG-GQ-crime-exposure
       propertyExposure:
         households *
         householdExposure(
           group.incomeBand,
-          group.tenure === "rent" ? "rent" : "own",
+          // Without a home, neither renter's nor owner's exposure (as a full
+          // household's removed dwelling reads).
+          group.tenure === "rent"
+            ? "rent"
+            : group.tenure === "none"
+              ? undefined
+              : "own",
           group.kind,
         ),
       violentExposure: violent,

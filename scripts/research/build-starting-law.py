@@ -13,6 +13,7 @@ Inputs (all under data/research):
   money/death-taxes-2026.json                   estate and inheritance taxes
   laws/local-starting-law/*.json                local and benefit research (incl. territory corporate income tax)
   laws/starting-law-2026/labor-workforce.json   local minimum-wage authority
+  laws/open-meetings-and-records-2026.json      public notice before a regular meeting, by state (ESTIMATED draft)
   laws/irs-2025-federal-tax.json, laws/taxfoundation-2025-*.json,
   laws/fns-2025-snap-maximums.json, laws/hhs-2025-fmap.json,
   laws/dol-2025-ui-weekly-bounds.json           the phases in force on the start date
@@ -59,7 +60,7 @@ def optional(name):
 
 
 def row(jurisdiction, level, series, value, effective, end, source, estimate,
-        tier="general", unit=None, terms=None, note=None, retrieved=RETRIEVED):
+        tier="general", unit=None, terms=None, note=None, retrieved=RETRIEVED, calibration=False):
     out = {
         "jurisdiction": jurisdiction,
         "level": level,
@@ -72,6 +73,8 @@ def row(jurisdiction, level, series, value, effective, end, source, estimate,
         "retrieved": retrieved,
         "estimate": bool(estimate),
     }
+    if calibration:
+        out["calibration"] = True
     if unit:
         out["unit"] = unit
     if terms is not None:
@@ -161,6 +164,98 @@ def payroll_taxes(rows):
     rows.append(row("US", "federal", "medicare-tax", 1.45, "2013-01-01", FOREVER,
                     "26 U.S.C. 3101(b)(1); additional 0.9% on wages over $200,000 for a single filer, 26 U.S.C. 3101(b)(2)",
                     False, unit="percent-of-wages", terms={"additionalRate": 0.9, "additionalOver": 200000}))
+
+
+def campaign_finance(rows):
+    """The federal limit on an individual's gift to a candidate, from the campaign finance research."""
+    finance = load(RESEARCH / "campaigns/campaign-finance-2026.json")["federal"]["individualToCandidate"]
+    rows.append(row("US", "federal", "federal-campaign-contribution-limit", finance["usd"], "2025-01-01", FOREVER,
+                    f"52 U.S.C. 30116(a)(1)(A); {finance['source']} {finance['sourceUrl']}",
+                    finance["estimate"], unit="USD/election",
+                    terms={"basis": finance["basis"], "cycle": finance["cycle"]},
+                    retrieved=finance["retrievedDate"]))
+    # Each state's limit on a gift to a candidate, by office, where the research gives a number
+    # ("unlimited" and "set by locality" have no amount to hold and keep the research's own answer).
+    limits = load(RESEARCH / "campaigns/campaign-finance-2026.json")["limits"]
+    for state, offices in sorted(limits.items()):
+        for office, series in STATE_CONTRIBUTION_SERIES.items():
+            item = offices.get(office)
+            if not isinstance(item, dict) or not isinstance(item.get("usd"), (int, float)):
+                continue
+            rows.append(row(state, "state", series, item["usd"], "2025-01-01", FOREVER,
+                            "; ".join(x for x in (item.get("source"), item.get("sourceUrl"), offices.get("statute")) if x),
+                            bool(item.get("estimate", False)), unit="USD/election",
+                            terms={"basis": item.get("basis", offices.get("basis", "n/a"))},
+                            retrieved="2026-10-12"))
+
+
+STATE_CONTRIBUTION_SERIES = {
+    "governor": "state-contribution-limit-governor",
+    "stateSenate": "state-contribution-limit-state-senate",
+    "stateHouse": "state-contribution-limit-state-house",
+    "local": "state-contribution-limit-local",
+}
+
+
+def governor_term_limits(rows):
+    """Each state's governor term limit, in terms (0 for none), from the state office research."""
+    places = load(RESEARCH / "offices/state-offices.json")["places"]
+    for state, place in sorted(places.items()):
+        for executive in place.get("executives", []):
+            if executive["key"] != "governor":
+                continue
+            limit = executive.get("termLimit") or {}
+            kind = limit.get("kind")
+            terms = limit.get("terms") if kind in ("consecutive", "lifetime") else 0
+            rows.append(row(state, "state", "executive-term-limit", terms or 0, "2026-01-01", FOREVER,
+                            executive.get("citation") or "State constitution", False, unit="terms",
+                            terms={"kind": kind or "none"}, note=limit.get("notes"), retrieved="2026-11-08"))
+
+
+def child_care(rows):
+    """Each state's CCDF initial income eligibility limit for a family of three (dollars a month)."""
+    data = load(RESEARCH / "laws/ccdf-income-limits-2025.json")
+    for state, item in sorted(data["rows"].items()):
+        rows.append(row(state, "state", "child-care-income-limit", item["monthlyDollarsFamilyOf3"],
+                        "2025-01-01", FOREVER, item["source"], bool(item["estimate"]),
+                        unit="USD/month", terms={"pctSMI": item["pctSMI"], "familySize": 3},
+                        note=item.get("note"), retrieved="2026-11-08"))
+
+
+def energy_assistance(rows):
+    """Each state's home energy assistance income limit, as a percent of the poverty line (the statute's ceiling until each state's own is read)."""
+    states = load(RESEARCH / "money/minimum-wage-dated-matrix-2026.json")["places"]
+    for state in sorted(states):
+        rows.append(row(state, "state", "energy-assistance-income-limit", 150, "2026-01-01", FOREVER,
+                        "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+                        True, unit="percent-of-poverty-line",
+                        terms={"floorPct": 110, "ceilingPct": 150},
+                        note="ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up.",
+                        retrieved="2026-11-08"))
+
+
+# stopgapId: SG-LAWS-records-response-unread (the same file's recordsDays are not loaded: no records request to read them)
+def meeting_notice(rows):
+    """Each place's minimum public notice before a regular meeting of a local body, in hours (data/research/laws/open-meetings-and-records-2026.json)."""
+    data = load(RESEARCH / "laws/open-meetings-and-records-2026.json")
+    for state, item in sorted(data["rows"].items()):
+        estimated = item.get("noticeHours") is None or item["tag"] == "ESTIMATED"
+        terms = {"cite": item["statute"]} if item.get("statute") else {}
+        rows.append(row(state, "state", "meeting-notice-hours", item["noticeHoursUsed"], "2000-01-01", FOREVER,
+                        item.get("source") or "open-meetings-and-records-2026.json", estimated, unit="hours",
+                        terms=terms or None,
+                        note=item.get("noticeHoursEstimate") or item.get("noticeNote"),
+                        retrieved="2026-11-09"))
+
+
+def ssi(rows):
+    """The federal SSI benefit rate for an eligible individual, a month."""
+    data = load(RESEARCH / "laws/ssi-2026.json")
+    rate = data["federalBenefitRate"]
+    rows.append(row("US", "federal", "ssi-federal-benefit-rate", rate["individualDollars"], rate["effectiveDate"], FOREVER,
+                    data["sources"][0]["url"], False, unit="USD/month",
+                    terms={"coupleDollars": rate["coupleDollars"], "colaPercent": rate["colaPercent"]},
+                    retrieved=data["retrieved"]))
 
 
 def business_taxes(rows):
@@ -331,7 +426,7 @@ def sales_taxes(rows):
                         note=place.get("note")))
         if place.get("localAllowed") and place.get("avgLocalRate") is not None:
             rows.append(row(state, "state", "local-sales-tax-average", place["avgLocalRate"], "2026-01-01",
-                            FOREVER, place.get("avgLocalRateSource", source), True, unit="percent",
+                            FOREVER, place.get("avgLocalRateSource", source), True, unit="percent", calibration=True,
                             terms={"spreadLow": place.get("localRateMin"), "spreadHigh": place.get("localRateMax"),
                                    "appliesAs": "the state's average local rate: this place's own rate is not sampled"}))
         for sample in place.get("samples", []):
@@ -463,7 +558,7 @@ def start_phases(rows):
                         retrieved=sales["retrievedOn"]))
         if later.get(state, {}).get("localAllowed") and later[state].get("avgLocalRate") is not None:
             rows.append(row(state, "state", "local-sales-tax-average", place["avgLocalRate"], "2025-01-01",
-                            FOREVER, sales["sourceUrl"], True, unit="percent",
+                            FOREVER, sales["sourceUrl"], True, unit="percent", calibration=True,
                             terms={"spreadLow": later[state].get("localRateMin"), "spreadHigh": place["maxLocalRate"],
                                    "appliesAs": "the state's average local rate: this place's own rate is not sampled"},
                             retrieved=sales["retrievedOn"]))
@@ -538,6 +633,12 @@ def main():
     local_wage_authority(rows)
     payroll_taxes(rows)
     business_taxes(rows)
+    ssi(rows)
+    meeting_notice(rows)
+    energy_assistance(rows)
+    governor_term_limits(rows)
+    campaign_finance(rows)
+    child_care(rows)
     death_taxes(rows)
     income_taxes(rows)
     sales_taxes(rows)
@@ -546,14 +647,17 @@ def main():
     start_phases(rows)
     rows = dated(rows)
     by_jurisdiction = {}
+    calibrations = {}
     for item in rows:
         key = item.pop("jurisdiction")
-        by_jurisdiction.setdefault(key, []).append(item)
+        target = calibrations if item.pop("calibration", False) else by_jurisdiction
+        target.setdefault(key, []).append(item)
     document = {
         "id": "starting-law-in-force-2026",
         "about": "Law in force at every level for each place, from the sourced research files. Built by scripts/research/build-starting-law.py; edit the research, not this file.",
         "built": RETRIEVED,
         "jurisdictions": dict(sorted(by_jurisdiction.items())),
+        "calibrations": dict(sorted(calibrations.items())),
         "propertyTax": property_taxes(),
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)

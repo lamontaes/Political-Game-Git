@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: fixer/red-main-oct29
-pr:
+status: done
+claimed-by: lane-5/guards-red
+pr: #7190
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-29T16:25:36.530Z
+claimed-at: 2026-11-04T06:32:41.653Z
 ---
 
 **What.** The CTO started a standing red-main owner on the owner's word (Oct 28, 10:40 AM Eastern: fix the red items on main; why does nobody own it). Every failed job on main's Deterministic validation, M0 guards, Release and Every place nightly runs is read, the failing test or guard named with the place and seed, the commit that turned it red found, and the red fixed at the root on its own PR with this item on line 1. Reds known at 14:30 UTC: the two-seed guard (realistic-not-real.test.ts) on referencePopulation and the mailer-print price (Branchville, Virginia, seed 709839a49d0953f4) and on local pay (Leusoali'i, American Samoa, seed 1564c1a4803378be); golden-path M0-12 (Lincoln, Vermont); world-legislating.test.ts (Module has no registered state from group-a-bargaining.ts); health.traits.test.ts; scene-talk.test.ts and law-reached-scenes; scene-narration-once by seed; the english guard's British labor; six bench browser checks.
@@ -26,3 +26,7 @@ claimed-at: 2026-10-29T16:25:36.530Z
 Old engine session, Oct 28, 15:50 UTC: `src/core2/opening-key-people.test.ts` is red on clean main (a72d9e3c95). With GOLDEN_PATH_SEED=83517470d3ae82d8, Sparta, Missouri and Fort Belvoir, Virginia fail the last assertion, "The Politics screen reads the same list the opening does": the screen's list (`politicsKeyPeople` in src/bench/government.ts) filters and reorders by POLITICS_KEY_ORDER, so it holds 16 and 10 people against the opening's 209 and 147. Newport, Oregon runs out of memory on main before the assertion. The screen's filter is play-stop-05's design, so the test's equality looks stale rather than the screen wrong; the owner of that call is the play-first lane.
 
 Stopped Oct 29 13:58 UTC (owner's stop order, by the CTO): the open reds on main at stop are in the final block at the top of `## Red main` in docs/coordination/LEADS-2026-10-24.md, each with its item; nothing of this session is unpushed.
+
+Red main fixer 2, handoff Nov 2 02:05 UTC (owner's order, account at 94%). Right-to-counsel red, `src/core2/law-wiring-housing.test.ts` at GOLDEN_PATH_SEED=hr-fresh-9c2 (Clemmons, North Carolina, key 3712960, world seed 24811d36fe547b3e21330b24f52ba0fb17dffce7368ad148f5ae6056676ba0d6): the world has 0 rows in housing's `cases` table in 700 days (right-to-counsel law in force on 23 of 24 monthly checks), so there was no hearing to counsel; not the law's wiring. Fix is PR #7136 (test only, checker 1): `play` returns "no subject" when no case has a `counselLawId`, so the loop redraws; the file passes 13 of 13 at that seed (Elk Grove, California, 20 hearings with a lawyer, 1,488 s). Next step: Checker 1 gates #7136; if many towns have no hearing, the redraws cost time, then measure the share. The same seed also ran out of memory at the default heap (campaign door, cause and pledge rows grow to 65,745 doors in 700 days): that is the speed lead's #7102. My other PRs: #7023, #7035, #7057, #7058, #7060, #7066 merged; #7113 (skills) open for the CTO.
+
+Lane 5, Nov 4 05:45 UTC: claim released. Its branch fixer/red-main-oct29 is gone from the remote, and the last handoff was Nov 2 02:05 UTC. Reds since then were fixed on their own PRs (#7181 the counted-eviction case; #7182 the no-dice guard entry). Open for the next red-main owner.

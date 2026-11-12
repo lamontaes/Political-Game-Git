@@ -1,4 +1,4 @@
-import registry from "./data/stopgaps.json" with { type: "json" };
+import { STOPGAP_FAMILIES } from "./stopgap-families";
 
 export interface StopgapEntry {
   id: string;
@@ -13,7 +13,12 @@ export interface StopgapEntry {
   status: "open" | "resolved";
 }
 
-export const STOPGAPS = registry as readonly StopgapEntry[];
+/** The one register: every family file under data/stopgaps/, in file-name order. */
+export const STOPGAPS = Object.keys(STOPGAP_FAMILIES)
+  .sort()
+  .flatMap(
+    (file) => STOPGAP_FAMILIES[file] as readonly StopgapEntry[],
+  ) as readonly StopgapEntry[];
 const byId = new Map(STOPGAPS.map((row) => [row.id, row]));
 
 // The world being run: a marker called with no context (most module-level

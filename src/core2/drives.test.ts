@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { DEFAULT_DATA } from "./data";
 import { advanceCore, createLifeCore } from "./life";
+import { setBookkeeping } from "./bookkeeping";
 import {
   DEFAULT_DRIVES_DATA,
   createDrivesModule,
@@ -23,6 +24,7 @@ import termination from "../../data/research/people/termination-claims-1998.json
 import trajectories from "../../data/research/people/trauma-trajectories-2018.json" with { type: "json" };
 import { parameter as p } from "./parameters";
 import { coreAPI } from "./state";
+import { worldRecords } from "./snapshot";
 import type {
   CoreEventInput,
   CoreModule,
@@ -375,6 +377,34 @@ describe("P10 drives and causes", () => {
     expect(run()).toBe(run());
   });
 
+  it("keeps the forming response's trace in play, and every reinforcement's only with bookkeeping on", () => {
+    const traces = (on: boolean) => {
+      const previous = setBookkeeping(on);
+      try {
+        const core = bereavedCore();
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+        coreAPI(core).emit(death(core));
+        const drive = drivesReport(core).drives.find(
+          (row) => row.personId === carerId,
+        )!;
+        return {
+          formations: drive.formations.length,
+          first: JSON.stringify(drive.formations[0]),
+          strength: currentStrength(coreAPI(core), drive),
+        };
+      } finally {
+        setBookkeeping(previous);
+      }
+    };
+    const kept = traces(true);
+    const play = traces(false);
+    expect(kept.formations).toBeGreaterThan(1);
+    expect(play.formations).toBe(1);
+    // The same drive either way: only the kept history differs.
+    expect(play.first).toBe(kept.first);
+    expect(play.strength).toBe(kept.strength);
+  });
+
   it("a drive fades by its half-life when nothing renews it", () => {
     const core = bereavedCore();
     const api = coreAPI(core);
@@ -475,6 +505,174 @@ describe("P10 drives and causes", () => {
     );
     expect(group.liquidMinor).toBe(groupBefore + amount);
     expect(core.cashJournal.nextSequence).toBe(sequenceBefore + p("one"));
+  });
+
+  it("a donation's canonical record is kept only while it posts in play, and every one with bookkeeping on", () => {
+    const give = (on: boolean) => {
+      const previous = setBookkeeping(on);
+      try {
+        const core = bereavedCore();
+        const api = coreAPI(core);
+        const donor = core.people.get(carerId)!;
+        const before = donor.liquidMinor;
+        const drive = drivesReport(core).drives.find(
+          (row) => row.personId === carerId,
+        )!;
+        createDrivesModule().effectHandlers!.donate!(
+          api,
+          carerId,
+          {
+            definition: DEFAULT_DRIVES_DATA.actions.find(
+              (row) => row.id === "donate-to-cause",
+            )!,
+            targetId: office,
+            driveId: drive.id,
+            availableHours: p("workHours"),
+          },
+          core.date,
+          p("one"),
+          undefined as never,
+        );
+        const runtime = worldRecords(core).parts["core2-drives-runtime"] as {
+          donations: Map<string, unknown>;
+        };
+        return {
+          given: before - donor.liquidMinor,
+          records: runtime.donations.size,
+        };
+      } finally {
+        setBookkeeping(previous);
+      }
+    };
+    const kept = give(true);
+    const play = give(false);
+    expect(kept.records).toBe(1);
+    expect(play.records).toBe(0);
+    expect(play.given).toBeGreaterThan(p("zero"));
+    expect(play.given).toBe(kept.given);
+  });
+
+  it("a cause group is offered to whoever learns of it, as a walk of every group on the topic finds", () => {
+    // A sister with the carer's traits takes up the same cause; the carer
+    // knows her and the friend.
+    const sisterId = "person:sister";
+    const base = bereavementInput();
+    const carerRow = base.people.find((row) => row.id === carerId)!;
+    const sister = person(sisterId, {
+      familyIds: [deceasedId, carerId],
+      knownIds: [carerId],
+      traits: carerRow.traits,
+    });
+    const input: CoreInput = {
+      ...base,
+      people: [
+        ...base.people.map((row) =>
+          row.id === carerId ? { ...row, knownIds: [friendId, sisterId] } : row,
+        ),
+        sister,
+      ],
+      households: [
+        ...base.households,
+        {
+          id: sister.householdId,
+          placeId: home,
+          memberIds: [sisterId],
+          source,
+        },
+      ],
+    };
+    const core = createLifeCore(input, {
+      data: withDrives(DEFAULT_DATA, DEFAULT_DRIVES_DATA),
+      modules: [createDrivesModule()],
+    });
+    const api = coreAPI(core);
+    api.updatePerson(deceasedId, { alive: false });
+    api.emit({ ...death(core), witnessIds: [carerId, steadyId, sisterId] });
+    const driveOf = (personId: string) =>
+      drivesReport(core).drives.find((row) => row.personId === personId)!;
+    const topic = driveOf(carerId).topic;
+    expect(driveOf(sisterId).topic).toBe(topic);
+    const module = createDrivesModule();
+    const action = (actionId: string) =>
+      DEFAULT_DRIVES_DATA.actions.find((row) => row.id === actionId)!;
+    const offerOf = (actionId: string, actorId: string, targetId: string) => ({
+      definition: action(actionId),
+      targetId,
+      driveId: driveOf(actorId).id,
+      availableHours: p("workHours"),
+    });
+    const act = (actionId: string, actorId: string, targetId: string) =>
+      module.effectHandlers![action(actionId).effect]!(
+        api,
+        actorId,
+        offerOf(actionId, actorId, targetId),
+        core.date,
+        p("one"),
+        undefined as never,
+      );
+    const offered = (actionId: string, actorId: string) =>
+      module.offerProviders![action(actionId).targetKind]!(
+        api,
+        core.people.get(actorId)!,
+        action(actionId),
+      ).map((row) => row.targetId);
+    const noKnownGroup = (actorId: string) =>
+      module.eligibilityRules!["no-known-group-on-topic"]!(
+        api,
+        core.people.get(actorId)!,
+        offerOf("found-cause-group", actorId, driveOf(actorId).id),
+      );
+    // The old walk: every cause group on the topic in id order, kept if
+    // nearby and joined (or, unless only joined ones count, known of).
+    const everyGroupWalk = (actorId: string, joinedOnly: boolean) =>
+      [...core.organizations.values()]
+        .filter(
+          (row) =>
+            row.kind === DEFAULT_DRIVES_DATA.causeGroupKind &&
+            row.topic === topic &&
+            row.placeId === core.people.get(actorId)!.placeId,
+        )
+        .map((row) => row.id)
+        .sort()
+        .filter(
+          (id) =>
+            core.memberships.has(`${actorId}:${id}`) ||
+            (!joinedOnly &&
+              api.knows(actorId, `cause-group:${id}:known`) !== undefined),
+        );
+    expect(offered("join-cause-group", sisterId)).toEqual([]);
+    expect(noKnownGroup(sisterId)).toBe(true);
+    // Each founds a group: the sister first, though hers sorts last.
+    for (const founderId of [sisterId, carerId])
+      act("found-cause-group", founderId, driveOf(founderId).id);
+    const [carerGroup, sisterGroup] = drivesReport(core)
+      .groups.map((row) => row.id)
+      .sort();
+    expect(carerGroup).toContain(carerId);
+    expect(sisterGroup).toContain(sisterId);
+    expect(noKnownGroup(sisterId)).toBe(false);
+    expect(offered("join-cause-group", sisterId)).toEqual([sisterGroup]);
+    expect(offered("join-cause-group", friendId)).toEqual([]);
+    // The carer tells the lowest untold id first: the friend, then the sister.
+    expect(offered("share-cause", carerId)).toEqual([friendId]);
+    act("share-cause", carerId, friendId);
+    expect(offered("share-cause", carerId)).toEqual([sisterId]);
+    act("share-cause", carerId, sisterId);
+    // Told, the sister is offered both groups to join or give to, in id order.
+    for (const actionId of ["join-cause-group", "donate-to-cause"])
+      expect(offered(actionId, sisterId)).toEqual([carerGroup, sisterGroup]);
+    expect(offered("join-cause-group", sisterId)).toEqual(
+      everyGroupWalk(sisterId, false),
+    );
+    // She volunteers only for the groups she belongs to, until she joins.
+    const volunteering = () =>
+      offered("volunteer-for-cause", sisterId).filter((id) =>
+        id.startsWith(`organization:${DEFAULT_DRIVES_DATA.causeGroupKind}:`),
+      );
+    expect(volunteering()).toEqual([sisterGroup]);
+    act("join-cause-group", sisterId, carerGroup!);
+    expect(volunteering()).toEqual([carerGroup, sisterGroup]);
+    expect(volunteering()).toEqual(everyGroupWalk(sisterId, true));
   });
 
   it("a new drive kind and response arrive as data rows only", () => {

@@ -12,7 +12,6 @@
  */
 import { worldRateFactor } from "./world-base-rates";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { SERIOUS_EPISODE_REMAINING_DAYS } from "./death-causes";
 import {
   bookCountedIllness,
   countedCourseDays,
@@ -23,11 +22,7 @@ import { createStableId } from "./kernel/ids";
 import { SeededRng } from "./kernel/rng";
 import { drawCanonicalNamedIdentity } from "./person-names";
 import { generatePersonIdentity } from "./gov-rules/person-identity";
-import {
-  corePlaceByJurisdictionId,
-  corePlaceByKey,
-  coreStateName,
-} from "./place-lookup";
+import { coreStateName } from "./place-lookup";
 import { parameter } from "./parameters";
 import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
 import type { EntityId } from "./kernel/brands";
@@ -55,11 +50,15 @@ import {
   removeCountedPerson,
   residentsRuntime,
 } from "./modules/residents";
-import { assignDeathCause } from "./death-cause";
+import {
+  assignDeathCause,
+  SERIOUS_EPISODE_REMAINING_DAYS,
+} from "./death-cause";
 import { settleCountedEstate } from "./estates";
 import { deathWebFactor } from "./health-web";
 import type { ResidentHouseholdRecord } from "./residents";
 import { webFactorFor } from "./outcome-web-reach";
+import { housingHealthFactor } from "./housing-homeless";
 import {
   OUTCOME_WEB_MODULE_ID,
   outcomeWebFactor,
@@ -69,6 +68,17 @@ import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, PersonId, PersonInput, PlaceId, Source } from "./types";
+import { placeStateKey } from "./place-map";
+
+/** Housing statuses in a fixed order, for the counted death chance's cache key. */
+const HOUSING_STATUSES = [
+  "housed",
+  "doubled-up",
+  "sheltered",
+  "unsheltered",
+] as const;
+/** A household housing does not weigh on: factor one, the chance's own cache slot. */
+const UNSTRAINED = Object.freeze({ factor: 1, key: 0 });
 
 /** Unit conversions only: NCHS rates are per 1,000 women; HUD figures are dollars. */
 const PER_THOUSAND = 1000,
@@ -91,6 +101,24 @@ const source = (date: string): Source => ({
     "Counted population flows: NCHS final natality 2024 (2023 where a 2024 cell is suppressed) by mother's age and state; SSA Actuarial Study No. 120 cohort life tables. Rates applied to counted totals; records chosen by their circumstances.",
 });
 
+/**
+ * The full, living people who list a counted relative (a husk) as family or
+ * hold a tie to them, sorted. The opening records each full person's tie to a
+ * counted relative (state.ts, with openingClosenessHours), so the grief
+ * reader and the eviction notice find it.
+ */
+export function fullRelativesOf(api: CoreAPI, huskId: string): string[] {
+  const husk = api.state.husks.get(huskId);
+  const witnesses = new Set(husk?.familyIds ?? []);
+  for (const key of api.state.relationshipsByPerson.get(huskId) ?? []) {
+    const tie = api.state.relationships.get(key);
+    if (tie) witnesses.add(tie.actorId === huskId ? tie.otherId : tie.actorId);
+  }
+  return [...witnesses]
+    .filter((id) => id !== huskId && api.state.people.get(id)?.alive)
+    .sort();
+}
+
 /** The monthly death record reaches the full people who already know its subject. */
 export function notifyCountedDeaths(
   api: CoreAPI,
@@ -101,17 +129,7 @@ export function notifyCountedDeaths(
     // somebody in or gives them an invented past or medical cause.
     const deceased = api.state.husks.get(deceasedId);
     if (!deceased) continue;
-    // The opening records each full person's tie to a counted relative
-    // (state.ts, with openingClosenessHours), so the grief reader finds it.
-    const witnesses = new Set(deceased.familyIds ?? []);
-    for (const key of api.state.relationshipsByPerson.get(deceasedId) ?? []) {
-      const tie = api.state.relationships.get(key);
-      if (tie)
-        witnesses.add(tie.actorId === deceasedId ? tie.otherId : tie.actorId);
-    }
-    const witnessIds = [...witnesses]
-      .filter((id) => id !== deceasedId && api.state.people.get(id)?.alive)
-      .sort();
+    const witnessIds = fullRelativesOf(api, deceasedId);
     if (!witnessIds.length) continue;
     const kind = DEFAULT_HEALTH_DATA.deathEventKind;
     const id = `${kind}:${deceasedId}:${api.state.date}`;
@@ -132,14 +150,12 @@ export function notifyCountedDeaths(
 }
 
 /** The place's state, as the research files name it (else the world's own state). */
-function stateOf(
+function birthState(
   api: CoreAPI,
   placeId: PlaceId,
 ): { key: string; name: string } {
-  const worldKey = api.state.placeMetadata?.placeKey;
   const key =
-    corePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey ??
-    (worldKey ? corePlaceByKey(worldKey)?.stateJurisdictionKey : undefined);
+    placeStateKey(placeId) ?? placeStateKey(api.state.placeMetadata?.placeKey);
   if (!key) throw new Error(`No state recorded for ${placeId}`);
   const aliases = areaNames.aliases as Record<string, string>;
   return { key, name: aliases[key] ?? coreStateName(key.slice(3))! };
@@ -210,6 +226,9 @@ const monthlyShare = (perYear: number, months: number) =>
 
 interface Carry {
   births: number;
+  /** Real people born and dead in the place's counted tier since the opening (kept in play: the vital statistics read them). */
+  born: number;
+  died: number;
   /** Each cohort's expected deaths not yet realized, by `deathCohort` key. */
   deaths: Record<string, number>;
   /**
@@ -396,7 +415,7 @@ export function applyCountedFlows(
   const months = p("monthsPerYear");
   const store = api.moduleState(RENEWAL_ID);
   for (const [placeId, households] of countedHouseholdsByPlace(core)) {
-    const state = stateOf(api, placeId);
+    const state = birthState(api, placeId);
     // This world's table: the published rates times its own natality factor.
     const natality = worldRateFactor(api.state.seed, "natality");
     const rates = new Map(
@@ -418,6 +437,8 @@ export function applyCountedFlows(
     // Stored rows are read-only; work on a copy.
     const carry: Carry = {
       births: Number(carryRow?.births ?? 0),
+      born: Number(carryRow?.born ?? 0),
+      died: Number(carryRow?.died ?? 0),
       deaths: { ...((carryRow?.deaths as Record<string, number>) ?? {}) },
     };
     // Every counted person here, household by household (filled in below).
@@ -438,13 +459,15 @@ export function applyCountedFlows(
       const at = counted?.householdOf.get(householdId);
       const weight =
         at === undefined ? 1 : counted!.weightOf(counted!.households[at]!);
-      if (at !== undefined)
-        tenureOf.set(
-          householdId,
-          counted!.households[at]!.tenure === "rent" ? "rent" : "own",
-        );
+      const tenure =
+        at === undefined ? undefined : counted!.households[at]!.tenure;
+      // A household without a home is neither (as a removed dwelling reads).
+      if (tenure !== undefined && tenure !== "none")
+        tenureOf.set(householdId, tenure === "rent" ? "rent" : "own");
+      // A group-quarters room's income is no household's: no fifth (a
+      // zero-income room would read as the poorest).
       const fifth =
-        at === undefined
+        at === undefined || counted!.households[at]!.quarters
           ? undefined
           : incomeBandOf(householdIncome(runtime!, counted!.households[at]!));
       for (const person of members) {
@@ -477,6 +500,29 @@ export function applyCountedFlows(
     };
     const weightOfPerson = (person: PersonInput) =>
       weightOf.get(person.id) ?? 1;
+    // What housing weighs on each household's health this month (homelessness
+    // item 5: a household without a home, and one evicted in the last years,
+    // falls ill sooner), by the same factors a full person's strain takes.
+    const housingOf = new Map<string, { factor: number; key: number }>();
+    const housingStrain = (person: PersonInput, on: string) => {
+      if (on !== date) return UNSTRAINED;
+      let found = housingOf.get(person.householdId);
+      if (!found) {
+        const read = housingHealthFactor(api, person.householdId);
+        found =
+          read.status === "housed" && !read.evictedOn
+            ? UNSTRAINED
+            : {
+                factor: read.factor,
+                key:
+                  1 +
+                  HOUSING_STATUSES.indexOf(read.status) * 2 +
+                  (read.evictedOn ? 1 : 0),
+              };
+        housingOf.set(person.householdId, found);
+      }
+      return found;
+    };
     const start = { people: people.length, households: households.length };
     const row = {
       id: `${placeId}:${month}`,
@@ -578,6 +624,7 @@ export function applyCountedFlows(
       row.deathCauses[died.cause] =
         (row.deathCauses[died.cause] ?? 0) + weightOfPerson(person);
       row.causeOf[person.id] = died.cause;
+      carry.died += weightOfPerson(person);
       // Who lived with them and outlives them, still in the counts.
       const survivors = (byHousehold.get(person.householdId) ?? [])
         .filter((other) => other.id !== person.id && !dead.has(other.id))
@@ -641,7 +688,8 @@ export function applyCountedFlows(
         const share = members.reduce((n, member) => {
           const age = ageOf(member, on),
             fifth = fifthOf.get(member.id),
-            slot = age * 8 + (fifth ?? 7);
+            housing = housingStrain(member, on),
+            slot = (age * 8 + (fifth ?? 7)) * 16 + housing.key;
           let chance = chances.get(slot);
           if (chance === undefined) {
             chance = monthlyShare(
@@ -654,7 +702,8 @@ export function applyCountedFlows(
                 ) *
                   mortality *
                   worldRateFactor(api.state.seed, "mortality") *
-                  webDeaths(member, on),
+                  webDeaths(member, on) *
+                  housing.factor,
               ),
               months,
             );
@@ -683,9 +732,16 @@ export function applyCountedFlows(
             pick = key;
         if (pick === undefined) break;
         // Sorted once, the first time it is picked: picks only take from it.
+        // Those whose housing raised their chance (a household without a
+        // home, or evicted lately) fall ill first, so the strain lands on
+        // the household it weighs on, not on whoever in the cohort is next.
         const members = cohorts.get(pick)!;
         if (!sorted.has(pick)) {
-          members.sort((a, b) => compare(a.id, b.id));
+          members.sort(
+            (a, b) =>
+              housingStrain(b, on).factor - housingStrain(a, on).factor ||
+              compare(a.id, b.id),
+          );
           sorted.add(pick);
         }
         const owedNow = Object.values(debts).reduce((n, debt) => n + debt, 0);
@@ -787,7 +843,10 @@ export function applyCountedFlows(
       hud?.veryLow4 != null
         ? hud.veryLow4 * CENTS_PER_DOLLAR * p("renewalMedianPerVeryLowLimit")
         : p("renewalMedianAnnualIncomeMinor");
-    const current = countedHouseholdsByPlace(core).get(placeId) ?? [];
+    // No baby joins a dormitory, a cell or a nursing-home room.
+    const current = (countedHouseholdsByPlace(core).get(placeId) ?? []).filter(
+      (record) => !record.household.quarters,
+    );
     const spacing = p("renewalCountedBirthSpacingDays");
     const today = Date.parse(date);
     /** The real women of childbearing age the counted women stand for. */
@@ -861,6 +920,7 @@ export function applyCountedFlows(
       }
       const partner = partnerOf(found, mother, date);
       carry.births -= Number(pregnancy.stands);
+      carry.born += Number(pregnancy.stands);
       const baby = countedNewborn(api, found, mother, date);
       addCountedPerson(core, mother.householdId, baby);
       row.births.push(baby.id);
@@ -945,6 +1005,7 @@ export function applyCountedFlows(
       const stands = weightOfPerson(woman);
       if (carry.births < stands) continue;
       carry.births -= stands;
+      carry.born += stands;
       const baby = countedNewborn(api, record, woman, date);
       addCountedPerson(core, woman.householdId, baby);
       row.births.push(baby.id);

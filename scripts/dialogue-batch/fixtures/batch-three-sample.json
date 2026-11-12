@@ -1,0 +1,315 @@
+{
+  "id": "fixture-of-batch-3",
+  "note": "A few moments copied from the batch 3 page (kept off main), in its shape, so the shape tests stand without the page.",
+  "moments": [
+    {
+      "moment": 1,
+      "kind": "legislation",
+      "description": "A fellow legislator wants your vote on a bill and opens by reminding you of a favor they once did for you. They are the one asking you.",
+      "speaker": "a colleague calling in an old favor",
+      "lines": [
+        {
+          "id": "1.1",
+          "key": "scene-talk.open-greet.you-remember-earlier",
+          "line": "You remember {earlier}?",
+          "spans": [
+            {
+              "start": 0,
+              "end": 23,
+              "text": "You remember {earlier}?"
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "key": "scene-talk.open-greet.i-haven-t-asked-you-for-anything-since-earlier",
+          "line": "I haven't asked you for anything since {earlier}.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 49,
+              "text": "I haven't asked you for anything since {earlier}."
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "key": "scene-talk.open-greet.i-m-asking-you-not-the-whole-floor-you-know-why",
+          "line": "I'm asking you, not the whole floor. You know why.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 15,
+              "text": "I'm asking you,"
+            },
+            {
+              "start": 16,
+              "end": 36,
+              "text": "not the whole floor."
+            },
+            {
+              "start": 37,
+              "end": 50,
+              "text": "You know why."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "moment": 3,
+      "kind": "speech",
+      "description": "You are giving your inaugural address and tell the country that on one issue, federal law already settles the matter in the direction you want.",
+      "speaker": "you, giving your inaugural address",
+      "lines": [
+        {
+          "id": "3.1",
+          "key": "opening-speech.law.plain-ina-sta-on-about-the-federal-answer-is-already-yes",
+          "line": "On {about}, the federal answer is already yes.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 11,
+              "text": "On {about},"
+            },
+            {
+              "start": 12,
+              "end": 46,
+              "text": "the federal answer is already yes."
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "key": "opening-speech.law.polished-ina-sta-on-about-federal-law-already-says-yes",
+          "line": "On {about}, federal law already says yes.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 11,
+              "text": "On {about},"
+            },
+            {
+              "start": 12,
+              "end": 41,
+              "text": "federal law already says yes."
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "key": "opening-speech.law.plain-ina-sta-take-about-right-now-the-federal-answer-is-yes",
+          "line": "Take {about}. Right now the federal answer is yes.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 13,
+              "text": "Take {about}."
+            },
+            {
+              "start": 14,
+              "end": 50,
+              "text": "Right now the federal answer is yes."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "moment": 7,
+      "kind": "reaction",
+      "description": "An employer has picked you for an opening, and you asked about the job. They answer with the position and what it pays.",
+      "speaker": "an employer making you a job offer",
+      "lines": [
+        {
+          "id": "7.1",
+          "key": "scene-talk.follow-answer.you-d-be-position-at-pay-an-hour-to-start",
+          "line": "You'd be {position}, at {pay} an hour to start.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 20,
+              "text": "You'd be {position},"
+            },
+            {
+              "start": 21,
+              "end": 47,
+              "text": "at {pay} an hour to start."
+            }
+          ]
+        },
+        {
+          "id": "7.2",
+          "key": "scene-talk.follow-answer.we-d-go-over-all-of-it-on-your-first-day",
+          "line": "We'd go over all of it on your first day.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 41,
+              "text": "We'd go over all of it on your first day."
+            }
+          ]
+        },
+        {
+          "id": "7.3",
+          "key": "scene-talk.follow-answer.pay-an-hour-to-start-we-d-train-you-on-the-rest",
+          "line": "{pay} an hour to start. We'd train you on the rest.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 23,
+              "text": "{pay} an hour to start."
+            },
+            {
+              "start": 24,
+              "end": 51,
+              "text": "We'd train you on the rest."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "moment": 11,
+      "kind": "constituent",
+      "description": "A constituent came to your office hours sick and needing help at home. You promise to make a call on their behalf.",
+      "speaker": "you, promising to help a sick constituent",
+      "lines": [
+        {
+          "id": "11.1",
+          "key": "scene-talk.reply-promise.i-ll-call-the-clinic-s-social-worker-myself-and-ask-her-to-see-you-this-week",
+          "line": "I'll call the clinic's social worker myself and ask her to see you this week.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 77,
+              "text": "I'll call the clinic's social worker myself and ask her to see you this week."
+            }
+          ]
+        },
+        {
+          "id": "11.2",
+          "key": "scene-talk.reply-promise.i-ll-ask-the-county-health-department-who-can-come-to-your-house-and-i-ll-call-y",
+          "line": "I'll ask the county health department who can come to your house, and I'll call you with a name.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 96,
+              "text": "I'll ask the county health department who can come to your house, and I'll call you with a name."
+            }
+          ]
+        },
+        {
+          "id": "11.3",
+          "key": "scene-talk.reply-promise.i-ll-find-out-what-the-town-and-the-state-pay-for-in-home-help-and-i-ll-have-it",
+          "line": "I'll find out what the town and the state pay for in-home help, and I'll have it in writing for you this week.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 110,
+              "text": "I'll find out what the town and the state pay for in-home help, and I'll have it in writing for you this week."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "moment": 20,
+      "kind": "again",
+      "description": "A speaker closes a speech.",
+      "speaker": "the speaker",
+      "lines": [
+        {
+          "id": "20.1",
+          "key": "speech-stages.stage-closer.god-bless-you-and-god-bless-america",
+          "line": "God bless you, and God bless America.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 14,
+              "text": "God bless you,"
+            },
+            {
+              "start": 15,
+              "end": 37,
+              "text": "and God bless America."
+            }
+          ]
+        },
+        {
+          "id": "20.2",
+          "key": "speech-stages.stage-closer.let-s-get-to-work",
+          "line": "Let's get to work.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 18,
+              "text": "Let's get to work."
+            }
+          ]
+        },
+        {
+          "id": "20.3",
+          "key": "speech-stages.stage-closer.thank-you-all",
+          "line": "Thank you all.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 14,
+              "text": "Thank you all."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "moment": 25,
+      "kind": "liked",
+      "description": "The narrator sets up a talk with a member of your staff who has worked for you for years and wants to argue about a line in the budget.",
+      "speaker": "the narrator",
+      "lines": [
+        {
+          "id": "25.1",
+          "key": "scene-talk.narrate-narrate.name-has-asked-for-time-about-the-budget-the-council-adopted",
+          "line": "{name} has asked for time about the budget the council adopted.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 63,
+              "text": "{name} has asked for time about the budget the council adopted."
+            }
+          ]
+        },
+        {
+          "id": "25.2",
+          "key": "scene-talk.narrate-narrate.name-wants-to-talk-about-the-budget-the-council-passed",
+          "line": "{name} wants to talk about the budget the council passed.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 57,
+              "text": "{name} wants to talk about the budget the council passed."
+            }
+          ]
+        },
+        {
+          "id": "25.3",
+          "key": "scene-talk.narrate-narrate.the-post-s-line-lost-cut-in-the-budget-the-council-passed-name-has-the-page",
+          "line": "The {post}'s line lost {cut} in the budget the council passed. {name} has the page.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 62,
+              "text": "The {post}'s line lost {cut} in the budget the council passed."
+            },
+            {
+              "start": 63,
+              "end": 83,
+              "text": "{name} has the page."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

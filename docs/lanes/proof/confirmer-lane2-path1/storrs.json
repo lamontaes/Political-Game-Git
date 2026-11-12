@@ -1,0 +1,40 @@
+{
+ "town": "storrs",
+ "replay": "storrs-1",
+ "newlifeURL": "http://localhost:3000/api/newlife?seed=storrs-1&date=&placeKey=0973980&person=%7B%22givenName%22%3A%22Emily%22%2C%22familyName%22%3A%22Carter%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A2006%2C%22birthMonth%22%3A7%2C%22birthDay%22%3A16%2C%22recipe%22%3A%7B%22person%22%3A%22woman-medium%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitnavy%3Alow+ponytail%22%2C%22colors%22%3A%7B%22top%22%3A%22brown%22%2C%22trousers%22%3A%22denim%22%2C%22shoes%22%3A%22tan%22%2C%22hair%22%3A%22brown%22%7D%7D%7D",
+ "place": "Storrs, Connecticut",
+ "player": "person_1b4a9621b4345915",
+ "clock": "Monday, January 20, 2025\n8:30 PM",
+ "backdrop": [
+  "http://localhost:3000/art/backdrops/house-suburban-living__night.jpg"
+ ],
+ "money": "Money and property\nCASH AVAILABLE\n$2,980\nHOME\nRENTED\nHouse\nRent $1,770 per month",
+ "pageErrors": [],
+ "httpErrors": [],
+ "cards": [
+  {
+   "label": "Rowan Carter\nmother",
+   "text": "Rowan Carter\n\nMother \u00b7 Age 35\n\nLives with you\n\nShe acts on impulse. She plays it safe. She loves being around people.\n\nWORK\nWarehouse worker\nNunez Supply Company\nHOME\nStorrs, Connecticut\nHISTORY\n1989\n\nBorn in Storrs, Connecticut.\n\n2006\n\nYou were born.\n\n2021\n\nStarted work at Nunez Supply Company.\n\n2021\n\nMoved to the county."
+  },
+  {
+   "label": "Justin Henry\nuncle",
+   "text": "Justin Henry\n\nUncle \u00b7 Age 32\n\nHe thinks things through before acting. He loves being around people. When he says he'll do something, he does it.\n\nHISTORY\n1992\n\nBorn."
+  },
+  {
+   "label": "Charles Day\nfather",
+   "text": "Charles Day\n\nFather \u00b7 Age 37\n\nHe doesn't back down from a fight. He'll take a chance most people wouldn't.\n\nHISTORY\n1987\n\nBorn.\n\n2006\n\nYou were born."
+  },
+  {
+   "label": "Mark Henry\ngrandfather",
+   "text": "Mark Henry\n\nGrandfather \u00b7 Age 61\n\nHe doesn't back down from a fight. When he says he'll do something, he does it. He thinks things through before acting.\n\nHISTORY\n1963\n\nBorn.\n\n1989\n\nRowan Carter was born.\n\n1992\n\nJustin Henry was born.\n\n1995\n\nTiffany Henry was born."
+  },
+  {
+   "label": "Sandra Henry\ngrandmother",
+   "text": "Sandra Henry\n\nGrandmother \u00b7 Age 59\n\nShe thinks things through before acting. She lets things slip.\n\nHISTORY\n1965\n\nBorn.\n\n1989\n\nRowan Carter was born.\n\n1992\n\nJustin Henry was born.\n\n1995\n\nTiffany Henry was born."
+  },
+  {
+   "label": "Tiffany Henry\naunt",
+   "text": "Tiffany Henry\n\nAunt \u00b7 Age 29\n\nShe keeps to herself. She doesn't back down from a fight. She lets things slip.\n\nHISTORY\n1995\n\nBorn."
+  }
+ ]
+}

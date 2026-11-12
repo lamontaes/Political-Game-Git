@@ -134,8 +134,12 @@ describe("the officeholder's journal", () => {
     const lines = composeJournal(core, director, playerId).flatMap(
       (chapter) => chapter.lines,
     );
-    const told = (id: string) =>
-      lines.find((line) => line.sourceRecordIds.includes(id));
+    // Each line as its event tells it, before any words joining it to the
+    // line before ("More than a year later, ...").
+    const told = (id: string) => {
+      const line = lines.find((row) => row.sourceRecordIds.includes(id));
+      return line && { ...line, text: line.plain ?? line.text };
+    };
     expect(told("took-office:fixture-seat:journal")?.text, where).toMatch(
       /^I took (office|my seat) as City Council, Seat 2\./,
     );

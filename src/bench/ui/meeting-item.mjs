@@ -1,6 +1,5 @@
 // One agenda item at a meeting, or one bill on the desk: the bill's name, number and
-// sponsor, the members as round faces ringed by how each voted, the tally as one bar
-// with its result, who spoke, and the buttons under it in rows (the paper and the
+// sponsor, the members as round faces ringed by how each voted, the tally and its result in words, who spoke, and the buttons under it in rows (the paper and the
 // speeches, then the vote). The panel the meeting and the desk both draw (owner, Oct 29:
 // "the UI is terrible"; the members, the tally and the result on the panel). Every word
 // is a control name or a record's own: the status word, the counts, the member names.
@@ -44,6 +43,28 @@ function memberStrip(members, votes, words) {
 }
 
 /**
+ * Who spoke on the item, apart from the vote: one line for those who spoke for it and one
+ * for those against, each under its own label, so nobody reads a speaker as a vote.
+ */
+function spokeLines(remarks, words) {
+  return [
+    [words.spokeFor, remarks.filter((r) => r.position > 0)],
+    [words.spokeAgainst, remarks.filter((r) => r.position <= 0)],
+  ]
+    .filter(([, spoke]) => spoke.length)
+    .map(([label, spoke]) =>
+      el(
+        "p",
+        { className: "meeting-remarks" },
+        el("small", {
+          textContent: `${label ?? ""} · ${spoke.length.toLocaleString("en-US")}`,
+        }),
+        el("span", { textContent: spoke.map((r) => r.name).join(", ") }),
+      ),
+    );
+}
+
+/**
  * `item`: the bill as the office view gives it; `members`: the body's members with their
  * faces; `words`: the meeting's control names (yes, no, abstain); `floor`: the floor's
  * status words; `rows`: rows of buttons under the card.
@@ -51,7 +72,6 @@ function memberStrip(members, votes, words) {
 export function meetingItem({ item, members = [], words, floor, rows = [] }) {
   const counts = tallyOf(item.votes);
   const voted = item.votes.length > 0;
-  const total = Math.max(1, counts.yes + counts.no + counts.abstain);
   return el(
     "article",
     { className: "meeting-item" },
@@ -76,32 +96,7 @@ export function meetingItem({ item, members = [], words, floor, rows = [] }) {
           }),
         )
       : "",
-    voted
-      ? el(
-          "div",
-          {
-            className: "meeting-tally",
-            role: "img",
-            ariaLabel: words.tally ?? "",
-          },
-          ...KINDS.filter((kind) => counts[kind]).map((kind) => {
-            const part = el("span", { className: `tally-${kind}` });
-            part.style.width = `${(counts[kind] / total) * 100}%`;
-            return part;
-          }),
-        )
-      : "",
-    item.remarks.length
-      ? el("p", {
-          className: "meeting-remarks",
-          textContent: item.remarks
-            .map(
-              (r) =>
-                `${r.name} · ${r.position > 0 ? (words.for ?? "") : (words.against ?? "")}`,
-            )
-            .join(" · "),
-        })
-      : "",
+    ...spokeLines(item.remarks, words),
     ...rows
       .filter((row) => row.length)
       .map((row) => el("div", { className: "meeting-acts" }, ...row)),

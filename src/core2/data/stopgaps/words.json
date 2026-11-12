@@ -1,0 +1,50 @@
+[
+  {
+    "id": "SG-WORDS-nation-window-not-interest",
+    "kind": "missing-mechanic",
+    "file": "src/bench/nation-news.ts",
+    "line": 0,
+    "whatItFakes": "The Nation heading on News tells every law another state passed in the last nationNewsDays, not the ones a reader would care about.",
+    "why": "Which other-state laws reach a player's attention needs an interest rule from the owner (the places the player has lived, the topics in their drives); until then a plain window over the records shows the country moving without a cap or a chance.",
+    "addedBy": "State Sessions session",
+    "addedAt": "2026-11-06",
+    "replacement": "Resolved Nov 8 (State Sessions, the CTO's Nov 6 ruling): src/bench/nation-news.ts tells a law when its state's share of the nation times one plus the reader's family, work and neighbor ties clears nationNewsReachBar; the data is src/core2/data/places/state-reach.json (Census population and county adjacency).",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-WORDS-nation-no-moved-from-tie",
+    "kind": "missing-mechanic",
+    "file": "src/bench/nation-news.ts",
+    "line": 0,
+    "whatItFakes": "The Nation heading's reader ties are family, work and a neighboring state; a state the reader moved from is not a tie.",
+    "why": "A person keeps no record of the places they have lived (no moved-from field in people or the life engine), so the tie cannot be read.",
+    "addedBy": "State Sessions session",
+    "addedAt": "2026-11-08",
+    "replacement": "Read the reader's past homes once the people engine records them, and add it as a fourth term beside family, work and neighbor (nationNewsMovedTie).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-milestone-birthday-full-people",
+    "kind": "rule-copy",
+    "file": "src/core2/modules/press.ts",
+    "line": 3079,
+    "whatItFakes": "The paper's round-birthday and retirement briefs read only the town's full residents; a counted resident who turns 80, 90 or 100, or who retires, gets no notice.",
+    "why": "A birthday notice names the person, and a counted resident has no name until the player meets them. Filling one in for the paper would make the press decide who exists.",
+    "addedBy": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+    "addedAt": "2026-11-01",
+    "replacement": "A person a brief names is a named person, so the counted resident whose round birthday falls in the week is filled in, seeded from the world, when the notice prints (two-level population; the CTO, Nov 1, the same rule the lives lead uses), and the week's round birthdays are read from the counted population's ages by place by the same rule as a full resident.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-letters-counted-readers",
+    "kind": "rule-copy",
+    "file": "src/core2/modules/press.ts",
+    "line": 3220,
+    "whatItFakes": "Only full readers write letters to the editor: a counted reader of the outlet never does.",
+    "why": "A letter is written from a stance the reader's last story moved, and a counted reader's view is not moved by what they read (views.ts countedLean), so no counted stance cites a story to answer.",
+    "addedBy": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+    "addedAt": "2026-11-01",
+    "replacement": "The CTO's rule (OWNER-DECISIONS Nov 1 20:00): counted readers are weighed by the same press.letter rule, times their count, from their view on the story's question and their temperament, and the writer a printed letter names is filled in, seeded, when it prints.",
+    "status": "open"
+  }
+]

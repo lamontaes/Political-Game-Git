@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/laws-small-dollar-lenders
 pr: #7000
 blocked-on:

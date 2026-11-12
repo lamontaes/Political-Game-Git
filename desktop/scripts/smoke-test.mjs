@@ -141,7 +141,7 @@ async function launch() {
       (await page.getByTestId("title-options").isVisible()),
   );
   // The title is a full-window national scene with the menu over it: the
-  // backdrop has a picture, the build version in the corner, and no place field on the front.
+  // backdrop has a picture, no build version, and no place field on the front.
   const titleScreen = await page.evaluate(async () => {
     const backdrop = document.getElementById("backdrop");
     // The title's scene is chosen by the play server, so its picture arrives
@@ -157,9 +157,7 @@ async function launch() {
     return {
       src: backdrop.getAttribute("src") ?? "",
       painted: backdrop.naturalWidth > 0,
-      version: /\d+\.\d+\.\d+/.test(
-        document.getElementById("title-version")?.textContent ?? "",
-      ),
+      version: Boolean(document.getElementById("title-version")),
       placeShown: Boolean(place && place.offsetParent !== null),
       seedShown: Boolean(document.getElementById("seed")?.offsetParent),
       patchNotes: document.getElementById("front-patch-notes")?.disabled,
@@ -167,23 +165,56 @@ async function launch() {
       subtitle: Boolean(front.querySelector(".sub")),
       // A description line is a span of text under an item. The Continue
       // item's face (.bust) and its label span (<b>Continue</b> plus the
-      // life's name) are not description lines (#6283).
+      // life's name) are not description lines (#6283). Neither is the row
+      // of faces on New game's two choices (.new-busts, the approved front
+      // mock fr-new): it holds pictures, never words, and `faceRowText`
+      // below fails the check the day anyone writes a line into it.
       itemLines: [...front.querySelectorAll(".item span")].filter(
-        (s) => !s.classList.contains("bust") && !s.querySelector("b"),
+        (s) =>
+          !s.classList.contains("bust") &&
+          !s.classList.contains("new-busts") &&
+          !s.closest(".new-busts") &&
+          !s.querySelector("b"),
       ).length,
+      faceRowText: [...front.querySelectorAll(".item .new-busts")]
+        .map((s) => s.textContent.trim())
+        .join(""),
       continueShown: Boolean(document.getElementById("front-continue")),
       continueDisabled: document.getElementById("front-continue")?.disabled,
+      continueHidden: document.getElementById("front-continue")?.hidden,
       figures: document.querySelectorAll("#people img").length,
       quitShown: !document.getElementById("front-quit")?.hidden,
     };
   });
+  // The title shows exactly the monuments src/bench/title.ts lists, read from
+  // that list so the two cannot drift apart.
+  const monuments = [
+    ...(readFileSync(
+      path.join(
+        path.dirname(fileURLToPath(import.meta.url)),
+        "..",
+        "..",
+        "src",
+        "bench",
+        "title.ts",
+      ),
+      "utf8",
+    )
+      .match(/TITLE_MONUMENTS = \[([^\]]*)\]/)?.[1]
+      ?.matchAll(/"([a-z0-9-]+)"/g) ?? []),
+  ].map((m) => m[1]);
+  if (!monuments.length)
+    throw new Error(
+      "TITLE_MONUMENTS could not be read from src/bench/title.ts",
+    );
+  const titleBackdrop = new RegExp(
+    `^/art/backdrops/(${monuments.join("|")})__`,
+  );
   check(
     "title: the backdrop is a painted national scene",
     titleScreen.src !== "" &&
       titleScreen.painted &&
-      /^\/art\/backdrops\/(white-house-exterior|lincoln-memorial|national-convention-floor|national-convention-stage|rally-stage|rally-town-square|rally-courthouse-square|us-house-floor|us-senate-floor|debate-stage|oval-office)__/.test(
-        titleScreen.src,
-      ),
+      titleBackdrop.test(titleScreen.src),
     titleScreen.src,
   );
   check("title: no subtitle under the wordmark", !titleScreen.subtitle);
@@ -192,22 +223,30 @@ async function launch() {
     titleScreen.itemLines === 0,
   );
   check(
+    "title: New game's rows of faces hold pictures and no words",
+    titleScreen.faceRowText === "",
+    titleScreen.faceRowText,
+  );
+  check(
     "title: no seed or place controls on the title",
     !titleScreen.seedShown && !titleScreen.placeShown,
   );
   // Patch notes open the release notes (owner, Oct 28: "get them in"); Saved
-  // games wait for the save format.
+  // games open a sheet that lists the life in progress (#7355).
   check(
-    "title: Patch notes is there and opens; Saved games is there, disabled",
-    titleScreen.patchNotes === false && titleScreen.saves === true,
+    "title: Patch notes is there and opens; Saved games is there and opens",
+    titleScreen.patchNotes === false && titleScreen.saves === false,
   );
   check("title: no figure stands on the title", titleScreen.figures === 0);
   check(
-    "title: Continue is there, disabled with no life saved",
-    titleScreen.continueShown && titleScreen.continueDisabled === true,
+    "title: Continue is not offered (hidden and disabled) with no life saved",
+    titleScreen.continueShown &&
+      titleScreen.continueDisabled === true &&
+      titleScreen.continueHidden === true,
   );
   check("title: Quit is offered on the desktop", titleScreen.quitShown);
-  check("title: the build version shows on the title", titleScreen.version);
+  // No version string on the title (owner, Nov 8); the window title names the version.
+  check("title: no build version on the title", !titleScreen.version);
   if (screenshot) {
     await page.screenshot({ path: path.resolve(screenshot), fullPage: true });
   }

@@ -19,8 +19,8 @@
  * heard it made (the record engine), so each covered person who would have
  * heard the campaign by the news engine's rule holds the promise too.
  */
+import { placeStateKey } from "./place-map";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { corePlaceByJurisdictionId } from "./place-lookup";
 import publicTraits from "./data/past/public-traits.json" with { type: "json" };
 import { CAMPAIGNS_MODULE_ID, type ImpressionRow } from "./modules/campaigns";
 import { members } from "./modules/legislature";
@@ -40,7 +40,6 @@ import {
   type PastElectionRow,
   type PublicFigureRow,
 } from "./past-module";
-import type { EntityId } from "./kernel/brands";
 import type { CoreAPI, PersonState } from "./types";
 
 const PUBLIC = publicTraits as unknown as {
@@ -79,10 +78,7 @@ export function inPublicOf(
 ): boolean {
   if (scope === "US") return true;
   if (person.placeId === scope) return true;
-  return (
-    corePlaceByJurisdictionId(person.placeId as unknown as EntityId)
-      ?.stateJurisdictionKey === scope
-  );
+  return placeStateKey(person.placeId as unknown as string) === scope;
 }
 
 /**

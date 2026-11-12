@@ -482,18 +482,23 @@ function yearsBefore(date: IsoDate, years: number): IsoDate {
  * Fill the town's jobs for every working-age resident written out who has no
  * job. Idempotent: a job written once is never written again. Every working
  * age resident is eligible at the opening: no enrollment, care record or
- * sentence exists before the first day is played.
+ * sentence exists before the first day is played. Residents of institutions
+ * and of military quarters (`outsideLaborForce`) are outside the civilian
+ * labor force and take none.
  */
 export function openingTownJobs(
   draft: OpeningDraft,
   town: { readonly id: EntityId; readonly sourceGeoid?: string },
   governments: TownGovernments,
+  outsideLaborForce: ReadonlySet<string> = new Set(),
 ): void {
   const working = new Set(
     draft.history.workRelationships.map((row) => row.personId),
   );
   const open = townResidents(draft, town.id).filter(
-    (resident) => !working.has(resident.personId),
+    (resident) =>
+      !working.has(resident.personId) &&
+      !outsideLaborForce.has(resident.personId),
   );
   fillTownJobs(draft, town.id, town.sourceGeoid, governments, open);
 }

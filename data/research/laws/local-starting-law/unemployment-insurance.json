@@ -266,8 +266,8 @@
       },
       "weeklyBenefitFormula": {
         "kind": "fraction-of-two-high-quarters",
-        "fraction": 0.011538,
-        "fractionAppliesTo": "sum of 2 consecutive highest quarters (60% of 1/26 of their average); alt 50% of 1/52 BPW",
+        "fraction": 0.023076923076923078,
+        "fractionAppliesTo": "sum of 2 consecutive highest quarters; alt 50% of 1/52 BPW",
         "text": "Higher of 60% of 1/26 of 2 consecutive HQW (capped 50% state AWW) or 50% of 1/52 BPW (capped 55% state AWW)",
         "estimate": false
       },
@@ -1250,7 +1250,7 @@
       "weeklyBenefitFormula": {
         "kind": "percent-of-annual",
         "fraction": 0.01,
-        "fractionAppliesTo": "base-period wages (or 1.9% of wages in 2 highest quarters)",
+        "fractionAppliesTo": "base-period wages",
         "text": "1% BPW or 1.9% of wages in 2 HQs",
         "estimate": false
       },

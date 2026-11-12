@@ -20,12 +20,31 @@ import {
   parksFunding,
 } from "./group-a-money";
 import { staffing } from "./group-a-staffing";
-import { votingLaw } from "./group-a-voting";
+import { registerVotingMonthlyProgram, votingLaw } from "./group-a-voting";
 import { rightToWork } from "./group-a-union";
 import { publicBargaining } from "./group-a-bargaining";
+import { yesLevels } from "../modules/laws";
 
-const records: PolicyHandler = (api, change) =>
-  applyRecords(api, change.key, change.lawId, change.inForce);
+const records: PolicyHandler = (api, change) => {
+  const levels = POLICIES[change.key]?.effectLevels;
+  if (!levels) {
+    applyRecords(api, change.key, change.lawId, change.inForce);
+    return;
+  }
+  // A federal criminal-law change does not issue or revoke state licenses.
+  // The relevant levels are data; the shared resolver still decides whether
+  // any of their laws have been set aside by actual preemption.
+  if (!levels.includes(change.level)) return;
+  const permission = yesLevels(api, change.key).find((l) =>
+    levels.includes(l.level),
+  );
+  applyRecords(
+    api,
+    change.key,
+    permission?.lawId ?? change.lawId,
+    !!permission,
+  );
+};
 // The voting file imports the elections, budgets and voting engines, which
 // load this registry back through law reach; read its handler when a law
 // takes effect, not when this file loads, so no import order leaves it unset.
@@ -55,6 +74,9 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   // The public-safety engine reads these laws where it decides a case, a
   // sale or a cost, and records whom it applied them to (public-safety.ts).
   "public-safety": [],
+  // The jobs engine's hiring weigh reads a ban on asking about a conviction
+  // where a public employer ranks applicants (jobs-record-bias.ts).
+  "hiring-record": [],
   "federal-minimum-wage": [records, federalMinimumWage],
   "raise-minimum-wage": [records, raiseMinimumWage],
   "local-wage-authority": [records, localWageAuthority],
@@ -71,6 +93,7 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
 };
 
 export function registerGroupA(): void {
+  registerVotingMonthlyProgram();
   for (const [key, policy] of Object.entries(POLICIES)) {
     // The minimum wage as an amount runs in the laws engine itself.
     if (!policy.reaches.length && policy.mechanic === "none") continue;

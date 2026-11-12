@@ -1,3 +1,4 @@
+import { STOPGAP_FOLDER, readStopgapFolder } from "../stopgaps-folder";
 import { createHash } from "node:crypto";
 import { readdirSync, readFileSync, existsSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
@@ -142,11 +143,12 @@ export function auditCore2Tripwires(
 ): TripwireAudit {
   const root = resolve(rootDirectory);
   const diagnostics: TripwireDiagnostic[] = [];
-  const registryPath = join(root, "src", "core2", "data", "stopgaps.json");
+  const registryPath = join(root, STOPGAP_FOLDER);
   let rawRegistry = registryInput;
   if (rawRegistry === undefined) {
     try {
-      rawRegistry = JSON.parse(readFileSync(registryPath, "utf8")) as unknown;
+      if (!existsSync(registryPath)) throw new Error("no register folder");
+      rawRegistry = readStopgapFolder(root);
     } catch (error) {
       diagnostics.push({
         code: "stopgap-registry-unreadable",
@@ -302,9 +304,7 @@ export function runTripwiresCli(
   const writeError = options.writeError ?? console.error;
   let registry: unknown = [];
   try {
-    registry = readJsonRegistry(
-      join(rootDirectory, "src", "core2", "data", "stopgaps.json"),
-    );
+    registry = readStopgapFolder(rootDirectory);
   } catch {
     // The audit below already reports a missing or unreadable registry.
   }
@@ -1003,11 +1003,10 @@ function listP8JsonFiles(
   const visit = (current: string): void => {
     for (const entry of readdirSync(current, { withFileTypes: true })) {
       const fullPath = join(current, entry.name);
-      if (entry.isDirectory()) visit(fullPath);
-      else if (
-        entry.name.endsWith(".json") &&
-        !(entry.name === "stopgaps.json" && dirname(fullPath) === directory)
-      ) {
+      if (entry.isDirectory()) {
+        // The stopgap register's family files are the register, not P8 data.
+        if (fullPath !== join(directory, "stopgaps")) visit(fullPath);
+      } else if (entry.name.endsWith(".json")) {
         files.add(fullPath);
       }
     }
@@ -1438,10 +1437,6 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
-}
-
-function readJsonRegistry(filePath: string): unknown {
-  return JSON.parse(readFileSync(filePath, "utf8")) as unknown;
 }
 
 function isMainModule(): boolean {

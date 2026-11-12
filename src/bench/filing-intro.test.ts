@@ -2,6 +2,10 @@ import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
+import { filingClerkFor } from "../core2/modules/filing-clerk";
+import { coreAPI } from "../core2/state";
 import { openBenchFilingVisit } from "./filing";
 import { governmentView } from "./government";
 import { buildBenchWorld } from "./world";
@@ -22,14 +26,27 @@ it("every counter with a clerk is introduced before the clerk speaks", () => {
   });
   const { core } = world;
   const me = world.playerId!;
-  const counters = new Set(
-    governmentView(core, me).contests.map((c) => c.filingOffice.filedWith),
-  );
-  expect(counters.size, `no counter in ${where}`).toBeGreaterThan(0);
+  // A counter offers races only while their filing is open (agreement 1-4:
+  // the elections engine's window), so the town's weeks go by until a counter
+  // someone staffs is offered (read from the records, without a visit: a
+  // visit is the player's act and stays on the one day it happens).
+  const offered = () => governmentView(core, me).contests;
+  const api = coreAPI(core);
+  const staffed = () =>
+    offered().some((row) => filingClerkFor(api, row.contest.id) !== null);
+  for (let week = 0; week < 104 && !staffed(); week += 1)
+    advanceCore(core, addDays(makeIsoDate(core.date), 7));
+  const counters = new Set(offered().map((c) => c.filingOffice.filedWith));
+  expect(
+    counters.size,
+    `no counter in ${where} by ${core.date}`,
+  ).toBeGreaterThan(0);
   let withClerk = 0;
+  const unstaffed: string[] = [];
   for (const filedWith of counters) {
     const visit = openBenchFilingVisit(core, me, filedWith, 10 * 60);
     if (!visit.visit.clerkId) {
+      unstaffed.push(filedWith);
       expect(visit.intro, where).toEqual([]);
       continue;
     }
@@ -40,10 +57,25 @@ it("every counter with a clerk is introduced before the clerk speaks", () => {
       `${clerk.givenName} ${clerk.familyName}`,
     );
     expect(visit.intro.map((l) => l.text).join(" ")).toContain("the ");
+    // The narrator names the day (owner, Nov 8: "it says first thing on June
+    // 7th. You head to the clerk's office and speak to ..."): the part of the
+    // day and the date, said as people say it, from the clock.
+    expect(
+      visit.intro.map((l) => l.text).join(" "),
+      `${filedWith} in ${where}`,
+    ).toMatch(
+      /(First thing on|Late in the morning on|Around noon on|On the afternoon of|Toward evening on|Late on) [A-Z][a-z]+ \d{1,2}(st|nd|rd|th)\b/,
+    );
     for (const line of visit.intro) {
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
       expect(line.text).not.toMatch(/\{|\}|undefined/);
     }
   }
-  expect(withClerk, `no clerk counter in ${where}`).toBeGreaterThan(0);
+  process.stdout.write(
+    `FILING INTRO ${where} on ${core.date}: ${withClerk} counters with a clerk; with no clerk: ${unstaffed.join("; ") || "none"}\n`,
+  );
+  expect(
+    withClerk,
+    `no clerk counter in ${where} by ${core.date} (no clerk: ${unstaffed.join("; ")})`,
+  ).toBeGreaterThan(0);
 }, 600_000);

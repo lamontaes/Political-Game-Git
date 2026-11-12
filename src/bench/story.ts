@@ -2,14 +2,17 @@ import { ageOnDate } from "../core2/kernel/dates";
 import { composeScene } from "../director/scene";
 import { purposeScene, replyInScene } from "../director/purpose-scene";
 import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
+import { dateSaid } from "../english/day-words";
 import { shipped } from "../english/scene-talk-words";
 import { hasBackdrop } from "./backdrop-places";
+import { bodyPicture } from "./legislature";
+import { addressMontage, partLevels } from "./montage";
 import {
   homeOf,
   orgPlace,
   backdropFor,
   pictureFor,
-  stagePeople,
+  peopleHere,
   type StageReason,
 } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -100,11 +103,20 @@ export function storyScene(
           bindings: [lead, ...entry.bindings.filter((row) => row !== lead)],
         }
       : entry,
+    undefined,
+    minuteOfDay,
   );
   if (!scene) throw new Error("This moment has no scene.");
   const person = core.people.get(personId)!;
   const age = ageOnDate(person.birthDate, core.date);
+  // A scene in a body's chamber shows that body's own room, as the body
+  // scene does (agreements/3-4.md).
+  const chamber =
+    scene.setting.kind === "chamber" && scene.setting.recordId
+      ? bodyPicture(core, personId, scene.setting.recordId)
+      : null;
   const steps = [
+    ...(chamber ? [chamber] : []),
     ...(SITUATIONS[`${scene.typeKey}:${scene.setting.kind}`] ?? []),
     ...(scene.setting.kind === "school"
       ? (SCHOOLS.find((row) => age < row.underAge)?.places ?? [])
@@ -182,23 +194,55 @@ export function storyScene(
     momentId,
     place: pictured,
     backdrop,
-    people: stagePeople(core, backdrop.file, cast, undefined, scene.occasion)
-      .people,
+    people: peopleHere(core, backdrop.file, cast).people,
     // One narrator: a scene with a purpose opens on its own narration, the
     // same voice that speaks between its lines; the situation's paragraph is
     // for a moment with no exchange (the plan of Oct 28, section 1: "Two
     // narrators per scene ... One narrator, the director's").
+    // Every scene's first line names the day, the place and the person
+    // (owner, Nov 8): a purpose's own setup that already names the day
+    // (the filing counter) keeps its own.
     narration:
       purpose?.kind === "composed" && purpose.scene.talk.narration.length
-        ? purpose.scene.talk.narration.map((line) => ({
-            text: line.text,
-            parts: line.parts,
-            held: !line.parts.every(shipped),
-          }))
+        ? [
+            ...(scene.arrival &&
+            !purpose.scene.talk.narration.some((line) =>
+              line.text.includes(dateSaid(core.date)),
+            )
+              ? [
+                  {
+                    text: scene.arrival.text,
+                    parts: scene.arrival.parts ?? [],
+                    held: false,
+                  },
+                ]
+              : []),
+            ...purpose.scene.talk.narration.map((line) => ({
+              text: line.text,
+              parts: line.parts,
+              held: !line.parts.every(shipped),
+            })),
+          ]
         : scene.narration,
     talkToId: scene.talkToId,
     // A speech heard plays in its speaker's own words, from its record.
     ...(scene.speech ? { speech: scene.speech } : {}),
+    // The address plays as a montage: one picture and cast per part (owner,
+    // Oct 29 02:35).
+    ...(scene.speech
+      ? {
+          beats: addressMontage(
+            core,
+            personId,
+            scene.speech.speakerId,
+            partLevels(
+              director.ledger.opening?.address.sentences ?? [],
+              scene.speech.parts?.length || 1,
+            ),
+            minuteOfDay,
+          ),
+        }
+      : {}),
     talk,
     ...(purpose?.kind === "skipped" ? { talkSkipped: purpose.reason } : {}),
     names: Object.fromEntries([

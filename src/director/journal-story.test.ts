@@ -3,8 +3,12 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
 import { preStartHistory } from "../core2/pre-start";
 import { composeJournal } from "./journal";
+import { tieSide } from "./purpose-scene";
+import journalBank from "../../data/english/parts/journal.json";
 import type { PersonId } from "../core2/types";
 
 // The Journal is a story from birth (owner, Oct 27: "this journal needs to be
@@ -115,8 +119,12 @@ describe("the journal as a story from birth", () => {
     );
     let checked = 0;
     for (const line of lines) {
+      // The lines that tell this person's own spells. A line that only cites
+      // a spell because a time or cause link joins it to the line before
+      // (a partner's livelihood after "Nineteen years on,") tells another
+      // person's job, whose records are its own.
       const told = spells.filter((row) =>
-        line.sourceRecordIds.includes(row.id),
+        line.momentIds.some((momentId) => momentId.startsWith(`${row.id}:`)),
       );
       if (!told.length) continue;
       checked += 1;
@@ -127,11 +135,18 @@ describe("the journal as a story from birth", () => {
           const next = line.momentIds.includes(`${row.id}:job-ended:moved-on`)
             ? spells[spells.indexOf(row) + 1]
             : undefined;
+          // The job found again after time out of work names the one lost
+          // before it ("I hadn't had a paycheck since ...").
+          const lost = line.momentIds.includes(`${row.id}:job-started:again`)
+            ? spells[spells.indexOf(row) - 1]
+            : undefined;
           return [
             row.facts.organizationId,
             row.facts.jobId,
             next?.facts.organizationId,
             next?.facts.jobId,
+            lost?.facts.organizationId,
+            lost?.facts.jobId,
           ]
             .filter(Boolean)
             .map(String);
@@ -177,4 +192,171 @@ describe("the journal as a story from birth", () => {
   it("names no employer for the Haugan, Montana player's first job before the move", () => {
     expect(ownEmployersOnly("final-a:elsewhere:1")).toBeNull();
   }, 300_000);
+
+  /**
+   * Whether, over a played year in the place drawn from this seed, the
+   * player's Journal opens no chapter on someone else's filing or oath; a
+   * reason it holds no such case otherwise (nobody the player follows filed
+   * or took office).
+   */
+  const ownChaptersOnly = (drawSeed: string): string | null => {
+    const place = drawPlace(drawSeed, "journal-story");
+    const where = `seed ${drawSeed}, ${place.name} (${place.key})`;
+    const { core, director, playerId } = buildBenchWorld(
+      place.seed,
+      gameStartDate(),
+      { twoLevel: true, placeKey: place.key },
+    );
+    const id = playerId as PersonId;
+    director.watch(core, id);
+    advanceCore(core, addDays(makeIsoDate(core.date), 730));
+    const moments = director.ledger.people.get(id)?.moments ?? [];
+    const governing = (kind: string) =>
+      kind.startsWith("event:candidate-filed") ||
+      kind.startsWith("event:took-office");
+    const others = moments.filter(
+      (moment) => governing(moment.causeKind) && moment.selfNamed !== true,
+    );
+    if (!others.length)
+      return `${where}: no one else's filing or oath reached the player`;
+    const journal = composeJournal(core, director, id);
+    const told = others.filter((moment) =>
+      journal.some((chapter) =>
+        chapter.lines.some((line) => line.momentIds.includes(moment.id)),
+      ),
+    );
+    if (!told.length)
+      return `${where}: ${others.length} filings or oaths of others, none told`;
+    // Every chapter after the first opens on one of the player's own turns;
+    // another's filing or oath is told inside the chapter being lived.
+    const byId = new Map(moments.map((moment) => [moment.id, moment]));
+    for (const chapter of journal.slice(1)) {
+      const opened = byId.get(chapter.key);
+      if (!opened || !governing(opened.causeKind)) continue;
+      expect(
+        opened.selfNamed,
+        `${where}: chapter "${chapter.title}" opens on ${opened.causeId}`,
+      ).toBe(true);
+    }
+    // No chapter is titled with another person's name.
+    for (const chapter of journal) {
+      const named = [...core.people.values()].find(
+        (row) =>
+          row.id !== id &&
+          (chapter.title === `${row.givenName} ${row.familyName}` ||
+            chapter.title === row.givenName),
+      );
+      expect(
+        named?.id,
+        `${where}: chapter "${chapter.title}" opens on ${chapter.key}`,
+      ).toBeUndefined();
+    }
+    // Every line after the first follows the line before it by cause,
+    // feeling or time, citing the records that join them.
+    const lines = journal.flatMap((chapter) => chapter.lines);
+    const links = { cause: 0, feeling: 0, time: 0 };
+    const joined: string[] = [];
+    lines.forEach((line, at) => {
+      if (at === 0) {
+        expect(
+          line.link,
+          `${where}: the first line links back`,
+        ).toBeUndefined();
+        return;
+      }
+      const earlier = lines[at - 1]!;
+      expect(line.link?.earlierId, `${where}: ${line.id}`).toBe(earlier.id);
+      expect(
+        line.link!.recordIds.length,
+        `${where}: ${line.id}`,
+      ).toBeGreaterThan(0);
+      if (line.link!.by === "cause")
+        // A cause names records of both lines.
+        expect(
+          line.link!.recordIds.some((rid) =>
+            earlier.sourceRecordIds.includes(rid),
+          ) &&
+            line.link!.recordIds.some((rid) =>
+              line.sourceRecordIds.includes(rid),
+            ),
+          `${where}: ${line.id} after ${earlier.id}, ${line.link!.recordIds.join(", ")}`,
+        ).toBe(true);
+      // A line opens on how it follows the one before only for a cause or a
+      // month or more ("Because of that, ...", "Three months later, ...");
+      // the rest of the line is the event as told.
+      if (line.plain !== undefined) {
+        expect(["cause", "time"], `${where}: ${line.text}`).toContain(
+          line.link!.by,
+        );
+        expect(
+          line.text.toLowerCase().endsWith(line.plain.toLowerCase()),
+          `${where}: "${line.text}" ends on "${line.plain}"`,
+        ).toBe(true);
+        // A line that says its own time takes no other (journal-rows ownTime).
+        expect(line.plain, `${where}: ${line.text}`).not.toMatch(/^Today\b/);
+        joined.push(line.text);
+      }
+      links[line.link!.by] += 1;
+    });
+    // Another's turn told as what it meant, from the tie on record: a
+    // friend's as the friendship (never a mood word), a rival's with doubt.
+    const meant = (field: string) =>
+      (
+        journalBank as {
+          parts: { text: string; uses: { role?: string }[] }[];
+        }
+      ).parts
+        .filter((part) => part.uses.some((use) => use.role === field))
+        .map((part) => part.text);
+    const felt: string[] = [];
+    for (const moment of others) {
+      const line = lines.find((row) => row.momentIds.includes(moment.id));
+      if (!line) continue;
+      const otherId = moment.counterpartIds.find((pid) => pid !== id);
+      const side = otherId ? tieSide(core, id, otherId) : null;
+      for (const [field, want] of [
+        ["meantFriend", "friend"],
+        ["meantRival", "rival"],
+      ] as const)
+        if (meant(field).some((text) => line.text.endsWith(text))) {
+          expect(side?.side, `${where}: "${line.text}" on ${otherId}`).toBe(
+            want,
+          );
+          felt.push(line.text);
+        }
+    }
+    process.stdout.write(
+      `journal-story meant: ${where}; ${felt.length} others' turns told through the tie: ${felt
+        .slice(0, 3)
+        .map((text) => `"${text}"`)
+        .join(" ")}\n`,
+    );
+    const caused = lines
+      .filter((line) => line.link?.by === "cause")
+      .slice(0, 3);
+    process.stdout.write(
+      `journal-story links: ${where}; ${lines.length} lines, ${links.cause} by cause, ${links.feeling} by feeling, ${links.time} by time; joined: ${joined
+        .slice(0, 4)
+        .map((text) => `"${text}"`)
+        .join(
+          " ",
+        )}; ${caused.map((line) => `"${line.text}" follows ${line.link!.earlierId} by ${line.link!.recordIds.join(" + ")}`).join("; ")}\n`,
+    );
+    process.stdout.write(
+      `journal-story: ${where}; ${told.length} filings or oaths of others told inside chapters (${told.map((moment) => moment.causeId).join(", ")}): ${journal.map((chapter) => chapter.title).join(" | ")}\n`,
+    );
+    return null;
+  };
+
+  it("opens no chapter on someone else's filing or oath over two played years", () => {
+    const passed: string[] = [];
+    for (let draw = 0; draw < 3; draw += 1) {
+      const skipped = ownChaptersOnly(`${seed}:others:${draw}`);
+      if (!skipped) return;
+      passed.push(skipped);
+    }
+    throw new Error(
+      `No drawn place had another's filing or oath (seed ${seed}): ${passed.join("; ")}`,
+    );
+  }, 1_800_000);
 });

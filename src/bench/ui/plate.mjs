@@ -17,33 +17,6 @@ export function plate(title, ...content) {
 }
 
 /**
- * Small plates side by side, one per fact (Work, Home, School): its label,
- * the fact in bold, and a second line under it when there is one.
- * `facts`: [{ title?, value, note?, record? }].
- */
-export function factPlates(facts) {
-  return el(
-    "div",
-    { className: "fact-plates" },
-    ...facts.map((fact) => {
-      const node = el(
-        "div",
-        { className: "plate fact-plate" },
-        ...(fact.title
-          ? [el("span", { className: "label", textContent: fact.title })]
-          : []),
-        el("strong", { className: "fact-value", textContent: fact.value }),
-        ...(fact.note
-          ? [el("span", { className: "fact-note", textContent: fact.note })]
-          : []),
-      );
-      if (fact.record) node.dataset.record = fact.record;
-      return node;
-    }),
-  );
-}
-
-/**
  * Short words in rounded brass chips under a name (a party, what you share),
  * `words`: [{ text, record? }], each chip carrying the record it stands on.
  */
@@ -57,9 +30,4 @@ export function chips(words) {
       return chip;
     }),
   );
-}
-
-/** Plates side by side in one row, each as wide as the others (the Budget mock's three). */
-export function plateRow(...plates) {
-  return el("div", { className: "plate-row" }, ...plates);
 }

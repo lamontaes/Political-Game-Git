@@ -23,22 +23,10 @@ import {
 } from "../core2/modules/campaigns";
 import { electionResults } from "./results";
 import { seatAct, seatView } from "./legislature";
-import {
-  adjourn,
-  deskWaiting,
-  leaveDeskToCharacter,
-  meetingInProgress,
-  officeHost,
-  takeUpItem,
-  upcomingMeeting,
-} from "../core2/modules/office-day";
-import { colleagueDeal, officeView } from "./office";
+import { officeHost, upcomingMeeting } from "../core2/modules/office-day";
+import { colleagueDeal, leaveHoldsToCharacter, officeView } from "./office";
 import { officeActHandlers } from "../core2/office-day-acts";
-import {
-  actOn,
-  askLeaderForHearing,
-  waitingEntries,
-} from "../core2/office-day-state";
+import { askLeaderForHearing } from "../core2/office-day-state";
 import { reachedSteps } from "./reached";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { benchScene } from "./scene";
@@ -175,20 +163,12 @@ function liveUntil(date: string) {
     if (packet.kind === "stop") {
       // A meeting or the desk holds the clock: the player votes their own
       // bill and leaves the rest, and the desk, to the character.
-      const api = coreAPI(w.core);
-      const meeting = meetingInProgress(api);
-      if (meeting) {
-        for (const billId of meeting.agenda)
-          takeUpItem(api, meeting.id, billId, "own");
-        adjourn(api, meeting.id);
-      }
-      for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
       // A state legislator's own hearing or session day holds the clock too:
       // the character does it on their own choice.
-      const holderId = (packet as { controlledPersonId?: string })
-        .controlledPersonId;
-      if (holderId)
-        for (const entry of waitingEntries(api, holderId)) actOn(api, entry);
+      leaveHoldsToCharacter(
+        w.core,
+        (packet as { controlledPersonId?: string }).controlledPersonId,
+      );
       player.resume({ kind: "stop", pauseId: packet.pauseId });
     }
   }
@@ -208,18 +188,62 @@ if (w.core.date <= eighteenth) liveUntil(addDays(makeIsoDate(eighteenth), 1));
 const lives = new Set<string>([me]);
 const stillMe = () => lives.add(player.personId ?? me);
 
+/** Each candidate's share of the race's votes, the player's marked: how close the race was. */
+function shares(
+  result:
+    { readonly totals: Readonly<Record<string, number>> } | null | undefined,
+): string {
+  const totals = Object.entries(result?.totals ?? {});
+  const all = totals.reduce((n, [, v]) => n + v, 0);
+  if (!all) return "";
+  return ` (${totals
+    .sort((a, b) => b[1] - a[1])
+    .map(
+      ([id, v]) =>
+        `${id === me ? "player" : id} ${((100 * v) / all).toFixed(1)}%`,
+    )
+    .join(", ")})`;
+}
+
 /** Steps 3 to 5 once: file for a contest the player can enter, campaign, live to the election and read it. */
 function stand(): { held: boolean; takesOffice: string | null } {
   // Step 3: walk into the office that takes filings for a contest you can
   // enter, a council seat first where the place has one, an open seat first
   // of those (the golden path is a council race; owner, Oct 29: the player
   // runs for six offices).
-  const gov = governmentView(w.core, me);
-  const open = gov.contests.filter((c) => c.checks.every((k) => k.met));
-  const choice = chooseRace(open);
+  // A race takes filings only while its window is open (the clerk's answer,
+  // `playerMayFileFor`): with none open today, the character lives on a week
+  // at a time, up to two years, until one opens, as a player waits for it.
+  const enterableNow = () =>
+    chooseRace(
+      governmentView(w.core, me).contests.filter((c) =>
+        c.checks.every((k) => k.met),
+      ),
+    );
+  let choice = enterableNow();
+  const from = w.core.date;
+  for (let week = 0; week < 104 && !choice.race; week++) {
+    liveUntil(addDays(makeIsoDate(w.core.date), 7));
+    choice = enterableNow();
+  }
+  if (choice.race && w.core.date > from)
+    log.push(`no race open on ${from}; filing opened by ${w.core.date}`);
   const enterable = choice.race;
   if (!enterable) {
-    log.push("no contest the player can enter");
+    // What stood in the way, race by race: the checks the clerk's answer
+    // found unmet.
+    const unmet = governmentView(w.core, me)
+      .contests.map(
+        (c) =>
+          `${c.contest.id}: ${c.checks
+            .filter((k) => !k.met)
+            .map((k) => k.rule)
+            .join("+")}`,
+      )
+      .slice(0, 6);
+    log.push(
+      `no contest the player can enter by ${w.core.date} (${unmet.join("; ") || "no contests listed"})`,
+    );
     return { held: false, takesOffice: null };
   }
   log.push(choice.why);
@@ -275,7 +299,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
       if (
         !petition ||
         !petitionCirculating(api, filing.id) ||
-        petition.signers.length >= signaturesToGather(petition.needed)
+        petition.signed >= signaturesToGather(petition.needed)
       )
         break;
       liveUntil(addDays(makeIsoDate(w.core.date), 1));
@@ -285,7 +309,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
     if (petition) {
       liveUntil(addDays(makeIsoDate(petition.due), 1));
       log.push(
-        `petition: ${petition.signers.length} of ${petition.needed} signatures by ${petition.due}; the clerk's check: ${governmentView(w.core, me).filings.find((row) => row.id === filing.id)?.status ?? "none"}`,
+        `petition: ${petition.signed} of ${petition.needed} signatures by ${petition.due}; the clerk's check: ${governmentView(w.core, me).filings.find((row) => row.id === filing.id)?.status ?? "none"}`,
       );
     }
   }
@@ -348,7 +372,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
   const result = resultOf(coreAPI(w.core), enterable.contest.id);
   const won = result?.winnerId === me;
   log.push(
-    `election night ${day}: ${races.length} races, ${won ? "the player won" : "the player did not win"}`,
+    `election night ${day}: ${races.length} races, ${won ? "the player won" : "the player did not win"}${shares(result)}`,
   );
   stillMe();
   return { held: won, takesOffice: won ? (result?.takesOffice ?? null) : null };
@@ -368,8 +392,12 @@ for (let race = 0; race < 3 && !won; race++) {
       c.checks.every((k) => k.met),
     );
     const next = chooseRace(open).race;
-    if (!next) break;
-    log.push(`lost; trying ${next.contest.title}`);
+    // With none open today, the next stand waits for a window to open.
+    log.push(
+      next
+        ? `lost; trying ${next.contest.title}`
+        : "lost; waiting for the next race to open",
+    );
   }
 }
 

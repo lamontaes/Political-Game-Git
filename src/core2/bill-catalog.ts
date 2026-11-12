@@ -9,18 +9,21 @@
  * warning or block). `provisionFor` turns a pick and an operation into a bill
  * provision. Outcomes never appear in the drafting controls.
  */
+import type { GovernmentLevel } from "./government-level";
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 import type { CoreAPI } from "./types";
 import {
   authorityFor,
-  currentAmount,
+  beyondPower,
   type Authority,
   type Provision,
 } from "./modules/legislature";
+import { billLevelJurisdiction, billValueInForce } from "./modules/laws";
+import { policyAuthority } from "./modules/laws";
 
 export type Operation =
   "raise" | "lower" | "expand" | "restrict" | "enact" | "repeal";
-type Level = "federal" | "state" | "city";
+type Level = GovernmentLevel;
 
 interface CatalogPolicy {
   readonly id: string;
@@ -36,6 +39,8 @@ interface CatalogPolicy {
 
 export interface DraftablePolicy extends CatalogPolicy {
   readonly inForce: number | null;
+  readonly inForceRecordId: string | null;
+  readonly inForceUnit: string | null;
   readonly authority: Authority;
 }
 
@@ -63,6 +68,10 @@ const subjects = (
 export function billCatalog(
   api: CoreAPI,
   level: Level,
+  jurisdiction: string = billLevelJurisdiction(
+    api,
+    level === "county" ? "city" : level,
+  ),
 ): readonly CatalogMenu[] {
   return subjects.map((subject) => ({
     id: subject.id,
@@ -78,20 +87,34 @@ export function billCatalog(
             series: p.series,
             question: p.question,
             line: p.line,
+            unit: p.unit,
             value: 1,
           } as Provision;
+          const inForce = billValueInForce(api, provision, jurisdiction);
           return {
             ...p,
-            inForce: p.series ? currentAmount(api, p.series, level) : null,
+            inForce: inForce.value,
+            inForceRecordId: inForce.recordId,
+            inForceUnit: inForce.unit,
+            // The same check for every body, as the draft makes it: a policy
+            // question reads the power catalog and the state's laws at this
+            // level, an amount its series' levels, and only a town needs the
+            // state's grant of authority.
             authority:
-              level === "city"
-                ? authorityFor(api, provision)
-                : {
-                    allowed: true,
-                    warning: "none" as const,
-                    reason: "within-own-power" as const,
-                    source: "",
-                  },
+              level === "city" || level === "county"
+                ? level === "county" &&
+                  p.kind === "policy-question" &&
+                  p.question
+                  ? policyAuthority(api, p.question, "county")
+                  : authorityFor(api, provision)
+                : p.kind === "policy-question" && p.question
+                  ? policyAuthority(api, p.question, level)
+                  : (beyondPower(provision, level) ?? {
+                      allowed: true,
+                      warning: "none" as const,
+                      reason: "within-own-power" as const,
+                      source: "",
+                    }),
           };
         }),
     })),

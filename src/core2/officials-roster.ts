@@ -11,14 +11,10 @@
  * member's district as members really are.
  */
 import officialsData from "./data/officials/officials.json" with { type: "json" };
-import axesJson from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
 import { partySide } from "./appointments";
-import {
-  PLATFORM_QUESTIONS,
-  personStance,
-  publicOffset,
-} from "./campaign-views";
+import { personStance, publicOffset } from "./campaign-views";
+import { axisOf, PLATFORM_QUESTIONS } from "./campaign-data";
 
 interface Spread {
   readonly mean: number;
@@ -71,7 +67,6 @@ export const OFFICIALS_DATA = officialsData as unknown as {
   ambitionTraits: { perEnterprising: number; perRisk: number };
   visibility: Record<string, number>;
   leadership: { roles: readonly string[] };
-  stateSample: { perChamber: number };
   colleagues: { hoursPerSharedYear: Weight; maxYears: Weight };
   tier: string;
   candidacy: {
@@ -289,21 +284,17 @@ export function supportAt(
   return personStance(lean, question) + publicOffset(question, seed);
 }
 
-const adopted = (
-  axesJson as unknown as {
-    axes: Record<string, { axis: number; yesShare: number }>;
-  }
-).axes;
-
 /**
  * How strongly a member at a lean supports a question's "yes": their lean
  * along the question's axis plus how widely legislatures have already made
- * it law (the share of states with it, `issue-axes-2026.json`), the elite
- * consensus members answer to, where voters answer to the polls
+ * it law (the share of states with it, `issue-axes-2026.json`; for a
+ * question only federal law answers, the share of members who voted its yes
+ * on the roll call `federal-issue-axes-2026.json` cites), the elite consensus
+ * members answer to, where voters answer to the polls
  * (`supportAt`). A budget line has no such record and reads by lean alone.
  */
 export function memberSupportAt(lean: number, question: string): number {
-  const row = adopted[question];
+  const row = axisOf[question];
   return (
     personStance(lean, question) +
     (row ? Math.abs(row.axis) * (2 * row.yesShare - 1) : 0)

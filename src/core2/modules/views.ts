@@ -20,10 +20,10 @@
  *
  * Views form when first read, so a person filled in later gets theirs too.
  */
+import { isDemoted } from "../counted-groups";
 import { stableHash, pairKey } from "../kernel/ids";
 import { livedQuestion } from "../outcome-news";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
-import { corePlaceByJurisdictionId } from "../place-lookup";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import {
   personStance,
@@ -31,11 +31,11 @@ import {
   type StanceProfile,
 } from "../campaign-views";
 import { currentCloseness } from "../closeness";
-import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import drivesJson from "../data/drives.json" with { type: "json" };
 import type {
   CoreAPI,
+  CoreEventInput,
   CoreModule,
   CoreState,
   PersonId,
@@ -47,45 +47,10 @@ import {
   reportOutcome,
 } from "../trait-decisions";
 import { keepsWhy } from "../why-kept";
+import { placeStateKey } from "../place-map";
+import { registerStanceListener, stanceMoved } from "../stance-listeners";
+import { VIEWS_KEYS, type CellKey } from "../views-keys";
 
-interface CellKey {
-  n: number;
-  mean: number;
-  sd: number;
-  engagement?: number;
-  shares?: Readonly<Record<string, number>>;
-}
-interface StateKey extends CellKey {
-  byAge: Readonly<Record<string, CellKey>>;
-  educationShares: Readonly<
-    Record<string, Readonly<Record<string, number>> | null>
-  >;
-  faithShares: Readonly<
-    Record<string, Readonly<Record<string, number>> | null>
-  >;
-}
-export const VIEWS_KEYS = keysJson as unknown as {
-  version: string;
-  source: { citation: string };
-  ageBands: readonly string[];
-  national: CellKey;
-  states: Readonly<Record<string, StateKey>>;
-  counties: Readonly<Record<string, CellKey>>;
-  nationalEducationShares: Readonly<
-    Record<string, Readonly<Record<string, number>>>
-  >;
-  nationalFaithShares: Readonly<
-    Record<string, Readonly<Record<string, number>>>
-  >;
-  profileShift: Readonly<
-    Record<
-      string,
-      Readonly<
-        Record<string, Readonly<Record<string, { n: number; shift: number }>>>
-      >
-    >
-  >;
-};
 export const VIEWS_DATA = viewsJson as {
   version: string;
   stopgapId: string;
@@ -121,6 +86,8 @@ const DRIVE_ACTS = new Set<string>([
 ]);
 /** The fact an event that makes a case carries: who made it. */
 export const VIEWS_SPEAKER_KEY = "views:speaker";
+/** A speaker still in the wider population: their lean, from their counted record (they have no view row). */
+export const VIEWS_SPEAKER_LEAN_KEY = "views:speakerLean";
 /** The parties and record engines' tables, read by id (they import this one). */
 const PARTIES_STORE = "core2-parties-v1";
 const RECORD_STORE = "core2-record-v1";
@@ -219,13 +186,7 @@ function normal(key: string): number {
   );
 }
 
-function stateOf(person: Pick<PersonState, "placeId">): string | null {
-  const place = corePlaceByJurisdictionId(person.placeId as never);
-  const key = place?.stateJurisdictionKey;
-  return key ? key.slice(key.lastIndexOf("-") + v("one")) : null;
-}
-
-function ageBand(age: number): string {
+export function ageBand(age: number): string {
   for (const band of VIEWS_KEYS.ageBands) {
     const [low, high] = band.split("-");
     if (age >= Number(low) && (high === "plus" || age <= Number(high)))
@@ -240,7 +201,7 @@ export function viewCell(
   date: string,
   seed: string,
 ): { cell: CellKey; shares: Readonly<Record<string, number>>; basis: string } {
-  const state = stateOf(person);
+  const state = placeStateKey(person.placeId)?.slice("US-".length) ?? null;
   const age = ageOnDate(person.birthDate, date);
   const band = ageBand(age);
   const row = state ? VIEWS_KEYS.states[state] : undefined;
@@ -356,7 +317,7 @@ function profileFromAverage(
   const faith = fact(PROFILE_FACT_KINDS.faith, "group") ?? profile?.faith;
   if (!educ || !faith || !FAITH_IMPORTANCE[faith]) return {};
   const band = ageBand(ageOnDate(person.birthDate, date));
-  const state = stateOf(person);
+  const state = placeStateKey(person.placeId)?.slice("US-".length) ?? null;
   const row = state ? VIEWS_KEYS.states[state] : undefined;
   const educShares =
     row?.educationShares[band] ?? VIEWS_KEYS.nationalEducationShares[band];
@@ -483,26 +444,45 @@ function direction(desiredChange: string): number {
  * how the speaker has voted on the question before (half with no record).
  * Each part slides; the weights are the views table's.
  */
+/** The lean an event carries for a speaker still in the wider population, if it names one. */
+export function speakerLeanOf(event: {
+  readonly facts?: Readonly<Record<string, unknown>>;
+}): number | undefined {
+  const lean = event.facts?.[VIEWS_SPEAKER_LEAN_KEY];
+  return typeof lean === "string" &&
+    lean !== "" &&
+    Number.isFinite(Number(lean))
+    ? Number(lean)
+    : undefined;
+}
+
 export function standingWith(
   api: CoreAPI,
-  listener: PersonView,
+  listener: Pick<PersonView, "id" | "lean">,
   speakerId: string,
   topic: string,
   desiredChange: string,
+  countedHearer?: Pick<PersonState, "traits">,
+  /** The speaker's lean where they are still in the wider population (no view row of their own). */
+  countedSpeakerLean?: number,
+  /** A group of hearers' mean closeness to the speaker, in place of one listener's tie (`hearAsGroups`). */
+  groupCloseness?: number,
 ): number {
   const speaker = viewOf(api, speakerId);
   const half = v("one") / v("two");
-  const nearTrust = speaker
-    ? Math.max(
-        v("zero"),
-        v("one") -
-          Math.abs(listener.lean - speaker.lean) /
-            (v("leanMax") - v("leanMin")),
-      )
-    : half;
+  const speakerLean = speaker?.lean ?? countedSpeakerLean;
+  const nearTrust =
+    speakerLean !== undefined
+      ? Math.max(
+          v("zero"),
+          v("one") -
+            Math.abs(listener.lean - speakerLean) /
+              (v("leanMax") - v("leanMin")),
+        )
+      : half;
   // How far the listener trusts anyone follows their own traits (generalized
   // trust: agreeableness), at the weight fitted to its study.
-  const hearer = api.state.people.get(listener.id);
+  const hearer = countedHearer ?? api.state.people.get(listener.id);
   let trust = nearTrust;
   if (hearer) {
     const lean = decisionLean(
@@ -518,12 +498,16 @@ export function standingWith(
         Math.exp(decisionTraitWeight(api.state, "views.trust") * lean),
     );
     // The audit's probe (off in play) sees the trust with and without the trait term.
-    reportOutcome("views.trust", hearer.id, lean, "size", (withTerm) =>
+    reportOutcome("views.trust", listener.id, lean, "size", (withTerm) =>
       withTerm ? trust : nearTrust,
     );
   }
-  const tie = api.state.relationships.get(pairKey(listener.id, speakerId));
-  const closeness = tie ? currentCloseness(api.state, tie) : v("zero");
+  const tie =
+    groupCloseness === undefined
+      ? api.state.relationships.get(pairKey(listener.id, speakerId))
+      : undefined;
+  const closeness =
+    groupCloseness ?? (tie ? currentCloseness(api.state, tie) : v("zero"));
   const partyOf = (id: string) =>
     api.state.modules.has(PARTIES_STORE)
       ? ((
@@ -576,6 +560,30 @@ export function stanceOn(
   if (!api.state.modules.has(VIEWS_MODULE_ID)) return v("zero");
   const stance = stancesTable(api).get(`${personId}:${question}`) as unknown as
     Stance | undefined;
+  return (
+    (stance ? direction(stance.desiredChange) * stance.strength : v("zero")) +
+    groupShift(api, personId, question)
+  );
+}
+
+/**
+ * The shift a person took as one of a group of like hearers nobody watches
+ * (`hearAsGroups`, owner's level of detail, Nov 9): the group's stance on the
+ * question, read by the group the person was first heard in. Zero for anyone
+ * never heard as a group. One row read for the membership, one for the stance.
+ */
+export function groupShift(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+): number {
+  const state = api.moduleState(VIEWS_MODULE_ID);
+  const member = state.table("groupHearers").get(personId) as unknown as
+    { groupId: string } | undefined;
+  if (!member) return v("zero");
+  const stance = state
+    .table("groupStances")
+    .get(`${member.groupId}:${question}`) as unknown as Stance | undefined;
   return stance ? direction(stance.desiredChange) * stance.strength : v("zero");
 }
 
@@ -734,16 +742,9 @@ export function agreementWith(
   return Math.max(-v("one"), Math.min(v("one"), sum / platform.length));
 }
 
-type StanceListener = (api: CoreAPI, personId: PersonId, topic: string) => void;
-const stanceListeners: StanceListener[] = [];
-
-/**
- * Engines that act on the day a stance moves (interest-group membership
- * follows the view) register here; each is called after the move is stored.
- */
-export function registerStanceListener(listener: StanceListener): void {
-  if (!stanceListeners.includes(listener)) stanceListeners.push(listener);
-}
+// Engines that act on the day a stance moves register in a file of their own
+// (../stance-listeners), so registering while they load never waits on this one.
+export { registerStanceListener, VIEWS_KEYS };
 
 export function stancesOf(api: CoreAPI, personId: PersonId): Stance[] {
   return stancesTable(api).query("byPerson", [personId]) as unknown as Stance[];
@@ -766,12 +767,142 @@ export function stanceRow(
     : undefined;
 }
 
+/** One heard case, applied by the same rule to a person or a counted group. */
+export interface HeardCase {
+  readonly view: Pick<PersonView, "id" | "engagement">;
+  readonly hearer?: Pick<PersonState, "traits">;
+  readonly prior?: Stance;
+  readonly event: Pick<CoreEventInput, "id" | "date">;
+  readonly topic: string;
+  readonly desiredChange: string;
+  readonly size: number;
+  readonly nearness: number;
+  readonly speakerId?: string;
+  readonly learnedFrom?: string;
+  readonly keepCauses: boolean;
+  /** Counted audience mass / represented population; full readers use one. */
+  readonly exposure?: number;
+}
+
+export function stanceAfterCase(
+  api: CoreAPI,
+  heardCase: HeardCase,
+): Stance | undefined {
+  const {
+    view,
+    hearer,
+    prior,
+    event,
+    topic,
+    desiredChange,
+    size,
+    nearness,
+    speakerId,
+    learnedFrom,
+    keepCauses,
+    exposure = 1,
+  } = heardCase;
+  const personId = view.id;
+  const id = `${personId}:${topic}`;
+  const heard = speakerId
+    ? (prior?.heard?.[speakerId] ?? v("zero"))
+    : v("zero");
+  const since = addDays(makeIsoDate(event.date), -v("stanceCauseKeptDays"));
+  // How far this hearer lets an argument or a story move them follows
+  // their own traits (openness and agreeableness toward yielding), at the
+  // weight fitted to its study.
+  // A multiplier, never zero: the most resistant hearer still moves a little.
+  const yieldLean = hearer
+    ? decisionLean(api.state, hearer, "views.persuasion", "yield", "resist")
+    : v("zero");
+  const yielding = hearer
+    ? Math.exp(decisionTraitWeight(api.state, "views.persuasion") * yieldLean)
+    : v("one");
+  const change =
+    (v("stanceStep") *
+      size *
+      nearness *
+      yielding *
+      (v("one") - v("tightness") * view.engagement)) /
+    (v("one") + v("repeatWearOut") * heard);
+  // The audit's probe (off in play) sees the move with and without the trait term.
+  if (hearer)
+    reportOutcome(
+      "views.persuasion",
+      personId,
+      yieldLean,
+      "size",
+      (withTerm) => (withTerm ? change : change / yielding),
+    );
+  if (change <= v("zero") || exposure <= v("zero")) return undefined;
+  const same = prior?.desiredChange === desiredChange;
+  const fullStrength = Math.min(
+    v("one"),
+    prior ? (same ? prior.strength + change : prior.strength - change) : change,
+  );
+  // An audience count changes the group's mean, without choosing a member.
+  // Mix the reached and unreached masses after the full reader's capped move.
+  const signedBefore = prior ? (same ? prior.strength : -prior.strength) : 0;
+  const signedAfter = prior && !same ? -fullStrength : fullStrength;
+  const signedMean =
+    exposure === 1
+      ? signedAfter
+      : signedBefore + (signedAfter - signedBefore) * exposure;
+  const strength = Math.abs(signedMean);
+  return {
+    id,
+    personId,
+    topic,
+    // A stance pushed past zero turns toward the new change.
+    desiredChange:
+      prior && !same && signedMean < v("zero")
+        ? prior.desiredChange
+        : desiredChange,
+    strength: Math.abs(strength),
+    // The player's circle (and everyone, under the keep-everyone's-why switch) keeps
+    // why the stance is what it is: one cause per source, the speaker and
+    // the record they learned it from, holding that source's latest event
+    // and how often and how much it has moved the stance. A source
+    // heard from every day is one row, so the list is as long as the
+    // number of distinct sources heard in the last stanceCauseKeptDays,
+    // never the number of events. For anyone
+    // else only the latest (the speech that just moved them), since the
+    // wear-out reads `heard`.
+    causes: withCause(
+      keepCauses ? (prior?.causes ?? []) : [],
+      {
+        eventId: event.id,
+        date: event.date,
+        change: change * exposure,
+        ...(speakerId ? { speakerId } : {}),
+        ...(learnedFrom ? { learnedFrom } : {}),
+      },
+      since,
+    ),
+    ...(speakerId || prior?.heard
+      ? {
+          heard: {
+            ...prior?.heard,
+            ...(speakerId ? { [speakerId]: heard + exposure } : {}),
+          },
+        }
+      : {}),
+  };
+}
+
 export const viewsModule: CoreModule = {
   id: VIEWS_MODULE_ID,
   state: {
     schemaVersion: 1,
     tables: {
       people: {},
+      countedStances: { indexes: { byGroup: { fields: ["groupId"] } } },
+      /** Groups of like full hearers nobody watches, and their member counts (`hearAsGroups`). */
+      hearerGroups: {},
+      /** Which hearer group each unwatched full person was first heard in. */
+      groupHearers: { indexes: { byGroup: { fields: ["groupId"] } } },
+      /** Each hearer group's stance by topic: the mean of its members' shifts. */
+      groupStances: { indexes: { byGroup: { fields: ["groupId"] } } },
       openings: { indexes: { byPerson: { fields: ["personId"] } } },
       stances: {
         indexes: {
@@ -798,9 +929,14 @@ export const viewsModule: CoreModule = {
       Math.abs(event.moodImpulse ?? v("zero")) +
       Math.max(v("zero"), event.stressImpulse ?? v("zero"));
     const size = impulse > v("zero") ? impulse : v("one");
-    // A circle stance keeps the sources heard since this day, and the newest.
-    const since = addDays(makeIsoDate(event.date), -v("stanceCauseKeptDays"));
     for (const personId of learnedBy) {
+      // Someone back in the counts holds no stance of their own while
+      // counted (two-level rule, Oct 11): their group's record speaks for
+      // them, and meeting them again fills them in from it. Writing theirs
+      // left more stance rows for them than for full people by year 3
+      // (Montpelier, Vermont, Nov 9: 21,093 against 12,880).
+      const hearer = api.state.people.get(personId);
+      if (hearer && isDemoted(hearer)) continue;
       const view = viewOf(api, personId);
       if (!view) continue;
       let desiredChange = event.desiredChange;
@@ -842,95 +978,40 @@ export const viewsModule: CoreModule = {
       )
         continue;
       const nearness = speakerId
-        ? standingWith(api, view, speakerId, topic, desiredChange)
-        : v("one");
-      // The same case from the same speaker again persuades less each time.
-      const heard = speakerId
-        ? (prior?.heard?.[speakerId] ?? v("zero"))
-        : v("zero");
-      // How far this hearer lets an argument or a story move them follows
-      // their own traits (openness and agreeableness toward yielding), at the
-      // weight fitted to its study.
-      const hearer = api.state.people.get(personId);
-      // A multiplier, never zero: the most resistant hearer still moves a little.
-      const yieldLean = hearer
-        ? decisionLean(api.state, hearer, "views.persuasion", "yield", "resist")
-        : v("zero");
-      const yielding = hearer
-        ? Math.exp(
-            decisionTraitWeight(api.state, "views.persuasion") * yieldLean,
+        ? standingWith(
+            api,
+            view,
+            speakerId,
+            topic,
+            desiredChange,
+            undefined,
+            speakerLeanOf(event),
           )
         : v("one");
-      const change =
-        (v("stanceStep") *
-          size *
-          nearness *
-          yielding *
-          (v("one") - v("tightness") * view.engagement)) /
-        (v("one") + v("repeatWearOut") * heard);
-      // The audit's probe (off in play) sees the move with and without the trait term.
-      if (hearer)
-        reportOutcome(
-          "views.persuasion",
-          personId,
-          yieldLean,
-          "size",
-          (withTerm) => (withTerm ? change : change / yielding),
-        );
-      if (change <= v("zero")) continue;
-      const same = prior?.desiredChange === desiredChange;
-      const strength = Math.min(
-        v("one"),
-        prior
-          ? same
-            ? prior.strength + change
-            : prior.strength - change
-          : change,
-      );
-      const stance: Stance = {
-        id,
-        personId,
+      const stance = stanceAfterCase(api, {
+        view,
+        hearer: api.state.people.get(personId),
+        prior,
+        event,
         topic,
-        // A stance pushed past zero turns toward the new change.
-        desiredChange:
-          prior && !same && strength > v("zero")
-            ? prior.desiredChange
-            : desiredChange,
-        strength: Math.abs(strength),
-        // The player's circle (and everyone, under the keep-everyone's-why switch) keeps
-        // why the stance is what it is: one cause per source, the speaker and
-        // the record they learned it from, holding that source's latest event
-        // and how often and how much it has moved the stance. A source
-        // heard from every day is one row, so the list is as long as the
-        // number of distinct sources heard in the last stanceCauseKeptDays,
-        // never the number of events. For anyone
-        // else only the latest (the speech that just moved them), since the
-        // wear-out reads `heard`.
-        causes: withCause(
-          keepsWhy(api.state as CoreState, personId)
-            ? (prior?.causes ?? [])
-            : [],
-          {
-            eventId: event.id,
-            date: event.date,
-            change,
-            ...(speakerId ? { speakerId } : {}),
-            ...(learnedFrom ? { learnedFrom } : {}),
-          },
-          since,
-        ),
-        ...(speakerId || prior?.heard
-          ? {
-              heard: {
-                ...prior?.heard,
-                ...(speakerId ? { [speakerId]: heard + v("one") } : {}),
-              },
-            }
-          : {}),
-      };
+        desiredChange,
+        size,
+        nearness,
+        speakerId,
+        learnedFrom,
+        keepCauses: keepsWhy(api.state as CoreState, personId),
+      });
+      if (!stance) continue;
       // Built fresh here and never touched again: frozen in place, not copied.
       stancesTable(api).putOwned(stance as unknown as { id: string });
-      for (const listener of stanceListeners) listener(api, personId, topic);
+      stanceMoved(api, personId, topic);
     }
   },
 };
+
+export {
+  countedNewsGroups,
+  countedNewsConcern,
+  hearCountedNews,
+  type CountedNewsAudience,
+} from "../counted-news-views";

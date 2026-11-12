@@ -1,0 +1,40 @@
+Melvina, Wisconsin (key 5550800, seed confirmer-speed-1): built in 4.5 s
+year 1: 27.3 s, through 2026-01-20; heap 611 MB, process 1567 MB; 167235 records, the most in core2-offices-v1.terms 21294, core2-record-v1.votes 14382, core.durableLog 7948
+year 2: 56.7 s, through 2027-01-20; heap 815 MB, process 1759 MB; 316094 records, the most in core2-offices-v1.terms 27778, core.durableLog 27557, core2-record-v1.votes 24096
+year 3: 43.9 s, through 2028-01-20; heap 933 MB, process 1889 MB; 437261 records, the most in core2-campaigns-v1.causes 51120, core2-record-v1.votes 34115, core.durableLog 33542
+year 4: 73.1 s, through 2029-01-19; heap 1056 MB, process 2118 MB; 509268 records, the most in core2-record-v1.votes 44130, core2-voting-v1.places 41040, core.durableLog 39799
+
+Haleyville, Alabama (key 0132704, seed ab5f58e9be125c95): built in 13.3 s
+year 1: 74.3 s, through 2026-01-20; heap 836 MB, process 2453 MB; 305339 records, the most in core2-campaigns-v1.causes 28245, core.durableLog 21189, core2-offices-v1.terms 20951
+year 2: 172 s, through 2027-01-20; heap 1285 MB, process 2751 MB; 514508 records, the most in core.durableLog 61009, core2-campaigns-v1.foldedCauses 47017, core2-offices-v1.terms 27429
+year 3: 138.3 s, through 2028-01-20; heap 1573 MB, process 5188 MB; 740514 records, the most in core.durableLog 78453, core2-campaigns-v1.causes 70257, core2-campaigns-v1.foldedCauses 47017
+year 4: 305.1 s, through 2029-01-19; heap 2030 MB, process 5240 MB; 931298 records, the most in core2-campaigns-v1.foldedCauses 121244, core.durableLog 96009, core.relationships 42585
+
+Murray, Nebraska (key 3133425, seed 1d3f0e18ca4ba7e5): built in 7.2 s
+year 1: 43.4 s, through 2026-01-20; heap 625 MB, process 1566 MB; 167610 records, the most in core2-offices-v1.terms 21042, core2-record-v1.votes 10177, core2-offices-v1.seats 7908
+year 2: 112.5 s, through 2027-01-20; heap 941 MB, process 1904 MB; 353530 records, the most in core.durableLog 39344, core2-offices-v1.terms 27520, core2-campaigns-v1.foldedCauses 24077
+year 3: 64.3 s, through 2028-01-20; heap 1080 MB, process 2178 MB; 451731 records, the most in core.durableLog 47083, core2-offices-v1.terms 28126, core2-voting-v1.places 26098
+year 4: 124.1 s, through 2029-01-19; heap 1323 MB, process 3035 MB; 588238 records, the most in core.durableLog 61523, core2-campaigns-v1.foldedCauses 56661, core2-voting-v1.places 40977
+
+Meadow Lakes, Alaska (key 0247735, seed f835dd278d7312a1): built in 22.1 s
+year 1: 130.2 s, through 2026-01-20; heap 944 MB, process 3516 MB; 320400 records, the most in news.heard 27334, core2-coverage-v1.medicalBills 25517, core2-law-effects-v1.applied 22856
+year 2: 250.2 s, through 2027-01-20; heap 1464 MB, process 5331 MB; 588320 records, the most in core.durableLog 63424, core.relationships 31987, core2-coverage-v1.medicalBills 27559
+year 3: 249.2 s, through 2028-01-20; heap 1898 MB, process 5373 MB; 860640 records, the most in core.durableLog 82838, core.relationships 59734, core2-campaigns-v1.foldedCauses 55210
+year 4: 579.6 s, through 2029-01-19; heap 2941 MB, process 6267 MB; 1378775 records, the most in core2-campaigns-v1.foldedCauses 229216, core.durableLog 146037, core.relationships 103498
+
+Brookside, Delaware (key 1009850, seed 4d50e1f88df997f9): built in 28.2 s
+year 1: 116.3 s, through 2026-01-20; heap 945 MB, process 3545 MB; 327225 records, the most in core2-law-effects-v1.applied 33860, news.heard 31217, core2-coverage-v1.medicalBills 29901
+year 2: 213.8 s, through 2027-01-20; heap 1345 MB, process 4424 MB; 531327 records, the most in core.relationships 38913, core2-law-effects-v1.applied 37974, core2-coverage-v1.medicalBills 31767
+year 3: 203.6 s, through 2028-01-20; heap 1736 MB, process 5196 MB; 780887 records, the most in news.heard 63999, core.durableLog 59311, core.relationships 49773
+year 4: 755.5 s, through 2029-01-19; heap 3729 MB, process 6924 MB; 1686186 records, the most in core2-campaigns-v1.foldedCauses 297449, core.durableLog 225875, core.relationships 168788
+
+Storrs, Connecticut (key 0973980, seed storrs-1): built in 23.8 s
+year 1: 92.4 s, through 2026-01-20; heap 911 MB, process 3476 MB; 266337 records, the most in core2-coverage-v1.medicalBills 33072, core2-law-effects-v1.applied 32056, core2-offices-v1.terms 21463
+year 2: 124.8 s, through 2027-01-20; heap 1107 MB, process 3517 MB; 395132 records, the most in core2-coverage-v1.medicalBills 34900, core2-law-effects-v1.applied 34193, core2-offices-v1.terms 27932
+year 3: 109.2 s, through 2028-01-20; heap 1213 MB, process 4726 MB; 479974 records, the most in core2-coverage-v1.medicalBills 36701, core2-law-effects-v1.applied 36388, core2-record-v1.votes 31454
+year 4: 142.7 s, through 2029-01-19; heap 1403 MB, process 4905 MB; 617478 records, the most in core2-law-effects-v1.applied 48182, core2-voting-v1.places 40984, core2-record-v1.votes 38965
+
+Washington, District of Columbia (key 1150000, seed dc-closures-a): built in 27.6 s
+year 1: 130.6 s, through 2026-01-20; heap 968 MB, process 3911 MB; 327187 records, the most in core2-law-effects-v1.applied 49746, core2-coverage-v1.medicalBills 33909, core2-offices-v1.terms 20988
+year 2: 165.8 s, through 2027-01-20; heap 1183 MB, process 4727 MB; 466553 records, the most in core2-law-effects-v1.applied 53623, core2-coverage-v1.medicalBills 36530, core2-offices-v1.terms 27444
+

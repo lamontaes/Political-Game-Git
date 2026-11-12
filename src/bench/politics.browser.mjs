@@ -62,7 +62,7 @@ try {
     .locator('[data-tab="politics"]')
     .first()
     .evaluate((e) => e.click());
-  // Politics → Government is the Oct 14 mock (owner, Oct 29): a body's room,
+  // Politics → Government is a real game menu (owner, Oct 29): a body's room,
   // its party split, member cards, recent votes, coming up, the executive;
   // one fixed panel that never scrolls as a page.
   await page.locator(".split-screen").waitFor();
@@ -140,7 +140,7 @@ try {
       .count(),
     government?.ofVotingAge ? 1 : 0,
   );
-  for (const tab of ["Campaigns", "Parties", "Issues"]) {
+  for (const tab of ["Elections", "Parties", "Issues"]) {
     await page
       .locator("#sheet-tabs")
       .getByRole("button", { name: tab, exact: true })
@@ -152,7 +152,10 @@ try {
     // Issues is law cards by subject (owner, Oct 24): a card opens its law.
     if (tab === "Issues") {
       const before = await page.locator("#sheet-body").innerText();
-      await page.locator("#sheet-body [data-series]").first().click();
+      // The first law is already open beside the list; another subject filters it to others.
+      await page
+        .locator("#sheet-body select.issue-filter")
+        .selectOption({ index: 1 });
       await page.waitForFunction(
         (text) => document.getElementById("sheet-body").innerText !== text,
         before,

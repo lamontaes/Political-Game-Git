@@ -9,8 +9,6 @@ import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { coreAPI } from "../core2/state";
-import { votesOn } from "../core2/modules/legislature";
 import { findRecord, traceNode } from "./dev-trace";
 import { whyPanels } from "./dev-why";
 import { DevMode } from "./dev-mode";
@@ -27,7 +25,14 @@ describe(`dev why panels: ${world.place.displayName} (seed ${seed})`, () => {
     const worker = [...core.people.values()].find(
       (p) => p.alive && p.jobId && core.cashJournal.detailedByOwner.has(p.id),
     );
-    const followed = worker ?? [...core.people.values()].find((p) => p.alive)!;
+    // With no itemized worker, someone nobody follows (the player and anyone
+    // in focus are followed, and say so in other words).
+    const followed =
+      worker ??
+      [...core.people.values()].find(
+        (p) =>
+          p.alive && p.id !== core.playerId && !core.focusPersonIds.has(p.id),
+      )!;
     const [ledger] = why(followed.id);
     expect(ledger!.title).toContain(core.date);
     expect(ledger!.rows.map((r) => r.label)).toEqual(
@@ -72,6 +77,12 @@ describe(`dev why panels: ${world.place.displayName} (seed ${seed})`, () => {
     );
     expect(empty!.rows).toEqual([]);
     expect(empty!.gap, where).toContain("No act of this person has been kept");
+    // Nor is any payment itemized yet, and the ledger says so in words; a
+    // person nobody follows is never itemized.
+    const [ledger] = why(first.id);
+    expect(core.cashJournal.detailedByOwner.has(first.id), where).toBe(false);
+    expect(ledger!.gap, where).toBe("No itemized payments in the last year.");
+    expect(why(unfollowed.id)[0]!.gap, where).toContain("not itemized");
 
     // Thirty-five days: the oldest acts have condensed to the chosen option's reasons.
     advanceCore(core, addDays(makeIsoDate(core.date), 35));
@@ -168,38 +179,6 @@ describe(`dev why panels: ${world.place.displayName} (seed ${seed})`, () => {
       circle,
     );
   });
-
-  it("a vote lists each member's recorded reasons and the sum", () => {
-    const api = coreAPI(core);
-    let bill: string | undefined;
-    for (let step = 0; step < 6 && !bill; step++) {
-      for (const row of api
-        .moduleState("core2-legislature-v1")
-        .table("bills")
-        .rows() as unknown as { id: string }[])
-        if (votesOn(api, row.id).length) {
-          bill = row.id;
-          break;
-        }
-      if (!bill) advanceCore(core, addDays(makeIsoDate(core.date), 90));
-    }
-    expect(bill, "a bill was voted within 21 months").toBeDefined();
-    const panels = why(bill!);
-    const everyone = panels.at(-1)!;
-    expect(everyone.rows.length).toBe(votesOn(api, bill!).length);
-    expect(everyone.rows[0]!.value).toMatch(/total .*:/);
-    // One member's own panel carries each reason and the total.
-    const vote = votesOn(api, bill!)[0]!;
-    const own = why(`vote:${bill}:${vote.memberId}`)[0]!;
-    expect(own.rows.at(-1)!.label).toContain("total");
-    expect(own.rows.at(-1)!.value).toBe(
-      Math.round(vote.position.total * 1000) / 1000,
-    );
-    // The trace node carries the same panels.
-    expect(traceNode(core, world.director, bill!).why.length).toBe(
-      panels.length,
-    );
-  }, 240_000);
 
   it("a business shows its books, and a closing its recorded reason", () => {
     const [orgId] = [...core.finance.businesses.keys()];

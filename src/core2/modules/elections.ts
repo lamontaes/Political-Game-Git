@@ -17,13 +17,17 @@
  * charged. The filing becomes a record; an unmet rule comes back as
  * structured reasons the English engine words.
  */
+import { bookkeeping } from "../bookkeeping";
 import { registerElectorate } from "../electorate";
 import {
   recordTermLimitFiling,
   termLimitReached,
 } from "../law-reach/group-a-voting";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
+
+/** The parties module's id and readers, for readers outside the elections family (the director's party veterans, a first meeting's shared party) to take from the family's entry. */
+export { PARTIES_MODULE_ID, partiesHere, partyTie };
 import { partyName } from "../appointments";
 import fallbackData from "../data/elections/filing-fallbacks.json" with { type: "json" };
 import playerOffices from "../data/offices/player-offices.json" with { type: "json" };
@@ -34,8 +38,13 @@ import filingOffice from "../../../data/research/elections/filing-office.json" w
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
 import {
+  corePlaceByJurisdictionId,
+  corePlaceByKey,
+  coreStateName,
+} from "../place-lookup";
+import {
+  electionsParameter,
   municipalFilingDeadline,
   nextElectionForSeat,
   officeFamily,
@@ -43,8 +52,11 @@ import {
   type ElectionDates,
   type OfficeFamily,
 } from "../elections-calendar";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { FILING_LEAD_SOURCE } from "../gov-rules/town-election-calendar";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
+import { stableHash } from "../kernel/ids";
+import { placeStateKey } from "../place-map";
 
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
 
@@ -57,6 +69,7 @@ export function isLocalFamily(family: OfficeFamily): boolean {
 /** This world's swing from 2024, for the engines outside elections that read a place's lean. */
 export {
   publishedSenateSeats,
+  senateSides,
   worldRoster,
   worldSeatParty,
   worldSwing,
@@ -136,7 +149,8 @@ export interface PetitionRow {
   readonly opened: string;
   /** The last day to hand the petition in. */
   readonly due: string;
-  readonly signers: readonly PetitionSigner[];
+  /** How many have signed; each signature is its own row (`petitionSigners`), so a signature costs one write however long the petition is. */
+  readonly signed: number;
   /** The clerk's check: the day, the signatures that stood and those struck. */
   readonly check?: {
     readonly on: string;
@@ -208,6 +222,10 @@ export const ELECTIONS_MODULE: CoreModule = {
       petitions: {
         indexes: { byContest: { fields: ["contestId"] } },
       },
+      // One row a signature (`signPetition`), read by `petitionSigners`.
+      petitionSignatures: {
+        indexes: { byFiling: { fields: ["filingId"] } },
+      },
       town: {},
       // How the law settled an exact tie: a lot, or a deciding body's votes.
       ties: {},
@@ -230,6 +248,9 @@ interface ReadSide {
   readonly deadline2026?: string | null;
   readonly signatures?: number | null;
   readonly signatureFormula?: string | null;
+  readonly feeUSD?: number | null;
+  readonly petitionInLieuOfFee?: boolean | string | null;
+  readonly feeAndPetitionBothRequired?: boolean | null;
 }
 interface ReadRequirements {
   readonly applicable?: boolean;
@@ -375,6 +396,18 @@ function petitionRule(
   const formula = side?.signatureFormula?.trim() || null;
   if (read === 0 && !formula)
     return { count: 0, basis: "none-in-law", formula: null, source };
+  // Where the law's petition is only a way around a filing fee (Minnesota's
+  // "petition in lieu of fee by ordinance"; Kansas, Michigan, Texas and
+  // others), the fee files the candidate and no petition is required: the
+  // place asks signatures only of those who choose that route (prior-rulings
+  // elections R5, "where the place requires them";
+  // elections-petition-larger-than-the-town).
+  if (
+    typeof read !== "number" &&
+    side?.feeAndPetitionBothRequired !== true &&
+    (side?.petitionInLieuOfFee === true || /in lieu/i.test(formula ?? ""))
+  )
+    return { count: 0, basis: "none-in-law", formula, source };
   const counts = readCountsFor(family, sideName);
   const mid = Math.floor(counts.length / 2);
   const median = counts.length
@@ -477,8 +510,8 @@ export function openElections(core: CoreState): void {
   registerElectorate(core);
   const api = coreAPI(core);
   const place = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
-  if (!place?.stateJurisdictionKey) throw new Error("Elections need the town.");
-  const stateKey = place.stateJurisdictionKey;
+  const stateKey = placeStateKey(place?.key);
+  if (!place || !stateKey) throw new Error("Elections need the town.");
   const geoid = place.sourceGeoid ?? place.key;
   table(api, "town").put({
     id: "town",
@@ -490,6 +523,42 @@ export function openElections(core: CoreState): void {
     const contest = contestFor(api, entry);
     if (contest) table(api, "contests").put(contest as unknown as ModuleRow);
   }
+}
+
+/**
+ * A side's filing deadline for a contest, the one date every reader uses
+ * (filing-clerk-deadline-differs-from-rules): the state's filing law's own
+ * 2026 date for that side where it falls before the contest's first vote,
+ * else the contest's calendar deadline. A state's 2026 date that would fall
+ * on or after the first vote belongs to the races on the state's calendar,
+ * not this one.
+ */
+export function filingDeadlineFor(
+  api: CoreAPI,
+  contest: ContestRow,
+  side: FilingSide = "party",
+): string {
+  const own = filingRulesFor(api, contest, side).deadline;
+  return own && own < (contest.primaryDate ?? contest.electionDate)
+    ? own
+    : contest.filingDeadline;
+}
+
+/**
+ * A contest closes on its party side's deadline (`filingDeadlineFor`), so the
+ * clerk's line, the filing panel, Campaigns and the world's candidates read
+ * the same day; an independent's own deadline stays on its side's rules.
+ */
+function withFilingLawDeadline(api: CoreAPI, row: ContestRow): ContestRow {
+  const deadline = filingDeadlineFor(api, row, "party");
+  if (deadline === row.filingDeadline) return row;
+  return {
+    ...row,
+    filingDeadline: deadline,
+    sources: [...row.sources, filingRulesFor(api, row, "party").source].filter(
+      Boolean,
+    ),
+  };
 }
 
 /** A seat's next contest from today: its real dates, filing deadline and incumbent. */
@@ -544,7 +613,7 @@ function contestFor(
   if (!dates || dates.electionDate <= api.state.date) return null;
   const family = officeFamily(office);
   noteEstimates(api, dates);
-  return {
+  const row = withFilingLawDeadline(api, {
     ...dates,
     id: `contest:${seat.id}:${dates.electionDate}`,
     officeId: office.id,
@@ -554,6 +623,24 @@ function contestFor(
     district: seat.district,
     family,
     incumbentTermId: holder?.id ?? null,
+  });
+  // Every contest opens its filing on a day (elections-filing-window-opens):
+  // the calendar's read date where it has one, else the window the place's
+  // law usually gives before its one deadline (filingDeadlineFor), marked as
+  // an estimate with its source. A contest never stands open from the first
+  // day for want of one.
+  if (row.filingOpens !== null) return row;
+  const opens = addDays(
+    makeIsoDate(row.filingDeadline),
+    -electionsParameter("filingWindowDays"),
+  );
+  return {
+    ...row,
+    filingOpens: opens,
+    sources: [
+      ...row.sources,
+      `filing opens ${opens}: estimated, ${electionsParameter("filingWindowDays")} days before the deadline (elections parameter filingWindowDays)`,
+    ],
   };
 }
 
@@ -667,6 +754,34 @@ function town(api: CoreAPI) {
   };
 }
 
+/**
+ * The contests of a body's at-large seats held on one contest's day, in
+ * seat order: the same office, the same election day, seats without a
+ * district, no special election and no primary. One contest alone where the
+ * seat isn't at large or is up by itself.
+ */
+export function atLargeGroup(
+  api: CoreAPI,
+  contest: ContestRow,
+): readonly ContestRow[] {
+  const seatsTable = api.moduleState(OFFICES_MODULE_ID).table("seats");
+  const atLarge = (row: ContestRow) =>
+    !row.special &&
+    !row.primaryDate &&
+    !(seatsTable.get(row.seatId) as { district?: string | null } | undefined)
+      ?.district;
+  if (!atLarge(contest)) return [contest];
+  const group = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .query("byOffice", [contest.officeId]) as unknown as ContestRow[]
+  )
+    .filter((row) => row.electionDate === contest.electionDate && atLarge(row))
+    .sort((a, b) => a.seatId.localeCompare(b.seatId, "en", { numeric: true }));
+  return group.length > 1 ? group : [contest];
+}
+
 /** Contests whose filing is open today, soonest deadline first. */
 export function openContests(api: CoreAPI): readonly ContestRow[] {
   const today = api.state.date;
@@ -741,6 +856,72 @@ function townLocalKinds(api: CoreAPI): readonly string[] {
     .map((office) => office.kind);
 }
 
+/**
+ * The day a contest's filing window opens: the record's date, else the
+ * window the place's law usually gives before its deadline
+ * (`filingWindowDays`, ESTIMATED). The one rule for when filing opens: the
+ * world's candidates file on it (`candidacy.ts`) and the player is offered a
+ * race on it.
+ */
+export function filingWindowOpens(contest: ContestRow): string {
+  return (
+    contest.filingOpens ??
+    addDays(
+      makeIsoDate(contest.filingDeadline),
+      -electionsParameter("filingWindowDays"),
+    )
+  );
+}
+
+/** Whether a contest's filing window is open on a day (`filingWindowOpens` to its deadline). */
+export function filingWindowOpen(contest: ContestRow, date: string): boolean {
+  return contest.filingDeadline >= date && filingWindowOpens(contest) <= date;
+}
+
+interface PlayerSeatOffice {
+  readonly kind?: string;
+  readonly level?: string;
+  readonly seats?: number;
+  readonly districted?: boolean;
+  readonly wardSeats?: number;
+}
+
+/**
+ * The district of a districted local body the player's home is in: one of
+ * its district seats, by the home's household (owner's town council seats
+ * ruling, CTO: by district, the player files only for their own district's
+ * seat). No district map is read for a town's council or a county's board, so
+ * the home's district is drawn from its household over the body's district
+ * seats, the same district every day; null with no player.
+ */
+// stopgapId: SG-GOV-home-local-district
+function homeDistrict(
+  api: CoreAPI,
+  officeId: string,
+  office: PlayerSeatOffice,
+): string | null {
+  const playerId = (api.state as CoreState).playerId;
+  const home = playerId ? api.state.people.get(playerId) : undefined;
+  if (!home) return null;
+  api.stopgap("SG-GOV-home-local-district");
+  const districts = Math.max(1, office.wardSeats ?? office.seats ?? 1);
+  const draw = parseInt(
+    stableHash(`${home.householdId}:${officeId}`).slice(0, 8),
+    16,
+  );
+  return String((draw % districts) + 1);
+}
+
+/**
+ * Whether the player may run in this contest today: an office the player runs
+ * for (`playerMayFileForKind`), a seat that covers their home, its filing
+ * window open (`filingWindowOpen`), and of a local body's seats only the one
+ * race that is theirs (owner, Nov 1 playtest: "I should only be able to run
+ * for one council seat"; CTO's town council seats ruling): their own
+ * district's seat where the body is elected by district, and where seats are
+ * elected at large, the at-large race once, as one candidacy. A candidacy
+ * already filed in one of a body's races on that day rules out its others.
+ */
 function playerMayFileWith(
   api: CoreAPI,
   contestId: string,
@@ -749,23 +930,61 @@ function playerMayFileWith(
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
   if (!contest) return false;
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(contest.officeId) as { kind?: string } | undefined;
-  return playerMayFileForKind(office?.kind ?? "", localKinds);
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const office = offices.table("offices").get(contest.officeId) as
+    PlayerSeatOffice | undefined;
+  if (!playerMayFileForKind(office?.kind ?? "", localKinds)) return false;
+  if (!filingWindowOpen(contest, api.state.date)) return false;
+  const seat = offices.table("seats").get(contest.seatId) as
+    { coversTown?: boolean; district?: string | null } | undefined;
+  if (seat?.coversTown === false) return false;
+  if (!office || !LOCAL_LEVELS.has(office.level ?? "")) return true;
+  // The body's other races on the same day: its seats up together.
+  const sameDay = (
+    table(api, "contests").query("byOffice", [
+      contest.officeId,
+    ]) as unknown as ContestRow[]
+  ).filter((other) => other.electionDate === contest.electionDate);
+  const playerId = (api.state as CoreState).playerId;
+  if (playerId) {
+    const others = new Set(
+      sameDay.filter((other) => other.id !== contest.id).map((o) => o.id),
+    );
+    const filedElsewhere = (
+      table(api, "filings").query("byPerson", [
+        playerId,
+      ]) as unknown as FilingRow[]
+    ).some((f) => f.status !== "withdrawn" && others.has(f.contestId));
+    if (filedElsewhere) return false;
+  }
+  // A district seat: only the home's own district.
+  if (seat?.district)
+    return seat.district === homeDistrict(api, contest.officeId, office);
+  // The at-large seats up that day are one race (the voting engine counts
+  // them together and seats the top finishers, `atLargeGroup`): the player is
+  // offered it once, as the first of those seats' contests whose filing is
+  // open, and runs against the whole field for all of its seats.
+  const atLarge = sameDay
+    .filter((other) => {
+      const s = offices.table("seats").get(other.seatId) as
+        { district?: string | null; index?: number } | undefined;
+      return !s?.district && filingWindowOpen(other, api.state.date);
+    })
+    .sort((a, b) => a.seatId.localeCompare(b.seatId, "en", { numeric: true }));
+  return atLarge[0]?.id === contest.id;
 }
 
 /**
- * Whether the player may file for a contest's office, by `playerMayFileForKind`
- * over the town's own local offices. Every other office keeps running in the
- * world with simulated candidates through `fileCandidacy`.
+ * Whether the player may file for a contest's office today
+ * (`playerMayFileWith`): the clerk's counter and the Campaigns screen read
+ * this one answer. Every other office keeps running in the world with
+ * simulated candidates through `fileCandidacy`.
  */
 export function playerMayFileFor(api: CoreAPI, contestId: string): boolean {
   return playerMayFileWith(api, contestId, townLocalKinds(api));
 }
 
-/** The open contests the player may file for: the filing screen's choices. */
+/** The contests the player may file for today: the filing screen's choices. */
 export function playerContests(api: CoreAPI): readonly ContestRow[] {
   const localKinds = townLocalKinds(api);
   return openContests(api).filter((contest) =>
@@ -824,7 +1043,7 @@ export function checkEligibility(
   ) as unknown as ContestRow;
   const side: FilingSide = party ? "party" : "independent";
   const rules = filingRulesFor(api, contest, side);
-  const deadline = rules.deadline ?? contest.filingDeadline;
+  const deadline = filingDeadlineFor(api, contest, side);
   const person = api.state.people.get(personId);
   if (!person) throw new Error(`No such person: ${personId}`);
   const today = api.state.date;
@@ -855,8 +1074,8 @@ export function checkEligibility(
     holdsSeat ||
     (contest.level === "federal" || contest.level === "state"
       ? national
-        ? stateOfPlace(person.placeId) !== null
-        : stateOfPlace(person.placeId) === town(api).stateKey
+        ? placeStateKey(person.placeId) !== null
+        : placeStateKey(person.placeId) === town(api).stateKey
       : person.placeId === town(api).townPlaceId);
   const checks: RequirementCheck[] = [
     {
@@ -891,8 +1110,21 @@ export function checkEligibility(
     {
       rule: "residency",
       met: resident,
-      required: rules.residency ?? "lives in the area the office serves",
-      actual: resident ? "lives here" : "lives elsewhere",
+      // The clerk says where the person must live and where their records
+      // put them, as places (the research note stays the rule's source).
+      required:
+        contest.level === "federal" || contest.level === "state"
+          ? (stateNameOf(api) ??
+            rules.residency ??
+            "lives in the area the office serves")
+          : (corePlaceByKey(api.state.placeMetadata.placeKey ?? "")
+              ?.displayName ??
+            rules.residency ??
+            "lives in the area the office serves"),
+      actual: resident
+        ? "lives here"
+        : (corePlaceByJurisdictionId(person.placeId as never)?.displayName ??
+          "lives elsewhere"),
       source: rules.source,
     },
   ];
@@ -1014,13 +1246,6 @@ export function fileCandidacy(
 }
 
 /** The state a place lies in, from the place records. */
-function stateOfPlace(placeId: string): string | null {
-  const place = corePlaceByJurisdictionId(placeId as never);
-  // An official kept at the state level is placed at the state itself.
-  if (!place) return /^US-[A-Z]{2}$/.test(placeId) ? placeId : null;
-  return place.stateJurisdictionKey ?? null;
-}
-
 /** The party organization a ballot label names in the town's state, by name. */
 function partyIdFor(api: CoreAPI, label: string): string | null {
   const key = partyName(label)?.trim().toLowerCase();
@@ -1127,12 +1352,11 @@ export function petitionDue(api: CoreAPI, filing: FilingRow): string {
   const contest = table(api, "contests").get(
     filing.contestId,
   ) as unknown as ContestRow;
-  const rules = filingRulesFor(
+  return filingDeadlineFor(
     api,
     contest,
     filing.party ? "party" : "independent",
   );
-  return rules.deadline ?? contest.filingDeadline;
 }
 
 /** A filing's petition, once opened. */
@@ -1141,6 +1365,13 @@ export function petitionOf(api: CoreAPI, filingId: string): PetitionRow | null {
     (table(api, "petitions").get(`petition:${filingId}`) as unknown as
       PetitionRow | undefined) ?? null
   );
+}
+
+/** The town's state, as people name it, or null where the record has none. */
+function stateNameOf(api: CoreAPI): string | null {
+  const key = town(api).stateKey;
+  const name = key ? coreStateName(key.slice("US-".length)) : null;
+  return name ?? null;
 }
 
 /** Open a petitioning filing's petition (the voting engine sizes what its clerk counts). */
@@ -1158,7 +1389,7 @@ export function openPetition(
     needed: input.needed,
     opened: filing.filedOn,
     due: petitionDue(api, filing),
-    signers: [],
+    signed: 0,
   };
   table(api, "petitions").put(row as unknown as ModuleRow);
   return row;
@@ -1191,10 +1422,18 @@ export function signPetition(
   if (!petitionCirculating(api, filingId)) return false;
   const petition = petitionOf(api, filingId)!;
   if (personId === petition.personId) return false;
-  if (petition.signers.some((s) => s.personId === personId)) return false;
+  const signatureId = `${filingId}:${personId}`;
+  if (table(api, "petitionSignatures").get(signatureId)) return false;
+  table(api, "petitionSignatures").put({
+    id: signatureId,
+    filingId,
+    personId,
+    on: api.state.date,
+    via,
+  } as unknown as ModuleRow);
   table(api, "petitions").put({
     ...petition,
-    signers: [...petition.signers, { personId, on: api.state.date, via }],
+    signed: petition.signed + 1,
   } as unknown as ModuleRow);
   return true;
 }
@@ -1204,9 +1443,19 @@ export function petitionSignerIds(
   api: CoreAPI,
   filingId: string,
 ): ReadonlySet<string> {
-  return new Set(
-    (petitionOf(api, filingId)?.signers ?? []).map((s) => s.personId),
-  );
+  return new Set(petitionSigners(api, filingId).map((s) => s.personId));
+}
+
+/** The signatures on a filing's petition, in the order they were given. */
+export function petitionSigners(
+  api: CoreAPI,
+  filingId: string,
+): readonly PetitionSigner[] {
+  return (
+    table(api, "petitionSignatures").query("byFiling", [
+      filingId,
+    ]) as unknown as (PetitionSigner & { filingId: string })[]
+  ).map(({ personId, on, via }) => ({ personId, on, via }));
 }
 
 /** The kind of the public record of a clerk's petition check. */
@@ -1258,12 +1507,27 @@ export function keepPetitionCheck(
       contestId: contest.id,
       office: contest.title,
       status,
-      signatures: String(petition.signers.length),
+      signatures: String(petition.signed),
       valid: String(check.valid),
       needed: String(petition.needed),
       filedWith: filing.filedWith,
     },
   });
+  // Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): once the
+  // clerk has checked a petition, its check keeps what counted (the valid
+  // count and the names struck), and no reader asks for its signatures again
+  // (they are read while it circulates and by the check). In play they go;
+  // kept, they grew from 54,506 rows at year 4 to 132,276 at year 8 at
+  // Montpelier, Vermont (Nov 9, 2026). With bookkeeping on, every row stays.
+  if (!bookkeeping()) {
+    const signatures = table(api, "petitionSignatures");
+    for (const row of [
+      ...(signatures.query("byFiling", [filing.id]) as unknown as {
+        id: string;
+      }[]),
+    ])
+      signatures.remove(row.id);
+  }
   return status;
 }
 
@@ -1317,3 +1581,12 @@ export function incumbentOf(api: CoreAPI, contestId: string): TermRow | null {
         .get(contest.incumbentTermId) as unknown as TermRow)
     : null;
 }
+
+// Re-exported so other engine families import through this entry, not the file (families guard).
+export { personStance } from "../campaign-views";
+export { campaignParameter, PLATFORM_QUESTIONS } from "../campaign-data";
+export { INTEREST_GROUPS_MODULE_ID, meetingsOn } from "./interest-groups";
+export { groupDraw, joinsGroup } from "./interest-groups";
+export { foundMovement, movementGroupId } from "./interest-groups";
+// Re-exported so the opening county sample reads them through this entry (families guard).
+export { countyPlaceIdOf, statePlaces } from "../electorate-places";

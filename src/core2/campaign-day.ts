@@ -14,11 +14,12 @@
  */
 import { daysBetweenText as daysBetween } from "./kernel/dates";
 import { residentsRuntime } from "./modules/residents";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import {
   CAMPAIGNS_MODULE_ID,
   causeSummariesOf,
   donationAnswer,
+  askPlayerForMoney,
   type DonationWhy,
   unitPrice,
   askCircleToSign,
@@ -44,13 +45,13 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import {
-  PRESS_MODULE_ID,
   answerInterview,
   interviewsFor,
   newsworthiness,
   outletsHere,
   pressParameter,
   requestInterview,
+  weekCount,
   type InterviewAnswer,
   type InterviewRow,
 } from "./modules/press";
@@ -228,6 +229,8 @@ const ageOn = (birthDate: string, date: string) =>
 
 /** The town's households, full and counted, as the campaign engine's doors walk them. */
 function townHouseholdCount(api: CoreAPI): number {
+  // Group-quarters rooms are doors here, institutions' included.
+  // stopgapId: SG-GQ-campaign-doors
   const core = api.state as CoreState;
   const town = (
     api
@@ -284,19 +287,12 @@ function contextOf(api: CoreAPI, filingId: string, world = false) {
   return { filing, contest, open };
 }
 
+/** The room an outlet has left this week, by the press desk's own count. */
 function weekRoom(api: CoreAPI, outletId: string): number {
-  const since = (() => {
-    const d = new Date(`${api.state.date}T00:00:00Z`);
-    d.setUTCDate(d.getUTCDate() - 6);
-    return d.toISOString().slice(0, 10);
-  })();
-  const taken = (
-    api
-      .moduleState(PRESS_MODULE_ID)
-      .table("interviews")
-      .query("byOutlet", [outletId]) as unknown as InterviewRow[]
-  ).filter((i) => i.status !== "declined" && i.date >= since).length;
-  return Math.max(0, pressParameter("interviewsPerWeek") - taken);
+  return Math.max(
+    0,
+    pressParameter("interviewsPerWeek") - weekCount(api, outletId),
+  );
 }
 
 /** Whether one reachable person could be asked for money today: a living adult who hasn't given. */
@@ -337,14 +333,14 @@ function anyoneToAsk(api: CoreAPI, campaign: CampaignRow, world: boolean) {
 
 /**
  * The interview choice's facts: the invitations waiting and the outlets with
- * room this week that would take the ask. The candidate's interviews are read
- * once, and television's bar (`newsworthiness`) once, at the first station.
+ * room this week that would take the ask. The candidate's interviews for this
+ * race are read once, from their own index, and television's bar
+ * (`newsworthiness`) once, at the first station.
  */
 function interviewFacts(api: CoreAPI, filing: FilingRow) {
-  const filingId = filing.id;
-  const theirs = interviewsFor(api, filing.personId);
+  const theirs = interviewsFor(api, filing.personId, filing.id);
   const invitedInterviewIds = theirs
-    .filter((i) => i.filingId === filingId && i.status === "invited")
+    .filter((i) => i.status === "invited")
     .map((i) => i.id);
   let worth: number | undefined;
   const newsworth = () => (worth ??= newsworthiness(api, filing));
@@ -354,10 +350,7 @@ function interviewFacts(api: CoreAPI, filing: FilingRow) {
   const outlets = here.flatMap((outlet) => {
     const roomLeft = weekRoom(api, outlet.id);
     const done = theirs.some(
-      (i) =>
-        i.outletId === outlet.id &&
-        i.filingId === filingId &&
-        i.status !== "declined",
+      (i) => i.outletId === outlet.id && i.status !== "declined",
     );
     if (done) outletsDone += 1;
     else if (roomLeft <= 0) outletsFull += 1;
@@ -384,20 +377,12 @@ function interviewFacts(api: CoreAPI, filing: FilingRow) {
  * that would otherwise take the ask.
  */
 function interviewOpen(api: CoreAPI, filing: FilingRow): boolean {
-  const theirs = interviewsFor(api, filing.personId);
-  if (theirs.some((i) => i.filingId === filing.id && i.status === "invited"))
-    return true;
+  const theirs = interviewsFor(api, filing.personId, filing.id);
+  if (theirs.some((i) => i.status === "invited")) return true;
   let worth: number | undefined;
   for (const outlet of outletsHere(api)) {
     if (weekRoom(api, outlet.id) <= 0) continue;
-    if (
-      theirs.some(
-        (i) =>
-          i.outletId === outlet.id &&
-          i.filingId === filing.id &&
-          i.status !== "declined",
-      )
-    )
+    if (theirs.some((i) => i.outletId === outlet.id && i.status !== "declined"))
       continue;
     if (outlet.kind !== "television") return true;
     if (
@@ -583,11 +568,25 @@ export function contestStanding(
       .table("filings")
       .query("byContest", [contestId]) as unknown as FilingRow[]
   ).filter(standing);
+  const electionDate = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .get(contestId) as unknown as { electionDate: string } | undefined
+  )?.electionDate;
   return filings.map((filing) => {
-    const rows = api
-      .moduleState(CAMPAIGNS_MODULE_ID)
-      .table("causes")
-      .query("byCandidate", [filing.personId]) as unknown as CauseRow[];
+    // This contest's own campaign: from the day the candidate filed for it to
+    // its election day. A race they ran before reaches this one only through
+    // what people remember of them (their warmth), never as this race's
+    // standing.
+    const inCampaign = (date: string) =>
+      date >= filing.filedOn && (!electionDate || date <= electionDate);
+    const rows = (
+      api
+        .moduleState(CAMPAIGNS_MODULE_ID)
+        .table("causes")
+        .query("byCandidate", [filing.personId]) as unknown as CauseRow[]
+    ).filter((row) => inCampaign(row.date));
     const acts = new Map<
       string,
       { act: string; reached: number; warmer: number; cooler: number }
@@ -596,6 +595,7 @@ export function contestStanding(
     const moved = new Map<string, number>();
     // Closed races' causes, folded with the same sums in the same order.
     for (const summary of causeSummariesOf(api, filing.personId)) {
+      if (summary.through < filing.filedOn) continue;
       for (const [act, count] of Object.entries(summary.acts)) {
         const entry = acts.get(act) ?? {
           act,
@@ -957,6 +957,17 @@ export function takeCampaignDayChoice(
   }
 
   if (choice === "raise-money") {
+    // A world candidate whose list reaches the controlled person asks them as a
+    // request they answer (play-campaign-ask-reaches-player); their money moves
+    // only by that answer, so they stay out of the asks below.
+    const playerId = (api.state as CoreState).playerId;
+    if (
+      world &&
+      playerId &&
+      reachablePeople(api, campaign).includes(playerId) &&
+      askableFor(api, campaign)(playerId)
+    )
+      askPlayerForMoney(api, filingId, playerId);
     const { pool, askable } = peopleToAsk(api, campaign, world);
     const asks = Math.min(askable.length, asksPerSession(hours));
     // Walk the list from where the last session stopped (the campaign's own

@@ -10,26 +10,26 @@
  * through the named route. See docs/design/electorate-one-model.md.
  */
 import {
-  campaignParameter,
   groupAgreement,
   type StanceProfile,
   registerCountedPeople,
   registerViewLeans,
-  type Stance,
 } from "./campaign-views";
+import { campaignParameter, type Stance } from "./campaign-data";
 import { electorateParameter } from "./electorate-inputs";
 import { interestOf, turnoutRule } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { bookkeeping } from "./bookkeeping";
-import { stateOfPlaceKey } from "./places";
+import { placeStateKey } from "./place-map";
 import { residentsRuntime } from "./modules/residents";
 import {
+  ageOn,
   type CountedHousehold,
   type CountedStore,
   isDemoted,
 } from "./counted-groups";
-import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
-import { corePlaceByJurisdictionId } from "./place-lookup";
+import { countedLean, VIEWS_MODULE_ID, viewOf } from "./modules/views";
+import { VIEWS_KEYS } from "./views-keys";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import { coreAPI } from "./state";
 import { reportOutcome } from "./trait-decisions";
@@ -49,13 +49,47 @@ export interface CountedVoter {
   readonly hourlyMinor: number;
   /** Real voters this record stands for (its household's weight; one where the town opened at its own count). */
   readonly weight: number;
+  /** How active they are in a party, 0 to 1 (absent where they take no part). */
+  readonly partyActivity?: number;
+  /** The county employer they own, where they own one. */
+  readonly ownedEmployerId?: string;
+  /** Civic roles they hold (a board, the party committee), where the place's records name them. */
+  readonly civicRoles?: readonly string[];
+  /** Whole years their household has lived in its place (absent where unrecorded). */
+  readonly yearsInPlace?: number;
+  /** The sampled county employer they work at, where the county's sample holds one. */
+  readonly employerId?: string;
+}
+
+const employerOf = (
+  employment: NonNullable<CountedHousehold["employment"]>,
+  id: string,
+) => {
+  const row = employment.find((work) => work.personId === id);
+  return row ? { employerId: row.employerId } : {};
+};
+
+/** A counted member's roles, read from their record (opening-roles.ts). */
+function rolesOf(store: CountedStore, m: number) {
+  const text = (key: string) => {
+    const at = store.roleIx[key]?.[m];
+    return at ? store.text(at) : undefined;
+  };
+  const party = text("partyActivity");
+  const owned = text("ownedEmployerId");
+  const civic = text("civicRoles");
+  return {
+    ...(party ? { partyActivity: Number(party) } : {}),
+    ...(owned ? { ownedEmployerId: owned } : {}),
+    ...(civic ? { civicRoles: civic.split(",") } : {}),
+  };
 }
 
 const cache = new WeakMap<CoreState, { date: string; rows: CountedVoter[] }>();
 
 /** The state key of the world's own town ("US-MA"), the home of its counted people. */
 function townStateKey(core: CoreState): string {
-  return stateOfPlaceKey(core.placeMetadata?.placeKey ?? "") ?? "";
+  return placeStateKey(core.placeMetadata?.placeKey ?? "") ?? "";
 }
 
 /** A counted resident's survey cell (see `surveyCell`): their state's, falling back to the nation's where the survey has no state sample. */
@@ -196,6 +230,9 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
       weeklyMinutes: minutes.get(id) ?? 0,
       hourlyMinor: hourly.get(id) ?? 0,
       weight: store.weightOf(h),
+      ...(h.since ? { yearsInPlace: ageOn(h.since, core.date) } : {}),
+      ...(h.employment ? employerOf(h.employment, id) : {}),
+      ...rolesOf(store, m),
     });
     slot[m] = walked.length - 1;
   });
@@ -284,19 +321,15 @@ export function registerElectorate(core: CoreState): void {
   if (!core.modules.has(VIEWS_MODULE_ID)) return;
   const api = coreAPI(core);
   const counted = new Map<string, CountedVoter>();
-  registerViewLeans(core.people, (person, z) => {
+  registerViewLeans(core.people, (person) => {
     if (core.people.has(person.id)) return viewOf(api, person.id)?.lean ?? 0;
     if (!counted.size)
       for (const row of countedResidents(core)) counted.set(row.id, row);
     const row = counted.get(person.id);
     if (!row) return 0;
-    const cell = surveyCell(
-      row.placeId,
-      row.birthDate,
-      core.startedAt,
-      townStateKey(core),
-    );
-    return cell.mean + cell.sd * z;
+    // One formula for both tiers: the lean the views engine gives the record
+    // (the one it keeps when they are filled in), not a survey-cell stand-in.
+    return countedLean(api, row);
   });
 }
 
@@ -307,8 +340,6 @@ const cells = new Map<
   string,
   { mean: number; sd: number; engagement?: number }
 >();
-/** Each place id's state key from the place lookup, which reads only static tables. */
-const placeStateKey = new Map<string, string | null | undefined>();
 /** Each age's survey band. */
 const bandByAge = new Map<number, string>();
 /**
@@ -324,12 +355,7 @@ function surveyCell(
 ): { mean: number; sd: number; engagement?: number } {
   // The town's own counted households keep their governing unit's place id,
   // which the place lookup may not know: they are the town's people, in its state.
-  if (!placeStateKey.has(placeId))
-    placeStateKey.set(
-      placeId,
-      corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey,
-    );
-  const key = placeStateKey.get(placeId) ?? townState;
+  const key = placeStateKey(placeId) ?? townState;
   const state = key ? key.slice(key.lastIndexOf("-") + 1) : "";
   const age =
     Number(date.slice(0, 4)) -
@@ -387,8 +413,24 @@ export function engagementOf(
   return cell.engagement ?? VIEWS_KEYS.national.engagement ?? null;
 }
 
-/** The nation's average engagement, the center turnout reads it against. */
+/** The nation's average engagement. */
 export const NATIONAL_ENGAGEMENT = VIEWS_KEYS.national.engagement ?? 0;
+
+/**
+ * The center turnout reads a voter's engagement against: their own state's
+ * average, so that following politics closely sets who in a place turns out
+ * more (the old against the young, the engaged against the rest) while a
+ * state's own turnout comes from its people's record (the habit seeded from
+ * the state's CPS turnout), not from its survey level of news interest, which
+ * does not line up with it (Mississippi follows the news least of any state
+ * and votes above the national figure). The nation's where the survey has no
+ * state.
+ */
+export function townEngagementCenter(core: CoreState): number {
+  const key = townStateKey(core);
+  const usps = key ? key.slice(key.lastIndexOf("-") + 1) : "";
+  return VIEWS_KEYS.states[usps]?.engagement ?? NATIONAL_ENGAGEMENT;
+}
 
 /**
  * What a counted voter can know of one candidate on a ballot: the party
@@ -445,6 +487,48 @@ export interface CountedAppeal {
   readonly scandal: number;
   /** Their own "yes" at the candidate's door, as far as it still holds. */
   readonly pledge: number;
+  /** What the held yes adds beyond its weight so it keeps the candidate ahead (`liftHeldPledges`); 0 where none holds. */
+  readonly pledgeLift?: number;
+}
+
+/**
+ * A door "yes" that still holds decides the voter's choice in proportion to
+ * how far it holds (owner, Oct 29: a yes at the door is near-binding), on a
+ * sliding scale with no threshold: the pledged candidate's total is lifted by
+ * `holds` times the gap to the best rival's total without any pledge, so a
+ * yes held in full keeps its candidate ahead by the pledge weight whatever
+ * the other reasons sum to, a yes half held closes half the gap, and one
+ * fully doubted adds nothing. The one rule for a named voter's appeal
+ * (voting.ts) and a counted voter's (`countedAppeal`), read by each after its
+ * totals are summed. `pledge` is the weight times how far the yes holds.
+ */
+export function liftHeldPledges(
+  appeal: Record<
+    string,
+    { total: number; pledge?: number; pledgeLift?: number }
+  >,
+): void {
+  const weight = campaignParameter("doorPledgeWeight");
+  if (!(weight > 0)) return;
+  for (const id in appeal) {
+    const own = appeal[id]!;
+    const holds = Math.min(1, (own.pledge ?? 0) / weight);
+    if (holds <= 0) continue;
+    let rival = -Infinity;
+    for (const other in appeal)
+      if (other !== id)
+        rival = Math.max(
+          rival,
+          appeal[other]!.total - (appeal[other]!.pledge ?? 0),
+        );
+    const gap = rival - (own.total - (own.pledge ?? 0));
+    own.pledgeLift = gap > 0 ? holds * gap : 0;
+  }
+  // Apply after every candidate's lift is read from the pledge-free totals.
+  for (const id in appeal) {
+    const own = appeal[id]!;
+    if (own.pledgeLift) own.total += own.pledgeLift;
+  }
 }
 
 /**
@@ -454,6 +538,8 @@ export interface CountedAppeal {
  * known for (the town's own people only), and the incumbent side of their
  * traits.
  */
+type Mutable<T> = { -readonly [K in keyof T]: T[K] };
+
 export function countedAppeal(
   lean: number,
   field: readonly CountedFieldEntry[],
@@ -473,9 +559,23 @@ export function countedAppeal(
      * heavy they learned since undoes it).
      */
     readonly pledges?: Readonly<Record<string, number>>;
+    /**
+     * The voter is a counted record's people, who divide among the
+     * candidates as the count's rule has them (`countedShareRule`), not one
+     * person who picks first place (`countedChoice`): the audit's probe
+     * reads the outcome the count itself makes.
+     */
+    readonly divides?: boolean;
   },
+  /**
+   * A record this call may refill in place, for a count that reads each
+   * voter's appeal once and keeps none of it (`countPlaces`): the same values
+   * in the same keys, without a new record for every voter.
+   */
+  into?: Record<string, CountedAppeal>,
 ): Record<string, CountedAppeal> {
-  const appeal: Record<string, CountedAppeal> = {};
+  const appeal: Record<string, CountedAppeal> = into ?? {};
+  const pledgeWeight = campaignParameter("doorPledgeWeight");
   for (const entry of field) {
     const party = lean * entry.side;
     const standing = entry.standing + (where.local ? entry.localStanding : 0);
@@ -496,21 +596,36 @@ export function countedAppeal(
       ? -(entry.scandal ?? 0) * (where.trust ?? 1)
       : 0;
     // Their own word at the door (owner, Oct 29: a "yes" is near-binding).
-    const pledge =
-      campaignParameter("doorPledgeWeight") * (where.pledges?.[entry.id] ?? 0);
-    appeal[entry.id] = {
-      total:
-        party + standing + recognition + incumbent + ballot + scandal + pledge,
-      party,
-      standing,
-      recognition,
-      incumbent,
-      ballot,
-      scandal,
-      pledge,
-    };
+    const pledge = pledgeWeight * (where.pledges?.[entry.id] ?? 0);
+    const total =
+      party + standing + recognition + incumbent + ballot + scandal + pledge;
+    const held = into?.[entry.id] as Mutable<CountedAppeal> | undefined;
+    if (held) {
+      held.total = total;
+      held.party = party;
+      held.standing = standing;
+      held.recognition = recognition;
+      held.incumbent = incumbent;
+      held.ballot = ballot;
+      held.scandal = scandal;
+      held.pledge = pledge;
+    } else
+      appeal[entry.id] = {
+        total,
+        party,
+        standing,
+        recognition,
+        incumbent,
+        ballot,
+        scandal,
+        pledge,
+      };
   }
-  // The audit's probe (off in play) sees whether the voter backs the incumbent with and without the trait term.
+  // A held door yes keeps its candidate ahead, in proportion to how far it holds.
+  liftHeldPledges(appeal as Record<string, Mutable<CountedAppeal>>);
+  // The audit's probe (off in play) sees whether the voter backs the
+  // incumbent with and without the trait term: one person's first place, or
+  // the share of a counted record's people the count gives them.
   if (
     traitProbe()?.outcome &&
     field.length > 1 &&
@@ -530,6 +645,13 @@ export function countedAppeal(
                 { total: a.total - a.incumbent },
               ]),
             );
+        if (where.divides) {
+          const shares = countedShareRule(field)(totals);
+          return field.reduce(
+            (n, e) => n + (e.isIncumbent ? (shares[e.id] ?? 0) : 0),
+            0,
+          );
+        }
         const backed = countedChoice(totals);
         return field.some((e) => e.id === backed && e.isIncumbent) ? 1 : 0;
       },
@@ -538,22 +660,214 @@ export function countedAppeal(
 }
 
 /**
- * The candidate a voter backs: the one they rank first, where something
+ * The candidate one voter backs: the one they rank first, where something
  * separates them from the next; a lone candidate unless the voter is against
  * them (the named voters' rule in voting.ts). With nothing to separate the
- * candidates, the race is left blank.
+ * candidates, the race is left blank. One person's choice (a named voter, a
+ * household's word at a door); a counted record's voters divide by
+ * `countedShares`, and the largest share is this first place.
  */
 export function countedChoice(
   appeal: Readonly<Record<string, { readonly total: number }>>,
 ): string | null {
+  // The first place and whether anyone ties it, in one pass over the keys
+  // in their own order: the ranking a sort gives without the sort or a list
+  // (counted for every sample voter of every place, millions of times an
+  // election year).
+  let best: string | null = null;
+  let top = -Infinity;
+  let tied = false;
+  let count = 0;
+  let only = "";
+  for (const id in appeal) {
+    count += 1;
+    only = id;
+    const total = appeal[id]!.total;
+    if (total > top) {
+      top = total;
+      best = id;
+      tied = false;
+    } else if (total === top) tied = true;
+  }
+  if (count === 1) return appeal[only]!.total >= 0 ? only : null;
+  return tied ? null : best;
+}
+
+/**
+ * Whom a voter votes for where a ballot elects `seats` candidates at once (an
+ * at-large race): the same choice rule as one seat (`countedChoice`), taken
+ * to the first `seats` places. A candidate is chosen where they rank above
+ * everyone left out; where a tie straddles the last place, those tied are
+ * left out and the voter leaves that vote blank. With no more candidates
+ * than seats, each candidate the voter is not against is chosen.
+ */
+export function countedChoices(
+  appeal: Readonly<Record<string, { readonly total: number }>>,
+  seats: number,
+): readonly string[] {
+  if (seats <= 1) {
+    const one = countedChoice(appeal);
+    return one ? [one] : [];
+  }
   const ranked = Object.entries(appeal).sort(
     (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
   );
-  if (ranked.length === 1)
-    return ranked[0]![1].total >= 0 ? ranked[0]![0] : null;
-  return ranked.length > 1 && ranked[0]![1].total > ranked[1]![1].total
-    ? ranked[0]![0]
-    : null;
+  if (ranked.length <= seats)
+    return ranked.filter(([, a]) => a.total >= 0).map(([id]) => id);
+  const cut = ranked[seats]![1].total;
+  return ranked
+    .slice(0, seats)
+    .filter(([, a]) => a.total > cut)
+    .map(([id]) => id);
+}
+
+/**
+ * How a counted record's people, each voting for up to `seats` candidates,
+ * divide their votes: each candidate's part of the record is their one-seat
+ * share (`countedShareRule`'s) scaled by the one factor that gives the
+ * record `seats` votes a person, none above the whole record (a candidate
+ * every one of its people would choose takes all of it, and the rest spread
+ * over the others by their shares). With one seat it is the share itself.
+ * Parts sum to `seats` (or to every candidate's whole where there are no
+ * more candidates than seats).
+ */
+export function blockShares(
+  shares: Readonly<Record<string, number>>,
+  seats: number,
+): Readonly<Record<string, number>> {
+  const ids = Object.keys(shares);
+  if (seats <= 1 || !ids.length) return shares;
+  if (ids.length <= seats) {
+    const all: Record<string, number> = {};
+    for (const id of ids) if (shares[id]! > 0) all[id] = 1;
+    return all;
+  }
+  // Fill from the largest share: those the scale would take past the whole
+  // record are held at it, and the scale is found for the rest.
+  const order = [...ids].sort(
+    (a, b) => shares[b]! - shares[a]! || a.localeCompare(b),
+  );
+  let capped = 0;
+  let rest = order.reduce((n, id) => n + shares[id]!, 0);
+  let scale = rest > 0 ? seats / rest : 0;
+  while (capped < order.length && shares[order[capped]!]! * scale >= 1) {
+    rest -= shares[order[capped]!]!;
+    capped += 1;
+    scale = rest > 0 ? (seats - capped) / rest : 0;
+  }
+  const parts: Record<string, number> = {};
+  for (const [n, id] of order.entries())
+    parts[id] = n < capped ? 1 : shares[id]! * scale;
+  return parts;
+}
+
+/**
+ * The coefficient k of the counted share (`countedShares`), per appeal unit:
+ * the one at which a candidate's share at an even two-way race moves by
+ * 1/appealPerShare for each unit of appeal gap. Two candidates `a` and `b`
+ * share as the logistic of the gap, s = 1 / (1 + exp(-k (a - b))), whose
+ * slope ds/d(a - b) = k s (1 - s) is k/4 at the even race (s = 1/2);
+ * setting that to 1/appealPerShare gives k = 4 / appealPerShare (1 at
+ * appealPerShare = 4: a 0.1-unit lead is 0.525 of the record, 0.5 + 0.1/4 to
+ * first order). The same k holds for any field (the multinomial logit): the
+ * odds between any two candidates move as in a two-way race, while one
+ * candidate's own share in an even field of N moves at k (N - 1) / N^2 per
+ * unit of their own appeal (0.222 for three, 0.1875 for four, at k = 1).
+ */
+function countedShareCoefficient(): number {
+  const even = 1 / 2;
+  return 1 / (electorateParameter("appealPerShare") * even * (1 - even));
+}
+
+/**
+ * How a counted record's unpledged voters divide among the candidates on a
+ * ballot without party labels (CTO, Nov 1, on one model, two tiers, owner
+ * ruling 4861 and no dice): a record stands for many different residents, so
+ * its weight splits by each candidate's share of the appeal,
+ * exp(k a_i) / sum_j exp(k a_j) at the coefficient k of
+ * `countedShareCoefficient`, as counted job choices split by the selection
+ * weights times the count. A small appeal gap moves a few points of the
+ * record, not the whole of it; a share of the count is not a roll.
+ * Candidates alike in appeal share it evenly. A lone candidate keeps the
+ * choice rule's own answer (`countedChoice`): the whole record where it is
+ * not against them, none where it is. Shares sum to 1 (or to nothing). A
+ * named voter (one person) and a household that gave its word at a door keep
+ * first place (`countedChoice`). A count reads it through
+ * `countedShareRule`, which keeps first place on a ballot with party labels.
+ */
+export function countedShares(
+  appeal: Readonly<Record<string, { readonly total: number }>>,
+): Readonly<Record<string, number>> {
+  return sharesAt(appeal, countedShareCoefficient());
+}
+
+/**
+ * Whether a race's ballot sorts its candidates by party: their party sides
+ * differ (a general election between parties). A ballot whose candidates all
+ * carry the same side, a party's primary or a race without labels, does not
+ * (CTO, Nov 1, 22:10 as amended for primaries).
+ */
+export function partyLabelled(
+  field: readonly { readonly side: number }[],
+): boolean {
+  return field.some((entry) => entry.side !== field[0]?.side);
+}
+
+/**
+ * How a counted record's people divide in one race, read once for a count
+ * that applies it to every voter it holds (CTO, Nov 1, 18:20 as amended at
+ * 22:10, and for primaries). Where the candidates' party sides are equal (no
+ * labels, or one party's primary), by each candidate's share of their appeal
+ * (`countedShares`). Where their party sides differ, the whole
+ * record to its first place (`countedChoice`), as before: each place's
+ * people already stand along the lean order where they split as the place
+ * voted in 2024 (`orderPlacement`), so a share on top would count that
+ * spread twice (D.C. would count 0.193 Republican against its 0.072).
+ */
+export function countedShareRule(
+  field: readonly { readonly side: number }[],
+): (
+  appeal: Readonly<Record<string, { readonly total: number }>>,
+) => Readonly<Record<string, number>> {
+  if (partyLabelled(field)) {
+    // stopgapId: SG-GOV-counted-lean-spread
+    const whole = new Map<string, Readonly<Record<string, number>>>();
+    return (appeal) => {
+      const first = countedChoice(appeal);
+      if (!first) return {};
+      let all = whole.get(first);
+      if (!all) {
+        all = { [first]: 1 };
+        whole.set(first, all);
+      }
+      return all;
+    };
+  }
+  const k = countedShareCoefficient();
+  return (appeal) => sharesAt(appeal, k);
+}
+
+function sharesAt(
+  appeal: Readonly<Record<string, { readonly total: number }>>,
+  k: number,
+): Readonly<Record<string, number>> {
+  const ids = Object.keys(appeal);
+  if (ids.length <= 1) {
+    const lone = countedChoice(appeal);
+    return lone ? { [lone]: 1 } : {};
+  }
+  let top = -Infinity;
+  for (const id of ids) top = Math.max(top, appeal[id]!.total);
+  const shares: Record<string, number> = {};
+  let sum = 0;
+  // From the top appeal, so no term overflows.
+  for (const id of ids) {
+    const weight = Math.exp(k * (appeal[id]!.total - top));
+    shares[id] = weight;
+    sum += weight;
+  }
+  for (const id of ids) shares[id] = shares[id]! / sum;
+  return shares;
 }
 
 /**
@@ -625,6 +939,8 @@ function orderPlacement(
           ? atEnds[k]!
           : rule(voter.readiness, 2 * Math.abs(lean));
       all += share;
+      // Two typical candidates carry party labels, so each voter's people
+      // back the one on their side whole (`countedShareRule`).
       if (lean > 0) r += share;
       else if (lean === 0) r += share / 2;
     }
@@ -728,13 +1044,23 @@ export function countPlaces(
     readonly cut: number;
     readonly open: boolean;
   },
+  /** Seats the ballot elects at once (an at-large race): each voter votes for up to this many. */
+  seats = 1,
 ): {
   readonly votes: Readonly<Record<string, number>>;
   readonly cast: number;
   readonly places: readonly PlaceResult[];
 } {
   const { voters, placement } = coarseSample(sample);
+  // One record refilled for every voter: each voter's appeal is read here
+  // and nothing keeps it (`countedAppeal`'s `into`).
+  const scratch: Record<string, CountedAppeal> = {};
   const rule = turnoutRule();
+  const one = countedShareRule(field);
+  const shares =
+    seats > 1
+      ? (appeal: Parameters<typeof one>[0]) => blockShares(one(appeal), seats)
+      : one;
   const totals: Record<string, number> = {};
   const results: PlaceResult[] = [];
   let cast = 0;
@@ -750,7 +1076,8 @@ export function countPlaces(
     // town's own people stand where the town's order puts them).
     const right = place.inTown ? place.rightShare : placement(place.rightShare);
     if (weight > 0)
-      for (const [form, voter] of voters.entries()) {
+      for (let form = 0; form < voters.length; form += 1) {
+        const voter = voters[form]!;
         const lean = Math.max(-1, Math.min(1, 2 * (right - voter.rank)));
         if (primary) {
           const identifies = Math.abs(lean) >= primary.cut && lean !== 0;
@@ -760,13 +1087,19 @@ export function countPlaces(
             (primary.open && !identifies);
           if (!takesPart) continue;
         }
-        const appeal = countedAppeal(lean, field, {
-          inTown: place.inTown ?? false,
-          local: place.local ?? false,
-          incumbentLean: voter.incumbentLean,
-          // The place's voters hold each form of a rotated ballot in turn.
-          ballotForm: form,
-        });
+        const appeal = countedAppeal(
+          lean,
+          field,
+          {
+            inTown: place.inTown ?? false,
+            local: place.local ?? false,
+            incumbentLean: voter.incumbentLean,
+            // The place's voters hold each form of a rotated ballot in turn.
+            ballotForm: form,
+            divides: true,
+          },
+          scratch,
+        );
         // The one turnout rule (`turnout.ts`): each sample voter stands for
         // the place's people like them, who turn out at their propensity.
         const share =
@@ -776,8 +1109,12 @@ export function countPlaces(
             interestOf(appeal),
           );
         placeCast += share;
-        const choice = countedChoice(appeal);
-        if (choice) votes[choice] = (votes[choice] ?? 0) + share;
+        // They divide among the candidates by the race's rule
+        // (`countedShareRule`): by each one's share of their appeal on a
+        // ballot without party labels, whole to the first on one with them.
+        const parts = shares(appeal);
+        for (const id of Object.keys(parts))
+          votes[id] = (votes[id] ?? 0) + share * parts[id]!;
       }
     for (const id of Object.keys(votes)) {
       votes[id] = Math.round(votes[id]!);

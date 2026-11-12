@@ -18,6 +18,7 @@ const lookups: NamedLookups = {
   factKeys: {
     countedSubject: "counted-subject",
     countedPerceivers: "counted-perceivers",
+    countedSubjects: "counted-subjects",
   },
 };
 const countedLoss = (personId: string) => ({
@@ -45,6 +46,24 @@ describe("who may answer an event", () => {
     });
     expect(answeredByNamed(closure("worker"), lookups)).toBe(true);
     expect(answeredByNamed(closure("stranger"), lookups)).toBe(false);
+  });
+  it("accepts every member of the counted household an eviction names, and no one else counted", () => {
+    const eviction = (personId: string) => ({
+      personId,
+      counted: true as const,
+      eventId: "event:housing.eviction:case:h1",
+      // Each member answers with the whole household as the subjects.
+      event: {
+        subjects: ["worker", "partner"],
+        facts: {
+          "counted-household": "h1",
+          "counted-subjects": JSON.stringify(["worker", "partner"]),
+        },
+      },
+    });
+    expect(answeredByNamed(eviction("worker"), lookups)).toBe(true);
+    expect(answeredByNamed(eviction("partner"), lookups)).toBe(true);
+    expect(answeredByNamed(eviction("stranger"), lookups)).toBe(false);
   });
   it("accepts a full person the event names, their household and their kin", () => {
     const loss = (personId: string) => ({

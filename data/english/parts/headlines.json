@@ -3,6 +3,10 @@
   "register": "headlines",
   "description": "News headlines for the new core's stories, by the kind of record they report. News sources give patterns only; every part here is a headline from U.S. federal agencies' own news releases (public domain), with record words as slots.",
   "slots": {
+    "years": "A number of years, from the record's dates.",
+    "ordinal": "An age as an ordinal (80th), from the birth record.",
+    "firm": "A business a public contract went to, by name, from the award and the business records.",
+    "government": "The government a public worker worked for, named from its record (the government of Arizona).",
     "subject": "The business or office, from the event record.",
     "law": "The law, as its record names it.",
     "date": "A date from the record.",
@@ -38,7 +42,8 @@
     "area": "The region a rate is measured for (a metro area, or the state), by name.",
     "outside": "The possessive of the state an area outside its metro areas belongs to (\"Kentucky's\", \"Texas'\"), from the regional record.",
     "candidate": "A candidate, by name, from the campaign's record.",
-    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record."
+    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
+    "district": "A seat's district, as its seat record numbers it (4, 12A), from the seat records."
   },
   "maxWords": 14,
   "mining": {
@@ -125,6 +130,309 @@
     }
   },
   "parts": [
+    {
+      "key": "headlines.law-amount-passed.raises-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "{place} raises {measure} to {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.congress-raises-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "Congress raises {measure} to {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["up", "federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.law-to-raise-from-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "Law to raise {measure} from {from} to {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.cuts-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "{place} cuts {measure} to {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.congress-cuts-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "Congress cuts {measure} to {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["down", "federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.law-to-cut-from-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "Law to cut {measure} from {from} to {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.new-law-keeps-at",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "New law keeps {measure} at {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.sets-at",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "{place} sets {measure} at {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.congress-sets-at",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "Congress sets {measure} at {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.new-law-sets-at",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "New law sets {measure} at {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-passed.passes",
+      "move": "law-passed",
+      "kind": "written",
+      "text": "{place} passes {law}",
+      "uses": [
+        {
+          "move": "law-passed",
+          "subject": "headline",
+          "role": "law-passed",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-passed.congress-passes",
+      "move": "law-passed",
+      "kind": "written",
+      "text": "Congress passes {law}",
+      "uses": [
+        {
+          "move": "law-passed",
+          "subject": "headline",
+          "role": "law-passed",
+          "choice": "headline",
+          "requiresFacts": ["federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-passed.becomes-law-in",
+      "move": "law-passed",
+      "kind": "written",
+      "text": "{law} becomes law in {place}",
+      "uses": [
+        {
+          "move": "law-passed",
+          "subject": "headline",
+          "role": "law-passed",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-passed.becomes-law",
+      "move": "law-passed",
+      "kind": "written",
+      "text": "{law} becomes law",
+      "uses": [
+        {
+          "move": "law-passed",
+          "subject": "headline",
+          "role": "law-passed",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
     {
       "key": "headlines.organization-closed.subject-closes",
       "move": "organization-closed",
@@ -3571,12 +3879,57 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won"]
+          "requiresFacts": ["won"],
+          "excludesFacts": ["district", "atLarge"]
         }
       ],
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.name-takes-district",
+      "move": "election",
+      "kind": "written",
+      "text": "{name} takes District {district}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "district"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (elections-past-race-names-the-district)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.name-wins-at-large-seat",
+      "move": "election",
+      "kind": "written",
+      "text": "{name} wins at-large seat",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "atLarge"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (elections-past-race-names-the-district)",
+      "date": "2026-11-01",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -4476,6 +4829,69 @@
       }
     },
     {
+      "key": "headlines.staff-cut.subject-lays-off-workers",
+      "move": "staff-cut",
+      "kind": "written",
+      "text": "{subject} lays off workers",
+      "uses": [
+        {
+          "move": "staff-cut",
+          "subject": "headline",
+          "role": "staff-cut",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.staff-cut.job-cuts-at-subject",
+      "move": "staff-cut",
+      "kind": "written",
+      "text": "Job cuts at {subject}",
+      "uses": [
+        {
+          "move": "staff-cut",
+          "subject": "headline",
+          "role": "staff-cut",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.staff-cut.subject-trims-its-staff",
+      "move": "staff-cut",
+      "kind": "written",
+      "text": "{subject} trims its staff",
+      "uses": [
+        {
+          "move": "staff-cut",
+          "subject": "headline",
+          "role": "staff-cut",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.owner-changed.subject-changes-hands",
       "move": "owner-changed",
       "kind": "written",
@@ -4793,6 +5209,72 @@
       }
     },
     {
+      "key": "headlines.homes-built.new-home-finished-in-place",
+      "move": "homes-built",
+      "kind": "written",
+      "text": "New home finished in {place}",
+      "uses": [
+        {
+          "move": "homes-built",
+          "subject": "headline",
+          "role": "homes-built",
+          "choice": "headline",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.homes-built.place-gets-a-new-home",
+      "move": "homes-built",
+      "kind": "written",
+      "text": "{place} gets a new home",
+      "uses": [
+        {
+          "move": "homes-built",
+          "subject": "headline",
+          "role": "homes-built",
+          "choice": "headline",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.homes-built.a-house-is-completed-in-place",
+      "move": "homes-built",
+      "kind": "written",
+      "text": "A house is completed in {place}",
+      "uses": [
+        {
+          "move": "homes-built",
+          "subject": "headline",
+          "role": "homes-built",
+          "choice": "headline",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.homeless-count.place-counts-number-without-a-home",
       "move": "homeless-count",
       "kind": "written",
@@ -4936,6 +5418,50 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.life-death.name-age-of-place",
+      "move": "life-death",
+      "kind": "written",
+      "text": "{name}, {age}, of {place}",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "headline",
+          "role": "life.death",
+          "choice": "headline",
+          "requiresFacts": ["age", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.life-death.name-of-place-dies-at-age",
+      "move": "life-death",
+      "kind": "written",
+      "text": "{name} of {place} dies at {age}",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "headline",
+          "role": "life.death",
+          "choice": "headline",
+          "requiresFacts": ["age", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -5541,6 +6067,72 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.name-voted-on-a-contract-for-firm",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} voted on a contract for {firm}",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["conflict", "firm"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.name-again-votes-on-a-contract-for-firm",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} again votes on a contract for {firm}",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["again", "firm"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.a-ordinal-vote-by-name-for-firm",
+      "move": "exposed",
+      "kind": "written",
+      "text": "A {ordinal} vote by {name} for {firm}",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["again", "firm"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -6550,6 +7142,397 @@
       }
     },
     {
+      "key": "headlines.birthday.name-turns-age",
+      "move": "birthday",
+      "kind": "written",
+      "text": "{name} turns {age}",
+      "uses": [
+        {
+          "move": "birthday",
+          "subject": "headline",
+          "role": "birthday",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.birthday.name-marks-ordinal-birthday",
+      "move": "birthday",
+      "kind": "written",
+      "text": "{name} marks {ordinal} birthday",
+      "uses": [
+        {
+          "move": "birthday",
+          "subject": "headline",
+          "role": "birthday",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.birthday.name-of-place-turns-age",
+      "move": "birthday",
+      "kind": "written",
+      "text": "{name} of {place} turns {age}",
+      "uses": [
+        {
+          "move": "birthday",
+          "subject": "headline",
+          "role": "birthday",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.retirement.name-retires-from-employer",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retires from {employer}",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "headline",
+          "role": "retirement",
+          "choice": "headline",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.retirement.name-retires-after-years-years",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retires after {years} years",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "headline",
+          "role": "retirement",
+          "choice": "headline",
+          "requiresFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.retirement.name-retires",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retires",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "headline",
+          "role": "retirement",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.letter-name-on-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "Letter: {name} on the {law}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.letter-name-backs-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "Letter: {name} backs the {law}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "requiresFacts": ["supports"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.name-writes-in-support-of-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} writes in support of the {law}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "requiresFacts": ["supports"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.letter-name-opposes-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "Letter: {name} opposes the {law}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "requiresFacts": ["opposes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.name-writes-against-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} writes against the {law}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "requiresFacts": ["opposes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.letter-name-on-designation",
+      "move": "letter",
+      "kind": "written",
+      "text": "Letter: {name} on {designation}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "excludesFacts": ["law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.name-writes-in-support-of-designation",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} writes in support of {designation}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "requiresFacts": ["supports"],
+          "excludesFacts": ["law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.name-writes-against-designation",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} writes against {designation}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "requiresFacts": ["opposes"],
+          "excludesFacts": ["law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.retirement.name-retires-from-public-service",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retires from public service",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "headline",
+          "role": "retirement",
+          "choice": "headline",
+          "requiresFacts": ["government"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.anniversary.subject-marks-years-years",
+      "move": "anniversary",
+      "kind": "written",
+      "text": "{subject} marks {years} years",
+      "uses": [
+        {
+          "move": "anniversary",
+          "subject": "headline",
+          "role": "anniversary",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.anniversary.subject-turns-years",
+      "move": "anniversary",
+      "kind": "written",
+      "text": "{subject} turns {years}",
+      "uses": [
+        {
+          "move": "anniversary",
+          "subject": "headline",
+          "role": "anniversary",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.anniversary.years-years-of-subject",
+      "move": "anniversary",
+      "kind": "written",
+      "text": "{years} years of {subject}",
+      "uses": [
+        {
+          "move": "anniversary",
+          "subject": "headline",
+          "role": "anniversary",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.home-sale.a-home-sells-in-place",
       "move": "home-sale",
       "kind": "written",
@@ -6916,6 +7899,433 @@
         "move": "headline",
         "key": "news-received"
       }
-    }
+    },
+    {
+      "key": "headlines.public-action.residents-protest-issue-in-place",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Residents protest {issue} in {place}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["protest", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.protesters-press-place-officials-on-issue",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Protesters press {place} officials on {issue}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["protest", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.workers-walk-out-in-place-over-issue",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Workers walk out in {place} over {issue}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["strike", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.walkout-in-place-over-issue",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Walkout in {place} over {issue}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["strike", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.local-address.name-gives-the-states-yearly-address",
+      "move": "local-address",
+      "kind": "written",
+      "text": "{name} gives the state's yearly address",
+      "uses": [
+        {
+          "move": "local-address",
+          "subject": "headline",
+          "role": "local-address",
+          "choice": "headline",
+          "requiresFacts": ["state"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.local-address.name-addresses-the-legislature",
+      "move": "local-address",
+      "kind": "written",
+      "text": "{name} addresses the legislature",
+      "uses": [
+        {
+          "move": "local-address",
+          "subject": "headline",
+          "role": "local-address",
+          "choice": "headline",
+          "requiresFacts": ["state"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.local-address.name-gives-the-towns-yearly-address",
+      "move": "local-address",
+      "kind": "written",
+      "text": "{name} gives the town's yearly address",
+      "uses": [
+        {
+          "move": "local-address",
+          "subject": "headline",
+          "role": "local-address",
+          "choice": "headline",
+          "requiresFacts": ["town"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.local-address.name-addresses-the-council",
+      "move": "local-address",
+      "kind": "written",
+      "text": "{name} addresses the council",
+      "uses": [
+        {
+          "move": "local-address",
+          "subject": "headline",
+          "role": "local-address",
+          "choice": "headline",
+          "requiresFacts": ["town"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.place-gathers-to-mark-a-good-year-for-area",
+      "move": "public-action",
+      "kind": "written",
+      "text": "{place} gathers to mark a good year for {area}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.neighbors-in-place-turn-out-glad-of-how-area-has",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Neighbors in {place} turn out, glad of how {area} has gone",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.place-rallies-behind-a-good-year-for-area",
+      "move": "public-action",
+      "kind": "written",
+      "text": "{place} rallies behind a good year for {area}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.name-offered-an-official-a-bribe-records-show",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} offered an official a bribe, records show",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["offered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.records-tie-name-to-a-bribe-offer",
+      "move": "exposed",
+      "kind": "written",
+      "text": "Records tie {name} to a bribe offer",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["offered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.address-response.name-answers-opponents-address",
+      "move": "address-response",
+      "kind": "written",
+      "text": "{name} answers {opponent}'s address",
+      "uses": [
+        {
+          "move": "address-response",
+          "subject": "headline",
+          "role": "address-response",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.address-response.name-objects-to-opponents-plan-for-issue",
+      "move": "address-response",
+      "kind": "written",
+      "text": "{name} objects to {opponent}'s plan for {issue}",
+      "uses": [
+        {
+          "move": "address-response",
+          "subject": "headline",
+          "role": "address-response",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.floor-debate.name-and-opponent-split-on-designation",
+      "move": "floor-debate",
+      "kind": "written",
+      "text": "{name} and {opponent} split on {designation}",
+      "uses": [
+        {
+          "move": "floor-debate",
+          "subject": "headline",
+          "role": "floor-debate",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.floor-debate.designation-name-for-opponent-against",
+      "move": "floor-debate",
+      "kind": "written",
+      "text": "{designation}: {name} for, {opponent} against",
+      "uses": [
+        {
+          "move": "floor-debate",
+          "subject": "headline",
+          "role": "floor-debate",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.neighbors-in-place-form-a-standing-group-over-issue",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Neighbors in {place} form a standing group over {issue}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["movement", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.a-crowd-over-issue-becomes-a-group-in-place",
+      "move": "public-action",
+      "kind": "written",
+      "text": "A crowd over {issue} becomes a group in {place}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["movement", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {"key": "headlines.cabinet-nominated.name-named-for-office", "move": "cabinet-nominated", "kind": "written", "text": "{name} named for {office}", "uses": [{"move": "cabinet-nominated", "subject": "headline", "role": "cabinet-nominated", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
+    {"key": "headlines.cabinet-nominated.name-is-the-presidents-pick-for-office", "move": "cabinet-nominated", "kind": "written", "text": "{name} is the president's pick for {office}", "uses": [{"move": "cabinet-nominated", "subject": "headline", "role": "cabinet-nominated", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
+    {"key": "headlines.cabinet-nominated.president-nominates-name-to-be-office", "move": "cabinet-nominated", "kind": "written", "text": "President nominates {name} to be {office}", "uses": [{"move": "cabinet-nominated", "subject": "headline", "role": "cabinet-nominated", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
+    {"key": "headlines.cabinet-confirmed.senate-confirms-name-as-office", "move": "cabinet-confirmed", "kind": "written", "text": "Senate confirms {name} as {office}", "uses": [{"move": "cabinet-confirmed", "subject": "headline", "role": "cabinet-confirmed", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
+    {"key": "headlines.cabinet-confirmed.name-confirmed-as-office", "move": "cabinet-confirmed", "kind": "written", "text": "{name} confirmed as {office}", "uses": [{"move": "cabinet-confirmed", "subject": "headline", "role": "cabinet-confirmed", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
+    {"key": "headlines.cabinet-confirmed.name-wins-senate-confirmation-as-office", "move": "cabinet-confirmed", "kind": "written", "text": "{name} wins Senate confirmation as {office}", "uses": [{"move": "cabinet-confirmed", "subject": "headline", "role": "cabinet-confirmed", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
+    {"key": "headlines.cabinet-rejected.senate-turns-down-name-for-office", "move": "cabinet-rejected", "kind": "written", "text": "Senate turns down {name} for {office}", "uses": [{"move": "cabinet-rejected", "subject": "headline", "role": "cabinet-rejected", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
+    {"key": "headlines.cabinet-rejected.name-turned-down-by-the-senate-for-office", "move": "cabinet-rejected", "kind": "written", "text": "{name} turned down by the Senate for {office}", "uses": [{"move": "cabinet-rejected", "subject": "headline", "role": "cabinet-rejected", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
+    {"key": "headlines.cabinet-rejected.senate-votes-down-name-for-office", "move": "cabinet-rejected", "kind": "written", "text": "Senate votes down {name} for {office}", "uses": [{"move": "cabinet-rejected", "subject": "headline", "role": "cabinet-rejected", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}}
   ]
 }

@@ -5,6 +5,7 @@
 // Run against a fresh bench: node src/bench/birthday.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 
 const shots = process.argv[2];
 const browser = await chromium.launch({
@@ -35,6 +36,8 @@ try {
   if (await page.locator("#new-advanced").isVisible())
     await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
+  // The opening plays first, as a player sees it (start-life.mjs).
+  await playOpening(page, (await (await made).json()).sceneMomentId ?? null);
   console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
@@ -86,11 +89,8 @@ try {
     listed,
     `Coming up does not list ${words(own.date)}, your birthday`,
   );
+  // One press of Escape closes the open menu.
   await page.keyboard.press("Escape");
-  await page
-    .locator("#sheet-close")
-    .click()
-    .catch(() => {});
 
   // Week by week until the clock reaches the day: it stops on it.
   const clockDate = async () =>

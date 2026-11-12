@@ -6,12 +6,11 @@ lead: words
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: words/swearing-in
+status: dropped
+claimed-by:
 pr:
 blocked-on:
 source: owner, Oct 29 voice note on the governing brief
-claimed-at: 2026-10-29T21:33:49.309Z
 ---
 
 **What.** The owner ruled Sept 22 that "swearing in needs to be an event", and on Oct 29: "Yes, swearing in, it needs to happen... that's just a scene... depending on what your office is, you'll give a speech and... the word session will handle that." Today none of the director's 85 situation types is a swearing-in, so the player is seated silently on the start date (governing brief, Oct 29). The scene fires from the took-office record the offices engine already writes, casts who would be there from the world, and opens an address by office where the office gives one (mayor, governor, president).
@@ -25,3 +24,11 @@ claimed-at: 2026-10-29T21:33:49.309Z
 **Notes.** Filed by the CTO, Oct 29, from the owner's voice note on the governing brief (OWNER-DECISIONS, Oct 29 21:40 UTC). Read: OWNER-DECISIONS, DECISION-REGISTER, the governing brief's four research notes; searched the pool for twins.
 
 Built on branch words/swearing-in (helper, Oct 29): type `swearing-in` (src/director/data/situation-types.json, purpose arc in purpose-arcs.json), cast fills `oath-giver` and `sworn-colleagues` (src/director/civic-roles.ts, src/director/swearing-in.ts), the address through the speech engine (src/director/inaugural-address.ts, data in src/director/data/swearing-in.json), lines in scene-talk, scene-words and journal, proof in src/director/swearing-in-scene.test.ts, packet docs/design/scenes/from-life/sworn-in.md. Stopgaps: SG-WORDS-swearing-in-no-court, SG-WORDS-swearing-in-address-in-scene. Not done: the bench screenshot in docs/play-first/shots.
+
+Words handoff, Nov 2 02:50 UTC (the account at its weekly limit): branch words/swearing-in, head 917b9d1bd6, fully merged (#6840). Next step: check the done-when against main (the took-office record opening the scene, the address for an executive office, the shot in docs/play-first/shots) and set it done or finish what is missing.
+
+**Notes.** Lane 3, Nov 4 UTC: already built on main. The `swearing-in` situation fires on `cause:event:took-office` (selfNamed), with `swearing-in.ts`, `inaugural-address.ts` and the fills `oath-giver` and `sworn-colleagues`. `src/director/swearing-in-scene.test.ts` ("taking office is a swearing-in scene: the oath on the record, and an address where the office gives one") passes on main. Still owed against the done-when: the bench screenshot in docs/play-first/shots. Nothing else to build.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The swearing-in situation fires on took-office (src/director/data/situation-types.json line 6655), src/director/swearing-in.ts exists, and src/director/swearing-in-scene.test.ts proves the oath and the executive address. The only thing owed was a screenshot, which the acceptance rule (a second session sees it in the game) replaces.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

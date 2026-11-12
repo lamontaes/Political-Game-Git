@@ -18,13 +18,13 @@
     "emission-rules-to-particulates",
     "disaster-to-out-migration",
     "disaster-to-home-values",
-    "work-requirement-to-coverage",
     "minimum-wage-to-low-wage-jobs",
     "school-spending-to-attainment",
     "enforcement-to-hispanic-enrollment",
     "graduation-to-turnout",
     "rent-control-to-rental-supply",
     "rent-control-to-tenant-stays",
+    "rent-burden-to-homelessness",
     "home-prices-to-owner-births",
     "home-prices-to-renter-births",
     "property-tax-to-rent",
@@ -38,7 +38,6 @@
     "universal-childcare-to-mothers-work",
     "voter-id-to-turnout",
     "newspaper-closure-to-engagement",
-    "medicaid-expansion-to-coverage",
     "medicaid-expansion-to-mortality",
     "medicaid-expansion-to-medical-debt",
     "universal-prek-to-graduation",
@@ -64,7 +63,6 @@
     "tariffs-to-prices",
     "housing-vouchers-to-homelessness",
     "retirement-age-to-older-work",
-    "drug-negotiation-to-out-of-pocket",
     "federal-loan-cap-to-high-cost-loans",
     "universal-prek-to-math-proficiency",
     "universal-prek-to-reading-proficiency",
@@ -123,6 +121,7 @@
     "highway-money-for-transit-to-service",
     "defense-contracts-to-earnings",
     "transit-service-to-ridership",
+    "federal-deficit-to-borrowing-cost",
     "mileage-fee-to-vehicle-miles",
     "fix-it-first-to-poor-roads",
     "highways-spending-to-poor-roads",
@@ -200,7 +199,11 @@
     },
     "coverage-to-mortality-55-64": {
       "waitingOn": [],
-      "carriedBy": "the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through ownCoverageFactor in src/core2/health-own.ts), which reads the Medicaid coverage the law reach pays them (medicaidCoverageSpells in src/core2/law-reach/group-b-money.ts, one obligation record per payment) and multiplies their death hazard at 55 to 64 by this row's size per covered year, twelve months after the coverage, against the coverage they held at their first look; the place-level medicaid-expansion-to-mortality row is left out of their web factor (deathWebFactor in src/core2/health-web.ts). Counted people keep the place-level row (stopgap SG-HEALTH-own-records-counted)"
+      "carriedBy": "the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through ownCoverageFactor in src/core2/health-own.ts), which reads the Medicaid coverage the law reach keeps for them (medicaidCoverageSpells in src/core2/law-reach/group-b-money.ts, one coverage record per stretch) and multiplies their death hazard at 55 to 64 by this row's size per covered year, twelve months after the coverage, against the coverage they held at their first look; the place-level medicaid-expansion-to-mortality row is left out of their web factor (deathWebFactor in src/core2/health-web.ts). Counted people keep the place-level row (stopgap SG-HEALTH-own-records-counted)"
+    },
+    "work-requirement-to-coverage": {
+      "waitingOn": [],
+      "carriedBy": "the law reach's Medicaid coverage records in the town (recordCoverage in src/core2/law-reach/group-b-money.ts keeps, under the requirement's key, a coverage record by person id for each adult the expansion reaches whose coverage the requirement ends, coverage|<law key>|<person id>|<from day>, read by medicaidCoverageSpells with ENDED_BY_REQUIREMENT), which the coverage engine's monthly bills read when they price each member (plans and billMembers in src/core2/medical-bills.ts): such a member pays their own plan's share where Medicaid's would have been theirs, and the household pays that added part first under journal ids that cite the requirement (requirementMinor, payFull and payCounted). The coverage engine's employer-plan count (holdersToday in src/core2/modules/coverage.ts) does not read this link in any place, since Medicaid coverage is not an employer plan; the reach keeps coverage records only for the town's residents, so outside the town the requirement reaches no billed household (stopgap SG-GOV-REACH-B-medicaid-coverage)"
     },
     "work-requirement-to-employment": {
       "waitingOn": ["labor.employment-rate"]
@@ -258,8 +261,8 @@
       "needsSize": true
     },
     "class-size-to-scores": {
-      "waitingOn": ["school.class-size-k3", "school.test-scores"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "the school engine's math and reading tests (decideSchoolOutcome in src/core2/school-outcomes.ts), which read the district's pupil-teacher ratio from its records (pupilTeacherRatio: the tested cohort over all grades at the public share, over the district's teacher jobs) and move each eighth grader's expected share of clearing the proficiency line by the normal-density change of the shift in standard deviations (classSizeShiftSd: pupils fewer than the ratio the world opened on, as a share of the 8.5-pupil gap between small and regular classes, times this row's size, of which grade 8 keeps the researched quarter), so the web does not also run it"
     },
     "prek-to-graduation": {
       "waitingOn": [],
@@ -319,10 +322,6 @@
     "new-apartments-to-nearby-rent": {
       "waitingOn": [],
       "carriedBy": "the housing engine's lease renewal (renewRentalLeases in src/core2/housing-occupancy.ts), which moves each renewing lease by the place's change in rental vacancy raised to the rental elasticity, so the units a new building adds lower the rents tenants renew at; the research measures one building within about 250 meters, a scale the game does not keep, so the engine's own vacancy response stands for it"
-    },
-    "rent-burden-to-homelessness": {
-      "waitingOn": [],
-      "needsSize": true
     },
     "eviction-to-homelessness": {
       "waitingOn": [],
@@ -400,7 +399,11 @@
     },
     "economy-to-approval": {
       "waitingOn": [],
-      "carriedBy": "the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading nationalEconomyChange), which takes the national unemployment and inflation against the opening into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot. The game keeps no approval number, so the economy's effect lands on the vote; this row has no size, so the engine's own shares (unemploymentShare and inflationShare in src/core2/data/electorate/parameters.json) stand"
+      "carriedBy": "the national-opinion engine (src/core2/modules/national-opinion.ts), which moves the monthly approval of the president by the year's change in national unemployment and inflation (pointsPerUnemploymentPoint and pointsPerInflationPoint in src/core2/data/electorate/national-opinion.json), and the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading approvalGapPoints), which takes approval's gap from its long-run mean into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot; this row has no size, so the engine's own shares stand"
+    },
+    "medicaid-expansion-to-coverage": {
+      "waitingOn": [],
+      "carriedBy": "the law reach's Medicaid coverage records in the town (recordCoverage in src/core2/law-reach/group-b-money.ts keeps each covered resident's coverage, named and counted, as a coverage record by person id, coverage|<law key>|<person id>|<from day>, joined into stretches by medicaidCoverageSpells), which the coverage engine's monthly bills read when they price each member (plans and billMembers in src/core2/medical-bills.ts): a member the expansion covers pays Medicaid's 9.1 percent share of their care instead of an employer plan's or the uninsured share, and the treasuries pay Medicaid's part to the seller (payMedicaidCare). The coverage engine's employer-plan count (holdersToday in src/core2/modules/coverage.ts) does not read this link in any place, since Medicaid coverage is not an employer plan. Outside the town, where the reach keeps no coverage records, the expansion's whole effect on a billed household's money is the place-level medicaid-expansion-to-medical-debt row on the share its unpaid bills send to collections"
     },
     "snap-work-requirement-to-participation": {
       "waitingOn": [],
@@ -435,6 +438,10 @@
     "federal-minimum-wage-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/law-reach/group-a-wages.ts writes the wage row that src/core2/modules/jobs.ts wageFloor applies"
+    },
+    "drug-negotiation-to-out-of-pocket": {
+      "waitingOn": [],
+      "carriedBy": "the medical bills' monthly pass (billMembers in src/core2/medical-bills.ts), which reads the federal Medicare drug price negotiation law in force (lawInForce) and multiplies each Medicare member's bill by one plus this row's size, so the cause is decided from the law itself and the web does not also run it"
     },
     "student-debt-relief-to-finances": {
       "waitingOn": ["finance.past-due-debt"],
@@ -524,9 +531,6 @@
     "farm-payments-cut-to-land-values": {
       "waitingOn": ["federal.farm-payments-cut-pct-of-land-value"]
     },
-    "federal-deficit-to-borrowing-cost": {
-      "waitingOn": ["federal.deficit-change-pct-of-gdp"]
-    },
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
     },
@@ -581,6 +585,30 @@
     "welfare-spending-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/world-poverty.ts adds the cash assistance each household draws from the welfare line (assistanceIncomeByHousehold, written by payBenefits in src/core2/law-reach/group-b-money.ts) to its yearly income before it is set against its threshold; the poverty share the web reads is that record"
+    },
+    "emissions-to-warming": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    "warming-to-flood-hazard": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    "warming-to-storm-hazard": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    "warming-to-drought-hazard": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    "warming-to-wildfire-hazard": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    "warming-to-heat-hazard": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
     }
   },
   "measuresWanted": {
@@ -594,10 +622,6 @@
     },
     "health.coverage": {
       "owner": "OPUS-PEOPLE",
-      "links": 3
-    },
-    "school.test-scores": {
-      "owner": "OPUS-GOV",
       "links": 3
     },
     "business.incentive-deal": {
@@ -625,6 +649,10 @@
       "links": 2
     },
     "program.child-benefit-dollars": {
+      "owner": "OPUS-GOV",
+      "links": 2
+    },
+    "school.test-scores": {
       "owner": "OPUS-GOV",
       "links": 2
     },
@@ -674,10 +702,6 @@
     },
     "family.same-sex-marriages": {
       "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
-    "federal.deficit-change-pct-of-gdp": {
-      "owner": "OPUS-GOV",
       "links": 1
     },
     "federal.farm-payments-cut-pct-of-land-value": {
@@ -829,10 +853,6 @@
       "links": 1
     },
     "school.ac-share": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "school.class-size-k3": {
       "owner": "OPUS-GOV",
       "links": 1
     },

@@ -21,6 +21,31 @@
       "citation": "Firms close roughly a third of an employment gap per quarter (Hamermesh 1989, AER; Hamermesh and Pfann 1996, JEL); checked against JOLTS hires and layoffs."
     }
   },
+  "jobsHoursFloorShare": {
+    "value": 0.85,
+    "tag": "ESTIMATED",
+    "citation": "BLS Current Employment Statistics, average weekly hours of all employees on private payrolls (FRED AWHAETP): firms cut the workweek in a downturn before they cut staff, by a few percent at the 2009 trough against 2007 (figures not fetched in this session; to confirm).",
+    "estimatedFrom": "A 34-hour week is 0.85 of a 40-hour full-time week; it is the midpoint of the curve that splits a shortfall between hours and heads: the most the workweek gives is one less this share, approached smoothly as the shortfall deepens, never a floor.",
+    "spread": {
+      "low": 0.7,
+      "high": 0.95,
+      "unit": "share of a job's full daily hours",
+      "citation": "BLS CES average weekly hours, private, 2007-2019."
+    },
+    "role": "coefficient"
+  },
+  "jobsHoursQuantumHours": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Schedules move in quarter hours; a change smaller than that changes no one's shift.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.5,
+      "unit": "hours",
+      "citation": "Scheduling practice."
+    },
+    "role": "coefficient"
+  },
   "jobsCashCoverMonths": {
     "value": 2,
     "tag": "TUNABLE",
@@ -183,6 +208,18 @@
       "high": 0,
       "unit": "score",
       "citation": "CPS labor force flows, 1990-2019."
+    }
+  },
+  "jobsContinueBaseline": {
+    "value": -1,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "How far continuing to look sits below staying out for someone already looking, before money pressure: below zero because some of the unemployed give up each month, far less than the cost of starting (jobsEnterBaseline -2.5). Checked against CPS gross flows (FRED, monthly, Jan 2023 to Oct 2026): of the unemployed, 49 percent are unemployed again the next month (LNS17500000 mean 3,273 thousand of UNEMPLOY mean 6,657 thousand), 26 percent are employed (LNS17100000, about 1.7 million) and so about 25 percent leave the labor force. In a generated world (Riverside County CA 0610088, seed p2, 116 opening seekers at the 6.5 percent regional rate) the entry baseline applied to them left 2 still looking after 30 days, and at -1 82 remain and 33 stop looking (28 percent).",
+    "spread": {
+      "low": -1.5,
+      "high": 0,
+      "unit": "score",
+      "citation": "At 0 none give up; at -1.5, 67 of 116 stop looking in 30 days (58 percent), more than twice the CPS share."
     }
   },
   "jobsEarliestRetirementAge": {
@@ -515,6 +552,54 @@
       "high": 0.0025,
       "unit": "share of pay a year per year of how they work",
       "citation": "Merit points per deviation of rated performance 0.8 to 1.2 (WorldatWork Figure 18's 1.2 to 2.0 point gaps between performance groups), the trait correlation 0.20 to 0.23 across occupational groups (Barrick and Mount 1991, Table 2) and the lean spread 0.25 to 0.34 across the three places traitWeightJobsValueWorker names."
+    }
+  },
+  "livesRetirementBandSpanYears": {
+    "value": 10,
+    "tag": "ESTIMATED",
+    "citation": "The years between the CPS 2024 participation bands 55-64 and 65+ (data/research/labor/cps-2024-employment-by-age.json): someone living elsewhere at or past the earliest retirement age builds a pull to retire each year of ln(participation at 55-64 / participation at 65+) over this span, about 0.12 a year (65.9% to 19.5%).",
+    "estimatedFrom": "The midpoint of 55-64 (about 60) to the median age of the 65+ labor force's exit (about 70).",
+    "spread": {
+      "low": 7,
+      "high": 12,
+      "unit": "years",
+      "citation": "BLS CPS participation by single year of age, 2015-2019: the fall from 62 to 70 spans about seven to twelve years at the rates of the two bands."
+    }
+  },
+  "jobsRecordApplicantPenalty": {
+    "value": 4,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "ESTIMATED from the callback gap for an applicant with a record where the employer asks. Agan and Starr 2018 (Quarterly Journal of Economics 133(1); ban-the-box field experiment, about 15,000 applications): applicants without a record drew 13.4 percent callbacks against 8.2 percent with one, a gap of 39 percent. Pager 2003 (American Journal of Sociology 108(5), matched testers): a record about halved callbacks, a gap of about 50 percent. Converted to fit points at the same rate that sets the age penalty (jobsOlderApplicantPenalty, 3 points for a callback gap of about 30 percent, a tenth of a point per percentage point of gap): 39 percent is 3.9 points, 50 percent is 5. The law's own effect is not a second number: with ban-the-box in force the penalty is not applied (Agan and Starr: callbacks for applicants with a record rose from 8.4 to 11 percent for black and from 8.8 to 15 percent for white applicants at treated employers).",
+    "spread": {
+      "low": 3.9,
+      "high": 5,
+      "unit": "fit score",
+      "citation": "The two studies' callback gaps (39 and about 50 percent) at a tenth of a point per percentage point."
+    }
+  },
+  "jobsAbsenceMonthsToDismissal": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Months of attending none of the scheduled days before an employer lets a worker go; a part-absence builds the pull in proportion and attendance wears it down. Handbook practice lets a worker go after a few no-call, no-show days; the figure is the upper end, checked against the total of discharges in BLS JOLTS (layoffs and discharges about 1.2% of employment a month, of which discharges are the smaller part).",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "months of full absence",
+      "citation": "Half a month (a handful of no-shows) to a quarter."
+    }
+  },
+  "jobsReofferRealRaiseShare": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "The real raise that makes an employer whose earlier offer a person turned down or let lapse ask again with the same job: what pay must rise beyond the nation's hourly earnings before the offer is a new one rather than the same call. Set near the premium job switchers earn over stayers each year (the Federal Reserve Bank of Atlanta's Wage Growth Tracker, 2024: about 1 to 2 points a year on a 4 to 5 percent base) compounded over the months a raise takes to build, so a cents-an-hour drift never counts. Checked against played years in which one employer phoned a jobless 17-year-old three times for the same job (Ninnekah, Oklahoma, seed 3dac8ffb3f3c).",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of the earlier offer's pay, after the nation's hourly earnings",
+      "citation": "The real raise that makes an employer whose earlier offer a person turned down or let lapse ask again with the same job: what pay must rise beyond the nation's hourly earnings before the offer is a new one rather than the same call. Set near the premium job switchers earn over stayers each year (the Federal Reserve Bank of Atlanta's Wage Growth Tracker, 2024: about 1 to 2 points a year on a 4 to 5 percent base) compounded over the months a raise takes to build, so a cents-an-hour drift never counts. Checked against played years in which one employer phoned a jobless 17-year-old three times for the same job (Ninnekah, Oklahoma, seed 3dac8ffb3f3c)."
     }
   }
 }

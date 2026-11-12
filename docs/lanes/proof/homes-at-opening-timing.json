@@ -1,0 +1,108 @@
+[
+  {
+    "attempt": 1,
+    "replay": "d985ed7523676597",
+    "place": "3011800",
+    "host": "4c46091479ea",
+    "controlledBase": "8801f11542e2c3c2a238396b7bda0c1e3932282c",
+    "runtime": "44e8527dd136e7b2e904069bceba325a3722d4c4",
+    "rawBaseHead": "44e8527dd136e7b2e904069bceba325a3722d4c4",
+    "rawCandidateHead": "44e8527dd136e7b2e904069bceba325a3722d4c4",
+    "rawBaseSourceMain": null,
+    "years": [
+      {
+        "year": 1,
+        "baseSeconds": 12,
+        "headSeconds": 12.5,
+        "changePercent": 4.17,
+        "baseRecords": 125213,
+        "headRecords": 125323,
+        "baseFingerprint": "a3a823deb38df549",
+        "headFingerprint": "daacd9a56e29246e"
+      },
+      {
+        "year": 2,
+        "baseSeconds": 16.5,
+        "headSeconds": 17.6,
+        "changePercent": 6.67,
+        "baseRecords": 214956,
+        "headRecords": 215066,
+        "baseFingerprint": "07b38f9f3447f7bf",
+        "headFingerprint": "983a629703be2b60"
+      },
+      {
+        "year": 3,
+        "baseSeconds": 14.3,
+        "headSeconds": 17.4,
+        "changePercent": 21.68,
+        "baseRecords": 263523,
+        "headRecords": 263633,
+        "baseFingerprint": "31d2429f1722e7fb",
+        "headFingerprint": "d0f80e484e1667df"
+      },
+      {
+        "year": 4,
+        "baseSeconds": 23.3,
+        "headSeconds": 23.7,
+        "changePercent": 1.72,
+        "baseRecords": 345360,
+        "headRecords": 345470,
+        "baseFingerprint": "37a8eeb8dd300ab0",
+        "headFingerprint": "c88d894298a119f0"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "replay": "d985ed7523676597",
+    "place": "3011800",
+    "host": "4c46091479ea",
+    "controlledBase": "8801f11542e2c3c2a238396b7bda0c1e3932282c",
+    "runtime": "44e8527dd136e7b2e904069bceba325a3722d4c4",
+    "rawBaseHead": "12ea186d389a5492d31e5ac78fe9b05c5b0f56a8",
+    "rawCandidateHead": "12ea186d389a5492d31e5ac78fe9b05c5b0f56a8",
+    "rawBaseSourceMain": null,
+    "years": [
+      {
+        "year": 1,
+        "baseSeconds": 13.3,
+        "headSeconds": 12.6,
+        "changePercent": -5.26,
+        "baseRecords": 125213,
+        "headRecords": 125323,
+        "baseFingerprint": "a3a823deb38df549",
+        "headFingerprint": "daacd9a56e29246e"
+      },
+      {
+        "year": 2,
+        "baseSeconds": 15.6,
+        "headSeconds": 16.9,
+        "changePercent": 8.33,
+        "baseRecords": 214956,
+        "headRecords": 215066,
+        "baseFingerprint": "07b38f9f3447f7bf",
+        "headFingerprint": "983a629703be2b60"
+      },
+      {
+        "year": 3,
+        "baseSeconds": 14,
+        "headSeconds": 15,
+        "changePercent": 7.14,
+        "baseRecords": 263523,
+        "headRecords": 263633,
+        "baseFingerprint": "31d2429f1722e7fb",
+        "headFingerprint": "d0f80e484e1667df"
+      },
+      {
+        "year": 4,
+        "baseSeconds": 22.1,
+        "headSeconds": 22.7,
+        "changePercent": 2.71,
+        "baseRecords": 345360,
+        "headRecords": 345470,
+        "baseFingerprint": "37a8eeb8dd300ab0",
+        "headFingerprint": "c88d894298a119f0"
+      }
+    ]
+  }
+]

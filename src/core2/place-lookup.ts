@@ -451,6 +451,29 @@ export function coreStateKeyOfPlaceholderId(
   return stateKeyByPlaceholderId.get(jurisdictionId) ?? null;
 }
 
+let stateKeyByJurisdictionId: Map<string, string> | undefined;
+
+/**
+ * The state key (`US-KY`) of a state's own jurisdiction id (the record
+ * `coreStateJurisdiction` returns, or the wider population's placeholder),
+ * so a person recorded only at their state's level is placed in that state.
+ * Null for any other id.
+ */
+export function coreStateKeyOfJurisdictionId(
+  jurisdictionId: string,
+): string | null {
+  stateKeyByJurisdictionId ??= new Map(
+    corePlaceStateIdentities().flatMap((row) => {
+      const state = coreStateJurisdiction(row.jurisdictionKey);
+      return state ? [[state.id as string, row.jurisdictionKey] as const] : [];
+    }),
+  );
+  return (
+    stateKeyByJurisdictionId.get(jurisdictionId) ??
+    coreStateKeyOfPlaceholderId(jurisdictionId)
+  );
+}
+
 /** Canonical USPS / `US-KY` identities, not names recovered from place labels. */
 export function corePlaceStateIdentities(): readonly CorePlaceStateIdentity[] {
   return Object.entries(STATE_CLOCKS)

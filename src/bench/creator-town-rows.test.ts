@@ -12,10 +12,10 @@ const format = (n: number) => new Intl.NumberFormat("en-US").format(n);
 it("gives each same-named town its county as its own line, never inside the count", () => {
   const states = creatorStates() as { key: string; name: string }[];
   const state = states.find((row) =>
-    creatorTowns(row.key, "").some((town) => "county" in town),
+    creatorTowns(row.key, "", "creator-test").some((town) => "county" in town),
   );
   expect(state, "some state repeats a town name").toBeDefined();
-  const towns = creatorTowns(state!.key, "");
+  const towns = creatorTowns(state!.key, "", "creator-test");
   const repeated = towns.filter(
     (town) => "county" in town,
   ) as ((typeof towns)[number] & {

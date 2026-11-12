@@ -4,6 +4,7 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import { relationPhrase } from "../english/journal-words";
+import { lawName, lawTopic } from "./journal";
 import {
   sceneParagraph,
   wordSceneLine,
@@ -19,6 +20,7 @@ import {
   type ScheduleEntry,
 } from "./scheduling";
 import { properName, spoken } from "./words";
+import { dayOpening, daySince } from "../english/day-words";
 
 const zero = P.zero;
 
@@ -31,6 +33,8 @@ export interface SceneRows {
   causes: readonly string[];
   /** The moves that open a scene, each narrated by the bank's opening sentences. */
   openings?: readonly string[];
+  /** The setting kinds the first line of a scene (day, place, person) is worded for. */
+  arrivals?: readonly string[];
 }
 export type { SceneLine };
 
@@ -46,6 +50,13 @@ export interface Scene {
    * there, what led here), then the characters play the scene out.
    */
   narration: SceneLine[];
+  /**
+   * The scene's first line, naming the day, the place and the person the
+   * player meets (owner, Nov 8). It is the narration's first sentence; a
+   * scene that plays another narrator's words (an exchange with a purpose)
+   * opens on it unless those words already name the day.
+   */
+  arrival?: SceneLine;
   /** The person who opens the scene and whom the conversation is with. */
   talkToId?: PersonId;
   /**
@@ -61,12 +72,29 @@ export interface Scene {
   occasion?: string;
 }
 
+/** Whether two people share a household. */
+function livesWith(
+  core: Readonly<CoreState>,
+  personId: string,
+  otherId: string,
+): boolean {
+  const person = core.people.get(personId as PersonId);
+  return (
+    !!person &&
+    (core.households.get(person.householdId)?.memberIds ?? []).includes(
+      otherId as PersonId,
+    )
+  );
+}
+
 export function composeScene(
   core: Readonly<CoreState>,
   director: Director,
   personId: PersonId,
   entry: ScheduleEntry,
   words?: SceneWords,
+  /** The minute of the day the scene plays at; without it, the moment's stop or the day's start. */
+  minuteOfDay?: number,
 ): Scene | null {
   const book = director.ledger.people.get(personId);
   const moment = book?.momentsById.get(entry.momentId);
@@ -132,15 +160,14 @@ export function composeScene(
       ...(words ? { words } : {}),
     });
 
-  // The narrator never restates what the screen shows (owner, Oct 26: "it
-  // shouldn't say you're at home in Albion or it's Tuesday in November";
-  // Oct 27: "When it says you're in place or person is with you, I hate
-  // those"): no day, no place and nobody announced as there. Only how the
-  // scene reaches the player is said: a call or a letter.
+  // Every scene opens on one line that names the day, the place and the
+  // person the player meets (owner, Nov 8: "If it's June 7th, it says first
+  // thing on June 7th. You head to the clerk's office and speak to Maria
+  // Patton. And then it starts like that."), which replaces the line that
+  // only said a call or a letter. It supersedes Oct 26 and 27's "never the
+  // day or the place", which were about restating the screen's own labels.
   const sentences: SceneLine[] = [];
   const { kind } = binding.setting;
-  const setting = render({ part: "setting", kind }, {}, `${moment.id}:setting`);
-  if (setting) sentences.push(setting);
 
   // Nobody is announced as merely there;
   // the scene's lead says who came and why.
@@ -154,6 +181,57 @@ export function composeScene(
     ? undefined
     : (opener?.personIds.find((id) => id !== personId) ??
       moment.counterpartIds.find((id) => binding.presentIds.includes(id)));
+  const meeting = talkToId ? core.people.get(talkToId) : undefined;
+  const settingOrg =
+    kind === "workplace" || kind === "office" || kind === "school"
+      ? core.organizations.get(binding.setting.recordId)
+      : undefined;
+  const arrival = render(
+    { part: "arrival", kind },
+    () => {
+      const facts: Record<string, Fact> = {
+        begins: {
+          text: dayOpening(
+            core.date,
+            minuteOfDay ??
+              entry.stop?.at.minuteOfDay ??
+              core.data.parameters.playerDayStartMinute!.value,
+          ),
+          sourceRecordIds: [moment.id],
+        },
+      };
+      // A record made on an earlier day (a call that came in the evening,
+      // played the next morning) is told as past: "yesterday".
+      const since = daySince(moment.date, core.date);
+      if (since) facts.since = { text: since, sourceRecordIds: [moment.id] };
+      if (meeting)
+        facts.name = {
+          text: `${meeting.givenName} ${meeting.familyName}`,
+          sourceRecordIds: [meeting.id],
+        };
+      if (settingOrg)
+        facts.where = {
+          text: properName(settingOrg.name),
+          sourceRecordIds: [settingOrg.id],
+        };
+      return facts;
+    },
+    `${moment.id}:arrival`,
+    // Someone who lives with the player does not arrive: they are home, so
+    // the day opens as it does alone and the scene's lead says who is there.
+    (facts) =>
+      facts.name && !(meeting && livesWith(core, personId, meeting.id))
+        ? "other"
+        : "alone",
+  );
+  // The call or letter line is the fallback when no arrival is worded.
+  const setting = arrival
+    ? null
+    : render({ part: "setting", kind }, {}, `${moment.id}:setting`);
+  if (arrival) sentences.push(arrival);
+  else if (setting) sentences.push(setting);
+  // Said in full once, so later lines call them by their first name.
+  if (talkToId && arrival?.usedFactKeys?.includes("name")) named.add(talkToId);
   const wasNamed = talkToId ? named.has(talkToId) : false;
   const lead = binding.said
     ? null
@@ -237,6 +315,34 @@ export function composeScene(
             };
           const town = place(person.placeId);
           if (town) facts.place = town;
+          // A law's effect learned: which law, by its bill's name or what
+          // it is about, and what the household paid or got back under it,
+          // from the learned record (place-prices: refund minus charge).
+          const learned = core.durableLog.get(moment.causeId);
+          if (learned?.kind === "law.effect-learned") {
+            const lawId = String(learned.facts?.lawId ?? "");
+            const named = lawName(core, lawId);
+            const about = named ? undefined : lawTopic(core, lawId);
+            if (named)
+              facts.law = {
+                text: named.text,
+                sourceRecordIds: [moment.causeId, ...named.recordIds],
+              };
+            else if (about)
+              facts.topic = {
+                text: about.text,
+                sourceRecordIds: [moment.causeId, ...about.recordIds],
+              };
+            const moved = Number(learned.facts?.movedMinor ?? P.zero);
+            if (Number.isFinite(moved) && moved !== P.zero)
+              facts[moved < P.zero ? "cost" : "refund"] = {
+                text: new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                }).format(Math.abs(moved) / P.minorPerDollar),
+                sourceRecordIds: [moment.causeId],
+              };
+          }
           return facts;
         },
         `${moment.id}:cause`,
@@ -297,6 +403,7 @@ export function composeScene(
     momentId: moment.id,
     typeKey: binding.typeKey,
     setting: binding.setting,
+    ...(arrival ? { arrival } : {}),
     presentIds: binding.presentIds,
     presentReasons: binding.presentReasons ?? {},
     narration,

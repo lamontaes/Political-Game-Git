@@ -5,13 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: lane3/lines-by-tie
+pr: #7186
 blocked-on:
 source: "Helper B, Oct 27, episode docs/design/scenes/from-life/concession-call-received.md"
 lead: words
-claimed-at:
+claimed-at: 2026-11-04T02:15:17.785Z
 ---
 
 **What.** The Wildermyth standard (scene-standard rule 4) asks every spoken line to have versions by the speaker's top trait and their tie to the player, but the scene-talk bank selects only by move, step, bearing and the facts a scene carries. No fact in a scene says the speaker is the player's friend, rival or partner, so a loser calling the winner sounds the same whether the two were allies or enemies. Add a tie fact to the scene's facts from the relationship record and write tie-keyed versions for the concession call first, then for the other purposes the owner has heard.

@@ -1,0 +1,43 @@
+town,replay,playerId,relation,relativeId,name,birthDate,alive
+"Haleyville, Alabama",ab5f58e9be125c95,person_948d083dd7964dbd,father,person_948d063dd7964a57,Matthew Ortiz,1972-06-17,True
+"Haleyville, Alabama",ab5f58e9be125c95,person_948d083dd7964dbd,sister,person_948d053dd79648a4,Anna Ortiz,2008-03-16,True
+"Haleyville, Alabama",ab5f58e9be125c95,person_948d083dd7964dbd,sister,person_412c508d5108e6f7,River Giles,2004-06-10,True
+"Haleyville, Alabama",ab5f58e9be125c95,person_948d083dd7964dbd,grandmother,person_33a44ba52ab1e939,Frances Giles,1947-10-14,True
+"Haleyville, Alabama",ab5f58e9be125c95,person_948d083dd7964dbd,mother,person_124d53f2f560426d,Alex Powell,1975-08-19,True
+"Murray, Nebraska",1d3f0e18ca4ba7e5,person_d5bc4d31ae836f59,mother,person_abbfec353f4da28f,Nina Webb,1967-12-25,True
+"Murray, Nebraska",1d3f0e18ca4ba7e5,person_d5bc4d31ae836f59,sister,person_1b09a658abda96dd,Gabriella Webb,2004-08-23,True
+"Murray, Nebraska",1d3f0e18ca4ba7e5,person_d5bc4d31ae836f59,father,person_78400e8f843d0ae2,Jacob Webb,1964-12-20,True
+"Murray, Nebraska",1d3f0e18ca4ba7e5,person_d5bc4d31ae836f59,brother,person_1b09a058abda8cab,Anthony Webb,2010-05-22,True
+"Murray, Nebraska",1d3f0e18ca4ba7e5,person_d5bc4d31ae836f59,brother,person_1b09a558abda952a,Bo Webb,2001-06-02,True
+"Murray, Nebraska",1d3f0e18ca4ba7e5,person_d5bc4d31ae836f59,brother,person_1b09a458abda9377,Lawrence Webb,1998-03-20,True
+"Meadow Lakes, Alaska",f835dd278d7312a1,person_f453e2055d76a276,mother,person_f453e1055d76a0c3,Amanda Olsen,1990-01-24,True
+"Meadow Lakes, Alaska",f835dd278d7312a1,person_f453e2055d76a276,father,person_f453e0055d769f10,Mark Olsen,1986-04-27,True
+"Meadow Lakes, Alaska",f835dd278d7312a1,person_f453e2055d76a276,brother,person_f453e3055d76a429,Alex Olsen,2013-01-14,True
+"Meadow Lakes, Alaska",f835dd278d7312a1,person_f453e2055d76a276,brother,person_f453e5055d76a78f,Chase Olsen,2016-09-07,True
+"Meadow Lakes, Alaska",f835dd278d7312a1,person_f453e2055d76a276,grandfather,person_87f9a0abaf4d73c8,Charles Santiago,1958-09-14,True
+"Meadow Lakes, Alaska",f835dd278d7312a1,person_f453e2055d76a276,grandmother,person_8b9d78543ba03745,Jennifer Santiago,1961-11-24,True
+"Brookside, Delaware",4d50e1f88df997f9,person_0ad98a59ee17a254,mother,person_0ad98c59ee17a5ba,Piper Schmidt,1970-09-10,True
+"Brookside, Delaware",4d50e1f88df997f9,person_0ad98a59ee17a254,sister,person_0ad98d59ee17a76d,Robin Schmidt,2007-10-28,True
+"Brookside, Delaware",4d50e1f88df997f9,person_0ad98a59ee17a254,brother,person_165c1e4dbac061dc,Nathan Reeves,2004-06-17,True
+"Brookside, Delaware",4d50e1f88df997f9,person_0ad98a59ee17a254,father,person_42c7f0a5a3e96898,Jeremiah McGuire,1968-04-14,True
+"Storrs, Connecticut",storrs-1,person_7ecf6513813c013a,father,person_7ecf6613813c02ed,Rene Taylor,1973-08-23,True
+"Storrs, Connecticut",storrs-1,person_7ecf6513813c013a,sister,person_418f50c8a2a3a0b1,Anna Malone,2004-02-07,True
+"Storrs, Connecticut",storrs-1,person_7ecf6513813c013a,mother,person_11b7067f8d960713,Amy Hill,1976-10-16,True
+"Storrs, Connecticut",storrs-1,person_7ecf6513813c013a,grandfather,person_62eca3696c38c046,Bruce Malone,1953-09-23,True
+"Washington, District of Columbia",dc-closures-a,person_d45d19bbcb9a63d6,mother,person_d45d18bbcb9a6223,Lisa Gregory,1971-12-11,True
+"Washington, District of Columbia",dc-closures-a,person_d45d19bbcb9a63d6,father,person_d45d17bbcb9a6070,Christopher Gregory,1971-11-08,True
+"Washington, District of Columbia",dc-closures-a,person_d45d19bbcb9a63d6,brother,person_d45d1abbcb9a6589,Benjamin Gregory,2009-10-05,True
+"Washington, District of Columbia",dc-closures-a,person_d45d19bbcb9a63d6,sister,person_7fd7a98f615588b1,Sasha Hunter,2004-06-26,True
+"Washington, District of Columbia",dc-closures-a,person_d45d19bbcb9a63d6,grandfather,person_a96fc20b48ea58ed,Richard Sutton,1942-04-13,True
+"Cabo Rojo, Puerto Rico",f857db7436bf7449,person_3ceafb6dc1b2dace,mother,person_3ceafc6dc1b2dc81,Catherine Ramirez,1979-03-02,True
+"Cabo Rojo, Puerto Rico",f857db7436bf7449,person_3ceafb6dc1b2dace,sister,person_111d987321fc84e5,Haley Franco,2004-02-08,True
+"Cabo Rojo, Puerto Rico",f857db7436bf7449,person_3ceafb6dc1b2dace,brother,person_111d957321fc7fcc,Paul Franco,2001-12-05,True
+"Cabo Rojo, Puerto Rico",f857db7436bf7449,person_3ceafb6dc1b2dace,brother,person_111d967321fc817f,Andre Franco,1998-03-05,True
+"Cabo Rojo, Puerto Rico",f857db7436bf7449,person_3ceafb6dc1b2dace,grandfather,person_56c151ff59fbfbda,Paul Franco,1950-11-11,True
+"Cabo Rojo, Puerto Rico",f857db7436bf7449,person_3ceafb6dc1b2dace,grandmother,person_6e4bea0a3aed7a67,Betty Franco,1952-02-03,True
+"Santa Rita, Guam",6f539fcfdf6d96f9-5,person_aa86d64472f111f8,mother,person_aa86d84472f1155e,Blair Mueller,1984-01-11,True
+"Santa Rita, Guam",6f539fcfdf6d96f9-5,person_aa86d64472f111f8,father,person_aa86d94472f11711,Colin Mueller,1984-09-20,True
+"Santa Rita, Guam",6f539fcfdf6d96f9-5,person_aa86d64472f111f8,brother,person_aa86d74472f113ab,Simon Mueller,2009-10-19,True
+"Santa Rita, Guam",6f539fcfdf6d96f9-5,person_aa86d64472f111f8,grandmother,person_7369d6e2f0915567,Lisa Pruitt,1954-07-24,True
+"Santa Rita, Guam",6f539fcfdf6d96f9-5,person_aa86d64472f111f8,grandmother,person_c5332e9af3c0536e,Kelsey Henderson,1963-04-25,True
+"Santa Rita, Guam",6f539fcfdf6d96f9-5,person_aa86d64472f111f8,grandfather,person_a08abab5bf0ed39f,Oscar Henderson,1960-11-27,True

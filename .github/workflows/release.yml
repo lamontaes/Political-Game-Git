@@ -31,6 +31,8 @@ on:
       - "docs/play-first/PROGRESS.md"
       - "docs/coordination/LEADS-2026-10-24.md"
       - "docs/coordination/MERGE-FIRST.md"
+      # The lanes' pages, state files and agreements, written straight to main.
+      - "docs/lanes/**"
   # Manual final drain for a release candidate that lost a main fast-forward
   # race and had no later merge to trigger another run.
   workflow_dispatch:

@@ -13,7 +13,7 @@ description: >
 
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Every research item is SMART: the one number, the check that it calibrates, a time box. Before marking anything an owner decision, read `OWNER-DECISIONS.md`, `DECISION-REGISTER.md`, `prior-rulings/` and search `docs/`; most numbers were ruled or sourced already.
 
-Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: "simulate it, don't ask")
+Take work the way every builder does (`docs/pool/START-A-BUILDER.md`, owner Nov 10): an item is built only if it carries `checked: fable` and `standard: 2` and its Cause does not say `Needs cause.` (`.agents/rules/pool-item-standard.md`). Progress, questions and the handoff note go on the item's pull request. The owner's Nov 10 line on cause applies to research too: "I don't want any work to be done unless Fable found the fix"; if the item's Cause is not true in the code, say so on the pull request and release it.
 
 ## What research is for here
 
@@ -33,9 +33,8 @@ engine can look it up and obey it.
 
 ## Taking an item
 
-1. Claim a `kind: research` item from the pool before you read anything:
-   `npm run pool -- claim <id> --branch <branch>`.
-2. Read every stopgap row the item lists in `src/core2/data/stopgaps.json`
+1. Claim a `kind: research` item from the pool before you read anything: `npm run pool -- next --model <your level>` (it claims the next item in `docs/pool/order.json` and opens its draft pull request), or, for a particular item, `npm run pool -- claim <id> --branch <branch>`.
+2. Read every stopgap row the item lists in its family file under `src/core2/data/stopgaps/`
    (`whatItFakes`, `why`, `replacement`) and the parameter rows in
    `src/core2/data/parameters.json` (or the area table it names) that carry
    `stopgapId` or the TUNABLE tag.
@@ -61,7 +60,29 @@ engine can look it up and obey it.
   ESTIMATED with that reason, never left out.
 - Unusable: a figure with no year, no unit, or no public page; a number you
   recall but cannot point at; a source whose terms you cannot read.
+- A blocked or refusing site is never a reason to stop (owner, Nov 8: "Those
+  government sites are not the only place that data is carried. You have
+  access to literally the entire internet."). Take the same figure from where
+  else it is published: FRED (most BLS, BEA and Census series, a CSV per
+  series), www2.census.gov and IPUMS, the BLS API at api.bls.gov, the Internet
+  Archive's copy of the page (web.archive.org/web/2026/<url>), a paper's data
+  appendix (NBER, SSRN, PubMed Central), trackers such as Ballotpedia, NCSL,
+  Pew, KFF and the Tax Foundation, or reporting that quotes the official
+  number. Cite where you took it. Fetch with Bash `curl` through the proxy:
+  WebFetch resolves names on its own path and can report ENOTFOUND for sites
+  the proxy reaches (Nov 8: law.cornell.edu and uscode.house.gov). Never change
+  a User-Agent or otherwise dodge a site's refusal; go to another source.
+- A builder hands research to a helper (a background sub-agent, or another
+  session) and keeps building (owner, Nov 8: "have them use subagents to do
+  the research so they continue building"). The brief names the exact figure, places and years, the sources
+  to try, and the output: the number, the URL, the quoted line, and SOURCED or
+  ESTIMATED with its spread. A research helper only fetches and reads, so
+  it needs no copy of the repository (`helper-checkout`). Wire the result when
+  it returns.
 - The 2020 Census redistricting (PL 94-171) state files are Latin-1, not the UTF-8 their technical documentation names; read them as Latin-1 or place names break (Nov 1, the group-quarters research). The Census API now needs a key; the bulk files under www2.census.gov do not.
+
+- For legal authority, read the operative subsection, exceptions and amendment/repeal reservations before accepting an audit's exemption. Federal approval or funding conditions do not by themselves require every state to run a program. For example, 26 U.S.C. §3304(a)(19) expressly reserves legislative amendment and repeal; it cannot support a declaration that unemployment insurance is unrepealable. Record a missing bill route as missing, with the fetched statutory text, rather than disguising it as a legal prohibition.
+- When an exhaustive law audit finds a row with no legislating body, inspect the source and producer before adding authority. A county survey's combined tax burden is not a county statute, and a statistical local-rate average is not state law. Correct that classification at the producer and keep the same sourced fallback through the shared reader; never hide a statistical row left in the law table with an audit exclusion.
 
 ## Recording it
 
@@ -116,6 +137,18 @@ engine can look it up and obey it.
 - **A price or an amount** (a fee, a wage, a benefit, a rent) is read by the
   engine at the moment it pays, per place, from the per-place table; the
   parameter row holds the national figure and the spread across places.
+- **A trait weight** is fitted with `scripts/traits/trait-calibrate.ts` on a
+  played year of `scripts/traits/trait-wiring-audit.ts` in a place where the
+  decision happens (a town with a newspaper for letters). When it says
+  "cannot-reach", read the decision's samples before anything else: if nearly
+  every `bare` (the case without personality) sits on one side of zero, a bar
+  in the case lies outside the range the world shows, and temperament alone
+  decides. Move the bar inside that range, then fit. Fit in two worlds at
+  least, since one world's range can be several times another's (press.letter
+  in Blunt, South Dakota: strengths up to 0.09 in one seed and 0.45 in the
+  next, best weights 0.0048 and 0.0097), and take the geometric mean, as the
+  meetings weight did. A finer sweep than the script's grid, by its formula,
+  is fine.
 - **A behavior** ("how likely someone is to…") is not a probability. It
   informs the weights in the person's own reasons (traits, money, closeness,
   the law in force), and the proof checks that the town's total lands in the
@@ -127,7 +160,7 @@ engine can look it up and obey it.
 - Body line 1: `Pool item: <id>`. Then a table, one line per row: before (old
   value and tag) / after (value, tag) / source (publisher, year) / what reads
   it (file and function).
-- Gate line: `npm run typecheck`, prettier on changed files, the parameter
+- Gate line: a builder runs only the tests it wrote or changed (owner, Oct 29); the checker runs `npm run typecheck` and the rest of the gate. Name here: prettier on changed files, the parameter
   tests (`npx vitest run src/core2/tooling/tripwires.test.ts src/core2/tooling/calibration-guard.test.ts`),
   `npm run zero-dice`, `npx vitest run tests/guards/research-data-has-reader.test.ts`,
   and the test of each engine whose read you touched.
@@ -141,12 +174,17 @@ engine can look it up and obey it.
 - `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` on every npm
   command; never ask the owner to confirm it. Never `npm ci`.
 - Claim before building; one item at a time. Never merge your own PR; the
-  mergers merge.
+  mergers merge. Words are the Story session's: a source's wording never goes
+  into `data/english/parts/` (owner, Nov 10).
+
+## Fetching pages in a cloud session
+
+WebFetch can fail on DNS in a cloud session while `curl -sSL --max-time 30` through the container's proxy works (en.wikipedia.org returns 200). Some government sites (cga.ct.gov) refuse automated clients with an error page: then use WebSearch's quoted text or the same document on a mirror such as eCode360 or the town's own site, and never work around a refusal further. Save each page you quote and keep its quoted line and URL in the row; mark a row ESTIMATED when the text you hold is a summary and not the statute or charter itself. When `git fetch` hangs under load, read a pull request's state with `gh api repos/<owner>/<repo>/pulls/<n>`.
 
 ## The prompt
 
-> Read AGENTS.md and .agents/skills/researcher/SKILL.md in lamontaes/Political-Game-Git, then docs/pool/INDEX.md and the CTO section of docs/coordination/LEADS-2026-10-24.md.
-> You are the researcher: claim the highest-priority open `kind: research` item, read its stopgap rows and the engine that reads each parameter, find a public source with a year and a unit.
+> Read AGENTS.md and .agents/skills/researcher/SKILL.md in lamontaes/Political-Game-Git, then docs/pool/START-A-BUILDER.md and the CTO section of docs/coordination/LEADS-2026-10-24.md.
+> You are the researcher: claim the next open `kind: research` item that carries `checked: fable`, read its stopgap rows and the engine that reads each parameter, find a public source with a year and a unit.
 > Record it as a SOURCED or ESTIMATED parameter row with citation and spread, a research file under data/research with a reader, and each stopgap row resolved or left open with its replacement written.
 > Research calibrates the simulation; it never decides an outcome, and no source is shown to the player. Simulate it, don't ask: a mechanic real life has is built from research in the background, never asked of the owner. A number used as a cap, a cutoff or a chance is a bug for the area's builder, not a source.
 > Open one draft PR per item with the item id on line 1, a before/after/source/what-reads-it table and a gate line. Never merge your own PR, never npm ci.

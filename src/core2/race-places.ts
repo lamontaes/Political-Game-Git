@@ -32,7 +32,8 @@ function raceTown(api: CoreAPI) {
 /**
  * The places a race's electorate lives in, before the town's own voters are
  * set apart: the state's counties (a statewide office, the presidency), the
- * House district or the legislative district; empty for a local race.
+ * House district, the legislative district or the town's county (a county
+ * office); empty for a town race.
  * `home` is the place the town lies in, where one is recorded.
  */
 export function basePlaces(
@@ -51,6 +52,22 @@ export function basePlaces(
       places,
       home: places.some((p) => p.id === county) ? county : null,
     };
+  }
+  if (contest.family === "countyOffice") {
+    // The town's own county: its people outside the town vote on the same
+    // engine as the town's counted residents, coarser (racePlaces sets the
+    // town's own voters apart from it). A town with no county on record (an
+    // island area) votes alone.
+    const county = countyPlaceIdOf(
+      api.state.placeMetadata.countyNames as string | undefined,
+      usps,
+    );
+    const place = county
+      ? statePlaces(usps, api.state.seed).find((p) => p.id === county)
+      : undefined;
+    return place
+      ? { places: [place], home: place.id }
+      : { places: [], home: null };
   }
   if (contest.family === "usHouse") {
     const district = townDistrict(geoid, usps, "congressional", api.state.date);

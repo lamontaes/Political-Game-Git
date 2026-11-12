@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/laws-college-step
 pr: #6808
 lead: laws

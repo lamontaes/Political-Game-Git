@@ -5,6 +5,7 @@
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 const SHOTS = process.env.SHOTS_DIR;
 if (SHOTS) mkdirSync(SHOTS, { recursive: true });
 const browser = await chromium.launch({
@@ -57,6 +58,11 @@ try {
   await page.locator("#new-life").click();
   await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
+  // The opening plays first, as a player sees it (start-life.mjs).
+  await playOpening(
+    page,
+    (await (await response).json()).sceneMomentId ?? null,
+  );
   const r = await response;
   assert.equal(r.status(), 200);
   console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
@@ -103,15 +109,16 @@ try {
       await check(`sheet ${tab} · ${sub}`);
     }
   }
-  // A person card, opened from the People web: the card for someone who is not the player.
+  // A person card, shown on the People screen: the card for someone who is not the player.
   await page
     .locator('#rings [data-tab="people"]')
     .first()
     .evaluate((e) => e.click());
   await page.waitForTimeout(800);
-  await page.locator(".people-node").first().click();
-  await page.locator(".people-selection button").first().click();
-  await page.locator("#person:not([hidden])").waitFor();
+  await page.locator(".roster-screen.people .roster-row").first().click();
+  await page
+    .locator(".roster-screen.people .roster-page .strip-screen")
+    .waitFor();
   await page.waitForTimeout(800);
   await check("person card");
   assert.deepEqual(errors, [], "page errors");

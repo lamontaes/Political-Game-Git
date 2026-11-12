@@ -449,6 +449,102 @@
         "note": "Moved here from the interview glossary so the Guide and inline help share one definition.",
         "url": "https://www.ap.org/about/news-values-and-principles/telling-the-story/"
       }
+    },
+    {
+      "semanticKey": "mayor",
+      "term": "Mayor",
+      "shortDefinition": "The elected head of a city or town government.",
+      "explanation": "In some places the mayor runs the town day to day and signs or vetoes what the council passes; in others the mayor mainly chairs the council and a hired manager runs daily business. A town's charter decides which.",
+      "contextNote": "The game reads the title from each place's own record, so the same job can carry a different title in a neighboring town.",
+      "relatedKeys": ["council-member", "alderman"],
+      "source": {
+        "note": "Written for this game from the offices the game's own records carry; no wording reused.",
+        "url": null
+      }
+    },
+    {
+      "semanticKey": "alderman",
+      "term": "Alderman",
+      "shortDefinition": "A member of a city's governing council, usually elected from one part of the city.",
+      "explanation": "Aldermen vote on the city's laws and budget with the rest of the council. Some cities elect each one from a single district, and others elect all of them from the whole city.",
+      "contextNote": "The game reads the title from each place's own record, so the same job can carry a different title in a neighboring town.",
+      "relatedKeys": ["council-member", "mayor"],
+      "source": {
+        "note": "Written for this game from the offices the game's own records carry; no wording reused.",
+        "url": null
+      }
+    },
+    {
+      "semanticKey": "council-member",
+      "term": "Council member",
+      "shortDefinition": "A person elected to the body that makes a city's or town's laws.",
+      "explanation": "A council member votes on ordinances and the budget, sits on committees and answers to the voters who elected them. The title covers what other places call aldermen or trustees.",
+      "contextNote": "The game reads the title from each place's own record, so the same job can carry a different title in a neighboring town.",
+      "relatedKeys": ["alderman", "trustee"],
+      "source": {
+        "note": "Written for this game from the offices the game's own records carry; no wording reused.",
+        "url": null
+      }
+    },
+    {
+      "semanticKey": "county-commissioner",
+      "term": "County commissioner",
+      "shortDefinition": "A person elected to the board that governs a county.",
+      "explanation": "The board of commissioners sets the county's budget and taxes and oversees its roads, jails and services. In some counties the commissioners also run the county's daily business together.",
+      "contextNote": "The game reads the title from each place's own record, so the same job can carry a different title in a neighboring town.",
+      "relatedKeys": ["council-member"],
+      "source": {
+        "note": "Written for this game from the offices the game's own records carry; no wording reused.",
+        "url": null
+      }
+    },
+    {
+      "semanticKey": "trustee",
+      "term": "Trustee",
+      "shortDefinition": "A person elected to the board that governs a village, township or similar local body.",
+      "explanation": "Trustees meet as a board, pass the local body's rules and set its budget. A village board often has a small number of trustees and a president or mayor who chairs it.",
+      "contextNote": "The game reads the title from each place's own record, so the same job can carry a different title in a neighboring town.",
+      "relatedKeys": ["council-member", "mayor"],
+      "source": {
+        "note": "Written for this game from the offices the game's own records carry; no wording reused.",
+        "url": null
+      }
+    },
+    {
+      "semanticKey": "selectman",
+      "term": "Selectman",
+      "shortDefinition": "A person elected to the small board that runs a town that governs through a board.",
+      "explanation": "Selectmen manage the town's daily business, call the town's meetings and carry out what the voters decide. In some towns the voters themselves pass the budget at a yearly meeting.",
+      "contextNote": "The game reads the title from each place's own record, so the same job can carry a different title in a neighboring town.",
+      "relatedKeys": ["trustee", "mayor"],
+      "source": {
+        "note": "Written for this game from the offices the game's own records carry; no wording reused.",
+        "url": null
+      }
+    },
+    {
+      "semanticKey": "governor",
+      "term": "Governor",
+      "shortDefinition": "The elected chief executive of a state.",
+      "explanation": "A governor signs or vetoes the legislature's bills, proposes the state budget, and runs the state's agencies. How much each of those powers is limited differs from state to state.",
+      "contextNote": "The game reads the title from each place's own record, so the same job can carry a different title in a neighboring town.",
+      "relatedKeys": ["lieutenant-governor", "veto"],
+      "source": {
+        "note": "Written for this game from the offices the game's own records carry; no wording reused.",
+        "url": null
+      }
+    },
+    {
+      "semanticKey": "lieutenant-governor",
+      "term": "Lieutenant governor",
+      "shortDefinition": "The state official next in line to the governor, who in many states also presides over the senate.",
+      "explanation": "When the governor leaves office or cannot serve, the lieutenant governor takes over in most states. In many states the lieutenant governor also presides over the senate and breaks ties.",
+      "contextNote": "The game reads the title from each place's own record, so the same job can carry a different title in a neighboring town.",
+      "relatedKeys": ["governor", "presiding-officer"],
+      "source": {
+        "note": "Written for this game from the offices the game's own records carry; no wording reused.",
+        "url": null
+      }
     }
   ]
 }

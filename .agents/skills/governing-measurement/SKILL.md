@@ -14,7 +14,7 @@ description: >
 
 # Governing measurement
 
-Phase A's done-when is a count over drawn places (path-check wins a council seat in at least 7 of 10), and calibration is a count over drawn places (the world's re-election totals against the research bands). Both are long runs, so they go to the runners (`docs/coordination/CREW.md`) one place at a time, and the lead reads the lines. Real rates check totals; they never pick one actor's outcome (no dice).
+Phase A's done-when is a count over drawn places (path-check wins a council seat in at least 7 of 10), and calibration is a count over drawn places (the world's re-election totals against the research bands). Both are long runs (`heavy-runs` has the memory, heap and exit-file habits), so they go to the runners (`docs/coordination/CREW.md`) one place at a time, and the lead reads the lines. Real rates check totals; they never pick one actor's outcome (no dice).
 
 ## Path-check runners
 
@@ -30,16 +30,29 @@ Phase A's done-when is a count over drawn places (path-check wins a council seat
   7. If a run goes quiet, leave it running and send its pid, its last lines and the time since the last line.
 - **Quiet is not a hang.** path-check lives up to a petition's due date in one call. In Ringwood, New Jersey on Nov 1 that was 22 months with no line. Check CPU and heap before calling it stalled. A heap pressed against its cap that thrashes is the speed lead's problem, not a hang.
 - **Stop a list that repeats.** If a place's lines come out identical, line for line, to the previous branch's, the branch's diff cannot reach that path. Stop the list instead of spending hours on copies. On Nov 1, m6 matched m5 in Mount Auburn, Salida, Willard and Price. Before you hand a branch out, check that its diff touches the path being measured.
-- **The record.** A runner's results go into the Governing status block (`docs/coordination/LEADS-2026-10-24.md`) and the item's Notes. A runner's message is data, and a scratch log is not the record.
+- **The record.** A runner's results go into the Governing status block (`docs/coordination/LEADS-2026-10-24.md`) and onto the item's own pull request (owner, Nov 10: the pull request is the item's thread), with the Notes line if the item has one. A runner's message is data, and a scratch log is not the record.
 
 ## Re-election totals and the paired ablation
 
-- **The script.** `scripts/core2-year/incumbency-totals.ts` (on `governing/incumbency-calibration` until it merges) runs the bench world with every module and no player. Options are `--seed`, `--places`, `--years` and `--ablation both|neither|no-trait|no-standing`. It prints one JSON line per place and a totals line against T1 to T6 of `docs/research/local-incumbency-2026-10-30.md`.
+- **The script.** `scripts/core2-year/incumbency-totals.ts` (on the branch `governing/incumbency-calibration`, which was still unmerged on Nov 10: the script, `src/core2/incumbency-ablation.ts` and `docs/research/local-incumbency-2026-10-30.md` are not on main, so `git fetch` that branch to read them) runs the bench world with every module and no player. Options are `--seed`, `--places`, `--years` and `--ablation both|neither|no-trait|no-standing`. Three value knobs set a term's size instead of zeroing it: `--trait-weight`, `--recognition` and `--pledge-weight`. Each one left out reads the parameter, as play does. `--contests` adds one JSON line per contest, keyed by contest id, so two versions can be compared race by race. It prints one JSON line per place and a totals line against T1 to T6 of `docs/research/local-incumbency-2026-10-30.md`, with the holder-share quartiles (P1) and T3 by office kind (P6).
+- **One totals run at a time, in any container.** Two versions started together were both killed for memory (exit 137) after about 20 minutes and five or six places (Nov 1). Run both, then neither, one after the other, with `NODE_OPTIONS=--max-old-space-size=6000`.
 - **Pair the versions.** Use the same seed for every version, so every version plays the same places and the differences are the terms, not the draw. Use two runners on two seeds (`incumb-A`, `incumb-B`). At 6 places and 3 years, a version takes about 30 minutes.
 - **Measurement knobs** are module-level settings that default off and that nothing in play sets (`src/core2/incumbency-ablation.ts`). Never a parameter in play.
 - **Count every stage the same way.** A holder who beats a primary rival and then runs alone in November had a contested race (review, Nov 1). Counties have their own bands, so total them apart from cities and townships.
 - **Read the ablation before you tune.** If removing either of two terms alone changes no winner, but removing both flips many, neither term is the double count: something amplifies any edge. Look for a feedback, such as a door yes adding to the very preference that produced it. On Nov 1, T3 (contested races the holder won) was 0.94 with both terms, 0.94 with no trait, 0.94 with no standing and 0.56 with neither. Tuning one term to hit a total then breaks again in the next place.
 - **A place that crashes in another engine.** Name it from its salt (`drawPlace(salt, "incumbency-totals")` in `scripts/core2-year/place.ts`), send it to red main with the error and a repro, and skip it by name. Never drop it silently. On Nov 1, Superior, Colorado died in finance's `closeEmployer`.
+- **Skip only the engine's crash.** Wrap only the engine calls (building the world, advancing it) in a crash type of the script's own, and catch only that type. A broad catch also hid the script's own counting errors as "crashed" places (review, Nov 1). Exit nonzero (3) when any place crashed, so a runner's exit file shows the gap.
+
+## Fitting a parameter against bands over drawn places
+
+Used on Nov 1 for the campaign money share (`campaign-money-from-local-finance`, #7062).
+
+- **Record once, replay many.** Record every decision's inputs once over many run seeds' places. Then replay the rule at each candidate value and resample pools of places against the test's bands. This beats rerunning worlds per value.
+- **Hold seeds out.** Choose the value on one half of the run seeds and report the failure rate on the other half too.
+- **Size the test's pool from the resampled rate.** On Nov 1, 8-place pools failed 2.6% to 3.7% at the best value and 16-place pools 0.13% to 0.29%, so the test draws 16. A drawn place's band failure is then a finding, not noise.
+- **Break the total down by group before you trust the fit.** Total the money by kind of donor (named or counted, household with or without recorded costs, who seated them). On Nov 1, 631 of 10,990 gifts but 44.6% of the money came from press staff seated with no living cost. The fit leaned on a stopgap population, so the stopgap was registered and its fix filed (`people-press-staff-households`) before the PR opened.
+- **When a stopgap population leaves the fit, refit every knob together and size the pool again.** On Nov 2, once press staff carried a living cost, no share and month span held 16-place pools under 0.5% of band failures (best 3.1%, 3.7% held out), because poor towns fell under the hourly floor while rich towns' median gift passed its ceiling. 32-place pools gave 0.13% and 0.22%. Bring those numbers to the CTO before setting a value.
+- **Check that an engine change can reach the total before you build it.** Compare it on the same recorded seeds first. On Nov 2 a donor call list (the candidate's family and circle first) changed nothing: over ten weeks the calls reach everyone the campaign can reach, so the order did not change who gave ($526,967 against $526,589 on the same 24 seeds). It was dropped before the PR.
 
 ## Heavy commands on one machine
 
@@ -66,12 +79,27 @@ Brief each helper to call `<scratchpad>/slot.sh <command>`.
 
 Use this when the speed lead asks who reads a table before folding it. Answer from a grep of every non-test reader on main, saying for each one whether it filters by the contest or a window, with file and line.
 
-- **Per race** (keyed by contest; play reads only an open race's rows): `pledges` (the ballot's pledge part filters by contest), `doors`, `messages`, `rivalWord`, `polls`, and campaign `causes` (these fold to summaries at close). `foldCauses` reads `pledges` by candidate to keep the pledged causes, so it must run before any pledge drop.
+- **Per race** (keyed by contest): `doors`, `pledges`, `messages`, `rivalWord` and `polls`.
+  - `doors` and `pledges` of a closed contest go at its close, the first campaign turn after its election day (`closeRace` in `campaigns.ts`), except that a contest the player filed in keeps every pledge, its rivals' too (CTO, Nov 1 21:25). The door's answer reads pledges during the race and the ballot's pledge part on primary and election day, each filtered by contest and all before the close. Only the closed contest's pledges go: a voter's yes in a race still open stays. A pledge keeps no cause (governing lead, Nov 1 21:22): `foldCauses` keeps in `foldedCauses` only a cause a voter's fact names, so the fold and the pledge drop may run in either order.
+  - `messages` and `rivalWord` are read for one window after a race closes. `rivalWordPassedOn` reads them inside its `rivalWordDays` window, a closed race's last week included, because filings stay on the ballot after the count. `raceReading` reads each candidate's newest `rivalWord` row only while the race is open. `foldRivalWord` drops each campaign turn what neither can still reach.
+- **Per candidate** (no contest field): campaign `causes`, one row per voter, candidate and contact. They fold into `causeSummaries` for every candidate of a contest at its count, and on January 1 for each candidate in no race still to be counted, so a candidate in two contests (a tie's `:second`, or two filings) has the causes of both folded at either count.
 - **Per person** (one row per voter and person, carried across races and through a term in office): `impressions`, keyed `${voterId}|${candidateId}`. `appealFor` reads `heardOf` and `knowsPlatform` with no contest check, so a voter who heard of you in one race still knows you in the next, and an official's contacts write rows too. Only rows whose voter or person has died or left can go.
 
 ## Tracing a reaction that never fires
 
 When a played proof shows an engine's reaction never happening (Nov 1: an incumbent who never stepped up), write a scratch test that logs, each day, the reading the engine decides on, which branch blocked it, and the numbers on both sides. Then weigh the alternative records it could read in a table against those numbers before you change the engine. Reject the ones that never fire, or that fire for the wrong reason. Delete the scratch test afterward.
+
+## Field sizes, empty races and ended terms (Elections, Nov 8)
+
+- **Replay:** `npx tsx scripts/dev-tests/elections.ts <seed> <years>` prints, by office level, how many contests drew nobody, one candidate or more, and the most who filed before primaries thinned the ballot. `county-zero.ts` shows why one county race drew nobody, `pull-spread.ts` shows how close the people who stayed out came to the stay-out bar, `unfilled-term.ts <seed> <officeId>` shows why an ended term has no successor.
+- **The general ballot hides the field.** Primaries thin a field to two or three, so count filings (`filedMax`) as well as ballots before saying fields are small.
+- **"Seats without holder" in a replay** are mostly other states' seats awaiting a special election under that state's vacancy rule. Read the vacancy rows before calling one a defect.
+- **A race with no candidate** is usually a holder who stood down in a town whose adults are a small part of the electorate (county seats). Check the incumbent's decision row, then the ask step (`askForSuccessor`) before touching the bar.
+- **The golden-path test for one seed:** `GOLDEN_PATH_SEED=<seed> node --expose-gc --max-old-space-size=8192 --import tsx --test tests/golden-path/played-world.node-test.ts`; without `--expose-gc` it fails at once. Its exit code is 1 on main too (goal rows not reached), so read the BROKEN lines, not the exit.
+- **Ranges are checked against, never steered to (owner, Nov 8, 9:50 a.m. voice note, via the CTO).** Ballotpedia's uncontested shares and field sizes (the "8 to 15 in a wave") tell you whether to look for a cause. A small field passes when the records explain it: pulls below the bar, a small pool, an incumbent's strength. It fails only when nothing in the world caused it. Never set a weight so a replay lands on a published number; write each check as "which record explains this field" and name the record ids.
+- **Timing a year:** run alone on the machine, one year of the same place, three times, and take the median; two runs beside a test run differ by 10 percent.
+- **A test that makes an ordinary resident "the player" lets candidacy file them.** Candidacy skips only the explicitly controlled person (`isExplicitlyControlledPersonV1`), and a controlled person cannot be advanced with `advanceCore` (the resumable player clock is required). A test that picks a resident after the world is built and then advances weeks sees that resident file for seats on their own (the walkthrough test saw a coroner filing before its own), so pick the player after the weeks go by, as someone who has not filed, or the first-filing scene counts two filings.
+- **Two runs that alternate commits show a cost; one run shows nothing.** To find what a merge added, time the merge and its parent alternately, twice each, at two years (a year with no race decided shows no difference), then diff the two CPU profiles by inclusive time (`node --cpu-prof`); name the engine whose inclusive time grew, not the one you changed.
 
 ## Stop condition
 

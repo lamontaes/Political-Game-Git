@@ -15,6 +15,7 @@
  * the opening and stay put while views stay put; changing parties waits on
  * PEOPLE's views engine moving someone's views (until then views don't move).
  */
+import { placeStateKey } from "../place-map";
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import nomination from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
@@ -26,11 +27,8 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { corePlaceByKey } from "../place-lookup";
-import {
-  campaignParameter,
-  personLean,
-  PLATFORM_QUESTIONS,
-} from "../campaign-views";
+import { personLean } from "../campaign-views";
+import { campaignParameter, PLATFORM_QUESTIONS } from "../campaign-data";
 import { homeDistanceMiles } from "../home-distance";
 import { viewOn } from "./views";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
@@ -42,7 +40,7 @@ import {
   leanedYes,
 } from "../trait-decisions";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, ageInYears, makeIsoDate } from "../kernel/dates";
 
 export const PARTIES_MODULE_ID = "core2-parties-v1";
 
@@ -212,7 +210,7 @@ export function openParties(core: CoreState): void {
     registerModule(core, PARTIES_MODULE);
   const api = coreAPI(core);
   const place = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
-  const stateKey = place!.stateJurisdictionKey!;
+  const stateKey = placeStateKey(api.state.placeMetadata.placeKey ?? "")!;
   api.moduleState(PARTIES_MODULE_ID).table("parties"); // tables exist even where elections are nonpartisan
   const rules = (
     nomination as unknown as {
@@ -233,6 +231,8 @@ export function openParties(core: CoreState): void {
         placeId: town,
         name: `${party.name} Party`.replace(/Party Party$/, "Party"),
         kind: "political-party",
+        // The party's office, a place a member may go (play-join-a-party-has-no-scene-and-no-headquarters).
+        classification: "membership:political-party",
         liquidMinor: 0,
         source: { tag: "SOURCED", citation: party.source, asOf: core.date },
       });
@@ -258,9 +258,23 @@ export function openParties(core: CoreState): void {
         .table("town")
         .get("town") as unknown as { lean: number } | undefined
     )?.lean ?? 0;
+  // The player's party is the player's to choose (owner, Nov 8: "it says
+  // that I'm registered Democrat already"): they open with none.
+  const player = core.playerId ? core.people.get(core.playerId) : undefined;
+  if (player)
+    put(
+      api.moduleState(PARTIES_MODULE_ID).table("ties"),
+      player,
+      "no-party",
+      null,
+      personLean(core.people, player, townLean),
+      core.date,
+      "the-player-chooses",
+    );
   const adults = [...core.people.values()]
     .filter(
       (p) =>
+        p.id !== core.playerId &&
         p.alive &&
         p.placeId === town &&
         Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >=
@@ -431,6 +445,9 @@ export function partyAgreement(api: CoreAPI, personId: string): number | null {
  * loyalty and the party's other members read. Filing under the party's
  * label reads this membership (`checkEligibility`).
  */
+/** The record a person joining a party writes. */
+export const PARTY_JOINED = "party-joined";
+
 export function joinParty(
   api: CoreAPI,
   personId: string,
@@ -459,6 +476,35 @@ export function joinParty(
     : undefined;
   if (left && left.id !== party.id) api.leave(personId, left.organizationId);
   api.join(personId, party.organizationId);
+  // stopgapId: SG-PLAY-party-joined-scene-awaits-words
+  // Joining is an act at a place with a person: the record the director's
+  // scene, the journal and Travel read, at the party's office, with the
+  // party's leader (its chair) as the one who signs them up.
+  const greeter =
+    party.leaderId && api.state.people.has(party.leaderId)
+      ? party.leaderId
+      : null;
+  api.emit({
+    id: `party-joined:${personId}:${party.id}:${api.state.date}`,
+    date: api.state.date,
+    kind: PARTY_JOINED,
+    personIds: [
+      personId,
+      ...(greeter && greeter !== personId ? [greeter] : []),
+    ],
+    placeId: person.placeId,
+    source: {
+      tag: "SOURCED",
+      citation: `${party.name} membership (${party.source})`,
+      asOf: api.state.date,
+    },
+    facts: {
+      partyId: party.id,
+      party: party.name,
+      organizationId: party.organizationId,
+      ...(left && left.id !== party.id ? { leftPartyId: left.id } : {}),
+    },
+  });
   return { tie: partyTie(api, personId)!, agreement };
 }
 
@@ -514,9 +560,7 @@ export interface PartyMeetingRow {
 }
 
 const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 
 /** The party's next local committee meeting. */
 function scheduleMeeting(api: CoreAPI, from: string): void {

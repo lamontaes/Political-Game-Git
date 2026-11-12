@@ -23,6 +23,7 @@ import type {
   WorkCommitmentInput,
 } from "./types";
 import type { WorkPayrollCalendarInput } from "./work-pay-period";
+import { outsideLaborForce } from "./gov-rules/place-population";
 
 export interface PublicSchoolDistrictReceipt {
   organizationId: string;
@@ -96,8 +97,14 @@ export function withPublicSchoolDistrict(input: CoreInput): {
     if (!commitment) return { input };
   }
   const homes = new Map<string, string>();
+  // Residents of institutions and military quarters are outside the civilian
+  // labor force: none of them teaches.
+  const outside = new Set<string>();
   for (const home of input.households)
-    for (const id of home.memberIds) homes.set(id, home.placeId);
+    for (const id of home.memberIds) {
+      homes.set(id, home.placeId);
+      if (outsideLaborForce(home.quarters)) outside.add(id);
+    }
   const age = (birthDate: string) => ageOnDate(makeIsoDate(birthDate), start);
   const townPeople = input.people.filter(
     (person) => (homes.get(person.id) ?? person.placeId) === town,
@@ -127,6 +134,7 @@ export function withPublicSchoolDistrict(input: CoreInput): {
       return (
         !working.has(person.id) &&
         !person.jobId &&
+        !outside.has(person.id) &&
         years >= p("openingTeacherMinimumAge") &&
         years <= p("openingWorkingAgeLast")
       );

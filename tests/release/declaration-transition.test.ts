@@ -207,6 +207,29 @@ describe("transition-aware release declarations", { timeout: 120_000 }, () => {
     }
   });
 
+  it("needs no declaration for a lane's state file, as the merge desk pushes to main", () => {
+    const fixture = historyFixture();
+    try {
+      fixture.run("checkout", "-q", "-b", "desk", fixture.rollout);
+      mkdirSync(join(fixture.root, "docs", "lanes", "state"), {
+        recursive: true,
+      });
+      writeFileSync(
+        join(fixture.root, "docs", "lanes", "state", "merge-desk.md"),
+        "# Merge desk\n",
+      );
+      const head = fixture.commit("Merge desk state");
+      const result = checkDeclarationTransition(fixture.root, {
+        base: fixture.rollout,
+        head,
+        mode: "push",
+      });
+      expect(result.problems).toEqual([]);
+    } finally {
+      fixture.dispose();
+    }
+  });
+
   it("needs no declaration for a pool-only change, as a claim pushed to main is", () => {
     const fixture = historyFixture();
     try {

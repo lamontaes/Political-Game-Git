@@ -62,6 +62,7 @@ try {
   }
   assert.ok(at >= 0, "no member of a body to step in as in five draws");
   await page.locator("#pick-list button").nth(at).click();
+  await page.locator("#pick-play").click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
@@ -88,48 +89,55 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Your office" })
     .click();
-  await page.locator(".office-screen").waitFor();
+  await page.locator(".office-board").waitFor();
   const scrolls = () =>
     page.evaluate(() => {
       const body = document.getElementById("sheet-body");
       return body.scrollHeight > body.clientHeight + 1;
     });
-  // The seat: office, pay and next meeting, each on a plate of its own.
-  const seat = await page.locator(".office-body .fact-plate").allInnerTexts();
+  // The seat: office, pay and next meeting, each a row of "My seat" on the office board.
+  const seat = await page
+    .locator(".office-board .dotrows .dotrow")
+    .allInnerTexts();
   console.log(
-    "seat plates:",
+    "seat rows:",
     seat.map((t) => t.replace(/\n+/g, " ")),
   );
-  assert.ok(seat.length >= 2, "the seat shows its office and pay on plates");
+  assert.ok(seat.length >= 2, "the seat shows its office and pay on rows");
   assert.equal(await scrolls(), false, "the seat tab scrolls");
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/seat.png` });
-  // The draft card, on a plate of its own, for a member of a body.
-  const draft = page.locator('.office-tabs [data-office="draft"]');
-  if (await draft.count()) {
-    await draft.click();
-    await page.locator(".draft-card select").waitFor();
-    assert.ok(
-      await page.locator(".office-body .plate .draft-card").count(),
-      "the draft card sits on a plate",
-    );
-    assert.equal(await scrolls(), false, "the drafts tab scrolls");
+  // The draft card, on the board, for a member of a body (it used to have a tab of its own).
+  if (await page.locator('.office-board [data-act="write-a-bill"]').count()) {
+    // Writing a bill opens from the board; the Your office tab returns to the seat (a menu has no Back).
+    await page
+      .locator('.office-board [data-act="write-a-bill"]')
+      .first()
+      .click();
+    await page.locator(".draft-card .pick").first().waitFor();
+    assert.equal(await scrolls(), false, "the drafts screen scrolls");
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/drafts.png` });
-  } else console.log("no body to draft in for this seat");
-  // The budget lines, when the player sends a budget (an executive's seat).
-  const budget = page.locator('.office-tabs [data-office="budget"]');
-  if (await budget.count()) {
-    await budget.click();
-    assert.ok(
-      await page.locator(".office-body .plate select").count(),
-      "the budget lines sit on a plate",
+    assert.equal(
+      await page.locator("#sheet-body > .acts .action").count(),
+      0,
+      "the drafts screen has a Back button",
     );
-    assert.equal(await scrolls(), false, "the budget tab scrolls");
+    await page.locator('#sheet-tabs .tab[aria-pressed="true"]').click();
+    await page.locator(".office-board").waitFor();
+  } else console.log("no body to draft in for this seat");
+  // The budget lines, when the player sends a budget (an executive's seat): a section of the board with a choice per line.
+  const budget = page
+    .locator(".office-board section", { hasText: "Budget lines to send" })
+    .first();
+  if (await budget.count()) {
+    assert.ok(
+      await budget.locator("select").count(),
+      "the budget lines sit on the board with a choice each",
+    );
+    assert.equal(await scrolls(), false, "the budget section scrolls");
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/budget.png` });
-  }
+  } else console.log("no budget to send for this seat today");
   assert.deepEqual(errors, [], "page errors");
-  console.log(
-    "ok: Your office is plates, one tab at a time, and never scrolls",
-  );
+  console.log("ok: Your office is one board and never scrolls");
 } finally {
   await browser.close();
 }

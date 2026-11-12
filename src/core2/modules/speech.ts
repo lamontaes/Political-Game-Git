@@ -24,8 +24,9 @@ import type {
 } from "../types";
 import { engagementOf, NATIONAL_ENGAGEMENT } from "../electorate";
 import { believesClaim, claimFit } from "../heard-claims";
-import { decisionKinds } from "../trait-decisions";
-import { stanceRow, VIEWS_SPEAKER_KEY } from "./views";
+import { decisionKinds } from "../trait-decision-table";
+import { stanceRow, VIEWS_SPEAKER_KEY, VIEWS_SPEAKER_LEAN_KEY } from "./views";
+import { hearAsGroups, hearsAsPerson } from "../hearer-groups";
 
 export const SPEECH_MODULE_ID = "speech";
 export const SPEECH_HEARD = "speech.heard";
@@ -45,6 +46,14 @@ export interface SpeechInput {
   topic: string;
   desiredChange: string;
   audienceIds: readonly PersonId[];
+  /** The speaker is still in the wider population: their lean from their counted record. */
+  countedSpeakerLean?: number;
+  /**
+   * Hearers nobody watches take it as groups of like hearers (`hearAsGroups`):
+   * no witness row, no retelling weighed. Set for a world candidate's
+   * campaign speech; the player's own speeches keep every hearer a person.
+   */
+  groupUnwatched?: boolean;
 }
 
 export interface Retelling {
@@ -131,22 +140,57 @@ function movedBy(
 /** A speech is heard by its audience; some listeners retell it at home. */
 export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
   const speaker = api.state.people.get(speech.speakerId);
-  if (!speaker) throw new Error(`No such speaker: ${speech.speakerId}`);
+  if (!speaker && speech.countedSpeakerLean === undefined)
+    throw new Error(`No such speaker: ${speech.speakerId}`);
   const impulse = s(api, "speechImpulse");
   // The views engine moves each listener by the speaker's standing with them.
-  const facts = { [VIEWS_SPEAKER_KEY]: speech.speakerId };
+  const facts = {
+    [VIEWS_SPEAKER_KEY]: speech.speakerId,
+    ...(speech.countedSpeakerLean !== undefined
+      ? { [VIEWS_SPEAKER_LEAN_KEY]: String(speech.countedSpeakerLean) }
+      : {}),
+  };
   const source = {
     tag: "SOURCED" as const,
     citation:
       "A speech given in the simulation; its audience is the people recorded present.",
     asOf: api.state.date,
   };
+  // Level of detail (owner, Nov 9): in a world candidate's speech, hearers
+  // nobody watches are applied once per group of like hearers; the rest hear
+  // it as people.
+  const grouped =
+    speech.groupUnwatched && speech.speakerId !== api.state.playerId;
+  const audienceIds = grouped
+    ? speech.audienceIds.filter((id) => hearsAsPerson(api, id))
+    : speech.audienceIds;
+  if (grouped && audienceIds.length < speech.audienceIds.length) {
+    const asPeople = new Set(audienceIds);
+    hearAsGroups(
+      api,
+      {
+        event: { id: speech.id, date: api.state.date },
+        speakerId: speech.speakerId,
+        countedSpeakerLean: speech.countedSpeakerLean,
+        topic: speech.topic,
+        desiredChange: speech.desiredChange,
+        size: Math.abs(impulse) > 0 ? Math.abs(impulse) : 1,
+      },
+      speech.audienceIds.filter(
+        (id) =>
+          id !== speech.speakerId &&
+          !asPeople.has(id) &&
+          api.state.people.get(id)?.alive,
+      ),
+    );
+  }
   api.emit({
     id: speech.id,
     date: api.state.date,
     kind: SPEECH_HEARD,
-    personIds: [speech.speakerId],
-    witnessIds: speech.audienceIds.filter((id) => id !== speech.speakerId),
+    // A speaker still in the wider population is named by the event's speaker fact, not as a person.
+    personIds: speaker ? [speech.speakerId] : [],
+    witnessIds: audienceIds.filter((id) => id !== speech.speakerId),
     placeId: speech.placeId,
     topic: speech.topic,
     desiredChange: speech.desiredChange,
@@ -161,8 +205,9 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
     topic: speech.topic,
   } as unknown as { id: string });
   const out: Retelling[] = [];
+  // Everyone present is at the speech, so no one present is told it at home.
   const audience = new Set(speech.audienceIds);
-  for (const listenerId of speech.audienceIds) {
+  for (const listenerId of audienceIds) {
     const listener = api.state.people.get(listenerId);
     if (!listener?.alive || listenerId === speech.speakerId) continue;
     const amount = movedBy(api, listenerId, speech.id, speech.topic);
@@ -321,24 +366,38 @@ export function makeCase(
     readonly topic: string;
     readonly desiredChange: string;
     readonly citation: string;
+    /** A speaker still in the wider population: their counted lean (they have no view row). */
+    readonly countedSpeakerLean?: number;
   },
 ): void {
   const listeners = input.listenerIds.filter(
     (id) => id !== input.speakerId && api.state.people.get(id)?.alive,
   );
-  if (!listeners.length || !api.state.people.get(input.speakerId)?.alive)
+  const counted =
+    input.countedSpeakerLean !== undefined &&
+    !api.state.people.has(input.speakerId);
+  if (
+    !listeners.length ||
+    (!counted && !api.state.people.get(input.speakerId)?.alive)
+  )
     return;
   api.emit({
     id: input.id,
     date: api.state.date,
     kind: CASE_MADE,
-    personIds: [input.speakerId],
+    // A speaker still in the wider population is named by the event's speaker fact, not as a person.
+    personIds: counted ? [] : [input.speakerId],
     witnessIds: listeners,
     placeId: input.placeId,
     topic: input.topic,
     desiredChange: input.desiredChange,
     moodImpulse: s(api, "speechImpulse"),
-    facts: { [VIEWS_SPEAKER_KEY]: input.speakerId },
+    facts: {
+      [VIEWS_SPEAKER_KEY]: input.speakerId,
+      ...(counted
+        ? { [VIEWS_SPEAKER_LEAN_KEY]: String(input.countedSpeakerLean) }
+        : {}),
+    },
     source: { tag: "SOURCED", citation: input.citation, asOf: api.state.date },
   });
 }

@@ -44,21 +44,43 @@ try {
     .locator('[data-tab="who"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".screen-heading").waitFor();
-  assert.equal(await page.locator(".screen-heading .name").innerText(), name);
+  // The approved You screen (owner, Nov 7; docs/mocks/2026-11-07-approved, you-ol-g):
+  // the name over a bust, sections as header strips, first person throughout.
+  await page.locator("#sheet .strip-screen .strip-name").waitFor();
+  assert.equal(
+    await page.locator("#sheet .strip-screen .strip-name").innerText(),
+    name,
+  );
   assert.equal(await page.locator(".screen-backdrop").count(), 0);
-  assert.equal(await page.locator(".screen-portrait").count(), 1);
+  // One bust, drawn as a stack of its pieces (ui/bust.mjs).
+  assert.equal(
+    await page.locator(".strip-screen .mxbust .bust-stack").count(),
+    1,
+  );
+  assert.ok(
+    (await page.locator(".strip-screen .mxbust .bust-stack img").count()) >= 2,
+  );
+  const heads = await page.locator(".strip-screen .sechead").allInnerTexts();
+  assert.ok(heads.length >= 1, "no section strips");
+  assert.ok(
+    !(await page.locator("#sheet-body").innerText()).match(
+      /\bYou (are|have|live|work)\b/,
+    ),
+    "a sentence on You is not in the first person",
+  );
   assert.ok(
     !(await page.locator("#sheet-body").innerText()).includes("undefined"),
   );
   await page.waitForFunction(() =>
-    [...document.querySelectorAll("#sheet-media img")].every((i) => i.complete),
+    [...document.querySelectorAll("#sheet .bust-stack img")].every(
+      (i) => i.complete,
+    ),
   );
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
     path: process.argv[2] ?? "test-results/character.png",
   });
-  const first = page.locator(".record-person").first();
+  const first = page.locator(".strip-screen .hispeople .nm").first();
   if (await first.count()) {
     const familyName = await first.innerText();
     await first.click();
@@ -89,8 +111,9 @@ try {
     .locator('[data-tab="who"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".screen-heading").waitFor();
-  assert.equal(await page.locator("#sheet-media img").count(), 0);
+  await page.locator("#sheet .strip-screen .strip-name").waitFor();
+  // No full-body figure stands beside a menu.
+  assert.equal(await page.locator("#sheet-media").count(), 0);
   await page.setViewportSize({ width: 1024, height: 768 });
   await page.waitForTimeout(100);
   const box = await page.locator("#sheet").boundingBox();

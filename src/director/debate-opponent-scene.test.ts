@@ -90,6 +90,25 @@ it(`a debate brings the other candidate over, seed ${seed}`, () => {
     const debates = [...core.durableLog.values()].filter(
       (row) => row.kind === "debate",
     );
+    // A debate's answers are broadcast: no campaign stop is staged from
+    // them, while a campaign event's own speech still stages one
+    // (words-debate-answers-not-campaign-stops).
+    let stops = 0;
+    for (const [personId, book] of director.ledger.people)
+      for (const entry of book.schedule) {
+        if (!entry.bindings.some((row) => row.typeKey === "campaign-stop"))
+          continue;
+        const cause = book.momentsById.get(entry.momentId)?.causeId ?? "";
+        expect(
+          cause.split(":")[3],
+          `${where}: ${personId} has a campaign stop from ${cause}`,
+        ).not.toBe("debate");
+        stops += 1;
+      }
+    if (debates.length)
+      process.stdout.write(
+        `DEBATE STOPS ${where}: ${debates.length} debates, ${stops} campaign stops, none from a debate answer\n`,
+      );
     for (const [personId, book] of director.ledger.people)
       for (const entry of book.schedule) {
         const moment = book.momentsById.get(entry.momentId);

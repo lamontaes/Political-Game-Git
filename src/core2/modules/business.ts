@@ -8,6 +8,7 @@
  * scripted. Every payment moves through the ledger.
  */
 import { BUSINESS_MODULE_ID } from "../business-module-id";
+import { noteEntryCause } from "../state";
 import { townOutsideOf } from "../opening-outside-market";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
@@ -67,8 +68,16 @@ import {
   endOperatingRule,
   setOperatingLimit,
 } from "../business-operating-rules";
+import { outsideLaborForce } from "../gov-rules/place-population";
 
 export { BUSINESS_MODULE_ID };
+/** A household's books as other families read them: its medical debt and what it keeps back for its home. */
+export {
+  medicalDebtOf,
+  recordMedicalDebt,
+  type MedicalDebtRow,
+} from "./credit";
+export { housingKeptBack, livingPlan, mainBalance } from "../cost-of-living";
 export const BUSINESS_PARAMETERS = businessParameters as unknown as Readonly<
   Record<string, Parameter>
 >;
@@ -95,6 +104,8 @@ interface OwnerRow {
    * memory window and floored at zero: what pulls an owner toward closing.
    */
   lossMonths?: number;
+  /** The last months' sales and costs paid, which the month's loss is read over (payments fall due on a cycle, not evenly). */
+  recent?: { sales: number[]; costs: number[] };
   /** The outside-costs flow's cumulative paid at the last snapshot. */
   outsideThrough?: number;
   /** The outside-cost payments' part sent elsewhere (ads), through the last booked month. */
@@ -882,6 +893,7 @@ function bookedMonth(
   | "outsideThrough"
   | "splitThrough"
   | "lossMonths"
+  | "recent"
   | "tradingId"
 > {
   const outsidePaid =
@@ -896,8 +908,25 @@ function bookedMonth(
     (book.operatingPaidMinor - row.operatingThrough) +
     (outsidePaid - (row.outsideThrough ?? 0)) +
     complianceMinor;
-  const base = Math.max(sales, costs);
-  const lost = base > 0 ? Math.max(-1, Math.min(1, (costs - sales) / base)) : 0;
+  // Costs fall due on a cycle (a quarter's supplier invoices, a tax or lease payment), sales do not: the operating result is read over the cycle, so a bill that falls in one month is not a month of loss.
+  const window = Math.max(
+    1,
+    Math.round(api.parameter("businessLossSmoothingMonths")),
+  );
+  const recent = {
+    sales: [...(row.recent?.sales ?? []), sales].slice(-window),
+    costs: [...(row.recent?.costs ?? []), costs].slice(-window),
+  };
+  const read = (values: number[]) =>
+    values.reduce((n, v) => n + v, 0) / values.length;
+  const base = Math.max(read(recent.sales), read(recent.costs));
+  const lost =
+    base > 0
+      ? Math.max(
+          -1,
+          Math.min(1, (read(recent.costs) - read(recent.sales)) / base),
+        )
+      : 0;
   const lossMonths = Math.max(
     0,
     (row.lossMonths ?? 0) *
@@ -932,6 +961,7 @@ function bookedMonth(
       residentsRuntime(core(api))?.flows.get(`outside-costs:${row.id}`)
         ?.splitPaidMinor ?? 0,
     lossMonths,
+    recent,
     tradingId,
   };
 }
@@ -1268,6 +1298,9 @@ function recordGroundwaterLoss(
  */
 export const DATA_PRIVACY_QUESTION =
   "us-policy-positions:technology-privacy.consumer-data-privacy-law";
+/** Congress's national data privacy law: the same duty on the same businesses where the state has none. */
+export const FEDERAL_DATA_PRIVACY_QUESTION =
+  "us-federal-positions:science-communications.national-data-privacy";
 const AGE_VERIFICATION_QUESTION =
   "us-policy-positions:technology-privacy.age-verification-for-social-media";
 
@@ -1278,6 +1311,8 @@ interface BusinessDuty {
   /** Whether only a business with workers in the town is bound (a platform verifying accounts needs none here). */
   readonly employingOnly: boolean;
   readonly parameter: keyof typeof businessParameters;
+  /** Another law that already puts this duty on the same businesses; while it stands this one adds no second cost. */
+  readonly unlessQuestion?: string;
 }
 
 const BUSINESS_DUTIES: readonly BusinessDuty[] = [
@@ -1286,6 +1321,13 @@ const BUSINESS_DUTIES: readonly BusinessDuty[] = [
     classifications: [],
     employingOnly: true,
     parameter: "businessDataPrivacyShareOfCosts",
+  },
+  {
+    question: FEDERAL_DATA_PRIVACY_QUESTION,
+    classifications: [],
+    employingOnly: true,
+    parameter: "businessDataPrivacyShareOfCosts",
+    unlessQuestion: DATA_PRIVACY_QUESTION,
   },
   {
     question: AGE_VERIFICATION_QUESTION,
@@ -1317,6 +1359,9 @@ function readBusinessDuty(api: CoreAPI, duty: BusinessDuty): void {
   const c = core(api);
   if (!c.modules.has(LAWS_MODULE_ID)) return;
   const law = lawInForce(api, duty.question);
+  const alreadyBound =
+    duty.unlessQuestion !== undefined &&
+    lawInForce(api, duty.unlessQuestion).value === 1;
   const town = lawChain(api).townPlaceId;
   const table = store(api).table("operating");
   const cause = dutyCause(duty.question);
@@ -1340,6 +1385,7 @@ function readBusinessDuty(api: CoreAPI, duty: BusinessDuty): void {
       // A business whose books carry no other operating costs (a press outlet) has nothing a duty could take a share of.
       !(book.annualOtherCostsMinor > 0) ||
       law.value !== 1 ||
+      alreadyBound ||
       !law.governing
     ) {
       if (existing) endOperatingRule(api, table, ruleId);
@@ -1810,7 +1856,8 @@ function foundings(api: CoreAPI): void {
     const countedSeekers = api.moduleState("jobs").table("countedSeekers");
     const counted = residentsRuntime(c)?.store;
     for (const h of counted?.liveHouseholds() ?? []) {
-      if (h.placeId !== placeId) continue;
+      // People in institutions and in the armed forces found no business.
+      if (h.placeId !== placeId || outsideLaborForce(h.quarters)) continue;
       for (const m of counted!.countedMembers(h)) {
         const personId = counted!.ids[m]!;
         const age =
@@ -2056,6 +2103,12 @@ function found(
   if (scale <= 0 || (fullStaff > 0 && scale < Math.min(1, 1 / fullStaff)))
     return false;
   const share = equal * scale;
+  // The entry record names the founding it is the entry of.
+  noteEntryCause(
+    api.state as CoreState,
+    id,
+    `event:organization.founded:${id}`,
+  );
   api.addOrganization({
     id,
     placeId: market.placeId,
@@ -2424,6 +2477,13 @@ function businessHistory(
     }))
     .sort((a, b) => b.staff - a.staff || a.id.localeCompare(b.id));
   const start = makeIsoDate(c.date);
+  const firstJobStarts = new Map<string, string>();
+  for (const commitment of c.work.commitments.values()) {
+    const heldFrom = commitment.heldSince ?? commitment.startsAt;
+    const held = firstJobStarts.get(commitment.organizationId);
+    if (!held || heldFrom < held)
+      firstJobStarts.set(commitment.organizationId, heldFrom);
+  }
   const source = {
     tag: "ESTIMATED" as const,
     asOf: c.date,
@@ -2436,10 +2496,24 @@ function businessHistory(
       p("businessOldestFirmYears"),
       Math.log(q) / Math.log(1 - exit),
     );
-    const foundedAt = makeIsoDate(
+    const ranked = makeIsoDate(
       addDays(start, -Math.round(years * p("jobsDaysPerYear"))),
     );
-    store(api).table("ages").put({ id: firm.id, foundedAt, ageYears: years });
+    // No firm is founded after its own workers began there: the founding
+    // reads the earliest start of a job held in it (the date the opening's
+    // one rule gave the worker, `openingJobStart`).
+    const firstJob = firstJobStarts.get(firm.id);
+    const foundedAt = firstJob && firstJob < ranked ? firstJob : ranked;
+    store(api)
+      .table("ages")
+      .put({
+        id: firm.id,
+        foundedAt,
+        ageYears:
+          foundedAt === ranked
+            ? years
+            : daysBetweenText(foundedAt, c.date) / p("jobsDaysPerYear"),
+      });
     if (foundedAt >= window.from && foundedAt <= window.through)
       history.record({
         id: `business.founded:${firm.id}`,
