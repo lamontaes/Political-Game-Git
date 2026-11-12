@@ -1,6 +1,6 @@
 {
   "version": "local-address-v1",
-  "about": "A governor's and a mayor's yearly address (owner, Nov 8: 'the address... governors' and mayors' too'). Each level names the occasion in the English engine's bank (`state-of-the-state`, `town-address`), the office whose holder speaks, the policy level they may act at, and the day of the year it is given. The words, the kind of address and the subjects come from the same places the President's do (src/director/opening-story.ts, address-kind.ts, the term read); this holds no sentence.",
+  "about": "A governor's and a mayor's yearly address (owner, Nov 8: 'the address... governors' and mayors' too'). Each level names the occasion in the English engine's bank (`state-of-the-state`, `town-address`), the office whose holder speaks, the policy level they may act at, and the day of the year it is given. The words, the kind of address and the subjects come from the same places the President's do (src/director/speech-outline.ts and its rows in speech-outlines.json, address-kind.ts, the term read); this holds no sentence.",
   "levels": {
     "state": {
       "subject": "state-of-the-state",
@@ -25,20 +25,6 @@
         "spread": "01-15 to 03-31",
         "note": "Mayors give a State of the City in the first quarter, after the year's budget comes due."
       }
-    }
-  },
-  "parameters": {
-    "asksMax": {
-      "value": 2,
-      "tag": "TUNABLE",
-      "spread": "1 to 3",
-      "note": "The most things a governor or mayor asks their legislature or council for in one address; a local address is shorter than the President's."
-    },
-    "topicsMax": {
-      "value": 3,
-      "tag": "TUNABLE",
-      "spread": "2 to 4",
-      "note": "The most subjects the story of the state or town tells."
     }
   }
 }

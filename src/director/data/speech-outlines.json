@@ -1,0 +1,235 @@
+{
+  "version": "speech-outlines-v1",
+  "about": "One outline row per kind of speech, read by the one planner every speech goes through (src/director/speech-outline.ts; words composer, unit 3, docs/design/words-composer.md). A row says the sections in order, which are required, how many points and asks the theme carries, whether the asks are numbered, and whether the speech may tell the past year as the speaker's own record. Sections: `salutation` (the people acknowledged, one sentence of its own), `occasion` (why we are here; `oath` in an inaugural), `creed` (what the speaker believes, and unity with those who voted otherwise), `history` (the day in the long story), `theme` (the theme's point, one paragraph in order: its context from the world's records, what that has meant for people, the year's claim where the speaker governed it, the speaker's stand, then the asks, each said once to the level that can act), `people` (the people met), `states` (the turn to the states, with no federal ask), `call` (what the speaker asks of the people), `hope`, `families`, `close`. A section in `asides` is said only when the speaker's traits pull for it (opening-address.json `asides`). The rows hold no sentence: the words are the opening-speech bank's. ESTIMATED from the pages read in docs/research/speech-structure-2026-11-12.md: real inaugurals give no numbered ask list and no last-year record (Bush 2001, Biden 2021); a State of the Union moves each point context, stand, ask and numbers its asks (Biden 2022); a State of the State and a State of the City do the same at their level (Polis 2024, Ginther 2024); speech courses keep one theme with about three points.",
+  "tag": "ESTIMATED",
+  "source": "docs/research/speech-structure-2026-11-12.md",
+  "kinds": {
+    "inaugural": {
+      "bank": "inaugural",
+      "register": "inaugural",
+      "level": "federal",
+      "sections": [
+        "salutation",
+        "occasion",
+        "creed",
+        "history",
+        "theme",
+        "asks",
+        "people",
+        "states",
+        "call",
+        "hope",
+        "families",
+        "close"
+      ],
+      "required": ["salutation", "theme", "close"],
+      "asides": ["history", "people", "call", "hope"],
+      "points": 1,
+      "asks": 2,
+      "numberedAsks": false,
+      "ownRecord": false,
+      "sentences": {
+        "value": 18,
+        "spread": "12 to 26",
+        "note": "Real inaugurals run about 1,400 to 2,400 words; the game's paragraph-per-Continue address keeps the shape at a third of that."
+      }
+    },
+    "state-of-the-union": {
+      "bank": "state-of-the-union",
+      "register": "state-of-the-union",
+      "level": "federal",
+      "sections": [
+        "salutation",
+        "occasion",
+        "theme",
+        "asks",
+        "people",
+        "states",
+        "call",
+        "hope",
+        "close"
+      ],
+      "required": ["salutation", "theme", "close"],
+      "asides": ["people", "call", "hope"],
+      "points": 1,
+      "asks": 3,
+      "numberedAsks": true,
+      "ownRecord": true,
+      "sentences": {
+        "value": 20,
+        "spread": "14 to 30",
+        "note": "A State of the Union runs 5,000 to 7,000 words; the game keeps its order at a small share of that."
+      }
+    },
+    "state-of-the-state": {
+      "bank": "state-of-the-state",
+      "register": "state-of-the-state",
+      "level": "state",
+      "sections": ["salutation", "occasion", "theme", "asks", "hope", "close"],
+      "required": ["salutation", "close"],
+      "asides": [],
+      "points": 1,
+      "asks": 2,
+      "numberedAsks": false,
+      "ownRecord": true,
+      "sentences": {
+        "value": 12,
+        "spread": "8 to 18",
+        "note": "Shorter than the President's: a governor's address is about a third as long as a State of the Union (Polis 2024)."
+      }
+    },
+    "town-address": {
+      "bank": "town-address",
+      "register": "town-address",
+      "level": "city",
+      "sections": ["salutation", "occasion", "theme", "asks", "hope", "close"],
+      "required": ["salutation", "close"],
+      "asides": [],
+      "points": 1,
+      "asks": 2,
+      "numberedAsks": false,
+      "ownRecord": true,
+      "sentences": {
+        "value": 10,
+        "spread": "6 to 16",
+        "note": "A State of the City gives three or four points (Ginther 2024)."
+      }
+    },
+    "campaign": {
+      "bank": null,
+      "register": "campaign",
+      "level": null,
+      "sections": ["salutation", "theme", "asks", "close"],
+      "required": ["salutation", "close"],
+      "asides": [],
+      "points": 1,
+      "asks": 1,
+      "numberedAsks": false,
+      "ownRecord": true,
+      "sentences": {
+        "value": 6,
+        "spread": "4 to 10",
+        "note": "A stump speech is short and repeated at every stop (Wikipedia, Stump speech). Its words are the player's built speech (src/director/speech-builder.ts); see SG-WORDS-speech-outline-other-kinds."
+      }
+    },
+    "floor": {
+      "bank": null,
+      "register": "floor",
+      "level": null,
+      "sections": ["salutation", "theme", "asks", "close"],
+      "required": ["salutation", "close"],
+      "asides": [],
+      "points": 1,
+      "asks": 1,
+      "numberedAsks": false,
+      "ownRecord": true,
+      "sentences": {
+        "value": 4,
+        "spread": "2 to 6",
+        "note": "A House one-minute addresses the chair, makes one point and yields (CRS RL30135)."
+      }
+    },
+    "victory": {
+      "bank": null,
+      "register": "election-night",
+      "level": null,
+      "sections": ["salutation", "creed", "theme", "close"],
+      "required": ["salutation", "close"],
+      "asides": [],
+      "points": 1,
+      "asks": 0,
+      "numberedAsks": false,
+      "ownRecord": false,
+      "sentences": {
+        "value": 5,
+        "spread": "3 to 8",
+        "note": "Thanks, what the win is for, unity with those who voted otherwise, close."
+      }
+    },
+    "concession": {
+      "bank": null,
+      "register": "election-night",
+      "level": null,
+      "sections": ["salutation", "creed", "theme", "close"],
+      "required": ["salutation", "close"],
+      "asides": [],
+      "points": 1,
+      "asks": 0,
+      "numberedAsks": false,
+      "ownRecord": false,
+      "sentences": {
+        "value": 4,
+        "spread": "2 to 7",
+        "note": "Defeat and congratulations, thanks, a call to unite, the cause carried on (Wikipedia, Concession (politics))."
+      }
+    },
+    "swearing-in": {
+      "bank": null,
+      "register": "inaugural",
+      "level": null,
+      "sections": ["salutation", "occasion", "theme", "close"],
+      "required": ["salutation", "close"],
+      "asides": [],
+      "points": 1,
+      "asks": 0,
+      "numberedAsks": false,
+      "ownRecord": false,
+      "sentences": {
+        "value": 5,
+        "spread": "3 to 8",
+        "note": "An inaugural at small scale: thanks, the oath's meaning, one charge, close."
+      }
+    }
+  },
+  "theme": {
+    "about": "How the one theme is picked from the speaker's own record and their world (owner, Nov 12: 'There's no theme for the speech. That's a problem.'). Every subject of the bill catalog scores: each of the speaker's signature issues in it, at any level (`signature`); whether their level has an open question in it to ask for (`actable`); how far their view on its strongest open question stands from a centrist's (`stance`); and, for a governor or mayor only, how far the subject's measures moved the wrong way in their realm (`condition`). The President's theme takes no condition: the national figures are nearly the same in every world, so they cannot decide it. The highest score is the theme; a tie goes by the subject's id. No roll.",
+    "signature": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": "1 to 2",
+      "note": "A signature issue outweighs everything else, so the speaker's own causes lead."
+    },
+    "actable": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": "0.25 to 0.75",
+      "note": "A subject the speaker's level can ask for something on wins a tie of signature issues."
+    },
+    "stance": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "spread": "0.1 to 0.5",
+      "note": "Per unit of distance from a centrist's stance (ownStance at lean 0); a tiebreak, never enough to beat a signature issue."
+    },
+    "condition": {
+      "value": 0.75,
+      "tag": "TUNABLE",
+      "spread": "0.25 to 1",
+      "note": "Governors and mayors only: how far the realm's measure went the wrong way, over its change scale."
+    },
+    "contextYearsMin": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": "1 to 3",
+      "note": "A context sentence says 'for N years' only over at least this many whole years of the record."
+    },
+    "lawYearsMax": {
+      "value": 60,
+      "tag": "TUNABLE",
+      "spread": "30 to 100",
+      "note": "A law's age is said as context only up to this many years, past which the starting law's date is a stand-in, not a record a speaker would cite."
+    }
+  },
+  "topicsBySubject": {
+    "about": "Which of the world's measures bear on each subject of the bill catalog: the macro engine's year (unemployment, inflation, wages, mortgage, growth, jobs) and the term read's areas (rent, crime, schools, health, roads, environment). A theme's points are its subject's measures.",
+    "labor": ["wages", "unemployment", "jobs"],
+    "housing": ["mortgage", "rent"],
+    "taxes-finance": ["inflation", "growth"],
+    "business": ["growth", "jobs"],
+    "energy-environment": ["environment"],
+    "justice": ["crime"],
+    "education": ["schools"],
+    "healthcare": ["health"],
+    "infrastructure": ["roads"]
+  }
+}
