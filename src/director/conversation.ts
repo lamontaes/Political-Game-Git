@@ -64,6 +64,7 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { JUSTICE_MODULE_ID } from "../core2/modules/justice";
+import { dollars } from "../english/bill-sections";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { sharedHistory } from "../core2/shared-history";
 import {
@@ -1198,7 +1199,8 @@ function caseFacts(
   ) as { facts?: Readonly<Record<string, string>> } | undefined;
   if (pretrial?.facts?.decision === "held") facts.held = fact("yes");
   else if (Number(pretrial?.facts?.bailMinor) > zero)
-    facts.bail = fact(moneySaid(Number(pretrial!.facts!.bailMinor)));
+    // Their own bail and fine are said exactly: they know the figure.
+    facts.bail = fact(dollars(Number(pretrial!.facts!.bailMinor)));
   const sentence = row.sentenceId
     ? (api.table("sentences").get(row.sentenceId) as
         | {
@@ -1216,7 +1218,7 @@ function caseFacts(
     if ((sentence.probationMonths ?? zero) > zero)
       facts.probation = fact(termSaid(sentence.probationMonths!), ids);
     if ((sentence.fineMinor ?? zero) > zero)
-      facts.fine = fact(moneySaid(sentence.fineMinor!), ids);
+      facts.fine = fact(dollars(sentence.fineMinor!), ids);
   }
   return facts;
 }
@@ -5175,6 +5177,17 @@ function offerChoices(
     // The other person's given name, as the player says it to them.
     ...(other
       ? { "their-first": { text: other.givenName, sourceRecordIds: [otherId] } }
+      : {}),
+    // News of their own life: each fact the telling just said is marked
+    // `told-<fact>`, so a reply that would ask it again ("How?" after "It
+    // was a car crash.") is held back (`excludesFacts`; W1's strict review).
+    ...(DAY_TALK.backOmitsTold.includes(last.kind)
+      ? Object.fromEntries(
+          (conversation.lines.at(-one)?.wording?.facts ?? []).map((key) => [
+            `told-${key}`,
+            { text: "yes", sourceRecordIds: [otherId] },
+          ]),
+        )
       : {}),
   };
   const stage = own.stage ?? last.stage;

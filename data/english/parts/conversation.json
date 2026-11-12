@@ -7085,7 +7085,8 @@
           "move": "job-lost-answer-ask",
           "subject": "job-lost",
           "role": "answer",
-          "choice": "ask"
+          "choice": "ask",
+          "excludesFacts": ["layoff", "closure"]
         }
       ],
       "transcriptsUsing": 243,
@@ -10537,7 +10538,8 @@
           "move": "job-lost-answer-ask",
           "subject": "job-lost",
           "role": "answer",
-          "choice": "ask"
+          "choice": "ask",
+          "excludesFacts": ["layoff", "closure"]
         }
       ],
       "transcriptsUsing": 12,
@@ -30912,10 +30914,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-say-reason.it-paid-wage-an-hour",
+      "key": "conversation.job-lost-say-reason.it-paid-wage-an-hour-and-that-s-hard-to-find",
       "move": "job-lost-say-reason",
       "kind": "spoken",
-      "text": "It paid {wage} an hour.",
+      "text": "It paid {wage} an hour, and that's hard to find.",
       "uses": [
         {
           "move": "job-lost-say-reason",
@@ -30933,16 +30935,16 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-say-reason.i-m-already-looking-for-something-in-place",
+      "key": "conversation.job-lost-say-reason.i-m-already-looking-for-something-around-here",
       "move": "job-lost-say-reason",
       "kind": "spoken",
-      "text": "I'm already looking for something in {place}.",
+      "text": "I'm already looking for something around here.",
       "uses": [
         {
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["seeking", "place"]
+          "requiresFacts": ["seeking"]
         }
       ],
       "piece": {
@@ -31020,65 +31022,16 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.not-enough-work-at-employer-so-some-of-us-went",
+      "key": "conversation.job-lost-back-core.they-didn-t-say-much-you-just-that-i-was-done",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Not enough work at {employer}, so some of us went.",
+      "text": "They didn't say much, {you}. Just that I was done.",
       "uses": [
         {
           "move": "job-lost-back-core",
           "subject": "job-lost-back",
           "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["layoff"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-lost-back-core.employer-shut-its-doors-for-good-everybody-s-out",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "{employer} shut its doors for good. Everybody's out.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["closure"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-lost-back-core.employer-didn-t-give-me-much-of-a-reason",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "{employer} didn't give me much of a reason.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["layoff", "closure"]
+          "stages": ["ask"]
         }
       ],
       "piece": {
@@ -31092,41 +31045,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.i-m-looking-nothing-yet-in-place",
+      "key": "conversation.job-lost-back-core.i-m-looking-you-nothing-yet",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "I'm looking. Nothing yet in {place}.",
+      "text": "I'm looking, {you}. Nothing yet.",
       "uses": [
         {
           "move": "job-lost-back-core",
           "subject": "job-lost-back",
           "role": "core",
           "stages": ["hope"],
-          "requiresFacts": ["seeking", "place"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-lost-back-core.looking-for-anything-near-wage-an-hour-nothing-yet",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "Looking for anything near {wage} an hour. Nothing yet.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["hope"],
-          "requiresFacts": ["seeking", "wage"]
+          "requiresFacts": ["seeking"]
         }
       ],
       "piece": {
@@ -31255,10 +31184,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-open-open.good-to-see-you-on-to-the-race-for-seat",
+      "key": "conversation.interview-open-open.good-to-see-you-again-now-the-race-for-seat",
       "move": "interview-open-open",
       "kind": "spoken",
-      "text": "Good to see you. On to the race for {seat}.",
+      "text": "Good to see you again. Now, the race for {seat}.",
       "uses": [
         {
           "move": "interview-open-open",
@@ -31273,10 +31202,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-open-open.i-m-with-outlet-this-is-about-the-race-for-seat",
+      "key": "conversation.interview-open-open.i-m-with-outlet-i-m-writing-about-the-race-for-seat",
       "move": "interview-open-open",
       "kind": "spoken",
-      "text": "I'm with {outlet}. This is about the race for {seat}.",
+      "text": "I'm with {outlet}. I'm writing about the race for {seat}.",
       "uses": [
         {
           "move": "interview-open-open",
@@ -31301,7 +31230,7 @@
           "subject": "interview-close",
           "role": "leave",
           "choice": "done",
-          "requiresFacts": ["outlet"]
+          "requiresFacts": ["outlet", "stranger"]
         }
       ],
       "origin": "authored",
@@ -31309,28 +31238,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-close-leave-done.that-s-all-i-have-on-the-race-for-seat-thanks",
+      "key": "conversation.interview-close-leave-done.that-s-all-outlet-will-note-what-you-didn-t-answer",
       "move": "interview-close-leave-done",
       "kind": "spoken",
-      "text": "That's all I have on the race for {seat}. Thanks.",
-      "uses": [
-        {
-          "move": "interview-close-leave-done",
-          "subject": "interview-close",
-          "role": "leave",
-          "choice": "done",
-          "requiresFacts": ["seat"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.interview-close-leave-done.that-s-all-outlet-readers-will-see-what-you-passed-on",
-      "move": "interview-close-leave-done",
-      "kind": "spoken",
-      "text": "That's all. {outlet} readers will see what you passed on.",
+      "text": "That's all. {outlet} will note what you didn't answer.",
       "uses": [
         {
           "move": "interview-close-leave-done",
@@ -31363,28 +31274,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.debate-open-open.good-to-see-you-again-welcome-to-the-seat-debate",
+      "key": "conversation.debate-open-open.i-m-your-moderator-this-is-the-debate-for-seat",
       "move": "debate-open-open",
       "kind": "spoken",
-      "text": "Good to see you again. Welcome to the {seat} debate.",
-      "uses": [
-        {
-          "move": "debate-open-open",
-          "subject": "debate-open",
-          "role": "open",
-          "choice": "open",
-          "requiresFacts": ["seat", "acquainted"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.debate-open-open.i-m-your-moderator-for-the-race-for-seat-let-s-begin",
-      "move": "debate-open-open",
-      "kind": "spoken",
-      "text": "I'm your moderator for the race for {seat}. Let's begin.",
+      "text": "I'm your moderator. This is the debate for {seat}.",
       "uses": [
         {
           "move": "debate-open-open",
@@ -31428,24 +31321,6 @@
           "role": "leave",
           "choice": "done",
           "requiresFacts": ["outlet"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.debate-close-leave-done.that-s-the-debate-for-seat-you-passed-on-some-questions",
-      "move": "debate-close-leave-done",
-      "kind": "spoken",
-      "text": "That's the debate for {seat}. You passed on some questions.",
-      "uses": [
-        {
-          "move": "debate-close-leave-done",
-          "subject": "debate-close",
-          "role": "leave",
-          "choice": "done",
-          "requiresFacts": ["seat", "passed"]
         }
       ],
       "origin": "authored",
@@ -31571,10 +31446,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-take-plain-reply-take.so-you-and-rival-split-on-it",
+      "key": "conversation.interview-take-plain-reply-take.that-puts-you-against-rival-on-it",
       "move": "interview-take-plain-reply-take",
       "kind": "spoken",
-      "text": "So you and {rival} split on it.",
+      "text": "That puts you against {rival} on it.",
       "uses": [
         {
           "move": "interview-take-plain-reply-take",
@@ -31666,10 +31541,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-take-plain-reply-take.no-stand-yet",
+      "key": "conversation.interview-take-plain-reply-take.still-undecided",
       "move": "interview-take-plain-reply-take",
       "kind": "spoken",
-      "text": "No stand yet.",
+      "text": "Still undecided.",
       "uses": [
         {
           "move": "interview-take-plain-reply-take",
@@ -31705,10 +31580,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-take-further-reply-take.your-vote-stands",
+      "key": "conversation.interview-take-further-reply-take.as-you-voted",
       "move": "interview-take-further-reply-take",
       "kind": "spoken",
-      "text": "Your vote stands.",
+      "text": "As you voted.",
       "uses": [
         {
           "move": "interview-take-further-reply-take",
@@ -31730,10 +31605,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-take-further-reply-take.a-change-then",
+      "key": "conversation.interview-take-further-reply-take.that-s-a-change",
       "move": "interview-take-further-reply-take",
       "kind": "spoken",
-      "text": "A change, then.",
+      "text": "That's a change.",
       "uses": [
         {
           "move": "interview-take-further-reply-take",
@@ -31778,10 +31653,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-take-declined-reply-take.passing-on-it",
+      "key": "conversation.interview-take-declined-reply-take.no-comment-then",
       "move": "interview-take-declined-reply-take",
       "kind": "spoken",
-      "text": "Passing on it.",
+      "text": "No comment, then.",
       "uses": [
         {
           "move": "interview-take-declined-reply-take",
@@ -31842,17 +31717,16 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.thanks-keep-an-ear-out-for-work-in-place",
+      "key": "conversation.job-lost-back-core.thanks-you-just-keep-an-ear-out-for-me",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Thanks. Keep an ear out for work in {place}.",
+      "text": "Thanks, {you}. Just keep an ear out for me.",
       "uses": [
         {
           "move": "job-lost-back-core",
           "subject": "job-lost-back",
           "role": "core",
-          "stages": ["help"],
-          "requiresFacts": ["place"]
+          "stages": ["help"]
         }
       ],
       "piece": {
@@ -31890,35 +31764,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.thanks-nobody-thought-employer-would-close",
+      "key": "conversation.job-lost-back-core.thanks-you-i-never-thought-it-d-be-me",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Thanks. Nobody thought {employer} would close.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["comfort"],
-          "requiresFacts": ["closure"],
-          "excludesFacts": ["years"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-lost-back-core.thanks-i-never-thought-employer-would-let-me-go",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "Thanks. I never thought {employer} would let me go.",
+      "text": "Thanks, {you}. I never thought it'd be me.",
       "uses": [
         {
           "move": "job-lost-back-core",
@@ -32932,8 +32781,7 @@
           "move": "death-news-say-core",
           "subject": "death-news-say",
           "role": "core",
-          "requiresFacts": ["young"],
-          "excludesFacts": ["cause"]
+          "requiresFacts": ["young"]
         }
       ],
       "piece": {
@@ -32956,7 +32804,7 @@
           "move": "death-news-say-core",
           "subject": "death-news-say",
           "role": "core",
-          "excludesFacts": ["young", "cause"]
+          "excludesFacts": ["young"]
         }
       ],
       "piece": {
@@ -32978,8 +32826,7 @@
         {
           "move": "death-news-say-core",
           "subject": "death-news-say",
-          "role": "core",
-          "excludesFacts": ["cause"]
+          "role": "core"
         }
       ],
       "piece": {
@@ -33003,7 +32850,8 @@
           "subject": "death-news",
           "role": "answer",
           "choice": "ask",
-          "requiresFacts": ["cause"]
+          "requiresFacts": ["cause"],
+          "excludesFacts": ["told-cause"]
         }
       ],
       "bearing": "curious",
@@ -33077,10 +32925,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.death-news-back-core.not-really-i-keep-thinking-about-name",
+      "key": "conversation.death-news-back-core.not-really-i-can-t-believe-name-is-gone",
       "move": "death-news-back-core",
       "kind": "spoken",
-      "text": "Not really. I keep thinking about {name}.",
+      "text": "Not really. I can't believe {name} is gone.",
       "uses": [
         {
           "move": "death-news-back-core",
@@ -33228,30 +33076,6 @@
         }
       ],
       "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder W1 (a relative's news told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.illness-news-back-core.it-s-illness-the-doctors-will-know-more-soon",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "It's {illness}. The doctors will know more soon.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["illness"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
       "origin": "authored",
       "author": "Words builder W1 (a relative's news told through the composer)",
       "date": "2026-11-12"
@@ -33405,7 +33229,8 @@
           "move": "prison-news-answer-ask",
           "subject": "prison-news",
           "role": "answer",
-          "choice": "ask"
+          "choice": "ask",
+          "excludesFacts": ["told-term"]
         }
       ],
       "bearing": "curious",
@@ -33432,34 +33257,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.prison-news-back-core.term-it-s-going-to-feel-longer",
+      "key": "conversation.prison-news-back-core.i-don-t-know-yet-you-nobody-s-told-us",
       "move": "prison-news-back-core",
       "kind": "spoken",
-      "text": "{term}. It's going to feel longer.",
-      "uses": [
-        {
-          "move": "prison-news-back-core",
-          "subject": "prison-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["term"]
-        }
-      ],
-      "piece": {
-        "of": "prison-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder W1 (a relative's news told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.prison-news-back-core.long-enough-name-will-be-out-eventually",
-      "move": "prison-news-back-core",
-      "kind": "spoken",
-      "text": "Long enough. {name} will be out eventually.",
+      "text": "I don't know yet, {you}. Nobody's told us.",
       "uses": [
         {
           "move": "prison-news-back-core",
@@ -33480,10 +33281,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.prison-news-back-core.it-is-i-keep-thinking-about-name-in-there",
+      "key": "conversation.prison-news-back-core.it-is-i-ll-write-to-name-this-week",
       "move": "prison-news-back-core",
       "kind": "spoken",
-      "text": "It is. I keep thinking about {name} in there.",
+      "text": "It is. I'll write to {name} this week.",
       "uses": [
         {
           "move": "prison-news-back-core",
@@ -33596,10 +33397,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.charge-say-reason.bail-was-bail",
+      "key": "conversation.charge-say-reason.they-set-bail-at-bail",
       "move": "charge-say-reason",
       "kind": "spoken",
-      "text": "Bail was {bail}.",
+      "text": "They set bail at {bail}.",
       "uses": [
         {
           "move": "charge-say-reason",
@@ -33617,10 +33418,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.conviction-say-core.i-was-convicted-of-offense-i-m-going-away-for-term",
+      "key": "conversation.conviction-say-core.guilty-of-offense-i-m-going-away-for-term",
       "move": "conviction-say-core",
       "kind": "spoken",
-      "text": "I was convicted of {offense}. I'm going away for {term}.",
+      "text": "Guilty of {offense}. I'm going away for {term}.",
       "uses": [
         {
           "move": "conviction-say-core",
@@ -33688,10 +33489,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.conviction-say-core.the-court-found-me-guilty-of-offense",
+      "key": "conversation.conviction-say-core.they-found-me-guilty-of-offense",
       "move": "conviction-say-core",
       "kind": "spoken",
-      "text": "The court found me guilty of {offense}.",
+      "text": "They found me guilty of {offense}.",
       "uses": [
         {
           "move": "conviction-say-core",
@@ -33712,10 +33513,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.acquittal-say-core.the-court-found-me-not-guilty-of-offense",
+      "key": "conversation.acquittal-say-core.they-found-me-not-guilty-of-offense",
       "move": "acquittal-say-core",
       "kind": "spoken",
-      "text": "The court found me not guilty of {offense}.",
+      "text": "They found me not guilty of {offense}.",
       "uses": [
         {
           "move": "acquittal-say-core",
@@ -33758,10 +33559,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.charge-ask-ask.is-it-true-about-offense",
+      "key": "conversation.charge-ask-ask.is-it-true-they-charged-you-with-offense",
       "move": "charge-ask-ask",
       "kind": "spoken",
-      "text": "Is it true about {offense}?",
+      "text": "Is it true they charged you with {offense}?",
       "uses": [
         {
           "move": "charge-ask-ask",
@@ -33777,28 +33578,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.charge-ask-ask.is-it-true",
-      "move": "charge-ask-ask",
-      "kind": "spoken",
-      "text": "Is it true?",
-      "uses": [
-        {
-          "move": "charge-ask-ask",
-          "subject": "charge",
-          "role": "ask",
-          "choice": "ask"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder W1 (a court case told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.charge-answer-deflect.it-s-complicated",
+      "key": "conversation.charge-answer-deflect.ask-my-lawyer",
       "move": "charge-answer-deflect",
       "kind": "spoken",
-      "text": "It's complicated.",
+      "text": "Ask my lawyer.",
       "uses": [
         {
           "move": "charge-answer-deflect",
@@ -33813,10 +33596,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.charge-answer-refuse.i-can-t-say",
+      "key": "conversation.charge-answer-refuse.after-the-trial",
       "move": "charge-answer-refuse",
       "kind": "spoken",
-      "text": "I can't say.",
+      "text": "After the trial.",
       "uses": [
         {
           "move": "charge-answer-refuse",
@@ -33850,10 +33633,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.conviction-ask-ask.the-verdict",
+      "key": "conversation.conviction-ask-ask.and-the-trial",
       "move": "conviction-ask-ask",
       "kind": "spoken",
-      "text": "The verdict?",
+      "text": "And the trial?",
       "uses": [
         {
           "move": "conviction-ask-ask",
@@ -33930,10 +33713,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.acquittal-answer-refuse.that-s-all",
+      "key": "conversation.acquittal-answer-refuse.rather-not",
       "move": "acquittal-answer-refuse",
       "kind": "spoken",
-      "text": "That's all.",
+      "text": "Rather not.",
       "uses": [
         {
           "move": "acquittal-answer-refuse",
@@ -34752,6 +34535,48 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.job-lost-back-core.thanks-you-nobody-saw-it-coming",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "Thanks, {you}. Nobody saw it coming.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["closure"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (a lost job told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-close-leave-done.that-s-all-thanks",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "That's all. Thanks.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
       "date": "2026-11-12"
     }
   ]
