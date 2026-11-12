@@ -344,6 +344,13 @@
     "where": "Where",
     "any": "Any",
     "begun": "Begun for",
+    "came": "{record} came after {days} days",
+    "neverCame": "{record} never came in {days} days",
+    "states": {
+      "plays": "Plays now",
+      "waits": "Waits for a record",
+      "none": "Cannot be caused yet"
+    },
     "reasons": {
       "days": "Days passed",
       "event": "It happened",
