@@ -5666,7 +5666,8 @@
       },
       "piece": {
         "of": "on-record.reply-answer",
-        "part": "opener"
+        "part": "opener",
+        "stand": true
       }
     },
     {
@@ -5772,7 +5773,8 @@
       },
       "piece": {
         "of": "on-record.reply-answer",
-        "part": "opener"
+        "part": "opener",
+        "stand": true
       }
     },
     {
@@ -5830,7 +5832,8 @@
       },
       "piece": {
         "of": "on-record.reply-answer",
-        "part": "opener"
+        "part": "opener",
+        "stand": true
       }
     },
     {
@@ -14088,7 +14091,8 @@
           "role": "asked",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "confront"
+          "after": "confront",
+          "requiresFacts": ["source"]
         },
         {
           "subject": "scene",
@@ -14097,7 +14101,8 @@
           "role": "asked",
           "purpose": "confirm-vote",
           "key": "vote-wanted",
-          "after": "confront"
+          "after": "confront",
+          "requiresFacts": ["source"]
         },
         {
           "subject": "scene",
@@ -14106,7 +14111,8 @@
           "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "confront"
+          "after": "confront",
+          "requiresFacts": ["source"]
         },
         {
           "subject": "scene",
@@ -14115,7 +14121,8 @@
           "role": "asked",
           "purpose": "carry-bill",
           "key": "favor-asked",
-          "after": "confront"
+          "after": "confront",
+          "requiresFacts": ["source"]
         },
         {
           "subject": "scene",
@@ -14124,7 +14131,8 @@
           "role": "asked",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "after": "confront"
+          "after": "confront",
+          "requiresFacts": ["source"]
         },
         {
           "subject": "scene",
@@ -14133,7 +14141,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "confront"
+          "after": "confront",
+          "requiresFacts": ["source"]
         },
         {
           "subject": "scene",
@@ -14142,7 +14151,8 @@
           "role": "asked",
           "purpose": "rally-opponent",
           "key": "threat",
-          "after": "confront"
+          "after": "confront",
+          "requiresFacts": ["source"]
         },
         {
           "subject": "scene",
@@ -192297,7 +192307,7 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "requiresFacts": ["own-vote"]
+          "requiresFacts": ["own-vote", "floor-count"]
         }
       ],
       "origin": "authored",
@@ -192326,7 +192336,7 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "requiresFacts": ["own-vote"]
+          "requiresFacts": ["own-vote", "floor-count"]
         }
       ],
       "origin": "authored",
@@ -192636,7 +192646,7 @@
           "step": "reply",
           "move": "boast",
           "role": "asked",
-          "requiresFacts": ["bill-failed", "stand-against"]
+          "requiresFacts": ["bill-failed", "stand-against", "floor-count"]
         }
       ],
       "origin": "authored",
@@ -192665,7 +192675,7 @@
           "step": "reply",
           "move": "boast",
           "role": "asked",
-          "requiresFacts": ["bill-passed", "stand-for"]
+          "requiresFacts": ["bill-passed", "stand-for", "floor-count"]
         }
       ],
       "origin": "authored",
@@ -192694,7 +192704,7 @@
           "step": "reply",
           "move": "boast",
           "role": "asked",
-          "requiresFacts": ["bill-passed", "stand-for"]
+          "requiresFacts": ["bill-passed", "stand-for", "floor-count"]
         }
       ],
       "origin": "authored",
@@ -194135,7 +194145,7 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["own-vote"]
+          "requiresFacts": ["own-vote", "floor-count"]
         }
       ],
       "origin": "authored",
@@ -194164,7 +194174,7 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["own-vote"]
+          "requiresFacts": ["own-vote", "floor-count"]
         }
       ],
       "origin": "authored",

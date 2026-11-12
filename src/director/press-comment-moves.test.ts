@@ -106,6 +106,12 @@ describe(`a reporter's call said as moves about the bill (seed ${seed})`, () => 
             expect(line.text, where).not.toMatch(
               /[{}]|undefined|\b(?:that|this) thing\b/,
             );
+            // A turn says its stand once: after an opener that says the
+            // side, no bare yes or no ("...I still disagree. Yes. I'd vote").
+            if (line.parts.some((key) => core_(key)?.piece?.stand))
+              expect(line.text, where).not.toMatch(
+                /[.!?]\s+(?:Yes|No|Still no|Still yes|Even then|Every time)\.\s/,
+              );
             // Only the lie says the side the member's vote did not take.
             if (line.move === "lie") continue;
             for (const key of line.parts) {

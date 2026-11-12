@@ -84,7 +84,13 @@ export interface BankPart {
    * joined piece says so"): `of` names the sentence, `part` which part of it
    * this is, and `required` whether every such sentence has that part.
    */
-  piece?: { of: string; part: LinePart; required?: boolean };
+  piece?: {
+    of: string;
+    part: LinePart;
+    required?: boolean;
+    /** An opener that itself says the speaker's side: the core's yes or no is not said again. */
+    stand?: boolean;
+  };
 }
 
 const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
@@ -585,6 +591,23 @@ function unsaidSentence(
   return [{ ...row, parts }];
 }
 
+/**
+ * A turn says its stand once (lead's rule, Nov 12): a bare yes or no ("Yes.",
+ * "Still no.", "Even then.") answers a question only as the turn's first
+ * words. After an opener that itself says the speaker's side (`piece.stand`),
+ * which has given the answer already ("I'd tell them I listened, and I still disagree."), the
+ * core's answer word is not said again, and the core goes on from its next
+ * word. An opener that is no answer ("Plainly?") keeps the core's yes or no.
+ */
+const ANSWER_WORD =
+  /([.!?]\s+)(?:Yes|No|Still no|Still yes|Even then|Every time|It's still (?:yes|no))\.\s+(\S)/g;
+export function standSaidOnce(text: string): string {
+  return text.replace(
+    ANSWER_WORD,
+    (_all, stop: string, next: string) => `${stop}${next.toUpperCase()}`,
+  );
+}
+
 /** Word one joined sentence in the speaker's voice, or null when its facts cannot carry it. */
 function joinedMove(
   input: Parameters<typeof wordSceneMove>[0],
@@ -626,7 +649,13 @@ function joinedMove(
   const coreKey =
     line.parts.find((part) => part.part === "core")?.variantKey ?? "";
   const core = sentence.parts.core?.find((part) => part.key === coreKey);
-  const text = line.text.trim();
+  // An opener that says the speaker's side has given the answer already.
+  const openerKey = line.parts.find(
+    (part) => part.part === "opener",
+  )?.variantKey;
+  const opener = sentence.parts.opener?.find((part) => part.key === openerKey);
+  const stood = opener?.piece?.stand === true;
+  const text = stood ? standSaidOnce(line.text.trim()) : line.text.trim();
   return {
     text,
     pieceKey: coreKey,
