@@ -296,6 +296,31 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.106.0
+
+_Released November 12, 2026._
+
+### Fixed
+
+- **A state race already past its primary holds that primary, so November has
+  one candidate a party** A statewide race whose filing and primary fell before
+  the game began now holds its primary on the first day, so the November ballot
+  no longer carries two candidates of one party, and a party with a candidate of
+  its own from the town is no longer given a second, stand-in nominee who then
+  got no votes.
+
+### Changed
+
+- **Residents who bring a problem to an official's office stay part of the wider
+  town until you meet them.** Every resident who took a problem to an official's
+  office hours used to become a fully tracked person, with their whole
+  household. In a year that was hundreds of people the player never met, and it
+  was the largest part of a long game's growing memory use. Now their case is
+  kept and decided by the same rule as anyone's. They become fully tracked only
+  when their case reaches an official the player deals with, or the player opens
+  them. Their card then shows the case, their tie to the official and how it
+  changed their view of them.
+
 ## PRE-ALPHA 0.105.0
 
 _Released November 11, 2026._
