@@ -35177,10 +35177,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.own-view-take-core.then-we-re-on-the-same-side-when-it-comes-up-you",
+      "key": "conversation.own-view-take-core.then-we-re-on-the-same-side-you-we-ll-see",
       "move": "own-view-take-core",
       "kind": "spoken",
-      "text": "Then we're on the same side when it comes up, {you}.",
+      "text": "Then we're on the same side, {you}. We'll see.",
       "uses": [
         {
           "move": "own-view-take-core",
@@ -35542,16 +35542,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.school-missed-answer-ask.how-come-were-you-feeling-okay-yesterday",
+      "key": "conversation.school-missed-answer-ask.how-come-you-stayed-home-from-school",
       "move": "school-missed-answer-ask",
       "kind": "spoken",
-      "text": "How come? Were you feeling okay yesterday?",
+      "text": "How come you stayed home from {school}?",
       "uses": [
         {
           "move": "school-missed-answer-ask",
           "subject": "school-missed",
           "role": "answer",
-          "choice": "ask"
+          "choice": "ask",
+          "requiresFacts": ["school"]
         }
       ],
       "bearing": "curious",

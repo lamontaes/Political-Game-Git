@@ -1257,9 +1257,10 @@ function usualShift(
       // A day whose terms cannot be read is left out of the week.
     }
   }
-  const usual = [...counts].sort((a, b) => b[1] - a[1] || b[0] - a[0])[zero]?.[
-    zero
-  ];
+  const usual = [...counts]
+    .map(([minutes, days]) => ({ minutes, days }))
+    .sort((a, b) => b.days - a.days || b.minutes - a.minutes)
+    .at(zero)?.minutes;
   byKey.set(key, usual);
   return usual;
 }
