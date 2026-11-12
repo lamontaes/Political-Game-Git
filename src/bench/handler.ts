@@ -120,7 +120,6 @@ import {
   moveAppearance,
   lookFaces,
   newGameFaces,
-  portraitFace,
   readRecipe,
 } from "./appearance";
 import { pollingScene } from "./polling";
