@@ -20,10 +20,10 @@
     "their-work": "other-work",
     "home": "home-reply",
     "their-tenure": "tenure-reply",
+    "their-position": "position-reply",
     "their-school": "school-reply",
     "their-family": "family-reply",
-    "news": "news-reply",
-    "address": "address-view"
+    "news": "news-reply"
   },
   "otherRaises": {
     "own-work": {
@@ -102,8 +102,8 @@
       "kind": "acquittal-reply",
       "stage": "default"
     },
-    "address-view": {
-      "kind": "address-view",
+    "address-point": {
+      "kind": "address-point",
       "stage": "default"
     },
     "own-view": {
@@ -123,7 +123,7 @@
     "own-work": ["their-work"],
     "heard-work": ["their-work"],
     "shared-work": ["their-work"],
-    "other-work": ["their-tenure"],
+    "other-work": ["their-tenure", "their-position"],
     "home": ["home"],
     "family": ["their-family"],
     "address": ["address"]
@@ -142,6 +142,7 @@
     "mutual": ["family"],
     "news": ["address"],
     "address": ["news"],
+    "address-point": ["news", "own-view"],
     "job-lost": ["job-hope"],
     "eviction": ["eviction-where"]
   },
@@ -153,7 +154,27 @@
   },
   "answersTo": {
     "about": "The reply choices that answer a question, by the move of the bank piece that asked it (owner, Nov 1: questions get answers; Oct 29: a question is answered before anything else). A choice not listed is not offered after that question. Moves and choices only; no sentence.",
-    "news-ask-think": ["opinion"]
+    "news-ask-core": ["for", "against", "worked-there", "opinion"]
+  },
+  "answeredBy": {
+    "about": "Owner, Nov 11, 2026 (work talk names the employer, the job and how long): a question raised as a subject is answered by this fact of the other person's record. A reply that asks it is not offered when the line before already said it. Subject kinds and fact names only; no sentence.",
+    "their-tenure": "years",
+    "their-position": "position"
+  },
+  "namesOnce": {
+    "about": "Lead, Nov 11, 2026, from the reviews of PR 8736 and PR 8750: one screen names a thing once. For these kinds of line, no two of the player's replies say the same record's words (the employer, the job, a name); the reply ranked first keeps it. Kinds only; no sentence.",
+    "kinds": [
+      "own-work",
+      "own-work-new",
+      "other-work",
+      "heard-work",
+      "shared-work",
+      "tenure-reply",
+      "position-reply",
+      "family",
+      "asked-kin",
+      "kin"
+    ]
   },
   "tells": {
     "about": "Owner, Oct 14, 2026, night (Q10: one 'listen' and one 'ask more'): when the player answers the other person's line with a choice that asks for more, the other person tells this subject of their own, from their records, as a side remark on the same topic. By the line's kind, then the choice.",
@@ -171,11 +192,12 @@
       "where": "eviction-where"
     },
     "address": {
-      "agree": "address-view",
-      "doubt": "address-view",
-      "hope": "address-view",
-      "plain": "address-view",
-      "missed": "address-view"
+      "agree": "address-point",
+      "doubt": "address-point",
+      "hope": "address-point",
+      "plain": "address-point",
+      "missed": "address-point",
+      "turn": "address-point"
     },
     "job-new-reply": {
       "ask": "job-new-detail",
@@ -198,11 +220,11 @@
       "agree": "agree",
       "doubt": "disagree"
     },
-    "address-view": {
+    "address-point": {
       "agree": "agree",
       "disagree": "disagree",
-      "wait": "stall",
-      "local": "ask"
+      "here": "ask",
+      "instead": "ask"
     },
     "own-view": {
       "agree": "agree",
@@ -214,7 +236,11 @@
       "react": "react",
       "yes": "answer",
       "no": "answer",
-      "opinion": "answer"
+      "opinion": "answer",
+      "for": "agree",
+      "against": "disagree",
+      "worked-there": "tell",
+      "why": "request"
     },
     "family": {
       "ill": "tell",
@@ -240,12 +266,49 @@
       "deflect": "deflect"
     }
   },
+  "addressPoint": {
+    "about": "Owner, Nov 11, 2026: the relative raises a real thing the President said in the address and where they stand on it from their own life. Which of the address's points a hearer raises reads these lists: a point on work or pay (by the bill catalog's subject) for someone who lost a job this year or is looking for one, a point on prices, rent or housing (the catalog's subjects, and the questions about prices by name) for someone money is hard for. `back` is the subject the hearer's answer to the player's reply is composed under. Names only; no sentence.",
+    "work": { "subjects": ["labor"] },
+    "money": {
+      "subjects": ["housing"],
+      "questions": [
+        "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+        "us-federal-positions:health.medicare-drug-price-negotiation",
+        "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+        "us-federal-positions:trade.raise-tariffs"
+      ]
+    },
+    "back": "address-point-back",
+    "claims": {
+      "about": "What each claim about the country's year is about and which way it says things went. A hearer stands on a year point by whether their own life bears it out: a claim that work got worse is borne out by a job lost or looked for, or the town's unemployment above the country's; a claim that money got worse by hardship, an eviction, or the town's rent above the burden line; a claim that things got better by the opposite. By claim fact; no sentence.",
+      "prices-high": { "area": "money", "says": "worse" },
+      "prices-up": { "area": "money", "says": "worse" },
+      "inflation-up": { "area": "money", "says": "worse" },
+      "inflation-down": { "area": "money", "says": "better" },
+      "wages-up": { "area": "money", "says": "better" },
+      "wages-ahead-of-prices": { "area": "money", "says": "better" },
+      "wages-behind-prices": { "area": "money", "says": "worse" },
+      "mortgage-up": { "area": "money", "says": "worse" },
+      "mortgage-down": { "area": "money", "says": "better" },
+      "unemployment-up": { "area": "work", "says": "worse" },
+      "unemployment-down": { "area": "work", "says": "better" },
+      "jobs-up": { "area": "work", "says": "better" },
+      "growth-up": { "area": "work", "says": "better" }
+    }
+  },
+  "greetAndPart": {
+    "about": "Owner, Nov 11, 2026: every line through the English engine, with inserts from the world's records. A greeting away from home is composed under `greet` from a plain opener and a core that names the listener or when the two last met; a goodbye under `farewell` from a core that names what the talk was about or someone of the player's they know, and a short closer. `aboutFacts` lists, in order, the facts of the talk's first topic a goodbye may name as {about-said}; the first the topic carries is said, with the mark `about-<fact>` so its wordings fit it. Names only; no sentence.",
+    "greet": "greet",
+    "farewell": "farewell",
+    "aboutFacts": ["employer", "school", "place", "topic", "relation"]
+  },
   "familyTalk": {
     "about": "Owner, Oct 15, evening (batch 11 grading): a family talk is a personal scene only, since the family has little involvement in play for now. Between relatives, work, school, where each is from and mutual acquaintances are not talked about ('Where do you work' between relatives is not a scene; neither is 'Have you talked to Diana?'). These are the subject kinds a relative does not raise or ask; what is left is the household's own news (a lost job, an eviction), kin, and news passed on.",
     "dropped": [
       "own-work",
       "their-work",
       "their-tenure",
+      "their-position",
       "shared-work",
       "shared-school",
       "school",
@@ -263,7 +326,8 @@
       "home:moved": "moved",
       "money:job-started": "job",
       "money:job-changed": "job",
-      "feeling:event:person-birth": "baby"
+      "feeling:event:person-birth": "baby",
+      "feeling:event:life.death": "died"
     }
   },
   "happenings": {

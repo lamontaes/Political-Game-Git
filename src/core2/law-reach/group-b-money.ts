@@ -41,7 +41,7 @@ import {
   type ResidentFacts,
   type TownFacts,
 } from "./group-b-people";
-import { flowWeights, fundOf } from "../counted-money";
+import { flowWeights, fundOf, peopleInGroup } from "../counted-money";
 import {
   getRow,
   putRow,
@@ -51,6 +51,7 @@ import {
 } from "./group-b-store";
 import type { ModuleRow } from "../module-data";
 import {
+  budgetInForce,
   fundFederalStanding,
   noteLinePaid,
   registerLinePayments,
@@ -334,6 +335,17 @@ interface BenefitRow {
  * Each month's close counts the benefits and vouchers a treasury pays in town
  * as that line's spending, so the line pays only the rest outside.
  */
+/**
+ * The line a benefit with no line of its own counts against: the paying government's own budget
+ * line for it, read from the budget it keeps (a town or state's welfare and Medicaid; the federal
+ * budget's lines are the Treasury's outlays by function, so its income security).
+ */
+const BENEFIT_LINES = ["welfareAndMedicaid", "incomeSecurity"] as const;
+function benefitLineOf(api: CoreAPI, gov: { readonly id: string }): string {
+  const lines = budgetInForce(api, gov.id)?.spendingMinor ?? {};
+  return BENEFIT_LINES.find((line) => line in lines) ?? BENEFIT_LINES[0];
+}
+
 registerLinePayments((api, gov) => {
   const accounts = api.accounts();
   const out: Record<string, number> = {};
@@ -348,7 +360,7 @@ registerLinePayments((api, gov) => {
     )
       continue;
     if (accounts.obligation(row.obligationId)?.endedAt) continue;
-    const line = row.line ?? "welfareAndMedicaid";
+    const line = row.line ?? benefitLineOf(api, gov);
     out[line] = (out[line] ?? 0) + row.amountMinor;
   }
   return out;
@@ -1518,7 +1530,8 @@ export function payVouchers(
             targetId: `${town}:private-tuition-group:${group}`,
             target: "group",
             what: "private-tuition-voucher-paid",
-            count: Math.max(1, Math.round(weight)),
+            // The people the group stands for, never its dollar weight in the flow.
+            count: Math.max(1, Math.round(peopleInGroup(rt, group))),
             amountMinor: amount,
           });
           paidGroups += 1;

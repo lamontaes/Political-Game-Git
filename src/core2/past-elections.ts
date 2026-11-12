@@ -466,10 +466,12 @@ export function buildPriorElections(
         const ratio = turnoutRatio(date);
         // This world's votes cast (realistic, not real; owner, Oct 27): the
         // recorded or estimated total moved once by the world's offset.
+        const center =
+          real?.total ??
+          electorateBallots(api, town, office, seat, date) * ratio;
         const total = Math.round(
           worldLevel(
-            real?.total ??
-              electorateBallots(api, town, office, seat, date) * ratio,
+            center,
             town.seed,
             `past-votes:${key}`,
             "worldPastVotesSpreadShare",
@@ -542,6 +544,7 @@ export function buildPriorElections(
           winnerId,
           candidates,
           totalVotes: total,
+          sourceVotes: Math.round(center),
           townGroups: groupSplit(
             api,
             town,
