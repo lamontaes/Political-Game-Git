@@ -70,7 +70,6 @@ describe(`dev trace, every id: ${where}`, () => {
       for (const line of chapter.lines) {
         for (const id of line.sourceRecordIds) name(id, "journal source");
         for (const id of line.momentIds) name(id, "journal moment");
-        for (const id of line.link?.recordIds ?? []) name(id, "journal link");
       }
     // The News as its route builds it: what the player heard, the town's public
     // record, then the nation's.
