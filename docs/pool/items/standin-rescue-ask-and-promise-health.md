@@ -18,7 +18,7 @@ effort: medium
 root: design-life-record
 ---
 
-**What.** Stand-ins SG-WORDS-rescue-ask-unrecorded and SG-WORDS-rescue-promise-unread. After a housemate gets help for the player, the rescuer asks for a ride to the doctor, a visit or to stay close in words picked for every rescue, not from what the player's illness calls for, and a promise to see a doctor books no visit and warms no tie.
+**What.** Stand-ins SG-WORDS-rescue-ask-unrecorded and SG-WORDS-rescue-promise-unread. After a housemate gets help for the player, the rescuer asks for a ride to the doctor, a visit or to stay close in words picked for every rescue, not from what the player's illness calls for, and a promise to see a doctor books no visit and warms no tie. Seen: in what the rescuer asks and the care visit that follows a promise.
 
 **Cause.** Found in code: src/director/rescue-facts.ts rescueFacts (line 29) builds only who rescued, a child in the room and witnesses from the health.rescued record; src/core2/modules/rescue.ts rescueOnset (line 19) writes the record without the case's condition or the care it calls for; src/core2/modules/health.ts has careNeedOf (line 1286) but no care-visit action a promise could book.
 

@@ -18,7 +18,7 @@ effort: medium
 root: design-story-director
 ---
 
-**What.** The day after the press carries a taken bribe, the person who asks the official to their face is the one with the highest tie and sociability among the official's family, household and acquaintances, whether or not they read the story. Stand-in SG-WORDS-bribe-accuser-anyone-close.
+**What.** The day after the press carries a taken bribe, the person who asks the official to their face is the one with the highest tie and sociability among the official's family, household and acquaintances, whether or not they read the story. Stand-in SG-WORDS-bribe-accuser-anyone-close. Seen: in the talk where someone asks an official whether a reported bribe is true.
 
 **Cause.** Found in code: src/director/data/circumstances.json, circumstance `bribe-accused` (pool "ties-of-named") is cast by src/director/circumstance.ts line 479 (the `ties-of-named` source), which returns family, household and known people with no reading of the news. The news engine records readers per story as `news.read:<story id>:<date>` events (src/core2/modules/news.ts line 157, storyOfReadEvent line 164, storiesHeard line 246).
 

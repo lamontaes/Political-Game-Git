@@ -18,7 +18,7 @@ effort: medium
 root: design-story-director
 ---
 
-**What.** The director keeps three kinds of remembered fact between people: lies, favors and promises. Lies are recorded; favors and promises never are, because nothing produces them.
+**What.** The director keeps three kinds of remembered fact between people: lies, favors and promises. Lies are recorded; favors and promises never are, because nothing produces them. Seen: in later scenes that recall the favor or promise.
 
 **Cause.** Found in code: src/director/data/director.json keptFactKinds (around line 940 to 957) lists "lie" with producedBy conversation.lie, but "favor" and "promise" with an empty producedBy (stand-in SG-P13-kept-fact-producers); produceKeptFacts in src/director/ledger.ts (line 1808) records a fact only when an event's kind is in that list.
 

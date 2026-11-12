@@ -18,7 +18,7 @@ effort: medium
 root: design-story-director
 ---
 
-**What.** At the recall table the organizer's line that the member voted for the bill "after telling us you wouldn't", and the member's two answers, never play, because nothing sets the scene fact `promised-against`. The organizer names only the vote. Stand-in SG-WORDS-recall-promise-record.
+**What.** At the recall table the organizer's line that the member voted for the bill "after telling us you wouldn't", and the member's two answers, never play, because nothing sets the scene fact `promised-against`. The organizer names only the vote. Stand-in SG-WORDS-recall-promise-record. Seen: in the recall organizer's words to the player.
 
 **Cause.** Found in code: src/director/purpose-scene.ts line 1164 (the comment carrying SG-WORDS-recall-promise-record) is where the recall scene's facts are built and `promised-against` is never set; the bank lines that need it are in data/english/parts/scene-talk.json (requiresFacts promised-against). The record that would hold the promise exists: a filing's platform (stance strings `question=-1`, parsed by parsePlatform, src/core2/modules/campaigns.ts line 563) and the legislature's vote on the bill's question.
 

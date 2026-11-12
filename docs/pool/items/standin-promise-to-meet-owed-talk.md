@@ -18,7 +18,7 @@ effort: medium
 root: design-life-record
 ---
 
-**What.** Stand-ins SG-WORDS-meeting-promise-unread, SG-WORDS-reunion-letter-promise-unread and SG-WORDS-celebration-gathering-promise-unread. When the player promises to show a newcomer around, meet again, visit, write back, call or make a toast, the promise is written on the scene reply and nothing happens: no meeting, no call, no visit, and a kept or broken promise changes no tie.
+**What.** Stand-ins SG-WORDS-meeting-promise-unread, SG-WORDS-reunion-letter-promise-unread and SG-WORDS-celebration-gathering-promise-unread. When the player promises to show a newcomer around, meet again, visit, write back, call or make a toast, the promise is written on the scene reply and nothing happens: no meeting, no call, no visit, and a kept or broken promise changes no tie. Seen: in the talk that happens on the day the player promised.
 
 **Cause.** Found in code: src/director/purpose-scene.ts replyInScene (around line 1805) writes owedWith, owedTopic and owedDueOn only for a family-stake put-off; src/core2/modules/people.ts, kin-contact.ts and partnerships.ts read no promise from a scene.reply on the first-meeting, reunion, letter, celebration or gathering types (kin-contact.ts writes only the monthly contact hours).
 

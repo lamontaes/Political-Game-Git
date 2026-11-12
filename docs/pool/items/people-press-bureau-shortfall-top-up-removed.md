@@ -19,7 +19,7 @@ source: stand-in triage, Nov 10, 2026 (SG-PEOPLE-press-bureau-shortfall)
 claimed-at:
 ---
 
-**What.** Each press week the town's outside customers pay an outlet whatever its local people cost beyond what the town's readers and advertisers paid last month. The acting CTO ruled on Oct 25 (OWNER-DECISIONS.md, "Press outlet shortfall") that an outlet short of money cuts staff, pages or closes by its own books, and that this top-up is removed. It was never removed.
+**What.** Each press week the town's outside customers pay an outlet whatever its local people cost beyond what the town's readers and advertisers paid last month. The acting CTO ruled on Oct 25 (OWNER-DECISIONS.md, "Press outlet shortfall") that an outlet short of money cuts staff, pages or closes by its own books, and that this top-up is removed. It was never removed. Seen: in the paper, which cuts staff or closes when the town cannot pay for it.
 
 **Cause.** Found in code: src/core2/press-money.ts line 370 (function payWiderAudience, marker SG-PEOPLE-press-bureau-shortfall) still transfers the shortfall, and src/core2/modules/press.ts line 3534 (pressWeek) still calls it every press week.
 

@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** After a disaster the player's household talks over the damaged home, but only people who live with the player are in the scene. The record names no lender, landlord or aid worker, so a player who lives alone is told nothing, and a home the counted population lost has no scene. Closes stand-in SG-STORY-home-damaged-cast.
+**What.** After a disaster the player's household talks over the damaged home, but only people who live with the player are in the scene. The record names no lender, landlord or aid worker, so a player who lives alone is told nothing, and a home the counted population lost has no scene. Closes stand-in SG-STORY-home-damaged-cast. Seen: in the repair talk that names the lender or landlord.
 
 **Cause.** Found in code: src/core2/modules/disasters.ts emits `disaster.home-damaged` (about line 750) with the home's kind, aid and repairs but no payee; the damaged row (`damaged` table, line 419) is keyed by household only. The home's lender is in src/core2/modules/credit.ts (the `mortgages` table, `lenderId`) and its landlord in src/core2/modules/housing.ts (the lease's `payeeId`). src/director/purpose-scene.ts (marker near line 656) and the `home-damaged` type in src/director/data/situation-types.json cast only the household.
 

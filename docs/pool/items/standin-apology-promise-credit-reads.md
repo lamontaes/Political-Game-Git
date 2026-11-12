@@ -18,7 +18,7 @@ effort: medium
 root: design-life-record
 ---
 
-**What.** Stand-in SG-WORDS-apology-promise-unread. When the player promises after a quarrel over a missed payment to pay on time or check the bills, the promise is written on the reply and nothing reads it, so a later missed payment is not a broken promise.
+**What.** Stand-in SG-WORDS-apology-promise-unread. When the player promises after a quarrel over a missed payment to pay on time or check the bills, the promise is written on the reply and nothing reads it, so a later missed payment is not a broken promise. Seen: in the tie between two people on their page after payments are made or missed.
 
 **Cause.** Found in code: src/core2/modules/quarrel.ts quarrelOverMoney (line 19) writes family.quarrel and strains the tie; src/core2/modules/partnerships.ts onEvent (line 963) reads scene.reply only through answerProposal; no module reads a promise on the apology scene's reply.
 

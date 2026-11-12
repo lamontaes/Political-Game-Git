@@ -18,7 +18,7 @@ effort: medium
 root: design-life-record
 ---
 
-**What.** Stand-in SG-WORDS-journal-story-no-helper. The journal tells a job found as a small story of how long, what it paid and the employer before, but never says who helped, though an official's referral is on record.
+**What.** Stand-in SG-WORDS-journal-story-no-helper. The journal tells a job found as a small story of how long, what it paid and the employer before, but never says who helped, though an official's referral is on record. Seen: in the journal line that tells how a person found a job.
 
 **Cause.** Found in code: src/core2/modules/jobs.ts recordReferral (line 3441) and referralStanding (line 3468) keep the referral and employers read it when they choose among applicants, but the hire and the spell row (the spells table, line 474 onward) keep no referral id, and src/director/journal.ts reads none.
 

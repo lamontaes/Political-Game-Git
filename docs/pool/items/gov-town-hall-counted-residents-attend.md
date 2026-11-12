@@ -18,7 +18,7 @@ effort: medium
 root: design-one-model-two-tiers
 ---
 
-**What.** `townHallDrives` (src/core2/modules/meetings.ts) lists only the town's full adults, so in a town of mostly counted residents a candidate's forum or an official's town hall meets only people already filled in; counted adults never come, though public comment already reads them. A forum in such a town therefore draws almost no one, and a rule that applies only to full people is an unregistered placeholder. The fix reads the counted adults the way public comment does and fills each one in when they come.
+**What.** `townHallDrives` (src/core2/modules/meetings.ts) lists only the town's full adults, so in a town of mostly counted residents a candidate's forum or an official's town hall meets only people already filled in; counted adults never come, though public comment already reads them. A forum in such a town therefore draws almost no one, and a rule that applies only to full people is an unregistered placeholder. The fix reads the counted adults the way public comment does and fills each one in when they come. Seen: in the crowd a town hall or forum shows, and in the turnout line the paper reports.
 
 **Cause.** Found in code: src/core2/modules/meetings.ts line 651 to 665, `townHallDrives` returns `townAdults(api)` (meetings.ts line 254, `peopleByPlace` full people only) and registers SG-GOV-town-hall-room-full-people; `commentSpeakers` (line 364 to 400) already adds `countedResidents(core)` filtered by `countedRecordOnly` and adult age.
 

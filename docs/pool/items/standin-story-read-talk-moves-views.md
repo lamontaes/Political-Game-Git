@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** When the player talks over a news story with someone at home (the story-read scene), they can agree, disagree, ask or put it off. Today the talk writes the reply, time together, a strain on the tie and an owed talk, but nobody's view of the story's question moves from it. Closes stand-in SG-WORDS-story-read-talk-moves-nothing.
+**What.** When the player talks over a news story with someone at home (the story-read scene), they can agree, disagree, ask or put it off. Today the talk writes the reply, time together, a strain on the tie and an owed talk, but nobody's view of the story's question moves from it. Closes stand-in SG-WORDS-story-read-talk-moves-nothing. Seen: in the household talk and the views shown on a person's page.
 
 **Cause.** Found in code: src/director/purpose-scene.ts (marker comment near line 510, the story-read facts) writes a `scene.reply` event with typeKey `story-read` (same file, `applyCoreEvent` near line 1805); src/core2/modules/views.ts listens to every event (`eventKinds: ["*"]`, `onEvent`) but has no branch for a story-read reply, and `stanceAfterCase` is only fed speeches, stories and cases made.
 

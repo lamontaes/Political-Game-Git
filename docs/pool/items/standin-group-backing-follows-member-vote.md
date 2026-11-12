@@ -18,7 +18,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 ---
 
-**What.** A group's lobbyist who remembers how the player voted against the group's meeting says so in a scene, and the player's answer is kept as a promise or a strained tie. But the group's endorsement, gifts and any primary challenge do not move from it: nothing reads the member's vote against the group's side, or the kept tie, when the group decides whom to back. Stand-in SG-WORDS-lobby-remembers-writeback.
+**What.** A group's lobbyist who remembers how the player voted against the group's meeting says so in a scene, and the player's answer is kept as a promise or a strained tie. But the group's endorsement, gifts and any primary challenge do not move from it: nothing reads the member's vote against the group's side, or the kept tie, when the group decides whom to back. Stand-in SG-WORDS-lobby-remembers-writeback. Seen: in the group's endorsement and gifts a member sees after a vote.
 
 **Cause.** Found in code: src/director/circumstance.ts line 525 (marker, source `lobbied-against`) finds the lobbyists whose meeting side the member's vote went against, using meetingsOn (src/core2/modules/interest-groups.ts line 1001). The group's own decision, weighEndorsement in src/core2/modules/campaigns.ts (line 4838), weighs a candidate's platform stance and does not read the member's votes against the group's meetings.
 

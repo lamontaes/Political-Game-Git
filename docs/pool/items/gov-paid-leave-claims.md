@@ -18,7 +18,7 @@ root: none
 source: stand-in triage T1, Nov 10, 2026 (docs/stopgaps/triage-2026-11-10/gov-a.md)
 ---
 
-**What.** A paid family leave law collects a payroll premium into the government's treasury and never pays a benefit. Add the claim and the payment: a covered worker with a birth, an adoption or a relative's serious illness takes leave, and the treasury pays wage replacement through the one benefit payer.
+**What.** A paid family leave law collects a payroll premium into the government's treasury and never pays a benefit. Add the claim and the payment: a covered worker with a birth, an adoption or a relative's serious illness takes leave, and the treasury pays wage replacement through the one benefit payer. Seen: in the paychecks of people who take leave and in the state's paid leave line on the budget screen.
 
 **Cause.** Found in code: src/core2/paid-leave.ts line 31 (stopgap SG-GOV-REACH-A-leave-claims, open in src/core2/data/stopgaps/gov.json): the law collects the premium through paidLeavePremium from paychecks (full) and counted wages, and nothing pays leave back; src/core2/law-reach/group-a-money.ts line 96 (the paidLeave handler) only sets the premium.
 

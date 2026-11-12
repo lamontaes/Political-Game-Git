@@ -18,7 +18,7 @@ effort: medium
 root: rc7-player-cannot-drive
 ---
 
-**What.** When another official asks the player, as a member, to carry a bill, the ask is held but nothing on screen shows it, so the player can never answer and the ask never closes. Show each waiting ask on Politics, Issues and Government with who asked, what it would do and Agree and Decline buttons. Today the engine half is built and tested, so the only gap is the screen: the player's answer is never collected.
+**What.** When another official asks the player, as a member, to carry a bill, the ask is held but nothing on screen shows it, so the player can never answer and the ask never closes. Show each waiting ask on Politics, Issues and Government with who asked, what it would do and Agree and Decline buttons. Today the engine half is built and tested, so the only gap is the screen: the player's answer is never collected. Seen: on Politics, Issues and Government, as a waiting request with Agree and Decline.
 
 **Cause.** Found in code: `src/core2/modules/legislature.ts` line 3322 registers `SG-GOV-carry-ask-no-screen` where `askToCarry` puts a row with `awaitingPlayer` in the `carryAsks` table; `carryAsksAwaiting` (line 3366) and `answerCarryAsk` (line 3377) exist and nothing in `src/bench` calls either.
 

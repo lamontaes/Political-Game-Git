@@ -20,7 +20,7 @@ milestone: M7
 source: stand-in triage Nov 10; stopgap SG-LIVES-elsewhere-not-into-town
 ---
 
-**What.** A relative or acquaintance who lives elsewhere never moves into the played town today: their move skips any destination that is one of the town's full-detail places. Make a move that lands in the played town arrive through the counted-moves arrival path as one counted household, kept as counts until the player meets them. Then a relative's move to town is something the player can hear about and meet, instead of being impossible.
+**What.** A relative or acquaintance who lives elsewhere never moves into the played town today: their move skips any destination that is one of the town's full-detail places. Make a move that lands in the played town arrive through the counted-moves arrival path as one counted household, kept as counts until the player meets them. Then a relative's move to town is something the player can hear about and meet, instead of being impossible. Seen: in the news of a relative arriving and in the town's household and population counts.
 
 **Cause.** Found in code: src/core2/modules/moves.ts, function destinationFor, where `open` refuses any played-town place for a person in the inactive tier and the stopgap SG-LIVES-elsewhere-not-into-town is recorded (line 771).
 

@@ -18,7 +18,7 @@ effort: medium
 root: design-life-record
 ---
 
-**What.** Stand-ins SG-WORDS-letter-ask-unrecorded, SG-WORDS-gathering-ask-unrecorded, SG-WORDS-reunion-ask-unrecorded and SG-WORDS-celebration-ask-unrecorded. A relative's ask (come visit, write, a lead on work, make up) is worded the same way for every relative, and nothing on a record says this one wants a visit or a job.
+**What.** Stand-ins SG-WORDS-letter-ask-unrecorded, SG-WORDS-gathering-ask-unrecorded, SG-WORDS-reunion-ask-unrecorded and SG-WORDS-celebration-ask-unrecorded. A relative's ask (come visit, write, a lead on work, make up) is worded the same way for every relative, and nothing on a record says this one wants a visit or a job. Seen: in the letter, reunion or celebration where a relative asks for something.
 
 **Cause.** Found in code: src/director/purpose-scene.ts lines 591 and 616 (the markers) word the ask for every letter, reunion, celebration and gathering; src/core2/modules/kin-contact.ts writes family.contact (line 20) and family.gathering-missed (line 21) with only who and how close, and no topic or reason.
 

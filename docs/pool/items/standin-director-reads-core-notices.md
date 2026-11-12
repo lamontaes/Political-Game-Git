@@ -18,7 +18,7 @@ effort: medium
 root: design-director-on-core2
 ---
 
-**What.** Two director stand-ins still fake what the core now offers. The director works out each person's feeling about an event itself, with the core's appraisal function, instead of reading the feeling the core already worked out and published; and it reads tie changes once at the end of each day, so the order of changes within a day is lost.
+**What.** Two director stand-ins still fake what the core now offers. The director works out each person's feeling about an event itself, with the core's appraisal function, instead of reading the feeling the core already worked out and published; and it reads tie changes once at the end of each day, so the order of changes within a day is lost. Seen: in the stories and journal lines that follow an appraisal or a change in a tie.
 
 **Cause.** Found in code: src/director/ledger.ts, the call to appraiseEvent near line 1751 (stand-in SG-P13-appraisal-recompute) repeats what src/core2/modules/life.ts onEvent (line 481 to 489) already computes and publishes with api.publishEventAppraisal; the module hook onEventAppraisal exists (src/core2/types.ts line 1035) and the director module does not use it. The tie read at ledger.ts line 970 (stand-in SG-P13-tie-day-order) loops over every relationship at day end, while the core's relationship-change notice (module hook onRelationshipChange, used at ledger.ts line 1880 only to re-rate) arrives at each change.
 

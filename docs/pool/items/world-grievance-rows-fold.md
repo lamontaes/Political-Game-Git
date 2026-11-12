@@ -19,7 +19,7 @@ source: stand-in triage T4 (Nov 10, 2026), docs/stopgaps/triage-2026-11-10/world
 claimed-at:
 ---
 
-**What.** Grievance rows (a dispute with a full person on a side) stay open until their cause is undone and are never folded, so the open rows the monthly rehire check reads grow over a long save, and a grievance never ends when the layoff's person dies or leaves.
+**What.** Grievance rows (a dispute with a full person on a side) stay open until their cause is undone and are never folded, so the open rows the monthly rehire check reads grow over a long save, and a grievance never ends when the layoff's person dies or leaves. Seen: in a person's grievances list, which ends when either person dies or leaves.
 
 **Cause.** Found in code: src/core2/modules/grievance.ts line 246 (stopgap SG-WORLD-grievance-no-fold): the monthly rehire loop at line 248 walks every row of `grievancesOpen`.
 

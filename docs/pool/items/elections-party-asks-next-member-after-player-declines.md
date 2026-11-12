@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** The party's chair asks its members to run for an open seat on the day filing opens. When the member asked is the player, the party stops asking at once and waits for the scene's answer. If the player says no or not now, nothing returns the party to its list, so the seat goes unasked while filing is still open. Make the candidacy engine read the player's no or not-now reply and ask the party's next member for the seat, in the same order the party already uses. Closes SG-P15-party-ask-after-player.
+**What.** The party's chair asks its members to run for an open seat on the day filing opens. When the member asked is the player, the party stops asking at once and waits for the scene's answer. If the player says no or not now, nothing returns the party to its list, so the seat goes unasked while filing is still open. Make the candidacy engine read the player's no or not-now reply and ask the party's next member for the seat, in the same order the party already uses. Closes SG-P15-party-ask-after-player. Seen: in the news and on the filing screen, where the seat's next candidate is named after the player says no.
 
 **Cause.** Found in code: `src/core2/modules/candidacy.ts` line 1565 (the loop over `partyProspects` calls `api.stopgap("SG-P15-party-ask-after-player")` and `break`s when the person asked is the player), and `answerPartyAsk` (line 1650) handles only agreeing moves (`AGREEING_MOVES`), so a refusal changes nothing.
 

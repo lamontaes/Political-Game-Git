@@ -18,7 +18,7 @@ effort: medium
 root: rc4-hand-written-words
 ---
 
-**What.** When a protest or strike confronts a town official (situation type action-confront) the exchange borrows the town hall's purpose: the narration and the protester's opening are the protest's own, but the official's replies and the endings are the town hall's and say nothing about a crowd or a picket line. Stand-in SG-WORDS-action-confront-town-hall-lines.
+**What.** When a protest or strike confronts a town official (situation type action-confront) the exchange borrows the town hall's purpose: the narration and the protester's opening are the protest's own, but the official's replies and the endings are the town hall's and say nothing about a crowd or a picket line. Stand-in SG-WORDS-action-confront-town-hall-lines. Seen: in the scene text when a protest or strike stands before an official.
 
 **Cause.** Found in code: src/director/purpose-scene.ts line 734 (marker) sets the fact `host-declined` so the protest reads as a town hall whose host declined to answer; src/director/data/purpose-arcs.json has no purpose of its own for action-confront. Owner, Nov 8: the English works differently for different kinds of scenes.
 

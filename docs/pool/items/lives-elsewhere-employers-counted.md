@@ -20,7 +20,7 @@ milestone: M7
 source: stand-in triage Nov 10; stopgaps SG-LIVES-work-no-employer and SG-LIVES-county-sample-employers
 ---
 
-**What.** Today a relative living elsewhere works, is let go and changes jobs with no employer named, and the county's sampled working adults carry only a sector group, so a county person the player clicks has no job, no wage and no payroll. Give both a counted employer: a row for each state's (and county's) employers by industry and size class, never named until someone is met, so a work spell names an employer and a filled-in worker holds a real job that matches the county's books. The rows are built when a spell is recorded or a person is clicked, not every day, so a year stays cheap.
+**What.** Today a relative living elsewhere works, is let go and changes jobs with no employer named, and the county's sampled working adults carry only a sector group, so a county person the player clicks has no job, no wage and no payroll. Give both a counted employer: a row for each state's (and county's) employers by industry and size class, never named until someone is met, so a work spell names an employer and a filled-in worker holds a real job that matches the county's books. The rows are built when a spell is recorded or a person is clicked, not every day, so a year stays cheap. Seen: on a business's employee list and in the town's jobs figures a player opens.
 
 **Cause.** Found in code: src/core2/jobs-elsewhere.ts, functions spellEvent and lostWork (stopgap SG-LIVES-work-no-employer, lines 263 and 279) record work with no employer; src/core2/opening-county-sample.ts, withCountySample (line 86), gives a household record instead of a job.
 

@@ -20,7 +20,7 @@ milestone: M7
 source: stand-in triage Nov 10; stopgap SG-LIVES-origin-state-shares
 ---
 
-**What.** A household's origin (white, Hispanic, Black, Asian, other) is drawn from the state's adult shares, not the town's, and everyone in a household shares one origin. Load ACS B03002 shares for the town's place (and county for relatives) and the joint table for mixed couples, so a town that differs from its state looks like itself and a child's origin comes from both parents.
+**What.** A household's origin (white, Hispanic, Black, Asian, other) is drawn from the state's adult shares, not the town's, and everyone in a household shares one origin. Load ACS B03002 shares for the town's place (and county for relatives) and the joint table for mixed couples, so a town that differs from its state looks like itself and a child's origin comes from both parents. Seen: in where a new household's people say they came from when the player talks with them.
 
 **Cause.** Found in code: src/core2/opening-origin.ts, originShares (line 64, stopgapId SG-LIVES-origin-state-shares) reads CPS state shares, and withOrigins gives each household one draw.
 

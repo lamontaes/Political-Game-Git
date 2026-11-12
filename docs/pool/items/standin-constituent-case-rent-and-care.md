@@ -18,7 +18,7 @@ effort: medium
 root: design-director-on-core2
 ---
 
-**What.** Stand-in SG-STORY-constituent-help-rent-and-care-have-no-case. A resident behind on rent or caring for someone ill visits office hours without a case on file, because cases open only for looking for work and pay under the minimum wage.
+**What.** Stand-in SG-STORY-constituent-help-rent-and-care-have-no-case. A resident behind on rent or caring for someone ill visits office hours without a case on file, because cases open only for looking for work and pay under the minimum wage. Seen: in the cases that open at the official's office and the help the official gives.
 
 **Cause.** Found in code: src/core2/modules/constituent-cases.ts problemOf (line 139) returns only looking-for-work or paid-under-minimum-wage (the Problem type, line 42); resolve (line 604) sends any other helped case to a workforce-office referral; the eviction and sick variants read the housing cases table and careNeedOf by household in src/director/arc-variant.ts (lines 415 and 459), not from a case.
 

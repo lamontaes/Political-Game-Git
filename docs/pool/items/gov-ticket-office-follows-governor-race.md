@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** In about thirty places the law elects the lieutenant governor on one ticket with the governor, but the world's races count that seat on its own, so the same night can seat a lieutenant governor of the other party. Seat the running mate of the party that won the governor's race, the same day.
+**What.** In about thirty places the law elects the lieutenant governor on one ticket with the governor, but the world's races count that seat on its own, so the same night can seat a lieutenant governor of the other party. Seat the running mate of the party that won the governor's race, the same day. Seen: on the election night results and the governor's office page, where both offices show the same party.
 
 **Cause.** Found in code: `src/core2/modules/voting.ts` lines 5038 to 5041 (`racesIn`) races every outside executive on its own seat and registers `SG-GOV-outside-ticket-raced-alone`; `electedWithGovernorOnTicket` in `data/research/offices/state-offices.json` is read only by `src/core2/modules/officials.ts` lines 455 to 474 for the opening holder.
 
