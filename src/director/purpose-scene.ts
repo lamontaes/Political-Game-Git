@@ -1537,7 +1537,7 @@ function resultFacts(
     sourceRecordIds: [cause.id, ...ids],
   });
   facts.winner = {
-    text: sayPerson(winner),
+    text: `${winner.givenName} ${winner.familyName}`,
     sourceRecordIds: [cause.id, winner.id],
   };
   if (candidateIds.includes(askedId)) facts["you-ran"] = mark([askedId]);

@@ -683,7 +683,7 @@ function familyNews(
     const job = core.jobs.get(moment.causeId);
     const org = job ? core.organizations.get(job.organizationId) : undefined;
     const said = org ? employerWords(org) : null;
-    if (said)
+    if (org && said)
       facts.employer = {
         text: said,
         sourceRecordIds: [...cited, org.id],
@@ -2309,14 +2309,15 @@ function replyFacts(
         : undefined;
       const wasSaid = was ? employerWords(was) : null;
       return {
-        facts: wasSaid
-          ? {
-              employer: {
-                text: wasSaid,
-                sourceRecordIds: [ended!.id, was.id],
-              },
-            }
-          : {},
+        facts:
+          was && wasSaid
+            ? {
+                employer: {
+                  text: wasSaid,
+                  sourceRecordIds: [ended!.id, was.id],
+                },
+              }
+            : {},
         stage: "none",
       };
     }
