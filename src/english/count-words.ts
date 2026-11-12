@@ -4,6 +4,7 @@
  * $400", never the exact tally of a large count or a sum to the cent.
  */
 import data from "../../data/english/count-words.json" with { type: "json" };
+import filedWords from "../../data/english/filed-words.json" with { type: "json" };
 
 type Step = { below: number | null; step: number };
 
@@ -48,4 +49,13 @@ export function lateSaid(days: number): string {
  */
 export function monthsOfRentDays(months: number): number {
   return Math.round(months * data.lateSteps.daysPerMonth);
+}
+
+/**
+ * How many others have filed for an office, as a clerk says it ("two other
+ * candidates"), from `data/english/filed-words.json`; empty for none.
+ */
+export function filedSaid(count: number): string {
+  if (count < 1) return "";
+  return filedWords.others[count - 1] ?? filedWords.many;
 }

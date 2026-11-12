@@ -489,9 +489,12 @@ it("every line of the two purposes carries its own facts, with no name said twic
         key: string;
         text: string;
         uses: {
+          subject?: string;
           purpose?: string;
           step: string;
           move: string;
+          role?: string;
+          key?: string;
           after?: string;
           requiresFacts?: string[];
         }[];
@@ -501,9 +504,31 @@ it("every line of the two purposes carries its own facts, with no name said twic
   const count = (purpose: string) =>
     parts.filter((part) => part.uses.some((use) => use.purpose === purpose))
       .length;
+  // The places a line can sit in a purpose's talk (the same subject, step,
+  // move, role, key and after). Words gives a one-line spot two or three lines
+  // (words-one-line-spots-1 to -3, #8225: letter-ask went from 45 pieces to 78
+  // in the same 24 spots), so the ceiling bounds the talk's spots, not the
+  // number of ways a spot is said.
+  const spots = (purpose: string) =>
+    new Set(
+      parts.flatMap((part) =>
+        part.uses
+          .filter((use) => use.purpose === purpose)
+          .map((use) =>
+            [
+              use.subject,
+              use.step,
+              use.move,
+              use.role,
+              use.key,
+              use.after ?? "",
+            ].join("|"),
+          ),
+      ),
+    ).size;
   for (const purpose of purposes) {
     expect(count(purpose), purpose).toBeGreaterThanOrEqual(30);
-    expect(count(purpose), purpose).toBeLessThanOrEqual(45);
+    expect(spots(purpose), purpose).toBeLessThanOrEqual(45);
   }
   const base = new Set(["name", "first", "place"]);
   for (const part of parts) {
