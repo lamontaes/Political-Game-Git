@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T04:55:30.754Z
 branch: claude/pool-words-civic-clerk-fill-seed-red
 ---
 
-**What.** On Plandome Heights, New York (place 3658486, GOLDEN_PATH_SEED=f38fd92f521cda30), src/director/civic-roles.test.ts 'fills the clerk with the person the filing office's records name' fails on clean main. The clerk the fill returns carries an end date of 2025-02-19, where the test expects a sitting clerk with no end date. Find whether the fill reads an ended clerk term or the test reads the wrong field. Fix it at the root, not in the test.
+**What.** On Plandome Heights, New York (place 3658486, GOLDEN_PATH_SEED=f38fd92f521cda30), src/director/civic-roles.test.ts 'fills the clerk with the person the filing office's records name' fails on clean main. The clerk the fill returns carries an end date of 2025-02-19, where the test expects a sitting clerk with no end date. Find whether the fill reads an ended clerk term or the test reads the wrong field. Fix it at the root, not in the test. Guards: the filing-office clerk test on main; the clerk the player files with must be a sitting one.
 
 **Cause.** Found in code: src/director/civic-roles.test.ts line 193 expects `job?.endsAt` to be undefined for the clerk; src/core2/modules/filing-clerk.ts localClerkFor (line 142, appointment branch) picks a town appointment when its holder is alive (`living(...)`), without checking that the clerk's payroll job has not ended. Seen at Plandome Heights, New York (place 3658486), GOLDEN_PATH_SEED=f38fd92f521cda30: the job ended 2025-02-19. Not run.
 

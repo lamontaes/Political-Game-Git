@@ -20,7 +20,7 @@ root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
 ---
 
-**What.** After a campaign speech heard in the room, the candidate comes over and asks for your vote (`speech-afterward`, #6136). The player's reply ("You've got my vote.", "I still don't see it your way.") is recorded as a `scene.reply` event, and the core's relationship writer reads it as time together with the candidate. Nothing reads the stance itself. A promise of a vote changes no vote intent, no impression of the candidate, and no later choice, so the reply is a record nobody else reads (AGENTS.md, "An effect is a read, not a record").
+**What.** After a campaign speech heard in the room, the candidate comes over and asks for your vote (`speech-afterward`, #6136). The player's reply ("You've got my vote.", "I still don't see it your way.") is recorded as a `scene.reply` event, and the core's relationship writer reads it as time together with the candidate. Nothing reads the stance itself. A promise of a vote changes no vote intent, no impression of the candidate, and no later choice, so the reply is a record nobody else reads (AGENTS.md, "An effect is a read, not a record"). Seen: what the player says after a speech changes whether that person votes for the candidate.
 
 **Cause.** Found in code: the speech-afterward reply is recorded as scene.reply (replyInScene, src/director/purpose-scene.ts, line 1700) and the relationship writer reads it only as time together; the campaigns engine routes scene.reply to answerOffer (src/core2/modules/campaigns.ts, line 2468), which reads only volunteer offers, and src/core2/modules/views.ts does not read it, so the stance changes no vote intent or impression.
 

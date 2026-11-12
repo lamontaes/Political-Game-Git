@@ -5,7 +5,7 @@ area: words
 kind: wiring
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** Checked Oct 20: No speech:occasion fact exists anywhere in src; it needs director-speech-builder-occasion first, and a built speech must first be given in play (giveBuiltSpeech has no caller outside tests). Nothing to build until a producer gives a built speech in play; the occasion would then be a record id (the rally, hearing or meeting it was given at), never typed text.
 
 Oct 20 (pool feeder): spec written; the earlier note that no play producer of built speeches exists is out of date (bench speechGive calls giveSpeech), so what remains is core-speech-heard-occasion (in-pr) writing the fact. director-speech-builder-occasion, blocked on the same stale reason, overlaps core-speech-heard-occasion and should be dropped or re-pointed by the lead.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). The Journal and scenes would say where a heard speech was given; the speech already reads, and no player misses the venue. It also waits on an unbuilt record.

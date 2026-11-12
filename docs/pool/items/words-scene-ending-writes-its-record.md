@@ -19,7 +19,7 @@ root: design-story-director
 checked: fable 2026-11-10
 ---
 
-**What.** Every purpose arc's endings carry keeps (for example favor-owed, trust-lost, bribe-taken), but src/director/scene-talk.ts only reads keeps into the ending's label; the only record a scene writes in play is scene.reply (purpose-scene.ts replyInScene). So a scene's outcome is not yet a read for any other engine. Found Oct 27 by Helper E building bribe-offer.
+**What.** Every purpose arc's endings carry keeps (for example favor-owed, trust-lost, bribe-taken), but src/director/scene-talk.ts only reads keeps into the ending's label; the only record a scene writes in play is scene.reply (purpose-scene.ts replyInScene). So a scene's outcome is not yet a read for any other engine. Found Oct 27 by Helper E building bribe-offer. Seen: a scene's ending (a favor owed, trust lost) changes what that person later does and says to the player.
 
 **Cause.** Found in code: src/director/scene-talk.ts reads an ending's `keeps` (line 56 and the use near line 689) only into the ending's label, and the one record a scene writes in play is scene.reply (replyInScene, src/director/purpose-scene.ts, line 1700); the endings in src/director/data/purpose-arcs.json carry keeps (counted in the file: "none" 266 times, "promise" 79, "relationship-strained" 61, "trust-lost" 16, "favor-owed" 16, plus the bribe kinds) that no other engine reads, which is stopgap SG-WORDS-favor-promise-keeps-unread (src/director/data/stopgaps.json, line 436, open). Of 103 kinds, 9 have endings that all keep "none" (race-told, diploma-home, no-diploma-home, filing, door-signature, family-win, family-loss, desk-bill, new-baby) and 17 keep only a promise or nothing (Nov 10, read by the keeps field of purpose-arcs.json).
 

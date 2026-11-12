@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** data/english/parts/, src/director/, src/core2/births-unplanned.ts
 
 **Notes.** Split from people-unplanned-pregnancy-decision (PR for claude/political-game-pool-yucp92-bg).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A background person's unplanned pregnancy and decision told in a talk; the owner ruled Oct 20 that nothing new is shown, and no scene the player plays reads it.

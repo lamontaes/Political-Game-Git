@@ -22,7 +22,7 @@ checked: fable 2026-11-10
 branch: claude/pool-words-scene-web-the-campaign
 ---
 
-**What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the the campaign domain, one row per cause that fires it. This domain covers a campaign's season: filing, a rally, the party's ask, an opponent's event, the speech and the people after it. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's the campaign requests with no type are listed under Missing in the report and become rows here.
+**What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the the campaign domain, one row per cause that fires it. This domain covers a campaign's season: filing, a rally, the party's ask, an opponent's event, the speech and the people after it. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's the campaign requests with no type are listed under Missing in the report and become rows here. Seen: the filing, rally, party ask and speech scenes of the player's campaign (play-first lane).
 
 **Cause.** Measured: `npm run scene-web` (docs/reports/scene-web.json, generated 2026-10-29 at Huntington Center, Vermont, seed 0d5692f0d73cf0c56240825b71aa5b04dd663a9a): the the campaign domain has 8 rows, 3 without an episode packet, and 3 fired in the played year.
 

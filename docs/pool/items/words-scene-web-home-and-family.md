@@ -22,7 +22,7 @@ claimed-at:
 branch: claude/pool-words-scene-web-home-and-family
 ---
 
-**What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the home and family domain, one row per cause that fires it. This domain covers household records: a filing, a win or loss, a birth, a death, a job lost, an eviction, someone leaving or coming home. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's home and family requests with no type are listed under Missing in the report and become rows here.
+**What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the home and family domain, one row per cause that fires it. This domain covers household records: a filing, a win or loss, a birth, a death, a job lost, an eviction, someone leaving or coming home. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's home and family requests with no type are listed under Missing in the report and become rows here. Seen: the home and family scenes the player plays (play-first lane).
 
 **Cause.** Measured: `npm run scene-web` (docs/reports/scene-web.json, generated 2026-10-29 at Huntington Center, Vermont, seed 0d5692f0d73cf0c56240825b71aa5b04dd663a9a): the home and family domain has 50 rows, 25 without an episode packet, and 7 fired in the played year.
 

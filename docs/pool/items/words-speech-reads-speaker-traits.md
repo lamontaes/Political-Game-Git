@@ -19,7 +19,7 @@ lead: words
 checked: fable 2026-11-10
 ---
 
-**What.** Personality should shape how a person talks, and the English engine reads one trait today, for a line's register (src/director/ledger.ts:730). The trait-shaped outcome outcome.speech-style in data/content/trait-outcomes.json is graded read only in part, and its row says the Words line lists the trait reads speech needs. List those reads (for example how long, how warm and how direct a speaker's lines run), make the engine read the speaker's recorded traits for each when it picks a piece, and name the record each read came from.
+**What.** Personality should shape how a person talks, and the English engine reads one trait today, for a line's register (src/director/ledger.ts:730). The trait-shaped outcome outcome.speech-style in data/content/trait-outcomes.json is graded read only in part, and its row says the Words line lists the trait reads speech needs. List those reads (for example how long, how warm and how direct a speaker's lines run), make the engine read the speaker's recorded traits for each when it picks a piece, and name the record each read came from. Seen: how long, how warm and how direct a person talks follows who they are, in talks and scenes.
 
 **Cause.** Found in code: data/content/trait-outcomes.json (line 166) grades outcome.speech-style as wired "partly", citing src/director/ledger.ts line 730 as evidence, which on main is moment-summary code and not a trait read; src/english/speech-registers.ts reads no trait for a register. The row says the Words line lists the trait reads speech needs.
 

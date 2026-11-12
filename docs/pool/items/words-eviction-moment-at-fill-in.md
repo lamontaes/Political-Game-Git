@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T02:14:23.919Z
 branch: claude/pool-words-eviction-moment-at-fill-in
 ---
 
-**What.** Since evicted counted households stay counted (core-evicted-counted-stays-counted), a household evicted while counted holds its housing case and status row but no director moment labeled feeling:event:housing.eviction. When the player later meets one of its people and they are filled in, nothing they say brings up the eviction or where they are staying. The gap is registered as SG-WORDS-eviction-moment-at-fill-in, with its marker in src/director/conversation.ts.
+**What.** Since evicted counted households stay counted (core-evicted-counted-stays-counted), a household evicted while counted holds its housing case and status row but no director moment labeled feeling:event:housing.eviction. When the player later meets one of its people and they are filled in, nothing they say brings up the eviction or where they are staying. The gap is registered as SG-WORDS-eviction-moment-at-fill-in, with its marker in src/director/conversation.ts. Seen: meeting a person who was evicted, they bring up the eviction and where they are staying.
 
 **Cause.** Found in code: src/director/conversation.ts (line 633) carries the marker for SG-WORDS-eviction-moment-at-fill-in (src/director/data/stopgaps.json, line 460): a counted household evicted while counted keeps its housing case and status row (event:housing.eviction:<caseId>, removedAt) but no director moment, so a filled-in person never mentions it.
 

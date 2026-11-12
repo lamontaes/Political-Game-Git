@@ -21,7 +21,7 @@ checked: fable 2026-11-10
 branch: claude/pool-words-hearing-chair-question
 ---
 
-**What.** The hearing bank (data/english/parts/hearing.json) has thanks, confirm, agree, answer, chair-procedure, time and repair parts and no question move, and nothing in src/director or src/english reads a hearing. Mine the chair's questions to witnesses and members from the same hearing transcripts, and have the director word one chair question and one witness reply for a committee-day hearing record. A player at a committee would read the chair ask a witness about the bill in front of them.
+**What.** The hearing bank (data/english/parts/hearing.json) has thanks, confirm, agree, answer, chair-procedure, time and repair parts and no question move, and nothing in src/director or src/english reads a hearing. Mine the chair's questions to witnesses and members from the same hearing transcripts, and have the director word one chair question and one witness reply for a committee-day hearing record. A player at a committee would read the chair ask a witness about the bill in front of them. Seen: at a committee hearing the chair asks a witness about the bill in front of them.
 
 **Cause.** Design: docs/roadmap/political-process-baseline.md (Hearings row, M3-03 committee hearings: witnesses and questioning from real hearing patterns), and the item's own finding that data/english/parts/hearing.json has thanks, confirm, agree, answer, chair-procedure, time and repair parts and no question move.
 

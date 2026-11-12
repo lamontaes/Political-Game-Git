@@ -22,7 +22,7 @@ checked: fable 2026-11-10
 branch: claude/pool-words-scene-web-the-executive
 ---
 
-**What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the the executive domain, one row per cause that fires it. This domain covers the executive as mayor, county executive, governor and president: signing, veto, appointment, the address, the desk, staff news, a recall. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's the executive requests with no type are listed under Missing in the report and become rows here.
+**What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the the executive domain, one row per cause that fires it. This domain covers the executive as mayor, county executive, governor and president: signing, veto, appointment, the address, the desk, staff news, a recall. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's the executive requests with no type are listed under Missing in the report and become rows here. Seen: the signing, veto, appointment and address scenes of the player's executive term (play-first lane).
 
 **Cause.** Measured: `npm run scene-web` (docs/reports/scene-web.json, generated 2026-10-29 at Huntington Center, Vermont, seed 0d5692f0d73cf0c56240825b71aa5b04dd663a9a): the the executive domain has 14 rows, 2 without an episode packet, and 5 fired in the played year.
 

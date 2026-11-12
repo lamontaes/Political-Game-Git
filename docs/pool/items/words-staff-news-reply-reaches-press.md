@@ -19,7 +19,7 @@ root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
 ---
 
-**What.** When an aide brings an officeholder a printed story that runs against them (words-scene-staff-bad-news-a), the officeholder's reply is recorded as a scene.reply, as every scene's is, but no engine reads it. The parent item asked that the reply (respond, ignore, call the outlet) be an event the press and views engines read. The aide already offers "You could call {outlet} and give them your side." The press engine should read an agreeing reply to that offer as the officeholder's statement to the outlet, the way an interview is read, so the outlet's next story on them or their bill can carry it and its readers' views move by it.
+**What.** When an aide brings an officeholder a printed story that runs against them (words-scene-staff-bad-news-a), the officeholder's reply is recorded as a scene.reply, as every scene's is, but no engine reads it. The parent item asked that the reply (respond, ignore, call the outlet) be an event the press and views engines read. The aide already offers "You could call {outlet} and give them your side." The press engine should read an agreeing reply to that offer as the officeholder's statement to the outlet, the way an interview is read, so the outlet's next story on them or their bill can carry it and its readers' views move by it. Seen: the aide's 'call the outlet' offer, and the outlet's next story carrying the officeholder's side.
 
 **Cause.** Found in code: keepComment in src/core2/modules/press.ts (line 3899) returns unless facts.typeKey is "press-interview", so the officeholder's reply to an aide's staff-news offer ("You could call {outlet} and give them your side.") is recorded as a scene.reply that no engine reads.
 

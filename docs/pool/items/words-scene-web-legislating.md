@@ -22,7 +22,7 @@ checked: fable 2026-11-10
 branch: claude/pool-words-scene-web-legislating
 ---
 
-**What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the legislating domain, one row per cause that fires it. This domain covers legislating at council, county, state and Congress: a floor vote, a hearing, a vote asked or confirmed, a bill carried, a section bargained. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's legislating requests with no type are listed under Missing in the report and become rows here.
+**What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the legislating domain, one row per cause that fires it. This domain covers legislating at council, county, state and Congress: a floor vote, a hearing, a vote asked or confirmed, a bill carried, a section bargained. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's legislating requests with no type are listed under Missing in the report and become rows here. Seen: the floor vote, hearing, ask and bill scenes the player plays (play-first lane).
 
 **Cause.** Measured: `npm run scene-web` (docs/reports/scene-web.json, generated 2026-10-29 at Huntington Center, Vermont, seed 0d5692f0d73cf0c56240825b71aa5b04dd663a9a): the legislating domain has 11 rows, 6 without an episode packet, and 5 fired in the played year.
 

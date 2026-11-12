@@ -19,7 +19,7 @@ root: design-words-machine
 checked: fable 2026-11-10
 ---
 
-**What.** On main, node --import tsx scripts/english-corpus/tag-moves.ts --check reports 478 part tags that differ from the rules in scripts/english-corpus/moves.json, many of them moves with no rule at all (scene-talk state-tell-duty and the other filing-clerk moves among them). The reach table (src/english/grade-reach.ts) groups pieces by their tag's move, so a grade reaches the wrong family for those parts. The only check was the coverage-table test, which had not loaded on main for days and was deleted with the coverage report.
+**What.** On main, node --import tsx scripts/english-corpus/tag-moves.ts --check reports 478 part tags that differ from the rules in scripts/english-corpus/moves.json, many of them moves with no rule at all (scene-talk state-tell-duty and the other filing-clerk moves among them). The reach table (src/english/grade-reach.ts) groups pieces by their tag's move, so a grade reaches the wrong family for those parts. The only check was the coverage-table test, which had not loaded on main for days and was deleted with the coverage report. Guards: an owner's grade removes the lines he marked bad from what the player reads, instead of hitting the wrong family of pieces.
 
 **Cause.** Measured: `node --import tsx scripts/english-corpus/tag-moves.ts --check` on main reports 478 part tags that differ from the rules in scripts/english-corpus/moves.json (the item's own count; not re-run in the redo), many of them moves with no rule at all; nothing in package.json or the tests runs the check, so anything that groups pieces by their move tag groups some wrongly. The reach table this item was written to protect was deleted with the odds (the words machine, pull request 8117).
 

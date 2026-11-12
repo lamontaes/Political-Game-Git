@@ -21,7 +21,7 @@ claimed-at:
 branch: claude/pool-words-filing-petition-scene-not-staged-by-seed
 ---
 
-**What.** src/bench/filing-counter-petition.test.ts fails on main and on #7101 at GOLDEN_PATH_SEED=96f34b32a90f7079: North Amityville, New York (3651396), world seed 48ecdf8d2595a1bafbf052509fe6e2fa00f861fe559fbc7a97fa73f32b6b6d62. The player files, the elections engine writes the petition, but the director's book holds no filing scene for it ('no filing scene staged'). Found by Words while answering Checker 1's send-back on #7101 (Nov 2).
+**What.** src/bench/filing-counter-petition.test.ts fails on main and on #7101 at GOLDEN_PATH_SEED=96f34b32a90f7079: North Amityville, New York (3651396), world seed 48ecdf8d2595a1bafbf052509fe6e2fa00f861fe559fbc7a97fa73f32b6b6d62. The player files, the elections engine writes the petition, but the director's book holds no filing scene for it ('no filing scene staged'). Found by Words while answering Checker 1's send-back on #7101 (Nov 2). Seen: the clerk's petition scene after the player files, which does not appear in this world (golden path).
 
 **Cause.** Measured: GOLDEN_PATH_SEED=96f34b32a90f7079 (North Amityville, New York 3651396; world seed 48ecdf8d2595a1bafbf052509fe6e2fa00f861fe559fbc7a97fa73f32b6b6d62) and GOLDEN_PATH_SEED=9472a5100db5d8d3 (Boggstown, Indiana 1806292) with npx vitest run src/bench/filing-counter-petition.test.ts: 'no filing scene staged'. Cause per Words (Nov 2): filingClerkFor (src/core2/modules/filing-clerk.ts) named no one for a county-board filing, so the filing scene could not cast its clerk; gov-filing-counter-clerk-at-county-board, which seats that person, is now done, so re-measure first.
 

@@ -22,7 +22,7 @@ claimed-at: 2026-11-11T02:22:39.654Z
 branch: claude/pool-words-reunion-talks-the-shared-cause
 ---
 
-**What.** In Brookside, Delaware (bench cache seed batch-12), ten reunions fire from `cause.shared` records (two former classmates both back the clean-electricity standard). Every talk opens "Do you remember Newark Charter School?". The record that fired the scene is the shared cause, so the talk should open on it: the cause, the stance they share, what either did about it. That gives the scene a political endpoint (owner, Oct 15: a scene has an endpoint).
+**What.** In Brookside, Delaware (bench cache seed batch-12), ten reunions fire from `cause.shared` records (two former classmates both back the clean-electricity standard). Every talk opens "Do you remember Newark Charter School?". The record that fired the scene is the shared cause, so the talk should open on it: the cause, the stance they share, what either did about it. That gives the scene a political endpoint (owner, Oct 15: a scene has an endpoint). Seen: a reunion talk that opens on the cause the two share, not on the old school.
 
 **Cause.** Measured: Brookside, Delaware, bench cache seed batch-12: ten reunions fired from cause.shared records (two former classmates both back the clean-electricity standard) all open "Do you remember Newark Charter School?". The opener is chosen in src/director/conversation.ts (schoolOf, line 338, and the bank piece "Do you remember {school}?" at data/english/parts/conversation.json line 5635); the cause.shared record is read by the cause-invite type (src/director/data/situation-types.json, line 5279; label feeling:event:cause.shared at line 5306).
 

@@ -20,7 +20,7 @@ root: design-story-director
 checked: fable 2026-11-10
 ---
 
-**What.** When the executive makes an appointment, the person ranked second among the five the executive weighed comes to them the day it is recorded and asks how it came out. The executive answers one of four ways: tell the reason, offer the next post, close the door, or ask what the visitor would have done. The scene says only that the visitor was weighed, since the records rank who was weighed and hold no application. The packet and drafted lines are on main; no situation type exists for the passed-over visit.
+**What.** When the executive makes an appointment, the person ranked second among the five the executive weighed comes to them the day it is recorded and asks how it came out. The executive answers one of four ways: tell the reason, offer the next post, close the door, or ask what the visitor would have done. The scene says only that the visitor was weighed, since the records rank who was weighed and hold no application. The packet and drafted lines are on main; no situation type exists for the passed-over visit. Seen: the runner-up walks in after an appointment and asks how it came out, with four replies.
 
 **Cause.** Design: docs/design/scenes/from-life/appointment-next-in-line.md (packet, trigger official-appointed, cast rule reasons[1]) under docs/design/story-director.md. src/director/data/situation-types.json has an appointment type for the appointee and the appointer, and none for the second-ranked candidate.
 
