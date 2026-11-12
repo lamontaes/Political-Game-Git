@@ -999,6 +999,13 @@ export interface CoreModule {
    * to date with its own functions, so day-by-day play resumes after the skip.
    */
   onResultsMonth?: (api: CoreAPI) => void;
+  /**
+   * Results mode, each skipped day: only what a dated record already holds
+   * for that day (the work engine's payroll buckets: pay earned before the
+   * skip, and a retry filed for a payday the skip covers), so a record kept
+   * for a skipped day is never left for a later played day to find.
+   */
+  onResultsDay?: (api: CoreAPI) => void;
   /** A household's people have just been filled in from the counts (or returned to them and filled in again): its engines move what they kept on the counted household to the full one. */
   onFillIn?: (
     api: CoreAPI,

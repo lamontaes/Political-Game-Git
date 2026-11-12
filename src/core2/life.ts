@@ -580,8 +580,9 @@ function compactDay(core: CoreState): void {
 }
 
 /**
- * One day nobody watches (results mode): the module calendar's dated work and
- * the day's compaction, with no module's day and no person due to act. On the
+ * One day nobody watches (results mode): the module calendar's dated work, the
+ * records dated for the day (`onResultsDay`) and the day's compaction, with no
+ * module's day and no person due to act. On the
  * first of each month every module's onResultsMonth brings its own daily work
  * up to date, so day-by-day play resumes after the skip.
  */
@@ -589,6 +590,7 @@ function runResultsDay(core: CoreState, api: CoreAPI): void {
   // stopgapId: SG-SPEED-results-mode-daily-work (a skipped day runs no module's day and no person; each engine with an onResultsMonth step catches up on the first of the month)
   stopgap("SG-SPEED-results-mode-daily-work", core);
   runModuleCalendar(core, api);
+  for (const module of core.modules.values()) module.onResultsDay?.(api);
   const day = new Date(`${makeIsoDate(core.date)}T00:00:00.000Z`).getUTCDate();
   if (day === parameter("one", core.data.parameters))
     for (const module of core.modules.values()) module.onResultsMonth?.(api);
