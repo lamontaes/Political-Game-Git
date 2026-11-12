@@ -51,5 +51,27 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
+  },
+  {
+    "id": "SG-HIST-past-no-college-all-graduated",
+    "kind": "partial-model",
+    "file": "src/core2/past-school.ts",
+    "whatItFakes": "Every adult whose opening profile gives a schooling level is told as finishing high school on their class's day, including the adults without a diploma, because the opening profile's levels (CES 2024: no-college, some-college, college) fold them into no-college.",
+    "why": "Gap sheet, Nov 12, row 15: a past had school starts and never an end. The profile is the one record of a person's schooling, and the work pass already dates a first job from the same day.",
+    "addedBy": "opus-lr (Life records builder)",
+    "addedAt": "2026-11-12",
+    "replacement": "Split no-college into less than high school and a diploma by the ACS educational attainment shares by age (table B15001), on the profile itself, so the school pass, the work pass and the jobs engine read the same level.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-within-moves-child-own-past",
+    "kind": "partial-model",
+    "file": "src/core2/past-moves.ts",
+    "whatItFakes": "A move inside the county before the start is written on the adult's own past with the children at home named in its facts, but a child's own past, written when the child is opened, does not hold the moves they made with that parent.",
+    "why": "Gap sheet, Nov 12, row 16: a past held at most one move. The within-county moves run per adult from their own seeded line; a child's own run would need the parent's moves read first.",
+    "addedBy": "opus-lr (Life records builder)",
+    "addedAt": "2026-11-12",
+    "replacement": "When a child is opened, read the moves of the parent they lived with (by the record's childIds) into the child's own past instead of running their own until they are grown.",
+    "status": "open"
   }
 ]
