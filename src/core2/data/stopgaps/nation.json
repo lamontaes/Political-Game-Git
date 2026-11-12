@@ -8,20 +8,24 @@
     "why": "The tier models only the income, profit and sales taxes and keeps state and local governments together; only the town's chain has treasuries and a budget process, and the other states' legislatures pass acts as results (world-legislating) and no budget bill yet.",
     "addedBy": "Nation",
     "addedAt": "2026-11-08",
-    "replacement": "The tier keeps state and local ledgers apart and models the other revenue lines; each spending line moved by the state's enacted acts and formulas (aid rules, enrollment, caseload), reserves and debt service, and the legislature's budget act as a result; money paid when a state is opened.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each spending line moved by the state's enacted acts and formulas (aid rules, enrollment, caseload), reserves and debt service, and the legislature's budget act as a result; money paid when a state is opened.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10, 2026)"
   },
   {
     "id": "SG-NATION-disaster-damage-from-causes",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/national-events.ts",
-    "line": 1,
-    "whatItFakes": "A disaster elsewhere in the country is one result row (state, kind, start day, number of counties) taken from the matching season of FEMA's recorded history 2000-2024 under the world's one seeded starting shift, cycling when the record runs out; it has no damage, no aid, no declaration and no reaction, and nothing reads it yet but the record log.",
+    "line": 167,
+    "whatItFakes": "A disaster elsewhere in the country is one result row (state, kind, start day, number of counties) from FEMA's recorded history; its federal aid reaches the state's budget and its job losses reach the state's regional months, both sized from FEMA's record when it is opened, but it has no damage built from the state's housing stock, building codes or budgets, no declaration by a governor or the President, and no reaction in national press or approval.",
     "why": "Damage should come from the housing stock, building codes, levees and budgets in force, the declaration from the governor's and the President's decisions, and aid from real treasuries (CTO ruling, Nov 8, 12:21 on #7365); those engines exist only for the town.",
     "addedBy": "Nation",
     "addedAt": "2026-11-08",
-    "replacement": "Detail built on open from the housing, budget and executive engines (damage, aid, the governor's and President's declarations), severity from the state's recorded spread, and the national press and approval reading the result.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Detail built on open from the housing, budget and executive engines (damage, aid, the governor's and President's declarations), severity from the state's recorded spread, and the national press and approval reading the result.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10, 2026)"
   },
   {
     "id": "SG-NATION-hazard-replay",
@@ -44,8 +48,10 @@
     "why": "The English engine's measure-result pieces say \"Voters approved {purpose}\" with no place; the law the measure enacts reaches the national press through the law-took-effect story.",
     "addedBy": "Nation",
     "addedAt": "2026-11-08",
-    "replacement": "Measure-result bank pieces with a place (Words and Story), then this early return is deleted.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Measure-result bank pieces with a place (Words and Story), then this early return is deleted.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10, 2026)"
   },
   {
     "id": "SG-NATION-climate-sizes-national",
@@ -56,8 +62,10 @@
     "why": "The National Climate Assessment and IPCC pages could not be fetched, and no source found gives a United States per-degree figure for heat, wildfire or drought by region or season.",
     "addedBy": "Nation",
     "addedAt": "2026-11-09",
-    "replacement": "Sizes by region and season from the National Climate Assessment (2023) chapters and the Littell et al. (2009) ecoprovince figure.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Sizes by region and season from the National Climate Assessment (2023) chapters and the Littell et al. (2009) ecoprovince figure.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10, 2026)"
   },
   {
     "id": "SG-NATION-hazard-heat-drought-history",
@@ -68,8 +76,10 @@
     "why": "The NOAA Storm Events episodes (excessive heat, drought) by county were not fetched; FEMA's record is what the disasters module holds.",
     "addedBy": "Nation",
     "addedAt": "2026-11-09",
-    "replacement": "Counts of NOAA storm episodes (excessive heat, extreme heat, drought) by county, hazard and season in hazard-history.json, built by the same script.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Counts of NOAA storm episodes (excessive heat, extreme heat, drought) by county, hazard and season in hazard-history.json, built by the same script.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10, 2026)"
   },
   {
     "id": "SG-NATION-climate-world-path",
@@ -80,8 +90,10 @@
     "why": "No year-by-year published scenario path was reachable; the IEA pages returned 403 and the points come from a search summary.",
     "addedBy": "Nation",
     "addedAt": "2026-11-09",
-    "replacement": "The IEA or IPCC scenario table by year, with other countries' own laws moving their share.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The IEA or IPCC scenario table by year, with other countries' own laws moving their share.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10, 2026)"
   },
   {
     "id": "SG-NATION-vulnerability-proxy",
@@ -104,8 +116,10 @@
     "why": "issue-axes-2026.json is measured across the states' recorded answers; no poll-based axis for federal questions is kept, and only the power-plant series is both set by a President in practice and read by an engine.",
     "addedBy": "Nation",
     "addedAt": "2026-11-09",
-    "replacement": "A measured or polled left-right axis for each federal question (Pew and Gallup by party), more orders and rules in federal-orders.json (the refugee admissions determination), and the played President's screen over federalOrderable.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A measured or polled left-right axis for each federal question (Pew and Gallup by party), more orders and rules in federal-orders.json (the refugee admissions determination), and the played President's screen over federalOrderable.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10, 2026)"
   },
   {
     "id": "SG-NATION-country-tier-working-values",
@@ -116,8 +130,10 @@
     "why": "The tier was built on Nov 10, 2026 to replace the national formula; the values were chosen so a 40-year run with the central bank's own view stays calm and the tax, disaster and rate twins answer. BLS and Census hosts were blocked from the building session.",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",
-    "replacement": "A research pass (pool item core-country-tier-numbers-sourced) that fetches each figure's table, sets the value with its citation and spread, and re-runs the model's own test.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A research pass (pool item core-country-tier-numbers-sourced) that fetches each figure's table, sets the value with its citation and spread, and re-runs the model's own test.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10, 2026)"
   },
   {
     "id": "SG-NATION-regions-read-their-state",
@@ -128,8 +144,10 @@
     "why": "The country tier's first slice holds 56 states. Splitting each into its regions multiplies the cells by about 2.4 and needs each region's own sector mix and budget lines read in.",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",
-    "replacement": "Cells and a ledger for each region inside its state (the regional data already holds each region's people and sector mix), stepped by the same month, with the state as their sum.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Cells and a ledger for each region inside its state (the regional data already holds each region's people and sector mix), stepped by the same month, with the state as their sum.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10, 2026)"
   },
   {
     "id": "SG-NATION-country-tier-federal-spending",
@@ -164,8 +182,10 @@
     "why": "No engine keeps the rest of the world. The national events engine records disasters, not price shocks from abroad.",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",
-    "replacement": "Recorded events abroad (a price shock, a slump, a tariff) from the national events engine, read by the tier's outside demand and prices.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Recorded events abroad (a price shock, a slump, a tariff) from the national events engine, read by the tier's outside demand and prices.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10, 2026)"
   },
   {
     "id": "SG-NATION-country-tier-moves-twice",
