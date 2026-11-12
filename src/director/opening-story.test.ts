@@ -70,7 +70,7 @@ describe("the opening story", () => {
         row.level === "country" &&
         row.facts.some((key) => /^(context|meaning)-|-(up|down)$/.test(key)) &&
         // "today-clause" is the same sentence after an opener (W-E, Nov 12).
-        !row.facts.some((key) => key === "today" || key === "today-clause"),
+        !row.facts.some((key) => key.startsWith("today")),
     ))
       expect(
         sentence.sourceRecordIds.some((id) => id.startsWith("macro-month:")),
@@ -107,6 +107,7 @@ describe("the opening story", () => {
               (key) =>
                 key === "today" ||
                 key === "today-clause" ||
+                key === "today-question" ||
                 /^context-/.test(key),
             ),
           ),

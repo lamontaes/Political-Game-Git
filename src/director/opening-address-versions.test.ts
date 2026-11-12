@@ -185,7 +185,14 @@ it(`the President's address says different sentences, with its own world's names
         address.sentences.flatMap((row) =>
           ["vice-president", "speaker", "home-state"]
             .map((key) => row.values[key])
-            .filter((value): value is string => !!value),
+            // A pronoun or a role (said-as: "he", "the Vice President") is
+            // not the name; only a name is counted (W-E, Nov 12).
+            .filter(
+              (value): value is string =>
+                !!value &&
+                /^[A-Z]\S* [A-Z]/.test(value) &&
+                !/^The /.test(value),
+            ),
         ),
       );
       for (const name of names)

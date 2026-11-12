@@ -1481,6 +1481,10 @@ export function planSpeech(
               ? {
                   today: fact(plan.today, ...cited),
                   "today-clause": fact(clauseOf(plan.today), ...cited),
+                  "today-question": fact(
+                    clauseOf(plan.today).replace(/[.!?]$/, ""),
+                    ...cited,
+                  ),
                 }
               : {}),
             ...(belief

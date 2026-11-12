@@ -51,7 +51,8 @@
     "today": "how the policy question stands today, by the law in force and as the speaker's side describes it (question-names.json `today`)",
     "first-side": "the speech's first point as the speaker's side says it (question-names `for` or `against`), for the close",
     "today-clause": "the same sentence as `today`, in the case it takes after an opener and a comma",
-    "belief": "what the speaker believes, a clause worded from the belief-words pieces by the question's family and the speaker's pole of it"
+    "belief": "what the speaker believes, a clause worded from the belief-words pieces by the question's family and the speaker's pole of it",
+    "today-question": "the same sentence as `today-clause` without its period, said inside a question to the audience"
   },
   "maxWords": 40,
   "mining": {
@@ -92118,104 +92119,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.today.plain-inaugural-here-s-where-things-stand-today-clause",
-      "move": "today",
-      "kind": "spoken",
-      "text": "Here's where things stand: {today-clause}",
-      "uses": [
-        {
-          "move": "today",
-          "subject": "inaugural",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-union",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-state",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "town-address",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.today.polished-inaugural-consider-where-we-are-today-clause",
-      "move": "today",
-      "kind": "spoken",
-      "text": "Consider where we are: {today-clause}",
-      "uses": [
-        {
-          "move": "today",
-          "subject": "inaugural",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-union",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-state",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "town-address",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.today.plain-inaugural-these-days-today-clause",
       "move": "today",
       "kind": "spoken",
@@ -102509,64 +102412,6 @@
       }
     },
     {
-      "key": "opening-speech.belief.plain-inaugural-here-s-what-i-believe-belief-belief-stands",
-      "move": "belief",
-      "kind": "spoken",
-      "text": "Here's what I believe: {belief}.",
-      "uses": [
-        {
-          "move": "belief",
-          "subject": "inaugural",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "state-of-the-union",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "state-of-the-state",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "town-address",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12",
-      "piece": {
-        "of": "opening-belief",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "opening-speech.belief.plain-inaugural-i-ve-always-thought-belief-belief-stands",
       "move": "belief",
       "kind": "spoken",
@@ -102683,64 +102528,6 @@
       }
     },
     {
-      "key": "opening-speech.why.polished-inaugural-my-reason-is-simple-i-believe-belief-belief-after",
-      "move": "why",
-      "kind": "spoken",
-      "text": "My reason is simple: I believe {belief}.",
-      "uses": [
-        {
-          "move": "why",
-          "subject": "inaugural",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "state-of-the-union",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "state-of-the-state",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "town-address",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12",
-      "piece": {
-        "of": "opening-belief",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "opening-speech.why.plain-inaugural-why-because-i-believe-belief-belief-after",
       "move": "why",
       "kind": "spoken",
@@ -102797,276 +102584,6 @@
         "part": "core",
         "required": true
       }
-    },
-    {
-      "key": "opening-speech.why.plain-inaugural-i-ll-tell-you-why-belief-belief-after",
-      "move": "why",
-      "kind": "spoken",
-      "text": "I'll tell you why: {belief}.",
-      "uses": [
-        {
-          "move": "why",
-          "subject": "inaugural",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "state-of-the-union",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "state-of-the-state",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "town-address",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12",
-      "piece": {
-        "of": "opening-belief",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "opening-speech.question.polished-inaugural-where-do-i-stand-on-about-asks-question",
-      "move": "question",
-      "kind": "spoken",
-      "text": "Where do I stand on {about}?",
-      "uses": [
-        {
-          "move": "question",
-          "subject": "inaugural",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-union",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-state",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "town-address",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.question.polished-inaugural-what-should-this-government-do-about-about-asks-question",
-      "move": "question",
-      "kind": "spoken",
-      "text": "What should this government do about {about}?",
-      "uses": [
-        {
-          "move": "question",
-          "subject": "inaugural",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-union",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-state",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "town-address",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.question.plain-inaugural-so-where-am-i-on-about-asks-question",
-      "move": "question",
-      "kind": "spoken",
-      "text": "So where am I on {about}?",
-      "uses": [
-        {
-          "move": "question",
-          "subject": "inaugural",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-union",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-state",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "town-address",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.question.plain-inaugural-what-about-about-asks-question",
-      "move": "question",
-      "kind": "spoken",
-      "text": "What about {about}?",
-      "uses": [
-        {
-          "move": "question",
-          "subject": "inaugural",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-union",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-state",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "town-address",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "about",
-            "asks-question"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
     },
     {
       "key": "opening-speech.ask.polished-inaugural-i-will-stand-by-and-i-will-veto-stance-for-law-in-force-about-about-one",
@@ -105808,55 +105325,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.today.polished-inaugural-here-is-the-situation-today-clause",
-      "move": "today",
-      "kind": "spoken",
-      "text": "Here is the situation: {today-clause}",
-      "uses": [
-        {
-          "move": "today",
-          "subject": "inaugural",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-union",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-state",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "town-address",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.today.plain-inaugural-as-of-today-today-clause",
       "move": "today",
       "kind": "spoken",
@@ -105910,55 +105378,6 @@
       "move": "today",
       "kind": "spoken",
       "text": "The way it is now, {today-clause}",
-      "uses": [
-        {
-          "move": "today",
-          "subject": "inaugural",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-union",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-state",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "town-address",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.today.plain-inaugural-look-where-we-are-today-clause",
-      "move": "today",
-      "kind": "spoken",
-      "text": "Look where we are: {today-clause}",
       "uses": [
         {
           "move": "today",
@@ -106126,6 +105545,742 @@
         "of": "opening-salutation",
         "part": "opener"
       },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-the-fact-is-today-clause",
+      "move": "today",
+      "kind": "spoken",
+      "text": "The fact is, {today-clause}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.polished-inaugural-as-matters-stand-today-clause",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As matters stand, {today-clause}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.polished-inaugural-as-we-stand-here-today-clause",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As we stand here, {today-clause}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-the-way-things-are-today-clause",
+      "move": "today",
+      "kind": "spoken",
+      "text": "The way things are, {today-clause}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.belief.plain-inaugural-what-i-believe-is-that-belief-belief-stands",
+      "move": "belief",
+      "kind": "spoken",
+      "text": "What I believe is that {belief}.",
+      "uses": [
+        {
+          "move": "belief",
+          "subject": "inaugural",
+          "role": "belief",
+          "choice": "belief",
+          "requiresFacts": [
+            "belief",
+            "belief-stands"
+          ]
+        },
+        {
+          "move": "belief",
+          "subject": "state-of-the-union",
+          "role": "belief",
+          "choice": "belief",
+          "requiresFacts": [
+            "belief",
+            "belief-stands"
+          ]
+        },
+        {
+          "move": "belief",
+          "subject": "state-of-the-state",
+          "role": "belief",
+          "choice": "belief",
+          "requiresFacts": [
+            "belief",
+            "belief-stands"
+          ]
+        },
+        {
+          "move": "belief",
+          "subject": "town-address",
+          "role": "belief",
+          "choice": "belief",
+          "requiresFacts": [
+            "belief",
+            "belief-stands"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-belief",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.why.polished-inaugural-that-is-because-i-believe-belief-belief-after",
+      "move": "why",
+      "kind": "spoken",
+      "text": "That is because I believe {belief}.",
+      "uses": [
+        {
+          "move": "why",
+          "subject": "inaugural",
+          "role": "why",
+          "choice": "why",
+          "requiresFacts": [
+            "belief",
+            "belief-after"
+          ]
+        },
+        {
+          "move": "why",
+          "subject": "state-of-the-union",
+          "role": "why",
+          "choice": "why",
+          "requiresFacts": [
+            "belief",
+            "belief-after"
+          ]
+        },
+        {
+          "move": "why",
+          "subject": "state-of-the-state",
+          "role": "why",
+          "choice": "why",
+          "requiresFacts": [
+            "belief",
+            "belief-after"
+          ]
+        },
+        {
+          "move": "why",
+          "subject": "town-address",
+          "role": "why",
+          "choice": "why",
+          "requiresFacts": [
+            "belief",
+            "belief-after"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-belief",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.why.plain-inaugural-i-ll-tell-you-why-i-believe-belief-belief-after",
+      "move": "why",
+      "kind": "spoken",
+      "text": "I'll tell you why. I believe {belief}.",
+      "uses": [
+        {
+          "move": "why",
+          "subject": "inaugural",
+          "role": "why",
+          "choice": "why",
+          "requiresFacts": [
+            "belief",
+            "belief-after"
+          ]
+        },
+        {
+          "move": "why",
+          "subject": "state-of-the-union",
+          "role": "why",
+          "choice": "why",
+          "requiresFacts": [
+            "belief",
+            "belief-after"
+          ]
+        },
+        {
+          "move": "why",
+          "subject": "state-of-the-state",
+          "role": "why",
+          "choice": "why",
+          "requiresFacts": [
+            "belief",
+            "belief-after"
+          ]
+        },
+        {
+          "move": "why",
+          "subject": "town-address",
+          "role": "why",
+          "choice": "why",
+          "requiresFacts": [
+            "belief",
+            "belief-after"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-belief",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-inaugural-is-it-right-that-today-question-stance-for-law-not-in-force",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Is it right that {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.plain-inaugural-is-it-fair-that-today-question-stance-for-law-not-in-force",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Is it fair that {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-inaugural-why-would-we-change-a-country-where-today-question-stance-against-law-not-in-force",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why would we change a country where {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.plain-inaugural-why-fix-what-works-when-today-question-stance-against-law-not-in-force",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why fix what works, when {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-inaugural-do-we-really-want-to-give-up-a-today-question-stance-for-law-in-force-asks",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Do we really want to give up a country where {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.plain-inaugural-why-would-we-go-back-when-today-question-stance-for-law-in-force-asks",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why would we go back, when {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
       "date": "2026-11-12"

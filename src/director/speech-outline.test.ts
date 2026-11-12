@@ -173,7 +173,8 @@ describe("every speech through the one outline planner", () => {
               !said.some(
                 (sentence) =>
                   sentence.facts.includes("today") ||
-                  sentence.facts.includes("today-clause"),
+                  sentence.facts.includes("today-clause") ||
+                  sentence.facts.includes("today-question"),
               )
             )
               failures.push(
@@ -200,11 +201,11 @@ describe("every speech through the one outline planner", () => {
               );
             // The sentence said is the speaker's side's, never the other's.
             for (const other of forms(otherSide))
-              if (other && speech.text.includes(other.slice(1)))
+              if (other && speech.text.includes(other.slice(1, -1)))
                 failures.push(
                   `${name}: says the other side's today ("${other}")`,
                 );
-            if (point.today && !speech.text.includes(point.today.slice(1)))
+            if (point.today && !speech.text.includes(point.today.slice(1, -1)))
               failures.push(
                 `${name}: its today is not said ("${point.today}")`,
               );

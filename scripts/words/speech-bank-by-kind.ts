@@ -257,6 +257,8 @@ const SLOTS: Record<string, string> = {
     "how the policy question stands today, by the law in force and as the speaker's side describes it (question-names.json `today`)",
   "today-clause":
     "the same sentence as `today`, in the case it takes after an opener and a comma",
+  "today-question":
+    "the same sentence as `today-clause` without its period, said inside a question to the audience",
   belief:
     "what the speaker believes, a clause worded from the belief-words pieces by the question's family and the speaker's pole of it",
   "first-side":
@@ -792,15 +794,15 @@ const TODAY: [string | string[], string][] = [
   ["polished", "As things stand, {today-clause}"],
   ["plain", "Right now, {today-clause}"],
   ["polished", "Today, {today-clause}"],
-  ["plain", "Here's where things stand: {today-clause}"],
-  ["polished", "Consider where we are: {today-clause}"],
+  ["plain", "The fact is, {today-clause}"],
+  ["polished", "As matters stand, {today-clause}"],
   ["plain", "These days, {today-clause}"],
   ["polished", "As we meet tonight, {today-clause}"],
   ["polished", "At this moment, {today-clause}"],
-  ["polished", "Here is the situation: {today-clause}"],
+  ["polished", "As we stand here, {today-clause}"],
   ["plain", "As of today, {today-clause}"],
   ["plain", "The way it is now, {today-clause}"],
-  ["plain", "Look where we are: {today-clause}"],
+  ["plain", "The way things are, {today-clause}"],
 ];
 for (const [voice, text] of TODAY)
   ADD.push({
@@ -840,17 +842,12 @@ const BELIEF_FRAMES: [string, string, string, string][] = [
   ["ask", "polished", "Because I hold that {belief},", "belief-leads"],
   ["belief", "polished", "I believe {belief}.", "belief-stands"],
   ["belief", "polished", "I have always believed {belief}.", "belief-stands"],
-  ["belief", "plain", "Here's what I believe: {belief}.", "belief-stands"],
+  ["belief", "plain", "What I believe is that {belief}.", "belief-stands"],
   ["belief", "plain", "I've always thought {belief}.", "belief-stands"],
   ["why", "polished", "I say so because I believe {belief}.", "belief-after"],
-  [
-    "why",
-    "polished",
-    "My reason is simple: I believe {belief}.",
-    "belief-after",
-  ],
+  ["why", "polished", "That is because I believe {belief}.", "belief-after"],
   ["why", "plain", "Why? Because I believe {belief}.", "belief-after"],
-  ["why", "plain", "I'll tell you why: {belief}.", "belief-after"],
+  ["why", "plain", "I'll tell you why. I believe {belief}.", "belief-after"],
 ];
 for (const [role, voice, text, shape] of BELIEF_FRAMES)
   ADD.push({
@@ -866,19 +863,45 @@ for (const [role, voice, text, shape] of BELIEF_FRAMES)
   });
 // 18. A point may open on a question to the audience, answered by how things
 // stand and the ask.
-const QUESTIONS: [string, string][] = [
-  ["polished", "Where do I stand on {about}?"],
-  ["polished", "What should this government do about {about}?"],
-  ["plain", "So where am I on {about}?"],
-  ["plain", "What about {about}?"],
+const QUESTIONS: [string, string, string, string][] = [
+  ["polished", "for", "law-not-in-force", "Is it right that {today-question}?"],
+  ["plain", "for", "law-not-in-force", "Is it fair that {today-question}?"],
+  [
+    "polished",
+    "against",
+    "law-not-in-force",
+    "Why would we change a country where {today-question}?",
+  ],
+  [
+    "plain",
+    "against",
+    "law-not-in-force",
+    "Why fix what works, when {today-question}?",
+  ],
+  [
+    "polished",
+    "for",
+    "law-in-force",
+    "Do we really want to give up a country where {today-question}?",
+  ],
+  [
+    "plain",
+    "for",
+    "law-in-force",
+    "Why would we go back, when {today-question}?",
+  ],
+  ["polished", "against", "law-in-force", "Is it right that {today-question}?"],
+  ["plain", "against", "law-in-force", "Is it fair that {today-question}?"],
 ];
-for (const [voice, text] of QUESTIONS)
+// The question carries how things stand, as the speaker's side tells it,
+// and names no question, so the ask after it names the question once.
+for (const [voice, side, law, text] of QUESTIONS)
   ADD.push({
     role: "question",
     subjects: ALL,
     voice,
     text,
-    needs: ["about", "asks-question"],
+    needs: ["today-question", `stance-${side}`, law, "asks-question"],
   });
 // 19. A figure joins a point only when the question's own row says the
 // measure bears on it and helps the speaker's side (question-names
