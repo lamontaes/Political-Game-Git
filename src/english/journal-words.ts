@@ -341,7 +341,15 @@ export type MemoirField =
   | "workRun"
   | "workEnd"
   | "workLost"
+  | "workLeft"
+  | "workOne"
+  | "workOneLeft"
+  | "workPayUp"
+  | "workPayDown"
+  | "workOut"
   | "effectsLearned"
+  | "effectUp"
+  | "effectDown"
   | "viewFor"
   | "viewAgainst";
 

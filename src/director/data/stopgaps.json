@@ -373,18 +373,6 @@
     "status": "open"
   },
   {
-    "id": "SG-WORDS-param-journalWorkFoldAt",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "How many employers before the start the Journal tells one by one before it tells the working life as one run.",
-    "why": "A telling threshold no source sets; it decides only how a working life is told, never an outcome.",
-    "addedBy": "Words session (journal composer)",
-    "addedAt": "2026-11-12",
-    "replacement": "A count read from graded Journals: the most jobs the owner reads as a story before it reads as a list.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-param-journalRaceCloseMargin",
     "kind": "uncalibrated-tunable",
     "file": "src/director/data/director.json",

@@ -51,7 +51,13 @@
     "about": "A question as a noun phrase (question-names.json `about`), from the views engine's stance record.",
     "attendees": "How many came to a town hall, from its row.",
     "questions": "How many questions were asked at a town hall, from its row.",
-    "outlet": "A news outlet, from its organization's record."
+    "outlet": "A news outlet, from its organization's record.",
+    "wage_from": "The hourly pay of the first job in a run, from its pay record.",
+    "wage_to": "The hourly pay of the last job in a run, from its pay record.",
+    "out_span": "How long a person was out of work in all, summed from the work records.",
+    "bill": "The bill a law moved, from the price rule's good (\"electric bill\").",
+    "amount": "About how much a month a bill moved, from the price engine's record.",
+    "effects": "What laws did to the person's bills, joined from their records."
   },
   "maxWords": 10,
   "mining": {
@@ -1498,53 +1504,6 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
-    },
-    {
-      "key": "journal.office-line-filed.i-filed-to-run-for-office-the-election-is-election",
-      "move": "office-line-filed",
-      "kind": "spoken",
-      "text": "I filed to run for {office}. The election is {election}.",
-      "uses": [
-        {
-          "move": "office-line-filed",
-          "subject": "office",
-          "role": "line",
-          "choice": "filed",
-          "journal": [
-            {
-              "kindPrefix": "event:candidate-filed",
-              "field": "line"
-            }
-          ]
-        },
-        {
-          "move": "memoir-decided",
-          "subject": "memoir",
-          "role": "decided",
-          "choice": "decided",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "decided"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "hearings": 1,
-        "house": 1
-      },
-      "source": {
-        "document": "TAX REFORM: ENSURING THAT MAIN STREET ISN'T LEFT BEHIND",
-        "date": "2015-04-15",
-        "granule": "CHRG-114hhrg94158",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-114hhrg94158/html/CHRG-114hhrg94158.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
       }
     },
     {
@@ -4681,32 +4640,6 @@
       "move": "home-line-sibling-born",
       "kind": "spoken",
       "text": "{named} was born after me.",
-      "uses": [
-        {
-          "move": "home-line-sibling-born",
-          "subject": "home",
-          "role": "sibling-born",
-          "choice": "sibling-born",
-          "journal": [
-            {
-              "kindPrefix": "household:sibling-born",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item play-first-10-journal-from-day-one)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-sibling-born.named-joined-the-family",
-      "move": "home-line-sibling-born",
-      "kind": "spoken",
-      "text": "{named} joined the family.",
       "uses": [
         {
           "move": "home-line-sibling-born",
@@ -9401,110 +9334,6 @@
       }
     },
     {
-      "key": "journal.memoir-effects-learned.i-learned-that-the-rules-on-topic-change",
-      "move": "memoir-effects-learned",
-      "kind": "spoken",
-      "text": "I learned that the rules on {topic} changed what I pay.",
-      "uses": [
-        {
-          "move": "memoir-effects-learned",
-          "subject": "memoir",
-          "role": "effectsLearned",
-          "choice": "i-learned-that-the-rules-on-topic-change",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "effectsLearned"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-effects-learned.i-found-out-the-rules-on-topic-were-behi",
-      "move": "memoir-effects-learned",
-      "kind": "spoken",
-      "text": "I found out the rules on {topic} set my costs.",
-      "uses": [
-        {
-          "move": "memoir-effects-learned",
-          "subject": "memoir",
-          "role": "effectsLearned",
-          "choice": "i-found-out-the-rules-on-topic-were-behi",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "effectsLearned"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-effects-learned.i-learned-that-law-changed-what-i-pay",
-      "move": "memoir-effects-learned",
-      "kind": "spoken",
-      "text": "I learned that {law} changed what I pay.",
-      "uses": [
-        {
-          "move": "memoir-effects-learned",
-          "subject": "memoir",
-          "role": "effectsLearned",
-          "choice": "i-learned-that-law-changed-what-i-pay",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "effectsLearned"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-effects-learned.i-found-out-law-were-behind-what-i-pay-n",
-      "move": "memoir-effects-learned",
-      "kind": "spoken",
-      "text": "I found out {law} were behind what I pay now.",
-      "uses": [
-        {
-          "move": "memoir-effects-learned",
-          "subject": "memoir",
-          "role": "effectsLearned",
-          "choice": "i-found-out-law-were-behind-what-i-pay-n",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "effectsLearned"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.family-line-moved-away.named-moved-away",
       "move": "family-line-moved-away",
       "kind": "spoken",
@@ -9835,6 +9664,568 @@
             {
               "kindPrefix": "job-ended:moved-on",
               "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-left.last-worked-at-employer",
+      "move": "memoir-work-left",
+      "kind": "spoken",
+      "text": "last worked at {employer}",
+      "uses": [
+        {
+          "move": "memoir-work-left",
+          "subject": "memoir",
+          "role": "workLeft",
+          "choice": "last-worked-at-employer",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workLeft"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      },
+      "piece": {
+        "of": "journal.work-run",
+        "part": "close",
+        "required": false
+      }
+    },
+    {
+      "key": "journal.memoir-work-left.was-last-at-employer",
+      "move": "memoir-work-left",
+      "kind": "spoken",
+      "text": "was last at {employer}",
+      "uses": [
+        {
+          "move": "memoir-work-left",
+          "subject": "memoir",
+          "role": "workLeft",
+          "choice": "was-last-at-employer",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workLeft"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      },
+      "piece": {
+        "of": "journal.work-run",
+        "part": "close",
+        "required": false
+      }
+    },
+    {
+      "key": "journal.memoir-work-one.i-have-worked-at-employer-for-span",
+      "move": "memoir-work-one",
+      "kind": "spoken",
+      "text": "I have worked at {employer} for {span}.",
+      "uses": [
+        {
+          "move": "memoir-work-one",
+          "subject": "memoir",
+          "role": "workOne",
+          "choice": "i-have-worked-at-employer-for-span",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workOne"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-one.i-ve-been-at-employer-for-span-now",
+      "move": "memoir-work-one",
+      "kind": "spoken",
+      "text": "I've been at {employer} for {span} now.",
+      "uses": [
+        {
+          "move": "memoir-work-one",
+          "subject": "memoir",
+          "role": "workOne",
+          "choice": "i-ve-been-at-employer-for-span-now",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workOne"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-one-left.i-worked-at-employer-for-span",
+      "move": "memoir-work-one-left",
+      "kind": "spoken",
+      "text": "I worked at {employer} for {span}.",
+      "uses": [
+        {
+          "move": "memoir-work-one-left",
+          "subject": "memoir",
+          "role": "workOneLeft",
+          "choice": "i-worked-at-employer-for-span",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workOneLeft"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-one-left.i-spent-span-at-employer",
+      "move": "memoir-work-one-left",
+      "kind": "spoken",
+      "text": "I spent {span} at {employer}.",
+      "uses": [
+        {
+          "move": "memoir-work-one-left",
+          "subject": "memoir",
+          "role": "workOneLeft",
+          "choice": "i-spent-span-at-employer",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workOneLeft"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-pay-up.my-pay-went-from-wage-from-to-wage-to-an",
+      "move": "memoir-work-pay-up",
+      "kind": "spoken",
+      "text": "My pay went from {wage_from} to {wage_to} an hour.",
+      "uses": [
+        {
+          "move": "memoir-work-pay-up",
+          "subject": "memoir",
+          "role": "workPayUp",
+          "choice": "my-pay-went-from-wage-from-to-wage-to-an",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workPayUp"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-pay-up.the-pay-climbed-from-wage-from-to-wage-t",
+      "move": "memoir-work-pay-up",
+      "kind": "spoken",
+      "text": "The pay climbed from {wage_from} to {wage_to} an hour.",
+      "uses": [
+        {
+          "move": "memoir-work-pay-up",
+          "subject": "memoir",
+          "role": "workPayUp",
+          "choice": "the-pay-climbed-from-wage-from-to-wage-t",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workPayUp"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-pay-down.my-pay-went-from-wage-from-down-to-wage-",
+      "move": "memoir-work-pay-down",
+      "kind": "spoken",
+      "text": "My pay went from {wage_from} down to {wage_to} an hour.",
+      "uses": [
+        {
+          "move": "memoir-work-pay-down",
+          "subject": "memoir",
+          "role": "workPayDown",
+          "choice": "my-pay-went-from-wage-from-down-to-wage-",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workPayDown"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-pay-down.the-pay-fell-from-wage-from-to-wage-to-a",
+      "move": "memoir-work-pay-down",
+      "kind": "spoken",
+      "text": "The pay fell from {wage_from} to {wage_to} an hour.",
+      "uses": [
+        {
+          "move": "memoir-work-pay-down",
+          "subject": "memoir",
+          "role": "workPayDown",
+          "choice": "the-pay-fell-from-wage-from-to-wage-to-a",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workPayDown"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-out.in-all-i-went-out-span-without-a-paychec",
+      "move": "memoir-work-out",
+      "kind": "spoken",
+      "text": "In all, I went {out_span} without a paycheck.",
+      "uses": [
+        {
+          "move": "memoir-work-out",
+          "subject": "memoir",
+          "role": "workOut",
+          "choice": "in-all-i-went-out-span-without-a-paychec",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workOut"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-out.i-spent-out-span-out-of-work-in-all",
+      "move": "memoir-work-out",
+      "kind": "spoken",
+      "text": "I spent {out_span} out of work in all.",
+      "uses": [
+        {
+          "move": "memoir-work-out",
+          "subject": "memoir",
+          "role": "workOut",
+          "choice": "i-spent-out-span-out-of-work-in-all",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workOut"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-filed.i-filed-to-run-for-office-with-the-elect",
+      "move": "office-line-filed",
+      "kind": "spoken",
+      "text": "I filed to run for {office}, with the election on {election}.",
+      "uses": [
+        {
+          "move": "office-line-filed",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-filed-to-run-for-office-with-the-elect",
+          "journal": [
+            {
+              "kindPrefix": "event:candidate-filed",
+              "field": "line"
+            }
+          ]
+        },
+        {
+          "move": "memoir-decided",
+          "subject": "memoir",
+          "role": "decided",
+          "choice": "i-filed-to-run-for-office-with-the-elect",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "decided"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-effect-up.my-bill-went-up-about-amount-a-month",
+      "move": "memoir-effect-up",
+      "kind": "spoken",
+      "text": "my {bill} went up about {amount} a month",
+      "uses": [
+        {
+          "move": "memoir-effect-up",
+          "subject": "memoir",
+          "role": "effectUp",
+          "choice": "my-bill-went-up-about-amount-a-month",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectUp"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      },
+      "piece": {
+        "of": "journal.effects-learned",
+        "part": "clause",
+        "required": true
+      }
+    },
+    {
+      "key": "journal.memoir-effect-up.my-bill-rose-about-amount-a-month",
+      "move": "memoir-effect-up",
+      "kind": "spoken",
+      "text": "my {bill} rose about {amount} a month",
+      "uses": [
+        {
+          "move": "memoir-effect-up",
+          "subject": "memoir",
+          "role": "effectUp",
+          "choice": "my-bill-rose-about-amount-a-month",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectUp"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      },
+      "piece": {
+        "of": "journal.effects-learned",
+        "part": "clause",
+        "required": true
+      }
+    },
+    {
+      "key": "journal.memoir-effect-down.my-bill-came-down-about-amount-a-month",
+      "move": "memoir-effect-down",
+      "kind": "spoken",
+      "text": "my {bill} came down about {amount} a month",
+      "uses": [
+        {
+          "move": "memoir-effect-down",
+          "subject": "memoir",
+          "role": "effectDown",
+          "choice": "my-bill-came-down-about-amount-a-month",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectDown"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      },
+      "piece": {
+        "of": "journal.effects-learned",
+        "part": "clause",
+        "required": true
+      }
+    },
+    {
+      "key": "journal.memoir-effect-down.my-bill-fell-about-amount-a-month",
+      "move": "memoir-effect-down",
+      "kind": "spoken",
+      "text": "my {bill} fell about {amount} a month",
+      "uses": [
+        {
+          "move": "memoir-effect-down",
+          "subject": "memoir",
+          "role": "effectDown",
+          "choice": "my-bill-fell-about-amount-a-month",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectDown"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      },
+      "piece": {
+        "of": "journal.effects-learned",
+        "part": "clause",
+        "required": true
+      }
+    },
+    {
+      "key": "journal.memoir-effects-learned.after-the-rules-on-topic-changed-effects",
+      "move": "memoir-effects-learned",
+      "kind": "spoken",
+      "text": "After the rules on {topic} changed, {effects}.",
+      "uses": [
+        {
+          "move": "memoir-effects-learned",
+          "subject": "memoir",
+          "role": "effectsLearned",
+          "choice": "after-the-rules-on-topic-changed-effects",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectsLearned"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-effects-learned.once-the-rules-on-topic-took-hold-effect",
+      "move": "memoir-effects-learned",
+      "kind": "spoken",
+      "text": "Once the rules on {topic} took hold, {effects}.",
+      "uses": [
+        {
+          "move": "memoir-effects-learned",
+          "subject": "memoir",
+          "role": "effectsLearned",
+          "choice": "once-the-rules-on-topic-took-hold-effect",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectsLearned"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-effects-learned.after-law-took-effect-effects",
+      "move": "memoir-effects-learned",
+      "kind": "spoken",
+      "text": "After {law} took effect, {effects}.",
+      "uses": [
+        {
+          "move": "memoir-effects-learned",
+          "subject": "memoir",
+          "role": "effectsLearned",
+          "choice": "after-law-took-effect-effects",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectsLearned"
             }
           ]
         }

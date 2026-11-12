@@ -14,6 +14,11 @@ import { coreAPI } from "../core2/state";
 import journalLife from "./data/journal-life.json" with { type: "json" };
 import JOURNAL_OUTLINE from "./data/journal-outline.json" with { type: "json" };
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../core2/modules/elections";
+import { PLACE_PRICES_MODULE_ID } from "../core2/modules/place-prices";
 import { personWorkOf } from "../core2/person-work";
 import {
   LEGISLATURE_MODULE_ID,
@@ -1511,6 +1516,72 @@ export function composeJournal(
             : [moment.causeId, ...(law?.recordIds ?? [])],
       };
     }
+    // A filing names its seat as people say it, through the one seat reader
+    // (`seatSaid`): the body for a seat on a body, the district for a
+    // districted seat, the office in lower case otherwise, at every level.
+    if (moment.causeKind.startsWith("event:candidate-filed") && facts.office) {
+      const contestId = logged?.facts?.contestId;
+      const contest =
+        typeof contestId === "string" && core.modules.has(ELECTIONS_MODULE_ID)
+          ? (coreAPI(core as CoreState)
+              .moduleState(ELECTIONS_MODULE_ID)
+              .table("contests")
+              .get(contestId) as unknown as ContestRow | undefined)
+          : undefined;
+      const office =
+        contest && core.modules.has(OFFICES_MODULE_ID)
+          ? (coreAPI(core as CoreState)
+              .moduleState(OFFICES_MODULE_ID)
+              .table("offices")
+              .get(contest.officeId) as unknown as
+              | { title?: string; seats?: number; bodyName?: string | null }
+              | undefined)
+          : undefined;
+      facts.office = {
+        text: seatSaid({
+          title: contest?.title ?? facts.office.text,
+          ...(office?.seats !== undefined ? { seats: office.seats } : {}),
+          ...(office?.bodyName ? { bodyName: office.bodyName } : {}),
+          ...(contest?.district ? { district: contest.district } : {}),
+        }),
+        sourceRecordIds: [
+          ...facts.office.sourceRecordIds,
+          ...(contest ? [contest.id] : []),
+        ],
+      };
+    }
+    // A law learned of is told by what it did to the person: the bill the
+    // price engine's rule moved and about how much a month, from the
+    // learned record's own facts. A record with no amount is not told
+    // (what the Journal still needs: Social Security and estate records).
+    if (moment.causeKind === "event:law.effect-learned") {
+      const moved = Number(logged?.facts?.movedMinor);
+      const ruleId = logged?.facts?.priceRuleId;
+      const rule =
+        typeof ruleId === "string" && core.modules.has(PLACE_PRICES_MODULE_ID)
+          ? (coreAPI(core as CoreState)
+              .moduleState(PLACE_PRICES_MODULE_ID)
+              .table("rules")
+              .get(ruleId) as unknown as { good?: string } | undefined)
+          : undefined;
+      const bill = rule?.good
+        ? (JOURNAL_OUTLINE.goodBills as Record<string, string>)[rule.good]
+        : undefined;
+      if (!bill || !Number.isFinite(moved) || moved === zero) return null;
+      facts.bill = {
+        text: bill,
+        sourceRecordIds: [moment.causeId, ruleId as string],
+      };
+      facts.amount = {
+        text: moneySaid(Math.abs(moved)),
+        sourceRecordIds: [moment.causeId],
+      };
+      // Paying more is the bill going up (the record keeps refund less pay).
+      facts.direction = {
+        text: moved < zero ? "up" : "down",
+        sourceRecordIds: [moment.causeId],
+      };
+    }
     const hasOwnLine = Boolean(row?.hasOwnLine);
     const toldWithoutOther = Boolean(row?.toldWithoutOther);
     const otherId =
@@ -1786,7 +1857,7 @@ export function composeJournal(
     paragraph: string;
     turn: boolean;
     /** The record's line again from fewer facts, when the paragraph said some already. */
-    retell?: (given: Facts) => JournalWorded | null;
+    retell?: (given: Facts, key?: string) => JournalWorded | null;
   }
   const paragraphOf = (moment: JournalMoment): string => {
     if (moment.date >= core.startedAt && moment.beat !== "work") return "play";
@@ -1973,7 +2044,10 @@ export function composeJournal(
       paragraph: paragraphOf(moment),
       turn: turnOf(row, moment),
       ...(plainLine
-        ? { retell: (given: Facts) => lineOf(given, `${moment.id}:again`) }
+        ? {
+            retell: (given: Facts, key?: string) =>
+              lineOf(given, key ?? `${moment.id}:again`),
+          }
         : {}),
     });
   }
@@ -2033,6 +2107,13 @@ export function composeJournal(
    * time openings in a row). The first sentence of a grown-up stretch opens
    * on the age it began at.
    */
+  // Whether a partner is on record for the person, so "we" and "our" have
+  // someone behind them.
+  const partnered =
+    [...kin.values()].some((fact) =>
+      ["partner", "former-partner"].includes(fact.relation),
+    ) || life.some((event) => event.life === "partner");
+  const WE = /\b(?:we|our|us)\b/i;
   const tellParagraph = (
     told: readonly Unit[],
     key: string,
@@ -2070,10 +2151,39 @@ export function composeJournal(
         const again = unit.retell(fewerButPlace) ?? unit.retell(fewer);
         if (again) event = again;
       }
+      // No "we" or "our" without a partner on record to stand behind it
+      // (lead, Nov 12: "our" has nobody behind it): the record's line is
+      // asked again in other words.
+      const child = unit.moment.causeKind === "family:child";
+      if (child && !partnered && WE.test(event.text) && unit.retell)
+        for (let again = one; again <= P.two * P.two * P.two; again += one) {
+          const other = unit.retell(
+            unit.facts,
+            `${unit.moment.id}:alone:${again}`,
+          );
+          if (other && !WE.test(other.text)) {
+            event = other;
+            break;
+          }
+        }
       let timed = false;
       let aged = unit.framed;
       let heldSaid = false;
-      if (last && !unit.framed && key !== "roots") {
+      // A record that carries the person's age then says it in its own
+      // sentence ("When I was 15, my son Xavier was born."), never as a
+      // sentence after it.
+      if (unit.facts["age-then"] && !unit.framed && key !== "roots") {
+        const frame = render(
+          { part: "memoir", field: "whenAge" },
+          { age: unit.facts["age-then"] },
+          `${unit.moment.id}:age`,
+          ids,
+        );
+        if (frame) {
+          event = framedByAge(frame, event, unit.facts);
+          aged = true;
+        }
+      } else if (last && !unit.framed && key !== "roots") {
         const days = daysBetween(
           makeIsoDate(last.moment.date),
           makeIsoDate(unit.moment.date),
@@ -2099,6 +2209,7 @@ export function composeJournal(
           }
         }
       } else if (
+        !aged &&
         !last &&
         !unit.framed &&
         (key === "family" || key === "work") &&
@@ -2140,7 +2251,8 @@ export function composeJournal(
             `${unit.moment.id}:${field}`,
             ids,
           );
-          if (!follow) continue;
+          if (!follow || (child && !partnered && WE.test(follow.text)))
+            continue;
           sentences.push(follow);
           remember(follow.text, followFacts);
           break;
@@ -2155,31 +2267,27 @@ export function composeJournal(
   };
 
   /**
-   * A working life of more employers than the outline tells one by one is
-   * told as one thought, in the order a person tells it: what kind of work
-   * it was and where, how it went (let go, from the records), and where it
-   * ended (lead, Nov 12: "lead with the kind of work, not the count"). The
-   * three are pieces of one sentence (`journal.work-run`), joined by the
-   * outline's join words.
+   * A working life is told as a run, whatever its length (lead, Nov 12:
+   * "nothing flips at a count"): one sentence of what kind of work it was and
+   * where, how it went (let go, from the records) and where it stands (still
+   * there, or the last place they worked); then, where the records hold
+   * them, how the pay moved from the first job to the last, and how long they
+   * went without a paycheck in all. One job is one sentence about that job.
+   * The pieces are `journal.work-run`'s, joined by the outline's join words.
    */
-  const foldWork = (told: readonly Unit[]): JournalWorded[] | null => {
+  const tellWork = (told: readonly Unit[]): JournalWorded[] | null => {
     const employers = new Map<string, string>();
     for (const unit of told)
       for (const fact of [unit.facts.employer, unit.facts.next])
         if (fact)
           employers.set(fact.text, String(fact.sourceRecordIds.at(-one)));
-    const foldAt =
-      DEFAULT_DIRECTOR_DATA.parameters.journalWorkFoldAt?.value ??
-      Number.POSITIVE_INFINITY;
-    // A working life with no employer on record, told job by job, would
-    // name the same place in every sentence: it is told as one run too.
-    const placeOnly =
-      employers.size === zero &&
-      told.filter((unit) => unit.facts.place).length > P.two;
-    if (employers.size <= foldAt && !placeOnly) return null;
     const ids = told.map((unit) => unit.moment.causeId);
     const first = told[zero]!;
     const lastUnit = told.at(-one)!;
+    // Where it stands: still at the last job, or the last place worked
+    // when the run ends on a job that ended with none after it.
+    const endedOut =
+      lastUnit.moment.causeKind.startsWith("job-ended") && !lastUnit.facts.next;
     const ended = lastUnit.facts.next ?? lastUnit.facts.employer;
     const lostIds = told
       .filter((unit) => unit.moment.causeKind === "job-ended:let-go")
@@ -2203,16 +2311,27 @@ export function composeJournal(
       .slice(zero, P.two);
     const join = JOURNAL_OUTLINE.workJoin;
     const where = lastUnit.facts.place ?? first.facts.place;
-    const facts: Facts = {
-      span: {
-        text: spanSaid(
-          daysBetween(
-            makeIsoDate(first.moment.date),
-            makeIsoDate(lastUnit.moment.date),
-          ),
+    const span: Fact = {
+      text: spanSaid(
+        daysBetween(
+          makeIsoDate(first.moment.date),
+          makeIsoDate(endedOut ? lastUnit.moment.date : core.startedAt),
         ),
-        sourceRecordIds: ids,
-      },
+      ),
+      sourceRecordIds: ids,
+    };
+    // One job: that job and how long.
+    if (employers.size === one && ended) {
+      const one_ = render(
+        { part: "memoir", field: endedOut ? "workOneLeft" : "workOne" },
+        { employer: ended, span },
+        `${first.moment.id}:work-one`,
+        ids,
+      );
+      if (one_) return [one_, ...workAfter(told, ids)];
+    }
+    const facts: Facts = {
+      span,
       ...(said.length
         ? {
             work: {
@@ -2246,7 +2365,7 @@ export function composeJournal(
       : null;
     const end = ended
       ? render(
-          { part: "memoir", field: "workEnd" },
+          { part: "memoir", field: endedOut ? "workLeft" : "workEnd" },
           { employer: ended },
           `${first.moment.id}:work-end`,
           ids,
@@ -2275,7 +2394,72 @@ export function composeJournal(
           ...new Set([run, ...tail].flatMap((part) => part.sourceRecordIds)),
         ],
       },
+      ...workAfter(told, ids),
     ];
+  };
+  /** How the pay moved from the first job to the last, and the time without a paycheck, from the records. */
+  const workAfter = (
+    told: readonly Unit[],
+    ids: readonly string[],
+  ): JournalWorded[] => {
+    const out: JournalWorded[] = [];
+    const wages = told.flatMap((unit) => {
+      const spell = lifeById.get(unit.moment.causeId);
+      const minor = Number(spell?.facts?.hourlyMinor);
+      return minor > zero ? [{ minor, id: unit.moment.causeId }] : [];
+    });
+    const from = wages[zero];
+    const to = wages.at(-one);
+    if (from && to && moneySaid(from.minor) !== moneySaid(to.minor)) {
+      const pay = render(
+        {
+          part: "memoir",
+          field: to.minor > from.minor ? "workPayUp" : "workPayDown",
+        },
+        {
+          "wage-from": {
+            text: moneySaid(from.minor),
+            sourceRecordIds: [from.id],
+          },
+          "wage-to": { text: moneySaid(to.minor), sourceRecordIds: [to.id] },
+        },
+        `${told[zero]!.moment.id}:work-pay`,
+        [...ids],
+      );
+      if (pay) out.push(pay);
+    }
+    // Every time out of work the run's records hold, summed.
+    const outs = life.filter(
+      (event) =>
+        event.life === "work" &&
+        event.record === PAST_WORK_OUT &&
+        event.facts?.endedAt &&
+        event.facts?.startedAt,
+    );
+    const days = outs.reduce(
+      (sum, event) =>
+        sum +
+        daysBetween(
+          makeIsoDate(String(event.facts!.startedAt)),
+          makeIsoDate(String(event.facts!.endedAt)),
+        ),
+      zero,
+    );
+    if (outs.length && days > zero) {
+      const without = render(
+        { part: "memoir", field: "workOut" },
+        {
+          "out-span": {
+            text: spanSaid(days),
+            sourceRecordIds: outs.map((event) => event.id),
+          },
+        },
+        `${told[zero]!.moment.id}:work-out`,
+        [...ids],
+      );
+      if (without) out.push(without);
+    }
+    return out;
   };
 
   /**
@@ -2288,7 +2472,7 @@ export function composeJournal(
     const row = JOURNAL_OUTLINE.merge.find(
       (entry) => entry.kindPrefix === told[zero]?.row.kindPrefix,
     );
-    if (!row || told.length < P.two) return null;
+    if (!row || (told.length < P.two && !row.alone)) return null;
     const facts: Facts = {};
     for (const key of row.facts) {
       const said = told.flatMap((unit) =>
@@ -2301,6 +2485,33 @@ export function composeJournal(
         sourceRecordIds: said.flatMap((fact) => fact.sourceRecordIds),
       };
     }
+    // Each record's own clause (what it did), the clauses as one list.
+    const clauses = told.flatMap((unit) => {
+      const field =
+        row.clauses[unit.facts.direction?.text as keyof typeof row.clauses];
+      const clause = field
+        ? render(
+            { part: "memoir", field: field as MemoirField },
+            unit.facts,
+            `${unit.moment.id}:clause`,
+            [unit.moment.causeId],
+          )
+        : null;
+      return clause
+        ? [
+            {
+              ...clause,
+              text:
+                clause.text.charAt(zero).toLowerCase() + clause.text.slice(one),
+            },
+          ]
+        : [];
+    });
+    if (!clauses.length) return null;
+    facts.effects = {
+      text: listOf(clauses.map((clause) => clause.text)),
+      sourceRecordIds: clauses.flatMap((clause) => clause.sourceRecordIds),
+    };
     const line = render(
       { part: "memoir", field: row.field as MemoirField },
       facts,
@@ -2349,7 +2560,7 @@ export function composeJournal(
         );
       if (!told.length) continue;
       const sentences =
-        (row.key === "work" ? foldWork(told) : null) ??
+        (row.key === "work" ? tellWork(told) : null) ??
         tellParagraph(told, row.key);
       push(told, sentences);
     }
@@ -2424,7 +2635,12 @@ export function composeJournal(
         group[zero]!.moment.date,
       );
     }
-    push(group, mergeOf(group) ?? tellParagraph(group, "play"));
+    const merged = JOURNAL_OUTLINE.merge.some(
+      (row) => row.kindPrefix === group[zero]?.row.kindPrefix,
+    );
+    // A merged kind is told only as its merged sentence.
+    const told = mergeOf(group) ?? (merged ? [] : tellParagraph(group, "play"));
+    push(group, told);
   }
 
   // Revised as life goes on: a schoolmate or a co-worker who now holds office

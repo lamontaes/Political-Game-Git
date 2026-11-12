@@ -852,21 +852,6 @@
       "citation": "A crime against one's household or oneself, sized as the Social Readjustment Rating Scale's 'Change in living conditions', 25 life-change units divided by 100, up to 'Personal injury or illness', 53, for a robbery or an assault (Holmes and Rahe 1967, J Psychosom Res 11(2):213-8; the scale has no crime item). It reaches the people the crime engine's record names.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.25 to 0.53"
     },
-    "journalWorkFoldAt": {
-      "value": 3,
-      "tag": "TUNABLE",
-      "citation": "Words judgment (lead, Nov 12: 'a stretch with seven employers in fifteen years folds ... it does not list them'): more employers than this before the start are told as one run from the counts, never listed one by one. It decides only how the Journal tells a working life, never what happened in it.",
-      "stopgapId": "SG-WORDS-param-journalWorkFoldAt",
-      "checkRange": {
-        "ref": "WORDS-JOURNAL-WORK-FOLD"
-      },
-      "spread": {
-        "low": 2,
-        "high": 5,
-        "unit": "employers in the working life before the start",
-        "citation": "Read against the Journals of three drawn 36-year-olds (Kaibito, Arizona; Kingston, Rhode Island; and the PR's third draw): two or three jobs read as a story told one by one, more read as a list."
-      }
-    },
     "journalRaceCloseMargin": {
       "value": 0.05,
       "tag": "TUNABLE",
