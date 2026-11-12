@@ -1193,12 +1193,7 @@ function printedSubject(
     const news = { question: story.topic! };
     // What the teller makes of it: their side on the question, from their
     // own view record. None, and they have nothing of their own to say.
-    const stake = newsStake(core, tellerId, {
-      id: `news:${story.id}`,
-      kind: "news",
-      news,
-      facts: {},
-    });
+    const stake = newsStake(core, tellerId, { news });
     if (stake.reason !== "stance") return null;
     return {
       id: `news:${story.id}`,
@@ -3582,6 +3577,49 @@ export function noteHeard(core: CoreState, conversation: Conversation): void {
         access: "perceived",
       });
   }
+}
+
+/**
+ * A scene the player played is heard like a talk (one telling for the house
+ * and the day): the story its moment came from, and that story's question,
+ * are not brought up again in talk that day (pre-grade of #8879, Fife,
+ * Washington: a scene on the morning's story, then a talk on the same story
+ * an hour later that contradicted it).
+ */
+export function noteSceneHeard(
+  core: CoreState,
+  director: Director,
+  playerId: PersonId,
+  momentId: string,
+): void {
+  const api = coreAPI(core);
+  let causeId: string | undefined;
+  for (const book of director.ledger.people.values()) {
+    const moment = book.momentsById.get(momentId);
+    if (moment) {
+      causeId = moment.causeId;
+      break;
+    }
+  }
+  const storyId = causeId ? storyOfReadEvent(causeId) : null;
+  if (!storyId) return;
+  const story =
+    storiesHeard(api, playerId).find((row) => row.id === storyId) ??
+    (api
+      .moduleState(NEWS_MODULE_ID)
+      .table("stories")
+      .get(storyId) as unknown as Story | undefined);
+  for (const part of [
+    `${HEARD_SUBJECT}news:${storyId}`,
+    ...(story?.topic ? [`${HEARD_QUESTION}${story.topic}`] : []),
+  ])
+    api.observe(playerId, {
+      key: `${HEARD_PREFIX}${part}`,
+      value: part,
+      learnedAt: core.date,
+      sourceId: `scene:${momentId}:${core.date}`,
+      access: "perceived",
+    });
 }
 
 /** Runs a step of the talk with what the player heard today held back from the picks. */
