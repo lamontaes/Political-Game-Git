@@ -63,7 +63,7 @@ export function stripScreen({ name, role, face, columns }) {
   );
 }
 
-/** Perk rows: the leaning's name, how strong it runs, and its line in the first person. */
+/** Perk rows: the leaning's name, how strong it runs, and its line where it has one. */
 export function perkList(rows) {
   return el(
     "div",
@@ -78,7 +78,7 @@ export function perkList(rows) {
           el("b", { textContent: row.name }),
           ...(row.strength ? [el("span", { textContent: row.strength })] : []),
         ),
-        el("p", { textContent: row.line }),
+        ...(row.line ? [el("p", { textContent: row.line })] : []),
       ),
     ),
   );

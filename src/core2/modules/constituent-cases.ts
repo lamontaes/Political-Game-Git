@@ -22,7 +22,13 @@ import { coreAPI, fillInPerson, registerModule } from "../state";
 import { fundBalance } from "../counted-money";
 import { closenessBetween } from "../closeness";
 import { engagementOf } from "../electorate";
-import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonId,
+  PersonState,
+} from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-data";
@@ -35,13 +41,15 @@ import { countedLean } from "./views";
 import { keepsWhy } from "../why-kept";
 import { STAFF_MODULE_ID, staffDecision } from "./staff";
 import { JOBS_MODULE_ID, recordReferral } from "./jobs";
+import { referCustody, servingCustodyOf } from "./justice";
 import { residentsRuntime } from "./residents";
 import { makeCase, SPEECH_MODULE_ID } from "./speech";
 import problemQuestions from "../data/constituent-cases/problem-questions.json" with { type: "json" };
 
 export const CASES_MODULE_ID = "core2-constituent-cases-v1";
 
-export type Problem = "looking-for-work" | "paid-under-minimum-wage";
+export type Problem =
+  "looking-for-work" | "paid-under-minimum-wage" | "family-in-custody";
 
 const PROBLEM_QUESTIONS = (
   problemQuestions as unknown as {
@@ -171,6 +179,20 @@ export function problemOf(
   const adultAge = api.parameter("votingAge");
   const age = ageOn(person, date);
   if (age < adultAge) return null;
+  // A living relative serving a term: how much of it is still ahead presses on
+  // them, read from the custody record.
+  for (const kinId of [...person.familyIds].sort()) {
+    const kin = api.state.people.get(kinId);
+    const custody = kin?.alive ? servingCustodyOf(api, kinId) : undefined;
+    if (!custody) continue;
+    const term = Date.parse(custody.until) - Date.parse(custody.from);
+    const ahead = Date.parse(custody.until) - Date.parse(date);
+    return {
+      problem: "family-in-custody",
+      severity: term > 0 ? Math.max(0, Math.min(1, ahead / term)) : 0,
+      facts: { relativeId: kinId, custodyId: custody.id },
+    };
+  }
   const floor = lawInForce(api, "minimum-wage").value;
   const jobs = [...(state.work.commitmentsByPerson.get(person.id) ?? [])]
     .map((id) => state.work.commitments.get(id))
@@ -659,6 +681,16 @@ function resolve(
       asOf: api.state.date,
     });
     outcome = raised ? "referred-pay-raised" : "referred-no-finding";
+  } else if (decision === "help" && row.problem === "family-in-custody") {
+    // The justice engine reads the referral on a later day and grants the
+    // relative's visit while the person is still in custody.
+    referCustody(api, {
+      caseId: row.id,
+      personId: String(row.facts.relativeId) as PersonId,
+      relativeId: row.personId as PersonId,
+      officialId: row.officialId,
+    });
+    outcome = "referred-to-custody-review";
   } else if (decision === "help") {
     // The jobs engine reads the referral when an employer chooses among
     // applicants.
