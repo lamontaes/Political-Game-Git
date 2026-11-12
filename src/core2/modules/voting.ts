@@ -150,7 +150,11 @@ import {
 import { ballotCuesOf, ballotForms, ballotOrderRule } from "../ballot-order";
 import { caucusSide, nationalParty, partySide } from "../appointments";
 import { promisesOf, recordAppeal, votesOf, type RecordReason } from "./record";
-import { candidacyModule, CANDIDACY_MODULE_ID } from "./candidacy";
+import {
+  candidacyModule,
+  CANDIDACY_MODULE_ID,
+  registerClosedContestWeighed,
+} from "./candidacy";
 import {
   agreementWith,
   countedStanceProfile,
@@ -446,15 +450,37 @@ export function openVoting(core: CoreState): void {
     if (contest) scheduleContest(a, contest);
     return contest !== null;
   });
+  // A race whose filing closed before the record began is finished once
+  // candidacy has weighed it, so its own runners stand before any stand-in.
+  registerClosedContestWeighed(closeAtOpening);
   for (const contest of api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .rows() as unknown as ContestRow[])
-    scheduleContest(api, contest);
+    scheduleContest(api, contest, true);
+}
+
+/**
+ * A race closed before the record began, after candidacy has weighed it: the
+ * parties with no runner of their own get their nominees, and a primary whose
+ * day has already come is held now by the engine's own count, its losers
+ * leaving the general ballot, so November never carries two runners of one
+ * party where the state's primary would have chosen one.
+ */
+function closeAtOpening(api: CoreAPI, contest: ContestRow): void {
+  if (contest.electionDate <= api.state.date) return;
+  fileStandingCandidates(api, contest.id);
+  if (contest.primaryDate && contest.primaryDate <= api.state.date)
+    holdPrimary(api, contest.id);
 }
 
 /** Put a contest's filing close, primary and election day on the calendar. */
-function scheduleContest(api: CoreAPI, contest: ContestRow): void {
+function scheduleContest(
+  api: CoreAPI,
+  contest: ContestRow,
+  /** At the opening: a race closed before it waits for candidacy (`closeAtOpening`). */
+  opening = false,
+): void {
   const date = api.state.date;
   const calendar = api.moduleCalendar(VOTING_MODULE_ID);
   if (contest.electionDate <= date) return;
@@ -471,7 +497,15 @@ function scheduleContest(api: CoreAPI, contest: ContestRow): void {
       source,
       sourceRecordIds: [contest.id],
     });
-  else fileStandingCandidates(api, contest.id);
+  // Closed before the record began: candidacy weighs the town's runners
+  // first, then the field is finished (`closeAtOpening`). A deadline today,
+  // or a race opened in play, is finished now.
+  else if (
+    !opening ||
+    contest.filingDeadline >= date ||
+    !api.state.modules.has(CANDIDACY_MODULE_ID)
+  )
+    fileStandingCandidates(api, contest.id);
   if (contest.primaryDate && contest.primaryDate > date)
     calendar.schedule({
       key: `primary:${contest.id}`,
@@ -2243,6 +2277,9 @@ export function holdPrimary(
       contestId,
       office: contest.title,
       method,
+      // The primary's own day: a race closed before the record began holds a
+      // past primary on its first day (`closeAtOpening`).
+      ...(contest.primaryDate ? { primaryDate: contest.primaryDate } : {}),
       votes: JSON.stringify(votes),
       namedVotes: String(namedVotes),
       outIds: JSON.stringify(
