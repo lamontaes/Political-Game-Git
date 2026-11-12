@@ -88,7 +88,12 @@ import type {
   PersonState,
   Source,
 } from "../core2/types";
-import { BRING_IT_UP_ROWS, bringItUp, changesKnownTo } from "./bring-it-up";
+import {
+  BRING_IT_UP_ROWS,
+  bringItUp,
+  bringUpRemembered,
+  changesKnownTo,
+} from "./bring-it-up";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
@@ -3160,12 +3165,38 @@ export function openConversation(
       ...opener,
       sourceRecordIds: [occasion!.causeId, ...opener.sourceRecordIds],
     });
-  // Away from a scene's occasion, they mention the newest change they know
-  // of and who they blame (bring-it-up, which passes both on). Those lines
-  // are the talk's raise of that news, said once: the talk goes on from it.
-  const brought = occasion
+  // Away from a scene's occasion, they mention news about the player first
+  // (their vote, their bill); else an event of their own life, one both
+  // remember or theirs from the last year (the life record); else the
+  // newest change they know of and who they blame (bring-it-up, which passes
+  // both on). Those lines are the talk's raise, said once: the talk goes on
+  // from it.
+  const aboutYou = occasion
     ? null
-    : bringItUp(core as CoreState, otherId, playerId);
+    : bringItUp(core as CoreState, otherId, playerId, {
+        onlyAboutListener: true,
+      });
+  const remembered =
+    occasion || aboutYou
+      ? null
+      : bringUpRemembered(core as CoreState, otherId, playerId);
+  if (remembered) {
+    conversation.recorded.push(remembered.toldEventId);
+    for (const line of remembered.lines)
+      conversation.lines.push({
+        speakerId: otherId,
+        subjectId: `remembered:${remembered.event.id}`,
+        kind: "brought-up",
+        act: "tell",
+        ...line,
+      });
+    conversation.used.push(`remembered:${remembered.event.id}`);
+  }
+  const brought =
+    aboutYou ??
+    (occasion || remembered
+      ? null
+      : bringItUp(core as CoreState, otherId, playerId));
   let raisedBrought = false;
   if (brought) {
     conversation.recorded.push(brought.toldEventId);

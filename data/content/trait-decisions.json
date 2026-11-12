@@ -502,6 +502,23 @@
       ]
     },
     {
+      "id": "bring-it-up.remembered",
+      "site": "src/director/bring-it-up.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightBringItUpRemembered",
+      "options": [
+        {
+          "id": "keep-own",
+          "actKinds": ["keep-same", "delay", "play-safe"]
+        },
+        {
+          "id": "tell-own",
+          "actKinds": ["speak-out", "change", "trust"]
+        }
+      ]
+    },
+    {
       "id": "views.persuasion",
       "site": "src/core2/modules/views.ts",
       "owner": "OPUS-PEOPLE",

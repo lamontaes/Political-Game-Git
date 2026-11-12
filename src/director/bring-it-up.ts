@@ -8,12 +8,16 @@
  * this one's words. The director says which change and which blame; the
  * English engine (`src/english/bring-it-up-words.ts`) words them.
  */
+import { closenessBetween } from "../core2/closeness";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { daysBetweenText } from "../core2/kernel/dates";
+import { lifeOf, type LifeEvent } from "../core2/person-life";
 import { P } from "../core2/parameters";
 import { storyOfReadEvent } from "../core2/modules/news";
 import { printedStoryOf } from "../core2/modules/press";
 import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
 import { applyCoreEvent, coreAPI } from "../core2/state";
-import { decisionLean } from "../core2/trait-decisions";
+import { decisionLean, decisionTraitWeight } from "../core2/trait-decisions";
 import type { CoreState, PersonId, PersonState, Source } from "../core2/types";
 import { storyTopicName } from "../english/policy-names";
 import {
@@ -39,6 +43,14 @@ export interface BringRows {
     eventIdPrefix?: string;
   }[];
   blame: readonly Attribution["how"][];
+  /** What a person brings up from their own life: the record's weights and window. */
+  remembered: {
+    /** The told event's fact key for a remembered event (`remembered:<record id>`). */
+    toldKey: string;
+    ownWithinDays: { value: number };
+    /** How much an event of each kind changed a life, by the life record's kind. */
+    weights: Readonly<Record<string, { value: number }>>;
+  };
 }
 export const BRING_IT_UP_ROWS = rowsJson as unknown as BringRows;
 
@@ -233,7 +245,12 @@ export function bringItUp(
   core: CoreState,
   speakerId: PersonId,
   listenerId: PersonId,
-  options: { rows?: BringRows; words?: BringWords } = {},
+  options: {
+    rows?: BringRows;
+    words?: BringWords;
+    /** Only a change about the listener (their vote, their bill), else nothing. */
+    onlyAboutListener?: boolean;
+  } = {},
 ): BroughtUp | null {
   const data = options.rows ?? BRING_IT_UP_ROWS;
   // The newest change they know of that can be put into words: a printed
@@ -300,6 +317,12 @@ export function bringItUp(
     readAbout ?? speakables.find(aboutListener) ?? speakables[P.zero];
   const subject = change ? nameOf(core, change.institutionId) : null;
   if (!change || !subject) return null;
+  if (
+    options.onlyAboutListener &&
+    change !== readAbout &&
+    !aboutListener(change)
+  )
+    return null;
   const attribution = believedCause(core, speakerId, change, data);
   const story = data.changes.find(
     (row) => row.eventKind === change.kind,
@@ -393,4 +416,171 @@ export function bringItUp(
     source,
   });
   return { lines, change, attribution, toldEventId };
+}
+
+export interface RememberedUp {
+  lines: { text: string; sourceRecordIds: readonly string[] }[];
+  event: LifeEvent;
+  /** Both remember it (`true`), or it is the speaker's own. */
+  shared: boolean;
+  toldEventId: string;
+}
+
+/**
+ * The events of the speaker's life they could bring up with the listener,
+ * the most telling first: one both remember (it is on both lists), or one of
+ * the speaker's own from the last year, never one already told to this
+ * listener. Each is weighed by how close the two are and how much an event
+ * of its kind changes a life (data/bring-it-up-rows.json, `remembered`);
+ * then the newest, then the record id. A stranger brings up nothing. No roll.
+ */
+export function rememberedToBringUp(
+  core: Readonly<CoreState>,
+  speakerId: PersonId,
+  listenerId: PersonId,
+  data: BringRows = BRING_IT_UP_ROWS,
+): { event: LifeEvent; shared: boolean; weight: number }[] {
+  const rows = data.remembered;
+  const close = closenessBetween(core, speakerId, listenerId);
+  const speaker = core.people.get(speakerId);
+  if (close <= P.zero || !speaker) return [];
+  const theirs = new Set(lifeOf(core, listenerId).map((event) => event.id));
+  const heard = core.knowledgeByPerson.get(listenerId);
+  const out: { event: LifeEvent; shared: boolean; weight: number }[] = [];
+  for (const event of lifeOf(core, speakerId)) {
+    // What they were made with is who they are, not something that happened.
+    if (event.from === "built") continue;
+    const kind = rows.weights[event.life]?.value;
+    if (kind === undefined) continue;
+    if (heard?.has(`${rows.toldKey}:${event.id}`)) continue;
+    const shared = theirs.has(event.id);
+    if (
+      !shared &&
+      (event.date > core.date ||
+        daysBetweenText(event.date, core.date) > rows.ownWithinDays.value)
+    )
+      continue;
+    // One both remember is theirs to talk over; one of their own is told as
+    // far as their traits lean toward telling it over keeping it.
+    const open = shared
+      ? P.one
+      : Math.exp(
+          decisionTraitWeight(core, "bring-it-up.remembered") *
+            decisionLean(
+              core,
+              speaker,
+              "bring-it-up.remembered",
+              "tell-own",
+              "keep-own",
+            ),
+        );
+    out.push({ event, shared, weight: close * kind * open });
+  }
+  return out.sort(
+    (a, b) =>
+      b.weight - a.weight ||
+      b.event.date.localeCompare(a.event.date) ||
+      a.event.id.localeCompare(b.event.id),
+  );
+}
+
+/**
+ * The speaker brings up an event of their life, the most telling one a
+ * sentence of the bank can say, and the listener learns of it: the told
+ * event keeps `remembered:<record id>` on the listener's knowledge, with the
+ * speaker as its value, so it is not brought up to them again. Null when no
+ * event fits or no sentence says one.
+ */
+export function bringUpRemembered(
+  core: CoreState,
+  speakerId: PersonId,
+  listenerId: PersonId,
+  options: { rows?: BringRows; words?: BringWords } = {},
+): RememberedUp | null {
+  const data = options.rows ?? BRING_IT_UP_ROWS;
+  const speaker = core.people.get(speakerId);
+  if (!speaker) return null;
+  for (const { event, shared } of rememberedToBringUp(
+    core,
+    speakerId,
+    listenerId,
+    data,
+  )) {
+    const line = wordBringMove({
+      seed: core.seed,
+      move: {
+        part: "remembered",
+        event: `${event.life}/${event.what}`,
+        shared,
+      },
+      speakerId,
+      traits: speaker.traits ?? {},
+      facts: rememberedFacts(core, event, speakerId, listenerId),
+      momentKey: `${speakerId}:${listenerId}:${event.id}:${core.date}`,
+      fallbackSourceId: event.id,
+      ...(options.words ? { words: options.words } : {}),
+    });
+    if (!line) continue;
+    const toldEventId = `${data.toldEvent}:${speakerId}:${listenerId}:${event.id}:${core.date}`;
+    applyCoreEvent(core, {
+      id: toldEventId,
+      date: core.date,
+      kind: data.toldEvent,
+      personIds: [listenerId],
+      placeId: speaker.placeId,
+      facts: { [`${data.remembered.toldKey}:${event.id}`]: speakerId },
+      source: {
+        tag: "SOURCED",
+        citation:
+          "Recorded conversation: a person brought up an event of their life from their own list.",
+        asOf: core.date,
+      },
+    });
+    return {
+      lines: [
+        { ...line, sourceRecordIds: [event.id, ...line.sourceRecordIds] },
+      ],
+      event,
+      shared,
+      toldEventId,
+    };
+  }
+  return null;
+}
+
+/**
+ * The names an event's sentence can use, each from the event's record: the
+ * year, the employer, the office, the place, and the other person it names
+ * (never the speaker or the listener, who are "I" and "you").
+ */
+function rememberedFacts(
+  core: Readonly<CoreState>,
+  event: LifeEvent,
+  speakerId: PersonId,
+  listenerId: PersonId,
+): Record<string, { text: string; sourceRecordIds: readonly string[] }> {
+  const from = [event.id];
+  const facts: Record<
+    string,
+    { text: string; sourceRecordIds: readonly string[] }
+  > = { year: { text: event.date.slice(0, 4), sourceRecordIds: from } };
+  const employer = event.facts?.organizationId
+    ? nameOf(core, event.facts.organizationId)
+    : null;
+  if (employer) facts.employer = { text: employer, sourceRecordIds: from };
+  if (event.facts?.office)
+    facts.office = {
+      text: event.facts.office.replace(/-/g, " ").toLowerCase(),
+      sourceRecordIds: from,
+    };
+  const place = event.placeId
+    ? corePlaceByJurisdictionId(event.placeId as never)?.displayName
+    : null;
+  if (place) facts.place = { text: place, sourceRecordIds: from };
+  const other = event.withIds.find(
+    (id) => id !== speakerId && id !== listenerId,
+  );
+  const who = other ? nameOf(core, other) : null;
+  if (who) facts.who = { text: who, sourceRecordIds: [event.id, other!] };
+  return facts;
 }

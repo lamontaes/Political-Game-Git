@@ -27,6 +27,13 @@ export interface BringWords {
   blame: Readonly<Record<BlameHow, Variant[]>>;
   /** The sentences that tell the listener what came of their own bill, by outcome. */
   yours: Readonly<Record<BillOutcome, Variant[]>>;
+  /**
+   * The sentences that bring up an event of the speaker's life, by its kind
+   * and what it was (`life/what`, the life record's words: `work/job-lost`).
+   * A sentence's stage says whose memory it fits: `ours` for an event both
+   * remember, `mine` for the speaker's own; one with no stage fits both.
+   */
+  remembered: Readonly<Record<string, Variant[]>>;
 }
 
 /** How a vote on a bill came out. */
@@ -43,7 +50,9 @@ export type BringMove =
   | { part: "change"; eventKind: string }
   | { part: "blame"; how: BlameHow; named: boolean }
   /** What came of the listener's own bill; `form` is the bill's (an act, an ordinance), which its lines name. */
-  | { part: "yours"; outcome: BillOutcome; form: string };
+  | { part: "yours"; outcome: BillOutcome; form: string }
+  /** An event from the speaker's life (`life/what`), both people's (`shared`) or the speaker's own. */
+  | { part: "remembered"; event: string; shared: boolean };
 
 /** Words one line of bringing it up, or null when no sentence fits its facts. */
 export function wordBringMove(request: {
@@ -63,13 +72,17 @@ export function wordBringMove(request: {
       ? "change"
       : move.part === "yours"
         ? `yours:${move.outcome}`
-        : `blame:${move.how}`;
+        : move.part === "remembered"
+          ? `remembered:${move.event}`
+          : `blame:${move.how}`;
   const variants =
     move.part === "change"
       ? (words.changes[move.eventKind] ?? [])
       : move.part === "yours"
         ? words.yours[move.outcome]
-        : words.blame[move.named ? move.how : "unknown"];
+        : move.part === "remembered"
+          ? (words.remembered[move.event] ?? [])
+          : words.blame[move.named ? move.how : "unknown"];
   return renderLine({
     seed: request.seed,
     surface: "dialogue",
@@ -80,6 +93,9 @@ export function wordBringMove(request: {
     facts: request.facts,
     momentKey: `${request.momentKey}:${part}`,
     ...(move.part === "yours" ? { stage: move.form } : {}),
+    ...(move.part === "remembered"
+      ? { stage: move.shared ? "ours" : "mine" }
+      : {}),
     fallbackSourceId: request.fallbackSourceId,
     voice: { traits: request.traits, register: "conversation" },
   });

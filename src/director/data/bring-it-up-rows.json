@@ -22,5 +22,95 @@
       "eventIdPrefix": "news.read:"
     }
   ],
-  "blame": ["record", "told", "assumed", "unknown"]
+  "blame": ["record", "told", "assumed", "unknown"],
+  "remembered": {
+    "about": "What a person brings up from their own life in a talk (the life record, part 2): an event both people remember, or one of the speaker's own from the last year, weighed by how close the two are (closeness.ts) and how much the event changed a life (these weights). No sentences: they come from the bring-it-up bank's parts whose use has subject remembered and role <life>/<what>.",
+    "role": "weights",
+    "toldKey": "remembered",
+    "ownWithinDays": {
+      "value": 365,
+      "tag": "TUNABLE",
+      "spread": [180, 730],
+      "checkedAgainst": "The item's own words (owner's design, docs/design/life-record.md): one of the speaker's own from the last year; checked against how long a played year's events stay news between neighbors (a year to two)."
+    },
+    "weights": {
+      "loss": {
+        "value": 0.63,
+        "tag": "ESTIMATED",
+        "source": "Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218: mean life change units per event, divided by 100 (death of a spouse).",
+        "estimatedFrom": "Death of a close family member, 63; of a spouse, 100.",
+        "spread": [0.53, 1.0]
+      },
+      "law": {
+        "value": 0.63,
+        "tag": "ESTIMATED",
+        "source": "Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218: mean life change units per event, divided by 100 (death of a spouse).",
+        "estimatedFrom": "Jail term, 63; minor violation of the law, 11 (a conviction told here is the jail end).",
+        "spread": [0.29, 0.63]
+      },
+      "health": {
+        "value": 0.53,
+        "tag": "ESTIMATED",
+        "source": "Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218: mean life change units per event, divided by 100 (death of a spouse).",
+        "estimatedFrom": "Personal injury or illness, 53; change in a family member's health, 44.",
+        "spread": [0.44, 0.53]
+      },
+      "partner": {
+        "value": 0.5,
+        "tag": "ESTIMATED",
+        "source": "Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218: mean life change units per event, divided by 100 (death of a spouse).",
+        "estimatedFrom": "Marriage, 50; marital reconciliation, 45; divorce, 73.",
+        "spread": [0.45, 0.73]
+      },
+      "work": {
+        "value": 0.47,
+        "tag": "ESTIMATED",
+        "source": "Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218: mean life change units per event, divided by 100 (death of a spouse).",
+        "estimatedFrom": "Fired at work, 47; change to a different line of work, 36.",
+        "spread": [0.36, 0.47]
+      },
+      "child": {
+        "value": 0.39,
+        "tag": "ESTIMATED",
+        "source": "Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218: mean life change units per event, divided by 100 (death of a spouse).",
+        "estimatedFrom": "Gain of a new family member, 39; pregnancy, 40.",
+        "spread": [0.39, 0.4]
+      },
+      "business": {
+        "value": 0.39,
+        "tag": "ESTIMATED",
+        "source": "Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218: mean life change units per event, divided by 100 (death of a spouse).",
+        "estimatedFrom": "Business readjustment, 39.",
+        "spread": [0.39, 0.39]
+      },
+      "politics": {
+        "value": 0.28,
+        "tag": "ESTIMATED",
+        "source": "Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218: mean life change units per event, divided by 100 (death of a spouse).",
+        "estimatedFrom": "Outstanding personal achievement, 28 (a race won or lost, an office taken).",
+        "spread": [0.28, 0.28]
+      },
+      "home": {
+        "value": 0.2,
+        "tag": "ESTIMATED",
+        "source": "Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218: mean life change units per event, divided by 100 (death of a spouse).",
+        "estimatedFrom": "Change in residence, 20; mortgage over a year's pay, 31.",
+        "spread": [0.2, 0.31]
+      },
+      "move": {
+        "value": 0.2,
+        "tag": "ESTIMATED",
+        "source": "Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218: mean life change units per event, divided by 100 (death of a spouse).",
+        "estimatedFrom": "Change in residence, 20.",
+        "spread": [0.2, 0.2]
+      },
+      "school": {
+        "value": 0.2,
+        "tag": "ESTIMATED",
+        "source": "Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218: mean life change units per event, divided by 100 (death of a spouse).",
+        "estimatedFrom": "Change in schools, 20; begin or end school, 26.",
+        "spread": [0.2, 0.26]
+      }
+    }
+  }
 }
