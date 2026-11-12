@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: R1 (Fable A's builder)
-pr: 8889
+pr: #8889
 after:
 blocked-on:
 lead: speed
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-12T17:23:44.955Z
 ---
 
 **What.** With the worker heap raised (item tests-world-tests-outgrow-worker-heap, no NODE_OPTIONS, 5168 MB printed in the worker), src/core2/drives-filled-in-job-loss.test.ts no longer runs out of memory but fails its first assertion on Steamboat Springs, Colorado (0873825), world seed 2fed679e253cf36aec36b937cf2d408b729b11e382abb5ea7600a670f788f4d7: 'no filled-in worker lost a counted job: expected false to be true' (line 63). Split off from that item as its Fix asks. The test checks that a filled-in person who loses a counted job feels it in their drives. Guards: the drives on a person's card and in their talks after a layoff, which the player reads.
