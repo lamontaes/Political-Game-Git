@@ -38,6 +38,8 @@ export interface WireItem {
   readonly subjectIds: readonly string[];
   /** Serving officials the record names who are not full people (a president's term), for renown. */
   readonly officialIds?: readonly string[];
+  /** How many people saw the record happen (its witnesses), where any did. */
+  readonly witnessCount?: number;
 }
 
 const LEVELS: Readonly<Record<string, WireLevel>> = {
@@ -165,6 +167,9 @@ export function wireItem(
     level,
     subjectIds: people,
     ...(officialIds.length ? { officialIds } : {}),
+    ...(event.witnessIds?.length
+      ? { witnessCount: event.witnessIds.length }
+      : {}),
     facts: { ...facts },
   };
   switch (event.kind) {

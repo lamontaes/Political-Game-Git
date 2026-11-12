@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-tests-staff-work-no-office-witness
 pr: #8419
@@ -19,6 +19,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-11-11T01:14:14.602Z
 checked: fable 2026-11-10
 branch: claude/pool-tests-staff-work-no-office-witness
+merged-at: 2026-11-12T08:09:55.977Z
 ---
 
 **What.** At seed196612b7b9cc3d9b7c955d1fdc5446b2, src/core2/staff.test.ts exhausts its bounded draws with no office could hire: KY2135362, OH3984308, OR4181300, NH3369940, WY5640120, IA1937200 and NJ3430420. The exact assertion and places reproduce on clean main d3b95c2b3e3ccf419c4fc19bdb08225b336af67a and on the timeout-only PR5837. Diagnose which seat, candidate or post-hire-work gate rejects each draw; this is not a timeout failure.
