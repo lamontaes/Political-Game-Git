@@ -6095,7 +6095,7 @@
     {
       "key": "person-history.story.moved.within.third",
       "move": "story",
-      "text": "{who} moved to {place} in {year}.",
+      "text": "{who} moved to a new home in {place} in {year}.",
       "origin": "authored",
       "author": "Words builder W2 (life records lines, Nov 12)",
       "date": "2026-11-12",
@@ -6104,7 +6104,7 @@
     {
       "key": "person-history.story.moved.within.they",
       "move": "story",
-      "text": "They moved to {place} in {year}.",
+      "text": "They moved to a new home in {place} in {year}.",
       "origin": "authored",
       "author": "Words builder W2 (life records lines, Nov 12)",
       "date": "2026-11-12",
@@ -6113,7 +6113,61 @@
     {
       "key": "person-history.story.moved.within.i",
       "move": "story",
-      "text": "I moved to {place} in {year}.",
+      "text": "I moved to a new home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.third.w2",
+      "move": "story",
+      "text": "{who} moved to another home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.they.w2",
+      "move": "story",
+      "text": "They moved to another home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.i.w2",
+      "move": "story",
+      "text": "I moved to another home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.third.w3",
+      "move": "story",
+      "text": "{who} changed homes within {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.they.w3",
+      "move": "story",
+      "text": "They changed homes within {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.i.w3",
+      "move": "story",
+      "text": "I changed homes within {place} in {year}.",
       "origin": "authored",
       "author": "Words builder W2 (life records lines, Nov 12)",
       "date": "2026-11-12",
