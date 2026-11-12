@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-laws-voucher-group-count-is-a-weight
 pr: #8543
@@ -18,6 +18,7 @@ effort: low
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T03:48:39.785Z
+merged-at: 2026-11-12T18:51:03.371Z
 ---
 
 **What.** The school voucher law's applied records for counted groups put a weight in the `count` field, which every reader takes as the number of people the group stands for (`src/core2/law-reach/group-b-money.ts (line 1521)`, found by the health-schools helper, Oct 25). In the health-schools year run in Uehling, Nebraska (seed 5e27b0c4196fd3a8) the voucher's group records say 310,500 people, where the same town's SNAP group record says 16. The matrix's reach cells and anything that sums people under a law then overstate the voucher's reach by orders of magnitude. Seen: the reach count on the voucher bill card (310,500 people where it should say how many).

@@ -11,6 +11,7 @@ import { selectBenchPlace } from "./place-selection.mjs";
 import { gameStartDate } from "../core2/game-start";
 import { buildBenchWorld, type BenchWorld } from "./world";
 import { BenchPlayer, ownPick } from "./player";
+import { leaveHoldsToCharacter } from "./office";
 import { judgeJumpEnd } from "./jump-end-check";
 import type { IsoDate } from "../core2/kernel/brands";
 import { benchProgress } from "./progress";
@@ -113,6 +114,9 @@ const specs: Record<string, () => string> = {
         packet.kind === "stop",
         `A week opened a choice list at ${packet.at.date}.`,
       );
+      // A meeting or the desk holds the clock until it is answered: the
+      // check leaves it to the character, its act kept as their own choice.
+      leaveHoldsToCharacter(w.core, packet.controlledPersonId);
       const next = player.resume({ kind: "stop", pauseId: packet.pauseId });
       for (const row of next.selfChosen) own(row);
       result = { ...result, ...next };
@@ -176,17 +180,25 @@ const specs: Record<string, () => string> = {
       // A fresh clock starts the day after the opening.
       from = addDays(makeIsoDate(OPENING_DATE), 1 + offset);
     let result = player.advance("calendar", from);
-    while (result.packet.kind !== "complete")
+    for (let guard = 0; result.packet.kind !== "complete"; guard++) {
+      check(guard < 5000, `The clock never reached ${from}.`);
+      const packet = result.packet;
+      // A meeting or the desk holds the clock until it is answered (a
+      // character on a small board is held at its meeting): the check leaves
+      // it to the character, as M0-02 does.
+      if (packet.kind === "stop")
+        leaveHoldsToCharacter(w.core, packet.controlledPersonId);
       result = {
         ...result,
-        ...(result.packet.kind === "choice"
+        ...(packet.kind === "choice"
           ? player.resume({
               kind: "choice",
-              pauseId: result.packet.pauseId,
-              offerId: ownPick(result.packet)!.offerId,
+              pauseId: packet.pauseId,
+              offerId: ownPick(packet)!.offerId,
             })
-          : player.resume({ kind: "stop", pauseId: result.packet.pauseId })),
+          : player.resume({ kind: "stop", pauseId: packet.pauseId })),
       };
+    }
     const at = result.packet.at;
     // Check-size lookahead (engineering): a month of the character's days.
     const lookahead = 30;

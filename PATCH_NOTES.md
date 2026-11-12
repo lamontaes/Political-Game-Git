@@ -296,6 +296,40 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.107.0
+
+_Released November 12, 2026._
+
+### Fixed
+
+- **Relatives hear on the day when a household they list as family is evicted.**
+  When a household in the wider population is evicted, the people you know who
+  list one of its members as family now learn of it on the day, as they do when
+  one of those relatives dies.
+
+- **A town no longer stops when a retired couple parts.** When a couple in town
+  parted and the one who moved out drew a pension or Social Security, the game
+  stopped on the next payday. The payment now follows them to their new home,
+  the same amount as before.
+
+- **A new income tax passed where there was none now collects** When a
+  legislature passed a first income tax in a place that had none, the new tax
+  withheld nothing from paychecks. It now withholds at the rate the bill sets.
+
+- **The first evening's talk at home goes on after you answer.** Once your
+  relative answers you on the President's address, they go on to where they
+  stand, with new replies to choose, instead of saying goodnight.
+
+### Changed
+
+- **Other states' budgets follow their own economies and tax laws** Every other
+  state's budget after the first year now comes from what that state's
+  governments actually collected and adopted in the simulated economy. A state
+  that raises or cuts its income or sales tax shows the change in its next
+  budget, and its spending follows the budget it adopted. Lines the economy does
+  not track yet, such as property taxes and fees, stay at their published values
+  and are marked as estimates.
+
 ## PRE-ALPHA 0.106.0
 
 _Released November 12, 2026._

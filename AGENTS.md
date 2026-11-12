@@ -105,6 +105,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `current-pointers`: the master file that says what is current, and keeping every pointer on a path that exists
 - `dev-tester`: proving laws, bodies and drifting worlds with scripts/dev-tests, and its traps
 - `drawn-place-tests`: a test that needs a case in the world finds one by drawing and waiting, and names what it passed over
+- `gap-trace`: tracing a problem seen in play to its cause, its fix and its ruling, and the gap sheet row
 - `generated-file-merges`: merging main when the conflict is in a file a command writes, or a rules or bank file keyed by id
 - `governing-measurement`: path-check runners, the re-election totals and ablation, records per race or per person
 - `heavy-runs`: long, memory-heavy runs that survive memory, restarts and moved branches

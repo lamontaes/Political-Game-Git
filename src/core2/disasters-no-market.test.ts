@@ -107,27 +107,19 @@ function checkLedger(core: CoreState, where: string): void {
 
 /**
  * The first town by id, other than `besides`, where people of this world live
- * and keep a residents account but no builder is open and no outside market
- * is recorded: a town whose households would have nobody to pay.
+ * and keep a residents account: a town the player can move to, whose
+ * households must not be asked to pay for repairs in the opened town.
  */
-function townWithNoPayee(
-  core: CoreState,
-  besides: PlaceId,
-): PlaceId | undefined {
+function townToMoveTo(core: CoreState, besides: PlaceId): PlaceId | undefined {
   const towns = new Set<PlaceId>();
   for (const person of core.people.values())
     if (person.alive && person.placeId !== besides) towns.add(person.placeId);
   return [...towns]
     .sort((a, b) => a.localeCompare(b))
-    .find(
-      (town) =>
-        residentsAccountFor(core, town) !== undefined &&
-        openBuilders(core, town).length === 0 &&
-        !marketAt(core, town),
-    );
+    .find((town) => residentsAccountFor(core, town) !== undefined);
 }
 
-it(`plays a year through a disaster with no one to pay for repairs (${place.name}, seed ${seed})`, () => {
+it(`pays a disaster's repairs in the damaged town when the player has moved to another town (${place.name}, seed ${seed})`, () => {
   setBookkeeping(false);
   try {
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
@@ -149,8 +141,8 @@ it(`plays a year through a disaster with no one to pay for repairs (${place.name
     // of this world with nobody to pay, through the writer the moves engine
     // uses when a household member leaves the others behind.
     const player = core.people.get(core.playerId!)!;
-    const town = townWithNoPayee(core, player.placeId);
-    expect(town, `${where}: a town with nobody to pay`).toBeDefined();
+    const town = townToMoveTo(core, player.placeId);
+    expect(town, `${where}: a town to move to`).toBeDefined();
     const countyId = [...core.people.values()].find(
       (person) => person.placeId === town && person.countyId,
     )?.countyId;
@@ -167,8 +159,6 @@ it(`plays a year through a disaster with no one to pay for repairs (${place.name
       },
     });
     const at = `${where}: disaster ${disaster!.number} in ${town}`;
-    expect(openBuilders(core, town!).length, `${at} builders`).toBe(0);
-    expect(marketAt(core, town!), `${at} outside market`).toBe(false);
     // The declaration day: the repairs find nobody to pay, and the day ends.
     advanceCore(core, declared);
     expect(core.people.get(player.id)!.placeId, at).toBe(town);
@@ -180,9 +170,23 @@ it(`plays a year through a disaster with no one to pay for repairs (${place.name
     const repaired = disasterRepairsPaid(api).filter(
       (r) => r.disaster === disaster!.number,
     );
-    expect(repaired, `${at} repairs`).toEqual([]);
+    // The repairs are paid in the town the disaster damaged (the town whose
+    // FEMA row it is, the one the world opened in), whatever town the player
+    // lives in on the day: to that town's own open builders, and nothing is
+    // asked of the town the player moved to.
+    const opened = core.placeMetadata.housingTown as PlaceId;
+    const builders = openBuilders(core, opened).map((org) =>
+      api.accounts().main(org.id),
+    );
+    expect(
+      builders.length,
+      `${at}: the opened town's builders`,
+    ).toBeGreaterThan(0);
+    expect(repaired.length, `${at} repairs`).toBeGreaterThan(0);
+    for (const row of repaired)
+      expect(builders, `${at}: repair paid to ${row.to}`).toContain(row.to);
     console.log(
-      `${where}: disaster ${disaster!.number} (${record!.row.id}, ${record!.damagedHomes} damaged homes), declared ${declared} with the player in ${town}: builders 0, outside market false; repair payments ${repaired.length}; journal debit ${core.cashJournal.totals.grossDebitMinor} credit ${core.cashJournal.totals.grossCreditMinor} cents`,
+      `${where}: disaster ${disaster!.number} (${record!.row.id}, ${record!.damagedHomes} damaged homes), declared ${declared} with the player in ${town}: ${repaired.length} repair payments, all to the opened town ${opened}'s ${builders.length} builders; journal debit ${core.cashJournal.totals.grossDebitMinor} credit ${core.cashJournal.totals.grossCreditMinor} cents`,
     );
     checkLedger(core, where);
   } finally {

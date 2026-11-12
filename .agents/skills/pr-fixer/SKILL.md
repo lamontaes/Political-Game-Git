@@ -16,7 +16,7 @@ description: >
 
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Fix exactly the merger's SMART send-back inside its time box; if the send-back is not SMART, write the missing part into the PR body before working it. Before raising any owner question, do the full reading (`OWNER-DECISIONS.md`, `DECISION-REGISTER.md`, `prior-rulings/`, `LAW.md`, a `docs/` search) and end the question with the reading line. Research is allowed.
 
-Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: the play-first lane owns `src/bench`; the Words line owns director and English files; "sessions never message each other")
+The play-first lane owns `src/bench`; the Words line owns director and English files. Sessions may message each other (owner, Oct 29), but the record is the item's pull request: read the whole thread there first, and put what you fix and what you could not on it (owner, Nov 10; `docs/pool/START-A-BUILDER.md`). Rules, checks and skills merge first (owner, Nov 10), so a sent-back rule, check or skill PR is yours before any other.
 
 A sent-back PR is usually one small fix away from merging. Finish it on its own branch; never open a second PR for the same item.
 
@@ -32,7 +32,7 @@ A sent-back PR is usually one small fix away from merging. Finish it on its own 
 
 1. Claim the item with its branch: `npm run pool -- claim <id> --branch <X>`.
 2. Check out `X` and run `git merge origin/main` (plain merge). Resolve docs-only conflicts as the merger skill says. A code conflict is part of your fix.
-   An English bank conflict (`data/english/parts/scene-talk.json`, and `data/english/grade-reach.json`, which is generated) is yours to redo, not the merger's: take main's file, re-add your scene's pieces and slots by piece key (never merge by hand), rebuild `grade-reach.json` with `scripts/dialogue-batch/apply-grades.ts`, and run `tests/english-parts-banks.test.ts` before the push. Oct 28: #6685 and #6689 sat sent back on this, as did #6329 on Oct 27, after the `words-engine` line said to land on fresh main.
+   An English bank conflict (`data/english/parts/scene-talk.json` and the other part files) is not hand-merged: take main's file, re-add the PR's own pieces and slots by piece key, and run `tests/english-parts-banks.test.ts` before the push. Oct 28: #6685 and #6689 sat sent back on this, as did #6329 on Oct 27. Since Nov 10 only the Story session writes, changes or deletes lines under `data/english/parts/` (owner, "Split by role"): re-adding a PR's existing pieces by key is mechanical and allowed, but any new or reworded line, and any line a rule pulled (`data/english/pulled.json`), goes back to Story as a list on the pull request. The old generated `grade-reach.json` is gone; if a generated grade file conflicts, take main's and rerun the script that writes it (`scripts/dialogue-batch/apply-grades.ts`).
 3. Read the merger's whole comment and the diff. Fix exactly what was raised, inside the PR's own scope:
    - never loosen, skip or early-return a test;
    - never raise a timeout without a measured reason;
@@ -41,12 +41,13 @@ A sent-back PR is usually one small fix away from merging. Finish it on its own 
 5. Push with a plain push. Comment once on the PR: `Fixer: fixed <what>, at <sha>. Checks run here: <list>, all passed.` The merger compares that commit's time with its send-back.
 6. Set the item back to `in-pr` with the PR number.
 
+- **Find a PR's branch by its head sha, never by grepping the PR number in `git ls-remote`.** The number matches other branches by accident (on Nov 12, #8537 matched `claude/pool-laws-player-bill-reaches-the-floor`). Take the sha from the PR (`head.sha`) and run `git ls-remote origin 'refs/heads/*' | grep <sha>`, or use `head.ref` from the PR itself.
 - **After resolving a skill conflict, run the current-pointers guard (Nov 12, #8223).** The pull request's side of a skill can name paths main has since removed, and a merge keeps them: `npx vitest run tests/guards/current-pointers.test.ts` failed on #8223 for two paths named in skills that main had since deleted (a money script and a grading table), which clean main passed. Say "is no longer in the repository" without the path, or point at the current one, then lower the area's count in `tests/guards/current-pointers-baseline.json` (and `total`) to the new number; never raise it.
 - **A conflict resolved by hand in a stopgap family file or any JSON register can lose an entry without breaking the JSON (Laws and effects, Nov 9: `gov.json` and `labor.json` joins glued two entries and `SG-GOV-REACH-B-state-eitc-filing` vanished, so `stopgaps-register`, `realistic-not-real` and the unit and golden-path runs failed on #7818).** After the hand resolution, parse the file (`node -e "JSON.parse(require('fs').readFileSync('<file>','utf8'))"`), compare the id count with the two sides, and run `npx vitest run src/core2/stopgaps-register.test.ts` before pushing; a glued entry passes JSON parsing but loses an id.
 
 ## When you can't
 
-- If the fix needs the owner's or another area's call, or is bigger than the PR, comment why, set the item `open` with a one-line Notes entry, and move on.
+- If the fix needs the owner's or another area's call, or is bigger than the PR, comment why on the pull request, set the item `open` with a one-line Notes entry, and move on. A `Needs cause.` item (`.agents/rules/pool-item-standard.md`) is never worked here.
 - If the PR's work is already on main, say so with the main commits that carry each change, and leave it for the CTO to close.
 
 ## Fixer PRs into a PR branch
