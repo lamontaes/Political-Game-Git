@@ -142,6 +142,11 @@ export function fillTalk({ lines, replies }) {
  * Which of the smaller controls a conversation offers beside its replies: Say nothing
  * where silence is an answer, Leave only where leaving is a real choice.
  */
+/** Say nothing is offered only where there is something to answer: a talk with no replies left has no silence to keep (owner, Oct 27). */
+export function silenceOffered(choices) {
+  return choices.length > 0;
+}
+
 export function talkControls({ silent, leave }) {
   $("talk").classList.toggle("no-silent", !silent);
   $("talk").classList.toggle("no-leave", !leave);
