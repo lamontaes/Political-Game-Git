@@ -1093,15 +1093,27 @@
     "status": "open"
   },
   {
-    "id": "SG-WORDS-floor-speech-not-staged",
+    "id": "SG-WORDS-floor-speech-state-chambers",
     "kind": "missing-hook",
     "file": "src/director/local-speeches.ts",
     "line": 1,
-    "whatItFakes": "A member's floor speech on the measure before a town's body is composed through the one planner (composeFloorSpeech), but the floor-debate scene (legislature.ts recordFloorDebate, purpose-scene.ts) still says its talk lines and does not play the composed speech.",
-    "why": "The scene's talk lines are the talk builder's; staging the composed speech in the floor-debate scene is a seam between the two (words builder, Nov 12).",
+    "whatItFakes": "The floor-debate scene and the scene after a candidate's stump speech play the speech composed by the one planner (speechOfRecord) only for a town's, township's or county's body and race; a state or federal chamber's floor debate still opens on its talk line, and a state or federal candidate's speech is not played.",
+    "why": "composeFloorSpeech and composeCampaignSpeech read the town's seats (townSeats); a state legislator's or a congressional candidate's speech needs the officials engine's row as the governor's address reads it (words builder, Nov 12).",
     "addedBy": "Words builder (Opus), Nov 12",
     "addedAt": "2026-11-12",
-    "replacement": "The floor-debate scene plays composeFloorSpeech for the member who rose, and its own speech lines are deleted.",
+    "replacement": "composeFloorSpeech and composeCampaignSpeech read any chamber's members and any race's office through the officials engine, and the floor-debate talk lines that open the scene are deleted.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-player-speech-not-planned",
+    "kind": "missing-hook",
+    "file": "src/director/speech-builder.ts",
+    "line": 1,
+    "whatItFakes": "The player's own campaign speech is the stage builder's four picked parts, each said on its own, not planned by the one outline planner, and a player seated on a town body has no floor speech of their own.",
+    "why": "Wiring the stage choices into planSpeech is more than this pull request's hour (words builder, Nov 12); pool item words-player-speech-through-planner.",
+    "addedBy": "Words builder (Opus), Nov 12",
+    "addedAt": "2026-11-12",
+    "replacement": "Each stage offers the planner's points for the player's stands and /give composes the speech from the plan; the floor day offers the player composeFloorSpeech.",
     "status": "open"
   }
 ]

@@ -67,7 +67,8 @@
     "presiding": "whoever presides over the body, by the post's title and family name (said-as, addressed)",
     "condition-law": "a law of the speaker's jurisdiction that took effect in the past year, by its spoken name (the laws engine's row)",
     "condition-disaster": "a disaster declared for the place in the past year, by its kind (the disasters engine's declaration)",
-    "budget-year": "the fiscal year of the budget the speaker's government lives under (the budgets engine's row)"
+    "budget-year": "the fiscal year of the budget the speaker's government lives under (the budgets engine's row)",
+    "condition-law-reached": "the law-reach records show the law of condition-law has reached people here (law-reach host.ts reachedBy); said only as the sentence's tie, never as a figure"
   },
   "maxWords": 40,
   "mining": {
@@ -120189,266 +120190,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.budget-condition.polished-the-budget-spends-more-than-it-takes-in-condition-budget-short-budget-year",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "The {budget-year} budget spends more than it takes in, and closing that gap is part of tonight's work.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "budget-year"
-          ]
-        },
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "budget-year"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude (Words builder, local speeches)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-the-budget-spends-more-than-it-brings-in-condition-budget-short-budget-year",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "The {budget-year} budget spends more than it brings in, and we've got to close that gap.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "budget-year"
-          ]
-        },
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "budget-year"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude (Words builder, local speeches)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.budget-condition.polished-the-budget-takes-in-more-than-it-spends-condition-budget-ahead-budget-year",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "The {budget-year} budget takes in more than it spends, and I intend to keep it that way.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "budget-year"
-          ]
-        },
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "budget-year"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude (Words builder, local speeches)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-the-budget-brings-in-more-than-it-spends-condition-budget-ahead-budget-year",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "The {budget-year} budget brings in more than it spends, and I want to keep it that way.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "budget-year"
-          ]
-        },
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "budget-year"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude (Words builder, local speeches)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.budget-condition.polished-the-budget-comes-out-about-even-which-leaves-condition-budget-even-budget-year",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "The {budget-year} budget comes out about even, which leaves room to choose and none to waste.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-even",
-            "budget-year"
-          ]
-        },
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-even",
-            "budget-year"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude (Words builder, local speeches)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-the-budget-comes-out-about-even-so-every-condition-budget-even-budget-year",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "The {budget-year} budget comes out about even, so every new dollar has to come from somewhere.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-even",
-            "budget-year"
-          ]
-        },
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-even",
-            "budget-year"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude (Words builder, local speeches)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.year-condition.polished-this-past-year-took-effect-and-people-here-condition-law",
-      "move": "year-condition",
-      "kind": "spoken",
-      "text": "This past year, {condition-law} took effect, and people here are already living with it.",
-      "uses": [
-        {
-          "move": "year-condition",
-          "subject": "state-of-the-state",
-          "role": "year-condition",
-          "choice": "year-condition",
-          "requiresFacts": [
-            "condition-law"
-          ]
-        },
-        {
-          "move": "year-condition",
-          "subject": "town-address",
-          "role": "year-condition",
-          "choice": "year-condition",
-          "requiresFacts": [
-            "condition-law"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude (Words builder, local speeches)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.year-condition.plain-this-past-year-went-into-effect-and-folks-condition-law",
-      "move": "year-condition",
-      "kind": "spoken",
-      "text": "This past year, {condition-law} went into effect, and folks are already feeling it.",
-      "uses": [
-        {
-          "move": "year-condition",
-          "subject": "state-of-the-state",
-          "role": "year-condition",
-          "choice": "year-condition",
-          "requiresFacts": [
-            "condition-law"
-          ]
-        },
-        {
-          "move": "year-condition",
-          "subject": "town-address",
-          "role": "year-condition",
-          "choice": "year-condition",
-          "requiresFacts": [
-            "condition-law"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude (Words builder, local speeches)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.year-condition.polished-we-have-not-forgotten-this-past-year-s-condition-disaster",
       "move": "year-condition",
       "kind": "spoken",
@@ -120501,6 +120242,962 @@
           "choice": "year-condition",
           "requiresFacts": [
             "condition-disaster"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-takes-in-more-than-it-spends-condition-budget-ahead-condition-budget-steady-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "The {budget-year} budget takes in more than it spends, and I intend to keep it that way.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-steady",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-state-of-the-state-the-state-s-books-for-show-more-coming-condition-budget-ahead-condition-budget-steady-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "The state's books for {budget-year} show more coming in than going out, and I'd like to keep them that way.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-steady",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-runs-further-ahead-than-the-year-condition-budget-ahead-condition-budget-better-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "The {budget-year} budget runs further ahead than the year before, and that money belongs to the taxpayers who sent it.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-better",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-state-of-the-state-we-closed-out-further-ahead-than-the-year-condition-budget-ahead-condition-budget-better-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We closed out {budget-year} further ahead than the year before, and that money is the taxpayers', not ours.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-better",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-is-still-in-the-black-but-condition-budget-ahead-condition-budget-worse-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "The {budget-year} budget is still in the black, but by less than the year before, so we will spend with care.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-worse",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-state-of-the-state-we-re-still-ahead-in-just-not-by-condition-budget-ahead-condition-budget-worse-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We're still ahead in {budget-year}, just not by as much as last year, so we watch every dollar.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-worse",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-spends-more-than-it-takes-in-condition-budget-short-condition-budget-steady-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "The {budget-year} budget spends more than it takes in, and closing that gap is part of tonight's work.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-steady",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-state-of-the-state-the-state-is-spending-more-in-than-it-condition-budget-short-condition-budget-steady-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "The state is spending more in {budget-year} than it brings in, and we've got to close that gap.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-steady",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-still-spends-more-than-it-takes-condition-budget-short-condition-budget-better-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "The {budget-year} budget still spends more than it takes in, though the gap is narrower than the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-better",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-state-of-the-state-we-re-still-short-in-but-the-gap-condition-budget-short-condition-budget-better-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We're still short in {budget-year}, but the gap's smaller than last year, and we're going to finish closing it.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-better",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-falls-further-short-than-the-year-condition-budget-short-condition-budget-worse-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "The {budget-year} budget falls further short than the year before, and we cannot keep borrowing against tomorrow.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-worse",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-state-of-the-state-the-hole-in-the-budget-is-deeper-than-condition-budget-short-condition-budget-worse-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "The hole in the {budget-year} budget is deeper than last year's, and we've got to stop digging.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-worse",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-comes-out-about-even-which-leaves-condition-budget-even-condition-budget-steady-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "The {budget-year} budget comes out about even, which leaves room to choose and none to waste.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-even",
+            "condition-budget-steady",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-state-of-the-state-the-budget-comes-out-about-even-so-every-condition-budget-even-condition-budget-steady-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "The {budget-year} budget comes out about even, so every new dollar has to come from somewhere.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-even",
+            "condition-budget-steady",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-comes-out-about-even-a-better-condition-budget-even-condition-budget-better-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "The {budget-year} budget comes out about even, a better place than the state stood the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-even",
+            "condition-budget-better",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-state-of-the-state-we-came-out-about-even-in-and-that-condition-budget-even-condition-budget-better-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We came out about even in {budget-year}, and that beats where the state stood last year.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-even",
+            "condition-budget-better",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-comes-out-about-even-with-less-condition-budget-even-condition-budget-worse-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "The {budget-year} budget comes out about even, with less room than the state had the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-even",
+            "condition-budget-worse",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-state-of-the-state-we-re-about-even-in-with-less-cushion-condition-budget-even-condition-budget-worse-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We're about even in {budget-year}, with less cushion than the state had last year.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-even",
+            "condition-budget-worse",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-town-address-for-we-are-taking-in-more-than-we-condition-budget-ahead-condition-budget-steady-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "For {budget-year}, we are taking in more than we spend here, and I mean to keep it so.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-steady",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-town-address-our-books-have-more-coming-in-than-going-condition-budget-ahead-condition-budget-steady-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "Our {budget-year} books have more coming in than going out, and I'd like to keep it that way.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-steady",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-town-address-we-finished-further-ahead-than-the-year-before-condition-budget-ahead-condition-budget-better-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We finished {budget-year} further ahead than the year before, and every dollar of it came from our neighbors.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-better",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-town-address-our-books-came-out-better-than-last-year-condition-budget-ahead-condition-budget-better-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "Our {budget-year} books came out better than last year's, and that's our neighbors' money, not mine.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-better",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-town-address-we-are-still-ahead-for-though-by-less-condition-budget-ahead-condition-budget-worse-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We are still ahead for {budget-year}, though by less than the year before, so every request gets a hard look.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-worse",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-town-address-we-re-ahead-for-but-not-by-as-condition-budget-ahead-condition-budget-worse-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We're ahead for {budget-year}, but not by as much as last year, so I'm watching every dollar.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-worse",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-town-address-for-we-are-spending-more-than-we-take-condition-budget-short-condition-budget-steady-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "For {budget-year}, we are spending more than we take in, and I won't hand that bill to whoever sits here next.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-steady",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-town-address-we-re-spending-more-than-we-bring-in-condition-budget-short-condition-budget-steady-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We're spending more than we bring in for {budget-year}, and that has to stop on our watch.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-steady",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-town-address-we-are-still-short-for-but-by-less-condition-budget-short-condition-budget-better-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We are still short for {budget-year}, but by less than the year before, and I intend to finish the job.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-better",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-town-address-we-re-still-short-for-but-we-ve-condition-budget-short-condition-budget-better-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We're still short for {budget-year}, but we've cut the gap from last year, and we're not done.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-better",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-town-address-our-gap-is-wider-than-the-year-before-condition-budget-short-condition-budget-worse-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "Our {budget-year} gap is wider than the year before, and we cannot keep paying today's bills with tomorrow's money.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-worse",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-town-address-we-fell-further-behind-in-than-last-year-condition-budget-short-condition-budget-worse-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We fell further behind in {budget-year} than last year, and we can't keep putting it on a tab.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-worse",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-town-address-our-books-come-out-about-even-so-whatever-condition-budget-even-condition-budget-steady-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "Our {budget-year} books come out about even, so whatever we add, we pay for.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-even",
+            "condition-budget-steady",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-town-address-we-re-about-breaking-even-for-so-anything-condition-budget-even-condition-budget-steady-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We're about breaking even for {budget-year}, so anything new has to be paid for.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-even",
+            "condition-budget-steady",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-town-address-our-books-come-out-about-even-which-is-condition-budget-even-condition-budget-better-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "Our {budget-year} books come out about even, which is better than where we stood the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-even",
+            "condition-budget-better",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-town-address-we-re-about-even-for-and-that-s-condition-budget-even-condition-budget-better-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We're about even for {budget-year}, and that's a step up from last year.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-even",
+            "condition-budget-better",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-town-address-our-books-come-out-about-even-with-less-condition-budget-even-condition-budget-worse-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "Our {budget-year} books come out about even, with less to spare than the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-even",
+            "condition-budget-worse",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-town-address-we-re-about-even-for-but-with-less-condition-budget-even-condition-budget-worse-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We're about even for {budget-year}, but with less to spare than last year.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-even",
+            "condition-budget-worse",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.year-condition.polished-state-of-the-state-this-past-year-took-effect-and-it-already-condition-law-condition-law-reached",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "This past year, {condition-law} took effect, and it already reaches people across the state.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": [
+            "condition-law",
+            "condition-law-reached"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.year-condition.plain-state-of-the-state-this-past-year-took-effect-and-it-s-condition-law-condition-law-reached",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "This past year, {condition-law} took effect, and it's already reaching folks all over the state.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": [
+            "condition-law",
+            "condition-law-reached"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.year-condition.polished-town-address-this-past-year-took-effect-here-and-it-condition-law-condition-law-reached",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "This past year, {condition-law} took effect here, and it already reaches our neighbors.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": [
+            "condition-law",
+            "condition-law-reached"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.year-condition.plain-town-address-this-past-year-took-effect-here-and-it-condition-law-condition-law-reached",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "This past year, {condition-law} took effect here, and it's already reaching folks we know.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": [
+            "condition-law",
+            "condition-law-reached"
           ]
         }
       ],

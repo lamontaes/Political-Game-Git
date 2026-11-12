@@ -7,8 +7,15 @@
  * out the subject's words ("a clean electricity standard" is "the
  * standard"). The join says it (opening-story.ts composeBlocks); this script
  * only writes the field, from the head noun of `about` (the noun before its
- * first preposition) unless the table below gives a better one. Adds only;
- * run again and it changes nothing.
+ * first preposition) unless the table below gives a better one. A second
+ * name must still say what the thing is (the lead, Nov 12: "Together we can
+ * say no to the oversight." "Let us say no to the higher age."): one that is
+ * bare, a single word after its article or a head that names no thing of its
+ * own (`BARE_HEADS`: "the change", "the increase", "that right"), is the
+ * question's law name instead ("the bigger police budget", "the higher age
+ * to buy a handgun") where that name does not presume the law passed ("the
+ * law ending cash bail"), else its own name ("ending cash bail"). Adds only; run again and it
+ * changes nothing.
  *
  *   node --import tsx scripts/words/question-again-names.ts
  */
@@ -65,13 +72,25 @@ const OWN: Record<string, string> = {
   "statehood-for-dc": "statehood",
 };
 const LEAD = new Set(["a", "an", "the", "more", "any"]);
+/** Heads that name no thing of their own: a second name ending on one says nothing of what is meant. */
+const BARE_HEADS = new Set(
+  "change increase right question power program money benefit choice condition protection forgiveness rules limits ban cap tax fee plan standard requirement expansion shift raise deposit price permit checks law budget balance oversight commission apartments vouchers funding cuts tariffs talks partnership age rate sentences sharing lines payments ballots statehood rule".split(
+    " ",
+  ),
+);
+const ARTICLES = new Set(["a", "an", "the", "that", "those", "this", "these"]);
+/** A second name that says what the thing is: two words or more after its article, ending on a head that names a thing. */
+const saysWhat = (name: string): boolean => {
+  const words = name.split(" ").filter((word) => !ARTICLES.has(word));
+  return words.length > 1 && !BARE_HEADS.has(words.at(-1)!.toLowerCase());
+};
 const PREPOSITIONS = new Set(
   "on of for to in from against at with after before by between into over under when that who so instead without about as".split(
     " ",
   ),
 );
 const json = JSON.parse(readFileSync(FILE, "utf8")) as {
-  names: Record<string, { about: string; again?: string }>;
+  names: Record<string, { about: string; law?: string; again?: string }>;
 };
 let written = 0;
 for (const [question, row] of Object.entries(json.names)) {
@@ -83,7 +102,20 @@ for (const [question, row] of Object.entries(json.names)) {
     words = words.slice(1);
   const cut = words.findIndex((word) => PREPOSITIONS.has(word));
   if (cut > 0) words = words.slice(0, cut);
-  const again = own ?? `the ${words.at(-1)}`;
+  const short = own ?? `the ${words.at(-1)}`;
+  // A law's name that only says "the law ..." presumes it passed; an open
+  // question is then said by its own name.
+  const full = /ing$/.test(row.about.split(" ")[0]!)
+    ? row.about
+    : `the ${row.about
+        .split(" ")
+        .filter((word, at) => at > 0 || !LEAD.has(word.toLowerCase()))
+        .join(" ")}`;
+  const again = saysWhat(short)
+    ? short
+    : row.law && !row.law.startsWith("the law ")
+      ? row.law
+      : full;
   if (row.again === again) continue;
   row.again = again;
   written += 1;

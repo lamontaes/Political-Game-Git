@@ -11,9 +11,18 @@
  * `campaign-speech`). This file says only who speaks, about what, and to whom.
  */
 import { coreAPI } from "../core2/state";
+import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import { townSeats } from "../core2/modules/offices";
 import { billOf } from "../core2/modules/legislature";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+  type FilingRow,
+} from "../core2/modules/elections";
+import { SPEECH_HEARD } from "../core2/modules/speech";
+import type { LogRecord } from "../core2/types";
+import { statementSpeechPrefix } from "../core2/modules/campaigns";
 import { presidingOfficer } from "../core2/modules/leadership";
 import { candidatePlatform } from "../core2/campaign-stances";
 import { contestPositions } from "../core2/contest-positions";
@@ -26,6 +35,7 @@ import {
   type PlannedPoint,
 } from "./speech-outline";
 import { localSpeaker } from "./local-address";
+import { markWordsStopgap } from "./stopgaps";
 
 export interface LocalSpeech {
   readonly kind: "floor" | "campaign";
@@ -86,7 +96,6 @@ function spoken(
  * vote. Null when the bill is not before a town's body, its question has no
  * spoken name, or the member holds no view on it.
  */
-// stopgapId: SG-WORDS-floor-speech-not-staged
 export function composeFloorSpeech(
   core: CoreState,
   billId: string,
@@ -94,6 +103,7 @@ export function composeFloorSpeech(
 ): LocalSpeech | null {
   const api = coreAPI(core);
   const bill = billOf(api, billId);
+  if (!bill) return null;
   const office = officeOf(core, bill.bodyOfficeId);
   const member = townSeats(api).find(
     (row) =>
@@ -173,4 +183,97 @@ export function composeCampaignSpeech(
     },
   });
   return spoken(core, "campaign", candidateId, plan, plan.blocks);
+}
+
+/** A speech a scene plays in its speaker's own words, composed from its record. */
+export interface HeardSpeech {
+  readonly speakerId: PersonId;
+  readonly text: string;
+  readonly parts: readonly string[];
+  readonly sourceRecordIds: readonly string[];
+  /** The speech is the scene's opening line itself (a floor speech is what the member rose to say), so the scene's own opening is not said too. */
+  readonly opens: boolean;
+}
+
+/** The race a candidate is running in on this day: their latest filing still standing, and its contest. */
+function standingFiling(
+  core: CoreState,
+  personId: PersonId,
+): { filing: FilingRow; contest: ContestRow } | null {
+  if (!core.modules.has(ELECTIONS_MODULE_ID)) return null;
+  const state = coreAPI(core).moduleState(ELECTIONS_MODULE_ID);
+  const filing = (
+    state
+      .table("filings")
+      .query("byPerson", [personId]) as unknown as FilingRow[]
+  )
+    .filter((row) => row.status !== "withdrawn" && row.filedOn <= core.date)
+    .sort(
+      (a, b) => b.filedOn.localeCompare(a.filedOn) || a.id.localeCompare(b.id),
+    )[P.zero];
+  const contest = filing
+    ? (state.table("contests").get(filing.contestId) as unknown as
+        ContestRow | undefined)
+    : undefined;
+  return filing && contest ? { filing, contest } : null;
+}
+
+/**
+ * The speech a record's scene plays, composed by the one planner: the floor before the
+ * roll is the member's floor speech, for the one of its two speakers the
+ * scene cast (`castIds`); a candidate's speech the player heard
+ * (speech.heard) is their campaign speech for the race they are running in.
+ * Null where the record is neither or the planner has nothing to say (a
+ * state or federal chamber, a race above the town).
+ */
+export function speechOfRecord(
+  core: CoreState,
+  record: LogRecord,
+  castIds: readonly PersonId[],
+): HeardSpeech | null {
+  const facts = record.facts ?? {};
+  // A candidate's statements on the stump, not a remark at a meeting.
+  const campaignSpeech =
+    record.kind === SPEECH_HEARD &&
+    !!record.personIds[P.zero] &&
+    record.id.startsWith(
+      statementSpeechPrefix(record.personIds[P.zero], record.date),
+    );
+  const speech =
+    record.kind === "floor-debate"
+      ? (() => {
+          const speakerId = [facts.forId, facts.againstId].find((id) =>
+            castIds.includes(id as PersonId),
+          ) as PersonId | undefined;
+          return speakerId && facts.billId
+            ? composeFloorSpeech(core, String(facts.billId), speakerId)
+            : null;
+        })()
+      : campaignSpeech
+        ? (() => {
+            const speakerId = record.personIds[P.zero] as PersonId;
+            const race = standingFiling(core, speakerId);
+            return race
+              ? composeCampaignSpeech(
+                  core,
+                  speakerId,
+                  race.contest.officeId,
+                  race.filing.party ?? null,
+                )
+              : null;
+          })()
+        : null;
+  if (!speech) {
+    // stopgapId: SG-WORDS-floor-speech-state-chambers
+    if (record.kind === "floor-debate" || campaignSpeech)
+      markWordsStopgap("SG-WORDS-floor-speech-state-chambers");
+    return null;
+  }
+  return {
+    speakerId: speech.speakerId,
+    text: speech.sentences.map((row) => row.text).join(" "),
+    parts: speech.parts,
+    sourceRecordIds: [record.id],
+    opens: speech.kind === "floor",
+  };
 }

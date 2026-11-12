@@ -2437,66 +2437,300 @@ for (const add of LOCAL_PIECES) {
 // establishes context in a smooth way"; SG-WORDS-local-address-conditions):
 // the budget's balance, then a law that took effect in the past year or a
 // disaster declared for the place.
-const CONDITIONS: [string, string | string[], string, string[]][] = [
-  [
-    "budget-condition",
-    "polished",
-    "The {budget-year} budget spends more than it takes in, and closing that gap is part of tonight's work.",
-    ["condition-budget-short", "budget-year"],
-  ],
-  [
-    "budget-condition",
-    "plain",
-    "The {budget-year} budget spends more than it brings in, and we've got to close that gap.",
-    ["condition-budget-short", "budget-year"],
-  ],
+const CONDITIONS: [string, string | string[], string, string[], string[]][] = [
   [
     "budget-condition",
     "polished",
     "The {budget-year} budget takes in more than it spends, and I intend to keep it that way.",
-    ["condition-budget-ahead", "budget-year"],
+    ["condition-budget-ahead", "condition-budget-steady", "budget-year"],
+    ["state-of-the-state"],
   ],
   [
     "budget-condition",
     "plain",
-    "The {budget-year} budget brings in more than it spends, and I want to keep it that way.",
-    ["condition-budget-ahead", "budget-year"],
+    "The state's books for {budget-year} show more coming in than going out, and I'd like to keep them that way.",
+    ["condition-budget-ahead", "condition-budget-steady", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "The {budget-year} budget runs further ahead than the year before, and that money belongs to the taxpayers who sent it.",
+    ["condition-budget-ahead", "condition-budget-better", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "We closed out {budget-year} further ahead than the year before, and that money is the taxpayers', not ours.",
+    ["condition-budget-ahead", "condition-budget-better", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "The {budget-year} budget is still in the black, but by less than the year before, so we will spend with care.",
+    ["condition-budget-ahead", "condition-budget-worse", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "We're still ahead in {budget-year}, just not by as much as last year, so we watch every dollar.",
+    ["condition-budget-ahead", "condition-budget-worse", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "The {budget-year} budget spends more than it takes in, and closing that gap is part of tonight's work.",
+    ["condition-budget-short", "condition-budget-steady", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "The state is spending more in {budget-year} than it brings in, and we've got to close that gap.",
+    ["condition-budget-short", "condition-budget-steady", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "The {budget-year} budget still spends more than it takes in, though the gap is narrower than the year before.",
+    ["condition-budget-short", "condition-budget-better", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "We're still short in {budget-year}, but the gap's smaller than last year, and we're going to finish closing it.",
+    ["condition-budget-short", "condition-budget-better", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "The {budget-year} budget falls further short than the year before, and we cannot keep borrowing against tomorrow.",
+    ["condition-budget-short", "condition-budget-worse", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "The hole in the {budget-year} budget is deeper than last year's, and we've got to stop digging.",
+    ["condition-budget-short", "condition-budget-worse", "budget-year"],
+    ["state-of-the-state"],
   ],
   [
     "budget-condition",
     "polished",
     "The {budget-year} budget comes out about even, which leaves room to choose and none to waste.",
-    ["condition-budget-even", "budget-year"],
+    ["condition-budget-even", "condition-budget-steady", "budget-year"],
+    ["state-of-the-state"],
   ],
   [
     "budget-condition",
     "plain",
     "The {budget-year} budget comes out about even, so every new dollar has to come from somewhere.",
-    ["condition-budget-even", "budget-year"],
+    ["condition-budget-even", "condition-budget-steady", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "The {budget-year} budget comes out about even, a better place than the state stood the year before.",
+    ["condition-budget-even", "condition-budget-better", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "We came out about even in {budget-year}, and that beats where the state stood last year.",
+    ["condition-budget-even", "condition-budget-better", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "The {budget-year} budget comes out about even, with less room than the state had the year before.",
+    ["condition-budget-even", "condition-budget-worse", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "We're about even in {budget-year}, with less cushion than the state had last year.",
+    ["condition-budget-even", "condition-budget-worse", "budget-year"],
+    ["state-of-the-state"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "For {budget-year}, we are taking in more than we spend here, and I mean to keep it so.",
+    ["condition-budget-ahead", "condition-budget-steady", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "Our {budget-year} books have more coming in than going out, and I'd like to keep it that way.",
+    ["condition-budget-ahead", "condition-budget-steady", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "We finished {budget-year} further ahead than the year before, and every dollar of it came from our neighbors.",
+    ["condition-budget-ahead", "condition-budget-better", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "Our {budget-year} books came out better than last year's, and that's our neighbors' money, not mine.",
+    ["condition-budget-ahead", "condition-budget-better", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "We are still ahead for {budget-year}, though by less than the year before, so every request gets a hard look.",
+    ["condition-budget-ahead", "condition-budget-worse", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "We're ahead for {budget-year}, but not by as much as last year, so I'm watching every dollar.",
+    ["condition-budget-ahead", "condition-budget-worse", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "For {budget-year}, we are spending more than we take in, and I won't hand that bill to whoever sits here next.",
+    ["condition-budget-short", "condition-budget-steady", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "We're spending more than we bring in for {budget-year}, and that has to stop on our watch.",
+    ["condition-budget-short", "condition-budget-steady", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "We are still short for {budget-year}, but by less than the year before, and I intend to finish the job.",
+    ["condition-budget-short", "condition-budget-better", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "We're still short for {budget-year}, but we've cut the gap from last year, and we're not done.",
+    ["condition-budget-short", "condition-budget-better", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "Our {budget-year} gap is wider than the year before, and we cannot keep paying today's bills with tomorrow's money.",
+    ["condition-budget-short", "condition-budget-worse", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "We fell further behind in {budget-year} than last year, and we can't keep putting it on a tab.",
+    ["condition-budget-short", "condition-budget-worse", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "Our {budget-year} books come out about even, so whatever we add, we pay for.",
+    ["condition-budget-even", "condition-budget-steady", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "We're about breaking even for {budget-year}, so anything new has to be paid for.",
+    ["condition-budget-even", "condition-budget-steady", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "Our {budget-year} books come out about even, which is better than where we stood the year before.",
+    ["condition-budget-even", "condition-budget-better", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "We're about even for {budget-year}, and that's a step up from last year.",
+    ["condition-budget-even", "condition-budget-better", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "Our {budget-year} books come out about even, with less to spare than the year before.",
+    ["condition-budget-even", "condition-budget-worse", "budget-year"],
+    ["town-address"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "We're about even for {budget-year}, but with less to spare than last year.",
+    ["condition-budget-even", "condition-budget-worse", "budget-year"],
+    ["town-address"],
   ],
   [
     "year-condition",
     "polished",
-    "This past year, {condition-law} took effect, and people here are already living with it.",
-    ["condition-law"],
+    "This past year, {condition-law} took effect, and it already reaches people across the state.",
+    ["condition-law", "condition-law-reached"],
+    ["state-of-the-state"],
   ],
   [
     "year-condition",
     "plain",
-    "This past year, {condition-law} went into effect, and folks are already feeling it.",
-    ["condition-law"],
+    "This past year, {condition-law} took effect, and it's already reaching folks all over the state.",
+    ["condition-law", "condition-law-reached"],
+    ["state-of-the-state"],
+  ],
+  [
+    "year-condition",
+    "polished",
+    "This past year, {condition-law} took effect here, and it already reaches our neighbors.",
+    ["condition-law", "condition-law-reached"],
+    ["town-address"],
+  ],
+  [
+    "year-condition",
+    "plain",
+    "This past year, {condition-law} took effect here, and it's already reaching folks we know.",
+    ["condition-law", "condition-law-reached"],
+    ["town-address"],
   ],
   [
     "year-condition",
     "polished",
     "We have not forgotten this past year's {condition-disaster}, or the families it hit hardest.",
     ["condition-disaster"],
+    ["state-of-the-state", "town-address"],
   ],
   [
     "year-condition",
     "plain",
     "Nobody here has forgotten this past year's {condition-disaster}, or the families it hit.",
     ["condition-disaster"],
+    ["state-of-the-state", "town-address"],
   ],
 ];
 bank.slots["budget-year"] ??=
@@ -2505,28 +2739,38 @@ bank.slots["condition-law"] ??=
   "a law of the speaker's jurisdiction that took effect in the past year, by its spoken name (the laws engine's row)";
 bank.slots["condition-disaster"] ??=
   "a disaster declared for the place in the past year, by its kind (the disasters engine's declaration)";
-const conditionTexts = new Set(CONDITIONS.map((row) => row[2]));
+bank.slots["condition-law-reached"] ??=
+  "the law-reach records show the law of condition-law has reached people here (law-reach host.ts reachedBy); said only as the sentence's tie, never as a figure";
+const conditionKey = ([
+  role,
+  voice,
+  text,
+  needs,
+  kinds,
+]: (typeof CONDITIONS)[number]) =>
+  `opening-speech.${role}.${Array.isArray(voice) ? "both" : voice}-${kinds.length > 1 ? "" : `${kinds[0]}-`}${slug(text)}-${slug(needs.join(" "))}`;
+const conditionKeysWanted = new Set(CONDITIONS.map(conditionKey));
 bank.parts = bank.parts.filter((part) => {
   if (
     part.author !== LOCAL_AUTHOR ||
     !(hasRole(part, "budget-condition") || hasRole(part, "year-condition")) ||
-    conditionTexts.has(part.text)
+    conditionKeysWanted.has(part.key)
   )
     return true;
   count("30. a condition of this rule's gives way to its rewording");
   return false;
 });
 const conditionKeys = new Set(bank.parts.map((part) => part.key));
-for (const [role, voice, text, needs] of CONDITIONS) {
-  const voiceKey = Array.isArray(voice) ? "both" : voice;
-  const key = `opening-speech.${role}.${voiceKey}-${slug(text)}-${slug(needs.join(" "))}`;
+for (const row of CONDITIONS) {
+  const [role, voice, text, needs, kinds] = row;
+  const key = conditionKey(row);
   if (conditionKeys.has(key)) continue;
   bank.parts.push({
     key,
     move: role,
     kind: "spoken",
     text,
-    uses: ["state-of-the-state", "town-address"].map((subject) => ({
+    uses: kinds.map((subject) => ({
       move: role,
       subject,
       role,

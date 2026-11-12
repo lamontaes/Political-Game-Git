@@ -4471,7 +4471,15 @@ export function statementSpeechId(
   date: string,
   input: { readonly act: string; readonly venue: string },
 ): string {
-  return `speech:${candidateId}:${date}:${input.act}:${input.venue}`;
+  return `${statementSpeechPrefix(candidateId, date)}${input.act}:${input.venue}`;
+}
+
+/** What every speech a candidate's statements make on a day begins with: a scene tells a campaign speech from another speech by it. */
+export function statementSpeechPrefix(
+  candidateId: string,
+  date: string,
+): string {
+  return `speech:${candidateId}:${date}:`;
 }
 
 /** Where an ad is bought: an outlet and its followers (the press registers it). */

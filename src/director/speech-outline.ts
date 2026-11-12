@@ -35,6 +35,7 @@ import { ownStance } from "../core2/officials-roster";
 import { stanceReader } from "../core2/campaign-stances";
 import { PRESIDENT_FACT } from "../core2/officials-president";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import { reachedBy } from "../core2/law-reach/host";
 import {
   BUDGETS_MODULE_ID,
   budgetsOf,
@@ -71,6 +72,7 @@ import {
   questionLaw,
   questionReasons,
   questionTodayWordings,
+  questionPoint,
 } from "../english/question-names";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
 import { questionSubject } from "../english/policy-names";
@@ -155,7 +157,7 @@ const OUTLINES = outlineData as unknown as {
   subjectOfQuestion: Readonly<Record<string, string>>;
   subjectPull: Readonly<Record<string, readonly string[] | string>>;
   themeNames: Readonly<Record<string, string>>;
-  conditions: { budgetEvenBand: Weight };
+  conditions: { budgetEvenBand: Weight; budgetThemes: readonly string[] };
   pointShapes: {
     shapes: Readonly<
       Record<
@@ -958,6 +960,8 @@ function beliefWords(
   said: string[],
   thisSpeech: Set<string>,
   spokenBefore: string | null = null,
+  /** The points (question-names.json `points`) the belief must not make: the ones every wording of how the question stands makes. */
+  avoid: ReadonlySet<string> = new Set(),
 ): { text: string; piece: string } | null {
   const move = openingMove(kind, voice, "belief-words");
   if (!move) return null;
@@ -981,12 +985,15 @@ function beliefWords(
   );
   // A principle said already in this speech gives way to another, then to
   // the side's own reason: no frame or belief twice in one speech.
-  const fitting = move.bank.parts.core.variants.filter(
-    (variant) => allowed.has(variant.key) && !thisSpeech.has(variant.key),
-  );
-  // Of those, the ones that say least of what the speech already said.
   const textOf = (key: string) =>
     OPENING_SPEECH_BANK.parts.find((row) => row.key === key)?.text ?? "";
+  const fitting = move.bank.parts.core.variants.filter(
+    (variant) =>
+      allowed.has(variant.key) &&
+      !thisSpeech.has(variant.key) &&
+      !avoid.has(questionPoint(question, textOf(variant.key))),
+  );
+  // Of those, the ones that say least of what the speech already said.
   const apart = new Set(
     apartFrom(
       fitting.map((variant) => textOf(variant.key)),
@@ -994,9 +1001,10 @@ function beliefWords(
     ),
   );
   const variants = fitting.filter((variant) => apart.has(textOf(variant.key)));
-  const own = reason
-    ? { text: reason, piece: `reason:${question}:${side}` }
-    : null;
+  const own =
+    reason && !avoid.has(questionPoint(question, reason))
+      ? { text: reason, piece: `reason:${question}:${side}` }
+      : null;
   if (!variants.length) return own;
   const result = composeAddress(
     packet(
@@ -1305,25 +1313,39 @@ export function themeOf(
 /**
  * This year's conditions in the government a governor or a local head leads,
  * from the engines that keep them, each with its direction and no figure
- * (SG-WORDS-local-address-conditions):
+ * (SG-WORDS-local-address-conditions). A condition is said only where it
+ * bears on the speech's one theme or is the government's biggest fact this
+ * year (the lead, Nov 12: the same budget sentence said by a mayor, a county
+ * chair and the governor, and a law "folks are already feeling" that had
+ * nothing to do with the speech):
  *
  * - the budget's balance this fiscal year (budgets.ts: the latest budget of
  *   the speaker's government, what it takes in against what it spends), as
- *   ahead, about even or short, the band from speech-outlines.json
- *   `conditions`;
- * - a law of the speaker's jurisdiction that took effect in the past year
- *   (the laws engine's rows), by its spoken name;
+ *   ahead, about even or short, and against the year before as better,
+ *   worse or about the same (the band from speech-outlines.json
+ *   `conditions`). It is said when it is short (a deficit is the year's
+ *   biggest fact), when the theme is one of `budgetThemes`, or when a point
+ *   asks for a line of the budget;
+ * - a law of the speaker's jurisdiction that took effect in the past year,
+ *   by its spoken name, only when its question is under the theme and the
+ *   law-reach records show it has reached people here (`reachedBy`), which
+ *   the sentence cites;
  * - a disaster declared for the place in the past year (disasters.ts), for
  *   a local head only, or a statewide one for a governor.
  *
  * Jobs and a big employer's change are not read: no engine keeps a town's
  * or a state's own year-over-year jobs record the speech could cite.
  */
+/** How a line of the budget is keyed as a question (contest-positions.ts, law-reach). */
+const BUDGET_LINE = "budget-line:";
+
 function conditionFacts(
   core: CoreState,
   level: PolicyLevel,
   jurisdiction: string | null,
   local: OutlineSpeaker["local"],
+  theme: string | null,
+  pointQuestions: readonly string[],
 ): Facts {
   const api = coreAPI(core);
   const out: Facts = {};
@@ -1337,32 +1359,54 @@ function conditionFacts(
           )
         : undefined))
     : undefined;
-  const budget = government
+  const [budget, before] = government
     ? [...budgetsOf(api, government.id)]
         .filter((row) => row.startsOn <= core.date)
-        .sort((a, b) => b.fiscalYear - a.fiscalYear)[P.zero]
-    : undefined;
+        .sort((a, b) => b.fiscalYear - a.fiscalYear)
+    : [];
+  const sum = (rows: Readonly<Record<string, number>>) =>
+    Object.values(rows).reduce((total, minor) => total + minor, P.zero);
+  // What a budget takes in over what it spends, as a share of its spending.
+  const balanceOf = (row: NonNullable<typeof budget>) => {
+    const spent = sum(row.spendingMinor);
+    return spent > P.zero ? (sum(row.revenueMinor) - spent) / spent : P.zero;
+  };
   if (budget) {
-    const sum = (rows: Readonly<Record<string, number>>) =>
-      Object.values(rows).reduce((total, minor) => total + minor, P.zero);
-    const spent = sum(budget.spendingMinor);
-    const balance =
-      spent > P.zero ? (sum(budget.revenueMinor) - spent) / spent : P.zero;
-    out[
-      balance > band
-        ? "condition-budget-ahead"
-        : balance < -band
-          ? "condition-budget-short"
-          : "condition-budget-even"
-    ] = fact("yes", budget.id);
-    out["budget-year"] = fact(String(budget.fiscalYear), budget.id);
+    const balance = balanceOf(budget);
+    const bears =
+      balance < -band ||
+      (!!theme && OUTLINES.conditions.budgetThemes.includes(theme)) ||
+      pointQuestions.some((question) => question.startsWith(BUDGET_LINE));
+    if (bears) {
+      out[
+        balance > band
+          ? "condition-budget-ahead"
+          : balance < -band
+            ? "condition-budget-short"
+            : "condition-budget-even"
+      ] = fact("yes", budget.id);
+      // Against the year before, where the records keep it.
+      const change =
+        before && before.fiscalYear === budget.fiscalYear - P.one
+          ? balance - balanceOf(before)
+          : P.zero;
+      out[
+        change > band
+          ? "condition-budget-better"
+          : change < -band
+            ? "condition-budget-worse"
+            : "condition-budget-steady"
+      ] = before ? fact("yes", before.id) : fact("yes", budget.id);
+      out["budget-year"] = fact(String(budget.fiscalYear), budget.id);
+    }
   }
   const yearAgo = addDays(
     core.date as IsoDate,
     -Math.round(api.parameter("daysPerMeanYear")),
   );
+  // A law under the theme that took effect this past year and reached people.
   const enacted =
-    jurisdiction && core.modules.has(LAWS_MODULE_ID)
+    jurisdiction && theme && core.modules.has(LAWS_MODULE_ID)
       ? (
           api
             .moduleState(LAWS_MODULE_ID)
@@ -1375,16 +1419,33 @@ function conditionFacts(
               row.effectiveDate > yearAgo &&
               row.effectiveDate <= core.date &&
               row.value === P.one &&
-              !!questionLaw(row.series),
+              !!questionLaw(row.series) &&
+              themeOfQuestion(row.series) === theme,
           )
           .sort(
             (a, b) =>
               b.effectiveDate.localeCompare(a.effectiveDate) ||
               a.series.localeCompare(b.series),
-          )[P.zero]
+          )
+          .map((row) => ({
+            row,
+            reached: reachedBy(api, row.series, row.id),
+          }))
+          .find((law) => law.reached.length > P.zero)
       : undefined;
-  if (enacted)
-    out["condition-law"] = fact(questionLaw(enacted.series)!, enacted.id);
+  if (enacted) {
+    out["condition-law"] = fact(
+      questionLaw(enacted.row.series)!,
+      enacted.row.id,
+    );
+    out["condition-law-reached"] = {
+      text: "yes",
+      sourceRecordIds: [
+        enacted.row.id,
+        ...enacted.reached.map((row) => row.personId),
+      ],
+    };
+  }
   const disaster = core.modules.has(DISASTERS_MODULE_ID)
     ? townDisasters(api)
         .filter(
@@ -1668,25 +1729,52 @@ export function planSpeech(
   const planned: PlannedPoint[] = pointStands.map((stand, at) => {
     const side = stand.stance > P.zero ? "for" : "against";
     const family = questionFamily(stand.question);
-    const belief = family
-      ? beliefWords(
-          core,
-          person.id,
-          kind,
-          voice,
-          family.family,
-          side === "for" ? family.forPole : family.forPole === "a" ? "b" : "a",
-          stand.question,
-          side,
-          beliefsSaid,
-          beliefsHere,
-          spoken.join(" ") || null,
-        )
-      : null;
-    // How it stands, in the wordings that say least of what the belief
-    // beside it and the points before it already said.
+    const believe = (avoid: ReadonlySet<string>) =>
+      family
+        ? beliefWords(
+            core,
+            person.id,
+            kind,
+            voice,
+            family.family,
+            side === "for"
+              ? family.forPole
+              : family.forPole === "a"
+                ? "b"
+                : "a",
+            stand.question,
+            side,
+            beliefsSaid,
+            beliefsHere,
+            spoken.join(" ") || null,
+            avoid,
+          )
+        : null;
+    // What a wording claims (question-names.json `points`): a paragraph
+    // never makes one point twice (the lead, Nov 12: "a complaint goes up
+    // the chain of command, to people who know the work. Because I believe
+    // an officer should be judged by people who have done the job").
+    const pointOf = (text: string) => questionPoint(stand.question, text);
+    const wordings = questionTodayWordings(
+      stand.question,
+      stand.law.inForce,
+      side,
+    );
+    let belief = believe(new Set());
+    // Where every wording of how it stands makes the belief's own point,
+    // the belief gives way to one that makes another.
+    if (
+      belief &&
+      wordings.length &&
+      wordings.every((text) => pointOf(text) === pointOf(belief!.text))
+    )
+      belief = believe(new Set(wordings.map(pointOf)));
+    // How it stands, in the wordings that make another point than the
+    // belief and say least of what it and the points before it said.
     const todays = apartFrom(
-      questionTodayWordings(stand.question, stand.law.inForce, side),
+      wordings.filter(
+        (text) => !belief || pointOf(text) !== pointOf(belief.text),
+      ),
       [belief?.text, ...spoken].filter(Boolean).join(" ") || null,
     );
     spoken.push(
@@ -1740,7 +1828,14 @@ export function planSpeech(
               : {}),
             ...(federal
               ? {}
-              : conditionFacts(core, level, speaker.jurisdiction, local)),
+              : conditionFacts(
+                  core,
+                  level,
+                  speaker.jurisdiction,
+                  local,
+                  theme,
+                  pointStands.map((stand) => stand.question),
+                )),
           },
           moves: [
             move("occasion"),

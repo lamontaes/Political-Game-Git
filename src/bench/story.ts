@@ -158,8 +158,9 @@ export function storyScene(
       (id) =>
         id !== personId &&
         core.people.get(id)?.alive &&
-        // A speech heard is on the screen at home, not in the room.
-        id !== scene.speech?.speakerId,
+        // An address heard is on the screen at home, not in the room; a
+        // floor or stump speech is given by someone standing in it.
+        (id !== scene.speech?.speakerId || scene.speech.inRoom),
     ),
   ].map((id) => {
     const row = core.people.get(id)!;
@@ -180,9 +181,11 @@ export function storyScene(
           typeKey: purpose.scene.unit ?? purpose.scene.typeKey,
           purpose: purpose.scene.purpose,
           askerId: purpose.scene.askerId,
+          // A floor speech the scene plays is the speaker's opening line,
+          // so the exchange after it opens on the player's reply.
           opening: [
             ...(purpose.scene.talk.open ? [purpose.scene.talk.open] : []),
-            purpose.scene.talk.state,
+            ...(scene.speech?.opens ? [] : [purpose.scene.talk.state]),
           ].map(shownLine),
           tree: shownNode(purpose.scene.talk.tree),
           // Why it is happening: the record that fired it and every fact said.
@@ -229,7 +232,7 @@ export function storyScene(
     ...(scene.speech ? { speech: scene.speech } : {}),
     // The address plays as a montage: one picture and cast per part (owner,
     // Oct 29 02:35).
-    ...(scene.speech
+    ...(scene.speech?.montage
       ? {
           beats: addressMontage(
             core,

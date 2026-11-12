@@ -15,6 +15,7 @@
  * Every number and word list is in data/english/composed-checks.json.
  */
 import data from "../../data/english/composed-checks.json" with { type: "json" };
+import questionNames from "../../data/english/question-names.json" with { type: "json" };
 import {
   linesOf,
   plainSentence,
@@ -662,6 +663,52 @@ export const subjectBudget: ComposedCheck = (text, sample) => {
     );
 };
 
+// ---- point-made-once ----
+
+/** A wording as it is found inside a sentence: lower case, plain quotes, no closing period. */
+const asFound = (text: string): string =>
+  plainQuotes(text)
+    .toLocaleLowerCase("en-US")
+    .replace(/[.!?]+$/, "")
+    .trim();
+
+/** Every group of wordings that make one claim (question-names.json `points`), by question and tag. */
+const POINT_GROUPS: readonly { tag: string; texts: readonly string[] }[] =
+  Object.entries(
+    questionNames.names as Record<
+      string,
+      { points?: Readonly<Record<string, readonly string[]>> }
+    >,
+  ).flatMap(([question, row]) =>
+    Object.entries(row.points ?? {}).map(([tag, texts]) => ({
+      tag: `${question}#${tag}`,
+      texts: [...new Set(texts.map(asFound))],
+    })),
+  );
+
+/** One paragraph of a speech that makes one point twice: two wordings of one `points` group (the lead, Nov 12: "to people who know the work. Because I believe an officer should be judged by people who have done the job"). */
+export const pointMadeOnce: ComposedCheck = (text) => {
+  if (!SPEECH_KINDS.includes(text.kind)) return [];
+  const found: ComposedBreak[] = [];
+  screenTexts(text).forEach((screen, at) => {
+    const said = asFound(screen);
+    for (const group of POINT_GROUPS) {
+      const twice = group.texts.filter((wording) => said.includes(wording));
+      if (twice.length > one)
+        found.push(
+          breakOf(
+            "point-made-once",
+            text,
+            at,
+            `makes one point twice (${group.tag.split("#")[one]})`,
+            twice.join(" / "),
+          ),
+        );
+    }
+  });
+  return found;
+};
+
 // ---- note-stands-alone ----
 
 const LEANING = data.leaningOpeners.map((source) => new RegExp(source, "i"));
@@ -709,6 +756,7 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "speech-names-no-stray-place": speechNamesNoStrayPlace,
   "ask-said-once": askSaidOnce,
   "subject-budget": subjectBudget,
+  "point-made-once": pointMadeOnce,
   "note-stands-alone": noteStandsAlone,
 };
 

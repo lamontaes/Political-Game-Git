@@ -406,12 +406,13 @@
     "trade": "trade and the jobs it brings"
   },
   "conditions": {
-    "about": "This year's conditions a governor or a local head tells in the opening (speech-outline.ts conditionFacts): the budget's balance is said as ahead or short only past this share of what the budget spends; inside it, about even.",
+    "about": "This year's conditions a governor or a local head tells in the opening (speech-outline.ts conditionFacts): the budget's balance is said as ahead or short only past this share of what the budget spends, and as better or worse than the year before only past the same share; inside it, about even or about the same. The balance is said only when it is short, when the speech's theme is one of `budgetThemes`, or when a point asks for a line of the budget.",
     "budgetEvenBand": {
       "value": 0.01,
       "tag": "TUNABLE",
       "spread": "0.005 to 0.03",
       "note": "A gap under one percent of spending is what a budget officer calls balanced; checked by reading the composed addresses."
-    }
+    },
+    "budgetThemes": ["budget", "taxes"]
   }
 }

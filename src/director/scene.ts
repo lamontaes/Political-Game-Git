@@ -1,4 +1,5 @@
 import { ADDRESS_FACT, ADDRESS_PART_BREAK } from "./opening-facts";
+import { speechOfRecord } from "./local-speeches";
 import { familyFactsOf } from "../core2/modules/people";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
@@ -67,6 +68,12 @@ export interface Scene {
     speakerId: PersonId;
     /** The speech in the parts the talk box plays, one per Continue. */
     parts: readonly string[];
+    /** Played over the address montage (the President's), else in the scene's own room. */
+    montage: boolean;
+    /** The speech is the scene's opening line (a floor speech), so the exchange after it does not open with the speaker's own line too. */
+    opens: boolean;
+    /** Given in the room the scene is in (a floor or a stump speech), not heard on a screen at home. */
+    inRoom: boolean;
   };
   /** The scene's occasion from its type's data ("ceremony"), for how the room is drawn. */
   occasion?: string;
@@ -373,11 +380,19 @@ export function composeScene(
         },
       ]
     : [];
-  // A speech's own words, when its record kept them and the person gave it.
+  // A speech's own words: an address's as its record kept them, a floor or
+  // campaign speech composed from its record by the one planner.
   const record = core.durableLog.get(moment.causeId);
+  const castIds = binding.roles.flatMap((row) => row.personIds);
   const speechText = record?.facts?.[ADDRESS_FACT.text];
-  // The speaker is the person, or the one the scene's `said` role holds.
-  const speakerId = record?.facts?.[ADDRESS_FACT.president];
+  // The speaker is the person, or the one the scene's `said` role holds: the
+  // President's opening names them as President, every other address as speaker.
+  const speakerId =
+    record?.facts?.[ADDRESS_FACT.speaker] ??
+    record?.facts?.[ADDRESS_FACT.president];
+  const heard = record
+    ? speechOfRecord(core as CoreState, record, castIds)
+    : null;
   const speech =
     typeof speechText === "string" &&
     speechText &&
@@ -396,8 +411,15 @@ export function composeScene(
             .split(ADDRESS_PART_BREAK)
             .filter(Boolean),
           sourceRecordIds: [record!.id],
+          // The President's address plays over its montage (the desk, the
+          // colonnade, the country); a governor's or a town's at home.
+          montage: !!record!.facts?.[ADDRESS_FACT.president],
+          opens: false,
+          inRoom: false,
         }
-      : undefined;
+      : heard && heard.speakerId !== personId
+        ? { ...heard, montage: false, inRoom: true }
+        : undefined;
   const occasion = OCCASIONS.get(binding.typeKey);
   return {
     momentId: moment.id,

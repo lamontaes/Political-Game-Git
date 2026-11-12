@@ -42,6 +42,7 @@ const NAMES = data.names as Readonly<
         readonly measure: string;
         readonly side: "for" | "against";
       }[];
+      readonly points?: Readonly<Record<string, readonly string[]>>;
     }
   >
 >;
@@ -127,6 +128,18 @@ export function questionReasons(
 }
 
 /** The law in force on the question, as the thing itself: "repeal {paid family leave}", "{the higher federal minimum wage}". */
+/**
+ * The claim a wording makes about a question, by its `points` tag (the
+ * question's reason for a side, the today wordings and the belief clauses
+ * that restate it share one); a wording in no group makes a claim of its
+ * own, its own text. Two wordings with one tag make one point twice.
+ */
+export function questionPoint(question: string, text: string): string {
+  for (const [tag, texts] of Object.entries(NAMES[question]?.points ?? {}))
+    if (texts.includes(text)) return tag;
+  return text;
+}
+
 export function questionLaw(question: string): string | null {
   return NAMES[question]?.law ?? null;
 }
