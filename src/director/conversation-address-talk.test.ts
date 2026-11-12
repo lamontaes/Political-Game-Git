@@ -125,9 +125,13 @@ it(`the relative raises a point of this world's address, with a stand and a reas
     for (const other of housematesOf(core, me)) {
       const otherId = other.id as PersonId;
       const talk = openConversation(core, me, otherId, { director });
-      // They ask about the address; any answer moves them on to their point.
-      if (talk.lines[0]?.kind !== "address" || !talk.choices.length) continue;
-      say(core, talk, talk.choices[0]!.key);
+      // Someone who watched it with the player opens on their own point
+      // (owner, Nov 12: what a household did together each of them knows);
+      // anyone else asks about the address, and any answer moves them on.
+      const first = talk.lines[0]?.kind;
+      if ((first !== "address" && first !== POINT) || !talk.choices.length)
+        continue;
+      if (first === "address") say(core, talk, talk.choices[0]!.key);
       const line = talk.lines.find(
         (row) => row.kind === POINT && row.speakerId === otherId,
       );

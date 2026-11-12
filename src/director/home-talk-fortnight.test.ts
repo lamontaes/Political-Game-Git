@@ -31,7 +31,12 @@ import { officialsIn } from "../core2/modules/officials";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { openConversation, say, type Conversation } from "./conversation";
+import {
+  noteHeard,
+  openConversation,
+  say,
+  type Conversation,
+} from "./conversation";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const DAYS = 14;
@@ -133,6 +138,7 @@ it(`two weeks of talk at home hold the telling's rules (seed ${seed})`, () => {
           },
         );
         if (!talk.lines.length) continue;
+        noteHeard(core, talk);
         talks += 1;
         for (let turn = 0; turn < TURNS && talk.choices.length; turn += 1)
           say(

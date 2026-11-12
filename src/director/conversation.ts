@@ -84,6 +84,7 @@ import type {
   CoreModule,
   CoreState,
   IsoDate,
+  OrganizationInput,
   PersonId,
   PersonState,
   Source,
@@ -118,11 +119,7 @@ import {
   type SubjectBank,
   type Wording,
 } from "../english/conversation-words";
-import {
-  kinAddress,
-  relationPhrase,
-  withArticle,
-} from "../english/journal-words";
+import { kinAddress, relationPhrase } from "../english/journal-words";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { answerInTalk } from "./scene-talk";
 import {
@@ -144,6 +141,8 @@ import {
 import { dayParts, sceneMinute } from "./day-part";
 import { noteMention, tellingOf } from "../english/telling";
 import {
+  employerSaidAs,
+  jobSaidAs,
   laterMentionsAsPronoun,
   officeWords,
   saidAs,
@@ -164,9 +163,6 @@ const one = P.one;
 /** Years after which a shared school or workplace is a reason to talk (conversation-rules.json, TUNABLE). */
 /** The slots a person's own work detail is said under. */
 const WORK_SLOTS = { position: "position", place: "work-place" };
-
-/** The organization kind of a government's payroll. */
-const GOVERNMENT_TREASURY = "government-treasury";
 
 const LONG_AGO_YEARS = (
   rulesFile as unknown as { sharedPast: { longAgoYears: { value: number } } }
@@ -403,33 +399,37 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
 }
 
 /**
- * An employer said the way people say it. A government's payroll is the
- * government ("the City of Alexandria", never "City of Alexandria
- * treasury"), and a government named for its place takes "the", as in "I
- * work for the Village of Jackson Center".
+ * An employer as the one said-as reader says it, from its record: a
+ * government's payroll as the government, a business by its name, and never
+ * the outside market that stands in for work out of town (null).
  */
-function employerText(org: { name: string; kind: string }): string {
-  const name = properName(org.name);
-  const said =
-    org.kind === GOVERNMENT_TREASURY ? name.replace(/\s+treasury$/i, "") : name;
-  return /^\p{Lu}\p{Ll}+ of /u.test(said) ? `the ${said}` : said;
+function employerWords(org: Readonly<OrganizationInput>): string | null {
+  return employerSaidAs({
+    name: properName(org.name),
+    kind: org.kind,
+    outside: !!org.outsideFlow,
+    ...(org.classification ? { classification: org.classification } : {}),
+    ...(org.governmentFacts ? { governmentFacts: org.governmentFacts } : {}),
+  });
 }
 
-/**
- * A person's job, when its employer can be named: never the outside
- * buyers and sellers that stand in for work out of town.
- */
-function namedJobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
+/** A person's job and its employer as said, when the employer can be named. */
+function sayJob(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   const held = jobOf(core, person);
-  return held && !held.org.outsideFlow ? held : null;
+  const employer = held ? employerWords(held.org) : null;
+  return held && employer ? { ...held, employer } : null;
 }
 
-/**
- * Whether a job's title can be said the way people say a job: never a form's
- * title with a parenthesis, a comma or a slash in it.
- */
-function sayableTitle(title: string | undefined): title is string {
-  return !!title && !/[(),/]/.test(title);
+/** A job's title as said after "works as" ("a stocker"), through the said-as reader; undefined when it cannot be said. */
+function titleWords(
+  title: string | undefined,
+  org: Readonly<OrganizationInput> | undefined,
+): string | undefined {
+  const said = jobSaidAs(
+    title,
+    org ? { outside: !!org.outsideFlow } : undefined,
+  );
+  return said?.kind === "title" ? said.asJob : undefined;
 }
 
 /**
@@ -445,11 +445,9 @@ function workDetail(
   slots: { position: string; place?: string },
 ): Facts {
   const facts: Facts = {};
-  if (sayableTitle(held.job.title))
-    facts[slots.position] = {
-      text: withArticle(held.job.title),
-      sourceRecordIds: [held.job.id],
-    };
+  const title = titleWords(held.job.title, held.org);
+  if (title)
+    facts[slots.position] = { text: title, sourceRecordIds: [held.job.id] };
   const away =
     slots.place && held.org.placeId !== person.placeId
       ? corePlaceByJurisdictionId(held.org.placeId as never)
@@ -684,9 +682,10 @@ function familyNews(
   if (stage === "job") {
     const job = core.jobs.get(moment.causeId);
     const org = job ? core.organizations.get(job.organizationId) : undefined;
-    if (org)
+    const said = org ? employerWords(org) : null;
+    if (said)
       facts.employer = {
-        text: properName(org.name),
+        text: said,
         sourceRecordIds: [...cited, org.id],
       };
   }
@@ -1223,21 +1222,21 @@ export function subjectsBetween(
     !!core.knowledgeByPerson.get(personId)?.has(knowsOfKey(id));
   const listener = core.people.get(listenerId)!;
   const out: Subject[] = [];
-  const mine = namedJobOf(core, speaker);
+  const mine = sayJob(core, speaker);
   if (mine)
     out.push({
       id: `own-work:${speakerId}`,
       kind: "own-work",
       facts: {
         employer: {
-          text: employerText(mine.org),
+          text: mine.employer,
           sourceRecordIds: [mine.job.id, mine.org.id],
         },
         ...workDetail(core, speaker, mine, WORK_SLOTS),
       },
       own: { key: `person:${speakerId}:employer`, value: mine.org.id },
       // A true answer also tells what they do there, for the person card.
-      ...(sayableTitle(mine.job.title)
+      ...(titleWords(mine.job.title, mine.org)
         ? {
             alsoOwn: [
               {
@@ -1314,9 +1313,10 @@ export function subjectsBetween(
   const startedOrg = startedJob
     ? core.organizations.get(startedJob.organizationId)
     : undefined;
-  if (started && startedJob && startedOrg) {
+  const startedSaid = startedOrg ? employerWords(startedOrg) : null;
+  if (started && startedJob && startedOrg && startedSaid) {
     const employer = {
-      text: properName(startedOrg.name),
+      text: startedSaid,
       sourceRecordIds: [startedJob.id, startedOrg.id],
     };
     out.push({
@@ -1327,7 +1327,8 @@ export function subjectsBetween(
     });
     // What the new job is, from its record, for the listener who asks
     // ("What will you be doing there?"): a question is never left unanswered.
-    if (startedJob.title)
+    const position = titleWords(startedJob.title, startedOrg);
+    if (position)
       out.push({
         id: `job-new-detail:${started.causeId}`,
         kind: "job-new-detail",
@@ -1335,7 +1336,7 @@ export function subjectsBetween(
         facts: {
           employer,
           position: {
-            text: withArticle(startedJob.title),
+            text: position,
             sourceRecordIds: [startedJob.id],
           },
         },
@@ -1408,13 +1409,14 @@ export function subjectsBetween(
     });
   // What they do there, asked right after they name their work: answered
   // from the job record's title.
-  if (theirs && !theirs.org.outsideFlow && sayableTitle(theirs.job.title))
+  const theirSaid = theirs ? employerWords(theirs.org) : null;
+  if (theirs && theirSaid && titleWords(theirs.job.title, theirs.org))
     out.push({
       id: `their-position:${listenerId}`,
       kind: "their-position",
       facts: {
         employer: {
-          text: employerText(theirs.org),
+          text: theirSaid,
           sourceRecordIds: [theirs.job.id, theirs.org.id],
         },
       },
@@ -1540,7 +1542,7 @@ export function subjectsBetween(
       relative.placeId !== speaker.placeId
         ? corePlaceByJurisdictionId(relative.placeId as never)
         : undefined;
-    const work = person ? namedJobOf(core, person) : null;
+    const work = person ? sayJob(core, person) : null;
     // Mentioned only with something of their life to tell.
     if (!home && !work) continue;
     out.push({
@@ -1564,7 +1566,7 @@ export function subjectsBetween(
         ...(work
           ? {
               employer: {
-                text: employerText(work.org),
+                text: work.employer,
                 sourceRecordIds: [work.job.id, work.org.id],
               },
             }
@@ -1905,15 +1907,16 @@ function pointArea(point: AddressPoint): "work" | "money" | null {
 const pointKey = (playerId: PersonId, question: string) =>
   `talk:${playerId}:address-point:${question}`;
 
-/** An employer as a person says it: never the market outside the town or a treasury. */
+/** An employer as a person says it, through the said-as reader: never the market outside the town, a treasury as its government. */
 function employerFact(
   core: Readonly<CoreState>,
   job: { id: string; organizationId: string } | undefined,
 ): Fact | undefined {
   const org = job ? core.organizations.get(job.organizationId) : undefined;
-  if (!job || !org || org.outsideFlow || org.kind === "government-treasury")
-    return undefined;
-  return { text: properName(org.name), sourceRecordIds: [job.id, org.id] };
+  const said = org ? employerWords(org) : null;
+  return job && org && said
+    ? { text: said, sourceRecordIds: [job.id, org.id] }
+    : undefined;
 }
 
 /**
@@ -2285,13 +2288,14 @@ function replyFacts(
       return { facts: subject.facts, stage: "default" };
     case "their-work": {
       const theirs = jobOf(core, listener);
+      const said = theirs ? employerWords(theirs.org) : null;
       // Work out of town for outside buyers has no employer to name.
-      if (theirs?.org.outsideFlow) return null;
-      if (theirs)
+      if (theirs && !said) return null;
+      if (theirs && said)
         return {
           facts: {
             employer: {
-              text: employerText(theirs.org),
+              text: said,
               sourceRecordIds: [theirs.job.id, theirs.org.id],
             },
             ...workDetail(core, listener, theirs, WORK_SLOTS),
@@ -2303,26 +2307,26 @@ function replyFacts(
       const was = ended
         ? core.organizations.get(ended.organizationId)
         : undefined;
+      const wasSaid = was ? employerWords(was) : null;
       return {
-        facts:
-          was && !was.outsideFlow
-            ? {
-                employer: {
-                  text: employerText(was),
-                  sourceRecordIds: [ended!.id, was.id],
-                },
-              }
-            : {},
+        facts: wasSaid
+          ? {
+              employer: {
+                text: wasSaid,
+                sourceRecordIds: [ended!.id, was.id],
+              },
+            }
+          : {},
         stage: "none",
       };
     }
     case "their-position": {
-      const theirs = namedJobOf(core, listener);
-      return theirs && sayableTitle(theirs.job.title)
+      const theirs = sayJob(core, listener);
+      return theirs && titleWords(theirs.job.title, theirs.org)
         ? {
             facts: {
               employer: {
-                text: employerText(theirs.org),
+                text: theirs.employer,
                 sourceRecordIds: [theirs.job.id, theirs.org.id],
               },
               ...workDetail(core, listener, theirs, WORK_SLOTS),
@@ -2425,10 +2429,10 @@ function playerFacts(
 ): { facts: Facts; stage?: string } {
   const player = core.people.get(playerId)!;
   const facts: Facts = {};
-  const mine = namedJobOf(core, player);
+  const mine = sayJob(core, player);
   if (mine) {
     facts["my-employer"] = {
-      text: employerText(mine.org),
+      text: mine.employer,
       sourceRecordIds: [mine.job.id, mine.org.id],
     };
     Object.assign(
@@ -3459,8 +3463,13 @@ function heardToday(
   return out;
 }
 
-/** Keeps every piece the other person said in this talk as heard today by the player. */
-function noteHeard(core: CoreState, conversation: Conversation): void {
+/**
+ * Keeps every piece the other person said in this talk as heard today by the
+ * player. Opening a talk writes nothing (it is also the room's probe); the
+ * talk route calls this once the player really opened it, as it calls
+ * `meetOverTalk`, and every `say` calls it for what follows.
+ */
+export function noteHeard(core: CoreState, conversation: Conversation): void {
   if (conversation.look) return;
   const api = coreAPI(core);
   for (const line of conversation.lines) {
@@ -3508,7 +3517,6 @@ export function openConversation(
   const [core, playerId] = args;
   const talk = withHeard(core, playerId, () => openConversationNow(...args));
   laterMentions(core, talk, zero);
-  if (!talk.look && talk.lines.length) noteHeard(core as CoreState, talk);
   return talk;
 }
 
