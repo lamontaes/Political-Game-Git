@@ -482,6 +482,16 @@ class Reader {
     return this.table(LEGISLATURE_MODULE_ID, "bills")?.get(id) as unknown as
       BillRow | undefined;
   }
+  /**
+   * The body a bill is before, by the body's own record ("Mutual Village
+   * Council", "Ohio House of Representatives"): what a committee's, a veto's
+   * or an override's next step names.
+   */
+  billBody(id: string | undefined): Facts {
+    const bill = this.bill(id);
+    const body = this.body(bill?.bodyOfficeId);
+    return body && bill ? { body: this.fact(body, bill.bodyOfficeId) } : {};
+  }
   /** A bill's name ("Fair Wage Act"), its purpose and its designation ("HB 2"). */
   billFacts(id: string | undefined, number?: string): Facts {
     const bill = this.bill(id);
@@ -869,6 +879,7 @@ const committee: Builder = (read, f) => {
     "committee",
     {
       ...read.billFacts(f.billId, f.number),
+      ...read.billBody(f.billId),
       ...(f.committee ? { committee: read.fact(spaced(f.committee)) } : {}),
       ...(held
         ? { held: read.yes() }
@@ -893,6 +904,7 @@ const billFailed: Builder = (read, f) => {
     "committee",
     {
       ...read.billFacts(f.billId, f.number),
+      ...read.billBody(f.billId),
       ...(yes !== undefined && no !== undefined
         ? { count: read.fact(`${yes} to ${no}`) }
         : {}),
@@ -935,6 +947,7 @@ const override: Builder = (read, f) =>
     "override",
     {
       ...read.billFacts(f.billId, f.number),
+      ...read.billBody(f.billId),
       [f.passed === "true" ? "passed" : "failed"]: read.yes(),
     },
     ["designation"],
@@ -948,6 +961,7 @@ const signed: Builder = (read, f) => {
     {
       ...read.who(f.executiveId),
       ...read.billFacts(f.billId, f.number),
+      ...read.billBody(f.billId),
       date: read.date(),
       // A veto fails the bill; a signature passes it into law.
       [vetoed ? "vetoed" : "signed"]: read.yes(),
@@ -1702,6 +1716,10 @@ const tookOffice: Builder = (read, f) => {
         : vacancy?.cause === "moved away"
           ? { moved: read.fact("yes", vacancy.id) }
           : {}),
+      // The day the seat fell empty, from the vacancy's own row.
+      ...(vacancy?.since
+        ? { vacated: read.fact(spokenDate(vacancy.since), vacancy.id) }
+        : {}),
       ...(f.office ? { office: read.fact(f.office, f.seatId ?? "") } : {}),
       ...(state && f.office
         ? {
@@ -1756,7 +1774,14 @@ const vacancy: Builder = (read, f) => {
       ...(method === "successor" && successor
         ? { successor: read.fact(successor, row?.id ?? "") }
         : {}),
-      ...(method === "remains-vacant" ? { empty: read.yes() } : {}),
+      ...(method === "remains-vacant"
+        ? {
+            empty: read.yes(),
+            ...(row?.since
+              ? { since: read.fact(spokenDate(row.since), row.id) }
+              : {}),
+          }
+        : {}),
       ...(election
         ? { when: read.fact(spokenDate(election), row?.id ?? "") }
         : {}),
@@ -2124,6 +2149,8 @@ function businessExtras(
       ? yearsBetween(founded, read.happened || read.story.date)
       : 0;
     if (years >= 2) extras.years = read.fact(count(years), id);
+    // A business open less than two years: the month it opened.
+    else if (founded) extras.opened = read.fact(monthYear(founded), id);
     // Why it closed, as the business's books recorded it, and who owned it.
     const why = closingWhy(
       read.core.finance.businesses.get(id)?.closingReasonKey,
@@ -3222,11 +3249,9 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
         count: read.fact(`${yes} to ${no}`),
         date: read.date(),
         [f.passed === "true" ? "passed" : "failed"]: read.yes(),
-        ...(margin === 1
-          ? { "one-vote": read.yes() }
-          : margin > 1
-            ? { margin: read.fact(count(margin)) }
-            : {}),
+        // The margin as the paper says it ("one", "three", "1,250").
+        ...(margin > 0 ? { margin: read.fact(count(margin)) } : {}),
+        ...(margin === 1 ? { "one-vote": read.yes() } : {}),
       },
       ["body", "measure"],
     );
