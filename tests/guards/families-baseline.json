@@ -110,7 +110,7 @@
     "src/core2/modules/legislature.ts": 11,
     "src/core2/modules/macro.ts": 4,
     "src/core2/modules/meetings.ts": 5,
-    "src/core2/modules/moves.ts": 4,
+    "src/core2/modules/moves.ts": 3,
     "src/core2/modules/news.ts": 1,
     "src/core2/modules/office-day.ts": 4,
     "src/core2/modules/offices.ts": 5,

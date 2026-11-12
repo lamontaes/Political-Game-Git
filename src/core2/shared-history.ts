@@ -6,6 +6,9 @@
  * nothing; each kind names the record it comes from.
  */
 import { stableHash } from "./kernel/ids";
+import { schoolSpans } from "./past-school";
+import { PAST_WORK_SPELL } from "./past-work";
+import { preStartHistory } from "./pre-start";
 import { parameter } from "./parameters";
 import { coreAPI } from "./state";
 import { stopgap } from "./stopgaps";
@@ -148,6 +151,74 @@ export function workgroupOf(
     .sort();
 }
 
+/** An employer's spell a person's past records hold: who, from when to when. */
+interface WorkSpan {
+  organizationId: string;
+  startedAt: string;
+  endedAt?: string;
+}
+
+function workSpans(core: Readonly<CoreState>, personId: PersonId): WorkSpan[] {
+  return preStartHistory(core as CoreState, {
+    kind: PAST_WORK_SPELL,
+    personId,
+  }).flatMap((row) =>
+    row.facts.organizationId
+      ? [
+          {
+            organizationId: String(row.facts.organizationId),
+            startedAt: String(row.facts.startedAt),
+            ...(row.facts.endedAt
+              ? { endedAt: String(row.facts.endedAt) }
+              : {}),
+          },
+        ]
+      : [],
+  );
+}
+
+/**
+ * Work two people shared before the start: an employer both have a past spell
+ * at, in spans that overlap (the past's `person.work-spell` records). An
+ * employer the jobs engine's own rows already named is not said twice.
+ */
+function pastWork(
+  core: Readonly<CoreState>,
+  a: PersonId,
+  b: PersonId,
+  said: readonly SharedHistory[],
+): SharedHistory[] {
+  const theirs = workSpans(core, b);
+  if (!theirs.length) return [];
+  const out: SharedHistory[] = [];
+  for (const mine of workSpans(core, a)) {
+    if (
+      said.some(
+        (row) =>
+          row.kind === "coworker" && row.recordId === mine.organizationId,
+      ) ||
+      out.some((row) => row.recordId === mine.organizationId)
+    )
+      continue;
+    const peer = theirs.find(
+      (row) =>
+        row.organizationId === mine.organizationId &&
+        row.startedAt <= (mine.endedAt ?? "9999-12-31") &&
+        mine.startedAt <= (row.endedAt ?? "9999-12-31"),
+    );
+    if (!peer) continue;
+    const ends = [mine.endedAt, peer.endedAt].filter(
+      (date): date is string => date !== undefined,
+    );
+    out.push({
+      kind: "coworker",
+      recordId: mine.organizationId,
+      ...(ends.length === 2 ? { endedOn: ends.sort().at(-1) as IsoDate } : {}),
+    });
+  }
+  return out;
+}
+
 /** A campaign's volunteers, and who left it on what day to run in its race (`leaveForOwnRun`). */
 interface CampaignHelpers {
   filingId: string;
@@ -223,6 +294,29 @@ export function sharedHistory(
       recordId: schoolA.schoolId,
       year: schoolA.year,
     });
+  // The school years before the start: two people share a school when their
+  // runs at it overlap. A school the school engine's own rows already named is
+  // not said twice.
+  if (!out.some((row) => row.kind === "schoolmate")) {
+    const theirs = schoolSpans(core, b);
+    for (const mine of schoolSpans(core, a)) {
+      const peer = theirs.find(
+        (row) =>
+          row.schoolId === mine.schoolId &&
+          row.from <= mine.to &&
+          mine.from <= row.to,
+      );
+      if (peer) {
+        out.push({
+          kind: "schoolmate",
+          recordId: mine.schoolId,
+          year: Math.max(mine.from, peer.from),
+        });
+        break;
+      }
+    }
+  }
+  out.push(...pastWork(core, a, b, out));
   for (const [candidate, helper] of [
     [a, b],
     [b, a],

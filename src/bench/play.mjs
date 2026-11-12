@@ -783,8 +783,23 @@ function billBlock(item, members, rows, onPaper) {
 function inMeeting() {
   return new Promise((resolve) => {
     const words = voteWords();
+    // A press acts once: every button on the panel is off from the press until
+    // the panel redraws from the server's answer, so a second quick press sends
+    // nothing. A refusal (the item was already taken up) redraws the meeting as
+    // it stands with the server's own line at its top, never a page error.
+    const act = async (path) => {
+      for (const b of $("meeting").querySelectorAll("button"))
+        b.disabled = true;
+      try {
+        draw(await post(path));
+      } catch (refused) {
+        draw(await api("/api/meeting"));
+        $("meeting-items").prepend(prose(refused.message, "meeting-note"));
+      }
+    };
     const draw = (scene) => {
       if (!scene) return finish();
+      $("meeting-adjourn").disabled = false;
       $("backdrop").src = scene.backdrop.url;
       drawHere(scene);
       $("card-place").textContent = scene.title;
@@ -798,11 +813,9 @@ function inMeeting() {
                 words[position === "for" ? "speakFor" : "speakAgainst"] ??
                 position,
             });
-            b.addEventListener("click", async () =>
-              draw(
-                await post(
-                  `/api/meeting/speak?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, position })}`,
-                ),
+            b.addEventListener("click", () =>
+              act(
+                `/api/meeting/speak?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, position })}`,
               ),
             );
             return b;
@@ -812,11 +825,9 @@ function inMeeting() {
               className: "action",
               textContent: words[how] ?? how,
             });
-            b.addEventListener("click", async () =>
-              draw(
-                await post(
-                  `/api/meeting/item?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, vote: how })}`,
-                ),
+            b.addEventListener("click", () =>
+              act(
+                `/api/meeting/item?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, vote: how })}`,
               ),
             );
             return b;
@@ -836,6 +847,7 @@ function inMeeting() {
         }),
       );
       $("meeting-adjourn").onclick = async () => {
+        $("meeting-adjourn").disabled = true;
         await post(
           `/api/meeting/adjourn?${new URLSearchParams({ meetingId: scene.id })}`,
         );
@@ -2442,7 +2454,7 @@ async function personCardNode(
       ? [
           stripSection(
             2,
-            heading("howISee"),
+            heading("howISee", "howISeeThem"),
             perkList(
               c.traitLines.map((t) => ({ name: t.label, line: t.line })),
             ),
@@ -2457,6 +2469,13 @@ async function personCardNode(
             2,
             controls.who.views,
             introText(c.view ? leanWord(c.view) : controls.who.viewUnknown),
+            ...(c.viewAbout
+              ? [
+                  introText(
+                    controls.who.viewAbout.replace("{about}", c.viewAbout),
+                  ),
+                ]
+              : []),
           ),
         ]
       : []),
@@ -2822,12 +2841,12 @@ function billEstimate(paper, section) {
       newLabel: words.proposed ?? "",
       proposed: after,
     };
-  else if (est.line && est.ofMinor != null && est.lineAmountMinor != null)
+  else if (est.line && est.ofMinor != null && est.lineNewMinor != null)
     compare = {
       todayLabel: words.today ?? "",
       today: roundedMoney(est.ofMinor),
       newLabel: words.proposed ?? "",
-      proposed: roundedMoney(est.ofMinor + est.lineAmountMinor),
+      proposed: roundedMoney(est.lineNewMinor),
     };
   else if (after) lines.push(`${words.to ?? ""} ${after}`);
   // The two cells above carry the amounts; the line is then only named.
@@ -2835,8 +2854,8 @@ function billEstimate(paper, section) {
     lines.push(
       [
         `${words.line ?? ""}: ${policyLabel(`budget-line:${est.line}`)}`,
-        !compare && est.lineAmountMinor != null
-          ? roundedMoney(est.lineAmountMinor)
+        !compare && est.lineNewMinor != null
+          ? roundedMoney(est.lineNewMinor)
           : null,
         !compare && est.ofMinor != null
           ? `${words.from ?? ""} ${roundedMoney(est.ofMinor)}`
@@ -3406,7 +3425,8 @@ const sheets = {
     for (const person of [
       ...(me.card.home?.members ?? []),
       ...(me.scene?.people ?? []),
-      ...me.card.ties,
+      // Everyone you know, not only the card's closest page.
+      ...(me.card.known ?? me.card.ties),
     ]) {
       if (person.personId === me.id) continue;
       const prior = records.get(person.personId) ?? {};
@@ -3419,8 +3439,16 @@ const sheets = {
         ],
       });
     }
+    // Closest first within each group (the roster keeps this order).
+    const level = new Map(
+      (me.card.known ?? me.card.ties).map((t) => [t.personId, t.level]),
+    );
     return peopleScreen({
-      people: [...records.values()],
+      people: [...records.values()].sort(
+        (a, b) =>
+          (level.get(b.personId) ?? -Infinity) -
+          (level.get(a.personId) ?? -Infinity),
+      ),
       household,
       labels,
       card: (person, stillWanted, openOther) =>
@@ -6028,6 +6056,9 @@ const setup = {
   recipe: null,
   initial: null,
   previous: [],
+  // The creator's open tab of clothes and the look last shown, so a tab flips at once.
+  lookTab: "everyday",
+  lookView: null,
 };
 /** A record value as the player reads it: an ISO date in words, else as kept. */
 function dateOrValue(value) {
@@ -6245,23 +6276,48 @@ $("cr-place-random").addEventListener("click", async () => {
 });
 
 // Character appearance: the look's bust (the one every screen will draw) and
-// a row with arrows for each thing a bust shows.
+// a row with arrows for each thing a bust shows. Below the rows both tabs
+// share, two tabs of clothes (owner, Nov 12: "two tabs, everyday and formal,
+// bust flips between them"): the bust wears the open tab's clothes.
 function showLook(view) {
   setup.recipe = view.recipe;
+  setup.lookView = view;
+  const tab = setup.lookTab;
   $("cr-bust").replaceChildren(
-    drawFace(view.face, { shape: "bust", column: 250 }),
+    drawFace(view.faces[tab], { shape: "bust", column: 250 }),
+  );
+  const row = (r) =>
+    lookRow(r, {
+      onMove: (id, by) => void moveLook(id, by),
+      arrowLabel: (by, it) =>
+        controls.creator[by < 0 ? "previous" : "next"].replace(
+          "{row}",
+          it.label.toLowerCase(),
+        ),
+    });
+  const tabs = Object.entries(controls.creator.lookTabs).filter(([key]) =>
+    view.rows.some((r) => r.tab === key),
   );
   $("cr-rows").replaceChildren(
-    ...view.rows.map((row) =>
-      lookRow(row, {
-        onMove: (id, by) => void moveLook(id, by),
-        arrowLabel: (by, r) =>
-          controls.creator[by < 0 ? "previous" : "next"].replace(
-            "{row}",
-            r.label.toLowerCase(),
-          ),
-      }),
-    ),
+    ...view.rows.filter((r) => !r.tab).map(row),
+    ...(tabs.length
+      ? [
+          tabBar({
+            attr: "lookTab",
+            className: "look-tabs",
+            active: tab,
+            tabs: tabs.map(([key, label]) => ({
+              key,
+              label,
+              onSelect: () => {
+                setup.lookTab = key;
+                showLook(setup.lookView);
+              },
+            })),
+          }),
+        ]
+      : []),
+    ...view.rows.filter((r) => r.tab === tab).map(row),
   );
   $("cr-reset").disabled =
     JSON.stringify(setup.recipe) === JSON.stringify(setup.initial);

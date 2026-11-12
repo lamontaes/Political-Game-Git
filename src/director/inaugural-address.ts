@@ -84,6 +84,7 @@ export function giveInauguralAddress(
         audience !== input.speakerId &&
         core.people.get(audience)?.alive === true,
     ),
+    occasion: { recordId: input.causeId, kind: INAUGURAL },
   });
   return id;
 }

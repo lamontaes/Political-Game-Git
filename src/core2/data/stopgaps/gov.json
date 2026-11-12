@@ -799,8 +799,8 @@
     "why": "The Clerk's House tables the game reads hold no delegate districts outside D.C., and the territories' eligible voters are not in the data (CPS does not survey them).",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "Each territory's 2024 delegate race votes cast (its election office's certified results) sizing the place, so it is counted on the election engine like any district.",
-    "status": "open"
+    "replacement": "Resolved Nov 11, 2026: each territory's 2024 delegate race votes cast (data/research/elections/house-delegates-2024.json, votesCast, tagged SOURCED or ESTIMATED with its source) size the place through statePlaces, so the race is counted on the election engine like any district. American Samoa's nonpartisan race has no two-caucus place and stays unplaced. Shown in world-races.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-turnout-weather",
@@ -1148,7 +1148,9 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "Appointed attorneys general and territorial attorneys general as offices in the offices data, with their appointing rule.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "prosecutorFor (src/core2/justice-law.ts) reads the governor's appointed attorney general from the state cabinet (appointmentsIn, post attorney-general, data/research/executive/executive-powers-2026.json) where there is neither an elected county prosecutor nor an elected attorney general; the office stays empty, with no person, until the cabinet is filled.",
+    "resolvedAt": "2026-11-11"
   },
   {
     "id": "SG-GOV-justice-bribery-grade",
@@ -2243,6 +2245,18 @@
     "addedBy": "Nation",
     "addedAt": "2026-11-09",
     "replacement": "Each municipio's own revenue lines and spending by function from the OGP files and its federal grants; rows for the other territories' local governments.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-counted-case-view-kept-on-the-case",
+    "kind": "partial-model",
+    "file": "src/core2/modules/constituent-cases.ts",
+    "line": 678,
+    "whatItFakes": "A counted resident's case moves no view of the official while they stay counted: the case row keeps the outcome, and their impression of the official and their tie to them are written only when they are filled in, dated the day of the fill-in. A counted group's ballot does not read the cases its members brought.",
+    "why": "Counted residents keep no impression of an official of their own, and the counted electorate's warmth toward a candidate is read from the town's named adults (voting.ts, townContacts). Filling a resident in to hold the view was the largest part of a played year's memory growth (play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth).",
+    "addedBy": "opus-5251",
+    "addedAt": "2026-11-11",
+    "replacement": "The counted electorate reads its members' decided cases as warmth toward the official, times their count, by the same rule touchImpression applies to a full person.",
     "status": "open"
   }
 ]

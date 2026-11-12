@@ -296,6 +296,260 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.107.0
+
+_Released November 12, 2026._
+
+### Fixed
+
+- **Relatives hear on the day when a household they list as family is evicted.**
+  When a household in the wider population is evicted, the people you know who
+  list one of its members as family now learn of it on the day, as they do when
+  one of those relatives dies.
+
+- **A town no longer stops when a retired couple parts.** When a couple in town
+  parted and the one who moved out drew a pension or Social Security, the game
+  stopped on the next payday. The payment now follows them to their new home,
+  the same amount as before.
+
+- **A new income tax passed where there was none now collects** When a
+  legislature passed a first income tax in a place that had none, the new tax
+  withheld nothing from paychecks. It now withholds at the rate the bill sets.
+
+- **The first evening's talk at home goes on after you answer.** Once your
+  relative answers you on the President's address, they go on to where they
+  stand, with new replies to choose, instead of saying goodnight.
+
+### Changed
+
+- **Other states' budgets follow their own economies and tax laws** Every other
+  state's budget after the first year now comes from what that state's
+  governments actually collected and adopted in the simulated economy. A state
+  that raises or cuts its income or sales tax shows the change in its next
+  budget, and its spending follows the budget it adopted. Lines the economy does
+  not track yet, such as property taxes and fees, stay at their published values
+  and are marked as estimates.
+
+## PRE-ALPHA 0.106.0
+
+_Released November 12, 2026._
+
+### Fixed
+
+- **A state race already past its primary holds that primary, so November has
+  one candidate a party** A statewide race whose filing and primary fell before
+  the game began now holds its primary on the first day, so the November ballot
+  no longer carries two candidates of one party, and a party with a candidate of
+  its own from the town is no longer given a second, stand-in nominee who then
+  got no votes.
+
+### Changed
+
+- **Residents who bring a problem to an official's office stay part of the wider
+  town until you meet them.** Every resident who took a problem to an official's
+  office hours used to become a fully tracked person, with their whole
+  household. In a year that was hundreds of people the player never met, and it
+  was the largest part of a long game's growing memory use. Now their case is
+  kept and decided by the same rule as anyone's. They become fully tracked only
+  when their case reaches an official the player deals with, or the player opens
+  them. Their card then shows the case, their tie to the official and how it
+  changed their view of them.
+
+## PRE-ALPHA 0.105.0
+
+_Released November 11, 2026._
+
+### Fixed
+
+- **A person's card no longer leaves the talk box showing under it** When you
+  opened a person's card during a talk, the bottom edge of the talk box and its
+  buttons showed under the card. The talk now waits out of sight and comes back
+  when the card closes.
+
+- **A budget bill sets the line to the amount you typed** When you wrote a bill
+  on a budget line from Your office, the amount you typed was added to the line
+  instead of replacing it: typing $71,390 for a $64,900 Highways line made a
+  bill that set it to $136,000. The bill now sets the line to what you typed,
+  and its page says the same amount everywhere.
+
+- **A double-click on a meeting vote counts once** At a meeting, pressing Yes
+  (or any vote or speech button) twice quickly sent the vote again and raised an
+  error. The buttons now wait for the meeting to answer, so a double-click votes
+  once.
+
+- **A person's card no longer shows "How I see {object}"** On People, the card
+  of someone the game calls "they" headed a section "How I see {object}". It now
+  reads "How I see them".
+
+- **The President's address says its lines more ways** The President's address
+  has 110 more ways to say its lines, each carrying a name or a subject from the
+  player's own world: what the President asks Congress for, how joblessness
+  moved over the year, how a working address opens, the party's creed and the
+  oath. Ten addresses drawn from all 56 places no longer share a sentence three
+  times over on the seeds checked.
+
+- **A journal line about your youth says your age once** A move or other event
+  from when you were young, framed by your age ("When I was 15 years old, we
+  moved back to Highland, Kansas."), no longer says the age again after it ("I
+  was 15 that year.").
+
+- **Asked about the work, an employer on the phone says something new** When an
+  employer calls with a job and you ask what you would be doing, they tell you
+  the hours a week, how many people work there or whose place you would take,
+  instead of repeating the title and the pay.
+
+- **A relative who holds an office is told the way people say it** In the first
+  Journal note, a relative on a council or board "sits on the Woonsocket City
+  Council", another officeholder "serves as county clerk for the County of
+  Nuckolls", and a job they hold beside it is told in the same sentence. A job
+  title takes "a" or "an" by its sound: "a union representative".
+
+### Changed
+
+- **Hellos and goodbyes name you, the last time you met, and what you talked
+  about.** When someone you run into says hello, they say your name if they know
+  it, or when they last saw you ("The last time I saw you was a few weeks
+  ago."). When a talk ends, they name what it was about ("Good luck at Brooks
+  Public Schools. Take care.") or, if it was about nothing in particular,
+  someone of yours they know. At home, a goodbye says the part of the day the
+  clock shows ("We'll talk more later tonight."), never the morning in the
+  evening. Each line is put together from pieces, so the same words rarely come
+  twice. The stock goodbyes ("I've got to run.", "Have a nice day.") are gone.
+
+- **When someone passes on a story, your replies say what it has to do with
+  you.** When a relative or a friend tells you about a story they saw, your
+  replies come from your own life: where you stand on the question the story is
+  about ("Count me in favor of a higher age to buy a handgun."), that you worked
+  at the place that closed, that you saw it on the same station, or a question
+  about what it means for your town. They answer from their own side and say
+  when they heard it, and they remember where you stood. The stock answers ("I
+  think it's terrible.", "What do you make of the news?") are gone.
+
+- **When someone tells you where they stand, they name the question they care
+  most about, and why.** A relative or friend who follows politics no longer
+  just says "I lean conservative." They name the question they feel strongest
+  about and which side they are on ("If it's a higher minimum wage, count me
+  out."), and often why, from their own life: their job ("Working at the post
+  office taught me that.") or money being tight in their town. You can agree or
+  disagree on that question, but only on the side your own view is really on;
+  ask them why; or keep your view to yourself. Their card then says what they
+  care most about, and if you agreed or disagreed, they know where you stand.
+
+- **The people you talk to around town become people you know.** Talking to
+  someone now counts as meeting them: they join the people you know, with the
+  time you spent talking, and you join theirs. So later talks can bring up
+  people you both know and what happened to them, and the People screen lists
+  everyone you know, closest first in each group, with each card a click away.
+
+## PRE-ALPHA 0.104.0
+
+_Released November 11, 2026._
+
+### Added
+
+- **A candidate who knows you can ask you for money** A candidate who knows you
+  (family, a friend, your party) now asks you for money instead of the game
+  giving it for you. Their requests wait under Politics, Elections, with the
+  race, the sum you would give and the cash you hold. Give that sum, give
+  another whole-dollar amount, or decline. A candidate you turn down does not
+  ask again.
+
+- **A law's page shows what it did** After a law passes, its page in Politics,
+  Issues has a "What this did" section. It names the people the law reached,
+  with the money it moved for each: people in town, people elsewhere, and the
+  households in town as a count. When a later law replaces it or the rate goes
+  back, the page says until when, and the day it stopped for each person.
+
+### Improved
+
+- **A journal chapter shows a picture of the workplace or school its lines tell
+  of.** When a chapter of your story tells of a job or a school, the journal now
+  shows a picture of that place above the words. A chapter that names no such
+  place has no picture.
+
+### Fixed
+
+- **A new life no longer opens with your own family holding the town's elected
+  seats.** The town's council and county board seats at the start of a new life
+  went mostly to your parents, brothers and sisters, because the game only
+  looked at the few people it tracks one by one. Now the seats go to the best
+  suited adults over the whole town, and someone from the wider population who
+  wins a seat becomes a full person with their real job and household.
+
+- **The meeting says who spoke, numbers its ordinances in words, and leaves the
+  people in view** At a meeting, each item now reads "Ordinance 2025-6" under
+  its name, where a bare "2025-6" looked like a date. The people who spoke are
+  listed under "Spoke for" and "Spoke against" with a count, apart from the
+  vote, where every name used to be followed by "Against". The people in the
+  room stand beside the meeting panel and are no longer half hidden behind it.
+
+- **On a small board, you are held at the meeting where your seat could decide
+  the vote, and nothing is filed or voted in your name without you.** Playing a
+  member of a county board or town council, you could press Day straight through
+  your own board's meeting and come back to find a budget cut passed, filed in
+  your name, with your yes vote on it. Now, when a body of nine seats or fewer
+  has a bill on its agenda, Day stops at the meeting's hour with the meeting
+  open, so you vote yourself. Other members still file what they want, but never
+  in your name, and if you adjourn without voting your roll-call row says you
+  abstained.
+
+- **The People list follows the person you are looking at** Clicking a name on
+  someone's card in People shows that person. The list used to keep the first
+  person's row lit, and clicking that row did nothing until you chose someone
+  else. Now the lit row is the person shown, no row is lit for someone who is
+  not on your list, and one click on a row brings its person back.
+
+- **Escape closes the menu that is open** Pressing Escape with a menu open now
+  closes the menu and shows the room and the clock again. A second press opens
+  Options, and a third closes it. A person's card, the news reader or a term's
+  card closes first when one is open.
+
+- **Long briefs in News no longer print over each other** When the local paper
+  ran several long briefs, such as a week of meetings or the police log, each
+  one ran out of its row and was printed on top of the one below. Now every
+  brief takes the room its words need, and the Briefs column scrolls inside its
+  own box.
+
+- **A bill before Congress has a short title on every federal question.** A bill
+  in Congress on the top income tax rate, foreign aid, a cap on consumer loan
+  interest, the Social Security retirement age, farm subsidies, defense
+  spending, passenger rail or the federal tax terms had no short title. Each now
+  has one, and one for its repeal.
+
+- **A bill before Congress now says what it does.** A bill in Congress on the
+  top income tax rate, foreign aid, a cap on consumer loan interest, the Social
+  Security retirement age, farm subsidies, defense spending, passenger rail or
+  the federal tax terms was listed by its number alone, with nothing to read.
+  Now it has a title and a section, like every other bill.
+
+- **The President's address bank holds each line once** The words of the
+  President's address are unchanged for the player, except one: "everybody gets
+  a share" in place of "everybody gets a piece".
+
+- **A life story on You and on a person's card reads as a story, not a list**
+  "My life" on You and the story on a person's card say each kind of event in
+  several ways, with the year or their age then, the school's name where it has
+  one, and "again" when something happens a second time.
+
+### Changed
+
+- **At the filing counter, the clerk talks about your race, and other scenes can
+  join their lines from pieces** At the filing office the clerk greets you by
+  the town, names the office you came for, tells you how many others have filed
+  and who, and your replies each name the race. Scene lines can now be joined
+  from pieces (an opener, a core that names something from your world, a reason,
+  a closer), so the same moment reads differently in every town.
+
+- **Asked after a relative, people say what happened to them, by name and
+  when.** When someone asks after one of your relatives, the answer comes from
+  that relative's records: "Olivia took sick last week.", "Thomas passed away a
+  few days ago.", "William moved over to Thayer County." or a new job by its
+  employer. People now also mention relatives you have not met, by name, with
+  where they live or work ("Have you ever met my partner, Jennifer? Works over
+  at Wall's Market."). Once you have heard of them, the next talk asks after
+  them by name. The old fixed lines ("He's in the hospital.", "My father passed
+  away.", "I don't think so.") are gone.
+
 ## PRE-ALPHA 0.103.0
 
 _Released November 11, 2026._

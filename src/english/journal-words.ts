@@ -16,6 +16,7 @@ import {
   type GroundedEnglishPacket,
 } from "./grounded-english";
 import { journalDataFromBank } from "./mined/journal-bank";
+import articleSounds from "../../data/english/article-sounds.json" with { type: "json" };
 import seatWords from "../../data/english/seat-words.json" with { type: "json" };
 
 const zero = P.zero;
@@ -599,6 +600,14 @@ export function jobSaid(title: string): string {
     .join("");
 }
 
+/** "a" or "an" by the word's first sound ("a union", "an hour"), from data/english/article-sounds.json. */
+export function articleFor(word: string): "a" | "an" {
+  const start = word.toLowerCase();
+  if (articleSounds.a.some((prefix) => start.startsWith(prefix))) return "a";
+  if (articleSounds.an.some((prefix) => start.startsWith(prefix))) return "an";
+  return /^[aeiou]/.test(start) ? "an" : "a";
+}
+
 /** What an office's record says about its seat, enough to say it in a sentence. */
 export interface SeatRecord {
   /** The office's title as its record spells it ("Council member", "Mayor"). */
@@ -640,8 +649,9 @@ export function seatSaid(
   if ((seat.seats ?? one) > one) {
     // The body by its record's name, or the title without its member word or
     // seat number ("City Council, Seat 2" is a seat on the city council).
+    // A body's own name that starts with "the" keeps it once.
     const body =
-      seat.bodyName?.trim() ||
+      seat.bodyName?.trim().replace(/^the\s+/i, "") ||
       title
         .replace(/,.*$/, "")
         .replace(/\s+(?:member|seat)$/i, "")
@@ -656,7 +666,7 @@ export function seatSaid(
 /** A job title as a sentence says it after "works as": "a county clerk", "an electrician". */
 export function withArticle(title: string): string {
   const said = jobSaid(title);
-  return `${/^[aeiou]/i.test(said) ? "an" : "a"} ${said}`;
+  return `${articleFor(said)} ${said}`;
 }
 
 /** What an employer's record says it is, enough to say its name in a sentence. */

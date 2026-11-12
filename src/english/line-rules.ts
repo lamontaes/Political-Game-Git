@@ -3,9 +3,10 @@
  * (`data/english/line-rules.json`; design: `docs/design/words-machine.md`).
  *
  * A rule holds his words, one plain sentence of what it forbids or requires,
- * and a test of one of three kinds: the line's own words (`phrases`,
- * `patterns`, `sentences`), the line's place in its scene (`place`) or its
- * meaning and tone (`judged`). This file reads the first kind and runs it. A
+ * and a test of one of four kinds: the line's own words (`phrases`,
+ * `patterns`, `sentences`), the line's place in its scene (`place`), its
+ * meaning and tone (`judged`), or whole composed texts (`composed`, read by
+ * `./composed-checks.ts` over texts played in drawn worlds, never here). This file reads the first kind and runs it. A
  * `judged` rule reads its saved verdicts (`./judged.ts`): a line a reviewer
  * judged "no" is flagged, a line nobody has judged passes and is counted as
  * waiting for a verdict. A `place` rule's own reader runs outside the run.
@@ -44,7 +45,17 @@ export type RuleTest =
       /** The judged verdicts the picker reads for this rule; the run reports on them. */
       readonly reads?: string;
     }
-  | { readonly kind: "judged" };
+  | { readonly kind: "judged" }
+  | {
+      /**
+       * Reads whole composed texts made in drawn worlds, not bank lines
+       * (`./composed-checks.ts`, `npm run words:composed`): the named checks
+       * run over the texts of the listed kinds (all kinds when none).
+       */
+      readonly kind: "composed";
+      readonly check: string | readonly string[];
+      readonly applies?: readonly string[];
+    };
 
 /**
  * What a rule judges: `line` (one line alone), `set` (the replies offered
@@ -307,7 +318,8 @@ export function pieceVerdictId(piece: RulePiece): string {
 /**
  * Whether the piece breaks this rule. A `judged` rule flags a line a reviewer
  * judged "no" in these exact words (`stores`); a `place` rule flags nothing
- * here, its reader works where the line is said.
+ * here, its reader works where the line is said; a `composed` rule flags no
+ * bank line, it reads whole texts (`npm run words:composed`).
  */
 export function ruleFlags(
   rule: LineRule,
@@ -315,7 +327,7 @@ export function ruleFlags(
   stores?: JudgedStores,
 ): boolean {
   const { test } = rule;
-  if (test.kind === "place") return false;
+  if (test.kind === "place" || test.kind === "composed") return false;
   if (!ruleApplies(rule, piece)) return false;
   if (test.kind === "judged")
     return (

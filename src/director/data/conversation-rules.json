@@ -142,6 +142,7 @@
     "mutual": ["family"],
     "news": ["address"],
     "address": ["news"],
+    "address-point": ["news", "own-view"],
     "job-lost": ["job-hope"],
     "eviction": ["eviction-where"]
   },
@@ -153,7 +154,7 @@
   },
   "answersTo": {
     "about": "The reply choices that answer a question, by the move of the bank piece that asked it (owner, Nov 1: questions get answers; Oct 29: a question is answered before anything else). A choice not listed is not offered after that question. Moves and choices only; no sentence.",
-    "news-ask-think": ["opinion"]
+    "news-ask-core": ["for", "against", "worked-there", "opinion"]
   },
   "answeredBy": {
     "about": "Owner, Nov 11, 2026 (work talk names the employer, the job and how long): a question raised as a subject is answered by this fact of the other person's record. A reply that asks it is not offered when the line before already said it. Subject kinds and fact names only; no sentence.",
@@ -235,7 +236,11 @@
       "react": "react",
       "yes": "answer",
       "no": "answer",
-      "opinion": "answer"
+      "opinion": "answer",
+      "for": "agree",
+      "against": "disagree",
+      "worked-there": "tell",
+      "why": "request"
     },
     "family": {
       "ill": "tell",
@@ -290,6 +295,12 @@
       "jobs-up": { "area": "work", "says": "better" },
       "growth-up": { "area": "work", "says": "better" }
     }
+  },
+  "greetAndPart": {
+    "about": "Owner, Nov 11, 2026: every line through the English engine, with inserts from the world's records. A greeting away from home is composed under `greet` from a plain opener and a core that names the listener or when the two last met; a goodbye under `farewell` from a core that names what the talk was about or someone of the player's they know, and a short closer. `aboutFacts` lists, in order, the facts of the talk's first topic a goodbye may name as {about-said}; the first the topic carries is said, with the mark `about-<fact>` so its wordings fit it. Names only; no sentence.",
+    "greet": "greet",
+    "farewell": "farewell",
+    "aboutFacts": ["employer", "school", "place", "topic", "relation"]
   },
   "familyTalk": {
     "about": "Owner, Oct 15, evening (batch 11 grading): a family talk is a personal scene only, since the family has little involvement in play for now. Between relatives, work, school, where each is from and mutual acquaintances are not talked about ('Where do you work' between relatives is not a scene; neither is 'Have you talked to Diana?'). These are the subject kinds a relative does not raise or ask; what is left is the household's own news (a lost job, an eviction), kin, and news passed on.",

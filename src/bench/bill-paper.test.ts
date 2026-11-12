@@ -266,11 +266,14 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
     const set = budgetRow.provisions.find(
       (p) => p.kind === "budget-line" && p.line === line,
     )!;
-    expect(set.value, budget.id).toBe(BUDGET_LINE_AMOUNT_MINOR);
+    // The player types the line's new amount; the section records the change
+    // on the amount in force (the engine adds the change to the line), so the
+    // law sets the line to what was typed, and the paper says that amount.
+    expect((set.of ?? 0) + set.value, budget.id).toBe(BUDGET_LINE_AMOUNT_MINOR);
     expect(
-      budgetPaper.sections[0]!.estimate.lineAmountMinor,
-      `${budget.id} carries its line amount`,
-    ).toBe(set.value);
+      budgetPaper.sections[0]!.estimate.lineNewMinor,
+      `${budget.id} carries the amount it sets its line to`,
+    ).toBe(BUDGET_LINE_AMOUNT_MINOR);
     expect(budgetPaper.estimate, budget.id).toEqual({
       workers: budgetRow.costEstimate.workersRaised,
       payMinor: budgetRow.costEstimate.annualPayMinor,
@@ -278,7 +281,7 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
     });
     expect(budgetPaper.estimate.note.length, budget.id).toBeGreaterThan(0);
     console.log(
-      `budget line: ${where} (${key}, root seed ${seed}, place seed ${drawn}) bill ${budget.id} line ${line} amount ${budgetPaper.sections[0]!.estimate.lineAmountMinor} minor, note ${budgetPaper.estimate.workers} workers ${budgetPaper.estimate.payMinor} minor`,
+      `budget line: ${where} (${key}, root seed ${seed}, place seed ${drawn}) bill ${budget.id} line ${line} amount ${budgetPaper.sections[0]!.estimate.lineNewMinor} minor, note ${budgetPaper.estimate.workers} workers ${budgetPaper.estimate.payMinor} minor`,
     );
   }, 600_000);
 

@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-tests-door-pledge-weighted-record-by-draw
 pr: #8580
@@ -18,6 +18,7 @@ effort: medium
 root: design-one-model-two-tiers
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T04:41:58.534Z
+merged-at: 2026-11-12T19:25:56.961Z
 ---
 
 **What.** A confirmer replay of the door-pledge unit on main 7898b3ea2c shows npx vitest run src/core2/door-pledge.test.ts failing "in a town whose counted records each stand for several households, the pledged household votes on its word and the rest as they would have" with "seed 7f00b2b291d4f5b6fbf0f7e48b5ee7f458dfba81256a9a0258ecf560a0256416: no drawn town had a weighted counted record that a door reached and that votes in the race". The same run's pledge-turnout line passed its own check: in place 4972170, 9 of 12 holding a yes voted (0.80) against 9 of 25 others (0.42); three other drawn places had no race two residents could file for. The failure is the test's own search giving up.

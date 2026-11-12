@@ -435,6 +435,13 @@ ol {
 #game:has(:is(#meeting, #desk) .bill-board) #here {
   display: none;
 }
+/* A person's card takes the room: the talk it was opened from waits under it
+   out of sight, and comes back when the card closes. Its lower edge used to
+   show under the card (owner, Nov 11: nothing is left half covered). */
+#game:has(#person:not([hidden])) #talk,
+#game:has(#person:not([hidden])) #here {
+  visibility: hidden;
+}
 /* On the talk box the strip joins its top edge, and the busts follow how many
    stand there (the owner's sizes: one, two, and three or four). */
 #talk-strip {
@@ -1162,6 +1169,61 @@ input[type="range"]::-moz-range-thumb {
 #cr-character .choices .action {
   white-space: nowrap;
   padding: 6px 6px;
+}
+/* How I look's two tabs of clothes (owner, Nov 12: "two tabs, everyday and formal"),
+   on the owner's menu look: the open tab a lit brass fill, the other raised glass in
+   soft light; no rail, no ring, no bar under the open one. */
+#cr-rows .look-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  margin: 4px 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+/* With the tabs the look has one more line: its rows sit closer so the creator still fits
+   the screen without scrolling. */
+#cr-rows .look-row {
+  padding: 0;
+}
+#cr-rows {
+  display: grid;
+  gap: 1px;
+}
+#cr-rows .look-tabs .tab {
+  min-height: 26px;
+  padding: 0 12px;
+  text-align: center;
+  color: var(--text-2);
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    linear-gradient(rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+    var(--raised);
+  border: 0;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 10px rgba(255, 255, 255, 0.04);
+}
+#cr-rows .look-tabs .tab.on,
+#cr-rows .look-tabs .tab.on:hover {
+  color: var(--iron);
+  text-shadow: none;
+  background: linear-gradient(
+    var(--brass-hi),
+    var(--gold) 55%,
+    var(--brass-lo)
+  );
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 248, 225, 0.6),
+    0 0 14px rgba(214, 189, 132, 0.35);
+}
+#cr-rows .look-tabs .tab.on::after {
+  content: none;
 }
 /* A picked button is a lit brass fill: no corner mark on any control (owner, Nov 5). */
 .action[aria-pressed="true"] {

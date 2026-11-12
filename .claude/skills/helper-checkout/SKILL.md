@@ -36,6 +36,8 @@ description: >
 - **A pull request that moves or adds pictures is built in a copy that has them.** `git add` refuses a path the sparse rule leaves out; `git add --sparse <path>` adds it, and `git mv` of pictures wants the full copy.
 - Anything that draws a person reads a picture, and the copy has none. `src/bench/path-check.ts` and the bench tests print their whole log and then exit 1 on a people-pack `ENOENT` for a `.png` (Nov 1, governing lead). Read the log rather than the exit code, or make the copy with `--keep-images` when the exit code matters.
 
+- **`helper-checkout.sh new <dir> <branch>` can leave the local branch on an old commit (Nov 12, Fixer F2).** One copy (for #8222) came up on a merge commit of another branch, not the pull request's head, so `git merge origin/main` merged the wrong tree and looked clean. Right after making a copy run `git fetch origin main <branch>`, then `git reset --hard -q origin/<branch>` (the copy is new, so nothing is lost), and check `git log -1 --oneline` against the head the pull request names before merging main.
+
 ## When it ends
 
 - A copy is disposable once its branch is on the remote: delete it only after `git -C <dir> status --short` is empty and `git -C <dir> log origin/<branch>..HEAD` shows nothing unpushed. A clone copy is removed with `rm -rf <dir>`; a worktree copy (its `.git` is a one-line file) with `git worktree remove <dir>` from the main checkout.

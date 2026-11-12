@@ -246,6 +246,13 @@ function researchBlocker(
 function reaches(
   link: WebLink & { carriedBy?: string; status?: string },
 ): Point {
+  // A reader multiplies a value that is zero, so no record moves.
+  if (link.readsNothing)
+    return {
+      status: "fail",
+      evidence: `read by ${where(engineReaders(link.to))}, which moves nothing`,
+      why: link.readsNothing,
+    };
   const point = unrun(link, reachPoint(link));
   if (point.status === "pass") return point;
   // A link its research finds about zero has no effect for an engine to read:

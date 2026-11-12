@@ -101,6 +101,24 @@ const source = (date: string): Source => ({
     "Counted population flows: NCHS final natality 2024 (2023 where a 2024 cell is suppressed) by mother's age and state; SSA Actuarial Study No. 120 cohort life tables. Rates applied to counted totals; records chosen by their circumstances.",
 });
 
+/**
+ * The full, living people who list a counted relative (a husk) as family or
+ * hold a tie to them, sorted. The opening records each full person's tie to a
+ * counted relative (state.ts, with openingClosenessHours), so the grief
+ * reader and the eviction notice find it.
+ */
+export function fullRelativesOf(api: CoreAPI, huskId: string): string[] {
+  const husk = api.state.husks.get(huskId);
+  const witnesses = new Set(husk?.familyIds ?? []);
+  for (const key of api.state.relationshipsByPerson.get(huskId) ?? []) {
+    const tie = api.state.relationships.get(key);
+    if (tie) witnesses.add(tie.actorId === huskId ? tie.otherId : tie.actorId);
+  }
+  return [...witnesses]
+    .filter((id) => id !== huskId && api.state.people.get(id)?.alive)
+    .sort();
+}
+
 /** The monthly death record reaches the full people who already know its subject. */
 export function notifyCountedDeaths(
   api: CoreAPI,
@@ -111,17 +129,7 @@ export function notifyCountedDeaths(
     // somebody in or gives them an invented past or medical cause.
     const deceased = api.state.husks.get(deceasedId);
     if (!deceased) continue;
-    // The opening records each full person's tie to a counted relative
-    // (state.ts, with openingClosenessHours), so the grief reader finds it.
-    const witnesses = new Set(deceased.familyIds ?? []);
-    for (const key of api.state.relationshipsByPerson.get(deceasedId) ?? []) {
-      const tie = api.state.relationships.get(key);
-      if (tie)
-        witnesses.add(tie.actorId === deceasedId ? tie.otherId : tie.actorId);
-    }
-    const witnessIds = [...witnesses]
-      .filter((id) => id !== deceasedId && api.state.people.get(id)?.alive)
-      .sort();
+    const witnessIds = fullRelativesOf(api, deceasedId);
     if (!witnessIds.length) continue;
     const kind = DEFAULT_HEALTH_DATA.deathEventKind;
     const id = `${kind}:${deceasedId}:${api.state.date}`;
