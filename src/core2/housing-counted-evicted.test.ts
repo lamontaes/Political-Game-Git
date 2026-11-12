@@ -397,6 +397,11 @@ it("Storrs, Connecticut: an evicted counted household stays counted, is placed a
     );
     if (!eviction) continue;
     expect(eviction.personIds, at).toContain(relativeId);
+    // The full person who lists the evicted counted member as family is a
+    // witness on the day (as for a counted death), by the event's record id.
+    expect(eviction.witnessIds ?? [], `${at}: ${eviction.id}`).toContain(
+      watchedId,
+    );
     const book = director.ledger.people.get(watchedId)!;
     const moment = book.moments.find(
       (row) =>

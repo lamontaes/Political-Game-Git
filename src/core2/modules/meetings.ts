@@ -460,6 +460,7 @@ function publicComment(api: CoreAPI, billId: string): void {
         placeId: lawChain(api).townPlaceId,
         topic: stance.question,
         desiredChange: r.position * stance.position > 0 ? "enact" : "repeal",
+        occasion: { recordId: `remark:${bill.id}:${r.personId}`, kind: r.kind },
         audienceIds: [...new Set(room)]
           .filter((id) => id !== r.personId)
           .sort(),

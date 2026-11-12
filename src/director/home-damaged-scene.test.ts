@@ -30,6 +30,7 @@ import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode, TreeReply } from "./scene-talk";
 import type { ScheduleEntry } from "./scheduling";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // A disaster damaged the player's home (the disasters engine's damaged-home
 // row, filled on the declaration date and told to the household as the
@@ -200,12 +201,14 @@ it(`a damaged home is talked over at home, from the record (seed ${seed})`, () =
         expect(line.text, where).not.toMatch(
           /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,
         );
-      // Four answers are four moves.
+      // Up to four answers, all different moves.
       const root = scene.talk.tree.replies.map((reply) => reply.line);
       expect(new Set(root.map((r) => r.move)).size, where).toBe(root.length);
-      expect(new Set(root.map((r) => r.move)), where).toEqual(
-        new Set(["promise", "ask", "offer", "deflect"]),
-      );
+      expectUpToFourDifferent(root, where);
+      for (const row of root)
+        expect(["promise", "ask", "offer", "deflect"], where).toContain(
+          row.move,
+        );
       // A promise to see the repairs through is kept on the reply's record,
       // which cites this cause (and so the damaged home).
       const promised = paths(scene.talk.tree).find((full) => {

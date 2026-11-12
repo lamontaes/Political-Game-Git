@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-tests-printed-news-check-open-choice
+pr: #8404
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,6 +17,9 @@ model: sonnet
 effort: low
 root: rc2-done-from-records
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:45:20.062Z
+branch: claude/pool-tests-printed-news-check-open-choice
+merged-at: 2026-11-12T18:53:46.970Z
 ---
 
 **What.** printed-news.browser.mjs (Oct 28, drawn life) stopped with "advance failed: Answer the open choice or stop first." Its loop answers stops and polling places but not an open choice packet, so the check never reaches the printed story. The check jumps the calendar to a target date through /api/advance, resumes any packet of kind stop, leaves a polling place, and throws on any other failed advance. Its comment says a choice is left to the character, but the server now refuses the jump with that message, so the loop must answer the choice the way a player would.
@@ -36,3 +39,5 @@ checked: fable 2026-11-10
 **Files.** src/bench/printed-news.browser.mjs, src/bench/player.ts
 
 **Notes.** TODO
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:45 UTC) on branch claude/pool-tests-printed-news-check-open-choice.

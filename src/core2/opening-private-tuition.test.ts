@@ -4,7 +4,12 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { parameter as p } from "./parameters";
 import { generatedOpening } from "./tooling/generated-world";
-import { worldPrivateTuitionAnnualUsd } from "./opening-private-tuition";
+import {
+  homeschoolShareOf,
+  worldPrivateTuitionAnnualUsd,
+} from "./opening-private-tuition";
+import homeschoolData from "../../data/research/people/homeschool-share-by-state-2026.json" with { type: "json" };
+import { placeStateKey } from "./place-map";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-private-tuition");
@@ -83,4 +88,26 @@ describe(`private tuition in ${place.name}, ${place.state} (seed ${seed})`, () =
       }
     }
   }, 300_000);
+});
+
+describe(`the homeschool share the opening reports (seed ${seed})`, () => {
+  it("is the place's state row of the research file, the median marked estimated where the state has none, and the world reports it", () => {
+    const input = generatedOpening(place, { settings: { population: 1500 } });
+    const state = placeStateKey(place.key) ?? "";
+    const row = (homeschoolData.states as Record<string, { share: number }>)[
+      state
+    ];
+    const used = homeschoolShareOf(undefined, place.key);
+    expect(used.share, `${place.name} (${place.key}), seed ${seed}`).toBe(
+      row?.share ?? homeschoolData.median,
+    );
+    expect(used.estimated).toBe(!row);
+    // A world with a private school reports the share it used for its state.
+    if (input.placeMetadata?.homeschoolShare !== undefined)
+      expect(Number(input.placeMetadata.homeschoolShare)).toBe(used.share);
+    // The territories have no Pulse row: the median, estimated.
+    const island = homeschoolShareOf(undefined, "territory:GU:hagatna");
+    expect(island.estimated).toBe(true);
+    expect(island.share).toBe(homeschoolData.median);
+  });
 });

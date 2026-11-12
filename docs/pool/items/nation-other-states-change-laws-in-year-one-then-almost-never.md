@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-nation-other-states-change-laws-in-year-one-then-almost-never
+pr: #8482
 after:
 blocked-on:
 lead: nation
@@ -17,6 +17,9 @@ model: opus
 effort: high
 root: design-country-tier
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:37:10.909Z
+branch: claude/pool-nation-other-states-change-laws-in-year-one-then-almost-never
+merged-at: 2026-11-12T19:01:20.017Z
 ---
 
 **What.** The other states' legislatures act once, at the start, and then stop. Measured in the Wickliffe, Oklahoma world (seed 8832429ff1e53841): 54 other states and territories changed 467 laws in the first year, and fourteen states capped property tax growth in the same year. In the ten years after, the whole country changed 41 laws: 1, 15, 5, 15, 0, 1, 3, 1, 0 and 0. Over the eighteen years after the first, the count was 54 laws. Read in the code: on the day a session convenes the engine walks the yes-or-no questions once, and a change passes if each chamber has more members leaning yes than no and the governor agrees. Public opinion, the state's economy and lobbying are not inputs. So the year-one flood is the starting law being brought into line with the members' leanings all at once, and after that a state changes a law only when an election changes its members. The owner's finish line, at least 40 states changing a law in force in a played year, is met in year one only, by the flood. Fix it at the cause for every state and territory: what a legislature takes up in a session follows from what moved in that state since its last one (its people's opinion, its economy and budget, organized pressure, who won seats), so laws change in every year for a recorded reason and the first year is not a one-time sort.
@@ -38,3 +41,5 @@ checked: fable 2026-11-10
 **Notes.** Fable's country tier design (pool item core-country-tier-first-slice) decides the shape; this item is the measured defect it must close. From the Fable audit, Pillar 3. Measured there: a 19-year run of the Wickliffe, Oklahoma world with readings each year; the tally was read in the code and confirmed by the audit's independent reviewer. The audit did not measure how often control of a statehouse changes over a long run, and its call is that nobody should claim the country's politics turn over until a long run records it year by year. Confirmed on main, Nov 10 (helper): `openOutsideSession` computes, for each question and each direction, each chamber's count of members whose `officialStance` leans that way, requires every chamber to have more yes than no and the governor to agree or two thirds to override, and reads nothing else. Related: `laws-session-moves-too-many-questions` (open, priority 3: the home state's own session moves 10 to 19 questions in one sitting, the same one-time sort seen from inside), `nation-other-states-never-change-an-amount`, `nation-another-states-law-reaches-nobody`, `play-states-screen-opens-any-state`, `words-nation-newsworthy-by-reach-and-ties` (open: which of these laws the paper prints).
 
 **Notes (Fable, Nov 10, model).** The sort marked this for a Fable-level model. Read again by Fable: One engine (the outside sessions) and a written fix: Opus at high effort.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 02:37 UTC) on branch claude/pool-nation-other-states-change-laws-in-year-one-then-almost-never.

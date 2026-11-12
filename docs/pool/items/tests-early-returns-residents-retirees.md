@@ -5,19 +5,20 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr: #5037
+claimed-by: claude/pool-tests-early-returns-residents-retirees
+pr: #8540
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T03:48:33.776Z
 after:
 lead: laws-effects
 model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
+merged-at: 2026-11-12T00:01:28.938Z
 ---
 
 **What.** Generated-world tests can pass without checking their claim when their opening lacks a required record. PR #5037 replaces such early returns with bounded searches for an eligible opening or assertions proving the negative case, and its residents test conflicts with current main, so integrate the existing branch with a normal merge and preserve both sets of assertions. On main the bare early returns that remain are in src/core2/campaign-day.test.ts and src/core2/leadership.test.ts; the returns in src/core2/residents.test.ts follow an assertion or a success. Finish this repair on the existing branch rather than starting a duplicate.

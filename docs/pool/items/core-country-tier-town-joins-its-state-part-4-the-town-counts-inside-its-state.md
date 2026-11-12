@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/fable-b1-town-in-state
-pr:
+pr: #8333
 after:
 blocked-on:
 lead: money

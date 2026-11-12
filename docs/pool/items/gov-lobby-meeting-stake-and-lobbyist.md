@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -37,4 +37,4 @@ checked: fable 2026-11-10
 
 **Notes.** Filed Oct 25 by the effects lead from gov-bribes-in-played-worlds-measured.
 
-Deferred Oct 25: nothing on screen reads it yet.
+Deferred Oct 25: nothing on screen reads it yet. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Tuning why lobbyist meetings end in bribe offers; bribes arising from causes is covered by gov-a-background-year-with-a-full-chain.
