@@ -5,14 +5,14 @@ description: Writes and reviews pieces for the English engine's banks against th
 
 # Civic prose
 
-**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+**Look first (owner, Oct 27):** run `look-first` before building, fixing, filing or asking; a found ruling is built and cited, never asked again.
 
 Use this for development-time authoring; shipped gameplay does not call a prose model. The root is a router, not a fixed sequence of repeated audits.
 
 Render the supplied scene facts naturally in the correct surface register. Preserve the owner's calibrated rules and conditional examples in `references/owner-authoring-contract.md`; the full style is `references/prose-contract.md`, the grounding check is `references/grounding-gate.md`, a different surface is `references/surface-registers.md`, and a packet or schema issue is `references/fact-packet-schema.md`. The full style, grounding rules and example files remain authoritative; do not reread every example for an unchanged familiar pattern.
 
 Pieces go into the English engine's banks (`data/english/parts/`) with their move, register and record facts; the engine arranges them at play (`words-engine`). Do not polish a fixed scene merely to preserve its premise. Require a recorded person, motive, tension and available response for an interrupting moment; let an actual death, law effect or other world change settle first, then render the choice it creates. An ordinary exchange can matter without a dramatic outcome, but a generic favor or occasion with no personal reason or cost is not accepted prose.
-New authored pieces play once they are in a bank and the grade step has run; the owner's grades take out what he rejects and tune the rest (`words-engine`; owner, Oct 24). Nothing waits on the review.
+**Who writes (owner, Nov 10: "split by role").** Only the Story session writes, changes or deletes lines under `data/english/parts/`. A builder or any other session that needs a line lists the spot and what it must say on its pull request; it does not write the line. Every note the owner gives becomes a rule in `data/english/line-rules.json` that a program tests (`npm run words:rules`); a line that breaks a rule is pulled (`data/english/pulled.json`) until it is rewritten; a rule no program can judge is judged once by a reviewer and saved (`data/english/judged/`). A rewritten line goes back into play when it passes the rules, without waiting for the owner's grade (owner, Nov 9). New pieces play once they are in a bank; the owner's grades tune the rest (`words-engine`; owner, Oct 24). Nothing waits on the review.
 
 The player must understand the actual incident, relevant people and available choice. Grounded but evasive language such as "something happened" is not successful prose when the incident itself is needed to decide. A concise orientation is allowed when the screen does not already provide it. Do not repeat titles, recap needlessly, write metaphors/epigrams or interpret the scene for the player.
 

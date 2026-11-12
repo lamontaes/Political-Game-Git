@@ -543,6 +543,7 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
         officialId: asked,
         problem: "paid-under-minimum-wage",
         severity: 0.5,
+        standing: 0,
         facts: { commitmentId: "probe", hourlyMinor: 650, floorMinor: 725 },
         opened: core.date,
         respondBy: nextDay,

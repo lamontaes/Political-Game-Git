@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-words-news-brief-prints-a-code-name
-pr:
+pr: #8549
 after:
 blocked-on:
 lead: words
