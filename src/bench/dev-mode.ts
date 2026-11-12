@@ -985,6 +985,8 @@ export class DevMode {
     series?: string;
     value?: number;
     unit?: string;
+    /** Repeal the body's own law on an amount series: its level holds what it held before, including nothing. */
+    repeal?: boolean;
     billId?: string;
     /** Put the bill on the body's next sitting, as its sponsor's calendar would (a floor day the member is held for). */
     schedule?: boolean;
@@ -1028,6 +1030,7 @@ export class DevMode {
               kind: "law-amount",
               series,
               value,
+              ...(input.repeal ? { repeal: true } : {}),
               ...(input.unit ? { unit: input.unit } : {}),
             },
       ];
@@ -1290,7 +1293,14 @@ export class DevMode {
           : type.causes.some((c) => c.match)
             ? "moment"
             : null);
-      return { key: type.key, causeRecords, waiting, recipe };
+      // What dev mode can do for it: bring it about now (an engine's own function), run the world
+      // until its cause record comes, or nothing (no engine writes its cause yet).
+      const state = !recipe
+        ? ("none" as const)
+        : recipe === "wait" || recipe === "moment"
+          ? ("waits" as const)
+          : ("plays" as const);
+      return { key: type.key, causeRecords, waiting, recipe, state };
     });
   }
 
@@ -2267,8 +2277,45 @@ export class DevMode {
       news: newsItems(this.core)
         .filter((row) => row.date >= from)
         .slice(0, 200),
+      states: this.otherStatesByYear(),
       marks: this.marks(),
     };
+  }
+
+  /**
+   * Laws other states' legislatures changed, by the year they passed: how many
+   * and in how many states, with the law rows (each keeps what carried it onto
+   * its session's agenda). Read from the laws engine's rows.
+   */
+  otherStatesByYear() {
+    if (!has(this.core, "core2-laws-v1")) return [];
+    const byYear = new Map<string, { ids: string[]; states: Set<string> }>();
+    for (const row of this.api
+      .moduleState("core2-laws-v1")
+      .table("laws")
+      .rows() as unknown as {
+      id: string;
+      jurisdiction: string;
+      /** The day the row was written: the day it passed. */
+      retrieved?: string;
+      terms?: { session?: unknown };
+    }[]) {
+      if (typeof row.terms?.session !== "string" || row.jurisdiction === "US")
+        continue;
+      const year = String(row.retrieved ?? "").slice(0, 4);
+      const kept = byYear.get(year) ?? { ids: [], states: new Set<string>() };
+      byYear.set(year, kept);
+      kept.ids.push(row.id);
+      kept.states.add(row.jurisdiction);
+    }
+    return [...byYear.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([year, kept]) => ({
+        year,
+        changes: kept.ids.length,
+        states: kept.states.size,
+        recordIds: kept.ids,
+      }));
   }
 
   // 6. Experiments --------------------------------------------------------

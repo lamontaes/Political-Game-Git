@@ -54,6 +54,7 @@ import {
 import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceToFilingOpen } from "./gov-test-clock";
 
 const START = "2026-01-05";
 const seed =
@@ -77,7 +78,13 @@ function randomPlace(salt: string) {
   return pick(places, `place${salt}`);
 }
 
-/** Two residents filed for the soonest local or state race that takes both, or undefined. */
+/**
+ * Two residents filed for the soonest local or state race that takes both, or
+ * undefined. The world opens on the start date and a place whose filing
+ * windows open later (the nomination calendar's own dates) has nothing to
+ * file for that day, so the clock moves to the first day one opens, as a
+ * player there would wait for it.
+ */
 function filedRace(place: string) {
   const core = createLifeCore(
     buildPopulation({
@@ -92,6 +99,7 @@ function filedRace(place: string) {
   openElections(core);
   openCampaigns(core);
   openParties(core);
+  advanceToFilingOpen(core);
   const api = coreAPI(core);
   const adults = [...core.people.values()]
     .filter(
@@ -303,18 +311,12 @@ describe("a door yes is near-binding", () => {
         // The ballot carries their word, as far as it still holds: undone
         // only by what heavy they learned since (pledgeDoubt).
         const part = b.appeal[mine.personId]?.pledge ?? 0;
-        const voter = core.people.get(b.voterId)!;
-        const holds =
-          1 -
-          pledgeDoubt(
-            api,
-            voter,
-            b.lean ?? 0,
-            word,
-            ballot(api, contest.id).map((f) => ({ id: f.personId })),
-          );
+        // How far the word held is what the ballot kept on its day: the ties and news
+        // moved after it, so recomputing the doubt now would read a later world.
+        const holds = b.appeal[mine.personId]?.pledgeHeld;
+        expect(holds, `${place}: ${b.id} kept no held word`).toBeDefined();
         expect(part, `${place}: ${b.id} pledge as held`).toBeCloseTo(
-          weight * holds,
+          weight * holds!,
           6,
         );
         if (holds === 0) continue;
@@ -399,7 +401,9 @@ describe("a door yes is near-binding", () => {
       if (places >= 3) break;
       const world = filedRace(place);
       if (!world) {
-        lines.push(`${place}: no race two residents could file for`);
+        lines.push(
+          `${place}: no race two residents could file for (no window opens, or the first one refused two residents)`,
+        );
         continue;
       }
       const { core, api, contest, filed } = world;
@@ -487,13 +491,20 @@ describe("a door yes is near-binding", () => {
   }, 1_800_000);
 });
 
+/** Places the weighted-record case draws before it gives up (each costs a world build and a few evenings of knocking). */
+const DRAWS = 8;
+/** Weeks the world goes on, at most, until a race is open for filing. */
+const MOST_WEEKS = 78;
+
 describe("a door yes holds for the one household the door reached", () => {
   it("in a town whose counted records each stand for several households, the pledged household votes on its word and the rest as they would have", () => {
     // A played-world town whose counted records each stand for several real
     // households (the opening's count scale, as a town opened at its Census
     // size above its generated sample has): draws go on until a door reaches
     // a counted record that votes in the race.
-    for (let draw = 0; draw < 8; draw += 1) {
+    // Each place passed over is named with the gate that rejected it.
+    const passedOver: string[] = [];
+    for (let draw = 0; draw < DRAWS; draw += 1) {
       const place = drawPlace(`${seed}:${draw}`, "door-pledge-weighted");
       const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
       setBookkeeping(false);
@@ -507,7 +518,12 @@ describe("a door yes holds for the one household the door reached", () => {
           .filter((v) => v.weight > 1)
           .map((v) => v.id),
       );
-      if (!weighted.size) continue;
+      if (!weighted.size) {
+        passedOver.push(
+          `${where}: no counted record stands for several households`,
+        );
+        continue;
+      }
       const api = coreAPI(core);
       const adults = [...core.people.values()]
         .filter(
@@ -520,24 +536,34 @@ describe("a door yes holds for the one household the door reached", () => {
       let filed: FilingRow[] = [];
       let contestId = "";
       let electionDate = "";
-      for (const contest of openContests(api)) {
-        filed = [];
-        for (const [n, person] of adults.slice(0, 2).entries()) {
-          const result = fileCandidacy(api, {
-            personId: person.id,
-            contestId: contest.id,
-            platform: [`${PLATFORM_QUESTIONS[0]}=${n ? -1 : 1}`],
-          });
-          if (result.status === "refused") break;
-          filed.push(result.filing);
-        }
-        if (filed.length === 2) {
-          contestId = contest.id;
-          electionDate = contest.electionDate;
-          break;
+      // The opening has no race open for filing yet: the world goes on a week at a time, bounded,
+      // until one is open to two residents.
+      for (let week = 0; week <= MOST_WEEKS && !contestId; week += 1) {
+        if (week) advanceCore(core, addDays(makeIsoDate(core.date), 7));
+        for (const contest of openContests(api)) {
+          filed = [];
+          for (const [n, person] of adults.slice(0, 2).entries()) {
+            const result = fileCandidacy(api, {
+              personId: person.id,
+              contestId: contest.id,
+              platform: [`${PLATFORM_QUESTIONS[0]}=${n ? -1 : 1}`],
+            });
+            if (result.status === "refused") break;
+            filed.push(result.filing);
+          }
+          if (filed.length === 2) {
+            contestId = contest.id;
+            electionDate = contest.electionDate;
+            break;
+          }
         }
       }
-      if (!contestId) continue;
+      if (!contestId) {
+        passedOver.push(
+          `${where}: no open race two residents could file for in ${MOST_WEEKS} weeks`,
+        );
+        continue;
+      }
       // A door that carries a petition asks for a signature, not the vote:
       // the candidates gather their signatures at the doors, then knock for
       // votes once the petitions are in.
@@ -565,8 +591,12 @@ describe("a door yes holds for the one household the door reached", () => {
         filed.some((f) => petitionCirculating(api, f.id)) ||
         core.date >= electionDate ||
         !onBallot.has(filed[0]!.personId)
-      )
+      ) {
+        passedOver.push(
+          `${where}: the candidates were not on the ballot before the election`,
+        );
         continue;
+      }
       const mine = filed[0]!;
       // A volunteer-style evening (counted openers stay counted) until a
       // weighted record says yes.
@@ -592,7 +622,10 @@ describe("a door yes holds for the one household the door reached", () => {
             weighted.has(p.voterId),
         );
       }
-      if (!pledged) continue;
+      if (!pledged) {
+        passedOver.push(`${where}: no door reached a weighted counted record`);
+        continue;
+      }
       // A counted resident's visit is read as a full person's knowledge is:
       // their own recognition of the candidate in place of the town's share,
       // and the visit's warmth; the other candidates are as they were.
@@ -641,7 +674,12 @@ describe("a door yes holds for the one household the door reached", () => {
       };
       const at = kept.voterIds.indexOf(pledged.voterId);
       // Not in the race's electorate (a ward seat elsewhere in town): redraw.
-      if (at < 0) continue;
+      if (at < 0) {
+        passedOver.push(
+          `${where}: the reached record is not in the race's electorate`,
+        );
+        continue;
+      }
       expect(kept.weight[at], `${where}: weight`).toBeGreaterThan(1);
       // The pledged household voted for the candidate on its word.
       const mineAt = kept.field.findIndex((f) => f.id === mine.personId);
@@ -676,10 +714,15 @@ describe("a door yes holds for the one household the door reached", () => {
           kept.split[at]![j]!,
           `${where}: the rest of ${kept.weight[at]} households for ${id}`,
         ).toBeCloseTo(expected[id] ?? 0, 9);
+      // Name the place used and every place passed over, so a passing run says
+      // where it proved the case.
+      process.stdout.write(
+        `WEIGHTED RECORD seed ${seed}: proved in ${where}; passed over ${passedOver.length}: ${passedOver.join("; ") || "none"}\n`,
+      );
       return;
     }
     throw new Error(
-      `seed ${seed}: no drawn town had a weighted counted record that a door reached and that votes in the race`,
+      `seed ${seed}: no drawn town had a weighted counted record that a door reached and that votes in the race; passed over: ${passedOver.join("; ")}`,
     );
-  }, 900_000);
+  }, 3_600_000);
 });
