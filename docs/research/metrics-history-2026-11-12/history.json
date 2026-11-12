@@ -1,0 +1,2104 @@
+{
+ "place": "Gracey, Kentucky (US-KY)",
+ "placeKey": "2132032",
+ "placeId": "jurisdiction_5c53867f99d95a8c",
+ "worldSeed": "ae9012e3c583d3853cd51b59bcc344415cdbd2a6f54ba8112abb09eef823c8b8",
+ "runSeed": "metrics-nov12-a",
+ "start": "2025-01-20",
+ "years": [
+  "2025",
+  "2026",
+  "2027",
+  "2028",
+  "2029",
+  "2030"
+ ],
+ "readAt": "December 31 of each year, after advancing the played world (buildBenchWorld, two-level) to that date",
+ "historyStillHeldAtEnd": {
+  "worldMetricsMonths": [
+   "2025-02-02",
+   "2025-03-02",
+   "2025-04-02",
+   "2025-05-02",
+   "2025-06-02",
+   "2025-07-02",
+   "2025-08-02",
+   "2025-09-02",
+   "2025-10-02",
+   "2025-11-02",
+   "2025-12-02",
+   "2026-01-02",
+   "2026-02-02",
+   "2026-03-02",
+   "2026-04-02",
+   "2026-05-02",
+   "2026-06-02",
+   "2026-07-02",
+   "2026-08-02",
+   "2026-09-02",
+   "2026-10-02",
+   "2026-11-02",
+   "2026-12-02",
+   "2027-01-02",
+   "2027-02-02",
+   "2027-03-02",
+   "2027-04-02",
+   "2027-05-02",
+   "2027-06-02",
+   "2027-07-02",
+   "2027-08-02",
+   "2027-09-02",
+   "2027-10-02",
+   "2027-11-02",
+   "2027-12-02",
+   "2028-01-02",
+   "2028-02-02",
+   "2028-03-02",
+   "2028-04-02",
+   "2028-05-02",
+   "2028-06-02",
+   "2028-07-02",
+   "2028-08-02",
+   "2028-09-02",
+   "2028-10-02",
+   "2028-11-02",
+   "2028-12-02",
+   "2029-01-02",
+   "2029-02-02",
+   "2029-03-02",
+   "2029-04-02",
+   "2029-05-02",
+   "2029-06-02",
+   "2029-07-02",
+   "2029-08-02",
+   "2029-09-02",
+   "2029-10-02",
+   "2029-11-02",
+   "2029-12-02",
+   "2030-01-02",
+   "2030-02-02",
+   "2030-03-02",
+   "2030-04-02",
+   "2030-05-02",
+   "2030-06-02",
+   "2030-07-02",
+   "2030-08-02",
+   "2030-09-02",
+   "2030-10-02",
+   "2030-11-02",
+   "2030-12-02"
+  ],
+  "outcomeWebMonths": [
+   "2025-01",
+   "2025-02",
+   "2025-03",
+   "2025-04",
+   "2025-05",
+   "2025-06",
+   "2025-07",
+   "2025-08",
+   "2025-09",
+   "2025-10",
+   "2025-11",
+   "2025-12",
+   "2026-01",
+   "2026-02",
+   "2026-03",
+   "2026-04",
+   "2026-05",
+   "2026-06",
+   "2026-07",
+   "2026-08",
+   "2026-09",
+   "2026-10",
+   "2026-11",
+   "2026-12",
+   "2027-01",
+   "2027-02",
+   "2027-03",
+   "2027-04",
+   "2027-05",
+   "2027-06",
+   "2027-07",
+   "2027-08",
+   "2027-09",
+   "2027-10",
+   "2027-11",
+   "2027-12",
+   "2028-01",
+   "2028-02",
+   "2028-03",
+   "2028-04",
+   "2028-05",
+   "2028-06",
+   "2028-07",
+   "2028-08",
+   "2028-09",
+   "2028-10",
+   "2028-11",
+   "2028-12",
+   "2029-01",
+   "2029-02",
+   "2029-03",
+   "2029-04",
+   "2029-05",
+   "2029-06",
+   "2029-07",
+   "2029-08",
+   "2029-09",
+   "2029-10",
+   "2029-11",
+   "2029-12",
+   "2030-01",
+   "2030-02",
+   "2030-03",
+   "2030-04",
+   "2030-05",
+   "2030-06",
+   "2030-07",
+   "2030-08",
+   "2030-09",
+   "2030-10",
+   "2030-11",
+   "2030-12"
+  ],
+  "regionalMonths": [
+   "2021-12",
+   "2022-12",
+   "2023-12",
+   "2024-12",
+   "2025-12",
+   "2026-12",
+   "2027-12",
+   "2028-12",
+   "2029-12",
+   "2030-01",
+   "2030-02",
+   "2030-03",
+   "2030-04",
+   "2030-05",
+   "2030-06",
+   "2030-07",
+   "2030-08",
+   "2030-09",
+   "2030-10",
+   "2030-11",
+   "2030-12"
+  ],
+  "macroMonthsFirstLast": [
+   "2021-01",
+   "2030-12",
+   120
+  ]
+ },
+ "measures": [
+  {
+   "area": "Jobs and pay",
+   "name": "Unemployment rate",
+   "level": "town",
+   "unit": "percent",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), unemploymentRate",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 2.7027,
+    "2026": 8.2474,
+    "2027": 5.3191,
+    "2028": 6.5934,
+    "2029": 15.1163,
+    "2030": 14.8148
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Residents with a job",
+   "level": "town",
+   "unit": "people",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), residentsEmployed",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 108.0,
+    "2026": 89.0,
+    "2027": 89.0,
+    "2028": 85.0,
+    "2029": 73.0,
+    "2030": 69.0
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Jobs at the town's employers",
+   "level": "town",
+   "unit": "jobs",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), employed",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 279.0,
+    "2026": 261.0,
+    "2027": 261.0,
+    "2028": 258.0,
+    "2029": 247.0,
+    "2030": 243.0
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Typical hourly pay",
+   "level": "town",
+   "unit": "dollars an hour",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), medianHourlyMinor",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 24.05,
+    "2026": 26.31,
+    "2027": 27.48,
+    "2028": 28.2,
+    "2029": 27.47,
+    "2030": 28.32
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Typical household earnings",
+   "level": "town",
+   "unit": "dollars a year",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), medianHouseholdEarningsMinor",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 95943.9,
+    "2026": 100017.3,
+    "2027": 99564.7,
+    "2028": 106434.0,
+    "2029": 110157.0,
+    "2030": 107485.2
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Businesses open",
+   "level": "town",
+   "unit": "businesses",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), businessesOpen",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 31.0,
+    "2026": 28.0,
+    "2027": 26.0,
+    "2028": 25.0,
+    "2029": 22.0,
+    "2030": 22.0
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Businesses opened (December)",
+   "level": "town",
+   "unit": "businesses a month",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), businessesFoundedThisMonth",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 0.0,
+    "2026": 0.0,
+    "2027": 0.0,
+    "2028": 0.0,
+    "2029": 0.0,
+    "2030": 0.0
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Businesses closed (December)",
+   "level": "town",
+   "unit": "businesses a month",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), businessesClosedThisMonth",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 0.0,
+    "2026": 0.0,
+    "2027": 0.0,
+    "2028": 0.0,
+    "2029": 0.0,
+    "2030": 0.0
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Open positions",
+   "level": "town",
+   "unit": "positions",
+   "source": "jobs.positions byStatus open (townJobsPanel)",
+   "kept": "now only",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 14.0,
+    "2026": 16.0,
+    "2027": 14.0,
+    "2028": 12.0,
+    "2029": 9.0,
+    "2030": 6.0
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "People looking for work",
+   "level": "town",
+   "unit": "people",
+   "source": "jobs.seekers + jobs.countedSeekers (townJobsPanel)",
+   "kept": "now only",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 3.0,
+    "2026": 7.0,
+    "2027": 6.0,
+    "2028": 5.0,
+    "2029": 13.0,
+    "2030": 12.0
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Unemployment claims open",
+   "level": "town",
+   "unit": "claims",
+   "source": "jobs.claims open, by placeId (metricsView benefits)",
+   "kept": "now only (closed claims stay as rows, filedAt kept)",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 1.0,
+    "2026": 3.0,
+    "2027": 0.0,
+    "2028": 0.0,
+    "2029": 1.0,
+    "2030": 0.0
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Average hourly earnings (web)",
+   "level": "town",
+   "unit": "dollars an hour",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), labor.wages",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 33.6046,
+    "2026": 33.6046,
+    "2027": 33.6046,
+    "2028": 33.6046,
+    "2029": 33.6046,
+    "2030": 33.6046
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Low-wage jobs",
+   "level": "town",
+   "unit": "percent of workers",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), labor.low-wage-jobs",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 13.7591,
+    "2026": 14.0165,
+    "2027": 12.9378,
+    "2028": 12.967,
+    "2029": 12.8735,
+    "2030": 12.9337
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Median earnings",
+   "level": "town",
+   "unit": "dollars a year",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), labor.median-earnings",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 43311.1581,
+    "2026": 43335.2465,
+    "2027": 43359.1685,
+    "2028": 43384.1857,
+    "2029": 43412.4736,
+    "2030": 43441.0658
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Unemployment rate",
+   "level": "state",
+   "unit": "percent",
+   "source": "regional.months, stateFigures() over the state's regions (last twelve months and each December kept), unemploymentPct",
+   "kept": "last 12 months + each December",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 3.6304,
+    "2026": 3.706,
+    "2027": 4.6115,
+    "2028": 4.8685,
+    "2029": 4.6004,
+    "2030": 4.2648
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Average hourly pay",
+   "level": "state",
+   "unit": "dollars an hour",
+   "source": "regional.months, stateFigures() over the state's regions (last twelve months and each December kept), hourlyEarnings",
+   "kept": "last 12 months + each December",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 31.575,
+    "2026": 33.095,
+    "2027": 34.2336,
+    "2028": 35.1427,
+    "2029": 36.1257,
+    "2030": 37.2326
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Jobs",
+   "level": "state",
+   "unit": "jobs",
+   "source": "regional.months, stateFigures() over the state's regions (last twelve months and each December kept), jobsThousands",
+   "kept": "last 12 months + each December",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 2135166.8785,
+    "2026": 2146508.1766,
+    "2027": 2139824.2076,
+    "2028": 2145201.8132,
+    "2029": 2163561.7888,
+    "2030": 2185293.0927
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Unemployment rate",
+   "level": "country",
+   "unit": "percent",
+   "source": "macro.months (one row per month for the country; every month kept, from 2021-01), unemploymentPct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 3.3357,
+    "2026": 3.3802,
+    "2027": 3.9966,
+    "2028": 4.3418,
+    "2029": 4.2615,
+    "2030": 4.0159
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Payroll jobs",
+   "level": "country",
+   "unit": "jobs",
+   "source": "macro.months (one row per month for the country; every month kept, from 2021-01), payrollJobsThousands",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 163257974.7119,
+    "2026": 163924738.8426,
+    "2027": 163712347.844,
+    "2028": 164044667.0665,
+    "2029": 165195453.2288,
+    "2030": 166725328.1895
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Average hourly pay",
+   "level": "country",
+   "unit": "dollars an hour",
+   "source": "macro.months (one row per month for the country; every month kept, from 2021-01), hourlyEarnings",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 36.715,
+    "2026": 38.4538,
+    "2027": 39.8843,
+    "2028": 41.0097,
+    "2029": 42.1084,
+    "2030": 43.3189
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Price level (1 = opening)",
+   "level": "town",
+   "unit": "index",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), priceLevel",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 1.0202,
+    "2026": 1.0554,
+    "2027": 1.0961,
+    "2028": 1.148,
+    "2029": 1.1871,
+    "2030": 1.1828
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Prices against the U.S.",
+   "level": "town",
+   "unit": "index, U.S. = 100",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), household.prices",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 86.2018,
+    "2026": 86.2018,
+    "2027": 86.2014,
+    "2028": 86.2011,
+    "2029": 86.201,
+    "2030": 86.201
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "People in poverty",
+   "level": "town",
+   "unit": "percent",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), povertyShare",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 12.5,
+    "2026": 16.7785,
+    "2027": 8.3333,
+    "2028": 22.0339,
+    "2029": 30.3191,
+    "2030": 23.1183
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Household income (web)",
+   "level": "town",
+   "unit": "thousand dollars a year",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), household.income",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 95.9439,
+    "2026": 100.0173,
+    "2027": 99.5647,
+    "2028": 106.434,
+    "2029": 110.157,
+    "2030": 107.4852
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Households short of food",
+   "level": "town",
+   "unit": "percent of households",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), household.food-insecurity",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 20.0438,
+    "2026": 20.0438,
+    "2027": 20.0438,
+    "2028": 20.0438,
+    "2029": 20.0438,
+    "2030": 20.0438
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Receiving food help (SNAP)",
+   "level": "town",
+   "unit": "percent of residents",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), program.snap-receipt",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 13.7299,
+    "2026": 13.7299,
+    "2027": 13.7299,
+    "2028": 13.7299,
+    "2029": 13.7299,
+    "2030": 13.7299
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Household loans open",
+   "level": "town",
+   "unit": "loans",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), householdLoansOpen",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 29.0,
+    "2026": 27.0,
+    "2027": 11.0,
+    "2028": 11.0,
+    "2029": 11.0,
+    "2030": 11.0
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Town bank deposits",
+   "level": "town",
+   "unit": "dollars",
+   "source": "credit.books (one row a month for the town bank; every month kept), deposits",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 4633574.83,
+    "2026": 8226977.63,
+    "2027": 11616097.15,
+    "2028": 15892893.82,
+    "2029": 19116000.44,
+    "2030": 21853611.6
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Price level",
+   "level": "state",
+   "unit": "percent of U.S.",
+   "source": "regional.months, stateFigures() over the state's regions (last twelve months and each December kept), priceLevelPct",
+   "kept": "last 12 months + each December",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 89.4092,
+    "2026": 89.4618,
+    "2027": 89.3798,
+    "2028": 89.2616,
+    "2029": 89.1993,
+    "2030": 89.2047
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Inflation",
+   "level": "country",
+   "unit": "percent a year",
+   "source": "macro.months (one row per month for the country; every month kept, from 2021-01), inflationPct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 2.7622,
+    "2026": 2.7943,
+    "2027": 2.4721,
+    "2028": 2.0919,
+    "2029": 1.6916,
+    "2030": 1.4906
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Consumer price index",
+   "level": "country",
+   "unit": "index",
+   "source": "macro.months (one row per month for the country; every month kept, from 2021-01), priceIndex",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 316.6165,
+    "2026": 325.4637,
+    "2027": 333.5095,
+    "2028": 340.4863,
+    "2029": 346.246,
+    "2030": 351.4072
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Central bank rate",
+   "level": "country",
+   "unit": "percent",
+   "source": "macro.months (one row per month for the country; every month kept, from 2021-01), policyRatePct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 2.875,
+    "2026": 3.375,
+    "2027": 2.875,
+    "2028": 2.375,
+    "2029": 1.875,
+    "2030": 1.875
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "30-year mortgage rate",
+   "level": "country",
+   "unit": "percent",
+   "source": "macro.months (one row per month for the country; every month kept, from 2021-01), mortgage30Pct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 6.6757,
+    "2026": 6.4938,
+    "2027": 6.3482,
+    "2028": 6.1319,
+    "2029": 5.8887,
+    "2030": 5.6831
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Prime rate",
+   "level": "country",
+   "unit": "percent",
+   "source": "macro.months (one row per month for the country; every month kept, from 2021-01), primeRatePct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 5.955,
+    "2026": 6.455,
+    "2027": 5.955,
+    "2028": 5.455,
+    "2029": 4.955,
+    "2030": 4.955
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "10-year Treasury rate",
+   "level": "country",
+   "unit": "percent",
+   "source": "macro.months (one row per month for the country; every month kept, from 2021-01), treasury10Pct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 4.5712,
+    "2026": 4.4186,
+    "2027": 4.2868,
+    "2028": 4.1182,
+    "2029": 3.9322,
+    "2030": 3.7631
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Output gap",
+   "level": "country",
+   "unit": "percent",
+   "source": "macro.months (one row per month for the country; every month kept, from 2021-01), outputGapPct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 1.746,
+    "2026": 0.7551,
+    "2027": 0.4174,
+    "2028": 0.6995,
+    "2029": 1.011,
+    "2030": 1.1432
+   }
+  },
+  {
+   "area": "Homes",
+   "name": "Typical rent",
+   "level": "town",
+   "unit": "dollars a month",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), medianRentMinor",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 1082.45,
+    "2026": 1134.35,
+    "2027": 1188.27,
+    "2028": 1241.47,
+    "2029": 1280.7,
+    "2030": 1339.87
+   }
+  },
+  {
+   "area": "Homes",
+   "name": "Typical home value",
+   "level": "town",
+   "unit": "dollars",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), medianHomeValueMinor",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 190533.63,
+    "2026": 190533.63,
+    "2027": 191490.59,
+    "2028": 191490.59,
+    "2029": 191490.59,
+    "2030": 191490.59
+   }
+  },
+  {
+   "area": "Homes",
+   "name": "Rent against earnings",
+   "level": "town",
+   "unit": "percent",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), rentToEarnings",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 13.5385,
+    "2026": 13.6098,
+    "2027": 14.3216,
+    "2028": 13.9971,
+    "2029": 13.9514,
+    "2030": 14.9587
+   }
+  },
+  {
+   "area": "Homes",
+   "name": "Eviction orders (November)",
+   "level": "town",
+   "unit": "orders a month",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), evictionOrdersLastMonth",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 0.0,
+    "2026": 0.0,
+    "2027": 0.0,
+    "2028": 0.0,
+    "2029": 0.0,
+    "2030": 0.0
+   }
+  },
+  {
+   "area": "Homes",
+   "name": "Evictions served, last 12 months",
+   "level": "town",
+   "unit": "households",
+   "source": "housing.cases noticeAt, by household's place (metricsView evictions)",
+   "kept": "every case kept (noticeAt)",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 0.0,
+    "2026": 0.0,
+    "2027": 0.0,
+    "2028": 0.0,
+    "2029": 0.0,
+    "2030": 0.0
+   }
+  },
+  {
+   "area": "Homes",
+   "name": "Homes with a mortgage (town bank)",
+   "level": "town",
+   "unit": "mortgages",
+   "source": "world-metrics.months (one row per place on the 2nd of each month; every month kept), mortgagesOwed",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 12.0,
+    "2026": 12.0,
+    "2027": 12.0,
+    "2028": 12.0,
+    "2029": 11.0,
+    "2030": 11.0
+   }
+  },
+  {
+   "area": "Homes",
+   "name": "Rental homes",
+   "level": "town",
+   "unit": "homes",
+   "source": "housing.stock (one row per place, overwritten), rentalUnits",
+   "kept": "now only",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 42.0,
+    "2026": 42.0,
+    "2027": 42.0,
+    "2028": 42.0,
+    "2029": 42.0,
+    "2030": 42.0
+   }
+  },
+  {
+   "area": "Homes",
+   "name": "Empty rentals",
+   "level": "town",
+   "unit": "homes",
+   "source": "housing.stock, vacantRental",
+   "kept": "now only",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 3.0,
+    "2026": 3.0,
+    "2027": 3.0,
+    "2028": 3.0,
+    "2029": 3.0,
+    "2030": 3.0
+   }
+  },
+  {
+   "area": "Homes",
+   "name": "People without a home",
+   "level": "town",
+   "unit": "people",
+   "source": "core2-homeless-count-v1.counts (one row per place, overwritten), homeless",
+   "kept": "now only",
+   "yearsWithValue": 1,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 0.0,
+    "2026": null,
+    "2027": null,
+    "2028": null,
+    "2029": null,
+    "2030": null
+   }
+  },
+  {
+   "area": "Homes",
+   "name": "Homelessness (web)",
+   "level": "town",
+   "unit": "per 10,000 residents",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), housing.homelessness",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 12.3331,
+    "2026": 12.3331,
+    "2027": 12.3331,
+    "2028": 12.3331,
+    "2029": 12.3331,
+    "2030": 12.3331
+   }
+  },
+  {
+   "area": "Homes",
+   "name": "Eviction filings (web)",
+   "level": "town",
+   "unit": "per 100 renter homes",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), housing.eviction",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 7.2057,
+    "2026": 7.2057,
+    "2027": 7.2057,
+    "2028": 7.2057,
+    "2029": 7.2057,
+    "2030": 7.2057
+   }
+  },
+  {
+   "area": "Homes",
+   "name": "Renter homes",
+   "level": "town",
+   "unit": "percent of homes",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), housing.rental-supply",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 33.7182,
+    "2026": 33.7182,
+    "2027": 33.7182,
+    "2028": 33.7182,
+    "2029": 33.7182,
+    "2030": 33.7182
+   }
+  },
+  {
+   "area": "Homes",
+   "name": "Property tax rate",
+   "level": "town",
+   "unit": "percent of value",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), housing.property-tax-rate",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 0.649,
+    "2026": 0.649,
+    "2027": 0.649,
+    "2028": 0.649,
+    "2029": 0.649,
+    "2030": 0.649
+   }
+  },
+  {
+   "area": "Schools",
+   "name": "Graduation rate",
+   "level": "town",
+   "unit": "percent",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), school.graduation-pct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 90.5779,
+    "2026": 90.5303,
+    "2027": 90.5303,
+    "2028": 90.5303,
+    "2029": 89.7111,
+    "2030": 89.7111
+   }
+  },
+  {
+   "area": "Schools",
+   "name": "Reading at grade level (8th grade)",
+   "level": "town",
+   "unit": "percent",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), school.reading-proficient-pct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 27.6238,
+    "2026": 27.6238,
+    "2027": 27.6238,
+    "2028": 27.6238,
+    "2029": 27.6238,
+    "2030": 27.6238
+   }
+  },
+  {
+   "area": "Schools",
+   "name": "Math at grade level (8th grade)",
+   "level": "town",
+   "unit": "percent",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), school.math-proficient-pct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 19.9564,
+    "2026": 19.9564,
+    "2027": 20.2957,
+    "2028": 20.2957,
+    "2029": 20.2957,
+    "2030": 20.2957
+   }
+  },
+  {
+   "area": "Schools",
+   "name": "Spending per student",
+   "level": "town",
+   "unit": "dollars a year",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), school.spending-per-student",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 15455.3834,
+    "2026": 15455.3834,
+    "2027": 15455.3834,
+    "2028": 15455.3834,
+    "2029": 15455.3834,
+    "2030": 15455.3834
+   }
+  },
+  {
+   "area": "Schools",
+   "name": "Adults with a college degree",
+   "level": "town",
+   "unit": "percent",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), school.college-completion-pct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 25.8672,
+    "2026": 25.8697,
+    "2027": 25.8744,
+    "2028": 25.8791,
+    "2029": 25.8827,
+    "2030": 25.8663
+   }
+  },
+  {
+   "area": "Health",
+   "name": "People without health insurance",
+   "level": "town",
+   "unit": "percent",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), health.uninsured-pct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 6.1538,
+    "2026": 7.2744,
+    "2027": 6.6826,
+    "2028": 6.9401,
+    "2029": 8.6626,
+    "2030": 8.6017
+   }
+  },
+  {
+   "area": "Health",
+   "name": "Deaths, ages 55 to 64",
+   "level": "town",
+   "unit": "per 100,000",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), health.mortality-55-64",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 830.3357,
+    "2026": 830.3357,
+    "2027": 830.3357,
+    "2028": 830.3357,
+    "2029": 830.3357,
+    "2030": 830.3357
+   }
+  },
+  {
+   "area": "Health",
+   "name": "Overdose deaths",
+   "level": "town",
+   "unit": "per 100,000",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), health.overdose-deaths",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 35.7237,
+    "2026": 35.7237,
+    "2027": 35.7237,
+    "2028": 35.7237,
+    "2029": 35.7237,
+    "2030": 35.7237
+   }
+  },
+  {
+   "area": "Health",
+   "name": "Infant deaths",
+   "level": "town",
+   "unit": "per 1,000 births",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), health.infant-mortality",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 5.704,
+    "2026": 5.7241,
+    "2027": 5.6528,
+    "2028": 5.6117,
+    "2029": 5.5785,
+    "2030": 5.5836
+   }
+  },
+  {
+   "area": "Health",
+   "name": "Low birth weight",
+   "level": "town",
+   "unit": "percent of births",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), health.low-birthweight",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 9.3707,
+    "2026": 9.3707,
+    "2027": 9.3707,
+    "2028": 9.3707,
+    "2029": 9.3707,
+    "2030": 9.3707
+   }
+  },
+  {
+   "area": "Health",
+   "name": "Children with asthma",
+   "level": "town",
+   "unit": "percent",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), health.child-asthma-pct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 5.2082,
+    "2026": 5.2082,
+    "2027": 5.2082,
+    "2028": 5.2082,
+    "2029": 5.2082,
+    "2030": 5.2082
+   }
+  },
+  {
+   "area": "Health",
+   "name": "Teens with major depression",
+   "level": "town",
+   "unit": "percent",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), health.youth-major-depressive-episode",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 17.907,
+    "2026": 17.907,
+    "2027": 17.907,
+    "2028": 17.907,
+    "2029": 17.907,
+    "2030": 17.907
+   }
+  },
+  {
+   "area": "Health",
+   "name": "Adults with medical debt in collections",
+   "level": "town",
+   "unit": "percent",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), finance.medical-debt-in-collections",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 4.7559,
+    "2026": 4.7559,
+    "2027": 4.7559,
+    "2028": 4.7559,
+    "2029": 4.7559,
+    "2030": 4.7559
+   }
+  },
+  {
+   "area": "Safety",
+   "name": "Violent crime",
+   "level": "town",
+   "unit": "per 100,000",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), crime.violent",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 202.6559,
+    "2026": 199.6046,
+    "2027": 194.4425,
+    "2028": 190.5729,
+    "2029": 186.4931,
+    "2030": 179.4742
+   }
+  },
+  {
+   "area": "Safety",
+   "name": "Property crime",
+   "level": "town",
+   "unit": "per 1,000 households",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), crime.property",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 101.2749,
+    "2026": 100.5236,
+    "2027": 99.2525,
+    "2028": 98.2997,
+    "2029": 97.2951,
+    "2030": 95.5668
+   }
+  },
+  {
+   "area": "Safety",
+   "name": "Burglary",
+   "level": "town",
+   "unit": "per 1,000 households",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), crime.burglary",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 8.9518,
+    "2026": 10.2811,
+    "2027": 8.1714,
+    "2028": 9.4135,
+    "2029": 11.798,
+    "2030": 11.2523
+   }
+  },
+  {
+   "area": "Safety",
+   "name": "Gun homicides",
+   "level": "town",
+   "unit": "per 100,000",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), crime.firearm-homicide",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 5.119,
+    "2026": 5.119,
+    "2027": 5.119,
+    "2028": 5.119,
+    "2029": 5.119,
+    "2030": 5.119
+   }
+  },
+  {
+   "area": "Safety",
+   "name": "Police officers",
+   "level": "town",
+   "unit": "per 1,000 residents",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), police.officers-per-1000",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 2.2164,
+    "2026": 2.3043,
+    "2027": 2.453,
+    "2028": 2.5645,
+    "2029": 2.6821,
+    "2030": 2.8843
+   }
+  },
+  {
+   "area": "Safety",
+   "name": "Low-level arrests",
+   "level": "town",
+   "unit": "per 1,000",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), justice.low-level-arrests",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 3.6388,
+    "2026": 3.7443,
+    "2027": 3.9228,
+    "2028": 4.0566,
+    "2029": 4.1977,
+    "2030": 4.4403
+   }
+  },
+  {
+   "area": "Safety",
+   "name": "Held in jail awaiting trial",
+   "level": "town",
+   "unit": "per 100,000",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), justice.pretrial-detained",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 133.4412,
+    "2026": 133.4412,
+    "2027": 133.4412,
+    "2028": 133.4412,
+    "2029": 133.4412,
+    "2030": 133.4412
+   }
+  },
+  {
+   "area": "Safety",
+   "name": "In state prison",
+   "level": "town",
+   "unit": "per 100,000",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), justice.incarcerated-per-100k",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 410.0746,
+    "2026": 410.0746,
+    "2027": 410.0746,
+    "2028": 410.0746,
+    "2029": 410.0746,
+    "2030": 410.0746
+   }
+  },
+  {
+   "area": "Safety",
+   "name": "Crimes reported (December)",
+   "level": "town",
+   "unit": "crimes a month",
+   "source": "core2-crime-v1.months (one row per place a month; every month kept), types.*.reported",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 1.0,
+    "2026": 0.0,
+    "2027": 1.0,
+    "2028": 0.0,
+    "2029": 0.0,
+    "2030": 0.0
+   }
+  },
+  {
+   "area": "Safety",
+   "name": "Fire incidents (December)",
+   "level": "town",
+   "unit": "incidents a month",
+   "source": "core2-public-safety-v1.months (one row per place a month; every month kept), fireIncidents",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 0.025,
+    "2026": 0.0234,
+    "2027": 0.0222,
+    "2028": 0.025,
+    "2029": 0.0253,
+    "2030": 0.0247
+   }
+  },
+  {
+   "area": "Roads",
+   "name": "Roads in poor condition",
+   "level": "town",
+   "unit": "percent of miles",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), roads.poor-condition-pct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 8.4612,
+    "2026": 8.4616,
+    "2027": 8.4474,
+    "2028": 8.4383,
+    "2029": 8.4314,
+    "2030": 8.4327
+   }
+  },
+  {
+   "area": "Roads",
+   "name": "Traffic deaths",
+   "level": "town",
+   "unit": "per 100 million miles",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), traffic.fatality-rate",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 1.3647,
+    "2026": 1.3647,
+    "2027": 1.3647,
+    "2028": 1.3647,
+    "2029": 1.3647,
+    "2030": 1.3647
+   }
+  },
+  {
+   "area": "Roads",
+   "name": "Miles driven",
+   "level": "town",
+   "unit": "miles per resident a year",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), traffic.vehicle-miles",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 11416.8027,
+    "2026": 11416.8027,
+    "2027": 11416.8027,
+    "2028": 11416.8027,
+    "2029": 11416.8027,
+    "2030": 11416.8027
+   }
+  },
+  {
+   "area": "Roads",
+   "name": "Transit trips",
+   "level": "town",
+   "unit": "per resident a year",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), transit.ridership",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 3.7398,
+    "2026": 3.7398,
+    "2027": 3.7398,
+    "2028": 3.7398,
+    "2029": 3.7398,
+    "2030": 3.7398
+   }
+  },
+  {
+   "area": "The books",
+   "name": "Fiscal year shown",
+   "level": "county",
+   "unit": "year",
+   "source": "core2-budgets-v1.budgets (one row per government per fiscal year; every year kept), fiscalYear",
+   "kept": "every year",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 2025.0,
+    "2026": 2026.0,
+    "2027": 2027.0,
+    "2028": 2028.0,
+    "2029": 2029.0,
+    "2030": 2030.0
+   }
+  },
+  {
+   "area": "The books",
+   "name": "Revenue (budgeted)",
+   "level": "county",
+   "unit": "dollars a year",
+   "source": "core2-budgets-v1.budgets (one row per government per fiscal year; every year kept), revenueMinor (sum of lines)",
+   "kept": "every year",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 322355693.86,
+    "2026": 322355693.86,
+    "2027": 322355693.86,
+    "2028": 322355693.86,
+    "2029": 322355693.86,
+    "2030": 322355693.86
+   }
+  },
+  {
+   "area": "The books",
+   "name": "Spending (budgeted)",
+   "level": "county",
+   "unit": "dollars a year",
+   "source": "core2-budgets-v1.budgets (one row per government per fiscal year; every year kept), spendingMinor (sum of lines)",
+   "kept": "every year",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 292626262.81,
+    "2026": 294557737.03,
+    "2027": 292843513.96,
+    "2028": 290941097.45,
+    "2029": 288126535.94,
+    "2030": 251960892.56
+   }
+  },
+  {
+   "area": "The books",
+   "name": "Fiscal year shown",
+   "level": "state",
+   "unit": "year",
+   "source": "core2-budgets-v1.budgets (one row per government per fiscal year; every year kept), fiscalYear",
+   "kept": "every year",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 2025.0,
+    "2026": 2026.0,
+    "2027": 2027.0,
+    "2028": 2028.0,
+    "2029": 2029.0,
+    "2030": 2030.0
+   }
+  },
+  {
+   "area": "The books",
+   "name": "Revenue (budgeted)",
+   "level": "state",
+   "unit": "dollars a year",
+   "source": "core2-budgets-v1.budgets (one row per government per fiscal year; every year kept), revenueMinor (sum of lines)",
+   "kept": "every year",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 52178326551.01,
+    "2026": 52178326551.01,
+    "2027": 52178326551.01,
+    "2028": 52178326551.01,
+    "2029": 52178326551.01,
+    "2030": 52178326551.01
+   }
+  },
+  {
+   "area": "The books",
+   "name": "Spending (budgeted)",
+   "level": "state",
+   "unit": "dollars a year",
+   "source": "core2-budgets-v1.budgets (one row per government per fiscal year; every year kept), spendingMinor (sum of lines)",
+   "kept": "every year",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 47485548502.48,
+    "2026": 48482871117.89,
+    "2027": 49219238148.01,
+    "2028": 49801872401.21,
+    "2029": 49835691990.43,
+    "2030": 37317523197.15
+   }
+  },
+  {
+   "area": "The books",
+   "name": "Fiscal year shown",
+   "level": "country",
+   "unit": "year",
+   "source": "core2-budgets-v1.budgets (one row per government per fiscal year; every year kept), fiscalYear",
+   "kept": "every year",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 2025.0,
+    "2026": 2026.0,
+    "2027": 2027.0,
+    "2028": 2028.0,
+    "2029": 2029.0,
+    "2030": 2030.0
+   }
+  },
+  {
+   "area": "The books",
+   "name": "Revenue (budgeted)",
+   "level": "country",
+   "unit": "dollars a year",
+   "source": "core2-budgets-v1.budgets (one row per government per fiscal year; every year kept), revenueMinor (sum of lines)",
+   "kept": "every year",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 5262107870751.39,
+    "2026": 5262107870751.39,
+    "2027": 5262107870751.39,
+    "2028": 5262107870751.39,
+    "2029": 5262107870751.39,
+    "2030": 5262107870751.39
+   }
+  },
+  {
+   "area": "The books",
+   "name": "Spending (budgeted)",
+   "level": "country",
+   "unit": "dollars a year",
+   "source": "core2-budgets-v1.budgets (one row per government per fiscal year; every year kept), spendingMinor (sum of lines)",
+   "kept": "every year",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 6825189906809.89,
+    "2026": 6819997448120.55,
+    "2027": 6815032950632.84,
+    "2028": 6810036012000.56,
+    "2029": 6804610679571.4,
+    "2030": 6799377528576.36
+   }
+  },
+  {
+   "area": "The books",
+   "name": "Spending",
+   "level": "town",
+   "unit": "dollars a year",
+   "source": "no city government in this place: the town has none of its own",
+   "kept": "none",
+   "yearsWithValue": 0,
+   "valuesOverYears": "none",
+   "values": {
+    "2025": null,
+    "2026": null,
+    "2027": null,
+    "2028": null,
+    "2029": null,
+    "2030": null
+   }
+  },
+  {
+   "area": "People",
+   "name": "People in town (named + counted)",
+   "level": "town",
+   "unit": "people",
+   "source": "core.people alive by placeId + residents runtime liveHouseholds weightedCount",
+   "kept": "now only",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 152.0,
+    "2026": 149.0,
+    "2027": 144.0,
+    "2028": 177.0,
+    "2029": 189.0,
+    "2030": 185.0
+   }
+  },
+  {
+   "area": "People",
+   "name": "Named people in town",
+   "level": "town",
+   "unit": "people",
+   "source": "core.people by placeId",
+   "kept": "now only",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 101.0,
+    "2026": 105.0,
+    "2027": 121.0,
+    "2028": 128.0,
+    "2029": 130.0,
+    "2030": 132.0
+   }
+  },
+  {
+   "area": "People",
+   "name": "Counted people in town",
+   "level": "town",
+   "unit": "people",
+   "source": "residents store liveHouseholds weightedCount",
+   "kept": "now only",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 51.0,
+    "2026": 44.0,
+    "2027": 23.0,
+    "2028": 49.0,
+    "2029": 59.0,
+    "2030": 53.0
+   }
+  },
+  {
+   "area": "People",
+   "name": "Moving in (web)",
+   "level": "town",
+   "unit": "per 1,000 a year",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), population.in-migration",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 27.366,
+    "2026": 27.366,
+    "2027": 27.366,
+    "2028": 27.366,
+    "2029": 27.366,
+    "2030": 27.366
+   }
+  },
+  {
+   "area": "People",
+   "name": "Moving out (web)",
+   "level": "town",
+   "unit": "per 1,000 a year",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), population.out-migration",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "flat",
+   "values": {
+    "2025": 25.8228,
+    "2026": 25.8228,
+    "2027": 25.8228,
+    "2028": 25.8228,
+    "2029": 25.8228,
+    "2030": 25.8228
+   }
+  },
+  {
+   "area": "People",
+   "name": "Birth rate index",
+   "level": "town",
+   "unit": "index, 100 at start",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), births.rate",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 100.4138,
+    "2026": 98.8446,
+    "2027": 95.9797,
+    "2028": 98.247,
+    "2029": 99.7537,
+    "2030": 94.1536
+   }
+  },
+  {
+   "area": "People",
+   "name": "Voter turnout",
+   "level": "town",
+   "unit": "percent",
+   "source": "core2-outcome-web-v1.months values (one row per place on the 3rd of each month; every month kept), voting.turnout-pct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 65.5352,
+    "2026": 65.5352,
+    "2027": 65.5352,
+    "2028": 65.5352,
+    "2029": 65.5352,
+    "2030": 65.5151
+   }
+  },
+  {
+   "area": "People",
+   "name": "Approval of the President",
+   "level": "country",
+   "unit": "percent",
+   "source": "national-opinion.approval (one row a month; every month kept), pct",
+   "kept": "every month",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 40.4321,
+    "2026": 40.3555,
+    "2027": 40.0614,
+    "2028": 40.0964,
+    "2029": 40.577,
+    "2030": 41.0236
+   }
+  },
+  {
+   "area": "People",
+   "name": "Births this year",
+   "level": "town",
+   "unit": "per year",
+   "source": "core2-renewal-v1.births by placeId, date",
+   "kept": "event rows kept",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 2.0,
+    "2026": 11.0,
+    "2027": 4.0,
+    "2028": 4.0,
+    "2029": 7.0,
+    "2030": 4.0
+   }
+  },
+  {
+   "area": "People",
+   "name": "Deaths of named townspeople this year",
+   "level": "town",
+   "unit": "per year",
+   "source": "core.people alive=false by placeId (no date kept on the person)",
+   "kept": "count only: no death date on the person record",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 0.0,
+    "2026": 0.0,
+    "2027": 1.0,
+    "2028": 0.0,
+    "2029": 0.0,
+    "2030": 0.0
+   }
+  },
+  {
+   "area": "People",
+   "name": "Counted households moving in this year",
+   "level": "town",
+   "unit": "per year",
+   "source": "core2-counted-moves-v1.moves toPlace, date",
+   "kept": "event rows kept",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 8.0,
+    "2026": 0.0,
+    "2027": 0.0,
+    "2028": 11.0,
+    "2029": 4.0,
+    "2030": 1.0
+   }
+  },
+  {
+   "area": "People",
+   "name": "Counted households moving out this year",
+   "level": "town",
+   "unit": "per year",
+   "source": "core2-counted-moves-v1.moves fromPlace, date",
+   "kept": "event rows kept",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 1.0,
+    "2026": 5.0,
+    "2027": 1.0,
+    "2028": 0.0,
+    "2029": 0.0,
+    "2030": 1.0
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Unemployment rate (country tier)",
+   "level": "state",
+   "unit": "percent",
+   "source": "macro.countryStates (one row per state, replaced each month; countryStateNow), unemploymentPct",
+   "kept": "now only (opening base kept in macro.countryBases)",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 3.6563,
+    "2026": 3.7318,
+    "2027": 4.6374,
+    "2028": 4.8944,
+    "2029": 4.6262,
+    "2030": 4.2906
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Jobs (country tier)",
+   "level": "state",
+   "unit": "jobs",
+   "source": "macro.countryStates (one row per state, replaced each month; countryStateNow), sum of sectors' jobs",
+   "kept": "now only (opening base kept)",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 2186928.1748,
+    "2026": 2198544.4118,
+    "2027": 2191698.4082,
+    "2028": 2197206.3792,
+    "2029": 2216011.4423,
+    "2030": 2238269.5624
+   }
+  },
+  {
+   "area": "Jobs and pay",
+   "name": "Average hourly pay (country tier)",
+   "level": "state",
+   "unit": "dollars an hour",
+   "source": "macro.countryStates (one row per state, replaced each month; countryStateNow), sectors' pay over hours",
+   "kept": "now only (opening base kept)",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 31.575,
+    "2026": 33.095,
+    "2027": 34.2336,
+    "2028": 35.1427,
+    "2029": 36.1257,
+    "2030": 37.2326
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Price level (country tier, 1 = opening)",
+   "level": "state",
+   "unit": "index",
+   "source": "macro.countryStates (one row per state, replaced each month; countryStateNow), prices",
+   "kept": "now only (opening base kept)",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 1.0289,
+    "2026": 1.0583,
+    "2027": 1.0835,
+    "2028": 1.1047,
+    "2029": 1.1226,
+    "2030": 1.1394
+   }
+  },
+  {
+   "area": "Prices and money",
+   "name": "Sales by the state's businesses",
+   "level": "state",
+   "unit": "dollars a month",
+   "source": "macro.countryStates (one row per state, replaced each month; countryStateNow), sum of sectors' sales",
+   "kept": "now only (opening base kept)",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 33043944380.8157,
+    "2026": 34493647064.6555,
+    "2027": 35669193608.7223,
+    "2028": 37114478187.0763,
+    "2029": 38648776856.4776,
+    "2030": 40135369152.2615
+   }
+  },
+  {
+   "area": "People",
+   "name": "People in the state",
+   "level": "state",
+   "unit": "people",
+   "source": "macro.countryStates (one row per state, replaced each month; countryStateNow), countryPeople()",
+   "kept": "now only (opening base kept)",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 4653213.3744,
+    "2026": 4720503.59,
+    "2027": 4787272.5282,
+    "2028": 4853442.5281,
+    "2029": 4920843.0711,
+    "2030": 4990435.4525
+   }
+  },
+  {
+   "area": "People",
+   "name": "People in the country",
+   "level": "country",
+   "unit": "people",
+   "source": "macro.countryStates (one row per state, replaced each month; countryStateNow), summed over 56 states and territories",
+   "kept": "now only (opening bases kept)",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 345618452.9848,
+    "2026": 350803140.6983,
+    "2027": 356014904.2758,
+    "2028": 361262171.3075,
+    "2029": 366553215.3129,
+    "2030": 371896456.9507
+   }
+  },
+  {
+   "area": "The books",
+   "name": "Federal debt held",
+   "level": "country",
+   "unit": "dollars",
+   "source": "core2-budgets-v1.federalDebt (one row per holder, overwritten), balanceMinor summed",
+   "kept": "now only",
+   "yearsWithValue": 6,
+   "valuesOverYears": "moves",
+   "values": {
+    "2025": 31672359549275.37,
+    "2026": 33159530565524.99,
+    "2027": 34602927767763.15,
+    "2028": 36012371870221.95,
+    "2029": 36542426086373.29,
+    "2030": 36542426086373.29
+   }
+  }
+ ]
+}
