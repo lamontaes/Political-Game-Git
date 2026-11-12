@@ -390,9 +390,16 @@ export function composeGroundedLine(
     for (const id of conditionSources(chosen, context)) sourceRecordIds.add(id);
   }
 
-  const composed = sentenceStart(
-    parts.map((part) => part.text.trim()).join(" "),
-  );
+  // A part that follows a finished sentence starts one of its own.
+  const composed = parts
+    .map((part) => part.text.trim())
+    .reduce(
+      (line, text) =>
+        line === ""
+          ? sentenceStart(text)
+          : `${line} ${/[.!?]["”’)]?$/.test(line) ? sentenceStart(text) : text}`,
+      "",
+    );
   tagEngineText(composed, { bank: bank.key });
   return {
     kind: "rendered",
@@ -401,6 +408,80 @@ export function composeGroundedLine(
     parts,
     sourceRecordIds: [...sourceRecordIds],
   };
+}
+
+/**
+ * A piece of a sentence the engine joins: a bank part whose `piece` field says
+ * which part of the sentence it is (`opener`, `core`, `reason`, `closer`) and
+ * whether every such sentence has that part. Its text uses the renderer's
+ * `{{slot}}` form.
+ */
+export interface JoinedPiece {
+  readonly key: string;
+  readonly text: string;
+  readonly part: LinePart;
+  readonly required?: boolean;
+  readonly bearing?: string;
+}
+
+/**
+ * Join one sentence from its pieces: they are grouped by part into a
+ * `ComposedLineBank` and composed by `composeGroundedLine`, one stable pick
+ * per part, so the same moment gives the same sentence and the pieces vary
+ * the line across moments. The one joiner a scene (`wordSceneMove`) and a
+ * conversation can share. A move that is a speech act names it; any other
+ * move tells. Null when no core can be worded from the packet's facts.
+ */
+export function composeJoinedLine(
+  packet: GroundedEnglishPacket,
+  sentence: {
+    readonly key: string;
+    readonly version: string;
+    readonly move: string;
+    readonly pieces: readonly JoinedPiece[];
+  },
+): Extract<ComposedLineResult, { kind: "rendered" }> | null {
+  const byPart: Partial<Record<LinePart, LinePartVariant[]>> = {};
+  const required = new Set<LinePart>();
+  for (const piece of sentence.pieces) {
+    (byPart[piece.part] ??= []).push({
+      key: piece.key,
+      kind: "template",
+      text: piece.text,
+      ...(piece.bearing ? { bearing: piece.bearing } : {}),
+    });
+    if (piece.required) required.add(piece.part);
+  }
+  if (!byPart.core?.length) return null;
+  const hasReason = !!byPart.reason?.length;
+  const named = (SPEECH_ACTS as readonly string[]).includes(sentence.move)
+    ? (sentence.move as SpeechAct)
+    : "tell";
+  // A refusal with no reason written, or a softened act, is said as a plain
+  // tell: the joined pieces carry the whole sentence, never an engine opener.
+  const act: SpeechAct =
+    (REASONED_ACTS.includes(named) && !hasReason) ||
+    SOFTENED_ACTS.includes(named)
+      ? "tell"
+      : named;
+  // Every part that has pieces, the core among them (checked above).
+  const parts: Partial<Record<LinePart, LinePartBank>> = {};
+  for (const [part, variants] of Object.entries(byPart) as [
+    LinePart,
+    LinePartVariant[],
+  ][])
+    parts[part] = {
+      ...(required.has(part) ? { required: true } : {}),
+      variants,
+    };
+  const result = composeGroundedLine(packet, {
+    key: sentence.key,
+    version: sentence.version,
+    surface: packet.surface,
+    act,
+    parts: { ...parts, core: parts.core! },
+  });
+  return result.kind === "rendered" ? result : null;
 }
 
 /**

@@ -16,6 +16,10 @@
     "reds": "(^|-)red(-|$)",
     "playKind": "play"
   },
+  "cap": {
+    "why": "Owner, Nov 11, 2026, with the CTO's proposal: while too many game pull requests are open, builders take no new items; they fix send-backs and bring their pull requests up to main. Reds on main and rules, checks and skills are still handed out. The number is the lead's to set; 150 because the desks gated about 40 game pull requests in the three hours before the ruling (skill pool-notes).",
+    "openGamePullRequests": 150
+  },
   "kinds": {
     "play": {
       "why": "Owner, Nov 10: \"the stuff I actually click and play\". Player-facing items only.",

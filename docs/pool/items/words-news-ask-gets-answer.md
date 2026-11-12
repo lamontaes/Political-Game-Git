@@ -5,8 +5,8 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/pool-words-news-ask-gets-answer
+status: open
+claimed-by:
 pr: #8431
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ effort: medium
 root: rc3-thin-life-record
 lead: words
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T01:22:27.308Z
+claimed-at:
 branch: claude/pool-words-news-ask-gets-answer
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-words-news-ask-gets-answer
 **Notes.** TODO
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:22 UTC) on branch claude/pool-words-news-ask-gets-answer.
+
+Released by next (2026-11-11): no push to claude/pool-words-news-ask-gets-answer since 2026-11-11 01:22 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-words-news-ask-gets-answer and pull request #8431.

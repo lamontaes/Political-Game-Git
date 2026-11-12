@@ -177,8 +177,8 @@
     "why": "They never act, and generating that history for every relative made the prepared town too large to serialize (La Homa: 861 MB of past facts with part 1).",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
-    "replacement": "Run a relative's years before the start when the game first simulates them (the school engine's later hook, src/core2/past-school.ts schoolHistoryFor, and the working life's pastWorkFor).",
-    "status": "open"
+    "replacement": "Resolved (pool item life-relatives-who-live-elsewhere-have-a-past, Nov 10, 2026): a relative living elsewhere is still left out of the run over everyone, and their moves, school years and working life are written by the same passes when their card is first opened (openWholePast in src/core2/modules/people.ts, read against the place they live in, their work ending where the lives-elsewhere rule puts them on the opening day). Shown in src/core2/relatives-elsewhere-past.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-P15-views-first-version",

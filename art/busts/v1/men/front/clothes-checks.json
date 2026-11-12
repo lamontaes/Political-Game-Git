@@ -1,0 +1,3752 @@
+{
+ "set": "men",
+ "heads": [
+  "head-light-adult",
+  "head-medium-adult",
+  "head-dark-adult",
+  "head-light-older",
+  "head-medium-older",
+  "head-dark-older"
+ ],
+ "shirts": [
+  "shirt-dress-white",
+  "shirt-dress-lightblue",
+  "shirt-dress-cream"
+ ],
+ "ties": [
+  "tie-silk-navy",
+  "tie-silk-burgundy",
+  "tie-silk-forestgreen",
+  "tie-silk-navystripe"
+ ],
+ "jackets": [
+  "jacket-suit-charcoal",
+  "jacket-suit-navy",
+  "jacket-suit-brown"
+ ],
+ "tops": [
+  "top-sweater-gray",
+  "top-sweater-green",
+  "top-sweater-maroon",
+  "top-chambray-blue",
+  "top-chambray-tan",
+  "top-chambray-olive"
+ ],
+ "pieces": {
+  "top-sweater-green": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "top-chambray-blue": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "shirt-dress-lightblue": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "shirt-dress-white": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "shirt-dress-cream": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "top-sweater-gray": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "top-sweater-maroon": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "top-chambray-tan": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "top-chambray-olive": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    -1,
+    0
+   ]
+  },
+  "tie-silk-burgundy": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "tie-silk-navy": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "tie-silk-forestgreen": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "tie-silk-navystripe": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "jacket-suit-charcoal": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "jacket-suit-navy": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "jacket-suit-brown": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  }
+ },
+ "combos": {
+  "head-light-adult|shirt-dress-white|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-white|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|shirt-dress-cream|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-adult|top-sweater-gray|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-adult|top-sweater-green|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-adult|top-sweater-maroon|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-adult|top-chambray-blue|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-adult|top-chambray-tan|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-adult|top-chambray-olive|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-white|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-white|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-white|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-white|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-white|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|shirt-dress-lightblue|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|shirt-dress-cream|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-cream|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-cream|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-cream|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-adult|shirt-dress-cream|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-adult|top-sweater-gray|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-adult|top-sweater-green|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-adult|top-sweater-maroon|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-adult|top-chambray-blue|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-adult|top-chambray-tan|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-adult|top-chambray-olive|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-adult|shirt-dress-white|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-adult|shirt-dress-white|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-white|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-white|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-white|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|shirt-dress-lightblue|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-adult|shirt-dress-lightblue|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-lightblue|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-lightblue|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|shirt-dress-cream|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-adult|shirt-dress-cream|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-cream|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-cream|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 42
+  },
+  "head-dark-adult|shirt-dress-cream|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 44
+  },
+  "head-dark-adult|top-sweater-gray|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-adult|top-sweater-green|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-adult|top-sweater-maroon|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 7
+  },
+  "head-dark-adult|top-chambray-blue|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-adult|top-chambray-tan|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-adult|top-chambray-olive|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-white|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|shirt-dress-cream|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-light-older|top-sweater-gray|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-older|top-sweater-green|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-older|top-sweater-maroon|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-older|top-chambray-blue|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-older|top-chambray-tan|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-light-older|top-chambray-olive|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-white|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-white|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-white|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-white|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-white|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|shirt-dress-lightblue|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|shirt-dress-cream|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-cream|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-cream|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-cream|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 0
+  },
+  "head-medium-older|shirt-dress-cream|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 1
+  },
+  "head-medium-older|top-sweater-gray|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-older|top-sweater-green|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-older|top-sweater-maroon|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-older|top-chambray-blue|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-older|top-chambray-tan|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-medium-older|top-chambray-olive|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-older|shirt-dress-white|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-older|shirt-dress-white|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-white|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-white|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-white|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|shirt-dress-lightblue|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-older|shirt-dress-lightblue|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-lightblue|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-lightblue|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-lightblue|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 1,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|shirt-dress-cream|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-older|shirt-dress-cream|-|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-cream|-|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-cream|-|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-navy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-navy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-navy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-navy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-burgundy|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-burgundy|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-burgundy|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-burgundy|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-forestgreen|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-forestgreen|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-navystripe|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-navystripe|jacket-suit-charcoal": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-navystripe|jacket-suit-navy": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 41
+  },
+  "head-dark-older|shirt-dress-cream|tie-silk-navystripe|jacket-suit-brown": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0,
+   "tieRimsOverShirt": 0,
+   "shirtOutsideJacket": 0,
+   "jacketRimsOverShirt": 0,
+   "jacketRimsOverSkin": 43
+  },
+  "head-dark-older|top-sweater-gray|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-older|top-sweater-green|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-older|top-sweater-maroon|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 7
+  },
+  "head-dark-older|top-chambray-blue|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-older|top-chambray-tan|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  },
+  "head-dark-older|top-chambray-olive|-|-": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "joinUncovered": 0,
+   "rimsOverSkin": 0
+  }
+ },
+ "tie": {
+  "tie-silk-navy": {
+   "knotRow": 736,
+   "bottomRow": 1253,
+   "knotCenter": 617.5,
+   "worstDrift": 2.0,
+   "outsideShirt": {
+    "shirt-dress-white": 0,
+    "shirt-dress-lightblue": 0,
+    "shirt-dress-cream": 0
+   }
+  },
+  "tie-silk-burgundy": {
+   "knotRow": 739,
+   "bottomRow": 1253,
+   "knotCenter": 617.6,
+   "worstDrift": 2.4,
+   "outsideShirt": {
+    "shirt-dress-white": 0,
+    "shirt-dress-lightblue": 0,
+    "shirt-dress-cream": 0
+   }
+  },
+  "tie-silk-forestgreen": {
+   "knotRow": 736,
+   "bottomRow": 1253,
+   "knotCenter": 617.7,
+   "worstDrift": 2.2,
+   "outsideShirt": {
+    "shirt-dress-white": 0,
+    "shirt-dress-lightblue": 0,
+    "shirt-dress-cream": 0
+   }
+  },
+  "tie-silk-navystripe": {
+   "knotRow": 736,
+   "bottomRow": 1253,
+   "knotCenter": 617.8,
+   "worstDrift": 1.9,
+   "outsideShirt": {
+    "shirt-dress-white": 0,
+    "shirt-dress-lightblue": 0,
+    "shirt-dress-cream": 0
+   }
+  }
+ },
+ "summary": {
+  "combinations": 396,
+  "changedPixelsWorst": 0,
+  "offByNonzero": [
+   "top-chambray-olive"
+  ],
+  "holesWorst": 0,
+  "bottomEdgeGapsWorst": 0,
+  "joinUncoveredWorst": 0,
+  "rimsOverSkinWorst": 7,
+  "tieRimsOverShirtWorst": 0,
+  "shirtOutsideJacketWorst": 0,
+  "jacketRimsOverShirtWorst": 1,
+  "jacketRimsOverSkinWorst": 44,
+  "tieDriftWorst": 2.4,
+  "tieOutsideShirtWorst": 0
+ }
+}

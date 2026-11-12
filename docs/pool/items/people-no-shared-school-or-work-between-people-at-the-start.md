@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-people-no-shared-school-or-work-between-people-at-the-start
 pr: #8487
@@ -19,6 +19,7 @@ source: Story, Nov 10, 2026, on issue 7365, while writing the four different ans
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T02:30:30.266Z
 branch: claude/pool-people-no-shared-school-or-work-between-people-at-the-start
+merged-at: 2026-11-12T18:26:25.954Z
 ---
 
 **What.** A talk can open on a school or a job two people shared. Story reports that in early play it never does: no world starts with former coworkers or schoolmates on record, so the questions "Remember that school?" and "Still there?" and their answers are never offered. A 17-year-old in a town with one high school should have schoolmates all around them. Seen: the talk lines "Remember that school?" and "Still there?", which never play today.

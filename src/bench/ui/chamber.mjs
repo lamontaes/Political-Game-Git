@@ -1,10 +1,10 @@
 // The one chamber header: the painting of the room a body or an office works
-// in, its name set on the picture, and a line under it (when it meets, its
-// next election). The mock's "Latimer Board of Aldermen" card (Oct 14).
+// in, and its name set on the picture, with no line under it (owner, Nov 7: no
+// subtitles on menus).
 import { el } from "./dom.mjs";
 
-/** `picture` is the room's url; `name` and `line` are worded by the screen. */
-export function chamberHeader({ picture, name, line }) {
+/** `picture` is the room's url; `name` is worded by the screen. */
+export function chamberHeader({ picture, name }) {
   const card = el(
     "figure",
     { className: "chamber" },
@@ -12,9 +12,6 @@ export function chamberHeader({ picture, name, line }) {
       "figcaption",
       { className: "chamber-caption" },
       el("span", { className: "chamber-name", textContent: name }),
-      ...(line
-        ? [el("span", { className: "chamber-line", textContent: line })]
-        : []),
     ),
   );
   if (picture) card.style.backgroundImage = `url("${picture}")`;

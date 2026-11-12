@@ -12,9 +12,8 @@ import { gameStartDate } from "../core2/game-start";
 import type { CoreState } from "../core2/types";
 import { buildBenchWorld } from "./world";
 import { BenchPlayer, ownPick } from "./player";
-import { benchScene, stagePeople, type BenchScenePerson } from "./scene";
+import { benchScene, peopleHere, type BenchScenePerson } from "./scene";
 import { storyScene } from "./story";
-import { plateFor } from "./mannequin-plates";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
 
@@ -34,15 +33,15 @@ const orgsOf = (core: CoreState, id: string) =>
 const MERELY_THERE = /\b(is|are) (here|there|with you|waiting for you)\./;
 
 describe("people in a room", () => {
-  it("are drawn only with a reason", () => {
-    // A painted room, and someone handed to it with no reason: set aside
-    // before any figure is chosen, never drawn.
+  it("are listed only with a reason", () => {
+    // A painted room, and someone handed to it with no reason: never listed
+    // on the strip, and not counted among the rest.
     const room = Object.keys(staging.places)[0]!;
-    const { people, unplaced } = stagePeople({} as CoreState, room, [
+    const { people, more } = peopleHere({} as CoreState, room, [
       { id: "someone", name: "Some One" } as never,
     ]);
     expect(people).toEqual([]);
-    expect(unplaced).toEqual([{ personId: "someone", reason: "no-reason" }]);
+    expect(more).toBe(0);
   });
 
   it(
@@ -65,7 +64,39 @@ describe("people in a room", () => {
         new Set(
           core.households.get(core.people.get(me)!.householdId)?.memberIds,
         );
-      const seen = { scenes: 0, plated: 0, people: 0, moments: 0 };
+      // A crowd: the strip names a few and counts the rest, the people the
+      // player knows ahead of strangers, and never the player.
+      const adults = [...core.people.values()]
+        .filter((person) => person.alive && person.id !== me)
+        .map((person) => person.id);
+      const crowd = peopleHere(
+        core,
+        benchScene(core, me).backdrop.file,
+        [me, ...adults.slice(0, 40)].map((id) => ({
+          id,
+          name: id,
+          reason: id === me ? ("you" as const) : ("reached" as const),
+        })),
+      );
+      const listed = crowd.people.map((person) => person.personId);
+      expect(listed, where).not.toContain(me);
+      expect(crowd.people.length, where).toBeLessThanOrEqual(6);
+      if (crowd.more > 0) {
+        expect(crowd.people.length, where).toBe(6);
+        const known = core.people.get(me)!.knownIds;
+        const knownThere = adults
+          .slice(0, 40)
+          .filter((id) => known.has(id as never)).length;
+        // Everyone the player knows is named before any stranger is.
+        expect(
+          listed.filter((id) => known.has(id as never)).length,
+          where,
+        ).toBeGreaterThanOrEqual(Math.min(knownThere, 6) - 0);
+      }
+      console.log(
+        `a crowd of 40: ${crowd.people.length} named, ${crowd.more} more: ${where}`,
+      );
+      const seen = { scenes: 0, people: 0, moments: 0 };
       const check = (
         people: readonly BenchScenePerson[],
         allowed: Record<string, (id: string) => boolean>,
@@ -101,9 +132,11 @@ describe("people in a room", () => {
             at: { ...packet.at, minuteOfDay },
           } as never);
           seen.scenes++;
-          // A picture with no mannequin plate draws nobody (owner, Oct 28 and 29).
-          if (plateFor(scene.backdrop.file)) seen.plated++;
-          else expect(scene.people, `at ${scene.place} ${at}`).toEqual([]);
+          // The player is never on their own strip.
+          expect(
+            scene.people.map((person) => person.personId),
+            `at ${scene.place} ${at}`,
+          ).not.toContain(me);
           check(
             scene.people,
             {
@@ -165,12 +198,12 @@ describe("people in a room", () => {
           );
       }
       console.log(
-        `${seen.scenes} scenes, ${seen.people} people drawn, ${seen.moments} moments: ${where}`,
+        `${seen.scenes} scenes, ${seen.people} people listed, ${seen.moments} moments: ${where}`,
       );
       expect(seen.scenes, where).toBeGreaterThan(60);
       expect(seen.moments, where).toBeGreaterThan(0);
-      // Where the picture has a plate, people were drawn: the checks above read real rooms.
-      if (seen.plated) expect(seen.people, where).toBeGreaterThan(0);
+      // Someone who lives with others was in a room with them: the checks above read real rooms.
+      if (household().size > 1) expect(seen.people, where).toBeGreaterThan(0);
     },
   );
 });

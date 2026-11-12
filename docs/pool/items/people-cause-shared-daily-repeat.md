@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/pool-people-cause-shared-daily-repeat
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T06:37:45.903Z
+claimed-at:
 after:
 standard: 2
 model: sonnet
@@ -48,3 +48,5 @@ Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `cla
 Nov 11 (cause finder for Fable B): reproduced on main d64255aa in Euharlee (seed life-2) with a probe that read `drivesReport` and each drive's `told` set; the probe was undone. The repeat comes from the free-time plan replaying one scored share on each later day, not from the drive forgetting whom it told.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:37 UTC) on branch claude/pool-people-cause-shared-daily-repeat.
+
+Released (2026-11-11): Did not reproduce: with the told-set rule removed, a played-world test (Euharlee, Georgia 1327988, seed life-2, and a drawn place, to May 1 2025, tellings keyed by teller, drive id and target) finds no teller telling the same person twice; the earlier repeat count keyed by drive id alone, which is shared across tellers (drive id is per topic). Branch claude/pool-people-cause-shared-daily-repeat holds the rule and test, unproven; needs the original probe's exact repeat (scored vs performed) before building. Continue on branch claude/pool-people-cause-shared-daily-repeat.

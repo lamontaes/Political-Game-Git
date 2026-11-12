@@ -91,8 +91,8 @@ try {
   const read = await page.evaluate(() => ({
     date: document.getElementById("card-date")?.textContent?.trim() ?? "",
     talk: document.getElementById("talk").innerText,
-    people: [...document.querySelectorAll("#people .talkable")].map((node) =>
-      node.textContent.trim(),
+    people: [...document.querySelectorAll("#here .busts-person.talkable")].map(
+      (node) => node.textContent.trim(),
     ),
   }));
   console.log("Scene:", found.momentId);

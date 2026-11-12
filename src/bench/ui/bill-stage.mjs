@@ -109,7 +109,13 @@ export function billStageSections(
       ),
     );
   // Staff redraft: ask for a section, see it struck and inserted, keep theirs or your own.
-  if (stage.yours?.mayRedraft && staff.onAsk) {
+  // Only where a section has a law in force to redraft against: a heading with
+  // nothing under it is never shown.
+  if (
+    stage.yours?.mayRedraft &&
+    staff.onAsk &&
+    stage.sectionsAmendable.length
+  ) {
     const shown = el("div", { className: "stage-redraft" });
     const ask = async (index) => {
       const redraft = await staff.onAsk(index);

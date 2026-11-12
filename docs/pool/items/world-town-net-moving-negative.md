@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-world-town-net-moving-negative
+claimed-by:
 pr: #8528
 after:
 blocked-on:
@@ -16,7 +16,7 @@ model: opus
 effort: medium
 root: none
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T03:34:32.491Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-world-town-net-moving-negative
 ---
@@ -63,3 +63,5 @@ Cause found 2026-11-10 (claude, claude/cause-town-net-moving), on main at 3d74e9
 **Notes (Fable B's check, Nov 10).** Checked against main: `arrivals` in src/core2/modules/counted-moves.ts picks a place by a seeded hash weighted by people (the `cumulative` loop near line 1345) and stops a balance at the first household larger than what is left (`if (left < size) break;` near line 1371), where a county record's size is its people times its weight. So the cause holds. Three changes to the finder's item: the build is for Opus, because it rewrites how one engine pays out and its choices (whose shape a newcomer takes, which balance pays) need judgment; the clause about carrying a saved world's balances over is gone, because saves do not matter before early-access preparation (AGENTS.md); and read this with core-country-tier-moves-one-holder, which changes where the due arrivals come from in the same function. The two do not depend on each other; whichever lands second merges main first. The fix also removes a draw that decided where a household settles, which the no-dice rule wants gone.
 
 Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:34 UTC) on branch claude/pool-world-town-net-moving-negative.
+
+Released (2026-11-11): opus-5251 stopped under the cap on new work (Nov 11); the draft PR and its branch keep the work and a handoff note; claiming it takes the branch. Continue on branch claude/pool-world-town-net-moving-negative and pull request #8528.
