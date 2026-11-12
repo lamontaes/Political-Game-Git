@@ -4818,6 +4818,7 @@ function sayNow(
           key: last.kind,
           speakerId: otherId,
           momentKey: `${playerId}:${otherId}:${conversation.lines.length}:take`,
+          heard: heardNow,
         });
     // An answer says something or is not said: a bare taking-in ("Okay.",
     // "I see.") of an answer that asked nothing is a non-reply (owner, Nov
