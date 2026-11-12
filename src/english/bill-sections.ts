@@ -157,6 +157,21 @@ export function amountWords(series: string): AmountWords | undefined {
   };
 }
 
+/**
+ * What a law, a measure or a policy is about, as the bill's own page says it
+ * ("free fares on public transit", "the minimum wage"): the one subject
+ * reader every Journal note, news line and scene says a law through (words
+ * composer, said-as; owner, Nov 12: "Neither does the news toast."). A
+ * policy question reads its authored subject, a law amount its amount's
+ * subject. Null where neither is authored: the caller says nothing, never
+ * the catalog's label.
+ */
+export function lawSubject(series: string): string | null {
+  const policy =
+    BILL_SECTIONS.policies[series.replace(/^[a-z]+(?:-[a-z]+)*:/, "")];
+  return policy?.subject ?? amountWords(series)?.subject ?? null;
+}
+
 function wordsOf(
   input: BillWordsInput,
   form: FormWords,

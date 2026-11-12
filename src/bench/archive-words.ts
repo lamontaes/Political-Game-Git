@@ -1,5 +1,4 @@
 import type { EntityId } from "../core2/kernel/brands";
-import { spokenDate } from "../core2/kernel/dates";
 import type { CoreState } from "../core2/types";
 import { composeNewsStory, type StoryKind } from "../english/english-newscast";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
@@ -10,7 +9,6 @@ import {
   printedFacts,
 } from "./printed-words";
 import type { ownRace } from "./results";
-import { policyNames } from "./words";
 
 /** A story as the news engine keeps it. */
 interface StoredStory {
@@ -40,45 +38,35 @@ export interface WordedStory {
  * The press engine keeps the record (kind, winner, votes); the English engine
  * words it here from those facts: an election, a vote, a budget, a business
  * that closed or a parent who died, from the record itself (printed-words), and
- * a law enacted or taking effect by its name. Only a story the banks can say
- * gets words; the rest stay records until the banks grow.
+ * a law enacted or taking effect by its subject, through the one subject
+ * reader. Only a story the banks can say gets words; the rest stay records
+ * until the banks grow.
  */
-
-let NAMES: Record<string, string> | undefined;
-
 export function wordArchiveStory(
   core: CoreState,
   story: StoredStory,
 ): WordedStory | null {
   if (story.kind !== "press.archived") return null;
   const recordKind = story.facts.recordKind;
-  const ids = [story.id] as EntityId[];
-  const fact = (text: string, more: readonly string[] = []) => ({
-    text,
-    sourceRecordIds: [...ids, ...more] as EntityId[],
-  });
   if (recordKind === "law-enacted" || recordKind === "law-took-effect") {
-    // A law is named by its series on the bill catalog; one with no name stays a record.
-    // A law that took effect is told as the press tells one in play: the amount it
-    // moved from and to, the bill that made it, when the law's own row says so.
+    // A law that took effect is told as the press tells one in play: the amount
+    // it moved from and to, the bill that made it, or what it governs, said
+    // through the one subject reader (`lawSubject`).
     if (recordKind === "law-took-effect") {
       const told = archivedLawFacts(core, story);
-      // A law with only its name to tell (no bill, no amount moved) keeps the
-      // catalog's own words below.
-      const text =
-        told && told.kind !== "law-rule"
-          ? worded(
+      const text = told
+        ? worded(
               core,
               story.id,
               told.kind,
               told.speaker || story.id,
-              told.facts,
-            )
-          : null;
+            told.facts,
+          )
+        : null;
       if (text) return text;
     }
     // A law enacted is told for what it does and where, the way one taking
-    // effect is, when its row says so; else by its name and the day.
+    // effect is, when its row says so.
     if (recordKind === "law-enacted") {
       const passed = archivedLawPassedFacts(core, story);
       const text = passed
@@ -92,14 +80,9 @@ export function wordArchiveStory(
         : null;
       if (text) return text;
     }
-    NAMES ??= policyNames();
-    const measure = NAMES[String(story.facts.series ?? "")];
-    if (!measure) return null;
-    return worded(core, story.id, "vote-or-law", story.id, {
-      measure: fact(measure, [String(story.facts.lawId ?? "")]),
-      date: fact(spokenDate(story.date)),
-      [recordKind === "law-enacted" ? "enacted" : "effective"]: fact("yes"),
-    });
+    // A law the builders above can't say through its subject is not printed:
+    // never the catalog's label ("Governor term limit (terms; 0 for none)").
+    return null;
   }
   // An election, a budget, a vote, a closing business and a parent who died
   // are told from their records as the paper tells them in play: a headline,
@@ -258,9 +241,9 @@ export function wordOwnResult(
 }
 
 /**
- * A law another state passed, told as the press tells one: its name on the
- * bill catalog, the state, and the day it was enacted. Null for a law the
- * catalog has no name for, which stays a record.
+ * A law another state passed, told as the press tells one, from its own row
+ * and through the one subject reader. Null for a law with no spoken subject,
+ * which stays a record.
  */
 export function wordNationLaw(
   core: CoreState,
@@ -279,19 +262,8 @@ export function wordNationLaw(
     date: law.date,
     facts: { lawId: law.id },
   });
-  const row =
-    told && told.kind !== "law-rule"
-      ? worded(core, law.id, told.kind, told.speaker || law.id, told.facts)
-      : null;
-  if (row) return row;
-  NAMES ??= policyNames();
-  const measure = NAMES[law.series];
-  if (!measure) return null;
-  const ids = [law.id] as EntityId[];
-  const fact = (text: string) => ({ text, sourceRecordIds: ids });
-  return worded(core, law.id, "vote-or-law", law.id, {
-    measure: fact(`${measure} in ${law.stateName}`),
-    date: fact(spokenDate(law.date)),
-    enacted: fact("yes"),
-  });
+  // A law with no spoken subject is not printed, never by its catalog label.
+  return told
+    ? worded(core, law.id, told.kind, told.speaker || law.id, told.facts)
+    : null;
 }

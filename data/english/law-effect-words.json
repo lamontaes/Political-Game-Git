@@ -1,0 +1,23 @@
+{
+  "about": "How a Journal note says a law that changed what the player pays (event law.effect-learned): the government that set it, said before the law's subject from the one subject reader (src/english/bill-sections.ts lawSubject), and the bill or price it moved, by the price engine's good (src/core2/data/prices/goods.json). Words composer, unit 6 (owner, Nov 12: \"doesn't even make sense\").",
+  "origin": "authored",
+  "author": "Words builder W-D, Claude Opus 5.5",
+  "date": "2026-11-12",
+  "setBy": {
+    "federal": "the federal law on {subject}",
+    "state": "{state}'s law on {subject}",
+    "county": "the county's law on {subject}",
+    "township": "the township's law on {subject}",
+    "town": "the town's law on {subject}"
+  },
+  "goods": {
+    "electricity": "my electric bill",
+    "fuel": "what I pay for gas",
+    "transit-fare": "my bus fare",
+    "vehicle-miles": "what I pay to drive",
+    "broadband": "my internet bill",
+    "beverage-container": "what I pay for drinks in bottles and cans",
+    "vehicle-repair": "my car repair bills",
+    "cannabis": "what I pay for cannabis"
+  }
+}

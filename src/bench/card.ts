@@ -31,6 +31,8 @@ import {
   screenWays,
 } from "../english/screen-words";
 import { framedByAge } from "../english/journal-words";
+import { properName } from "../director/words";
+import { employerSaidAs, jobSaidAs } from "../english/said-as";
 import controls from "./data/controls.json" with { type: "json" };
 import {
   pronounSetOfGender,
@@ -60,6 +62,26 @@ import { preStartHistory, sharedHistory } from "../core2/past";
 const CLOSEST = 8;
 
 /** A person card: who they are, from their records only. */
+/**
+ * A job as the card says it, through the one said-as reader: the employer as
+ * people say it (never the outside market or a treasury), and the title only
+ * when people say it as a job ("Works outside the town" is not one).
+ */
+function workSaid(
+  core: CoreState,
+  job: { title: string; organizationId: string },
+): { title: string | null; employer: string | null } {
+  const org = core.organizations.get(job.organizationId as never);
+  const outside = org?.kind === "outside-market";
+  const said = jobSaidAs(job.title, { outside });
+  return {
+    title: said?.kind === "title" ? said.title : null,
+    employer: org
+      ? employerSaidAs({ ...org, name: properName(org.name), outside })
+      : null,
+  };
+}
+
 export function personCard(core: CoreState, personId: string) {
   // A counted resident is filled in the moment they are clicked, from the
   // world's records, so the card is the same person every time.
@@ -1520,12 +1542,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const summaryNow = {
     office: run,
     // Their work, as the story already tells it of anyone.
-    work: job
-      ? {
-          title: job.title,
-          employer: core.organizations.get(job.organizationId)?.name ?? null,
-        }
-      : null,
+    work: job ? workSaid(core, job) : null,
     school: school?.name ?? null,
     place: homePlace,
     born: { year: other.birthDate.slice(0, 4), place: bornIn },
@@ -1598,12 +1615,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     // Their pronouns as words, for the headings on their card (she, her, Her); null for they.
     pronouns: teller.words,
     work:
-      (family || housemate || coworker) && job
-        ? {
-            title: job.title,
-            employer: core.organizations.get(job.organizationId)?.name ?? null,
-          }
-        : null,
+      (family || housemate || coworker) && job ? workSaid(core, job) : null,
     tie: tie
       ? {
           recordId: tie.id,

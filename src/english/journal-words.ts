@@ -15,7 +15,7 @@ import {
   type GroundedEnglishKnowledge,
   type GroundedEnglishPacket,
 } from "./grounded-english";
-import { journalDataFromBank } from "./mined/journal-bank";
+import { JOURNAL_ROWS, journalDataFromBank } from "./mined/journal-bank";
 import articleSounds from "../../data/english/article-sounds.json" with { type: "json" };
 import seatWords from "../../data/english/seat-words.json" with { type: "json" };
 
@@ -87,6 +87,14 @@ export interface JournalWordRow {
    * (how long, what the pay was) and not a bare statement.
    */
   follow?: readonly string[];
+  /**
+   * What each follow field tells about, by the fact that names it ("movedHeld"
+   * is about the job left, `employer`; "movedPay" about the next one, `next`).
+   * A follow sentence that points back ("I had been there", "It paid") is said
+   * only right after a sentence about the same thing; elsewhere only a
+   * wording that names it is said (words composer, the join).
+   */
+  followAbout?: Readonly<Record<string, string>>;
 }
 
 /** A journal row's structure before the mined bank words it. */
@@ -114,6 +122,7 @@ export interface RowShape {
   ownTime?: boolean;
   /** The memoir fields told after the event, when the record gives their facts. */
   follow?: readonly string[];
+  followAbout?: JournalWordRow["followAbout"];
   /** The mined target whose sentences word this row, when it is not the row's own kind. */
   wordsFrom?: string;
   /** The row also has a line for someone else's moment. */
@@ -127,6 +136,8 @@ export interface RowShape {
 /** `src/director/data/journal-rows.json`: the journal's structure, holding no sentences. */
 export interface JournalRows {
   version: string;
+  /** The words that make a follow sentence point back at the sentence before. */
+  pointsBack?: string;
   relationWords: JournalWords["relationWords"];
   kinAddress?: JournalWords["kinAddress"];
   possessive: JournalWords["possessive"];
@@ -368,6 +379,8 @@ export type JournalMove =
       lookBack?: { memorableOnly: boolean; young: boolean; turned: boolean };
       /** "He became mayor.": the pronoun a sentence opens with fits their recorded gender. */
       gender?: string;
+      /** Only a wording that names this fact, or points back at nothing: the sentence before was about something else. */
+      naming?: string;
     }
   | { part: "backdrop"; kind: string };
 
@@ -393,6 +406,13 @@ const fitsGender = (text: string, gender: string | undefined) => {
     (lead === "she" && gender === "female")
   );
 };
+
+/**
+ * A follow sentence that points back at what the sentence before named
+ * ("I had been there", "It paid"), by the words in `journal-rows.json`.
+ */
+const POINTS_BACK = new RegExp(JOURNAL_ROWS.pointsBack ?? "(?!)", "i");
+export const pointsBack = (text: string) => POINTS_BACK.test(text);
 
 /**
  * A row's own line can tell someone else's moment only when it names them:
@@ -469,7 +489,10 @@ function wordingsFor(
               (look.turned || !fits.turning.has(row.key)))) &&
           // Only a sentence that names them: "We were friends." points to no one.
           (move.field !== "remember" || row.text.includes("{{name}}")) &&
-          (move.field !== "became" || fitsGender(row.text, move.gender)),
+          (move.field !== "became" || fitsGender(row.text, move.gender)) &&
+          (!move.naming ||
+            row.text.includes(`{{${move.naming}}}`) ||
+            !pointsBack(row.text)),
       );
       return {
         key: `journal-memoir:${kebab(move.field)}`,

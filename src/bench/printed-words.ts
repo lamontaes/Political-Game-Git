@@ -56,7 +56,6 @@ import { storyTopicName } from "../english/policy-names";
 import { causeGroupName } from "../english/group-names";
 import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
-import { policyNames } from "./words";
 import { placeLabel } from "../director/journal";
 import { stateInSentence } from "../director/words";
 
@@ -198,12 +197,14 @@ const appointerWords = (appointedBy: string | undefined) => {
     : null;
 };
 /**
- * What a law's series is about, as a paper says it: the English engine's
- * subject for the series ("maximum monthly food assistance benefit"),
- * without its article, else the key read as words.
+ * What a law's series is about, as a paper says it: the English engine's one
+ * subject reader ("maximum monthly food assistance benefit"), without its
+ * article. Null for a series with no spoken subject: its story is not
+ * printed, never printed as a label or a key read as words (words composer,
+ * Nov 12; `tests/guards/english/law-subjects.test.ts` lists them).
  */
 const measureName = (series: string) =>
-  storyTopicName(series)?.replace(/^the /i, "") ?? spaced(series);
+  storyTopicName(series)?.replace(/^the /i, "") ?? null;
 /** A record key read as words: "finance-director" and "financeDirector" are "finance director". */
 const spaced = (key: string) =>
   key
@@ -223,7 +224,6 @@ const POLICIES = (
   }
 ).policies;
 
-let ISSUES: Record<string, string> | undefined;
 /** Other states' office titles by office id, by state: read once, never stored in the world. */
 const ELSEWHERE = new Map<string, Map<string, string>>();
 
@@ -585,10 +585,9 @@ class Reader {
    * line by what it pays for ("public welfare"), else by the policy's name.
    */
   issue(topic: string): Facts {
-    ISSUES ??= policyNames();
     const name = topic.startsWith("budget-line:")
       ? lineName(topic.slice("budget-line:".length))
-      : (POLICIES[topic]?.purpose ?? ISSUES[topic]);
+      : (POLICIES[topic]?.purpose ?? storyTopicName(topic));
     return name
       ? { issue: this.fact(name.charAt(0).toLowerCase() + name.slice(1)) }
       : {};
@@ -645,9 +644,11 @@ function rule(
   f: Record<string, string>,
   base: Facts,
 ): PrintedFacts | null {
+  const measure = measureName(f.series ?? "");
+  if (!measure) return null;
   return story(
     "law-rule",
-    { ...base, measure: read.fact(measureName(f.series ?? ""), f.lawId ?? "") },
+    { ...base, measure: read.fact(measure, f.lawId ?? "") },
     ["measure"],
   );
 }
@@ -687,11 +688,13 @@ const lawTookEffect: Builder = (read, f) => {
     const to = typeof now === "number" ? amount(f.unit, now) : null;
     const from = typeof was === "number" ? amount(f.unit, was) : null;
     if (!to || !from) return rule(read, f, base);
+    const measure = measureName(series);
+    if (!measure) return null;
     return story(
       "law-amount",
       {
         ...base,
-        measure: read.fact(measureName(series), f.lawId ?? ""),
+        measure: read.fact(measure, f.lawId ?? ""),
         to: read.fact(to, f.lawId ?? ""),
         ...(from !== to
           ? { from: read.fact(from, f.lawId ?? ""), changed: read.yes() }
@@ -810,12 +813,13 @@ export function archivedLawPassedFacts(
     const from = typeof before === "number" ? amount(row.unit, before) : null;
     // The amount is told only when the law's own row is what holds from its
     // start; a rate another level sets on top of it is that level's story.
-    if (!to || after !== row.value) return null;
+    const measure = measureName(row.series);
+    if (!to || after !== row.value || !measure) return null;
     return story(
       "law-amount-passed",
       {
         ...base,
-        measure: read.fact(measureName(row.series), lawId),
+        measure: read.fact(measure, lawId),
         to: read.fact(to, lawId),
         ...(from && from !== to
           ? { from: read.fact(from, lawId), changed: read.yes() }
@@ -3206,12 +3210,12 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
     const yes = num(f.yes);
     const no = num(f.no);
     const body = read.body(f.body);
-    ISSUES ??= policyNames();
     // The measure is told by what it is for ("protection of farmland from
-    // development"), which reads after "approves"; the catalog's name is the
-    // fallback.
+    // development"), which reads after "approves"; else by its subject, from
+    // the one subject reader, never the catalog's label.
     const measure =
-      POLICIES[f.question ?? ""]?.purpose ?? ISSUES[f.question ?? ""];
+      POLICIES[f.question ?? ""]?.purpose ??
+      storyTopicName(f.question ?? "");
     if (yes === undefined || no === undefined || !body || !measure) return null;
     const margin = Math.abs(yes - no);
     return story(

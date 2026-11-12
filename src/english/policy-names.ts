@@ -4,8 +4,7 @@
  * reads the catalog's words itself.
  */
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
-import { amountWords } from "./bill-sections";
-import billSections from "../../data/english/bill-sections.json" with { type: "json" };
+import { lawSubject } from "./bill-sections";
 
 interface Policy {
   question?: string;
@@ -21,21 +20,14 @@ const subjects = (
 ).subjects;
 
 /**
- * What a story is about: the catalog's topic for a policy question, or the
- * authored subject of a law's amount ("the minimum wage"), whose stories
- * carry the series as their topic. Null where neither names it.
+ * What a story is about, through the one subject reader the bill's page uses
+ * (`lawSubject`): a policy question's authored subject, or a law amount's
+ * ("the minimum wage"), whose stories carry the series as their topic. Null
+ * where neither names it: never the catalog's topic label ("Transportation",
+ * "Child care income limit (family of three)").
  */
 export function storyTopicName(topic: string): string | null {
-  return (
-    questionTopic(topic) ??
-    (
-      billSections as unknown as {
-        amounts: Record<string, { subject: string }>;
-      }
-    ).amounts[topic]?.subject ??
-    amountWords(topic)?.subject ??
-    null
-  );
+  return lawSubject(topic);
 }
 
 /**

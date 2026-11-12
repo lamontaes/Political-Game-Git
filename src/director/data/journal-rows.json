@@ -1,6 +1,8 @@
 {
   "version": "words-journal-v1",
   "about": "The structure of the My life journal: which moments it writes, which record facts each one reads, and the relation and count words. It holds no sentences; the sentences come from the mined bank (data/english/parts/journal.json) through src/english/mined/journal-bank.ts. A title is only a record name. A moment the mined bank has no sentence for is left out.",
+  "pointsBack": "^(?:it|its|that)\\b|\\bthere\\b",
+  "pointsBackAbout": "The words that make a follow sentence point back at what the sentence before named (\"I had been there\", \"It paid\"): with a row's followAbout, such a sentence is said only right after one about the same thing (words composer, the join; owner, Nov 12).",
   "relationWords": {
     "parent": {
       "female": "mother",
@@ -109,7 +111,8 @@
         "false": "\\bwithout a diploma\\b",
         "true": "\\b(?:graduated|got my diploma|finished high school)\\b"
       },
-      "follow": ["schoolFor", "schoolAge"]
+      "follow": ["schoolFor", "schoolAge"],
+      "followAbout": { "schoolFor": "school" }
     },
     {
       "kindPrefix": "work:opening",
@@ -121,26 +124,30 @@
       "turn": false,
       "entry": "story",
       "wordsFrom": "job-started",
-      "follow": ["firstPay"]
+      "follow": ["firstPay"],
+      "followAbout": { "firstPay": "employer" }
     },
     {
       "kindPrefix": "job-started:again",
       "turn": false,
       "entry": "story",
-      "follow": ["againWait", "againPay", "againFelt"]
+      "follow": ["againWait", "againPay", "againFelt"],
+      "followAbout": { "againWait": "last-employer", "againPay": "employer" }
     },
     {
       "kindPrefix": "job-ended:let-go",
       "turn": false,
       "entry": "story",
       "framesAge": true,
-      "follow": ["letGoHeld", "letGoPay"]
+      "follow": ["letGoHeld", "letGoPay"],
+      "followAbout": { "letGoHeld": "employer", "letGoPay": "employer" }
     },
     {
       "kindPrefix": "job-ended:moved-on",
       "turn": false,
       "entry": "story",
-      "follow": ["movedHeld", "movedPay"]
+      "follow": ["movedPay", "movedHeld"],
+      "followAbout": { "movedHeld": "employer", "movedPay": "next" }
     },
     {
       "kindPrefix": "job-ended:child",
@@ -223,7 +230,20 @@
         "law": {
           "fact": "lawId",
           "format": "lawName"
+        },
+        "amount": {
+          "fact": "movedMinor",
+          "format": "moneyMoved"
+        },
+        "good": {
+          "fact": "priceRuleId",
+          "format": "priceGood"
         }
+      },
+      "stageFact": "way",
+      "stageWords": {
+        "more": "\\b(?:added|up)\\b",
+        "less": "\\b(?:off|down)\\b"
       },
       "entry": "story"
     },
@@ -615,6 +635,11 @@
     },
     {
       "kindPrefix": "household:livelihood:at",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:outside",
       "turn": false,
       "entry": "story"
     },

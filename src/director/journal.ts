@@ -13,6 +13,8 @@ import {
   type BillRow,
 } from "../core2/modules/legislature";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import { PLACE_PRICES_MODULE_ID } from "../core2/modules/place-prices";
+import LAW_EFFECT_WORDS from "../../data/english/law-effect-words.json" with { type: "json" };
 import type { LawRowInput } from "../core2/laws-starting";
 import {
   billNumberAndTitle,
@@ -20,6 +22,7 @@ import {
   billTitleSaid,
 } from "../english/bill-names";
 import { topicInSentence } from "../english/policy-names";
+import { employerSaidAs, jobSaidAs } from "../english/said-as";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import {
   addDays,
@@ -39,8 +42,6 @@ import {
   relationPhrase,
   saysOffice,
   seatSaid,
-  employerSaid,
-  withArticle,
   wordJournalLine,
   type Fact,
   type JournalMove,
@@ -209,6 +210,51 @@ export function lawTopic(
 }
 
 /**
+ * A law no bill enacted, by the government that set it and what it is about
+ * ("California's law on clean electricity"), from its own row through the
+ * one subject reader. Undefined where the subject is not authored.
+ */
+function lawSetBy(
+  core: Readonly<CoreState>,
+  lawId: string | undefined,
+): { text: string; recordIds: string[] } | undefined {
+  if (!lawId || !core.modules.has(LAWS_MODULE_ID)) return undefined;
+  const law = coreAPI(core as CoreState)
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .get(lawId) as unknown as LawRowInput | undefined;
+  const subject = law ? topicInSentence(law.series) : null;
+  const words = (LAW_EFFECT_WORDS.setBy as Record<string, string>)[
+    law?.level ?? ""
+  ];
+  if (!law || !subject || !words) return undefined;
+  const state =
+    law.level === "state"
+      ? coreStateName(law.jurisdiction.replace(/^US-/, ""))
+      : "";
+  if (law.level === "state" && !state) return undefined;
+  return {
+    text: words
+      .replace("{subject}", subject)
+      .replace("{state}", stateInSentence(state ?? "")),
+    recordIds: [lawId],
+  };
+}
+
+/** The bill or price a price rule moves, as the person says it ("my electric bill"). */
+function priceGoodSaid(
+  core: Readonly<CoreState>,
+  ruleId: string | undefined,
+): string | undefined {
+  if (!ruleId || !core.modules.has(PLACE_PRICES_MODULE_ID)) return undefined;
+  const rule = coreAPI(core as CoreState)
+    .moduleState(PLACE_PRICES_MODULE_ID)
+    .table("rules")
+    .get(ruleId) as unknown as { good?: string } | undefined;
+  return (LAW_EFFECT_WORDS.goods as Record<string, string>)[rule?.good ?? ""];
+}
+
+/**
  * How a race was decided, from its result record's totals: "alone" when one
  * candidate stood, "close" or "wide" by the winner's lead over the runner-up
  * as a share of the votes cast, and "middle" between them or when the totals
@@ -255,11 +301,15 @@ function employerName(
     : undefined;
   // The outside buyers and sellers are the market's stand-in for work out of
   // town, never an employer to name (skill words-engine).
-  return org && org.kind !== "outside-market"
-    ? {
-        text: employerSaid(properName(org.name), org),
-        sourceRecordIds: [...recordIds, org.id],
-      }
+  const text = org
+    ? employerSaidAs({
+        ...org,
+        name: properName(org.name),
+        outside: org.kind === "outside-market",
+      })
+    : null;
+  return org && text
+    ? { text, sourceRecordIds: [...recordIds, org.id] }
     : undefined;
 }
 
@@ -434,13 +484,20 @@ function householdMoments(
   }
   // The day they came to the county, from the moves engine's run before the
   // start (told as their own move, to where they live now).
-  for (const row of history(PERSON_MOVED_IN, person.id))
+  for (const row of history(PERSON_MOVED_IN, person.id)) {
+    // A move within the same place is no move to tell (and no chapter).
+    if (
+      placeLabel(String(row.facts.fromPlaceId ?? "")) ===
+      placeLabel(String(row.facts.toPlaceId ?? ""))
+    )
+      continue;
     moments.push({
       ...base(row.id, row.date),
       causeKind: "moved",
       counterpartIds: [],
       selfNamed: true,
     });
+  }
   // The working-life run's spells the person was old enough to remember and
   // still a child at home for: a relative's start or move is told inside the
   // one sentence about that relative's work (lead, Nov 11: "one sentence per
@@ -500,7 +557,18 @@ function householdMoments(
     // the same sentence ("... and works as a janitor at ..."): one sentence
     // per person.
     const office = work.offices[zero];
-    const job = work.job ? core.jobs.get(work.job.id) : undefined;
+    const held = work.job ? core.jobs.get(work.job.id) : undefined;
+    // A job is said through the one said-as reader: the outside market's
+    // fill-in ("Works outside the town") is never a title after "works as",
+    // and a form's title (a parenthesis, a slash) is not said at all.
+    const jobSaid = held
+      ? jobSaidAs(held.title, {
+          outside:
+            core.organizations.get(held.organizationId)?.kind ===
+            "outside-market",
+        })
+      : null;
+    const job = jobSaid?.kind === "title" ? held : undefined;
     if (office) {
       const ids = [office.termId, office.officeId];
       const side = job
@@ -549,9 +617,10 @@ function householdMoments(
                   ? {
                       employer: {
                         // The government itself ("the County of Nuckolls").
-                        text: employerSaid(properName(office.governmentName), {
+                        text: employerSaidAs({
+                          name: properName(office.governmentName),
                           kind: "government-treasury",
-                        }),
+                        })!,
                         sourceRecordIds: ids,
                       },
                     }
@@ -560,7 +629,7 @@ function householdMoments(
           ...(job
             ? {
                 job: {
-                  text: withArticle(job.title),
+                  text: (jobSaid as { asJob: string }).asJob,
                   sourceRecordIds: [job.id],
                 },
                 ...(side ? { workplace: side } : {}),
@@ -570,10 +639,24 @@ function householdMoments(
       });
       continue;
     }
-    if (!job) continue;
-    const held = heldSinceRecord(core as CoreState, earner.id, job.id);
+    if (held && jobSaid?.kind === "outside") {
+      moments.push({
+        ...base(`${order}:${held.id}`, lastDay),
+        causeId: held.id,
+        causeFactId: held.id,
+        causeKind: "household:livelihood:outside",
+        counterpartIds: [earner.id],
+        beat: "work",
+        actFacts: {
+          does: { text: jobSaid.does, sourceRecordIds: [held.id] },
+        },
+      });
+      continue;
+    }
+    if (!job || jobSaid?.kind !== "title") continue;
+    const since = heldSinceRecord(core as CoreState, earner.id, job.id);
     const employer = employerName(core, job.organizationId, job.id);
-    const cause = held?.id ?? job.id;
+    const cause = since?.id ?? job.id;
     // The last spell they started while the person was a child at home who
     // remembers it: the start of the job they hold ("started at ... when I
     // was 15 and still works there"), or the move to it from the one before.
@@ -611,7 +694,7 @@ function householdMoments(
       counterpartIds: [earner.id],
       beat: "work",
       actFacts: {
-        job: { text: withArticle(job.title), sourceRecordIds: [job.id] },
+        job: { text: jobSaid.asJob, sourceRecordIds: [job.id] },
         ...(employer ? { employer } : {}),
         ...(remembered
           ? {
@@ -1026,6 +1109,22 @@ export function composeJournal(
     const text = placeLabel(placeId);
     return text ? { text, sourceRecordIds: [placeId!] } : null;
   };
+  // The person's moves before the start, by record, and where they lived on
+  // a day: the place a later move left, else where they live now.
+  const moves = [
+    ...preStartHistory(core as CoreState, {
+      kind: PERSON_MOVED_IN,
+      personId,
+    }),
+  ].sort((a, b) => a.date.localeCompare(b.date));
+  const movesById = new Map(moves.map((row) => [row.id, row]));
+  const homeOn = (date: IsoDate) => {
+    const next = moves.find((row) => row.date > date);
+    return (
+      (next ? placeName(String(next.facts.fromPlaceId ?? "")) : null) ??
+      placeName(person.placeId)
+    );
+  };
 
   // The run's work records before the start: each names its own employer.
   const pastWorkIds = new Set(
@@ -1093,9 +1192,12 @@ export function composeJournal(
       const employer = employerOf(job?.id);
       if (employer) facts.employer = employer;
     }
-    if (moment.causeKind === "moved") {
-      const place = placeName(person.placeId);
-      if (place) facts.place = place;
+    // A move is told by its own record's places, never where they live now.
+    const move =
+      moment.causeKind === "moved" ? movesById.get(moment.causeId) : undefined;
+    if (move) {
+      const place = placeName(String(move.facts.toPlaceId ?? ""));
+      if (place) facts.place = { ...place, sourceRecordIds: [move.id] };
     }
     // How old they were on the day, from the birth record they stand on.
     const ageThen = (born: string, recordId: string): Fact => ({
@@ -1106,18 +1208,10 @@ export function composeJournal(
     // before it, who came with them (the moves engine holds a mover back for
     // children at home).
     if (moment.causeKind === "moved") {
-      const move = preStartHistory(core as CoreState, {
-        kind: PERSON_MOVED_IN,
-        personId,
-      }).find((entry) => entry.id === moment.causeId);
       const from = placeLabel(String(move?.facts.fromPlaceId ?? ""));
       // Only a place that is not the one they moved to (a county and its
       // seat are one answer).
-      if (
-        move &&
-        from &&
-        !(placeName(person.placeId)?.text ?? "").endsWith(from)
-      )
+      if (move && from && !(facts.place?.text ?? "").endsWith(from))
         facts["moved-from"] = { text: from, sourceRecordIds: [move.id] };
       const children = (person.pastFacts ?? []).flatMap((entry) => {
         const child =
@@ -1239,19 +1333,35 @@ export function composeJournal(
           };
         continue;
       }
-      // A law is named from the bill that enacted it, citing both.
+      // A law is named from the bill that enacted it, citing both; a law no
+      // bill enacted, by the government that set it and what it is about,
+      // through the one subject reader. A law with neither is not told.
       const law =
         spec.format === "lawName"
-          ? lawName(core, logged?.facts?.[spec.fact])
+          ? (lawName(core, logged?.facts?.[spec.fact]) ??
+            lawSetBy(core, logged?.facts?.[spec.fact]))
           : undefined;
-      // A law no bill enacted is told by what it is about.
-      if (spec.format === "lawName" && !law) {
-        const about = lawTopic(core, logged?.facts?.[spec.fact]);
-        if (!about) return null;
-        facts.topic = {
-          text: about.text,
-          sourceRecordIds: [moment.causeId, ...about.recordIds],
+      if (spec.format === "lawName" && !law) return null;
+      // What a law moved for the person, from the event's own amount: said
+      // rounded, and which way it went is the line's stage. No amount, no line.
+      if (spec.format === "moneyMoved") {
+        const moved = Number(logged?.facts?.[spec.fact]);
+        if (!Number.isFinite(moved) || moved === zero) return null;
+        facts[key] = {
+          text: moneySaid(Math.abs(moved)),
+          sourceRecordIds: [moment.causeId],
         };
+        facts.way = {
+          text: moved < zero ? "more" : "less",
+          sourceRecordIds: [moment.causeId],
+        };
+        continue;
+      }
+      // The bill or price a law moved, by the price rule's good.
+      if (spec.format === "priceGood") {
+        const good = priceGoodSaid(core, logged?.facts?.[spec.fact]);
+        if (!good) return null;
+        facts[key] = { text: good, sourceRecordIds: [moment.causeId] };
         continue;
       }
       // An organization the event is about is named from its own record.
@@ -1642,7 +1752,8 @@ export function composeJournal(
       (ownTitle && ownTitle.text !== chapter.title)
     ) {
       chapterKind = turn ? row.kindPrefix : undefined;
-      const place = placeName(person.placeId);
+      // A chapter that opens on no turn is titled by where they lived then.
+      const place = homeOn(moment.date);
       const title =
         ownTitle ??
         render(
@@ -1838,16 +1949,40 @@ export function composeJournal(
           Object.entries(facts).filter(([key]) => !AGE_FACTS.has(key)),
         )
       : facts;
+    // Each follow sentence is typed by what it is about (the row's
+    // `followAbout`): one that points back ("I had been there", "It paid")
+    // is said only right after a sentence about the same thing, so "there"
+    // is never the new job when it means the old one; elsewhere only a
+    // wording that names it is said, or none.
+    const about = row.followAbout ?? {};
+    const things = [...new Set(Object.values(about))];
+    // What a sentence is about: the last of the row's things it names.
+    const focusOf = (text: string, before: string | undefined) =>
+      things
+        .filter((key) => followFacts[key] && text.includes(followFacts[key].text))
+        .sort(
+          (a, b) =>
+            text.lastIndexOf(followFacts[a]!.text) -
+            text.lastIndexOf(followFacts[b]!.text),
+        )
+        .at(-one) ?? before;
+    let focus = focusOf(event.text, undefined);
     for (const named of row.follow ?? []) {
       for (const field of named.split("|")) {
+        const thing = about[field];
         const told = render(
-          { part: "memoir", field: field as MemoirField },
+          {
+            part: "memoir",
+            field: field as MemoirField,
+            ...(thing && thing !== focus ? { naming: thing } : {}),
+          },
           followFacts,
           `${moment.id}:${field}`,
           sourceIds,
         );
         if (!told) continue;
         parts.push(told);
+        focus = focusOf(told.text, thing ?? focus);
         break;
       }
     }
