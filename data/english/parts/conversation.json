@@ -36007,10 +36007,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.own-view-take-core.then-you-ll-know-why-when-i-bring-it-up-at-employer",
+      "key": "conversation.own-view-take-core.then-you-ll-know-why-i-bring-it-up-at-employer",
       "move": "own-view-take-core",
       "kind": "spoken",
-      "text": "Then you'll know why when I bring it up at {employer}.",
+      "text": "Then you'll know why I bring it up at {employer}.",
       "uses": [
         {
           "move": "own-view-take-core",
@@ -36103,10 +36103,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.own-view-take-core.you-ll-see-it-my-way-once-you-pay-bills-in-place",
+      "key": "conversation.own-view-take-core.pay-bills-in-place-and-you-ll-see-it-my-way",
       "move": "own-view-take-core",
       "kind": "spoken",
-      "text": "You'll see it my way once you pay bills in {place}.",
+      "text": "Pay bills in {place} and you'll see it my way.",
       "uses": [
         {
           "move": "own-view-take-core",
