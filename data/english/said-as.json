@@ -52,7 +52,16 @@
       "again": "the senator"
     },
     "council": { "before": "Council member", "again": "the council member" },
-    "mayor": { "before": "Mayor", "again": "the mayor" }
+    "mayor": { "before": "Mayor", "again": "the mayor" },
+    "us-house:presiding": { "before": "Speaker", "again": "the Speaker" },
+    "legislature-lower:presiding": {
+      "before": "Speaker",
+      "again": "the Speaker"
+    },
+    "council:presiding": {
+      "before": "Council President",
+      "again": "the council president"
+    }
   },
   "relation": {
     "yours": "your {relation} {given}",

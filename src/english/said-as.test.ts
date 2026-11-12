@@ -31,6 +31,22 @@ const sister: SaidPerson = {
 };
 
 describe("said-as", () => {
+  it("says a chamber's presiding officer by that role, and a pronoun in the case its slot asks for", () => {
+    const telling = tellingOf({ speakerId: "p:a", listenerId: "p:b" });
+    const speaker: SaidPerson = {
+      id: "p:speaker",
+      givenName: "Beverly",
+      familyName: "McClain",
+      gender: "female",
+      officeKind: "us-house:presiding",
+    };
+    expect(saidAs(telling, speaker)).toBe("Speaker Beverly McClain");
+    expect(saidAs(telling, speaker, { case: "object" })).toBe("her");
+    expect(saidAs(telling, speaker, { case: "possessive" })).toBe("her");
+    expect(saidAs(telling, vice)).toBe("Vice President Kathryn Hansen");
+    expect(saidAs(telling, speaker)).toBe("the Speaker");
+  });
+
   it("says an official by role and name once, then the pronoun or the role", () => {
     const telling = tellingOf({ speakerId: "p:a", listenerId: "p:b" });
     expect(saidAs(telling, president)).toBe("President Robert Lowe");

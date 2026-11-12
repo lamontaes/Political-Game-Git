@@ -11,7 +11,7 @@ import { officialOf } from "../core2/modules/officials";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import { kinAddress } from "../english/journal-words";
-import type { SaidPerson } from "../english/said-as";
+import { officeWords, type SaidPerson } from "../english/said-as";
 import type { Telling } from "../english/telling";
 
 export function saidPersonOf(
@@ -22,10 +22,14 @@ export function saidPersonOf(
   const person = core.people.get(personId);
   const listener = core.people.get(telling.listenerId);
   const speaker = core.people.get(telling.speakerId);
-  const officeKind = officialOf(
-    coreAPI(core as CoreState),
-    personId,
-  )?.officeKind;
+  const official = officialOf(coreAPI(core as CoreState), personId);
+  // A chamber's presiding officer is said by that role ("Speaker"), when the
+  // words hold one for their body (`<office kind>:presiding`).
+  const officeKind =
+    official?.leadership === "presiding" &&
+    officeWords(`${official.officeKind}:presiding`)
+      ? `${official.officeKind}:presiding`
+      : official?.officeKind;
   const toListener = familyFactsOf(listener).get(personId)?.relation;
   const toSpeaker = familyFactsOf(speaker).get(personId)?.relation;
   const gender = person?.looks?.gender;
