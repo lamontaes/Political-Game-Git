@@ -209,5 +209,17 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in-triage"
+  },
+  {
+    "id": "SG-OFFICE-place-district-from-county",
+    "kind": "assumed-data",
+    "file": "src/districts/place-membership.ts",
+    "line": 1,
+    "whatItFakes": "A place the Census place-to-district relationship files do not know (518 places created after the 2020 place list they were compiled from, most in Indiana, Pennsylvania and Virginia) is placed whole in the district, in each chamber, that holds the most resident workers (LODES8) among the places of its own county the files do know (src/districts/place-district-estimates.generated.json).",
+    "why": "The relationship files list only the 2020 places; the game's places are the 2025 Gazetteer's, and the files that assign each block to a district were not kept for these places.",
+    "addedBy": "opus-5234 (gov-offices-spec-opening-careers-alonzaville)",
+    "addedAt": "2026-11-11",
+    "replacement": "Each such place assigned by its own Census interior point (or its blocks) against each chamber's district lines.",
+    "status": "open"
   }
 ]

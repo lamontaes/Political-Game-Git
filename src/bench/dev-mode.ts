@@ -985,6 +985,8 @@ export class DevMode {
     series?: string;
     value?: number;
     unit?: string;
+    /** Repeal the body's own law on an amount series: its level holds what it held before, including nothing. */
+    repeal?: boolean;
     billId?: string;
     /** Put the bill on the body's next sitting, as its sponsor's calendar would (a floor day the member is held for). */
     schedule?: boolean;
@@ -1028,6 +1030,7 @@ export class DevMode {
               kind: "law-amount",
               series,
               value,
+              ...(input.repeal ? { repeal: true } : {}),
               ...(input.unit ? { unit: input.unit } : {}),
             },
       ];
