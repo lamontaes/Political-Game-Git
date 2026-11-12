@@ -82,3 +82,22 @@ In both worlds the spells' place is **not** the person's home place today (`plac
 | Kaibito | 33 | 8 | 62% | 6 | 50% |
 
 The overlap with a parent is high (54 to 73 percent), but so is the overlap with a stranger (39 to 64 percent), and in two towns the stranger's is higher or equal. So the repetition is the town's: all adults draw the same few employers. It is not a family effect (and the sheet's "mother repeats the player" is the same cause as row 12). The sample of pairs is small (2 to 9 a town, 33 in all), because most adults have no past work (row 5). Ordering: fixing row 12 (employer by size, fit and referral) fixes this one; it needs no separate change.
+
+## Row 17: an evicted relative and the parent evicted too
+
+**Measured.** `scripts/measure/row17-evictions.ts <placeKey> <seed>`: build the town, advance 120 to 150 days from the opening (January 20, 2025) one day at a time, and keep the first sight of every eviction case and every housing status row (the status row is removed when a household is housed again, so it has to be caught as it is written). For every "doubled-up" status, look up the host household's eviction cases.
+
+| Place | Seed | Households | Cases opened | Notice March 6 | Doubled-up | Hosts with any case |
+| --- | --- | --- | --- | --- | --- | --- |
+| Shelbyville, Tennessee (4767760) | 17a1b2c3d4e5f607 | 946 | 11 | 6 | 2 | 0 |
+| Shelbyville, Tennessee | 5a1b2c3d4e5f6071 | 957 | 8 | 3 | 1 | 0 |
+| Shelbyville, Tennessee | 9c8b7a6f5e4d3c2b | 946 | 8 | 4 | 2 | 0 |
+| Beckett, New Jersey (3404400) | 17a1b2c3d4e5f607 | 941 | 12 | 8 | 1 | 0 |
+| Beckett, New Jersey | 5a1b2c3d4e5f6071 | 943 | 12 | 7 | 1 | 0 |
+| Beckett, New Jersey | 9c8b7a6f5e4d3c2b | 942 | 13 | 9 | 1 | 0 |
+
+(W1's seeds were not given on the sheet, so these are six new seeds of the two places.)
+
+**The same notice date: confirmed and explained.** 37 of the 64 cases (58 percent) carry March 6, 2025; the rest carry the sixth of a later month (April 6, May 6, June 6) and nothing else. The date is the opening's: every opening lease's first rent falls due March 1, and the notice step serves it on the first review after the five-day grace. It is the sheet's reading; no relative-specific cause is needed, and `world-opening-husks-in-town-hold-no-cash` is not involved.
+
+**The parent also evicted: not reproduced.** In all six worlds, none of the 8 doubled-up households had a host with an eviction case at any time in the run, before or after the move-in, and none on the same day. `hostFor` (`housing-homeless.ts:398`) refuses a host that has a status row, so a doubled-up host is not itself homeless. The two-evictions case W1 saw would need a host household that is also in arrears; in these worlds the hosts were not. Not an engine fault found: the case needs W1's world (the place's seed and date) to look at, and the measurer asks W1 for the seed. Until then the measured answer is that a relative's eviction does not by itself put the host in arrears or open a case on it.
