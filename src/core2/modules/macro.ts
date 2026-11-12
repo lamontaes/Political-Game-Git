@@ -78,8 +78,6 @@ import {
   scaleOutsideSales,
   type OutsideSectorFactor,
 } from "../residents-economy";
-import { sectorOfKind } from "../business-books";
-import { placeStateKey } from "../place-map";
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { firmStaffing } from "./jobs";
 import { LAWS_MODULE_ID, stateLawInForce } from "./laws";
