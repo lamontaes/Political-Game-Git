@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: dropped
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-dev-forced-layoff-says-tomorrow-two-days-running
+pr: #8585
 after:
 blocked-on:
 lead: play-first
@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T04:47:36.728Z
 ---
 
 **What.** With Dev mode on, a person's card has a button that ends their job through their employer's own layoff ("Laid off by their employer"). Measured by the Nov 9 audit in San Roque, Northern Mariana Islands (no seed given): a forced layoff answered "They worked today: lay them off tomorrow" on two days running before it worked on the third. The control told the tester to come back tomorrow, and tomorrow it said the same thing. Fix it for every worker and every kind of employer: one press is enough. When the worker has already worked today, the control books the layoff with the employer for the worker's next day, before their shift, through the engine's own layoff, and says once which day it will happen; nothing asks the tester to try again.
@@ -36,5 +37,3 @@ checked: fable 2026-11-10
 **Files.** src/bench/dev-mode.ts, src/bench/ui/dev-person.mjs, src/bench/data/controls.json, src/core2/modules/jobs.ts, src/bench/dev-layoff.test.ts, src/bench/dev-api.ts
 
 **Notes.** From the Fable audit of Nov 9, 2026, Pillar 2, "What the code does", the run-until bullet: "A forced layoff answered 'They worked today: lay them off tomorrow' on two days running before it worked on the third." It was measured in the lead's own dev-mode session in San Roque, Northern Mariana Islands; the audit gives no seed and does not say whose job it was, what hour the presses were made, or whether the scene that should follow a layoff then played. The cause lines above were read on Nov 10 by the session that filed this; the audit named no cause. The same refusal also reaches the Scenes panel: a scene whose way in is a layoff (`forceScene`, `src/bench/dev-mode.ts`, line 1087) fails with the same sentence. The refusal exists for a real reason, kept by the fix: ending a job after its holder worked that day stopped the game before (`jobs-layoff-worked-today`, `core-office-job-ends-before-days-work`, `play-staff-hire-worked-today-stops-clock`, all done). Related items found: `dev-mode-force-job-loss-through-layoff` (open, priority 3; it asks for the control this item repairs, and the control now exists as `layOffWorker`, so its claimer should read this item first), `play-dev-scene-list-does-not-say-what-it-can-cause`. No open item covered this defect.
-
-Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have fixed dev mode's forced-layoff button answering tomorrow twice; only a tester sees it and no player screen changes.

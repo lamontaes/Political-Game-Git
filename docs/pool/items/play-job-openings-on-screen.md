@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-job-openings-on-screen
-pr:
+pr: #8455
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from world-player-jobless-no-offers)
 lead: play-first

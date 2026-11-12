@@ -5,10 +5,10 @@ area: office
 kind: research
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-office-m5-02-governor-and-mayor-play-part-1-gap-list
+pr: #8630
 after:
 blocked-on:
 lead: governing
@@ -17,6 +17,7 @@ effort: low
 root: design-story-director
 source: split from office-m5-02-governor-and-mayor-play in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:30:07.961Z
 ---
 
 **What.** The umbrella M5-02 says a governor should set budget priorities with staff advice, appoint a cabinet, sign or veto, and live with the results. Its child items office-governor and the three office-budget-season-mayor-act, -bench-editor and -payment-chain are done, so nobody knows what is left. List, for each of the three powers, whether a played governor in a drawn state can already do it, with the record ids that show it. Write the list into the umbrella item's Notes.

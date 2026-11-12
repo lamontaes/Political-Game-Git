@@ -48,9 +48,13 @@ export function recordTree(value, onTrace, key = "", depth = 0) {
       shown,
     );
   }
-  const entries = Array.isArray(value)
-    ? value.map((item, index) => [String(index), item])
-    : Object.entries(value);
+  // A slot the game keeps nothing in (null or undefined) is not drawn: a tester
+  // reads what is kept, never the word "null".
+  const entries = (
+    Array.isArray(value)
+      ? value.map((item, index) => [String(index), item])
+      : Object.entries(value)
+  ).filter(([, item]) => item !== null && item !== undefined);
   const box = node(
     "details",
     { open: depth < 1 },
