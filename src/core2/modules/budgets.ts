@@ -171,6 +171,8 @@ export interface BudgetRow {
   readonly revenueMinor: Readonly<Record<string, number>>;
   readonly spendingMinor: Readonly<Record<string, number>>;
   readonly source: string;
+  /** Another state's budget: the country tier's row whose ledger it is a view of (outside-budgets). */
+  readonly ledgerId?: string;
 }
 
 interface WithholdingRecord {

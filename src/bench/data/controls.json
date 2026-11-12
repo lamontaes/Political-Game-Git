@@ -314,7 +314,10 @@
     "evidence": "Evidence",
     "missing": "Missing module",
     "piece": "Piece",
-    "running": "Running modules"
+    "running": "Running modules",
+    "year": "Year",
+    "stateChanges": "Laws other states changed",
+    "statesChanging": "States that changed one"
   },
   "devRecords": {
     "title": "Records",
