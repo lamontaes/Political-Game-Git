@@ -26,7 +26,10 @@
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
 import { decisionLean, traitLeanBetween } from "./trait-decisions";
 import jobsJson from "./data/jobs/jobs.json" with { type: "json" };
+import veterans from "./data/past/veterans-acs-2024.json" with { type: "json" };
 import { profileFor } from "./opening-profile";
+import { placeStateKey } from "./place-map";
+import { SeededRng } from "./kernel/rng";
 import {
   kindergartenYear,
   onCalendar,
@@ -295,14 +298,88 @@ export function schoolingEndsOf(
     ),
   );
 }
-/** The day a person is out of school, by the schooling their record gives (the school pass's own day). */
+const VETERANS = veterans as unknown as {
+  ageBands: string[];
+  national: { shareByAge: Record<string, Record<string, number>> };
+  places: Record<
+    string,
+    { shareByAge: Record<string, Record<string, number>> }
+  >;
+};
+
+/** The share of civilians of a sex and age in a place's state who are veterans (ACS 2024, B21001), else the nation's. */
+export function veteranShare(
+  placeId: string,
+  sex: string,
+  age: number,
+): number {
+  const band = VETERANS.ageBands.find((row) => {
+    const [low, high] = row.replace("+", "-").split("-");
+    return age >= Number(low) && (!high || age <= Number(high));
+  });
+  if (!band) return 0;
+  const state = placeStateKey(placeId);
+  const byAge =
+    (state && VETERANS.places[state]?.shareByAge[sex]) ||
+    VETERANS.national.shareByAge[sex];
+  return byAge?.[band] ?? 0;
+}
+
+/**
+ * A person's service before the start (gap sheet, Nov 12, 2026, row 4), if
+ * they served: the share of civilians their sex and age in their state who
+ * are veterans (ACS 2024, B21001), against their own seeded line, says
+ * whether; they enlisted the day their schooling ended and served a first
+ * term (`pastServiceYears`), discharged before the start, since the share
+ * counts civilians. Seeded generation of who existed; no roll decides what
+ * anyone does. The work pass starts their first civilian job after it.
+ */
+export function serviceOf(
+  core: Readonly<CoreState>,
+  person: Readonly<PersonState>,
+  /** The day the person's schooling is read on (their profile's day). */
+  on: string = core.date,
+): { enlisted: string; discharged: string; years: number } | undefined {
+  const sex = person.looks?.gender;
+  if (sex !== "female" && sex !== "male") return undefined;
+  const age = ageOnDate(
+    makeIsoDate(person.birthDate),
+    makeIsoDate(core.startedAt),
+  );
+  const share = veteranShare(person.placeId, sex, age);
+  // The pull of the share against the person's own seeded line: who served
+  // is generated with who existed, as the past's other passes make it.
+  const line = -Math.log(
+    1 - new SeededRng(core.seed).fork(`past-service:${person.id}`).next(),
+  );
+  const pull = -Math.log(1 - share);
+  if (pull < line) return undefined;
+  const api = coreAPI(core as CoreState);
+  const years = api.parameter("pastServiceYears");
+  const enlisted = schoolingEndsOf(core, person, on);
+  const term = addDays(
+    makeIsoDate(enlisted),
+    Math.round(years * api.parameter("daysPerMeanYear")),
+  );
+  const lastDay = addDays(makeIsoDate(core.startedAt), -1);
+  // A civilian at the start: discharged by the day before it, after at
+  // least a year of service.
+  if (addDays(makeIsoDate(enlisted), 365) > lastDay) return undefined;
+  const discharged = term < lastDay ? term : lastDay;
+  return { enlisted, discharged, years };
+}
+
+/** The day a person is out of school, by the schooling their record gives (the school pass's own day), or out of the service that followed it. */
 function entryOf(
   api: CoreAPI,
   person: PersonState,
   /** The day the person's schooling is read on (their profile's day). */
   on: IsoDate,
 ): IsoDate {
-  return makeIsoDate(schoolingEndsOf(api.state, person, on));
+  const served = serviceOf(api.state, person, on);
+  return makeIsoDate(
+    served?.discharged ?? schoolingEndsOf(api.state, person, on),
+  );
 }
 
 /** The person's day-one job, its start and pay, from the jobs engine's records. */

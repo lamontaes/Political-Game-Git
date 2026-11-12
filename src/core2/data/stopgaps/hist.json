@@ -62,5 +62,27 @@
     "addedAt": "2026-11-12",
     "replacement": "Split no-college into less than high school and a diploma by the ACS educational attainment shares by age (table B15001), on the profile itself, so the school pass, the work pass and the jobs engine read the same level.",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-past-service-one-term",
+    "kind": "partial-model",
+    "file": "src/core2/past-military.ts",
+    "whatItFakes": "Every veteran served one first term of the same length (pastServiceYears, four years) from the day their schooling ended: no draft-era two-year service, no officer after college, no career of twenty years, no branch, no deployment, and no Reserve or Guard.",
+    "why": "Gap sheet, Nov 12, row 4: no past held military service. The ACS share says who served; how long and where needs its own research.",
+    "addedBy": "opus-lr (Life records builder)",
+    "addedAt": "2026-11-12",
+    "replacement": "Service length and branch by cohort from the VA's National Survey of Veterans or the Defense Manpower Data Center's separations, with draft-era terms for those born before 1953, read against the person's traits.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-within-moves-child-own-past",
+    "kind": "partial-model",
+    "file": "src/core2/past-moves.ts",
+    "whatItFakes": "A move inside the county before the start is written on the adult's own past with the children at home named in its facts, but a child's own past, written when the child is opened, does not hold the moves they made with that parent.",
+    "why": "Gap sheet, Nov 12, row 16: a past held at most one move. The within-county moves run per adult from their own seeded line; a child's own run would need the parent's moves read first.",
+    "addedBy": "opus-lr (Life records builder)",
+    "addedAt": "2026-11-12",
+    "replacement": "When a child is opened, read the moves of the parent they lived with (by the record's childIds) into the child's own past instead of running their own until they are grown.",
+    "status": "open"
   }
 ]

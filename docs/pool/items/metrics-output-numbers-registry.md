@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-63jrjr
-pr:
+pr: #8966
 after:
 blocked-on:
 lead: money

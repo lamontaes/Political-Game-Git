@@ -10,6 +10,7 @@
     "politics",
     "business",
     "home",
+    "service",
     "school",
     "work",
     "move"
@@ -1013,9 +1014,24 @@
       "what": "college-ended"
     },
     {
+      "kind": "military.enlisted",
+      "life": "service",
+      "what": "enlisted"
+    },
+    {
+      "kind": "military.discharged",
+      "life": "service",
+      "what": "discharged"
+    },
+    {
       "kind": "person.moved-in",
       "life": "move",
       "what": "moved-in"
+    },
+    {
+      "kind": "person.moved-within",
+      "life": "move",
+      "what": "moved-within"
     },
     {
       "kind": "family.partnered",
