@@ -902,6 +902,10 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         topic: topic.question,
         desiredChange: topic.want > 0 ? "enact" : "repeal",
         audienceIds,
+        occasion: {
+          recordId: `party-meeting:${party.id}:${date}`,
+          kind: "party-meeting",
+        },
       });
     api
       .moduleState(PARTIES_MODULE_ID)
