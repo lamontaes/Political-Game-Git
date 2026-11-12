@@ -51,17 +51,17 @@
     "usual": "How long the speaker's shift usually runs (\"eight hours\"), from the job record's daily hours.",
     "age": "The age a person turned, from the paper's milestone birthday story.",
     "office": "The office a race is for, as its contest record names it.",
+    "who": "An office as its holder is said again (\"the governor\"), from data/english/said-as.json offices.",
+    "body": "The local body that decided a measure, said as people say it (\"the county board\"), from data/english/said-as.json deciders.",
+    "purpose": "What a budget line is for, from the bill catalog's budget row (data/english/bill-names.json).",
+    "amount": "A sum of money from a record, as people round it.",
     "owed": "What a household owed its landlord, as people round it, from the housing engine's case at removal.",
     "behind": "How many months of rent a sum owed comes to, as people say it (\"about two months\"), from the case's rent owed against the lease's monthly rent.",
     "lost-at": "The employer of a job the speaker lost in the year before an eviction, from their own record of it ending.",
     "host-place": "The town of the relative an evicted household moved in with, when it is not their own, from the housing status and the host household's record.",
     "shelter-place": "The town whose shelter took an evicted household in, from the housing status record.",
     "no-bed-place": "The town whose shelters had no bed for an evicted household, from the housing status record.",
-    "host": "The relative an evicted household moved in with, as the speaker names them with the possessive (\"my mother\"), from the housing status and the family record.",
-    "who": "An office as its holder is said again (\"the governor\"), from data/english/said-as.json offices.",
-    "body": "The local body that decided a measure, said as people say it (\"the county board\"), from data/english/said-as.json deciders.",
-    "purpose": "What a budget line is for, from the bill catalog's budget row (data/english/bill-names.json).",
-    "amount": "A sum of money from a record, as people round it."
+    "host": "The relative an evicted household moved in with, as the speaker names them with the possessive (\"my mother\"), from the housing status and the family record."
   },
   "maxWords": 10,
   "lineWords": {
@@ -36355,31 +36355,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-back-core.i-m-at-host-s-for-now",
-      "move": "eviction-back-core",
-      "kind": "spoken",
-      "text": "I'm at {host}'s for now.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "subject": "eviction-back",
-          "role": "core",
-          "stages": ["where"],
-          "requiresFacts": ["host", "alone"],
-          "excludesFacts": ["host-place"]
-        }
-      ],
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W1 (eviction told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.eviction-back-core.i-m-staying-with-host-until-i-find-a-place",
       "move": "eviction-back-core",
       "kind": "spoken",
@@ -37127,76 +37102,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-say-core.they-put-us-out-when-owing-owed",
-      "move": "eviction-say-core",
-      "kind": "spoken",
-      "text": "They put us out {when}, owing {owed}.",
-      "uses": [
-        {
-          "move": "eviction-say-core",
-          "subject": "eviction-say",
-          "role": "core",
-          "requiresFacts": ["together", "owed"]
-        }
-      ],
-      "piece": {
-        "of": "eviction-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W1 (eviction told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.eviction-say-core.we-got-put-out-when-owing-owed",
-      "move": "eviction-say-core",
-      "kind": "spoken",
-      "text": "We got put out {when}, owing {owed}.",
-      "uses": [
-        {
-          "move": "eviction-say-core",
-          "subject": "eviction-say",
-          "role": "core",
-          "requiresFacts": ["owed"],
-          "excludesFacts": ["together", "alone"]
-        }
-      ],
-      "piece": {
-        "of": "eviction-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder W1 (eviction told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.eviction-say-core.i-got-put-out-when-owing-owed",
-      "move": "eviction-say-core",
-      "kind": "spoken",
-      "text": "I got put out {when}, owing {owed}.",
-      "uses": [
-        {
-          "move": "eviction-say-core",
-          "subject": "eviction-say",
-          "role": "core",
-          "requiresFacts": ["owed", "alone"]
-        }
-      ],
-      "piece": {
-        "of": "eviction-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder W1 (eviction told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.eviction-answer-help.i-ll-help-carry",
       "move": "eviction-answer-help",
       "kind": "spoken",
@@ -37289,30 +37194,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-back-core.thanks-it-s-all-going-to-host-s",
-      "move": "eviction-back-core",
-      "kind": "spoken",
-      "text": "Thanks. It's all going to {host}'s.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "subject": "eviction-back",
-          "role": "core",
-          "stages": ["help"],
-          "requiresFacts": ["host"]
-        }
-      ],
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder W1 (eviction told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.eviction-back-core.thanks-the-shelter-in-shelter-place-takes-only-what-we-carry",
       "move": "eviction-back-core",
       "kind": "spoken",
@@ -37332,30 +37213,6 @@
         "required": true
       },
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W1 (eviction told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.eviction-back-core.thanks-with-no-bed-in-no-bed-place-there-s-nowhere-to-take-it",
-      "move": "eviction-back-core",
-      "kind": "spoken",
-      "text": "Thanks. With no bed in {no-bed-place}, there's nowhere to take it.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "subject": "eviction-back",
-          "role": "core",
-          "stages": ["help"],
-          "requiresFacts": ["no-bed-place"]
-        }
-      ],
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
       "origin": "authored",
       "author": "Words builder W1 (eviction told through the composer)",
       "date": "2026-11-12"
@@ -37459,55 +37316,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-back-core.i-ll-find-a-bed-somewhere-no-bed-place-has-none-right-now",
-      "move": "eviction-back-core",
-      "kind": "spoken",
-      "text": "I'll find a bed somewhere. {no-bed-place} has none right now.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "subject": "eviction-back",
-          "role": "core",
-          "stages": ["comfort"],
-          "requiresFacts": ["no-bed-place", "alone"]
-        }
-      ],
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Words builder W1 (eviction told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.eviction-back-core.we-ll-find-beds-somewhere-no-bed-place-has-none-right-now",
-      "move": "eviction-back-core",
-      "kind": "spoken",
-      "text": "We'll find beds somewhere. {no-bed-place} has none right now.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "subject": "eviction-back",
-          "role": "core",
-          "stages": ["comfort"],
-          "requiresFacts": ["no-bed-place"],
-          "excludesFacts": ["alone"]
-        }
-      ],
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Words builder W1 (eviction told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.eviction-back-core.if-lost-at-had-kept-me-we-d-still-be-there",
       "move": "eviction-back-core",
       "kind": "spoken",
@@ -37553,6 +37361,223 @@
         "required": true
       },
       "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-say-core.they-put-us-out-when-we-owed-owed",
+      "move": "eviction-say-core",
+      "kind": "spoken",
+      "text": "They put us out {when}. We owed {owed}.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "subject": "eviction-say",
+          "role": "core",
+          "requiresFacts": ["together", "owed"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-say-core.the-landlord-put-us-out-when-we-owed-owed",
+      "move": "eviction-say-core",
+      "kind": "spoken",
+      "text": "The landlord put us out {when}. We owed {owed}.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "subject": "eviction-say",
+          "role": "core",
+          "requiresFacts": ["owed"],
+          "excludesFacts": ["together", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-say-core.the-landlord-put-me-out-when-i-owed-owed",
+      "move": "eviction-say-core",
+      "kind": "spoken",
+      "text": "The landlord put me out {when}. I owed {owed}.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "subject": "eviction-say",
+          "role": "core",
+          "requiresFacts": ["owed", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.at-host-s-for-a-while",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "At {host}'s, for a while.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["host", "alone"],
+          "excludesFacts": ["host-place"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.sure-it-s-all-going-to-host-s",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "Sure. It's all going to {host}'s.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["help"],
+          "requiresFacts": ["host"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.thanks-but-there-s-no-bed-for-me-in-no-bed-place-yet",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "Thanks, but there's no bed for me in {no-bed-place} yet.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["help"],
+          "requiresFacts": ["no-bed-place", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.i-ll-find-a-bed-somewhere-the-shelter-in-no-bed-place-is-full",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "I'll find a bed somewhere. The shelter in {no-bed-place} is full.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["no-bed-place", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.we-ll-find-beds-somewhere-the-shelter-in-no-bed-place-is-full",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "We'll find beds somewhere. The shelter in {no-bed-place} is full.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["no-bed-place"],
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.thanks-but-there-are-no-beds-for-us-in-no-bed-place-yet",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "Thanks, but there are no beds for us in {no-bed-place} yet.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["help"],
+          "requiresFacts": ["no-bed-place"],
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
       "origin": "authored",
       "author": "Words builder W1 (eviction told through the composer)",
       "date": "2026-11-12"
