@@ -8,6 +8,13 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Nov 11: every line goes through the English engine; work-list notes bundled; the repo slimmed (owner)
 
+- **Mergers may use the admin flag (owner, about 5:10 p.m.):** asked whether the Codex and Muse mergers may merge past GitHub's queued checks with the admin flag, as the CTO has: "let them - you just check on muse's merges specifically sportatically". A merger merges with `--admin` only after the full gate in `docs/pool/START-A-MERGER.md`, pinned to the sha it checked. The CTO spot-checks Muse's merges from time to time.
+
+- **Clothes as layers in colors, approved; formal and regular, tagged; officeholders in the suit (owner, about 8:28 a.m., decisions page call 13):** "I approve those clothes. Be sure there are formal clothes and regular clothes, and that they're tagged, etc. And make sure that, like, you know, we talked about it before, that like the president is wearing the suit in their, like, when you click their profile, and you know, in their bust. But yes, I approve."
+  - Round 4 goes into the game (#8740): 28 layered pieces, front view. Men get a dress shirt, tie, suit jacket, sweater and chambray; women get a dress shirt, blazer, henley and cardigan. Each color is painted separately.
+  - Every piece is tagged formal (dress shirt, tie, jacket, blazer) or regular (the whole tops).
+  - An officeholder, the President and every seated official, wears formal clothes on their person card and on their bust everywhere. Everyone else wears regular clothes by where they are seen.
+
 - **Overnight: visible first; every line verified and touched; merge in batches (owner, about 2:03 a.m., going to bed):** "Remember, the visible stuff first. The game should look different. The words and all that. The words and scenes ... it should be markedly improved. No lines should not be verified and touched. By verified, I mean you shouldn't, what just happened should not happen again. I've made it very clear. You have all the batches, you have the way I talk, you have the entire internet, etc. ... Remember to proactively create, make, and update skills." On merging he left the shape open ("maybe at 7 a.m. or something, you merge them all, or maybe you merge them at different points in the night. I don't know. ... just be a problem solver").
   - **Merging:** game code merges in trains by area, about 3, 5 and 7 a.m. Each train's heavy checks run once on the combined result. Reds, rules, checks and skills merge at once.
   - **Every line is touched,** meaning rewritten through the engine with inserts, except the call 12 kinds.

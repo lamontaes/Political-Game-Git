@@ -594,8 +594,12 @@ describe("a campaign day", () => {
 
   it("offers an interview where an outlet has room, and the press desk records it", () => {
     const { api, filing, where } = setup();
-    if (!filing) return;
-    const interview = campaignDayChoices(api, filing.id).find(
+    // `setup` redraws places until the player can file; none is a failure that names them.
+    expect(
+      filing,
+      `the player could file for nothing: ${where}`,
+    ).not.toBeNull();
+    const interview = campaignDayChoices(api, filing!.id).find(
       (c) => c.kind === "interview",
     )!;
     if (interview.kind !== "interview") throw new Error("interview first");
@@ -603,8 +607,8 @@ describe("a campaign day", () => {
       expect(interview.facts.outlets, where).toHaveLength(0);
       return;
     }
-    const got = takeCampaignDayChoice(api, filing.id, "interview");
-    expect(got.interview?.filingId, where).toBe(filing.id);
+    const got = takeCampaignDayChoice(api, filing!.id, "interview");
+    expect(got.interview?.filingId, where).toBe(filing!.id);
   });
 });
 
