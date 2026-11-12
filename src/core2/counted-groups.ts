@@ -118,7 +118,11 @@ export interface CountedHousehold {
   /** Yearly pay from recorded counted jobs, and retirement awards. */
   wagesMinorYear: number;
   retirementMinorYear: number;
-  /** Working-age members the opening's employment target puts to work outside a recorded job. */
+  /**
+   * Working-age members working outside a recorded job (the opening's
+   * employment target, and regional work found since), per household of the
+   * record: a reader multiplies by the record's weight, as for its members.
+   */
   unplacedWorkers: number;
   tenure: Tenure;
   /** A group-quarters room's type (its tenure is `group`); absent for a household. */
