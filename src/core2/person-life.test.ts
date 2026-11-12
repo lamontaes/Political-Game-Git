@@ -345,6 +345,52 @@ describe(`the life record in ${where}`, () => {
     );
   }, 600_000);
 
+  it("3b: an estate's heirs each keep what they received, and who left it", () => {
+    const people = [...core.people.values()]
+      .filter((person) => person.alive && !isDemoted(person))
+      .sort((a, b) => a.id.localeCompare(b.id));
+    const [giver, heirA, heirB] = people;
+    expect(giver && heirA && heirB, `${where}: three full people`).toBeTruthy();
+    const id = `estate.settled:${giver!.id}:${core.date}:test`;
+    emit(
+      {
+        id,
+        kind: "estate.settled",
+        personIds: [heirA!.id, heirB!.id],
+        publicRecord: true,
+        facts: {
+          decedentId: giver!.id,
+          by: "will",
+          estateMinor: "300000",
+          heirs: `${heirA!.id}=200000 ${heirB!.id}=100000`,
+        },
+      },
+      heirA!.id,
+    );
+    for (const [heir, minor] of [
+      [heirA!, "200000"],
+      [heirB!, "100000"],
+    ] as const) {
+      const kept = lifeOf(core, heir.id).filter((event) => event.id === id);
+      expect(
+        kept.length,
+        `${where}: ${heir.id} holds the inheritance once`,
+      ).toBe(1);
+      expect([kept[0]!.life, kept[0]!.what], where).toEqual([
+        "inheritance",
+        "inherited",
+      ]);
+      expect(kept[0]!.facts, `${where}: ${heir.id}`).toMatchObject({
+        decedentId: giver!.id,
+        receivedMinor: minor,
+      });
+    }
+    expect(
+      lifeOf(core, giver!.id).filter((event) => event.id === id).length,
+      `${where}: the giver does not hold it`,
+    ).toBe(0);
+  }, 600_000);
+
   // What the person's own list holds: the jobs read from the jobs engine's change records are not on it.
   const isRemembered = (event: { from: string; record: string }) =>
     event.from === "played" && !event.record.startsWith("job-change:");

@@ -118,6 +118,14 @@
       "facts": ["causeOfDeath"]
     },
     {
+      "record": "estate.settled",
+      "life": "inheritance",
+      "what": "inherited",
+      "who": "named",
+      "facts": ["decedentId", "by"],
+      "counts": { "fact": "heirs", "own": "receivedMinor" }
+    },
+    {
       "record": "health.serious-illness",
       "life": "health",
       "what": "serious-illness",
@@ -810,11 +818,6 @@
       "kind": "estate.accounting",
       "from": "event",
       "reason": "a court record of an estate; the death is told to the family"
-    },
-    {
-      "kind": "estate.settled",
-      "from": "event",
-      "reason": "the death is told to the family; what an heir received has no sentence yet"
     },
     {
       "kind": "hazard.disaster",

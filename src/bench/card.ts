@@ -444,6 +444,17 @@ function lineOf(
         ? make("loss.parent", { relation, name })
         : make("loss.died", { name });
     }
+    case "inheritance/inherited": {
+      // What an heir received: who left it, the year and the amount, rounded for
+      // reading. The sentence waits on Story's pieces (a line with no piece is not told).
+      const giver = personName(facts.decedentId);
+      if (!giver) return null;
+      const dollars = Math.round(Number(facts.receivedMinor ?? 0) / 100);
+      return make("inheritance.left", {
+        name: giver,
+        amount: dollars > 0 ? "$" + dollars.toLocaleString("en-US") : "",
+      });
+    }
     case "school/started": {
       const school = schools.get(event.id);
       if (school)

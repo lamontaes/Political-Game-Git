@@ -240,10 +240,20 @@ function rememberRow(
     kept[row.topicAs] = event.topic;
   let counts: Record<string, number> = {};
   if (row.counts) {
+    const text = String(event.facts?.[row.counts.fact] ?? "{}");
     try {
-      counts = JSON.parse(String(event.facts?.[row.counts.fact] ?? "{}"));
+      counts = JSON.parse(text);
     } catch {
-      counts = {};
+      // A fact kept as `person=amount person=amount` (an estate's heirs).
+      counts = Object.fromEntries(
+        text
+          .split(/\s+/)
+          .map((pair) => pair.split("="))
+          .filter(
+            ([id, n]) => id && n !== undefined && Number.isFinite(Number(n)),
+          )
+          .map(([id, n]) => [id, Number(n)]),
+      );
     }
   }
   for (const id of rememberers(core, event, row)) {
