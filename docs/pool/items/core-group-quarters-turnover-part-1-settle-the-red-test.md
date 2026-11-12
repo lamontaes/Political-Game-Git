@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: merged
+claimed-by: claude/pool-core-group-quarters-turnover-part-1-settle-the-red-test
+pr: #8547
 after:
 blocked-on:
 lead: speed
@@ -17,6 +17,8 @@ model: sonnet
 effort: high
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:44:44.268Z
+merged-at: 2026-11-12T05:04:16.708Z
 ---
 
 **What.** src/core2/group-quarters.test.ts is red on main in every place it draws, 3 of 4 tests: an arriving household is housed in a group-quarters room ('college' in 0973980, 'nursing' in 3929428 and 5683040) where the test says no arrival may be. The moves engine now keeps a room capacity and a room queue, so rooms do admit arrivals, and either that admission or this test's rule is out of date. Decide which, and make the test say it.

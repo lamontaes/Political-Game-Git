@@ -1,8 +1,9 @@
 // The People screen (owner, Nov 7: the person card, "perfect"; mock pl-people): everyone you
 // know in a roster at the left, grouped by how they're tied to you, and the selected
-// person's card beside it. The roster reads the records the screen hands it; the card is
-// the one person card the game builds everywhere (the screen passes its builder in).
-import { el } from "./dom.mjs";
+// person's card beside it, on the one list-beside-detail part (`rosterScreen`). The roster
+// reads the records the screen hands it; the card is the one person card the game builds
+// everywhere (the screen passes its builder in).
+import { rosterScreen } from "./roster-screen.mjs";
 
 const ORDER = ["household", "family", "friends", "work", "politics", "other"];
 
@@ -19,47 +20,51 @@ function groupOf(person, household) {
  * stillWanted, openOther)`: builds a person's card ({ node } or null).
  */
 export function peopleScreen({ people, household, labels, card }) {
-  const roster = el("nav", { className: "people-roster" });
-  roster.setAttribute("aria-label", labels.title);
-  const pane = el("div", { className: "people-pane" });
-  let selected;
   let request = 0;
-  const open = async (person) => {
-    selected = person.personId;
-    const mine = ++request;
-    for (const b of roster.querySelectorAll(".person"))
-      b.setAttribute("aria-pressed", String(b.dataset.id === selected));
-    const built = await card(
-      person,
-      () => mine === request,
-      (other) =>
-        open(people.find((p) => p.personId === other.personId) ?? other),
-    );
-    if (built && mine === request) pane.replaceChildren(built.node);
-  };
-  roster.append(el("h3", { className: "sechead", textContent: labels.title }));
-  for (const key of ORDER) {
-    const members = people.filter((p) => groupOf(p, household) === key);
-    if (!members.length) continue;
-    roster.append(el("div", { className: "group", textContent: labels[key] }));
-    for (const person of members) {
-      const row = el(
-        "button",
-        { type: "button", className: "person" },
-        el("b", { textContent: person.name }),
-        el("span", { textContent: person.relation ?? "" }),
-      );
-      row.dataset.id = person.personId;
-      row.setAttribute("aria-pressed", "false");
-      row.addEventListener("click", () => open(person));
-      roster.append(row);
-    }
-  }
-  const first = people.find(
-    (p) =>
-      groupOf(p, household) ===
-      ORDER.find((k) => people.some((q) => groupOf(q, household) === k)),
-  );
-  if (first) open(first);
-  return [el("div", { className: "people-screen" }, roster, pane)];
+  return rosterScreen({
+    title: labels.title,
+    className: "people",
+    groups: ORDER.flatMap((key) => {
+      const members = people.filter((p) => groupOf(p, household) === key);
+      return members.length
+        ? [
+            {
+              title: labels[key],
+              entries: members.map((person) => ({
+                key: person.personId,
+                label: person.name,
+                aside: person.relation ?? "",
+                person,
+              })),
+            },
+          ]
+        : [];
+    }),
+    // The chosen person's card; a name inside it opens that person's card here too.
+    // The list follows: the row of the person now shown is the lit one, and
+    // none is lit for someone who is not on the list.
+    render: (entry, show, shows) => {
+      const open = async (person, moved) => {
+        const mine = ++request;
+        const built = await card(
+          person,
+          () => mine === request,
+          (other) =>
+            open(
+              people.find((p) => p.personId === other.personId) ?? other,
+              true,
+            ),
+        );
+        if (!built || mine !== request) return;
+        show(built.node);
+        if (moved)
+          shows(
+            people.some((p) => p.personId === person.personId)
+              ? person.personId
+              : null,
+          );
+      };
+      open(entry.person);
+    },
+  });
 }
