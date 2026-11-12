@@ -325,6 +325,27 @@ function composedMove(
   };
 }
 
+/** The bank without the pieces a present fact holds back. */
+function withoutExcluded(
+  bank: ComposedLineBank,
+  facts: Readonly<Record<string, Fact>>,
+): ComposedLineBank {
+  const held = (variant: { excludesFacts?: readonly string[] }) =>
+    !!variant.excludesFacts?.some((key) => facts[key]);
+  return {
+    ...bank,
+    parts: Object.fromEntries(
+      Object.entries(bank.parts).map(([part, row]) => [
+        part,
+        row && {
+          ...row,
+          variants: row.variants.filter((v) => !held(v as never)),
+        },
+      ]),
+    ) as unknown as ComposedLineBank["parts"],
+  };
+}
+
 /** A line and what follows it (the raised subject, a turned-back question), said as one reply. */
 export function joinedReply(
   head: { text: string },
@@ -371,6 +392,13 @@ export function composedConversationBank(
                 ),
               }
             : {}),
+          ...(use.excludesFacts?.length
+            ? {
+                excludesFacts: use.excludesFacts.map((key) =>
+                  key.replace(/_/g, "-"),
+                ),
+              }
+            : {}),
           ...(piece.bearing ? { bearing: piece.bearing } : {}),
         });
   const bank: ComposedLineBank | null = parts.core?.length
@@ -410,8 +438,11 @@ export function composeConversationLine(request: {
   /** Piece keys the speaker said earlier in the talk. */
   said?: readonly string[];
 }): Said | null {
-  const bank = composedConversationBank(request.subject);
-  if (!bank) return null;
+  const whole = composedConversationBank(request.subject);
+  if (!whole) return null;
+  // A piece held back where a fact is present (`excludesFacts`) is not
+  // offered for these facts.
+  const bank = withoutExcluded(whole, request.facts);
   const line = composeGroundedLine(
     conversationPacket({
       surface: "dialogue",
