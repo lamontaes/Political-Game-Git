@@ -3410,8 +3410,11 @@ function openConversationNow(
         )
       : false;
     // News the talk can't go on from is still said, and not raised again.
+    // A printed story is told only by what it is about and where the teller
+    // stands (`printedSubject`), never by its bare mention ("There was
+    // something in the paper about ..."): one with neither is not said.
     if (!raisedBrought) {
-      for (const line of brought.lines)
+      for (const line of story ? [] : brought.lines)
         conversation.lines.push({
           speakerId: otherId,
           subjectId: ids[zero]!,

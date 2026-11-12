@@ -20927,10 +20927,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.i-think-the-president-s-right-to-want-to-to",
+      "key": "conversation.address-point-core-with.i-think-president-s-right-to-want-to-to",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "I think the President's right to want to {to}.",
+      "text": "I think {president}'s right to want to {to}.",
       "uses": [
         {
           "move": "address-point-core-with",
@@ -21047,10 +21047,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.nobody-needs-to-to-and-the-president-knows-it",
+      "key": "conversation.address-point-core-with.nobody-needs-to-to-and-president-knows-it",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "Nobody needs to {to}, and the President knows it.",
+      "text": "Nobody needs to {to}, and {president} knows it.",
       "uses": [
         {
           "move": "address-point-core-with",
@@ -21071,10 +21071,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.the-president-s-right-not-to-to",
+      "key": "conversation.address-point-core-with.president-s-right-not-to-to",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "The President's right not to {to}.",
+      "text": "{president}'s right not to {to}.",
       "uses": [
         {
           "move": "address-point-core-with",
@@ -21191,10 +21191,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.i-agree-with-the-president-we-shouldn-t-to",
+      "key": "conversation.address-point-core-with.i-agree-with-president-we-shouldn-t-to",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "I agree with the President. We shouldn't {to}.",
+      "text": "I agree with {president-object}. We shouldn't {to}.",
       "uses": [
         {
           "move": "address-point-core-with",
@@ -21239,10 +21239,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.i-don-t-think-we-should-to-and-neither-does-the-president",
+      "key": "conversation.address-point-core-with.i-don-t-think-we-should-to-and-neither-does-president",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "I don't think we should {to}, and neither does the President.",
+      "text": "I don't think we should {to}, and neither does {president}.",
       "uses": [
         {
           "move": "address-point-core-with",
@@ -21479,10 +21479,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-against.the-president-wants-to-to-and-i-don-t",
+      "key": "conversation.address-point-core-against.president-wants-to-to-and-i-don-t",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "The President wants to {to}, and I don't.",
+      "text": "{president} wants to {to}, and I don't.",
       "uses": [
         {
           "move": "address-point-core-against",
@@ -21623,10 +21623,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-against.i-think-somebody-should-to-whatever-the-president-says",
+      "key": "conversation.address-point-core-against.i-think-somebody-should-to-whatever-president-says",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "I think somebody should {to}, whatever the President says.",
+      "text": "I think somebody should {to}, whatever {president} says.",
       "uses": [
         {
           "move": "address-point-core-against",
@@ -21647,10 +21647,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-against.we-ought-to-to-and-the-president-won-t",
+      "key": "conversation.address-point-core-against.we-ought-to-to-and-president-won-t",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "We ought to {to}, and the President won't.",
+      "text": "We ought to {to}, and {president} won't.",
       "uses": [
         {
           "move": "address-point-core-against",
@@ -21767,10 +21767,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-against.the-president-should-to-and-won-t",
+      "key": "conversation.address-point-core-against.president-should-to-and-won-t",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "The President should {to}, and won't.",
+      "text": "{president} should {to}, and won't.",
       "uses": [
         {
           "move": "address-point-core-against",
@@ -21863,10 +21863,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-against.i-m-for-trying-to-to-even-if-the-president-isn-t",
+      "key": "conversation.address-point-core-against.i-m-for-trying-to-to-even-if-president-isn-t",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "I'm for trying to {to}, even if the President isn't.",
+      "text": "I'm for trying to {to}, even if {president} isn't.",
       "uses": [
         {
           "move": "address-point-core-against",
