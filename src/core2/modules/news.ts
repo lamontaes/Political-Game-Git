@@ -248,6 +248,8 @@ export function storiesHeard(
   personId: PersonId,
   heardSince?: string,
 ): Story[] {
+  // A world with no news engine has told no one anything.
+  if (!api.state.modules.has(NEWS_MODULE_ID)) return [];
   return (
     heard(api).query("byPerson", [personId]) as unknown as {
       storyId: string;
