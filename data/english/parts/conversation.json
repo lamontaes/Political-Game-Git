@@ -34563,10 +34563,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.rent-due-answer-help.i-won-t-ask-for-anything-till-rent-is-paid",
+      "key": "conversation.rent-due-answer-help.i-won-t-ask-for-anything-then-not-with-rent-due",
       "move": "rent-due-answer-help",
       "kind": "spoken",
-      "text": "I won't ask for anything till {rent} is paid.",
+      "text": "I won't ask for anything, then. Not with {rent} due.",
       "uses": [
         {
           "move": "rent-due-answer-help",
@@ -34606,17 +34606,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.rent-due-back-core.we-re-okay-there-s-rent-in-the-bank-and-then-some",
+      "key": "conversation.rent-due-back-core.we-re-okay-you-it-s-covered-and-then-some",
       "move": "rent-due-back-core",
       "kind": "spoken",
-      "text": "We're okay. There's {rent} in the bank and then some.",
+      "text": "We're okay, {you}. It's covered and then some.",
       "uses": [
         {
           "move": "rent-due-back-core",
           "subject": "rent-due-back",
           "role": "core",
           "stages": ["ask"],
-          "requiresFacts": ["cash-covered", "rent"]
+          "requiresFacts": ["cash-covered"]
         }
       ],
       "piece": {

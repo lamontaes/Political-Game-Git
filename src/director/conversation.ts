@@ -1167,6 +1167,12 @@ function rentDue(
     (FinanceContractInput & { endedAt?: string }) | undefined;
   if (!lease || lease.endedAt || !lease.payerIds.includes(speaker.id))
     return null;
+  // A child named on the lease does not carry the rent.
+  if (
+    ageOnDate(makeIsoDate(speaker.birthDate), makeIsoDate(core.date)) <
+    P.votingAge
+  )
+    return null;
   const days = daysBetween(makeIsoDate(core.date), makeIsoDate(lease.dueAt));
   if (days < zero || days > DAY_TALK.rentDaysBefore.value) return null;
   const api = coreAPI(core as CoreState);
@@ -3291,7 +3297,14 @@ function otherAsks(
     otherId,
     conversation.director,
     conversation,
-  ).filter((row) => row.kind !== "news" && !conversation.used.includes(row.id));
+  ).filter(
+    (row) =>
+      row.kind !== "news" &&
+      // A day's own subject is told by its holder, never asked of the
+      // player (asking it would mark the house's rent as said).
+      !DAY_TALK.kinds.includes(row.kind) &&
+      !conversation.used.includes(row.id),
+  );
   const other = core.people.get(otherId)!;
   const sameWork = order.includes("own-work")
     ? subjects.find(
@@ -3344,7 +3357,14 @@ function otherRaises(
       !conversation.used.includes(`${otherId}>${row.id}`) &&
       !conversation.used.includes(row.id) &&
       // Told to the player today by someone else in the house.
-      !heardNow.has(`${HEARD_SUBJECT}${row.id}`),
+      !heardNow.has(`${HEARD_SUBJECT}${row.id}`) &&
+      // A day's subject told once (the rent due by its date) is told to the
+      // player once by the house, on any day.
+      !(
+        DAY_TALK.kinds.includes(row.kind) &&
+        !DAY_TALK.comesBack.includes(row.kind) &&
+        heardRows.some((heard) => heard.key === `${HEARD_SUBJECT}${row.id}`)
+      ),
   );
   for (const subject of theirs)
     if (raiseSubject(core, conversation, data, subject)) return true;
