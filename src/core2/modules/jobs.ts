@@ -45,7 +45,12 @@ import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
 import { outsideLaborForce } from "../gov-rules/place-population";
 import { regionalMonth } from "./regional";
-import { ageOn, isDemoted } from "../counted-groups";
+import {
+  ageOn,
+  isDemoted,
+  type CountedHousehold,
+  type CountedStore,
+} from "../counted-groups";
 import { webFactorFor, type Subject } from "../outcome-web-reach";
 import {
   countedFacts,
@@ -887,6 +892,31 @@ function openSeekers(api: CoreAPI): void {
   }
 }
 
+/**
+ * Which of a counted household's working-age members without a recorded job
+ * are at work through its out-of-town workers (`unplacedWorkers`, workers per
+ * household of the record, as its members are): they hold jobs, so they are
+ * neither jobless nor looking. Whole workers by a running carry through the
+ * households in order, first by id, never a roll. `share` is the household's
+ * workers not already tied to a named member (one in regional work).
+ */
+function awayByShare(
+  counted: CountedStore,
+  h: CountedHousehold,
+  idle: number[],
+  share: number,
+  carry: { unplaced: number; placed: number },
+): Set<number> {
+  carry.unplaced += Math.min(Math.max(0, share), idle.length);
+  const away = new Set(
+    idle
+      .sort((a, b) => counted.ids[a]!.localeCompare(counted.ids[b]!))
+      .slice(0, Math.floor(carry.unplaced) - carry.placed),
+  );
+  carry.placed += away.size;
+  return away;
+}
+
 /** The wider population's seekers at the opening: jobless working-age adults in the households with the fewest earners, as many as the rate implies. */
 function openCountedSeekers(api: CoreAPI): void {
   const c = core(api),
@@ -907,8 +937,7 @@ function openCountedSeekers(api: CoreAPI): void {
   const ageAt = (m: number) =>
     daysBetweenText(counted.born[m]!, c.date) /
     api.parameter("jobsDaysPerYear");
-  let unplaced = 0,
-    placed = 0;
+  const carry = { unplaced: 0, placed: 0 };
   for (const h of counted.liveHouseholds()) {
     // People in custody or in the armed forces seek no civilian work.
     if (outsideLaborForce(h.quarters)) continue;
@@ -923,13 +952,7 @@ function openCountedSeekers(api: CoreAPI): void {
     // band's jobs and not among the jobless. Whole workers by a running
     // carry through the households in order, never a roll.
     const idle = adults.filter((m) => !working.has(counted.ids[m]!));
-    unplaced += Math.min(h.unplacedWorkers / counted.weightOf(h), idle.length);
-    const away = new Set(
-      idle
-        .sort((a, b) => counted.ids[a]!.localeCompare(counted.ids[b]!))
-        .slice(0, Math.floor(unplaced) - placed),
-    );
-    placed += away.size;
+    const away = awayByShare(counted, h, idle, h.unplacedWorkers, carry);
     const share =
       adults.filter((m) => working.has(counted.ids[m]!) || away.has(m)).length /
       adults.length;
@@ -4083,15 +4106,41 @@ export function reviewCountedEntry(api: CoreAPI, opening = false): void {
   );
   const monthDays = p("jobsDaysPerYear") / p("macroMonthsPerYear");
   const counted = rt.store;
+  const carry = { unplaced: 0, placed: 0 };
+  const ageOf = (m: number) =>
+    daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
   for (const h of counted.liveHouseholds()) {
     // People in custody or in the armed forces seek no civilian work.
     if (outsideLaborForce(h.quarters)) continue;
     let days: number | undefined;
-    for (const m of counted.countedMembers(h)) {
+    // The household's out-of-town workers hold jobs (the opening's rule,
+    // `openCountedSeekers`): those members are not jobless, so they neither
+    // wait nor look. A member in regional work is one of those workers by
+    // name; the rest of the household's workers are its first free members.
+    const members = counted.countedMembers(h);
+    let regionalHere = 0;
+    const idle: number[] = [];
+    for (const m of members) {
+      const id = counted.ids[m]!;
+      if (abroad.has(id)) regionalHere += 1;
+      // Someone already looking is jobless by record, never one of them.
+      else if (!working.has(id) && !seekers.get(id)) {
+        const age = ageOf(m);
+        if (age >= young && age < old) idle.push(m);
+      }
+    }
+    const away = awayByShare(
+      counted,
+      h,
+      idle,
+      h.unplacedWorkers - regionalHere,
+      carry,
+    );
+    for (const m of members) {
       const personId = counted.ids[m]!;
-      if (working.has(personId) || abroad.has(personId)) continue;
-      const age =
-        daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
+      if (working.has(personId) || abroad.has(personId) || away.has(m))
+        continue;
+      const age = ageOf(m);
       if (age < young || age >= old) continue;
       // The custody query after the age test, so children and retirees skip it.
       if (inCustody(api, personId)) continue;
