@@ -11,6 +11,8 @@ import { countedHouseholdsByPlace } from "../core2/modules/residents";
 import { personOrFillIn } from "../core2/state";
 import { knownCard } from "./card";
 import { schoolsOf } from "./words";
+// After the world, whose modules it reads (an import cycle otherwise).
+import { lifeOf } from "../core2/person-life";
 
 describe("a person's history on their card", () => {
   it("tells a parent's life from their records, with your own birth as yours", () => {
@@ -43,6 +45,8 @@ describe("a person's history on their card", () => {
     const card = knownCard(core, child.id, parentId!);
     const records = new Set([
       ...(core.people.get(parentId!)?.pastFacts ?? []).map((fact) => fact.id),
+      // Every event of their life the one reader returns.
+      ...lifeOf(core, parentId!).map((event) => event.id),
       ...preStartHistory(core, { personId: parentId! as PersonId }).map(
         (row) => row.id,
       ),
@@ -67,10 +71,12 @@ describe("a person's history on their card", () => {
       expect(line.kind, `${where}: ${line.text}`).toMatch(
         /^(born|school|moved|home|partner|child|work|business|loss|health|law|office|tie)$/,
       );
-    // Your own birth is said to you, not by your name.
+    // Your own birth is said to you, not by your name: by the piece that
+    // worded it ("You were born to him.", "In 2007, he had you.").
     const yours = card.history.filter((line) =>
-      line.text.startsWith("You were born"),
+      line.piece.startsWith("person-history.story.child.you."),
     );
+    for (const line of yours) expect(line.text, where).toMatch(/\byou\b/i);
     expect(yours, where).toHaveLength(1);
     expect(
       card.history.some((line) =>
