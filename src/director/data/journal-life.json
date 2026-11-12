@@ -1,0 +1,86 @@
+{
+  "about": "Which events on a person's life list (`lifeOf`, src/core2/person-life.ts) the Journal tells as which of its rows (src/director/data/journal-rows.json), by the event's life and what and, where two records share them, the record that wrote it. A pair not here is not told by the Journal. Work and the places a person began (born, came to the county, a partner's home, a school started) are read in src/director/journal.ts by their own shapes, because each sentence there is built from several events (what a job paid against the one before, how long it lasted). `weighed` says the director's moment for the same record, when it has one, lends the entry its weight (who else was in it, how much it grew since); the entry exists because the list holds the event. A move (`moved`) is told on the day of the list's move; the director's own moment of that day (the household changed) lends its weight and is not told as well.",
+  "pairs": [
+    {
+      "life": "work",
+      "what": "job-lost",
+      "kind": "job-ended"
+    },
+    {
+      "life": "child",
+      "what": "born",
+      "record": "family:child",
+      "kind": "family:child"
+    },
+    {
+      "life": "child",
+      "what": "born",
+      "record": "person-birth",
+      "kind": "event:person-birth"
+    },
+    {
+      "life": "move",
+      "what": "moved-away",
+      "kind": "event:person.moved-away"
+    },
+    {
+      "life": "move",
+      "what": "moved-away",
+      "kind": "moved"
+    },
+    {
+      "life": "move",
+      "what": "moved-home",
+      "kind": "moved"
+    },
+    {
+      "life": "loss",
+      "what": "died",
+      "record": "life.death",
+      "kind": "event:life.death"
+    },
+    {
+      "life": "health",
+      "what": "serious-illness",
+      "kind": "event:health.serious-illness"
+    },
+    {
+      "life": "home",
+      "what": "evicted",
+      "kind": "event:housing.eviction"
+    },
+    {
+      "life": "home",
+      "what": "bought",
+      "kind": "event:housing.purchase"
+    },
+    {
+      "life": "business",
+      "what": "founded",
+      "kind": "event:organization.founded"
+    },
+    {
+      "life": "politics",
+      "what": "filed",
+      "kind": "event:candidate-filed"
+    },
+    {
+      "life": "politics",
+      "what": "won",
+      "record": "election-result",
+      "kind": "event:election-result"
+    },
+    {
+      "life": "politics",
+      "what": "lost",
+      "record": "election-result",
+      "kind": "event:election-result"
+    },
+    {
+      "life": "politics",
+      "what": "took-office",
+      "record": "took-office",
+      "kind": "event:took-office"
+    }
+  ]
+}
