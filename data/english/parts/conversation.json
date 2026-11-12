@@ -35084,10 +35084,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-open-open.good-to-see-you-on-to-the-race-for-seat",
+      "key": "conversation.interview-open-open.good-to-see-you-again-now-the-race-for-seat",
       "move": "interview-open-open",
       "kind": "spoken",
-      "text": "Good to see you. On to the race for {seat}.",
+      "text": "Good to see you again. Now, the race for {seat}.",
       "uses": [
         {
           "move": "interview-open-open",
@@ -35102,10 +35102,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-open-open.i-m-with-outlet-this-is-about-the-race-for-seat",
+      "key": "conversation.interview-open-open.i-m-with-outlet-i-m-writing-about-the-race-for-seat",
       "move": "interview-open-open",
       "kind": "spoken",
-      "text": "I'm with {outlet}. This is about the race for {seat}.",
+      "text": "I'm with {outlet}. I'm writing about the race for {seat}.",
       "uses": [
         {
           "move": "interview-open-open",
@@ -35130,7 +35130,7 @@
           "subject": "interview-close",
           "role": "leave",
           "choice": "done",
-          "requiresFacts": ["outlet"]
+          "requiresFacts": ["outlet", "stranger"]
         }
       ],
       "origin": "authored",
@@ -35138,28 +35138,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-close-leave-done.that-s-all-i-have-on-the-race-for-seat-thanks",
+      "key": "conversation.interview-close-leave-done.that-s-all-outlet-will-note-what-you-didn-t-answer",
       "move": "interview-close-leave-done",
       "kind": "spoken",
-      "text": "That's all I have on the race for {seat}. Thanks.",
-      "uses": [
-        {
-          "move": "interview-close-leave-done",
-          "subject": "interview-close",
-          "role": "leave",
-          "choice": "done",
-          "requiresFacts": ["seat"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.interview-close-leave-done.that-s-all-outlet-readers-will-see-what-you-passed-on",
-      "move": "interview-close-leave-done",
-      "kind": "spoken",
-      "text": "That's all. {outlet} readers will see what you passed on.",
+      "text": "That's all. {outlet} will note what you didn't answer.",
       "uses": [
         {
           "move": "interview-close-leave-done",
@@ -35192,28 +35174,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.debate-open-open.good-to-see-you-again-welcome-to-the-seat-debate",
+      "key": "conversation.debate-open-open.i-m-your-moderator-this-is-the-debate-for-seat",
       "move": "debate-open-open",
       "kind": "spoken",
-      "text": "Good to see you again. Welcome to the {seat} debate.",
-      "uses": [
-        {
-          "move": "debate-open-open",
-          "subject": "debate-open",
-          "role": "open",
-          "choice": "open",
-          "requiresFacts": ["seat", "acquainted"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.debate-open-open.i-m-your-moderator-for-the-race-for-seat-let-s-begin",
-      "move": "debate-open-open",
-      "kind": "spoken",
-      "text": "I'm your moderator for the race for {seat}. Let's begin.",
+      "text": "I'm your moderator. This is the debate for {seat}.",
       "uses": [
         {
           "move": "debate-open-open",
@@ -35257,24 +35221,6 @@
           "role": "leave",
           "choice": "done",
           "requiresFacts": ["outlet"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.debate-close-leave-done.that-s-the-debate-for-seat-you-passed-on-some-questions",
-      "move": "debate-close-leave-done",
-      "kind": "spoken",
-      "text": "That's the debate for {seat}. You passed on some questions.",
-      "uses": [
-        {
-          "move": "debate-close-leave-done",
-          "subject": "debate-close",
-          "role": "leave",
-          "choice": "done",
-          "requiresFacts": ["seat", "passed"]
         }
       ],
       "origin": "authored",
@@ -35400,10 +35346,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-take-plain-reply-take.so-you-and-rival-split-on-it",
+      "key": "conversation.interview-take-plain-reply-take.that-puts-you-against-rival-on-it",
       "move": "interview-take-plain-reply-take",
       "kind": "spoken",
-      "text": "So you and {rival} split on it.",
+      "text": "That puts you against {rival} on it.",
       "uses": [
         {
           "move": "interview-take-plain-reply-take",
@@ -35495,10 +35441,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-take-plain-reply-take.no-stand-yet",
+      "key": "conversation.interview-take-plain-reply-take.still-undecided",
       "move": "interview-take-plain-reply-take",
       "kind": "spoken",
-      "text": "No stand yet.",
+      "text": "Still undecided.",
       "uses": [
         {
           "move": "interview-take-plain-reply-take",
@@ -35534,10 +35480,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-take-further-reply-take.your-vote-stands",
+      "key": "conversation.interview-take-further-reply-take.as-you-voted",
       "move": "interview-take-further-reply-take",
       "kind": "spoken",
-      "text": "Your vote stands.",
+      "text": "As you voted.",
       "uses": [
         {
           "move": "interview-take-further-reply-take",
@@ -35559,10 +35505,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-take-further-reply-take.a-change-then",
+      "key": "conversation.interview-take-further-reply-take.that-s-a-change",
       "move": "interview-take-further-reply-take",
       "kind": "spoken",
-      "text": "A change, then.",
+      "text": "That's a change.",
       "uses": [
         {
           "move": "interview-take-further-reply-take",
@@ -35607,10 +35553,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-take-declined-reply-take.passing-on-it",
+      "key": "conversation.interview-take-declined-reply-take.no-comment-then",
       "move": "interview-take-declined-reply-take",
       "kind": "spoken",
-      "text": "Passing on it.",
+      "text": "No comment, then.",
       "uses": [
         {
           "move": "interview-take-declined-reply-take",
@@ -36941,6 +36887,24 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Words builder W1 (a lost job told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-close-leave-done.that-s-all-thanks",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "That's all. Thanks.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
       "date": "2026-11-12"
     }
   ]
