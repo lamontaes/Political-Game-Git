@@ -1532,6 +1532,109 @@ const CLOSES: [string[], string, string][] = [
     "plain",
     "Let's {first-side}, and this country's better off for it. Thank you, and God bless.",
   ],
+  // Each close says its own sign-off, so ten Presidents' closes do not say
+  // one sign-off in three addresses (opening-address-versions, seed
+  // 1eafe3be0f057547: two sign-offs in 3 of 10).
+  [
+    FEDERAL,
+    "polished",
+    "Let us {first-side}, and give our children reason to be proud of us. Thank you, and may God watch over this land.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "If we {first-side}, we will have kept our promise to the people who sent us. Thank you, and may God bless our country.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "Let us {first-side}, and let us start in the morning. I am grateful to you all, and God bless America.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "If we {first-side}, the years ahead will be kind to us. Thank you, and God bless every one of you.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "Let us {first-side}, and do the people's business well. Thank you, and may God guide us.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "If we {first-side}, we will have earned the trust placed in us. Thank you, and God bless this nation.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "Let us {first-side}, with courage and with care. Thank you, and may God keep you.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "If we {first-side}, history will remember that we did not flinch. Thank you, and God bless our republic.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "Let us {first-side}, and keep the faith we were given. Good night, and may God bless America.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "If we {first-side}, we will hand on a stronger country than we found. With gratitude, I thank you all.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "Let's {first-side}, and let's not wait around. Thanks, folks, and God bless America.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "We can {first-side}, and we'll be glad we did. Thank you, and God bless all of you.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "Let's {first-side} and get it done. Thanks a lot, everybody.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "So let's {first-side}, and show folks we listened. Thank you, and take care of each other.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "Let's {first-side}, together. Good night, and God bless this country.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "We can {first-side}, and the kids will thank us. Thanks for having me, and God bless.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "Let's {first-side}, and let's start tomorrow morning. Thanks again, everybody.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "So let's {first-side}, because folks are counting on us. Thank you, and good luck to all of us.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "Let's {first-side} and keep our word. Thanks, everybody, and God bless the USA.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "We can {first-side}, and we will. Thank you, and God keep you.",
+  ],
 ];
 // 21. A governor's or a mayor's close names the place and returns to the
 // theme, and no two places close alike (the words lead, Nov 12: every close
@@ -2497,14 +2600,14 @@ const CONDITIONS: [string, string | string[], string, string[], string[]][] = [
   [
     "budget-condition",
     "polished",
-    "The {budget-year} budget still spends more than it takes in, though the gap is narrower than the year before.",
+    "The {budget-year} budget still spends more than it takes in, though by less than the year before.",
     ["condition-budget-short", "condition-budget-better", "budget-year"],
     ["state-of-the-state"],
   ],
   [
     "budget-condition",
     "plain",
-    "We're still short in {budget-year}, but the gap's smaller than last year, and we're going to finish closing it.",
+    "We're still short in {budget-year}, but by less than last year, and we're going to finish the job.",
     ["condition-budget-short", "condition-budget-better", "budget-year"],
     ["state-of-the-state"],
   ],
@@ -2630,14 +2733,14 @@ const CONDITIONS: [string, string | string[], string, string[], string[]][] = [
   [
     "budget-condition",
     "plain",
-    "We're still short for {budget-year}, but we've cut the gap from last year, and we're not done.",
+    "We're still short for {budget-year}, but by less than last year, and we're not done.",
     ["condition-budget-short", "condition-budget-better", "budget-year"],
     ["town-address"],
   ],
   [
     "budget-condition",
     "polished",
-    "Our {budget-year} gap is wider than the year before, and we cannot keep paying today's bills with tomorrow's money.",
+    "Our {budget-year} books fall further short than the year before, and we cannot keep paying today's bills with tomorrow's money.",
     ["condition-budget-short", "condition-budget-worse", "budget-year"],
     ["town-address"],
   ],
@@ -2693,28 +2796,28 @@ const CONDITIONS: [string, string | string[], string, string[], string[]][] = [
   [
     "year-condition",
     "polished",
-    "This past year, {condition-law} took effect, and it already reaches people across the state.",
+    "This past year, {condition-law} took effect, and people across the state are already living under it.",
     ["condition-law", "condition-law-reached"],
     ["state-of-the-state"],
   ],
   [
     "year-condition",
     "plain",
-    "This past year, {condition-law} took effect, and it's already reaching folks all over the state.",
+    "This past year, {condition-law} took effect, and it's already touching folks all over the state.",
     ["condition-law", "condition-law-reached"],
     ["state-of-the-state"],
   ],
   [
     "year-condition",
     "polished",
-    "This past year, {condition-law} took effect here, and it already reaches our neighbors.",
+    "This past year, {condition-law} took effect here, and our neighbors are already living under it.",
     ["condition-law", "condition-law-reached"],
     ["town-address"],
   ],
   [
     "year-condition",
     "plain",
-    "This past year, {condition-law} took effect here, and it's already reaching folks we know.",
+    "This past year, {condition-law} took effect here, and it's already touching folks we know.",
     ["condition-law", "condition-law-reached"],
     ["town-address"],
   ],
@@ -2764,7 +2867,15 @@ const conditionKeys = new Set(bank.parts.map((part) => part.key));
 for (const row of CONDITIONS) {
   const [role, voice, text, needs, kinds] = row;
   const key = conditionKey(row);
-  if (conditionKeys.has(key)) continue;
+  if (conditionKeys.has(key)) {
+    // A rewording whose key is cut to the same words replaces the text.
+    const kept = bank.parts.find((part) => part.key === key)!;
+    if (kept.text !== text) {
+      kept.text = text;
+      count("30. a condition of this rule's gives way to its rewording");
+    }
+    continue;
+  }
   bank.parts.push({
     key,
     move: role,

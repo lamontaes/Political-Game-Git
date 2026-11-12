@@ -120447,7 +120447,7 @@
       "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-still-spends-more-than-it-takes-condition-budget-short-condition-budget-better-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "The {budget-year} budget still spends more than it takes in, though the gap is narrower than the year before.",
+      "text": "The {budget-year} budget still spends more than it takes in, though by less than the year before.",
       "uses": [
         {
           "move": "budget-condition",
@@ -120462,30 +120462,6 @@
         }
       ],
       "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude (Words builder, local speeches)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-state-of-the-state-we-re-still-short-in-but-the-gap-condition-budget-short-condition-budget-better-budget-year",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "We're still short in {budget-year}, but the gap's smaller than last year, and we're going to finish closing it.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-better",
-            "budget-year"
-          ]
-        }
-      ],
-      "voice": "plain",
       "bearing": "calm",
       "origin": "authored",
       "author": "Claude (Words builder, local speeches)",
@@ -120900,54 +120876,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.budget-condition.plain-town-address-we-re-still-short-for-but-we-ve-condition-budget-short-condition-budget-better-budget-year",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "We're still short for {budget-year}, but we've cut the gap from last year, and we're not done.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-better",
-            "budget-year"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude (Words builder, local speeches)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.budget-condition.polished-town-address-our-gap-is-wider-than-the-year-before-condition-budget-short-condition-budget-worse-budget-year",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "Our {budget-year} gap is wider than the year before, and we cannot keep paying today's bills with tomorrow's money.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-worse",
-            "budget-year"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude (Words builder, local speeches)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.budget-condition.plain-town-address-we-fell-further-behind-in-than-last-year-condition-budget-short-condition-budget-worse-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
@@ -121116,33 +121044,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.year-condition.polished-state-of-the-state-this-past-year-took-effect-and-it-already-condition-law-condition-law-reached",
-      "move": "year-condition",
-      "kind": "spoken",
-      "text": "This past year, {condition-law} took effect, and it already reaches people across the state.",
-      "uses": [
-        {
-          "move": "year-condition",
-          "subject": "state-of-the-state",
-          "role": "year-condition",
-          "choice": "year-condition",
-          "requiresFacts": [
-            "condition-law",
-            "condition-law-reached"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude (Words builder, local speeches)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.year-condition.plain-state-of-the-state-this-past-year-took-effect-and-it-s-condition-law-condition-law-reached",
       "move": "year-condition",
       "kind": "spoken",
-      "text": "This past year, {condition-law} took effect, and it's already reaching folks all over the state.",
+      "text": "This past year, {condition-law} took effect, and it's already touching folks all over the state.",
       "uses": [
         {
           "move": "year-condition",
@@ -121156,29 +121061,6 @@
         }
       ],
       "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude (Words builder, local speeches)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.year-condition.polished-town-address-this-past-year-took-effect-here-and-it-condition-law-condition-law-reached",
-      "move": "year-condition",
-      "kind": "spoken",
-      "text": "This past year, {condition-law} took effect here, and it already reaches our neighbors.",
-      "uses": [
-        {
-          "move": "year-condition",
-          "subject": "town-address",
-          "role": "year-condition",
-          "choice": "year-condition",
-          "requiresFacts": [
-            "condition-law",
-            "condition-law-reached"
-          ]
-        }
-      ],
-      "voice": "polished",
       "bearing": "calm",
       "origin": "authored",
       "author": "Claude (Words builder, local speeches)",
@@ -121188,7 +121070,7 @@
       "key": "opening-speech.year-condition.plain-town-address-this-past-year-took-effect-here-and-it-condition-law-condition-law-reached",
       "move": "year-condition",
       "kind": "spoken",
-      "text": "This past year, {condition-law} took effect here, and it's already reaching folks we know.",
+      "text": "This past year, {condition-law} took effect here, and it's already touching folks we know.",
       "uses": [
         {
           "move": "year-condition",
@@ -121202,6 +121084,744 @@
         }
       ],
       "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-let-us-and-give-our-children-reason-to-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let us {first-side}, and give our children reason to be proud of us. Thank you, and may God watch over this land.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-if-we-we-will-have-kept-our-promise-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we {first-side}, we will have kept our promise to the people who sent us. Thank you, and may God bless our country.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-let-us-and-let-us-start-in-the-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let us {first-side}, and let us start in the morning. I am grateful to you all, and God bless America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-if-we-the-years-ahead-will-be-kind-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we {first-side}, the years ahead will be kind to us. Thank you, and God bless every one of you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-let-us-and-do-the-people-s-business-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let us {first-side}, and do the people's business well. Thank you, and may God guide us.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-if-we-we-will-have-earned-the-trust-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we {first-side}, we will have earned the trust placed in us. Thank you, and God bless this nation.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-let-us-with-courage-and-with-care-thank-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let us {first-side}, with courage and with care. Thank you, and may God keep you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-if-we-history-will-remember-that-we-did-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we {first-side}, history will remember that we did not flinch. Thank you, and God bless our republic.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-let-us-and-keep-the-faith-we-were-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let us {first-side}, and keep the faith we were given. Good night, and may God bless America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-if-we-we-will-hand-on-a-stronger-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we {first-side}, we will hand on a stronger country than we found. With gratitude, I thank you all.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-let-s-and-let-s-not-wait-around-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let's {first-side}, and let's not wait around. Thanks, folks, and God bless America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-we-can-and-we-ll-be-glad-we-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "We can {first-side}, and we'll be glad we did. Thank you, and God bless all of you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-let-s-and-get-it-done-thanks-a-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let's {first-side} and get it done. Thanks a lot, everybody.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-so-let-s-and-show-folks-we-listened-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "So let's {first-side}, and show folks we listened. Thank you, and take care of each other.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-let-s-together-good-night-and-god-bless-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let's {first-side}, together. Good night, and God bless this country.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-we-can-and-the-kids-will-thank-us-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "We can {first-side}, and the kids will thank us. Thanks for having me, and God bless.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-let-s-and-let-s-start-tomorrow-morning-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let's {first-side}, and let's start tomorrow morning. Thanks again, everybody.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-so-let-s-because-folks-are-counting-on-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "So let's {first-side}, because folks are counting on us. Thank you, and good luck to all of us.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-let-s-and-keep-our-word-thanks-everybody-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let's {first-side} and keep our word. Thanks, everybody, and God bless the USA.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-we-can-and-we-will-thank-you-and-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "We can {first-side}, and we will. Thank you, and God keep you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-state-of-the-state-we-re-still-short-in-but-by-less-condition-budget-short-condition-budget-better-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We're still short in {budget-year}, but by less than last year, and we're going to finish the job.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-better",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-town-address-we-re-still-short-for-but-by-less-condition-budget-short-condition-budget-better-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We're still short for {budget-year}, but by less than last year, and we're not done.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-better",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.budget-condition.polished-town-address-our-books-fall-further-short-than-the-year-condition-budget-short-condition-budget-worse-budget-year",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "Our {budget-year} books fall further short than the year before, and we cannot keep paying today's bills with tomorrow's money.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-worse",
+            "budget-year"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.year-condition.polished-state-of-the-state-this-past-year-took-effect-and-people-across-condition-law-condition-law-reached",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "This past year, {condition-law} took effect, and people across the state are already living under it.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": [
+            "condition-law",
+            "condition-law-reached"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder, local speeches)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.year-condition.polished-town-address-this-past-year-took-effect-here-and-our-condition-law-condition-law-reached",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "This past year, {condition-law} took effect here, and our neighbors are already living under it.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": [
+            "condition-law",
+            "condition-law-reached"
+          ]
+        }
+      ],
+      "voice": "polished",
       "bearing": "calm",
       "origin": "authored",
       "author": "Claude (Words builder, local speeches)",
