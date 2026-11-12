@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/jobs-real-town-work
-pr:
+pr: #8942
 after:
 blocked-on:
 lead: jobs
