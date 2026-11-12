@@ -841,7 +841,6 @@ export function playerMayFileForKind(
  * cover the town. A home the place listing gives no local government has
  * none, so its first race is its state's or territory's own lawmaking body.
  */
-// stopgapId: SG-GOV-first-race-no-local-office
 function townLocalKinds(api: CoreAPI): readonly string[] {
   return (
     api
