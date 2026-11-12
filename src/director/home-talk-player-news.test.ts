@@ -20,11 +20,17 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { fileForOffice, governmentView } from "../bench/government";
+import { officeholders } from "../bench/officeholders";
+import { BenchPlayer } from "../bench/player";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { acceptJobOffer, jobOffersFor } from "../core2/modules/jobs";
+import {
+  acceptJobOffer,
+  JOBS_MODULE_ID,
+  jobOffersFor,
+} from "../core2/modules/jobs";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -32,6 +38,23 @@ import { noteHeard, openConversation, say } from "./conversation";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const DRAWS = Number(process.env.TALK_DRAWS ?? 3);
+/**
+ * `PLAYER_AS=official` plays the bench's Advanced start: the player steps in
+ * as a serving officeholder who lives with someone (the first such, by the
+ * officeholders list), as the start screen offers. Nothing is staged: the
+ * records the house reads are the engines' own.
+ */
+const AS_OFFICIAL = process.env.PLAYER_AS === "official";
+/**
+ * `STAGE_OFFER=<day>` stages one thing, on that day, as dev mode would: an
+ * employer's offer to the player for the first open position on the books
+ * (the offer row and the hold on the position, written here). Taking it goes
+ * through the jobs engine's own hire (`acceptJobOffer`); the job record, the
+ * ledger's moment and every word said about it are the engines' own.
+ */
+const STAGE_OFFER = process.env.STAGE_OFFER
+  ? Number(process.env.STAGE_OFFER)
+  : undefined;
 const DAYS = 14;
 const EVENING = 20 * 60 + 30;
 const TURNS = 6;
@@ -64,16 +87,75 @@ it(`the house talks about the player's own news (seed ${seed})`, () => {
       placeKey: place.key,
     });
     const { core, director } = world;
-    const playerId = world.playerId! as PersonId;
+    let playerId = world.playerId! as PersonId;
+    if (AS_OFFICIAL) {
+      const held = officeholders(core).find((row) => {
+        const person = core.people.get(row.personId);
+        return (
+          !!person &&
+          [...(core.households.get(person.householdId)?.memberIds ?? [])]
+            .length > 1
+        );
+      });
+      if (held) {
+        new BenchPlayer(core, director).select(held.personId);
+        playerId = held.personId as PersonId;
+        (core as { playerId?: string }).playerId = playerId;
+      }
+    }
     director.watch(core, playerId);
     core.focusPersonIds.add(playerId);
     const api = coreAPI(core);
     const did: string[] = [];
     const played: string[] = [];
     let filed = false;
+    let staged = false;
     const heardBy = new Map<string, string>();
     for (let day = 0; day < DAYS; day += 1) {
       if (day > 0) liveThrough(core, playerId, day);
+      if (
+        STAGE_OFFER !== undefined &&
+        day >= STAGE_OFFER &&
+        !staged &&
+        !core.people.get(playerId)?.jobId
+      ) {
+        const positions = api.moduleState(JOBS_MODULE_ID).table("positions");
+        const open = (
+          positions.rows() as unknown as {
+            id: string;
+            organizationId: string;
+            placeId: string;
+            title: string;
+            hourlyMinor: number;
+            status: string;
+          }[]
+        ).find((row) => row.status === "open");
+        if (open) {
+          const id = `job-offer:${open.id}:${playerId}`;
+          positions.put({ ...open, offeredTo: playerId, offerId: id } as never);
+          api
+            .moduleState(JOBS_MODULE_ID)
+            .table("offers")
+            .put({
+              id,
+              personId: playerId,
+              positionId: open.id,
+              organizationId: open.organizationId,
+              offeredBy: playerId,
+              title: open.title,
+              hourlyMinor: open.hourlyMinor,
+              fit: 1,
+              offeredAt: core.date,
+              deadline: core.date,
+              status: "pending",
+            } as never);
+          staged = true;
+          did.push(`day ${day}: STAGED an offer of ${open.title} (${open.id})`);
+        } else
+          did.push(
+            `day ${day}: no open position to stage an offer for (${positions.rows().length} positions on the books)`,
+          );
+      }
       for (const offer of jobOffersFor(api, playerId))
         if (offer.status === "pending" && acceptJobOffer(api, offer.id))
           did.push(`day ${day}: took the job offered (${offer.id})`);

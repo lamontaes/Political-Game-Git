@@ -19,7 +19,15 @@ import lookup from "../data/places/place-lookup.json" with { type: "json" };
 import { placeStateKey } from "../place-map";
 import { lawApplied } from "../law-reach/applied";
 import { lawInForce, LAWS_MODULE_ID } from "./laws";
-import type { CoreAPI, CoreModule, CoreState, PlaceId, Source } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonId,
+  PlaceId,
+  Source,
+} from "../types";
+import { OFFICES_MODULE_ID, townSeats } from "./offices";
 import { placePopulation } from "../gov-rules/place-population";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
@@ -446,6 +454,28 @@ export function damagedHomesOf(
   );
 }
 
+/** The offices whose holder is the executive of a government the disaster touches: the town's mayor, the county's executive and the state's governor. */
+const EXECUTIVE_OFFICES: ReadonlySet<string> = new Set([
+  "mayor",
+  "county-executive",
+  "governor",
+]);
+
+/**
+ * Whoever sits in the executive offices over the town on the day, as full
+ * people: the record names them so a first-hours scene can find its executive.
+ */
+function executivesOf(api: CoreAPI): readonly PersonId[] {
+  const ids = new Set<PersonId>();
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  for (const { office, holder } of townSeats(api)) {
+    const id = holder?.personId as PersonId | undefined;
+    if (EXECUTIVE_OFFICES.has(office.kind) && id && api.state.people.has(id))
+      ids.add(id);
+  }
+  return [...ids].sort();
+}
+
 function begin(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   const core = api.state;
   const town = rt.town;
@@ -455,7 +485,7 @@ function begin(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
     id: `disaster:${disaster.number}:${town}`,
     date: core.date,
     kind: "hazard.disaster",
-    personIds: [],
+    personIds: executivesOf(api),
     placeId: town,
     publicRecord: true,
     news: true,
