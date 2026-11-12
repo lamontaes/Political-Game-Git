@@ -24,14 +24,9 @@
  * (`pastWorkFor`), read against the openings the full people left.
  */
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
-import {
-  kindergartenYear,
-  onCalendar,
-  SCHOOL_STAGE_CALENDAR,
-} from "./past-school-calendar";
 import { decisionLean, traitLeanBetween } from "./trait-decisions";
 import jobsJson from "./data/jobs/jobs.json" with { type: "json" };
-import { profileFor } from "./opening-profile";
+import { schoolingEndsOf } from "./past-school";
 import { countedHeadcountOf } from "./residents-economy";
 import {
   coarseSteps,
@@ -238,27 +233,9 @@ function firmsOf(api: CoreAPI): Firm[] {
   return firms.sort((a, b) => a.id.localeCompare(b.id));
 }
 
-/** The day a person is out of school, by the schooling their record gives. */
+/** The day a person is out of school, by the schooling their record gives (the school pass's own day). */
 function entryOf(api: CoreAPI, person: PersonState): IsoDate {
-  const p = (key: string) => api.parameter(key);
-  const graduated = onCalendar(
-    kindergartenYear(makeIsoDate(person.birthDate)) +
-      SCHOOL_STAGE_CALENDAR.endsAfterYears.high,
-    "ends",
-  );
-  const level =
-    (person.pastFacts?.find((row) => row.kind === "profile:education")?.facts
-      ?.level as string | undefined) ??
-    profileFor(person, api.state.seed, api.state.date)?.education;
-  const more =
-    level === "college"
-      ? p("pastWorkCollegeYears")
-      : level === "some-college"
-        ? p("pastWorkSomeCollegeYears")
-        : 0;
-  return makeIsoDate(
-    addDays(graduated, Math.round(more * p("daysPerMeanYear"))),
-  );
+  return makeIsoDate(schoolingEndsOf(api.state, person));
 }
 
 /** The person's day-one job, its start and pay, from the jobs engine's records. */

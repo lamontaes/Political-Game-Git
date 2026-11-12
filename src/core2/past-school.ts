@@ -6,7 +6,8 @@
  * screen and scene uses for where a person went to school.
  */
 import data from "./data/school-days.json" with { type: "json" };
-import { makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { profileFor } from "./opening-profile";
 import {
   kindergartenYear,
   onCalendar,
@@ -72,6 +73,71 @@ export function schoolName(
 }
 
 export const SCHOOL_STARTED = ownPastKind("school.started");
+/** The end of high school before the start: the diploma's day, the school it was from. */
+export const SCHOOL_FINISHED = ownPastKind("school.finished");
+/** The fall after high school, for someone whose schooling went on to college. */
+export const COLLEGE_STARTED = ownPastKind("school.college-started");
+/** The end of college: a bachelor's for `college`, the years of `some-college` without one. */
+export const COLLEGE_ENDED = ownPastKind("school.college-ended");
+/** The past's school kinds a person's own run writes, restated together. */
+const OWN_SCHOOL_KINDS = [
+  SCHOOL_STARTED,
+  SCHOOL_FINISHED,
+  COLLEGE_STARTED,
+  COLLEGE_ENDED,
+] as const;
+
+/**
+ * A person's schooling level from their record (the opening profile's
+ * `profile:education` fact, the CES levels `no-college`, `some-college` and
+ * `college`), else what the profile gives them; null for a child.
+ */
+export function educationLevelOf(
+  core: Readonly<CoreState>,
+  person: Readonly<PersonState>,
+): string | undefined {
+  return (
+    (person.pastFacts?.find((row) => row.kind === "profile:education")?.facts
+      ?.level as string | undefined) ??
+    profileFor(person, core.seed, core.date)?.education
+  );
+}
+
+/** The years of college a level holds (IPEDS program lengths), 0 for none. */
+export function collegeYearsOf(
+  api: CoreAPI,
+  level: string | undefined,
+): number {
+  return level === "college"
+    ? api.parameter("pastWorkCollegeYears")
+    : level === "some-college"
+      ? api.parameter("pastWorkSomeCollegeYears")
+      : 0;
+}
+
+/** The last day of a person's high school, on the one calendar. */
+export function highSchoolEndOf(person: Readonly<PersonState>): string {
+  return onCalendar(
+    kindergartenYear(makeIsoDate(person.birthDate)) +
+      SCHOOL_STAGE_CALENDAR.endsAfterYears.high,
+    "ends",
+  );
+}
+
+/** The day a person is out of school: high school's end plus their college years. */
+export function schoolingEndsOf(
+  core: Readonly<CoreState>,
+  person: Readonly<PersonState>,
+): string {
+  const api = coreAPI(core as CoreState);
+  return addDays(
+    makeIsoDate(highSchoolEndOf(person)),
+    Math.round(
+      collegeYearsOf(api, educationLevelOf(core, person)) *
+        api.parameter("daysPerMeanYear"),
+    ),
+  );
+}
 /**
  * The years after kindergarten each stage starts, from the parameter table
  * (ESTIMATED from the CPS October 2024 modal ages by grade).
@@ -149,6 +215,101 @@ function schoolRecords(
         },
       });
     }
+    rows.push(...schoolEndRecords(core, person, window));
+  }
+  return rows;
+}
+
+/**
+ * The end of school before the start (gap sheet, Nov 12, row 15): the day
+ * high school ended, from the school they were at, and for a person whose
+ * level is `some-college` or `college`, the fall they started college and the
+ * day it ended, by the level's usual length (the same years the work pass
+ * waits before a first job, so the two never disagree). Nothing is drawn: the
+ * level is the opening profile's, the days are the one calendar's.
+ */
+function schoolEndRecords(
+  core: Readonly<CoreState>,
+  person: Readonly<PersonState>,
+  window: PreStartWindow,
+): Omit<HistoryRecord, "moduleId">[] {
+  const level = educationLevelOf(core, person);
+  if (!level) return [];
+  const api = coreAPI(core as CoreState);
+  const rows: Omit<HistoryRecord, "moduleId">[] = [];
+  const inside = (date: string) =>
+    date >= window.from && date <= window.through;
+  const source = (estimatedFrom: string) => ({
+    tag: "ESTIMATED" as const,
+    asOf: core.date,
+    citation:
+      "The one school calendar (src/core2/past-school-calendar.ts) and the IPEDS program lengths (pastWorkCollegeYears, pastWorkSomeCollegeYears in src/core2/data/parameters.json).",
+    estimatedFrom,
+  });
+  const graduated = highSchoolEndOf(person);
+  // Every adult the profile gives a level finished high school: the CES
+  // levels fold the adults without a diploma into `no-college`.
+  // stopgapId: SG-HIST-past-no-college-all-graduated
+  stopgap("SG-HIST-past-no-college-all-graduated", core as CoreState);
+  if (inside(graduated)) {
+    const lived = residenceOn(core, person, graduated);
+    const last = preStartHistory(core as CoreState, {
+      kind: SCHOOL_STARTED,
+      personId: person.id,
+    }).at(-1);
+    rows.push({
+      id: `${SCHOOL_FINISHED}:${person.id}`,
+      date: makeIsoDate(graduated),
+      kind: SCHOOL_FINISHED,
+      placeId: lived.placeId,
+      personIds: [person.id],
+      facts: {
+        personId: person.id,
+        schoolId: String(
+          last?.facts.schoolId ?? schoolOfPlace(core, lived.placeId),
+        ),
+        stage: "high",
+        passed: "true",
+        level,
+        residenceRecordId: lived.recordId,
+      },
+      publicRecord: false,
+      source: source(
+        "The person's birth date (the class they were in) and their schooling level (profile:education).",
+      ),
+    });
+  }
+  const years = collegeYearsOf(api, level);
+  if (!years) return rows;
+  const began = onCalendar(
+    kindergartenYear(makeIsoDate(person.birthDate)) +
+      SCHOOL_STAGE_CALENDAR.endsAfterYears.high,
+    "starts",
+  );
+  const ended = schoolingEndsOf(core, person);
+  const lived = residenceOn(core, person, began);
+  for (const [kind, date] of [
+    [COLLEGE_STARTED, began],
+    [COLLEGE_ENDED, ended],
+  ] as const) {
+    if (!inside(date)) continue;
+    rows.push({
+      id: `${kind}:${person.id}`,
+      date: makeIsoDate(date),
+      kind,
+      placeId: lived.placeId,
+      personIds: [person.id],
+      facts: {
+        personId: person.id,
+        level,
+        years,
+        degree: level === "college" ? "bachelor" : "",
+      },
+      publicRecord: false,
+      source: source(
+        `The person's schooling level (${level}) and its usual length, ${years} years from the fall after high school.`,
+      ),
+    });
   }
   return rows;
 }
@@ -186,10 +347,9 @@ export function schoolHistoryFor(
   for (const person of people) {
     const window = ownWindowOf(core, person);
     if (!window || !wholePastOnce(core, person.id, "school")) continue;
-    const held = preStartHistory(core, {
-      kind: SCHOOL_STARTED,
-      personId: person.id,
-    }).map((row) => row.id);
+    const held = OWN_SCHOOL_KINDS.flatMap((kind) =>
+      preStartHistory(core, { kind, personId: person.id }).map((row) => row.id),
+    );
     recordPreStartLater(
       core,
       SCHOOL_MODULE_ID,
