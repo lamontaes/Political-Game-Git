@@ -37659,10 +37659,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-back-core.thanks-you-owed-isn-t-much-but-i-didn-t-have-it",
+      "key": "conversation.eviction-back-core.thanks-you-i-just-didn-t-have-owed",
       "move": "eviction-back-core",
       "kind": "spoken",
-      "text": "Thanks, {you}. {owed} isn't much, but I didn't have it.",
+      "text": "Thanks, {you}. I just didn't have {owed}.",
       "uses": [
         {
           "move": "eviction-back-core",
@@ -37684,10 +37684,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-back-core.thanks-you-owed-isn-t-much-but-we-didn-t-have-it",
+      "key": "conversation.eviction-back-core.thanks-you-we-just-didn-t-have-owed",
       "move": "eviction-back-core",
       "kind": "spoken",
-      "text": "Thanks, {you}. {owed} isn't much, but we didn't have it.",
+      "text": "Thanks, {you}. We just didn't have {owed}.",
       "uses": [
         {
           "move": "eviction-back-core",
