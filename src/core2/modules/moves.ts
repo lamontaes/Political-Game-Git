@@ -85,8 +85,13 @@ const INACTIVE_TIER = "husk";
 type Rates = Readonly<Record<string, number>>;
 const RATES = moverRates as unknown as {
   ageBands: readonly string[];
-  national: { departurePerYearByAge: Rates };
-  places: Readonly<Record<string, { departurePerYearByAge: Rates }>>;
+  national: { departurePerYearByAge: Rates; withinCountyPerYearByAge: Rates };
+  places: Readonly<
+    Record<
+      string,
+      { departurePerYearByAge: Rates; withinCountyPerYearByAge?: Rates }
+    >
+  >;
 };
 const TOP_DESTINATION = destinations.topDestinationByCounty as Readonly<
   Record<string, string>
@@ -222,6 +227,22 @@ function rateOf(placeId: string, band: string): number | undefined {
 export function departureRateFor(placeId: string, age: number): number {
   const band = bandFor(age);
   return (band && rateOf(placeId, band)) || 0;
+}
+
+/**
+ * The share of a place's state's people of an age who move to another home
+ * inside their county in a year (ACS 2024, B07401 "Moved within same
+ * county"), else the nation's: the rate of the moves before the start that
+ * never leave the county (src/core2/past-moves.ts).
+ */
+export function withinCountyRateFor(placeId: string, age: number): number {
+  const band = bandFor(age);
+  if (!band) return 0;
+  const state = placeStateKey(placeId);
+  const byAge =
+    (state && RATES.places[state]?.withinCountyPerYearByAge) ||
+    RATES.national.withinCountyPerYearByAge;
+  return byAge[band] ?? 0;
 }
 
 interface Kin {
