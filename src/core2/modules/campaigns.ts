@@ -391,7 +391,11 @@ export interface EndorsementRow {
   readonly organizationId: string | null;
   /** Who asked: the candidate; null when a group weighed the race itself. */
   readonly askerId: string | null;
-  readonly answer: "yes" | "no";
+  /** "withdrawn": a yes ended on the day its speaker filed in the same race (`endedByFilingId`); nothing reads it as a backing. */
+  readonly answer: "yes" | "no" | "withdrawn";
+  /** The day a yes was withdrawn and the filing that ended it. */
+  readonly endedOn?: string;
+  readonly endedByFilingId?: string;
   readonly reason: EndorsementReason;
   /** The platform question the endorser disagrees with most, if any. */
   readonly issue: string | null;
@@ -1886,6 +1890,29 @@ function leaveForOwnRun(api: CoreAPI, filingId: string): void {
         },
       ],
     });
+  }
+  // A yes they gave a rival in this race ends the day they file: they are no
+  // longer shown backing someone they run against, and a group whose speaker
+  // files no longer backs the rival. The row stays, ended and naming the filing.
+  for (const row of table(api, "endorsements").query("byContest", [
+    filing.contestId,
+  ]) as unknown as EndorsementRow[]) {
+    if (
+      row.answer !== "yes" ||
+      row.speakerId !== personId ||
+      row.candidateId === personId
+    )
+      continue;
+    const campaign = table(api, "campaigns").get(row.filingId) as unknown as
+      CampaignRow | undefined;
+    if (!campaign || rivalFiling(api, campaign, personId)?.id !== filing.id)
+      continue;
+    table(api, "endorsements").put({
+      ...row,
+      answer: "withdrawn",
+      endedOn: api.state.date,
+      endedByFilingId: filing.id,
+    } as unknown as ModuleRow);
   }
 }
 
