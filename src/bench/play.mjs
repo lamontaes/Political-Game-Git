@@ -4581,7 +4581,6 @@ const sheets = {
             candidate(
               memberCard({
                 name: f.name ?? "",
-                line: f.party ?? "",
                 party: f.party,
                 face: f.face,
                 onOpen: () => {
@@ -4589,12 +4588,24 @@ const sheets = {
                   showPerson({ personId: f.cardId });
                 },
               }),
-              ...f.stances.map((st) =>
-                row(
-                  policyLabel(st.question),
-                  st.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
+              // The few stands the race turns on (the server orders them):
+              // a spending line said as more or less money for it, a
+              // question as For or Against it.
+              ...f.stances
+                .filter(
+                  (st) => !st.question.startsWith("budget-line:") || st.words,
+                )
+                .slice(0, labels.standsShown ?? 0)
+                .map((st) =>
+                  st.words
+                    ? prose(st.words, "stand")
+                    : row(
+                        policyLabel(st.question),
+                        st.position > 0
+                          ? (stance.for ?? "")
+                          : (stance.against ?? ""),
+                      ),
                 ),
-              ),
             ),
           )
         : [prose(labels.noFilers, "record-empty")];
