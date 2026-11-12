@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/pool-tests-press-money-dawson-springs-red
-pr:
+pr: #8430
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-11T01:04:45.903Z
@@ -19,6 +19,7 @@ effort: medium
 root: none
 checked: fable 2026-11-10
 branch: claude/pool-tests-press-money-dawson-springs-red
+merged-at: 2026-11-12T02:11:54.417Z
 ---
 
 **What.** src/core2/press-money.test.ts fails on main with GOLDEN_PATH_SEED=87f9d8a36f733083. Its first draw, Dawson Springs, Kentucky (2120224), place seed cb670b23a8bfc0787ac8adf6af104ac8b022be4acf201ee326c4c7118b509e66, never has a month when the paper's readers and its revenue both rise, so the check that revenue follows the audience fails over March 2025 to January 2026. The analysis in the Notes found the cause: the paper's readers sit within 1 percent of 700 all year, while its subscriptions moved by a fifth, because households short of cash pay in part and the rest in a later month. A threshold fix passed Dawson but failed Little America, Wyoming (5646935, seed pmf1:0).

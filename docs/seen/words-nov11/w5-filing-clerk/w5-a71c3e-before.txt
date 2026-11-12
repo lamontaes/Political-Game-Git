@@ -1,0 +1,5 @@
+Seed w5-a71c3e; place: Holton, Indiana
+Office: County election board, Holton
+Greeting: Erin Hogan / How can I help you? / I want to run for Council member. November 4, 2025 · Held by Kathy Swanson / I want to run for Mayor. November 4, 2025 · Held by Michelle Hogan / Leave
+Told: Erin Hogan / PAT CANDIDATE / I want to run for Council member. / Alright, you're running for Council member. Let's get you started. It's a 4-year term, and there's no primary, so you'd go straight onto the ballot November 4. You'd have a seat on the Holton Town Council, voting on the budget and every ordinance that comes before it. It all has to be back to me by February 7. / Then I'd like to take the papers. / Leave
+Replies: Then I'd like to take the papers.

@@ -91,6 +91,7 @@ import {
   closeBusinessByChoice,
   closeEmployer,
   finishFinanceDay,
+  moveRecipientIncomeHome,
 } from "./finance-state";
 import {
   preflightModuleNotifications,
@@ -1762,6 +1763,9 @@ export function coreAPI(core: CoreState): CoreAPI {
         actor.householdId = input.householdId;
         index(core.peopleByPlace, actor.placeId, actor.id);
         if (actor.countyId) index(core.peopleByPlace, actor.countyId, actor.id);
+        // A recorded income award (a pension, Social Security) is paid into
+        // the household where its person lives now, from its next due date.
+        moveRecipientIncomeHome(core, actor.id, input.householdId);
       }
     },
     changeHouseholdV1(input) {
@@ -1835,8 +1839,10 @@ export function coreAPI(core: CoreState): CoreAPI {
           memberIds: from.memberIds.filter((id) => !leaving.includes(id)),
         });
       }
-      for (const mover of movers as PersonState[])
+      for (const mover of movers as PersonState[]) {
         mover.householdId = input.householdId;
+        moveRecipientIncomeHome(core, mover.id, input.householdId);
+      }
     },
     setPartnersV1(input) {
       const [a, b] = [...input.personIds].sort() as [string, string];

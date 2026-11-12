@@ -89,11 +89,8 @@ try {
     listed,
     `Coming up does not list ${words(own.date)}, your birthday`,
   );
+  // One press of Escape closes the open menu.
   await page.keyboard.press("Escape");
-  await page
-    .locator("#sheet-close")
-    .click()
-    .catch(() => {});
 
   // Week by week until the clock reaches the day: it stops on it.
   const clockDate = async () =>
