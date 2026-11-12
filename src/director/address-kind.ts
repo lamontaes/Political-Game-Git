@@ -57,6 +57,14 @@ export interface AddressSituation {
   readonly workShare: number;
 }
 
+/**
+ * The kinds the term's bad news scores (`hurt` in scoreKinds): an address of
+ * one of them is about the term's worst condition, whatever the speaker's own
+ * issues are (the words lead, Nov 12), and with no condition gone wrong it is
+ * not a kind the address can take.
+ */
+export const HURT_KINDS: readonly AddressKind[] = ["crisis", "combative"];
+
 export interface KindScore {
   readonly kind: AddressKind;
   readonly score: number;

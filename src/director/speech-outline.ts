@@ -98,6 +98,7 @@ import {
 import {
   addressSituation,
   chooseAddressKind,
+  HURT_KINDS,
   type AddressKind,
 } from "./address-kind";
 
@@ -1690,16 +1691,17 @@ export function planSpeech(
   // The term's worst condition (the words lead, Nov 12: "the kind decides
   // what the address is about, the speaker's issues decide only what they do
   // about it"): the measure that went most wrong, read from the same records
-  // that score the crisis kind, an area of the term by how far it slid and a
-  // measure of the year by how far it moved against its scale. A crisis
-  // address opens its body on it; with none to say, no address is a crisis.
+  // that score the crisis and combative kinds (HURT_KINDS), an area of the
+  // term by how far it slid and a measure of the year by how far it moved
+  // against its scale. Such an address opens its body on it; with none to
+  // say, the address takes neither kind.
   const crisisTopic = worstCondition(country);
   // A speaker in their first year takes no lap for a record they did not make.
   const addressKind = chooseAddressKind(person, situation, [
     ...(firstYear || !row.ownRecord ? (["victory"] as const) : []),
-    ...(crisisTopic ? [] : (["crisis"] as const)),
+    ...(crisisTopic ? [] : HURT_KINDS),
   ]);
-  const crisis = addressKind === "crisis" ? crisisTopic : null;
+  const crisis = HURT_KINDS.includes(addressKind) ? crisisTopic : null;
   // What the theme is about in the world's measures, the hardest first: the
   // first point opens with its figure where the records hold one.
   const held = (topic: string) =>
@@ -1892,7 +1894,7 @@ export function planSpeech(
     };
   };
   /**
-   * A crisis address's first point: the term's worst condition, said with
+   * A crisis or combative address's first point: the term's worst condition, said with
    * its fact. Over the years the speaker has held office where the bank says
    * the measure that way (context, then what it has meant), else as the
    * record's one line of it (story-says), never both, so it is said once.
@@ -1982,7 +1984,7 @@ export function planSpeech(
     // what the speaker believes, by the question's family and the speaker's
     // pole of it; and the ask, plainly for or against.
     theme: () => [
-      // A crisis address's first point is the term's worst condition, said
+      // A crisis or combative address's first point is the term's worst condition, said
       // with its fact; the speaker's own theme follows.
       ...(crisis ? [crisisDraft(crisis)] : []),
       ...pointStands.map((stand, at): Draft => {
