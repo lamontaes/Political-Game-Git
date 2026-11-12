@@ -857,6 +857,9 @@
       "tag": "TUNABLE",
       "citation": "Words judgment (lead, Nov 12: 'a stretch with seven employers in fifteen years folds ... it does not list them'): more employers than this before the start are told as one run from the counts, never listed one by one. It decides only how the Journal tells a working life, never what happened in it.",
       "stopgapId": "SG-WORDS-param-journalWorkFoldAt",
+      "checkRange": {
+        "ref": "WORDS-JOURNAL-WORK-FOLD"
+      },
       "spread": {
         "low": 2,
         "high": 5,

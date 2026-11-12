@@ -5343,6 +5343,18 @@
               "field": "line"
             }
           ]
+        },
+        {
+          "move": "work-line-lost",
+          "subject": "work",
+          "role": "line",
+          "choice": "employer-let-me-go",
+          "journal": [
+            {
+              "kindPrefix": "job-ended",
+              "field": "line"
+            }
+          ]
         }
       ],
       "origin": "authored",
@@ -9053,32 +9065,6 @@
       }
     },
     {
-      "key": "journal.work-line-lost.employer-let-me-go",
-      "move": "work-line-lost",
-      "kind": "spoken",
-      "text": "{employer} let me go.",
-      "uses": [
-        {
-          "move": "work-line-lost",
-          "subject": "work",
-          "role": "line",
-          "choice": "employer-let-me-go",
-          "journal": [
-            {
-              "kindPrefix": "job-ended",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.work-line-lost.my-job-at-employer-ended",
       "move": "work-line-lost",
       "kind": "spoken",
@@ -9470,7 +9456,7 @@
       "key": "journal.memoir-effects-learned.i-found-out-the-rules-on-topic-were-behi",
       "move": "memoir-effects-learned",
       "kind": "spoken",
-      "text": "I found out the rules on {topic} were behind what I pay now.",
+      "text": "I found out the rules on {topic} set my costs.",
       "uses": [
         {
           "move": "memoir-effects-learned",
