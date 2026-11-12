@@ -230,6 +230,7 @@ it("a state legislator's district office decides one case at office hours and le
         officialId: legislator!.personId,
         problem: "looking-for-work",
         severity: 0.5,
+        standing: 0,
         facts: { cushionMonths: 1 },
         opened: core.date,
         respondBy,

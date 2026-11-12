@@ -76,6 +76,9 @@ When the CTO moves a PR between two checkers, it tells both. A checker already m
 - If a message tells you something that is already done or already wrong, say so in one line and carry on. Do not redo the work.
 - A hold on a PR goes on the PR as a comment as well as in a message. The comment is what a merger reads before merging: on Nov 1 a checker passed #7036 after the laws lead's hold message, which crossed its pass.
 - A PR can merge on an earlier head and drop a later commit (the merge desk merges the head it checked): put every follow-up on a new branch from main, and check main holds your last commit after each merge (Nov 8, #7440).
+- **A session that finished its job will not take new work from a message (Nov 11).** Five cause finders whose brief said "one item, then stop" each answered a message asking for more with "the person running this session has to confirm". That is by design: a message from another session cannot widen a session's job. Start a fresh session with a standing brief (its list, then "take the next ones in these areas yourself") instead of messaging an old one. Three fresh ones posted twenty cause pull requests in the next hour.
+- **Before you assign a list, say which items you keep for yourself (Nov 11).** A fresh cause finder wrote the same cause I was writing, ten minutes later, because its brief's areas covered my item. Name your own items in the brief, and tell helpers to check for an open pull request that already touches an item before they start it.
+- **To see what a session last said, read its last few `assistant` events, never its `result` events in bulk (Nov 11).** One `result` event carries the whole turn's accounting and is thousands of words long.
 
 ## Stop condition
 

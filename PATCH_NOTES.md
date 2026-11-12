@@ -296,6 +296,117 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.106.0
+
+_Released November 12, 2026._
+
+### Fixed
+
+- **A state race already past its primary holds that primary, so November has
+  one candidate a party** A statewide race whose filing and primary fell before
+  the game began now holds its primary on the first day, so the November ballot
+  no longer carries two candidates of one party, and a party with a candidate of
+  its own from the town is no longer given a second, stand-in nominee who then
+  got no votes.
+
+### Changed
+
+- **Residents who bring a problem to an official's office stay part of the wider
+  town until you meet them.** Every resident who took a problem to an official's
+  office hours used to become a fully tracked person, with their whole
+  household. In a year that was hundreds of people the player never met, and it
+  was the largest part of a long game's growing memory use. Now their case is
+  kept and decided by the same rule as anyone's. They become fully tracked only
+  when their case reaches an official the player deals with, or the player opens
+  them. Their card then shows the case, their tie to the official and how it
+  changed their view of them.
+
+## PRE-ALPHA 0.105.0
+
+_Released November 11, 2026._
+
+### Fixed
+
+- **A person's card no longer leaves the talk box showing under it** When you
+  opened a person's card during a talk, the bottom edge of the talk box and its
+  buttons showed under the card. The talk now waits out of sight and comes back
+  when the card closes.
+
+- **A budget bill sets the line to the amount you typed** When you wrote a bill
+  on a budget line from Your office, the amount you typed was added to the line
+  instead of replacing it: typing $71,390 for a $64,900 Highways line made a
+  bill that set it to $136,000. The bill now sets the line to what you typed,
+  and its page says the same amount everywhere.
+
+- **A double-click on a meeting vote counts once** At a meeting, pressing Yes
+  (or any vote or speech button) twice quickly sent the vote again and raised an
+  error. The buttons now wait for the meeting to answer, so a double-click votes
+  once.
+
+- **A person's card no longer shows "How I see {object}"** On People, the card
+  of someone the game calls "they" headed a section "How I see {object}". It now
+  reads "How I see them".
+
+- **The President's address says its lines more ways** The President's address
+  has 110 more ways to say its lines, each carrying a name or a subject from the
+  player's own world: what the President asks Congress for, how joblessness
+  moved over the year, how a working address opens, the party's creed and the
+  oath. Ten addresses drawn from all 56 places no longer share a sentence three
+  times over on the seeds checked.
+
+- **A journal line about your youth says your age once** A move or other event
+  from when you were young, framed by your age ("When I was 15 years old, we
+  moved back to Highland, Kansas."), no longer says the age again after it ("I
+  was 15 that year.").
+
+- **Asked about the work, an employer on the phone says something new** When an
+  employer calls with a job and you ask what you would be doing, they tell you
+  the hours a week, how many people work there or whose place you would take,
+  instead of repeating the title and the pay.
+
+- **A relative who holds an office is told the way people say it** In the first
+  Journal note, a relative on a council or board "sits on the Woonsocket City
+  Council", another officeholder "serves as county clerk for the County of
+  Nuckolls", and a job they hold beside it is told in the same sentence. A job
+  title takes "a" or "an" by its sound: "a union representative".
+
+### Changed
+
+- **Hellos and goodbyes name you, the last time you met, and what you talked
+  about.** When someone you run into says hello, they say your name if they know
+  it, or when they last saw you ("The last time I saw you was a few weeks
+  ago."). When a talk ends, they name what it was about ("Good luck at Brooks
+  Public Schools. Take care.") or, if it was about nothing in particular,
+  someone of yours they know. At home, a goodbye says the part of the day the
+  clock shows ("We'll talk more later tonight."), never the morning in the
+  evening. Each line is put together from pieces, so the same words rarely come
+  twice. The stock goodbyes ("I've got to run.", "Have a nice day.") are gone.
+
+- **When someone passes on a story, your replies say what it has to do with
+  you.** When a relative or a friend tells you about a story they saw, your
+  replies come from your own life: where you stand on the question the story is
+  about ("Count me in favor of a higher age to buy a handgun."), that you worked
+  at the place that closed, that you saw it on the same station, or a question
+  about what it means for your town. They answer from their own side and say
+  when they heard it, and they remember where you stood. The stock answers ("I
+  think it's terrible.", "What do you make of the news?") are gone.
+
+- **When someone tells you where they stand, they name the question they care
+  most about, and why.** A relative or friend who follows politics no longer
+  just says "I lean conservative." They name the question they feel strongest
+  about and which side they are on ("If it's a higher minimum wage, count me
+  out."), and often why, from their own life: their job ("Working at the post
+  office taught me that.") or money being tight in their town. You can agree or
+  disagree on that question, but only on the side your own view is really on;
+  ask them why; or keep your view to yourself. Their card then says what they
+  care most about, and if you agreed or disagreed, they know where you stand.
+
+- **The people you talk to around town become people you know.** Talking to
+  someone now counts as meeting them: they join the people you know, with the
+  time you spent talking, and you join theirs. So later talks can bring up
+  people you both know and what happened to them, and the People screen lists
+  everyone you know, closest first in each group, with each card a click away.
+
 ## PRE-ALPHA 0.104.0
 
 _Released November 11, 2026._

@@ -1,0 +1,73 @@
+{
+  "about": "For each composed rule (data/english/line-rules.json, test kind composed): texts read, breaks and breaks per 100 texts over new lives played on these draws (npm run words:composed). A rule's rate may only fall: npm run words:composed -- --check replays these draws and fails when one rose. Write it again with --write-baseline on the same draws after a change that lowers a count, and quote the before and after in the pull request.",
+  "days": 14,
+  "draws": [
+    {
+      "seed": "a9c85de3-e7fa-4418-8499-569a5c5e6e10",
+      "placeKey": "0686174",
+      "place": "Wofford Heights, California"
+    },
+    {
+      "seed": "9fee231e-a47b-42a9-ad67-7a6e2198f987",
+      "placeKey": "4779500",
+      "place": "Westpoint, Tennessee"
+    },
+    {
+      "seed": "ebeca320-d6d5-4455-8be7-456cfce2ba1f",
+      "placeKey": "4622260",
+      "place": "Fort Pierre, South Dakota"
+    }
+  ],
+  "rules": {
+    "address-is-national-not-about-the-player": {
+      "read": 7,
+      "breaks": 4,
+      "per100": 57.1
+    },
+    "speech-has-one-theme": {
+      "read": 7,
+      "breaks": 5,
+      "per100": 71.4
+    },
+    "asks-differ-by-world": {
+      "read": 7,
+      "breaks": 2,
+      "per100": 28.6
+    },
+    "person-said-by-role-pronoun-or-relationship": {
+      "read": 79,
+      "breaks": 48,
+      "per100": 60.8
+    },
+    "one-idea-to-a-sentence": {
+      "read": 79,
+      "breaks": 1,
+      "per100": 1.3
+    },
+    "no-reply-asks-what-the-listener-cannot-know": {
+      "read": 45,
+      "breaks": 0,
+      "per100": 0
+    },
+    "two-speakers-make-different-points": {
+      "read": 45,
+      "breaks": 14,
+      "per100": 31.1
+    },
+    "line-fits-the-hour": {
+      "read": 50,
+      "breaks": 24,
+      "per100": 48
+    },
+    "no-non-replies": {
+      "read": 45,
+      "breaks": 17,
+      "per100": 37.8
+    },
+    "note-stands-alone": {
+      "read": 12,
+      "breaks": 1,
+      "per100": 8.3
+    }
+  }
+}

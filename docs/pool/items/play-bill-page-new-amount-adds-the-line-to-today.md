@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by:
 pr: #8866
 after:
@@ -16,13 +16,14 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+merged-at: 2026-11-11T23:08:22.586Z
 ---
 
 **What.** In Sunset, Louisiana (bench seed `bill-words-1`), the player stepped in as a council member (Advanced) and drafted a budget bill on the highways line from Your office. The bill's page shows three figures that do not agree: "In force today $265,000", "The bill makes it $557,000", and in its section "Highways: about $292,000 for the year". The $292,000 is about 1.1 times the $265,000; the $557,000 is the two added together. Shots: docs/seen/play-bill-numbers-and-dates-said-in-words/bill-page-after-sunset-la.png. Seen: the bill's page, opened from Bills or Your office, in the two cells at its top and its section.
 
-**Cause.** Needs cause. Looked at: src/bench/play.mjs near line 2830, where the page's two cells are built for a bill on a budget line; the new cell is `roundedMoney(est.ofMinor + est.lineAmountMinor)`, which is right only if `lineAmountMinor` is the change and wrong if it is the line's new total. Not looked at: what the estimate that hands `ofMinor` and `lineAmountMinor` means by them, or what the budget engine pays when such a bill passes (whether the law sets the line to $292,000 or adds $292,000 to it). Which of the page or the estimate is wrong, or whether the engine itself adds, is not known.
+**Cause.** Found in code: the writing screen (play.mjs `onDraft`, the draft card) asks for a budget line's new amount beside today's, as it does for a rate, and `seatAct` (src/bench/legislature.ts) passed what was typed on as the section's `value`. The engine reads a budget-line section's `value` as the change to the line: `billForm` sets `after = before + value` (src/core2/modules/legislature.ts, about line 1947), and every other drafter of a budget bill writes a change (the budget bill's `value: delta` with `of` the carried amount; world-legislating's `deltaMinor`; a department request's `value: 0`). So the bill set the line to today plus the typed amount, and the page's "The bill makes it" ($557,000 in Sunset, Louisiana; $136,000 in Hulett, Wyoming, bench seed `line-1`) was what the law would really pay. The section sentence (`budgetSectionSaid` with `provision.value`) said the typed amount "for the year", which is why the three figures disagreed. The page's own sum (`est.ofMinor + est.lineAmountMinor`, play.mjs) was right for a change, but it was the page doing the sum. The engine is right; the bench's draft was wrong.
 
-**Fix.** None until the cause is found.
+**Fix.** `seatAct` records a typed budget-line amount as the change on today's amount (`value: typed - today`, `of: today`), as every other drafter does, so the law sets the line to what was typed. The paper's estimate hands the page `lineNewMinor`, the amount the bill sets (the engine's own after), and the page shows it without adding. The section sentence says that amount. A test over three drawn bills checks that the law, the paper and the bill page all say the typed amount.
 
 **Time box.** 1 hour to find the cause.
 

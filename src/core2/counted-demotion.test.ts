@@ -18,7 +18,7 @@ import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import { isDemoted } from "./counted-groups";
 import { isExperiencedKey } from "./knowledge-retention";
 import { generatedOpening } from "./tooling/generated-world";
-import { corePlaceByKey } from "./place-lookup";
+import { corePlaceByKey, coreStateJurisdiction } from "./place-lookup";
 import type { CoreState } from "./types";
 
 const after = (days: number) => {
@@ -85,15 +85,45 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
       advanceCore(core, after(day));
     const demoted = demotion();
     expect(demoted, `${place.name}: ${householdId}`).toBeDefined();
+    // Both engines run their month on the 1st, the review first, so a household
+    // that has just returned to the counts may be the next in its group to
+    // move: look for its move out on the return day itself.
+    const leftOnReturnDay = countedMoves(coreAPI(core)).find(
+      (row) =>
+        row.householdId === householdId &&
+        row.direction === "out" &&
+        row.date === demoted!.date,
+    );
     // Their records stay, on the inactive tier, at the place's counted tier,
     // and the counts hold them again under their own ids, on the day they
     // return (as counted, the household can move away later: counted-moves.ts).
+    // A household that left the same day is checked as people who moved away:
+    // of the inactive tier, at the place the move names, with its record id.
     for (const id of ids) {
       const person = core.people.get(id)!;
       expect(person.tier).toBe("husk");
-      expect(isDemoted(person)).toBe(true);
-      expect(residentPerson(core, id)?.id).toBe(id);
+      if (leftOnReturnDay) {
+        expect(
+          person.alive,
+          `${place.name}: ${id} moved away by ${leftOnReturnDay.id}`,
+        ).toBe(true);
+        expect(
+          [person.placeId, isDemoted(person)],
+          `${place.name}: ${id} should be at the state ${leftOnReturnDay.toPlace} names (${leftOnReturnDay.id})`,
+        ).toEqual([
+          coreStateJurisdiction(`US-${leftOnReturnDay.toPlace.split(":")[0]}`)
+            ?.id,
+          false,
+        ]);
+      } else {
+        expect(isDemoted(person)).toBe(true);
+        expect(residentPerson(core, id)?.id).toBe(id);
+      }
     }
+    if (leftOnReturnDay)
+      console.log(
+        `${place.name}: ${householdId} returned to the counts and moved away on ${demoted!.date}, ${leftOnReturnDay.id}`,
+      );
     // They hold no knowledge back in the counts (but the events they lived
     // through, which the forgetting pass drops within weeks) and learn
     // nothing else while there, as no counted person keeps knowledge.
@@ -105,7 +135,8 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
       sourceId: "test",
       access: "public" as const,
     };
-    for (const id of ids) {
+    // (A household that moved away the same day is no longer in the counts: nothing here applies to its members.)
+    for (const id of leftOnReturnDay ? [] : ids) {
       expect(
         [...(core.knowledgeByPerson.get(id)?.keys() ?? [])].filter(
           (key) => !isExperiencedKey(key),
@@ -123,16 +154,20 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
     // Their money went to their group's account, and a last paycheck reaching
     // them after it goes on at the next review; no dollar was lost.
     advanceCore(core, after(300));
-    for (const id of ids)
+    // (Movers who left the same day took their money with them: the dollar total below still holds.)
+    for (const id of leftOnReturnDay ? [] : ids)
       expect(core.people.get(id)!.liquidMinor, `${place.name}: ${id}`).toBe(0);
     expect(total(core)).toBe(start);
-    const left = countedMoves(coreAPI(core)).find(
+    const left = (leftOnReturnDay ? [] : countedMoves(coreAPI(core))).find(
       (row) =>
         row.householdId === householdId &&
         row.direction === "out" &&
         row.date >= demoted!.date,
     );
-    if (left) {
+    if (leftOnReturnDay) {
+      // Moved away on the return day: meeting one finds the same person, at the state they moved to.
+      expect(personOrFillIn(core, ids[0]!)?.id).toBe(ids[0]);
+    } else if (left) {
       // Moved out of town while counted: meeting one finds the record they
       // left with, still returned to the counts.
       console.log(`${place.name}: ${householdId} moved away, ${left.id}`);
