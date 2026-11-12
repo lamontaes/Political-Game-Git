@@ -21,12 +21,12 @@
  * Each fact cites its records; a fact with no record is left out and the
  * pieces that need it are never said.
  */
-import { CORRUPTION_MODULE_ID, crimeRecord } from "../core2/modules/corruption";
+import { CORRUPTION_MODULE_ID, crimeRecord } from "../core2/modules/justice";
 import {
   INTEREST_GROUPS_MODULE_ID,
   type GroupRow,
   type LobbyMeeting,
-} from "../core2/modules/interest-groups";
+} from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import { P } from "../core2/parameters";
@@ -85,7 +85,13 @@ export function bribeFacts(
   const group = groups.table("groups").get(meeting.groupId) as unknown as
     GroupRow | undefined;
   const org = group ? core.organizations.get(group.organizationId) : undefined;
-  if (org) facts.group = cite(properName(org.name), [meeting.id, org.id]);
+  // A group is said with its article, as people say an association's name.
+  const name = org ? properName(org.name) : "";
+  if (org)
+    facts.group = cite(
+      /^the\s/i.test(name) ? name : `${rules.groupArticle.value} ${name}`,
+      [meeting.id, org.id],
+    );
   const side = (meeting.side ?? -P.one) > P.zero ? "for" : "against";
   facts["vote-wanted"] = cite(
     (rules.voteWanted.value as Record<string, string>)[side]!,

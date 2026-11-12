@@ -237,12 +237,12 @@ add("reply", "leave", A, "core", "braced", [
     "I'm leaving, and the answer on {amount} is still no.",
 ], ["amount"])
 add("reply", "confront", A, "core", "braced", [
-    "That's {amount} offered for a vote. That's a bribe, and you said it out loud.",
-    "You're offering me {amount} to change a vote. Do you hear yourself?",
+    "That's {amount} offered for a vote. I'm reporting it.",
+    "You just offered me {amount} to change a vote. That goes on the record today.",
 ], ["amount"])
 add("reply", "confront", A, "core", "braced", [
-    "{group} sent you here with cash?",
-    "Does {group} know you're offering money for votes?",
+    "{group} sent you here with cash? I'm reporting it.",
+    "Does {group} know you're offering money for votes? It will once I report it.",
 ], ["group"])
 add("reply", "stall", A, "core", "guarded", [
     "Let me think about {bill} before I think about your money.",
@@ -401,6 +401,8 @@ def main():
                 "move": u["move"],
                 "role": u["role"],
             }
+            if u["step"] == "open":
+                use["key"] = "favor-asked"
             if LIKED_AS[x["text"]]:
                 use["requiresFacts"] = LIKED_AS[x["text"]]
             if x["text"] in LIKED_AFTER:
@@ -422,6 +424,9 @@ def main():
         uses = []
         for one in after if isinstance(after, list) else [after]:
             use = {"subject": "scene", "set": SET, "step": step, "move": move, "role": role}
+            # The opening greets an offer, never the pressing after one.
+            if step == "open":
+                use["key"] = "favor-asked"
             if one:
                 use["after"] = one
             if requires:

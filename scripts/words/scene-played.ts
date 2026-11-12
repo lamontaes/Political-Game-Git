@@ -26,8 +26,12 @@ import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import type { PersonId } from "../../src/core2/types";
-import { purposeScene, replyInScene } from "../../src/director/purpose-scene";
-import { considerBribe } from "../../src/core2/modules/corruption";
+import { purposeScene } from "../../src/director/purpose-scene";
+import {
+  BRIBE_OFFERED,
+  BRIBE_PRESSED,
+  considerBribe,
+} from "../../src/core2/modules/corruption";
 import {
   INTEREST_GROUPS_MODULE_ID,
   type LobbyMeeting,
@@ -132,28 +136,24 @@ for (let attempt = 0; attempt < ATTEMPTS && shown < want; attempt += 1) {
         stakeMinor: offerer.liquidMinor * STAKE_TIMES,
         subjectId: billId,
       });
-      if (record?.offered) break;
-    }
-    if (typeKey === "bribe-pressed") {
-      // The player turns it down in the offer's own scene, as play does.
-      const offer = director.ledger.people
-        .get(me)
-        ?.schedule.find((row) =>
-          row.bindings.some((b) => b.typeKey === "bribe-offer"),
-        );
-      const offered = offer
-        ? purposeScene(core, director, me, offer, { typeKey: "bribe-offer" })
-        : null;
-      const at =
-        offered?.kind === "composed"
-          ? offered.scene.talk.tree.replies.findIndex(
-              (reply) => reply.line.move === "refuse",
-            )
-          : -1;
-      if (offer && at >= 0)
-        replyInScene(core, director, me, offer, [at], {
+      if (!record?.offered) continue;
+      if (typeKey === "bribe-offer") break;
+      // The player hands it back, as the offer's scene ending does; the
+      // offerer decides whether to press.
+      api.emit({
+        id: `scene.reply:scene-played:${record.id}`,
+        date: core.date,
+        kind: "scene.reply",
+        personIds: [me, offererId],
+        placeId: member.placeId,
+        facts: {
           typeKey: "bribe-offer",
-        });
+          causeId: `${BRIBE_OFFERED}:${record.id}`,
+          ending: "handed-back",
+        },
+        source: { tag: "SOURCED", asOf: core.date, citation: "scene-played" },
+      });
+      if (core.durableLog.has(`${BRIBE_PRESSED}:${record.id}`)) break;
     }
     for (let day = 0; day < FORCED_DAYS && !entry; day++) {
       advanceCore(core, addDays(makeIsoDate(core.date), 1));

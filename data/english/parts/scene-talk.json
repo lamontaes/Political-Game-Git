@@ -80339,7 +80339,8 @@
           "set": "bribe",
           "step": "open",
           "move": "greet",
-          "role": "asker"
+          "role": "asker",
+          "key": "favor-asked"
         }
       ],
       "bearing": "nervous",
@@ -80366,7 +80367,8 @@
           "set": "bribe",
           "step": "open",
           "move": "greet",
-          "role": "asker"
+          "role": "asker",
+          "key": "favor-asked"
         }
       ],
       "bearing": "guarded",
@@ -80393,7 +80395,8 @@
           "set": "bribe",
           "step": "open",
           "move": "greet",
-          "role": "asker"
+          "role": "asker",
+          "key": "favor-asked"
         }
       ],
       "bearing": "warm",
@@ -187790,6 +187793,7 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
+          "key": "favor-asked",
           "requiresFacts": ["favor-vote", "bill"]
         }
       ],
@@ -187819,6 +187823,7 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
+          "key": "favor-asked",
           "requiresFacts": ["favor-vote", "bill"]
         }
       ],
@@ -187848,6 +187853,7 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
+          "key": "favor-asked",
           "requiresFacts": ["contract", "favor-contract"]
         }
       ],
@@ -187877,6 +187883,7 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
+          "key": "favor-asked",
           "requiresFacts": ["contract", "favor-contract"]
         }
       ],
@@ -188592,7 +188599,7 @@
       "key": "scene-talk.reply-confront.bribe-1",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "That's {amount} offered for a vote. That's a bribe, and you said it out loud.",
+      "text": "That's {amount} offered for a vote. I'm reporting it.",
       "uses": [
         {
           "subject": "scene",
@@ -188621,7 +188628,7 @@
       "key": "scene-talk.reply-confront.bribe-2",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "You're offering me {amount} to change a vote. Do you hear yourself?",
+      "text": "You just offered me {amount} to change a vote. That goes on the record today.",
       "uses": [
         {
           "subject": "scene",
@@ -188650,7 +188657,7 @@
       "key": "scene-talk.reply-confront.bribe-3",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "{group} sent you here with cash?",
+      "text": "{group} sent you here with cash? I'm reporting it.",
       "uses": [
         {
           "subject": "scene",
@@ -188679,7 +188686,7 @@
       "key": "scene-talk.reply-confront.bribe-4",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Does {group} know you're offering money for votes?",
+      "text": "Does {group} know you're offering money for votes? It will once I report it.",
       "uses": [
         {
           "subject": "scene",
