@@ -19,7 +19,7 @@ source: split from people-protected-traits-on-record in the pool redo, Nov 10, 2
 checked: fable 2026-11-10
 ---
 
-**What.** A landlord's tenant pick should weigh the landlord's own traits and views against an applicant's record and record the reasons, as the hire pick does. Today rentals have one town landlord organization and no person weighs an applicant. The reasons are saved on the decision so a refused or passed-over applicant can be explained.
+**What.** A landlord's tenant pick should weigh the landlord's own traits and views against an applicant's record and record the reasons, as the hire pick does. Today rentals have one town landlord organization and no person weighs an applicant. The reasons are saved on the decision so a refused or passed-over applicant can be explained. Feeds: people-protected-traits-on-record-part-4-ban-refuses.
 
 **Cause.** Found in code: src/core2/modules/housing.ts (lines 665 to 667, stopgap SG-WORLD-housing-landlord) gives rentals one town landlord organization (landlordId), and no decision-maker weighs a tenant.
 

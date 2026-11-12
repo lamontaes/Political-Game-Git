@@ -19,7 +19,7 @@ source: split from core-speed-counted-payroll-into-named-ledger in the pool redo
 checked: fable 2026-11-10
 ---
 
-**What.** The named payroll ledger (src/core2/work-payroll-cash.ts) validates one person per receipt, so counted workers are paid elsewhere. Teach it a record per employer and group that carries a head count, so a group is paid once per period through the same shape as a named worker. This is part 1 of core-speed-counted-payroll-into-named-ledger.
+**What.** The named payroll ledger (src/core2/work-payroll-cash.ts) validates one person per receipt, so counted workers are paid elsewhere. Teach it a record per employer and group that carries a head count, so a group is paid once per period through the same shape as a named worker. This is part 1 of core-speed-counted-payroll-into-named-ledger. Feeds: core-speed-counted-payroll-into-named-ledger
 
 **Cause.** Design: docs/coordination/OWNER-DECISIONS.md, Nov 8 night Coordinator call "Counted payroll: the same rule, times the count, on the employer's own calendar." src/core2/work-payroll-cash.ts validates one person per receipt, which is why `payGroups` in src/core2/counted-money.ts (line 584) settles counted wages on its own path.
 

@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** Split from people-drives-cause-acts-pull-less (acting CTO, Oct 25). Filed by the speed lead.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have raised the share of adults who volunteer, donate or join a group to survey levels; the item says nothing on screen reads it.

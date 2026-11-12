@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-world-three-checks-still-fail-a-run-for-leaving-a-real-range
+pr: #8615
 after:
 blocked-on:
 model: sonnet
@@ -17,6 +17,7 @@ root: none
 lead: money
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 1, "What still fails a run for leaving a real-world range")
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:17:12.197Z
 ---
 
 **What.** The owner ruled on November 8 that real-world ranges are not targets, and no check fails a run for leaving a real band. Four of the old range checks now warn and let the run go on. Three still fail it. All three were read in the code, not run by the audit: regional population change (`src/bench/m1-13-check.ts`, near line 114), yearly population change (`src/core2/counted-moves-balance.test.ts`, near line 69) and turnout (`src/core2/electorate.test.ts`, near line 128). The roadmap's own test for the national economy still reads "keeps national figures within real historical spreads" (`docs/roadmap/features.json`, M1-02). While these stand, a world that takes a wild turn from its own causes is reported as broken, and sessions tune the simulation back toward the real figure to get a green run. Fix the class, not three lines: every check that compares a played run with a real range prints the range beside the result and warns, each keeps a check of the cause in its place (people moved for a recorded reason, ballots came from eligible voters), and the roadmap's wording matches the ruling.
@@ -25,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** Replace each failing band assertion with a cause check and print the range beside the result as a warning, in the same change (no switch); reword docs/roadmap/features.json M1-02 to a cause test with the range reported. Copy the pattern in src/core2/macro.test.ts (line 87).
 
-**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Guards: the population and turnout figures a player reads on the Metrics tab and the paper stay inside real ranges, by failing a run that leaves them.
 
 **Rules.** Sliding scales and causes: a played world's figures follow from its causes and may take wild turns, so a check tests the cause and reports the real range beside it. Research before building: real data calibrates the opening and the parameters and never decides an outcome, and a check that fails a run outside a band makes the band decide. Replace, never layer: each failing assertion is replaced by its cause check and its report in the same change, not kept behind a switch. Owner, November 8: "ranges aren't targets. And look, that's not just for economics. It goes for everything." And: "None of the simulation should be hard-coded like that or, you know, set against a baseline. The baselines are to calibrate... a cause formula... things can take drastic turns, wild turns, or just be, you know, calm and everything in between." As recorded in OWNER-DECISIONS.md, Nov 8 morning: "no check fails a run for leaving a real band."
 

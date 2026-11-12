@@ -5,7 +5,13 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
-import { federalDebtLimit, federalDebtOf } from "./budgets-treasury";
+import {
+  debtBalanceMinor,
+  debtBorrowedMinor,
+  DEBT_SPLIT,
+  federalDebtLimit,
+  federalDebtOf,
+} from "./budgets-treasury";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -17,9 +23,9 @@ const QUESTION = "us-federal-positions:budget.pay-for-a-higher-debt-limit";
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(replay, "debt-limit-binds");
 const borrowedSum = (core: Parameters<typeof coreAPI>[0]) =>
-  federalDebtOf(coreAPI(core)).reduce((n, h) => n + h.borrowedMinor, 0);
+  federalDebtOf(coreAPI(core)).reduce((n, h) => n + debtBorrowedMinor(h), 0);
 const owed = (core: Parameters<typeof coreAPI>[0]) =>
-  federalDebtOf(coreAPI(core)).reduce((n, h) => n + h.balanceMinor, 0);
+  federalDebtOf(coreAPI(core)).reduce((n, h) => n + debtBalanceMinor(h), 0);
 
 it(
   `a pay-for law holds the debt limit and the Treasury borrows no further: ${place.name}, replay ${replay}`,
@@ -50,14 +56,23 @@ it(
       const table = api
         .moduleState("core2-budgets-v1" as never)
         .table("federalDebt");
-      rows.forEach((h, i) =>
+      // A sum written as whole units and a remainder, as the Treasury keeps it.
+      const split = (total: number) => ({
+        whole: Math.floor(total / DEBT_SPLIT),
+        rest: total % DEBT_SPLIT,
+      });
+      rows.forEach((h, i) => {
+        const balance = split(debtBalanceMinor(h) + (i === 0 ? gap : 0));
+        // Borrowed earlier, so the world's opening debt (and the limit scaled by it) stands.
+        const borrowed = split(debtBorrowedMinor(h) + (i === 0 ? gap : 0));
         table.put({
           ...h,
-          balanceMinor: h.balanceMinor + (i === 0 ? gap : 0),
-          // Borrowed earlier, so the world's opening debt (and the limit scaled by it) stands.
-          borrowedMinor: h.borrowedMinor + (i === 0 ? gap : 0),
-        } as never),
-      );
+          balanceWhole: balance.whole,
+          balanceRest: balance.rest,
+          borrowedWhole: borrowed.whole,
+          borrowedRest: borrowed.rest,
+        } as never);
+      });
       const federal = lawChain(api).levels.find((l) => l.level === "federal")!;
       enactLaw(api, {
         jurisdiction: federal.jurisdiction,

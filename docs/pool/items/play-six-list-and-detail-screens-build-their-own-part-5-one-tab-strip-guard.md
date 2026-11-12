@@ -5,10 +5,10 @@ area: play
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-six-list-and-detail-screens-build-their-own-part-5-one-tab-strip-guard
+pr: #8821
 after: play-six-list-and-detail-screens-build-their-own-part-3-travel-guide
 blocked-on:
 lead: screens
@@ -17,6 +17,8 @@ effort: medium
 root: rc10-screens-keep-own-facts
 source: split from play-six-list-and-detail-screens-build-their-own in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T15:30:09.554Z
+merged-at: 2026-11-11T16:33:56.066Z
 ---
 
 **What.** Campaign's debate card builds its own tab nav by hand beside the shared `tabBar`, and the sheet's tabs are built with `makeTab` straight into the sheet. Put them on `tabBar`, and add a guard that fails when a second list-and-detail part or a hand-built tab nav is added, so the duplicates cannot come back. The tabs look and work as they do today. The guard sits beside the existing kit-only-ui guard.

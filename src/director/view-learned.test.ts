@@ -14,10 +14,11 @@
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
+// The bench world first: its modules load in the order play loads them.
+import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { knownCard } from "../bench/card";
 import controls from "../bench/data/controls.json" with { type: "json" };
-import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -26,9 +27,19 @@ import { storiesHeard } from "../core2/modules/news";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import rules from "./data/conversation-rules.json" with { type: "json" };
-import { openConversation, say } from "./conversation";
+import {
+  composedLine,
+  openConversation,
+  say,
+  subjectsBetween,
+} from "./conversation";
+import { expectUpToFourDifferent } from "./reply-set-check";
+import { kinAddress } from "../english/journal-words";
+import { familyFactsOf } from "../core2/closeness";
+import { viewOf } from "../core2/modules/views";
 import { answerInTalk } from "./scene-talk";
 import {
+  strongestQuestion,
   viewKey,
   viewRecordId,
   viewTopicWeight,
@@ -94,7 +105,8 @@ it(`a close, outgoing person says where they stand and the card learns it; a str
         // that answer.
         if (said && !answers.length)
           for (const choice of talk.choices.filter(
-            (row) => row.answers === said.subjectId,
+            // Asking why is answered in words the engine composes (below).
+            (row) => row.answers === said.subjectId && row.move !== "why",
           )) {
             const reply = answerInTalk(core, {
               replyMove: VIEW_MOVES[choice.move] ?? "answer",
@@ -122,13 +134,19 @@ it(`a close, outgoing person says where they stand and the card learns it; a str
       notes.push(`  replies: ${answers.join(" | ")}`);
       const learned = api.knows(me, viewKey(id));
       expect(learned, where).toBeTruthy();
-      expect(learned!.value, where).toBe(viewRecordId(id));
+      expect(learned!.value, where).toContain(viewRecordId(id));
       expect(learned!.access).toBe("told");
       expect(learned!.sourceId, where).toMatch(/^conversation:/);
       expect(line.sourceRecordIds, where).toContain(viewRecordId(id));
       const after = knownCard(core, me, id);
       expect(after.viewUnknown, where).toBe(false);
       expect(after.view, where).toBeTruthy();
+      // They named the question they care most about, and the card names it.
+      const top = strongestQuestion(api, id);
+      if (top) {
+        expect(line.text, where).toContain(top.about);
+        expect(after.viewAbout, where).toBe(top.about);
+      }
       told.push(
         `${where}: ${person.givenName} ${person.familyName} (${id}), weight ${weight.toFixed(2)}, said "${line.text}" -> card: "${viewLine(before)}" before, "${viewLine(after)}" after; key ${viewKey(id)} = ${learned!.value} from ${learned!.sourceId}`,
       );
@@ -219,3 +237,157 @@ it(`a letter to the editor the player reads teaches where its writer stands, and
   process.stdout.write(`${notes.join("\n")}\n`);
   expect(proved, notes.join("; ")).toBeGreaterThan(0);
 }, 3_000_000);
+
+// words-home-own-view-lines-are-composed (owner, Nov 11, 2026: "all the lines
+// in the game need to be run through the English engine"): someone who says
+// where they stand names the question they care most about, which side they
+// are on and, from their own life, why; the player's replies are up to four
+// different moves, and a stand the player takes is learned by the speaker.
+it(`where someone stands names their strongest question, from their own life, and the player's stand is kept (seed ${seed})`, () => {
+  setBookkeeping(false);
+  // A drawn place may have nobody close enough to the player to say where
+  // they stand: draw until one does, and name the places passed over.
+  const skipped: string[] = [];
+  for (let draw = 0; draw < DRAWS; draw += 1) {
+    if (ownViewIn(`${seed}:own-view:${draw}`, skipped)) return;
+  }
+  throw new Error(
+    `no drawn place had anyone say where they stand: ${skipped.join("; ")}`,
+  );
+}, 1_800_000);
+
+/** The own-view checks in one drawn place; false when nobody there would say it. */
+function ownViewIn(drawSeed: string, skipped: string[]): boolean {
+  const place = drawPlace(drawSeed, "view-learned-own-view");
+  const where = `${place.name} (${place.key}), seed ${place.seed}`;
+  const { core, director, playerId } = buildBenchWorld(
+    place.seed,
+    gameStartDate(),
+    { twoLevel: true, placeKey: place.key },
+  );
+  const me = playerId as PersonId;
+  const api = coreAPI(core);
+  const people = [...core.people.values()].filter(
+    (p) => p.alive && p.tier !== "husk" && p.id !== me,
+  );
+  // Two people with the same lean and different strongest questions say
+  // different questions.
+  const byLabel = new Map<string, { id: PersonId; question: string }[]>();
+  for (const person of people) {
+    const id = person.id as PersonId;
+    const label = viewOf(api, id)?.label;
+    const top = strongestQuestion(api, id);
+    if (!label || !top) continue;
+    byLabel.set(label, [
+      ...(byLabel.get(label) ?? []),
+      { id, question: top.question },
+    ]);
+  }
+  const pair = [...byLabel.values()]
+    .map((rows) => [
+      rows[0]!,
+      rows.find((row) => row.question !== rows[0]!.question),
+    ])
+    .find(([, other]) => other) as
+    | [{ id: PersonId; question: string }, { id: PersonId; question: string }]
+    | undefined;
+  // (A place may have no such pair; the talk below is the check that must hold.)
+  const said = (pair ?? []).map(({ id }) => {
+    const subject = subjectsBetween(core, id, me, director).find(
+      (row) => row.kind === "own-view",
+    );
+    return subject
+      ? composedLine(
+          core,
+          id,
+          "own-view-say",
+          subject.facts,
+          subject.stage!,
+          `own-view:${id}`,
+        )
+      : null;
+  });
+  if (said[0] && said[1]) {
+    expect(said[0].text).not.toBe(said[1].text);
+    expect(said[0].text).toContain(strongestQuestion(api, pair![0].id)!.about);
+    expect(said[1].text).toContain(strongestQuestion(api, pair![1].id)!.about);
+  }
+  // Someone whose strongest question is about work names their employer.
+  for (const person of people) {
+    const subject = subjectsBetween(
+      core,
+      person.id as PersonId,
+      me,
+      director,
+    ).find((row) => row.kind === "own-view" && row.facts.employer);
+    if (!subject) continue;
+    const line = composedLine(
+      core,
+      person.id as PersonId,
+      "own-view-say",
+      subject.facts,
+      subject.stage!,
+      `own-view-work:${person.id}`,
+    );
+    expect(line?.text, where).toContain(subject.facts.employer!.text);
+    process.stdout.write(`OWN VIEW WORK ${where}: "${line!.text}"\n`);
+    break;
+  }
+  // In a talk: up to four different replies, and a stand the player takes is learned.
+  advanceCore(core, addDays(makeIsoDate(core.date), AFTER_ADDRESS_DAYS));
+  const ranked = people
+    .map((p) => ({
+      id: p.id as PersonId,
+      weight: viewTopicWeight(viewWillingness(core, p.id as PersonId, me)),
+    }))
+    .filter((row) => row.weight > 0)
+    .sort((a, b) => b.weight - a.weight);
+  let checked = 0;
+  const passed: string[] = [];
+  for (const { id } of ranked) {
+    // The room's look at whether there is anything to say teaches nothing.
+    const knew = api.knows(me, viewKey(id));
+    openConversation(core, me, id, { director, look: true });
+    if (!knew) expect(api.knows(me, viewKey(id)), where).toBeUndefined();
+    // As in play: the first talk may be on something else (the day, the
+    // address), and where they stand comes up in a later one.
+    let talk = openConversation(core, me, id, { director });
+    let line = talk.lines.find((row) => row.kind === "own-view");
+    for (let again = 0; again < 3 && !line && talk.lines.length; again += 1) {
+      for (let turn = 0; turn < 6 && talk.choices.length; turn += 1)
+        say(core, talk, talk.choices[talk.choices.length - 1]!.key);
+      talk = openConversation(core, me, id, { director });
+      line = talk.lines.find((row) => row.kind === "own-view");
+    }
+    if (!line || !talk.choices.length) {
+      passed.push(`${id}: ${talk.lines[0]?.kind ?? "nothing"}`);
+      continue;
+    }
+    expectUpToFourDifferent(talk.choices, where);
+    // A child never calls a parent or grandparent by their given name.
+    const speaker = core.people.get(id)!;
+    const kin = familyFactsOf(core.people.get(me)!).get(id);
+    if (kin && kinAddress(kin.relation, speaker.looks?.gender ?? ""))
+      for (const choice of talk.choices)
+        expect(choice.text, where).not.toContain(`, ${speaker.givenName}.`);
+    process.stdout.write(
+      `OWN VIEW TALK ${where}: "${line.text}" replies: ${talk.choices.map((c) => `${c.move}: ${c.text}`).join(" | ")}\n`,
+    );
+    const stand = talk.choices.find(
+      (c) => c.move === "agree" || c.move === "disagree",
+    );
+    if (stand) {
+      say(core, talk, stand.key);
+      expect(api.knows(id, viewKey(me)), where).toBeTruthy();
+    }
+    checked += 1;
+    break;
+  }
+  if (!checked) {
+    skipped.push(
+      `${where}: passed over ${passed.join(", ") || "nobody willing"}`,
+    );
+    return false;
+  }
+  return true;
+}

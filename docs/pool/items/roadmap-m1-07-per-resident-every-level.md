@@ -5,10 +5,10 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-roadmap-m1-07-per-resident-every-level
+pr: #8566
 blocked-on:
 after: roadmap-m1-housing-budgets-business-commands
 source: added with npm run pool -- add
@@ -17,6 +17,8 @@ model: sonnet
 effort: high
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T04:25:57.813Z
+branch: claude/pool-roadmap-m1-07-per-resident-every-level
 ---
 
 **What.** The M1-07 command (src/core2/tooling/m1-07-check.ts, PR #5893) passes in Napi Headquarters, New Mexico (place key 3551035, seed c7622b23bf5be89188acdc16fb35d2a78eb8d36d7e9f7ebe442d142558796aa6), but the spec says spending and taxes per resident are checked at every level. The check lists the federal level as not applicable because the repository held no cross-section for it, checks the county only together with the city, and holds a territory's taxes as not applicable. M1-07 stays false until every level reports its per-resident taxes and spending.
@@ -38,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: ranges check realistic-not-real (OD:12/OD:558); do not tighten to real per-resident values.
+
+Released (2026-11-11): 6-hour rewrite of the 476-line m1-07 check (federal level, county and city each, territory taxes, per-world spread); read it, not started. Continue on branch claude/pool-roadmap-m1-07-per-resident-every-level.

@@ -71,7 +71,11 @@ import { collegeOf, graduationOf } from "../school-outcomes";
 import { SCHOOL_MODULE_ID } from "../school-measures";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
-import { regionalConditions, reviewWorkElsewhere } from "../jobs-elsewhere";
+import {
+  forgetWorkElsewhere,
+  regionalConditions,
+  reviewWorkElsewhere,
+} from "../jobs-elsewhere";
 import { livesElsewhere } from "./people";
 import {
   findPerQuarter,
@@ -285,6 +289,11 @@ function staffHeads(c: CoreState, jobs: readonly JobInput[]): number {
   return heads;
 }
 
+/** How many people an employer has on staff now, full people and counted workers alike. */
+export function staffCount(api: CoreAPI, organizationId: string): number {
+  return staffHeads(core(api), currentJobs(api, organizationId));
+}
+
 /** The jobs an opening stands for. */
 const positionHeads = (position: Pick<PositionRow, "heads">): number =>
   position.heads ?? 1;
@@ -424,7 +433,7 @@ function noteLeaver(
 }
 
 /** A job by id, a full person's or a counted worker's. */
-function jobById(api: CoreAPI, jobId: string): JobInput | undefined {
+export function jobById(api: CoreAPI, jobId: string): JobInput | undefined {
   return (
     core(api).jobs.get(jobId) ?? residentsRuntime(core(api))?.jobs.get(jobId)
   );
@@ -3340,11 +3349,13 @@ function runWeek(api: CoreAPI): void {
         );
         placed = accepts && hireCounted(api, position, best, fit(best));
       } else if (controlled(c, best.personId)) {
-        // A past decline or lapse is an answer, not a permanent hold.
+        // A past decline or lapse is an answer, not a permanent hold, but the
+        // employer asks again only with something changed since.
         if (
           store(api)
             .table("offers")
-            .get(`job-offer:${position.id}:${best.personId}`)
+            .get(`job-offer:${position.id}:${best.personId}`) ||
+          !offerChanged(api, position, best.personId)
         )
           continue;
         offerToPlayer(api, position, best.personId, fit(best));
@@ -4366,6 +4377,61 @@ function openToOffers(api: CoreAPI): SeekerRow | undefined {
 }
 
 /**
+ * Whether an employer has something new to offer a person it offered before:
+ * the person turned down or let lapse each earlier offer the employer made
+ * them, so it calls again only with a job of another title or better pay than
+ * every one of those (the records of the earlier offers, never a count of
+ * days). An employer that never offered them has nothing to compare.
+ */
+function offerChanged(
+  api: CoreAPI,
+  position: PositionRow,
+  personId: string,
+): boolean {
+  const offers = store(api).table("offers");
+  const earlier = (["declined", "lapsed"] as const).flatMap(
+    (status) =>
+      offers.query("byPerson", [personId, status]) as unknown as JobOfferRow[],
+  );
+  const same = earlier.filter(
+    (row) =>
+      row.organizationId === position.organizationId &&
+      row.title === position.title,
+  );
+  if (!same.length) return true;
+  const pay = hirePay(api, position, personId);
+  // Better pay is a real raise: beyond what pay everywhere has moved since
+  // the earlier offer (the economy's hourly earnings), by as much as makes it
+  // a new offer rather than the same call (jobsReofferRealRaiseShare).
+  const raise =
+    api.parameter("one") + api.parameter("jobsReofferRealRaiseShare");
+  return same.every(
+    (row) =>
+      pay >= row.hourlyMinor * earningsMovedSince(api, row.offeredAt) * raise,
+  );
+}
+
+/** How far the nation's hourly earnings have moved from a day's month to the latest month recorded (one where the economy keeps none). */
+function earningsMovedSince(api: CoreAPI, date: string): number {
+  if (!(api.state as CoreState).modules.has("macro")) return 1;
+  const macro = api.moduleState("macro");
+  const latest = (
+    macro.table("state").get("macro:state") as
+      { latestMonth?: string } | undefined
+  )?.latestMonth;
+  const earnings = (month: string | undefined) =>
+    month
+      ? (
+          macro.table("months").get(`macro-month:${month}`) as
+            { hourlyEarnings?: number } | undefined
+        )?.hourlyEarnings
+      : undefined;
+  const then = earnings(date.slice(0, "YYYY-MM".length));
+  const now = earnings(latest);
+  return then && now ? now / then : 1;
+}
+
+/**
  * The employer picked the person the player controls: a person at the
  * employer makes the offer and holds the position until the deadline. The offer
  * is the `job-offered` record the director stages as a call from that person
@@ -4908,6 +4974,11 @@ export const JOBS_MODULE: CoreModule = {
       }
       return;
     }
+    // A death ends the working-life row of someone living elsewhere, whether or
+    // not the engine has opened its state yet.
+    if (event.kind === "life.death")
+      for (const personId of event.personIds)
+        forgetWorkElsewhere(api, personId);
     if (!store(api).table("state").get("jobs:state")) return;
     if (event.kind === "life.death") {
       for (const personId of event.personIds)
@@ -5080,3 +5151,4 @@ export { residentEmploymentRate } from "../opening-employment";
 export { countySectorEmployment } from "../town-employment-mix";
 export { nationalMedianAnnualWage } from "../town-pay";
 export { workedToday } from "../job-lifecycle";
+export { openingWorkStatus } from "../jobs-elsewhere";

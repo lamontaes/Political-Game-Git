@@ -302,7 +302,7 @@ describe(`the life record in ${where}`, () => {
     expect(lost?.facts?.totals, where).toBeUndefined();
   }, 600_000);
 
-  it("3: a death is a loss for every living family member and nothing for the dead", () => {
+  it("3: a death is a loss for every living family member and the person's own last event", () => {
     const dead = [...core.people.values()].find(
       (person) =>
         person.alive &&
@@ -340,7 +340,17 @@ describe(`the life record in ${where}`, () => {
         "heart-disease",
       );
     }
-    expect(lifeOf(core, dead!.id).length, where).toBe(before);
+    // The dead person's own list holds the death once, as `death`/`died` with its cause.
+    const own = lifeOf(core, dead!.id).filter((event) => event.id === id);
+    expect(own.length, `${where}: ${id} on ${dead!.id}'s own list`).toBe(1);
+    expect([own[0]!.life, own[0]!.what], where).toEqual(["death", "died"]);
+    expect(own[0]!.facts?.causeOfDeath, where).toBe("heart-disease");
+    expect(lifeOf(core, dead!.id).length, where).toBe(before + 1);
+    for (const kinId of kin)
+      expect(
+        lifeOf(core, kinId).filter((event) => event.id === id).length,
+        `${where}: ${kinId} says the loss once`,
+      ).toBe(1);
     console.log(
       `person-life 3: ${where}; ${kin.length} living kin of ${dead!.id} each hold the loss`,
     );

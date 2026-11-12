@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-world-budget-cut-names-the-executive
+pr: #8712
 blocked-on:
 after:
 model: sonnet
@@ -16,11 +16,12 @@ effort: medium
 root: design-director-on-core2
 source: words-and-scenes helper D, Oct 27, from scenes-from-life episode budget-cut-department-head; evidence in the first probe of a mayor's year in Riverton, Wyoming, Prospect, Kentucky and East Bend, North Carolina
 lead: laws-effects
-claimed-at:
+claimed-at: 2026-11-11T06:10:18.891Z
 checked: fable 2026-11-10
+merged-at: 2026-11-12T22:23:12.446Z
 ---
 
-**What.** When the council adopts a budget or an amendment that lowers a spending line, the budgets engine records budget-line-changed with no people on it, so no executive ever meets the cut as a scene. In three drawn towns a mayor's played year held 38, 37 and 40 of these records and none named the mayor (Riverton, Wyoming, Prospect, Kentucky and East Bend, North Carolina). Name the sitting executive of that government (the mayor, county executive or governor, a full person) in personIds and add the fact executiveId, for lowering changes only; a raise, and a government with no executive, stay as they are. The director already reads the record through the budget-cut situation type.
+**What.** When the council adopts a budget or an amendment that lowers a spending line, the budgets engine records budget-line-changed with no people on it, so no executive ever meets the cut as a scene. In three drawn towns a mayor's played year held 38, 37 and 40 of these records and none named the mayor (Riverton, Wyoming, Prospect, Kentucky and East Bend, North Carolina). Name the sitting executive of that government (the mayor, county executive or governor, a full person) in personIds and add the fact executiveId, for lowering changes only; a raise, and a government with no executive, stay as they are. The director already reads the record through the budget-cut situation type. Seen: the scene where the mayor, county executive or governor meets a spending cut the council adopted.
 
 **Cause.** Found in code: src/core2/modules/budgets.ts emits budget-line-changed with personIds: [] in both places (line 1657 for an adopted budget and line 2175 for an amendment).
 

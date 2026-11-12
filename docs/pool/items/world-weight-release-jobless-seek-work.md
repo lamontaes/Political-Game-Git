@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** Read the working-age heads a weighted record gained as counted seekers in src/core2/modules/jobs.ts by the same chooser as a full person, then resolve the stopgap.
 
-**Time box.** 5 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 5 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the town's jobless count on the Metrics tab, which drifts once a household is clicked and filled in.
 
 **Rules.** One model, two tiers: a counted record's working-age people beyond its jobs' heads are read by the jobs engine with the same chooser as a full person, times their count. No dice: who looks for work follows their traits, money and the place's conditions.
 

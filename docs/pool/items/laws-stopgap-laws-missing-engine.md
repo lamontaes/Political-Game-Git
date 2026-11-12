@@ -19,6 +19,7 @@ effort: low
 root: rc9-place-facts-one-default
 size: S
 checked: fable 2026-11-10
+branch: claude/pool-laws-stopgap-laws-missing-engine
 ---
 
 **What.** The public pay floor's employer-to-level map treats public schools as town employers (stopgap SG-GOV-public-pay-floor-owner in src/core2/data/stopgaps/gov.json). The day-of-hire hold was fixed in PR #5285 (`publicPayFloorHourly`); school districts still need their own level so a floor set at the district binds only the district. Give them one and close the row.
@@ -42,3 +43,5 @@ checked: fable 2026-11-10
 Public hire held to floor on day of hire was resolved in PR #5285 via publicPayFloorHourly; employer-to-level map (school districts as own level) remains open.
 
 Sent back 2026-10-21 from PR #5575 (branch claude/laws-missing-engine): The conflict correction is present: the marker is data/laws/public-pay-floor.json:3 and the jobs-opening wording matches main. The remaining issue is acceptance: docs/pool/items/laws-stopgap-laws-missing-engine.md:20 requires the row resolved and its replacement read by another engine in a one-year played-world run, by record id. The changed src/core2/data/stopgaps.json row at 3429-3436 deliberately leaves school districts mapped to city employers and status open, and the PR contains no such played-world proof. Please finish that acceptance on this branch, or move this truthful registry-only correction to a bounded pool item with its own acceptance and leave the broader engine item open. This is a done-when review finding, not a missing-checks-line objection; no local gates are claimed.; finish on that branch, merge main into it first.
+
+Released (2026-11-11): a school-district level means a new government level in the law chain (LawLevelName, floorsByLevel, ORDER) with its own lawmaker; mapping schools to a level nothing enacts at would just stop town and county floors binding them; needs the laws lead's design, not started. Continue on branch claude/pool-laws-stopgap-laws-missing-engine and pull request #5575.

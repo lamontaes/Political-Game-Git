@@ -5,9 +5,9 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: merged
+status: open
 standard: 2
-claimed-by: claude/fable-b4-grievance-record
+claimed-by:
 pr: #8231
 after:
 blocked-on:
@@ -17,8 +17,8 @@ effort: medium
 root: design-movements-and-unrest
 source: split from world-police-patrol-and-grievance-causes in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at: 2026-11-10T19:57:42.543Z
-merged-at: 2026-11-10T21:49:04.444Z
+claimed-at:
+merged-at:
 ---
 
 **What.** No engine writes a grievance between two people; only recalls reads the word. Add a grievance record (two people, the cause record, the date, the kind of dispute) written by engines that already create conflict, such as an eviction in the housing engine (landlord and evicted household's head) and a layoff in the jobs engine (the employer's owner and the laid-off worker), through the events those engines already emit, not a new tracker. This is the second of three parts of world-police-patrol-and-grievance-causes.
@@ -36,3 +36,5 @@ merged-at: 2026-11-10T21:49:04.444Z
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/grievance.ts (new), src/core2/modules/jobs.ts, src/core2/housing-occupancy.ts
+
+**Notes.** Not seen in the game (2026-11-11, second-session-2): Copperhill, Tennessee (drawn), seed 7ae6830c-8591-42d1-9bbe-57fae15333eb, main 25963514: dev mode layoff then a week run; Trace of the grievance id says record-not-found and names only the job-change, no aggrieved or opposing person

@@ -18,6 +18,8 @@ source: Oct 25 pool audit, on-screen pass (from traits-end-to-end-proof)
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
+claimed-at:
+branch: claude/pool-play-why-they-chose-on-screen
 ---
 
 **What.** The traits work makes two people in the same spot choose differently for recorded reasons, and traits-end-to-end-proof shows it in a test. The player sees choices happen (a neighbor quits, a cousin runs) but never why. Add one sentence to the card of a person who made a recorded decision, naming the decision and its leading reason, worded by the English engine from the decision record, so people read as people. When the person has no recorded decision, the card says why there is none in plain words.
@@ -41,3 +43,11 @@ checked: fable 2026-11-10
 **Screenshot.** A person card with the sentence, from a drawn place, with the place and seed under it.
 
 **Notes.** Filed by the Oct 25 pool audit: traits-end-to-end-proof's Done when names no screen. Build the screen against what the engine gives today; when the engine side is thin, the screen says so in plain words. An engine change stays with traits-end-to-end-proof (needs-from in the handoff line).
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:41 UTC) on branch claude/pool-play-why-they-chose-on-screen.
+
+Released (2026-11-11): No English-engine wording exists for a decision's leading reason (src/english has no decision/reason module; reasons live in core2 decision records: choice.ts, trait-decisions.ts, decision-detail.ts), so the sentence needs new bank lines under data/english/parts, which a builder may not write; a control-name frame would be hand-written player text. Needs Words to add the bank piece first; the card read (person.acted/person.weighed rows with selectedReasons) is then small. Continue on branch claude/pool-play-why-they-chose-on-screen.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:50 UTC) on branch claude/pool-play-why-they-chose-on-screen.
+
+Released by next (2026-11-11): no push to claude/pool-play-why-they-chose-on-screen since 2026-11-11 02:41 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-play-why-they-chose-on-screen.

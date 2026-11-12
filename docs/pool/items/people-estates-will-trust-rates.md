@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -50,3 +50,5 @@ Oct 25 (traits lead): researched and measured, then set back to open; build on P
 - **What the second circumstance needs:** income or wealth (Gallup's 30% to 61% by income). A person's own savings at the opening are no basis yet: 78% to 83% of adults 55+ hold zero `liquidMinor`, and the rest a median of $794 to $1,302, so the household's money is not on the members who would die with it. Education and marital status are not on the person record. settleEstate weighs a will or trust only for a death with a positive balance, so the population that matters is the dead with an estate.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have set the share of older adults with a will or trust to survey rates; no player sees who has one.

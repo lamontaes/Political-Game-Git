@@ -23,8 +23,8 @@ description: >
    - `<branch>` is checked out from the remote if it exists, so a fixer resumes a sent-back PR's branch; otherwise it starts from `origin/main`.
    - The copy borrows the main checkout's git objects and links its `node_modules`. It is a `git clone --shared`, or a `git worktree add` when the main checkout is a shallow clone, as cloud checkouts can be. A clone of a shallow repository copies every pack instead of sharing them; the words session found a 3.7 GB copy that way on Oct 29, and a worktree shares the objects either way. The helper never runs `npm install`, `git gc`, `git repack` or a bare `git fetch`; it fetches only `git fetch origin main` and its own branch. One helper's copy grew from 3 MB of `.git` to 2.6 GB after a fetch of everything. A plain `git fetch origin <branch>` in a copy can leave `origin/<branch>` at an older commit, so merging `origin/<branch>` merges the wrong one without a word; merge the SHA from `git ls-remote origin <branch>` (Oct 30, speed lead: a combined copy silently missed two of three fixes).
    - `--keep-images` is for a helper whose task is the pictures themselves (art, people, screens).
-2. **Brief the helper to work only in `<dir>`**: start every command with `cd <dir> &&`, push its branch often, and never delete or move the copy. Start it without the agent tool's worktree option, since that option makes a full copy.
-3. **If a full worktree already exists** (the agent tool's worktree option, an older helper, a clone), narrow it at once. Its edits and commits are kept:
+2. **Brief the helper to work only in `<dir>`**: start every command with `cd <dir> &&`, push its branch often, and never delete or move the copy. Start it without your tool's own worktree option (in Claude, the Agent tool's worktree isolation), since that option makes a full copy. The script is plain shell, so a Codex, Muse or other session uses it the same way.
+3. **If a full worktree already exists** (the agent tool's worktree option, an older helper, a clone), narrow it at once (a full copy from your tool's worktree option, an older helper, a clone). Its edits and commits are kept:
    `scripts/storage/helper-checkout.sh narrow <dir>`
 
 ## Checks in a sparse copy
@@ -32,7 +32,11 @@ description: >
 - Typecheck, eslint, prettier, the vitest files and every guard ran in a sparse copy on Oct 29. `src/bench` and `scripts/dev-lab` import JSON from `art/`, `vite.config.ts` imports from `desktop/`, and the guards read code and notes under `art/` and `docs/`. That is why only images are skipped, never whole folders.
 - A scanner that reads every tracked file skips the ones the copy does not hold. The English spelling guard and the secrets scan do this with `existsSync`; CI's full checkout still reads them all. A new scanner of `git ls-files` does the same.
 - `du -sh --exclude=node_modules <dir>` stays near 0.9 GB, and `du -sh <dir>/.git` stays in megabytes.
+- **Leave out image files, never the `art/` folder.** A copy made with a rule that drops `art/` whole fails every test that reads a manifest there (`ENOENT ... art/busts/v1/manifest.json`, Nov 11). The rule is by extension: `'/*' '!*.png' '!*.jpg' '!*.jpeg' '!*.webp' '!*.gif'`.
+- **A pull request that moves or adds pictures is built in a copy that has them.** `git add` refuses a path the sparse rule leaves out; `git add --sparse <path>` adds it, and `git mv` of pictures wants the full copy.
 - Anything that draws a person reads a picture, and the copy has none. `src/bench/path-check.ts` and the bench tests print their whole log and then exit 1 on a people-pack `ENOENT` for a `.png` (Nov 1, governing lead). Read the log rather than the exit code, or make the copy with `--keep-images` when the exit code matters.
+
+- **`helper-checkout.sh new <dir> <branch>` can leave the local branch on an old commit (Nov 12, Fixer F2).** One copy (for #8222) came up on a merge commit of another branch, not the pull request's head, so `git merge origin/main` merged the wrong tree and looked clean. Right after making a copy run `git fetch origin main <branch>`, then `git reset --hard -q origin/<branch>` (the copy is new, so nothing is lost), and check `git log -1 --oneline` against the head the pull request names before merging main.
 
 ## When it ends
 

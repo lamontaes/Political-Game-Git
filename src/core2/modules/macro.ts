@@ -6,6 +6,7 @@
  * demand reach every business as dated conditions; a decision reprices
  * prime-linked credit lines on its effective date.
  */
+import { taxIndexOf } from "../tax-index";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { chooseAct } from "../choice";
 import { reviewBoardTerms } from "../central-bank-appointments";
@@ -40,18 +41,29 @@ import {
 import countryParameters from "../data/country/parameters.json" with { type: "json" };
 import { countryLaw, startingLawReader } from "../country-law";
 import {
+  COUNTRY_AGE_BANDS,
   countryMoney,
+  countryPartFigures,
   countryPeople,
   countryProblems,
   countryRules,
   countryStateFigures,
   openCountry,
+  resolveCountryPart,
   stepCountry,
   type CountryMonth,
+  type CountryPart,
+  type CountryPartCounts,
   type CountryRules,
+  type CountrySector,
   type CountryState,
   type CountryTier,
 } from "../country-model";
+import employerSectors from "../data/country/employer-sectors.json" with { type: "json" };
+import { classifyBusiness, sectorOfKind } from "../business-books";
+import { placeStateKey } from "../place-map";
+import { stopgap } from "../stopgaps";
+import { residentsPart, residentsRuntime } from "./residents";
 import { countryOpening } from "../country-opening";
 /** The country tier's sectors and state rows, for screens that read a state's record (dev mode's Trace). */
 export {
@@ -212,7 +224,7 @@ function lawNow(api: CoreAPI, date: string = api.state.date) {
     ? (stateKey: string, series: string) =>
         stateLawInForce(api, stateKey, series, date)
     : startingLawReader(date, api.state.startedAt);
-  return countryLaw(read, params(api), date);
+  return countryLaw(read, params(api), date, taxIndexOf(api, date));
 }
 
 /**
@@ -265,6 +277,121 @@ export function countryStateNow(api: CoreAPI, fips: string) {
     : undefined;
 }
 
+/** A state's part held in full (the played town and its county), as the tables keep it: one row per state, replaced each month. */
+export interface CountryPartRow extends CountryPart {
+  id: string;
+  /** The state's jurisdiction key, as `US-UT`. */
+  key: string;
+  /** The month it was counted for, and the places it counts. */
+  month: string;
+  placeIds: string[];
+}
+
+const partId = (key: string) => `country-part:${key}`;
+const UNSORTED_JOBS = "SG-NATION-town-part-unsorted-jobs";
+const SECTOR_TABLE = employerSectors as unknown as {
+  classifications: Record<string, CountrySector>;
+  kinds: Record<string, CountrySector>;
+  naics: Record<string, CountrySector>;
+};
+
+/** An employer's sector: its business kind's, else its classification's or its kind's in the table; none when it has none. */
+function sectorOfEmployer(
+  core: CoreState,
+  organizationId: string,
+): CountrySector | undefined {
+  const org = core.organizations.get(organizationId);
+  if (!org) return undefined;
+  const kind = org.classification
+    ? classifyBusiness(org.classification).kind?.id
+    : undefined;
+  const ofKind = kind ? sectorOfKind(kind) : null;
+  if (ofKind) return ofKind;
+  return (
+    (org.classification && SECTOR_TABLE.classifications[org.classification]) ||
+    SECTOR_TABLE.kinds[org.kind]
+  );
+}
+
+/**
+ * What the played places' own records count today, by the state they are in: the town and
+ * its county, their people by the tier's age bands, at work and looking, the jobs they hold
+ * by their employer's sector, and their cash. Read on a month's first day.
+ */
+function townPartCounts(
+  api: CoreAPI,
+): Map<string, { placeIds: string[]; counts: CountryPartCounts }> {
+  const core = api.state as CoreState;
+  const out = new Map<
+    string,
+    { placeIds: string[]; counts: CountryPartCounts }
+  >();
+  const byState = new Map<string, string[]>();
+  for (const row of residentsRuntime(core)?.input.accounts ?? []) {
+    const key = placeStateKey(row.placeId);
+    if (key) byState.set(key, [...(byState.get(key) ?? []), row.placeId]);
+  }
+  const p = params(api);
+  for (const [key, placeIds] of byState) {
+    const part = residentsPart(core, new Set(placeIds), COUNTRY_AGE_BANDS);
+    const jobs: Partial<Record<CountrySector, number>> = {};
+    let unsortedJobs = p("zero");
+    const add = (sector: CountrySector | undefined, workers: number) => {
+      if (sector) jobs[sector] = (jobs[sector] ?? p("zero")) + workers;
+      else unsortedJobs += workers;
+    };
+    for (const [employer, workers] of part.workersByEmployer)
+      add(employer ? sectorOfEmployer(core, employer) : undefined, workers);
+    for (const [industry, workers] of part.workersByIndustry)
+      add(SECTOR_TABLE.naics[industry], workers);
+    if (unsortedJobs > p("zero")) stopgap(UNSORTED_JOBS);
+    out.set(key, {
+      placeIds: [...placeIds].sort(),
+      counts: {
+        people: part.adults,
+        workers: part.workers,
+        seekers: part.seekers,
+        children: part.children,
+        jobs,
+        unsortedJobs,
+        cash: part.cashMinor / p("minorPerDollar"),
+      },
+    });
+  }
+  return out;
+}
+const partOf = (api: CoreAPI, key: string) =>
+  store(api).table("countryParts").get(partId(key)) as unknown as
+    CountryPartRow | undefined;
+
+/**
+ * A state's people and jobs, and of them the part held in full and the rest the tier steps:
+ * the part and the rest add to the state's figures. By jurisdiction key (`US-UT`).
+ */
+export function countryStateParts(api: CoreAPI, key: string) {
+  const state = store(api)
+    .table("countryStates")
+    .get(`country-state:${key}`) as unknown as CountryState | undefined;
+  if (!state) return undefined;
+  const total = countryStateFigures(state, rulesOf(api));
+  const row = partOf(api, key);
+  const part = row
+    ? countryPartFigures(row)
+    : { population: 0, jobs: 0, workers: 0, seekers: 0 };
+  return {
+    stateId: state.id,
+    partId: row?.id,
+    month: row?.month,
+    placeIds: row?.placeIds ?? [],
+    total: { people: total.population, jobs: total.jobs },
+    part: { people: part.population, jobs: part.jobs },
+    rest: {
+      people: total.population - part.population,
+      jobs: total.jobs - part.jobs,
+    },
+  };
+}
+
 const nationFigures = (
   month: Pick<
     CountryMonth,
@@ -296,6 +423,37 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
   const lost = regionalRegistered(api)
     ? regionalShocksStarting(api, month)
     : new Map<string, number>();
+  // The played town and its county are counted from their own records: the part their state's
+  // cells held for them last month comes out before the state steps (the opening's totals
+  // held them the first time), and today's count goes in after it.
+  const counted = townPartCounts(api);
+  const parts = new Map<string, { out: CountryPart; in: CountryPartRow }>();
+  for (const row of tier.states) {
+    const held = partOf(api, row.key);
+    const now = counted.get(row.key);
+    if (!held && !now) continue;
+    const today = now
+      ? resolveCountryPart(row, now.counts)
+      : resolveCountryPart(row, {
+          people: COUNTRY_AGE_BANDS.map(() => p("zero")),
+          workers: COUNTRY_AGE_BANDS.map(() => p("zero")),
+          seekers: COUNTRY_AGE_BANDS.map(() => p("zero")),
+          children: p("zero"),
+          jobs: {},
+          unsortedJobs: p("zero"),
+          cash: p("zero"),
+        });
+    parts.set(row.key, {
+      out: held ?? today,
+      in: {
+        ...today,
+        id: partId(row.key),
+        key: row.key,
+        month,
+        placeIds: now?.placeIds ?? [],
+      },
+    });
+  }
   const nation = stepCountry(
     tier,
     {
@@ -305,9 +463,14 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
       law: tier.month === p("zero") ? lawAtTheStart(api) : lawNow(api),
       policyRate: state.policyRatePct / p("macroHundred"),
       jobsLost: (row) => lost.get(row.usps) ?? p("zero"),
+      parts: (row) => parts.get(row.key),
     },
     rulesOf(api),
   );
+  for (const part of parts.values())
+    store(api)
+      .table("countryParts")
+      .put(part.in as unknown as { id: string });
   if (bookkeeping()) {
     const problems = countryProblems(tier);
     if (problems.length)
@@ -767,6 +930,7 @@ export const MACRO_MODULE: PreStartModule = {
       country: {},
       countryStates: { indexes: { byFips: { fields: ["fips"] } } },
       countryBases: {},
+      countryParts: {},
       members: { indexes: { all: { fields: ["isMember"] } } },
       meetings: {},
       votes: { indexes: { byMeeting: { fields: ["meetingId"] } } },
@@ -861,7 +1025,7 @@ const OUTLOOK_PROBLEMS_KEPT = 8;
  * the same month the game steps (`stepCountry`, `countryMacroMonth`) under the law in force
  * today, with today's board meeting on its own calendar and each member voting by the rule they
  * vote by in play. Read-only: it writes no record and moves no date, so it is what the tier
- * would do, not what the town will (the town's own people are not in it).
+ * would do, not what the town will (the town and county held in full stay as they are today).
  */
 /** Whether the national economy has opened: it opens on the game's first day, and there is no outlook before it. */
 export function countryOpened(api: CoreAPI): boolean {
@@ -970,7 +1134,14 @@ export function countryOutlook(api: CoreAPI, months: number): CountryOutlook {
     // The law already on the books for that month: a change enacted with a later date arrives on its date.
     const nation = stepCountry(
       tier,
-      { law: lawNow(api, `${month}-01`), policyRate: rate / hundred },
+      {
+        law: lawNow(api, `${month}-01`),
+        policyRate: rate / hundred,
+        parts: (own) => {
+          const held = partOf(api, own.key);
+          return held && { out: held, in: held };
+        },
+      },
       rules,
     );
     const found = countryProblems(tier);

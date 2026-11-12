@@ -99,6 +99,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/one-history.test.ts"),
   },
   {
+    id: "daily-register",
+    rule: "Not everything is tracked every day: every daily engine step and every kept table is written in the daily register, and a daily step or a table that grows unfolded is approved by name; the unapproved list only shrinks.",
+    readMore:
+      ".agents/rules/cadence-and-summaries.md; docs/design/daily-register.md; skill cadence-and-summaries",
+    command: vitest("tests/guards/daily-register.test.ts"),
+  },
+  {
     id: "english",
     rule: "Player text is American English, never restates where the player is or who is there, and carries no developer text; the known lists only shrink.",
     readMore:

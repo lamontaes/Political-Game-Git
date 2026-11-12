@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-director-casting-rule-on-every-scene-kind
+pr: #8451
 after:
 blocked-on:
 model: opus
@@ -17,6 +17,8 @@ root: rc6-scenes-repeat
 lead: director
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 4, root cause 6)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:03:05.471Z
+branch: claude/pool-director-casting-rule-on-every-scene-kind
 ---
 
 **What.** A scene goes to whoever its cause record names or whoever heard of it, and nothing asks whether that person could be in that scene. In the audit's browser play (Blodgett Landing, New Hampshire, a 17-year-old, ten weeks, no seed kept) a legislator "comes down the aisle to find you", the mother who lives with the player "stops in at the house", and an aunt "has come to say goodbye" at a door the player knocks on. On Nov 10's main (8ac2262853) with the scene tool: in Ninnekah, Oklahoma (seed 3dac8ffb3f3c) the 17-year-old's father, who lives in his household, is met "on the street" and the narration says he "called your office"; in Tesuque, New Mexico (seed 8a5d1fba28fc) and Odessa, Washington (seed fd7e212758b7) the mother in the player's own household "is at your door" and "comes to the house".
@@ -42,3 +44,5 @@ Nov 10 re-run on main (commit 8ac2262853) with scripts/dialogue-batch/scene-year
 Not verified: I did not replay the Blodgett Landing scenes, and I did not trace in a run why a 17-year-old got the hallway scene; the code path above is read only. The scene tool advances the world with `advanceCore`, and the words-engine skill says scenes from circumstance are cast only for the played person and a run advanced that way sees none; no circumstance kind fired in my three tool years, so the hallway and street kinds need the browser.
 
 Related: play-bench-reads-voting-age-row (open; the one voting-age row), director-scenes-from-circumstance and director-circumstance-counted-cast-filled-in (open; the producer this rule sits in), director-cap-on-scene-repeats and director-no-scene-without-a-purpose (filed with this one).
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 02:03 UTC) on branch claude/pool-director-casting-rule-on-every-scene-kind.

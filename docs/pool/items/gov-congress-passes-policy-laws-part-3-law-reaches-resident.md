@@ -19,7 +19,7 @@ source: split from gov-congress-passes-policy-laws in the pool redo, Nov 10, 202
 checked: fable 2026-11-10
 ---
 
-**What.** Show Congress enacting a policy law in a played year and reaching a resident. With parts 1 and 2 in place, bills on the federal questions pass both chambers through the 60-vote rule, reach the president's desk, are signed or vetoed, and an enacted law reaches a named person of the town through law-reach. The proof is a test in a played year that names the place and seed and the session, bill and law record ids.
+**What.** Show Congress enacting a policy law in a played year and reaching a resident. With parts 1 and 2 in place, bills on the federal questions pass both chambers through the 60-vote rule, reach the president's desk, are signed or vetoed, and an enacted law reaches a named person of the town through law-reach. The proof is a test in a played year that names the place and seed and the session, bill and law record ids. Feeds: gov-congress-passes-policy-laws.
 
 **Cause.** Design: owner voice note Oct 29 ("laws need to work federally", `docs/coordination/OWNER-DECISIONS.md`) and `docs/reports/world-governing-plan-2026-10-29.md` unit C3; no played year on main shows one federal policy law enacted.
 

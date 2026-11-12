@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: merged
 claimed-by: claude/pool-play-what-this-law-did-page
 pr: #8368
 after: play-dev-reach-reads-every-effect-record
@@ -18,6 +18,7 @@ lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, "What a player sees" and "Size of the fix", root cause 7)
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T00:03:09.946Z
+merged-at: 2026-11-11T16:34:11.883Z
 ---
 
 **What.** A player can pass a law and never see what it did. The audit found on Nov 9 that after a law passes, no screen shows the people it reached (Davenport, North Dakota, three seats taken through Advanced, Play as; no seed given). A law's page shows what is in force at each level, the statute, the measure that enacted it, what changed and how members voted, and nothing on it reads a reach record. Build one "what this did" section on the one law page, also opened from the bill's page once the bill is law, built from the same records dev mode's reach reads: the people the law reached, named for full people and by their count for counted groups, each with what it changed for them in dollars from the payments on the journal, and a repeal shown the same way. It is a view only.

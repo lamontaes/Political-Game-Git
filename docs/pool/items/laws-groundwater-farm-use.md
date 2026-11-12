@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,6 +36,6 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/data/laws/reach-group-b.json, src/core2/modules/business.ts, src/core2/data/stopgaps/gov.json
 
-**Notes.** Split from laws-stopgap-reach-group-b-faked-mechanic. Released from idle draft #5076 by the CTO, Oct 26.
+**Notes.** Split from laws-stopgap-reach-group-b-faked-mechanic. Released from idle draft #5076 by the CTO, Oct 26. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it would swap a generic withdrawal share for each farm's pumping and acreage; no player sees a farm's water use.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/peaceful-ritchie-03780x` (2026-10-19). Cleared from the front matter and kept here.

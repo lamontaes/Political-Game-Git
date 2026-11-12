@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-tests-two-level-third-candidate-no-votes
+pr: #8541
 after:
 blocked-on:
 lead: wire-elections
@@ -17,6 +17,9 @@ effort: medium
 root: design-electorate-one-model
 source: wire-office session, Oct 28 (found red on main)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:50:55.960Z
+branch: claude/pool-tests-two-level-third-candidate-no-votes
+merged-at: 2026-11-12T05:06:43.154Z
 ---
 
 **What.** src/core2/two-level-elections.test.ts fails on clean main for two of four fixed seeds. With GOLDEN_PATH_SEED=b2 (Clayville, Rhode Island, 4415940) the Attorney General race has a third filing with no party and it gets 0 votes, while the test expects every filing in a contested race to get real votes; the same failure was seen with a Governor race on a random seed. With GOLDEN_PATH_SEED=c3 (Machias, Washington, 5341470) no November 3, 2026 race has both a Republican and a Democrat on the ballot. Seeds a1 and d4 pass.
@@ -42,3 +45,5 @@ checked: fable 2026-11-10
 **Notes (Fable, Nov 10, what the game's own start does).** The test opens its world on October 20, 2026, two weeks before the election, so every race it sees closed before the record began. The game opens in January, where few partisan state or federal races sit between their deadline and their election; how many across the 56 places was not counted. The fault is real wherever one does, and in any saved game that later allows another start date.
 
 **Notes (Fable, Nov 10, reopened).** Pull request 8241 only wrote this item's cause; it built nothing. Its first line named this item, so the merge marked it merged by mistake. It is open again and nothing here is on main yet.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:50 UTC) on branch claude/pool-tests-two-level-third-candidate-no-votes.

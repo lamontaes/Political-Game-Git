@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** data/research/outcome-web/links.json, data/research/outcome-web/place-outcome-bases-2024.json
 
-**Notes.** Found by the laws lead's helper on `claude/web-vehicle-miles-traveled-per-resident`, Oct 25.
+**Notes.** Found by the laws lead's helper on `claude/web-vehicle-miles-traveled-per-resident`, Oct 25. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it researches a link to traffic deaths, a measure nobody shows, so a mileage fee changes no one's safety on any screen.

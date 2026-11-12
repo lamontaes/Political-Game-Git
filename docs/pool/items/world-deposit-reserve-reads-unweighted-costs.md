@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-world-deposit-reserve-reads-unweighted-costs
 pr:
 blocked-on:
 after:
@@ -16,11 +16,12 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T06:24:20.791Z
 checked: fable 2026-11-10
+branch: claude/pool-world-deposit-reserve-reads-unweighted-costs
 ---
 
-**What.** In src/core2/credit-deposits.ts the deposit reserve a business keeps in cash was figured from the book's annualOtherCostsMinor, which is not multiplied by the town's count weight, while its sales and purchases are. In Opelika, Alabama (0157048, seed op1, scale 3.5765) a wholesaler put 6.43 billion minor units in the bank, 8.2 times the sample's deposits for 3.55 times the flows, and held no cash on its payday. The aggregate slice landed under world-deposit-reserve-reads-unweighted-costs-aggregate (done, #5791): the reserve now multiplies payroll and other costs by the business's staffed scale. What is left is this item's own acceptance, that each business's deposits over its weighted flows sit inside a stated spread of the same town's ratio at the sample size, per business and not as a town aggregate, because a single firm's ratio swings either way on a given day.
+**What.** In src/core2/credit-deposits.ts the deposit reserve a business keeps in cash was figured from the book's annualOtherCostsMinor, which is not multiplied by the town's count weight, while its sales and purchases are. In Opelika, Alabama (0157048, seed op1, scale 3.5765) a wholesaler put 6.43 billion minor units in the bank, 8.2 times the sample's deposits for 3.55 times the flows, and held no cash on its payday. The aggregate slice landed under world-deposit-reserve-reads-unweighted-costs-aggregate (done, #5791): the reserve now multiplies payroll and other costs by the business's staffed scale. What is left is this item's own acceptance, that each business's deposits over its weighted flows sit inside a stated spread of the same town's ratio at the sample size, per business and not as a town aggregate, because a single firm's ratio swings either way on a given day. Guards: the town's money numbers, where a wholesaler banked 8.2 times too much; no player opens that figure, but every price and loan reads it.
 
 **Cause.** Found in code: src/core2/credit-deposits.ts (the reserveMinor of each business, near line 122) now multiplies annualPayrollMinor + annualOtherCostsMinor by staffedScale (src/core2/residents-economy.ts line 271), so the weight is applied there; the per-business proof the item asks for has not been run, and a firm whose cash is the sample's opening stock rather than weighted (item Notes, Oct 21) may still differ.
 
@@ -45,3 +46,9 @@ Sent back 2026-10-23 from PR #5791 (branch claude/deposit-reserve-weighted): The
 Fixer, Oct 27: the aggregate slice (the town's deposits per weighted flow at Census scale against the sample, 120 days, by the shared staffed scale) moved to `world-deposit-reserve-reads-unweighted-costs-aggregate` (PR #5791). This item stays open for its Done-when as written: a one-year played world with each business's deposits over its weighted flows inside a stated spread of the sample's, by organization id; Merger 1 and the PR body both found a single firm's ratio swings either way on a given day, so that proof needs a spread stated per business, not a town aggregate.
 
 **Notes (pool redo, Nov 10).** Kept with a changed premise: the proposed cause (the line reads costs without the count weight) no longer holds on main, because credit-deposits.ts now applies staffedScale to the reserve (the aggregate slice, #5791). The item is kept for its per-business proof.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:23 UTC) on branch claude/pool-world-deposit-reserve-reads-unweighted-costs.
+
+Released (2026-11-11): Re-claimed by my own next loop, not worked; see my earlier release note on this item (world-deposit-reserve-reads-unweighted-costs: the weighting is already applied at credit-deposits.ts ~122; what remains is a per-business proof at Census scale, and the spread it must sit inside is a number nobody has stated, so it needs that number first). Continue on branch claude/pool-world-deposit-reserve-reads-unweighted-costs.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:24 UTC) on branch claude/pool-world-deposit-reserve-reads-unweighted-costs.

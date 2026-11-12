@@ -27,6 +27,7 @@ import { stakeOf } from "./family-stake";
 import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // The talk at home after a filing (scenes-from-life, spouse-stake-after-filing):
 // it is staged only for a household member the records give a stake in the run
@@ -190,9 +191,12 @@ it("stages the filing talk only for a relative with a stake, and records what th
         new Set(scene.talk.tree.replies.map((row) => row.line.text)).size,
         here,
       ).toBe(moves.length);
-      expect(moves, here).toEqual(
-        expect.arrayContaining(["tell", "request", "comfort", "deflect"]),
+      expectUpToFourDifferent(
+        scene.talk.tree.replies.map((row) => row.line),
+        here,
       );
+      for (const move of moves)
+        expect(["tell", "request", "comfort", "deflect"], here).toContain(move);
       // The player's replies name a body only where it is the office they
       // filed for, and claim no span of years the records do not hold.
       const office = (

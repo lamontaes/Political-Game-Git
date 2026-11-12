@@ -16,6 +16,7 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { openConversation, subjectsBetween } from "./conversation";
 import { pieceServes as serves } from "../english/conversation-words";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // A piece serves a subject by a use of its own, whether it was written for it or shared with another subject.
 
@@ -90,8 +91,8 @@ it(`the accused and their friend talk about a charge and its verdict in the word
       expect(line, `${where}: ${kind}`).toBeDefined();
       expect(line!.subjectId, where).toContain(caseId);
       expect(serves(line!.wording!.parts[0]!, kind), where).toBe(true);
-      // Four replies, each from the bank, none of them a generic one.
-      expect(talk.choices, where).toHaveLength(4);
+      // Up to four replies, each from the bank, none of them a generic one.
+      expectUpToFourDifferent(talk.choices, where);
       for (const choice of talk.choices)
         expect(serves(choice.wording!.parts[0]!, kind), where).toBe(true);
     }

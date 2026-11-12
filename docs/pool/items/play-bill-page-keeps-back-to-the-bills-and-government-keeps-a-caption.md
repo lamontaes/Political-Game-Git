@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-bill-page-keeps-back-to-the-bills-and-government-keeps-a-caption
+pr: #8494
 after:
 blocked-on:
 lead: screens
@@ -17,6 +17,7 @@ model: sonnet
 effort: low
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:45:09.799Z
 ---
 
 **What.** Measured by the Nov 9 audit in Ten Broeck, Kentucky (no seed given): a bill's page still has a 'Back to the bills' button, and Government prints a caption line under the body's name ("Meets the 1st Tuesday of the month · 5 seats" under "Ten Broeck City Council"). Both go against the owner's rulings that Back is removed from every menu and that no caption sits under a heading. Fix both for every body and every bill: a bill's page closes the way every menu closes, and the body's header is its name over its picture, with the facts from the caption placed where the approved Government screen shows them or not shown.

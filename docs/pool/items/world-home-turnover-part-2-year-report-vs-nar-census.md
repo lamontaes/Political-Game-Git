@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** Add the year report (rate, first-time-buyer share, place and seed) to the dev tests or the housing test, and file a pool item for any gap nothing in the world explains.
 
-**Time box.** 3 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 3 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: world-home-turnover (a held item that waits on it); the year's sales count beside the real rate.
 
 **Rules.** No dice: the real rate checks totals, it never decides one household's outcome. Estimate, never UNKNOWN: the figures carry their source and spread. One run, one number: a single run per place, no repeat medians. Real figures are reported, never targets (owner, Nov 8).
 

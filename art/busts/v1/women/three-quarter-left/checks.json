@@ -1,0 +1,159 @@
+{
+ "pairs": {
+  "head-A+tee": {
+   "holes": 0,
+   "topPieceHoles": 0,
+   "joinUncoveredColumns": 0,
+   "headOwnTopShowing": 0
+  },
+  "head-A+blouse": {
+   "holes": 0,
+   "topPieceHoles": 0,
+   "joinUncoveredColumns": 0,
+   "headOwnTopShowing": 0
+  },
+  "head-A+blazer": {
+   "holes": 0,
+   "topPieceHoles": 0,
+   "joinUncoveredColumns": 0,
+   "headOwnTopShowing": 0
+  },
+  "head-B+tee": {
+   "holes": 0,
+   "topPieceHoles": 0,
+   "joinUncoveredColumns": 0,
+   "headOwnTopShowing": 0
+  },
+  "head-B+blouse": {
+   "holes": 0,
+   "topPieceHoles": 0,
+   "joinUncoveredColumns": 0,
+   "headOwnTopShowing": 0
+  },
+  "head-B+blazer": {
+   "holes": 0,
+   "topPieceHoles": 0,
+   "joinUncoveredColumns": 0,
+   "headOwnTopShowing": 0
+  },
+  "head-C+tee": {
+   "holes": 0,
+   "topPieceHoles": 0,
+   "joinUncoveredColumns": 0,
+   "headOwnTopShowing": 0
+  },
+  "head-C+blouse": {
+   "holes": 0,
+   "topPieceHoles": 0,
+   "joinUncoveredColumns": 0,
+   "headOwnTopShowing": 0
+  },
+  "head-C+blazer": {
+   "holes": 0,
+   "topPieceHoles": 0,
+   "joinUncoveredColumns": 0,
+   "headOwnTopShowing": 0
+  }
+ },
+ "hair": {
+  "short-on-A": {
+   "seeThroughWorst": 7,
+   "seeThroughPerTop": {
+    "tee": 7,
+    "blouse": 7,
+    "blazer": 7
+   },
+   "softEdgeWorst": 27,
+   "againstHairPaintingWorst": 34,
+   "pokeOut": 0
+  },
+  "short-on-B": {
+   "seeThroughWorst": 0,
+   "seeThroughPerTop": {
+    "tee": 0,
+    "blouse": 0,
+    "blazer": 0
+   },
+   "softEdgeWorst": 5,
+   "againstHairPaintingWorst": 27,
+   "pokeOut": 0
+  },
+  "short-on-C": {
+   "seeThroughWorst": 0,
+   "seeThroughPerTop": {
+    "tee": 0,
+    "blouse": 0,
+    "blazer": 0
+   },
+   "softEdgeWorst": 0,
+   "againstHairPaintingWorst": 27,
+   "pokeOut": 0
+  },
+  "shoulder-on-A": {
+   "seeThroughWorst": 0,
+   "seeThroughPerTop": {
+    "tee": 0,
+    "blouse": 0,
+    "blazer": 0
+   },
+   "softEdgeWorst": 0,
+   "againstHairPaintingWorst": 304,
+   "pokeOut": 0
+  },
+  "shoulder-on-B": {
+   "seeThroughWorst": 0,
+   "seeThroughPerTop": {
+    "tee": 0,
+    "blouse": 0,
+    "blazer": 0
+   },
+   "softEdgeWorst": 0,
+   "againstHairPaintingWorst": 304,
+   "pokeOut": 0
+  },
+  "shoulder-on-C": {
+   "seeThroughWorst": 0,
+   "seeThroughPerTop": {
+    "tee": 0,
+    "blouse": 0,
+    "blazer": 0
+   },
+   "softEdgeWorst": 0,
+   "againstHairPaintingWorst": 304,
+   "pokeOut": 0
+  },
+  "tied-on-A": {
+   "seeThroughWorst": 0,
+   "seeThroughPerTop": {
+    "tee": 0,
+    "blouse": 0,
+    "blazer": 0
+   },
+   "softEdgeWorst": 13,
+   "againstHairPaintingWorst": 15,
+   "pokeOut": 0
+  },
+  "tied-on-B": {
+   "seeThroughWorst": 0,
+   "seeThroughPerTop": {
+    "tee": 0,
+    "blouse": 0,
+    "blazer": 0
+   },
+   "softEdgeWorst": 3,
+   "againstHairPaintingWorst": 12,
+   "pokeOut": 0
+  },
+  "tied-on-C": {
+   "seeThroughWorst": 0,
+   "seeThroughPerTop": {
+    "tee": 0,
+    "blouse": 0,
+    "blazer": 0
+   },
+   "softEdgeWorst": 0,
+   "againstHairPaintingWorst": 10,
+   "pokeOut": 0
+  }
+ }
+}

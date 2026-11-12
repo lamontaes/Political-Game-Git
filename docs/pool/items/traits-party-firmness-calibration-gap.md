@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/campaign-stances.ts, src/core2/data/parameters.json, data/research/trait-effect-sizes.json, scripts/traits/trait-calibrate.ts, src/core2/modules/campaigns.traits.test.ts
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have refit a party-firmness weight to a proxy study; no player can tell.

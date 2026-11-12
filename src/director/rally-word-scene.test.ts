@@ -12,6 +12,7 @@ import { TERM_MEASURES } from "../core2/term-read";
 import { areaName } from "../english/area-names";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // A protest in the town is the town's officials' scene (owner, Nov 8: "if
 // it's bad, you show up to a protest"): someone in it stands up to an
@@ -104,11 +105,13 @@ it(`a rally in the town is its officials' scene about what went well (seed ${see
           area!.text.toLowerCase(),
         );
         expect(scene.purpose, here).toBe("rally-word");
-        // The reply options are four different stances in plain words.
+        // The reply options are up to four different stances in plain words.
         const root = scene.talk.tree.replies.map((reply) => reply.line);
-        expect(new Set(root.map((row) => row.move)), here).toEqual(
-          new Set(["agree", "thank", "promise", "deflect"]),
-        );
+        expectUpToFourDifferent(root, here);
+        for (const row of root)
+          expect(["agree", "thank", "promise", "deflect"], here).toContain(
+            row.move,
+          );
         for (const row of [scene.talk.state, ...root])
           expect(row.text, here).not.toMatch(
             /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,

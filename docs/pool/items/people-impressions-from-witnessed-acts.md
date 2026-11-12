@@ -19,7 +19,7 @@ lead: laws-effects
 checked: fable 2026-11-10
 ---
 
-**What.** How others see a person's temperament (outcome.known-traits) is read only in part: a person's strongest traits are listed as public facts, so anyone can know them. Let an observer's impression of someone come from acts they witnessed, what others told them and what the news reported, kept apart from the person's own traits as the owner asked (observer impressions are not core personality). The impression is read by the engines that weigh a person by reputation: bribe requests, endorsements and hiring.
+**What.** How others see a person's temperament (outcome.known-traits) is read only in part: a person's strongest traits are listed as public facts, so anyone can know them. Let an observer's impression of someone come from acts they witnessed, what others told them and what the news reported, kept apart from the person's own traits as the owner asked (observer impressions are not core personality). The impression is read by the engines that weigh a person by reputation: bribe requests, endorsements and hiring. Seen: a person's card, which shows only the temperament the player has seen, heard or read about (owner's ruling that observer impressions are not core personality).
 
 **Cause.** Found in code: src/core2/past-public.ts (the reputationTraits slice, line 164) publishes a person's strongest traits as public facts, so outcome.known-traits is read for everyone.
 

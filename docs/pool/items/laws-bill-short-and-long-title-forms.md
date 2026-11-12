@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-laws-bill-short-and-long-title-forms
+pr: #8436
 after:
 blocked-on:
 lead: laws
@@ -16,11 +16,12 @@ model: sonnet
 effort: low
 root: design-words-machine
 source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the owner graded good)
-claimed-at:
+claimed-at: 2026-11-11T01:44:57.743Z
 checked: fable 2026-11-10
+branch: claude/pool-laws-bill-short-and-long-title-forms
 ---
 
-**What.** Four lines the owner graded good sit in data/english/parts/legislation.json under the stopgap SG-WORDS-legislation-no-reader: "This Act may be cited as the {act}.", "This title may be cited as the {act}.", "To provide for {purpose}, and for other purposes." and "{provision} is repealed.". The bill text words a bill's title as "An ordinance to ..." or "A bill for an act to ..." and says never the federal short-title form for a local measure, so nothing reads them. Add a short-title, a long-title and a repeal-clause form to the bill-sections schema, taken from these pieces, so a federal bill reads them as written and a local bill reads the local form.
+**What.** Four lines the owner graded good sit in data/english/parts/legislation.json under the stopgap SG-WORDS-legislation-no-reader: "This Act may be cited as the {act}.", "This title may be cited as the {act}.", "To provide for {purpose}, and for other purposes." and "{provision} is repealed.". The bill text words a bill's title as "An ordinance to ..." or "A bill for an act to ..." and says never the federal short-title form for a local measure, so nothing reads them. Add a short-title, a long-title and a repeal-clause form to the bill-sections schema, taken from these pieces, so a federal bill reads them as written and a local bill reads the local form. Seen: the title and repeal lines on a bill's paper.
 
 **Cause.** Found in code: `composeBill` in src/english/bill-sections.ts (line 241) words a bill's title only as 'An ordinance...' or 'A bill for an act to ...'; the stopgap SG-WORDS-legislation-no-reader is in src/director/data/stopgaps.json and the four pieces are in data/english/parts/legislation.json. Added Nov 8 by the Story session with the restore of the owner's liked lines (`scripts/dialogue-batch/liked-lines-kept.test.ts`). Wording is the Story role's under the Nov 10 split, so it needs a Words review.
 
@@ -37,3 +38,11 @@ checked: fable 2026-11-10
 **Files.** data/english/parts/legislation.json, data/english/bill-sections.json, src/english/bill-sections.ts, src/english/bill-sections.test.ts, src/director/data/stopgaps.json
 
 **Notes.** Added Nov 8 by the Story session with the restore of the owner's liked lines (`scripts/dialogue-batch/liked-lines-kept.test.ts`). The graded keys stay in a bank until a scene reads them.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:42 UTC) on branch claude/pool-laws-bill-short-and-long-title-forms.
+
+Released (2026-11-11): needs the Story session's lines under data/english/parts (delete of four bank pieces); see draft PR. Continue on branch claude/pool-laws-bill-short-and-long-title-forms.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:42 UTC) on branch claude/pool-laws-bill-short-and-long-title-forms.
+
+Released (2026-11-11): re-offered after release; see draft PR 8436. Continue on branch claude/pool-laws-bill-short-and-long-title-forms.

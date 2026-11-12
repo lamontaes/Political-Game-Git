@@ -2,7 +2,7 @@ import { keyPeopleOf } from "../core2/modules/people";
 import type { CoreState, PersonId } from "../core2/types";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import montage from "./data/opening-montage.json" with { type: "json" };
-import { backdropFor, homeOf, stagePeople } from "./scene";
+import { backdropFor, homeOf, peopleHere } from "./scene";
 
 /** A place painted in any light (the Oval Office address is painted at night only, the colonnade in the morning only). */
 const hasBackdrop = (place: string) =>
@@ -22,14 +22,12 @@ const DATA = montage as unknown as {
 export type BeatKind =
   "oval-desk" | "colonnade" | "officials" | "state" | "america" | "home";
 
-/** One part of the address, shown: its picture, who stands in it, and the office-and-name line for officials. */
+/** One part of the address, shown: its picture and who stands in it, officials with their office under their name. */
 export interface MontageBeat {
   readonly kind: BeatKind;
   readonly place: string;
   readonly backdrop: ReturnType<typeof backdropFor>;
-  readonly people: ReturnType<typeof stagePeople>["people"];
-  /** Officials named by office as the camera passes; null where the beat names no one. */
-  readonly caption: string | null;
+  readonly people: ReturnType<typeof peopleHere>["people"];
   /** The records the beat stands on. */
   readonly sourceRecordIds: readonly string[];
 }
@@ -162,8 +160,9 @@ export function addressMontage(
       id: string;
       name: string;
       reason: "you" | "household" | "moment";
+      /** The office they are named by as the camera passes. */
+      role?: string;
     }[] = [];
-    let caption: string | null = null;
     const records: string[] = [];
     if ((kind === "oval-desk" || kind === "colonnade") && speaker) {
       cast.push({ id: speakerId, name: speaker, reason: "moment" });
@@ -171,20 +170,26 @@ export function addressMontage(
     } else if (kind === "officials") {
       const officials = key.slice(0, DATA.mostOfficials);
       for (const person of officials) {
-        cast.push({ id: person.id, name: person.name, reason: "moment" });
+        cast.push({
+          id: person.id,
+          name: person.name,
+          reason: "moment",
+          role: person.officeTitle,
+        });
         records.push(person.id, ...person.sourceRecordIds);
       }
-      caption = officials
-        .map((person) => `${person.officeTitle} ${person.name}`)
-        .join(" · ");
     } else if (kind === "state") {
-      for (const person of statePeople)
+      // The player's own state's officials stand on the strip over their
+      // capitol, each with their office.
+      for (const person of statePeople) {
+        cast.push({
+          id: person.id,
+          name: person.name,
+          reason: "moment",
+          role: person.officeTitle,
+        });
         records.push(person.id, ...person.sourceRecordIds);
-      caption = statePeople.length
-        ? statePeople
-            .map((person) => `${person.officeTitle} ${person.name}`)
-            .join(" · ")
-        : null;
+      }
     } else if (kind === "america") {
       for (const id of known.slice(
         americaTurn * 2 - 2,
@@ -208,14 +213,12 @@ export function addressMontage(
       kind,
       place: place ?? "",
       backdrop,
-      people: stagePeople(
+      people: peopleHere(
         core,
         backdrop.file,
         cast,
         kind === "oval-desk" ? speakerId : undefined,
-        kind === "oval-desk" ? "address" : undefined,
       ).people,
-      caption,
       sourceRecordIds: records,
     };
   });

@@ -19,7 +19,7 @@ source: split from gov-gating-state-laws-recorded in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Record each place's gating state law for every remaining local question in the opening law table, each row cited by statute with its retrieval date, so `policyAuthority` finds the gating law instead of writing a disputed missing grant. The law table is read before introduction and executive orders.
+**What.** Record each place's gating state law for every remaining local question in the opening law table, each row cited by statute with its retrieval date, so `policyAuthority` finds the gating law instead of writing a disputed missing grant. The law table is read before introduction and executive orders. Feeds: gov-gating-state-laws-recorded.
 
 **Cause.** Found in code: `src/core2/policy-authority.ts` (line 96) writes a disputed missing grant when a local question's gating state law is not on record (stopgap `SG-GOV-policy-power-unresolved`).
 

@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** TODO Released from idle draft #5217 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-udtiwn` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_PLACE_KEY=2460770 GOLDEN_PATH_SEED=fe0ccacf...e21 npx vitest run src/core2/law-reach-group-b.test.ts` (Pecktonville, Maryland): the city sales tax test passed; six other tests in the file failed, first: 'registers a handler for every group B policy and budget line': "expected 37 to be 34" (now 37 handlers, not the 35 the item expected). Also red: pensions funding ("expected +0 to be 1100596000"), balanced-budget rule ("expected 110474319249 to be less than or equal to 108718889730"), city income tax, work requirement, Guam regression. Fresh draw `GOLDEN_PATH_SEED=6516d4e5ca68184d` (Mud Lake, Idaho): the same six fail, handler count "expected 37 to be 34". The sales-tax part is green; the handler count is still red.

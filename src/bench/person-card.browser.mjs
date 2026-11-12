@@ -19,7 +19,7 @@ try {
     "Place:",
     await page.locator("#card-place").innerText(),
   );
-  const figure = page.locator("#people .talkable").first();
+  const figure = page.locator("#here .busts-person.talkable").first();
   await figure.waitFor();
   const name = await figure.getAttribute("aria-label");
   // A person in the room is talked to by a click or a key; the talk box says
@@ -57,7 +57,7 @@ try {
   // The approved person card (owner, Nov 7, item 54): the name over a bust, sections as strips.
   assert.equal(await page.locator("#person .strip-name").innerText(), name);
   assert.equal(
-    await page.locator("#person .mxbust img").count(),
+    await page.locator("#person .mxbust .bust-stack").count(),
     card.face ? 1 : 0,
     "the bust follows the card's face",
   );
@@ -92,6 +92,19 @@ try {
     name,
     "PASS strip card from the record, no raw contact date",
   );
+  // The same card in a smaller window, while it is open: a second talk to
+  // reach it again would depend on the person having more to say.
+  await page.setViewportSize({ width: 1024, height: 768 });
+  const panel = await page.locator("#person").boundingBox();
+  assert.ok(
+    panel.x >= 0 &&
+      panel.y >= 0 &&
+      panel.x + panel.width <= 1024 &&
+      panel.y + panel.height <= 768,
+    "the card does not fit a smaller viewport",
+  );
+  console.log("PASS the card fits a smaller viewport");
+  await page.setViewportSize({ width: 1672, height: 941 });
   await page.keyboard.press("Escape");
   await page.locator("#person").waitFor({ state: "hidden" });
   assert.equal(
@@ -106,20 +119,7 @@ try {
   console.log(
     "PASS keyboard entry opens the talk, the name opens the card, Escape/focus return, unchanged browsing time",
   );
-  await page.locator("#people .talkable").first().press("Enter");
-  await page.locator("#talk:not([hidden])").waitFor();
-  await page.locator("#talk-name").click();
-  await page.locator("#person:not([hidden])").waitFor();
-  await page.setViewportSize({ width: 1024, height: 768 });
-  const panel = await page.locator("#person").boundingBox();
-  assert.ok(
-    panel.x >= 0 &&
-      panel.y >= 0 &&
-      panel.x + panel.width <= 1024 &&
-      panel.y + panel.height <= 768,
-  );
   assert.deepEqual(errors, []);
-  console.log("PASS the card fits a smaller viewport");
 } finally {
   await browser.close();
 }

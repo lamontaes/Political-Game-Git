@@ -5,10 +5,10 @@ area: people
 kind: stopgap
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-life-record-part-4-people-made-for-a-role-have-a-past
-pr:
+pr: #8381
 after:
 blocked-on:
 lead: lives
@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T00:27:49.911Z
 branch: claude/pool-core-life-record-part-4-people-made-for-a-role-have-a-past
 ---
 
-**What.** A newspaper's owner, an election chief and others the engines make to fill a role open with schooling and almost nothing else. Their cards are the shortest in the game. This part gives them a birthplace and the working life that led to the role, when they are opened or met.
+**What.** A newspaper's owner, an election chief and others the engines make to fill a role open with schooling and almost nothing else. Their cards are the shortest in the game. This part gives them a birthplace and the working life that led to the role, when they are opened or met. Seen: the card of a newspaper owner, an election chief or another role-holder, which now has a birthplace and a working life.
 
 **Cause.** Design: docs/design/life-record.md. The stopgap SG-PEOPLE-role-people-have-no-past (registered in pull request 8123, in src/core2/data/stopgaps/people.json) says what is faked: such a person gets schooling when opened, but no working life when their place is a state with no businesses on record, and no birthplace, parents or partners.
 

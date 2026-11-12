@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-words-reelected-official-reads-ended-term
+pr: #8500
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,6 +17,7 @@ effort: low
 root: rc10-screens-keep-own-facts
 lead: words
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:50:34.690Z
 ---
 
 **What.** press-desk.ts holdsHighOffice (about lines 585-595) and printed-words.ts officeOf (about 350-357) and termOf (about 1213) read the term named by the official's own id (official:<termId>). After a re-election that term has ended and a new serving term holds the seat, so holdsHighOffice returns false for a re-elected official and a profile reads the old term. recalls.ts:208-215 has the same flaw and is asked of the laws lead separately. Found by the speed lead's reader map of office terms on Nov 1 (main 24cebf2761).

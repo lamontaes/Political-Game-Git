@@ -6,21 +6,21 @@ lead: laws
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-laws-group-quarters-means-tests
+pr: #8690
 blocked-on:
 after: core-group-quarters-population
 model: sonnet
 effort: medium
 root: none
 source: speed lead, Nov 1, review of core-group-quarters-population
-claimed-at:
+claimed-at: 2026-11-11T06:12:07.893Z
 checked: fable 2026-11-10
 ---
 
-**What.** Group-quarters residents are counted room records with no income of their own. Law reach and the poverty count read each zero-income room as a poor household, so an inmate or a nursing-home resident reads as eligible for a means-tested program and as poor (stopgap SG-GQ-means-tests-poverty). A prison or nursing-home town's poverty rate and a program's reach there are overstated. The Census poverty universe leaves out institutional residents, military quarters and college dormitories, and each program's own eligibility rule says who in group quarters it serves.
+**What.** Group-quarters residents are counted room records with no income of their own. Law reach and the poverty count read each zero-income room as a poor household, so an inmate or a nursing-home resident reads as eligible for a means-tested program and as poor (stopgap SG-GQ-means-tests-poverty). A prison or nursing-home town's poverty rate and a program's reach there are overstated. The Census poverty universe leaves out institutional residents, military quarters and college dormitories, and each program's own eligibility rule says who in group quarters it serves. Seen: the Metrics tab's poverty rate and a program's reach in a prison or nursing-home town.
 
 **Cause.** Found in code: src/core2/counted-reach.ts (the SG-GQ-means-tests-poverty marker at line 207) and src/core2/world-poverty.ts treat zero-income room records as poor, and src/core2/law-reach/group-b-people.ts reads them for program eligibility; the stopgap row is in src/core2/data/stopgaps/gq.json.
 

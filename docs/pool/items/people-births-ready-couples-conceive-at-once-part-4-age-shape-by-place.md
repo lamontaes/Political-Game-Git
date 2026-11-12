@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** people-births-ready-couples-conceive-at-once-part-1-re-measure.
 
 **Files.** src/core2/births-plan.ts, src/core2/births-plan.test.ts, data/research/renewal/natality-2024.json
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have shaped births by mother's age band against each place's schedule; the total is right and no one sees the age bands.

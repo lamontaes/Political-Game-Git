@@ -9,7 +9,7 @@ status: open
 standard: 2
 claimed-by:
 pr:
-after: 
+after:
 blocked-on:
 lead: words
 model: opus
@@ -18,7 +18,7 @@ root: none
 source: added with npm run pool -- add
 ---
 
-**What.** src/director/conversation-home-lines.test.ts fails on clean main at 6ee49da069 in Lorimor, Iowa (GOLDEN_PATH_SEED=16c9191e6631ee29a608b10ea4aa53b1093ec803): over 400 pairs' talks, no quiet-answer-fine line ever plays, so the check reports 'quiet-answer-fine ... expected 0 to be greater than 0'. The quiet-answer-tired line does play there ('I'm beat. Just glad to be home.'), so the quiet subject opens, but the fine answer is never offered or never picked. The test picks each turn's reply by position, so a change in the number of replies anywhere in a talk changes which answers it reaches.
+**What.** src/director/conversation-home-lines.test.ts fails on clean main at 6ee49da069 in Lorimor, Iowa (GOLDEN_PATH_SEED=16c9191e6631ee29a608b10ea4aa53b1093ec803): over 400 pairs' talks, no quiet-answer-fine line ever plays, so the check reports 'quiet-answer-fine ... expected 0 to be greater than 0'. The quiet-answer-tired line does play there ('I'm beat. Just glad to be home.'), so the quiet subject opens, but the fine answer is never offered or never picked. The test picks each turn's reply by position, so a change in the number of replies anywhere in a talk changes which answers it reaches. Guards: the fine answer a player can pick in a quiet evening talk at home, which the test keeps playing in every drawn town.
 
 **Cause.** Measured: GOLDEN_PATH_SEED=16c9191e6631ee29a608b10ea4aa53b1093ec803 npx vitest run src/director/conversation-home-lines.test.ts -t 'rewritten goodbyes' fails on clean main and fails the same way with #8166's 24 rebuilt lines; which step leaves quiet-answer-fine out is not yet known.
 

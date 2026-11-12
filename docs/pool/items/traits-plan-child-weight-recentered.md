@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/births-plan.ts, src/core2/data/parameters.json, data/content/trait-decision-gaps.json, scripts/traits/trait-calibrate.ts
 
 **Notes.** Filed Oct 25 by the traits lead from traits-research-weights-21.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have set the child-planning temperament weight to a study's size; no player sees it, and births are kept on their own items.

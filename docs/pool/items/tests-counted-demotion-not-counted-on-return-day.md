@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-tests-counted-demotion-not-counted-on-return-day
+pr: #8398
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,6 +17,9 @@ model: sonnet
 effort: low
 root: design-one-model-two-tiers
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:42:22.418Z
+branch: claude/pool-tests-counted-demotion-not-counted-on-return-day
+merged-at: 2026-11-12T09:25:33.038Z
 ---
 
 **What.** The test src/core2/counted-demotion.test.ts, "demotes it after a long while out of the player's life...", fails on main 56acfdbe2 with GOLDEN_PATH_SEED=df6e76e8e58c78ac7e0fcd05f68ce334, drawn at Lookout Mountain, Georgia. Right after the household's demotion is found, expect(residentPerson(core, id)?.id).toBe(id) gets undefined for person_be97cb8c926abd3c, so the counts do not hold that person on the day the household returns to them. The Memory fix session found it on Nov 9, and the same seed fails identically on memory/full-demotion, so it is not that branch's change. A later change to the test (a888e786b7) may have touched it, so the first step is to run it again on current main.
@@ -36,3 +39,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/counted-demotion.test.ts
 
 **Notes.** TODO
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:42 UTC) on branch claude/pool-tests-counted-demotion-not-counted-on-return-day.

@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on: gov-dual-office-law-by-place-part-1-states-a-to-f, gov-dual-office-law-by-place-part-2-states-g-to-n, gov-dual-office-law-by-place-part-3-states-o-to-z-and-territories, gov-dual-office-law-by-place-part-4-played-world-proof
@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/office-incompatibility.ts, src/core2/data/offices/incompatibility.json, src/core2/office-incompatibility.test.ts (new), src/core2/data/stopgaps/gov.json
 
-**Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-GOV-dual-office-law; the earlier research endpoint was blocked by a firewall.
+**Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-GOV-dual-office-law; the earlier research endpoint was blocked by a firewall. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Each place's dual-office statutes by section; the conservative rule already decides, and no player reads the citation.

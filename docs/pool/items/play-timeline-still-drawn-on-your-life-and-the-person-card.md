@@ -5,15 +5,15 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr: #8115
+status: merged
+claimed-by: claude/pool-play-timeline-still-drawn-on-your-life-and-the-person-card
+pr: #8486
 after:
 blocked-on:
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6, "Against your newest rulings (measured)", and "Reported done that is not done", item 8)
-claimed-at:
-merged-at:
+claimed-at: 2026-11-11T02:40:51.085Z
+merged-at: 2026-11-11T03:20:51Z
 ---
 
 **What.** Measured by the audit on Nov 9 in Blodgett Landing, New Hampshire (a random world; the audit gives no seed), playing a 17-year-old the game named Ray Kent: "the You screen's Your life tab and the person card still draw a timeline... You approved a timeline on October 29 and withdrew it on November 7; the game shows the older design." Its screenshot `docs/audits/fable-vision-2026-11-09-screens/01-your-life-four-lines.jpg` (branch audit/fable-vision) shows the Your life tab as a gold line with four round icons and four dated cards, 2007, 2012, 2018 and 2021. Read in code on main, Nov 10: `lifeTimeline` in `src/bench/play.mjs` (line 3156) wraps the one timeline part (`timeline` in `src/bench/ui/timeline.mjs`, line 72) and is called three times: on a person's card (line 2353, inside `personCardNode`), on Jobs and study (line 3441, `jobs()`) and on Your life (line 3452, `history()`); its styles are `.timeline` and the five `.timeline-*` rules in `src/bench/play.css` (from line 3630). Fix all three at once: the same history lines are told as sentences in a section strip, as the approved You screen and person card draw text, and the timeline part, its styles and its callers are deleted.
@@ -31,3 +31,7 @@ merged-at:
 Not seen in the game (2026-11-10, second session (acceptance check)): Rock Hill, Missouri, seed 0cf1896a-28d6-4915-b0d4-7cf95baa3efd, main b094bee1: My life read as three I-sentences with no timeline, icons or dated cards, and cards were sentence paragraphs; but in Caño Martin Peña seed 50fe2d1143af adults born before 1980 showed only child sentences, no schooling or work, and a lost candidate's card could not be reached
 
 **Notes (Fable, Nov 10, after the second session's check).** The check did not pass, and the item is open again. What it found has its causes in four new items, each built on its own: life-a-dead-persons-own-card-says-they-died, life-a-loss-is-told-in-its-place-not-first, life-relatives-who-live-elsewhere-have-a-past and life-sentences-open-the-trace-in-dev-mode. This item is checked again by a new second session when those four are on main. Two of the check's own steps asked for something no screen offers (opening the card of a neighbor never met, and of a candidate who lost a state or federal race); the next check drops them.
+
+Closed with evidence (2026-11-11, opus-1fd7): on main 0ccf24ed there is no `ui/timeline.mjs`, no `lifeTimeline` and no `.timeline` style; a search of src/bench for "timeline" finds only ui/trend-line.mjs, budget.ts and budget-trend.test.ts (the trend line). Seen on a bench restarted on main in Pikes Creek, Pennsylvania (seed 91ecef5a-7698-4fc1-9c94-5660c9726e36): Your life, Jobs and study and a person card (his father) tell the history as sentences in section strips, with no timeline part and no ISO date (docs/play-first/shots/play-timeline-still-drawn-on-your-life-and-the-person-card/). The commit that removed it is outside this shallow clone.
+
+Status set by hand (Nov 11, 2026, cause finder for Fable B): pull request #8486, whose line 1 is `Pool item:` for this item, merged at 2026-11-11T03:20:51Z, but the item stayed `in-pr`, which held play-six-list-and-detail-screens-build-their-own-part-4-replace-plate-calls behind its `after:`. Set to `merged`; `done` still needs the second session's check.

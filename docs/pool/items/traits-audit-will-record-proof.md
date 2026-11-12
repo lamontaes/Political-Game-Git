@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** scripts/traits/trait-wiring-audit.ts, scripts/traits/trait-wiring-matrix.ts, data/content/trait-decision-gaps.json, src/core2/estates.ts
 
 **Notes.** Merger 2 while reviewing #5886, October 25: Parkway body reports four wider-population will calls without a record; independent Pagai AS root2351539a9f00bfa5, window2025-12-03 to2026-12-03, reports one call with actorId null and no retained will or estate event. This is an explicit proof gap, not a claim that will behavior is absent.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have named a will decision by a retained record for the trait audit; no player sees it.

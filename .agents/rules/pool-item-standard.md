@@ -17,10 +17,15 @@ Beyond the usual ones, an item at the standard carries:
 
 **What.**, **Cause.**, **Fix.**, **Time box.**, **Rules.**, **Done when.**, **Waits on.**, **Files.** Notes may follow.
 
+- **What** ends with one sentence that says where the player sees or feels the result (owner, Nov 10, 2026). It begins `Seen:` and names the screen, scene, line, number or choice ("Seen: the bill card's line for who the law reached, in dollars."); or `Feeds:` followed by the id of the item it is a step toward, which must itself say where it is seen; or, for a rule, a check, a skill or a pool tool, `Guards:` and the thing the player sees or feels that it keeps working ("Guards: the Journal opens with no developer text", "Guards: the pool hands builders what the owner asked for first"). A guard that protects only another unseen piece is the same as an item seen nowhere, so it is not filed. The check cannot judge that: it only requires at least four words after `Seen:` and `Guards:`, and the lead reads the line. The check enforces it on every open, claimed, blocked or in-PR item; an item whose `checked:` is `fable 2026-11-10` is let through until the depth sweep reaches it.
 - **Time box** names a number of hours.
 - **Done when** says what a second session sees in the running game, in a drawn place, and contains the words "second session".
 - **Waits on** is `Nothing.` or the items or rulings it waits for.
 - **Files**: every path exists, unless it is followed by ` (new)`.
+
+## The depth test
+
+Owner, Nov 10, 2026: "Asking an office for public records, that's way too in depth. Way, way, way too in depth. And that's the kind of stuff that work is being wasted on." An item the player sees nowhere, and no ruling asks for, is not filed. The sweep of existing items is `docs/pool/DEPTH-SWEEP.md`.
 
 ## The four kinds of cause
 

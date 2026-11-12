@@ -19,7 +19,7 @@ source: split from people-partnership-counted in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Counted adults never partner, so counted household types stay as they opened. Full people partner by a monthly pull built from the ACS first-marriage pace, read against each person's recorded orientation. Give the counted tier the same pull times its count, merging counted households into couples by the orientation shares.
+**What.** Counted adults never partner, so counted household types stay as they opened. Full people partner by a monthly pull built from the ACS first-marriage pace, read against each person's recorded orientation. Give the counted tier the same pull times its count, merging counted households into couples by the orientation shares. Feeds: people-partnership-counted.
 
 **Cause.** Found in code: src/core2/modules/partnerships.ts (header, line 33, and COUNTED_STOPGAP at line 88) leaves the counted population's partnerships as their own unit; the stopgap row SG-LIVES-partner-counted is in src/core2/data/stopgaps/lives.json (line 75): the counted population's household types never change by partnering or parting.
 

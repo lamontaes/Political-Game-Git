@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/data/laws/property-tax-caps.json, src/core2/housing-property-tax.ts, src/core2/law-reach-group-b.test.ts
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it reads nine more states' assessment-limit statutes; one estimated cap already stands in and a bill card shows a rate, not a statute.

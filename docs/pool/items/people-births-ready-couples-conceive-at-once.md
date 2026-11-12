@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on: people-births-ready-couples-conceive-at-once-part-1-re-measure, people-births-ready-couples-conceive-at-once-part-2-conception-timing, people-births-ready-couples-conceive-at-once-part-3-women-without-partner, people-births-ready-couples-conceive-at-once-part-4-age-shape-by-place
@@ -44,3 +44,5 @@ Folded in Oct 25 from people-renewal-renewalReviewDays-as-cause. Its done when: 
 Folded in Oct 25 from people-births-age-shape-by-place. Its done when: In a one-year run of the played world (buildBenchWorld, two drawn places from all 56 with different schedules, seeds named), each full couple's renewal plan record carries the age center and spread of its own place, src/core2/births-plan.test.ts shows the same couple's age term differs between the two places, and the town's mean age of mothers at birth is reported against its place's NCHS schedule.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A roll-up of four parts; the parts a player can see (re-measure, women without a partner) stand on their own items.

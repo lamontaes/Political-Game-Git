@@ -4,7 +4,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { auditPool } from "./audit";
-import { command, run } from "./index";
+import { command, parseFrontMatter, run } from "./index";
+import { readRoots, repoAt, seenLine, standardProblems } from "./standard";
 
 const FM = (extra = "", drop: string[] = []): string =>
   [
@@ -27,7 +28,7 @@ const FM = (extra = "", drop: string[] = []): string =>
     .join("\n");
 
 const SECTIONS = {
-  What: "A thing is wrong. It shows in play. Fix it.",
+  What: "A thing is wrong. It shows in play. Fix it. Seen: the price on the shelf card.",
   Cause: "Found in code: src/mod/thing.ts:3 reads the wrong field.",
   Fix: "Read the right field.",
   "Time box": "2 hours for one Sonnet session.",
@@ -274,5 +275,113 @@ describe("pool audit", () => {
     expect(fresh.lacks).toEqual([]);
     expect(fresh.missingPaths).toEqual([]);
     expect(fresh.lastChange).toBeNull();
+  });
+});
+
+describe("the seen line (owner, Nov 10, 2026)", () => {
+  const MSG = /x-a: What must end with where the player sees it/;
+  const noLine = { What: "A thing is wrong. It shows in play. Fix it." };
+
+  it("refuses a new item whose What says nowhere the player sees it", () => {
+    expect(errorsFor(itemText(noLine))).toMatch(MSG);
+  });
+
+  it("passes each of the three openings", () => {
+    for (const end of [
+      "Seen: the bill card's line for who the law reached, in dollars.",
+      "Feeds: x-b which shows the price on the shelf card.",
+      "Guards: the pool check keeps every item saying where it is seen.",
+    ]) {
+      const { pool } = repo({
+        "x-a": itemText({ What: `A thing is wrong. Fix it. ${end}` }),
+        "x-b": itemText({}).replace("id: x-a", "id: x-b"),
+      });
+      expect(
+        run(pool, true, undefined, { staleCheck: false }).errors.join("\n"),
+        end,
+      ).toBe("");
+    }
+  });
+
+  it("accepts the line on a line of its own", () => {
+    expect(
+      errorsFor(
+        itemText({
+          What: "A thing is wrong.\nSeen: the shelf price card.\nMore.",
+        }),
+      ),
+    ).toBe("");
+  });
+
+  it("refuses Seen: or Guards: with fewer than four words after it", () => {
+    for (const end of ["Seen: the card.", "Guards: a check.", "Seen:"])
+      expect(
+        errorsFor(itemText({ What: `A thing is wrong. Fix it. ${end}` })),
+        end,
+      ).toMatch(MSG);
+  });
+
+  it("refuses Feeds: with no item id", () => {
+    expect(
+      errorsFor(itemText({ What: "A thing is wrong. Feeds: the shelf card." })),
+    ).toMatch(MSG);
+  });
+
+  it("lets through an item checked fable 2026-11-10, and holds a later one", () => {
+    expect(errorsFor(itemText(noLine, "checked: fable 2026-11-10"))).toBe("");
+    expect(errorsFor(itemText(noLine, "checked: fable 2026-11-12"))).toMatch(
+      MSG,
+    );
+  });
+
+  it("does not hold a merged or done item", () => {
+    for (const status of ["merged", "done"])
+      expect(
+        errorsFor(
+          itemText(noLine).replace("status: open", `status: ${status}`),
+        ),
+        status,
+      ).toBe("");
+    for (const status of ["claimed", "blocked", "in-pr"]) {
+      const text = itemText(noLine).replace(
+        "status: open",
+        `status: ${status}`,
+      );
+      const { dir, pool } = repo({});
+      expect(
+        standardProblems(
+          "x-a.md",
+          parseFrontMatter(text) ?? {},
+          text,
+          repoAt(dir),
+          readRoots(pool),
+        ).join("\n"),
+        status,
+      ).toMatch(MSG);
+    }
+  });
+
+  it("seenLine returns the kind and the rest", () => {
+    expect(seenLine("Words. Seen: the card.")).toEqual({
+      kind: "Seen:",
+      rest: "the card.",
+    });
+    expect(seenLine("Words. Guards: a check.")?.kind).toBe("Guards:");
+    expect(seenLine("Seen: a.\nMore words. Last one.")?.kind).toBe("Seen:");
+    expect(seenLine("Words only.")).toBeNull();
+  });
+
+  it("run names a Feeds: id that is not an item, and passes one that is", () => {
+    const feeds = (id: string): string =>
+      itemText({ What: `A step. Feeds: ${id} which shows the card.` });
+    const other = itemText({}).replace("id: x-a", "id: x-b");
+    const check = (id: string): string => {
+      const { pool } = repo({ "x-a": feeds(id), "x-b": other });
+      return run(pool, true, undefined, { staleCheck: false }).errors.join(
+        "\n",
+      );
+    };
+    expect(check("x-b")).toBe("");
+    expect(check("x-gone")).toContain('Feeds: "x-gone" is not an item');
   });
 });

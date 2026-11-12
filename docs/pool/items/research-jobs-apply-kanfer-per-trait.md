@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** data/research/trait-effect-sizes.json, src/core2/data/parameters.json, data/content/trait-decision-gaps.json, src/core2/money-traits.traits.test.ts
 
 **Notes.** Found Oct 26 by the traits lead's research helper, from the author-hosted copy (https://carlsonschool.umn.edu/sites/carlsonschool.umn.edu/files/2018-10/kanfer_wanberg_kantrowitz_2001.pdf), Table 2, p. 845, job search behavior, corrected correlation rc with k, N and 95% interval: extraversion .46 (k 7, N 1,733, .43 to .50; observed r .34); conscientiousness .38 (k 11, N 5,433, .36 to .40; r .30); openness .27 (k 4, N 1,099, .21 to .32; r .19); agreeableness .15 (k 4, N 1,099, .10 to .21; r .11); neuroticism -.07 (k 14, N 2,603, -.11 to -.03; r -.05). Credibility intervals are wide (extraversion -.25 to .83). Table 3, p. 846, employment status: conscientiousness .13 (k 5, N 2,534) and neuroticism -.09 (k 9, N 2,681) only. The rows with quotes are in the traits lead's scratch file research-three-papers.md; copy them into data/research/trait-effect-sizes.json when building this item. Zimmerman 2008, Cheng et al. 2020 and Brady et al. 1999 could not be fetched (publisher 403s).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have fitted the job-search trait weights to one study; precision no player sees.

@@ -4,8 +4,8 @@ title: "Stopgaps in controls (text): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stopgap-controls-text
 pr:
 after:
 blocked-on:
@@ -16,9 +16,10 @@ effort: low
 root: none
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/data/controls.json, kind text"
-claimed-at:
+claimed-at: 2026-11-11T06:05:51.130Z
 size: S
 checked: fable 2026-11-10
+branch: claude/pool-play-stopgap-controls-text
 ---
 
 **What.** The play screen names an act's choice button from a bench table of control names where the mined choice-names bank has no name for the act yet. This is the open text stopgap SG-PLAY-act-control-names. About two thirds of the 21 act keys in the table have no matching move in the bank. Add mined names for them to the bank, read them in the two places that use the table, and delete the table and resolve the stopgap.
@@ -40,3 +41,5 @@ checked: fable 2026-11-10
 **Notes.** First row: Where OPUS-WORDS' mined bank has no name for an act yet (care for a relative, join an association, hold a meeting, visit an office), the play screen names its choice button from a bench table of control names (“Look afte Released from idle draft #5180 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:05 UTC) on branch claude/pool-play-stopgap-controls-text.

@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-world-appointment-names-the-appointer
+pr: #8509
 blocked-on:
 after:
 model: sonnet
@@ -16,11 +16,12 @@ effort: medium
 root: design-director-on-core2
 source: words-and-scenes helper D, Oct 27; probe of a mayor's played year in Woodway, Texas
 lead: m0-m2
-claimed-at:
+claimed-at: 2026-11-11T02:59:12.250Z
 checked: fable 2026-11-10
+branch: claude/pool-world-appointment-names-the-appointer
 ---
 
-**What.** The official-appointed record names only the person appointed in personIds; the appointer is a fact (appointedBy) and no one's record. In Woodway, Texas a mayor's year held a replacement city attorney named on January 15, 2026, and the mayor's moments held nothing from it, so no scene could bring the person who was next in line, or the one who wanted the post, to the mayor who chose. Name the appointer in personIds when a town post or a cabinet post is filled, and keep the ranked candidates the appointer weighed in the record's facts (reasons already rank them in the appointment row). Add the director moment that the appointer then has.
+**What.** The official-appointed record names only the person appointed in personIds; the appointer is a fact (appointedBy) and no one's record. In Woodway, Texas a mayor's year held a replacement city attorney named on January 15, 2026, and the mayor's moments held nothing from it, so no scene could bring the person who was next in line, or the one who wanted the post, to the mayor who chose. Name the appointer in personIds when a town post or a cabinet post is filled, and keep the ranked candidates the appointer weighed in the record's facts (reasons already rank them in the appointment row). Add the director moment that the appointer then has. Seen: the scene where the mayor meets the person next in line for a post the mayor fills.
 
 **Cause.** Found in code: src/core2/modules/executive.ts (the api.emit of kind official-appointed, line 584) writes personIds: [row.holderId]; the appointer appears only as facts.appointedBy (line 591). Evidence is in docs/design/scenes/from-life/executive-record-gaps.md.
 
@@ -37,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/executive.ts, src/director/data/director.json, docs/design/scenes/from-life/executive-record-gaps.md
 
 **Notes.** Evidence in docs/design/scenes/from-life/executive-record-gaps.md. The scene it unblocks is the next episode, the person next in line. Lead m0-m2 (offices). Words does not build engine records.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:59 UTC) on branch claude/pool-world-appointment-names-the-appointer.

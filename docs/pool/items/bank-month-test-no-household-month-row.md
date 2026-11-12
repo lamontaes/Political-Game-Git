@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** Reproduce: BANK_MONTH_SEED=a2 npx vitest run src/bench/bank-month.test.ts. Related done item: table-unread-credit-books-households.
 
 **Notes (Fable's check, Nov 10).** How to find the cause: at seed a2, take the borrower the test picks and read in src/core2/modules/credit.ts where a household's month row is written and why this borrower has none (no payment booked yet, a loan made after the month closed, or a counted borrower). The fix then either writes the row or has the Money screen (src/bench/bank.ts) show no month for such a borrower, with the test picking a booked borrower; which one depends on what is found.
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `BANK_MONTH_SEED=a2 npx vitest run src/bench/bank-month.test.ts`: still red, "TypeError: Cannot read properties of undefined (reading 'id')". Seed a3: green. Fresh draw `BANK_MONTH_SEED=191c4b1cb75a18d3`: red the same way. Still red.

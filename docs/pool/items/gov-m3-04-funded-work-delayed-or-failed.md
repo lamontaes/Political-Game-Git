@@ -6,7 +6,7 @@ lead: governing
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/modules/projects.ts, src/core2/modules/contracts.ts, src/core2/projects.test.ts, src/core2/data/stopgaps/office.json
 
-**Notes.** Filed by the governing lead, Oct 29, from the M3-04 command (branch governing/m3-spec-commands). The laws lead owns what a law does to people; ask it whether a project schedule exists in its work before building. Research the share of local capital projects finished late (a sourced or estimated rate checks the total, never one project's outcome).
+**Notes.** Filed by the governing lead, Oct 29, from the M3-04 command (branch governing/m3-spec-commands). The laws lead owns what a law does to people; ask it whether a project schedule exists in its work before building. Research the share of local capital projects finished late (a sourced or estimated rate checks the total, never one project's outcome). Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A work schedule so funded projects can run late or fail; every project finishes on time, and tracking project schedules is too in depth.

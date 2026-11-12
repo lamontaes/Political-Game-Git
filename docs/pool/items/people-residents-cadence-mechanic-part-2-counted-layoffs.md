@@ -19,7 +19,7 @@ source: split from people-residents-cadence-mechanic in the pool redo, Nov 10, 2
 checked: fable 2026-11-10
 ---
 
-**What.** layOff already picks counted jobs by the keep score (tenure, reliability), but counted tenure runs from the opening history while full hires made in play are new, so full workers are laid off first. Measured Oct 21, Salem, Utah, seed 07f42052624493fd: layoffs 0.27 a month against JOLTS 1.1. Re-measure with the fixed measure of part 1 before changing the rule.
+**What.** layOff already picks counted jobs by the keep score (tenure, reliability), but counted tenure runs from the opening history while full hires made in play are new, so full workers are laid off first. Measured Oct 21, Salem, Utah, seed 07f42052624493fd: layoffs 0.27 a month against JOLTS 1.1. Re-measure with the fixed measure of part 1 before changing the rule. Seen: who is laid off at the town's employers, the player's circle included.
 
 **Cause.** Found in code: src/core2/modules/jobs.ts layOff (line 1779) picks counted jobs by the keep score; counted tenure runs from the opening history.
 

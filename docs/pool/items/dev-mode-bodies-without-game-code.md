@@ -5,10 +5,10 @@ area: play
 kind: research
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-dev-mode-bodies-without-game-code
+pr: #8675
 after:
 blocked-on:
 lead: play-first
@@ -17,6 +17,8 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:02:58.780Z
+branch: claude/pool-dev-mode-bodies-without-game-code
 ---
 
 **What.** Dev mode drives bills at every legislative body, bribes and runs. It cannot reach courts and judges (verdicts, sentencing), school boards (a body with its own bills and members) or appointments and confirmations (an executive naming an official, a body confirming) because the game has no code to attach to. Each needs its own engine item before dev mode can drive it, and none gets a dev-only write. This item only files the missing pool items; it builds no engine.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** docs/pool/items, src/bench/dev-mode.ts
 
 **Notes.** TODO
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:02 UTC) on branch claude/pool-dev-mode-bodies-without-game-code.
