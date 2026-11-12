@@ -412,11 +412,14 @@ export async function playLife(
     "GET",
     `/api/journal?id=${encodeURIComponent(me)}`,
   )) ?? []) as Json[];
-  if (chapters[0])
+  // The whole Journal as its screen shows it, every chapter's entries in order.
+  if (chapters.length)
     add("journal:page", [
       {
-        lines: (chapters[0].lines as Json[]).map((line) =>
-          composedLine(String(line.text)),
+        lines: chapters.flatMap((chapter) =>
+          (chapter.lines as Json[]).map((line) =>
+            composedLine(String(line.text)),
+          ),
         ),
         offered: [],
       },

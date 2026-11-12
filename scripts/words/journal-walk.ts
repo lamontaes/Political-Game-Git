@@ -10,7 +10,10 @@
  * prints the place, the seed, the whole Journal, the player's own card story
  * and the card story of the oldest other person in the household.
  */
-import { benchRequest } from "../../src/bench/handler";
+import { benchRequest, benchWorld } from "../../src/bench/handler";
+import { DevMode } from "../../src/bench/dev-mode";
+import { coreAPI } from "../../src/core2/state";
+import { playerContests } from "../../src/core2/modules/elections";
 import { gameStartDate } from "../../src/core2/game-start";
 import { realLocalities } from "../../src/core2/places";
 import { drawPlace } from "../core2-year/place";
@@ -23,7 +26,9 @@ async function ask(method: string, route: string): Promise<Json | null> {
   });
   const body = JSON.parse(String(reply.body)) as Json | null;
   if (reply.status !== 200)
-    throw new Error(`${method} ${route}: ${reply.status} ${JSON.stringify(body)}`);
+    throw new Error(
+      `${method} ${route}: ${reply.status} ${JSON.stringify(body)}`,
+    );
   return body;
 }
 
@@ -56,20 +61,37 @@ const me = String(life.personId);
 console.log(`place ${place} (key ${drawn.key}) seed ${seed} player ${me}`);
 let filed = "";
 if (args.includes("--file")) {
-  const races = ((await ask("GET", "/api/government/local-races")) ?? []) as Json;
-  const list: Json[] = Array.isArray(races) ? races : (races.races ?? []);
-  for (const race of list) {
-    const contestId = String(race.contestId ?? race.id ?? "");
-    if (!contestId) continue;
+  // Dev mode's run-until (as a second session checks a filing): the world
+  // runs to the day a seat the player qualifies for opens its filing window,
+  // the player files through the bench's own route, and the world runs to
+  // the election's result.
+  const world = benchWorld();
+  const dev = new DevMode(
+    world.core!,
+    world.director!,
+    world.player!,
+    world.placeId!,
+  );
+  dev.runUntil({ event: "may-file", cap: 1500 });
+  for (const contest of playerContests(coreAPI(world.core!))) {
+    const contestId = String(
+      (contest as Json).contestId ?? (contest as Json).id ?? contest,
+    );
     try {
       await ask("POST", `/api/file?contestId=${encodeURIComponent(contestId)}`);
-      filed = `${contestId} ${race.office ?? race.title ?? ""}`;
+      filed = contestId;
       break;
-    } catch {
-      /* not open to this player: the next */
+    } catch (error) {
+      console.log(
+        `could not file for ${contestId}: ${String(error).slice(0, 160)}`,
+      );
     }
   }
-  console.log(`filed: ${filed || "none open"}`);
+  console.log(`filed: ${filed || "none"} on ${world.core!.date}`);
+  if (filed) {
+    dev.runUntil({ event: "election", cap: 400 });
+    console.log(`after the election: ${world.core!.date}`);
+  }
 }
 for (let d = 0; d < days; d += 1) {
   let body = (await ask("POST", "/api/advance?mode=day"))!;
@@ -83,7 +105,10 @@ for (let d = 0; d < days; d += 1) {
     body = (await ask("POST", "/api/resume").catch(() => null)) ?? {};
   }
 }
-const chapters = ((await ask("GET", `/api/journal?id=${encodeURIComponent(me)}`)) ?? []) as Json[];
+const chapters = ((await ask(
+  "GET",
+  `/api/journal?id=${encodeURIComponent(me)}`,
+)) ?? []) as Json[];
 console.log("\n=== Journal ===");
 for (const chapter of chapters) {
   console.log(`\n## ${chapter.title}`);
@@ -99,13 +124,17 @@ console.log(`\n=== Player's own story (You screen) ===\n${story(mine)}`);
 const own = (await ask("GET", `/api/card?id=${encodeURIComponent(me)}`))!;
 const members: Json[] = (own.home?.members ?? []) as Json[];
 const otherId = String(
-  members.map((row) => row.personId ?? row.id ?? row).find((id) => id && id !== me) ?? "",
+  members
+    .map((row) => row.personId ?? row.id ?? row)
+    .find((id) => id && id !== me) ?? "",
 );
 if (otherId) {
   const theirs = (await ask(
     "GET",
     `/api/known?id=${encodeURIComponent(me)}&other=${encodeURIComponent(otherId)}`,
   ))!;
-  console.log(`\n=== Card story of ${theirs.name ?? otherId} ===\n${story(theirs)}`);
+  console.log(
+    `\n=== Card story of ${theirs.name ?? otherId} ===\n${story(theirs)}`,
+  );
 }
 process.exit(0);
