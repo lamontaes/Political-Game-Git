@@ -92365,7 +92365,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-nobody-who-works-full-time-should-have-to-family-wages-pole-a",
@@ -92421,7 +92425,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-the-dignity-of-work-includes-a-paycheck-that-family-wages-pole-a",
@@ -92474,7 +92482,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-if-you-put-in-the-hours-you-ought-family-wages-pole-a",
@@ -92527,7 +92539,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-folks-who-sign-the-paychecks-know-best-family-wages-pole-b",
@@ -92583,7 +92599,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-first-job-at-a-lower-wage-beats-family-wages-pole-b",
@@ -92639,7 +92659,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-small-businesses-create-most-new-jobs-and-every-family-wages-pole-b",
@@ -92692,7 +92716,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-every-rule-we-put-on-a-small-business-family-wages-pole-b",
@@ -92745,7 +92773,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-working-people-get-a-fair-deal-when-they-family-unions-pole-a",
@@ -92801,7 +92833,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-worker-standing-alone-has-a-lot-less-family-unions-pole-a",
@@ -92857,7 +92893,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-the-right-to-organize-built-the-middle-class-family-unions-pole-a",
@@ -92910,7 +92950,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-a-union-card-is-how-a-lot-of-family-unions-pole-a",
@@ -92963,7 +93007,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-no-one-should-have-to-pay-a-union-family-unions-pole-b",
@@ -93019,7 +93067,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-worker-s-paycheck-belongs-to-the-worker-family-unions-pole-b",
@@ -93075,7 +93127,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-joining-a-union-should-be-a-free-choice-family-unions-pole-b",
@@ -93128,7 +93184,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-whether-you-join-a-union-is-your-business-family-unions-pole-b",
@@ -93181,7 +93241,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-everybody-ought-to-pay-a-fair-share-for-family-taxes-pole-a",
@@ -93237,7 +93301,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-folks-who-ve-done-the-best-can-family-taxes-pole-a",
@@ -93293,7 +93361,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-a-tax-system-should-ask-the-most-of-family-taxes-pole-a",
@@ -93346,7 +93418,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-a-nurse-shouldn-t-pay-a-bigger-share-family-taxes-pole-a",
@@ -93399,7 +93475,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-folks-should-keep-more-of-what-they-earn-family-taxes-pole-b",
@@ -93455,7 +93535,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-money-in-your-paycheck-is-yours-before-family-taxes-pole-b",
@@ -93511,7 +93595,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-a-lighter-tax-burden-leaves-more-room-for-family-taxes-pole-b",
@@ -93564,7 +93652,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-the-government-ought-to-make-do-with-less-family-taxes-pole-b",
@@ -93617,7 +93709,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-government-should-live-within-its-means-the-way-family-budget-pole-a",
@@ -93673,7 +93769,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-we-shouldn-t-hand-our-children-the-bills-family-budget-pole-a",
@@ -93729,7 +93829,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-a-budget-that-balances-is-a-promise-kept-family-budget-pole-a",
@@ -93782,7 +93886,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-you-don-t-spend-money-you-don-t-family-budget-pole-a",
@@ -93835,7 +93943,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-budget-is-a-promise-to-the-people-family-budget-pole-b",
@@ -93891,7 +94003,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-we-keep-our-word-to-the-people-who-family-budget-pole-b",
@@ -93947,7 +94063,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-a-budget-should-be-judged-by-what-it-family-budget-pole-b",
@@ -94000,7 +94120,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-balancing-the-books-on-the-backs-of-the-family-budget-pole-b",
@@ -94053,7 +94177,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-help-should-come-with-a-path-back-to-family-safety-net-pole-a",
@@ -94109,7 +94237,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-best-way-out-of-hard-times-is-family-safety-net-pole-a",
@@ -94165,7 +94297,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-assistance-works-best-when-it-builds-independence-rather-family-safety-net-pole-a",
@@ -94218,7 +94354,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-a-hand-up-beats-a-handout-every-time-family-safety-net-pole-a",
@@ -94271,7 +94411,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-nobody-should-lose-help-over-a-form-they-family-safety-net-pole-b",
@@ -94327,7 +94471,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-when-folks-fall-on-hard-times-we-catch-family-safety-net-pole-b",
@@ -94383,7 +94531,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-a-safety-net-is-only-as-strong-as-family-safety-net-pole-b",
@@ -94436,7 +94588,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-you-don-t-kick-somebody-when-they-re-family-safety-net-pole-b",
@@ -94489,7 +94645,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-nobody-in-this-country-should-go-without-a-family-health-pole-a",
@@ -94545,7 +94705,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-family-shouldn-t-go-broke-because-somebody-family-health-pole-a",
@@ -94601,7 +94765,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-health-care-should-be-within-reach-of-every-family-health-pole-a",
@@ -94654,7 +94822,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-you-shouldn-t-have-to-choose-between-your-family-health-pole-a",
@@ -94707,7 +94879,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-care-is-best-when-it-s-between-a-family-health-pole-b",
@@ -94763,7 +94939,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-next-cure-comes-from-companies-that-can-family-health-pole-b",
@@ -94819,7 +94999,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-competition-not-more-government-is-what-brings-down-family-health-pole-b",
@@ -94872,7 +95056,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-when-washington-runs-health-care-you-wait-longer-family-health-pole-b",
@@ -94925,7 +95113,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-families-deserve-protection-from-the-people-who-d-family-consumers-pole-a",
@@ -94981,7 +95173,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-company-shouldn-t-profit-off-folks-who-family-consumers-pole-a",
@@ -95037,7 +95233,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-a-fair-market-needs-rules-that-protect-the-family-consumers-pole-a",
@@ -95090,7 +95290,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-somebody-has-to-look-out-for-the-little-family-consumers-pole-a",
@@ -95143,7 +95347,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-grown-adults-can-make-their-own-deals-family-consumers-pole-b",
@@ -95199,7 +95407,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-free-people-in-a-free-market-look-out-family-consumers-pole-b",
@@ -95255,7 +95467,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-every-rule-meant-to-protect-a-customer-also-family-consumers-pole-b",
@@ -95308,7 +95524,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-the-government-doesn-t-need-to-hold-your-family-consumers-pole-b",
@@ -95361,7 +95581,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-every-child-deserves-a-good-public-school-family-schools-pole-a",
@@ -95417,7 +95641,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-learning-shouldn-t-depend-on-what-a-family-family-schools-pole-a",
@@ -95473,7 +95701,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-public-education-is-the-surest-ladder-this-country-family-schools-pole-a",
@@ -95526,7 +95758,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-a-kid-s-shot-in-life-shouldn-t-family-schools-pole-a",
@@ -95579,7 +95815,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-parents-not-the-government-know-what-s-best-family-schools-pole-b",
@@ -95635,7 +95875,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-taxpayers-deserve-a-say-in-where-school-money-family-schools-pole-b",
@@ -95691,7 +95935,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-school-dollars-should-follow-the-child-and-families-family-schools-pole-b",
@@ -95744,7 +95992,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-moms-and-dads-ought-to-call-the-shots-family-schools-pole-b",
@@ -95797,7 +96049,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-everybody-deserves-a-safe-place-to-live-that-family-housing-pole-a",
@@ -95853,7 +96109,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-family-shouldn-t-lose-its-home-because-family-housing-pole-a",
@@ -95909,7 +96169,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-a-home-is-the-foundation-every-other-good-family-housing-pole-a",
@@ -95962,7 +96226,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-nobody-who-works-hard-should-be-one-rent-family-housing-pole-a",
@@ -96015,7 +96283,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-people-who-own-a-place-should-decide-family-housing-pole-b",
@@ -96071,7 +96343,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-market-builds-more-homes-when-government-gets-family-housing-pole-b",
@@ -96127,7 +96403,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-homeowners-and-neighborhoods-should-shape-their-own-communities-family-housing-pole-b",
@@ -96180,7 +96460,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-if-you-bought-the-house-you-get-a-family-housing-pole-b",
@@ -96233,7 +96517,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-we-owe-our-kids-clean-air-and-a-family-energy-pole-a",
@@ -96289,7 +96577,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-power-we-make-today-shouldn-t-poison-family-energy-pole-a",
@@ -96345,7 +96637,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-clean-energy-is-both-our-duty-to-the-family-energy-pole-a",
@@ -96398,7 +96694,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-nobody-should-have-to-breathe-dirty-air-so-family-energy-pole-a",
@@ -96451,7 +96751,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-power-should-be-cheap-and-the-lights-should-family-energy-pole-b",
@@ -96507,7 +96811,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-family-s-power-bill-matters-more-than-family-energy-pole-b",
@@ -96563,7 +96871,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-affordable-reliable-energy-is-what-keeps-families-warm-family-energy-pole-b",
@@ -96616,7 +96928,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-folks-shouldn-t-pay-more-every-month-for-family-energy-pole-b",
@@ -96669,7 +96985,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-we-hold-this-land-and-this-water-in-family-land-pole-a",
@@ -96725,7 +97045,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-what-we-use-up-today-our-grandkids-can-family-land-pole-a",
@@ -96781,7 +97105,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-stewardship-of-the-land-is-a-debt-we-family-land-pole-a",
@@ -96834,7 +97162,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-you-leave-the-place-better-than-you-found-family-land-pole-a",
@@ -96887,7 +97219,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-folks-who-work-the-land-know-best-family-land-pole-b",
@@ -96943,7 +97279,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-person-s-land-and-water-are-theirs-family-land-pole-b",
@@ -96999,7 +97339,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-those-who-own-and-work-the-land-are-family-land-pole-b",
@@ -97052,7 +97396,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-nobody-cares-more-about-a-farm-than-the-family-land-pole-b",
@@ -97105,7 +97453,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-some-things-are-worth-building-together-for-everybody-family-transit-pole-a",
@@ -97161,7 +97513,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-getting-to-work-shouldn-t-depend-on-owning-family-transit-pole-a",
@@ -97217,7 +97573,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-public-investment-in-getting-people-where-they-need-family-transit-pole-a",
@@ -97270,7 +97630,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-a-good-bus-line-does-more-for-a-family-transit-pole-a",
@@ -97323,7 +97687,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-roads-most-of-us-drive-every-day-family-transit-pole-b",
@@ -97379,7 +97747,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-government-shouldn-t-run-what-drivers-and-private-family-transit-pole-b",
@@ -97435,7 +97807,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-public-dollars-belong-where-most-people-actually-travel-family-transit-pole-b",
@@ -97488,7 +97864,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-most-folks-drive-so-the-money-ought-to-family-transit-pole-b",
@@ -97541,7 +97921,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-guns-should-be-kept-out-of-the-wrong-family-guns-pole-a",
@@ -97597,7 +97981,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-few-sensible-rules-can-save-a-child-family-guns-pole-a",
@@ -97653,7 +98041,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-the-right-to-own-a-gun-comes-with-family-guns-pole-a",
@@ -97706,7 +98098,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-you-can-respect-the-second-amendment-and-still-family-guns-pole-a",
@@ -97759,7 +98155,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-every-law-abiding-citizen-has-a-right-to-family-guns-pole-b",
@@ -97815,7 +98215,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-second-amendment-means-what-it-says-family-guns-pole-b",
@@ -97871,7 +98275,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-the-right-to-self-defense-does-not-end-family-guns-pole-b",
@@ -97924,7 +98332,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-a-law-abiding-adult-shouldn-t-need-a-family-guns-pole-b",
@@ -97977,7 +98389,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-safety-and-fairness-go-together-family-justice-pole-a",
@@ -98033,7 +98449,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-people-who-ve-paid-for-their-mistakes-deserve-family-justice-pole-a",
@@ -98089,7 +98509,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-justice-means-the-same-treatment-for-the-rich-family-justice-pole-a",
@@ -98142,7 +98566,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-how-much-money-you-have-shouldn-t-decide-family-justice-pole-a",
@@ -98195,7 +98623,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-first-job-of-government-is-to-keep-family-justice-pole-b",
@@ -98251,7 +98683,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-people-who-break-the-law-should-answer-for-family-justice-pole-b",
@@ -98307,7 +98743,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-law-and-order-are-the-foundation-every-other-family-justice-pole-b",
@@ -98360,7 +98800,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-we-back-the-folks-who-keep-our-streets-family-justice-pole-b",
@@ -98413,7 +98857,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-this-country-has-always-been-stronger-for-the-family-immigration-pole-a",
@@ -98469,7 +98917,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-people-who-want-to-come-here-and-work-family-immigration-pole-a",
@@ -98525,7 +98977,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-a-nation-of-immigrants-should-keep-its-door-family-immigration-pole-a",
@@ -98578,7 +99034,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-most-of-us-are-here-because-somebody-s-family-immigration-pole-a",
@@ -98631,7 +99091,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-country-has-to-know-who-is-coming-family-immigration-pole-b",
@@ -98687,7 +99151,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-our-laws-mean-something-only-if-we-enforce-family-immigration-pole-b",
@@ -98743,7 +99211,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-a-secure-border-and-a-lawful-process-are-family-immigration-pole-b",
@@ -98796,7 +99268,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-if-you-want-to-come-here-you-come-family-immigration-pole-b",
@@ -98849,7 +99325,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-voting-should-be-easy-for-every-eligible-citizen-family-elections-pole-a",
@@ -98905,7 +99385,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-more-folks-vote-the-more-our-government-family-elections-pole-a",
@@ -98961,7 +99445,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-the-ballot-is-the-one-thing-every-citizen-family-elections-pole-a",
@@ -99014,7 +99502,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-no-citizen-should-have-to-jump-through-hoops-family-elections-pole-a",
@@ -99067,7 +99559,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-every-vote-counts-only-if-every-vote-is-family-elections-pole-b",
@@ -99123,7 +99619,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-folks-have-to-trust-an-election-before-they-family-elections-pole-b",
@@ -99179,7 +99679,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-secure-elections-are-the-foundation-of-every-other-family-elections-pole-b",
@@ -99232,7 +99736,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-if-you-need-an-id-to-board-a-family-elections-pole-b",
@@ -99285,7 +99793,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-public-office-is-a-trust-not-a-way-family-ethics-pole-a",
@@ -99341,7 +99853,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-people-s-business-should-be-done-for-family-ethics-pole-a",
@@ -99397,7 +99913,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-those-who-write-the-laws-should-never-profit-family-ethics-pole-a",
@@ -99450,7 +99970,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-nobody-should-use-a-public-office-to-line-family-ethics-pole-a",
@@ -99503,7 +100027,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-voters-not-new-rules-should-decide-who-family-ethics-pole-b",
@@ -99559,7 +100087,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-you-don-t-fix-government-by-tying-the-family-ethics-pole-b",
@@ -99615,7 +100147,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-the-people-s-judgment-at-the-ballot-box-family-ethics-pole-b",
@@ -99668,7 +100204,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-if-folks-don-t-like-their-lawmaker-they-family-ethics-pole-b",
@@ -99721,7 +100261,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-people-closest-to-a-problem-should-get-family-self-rule-pole-a",
@@ -99777,7 +100321,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-folks-ought-to-govern-themselves-family-self-rule-pole-a",
@@ -99833,7 +100381,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-government-works-best-when-it-is-closest-to-family-self-rule-pole-a",
@@ -99886,7 +100438,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-the-folks-who-live-there-know-their-town-family-self-rule-pole-a",
@@ -99939,7 +100495,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-some-rules-ought-to-be-the-same-no-family-self-rule-pole-b",
@@ -99995,7 +100555,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-business-or-a-family-should-know-the-family-self-rule-pole-b",
@@ -100051,7 +100615,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-the-whole-is-stronger-when-its-parts-play-family-self-rule-pole-b",
@@ -100104,7 +100672,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-a-patchwork-of-rules-just-makes-life-harder-family-self-rule-pole-b",
@@ -100157,7 +100729,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-everybody-deserves-to-be-judged-on-their-work-family-civil-rights-pole-a",
@@ -100213,7 +100789,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-nobody-should-be-turned-away-for-who-they-family-civil-rights-pole-a",
@@ -100269,7 +100849,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-equal-treatment-under-the-law-belongs-to-every-family-civil-rights-pole-a",
@@ -100322,7 +100906,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-if-you-can-do-the-job-and-pay-family-civil-rights-pole-a",
@@ -100375,7 +100963,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-people-of-faith-shouldn-t-be-made-to-family-civil-rights-pole-b",
@@ -100431,7 +101023,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-small-business-owner-has-a-right-to-family-civil-rights-pole-b",
@@ -100487,7 +101083,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-freedom-of-conscience-is-among-the-first-liberties-family-civil-rights-pole-b",
@@ -100540,7 +101140,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-the-government-shouldn-t-tell-folks-what-to-family-civil-rights-pole-b",
@@ -100593,7 +101197,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-every-life-deserves-protection-born-and-unborn-family-abortion-pole-a",
@@ -100649,7 +101257,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-law-should-stand-up-for-those-who-family-abortion-pole-a",
@@ -100705,7 +101317,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-the-right-to-life-is-the-first-right-family-abortion-pole-a",
@@ -100758,7 +101374,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-a-baby-is-a-baby-and-the-law-family-abortion-pole-a",
@@ -100811,7 +101431,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-woman-should-make-her-own-decisions-about-family-abortion-pole-b",
@@ -100867,7 +101491,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-the-government-has-no-place-between-a-woman-family-abortion-pole-b",
@@ -100923,7 +101551,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-decisions-about-pregnancy-belong-to-the-woman-who-family-abortion-pole-b",
@@ -100976,7 +101608,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-that-call-belongs-to-her-not-to-a-family-abortion-pole-b",
@@ -101029,7 +101665,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-this-country-is-safest-when-it-is-strong-family-world-pole-a",
@@ -101085,7 +101725,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-peace-comes-through-strength-family-world-pole-a",
@@ -101141,7 +101785,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-american-leadership-abroad-keeps-the-peace-at-home-family-world-pole-a",
@@ -101194,7 +101842,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-when-we-stand-with-our-friends-the-bad-family-world-pole-a",
@@ -101247,7 +101899,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-our-money-should-go-to-needs-here-at-family-world-pole-b",
@@ -101303,7 +101959,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-families-here-come-before-spending-overseas-family-world-pole-b",
@@ -101359,7 +102019,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-a-nation-s-first-duty-is-to-the-family-world-pole-b",
@@ -101412,7 +102076,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-we-ought-to-fix-things-at-home-before-family-world-pole-b",
@@ -101465,7 +102133,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-our-workers-and-our-factories-deserve-a-fair-family-trade-pole-a",
@@ -101521,7 +102193,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-country-that-doesn-t-make-things-can-family-trade-pole-a",
@@ -101577,7 +102253,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-trade-should-serve-the-workers-who-make-things-family-trade-pole-a",
@@ -101630,7 +102310,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-things-made-here-by-folks-who-live-here-family-trade-pole-a",
@@ -101683,7 +102367,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-open-trade-keeps-prices-down-for-every-family-family-trade-pole-b",
@@ -101739,7 +102427,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.both-inaugural-a-tax-on-imports-is-a-tax-on-family-trade-pole-b",
@@ -101795,7 +102487,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.polished-inaugural-free-and-fair-trade-has-made-this-country-family-trade-pole-b",
@@ -101848,7 +102544,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.belief-words.plain-inaugural-every-tariff-ends-up-on-a-family-s-family-trade-pole-b",
@@ -101901,7 +102601,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      }
     },
     {
       "key": "opening-speech.ask.both-inaugural-because-i-believe-belief-belief-leads",
@@ -102128,7 +102832,12 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "core",
+        "required": true
+      }
     },
     {
       "key": "opening-speech.belief.polished-inaugural-i-have-always-believed-belief-belief-stands",
@@ -102181,7 +102890,12 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "core",
+        "required": true
+      }
     },
     {
       "key": "opening-speech.belief.plain-inaugural-here-s-what-i-believe-belief-belief-stands",
@@ -102234,7 +102948,12 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "core",
+        "required": true
+      }
     },
     {
       "key": "opening-speech.belief.plain-inaugural-i-ve-always-thought-belief-belief-stands",
@@ -102287,7 +103006,12 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "core",
+        "required": true
+      }
     },
     {
       "key": "opening-speech.why.polished-inaugural-i-say-so-because-i-believe-belief-belief-after",
@@ -102340,7 +103064,12 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "core",
+        "required": true
+      }
     },
     {
       "key": "opening-speech.why.polished-inaugural-my-reason-is-simple-i-believe-belief-belief-after",
@@ -102393,7 +103122,12 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "core",
+        "required": true
+      }
     },
     {
       "key": "opening-speech.why.plain-inaugural-why-because-i-believe-belief-belief-after",
@@ -102446,7 +103180,12 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "core",
+        "required": true
+      }
     },
     {
       "key": "opening-speech.why.plain-inaugural-i-ll-tell-you-why-belief-belief-after",
@@ -102499,7 +103238,12 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
+      "date": "2026-11-12",
+      "piece": {
+        "of": "opening-belief",
+        "part": "core",
+        "required": true
+      }
     },
     {
       "key": "opening-speech.question.polished-inaugural-where-do-i-stand-on-about-asks-question",

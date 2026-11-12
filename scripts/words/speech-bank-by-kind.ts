@@ -799,6 +799,8 @@ for (const [family, pole, voice, clause] of BELIEF_ROWS)
     voice: voice === "both" ? BOTH : voice,
     text: clause,
     needs: [`family-${family}`, `pole-${pole}`],
+    // Said only inside a frame that names it as {belief}.
+    piece: { of: "opening-belief", part: "reason" },
   });
 const BELIEF_FRAMES: [string, string, string, string][] = [
   ["ask", "both", "Because I believe {belief},", "belief-leads"],
@@ -825,7 +827,10 @@ for (const [role, voice, text, shape] of BELIEF_FRAMES)
     voice: voice === "both" ? BOTH : voice,
     text,
     needs: ["belief", shape],
-    ...(role === "ask" ? { piece: { of: "opening-ask", part: "opener" } } : {}),
+    piece:
+      role === "ask"
+        ? { of: "opening-ask", part: "opener" }
+        : { of: "opening-belief", part: "core", required: true },
   });
 // 18. A point may open on a question to the audience, answered by how things
 // stand and the ask.
@@ -1071,7 +1076,20 @@ const keysNow = new Set(bank.parts.map((part) => part.key));
 const textsNow = new Set(bank.parts.map((part) => part.text.toLowerCase()));
 for (const add of ADD) {
   const key = `opening-speech.${add.role}.${Array.isArray(add.voice) ? "both" : add.voice}-${add.subjects[0]}-${slug(add.text)}-${slug(add.needs.join(" "))}`;
-  if (keysNow.has(key) || textsNow.has(add.text.toLowerCase())) continue;
+  if (keysNow.has(key) || textsNow.has(add.text.toLowerCase())) {
+    const found = bank.parts.find(
+      (part) => part.text.toLowerCase() === add.text.toLowerCase(),
+    );
+    if (
+      found &&
+      add.piece &&
+      JSON.stringify(found.piece) !== JSON.stringify(add.piece)
+    ) {
+      found.piece = add.piece;
+      count(`9. a ${add.role} piece says which sentence it is part of`);
+    }
+    continue;
+  }
   bank.parts.push({
     key,
     move: add.role,
