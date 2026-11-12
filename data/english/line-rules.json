@@ -5036,6 +5036,19 @@
           "date": "2026-11-12",
           "words": "starts off with a list of people, and then it specifically mentions the Speaker and then the Congress. That doesn't make any sense",
           "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "It isn't, and somebody is to blame. Ooh, that's a little weird way to start off.",
+          "via": "#8074 docs/coordination/batches/2026-11-09-batch-3.md:343"
+        }
+      ],
+      "examples": [
+        {
+          "line": "Everybody here, and everybody watching, let's not pretend this state is fine. It isn't, and somebody is to blame.",
+          "words": "It isn't, and somebody is to blame. Ooh, that's a little weird way to start off.",
+          "date": "2026-11-09",
+          "before": "nothing: it opens the address"
         }
       ],
       "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
@@ -5082,9 +5095,21 @@
           "date": "2026-11-12",
           "words": "If it's a federal law, it's a federal law.",
           "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I want to talk about gun control. Ending it or expanding gun control? I'm for it, and I'd like you to hold me to that. That's a little awkward, but I guess it's fine.",
+          "via": "#8074 docs/coordination/batches/2026-11-09-batch-3.md:403"
         }
       ],
-      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
+      "examples": [
+        {
+          "line": "I want to talk about {issue}. {goal}? I'm for it, and I'd like you to hold me to that.",
+          "words": "I want to talk about gun control. Ending it or expanding gun control? I'm for it, and I'd like you to hold me to that.",
+          "date": "2026-11-09"
+        }
+      ],
+      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can. The Nov 9 example is a line he let stand (\"I guess it's fine\"): the fault is the stance record, whose subject was given with no side, so it stays in examples and keeps playing.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"
