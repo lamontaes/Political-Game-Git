@@ -46,7 +46,9 @@
     "body": "The body a relative's seat belongs to, as the reader says it: the Nelson City Council.",
     "workplace": "Where a relative who holds an office also works, as the reader says it: Michael's Market.",
     "count": "How many, counted from the records (employers in a working life).",
-    "work": "The kinds of work a working life was in, from its employers' records (\"kitchens and stores\")."
+    "work": "The kinds of work a working life was in, from its employers' records (\"kitchens and stores\").",
+    "to": "What a person wants done on a question, as a verb phrase after 'to' (question-names.json `to`), from the views engine's stance record.",
+    "about": "A question as a noun phrase (question-names.json `about`), from the views engine's stance record."
   },
   "maxWords": 10,
   "mining": {
@@ -9463,6 +9465,292 @@
         "part": "close",
         "required": false
       },
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-effects-learned.i-learned-that-the-rules-on-topic-change",
+      "move": "memoir-effects-learned",
+      "kind": "spoken",
+      "text": "I learned that the rules on {topic} changed what I pay.",
+      "uses": [
+        {
+          "move": "memoir-effects-learned",
+          "subject": "memoir",
+          "role": "effectsLearned",
+          "choice": "i-learned-that-the-rules-on-topic-change",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectsLearned"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-effects-learned.i-found-out-the-rules-on-topic-were-behi",
+      "move": "memoir-effects-learned",
+      "kind": "spoken",
+      "text": "I found out the rules on {topic} were behind what I pay now.",
+      "uses": [
+        {
+          "move": "memoir-effects-learned",
+          "subject": "memoir",
+          "role": "effectsLearned",
+          "choice": "i-found-out-the-rules-on-topic-were-behi",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectsLearned"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-effects-learned.i-learned-that-law-changed-what-i-pay",
+      "move": "memoir-effects-learned",
+      "kind": "spoken",
+      "text": "I learned that {law} changed what I pay.",
+      "uses": [
+        {
+          "move": "memoir-effects-learned",
+          "subject": "memoir",
+          "role": "effectsLearned",
+          "choice": "i-learned-that-law-changed-what-i-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectsLearned"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-effects-learned.i-found-out-law-were-behind-what-i-pay-n",
+      "move": "memoir-effects-learned",
+      "kind": "spoken",
+      "text": "I found out {law} were behind what I pay now.",
+      "uses": [
+        {
+          "move": "memoir-effects-learned",
+          "subject": "memoir",
+          "role": "effectsLearned",
+          "choice": "i-found-out-law-were-behind-what-i-pay-n",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectsLearned"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.family-line-moved-away.named-moved-away",
+      "move": "family-line-moved-away",
+      "kind": "spoken",
+      "text": "{named} moved away.",
+      "uses": [
+        {
+          "move": "family-line-moved-away",
+          "subject": "family",
+          "role": "otherLine",
+          "choice": "named-moved-away",
+          "journal": [
+            {
+              "kindPrefix": "event:person.moved-away",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-for.after-that-i-wanted-to-to",
+      "move": "memoir-view-for",
+      "kind": "spoken",
+      "text": "After that, I wanted to {to}.",
+      "uses": [
+        {
+          "move": "memoir-view-for",
+          "subject": "memoir",
+          "role": "viewFor",
+          "choice": "after-that-i-wanted-to-to",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-for.that-was-when-i-came-to-want-to-to",
+      "move": "memoir-view-for",
+      "kind": "spoken",
+      "text": "That was when I came to want to {to}.",
+      "uses": [
+        {
+          "move": "memoir-view-for",
+          "subject": "memoir",
+          "role": "viewFor",
+          "choice": "that-was-when-i-came-to-want-to-to",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-for.from-then-on-i-wanted-to-to",
+      "move": "memoir-view-for",
+      "kind": "spoken",
+      "text": "From then on, I wanted to {to}.",
+      "uses": [
+        {
+          "move": "memoir-view-for",
+          "subject": "memoir",
+          "role": "viewFor",
+          "choice": "from-then-on-i-wanted-to-to",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-against.after-that-i-was-against-about",
+      "move": "memoir-view-against",
+      "kind": "spoken",
+      "text": "After that, I was against {about}.",
+      "uses": [
+        {
+          "move": "memoir-view-against",
+          "subject": "memoir",
+          "role": "viewAgainst",
+          "choice": "after-that-i-was-against-about",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewAgainst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-against.that-was-what-turned-me-against-about",
+      "move": "memoir-view-against",
+      "kind": "spoken",
+      "text": "That was what turned me against {about}.",
+      "uses": [
+        {
+          "move": "memoir-view-against",
+          "subject": "memoir",
+          "role": "viewAgainst",
+          "choice": "that-was-what-turned-me-against-about",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewAgainst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-against.from-then-on-i-was-against-about",
+      "move": "memoir-view-against",
+      "kind": "spoken",
+      "text": "From then on, I was against {about}.",
+      "uses": [
+        {
+          "move": "memoir-view-against",
+          "subject": "memoir",
+          "role": "viewAgainst",
+          "choice": "from-then-on-i-was-against-about",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewAgainst"
+            }
+          ]
+        }
+      ],
       "origin": "authored",
       "author": "Words session (journal composer, words composer unit 6)",
       "date": "2026-11-12",

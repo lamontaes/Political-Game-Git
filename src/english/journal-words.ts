@@ -340,7 +340,10 @@ export type MemoirField =
   | "schoolAge"
   | "workRun"
   | "workEnd"
-  | "workLost";
+  | "workLost"
+  | "effectsLearned"
+  | "viewFor"
+  | "viewAgainst";
 
 /**
  * A line of the journal: the event worded for whose it was (`line`, with

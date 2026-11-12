@@ -27,6 +27,8 @@ import {
   billTitleSaid,
 } from "../english/bill-names";
 import { topicInSentence } from "../english/policy-names";
+import { questionAbout, questionTo } from "../english/question-names";
+import { VIEWS_MODULE_ID, stancesOf } from "../core2/modules/views";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import {
   addDays,
@@ -1869,6 +1871,51 @@ export function composeJournal(
     });
   }
 
+  // What moved the person's views, from the views engine's own record of
+  // each stance's causes (owner, Nov 12: "big events in your life that shape
+  // the person you are"): the event, and which way it moved them. Told only
+  // where a stance cites the event; a view nothing records the cause of is
+  // not told.
+  const movedViews = new Map<
+    string,
+    { topic: string; side: string; id: string; size: number }
+  >();
+  if (core.modules.has(VIEWS_MODULE_ID))
+    for (const stance of stancesOf(coreAPI(core as CoreState), personId))
+      for (const cause of stance.causes) {
+        const size = Math.abs(cause.total ?? cause.change);
+        const was = movedViews.get(cause.eventId);
+        if (!was || size > was.size)
+          movedViews.set(cause.eventId, {
+            topic: stance.topic,
+            side: stance.desiredChange,
+            id: stance.id,
+            size,
+          });
+      }
+  const viewMovedBy = (unit: Unit): JournalWorded | null => {
+    const moved =
+      movedViews.get(unit.moment.causeId) ??
+      (unit.moment.causeFactId
+        ? movedViews.get(unit.moment.causeFactId)
+        : undefined);
+    if (!moved) return null;
+    const enact = moved.side === "enact";
+    const text = enact ? questionTo(moved.topic) : questionAbout(moved.topic);
+    if (!text) return null;
+    return render(
+      { part: "memoir", field: enact ? "viewFor" : "viewAgainst" },
+      {
+        [enact ? "to" : "about"]: {
+          text,
+          sourceRecordIds: [moved.id, unit.moment.causeId],
+        },
+      },
+      `${unit.moment.id}:view`,
+      [moved.id, unit.moment.causeId],
+    );
+  };
+
   // The facts a sentence names once in a paragraph (an employer, a place, a
   // wage): a sentence after it that would say it again is told without it.
   const sayOnce = new Set<string>(JOURNAL_OUTLINE.sayOnce);
@@ -1964,6 +2011,8 @@ export function composeJournal(
           break;
         }
       }
+      const view = viewMovedBy(unit);
+      if (view) sentences.push(view);
       last = unit;
       lastTimed = timed;
     }
@@ -2089,6 +2138,38 @@ export function composeJournal(
     ];
   };
 
+  /**
+   * Records of one kind that came together, told as one sentence: the facts
+   * that differ between them are said as one list ("the rules on
+   * transportation and the local income tax rate"), by the outline's merge
+   * row and its memoir field.
+   */
+  const mergeOf = (told: readonly Unit[]): JournalWorded[] | null => {
+    const row = JOURNAL_OUTLINE.merge.find(
+      (entry) => entry.kindPrefix === told[zero]?.row.kindPrefix,
+    );
+    if (!row || told.length < P.two) return null;
+    const facts: Facts = {};
+    for (const key of row.facts) {
+      const said = told.flatMap((unit) =>
+        unit.facts[key] ? [unit.facts[key]!] : [],
+      );
+      // A fact one record lacks is not listed: the list would leave it out.
+      if (said.length !== told.length) continue;
+      facts[key] = {
+        text: listOf([...new Set(said.map((fact) => fact.text))]),
+        sourceRecordIds: said.flatMap((fact) => fact.sourceRecordIds),
+      };
+    }
+    const line = render(
+      { part: "memoir", field: row.field as MemoirField },
+      facts,
+      `${told[zero]!.moment.id}:merged`,
+      told.map((unit) => unit.moment.causeId),
+    );
+    return line ? [line] : null;
+  };
+
   const entryOf = (told: readonly Unit[], sentences: JournalWorded[]) => ({
     id: told[zero]!.moment.id,
     date: told[zero]!.moment.date,
@@ -2118,7 +2199,14 @@ export function composeJournal(
     );
     open(past[zero]!.moment.id, title?.text ?? "", past[zero]!.moment.date);
     for (const row of JOURNAL_OUTLINE.paragraphs) {
-      const told = past.filter((unit) => unit.paragraph === row.key);
+      // A life is told from the day it began: the birth leads its paragraph.
+      const told = past
+        .filter((unit) => unit.paragraph === row.key)
+        .sort(
+          (a, b) =>
+            Number(b.moment.causeKind === "person.birth") -
+            Number(a.moment.causeKind === "person.birth"),
+        );
       if (!told.length) continue;
       const sentences =
         (row.key === "work" ? foldWork(told) : null) ??
@@ -2133,8 +2221,14 @@ export function composeJournal(
   const groups: Unit[][] = [];
   const byContest = new Map<string, Unit[]>();
   for (const unit of played) {
-    const contestId = core.durableLog.get(unit.moment.causeId)?.facts
-      ?.contestId;
+    // A race's records go together, and so do records of one kind the
+    // outline merges that came on one day (three laws learned at once).
+    const merged = JOURNAL_OUTLINE.merge.find(
+      (row) => row.kindPrefix === unit.row.kindPrefix,
+    );
+    const contestId = merged
+      ? `${merged.kindPrefix}|${unit.moment.date}`
+      : core.durableLog.get(unit.moment.causeId)?.facts?.contestId;
     const group =
       typeof contestId === "string" ? byContest.get(contestId) : undefined;
     if (group) {
@@ -2190,7 +2284,7 @@ export function composeJournal(
         group[zero]!.moment.date,
       );
     }
-    push(group, tellParagraph(group, "play"));
+    push(group, mergeOf(group) ?? tellParagraph(group, "play"));
   }
 
   // Revised as life goes on: a schoolmate or a co-worker who now holds office

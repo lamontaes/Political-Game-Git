@@ -63,8 +63,8 @@ let filed = "";
 if (args.includes("--file")) {
   // Dev mode's run-until (as a second session checks a filing): the world
   // runs to the day a seat the player qualifies for opens its filing window,
-  // the player files through the bench's own route, and the world runs to
-  // the election's result.
+  // and the player files for a town or county seat through the bench's own
+  // route; the days after are played as a player plays them.
   const world = benchWorld();
   const dev = new DevMode(
     world.core!,
@@ -73,7 +73,22 @@ if (args.includes("--file")) {
     world.placeId!,
   );
   dev.runUntil({ event: "may-file", cap: 1500 });
-  for (const contest of playerContests(coreAPI(world.core!))) {
+  // A town or county seat (the golden path files where the town files).
+  // else a seat in the state legislature (early access: local and state).
+  const open = playerContests(coreAPI(world.core!));
+  const local = open.filter((contest) =>
+    ["city", "township", "county"].includes(String(contest.level)),
+  );
+  const contests = local.length
+    ? local
+    : open.filter((contest) => /:(?:lower|upper):/.test(contest.id));
+  if (!contests.length)
+    console.log(
+      `no local seat open; open: ${playerContests(coreAPI(world.core!))
+        .map((contest) => contest.id)
+        .join(", ")}`,
+    );
+  for (const contest of contests) {
     const contestId = String(
       (contest as Json).contestId ?? (contest as Json).id ?? contest,
     );
@@ -88,10 +103,6 @@ if (args.includes("--file")) {
     }
   }
   console.log(`filed: ${filed || "none"} on ${world.core!.date}`);
-  if (filed) {
-    dev.runUntil({ event: "election", cap: 400 });
-    console.log(`after the election: ${world.core!.date}`);
-  }
 }
 for (let d = 0; d < days; d += 1) {
   let body = (await ask("POST", "/api/advance?mode=day"))!;

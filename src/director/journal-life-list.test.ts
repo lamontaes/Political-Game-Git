@@ -1,16 +1,17 @@
 /**
  * The Journal reads the one shared life list (docs/design/journal-on-the-life-list.md): in a
  * drawn place played 200 days, with the player (35) and two members of their household watched,
- * every Journal entry about a life story (a job found, lost or left, a move, a birth, a partner,
- * a death in the family, school, an office, an illness, a home) is the entry the Journal told
- * before it read the list (`journal-life-list.before.json`, two seeds named there as labeled
- * repros): the same kind, the same records, the same day, once. A job lost, a move and a death in
+ * every record the Journal's one planner reads (words composer, unit 6) is told once, in
+ * one entry, and every entry about a life story (a job, a move, a birth, a partner, a death, an
+ * illness, a home) stands on an event of the person's life list, or on one of the named gaps
+ * the list does not hold yet, in two labeled seeds (Drummond, Montana; Columbia Furnace,
+ * Virginia) and any JL_SEED. A job lost, a move and a death in
  * the household, made by the records the engines write, reach the Journal through the list.
  * Opening the Journal reads the list once. Replay with JL_SEED and JL_PLACE_KEY; JL_OUT names a
  * file the entries of JL_SEED are written to.
  */
 import { randomBytes } from "node:crypto";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { expect, it, vi } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -91,13 +92,17 @@ interface StoryEntry {
   date: string;
   text: string;
 }
-interface Fixture {
-  places: Record<string, string>;
-  seeds: Record<string, StoryEntry[]>;
-}
-const before = JSON.parse(
-  readFileSync("src/director/journal-life-list.before.json", "utf8"),
-) as Fixture;
+/**
+ * The two labeled seeds of the life list's first proof, by the place each
+ * draws (Drummond, Montana and Columbia Furnace, Virginia): the Journal's
+ * one planner (words composer, unit 6) is held to its rule there. The old
+ * writer's entries per record (journal-life-list.before.json) are gone with
+ * the writer.
+ */
+const PLACES: Readonly<Record<string, string>> = {
+  aa11bb22cc33dd44: "3021850",
+  "9f8e7d6c5b4a3921": "5118656",
+};
 
 type Played = ReturnType<typeof buildBenchWorld>;
 
@@ -153,14 +158,14 @@ function playedPlace(seed: string, days: number, label: string) {
 }
 
 const SEEDS = [
-  ...Object.keys(before.seeds),
-  ...(process.env.JL_SEED && !before.seeds[process.env.JL_SEED]
+  ...Object.keys(PLACES),
+  ...(process.env.JL_SEED && !PLACES[process.env.JL_SEED]
     ? [process.env.JL_SEED]
     : []),
 ];
 
 it.each(SEEDS)(
-  "every life-story entry the Journal told before it read the list is told once, on the same records and day (seed %s)",
+  "every record the Journal's planner reads is told once, and nothing is told that is not on the life list or its named gaps (seed %s)",
   (seed) => {
     setBookkeeping(false);
     try {
@@ -171,42 +176,10 @@ it.each(SEEDS)(
       );
       const { core, director } = world;
       const after = lifeStoryLines(world, ids);
-      const pinned = before.seeds[seed];
-      if (pinned) {
+      if (PLACES[seed])
         expect(placeKey, `${where}: the place the seed draws`).toBe(
-          before.places[seed],
+          PLACES[seed],
         );
-        for (const was of pinned) {
-          const now = after.filter(
-            (entry) =>
-              entry.person === was.person &&
-              entry.date === was.date &&
-              entry.kinds.join() === was.kinds.join(),
-          );
-          expect(
-            now.map((entry) => entry.recordIds),
-            `${where}: told once, on the same records: ${was.text}`,
-          ).toEqual([was.recordIds]);
-          if (now[0]!.text !== was.text)
-            process.stdout.write(
-              `JOURNAL LIFE LIST CHANGED ${where}\n  before: ${was.text}\n  after:  ${now[0]!.text}\n`,
-            );
-        }
-        const known = new Set(
-          pinned.map((was) => `${was.person}|${was.date}|${was.kinds.join()}`),
-        );
-        expect(
-          after
-            .filter(
-              (entry) =>
-                !known.has(
-                  `${entry.person}|${entry.date}|${entry.kinds.join()}`,
-                ),
-            )
-            .map((entry) => entry.text),
-          `${where}: nothing is told that was not told before`,
-        ).toEqual([]);
-      }
       // No fact twice: a moment is told in one line.
       const seen = new Set<string>();
       for (const entry of after)

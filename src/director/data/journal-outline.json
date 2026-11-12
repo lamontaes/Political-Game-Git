@@ -94,5 +94,13 @@
     "end": ".",
     "kindsAnd": " and ",
     "onlyLast": " and "
-  }
+  },
+  "merge": [
+    {
+      "kindPrefix": "event:law.effect-learned",
+      "field": "effectsLearned",
+      "facts": ["topic", "law"],
+      "about": "Laws the person learned were behind what they pay, learned on one day, told as one sentence that lists them."
+    }
+  ]
 }
