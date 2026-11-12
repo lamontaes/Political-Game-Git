@@ -1087,6 +1087,37 @@ function hardness(country: Country, topic: string): number {
   return Math.min(P.one, (country.movement[topic] ?? P.zero) / scale);
 }
 
+/** How far a measure went wrong: an area of the term by its slide, a measure of the year by its hardness (0 to 1). */
+function wrongBy(country: Country, topic: string): number {
+  const read = country.areas.find((row) => row.area === topic);
+  return read ? Math.max(P.zero, -read.slide) : hardness(country, topic);
+}
+
+/** The bad news the records hold for a measure, as facts (its "-worse" or hard claims). */
+function badFacts(country: Country, topic: string): Facts {
+  return Object.fromEntries(
+    Object.entries(country.facts).filter(
+      ([key]) => key === `${topic}-worse` || hardClaims(topic).includes(key),
+    ),
+  );
+}
+
+/** The measure that went most wrong, with a fact that says so, or null. */
+function worstCondition(country: Country): string | null {
+  return (
+    [...new Set([...TERM_AREAS, ...Object.keys(TOPIC_CLAIMS)])]
+      .filter(
+        (topic) =>
+          wrongBy(country, topic) > P.zero &&
+          Object.keys(badFacts(country, topic)).length > P.zero,
+      )
+      .sort(
+        (a, b) =>
+          wrongBy(country, b) - wrongBy(country, a) || a.localeCompare(b),
+      )[P.zero] ?? null
+  );
+}
+
 /** The levels of government the bill catalog says may answer each question. */
 const QUESTION_LEVELS: ReadonlyMap<string, readonly string[]> = new Map(
   (
@@ -1646,6 +1677,29 @@ export function planSpeech(
     ? themeStands(official, stands, theme, person).slice(P.zero, row.points)
     : [];
   const asks = pointStands;
+  // The kind of address (owner, Nov 8), from the world and the speaker.
+  const situation = addressSituation(core, {
+    macroSlide: country.macroSlide,
+    areas: country.areas,
+    priorities: asks.length,
+    prioritiesMax: Math.max(P.one, row.asks),
+  });
+  const firstYear =
+    daysBetweenText(speaker.serviceStart, core.date) <
+    api.parameter("daysPerMeanYear");
+  // The term's worst condition (the words lead, Nov 12: "the kind decides
+  // what the address is about, the speaker's issues decide only what they do
+  // about it"): the measure that went most wrong, read from the same records
+  // that score the crisis kind, an area of the term by how far it slid and a
+  // measure of the year by how far it moved against its scale. A crisis
+  // address opens its body on it; with none to say, no address is a crisis.
+  const crisisTopic = worstCondition(country);
+  // A speaker in their first year takes no lap for a record they did not make.
+  const addressKind = chooseAddressKind(person, situation, [
+    ...(firstYear || !row.ownRecord ? (["victory"] as const) : []),
+    ...(crisisTopic ? [] : (["crisis"] as const)),
+  ]);
+  const crisis = addressKind === "crisis" ? crisisTopic : null;
   // What the theme is about in the world's measures, the hardest first: the
   // first point opens with its figure where the records hold one.
   const held = (topic: string) =>
@@ -1656,6 +1710,8 @@ export function planSpeech(
   // point opens on what needs doing, never on an area that held still.
   const themeTopics = (theme ? subjectsOf(theme).flatMap(topicsOf) : [])
     .filter(held)
+    // A crisis's condition is told once, in its own point first.
+    .filter((topic) => topic !== crisis)
     .filter(
       (topic) =>
         !(TERM_AREAS as readonly string[]).includes(topic) ||
@@ -1696,22 +1752,6 @@ export function planSpeech(
     ),
   );
 
-  // The kind of address (owner, Nov 8), from the world and the speaker.
-  const situation = addressSituation(core, {
-    macroSlide: country.macroSlide,
-    areas: country.areas,
-    priorities: asks.length,
-    prioritiesMax: Math.max(P.one, row.asks),
-  });
-  const firstYear =
-    daysBetweenText(speaker.serviceStart, core.date) <
-    api.parameter("daysPerMeanYear");
-  // A speaker in their first year takes no lap for a record they did not make.
-  const addressKind = chooseAddressKind(
-    person,
-    situation,
-    firstYear || !row.ownRecord ? ["victory"] : [],
-  );
   const kindFact = {
     [`kind-${addressKind}`]: fact(
       "yes",
@@ -1851,6 +1891,26 @@ export function planSpeech(
       ...(short ? { "theme-short": fact(short, cited) } : {}),
     };
   };
+  /**
+   * A crisis address's first point: the term's worst condition, said with
+   * its fact. Over the years the speaker has held office where the bank says
+   * the measure that way (context, then what it has meant), else as the
+   * record's one line of it (story-says), never both, so it is said once.
+   */
+  const crisisDraft = (topic: string): Draft => {
+    const context = contextFacts(core, topic, country, speaker.serviceStart);
+    const told = context[`context-${topic}`]
+      ? move("context", { topic })
+      : null;
+    return {
+      key: `crisis-${topic}`,
+      level: "country",
+      facts: { ...badFacts(country, topic), ...context },
+      moves: told
+        ? [told, move("meaning", { topic })]
+        : [move("story-says", { topic })],
+    };
+  };
   const sections: Record<Section, () => Draft[]> = {
     salutation: () => [
       {
@@ -1921,8 +1981,11 @@ export function planSpeech(
     // where the question's row lets that side use one, tied to the question;
     // what the speaker believes, by the question's family and the speaker's
     // pole of it; and the ask, plainly for or against.
-    theme: () =>
-      pointStands.map((stand, at): Draft => {
+    theme: () => [
+      // A crisis address's first point is the term's worst condition, said
+      // with its fact; the speaker's own theme follows.
+      ...(crisis ? [crisisDraft(crisis)] : []),
+      ...pointStands.map((stand, at): Draft => {
         const plan = planned[at]!;
         const shape = OUTLINES.pointShapes.shapes[plan.shape]!;
         const rank =
@@ -1989,6 +2052,7 @@ export function planSpeech(
           ),
         };
       }),
+    ],
     people: () => [
       {
         key: "people",
