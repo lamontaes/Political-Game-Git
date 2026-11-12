@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/red-main-title-motion-fade
-pr: 8949
+pr: #8949
 after:
 blocked-on:
 lead: cto
@@ -16,6 +16,7 @@ model: opus
 effort: low
 root: none
 source: Red desk, Nov 12 (merger codex-4629 and the CTO on #8928)
+merged-at: 2026-11-12T22:42:54.936Z
 ---
 
 **What.** `node src/bench/title-motion.browser.mjs` fails at line 64, "fading in (0)", on clean main fd590ccd and ba2fbed0, against a fresh bench, every run. The title screen itself rotates and fades as it should. Guards: the check that the title painting drifts and the next national scene fades in keeps running.

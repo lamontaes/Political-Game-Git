@@ -757,7 +757,8 @@
     "title": "News",
     "nation": "Nation",
     "briefs": "Briefs",
-    "noStoryText": "The paper ran this story as a headline only; the full account has not come in."
+    "noStoryText": "The paper ran this story as a headline only; the full account has not come in.",
+    "nothingYet": "Nothing in print yet."
   },
   "jobs": {
     "work": "Work",

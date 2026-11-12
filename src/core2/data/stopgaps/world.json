@@ -8,8 +8,10 @@
     "why": "The starting law keeps one state sales-tax rate per state and a local add-on; a county or zone whose state rate is reduced has no row of its own. The Tax Foundation table folds the reduction into a negative local average, which a local add-on cannot be, so New Jersey now has no local-average row, like the other states without local sales taxes.",
     "addedBy": "claude/nj-local-sales-tax",
     "addedAt": "2026-10-24",
-    "replacement": "A county and zone sales-tax row read from the state statute, so a seller in Salem County or an Urban Enterprise Zone charges its reduced state rate.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A county and zone sales-tax row read from the state statute, so a seller in Salem County or an Urban Enterprise Zone charges its reduced state rate.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-macro-mortgage-spread",
@@ -39,13 +41,15 @@
     "id": "SG-WORLD-housing-fill-in-arrears",
     "kind": "owner-decision",
     "file": "src/core2/modules/housing.ts",
-    "line": 1819,
-    "whatItFakes": "When a counted household with an open eviction case is filled in, the case follows the household and its lease takes up the arrears the group had run up at notice, from the notice date. Whether the arrears carry over, are cured by the fill-in, or the case closes is the owner's call.",
+    "line": 2796,
+    "whatItFakes": "When a counted household with an open eviction case is filled in, the case follows the household and its lease takes up the arrears the whole group had run up at notice, from the notice date; the household then settles part of it from its own cash and traits (`settleArrears`, pool item world-fill-in-arrears-from-household, #5699). What is still faked: the arrears carried are the group's, not the household's own income against its housing cost over the months it was counted.",
     "why": "A counted household is not a second simulation: filled in, it must be the same household with the same debt (one model, two tiers). No ruling exists on its arrears.",
     "addedBy": "claude/fill-in-hook",
     "addedAt": "2026-10-17",
-    "replacement": "The owner's ruling on carry, cure or close for a counted household's arrears on fill-in (docs/coordination/OWNER-DECISIONS.md).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The household's own arrears read from its income against its housing cost over the months it was counted (owner ruling Oct 19, docs/coordination/OWNER-DECISIONS.md), instead of the group's run-up. Was: The owner's ruling on carry, cure or close for a counted household's arrears on fill-in (docs/coordination/OWNER-DECISIONS.md).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-board-appointments",
@@ -80,8 +84,10 @@
     "why": "They are outside the CBSA, CBP, LAUS and BEA tables in the repo; their governments' labor statistics are not yet gathered.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Each territory's own published labor and price statistics (Guam BLS-funded surveys, USVI Bureau of Economic Research, CNMI and American Samoa statistical offices), or the nearest comparable economy, labeled with its source.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each territory's own published labor and price statistics (Guam BLS-funded surveys, USVI Bureau of Economic Research, CNMI and American Samoa statistical offices), or the nearest comparable economy, labeled with its source.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-jobs-opening-seekers",
@@ -166,8 +172,10 @@
     "why": "Official code sites for 14 places refused the cloud or publish only through Lexis or a JavaScript application (AR, AS, CT, GA, GU, IL, IN, MS, NH, NM, NY, PR, TN, VI); AK, AL, HI, MA, MT, NJ, RI, SD, TX, VT and WV leave a hearing or stay to court rules, set no day count, or were read only in text that took effect later. Reads: data/research/world/eviction-statute-reads-2026.json (Oct 23) and data/research/housing/eviction-steps-2026.json (Oct 12).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Each place's steps read from the official statute text and cited by section, then M1-laws' landlord-tenant law in force. Oct 23, 2026: 46 steps in 21 places read from the statute text in force on January 20, 2025 (data/research/world/eviction-statute-reads-2026.json, checked against housing.json by scripts/research/housing-check.ts); later laws (Hawaii from February 5, 2026, Texas from January 1, 2026, the District from December 31, 2025) are recorded there as dated laterLaw rows for world-housing-eviction-law-dated-phases. Still open for the 25 places above, which need their codes read through Lexis or the courts' rules (research-housing-statutes-remaining).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each place's steps read from the official statute text and cited by section, then M1-laws' landlord-tenant law in force. Oct 23, 2026: 46 steps in 21 places read from the statute text in force on January 20, 2025 (data/research/world/eviction-statute-reads-2026.json, checked against housing.json by scripts/research/housing-check.ts); later laws (Hawaii from February 5, 2026, Texas from January 1, 2026, the District from December 31, 2025) are recorded there as dated laterLaw rows for world-housing-eviction-law-dated-phases. Still open for the 25 places above, which need their codes read through Lexis or the courts' rules (research-housing-statutes-remaining).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-housing-hearing-without-judge",
@@ -202,8 +210,10 @@
     "why": "New-unit occupancy and its vacancy changes are recorded; the opening rental stock has no individual unit inventory.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Record opening rental units and route their arrivals and departures through the same assignment and release rules.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Record opening rental units and route their arrivals and departures through the same assignment and release rules.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-jobs-counted-choices",
@@ -252,8 +262,10 @@
     "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so the group falls behind together; a single counted household's own shortfall is not kept.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Per-household cash for counted households, with arrears and eviction through the same legal steps; until then the group's arrears and money stand for its households'. Counted moves to a named town (the host's), once the counted moves engine keeps towns beyond the governing one.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Per-household cash for counted households, with arrears and eviction through the same legal steps; until then the group's arrears and money stand for its households'. Counted moves to a named town (the host's), once the counted moves engine keeps towns beyond the governing one.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-jobs-agreement-pinned",
@@ -288,8 +300,10 @@
     "why": "No refinancing step exists: the rate history (historicalMortgageRate) is held but no owner refinances from it.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "FHFA house price index by state and metro for purchase prices, ACS B25038 and B25027 by county, and refinancing waves from the rate history. Oct 23, 2026: ACS 2020-2024 B25038 and B25027 for every state and county are in data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json (Census Bureau; checked by scripts/research/housing-check.ts against the national shares openingMortgages reads in src/core2/housing-mortgages.ts); purchase prices already follow the state FHFA index (homePriceRatio). Reading the county rows, and refinancing from the rate history historicalMortgageRate already holds, is world-housing-mortgages-county-shares.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: FHFA house price index by state and metro for purchase prices, ACS B25038 and B25027 by county, and refinancing waves from the rate history. Oct 23, 2026: ACS 2020-2024 B25038 and B25027 for every state and county are in data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json (Census Bureau; checked by scripts/research/housing-check.ts against the national shares openingMortgages reads in src/core2/housing-mortgages.ts); purchase prices already follow the state FHFA index (homePriceRatio). Reading the county rows, and refinancing from the rate history historicalMortgageRate already holds, is world-housing-mortgages-county-shares.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-housing-price-index",
@@ -312,8 +326,10 @@
     "why": "FDIC Summary of Deposits has no rows for American Samoa or the Virgin Islands in the data, and island villages carry no county code.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "American Samoa's bank deposits from its territorial banking regulator or the banks' own reports; checked Oct 19 (claude): the FDIC Summary of Deposits for June 30, 2026 lists 16 branches in Guam, 6 in the Northern Marianas, 260 in Puerto Rico and 20 in the Virgin Islands, all already in data/tables/town-deposits.json, and none in American Samoa.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: American Samoa's bank deposits from its territorial banking regulator or the banks' own reports; checked Oct 19 (claude): the FDIC Summary of Deposits for June 30, 2026 lists 16 branches in Guam, 6 in the Northern Marianas, 260 in Puerto Rico and 20 in the Virgin Islands, all already in data/tables/town-deposits.json, and none in American Samoa.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-housing-island-areas",
@@ -324,8 +340,9 @@
     "why": "Every other place has a Census county tenure, rent and value table or one of the four island areas' own Census 2020 rows; a place with neither has no table of its own in the data.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "That place's own tenure, rent and value table; if no such place is reachable, delete the fallback and this row.",
-    "status": "open"
+    "replacement": "Resolved Nov 10 (stand-in triage): each of the four island areas now starts from its own Census 2020 row (`islandAreaOf` in src/core2/modules/housing.ts, rows in `islandAreas` of src/core2/data/housing/housing.json; pull request #5431, pool item world-housing-island-areas-sourced), and the county tables cover the other 52 places, so no place of the 56 reaches the national fallback. The marker is still at src/core2/modules/housing.ts line 190 on the now-unreached fallback. Was: That place's own tenure, rent and value table; if no such place is reachable, delete the fallback and this row.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10"
   },
   {
     "id": "SG-WORLD-housing-county-estimate",
@@ -348,8 +365,10 @@
     "why": "The opening records no memberships.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Members recorded on people (by industry and state, BLS Union Members tables), each choosing to join or leave from their pay, job and views; dues from their own cash.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Members recorded on people (by industry and state, BLS Union Members tables), each choosing to join or leave from their pay, job and views; dues from their own cash.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-credit-minimum-loan",
@@ -360,8 +379,10 @@
     "why": "Community banks' product terms are not in the data.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "A sourced range of community-bank personal loan minimums (FDIC or call-report product data).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A sourced range of community-bank personal loan minimums (FDIC or call-report product data).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-property-tax-rate",
@@ -386,8 +407,10 @@
     "why": "Counties bill once or twice a year on their own dates; the dates come with each county's law.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Bills on the county's due dates from the law in force, with escrow monthly only for owners with a mortgage.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Bills on the county's due dates from the law in force, with escrow monthly only for owners with a mortgage.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-property-tax-other-places-state-average",
@@ -492,13 +515,15 @@
     "id": "SG-WORLD-staff-husk-work",
     "kind": "missing-engine",
     "file": "src/core2/modules/staff.ts",
-    "line": 319,
-    "whatItFakes": "A relative living out of town (a husk) is never an aide candidate, because the records hold no work for them, and an unknown job is not an empty one.",
+    "line": 430,
+    "whatItFakes": "A relative living out of town is never an aide candidate, although their work is now kept (jobs-elsewhere.ts); the staff candidate list does not read it.",
     "why": "Husks are kept as a name and family ties only; their place's work isn't modeled at the coarse level, so whether they are out of work, and so free to take the post, can't be read.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "Work for out-of-town relatives from their place's coarse population (jobs by age and place), after which those within commuting reach and out of work apply like anyone.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Let a husk who is out of work and within commuting reach apply like anyone, reading the work kept by jobs-elsewhere.ts.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-WORLD-withholding-residence-law",
@@ -509,8 +534,10 @@
     "why": "Enacted laws are recorded only for the town's own chain; other places' chains are not opened as worlds yet.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "Each place's law chain recorded in the laws module, enacted acts included, read for every worker's residence.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each place's law chain recorded in the laws module, enacted acts included, read for every worker's residence.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-withholding-outside-governments",
@@ -533,8 +560,10 @@
     "why": "The law rows name the base but carry no exemption or adjustment amounts, and workers' pre-tax deductions are not modeled.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "Personal exemptions and adjustments read from the law rows and the worker's own records.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Personal exemptions and adjustments read from the law rows and the worker's own records.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-withholding-nonresident-local",
@@ -593,8 +622,10 @@
     "why": "A business's books record no premises or their value, so there is nothing for the property-tax rate in force to read.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "Business premises recorded with an assessed value (commercial values by place), billed at the property-tax rate in force like homes.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Business premises recorded with an assessed value (commercial values by place), billed at the property-tax rate in force like homes.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-WORLD-owner-decision-business-books",
@@ -653,8 +684,10 @@
     "why": "The HIC lists beds by Continuum of Care and provider; joining providers' geocodes to places is not done yet.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "Beds by place from the HIC provider rows (geocode to county and place), with occupancy on the count night. Oct 23, 2026: the 2025 HIC project rows are summed by state and city, with HUD geocodes and count-night occupancy, in data/research/world/hud-hic-2025-beds-by-city.json (HUD, 2025; 2,656 city rows; the state rates shelterBeds reads are checked against it by scripts/research/housing-check.ts). Reading them per place is world-housing-shelter-beds-by-place.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Beds by place from the HIC provider rows (geocode to county and place), with occupancy on the count night. Oct 23, 2026: the 2025 HIC project rows are summed by state and city, with HUD geocodes and count-night occupancy, in data/research/world/hud-hic-2025-beds-by-city.json (HUD, 2025; 2,656 city rows; the state rates shelterBeds reads are checked against it by scripts/research/housing-check.ts). Reading them per place is world-housing-shelter-beds-by-place.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-housing-shelter-territory",
@@ -665,8 +698,10 @@
     "why": "No HUD Housing Inventory Count covers them; the island-area median is the nearest measured stand-in (data/research/stopgaps-oct19/D-economy-world.json).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "Each territory government's own shelter count. Oct 23, 2026: none found. American Samoa's Department of Human and Social Services publishes no shelter count, and the CNMI Homeless Coalition's 2018 Saipan count (22 sheltered people, reported by the Saipan Tribune) could not be reopened from the cloud (connection reset, then 503), so the island-area median stays (research-housing-statutes-remaining).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each territory government's own shelter count. Oct 23, 2026: none found. American Samoa's Department of Human and Social Services publishes no shelter count, and the CNMI Homeless Coalition's 2018 Saipan count (22 sheltered people, reported by the Saipan Tribune) could not be reopened from the cloud (connection reset, then 503), so the island-area median stays (research-housing-statutes-remaining).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-housing-foreclosure-steps",
@@ -677,8 +712,10 @@
     "why": "Foreclosure statutes and timelines were gathered for 56 places in one pass; places below high confidence still need their statute text read.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "Each place's foreclosure steps read from its statute text and court rules, with its own average days to complete. Oct 23, 2026: ATTOM's national figure and the 14 state averages were reopened (Q2 2025, Q3 2025 and Q2 2026 releases), Texas's steps were read from statute text (now high) and Minnesota's sale notice corrected to six weeks (data/research/world/foreclosure-reads-2026.json, checked by scripts/research/housing-check.ts against foreclosure.json, read by foreclosureSteps in src/core2/housing-foreclosure.ts). Still open: ATTOM publishes per-state averages only for its five longest and five shortest states each quarter, and the other statutes are unread (research-housing-statutes-remaining).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each place's foreclosure steps read from its statute text and court rules, with its own average days to complete. Oct 23, 2026: ATTOM's national figure and the 14 state averages were reopened (Q2 2025, Q3 2025 and Q2 2026 releases), Texas's steps were read from statute text (now high) and Minnesota's sale notice corrected to six weeks (data/research/world/foreclosure-reads-2026.json, checked by scripts/research/housing-check.ts against foreclosure.json, read by foreclosureSteps in src/core2/housing-foreclosure.ts). Still open: ATTOM publishes per-state averages only for its five longest and five shortest states each quarter, and the other statutes are unread (research-housing-statutes-remaining).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-jobs-offer-deadline-reminder",
@@ -701,8 +738,10 @@
     "why": "Rent, income and cash are read; dwelling capacity and commute preferences still lack records.",
     "addedBy": "SESSION-B",
     "addedAt": "2026-10-15",
-    "replacement": "Read recorded job locations and dwelling capacity to weigh commute and family-space changes with the same decision rule in both tiers.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Read recorded job locations and dwelling capacity to weigh commute and family-space changes with the same decision rule in both tiers.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-deposit-wallet-buffer",
@@ -713,8 +752,10 @@
     "why": "The existing payment paths consume cash directly. A bounded monthly policy allows deposits to fund lending without duplicating cash or claiming all payments are deposit-aware.",
     "addedBy": "SESSION-B",
     "addedAt": "2026-10-15",
-    "replacement": "Have payment and estate writers withdraw from the same named deposit claim before declaring a cash shortfall; preserve household claims across family changes.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Have payment and estate writers withdraw from the same named deposit claim before declaring a cash shortfall; preserve household claims across family changes.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-opening-mortgage-funding",
@@ -725,8 +766,10 @@
     "why": "The pre-existing mortgage opening subtracts its initial principal from capital without recording who funded it. Retaining that offset avoids creating capital or cash while adding new deposits.",
     "addedBy": "SESSION-B",
     "addedAt": "2026-10-15",
-    "replacement": "Generate the mortgage opening with named depositor or warehouse-funding liabilities and retain those funding records in the bank books.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Generate the mortgage opening with named depositor or warehouse-funding liabilities and retain those funding records in the bank books.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-macro-income-history",
@@ -749,8 +792,10 @@
     "why": "Presidents of either party have named hawks and doves; no source ties a nominee's lived inflation to a party, so this is an assumed link.",
     "addedBy": "CLAUDE-POOL",
     "addedAt": "2026-10-15",
-    "replacement": "A nominee's party or stated views as a record on the candidate, read for alignment; or a sourced relation between appointing party and hawkishness.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A nominee's party or stated views as a record on the candidate, read for alignment; or a sourced relation between appointing party and hawkishness.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-board-career-qualification",
@@ -761,8 +806,10 @@
     "why": "A seeded candidate has a career label and a lived-inflation figure, and no work history to weigh.",
     "addedBy": "CLAUDE-POOL",
     "addedAt": "2026-10-15",
-    "replacement": "Qualification read from the candidate's recorded career history, with the table's values calibrated to the careers of past governors.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Qualification read from the candidate's recorded career history, with the table's values calibrated to the careers of past governors.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-department-government",
@@ -773,8 +820,10 @@
     "why": "The departments held no cash and no pay link, so their workers were never paid. The Census of Governments lists functions by government but not which unit staffs a town's own departments.",
     "addedBy": "claude/public-staff-never-paid",
     "addedAt": "2026-10-17",
-    "replacement": "Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each department's employing government read from the Census of Governments employment file by function, so a county health department, a fire district or a state agency's field office pays its own staff.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-coarse-place-no-payroll",
@@ -783,10 +832,12 @@
     "line": 727,
     "whatItFakes": "A person met in a place other than the player's has the age, job and wage that place's counts show, kept as a fact on the person (identity:work), but no employer organization, payroll or household beyond themselves exists there, so no money moves for them and no engine reads the job yet.",
     "why": "Only the player's town has employers with accounts and payroll; paying a visited town's workers means a money design for places the regional economy does not step person by person.",
-    "replacement": "The regional economy pays other places' workers from the place's counts (a wage flow per place, as the player's town has for its unplaced workers), and an engine that decides about a person (a view, a price, an eligibility) reads their job and wage.",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The regional economy pays other places' workers from the place's counts (a wage flow per place, as the player's town has for its unplaced workers), and an engine that decides about a person (a view, a price, an eligibility) reads their job and wage.",
     "addedBy": "world-other-places-coarse-population",
     "addedAt": "2026-10-20",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-jobs-schooling-pay-share",
@@ -797,8 +848,10 @@
     "why": "No source measuring the within-occupation, within-employer schooling premium was fetched; 0.4 is an assumed middle value with a wide spread (0.2 to 0.7).",
     "addedBy": "schooling-to-pay",
     "addedAt": "2026-10-21",
-    "replacement": "A sourced within-occupation schooling premium (for example from a wage regression with occupation and employer controls) replacing the assumed share, with the share read per occupation.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A sourced within-occupation schooling premium (for example from a wage regression with occupation and employer controls) replacing the assumed share, with the share read per occupation.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-housing-lease-anniversary",
@@ -809,8 +862,10 @@
     "why": "Without it every opening lease renewed on the same review, a year after the opening, so a rent law could reach no tenant in the first year and rents stepped once a year. Leases are signed through the year; the Census table of renters by year moved in (ACS B25038) would give the true spread but is not in the data yet.",
     "addedBy": "claude/laws-nine-links-housing-credit",
     "addedAt": "2026-10-24",
-    "replacement": "Each opening lease's anniversary drawn from the place's renters by year moved in (ACS B25038), by the same lease-id hash.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each opening lease's anniversary drawn from the place's renters by year moved in (ACS B25038), by the same lease-id hash.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-credit-rate-cap-no-small-lender",
@@ -833,8 +888,10 @@
     "why": "The steps table has one number per step and the engine adds days to a date; it has no calendar of business days, court days or legal holidays to count on.",
     "addedBy": "claude/dreamy-tesla-bgi3ui-housing",
     "addedAt": "2026-10-24",
-    "replacement": "A day-type per step (calendar, business, court, excluding Sundays and holidays) in the steps table and a counter that skips non-counting days on the place's calendar, read where the engine adds days for the notice, hearing and stay (data/research/world/eviction-statute-reads-2026.json already records each read's dayType).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A day-type per step (calendar, business, court, excluding Sundays and holidays) in the steps table and a counter that skips non-counting days on the place's calendar, read where the engine adds days for the notice, hearing and stay (data/research/world/eviction-statute-reads-2026.json already records each read's dayType).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-weight-release-jobless-not-seeking",
@@ -857,8 +914,10 @@
     "why": "A full person holds a whole job, and with no other counted job at the employer there is no record to take the difference back from.",
     "addedBy": "claude/weight-release-heads",
     "addedAt": "2026-10-24",
-    "replacement": "The employer's staffing review reads the full job against its staffing need and sheds or keeps it by its own books, as for any job.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The employer's staffing review reads the full job against its staffing need and sheds or keeps it by its own books, as for any job.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-pr-counted-renter-income-third",
@@ -881,8 +940,10 @@
     "why": "A business's raises are held to the room its own trading month leaves; a public employer has no trading month, and its pay follows its budget line and the public pay floor (public-pay-floor.ts, the bargaining law). Public step schedules and the budget room they would read are not modeled yet.",
     "addedBy": "claude/traits-pay-growth",
     "addedAt": "2026-10-25",
-    "replacement": "Within-job raises for public workers by the same withinJobRaise rule, held to the room in the government's personnel budget line (the budgets engine) or set by the step schedule a bargaining or pay law records.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Within-job raises for public workers by the same withinJobRaise rule, held to the room in the government's personnel budget line (the budgets engine) or set by the step schedule a bargaining or pay law records.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-jobs-opening-tenure",
@@ -919,8 +980,10 @@
     "why": "The world's swing moves a seat only through its own 2024 vote, and these seats have none on record (MEDSL 2024 state legislative returns, doi:10.7910/DVN/DODOBJ).",
     "addedBy": "wire-office-budgets-justice (Claude, wire-office)",
     "addedAt": "2026-10-28",
-    "replacement": "Each such seat's last contested result (2022 or 2023 returns for the chambers that vote in other years, the district's presidential vote where none), read the same way.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each such seat's last contested result (2022 or 2023 returns for the chambers that vote in other years, the district's presidential vote where none), read the same way.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-small-dollar-one-lender",
@@ -931,8 +994,10 @@
     "why": "The credit engine had no lender beside the town bank. The sourced rates are one per state (CRL's single-payment payday map, NCLC's installment cap), the sourced volume is a national household share, and the Census count of consumer-lending storefronts per state (the web's finance.high-cost-loans base) is not yet read to place one lender per storefront or to mix products. With one lender that never closes, the web's factor can only scale its loans: the price path (the ceiling, read at the quote) and the supply path (the factor, read where the lender sizes the loan) are both live, each from its own record, and neither stands for the other.",
     "addedBy": "claude/laws-small-dollar-lenders",
     "addedAt": "2026-10-29",
-    "replacement": "One lender record per storefront, from the place's share of the state's Census consumer-lending establishments (data/research/outcome-web/place-outcome-bases-2024.json, finance.high-cost-loans), each with a product (payday, installment, title) and its own rate, opening and closing as the law in force and the web's count move.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: One lender record per storefront, from the place's share of the state's Census consumer-lending establishments (data/research/outcome-web/place-outcome-bases-2024.json, finance.high-cost-loans), each with a product (payday, installment, title) and its own rate, opening and closing as the law in force and the web's count move.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-small-dollar-lender-keeps-interest",
@@ -943,8 +1008,10 @@
     "why": "The lender is one organization record with cash (smallDollarLenderFor); the credit engine keeps no books for it beyond the loans it writes and the payments it takes, as the town bank kept none before deposits were built. A storefront's rent, wages, loan losses and the owner's profit are not yet sourced.",
     "addedBy": "claude/laws-small-dollar-lenders",
     "addedAt": "2026-10-30",
-    "replacement": "The lender's costs (storefront rent, wages, charge-offs) and its owner's draw paid out of its cash each month, sized from the sourced industry margin (the operating costs and pre-tax margin of publicly traded payday lenders' annual reports, or the CFPB's and FDIC's studies of storefront lending costs), so its room to lend is its capital plus what it keeps after costs.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The lender's costs (storefront rent, wages, charge-offs) and its owner's draw paid out of its cash each month, sized from the sourced industry margin (the operating costs and pre-tax margin of publicly traded payday lenders' annual reports, or the CFPB's and FDIC's studies of storefront lending costs), so its room to lend is its capital plus what it keeps after costs.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-small-dollar-one-open-loan",
@@ -955,8 +1022,10 @@
     "why": "The credit engine checks one set of open loans for both lenders. State payday laws differ on concurrent loans (some allow one at a time with a statewide database check, some two, some set no limit), and that is not yet a sourced row per state.",
     "addedBy": "claude/laws-small-dollar-lenders",
     "addedAt": "2026-10-30",
-    "replacement": "Each state's limit on concurrent small-dollar loans as a row in src/core2/data/credit/small-dollar.json (from the state's statute, e.g. NCSL's payday lending statutes table), read where the lender quotes, with the bank's own rule kept for the bank.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each state's limit on concurrent small-dollar loans as a row in src/core2/data/credit/small-dollar.json (from the state's statute, e.g. NCSL's payday lending statutes table), read where the lender quotes, with the bank's own rule kept for the bank.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-small-dollar-no-storefront-town",
@@ -967,8 +1036,10 @@
     "why": "The lender record is per town, from the town's own households (about 30 households or fewer at the sourced share and volume), and the world keeps no record of the lenders in neighboring places its people could reach.",
     "addedBy": "claude/laws-small-dollar-lenders",
     "addedAt": "2026-10-30",
-    "replacement": "Borrowers in a town without a storefront reach the nearest place's lender (a coarse-tier lender for the county or the nearest place with one), quoted under the law in force where the lender operates.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Borrowers in a town without a storefront reach the nearest place's lender (a coarse-tier lender for the county or the nearest place with one), quoted under the law in force where the lender operates.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-counted-evicted-push-rate",
@@ -979,8 +1050,10 @@
     "why": "The counted tier moves by expected rates accrued monthly by group, with no per-household pull carried from month to month; a household without a home is the record the eviction left, so its rate is the one place the push can land (CTO ruling, Nov 1: an evicted counted household stays counted).",
     "addedBy": "speed lead builder (core-evicted-counted-stays-counted)",
     "addedAt": "2026-11-01",
-    "replacement": "A counted household's own pull carried month to month (the push added once on the day, faded as a full person's), or the push calibrated against the share of evicted households that leave their county (Desmond and Shollenberger 2015).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A counted household's own pull carried month to month (the push added once on the day, faded as a full person's), or the push calibrated against the share of evicted households that leave their county (Desmond and Shollenberger 2015).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
   },
   {
     "id": "SG-WORLD-counted-eviction-kin-notice",
@@ -999,9 +1072,9 @@
   {
     "id": "SG-WORLD-government-opening-fund-balance",
     "kind": "estimated-parameter",
-    "file": "data/research/money/treasury-opening-cash.json",
-    "line": 15,
-    "whatItFakes": "Opening cash is calibrated from reported cash and net reserves instead of dated accounts for each fictional government. State and local net fund balances are treated as available cash; exact fund assignments and opening legacy deficits are not modeled.",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 536,
+    "whatItFakes": "Each government's opening cash is a calibrated estimate from reported cash and net fund balances (`openingCash` profiles read in src/core2/modules/budgets.ts, data/research/money/treasury-opening-cash.json; pool item world-government-opening-fund-balance, #7164), not dated accounts for each fictional government. State and local net fund balances are treated as available cash; exact fund assignments and opening legacy deficits are not modeled.",
     "why": "A new game has no preceding cash history. Federal cash uses two reporting years; state reserves use a 37-state historical sample; local reserves use Michigan medians and general-government revenue as a general-fund proxy. These estimates replace neither appropriation nor borrowing decisions.",
     "addedBy": "lane-2/opening-treasuries",
     "addedAt": "2026-11-04",
