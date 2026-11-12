@@ -3229,6 +3229,16 @@
             "kind-hopeful",
             "realm-name"
           ]
+        },
+        {
+          "move": "hope",
+          "subject": "town-address",
+          "role": "hope",
+          "choice": "hope",
+          "requiresFacts": [
+            "kind-hopeful",
+            "realm-name"
+          ]
         }
       ],
       "voice": "polished",
@@ -3247,6 +3257,16 @@
         {
           "move": "hope",
           "subject": "state-of-the-state",
+          "role": "hope",
+          "choice": "hope",
+          "requiresFacts": [
+            "kind-hopeful",
+            "realm-name"
+          ]
+        },
+        {
+          "move": "hope",
+          "subject": "town-address",
           "role": "hope",
           "choice": "hope",
           "requiresFacts": [
@@ -4518,52 +4538,6 @@
           "subject": "town-address",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": [
-            "kind-hopeful"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.polished-twn-the-best-of-this-town-is-still-ahead-of-it-and-i",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "The best is still ahead of us, and I hope you can see it from here.",
-      "uses": [
-        {
-          "move": "hope",
-          "subject": "town-address",
-          "role": "hope",
-          "choice": "hope",
-          "requiresFacts": [
-            "kind-hopeful"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.plain-twn-the-best-of-this-town-is-still-ahead-of",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "The best is still ahead of us, and I hope you can see it too.",
-      "uses": [
-        {
-          "move": "hope",
-          "subject": "town-address",
-          "role": "hope",
-          "choice": "hope",
           "requiresFacts": [
             "kind-hopeful"
           ]

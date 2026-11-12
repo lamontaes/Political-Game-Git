@@ -1710,6 +1710,11 @@ for (const part of bank.parts) {
       "The best of {realm-name} is still ahead of us, and I mean to prove it.",
     "The best of this state is still ahead of us, and I hope you can see it too.":
       "The best of {realm-name} is still ahead of us, and I'm going to prove it.",
+    // The same hope in a local address (words builder, Nov 12).
+    "The best is still ahead of us, and I hope you can see it from here.":
+      "The best of {realm-name} is still ahead of us, and I mean to prove it.",
+    "The best is still ahead of us, and I hope you can see it too.":
+      "The best of {realm-name} is still ahead of us, and I'm going to prove it.",
   }[part.text];
   if (!text) continue;
   part.text = text;
