@@ -39,7 +39,7 @@ merged-at: 2026-11-11T16:20:10.834Z
 
 **Time box.** 6 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
-**Rules.** No hand-written player text in code. One rule, all 56 places: the office, dates and filing office come from each place's records, never a named place. No dice: who else filed is the elections engine's record. Wire to the world: the line names a filing that is in the elections engine.
+**Rules.** No hand-written player text in code. One rule, all 56 places: the office, dates and filing office come from each place's records, never a named place. No dice: who else filed is the elections engine's record. Wire to the world: the line names a filing that is in the elections engine. One screen names a thing once (lead, Nov 11, from the reviews of PR 8736 and PR 8750): wherever this item says each reply names the same thing, read it as each reply carries an insert, no two replies on one screen carry the same insert, and the speaker's own line names the thing once and then says "it". Say an office, a bill or a person the way people say it, never a form's title and never a parenthesis.
 
 **Done when.** A second session, in the running game on main at 1440x900, starts three new lives in drawn places it writes down with their seeds, and files for an office in each. The clerk's lines name the office and the race's dates, and in at least one place they name another candidate who filed. The player's replies are at most four different moves, each naming the office or the race. The three visits share no clerk sentence of four words or more. tests/guards/english passes with the lowered count.
 

@@ -8,7 +8,7 @@ size: S
 status: done
 claimed-by: claude/pool-play-stop-07-every-day-starts-at-midnight
 pr:
-after:
+after: play-filing-visit-moves-the-clock
 blocked-on:
 standard: 2
 model: sonnet
@@ -78,6 +78,8 @@ Released (2026-11-11): Not replayed a fifth time: the replays on PR 8324 agree, 
 Claimed by next for opus-1fd7 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 08:33 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
 
 Released (2026-11-11): Replayed four times on PR 8324; its one failing step is play-filing-visit-moves-the-clock (on pool/notes, not yet on main), so a fifth replay finds nothing new. Continue on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+**Notes (opus-5234, Nov 11).** Re-offered after two releases with the replay done (PR 8324): Day and closed-office travel pass, the filing visit leaves the clock unmoved. That failing step is now its own item, play-filing-visit-moves-the-clock, with its cause found in code (`BenchPlayer.spend` returns nothing while the filing's own story stop is the open packet, src/bench/player.ts line 242; src/bench/filing.browser.mjs line 244 accepts the held clock). This item waits on it (`after:`), then a second session replays the whole finish line again.
 
 Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 08:41 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
 

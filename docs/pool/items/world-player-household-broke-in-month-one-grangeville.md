@@ -12,8 +12,8 @@ pr:
 after:
 blocked-on:
 lead: money
-model: sonnet
-effort: high
+model: haiku
+effort: low
 root: none
 source: added with npm run pool -- add
 claimed-at:
@@ -22,11 +22,11 @@ checked: fable 2026-11-10
 
 **What.** The command GOLDEN_PATH_SEED=4dd8e78f80e4655594ad8dfe9f684320be1d6c47b100552fa8978a9512b3b07f GOLDEN_PATH_PLACE_KEY=1632950 npx vitest run src/core2/player-money-year.test.ts failed at the living-cost line (src/core2/player-money-year.test.ts line 107) on Oct 20: the household's cash went 52,068 to 0 in the first month and stayed near 0 for the year (about $10,800 of pay, $2,450 of contracts settled, $8,100 moved to the counted residents account, no accounts.transfer living entry). The Oct 25 audit set the item open because the pull request that named it merged as other work, so the failure has not been reproduced on main. Find why the household runs dry so fast: its pay against its living cost, a living cost larger than its income, or members' cash left in the wrong account. The sibling core-player-household-no-income is done; read it first.
 
-**Cause.** Needs cause. Looked at src/core2/player-money-year.test.ts (line 107 is the living-cost assertion) and the item: the failing command has not been rerun on main since the Oct 25 audit, and the sibling core-player-household-no-income is done, so it may be the same cause fixed.
+**Cause.** Measured: does not reproduce on main d64255aa (Nov 11). `GOLDEN_PATH_SEED=4dd8e78f80e4655594ad8dfe9f684320be1d6c47b100552fa8978a9512b3b07f GOLDEN_PATH_PLACE_KEY=1632950 npx vitest run src/core2/player-money-year.test.ts` (Grangeville, Idaho) passes, the living-cost line at line 107 included. A fresh draw, `GOLDEN_PATH_SEED=cause-fresh-grange-2` (the test draws with `player-money-year:<attempt>`), passes too. The sibling core-player-household-no-income is done; whatever closed it, or a later change to the household's living-cost transfers, closed this as well.
 
-**Fix.** None until the cause is found.
+**Fix.** Nothing to build. The CTO drops the item as done by main. If the test fails again by seed, file a new item from that run's place, seed and the household's first-month journal rows.
 
-**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the player's own household's cash, which runs to zero in the first month.
+**Time box.** 0.5 hours for the CTO to read this and drop the item. Seen: the player's own household's cash, which runs to zero in the first month.
 
 **Rules.** Wire to the world: one dollar followed from the household to the payee by journal record id. No dice. One rule, all 56 places: no place named in the fix. Estimate, never UNKNOWN.
 
@@ -43,3 +43,5 @@ Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): m
 Set open by the Oct 25 audit: PR #5080 merged as world-counted-reads-six-engines, not as this item; reproduce on main before building.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/grangeville-broke` (2026-10-20). Cleared from the front matter and kept here.
+
+Nov 11 (cause finder for Fable B): reran on main d64255aa. The item's own command passes in Grangeville, and a fresh draw (cause-fresh-grange-2) passes. I propose dropping the item as done by main.

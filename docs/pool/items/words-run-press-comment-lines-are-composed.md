@@ -38,7 +38,7 @@ branch:
 
 **Time box.** 8 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop. If it runs out, split the remaining reply moves into their own item rather than stopping halfway through a move.
 
-**Rules.** No hand-written player text in code. No dice: the answer's side is the player's recorded vote or view. Ask why: every figure cites the bill or vote record. One rule, all 56 places: the tests draw their places. An effect is a read: the story the press engine runs reads the reply.
+**Rules.** No hand-written player text in code. No dice: the answer's side is the player's recorded vote or view. Ask why: every figure cites the bill or vote record. One rule, all 56 places: the tests draw their places. An effect is a read: the story the press engine runs reads the reply. One screen names a thing once (lead, Nov 11, from the reviews of PR 8736 and PR 8750): wherever this item says each reply names the same thing, read it as each reply carries an insert, no two replies on one screen carry the same insert, and the speaker's own line names the thing once and then says "it". Say an office, a bill or a person the way people say it, never a form's title and never a parenthesis.
 
 **Done when.** A second session, in the running game on main at 1440x900, plays three new lives in drawn places it writes down with their seeds until a reporter asks the player about a bill. Each exchange names the bill, and after a held vote the count; the replies are at most four different moves, each naming the bill or the story. It answers on the record and finds the outlet's story quoting the answer in the news. tests/guards/english passes with the lowered count.
 

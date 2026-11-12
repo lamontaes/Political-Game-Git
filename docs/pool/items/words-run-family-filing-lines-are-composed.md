@@ -38,7 +38,7 @@ branch:
 
 **Time box.** 5 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
-**Rules.** No hand-written player text in code. No dice: the stake is read from the household's money, jobs and children. Ask why: each figure the relative says cites the household's records. One rule, all 56 places: the tests draw their places.
+**Rules.** No hand-written player text in code. No dice: the stake is read from the household's money, jobs and children. Ask why: each figure the relative says cites the household's records. One rule, all 56 places: the tests draw their places. One screen names a thing once (lead, Nov 11, from the reviews of PR 8736 and PR 8750): wherever this item says each reply names the same thing, read it as each reply carries an insert, no two replies on one screen carry the same insert, and the speaker's own line names the thing once and then says "it". Say an office, a bill or a person the way people say it, never a form's title and never a parenthesis.
 
 **Done when.** A second session, in the running game on main at 1440x900, starts three new lives in drawn places it writes down with their seeds, with a spouse or a child at home, and files for office in each. The relative's lines name the office and the stake from that household's records (the days the savings last, or the child's name), and the replies are at most four different moves, each about that stake. It answers with a request, and the relative appears as a volunteer on the campaign. tests/guards/english passes with the lowered count.
 
