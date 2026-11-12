@@ -40,3 +40,5 @@ branch: claude/pool-outcome-causes-health-programs-part-1-coverage-links
 **Notes.** Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:25 UTC) on branch claude/pool-outcome-causes-health-programs-part-1-coverage-links.
 
 Released (2026-11-11): Held by my own next loop while walking the queue; not worked (see the item's own size and Fix: M-sized or needs Story/Words lines, not started this pass). Continue on branch claude/pool-outcome-causes-health-programs-part-1-coverage-links.
+
+Nov 12 (Account lead T9): coverage-to-medical-debt is carried by the coverage engine's monthly bills (src/core2/medical-bills.ts; links.json carriedBy), so the web does not run it and it is off this item; three links remain (catastrophic bills, depression, marriage equality).
