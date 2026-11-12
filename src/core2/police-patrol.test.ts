@@ -30,7 +30,7 @@ import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const CUT = "TEST-POLICE-CUT";
-const DRAWS = 6;
+const DRAWS = 12;
 
 /** The month after a month, as YYYY-MM. */
 function nextMonth(month: string): string {
