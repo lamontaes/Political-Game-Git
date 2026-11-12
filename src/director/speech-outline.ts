@@ -1249,7 +1249,11 @@ export function planSpeech(
           ? { required: true }
           : {}),
       })),
-    );
+    )
+    // A section the bank has no piece for (one whose pieces carry nothing)
+    // is left out before the paragraphs are counted, so the greeting joins
+    // what is actually said next.
+    .filter((draft) => draft.moves.some(Boolean));
   // The world's names and the theme's subjects, which every part may say.
   const world = federal
     ? worldFacts(core, person, kind, voice, country, points)

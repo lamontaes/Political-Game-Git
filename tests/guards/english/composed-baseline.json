@@ -3,21 +3,21 @@
   "days": 14,
   "draws": [
     {
-      "seed": "a8256957-ff67-4200-b4c0-e101331d61fd",
-      "placeKey": "5401396",
-      "place": "Alum Creek, West Virginia"
+      "seed": "70ff55f0-1ba5-4b59-bbc5-36b98523a81c",
+      "placeKey": "3035725",
+      "place": "Helmville, Montana"
     }
   ],
   "rules": {
     "address-is-national-not-about-the-player": {
       "read": 2,
-      "breaks": 0,
-      "per100": 0
+      "breaks": 1,
+      "per100": 50
     },
     "speech-has-one-theme": {
       "read": 2,
-      "breaks": 0,
-      "per100": 0
+      "breaks": 1,
+      "per100": 50
     },
     "asks-differ-by-world": {
       "read": 2,
@@ -25,37 +25,37 @@
       "per100": 0
     },
     "person-said-by-role-pronoun-or-relationship": {
-      "read": 19,
-      "breaks": 3,
-      "per100": 15.8
+      "read": 20,
+      "breaks": 8,
+      "per100": 40
     },
     "one-idea-to-a-sentence": {
-      "read": 19,
+      "read": 20,
       "breaks": 0,
       "per100": 0
     },
     "no-reply-asks-what-the-listener-cannot-know": {
-      "read": 5,
-      "breaks": 0,
-      "per100": 0
-    },
-    "two-speakers-make-different-points": {
-      "read": 5,
-      "breaks": 0,
-      "per100": 0
-    },
-    "line-fits-the-hour": {
       "read": 7,
       "breaks": 0,
       "per100": 0
     },
+    "two-speakers-make-different-points": {
+      "read": 7,
+      "breaks": 0,
+      "per100": 0
+    },
+    "line-fits-the-hour": {
+      "read": 9,
+      "breaks": 0,
+      "per100": 0
+    },
     "no-non-replies": {
-      "read": 5,
-      "breaks": 1,
-      "per100": 20
+      "read": 7,
+      "breaks": 0,
+      "per100": 0
     },
     "note-stands-alone": {
-      "read": 6,
+      "read": 5,
       "breaks": 0,
       "per100": 0
     }
