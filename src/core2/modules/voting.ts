@@ -243,6 +243,8 @@ export interface BallotRow {
         readonly relationship?: number;
         /** Their own "yes" at the candidate's door, as far as it still holds. */
         readonly pledge?: number;
+        /** How far that "yes" held on the ballot day, 0 to 1 (one less the doubt `pledgeDoubt` read then), kept so a later read of the ties and news cannot differ from it. */
+        readonly pledgeHeld?: number;
       }
     >
   >;
@@ -968,6 +970,8 @@ export interface NamedAppeal extends CountedAppeal {
   readonly relationship: number;
   /** The incumbent's record as they weigh it, where they know the officeholder. */
   readonly record: number;
+  /** How far their door "yes" to this candidate held on the ballot day, where they gave one. */
+  readonly pledgeHeld?: number;
 }
 
 /**
@@ -990,6 +994,7 @@ function appealFor(
 ) {
   const lean = voterLean(api, voter);
   const view = contestView(api, contest, filings);
+  const pledgesHeld = namedPledges(api, voter, lean, contest.id, view.field);
   const base = countedAppeal(lean, view.field, {
     inTown: true,
     local: true,
@@ -1000,7 +1005,7 @@ function appealFor(
     profile: api.state.modules.has(VIEWS_MODULE_ID)
       ? viewOf(api, voter.id)
       : undefined,
-    pledges: namedPledges(api, voter, lean, contest.id, view.field),
+    pledges: pledgesHeld,
   });
   const tie = partyTie(api, voter.id);
   let heardPlatform = false;
@@ -1075,6 +1080,9 @@ function appealFor(
       ballot: parts.ballot,
       scandal,
       pledge: parts.pledge,
+      ...(pledgesHeld?.[entry.id] !== undefined
+        ? { pledgeHeld: pledgesHeld[entry.id] }
+        : {}),
     };
   }
   // A held door yes keeps its candidate ahead, in proportion to how far it
@@ -4887,7 +4895,7 @@ export function electoralCollege(
       const counted = countPlaces(
         sample,
         coarse(places, key === stateKey, change),
-        partyField(reasons, field),
+        partyField(api, reasons, field),
       );
       // The state's popular vote is a count like any other: kept by the one
       // writer, its winner the side its electors go to.
@@ -5388,11 +5396,9 @@ function worldRacePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
     const place = housePlace(usps, race.code, api.state.seed);
     if (place) return [place];
     // A delegate's seat with no House vote on record (a territory): the
-    // place at its 2024 delegate race's lean, its size not yet read.
-    // stopgapId: SG-GOV-delegate-race-size
-    api.stopgap("SG-GOV-delegate-race-size");
+    // place at its 2024 delegate race's lean, sized by the votes it cast.
     const delegate = statePlaces(usps, api.state.seed, 1)[0];
-    return delegate ? [{ ...delegate, eligible: 0 }] : [];
+    return delegate ? [delegate] : [];
   }
   const offices = api.moduleState(OFFICES_MODULE_ID);
   // A seat the whole state elects (a senator, a governor, an attorney
@@ -5459,7 +5465,8 @@ function coarse(
 }
 
 /** Each candidate as a counted voter sees them on a race the town doesn't vote in. */
-function partyField(
+export function partyField(
+  api: CoreAPI,
   reasons: readonly CandidateReasons[],
   field: readonly CandidateInputs[],
 ): readonly CountedFieldEntry[] {
@@ -5467,6 +5474,10 @@ function partyField(
     id: c.id,
     side: c.side,
     isIncumbent: c.incumbent,
+    // The holder's standing carries the average incumbency advantage, so each
+    // voter's own incumbent lean is read against the town's average, as the
+    // town's own races read it.
+    ...(c.incumbent ? { incumbentLeanCenter: townIncumbentLean(api) } : {}),
     standing: appealOfShare(reasons[i]!.total),
     localStanding: 0,
     recognition: 0,
@@ -5558,7 +5569,7 @@ function decide(
   const counted = countPlaces(
     sampleFor(api, date),
     coarse(places, townsState, electorateChange(api)),
-    partyField(reasons, candidates),
+    partyField(api, reasons, candidates),
   );
   const raceId = special
     ? `race:${race.seatId}:${date}:special`

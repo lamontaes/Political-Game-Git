@@ -8,8 +8,11 @@
     "why": "The counts keep family pairs without their kind and carry no marital status, so the web's mothers and married-women outcomes cannot read a counted woman's own record.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "Counted members' partner and parent-child links kept in the counts, read in place of the age rule.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Counted members' partner and parent-child links kept in the counts, read in place of the age rule.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage; too in depth, owner): the player sees nothing of the difference; the estimate stays.",
+    "resolvedBy": "stand-in triage (owner, Nov 10)"
   },
   {
     "id": "SG-LABOR-no-legal-status",
@@ -20,8 +23,11 @@
     "why": "Pew publishes the unauthorized population by state but no table here holds each state's noncitizens to divide it by, and people are generated without a birthplace.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "A per-state unauthorized share of noncitizens (Pew state estimates over ACS noncitizens, table B05001) in place data, and a seeded nativity on people (full and counted) so naturalized citizens are told from the U.S.-born.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A per-state unauthorized share of noncitizens (Pew state estimates over ACS noncitizens, table B05001) in place data, and a seeded nativity on people (full and counted) so naturalized citizens are told from the U.S.-born.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage; too in depth, owner): the player sees nothing of the difference; the estimate stays.",
+    "resolvedBy": "stand-in triage (owner, Nov 10)"
   },
   {
     "id": "SG-LABOR-minimum-wage-ratio",
@@ -46,8 +52,11 @@
     "why": "The links are person-level (exposure-years shape): a place rate would apply them to the wrong people, so each must be read from the person's own history when pay is set.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "Birth-year pollution: a read in src/core2/jobs-web.ts of the person's birth fact and the web's particulates over their birth year, sized from its study. Teacher quality: parked until a researched link moves teacher value-added (a teacher-pay or evaluation law); then the school engine keeps a value-added per teacher and a yearly classroom, and hirePay reads its mean. Neighborhood years: a county row of childhood exposure effects, read in hirePay from residenceOn and in-play moves.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Birth-year pollution: a read in src/core2/jobs-web.ts of the person's birth fact and the web's particulates over their birth year, sized from its study. Teacher quality: parked until a researched link moves teacher value-added (a teacher-pay or evaluation law); then the school engine keeps a value-added per teacher and a yearly classroom, and hirePay reads its mean. Neighborhood years: a county row of childhood exposure effects, read in hirePay from residenceOn and in-play moves.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage; too in depth, owner): the player sees nothing of the difference; the estimate stays.",
+    "resolvedBy": "stand-in triage (owner, Nov 10)"
   },
   {
     "id": "SG-LABOR-unsized-links",
@@ -58,8 +67,11 @@
     "why": "Their sources give a study-unit effect (one lost line, a county gaining broadband, one deal) that no conversion turns into the game's slopes; the sizes are to confirm.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "Sizes confirmed from the sources and the cause measures (transit access, deal records) recorded by their engines.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Sizes confirmed from the sources and the cause measures (transit access, deal records) recorded by their engines.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage; too in depth, owner): the player sees nothing of the difference; the estimate stays.",
+    "resolvedBy": "stand-in triage (owner, Nov 10)"
   },
   {
     "id": "SG-LABOR-pretrial-employment",
@@ -70,8 +82,11 @@
     "why": "Dobbie, Goldin and Yang (2018) compare formal employment three to four years after the bail hearing; the game has no informal work to set it against, and the counted tier's detention is a head count per case, not a record of a member the jobs engine could read.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "A duration from the research on the term; a record of which counted member was held, for the counted tier to read as a named person's is; and the term fitted in a played year so detained defendants' share at work runs the researched 20% under that of those released (see SG-LABOR-participation-scale).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A duration from the research on the term; a record of which counted member was held, for the counted tier to read as a named person's is; and the term fitted in a played year so detained defendants' share at work runs the researched 20% under that of those released (see SG-LABOR-participation-scale).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage; too in depth, owner): the player sees nothing of the difference; the estimate stays.",
+    "resolvedBy": "stand-in triage (owner, Nov 10)"
   },
   {
     "id": "SG-LABOR-participation-scale",
@@ -82,8 +97,11 @@
     "why": "Measured in a played town: an older-work effect of +0.3 (a 30% change in the researched outcome) moved the share of 62 to 67 year olds at work from 0.656 to 0.677, about 3%, because the choice scores are logistic and the entry and exit pulls are small.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "A weight on the term, fitted in a played year so each group's share moves by the researched size (mothers, married women), as jobsOlderWorkWebWeight is for ages 62 to 66.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A weight on the term, fitted in a played year so each group's share moves by the researched size (mothers, married women), as jobsOlderWorkWebWeight is for ages 62 to 66.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage; too in depth, owner): the player sees nothing of the difference; the estimate stays.",
+    "resolvedBy": "stand-in triage (owner, Nov 10)"
   },
   {
     "id": "SG-LABOR-defense-cause",
@@ -117,13 +135,16 @@
     "id": "SG-LABOR-regional-job-town-roles",
     "kind": "assumed-data",
     "file": "src/core2/modules/jobs.ts",
-    "line": 1,
-    "whatItFakes": "A town resident's regional job is priced from the BLS OEWS wage for the occupation of the town role nearest to what they were paid (metro or state area, starting percentile, moved with the place's pay level). Where OEWS publishes no wage for that occupation, the town's own nearest role sets the pay. The occupation is the town role's, not the person's own job history.",
+    "line": 2509,
+    "whatItFakes": "A town resident's regional job is priced from the BLS OEWS wage for the occupation of the town role nearest to what they were paid (metro or state area, starting percentile, moved with the place's pay level). The seeker row now keeps the person's last job (lastJob), but it is read only where the town has no role to copy; otherwise the town role's occupation, not the person's own, sets the wage. Where OEWS publishes no wage for the occupation, the town's own nearest role sets the pay.",
     "why": "The seeker row keeps only the last pay, not the occupation of the last job, so the occupation is taken from the town role nearest in pay.",
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-08",
-    "replacement": "Keep the occupation of the last job on the seeker row and price the regional job from it.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Keep the occupation of the last job on the seeker row and price the regional job from it.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage; too in depth, owner): the player sees nothing of the difference; the estimate stays.",
+    "resolvedBy": "stand-in triage (owner, Nov 10)"
   },
   {
     "id": "SG-LABOR-turnover-fixed-rate",
@@ -146,8 +167,11 @@
     "why": "bls.gov refuses the cloud container (403) and web.archive.org resets, so BLS table cpsaat31 (unemployed by age and duration) could not be read; the Coordinator ruled Nov 8: estimate, never unknown.",
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-08",
-    "replacement": "BLS CPS table cpsaat31 (mean and median weeks by age band) read into data/research/labor/ and fitted band by band.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: BLS CPS table cpsaat31 (mean and median weeks by age band) read into data/research/labor/ and fitted band by band.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage; too in depth, owner): the player sees nothing of the difference; the estimate stays.",
+    "resolvedBy": "stand-in triage (owner, Nov 10)"
   },
   {
     "id": "SG-LABOR-opening-band-ratios-town-mix",
@@ -158,8 +182,11 @@
     "why": "The county's worker age mix is not in the regional series the opening reads (state and county labor statistics). Before the scaling, Douglas, Michigan (2622740) opened with 17 seekers where the county's 4.72% implies 22 to 24, because 37% of its counted working-age jobs sit in the fifth age band (ratio 0.73); with the town-mix scaling it opens 20.",
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-08",
-    "replacement": "Scale the band ratios so their job-weighted mean is one over the county's age mix of workers (ACS), then apply them to the town's mix; a town older than its county then opens below the county only by how much older it is.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Scale the band ratios so their job-weighted mean is one over the county's age mix of workers (ACS), then apply them to the town's mix; a town older than its county then opens below the county only by how much older it is.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage; too in depth, owner): the player sees nothing of the difference; the estimate stays.",
+    "resolvedBy": "stand-in triage (owner, Nov 10)"
   },
   {
     "id": "SG-LABOR-vacancy-size-uniform",
@@ -170,8 +197,11 @@
     "why": "The industry series is the published figure; a size gradient needs establishment-size microdata not fetched tonight.",
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-09",
-    "replacement": "Scale each firm's duration by the size gradient of DHI's hires-per-vacancy rate once the establishment-size table is sourced.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Scale each firm's duration by the size gradient of DHI's hires-per-vacancy rate once the establishment-size table is sourced.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage; too in depth, owner): the player sees nothing of the difference; the estimate stays.",
+    "resolvedBy": "stand-in triage (owner, Nov 10)"
   },
   {
     "id": "SG-LABOR-ban-the-box-proof-fixture-convictions",
@@ -194,8 +224,11 @@
     "why": "The justice engine keeps a conviction per named person (convictionsOf) but a counted seeker's record is a count by case, not an applicant's; whether a private employer is covered is in the state row's note, not a field the jobs engine reads.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-09",
-    "replacement": "Read the state row's private-employer coverage for private employers, and a counted seeker's share with a record from the justice engine's counted cases, by the same rule as a full person; size the penalty from the callback gap by employer type.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Read the state row's private-employer coverage for private employers, and a counted seeker's share with a record from the justice engine's counted cases, by the same rule as a full person; size the penalty from the callback gap by employer type.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage; too in depth, owner): the player sees nothing of the difference; the estimate stays.",
+    "resolvedBy": "stand-in triage (owner, Nov 10)"
   },
   {
     "id": "SG-LABOR-commuter-role-pool-pay",
