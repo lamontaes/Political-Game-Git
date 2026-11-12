@@ -197,6 +197,51 @@ const FIXTURES: Record<
       talk("dad", [[["dad", "I drive the long way to dodge that toll."]]]),
     ),
   },
+  "concession-names-what-it-concedes": {
+    catches: sampleOf(
+      talk("dad", [
+        [
+          [
+            "dad",
+            "The mayor brought up the bridge toll. I'd vote for the toll even so.",
+          ],
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      talk("dad", [
+        [
+          [
+            "dad",
+            "The mayor is against the bridge toll. I'd vote for it even so.",
+          ],
+        ],
+      ]),
+    ),
+  },
+  "answer-adds-something": {
+    catches: sampleOf(
+      talk("dad", [
+        [["dad", "The mayor wants a bridge toll. I'm for it."]],
+        [
+          [PLAYER, "Same as you, Dad."],
+          ["dad", "Glad you see it like I do, Dana."],
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      talk("dad", [
+        [["dad", "The mayor wants a bridge toll. I'm for it."]],
+        [
+          [PLAYER, "Same as you, Dad."],
+          [
+            "dad",
+            "Now it's up to the council. I'll be watching how they vote.",
+          ],
+        ],
+      ]),
+    ),
+  },
   "no-non-reply": {
     catches: sampleOf(
       talk("sis", [

@@ -35,32 +35,32 @@
       "per100": 0
     },
     "person-said-by-role-pronoun-or-relationship": {
-      "read": 47,
+      "read": 54,
       "breaks": 16,
-      "per100": 34
+      "per100": 29.6
     },
     "one-idea-to-a-sentence": {
-      "read": 47,
+      "read": 54,
       "breaks": 0,
       "per100": 0
     },
     "no-reply-asks-what-the-listener-cannot-know": {
-      "read": 14,
+      "read": 21,
       "breaks": 0,
       "per100": 0
     },
     "two-speakers-make-different-points": {
-      "read": 14,
+      "read": 21,
       "breaks": 0,
       "per100": 0
     },
     "line-fits-the-hour": {
-      "read": 19,
+      "read": 26,
       "breaks": 0,
       "per100": 0
     },
     "no-non-replies": {
-      "read": 14,
+      "read": 21,
       "breaks": 0,
       "per100": 0
     },

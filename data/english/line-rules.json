@@ -5164,11 +5164,15 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Composed check: two full clauses joined by a comma, in every composed sentence. One tense in a sentence and sentences that follow one another are not built yet: a sound reader of tense needs the join's typed pieces (design part 4). Sample: it reports, it pulls no bank line.",
+      "note": "Composed check: two full clauses joined by a comma, in every composed sentence. One tense in a sentence and sentences that follow one another are not built yet: a sound reader of tense needs the join's typed pieces (design part 4). Sample: it reports, it pulls no bank line. A concession ('even so') with nothing contrary before it in the line is caught too (concession-names-what-it-concedes).",
       "status": "sample",
       "test": {
         "kind": "composed",
-        "check": ["no-comma-splice", "act-named"]
+        "check": [
+          "no-comma-splice",
+          "act-named",
+          "concession-names-what-it-concedes"
+        ]
       }
     },
     {
@@ -5279,11 +5283,11 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Composed check: an answer of three words or fewer that only acknowledges what the player said, and a talk that closes on a promise to talk again. Sample: it reports, it pulls no bank line.",
+      "note": "Composed check: an answer of three words or fewer that only acknowledges what the player said, and a talk that closes on a promise to talk again. Sample: it reports, it pulls no bank line. An answer to an agreeing or disagreeing reply that only says they agree or differ is caught too (answer-adds-something).",
       "status": "sample",
       "test": {
         "kind": "composed",
-        "check": ["no-non-reply"],
+        "check": ["no-non-reply", "answer-adds-something"],
         "applies": ["talk:home", "talk:town", "scene"]
       }
     },

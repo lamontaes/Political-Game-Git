@@ -136,6 +136,7 @@ import {
 } from "./sitting";
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
+import { directorStopgap, WORDS_STOPGAP_HITS } from "./stopgaps";
 import { SCHOOL_MODULE_ID, schoolDayOf } from "../core2/modules/school";
 import {
   clockSaid,
@@ -1144,8 +1145,9 @@ function rentDue(
   core: Readonly<CoreState>,
   speaker: Readonly<PersonState>,
 ): Subject | null {
-  // STOPGAP SG-DIRECTOR-rent-talk-first-lease: the lease a household signed
-  // when the world was made, by its id; one signed after a move is not read.
+  // The lease a household signed when the world was made, by its id; one
+  // signed after a move is not read (a registered stopgap).
+  directorStopgap("SG-DIRECTOR-rent-talk-first-lease", WORDS_STOPGAP_HITS);
   const lease = core.finance.contracts.get(`lease:${speaker.householdId}`) as
     (FinanceContractInput & { endedAt?: string }) | undefined;
   if (!lease || lease.endedAt || !lease.payerIds.includes(speaker.id))
@@ -3780,11 +3782,11 @@ function heardByDay(
     if (!key.startsWith(HEARD_PREFIX)) continue;
     const rest = key.slice(HEARD_PREFIX.length);
     const by = rest.startsWith(HEARD_BY)
-      ? /^by:([^:]+):(.+)$/.exec(rest)
-      : null;
+      ? /^by:(?<speaker>[^:]+):(?<piece>.+)$/.exec(rest)?.groups
+      : undefined;
     rows.push(
-      by
-        ? { key: by[2]!, at: fact.learnedAt, by: by[1]! }
+      by?.speaker && by.piece
+        ? { key: by.piece, at: fact.learnedAt, by: by.speaker }
         : { key: rest, at: fact.learnedAt },
     );
   }

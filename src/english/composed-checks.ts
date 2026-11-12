@@ -731,6 +731,80 @@ export const actNamed: ComposedCheck = (text) => {
   return found;
 };
 
+// ---- concession-names-what-it-concedes ----
+
+const CONCESSION = new RegExp(data.concession, "i");
+const CONCESSION_BEFORE = new RegExp(data.concessionBefore, "i");
+
+/**
+ * A sentence that concedes ("I'd vote to do it even so.") with nothing
+ * contrary said before it in the same line: the frame names what it
+ * concedes or it is not said (words composer, Nov 12).
+ */
+export const concessionNamesWhat: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      line.sentences.forEach((sentence, index) => {
+        if (!CONCESSION.test(plainQuotes(sentence).trim())) return;
+        const before = line.sentences.slice(zero, index).join(" ");
+        const own = plainQuotes(sentence).replace(CONCESSION, "");
+        if (CONCESSION_BEFORE.test(before) || CONCESSION_BEFORE.test(own))
+          return;
+        found.push(
+          breakOf(
+            "concession-names-what-it-concedes",
+            text,
+            at,
+            "a concession with nothing before it to concede",
+            sentence,
+          ),
+        );
+      });
+  });
+  return found;
+};
+
+// ---- answer-adds-something ----
+
+const AGREEMENT_ONLY = data.agreementOnly.map(
+  (pattern) => new RegExp(pattern, "i"),
+);
+
+/**
+ * An answer that only says the two agree or differ ("Glad you see it like I
+ * do.") and nothing else: what the speaker expects, who they will tell or
+ * what they will do is never left out (words composer, Nov 12).
+ */
+export const answerAddsSomething: ComposedCheck = (text, sample) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines) {
+      if (line.speakerId === sample.playerId || !line.sentences.length)
+        continue;
+      const said = plainQuotes(line.text).trim();
+      if (!AGREEMENT_ONLY.some((pattern) => pattern.test(said))) continue;
+      const rest = line.sentences.filter(
+        (sentence) =>
+          !AGREEMENT_ONLY.some((pattern) =>
+            pattern.test(plainQuotes(sentence).trim()),
+          ) && !/^good\.?$/i.test(plainQuotes(sentence).trim()),
+      );
+      if (rest.length) continue;
+      found.push(
+        breakOf(
+          "answer-adds-something",
+          text,
+          at,
+          "an answer that only says they agree or differ",
+          said,
+        ),
+      );
+    }
+  });
+  return found;
+};
+
 /** Every composed check by its name: the names a rule row's `check` may hold. */
 export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "full-name-once-per-screen": fullNameOncePerScreen,
@@ -747,6 +821,8 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "subject-budget": subjectBudget,
   "note-stands-alone": noteStandsAlone,
   "act-named": actNamed,
+  "concession-names-what-it-concedes": concessionNamesWhat,
+  "answer-adds-something": answerAddsSomething,
 };
 
 /** A composed rule's checks, as a list. */

@@ -83,7 +83,9 @@
   },
   "placeSaidOnlyAs": {
     "note": "A place whose bare name means something else in a speech, with the spelling that means the place. Alone, the first is the federal capital, so the stray-place check counts only the spelling given here.",
-    "names": { "Washington": "Washington State" }
+    "names": {
+      "Washington": "Washington State"
+    }
   },
   "roleWords": [
     "President",
@@ -484,5 +486,16 @@
     "it's",
     "don't",
     "won't"
-  ]
+  ],
+  "concession": "\\b(?:even so|all the same|just the same|anyway)[.!]?$",
+  "concessionNote": "A sentence that concedes ('even so', 'all the same') must follow something it concedes: an earlier sentence of the same line with a contrary word (concessionBefore). Words composer, Nov 12: \"I'd vote to make the nation's capital a state even so\" with nothing before it to concede.",
+  "concessionBefore": "\\b(?:but|though|although|against|won't|wouldn't|doesn't|didn't|isn't|not|no|never|wrong|mistake)\\b",
+  "agreementOnly": [
+    "^(?:good\\.\\s*)?glad you see it like i do\\b",
+    "^(?:good\\.\\s*)?somebody in this house agrees with me\\b",
+    "^(?:good\\.\\s*)?then we(?:'re| are) on the same side of it\\b",
+    "^fair enough\\b[^.]*\\.\\s*we don't have to agree\\b",
+    "^we see it differently, then\\b"
+  ],
+  "agreementOnlyNote": "An answer to the player's agreeing or disagreeing reply that only says the two agree or differ, and adds nothing: what the speaker expects to happen, who they will tell or what they will do (words composer, Nov 12: \"Glad you see it like I do\" in every world)."
 }
