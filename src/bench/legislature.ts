@@ -51,7 +51,7 @@ export function personName(core: CoreState, key: string): string {
 }
 
 /** The bodies the person sits on (more than one seat), with their colleagues. */
-function bodiesOf(core: CoreState, personId: string) {
+export function bodiesOf(core: CoreState, personId: string) {
   const api = coreAPI(core);
   const offices = api.moduleState(OFFICES);
   const mine = (
@@ -276,9 +276,25 @@ export function seatAct(
     (b) => b.officeId === input.officeId,
   );
   if (!body) throw new Error("You don't sit on that body.");
+  // A budget line's amount in force today, as the writing screen shows it
+  // beside the box: the player types the line's new amount, and a budget-line
+  // section records the change to the line (`value`) on that amount (`of`),
+  // as every other drafter of a budget bill does (legislature.ts
+  // `budgetProvisions`, world-legislating), so the law sets the line to what
+  // was typed.
+  const lineToday = input.line
+    ? (menusFor(api, body.level, input.officeId!)
+        .flatMap((menu) => menu.items)
+        .find((row) => row.line === input.line)?.inForce ?? null)
+    : null;
   const sectionOf = (value: number | undefined): Provision =>
     input.line
-      ? { kind: "budget-line", line: input.line, value: value ?? 0 }
+      ? {
+          kind: "budget-line",
+          line: input.line,
+          value: value === undefined ? 0 : value - (lineToday ?? 0),
+          ...(lineToday ? { of: lineToday } : {}),
+        }
       : input.series
         ? {
             kind: "law-amount",
@@ -346,6 +362,53 @@ export function seatAct(
 }
 
 /**
+ * A repeal from this seat: the player's own body that can repeal the law at
+ * this level (the body's bill catalog allows the series), or, for an
+ * officeholder whose bodies lack the power, the legislature bodies that hold
+ * it, named from the record. A resident with no office gets neither, and the
+ * law page shows no Repeal action. Single-seat executives sit on no body, so
+ * the action appears for them only with the mayors' and governors' bill menu.
+ */
+export function repealFor(
+  core: CoreState,
+  personId: string,
+  series: string,
+  level: string,
+): { officeId: string | null; body: string | null } {
+  const api = coreAPI(core);
+  const mine = bodiesOf(core, personId)
+    .filter((body) => body.level === level)
+    .sort((a, b) => a.officeId.localeCompare(b.officeId));
+  for (const body of mine) {
+    const hit = menusFor(api, body.level, body.officeId)
+      .flatMap((menu) => menu.items)
+      .find(
+        (item) =>
+          (item.kind === "law-amount" && item.series === series) ||
+          (item.kind === "policy-question" && item.question === series),
+      );
+    // A repeal is a draft with the value 0 (an amount zeroed, a yes-or-no
+    // law answered No): the same value dev mode's Repeal button sends, and
+    // the seat's draft marks it blocked where the catalog does not allow it.
+    if (hit?.allowed) return { officeId: body.officeId, body: null };
+  }
+  const serving = (
+    terms(core).query("byPerson", [personId]) as unknown as TermRow[]
+  ).some((row) => row.status === "serving");
+  if (!serving) return { officeId: null, body: null };
+  const names = [
+    ...new Set(
+      townSeats(api)
+        .filter(
+          (seat) => seat.office.level === level && bodyRow(seat.office.kind),
+        )
+        .map((seat) => seat.office.bodyName ?? seat.office.title),
+    ),
+  ].sort();
+  return { officeId: null, body: names.length ? names.join(" or ") : null };
+}
+
+/**
  * The body's lawyer's warning on a bill whose authority row the drafting
  * engine marked disputed (DECISION-REGISTER, "A law changes the record
  * first", Sept 22: the city attorney warns the player), in the English
@@ -385,6 +448,20 @@ function disputedWarning(
 }
 
 /**
+ * The amount a budget-line section sets its line to: the engine's own after
+ * (the line in force plus the change), else the change on the amount the
+ * section names it is made on.
+ */
+function lineSets(
+  provision: Provision,
+  section: { after: { value: number | null } } | null,
+): number {
+  return typeof section?.after.value === "number"
+    ? section.after.value
+    : (provision.of ?? 0) + provision.value;
+}
+
+/**
  * The bill as one paper document, read from its records: the designation and
  * title in the English engine's words, the sponsor by name, each section with
  * the estimate the records give for it (the statute it amends with the values
@@ -420,18 +497,15 @@ export function billPaper(core: CoreState, billId: string) {
       (provision.series ? names[provision.series] : undefined) ??
       null;
     const section = form.sections[index] ?? null;
-    // A citation that is a web address never reaches the screen: the
-    // estimate names the law record instead, and the PR body cites it.
     // A budget line says its own name and amount (rounded as people say it), not the bill's one
     // purpose again on every line.
-    const clause = (
+    const clause =
       composed?.sections[index] ??
       (provision.kind === "budget-line" && named
-        ? budgetSectionSaid(named, moneySaid(provision.value))
+        ? budgetSectionSaid(named, moneySaid(lineSets(provision, section)))
         : purpose && named
           ? `${named}: ${purpose}`
-          : (purpose ?? named))
-    )?.replace(/, amending https?:\/\/\S+\.?$/, "");
+          : (purpose ?? named));
     // The section's authority row as the drafting engine recorded it.
     const authority = bill.authority[index];
     return {
@@ -446,7 +520,15 @@ export function billPaper(core: CoreState, billId: string) {
           }
         : null,
       estimate: {
-        statute: section?.before.statute ?? null,
+        // The bill that passed the law this section amends, said as the section
+        // text names it ("Ordinance 2025-3"): the record's designation and form
+        // through the English engine's `spokenDesignation`.
+        statute: section?.before.statute
+          ? spokenDesignation(
+              section.before.statute,
+              section.before.statuteForm ?? "",
+            )
+          : null,
         lawId: section?.before.lawId ?? null,
         beforeValue: section?.before.value ?? null,
         beforeUnit: section?.before.unit ?? null,
@@ -456,8 +538,12 @@ export function billPaper(core: CoreState, billId: string) {
         // null when it takes effect by the bill's closing section.
         effectiveDate: section?.after.effectiveDate ?? null,
         line: provision.line ?? null,
-        lineAmountMinor:
-          provision.kind === "budget-line" ? provision.value : null,
+        // The amount the bill sets the line to for the year: the change added
+        // to the amount it is made on, as the law would pay it.
+        lineNewMinor:
+          provision.kind === "budget-line"
+            ? lineSets(provision, section)
+            : null,
         ofMinor: provision.of ?? null,
       },
     };
