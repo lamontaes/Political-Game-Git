@@ -177,9 +177,20 @@ describe("every speech through the one outline planner", () => {
         );
       }
       expect(failures, failures.join("\n")).toEqual([]);
-      // The leading ask is not one question in more than half the draws:
-      // logged here, asserted below once the theme weights are tuned.
+      // The leading ask is not one question in more than half the draws
+      // ("why is it always stock trading?"): the theme comes from the
+      // speaker's own issues first.
       console.log(`LEADING ASKS seed ${seed}: ${leads.join(", ")}`);
+      const most = Math.max(
+        0,
+        ...[...new Set(leads)].map(
+          (lead) => leads.filter((row) => row === lead).length,
+        ),
+      );
+      expect(
+        most,
+        `seed ${seed}: leading asks ${leads.join(", ")}`,
+      ).toBeLessThanOrEqual(DRAWS / 2);
     },
     40 * 60 * 1000,
   );

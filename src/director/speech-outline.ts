@@ -1259,8 +1259,8 @@ export function planSpeech(
   // one before it.
   let part = -P.one;
   const blocks = drafts.map((draft, at): Block => {
-    const joins = draft.joins || drafts[at - P.one]?.key === "salutation";
-    if (!joins || part < P.zero) part += P.one;
+    const together = draft.joins || drafts[at - P.one]?.key === "salutation";
+    if (!together || part < P.zero) part += P.one;
     const { joins, ...rest } = draft;
     void joins;
     const facts = Object.fromEntries(

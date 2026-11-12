@@ -6,7 +6,7 @@ import { dateSaid } from "../english/day-words";
 import { shipped } from "../english/scene-talk-words";
 import { hasBackdrop } from "./backdrop-places";
 import { bodyPicture } from "./legislature";
-import { addressMontage, partLevels } from "./montage";
+import { addressMontage, namedInParts, partLevels } from "./montage";
 import {
   homeOf,
   orgPlace,
@@ -240,6 +240,12 @@ export function storyScene(
               scene.speech.parts?.length || 1,
             ),
             minuteOfDay,
+            namedInParts(
+              core,
+              director.ledger.opening?.address.sentences ?? [],
+              scene.speech.parts?.length || 1,
+              scene.speech.speakerId,
+            ),
           ),
         }
       : {}),
