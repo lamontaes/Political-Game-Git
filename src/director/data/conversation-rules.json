@@ -117,6 +117,10 @@
     "job-new-detail": {
       "kind": "job-new-detail-reply",
       "stage": "default"
+    },
+    "work-day": {
+      "kind": "work-day",
+      "stage": "default"
     }
   },
   "follows": {
@@ -263,6 +267,13 @@
       "tell": "answer",
       "refuse": "refuse",
       "deflect": "deflect"
+    },
+    "work-day": {
+      "plan": "answer",
+      "wish": "answer",
+      "rest": "answer",
+      "ask": "request",
+      "glad": "answer"
     }
   },
   "addressPoint": {
@@ -394,6 +405,16 @@
       "tag": "TUNABLE",
       "spread": [5, 7],
       "checkedAgainst": "A week, the owner's words (\"not raised again with the same person that week\", words skill, Nov 11)."
+    }
+  },
+  "dayTalk": {
+    "about": "Words composer, talk on ordinary days (owner, Nov 12: \"the game says nothing at home, and what it says is the same sentence from everyone\"). Subjects of a person's own day, each from its engine's record (the work-spans engine's shift for work-day): told to someone they live with, answered by the player's reply, and answered back in composed words under `<kind>-back` by the reply's move, so no talk ends on the player's line. Once told to a person, a day subject waits this many days before it is told to them again; the day's own facts (when the shift starts, how long it ran) are new each day.",
+    "kinds": ["work-day"],
+    "againAfterDays": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "spread": [2, 4],
+      "checkedAgainst": "Lead's brief, Nov 12: no subject repeats inside three days for the same pair; a housemate tells a work day about twice a week, not every morning (the owner's complaint, Nov 12, of the same 7:00 a.m. work talk every morning)."
     }
   }
 }

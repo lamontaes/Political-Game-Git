@@ -40,7 +40,11 @@
     "my_position": "The player's job, with its article (\"a server\"), from the job record's title.",
     "their_first": "The given name of the person the player is talking to, from the person's record.",
     "president-object": "The President where an object stands (\"with {president-object}\"): the role the first time the talk says them, then him or her (said-as, slot case; words composer, Nov 12).",
-    "president-possessive": "The President's, where a possessive stands: the role's possessive the first time, then his or her (said-as, slot case)."
+    "president-possessive": "The President's, where a possessive stands: the role's possessive the first time, then his or her (said-as, slot case).",
+    "start": "When the speaker's shift starts today, as people say a time (\"seven-thirty\"), from the work-spans engine's shift.",
+    "end": "When the speaker's shift ends today, as people say a time, from the work-spans engine's shift.",
+    "hours": "How long the speaker's shift runs today (\"eight hours\"), from the work-spans engine's shift.",
+    "wage": "What the speaker's job pays an hour, as people round it (\"about $18\"), from the job record."
   },
   "maxWords": 10,
   "lineWords": {
@@ -33958,6 +33962,779 @@
       ],
       "origin": "authored",
       "author": "Words builder W-D, Claude Opus 5.5 (an answer to a told story says no time the listener did not tell)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.employer-has-me-in-at-start-today",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "{employer} has me in at {start} today.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["shift-ahead", "employer", "start"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.i-have-to-be-at-employer-by-start",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "I have to be at {employer} by {start}.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["shift-ahead", "employer", "start"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.my-shift-at-employer-starts-at-start",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "My shift at {employer} starts at {start}.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["shift-ahead", "employer", "start"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.i-m-on-from-start-to-end-today",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "I'm on from {start} to {end} today.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["shift-ahead", "start", "end"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.hours-at-employer-today-and-i-felt-every-one",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "{hours} at {employer} today, and I felt every one.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["shift-done", "employer", "hours"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.i-got-off-at-end-hours-at-employer",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "I got off at {end}. {hours} at {employer}.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["shift-done", "employer", "hours", "end"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.i-put-in-hours-at-employer-today",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "I put in {hours} at {employer} today.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["shift-done", "employer", "hours"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.done-at-employer-for-the-day-finally",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "Done at {employer} for the day, finally.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["shift-done", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.employer-doesn-t-have-me-on-today",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "{employer} doesn't have me on today.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["day-off", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.no-shift-at-employer-for-me-today",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "No shift at {employer} for me today.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["day-off", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.i-m-off-from-employer-today-for-once",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "I'm off from {employer} today, for once.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["day-off", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-answer-plan.i-ll-be-around-when-you-get-back-at-end",
+      "move": "work-day-answer-plan",
+      "kind": "spoken",
+      "text": "I'll be around when you get back at {end}.",
+      "uses": [
+        {
+          "move": "work-day-answer-plan",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "plan",
+          "requiresFacts": ["shift-ahead", "end"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-answer-plan.see-you-when-you-re-done-at-end-then",
+      "move": "work-day-answer-plan",
+      "kind": "spoken",
+      "text": "See you when you're done at {end}, then.",
+      "uses": [
+        {
+          "move": "work-day-answer-plan",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "plan",
+          "requiresFacts": ["shift-ahead", "end"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-answer-wish.hope-it-goes-quick-at-employer-today",
+      "move": "work-day-answer-wish",
+      "kind": "spoken",
+      "text": "Hope it goes quick at {employer} today.",
+      "uses": [
+        {
+          "move": "work-day-answer-wish",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "wish",
+          "requiresFacts": ["shift-ahead", "employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-answer-wish.hope-employer-goes-easy-on-you-today",
+      "move": "work-day-answer-wish",
+      "kind": "spoken",
+      "text": "Hope {employer} goes easy on you today.",
+      "uses": [
+        {
+          "move": "work-day-answer-wish",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "wish",
+          "requiresFacts": ["shift-ahead", "employer"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-answer-ask.how-was-it-at-employer",
+      "move": "work-day-answer-ask",
+      "kind": "spoken",
+      "text": "How was it at {employer}?",
+      "uses": [
+        {
+          "move": "work-day-answer-ask",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["shift-done", "employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-answer-ask.was-employer-busy-today",
+      "move": "work-day-answer-ask",
+      "kind": "spoken",
+      "text": "Was {employer} busy today?",
+      "uses": [
+        {
+          "move": "work-day-answer-ask",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["shift-done", "employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-answer-rest.sit-down-hours-is-plenty-for-one-day",
+      "move": "work-day-answer-rest",
+      "kind": "spoken",
+      "text": "Sit down. {hours} is plenty for one day.",
+      "uses": [
+        {
+          "move": "work-day-answer-rest",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "rest",
+          "requiresFacts": ["shift-done", "hours"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-answer-rest.put-your-feet-up-you-earned-it-after-hours",
+      "move": "work-day-answer-rest",
+      "kind": "spoken",
+      "text": "Put your feet up. You earned it after {hours}.",
+      "uses": [
+        {
+          "move": "work-day-answer-rest",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "rest",
+          "requiresFacts": ["shift-done", "hours"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-answer-glad.good-you-could-use-a-day-away-from-employer",
+      "move": "work-day-answer-glad",
+      "kind": "spoken",
+      "text": "Good. You could use a day away from {employer}.",
+      "uses": [
+        {
+          "move": "work-day-answer-glad",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "glad",
+          "requiresFacts": ["day-off", "employer"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-answer-glad.good-employer-can-do-without-you-for-a-day",
+      "move": "work-day-answer-glad",
+      "kind": "spoken",
+      "text": "Good. {employer} can do without you for a day.",
+      "uses": [
+        {
+          "move": "work-day-answer-glad",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "glad",
+          "requiresFacts": ["day-off", "employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-answer-ask.what-will-you-do-with-a-day-off-from-employer",
+      "move": "work-day-answer-ask",
+      "kind": "spoken",
+      "text": "What will you do with a day off from {employer}?",
+      "uses": [
+        {
+          "move": "work-day-answer-ask",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["day-off", "employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-back-core.thanks-you-it-s-hours-today-so-i-ll-be-beat",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "Thanks, {you}. It's {hours} today, so I'll be beat.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["plan"],
+          "requiresFacts": ["hours"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-back-core.good-after-hours-i-won-t-want-to-cook",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "Good. After {hours}, I won't want to cook.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["plan"],
+          "requiresFacts": ["hours"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-back-core.it-goes-faster-when-it-s-busy-i-m-out-at-end",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "It goes faster when it's busy. I'm out at {end}.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["wish"],
+          "requiresFacts": ["end"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-back-core.thanks-you-hours-goes-by-one-hour-at-a-time",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "Thanks, {you}. {hours} goes by one hour at a time.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["wish"],
+          "requiresFacts": ["hours"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-back-core.long-hours-at-wage-an-hour-adds-up-slow",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "Long. {hours} at {wage} an hour adds up slow.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["shift-done", "hours", "wage"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-back-core.same-as-ever-at-wage-an-hour-i-m-not-complaining",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "Same as ever. At {wage} an hour, I'm not complaining.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["shift-done", "wage"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-back-core.as-little-as-i-can-employer-will-still-be-there",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "As little as I can. {employer} will still be there.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["day-off", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-back-core.sleep-mostly-employer-wears-me-out",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "Sleep, mostly. {employer} wears me out.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["day-off", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-back-core.you-don-t-have-to-tell-me-twice-you",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "You don't have to tell me twice, {you}.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["rest"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-back-core.i-will-hours-at-wage-an-hour-and-my-feet-know-it",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "I will. {hours} at {wage} an hour, and my feet know it.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["rest"],
+          "requiresFacts": ["hours", "wage"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-back-core.i-m-not-going-near-employer-till-my-next-shift",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "I'm not going near {employer} till my next shift.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["glad"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-back-core.i-plan-to-forget-employer-till-my-next-shift",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "I plan to forget {employer} till my next shift.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["glad"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-back-core.slow-hours-of-it-and-nothing-much-to-tell",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "Slow. {hours} of it, and nothing much to tell.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["shift-done", "hours"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
       "date": "2026-11-12"
     }
   ]

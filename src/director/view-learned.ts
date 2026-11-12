@@ -136,6 +136,8 @@ function questionArea(question: string): "work" | "money" | null {
 export function strongestQuestion(
   api: CoreAPI,
   personId: PersonId,
+  /** Only the questions this accepts (a question the person has a reason of their own for). */
+  accept: (question: string) => boolean = () => true,
 ): {
   question: string;
   about: string;
@@ -150,6 +152,7 @@ export function strongestQuestion(
   const strongest = (questions: readonly string[]) => {
     let found: { question: string; about: string; view: number } | null = null;
     for (const question of [...new Set(questions)].sort()) {
+      if (!accept(question)) continue;
       const about = questionAbout(question);
       if (!about) continue;
       const view = viewOn(api, personId, question, lean);
@@ -240,7 +243,17 @@ export function viewSubjectOf(
   const api = coreAPI(core as CoreState);
   const view = viewOf(api, speakerId);
   if (!view) return null;
-  const strongest = strongestQuestion(api, speakerId);
+  // The stand they say is the one their own life gives a reason for (their
+  // work, their money), the strongest of those; only with none is it their
+  // strongest view, said without a reason (words composer, Nov 12: "each
+  // speaker's own why"; the strongest view alone was a question their life
+  // never touched, so the has-reason path never fired in four drawn places).
+  const reasoned = strongestQuestion(
+    api,
+    speakerId,
+    (question) => !!viewReason(core, speakerId, question),
+  );
+  const strongest = reasoned ?? strongestQuestion(api, speakerId);
   return {
     stage: view.label,
     recordId: viewRecordId(speakerId),

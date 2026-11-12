@@ -131,6 +131,7 @@ import {
 } from "./sitting";
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
+import { clockSaid, hoursSaid, moneySaid } from "../english/count-words";
 import {
   properName,
   spoken,
@@ -1055,6 +1056,66 @@ function quietDay(
   return { id: `quiet:${speaker.id}`, kind: "quiet", facts };
 }
 
+/**
+ * The speaker's own work day, told to someone they live with (words composer,
+ * talk on ordinary days; owner, Nov 12: "the game says nothing at home"): the
+ * work-spans engine's shift for today, before it starts (when they are on and
+ * when they are done), after it ends (how long it ran), or none on a day off
+ * from a job they hold. Each fact cites the job; the hourly pay cites it too,
+ * for an answer about the day. Nothing at all without a clock, without a job,
+ * or while the shift is under way (they are not home).
+ */
+function workDay(
+  core: Readonly<CoreState>,
+  speaker: Readonly<PersonState>,
+  minuteOfDay: number | undefined,
+): Subject | null {
+  if (minuteOfDay === undefined || !speaker.jobId) return null;
+  const mine = sayJob(core, speaker);
+  if (!mine) return null;
+  let owner;
+  try {
+    owner = workSpansOnDateV1(coreAPI(core as CoreState), {
+      controlledPersonId: speaker.id,
+      date: core.date,
+    }).owners.find((row) => row.job.id === mine.job.id);
+  } catch {
+    // Work terms that cannot be read for the date are no work day to tell.
+    return null;
+  }
+  const cites = [mine.job.id, mine.org.id];
+  const mark = (key: string): Facts => ({
+    [key]: { text: "yes", sourceRecordIds: cites },
+  });
+  const spans = owner?.spans ?? [];
+  const facts: Facts = {
+    employer: { text: mine.employer, sourceRecordIds: cites },
+  };
+  if (!owner || owner.plannedMinutes <= zero || !spans.length)
+    Object.assign(facts, mark("day-off"));
+  else {
+    const start = Math.min(...spans.map((span) => span.startMinute));
+    const end = Math.max(...spans.map((span) => span.endMinute));
+    facts.start = { text: clockSaid(start), sourceRecordIds: cites };
+    facts.end = { text: clockSaid(end), sourceRecordIds: cites };
+    facts.hours = {
+      text: hoursSaid(owner.plannedMinutes),
+      sourceRecordIds: cites,
+    };
+    if (minuteOfDay < start) Object.assign(facts, mark("shift-ahead"));
+    else if (minuteOfDay >= end) Object.assign(facts, mark("shift-done"));
+    else return null;
+  }
+  const hourly =
+    mine.job.hourlyMinor ??
+    (mine.job.hoursDaily > zero
+      ? mine.job.wageDailyMinor / mine.job.hoursDaily
+      : undefined);
+  if (hourly && hourly > zero)
+    facts.wage = { text: moneySaid(hourly), sourceRecordIds: [mine.job.id] };
+  return { id: `work-day:${speaker.id}`, kind: "work-day", facts };
+}
+
 /** The news engine's kind for a story an outlet printed (press desk). */
 const PRINTED_STORY = "press.printed";
 
@@ -1867,6 +1928,10 @@ export function subjectsBetween(
   // together and a work day, from records. Raised last, when
   // nothing else opens the talk.
   if (listener.householdId === speaker.householdId) {
+    // Their own work day, from the shift on record: what people who live
+    // together tell each other every morning and evening.
+    const shift = workDay(core, speaker, room.minuteOfDay);
+    if (shift) out.push(shift);
     const quiet = quietDay(core, speaker, listener, room.minuteOfDay);
     if (quiet) out.push(quiet);
   }
@@ -3029,6 +3094,8 @@ const OPENING_ORDER = [
   // (owner, Nov 11: "This introduces people to their world").
   "kin",
   "address",
+  // Their own day, from its record (the shift), before the day itself.
+  "work-day",
   "quiet",
 ];
 
@@ -3040,6 +3107,23 @@ const SMALL_TALK_AGAIN_DAYS = (
     smallTalk: { againAfterDays: { value: number } };
   }
 ).smallTalk.againAfterDays.value;
+
+/** Subjects of a person's own day, and the days before one is told to the same person again (conversation-rules.json dayTalk, TUNABLE). */
+const DAY_TALK = (
+  rulesFile as unknown as {
+    dayTalk: { kinds: readonly string[]; againAfterDays: { value: number } };
+  }
+).dayTalk;
+
+/** The days a remembered topic waits before it may be opened again; undefined for one that never comes back. */
+function againAfterDays(topic: string): number | undefined {
+  // By its kind, whoever raised it ("them>quiet:..." as well as "quiet:...").
+  if (`${subjectKindOf(topic)}:` === SMALL_TALK_PREFIX)
+    return SMALL_TALK_AGAIN_DAYS;
+  if (DAY_TALK.kinds.includes(subjectKindOf(topic)))
+    return DAY_TALK.againAfterDays.value;
+  return undefined;
+}
 
 /** The subjects that are the two speakers' relationship: what they share. */
 const SHARED_KINDS = ["shared-school", "shared-work"];
@@ -3477,15 +3561,17 @@ function openConversationNow(
   for (const key of heardNow)
     if (key.startsWith(`${HEARD_SUBJECT}news:`))
       conversation.used.push(key.slice(HEARD_SUBJECT.length));
-  // Small talk is kept a week, not for ever: past the week it may come back.
-  for (const [key, fact] of core.knowledgeByPerson.get(otherId) ?? [])
+  // Small talk is kept a week, and a day's own subject (a shift) a few days,
+  // not for ever: past its wait it may come back with the day's new facts.
+  for (const [key, fact] of core.knowledgeByPerson.get(otherId) ?? []) {
+    if (!key.startsWith(talkedKeyPrefix(playerId))) continue;
+    const wait = againAfterDays(fact.value);
     if (
-      key.startsWith(talkedKeyPrefix(playerId)) &&
-      (!fact.value.startsWith(SMALL_TALK_PREFIX) ||
-        daysBetween(makeIsoDate(fact.learnedAt), makeIsoDate(core.date)) <
-          SMALL_TALK_AGAIN_DAYS)
+      wait === undefined ||
+      daysBetween(makeIsoDate(fact.learnedAt), makeIsoDate(core.date)) < wait
     )
       conversation.used.push(fact.value);
+  }
   const main = raisedBrought ? null : mainTopic(core, conversation, data);
   const open = (topic: { subject: Subject; asks: boolean }) =>
     topic.asks
@@ -4083,8 +4169,11 @@ function offerChoices(
       // and so is asking someone why they stand where they do.
       (last.kind === POINT && pointAnswerable(last.facts, choiceKey)) ||
       (last.kind === "own-view" && choiceKey === OWN_VIEW_WHY) ||
+      // A day's own subject answers every reply, in composed words.
+      dayBack(last.kind) ||
       REPLY_MOVES.answerable.includes(replyMoveOf(last.kind, choiceKey));
-    const text = joinedReply(head, tail);
+    // A slot that opens a sentence is said with a capital, as every line is.
+    const text = sentenceStarts(joinedReply(head, tail));
     const opensAsking = asksQuestion({
       text: text.match(/^[^.?!]*[.?!]/)?.[zero] ?? text,
     });
@@ -4928,6 +5017,30 @@ function sayNow(
     answerNews(core, conversation, data, choice, eventId, hearers, last);
     return conversation;
   }
+  // A reply on a day's own subject (their shift): they answer it from the
+  // same record, by the reply's move, and the talk carries on.
+  if (dayBack(last.kind) && !choice.lie) {
+    const back = composedLine(
+      core,
+      otherId,
+      `${last.kind}-back`,
+      { ...last.facts, you: calledBy(core, otherId, playerId) },
+      choice.move,
+      `${eventId}:back`,
+      saidParts(conversation, otherId),
+    );
+    if (back)
+      conversation.lines.push({
+        speakerId: otherId,
+        subjectId: choice.answers,
+        kind: `${last.kind}-back`,
+        act: "tell",
+        ...back,
+        sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
+      });
+    carryOn(core, conversation, data);
+    return conversation;
+  }
   // A choice that asks the other person to say more ("What happened?"):
   // they tell it from their own records, on the same topic.
   const told = data.tells?.[last.kind]?.[choice.move];
@@ -5132,6 +5245,13 @@ function pointAnswerable(facts: Facts, choiceKey: string): boolean {
 /** The point's replies that ask: what it means here, what they would do instead (conversation-rules.json replyMoves). */
 const POINT_HERE = "here";
 const POINT_INSTEAD = "instead";
+
+/** Whether a line's kind is a day's own subject whose replies are answered in composed words (`<kind>-back`). */
+function dayBack(kind: string): boolean {
+  return (
+    DAY_TALK.kinds.includes(kind) && !!composedConversationBank(`${kind}-back`)
+  );
+}
 
 /** The player's replies to where someone stands that say where the player stands. */
 const OWN_VIEW_TAKES: readonly string[] = ["agree", "disagree"];
