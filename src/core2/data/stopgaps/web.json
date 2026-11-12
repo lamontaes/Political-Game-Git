@@ -44,6 +44,18 @@
     "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
+    "id": "SG-WEB-knowing-low-level-arrests-reader",
+    "kind": "missing-mechanic",
+    "file": "src/core2/outcome-news.ts",
+    "line": 94,
+    "whatItFakes": "The town hears of a move in justice.low-level-arrests (the month's minor-offense arrest rate) from the outcome web's month record, but only the views engine's heard-story reason reads it (the police budget line); no engine yet reads the rate itself when it sets a vote or a mood.",
+    "why": "The police line's newest effect had no news topic, so no person could learn of it; the news path lists the measure so the town hears of it, with no reader change here.",
+    "addedBy": "sonnet builder",
+    "addedAt": "2026-11-11",
+    "replacement": "An engine that reads the web's low-level arrest rate (the electorate's town conditions, a neighborhood's feeling of safety); then this row and the readBy null in data/news/outcome-news.json are replaced by the reading file.",
+    "status": "open"
+  },
+  {
     "id": "SG-WEB-moves-full-tax-pull",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/moves.ts",

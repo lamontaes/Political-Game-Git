@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-63jrjr
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: high
 root: design-one-model-two-tiers
 checked: fable 2026-11-12
 source: docs/design/output-numbers.md (#8926), owner's ask of Nov 12
+claimed-at: 2026-11-12T22:51:03.732Z
 ---
 
 **What.** Of the 106 measures the Metrics tab can show, 43 have one writer that every view reads; the rest are kept in two or more places that can disagree, never kept, or worked out by the screen itself. Build the one table of output numbers the design asks for: the list of figures moves out of the outcome web's `engineMeasures` into its own data file, the `world-metrics` module gains a `years` table with one row per place, county, state and the nation per year, and the owning engine writes its figure through one function. The Metrics screen then becomes a lookup of registry rows by section, with no counting and no scans. Seen: the Metrics screen's rows, each from one kept row with last year beside it.
