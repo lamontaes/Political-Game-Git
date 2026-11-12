@@ -31,20 +31,21 @@ import { historyMonths, monthKey, shiftMonth } from "../core2/macro-model";
 import type { MacroMonth } from "../core2/macro-model";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
-import { ownStance } from "../core2/officials-roster";
-import { stanceReader } from "../core2/campaign-stances";
-import { PRESIDENT_FACT } from "../core2/officials-president";
-import { LAWS_MODULE_ID } from "../core2/modules/laws";
-import { reachedBy } from "../core2/law-reach/host";
+import { ownStance, PRESIDENT_FACT } from "../core2/modules/officials";
+import { stanceReader } from "../core2/modules/campaigns";
+import { LAWS_MODULE_ID, reachedBy } from "../core2/modules/laws";
 import {
   BUDGETS_MODULE_ID,
   budgetsOf,
   governmentOfJurisdiction,
   governments,
 } from "../core2/modules/budgets";
-import { DISASTERS_MODULE_ID, townDisasters } from "../core2/modules/disasters";
-import { policyAuthority, type PolicyLevel } from "../core2/policy-authority";
-import type { LawRowInput } from "../core2/laws-starting";
+import { DISASTERS_MODULE_ID, townDisasters } from "../core2/modules/world";
+import {
+  policyAuthority,
+  type LawRowInput,
+  type PolicyLevel,
+} from "../core2/modules/laws";
 import type { CoreAPI, CoreState, PersonState } from "../core2/types";
 import type { EntityId } from "../core2/kernel/brands";
 import type {
@@ -81,7 +82,7 @@ import addressData from "./data/opening-address.json" with { type: "json" };
 import outlineData from "./data/speech-outlines.json" with { type: "json" };
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { P } from "../core2/parameters";
-import { formKindOf } from "../core2/legislature-bill-form";
+import { formKindOf } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { earlierAddressPieces } from "./opening-facts";
 import { coreStateName } from "../core2/place-lookup";

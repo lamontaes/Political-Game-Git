@@ -34,9 +34,9 @@ import {
   type OutlineSpeaker,
   type PlannedPoint,
 } from "./speech-outline";
-import { contestPositions } from "../core2/contest-positions";
-import { presidingOfficer } from "../core2/modules/leadership";
-import { governmentTitleName } from "../core2/offices-local";
+import { contestPositions } from "../core2/modules/campaigns";
+import { presidingOfficer } from "../core2/modules/legislature";
+import { governmentTitleName } from "../core2/modules/offices";
 import { officeWords } from "../english/said-as";
 import { markWordsStopgap } from "./stopgaps";
 import { recordAddressResponse } from "./address-response";

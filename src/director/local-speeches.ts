@@ -20,12 +20,14 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
-import { SPEECH_HEARD } from "../core2/modules/speech";
+import { SPEECH_HEARD } from "../core2/modules/people";
 import type { LogRecord } from "../core2/types";
-import { statementSpeechPrefix } from "../core2/modules/campaigns";
-import { presidingOfficer } from "../core2/modules/leadership";
-import { candidatePlatform } from "../core2/campaign-stances";
-import { contestPositions } from "../core2/contest-positions";
+import {
+  candidatePlatform,
+  contestPositions,
+  statementSpeechPrefix,
+} from "../core2/modules/campaigns";
+import { presidingOfficer } from "../core2/modules/legislature";
 import { officeWords } from "../english/said-as";
 import { composeBlocks, type OpeningSentence } from "./opening-story";
 import {

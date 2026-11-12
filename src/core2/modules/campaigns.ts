@@ -139,6 +139,8 @@ import {
 
 export { candidatePlatform } from "../campaign-stances";
 export { contestPositions } from "../contest-positions";
+/** A side's stance on a question, for the speeches that say where a speaker stands. */
+export { stanceReader } from "../campaign-stances";
 
 export const CAMPAIGNS_MODULE_ID = "core2-campaigns-v1";
 const DONATION_KIND = "campaigns:donation";
