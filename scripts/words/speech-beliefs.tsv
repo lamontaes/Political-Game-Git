@@ -2,7 +2,7 @@ family	pole	voice	clause
 wages	a	both	a full day's work ought to pay enough to live on
 wages	a	both	nobody who works full time should have to choose between rent and groceries
 wages	a	polished	the dignity of work includes a paycheck that keeps up with the cost of living
-wages	a	plain	if you put in the hours, you ought to be able to pay your bills
+wages	a	plain	anybody who puts in the hours ought to be able to pay their bills
 wages	b	both	the folks who sign the paychecks know best what a job can pay
 wages	b	both	a first job at a lower wage beats no job at all
 wages	b	polished	small businesses create most new jobs, and every new mandate costs some of them
@@ -70,7 +70,7 @@ housing	a	plain	nobody who works hard should be one rent hike away from the stre
 housing	b	both	the people who own a place should decide what happens to it
 housing	b	both	the market builds more homes when government gets out of the way
 housing	b	polished	homeowners and neighborhoods should shape their own communities
-housing	b	plain	if you bought the house, you get a say in what goes up next door
+housing	b	plain	whoever bought the house gets a say in what goes up next door
 energy	a	both	we owe our kids clean air and a climate they can live with
 energy	a	both	the power we make today shouldn't poison the air tomorrow
 energy	a	polished	clean energy is both our duty to the next generation and the work of this one
@@ -118,7 +118,7 @@ immigration	a	plain	most of us are here because somebody's family took a chance 
 immigration	b	both	a country has to know who is coming in
 immigration	b	both	our laws mean something only if we enforce them
 immigration	b	polished	a secure border and a lawful process are what a sovereign nation owes its citizens
-immigration	b	plain	if you want to come here, you come the right way
+immigration	b	plain	folks who want to come here ought to come the right way
 elections	a	both	voting should be easy for every eligible citizen
 elections	a	both	the more folks vote, the more our government belongs to all of us
 elections	a	polished	the ballot is the one thing every citizen holds equally, and no one should be turned away from it
@@ -126,7 +126,7 @@ elections	a	plain	no citizen should have to jump through hoops to vote
 elections	b	both	every vote counts only if every vote is checked
 elections	b	both	folks have to trust an election before they can trust what it decides
 elections	b	polished	secure elections are the foundation of every other right we hold
-elections	b	plain	if you need an ID to board a plane, you can show one to vote
+elections	b	plain	anybody who shows an ID to board a plane can show one to vote
 ethics	a	both	public office is a trust, not a way to get rich
 ethics	a	both	the people's business should be done for the people, not for insiders
 ethics	a	polished	those who write the laws should never profit from them
@@ -134,7 +134,7 @@ ethics	a	plain	nobody should use a public office to line their own pockets
 ethics	b	both	the voters, not new rules, should decide who serves and for how long
 ethics	b	both	you don't fix government by tying the voters' hands
 ethics	b	polished	the people's judgment at the ballot box is the best check we have
-ethics	b	plain	if folks don't like their lawmaker, they can vote them out
+ethics	b	plain	folks who don't like their lawmaker can vote them out
 self-rule	a	both	the people closest to a problem should get to decide how to fix it
 self-rule	a	both	folks ought to govern themselves
 self-rule	a	polished	government works best when it is closest to the people it serves
@@ -162,7 +162,7 @@ abortion	b	plain	that call belongs to her, not to a politician
 world	a	both	this country is safest when it is strong and stands with its friends
 world	a	both	peace comes through strength
 world	a	polished	American leadership abroad keeps the peace at home
-world	a	plain	when we stand with our friends, the bad actors think twice
+world	a	plain	standing with our friends makes the bad actors think twice
 world	b	both	our money should go to needs here at home first
 world	b	both	families here come before spending overseas
 world	b	polished	a nation's first duty is to the people within its borders

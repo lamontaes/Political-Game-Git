@@ -92442,63 +92442,6 @@
       }
     },
     {
-      "key": "opening-speech.belief-words.plain-inaugural-if-you-put-in-the-hours-you-ought-family-wages-pole-a",
-      "move": "belief-words",
-      "kind": "spoken",
-      "text": "if you put in the hours, you ought to be able to pay your bills",
-      "uses": [
-        {
-          "move": "belief-words",
-          "subject": "inaugural",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-wages",
-            "pole-a"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "state-of-the-union",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-wages",
-            "pole-a"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "state-of-the-state",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-wages",
-            "pole-a"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "town-address",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-wages",
-            "pole-a"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12",
-      "piece": {
-        "of": "opening-belief",
-        "part": "reason"
-      }
-    },
-    {
       "key": "opening-speech.belief-words.both-inaugural-the-folks-who-sign-the-paychecks-know-best-family-wages-pole-b",
       "move": "belief-words",
       "kind": "spoken",
@@ -96420,63 +96363,6 @@
       }
     },
     {
-      "key": "opening-speech.belief-words.plain-inaugural-if-you-bought-the-house-you-get-a-family-housing-pole-b",
-      "move": "belief-words",
-      "kind": "spoken",
-      "text": "if you bought the house, you get a say in what goes up next door",
-      "uses": [
-        {
-          "move": "belief-words",
-          "subject": "inaugural",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-housing",
-            "pole-b"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "state-of-the-union",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-housing",
-            "pole-b"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "state-of-the-state",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-housing",
-            "pole-b"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "town-address",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-housing",
-            "pole-b"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12",
-      "piece": {
-        "of": "opening-belief",
-        "part": "reason"
-      }
-    },
-    {
       "key": "opening-speech.belief-words.both-inaugural-we-owe-our-kids-clean-air-and-a-family-energy-pole-a",
       "move": "belief-words",
       "kind": "spoken",
@@ -99228,63 +99114,6 @@
       }
     },
     {
-      "key": "opening-speech.belief-words.plain-inaugural-if-you-want-to-come-here-you-come-family-immigration-pole-b",
-      "move": "belief-words",
-      "kind": "spoken",
-      "text": "if you want to come here, you come the right way",
-      "uses": [
-        {
-          "move": "belief-words",
-          "subject": "inaugural",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-immigration",
-            "pole-b"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "state-of-the-union",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-immigration",
-            "pole-b"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "state-of-the-state",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-immigration",
-            "pole-b"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "town-address",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-immigration",
-            "pole-b"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12",
-      "piece": {
-        "of": "opening-belief",
-        "part": "reason"
-      }
-    },
-    {
       "key": "opening-speech.belief-words.both-inaugural-voting-should-be-easy-for-every-eligible-citizen-family-elections-pole-a",
       "move": "belief-words",
       "kind": "spoken",
@@ -99696,63 +99525,6 @@
       }
     },
     {
-      "key": "opening-speech.belief-words.plain-inaugural-if-you-need-an-id-to-board-a-family-elections-pole-b",
-      "move": "belief-words",
-      "kind": "spoken",
-      "text": "if you need an ID to board a plane, you can show one to vote",
-      "uses": [
-        {
-          "move": "belief-words",
-          "subject": "inaugural",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-elections",
-            "pole-b"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "state-of-the-union",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-elections",
-            "pole-b"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "state-of-the-state",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-elections",
-            "pole-b"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "town-address",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-elections",
-            "pole-b"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12",
-      "piece": {
-        "of": "opening-belief",
-        "part": "reason"
-      }
-    },
-    {
       "key": "opening-speech.belief-words.both-inaugural-public-office-is-a-trust-not-a-way-family-ethics-pole-a",
       "move": "belief-words",
       "kind": "spoken",
@@ -100154,63 +99926,6 @@
         }
       ],
       "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12",
-      "piece": {
-        "of": "opening-belief",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "opening-speech.belief-words.plain-inaugural-if-folks-don-t-like-their-lawmaker-they-family-ethics-pole-b",
-      "move": "belief-words",
-      "kind": "spoken",
-      "text": "if folks don't like their lawmaker, they can vote them out",
-      "uses": [
-        {
-          "move": "belief-words",
-          "subject": "inaugural",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-ethics",
-            "pole-b"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "state-of-the-union",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-ethics",
-            "pole-b"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "state-of-the-state",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-ethics",
-            "pole-b"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "town-address",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-ethics",
-            "pole-b"
-          ]
-        }
-      ],
-      "voice": "plain",
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
@@ -101792,63 +101507,6 @@
         }
       ],
       "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12",
-      "piece": {
-        "of": "opening-belief",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "opening-speech.belief-words.plain-inaugural-when-we-stand-with-our-friends-the-bad-family-world-pole-a",
-      "move": "belief-words",
-      "kind": "spoken",
-      "text": "when we stand with our friends, the bad actors think twice",
-      "uses": [
-        {
-          "move": "belief-words",
-          "subject": "inaugural",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-world",
-            "pole-a"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "state-of-the-union",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-world",
-            "pole-a"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "state-of-the-state",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-world",
-            "pole-a"
-          ]
-        },
-        {
-          "move": "belief-words",
-          "subject": "town-address",
-          "role": "belief-words",
-          "choice": "belief-words",
-          "requiresFacts": [
-            "family-world",
-            "pole-a"
-          ]
-        }
-      ],
-      "voice": "plain",
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
@@ -105653,6 +105311,348 @@
       ],
       "voice": "plain",
       "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.belief-words.plain-inaugural-anybody-who-puts-in-the-hours-ought-to-family-wages-pole-a",
+      "move": "belief-words",
+      "kind": "spoken",
+      "text": "anybody who puts in the hours ought to be able to pay their bills",
+      "uses": [
+        {
+          "move": "belief-words",
+          "subject": "inaugural",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-wages",
+            "pole-a"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "state-of-the-union",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-wages",
+            "pole-a"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "state-of-the-state",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-wages",
+            "pole-a"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "town-address",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-wages",
+            "pole-a"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.belief-words.plain-inaugural-whoever-bought-the-house-gets-a-say-in-family-housing-pole-b",
+      "move": "belief-words",
+      "kind": "spoken",
+      "text": "whoever bought the house gets a say in what goes up next door",
+      "uses": [
+        {
+          "move": "belief-words",
+          "subject": "inaugural",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-housing",
+            "pole-b"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "state-of-the-union",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-housing",
+            "pole-b"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "state-of-the-state",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-housing",
+            "pole-b"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "town-address",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-housing",
+            "pole-b"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.belief-words.plain-inaugural-folks-who-want-to-come-here-ought-to-family-immigration-pole-b",
+      "move": "belief-words",
+      "kind": "spoken",
+      "text": "folks who want to come here ought to come the right way",
+      "uses": [
+        {
+          "move": "belief-words",
+          "subject": "inaugural",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-immigration",
+            "pole-b"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "state-of-the-union",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-immigration",
+            "pole-b"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "state-of-the-state",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-immigration",
+            "pole-b"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "town-address",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-immigration",
+            "pole-b"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.belief-words.plain-inaugural-anybody-who-shows-an-id-to-board-a-family-elections-pole-b",
+      "move": "belief-words",
+      "kind": "spoken",
+      "text": "anybody who shows an ID to board a plane can show one to vote",
+      "uses": [
+        {
+          "move": "belief-words",
+          "subject": "inaugural",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-elections",
+            "pole-b"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "state-of-the-union",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-elections",
+            "pole-b"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "state-of-the-state",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-elections",
+            "pole-b"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "town-address",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-elections",
+            "pole-b"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.belief-words.plain-inaugural-folks-who-don-t-like-their-lawmaker-can-family-ethics-pole-b",
+      "move": "belief-words",
+      "kind": "spoken",
+      "text": "folks who don't like their lawmaker can vote them out",
+      "uses": [
+        {
+          "move": "belief-words",
+          "subject": "inaugural",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-ethics",
+            "pole-b"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "state-of-the-union",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-ethics",
+            "pole-b"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "state-of-the-state",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-ethics",
+            "pole-b"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "town-address",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-ethics",
+            "pole-b"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.belief-words.plain-inaugural-standing-with-our-friends-makes-the-bad-actors-family-world-pole-a",
+      "move": "belief-words",
+      "kind": "spoken",
+      "text": "standing with our friends makes the bad actors think twice",
+      "uses": [
+        {
+          "move": "belief-words",
+          "subject": "inaugural",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-world",
+            "pole-a"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "state-of-the-union",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-world",
+            "pole-a"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "state-of-the-state",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-world",
+            "pole-a"
+          ]
+        },
+        {
+          "move": "belief-words",
+          "subject": "town-address",
+          "role": "belief-words",
+          "choice": "belief-words",
+          "requiresFacts": [
+            "family-world",
+            "pole-a"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-belief",
+        "part": "reason"
+      },
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
       "date": "2026-11-12"
