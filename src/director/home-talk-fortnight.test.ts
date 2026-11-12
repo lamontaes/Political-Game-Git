@@ -64,7 +64,11 @@ const DAY_TALK = (
       "utf8",
     ),
   ) as {
-    dayTalk: { kinds: string[]; againAfterDays: { value: number } };
+    dayTalk: {
+      kinds: string[];
+      comesBack: string[];
+      againAfterDays: { value: number };
+    };
   }
 ).dayTalk;
 const DAYS = 14;
@@ -178,6 +182,7 @@ function fortnight(draw: number): string[] {
   const lastTopic = new Map<string, number>();
   let talks = 0;
   const silent: string[] = [];
+  const toldOnce = new Set<string>();
   let typedSeen = 0;
   for (let day = 0; day < DAYS; day += 1) {
     const saidToday = new Map<string, string>();
@@ -219,6 +224,9 @@ function fortnight(draw: number): string[] {
           { presentIds: room as PersonId[], minuteOfDay: minute },
         ).filter((row) => {
           if (!DAY_TALK.kinds.includes(row.kind)) return false;
+          // Told once by the house (the rent due): no longer new once told.
+          if (!DAY_TALK.comesBack.includes(row.kind) && toldOnce.has(row.id))
+            return false;
           const last = lastTopic.get(
             `${otherId}|${otherId}>${row.id.replace(/:\d{4}-\d{2}-\d{2}$/, "")}`,
           );
@@ -361,6 +369,7 @@ function fortnight(draw: number): string[] {
         if (OUTSIDE.test(screen))
           broken.push(`${here}: the outside market said: "${screen}"`);
         const topic = talk.topics[0];
+        if (topic) toldOnce.add(topic.replace(/^[^>]*>/, ""));
         if (topic) {
           const key = `${otherId}|${topic.replace(/:\d{4}-\d{2}-\d{2}$/, "")}`;
           const kind = topic.replace(/^[^>]*>/, "").split(":")[0]!;
