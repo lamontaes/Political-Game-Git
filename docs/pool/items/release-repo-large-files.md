@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T00:24:35.103Z
 branch: claude/pool-release-repo-large-files
 ---
 
-**What.** The repository is large and has no large-file storage, so every session's clone carries all of it. The owner ruled on Oct 19 to move art intermediates and large raw data to Git LFS, and to delete the raw publisher captures in data/source/*/raw/ that nothing reads. A clone should be a few hundred MB, so every session's clone gets smaller and faster. The Oct 19 audit snapshot (commit 0104686) said 3.13 GB, with art about 1.4 GB and about 520 MB of captures; recount every path and size before implementing.
+**What.** The repository is large and has no large-file storage, so every session's clone carries all of it. The owner ruled on Oct 19 to move art intermediates and large raw data to Git LFS, and to delete the raw publisher captures in data/source/*/raw/ that nothing reads. A clone should be a few hundred MB, so every session's clone gets smaller and faster. The Oct 19 audit snapshot (commit 0104686) said 3.13 GB, with art about 1.4 GB and about 520 MB of captures; recount every path and size before implementing. Guards: a session's copy of the game fits on its disk, so builders keep building (owner, Oct 19).
 
 **Cause.** Found in code: .gitattributes (lines 1 to 15) holds no filter=lfs rule, only the immutable-capture whitespace note; `du -sh art data/source` in a full checkout shows 541M and 476M, and `git ls-files data/source | grep -c /raw/` gives 115 tracked raw files.
 

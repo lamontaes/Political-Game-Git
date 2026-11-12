@@ -19,7 +19,7 @@ source: split from office-budget-season-attend-hearing in the pool redo, Nov 10,
 checked: fable 2026-11-10
 ---
 
-**What.** With the budget on a meeting agenda and voted there, a seated player who holds the every-meeting stop must be stopped at that meeting and be able to speak on the budget (`speakOnItem` in src/core2/modules/office-day.ts, line 568) or take it up. The wording of the hearing comes from the English engine's banks. This is part 3 of office-budget-season-attend-hearing.
+**What.** With the budget on a meeting agenda and voted there, a seated player who holds the every-meeting stop must be stopped at that meeting and be able to speak on the budget (`speakOnItem` in src/core2/modules/office-day.ts, line 568) or take it up. The wording of the hearing comes from the English engine's banks. This is part 3 of office-budget-season-attend-hearing. Seen: the stop at the budget meeting where the player may speak on the budget.
 
 **Cause.** Found in code: the every-meeting stop is read in src/core2/modules/office-day.ts (line 420) for meetings on the agenda; the budget meeting is not among them until parts 1 and 2 land.
 

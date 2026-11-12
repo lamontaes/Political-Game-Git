@@ -20,7 +20,7 @@ after:
 checked: fable 2026-11-10
 ---
 
-**What.** Add a Report a bug control to the menu and a prompt after a crash. Each builds a report with the core's bug-report builder (the save, the player's note, the error and the recent record kinds) and sends it only when the player presses send, after showing what would leave the machine. Nothing personal about the player leaves the game. The early-access checklist (owner, Oct 12) asks for exactly this button and prompt.
+**What.** Add a Report a bug control to the menu and a prompt after a crash. Each builds a report with the core's bug-report builder (the save, the player's note, the error and the recent record kinds) and sends it only when the player presses send, after showing what would leave the machine. Nothing personal about the player leaves the game. The early-access checklist (owner, Oct 12) asks for exactly this button and prompt. Seen: the Report a bug control in the menu and the prompt after a crash, which show what would be sent (owner, Oct 12 early-access checklist).
 
 **Cause.** Found in code: src/core2/bug-report.ts, function `bugReport` (line 34), builds a `core2-bug-report-v1` report (save, note, error, recent kinds), and `replayBugReport` (line 68) replays it, and src/core2/bug-report.test.ts covers it, but no file under src/bench, src/director or desktop references it, so no screen offers Report a bug or an after-crash prompt.
 

@@ -20,7 +20,7 @@ root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
 ---
 
-**What.** PR #5573 showed the money moves against an amended administration line but a city employee's pay does not depend on the line's size. Make the line's amount an input the treasury reads when it sets or holds a department's payroll.
+**What.** PR #5573 showed the money moves against an amended administration line but a city employee's pay does not depend on the line's size. Make the line's amount an input the treasury reads when it sets or holds a department's payroll. Seen: the pay a city employee receives, which follows the amended budget line the player voted.
 
 **Cause.** Needs cause. Looked at the item, src/core2/budgets-treasury.ts (the treasury file; src/core2/modules/treasury.ts is gone) and src/core2/modules/budgets.ts. The schools line is proved (law-reach-group-b.test.ts re-rates school staff pay and the staffing test shows hires and ends), but the path by which a department-level, non-school line cut (administration) changes a named employee's paycheck or hours is not located, and PR #5588 failed there repeatedly.
 

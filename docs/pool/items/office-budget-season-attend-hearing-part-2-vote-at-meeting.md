@@ -19,7 +19,7 @@ source: split from office-budget-season-attend-hearing in the pool redo, Nov 10,
 checked: fable 2026-11-10
 ---
 
-**What.** With the bill on the agenda, vote it at that meeting through `holdVote`, as every other item does, and delete the one-call draft-and-vote path so a computer-run body still votes it the same day but through the meeting. The vote record then belongs to a meeting like every other item's. This is part 2 of office-budget-season-attend-hearing.
+**What.** With the bill on the agenda, vote it at that meeting through `holdVote`, as every other item does, and delete the one-call draft-and-vote path so a computer-run body still votes it the same day but through the meeting. The vote record then belongs to a meeting like every other item's. This is part 2 of office-budget-season-attend-hearing. Feeds: office-budget-season-attend-hearing-part-3-player-at-hearing, which holds the player at the budget meeting.
 
 **Cause.** Found in code: `councilBudget` in src/core2/modules/legislature.ts (line 996) votes the budget in a direct call at the year's start; `holdVote` (line 5106) is the vote every agenda item uses.
 

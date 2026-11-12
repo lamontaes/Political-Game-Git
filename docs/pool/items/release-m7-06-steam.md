@@ -20,7 +20,7 @@ after:
 checked: fable 2026-11-10
 ---
 
-**What.** Roadmap M7-06: the Steam store page text, the trailer, the early-access FAQ, minimum specs and the price. The owner signs off. It is too large for one session, so it is split into the parts named in Waits on. The price and the trailer are owner decisions: build the simplest proposal and flag it for him.
+**What.** Roadmap M7-06: the Steam store page text, the trailer, the early-access FAQ, minimum specs and the price. The owner signs off. It is too large for one session, so it is split into the parts named in Waits on. The price and the trailer are owner decisions: build the simplest proposal and flag it for him. Seen: the Steam page a player buys from: text, trailer, FAQ, specs and price (early-access checklist).
 
 **Cause.** Design: docs/roadmap/later-specs-draft.md section M7-06 (approved by the owner Oct 12) and docs/packages/M7-early-access.md.
 

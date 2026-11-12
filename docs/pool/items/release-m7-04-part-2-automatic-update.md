@@ -5,7 +5,7 @@ area: release
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -35,3 +35,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing in code. Early-access preparation (AGENTS.md: saves and release work wait for it) and the weekly reschedule.
 
 **Files.** desktop/updater.mjs, desktop/main.mjs, desktop/tests, docs/packages/M7-early-access.md
+
+**Notes (depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have made the desktop package install its own updates, but updates come through Steam (docs/packages/M7-early-access.md), so no player sees the package updater.

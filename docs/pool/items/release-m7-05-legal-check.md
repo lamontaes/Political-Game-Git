@@ -20,7 +20,7 @@ after:
 checked: fable 2026-11-10
 ---
 
-**What.** Roadmap M7-05: confirm no real politicians appear (the owner's Sept 26 ruling), and list the real places, schools and institutions, the data sources and the photo and art sources. It is a research review by the team; there is no attorney (owner, Oct 12), and a one-time outside legal review is optional and blocks nothing. Rights and licenses are never checked or asked about (owner, Oct 26 and 27), so the source lines record only what the sources themselves state. It is too large for one session, so it is split into the parts named in Waits on.
+**What.** Roadmap M7-05: confirm no real politicians appear (the owner's Sept 26 ruling), and list the real places, schools and institutions, the data sources and the photo and art sources. It is a research review by the team; there is no attorney (owner, Oct 12), and a one-time outside legal review is optional and blocks nothing. Rights and licenses are never checked or asked about (owner, Oct 26 and 27), so the source lines record only what the sources themselves state. It is too large for one session, so it is split into the parts named in Waits on. Seen: Credits under Options and the rule that no real politician appears anywhere (owner, Sept 26; early-access checklist).
 
 **Cause.** Design: docs/roadmap/later-specs-draft.md section M7-05 (approved by the owner Oct 12) and docs/packages/M7-early-access.md.
 

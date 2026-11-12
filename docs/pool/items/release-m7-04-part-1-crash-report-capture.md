@@ -20,7 +20,7 @@ source: split from release-m7-04-updates-and-bug-reports in the pool redo, Nov 1
 checked: fable 2026-11-10
 ---
 
-**What.** When the game throws an error during play, it writes a crash report (the save, the error and the recent record kinds, using the existing bug-report builder) to disk, and the next launch offers to send it. The send itself, and the button and prompt screens, belong to release-bug-report-control.
+**What.** When the game throws an error during play, it writes a crash report (the save, the error and the recent record kinds, using the existing bug-report builder) to disk, and the next launch offers to send it. The send itself, and the button and prompt screens, belong to release-bug-report-control. Feeds: release-bug-report-control, whose after-crash prompt offers the report this part writes.
 
 **Cause.** Found in code: src/core2/bug-report.ts, function `bugReport` (line 34), builds a `core2-bug-report-v1` report with an error field, but nothing catches a thrown error in play and writes it to disk.
 

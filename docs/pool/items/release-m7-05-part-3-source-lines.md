@@ -21,7 +21,7 @@ checked: fable 2026-11-10
 claimed-at: 2026-11-11T05:34:11.508Z
 ---
 
-**What.** List each data source and each art source the game ships with, and the license line its own source page states. Rights and licenses are never checked or asked about (owner, Oct 26 and 27), so this only records what each source states, for the credits and the store page.
+**What.** List each data source and each art source the game ships with, and the license line its own source page states. Rights and licenses are never checked or asked about (owner, Oct 26 and 27), so this only records what each source states, for the credits and the store page. Seen: the Credits screen under Options, which names each data and art source (early-access checklist).
 
 **Cause.** Design: owner, Oct 26 and 27, rights and licenses are never checked or asked about (see .agents/skills/asset-scene-admission/SKILL.md); docs/packages/M7-early-access.md lists the Credits screen under Options.
 

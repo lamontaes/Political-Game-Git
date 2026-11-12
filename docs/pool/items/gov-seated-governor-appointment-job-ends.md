@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T05:46:29.249Z
 branch: claude/pool-gov-seated-governor-appointment-job-ends
 ---
 
-**What.** After the player is seated as governor through seatWinner, appointGovernor can throw that a job ends before its day's work, apparently because the seated player's job record ends on the day they are appointed. The words session's swearing-in test steps around it and names it (New Pekin IN). A governor the player wins must be seated without stopping the day.
+**What.** After the player is seated as governor through seatWinner, appointGovernor can throw that a job ends before its day's work, apparently because the seated player's job record ends on the day they are appointed. The words session's swearing-in test steps around it and names it (New Pekin IN). A governor the player wins must be seated without stopping the day. Seen: a governor the player wins, who today stops the day with an error when appointed.
 
 **Cause.** Found in code: src/director/swearing-in-scene.test.ts (line 153) catches the throw; the rule is in src/core2/job-lifecycle.ts (line 100, 'a job ends before its day's work', raised at line 129) and appointGovernor is at src/core2/office-day-state.ts line 1662.
 

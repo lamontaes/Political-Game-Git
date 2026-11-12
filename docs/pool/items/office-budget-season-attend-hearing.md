@@ -20,7 +20,7 @@ root: rc7-player-cannot-drive
 checked: fable 2026-11-10
 ---
 
-**What.** On main a budget hearing exists (`holdCouncilBudgetHearing` in src/core2/modules/legislature.ts), but it and the budget vote run as direct calls on set days, so the budget bill never sits on a meeting agenda and a seated player with the every-meeting stop is never held at a budget meeting. Make the budget hearing a player choice in three parts: place the bill on the body's agenda before the fiscal year starts, vote it at that meeting through `holdVote`, and let a seated player speak. A computer-run body still votes it the same day.
+**What.** On main a budget hearing exists (`holdCouncilBudgetHearing` in src/core2/modules/legislature.ts), but it and the budget vote run as direct calls on set days, so the budget bill never sits on a meeting agenda and a seated player with the every-meeting stop is never held at a budget meeting. Make the budget hearing a player choice in three parts: place the bill on the body's agenda before the fiscal year starts, vote it at that meeting through `holdVote`, and let a seated player speak. A computer-run body still votes it the same day. Seen: the budget meeting the seated player is held at and can speak in.
 
 **Cause.** Found in code: `holdCouncilBudgetHearing` and `councilBudget` in src/core2/modules/legislature.ts (lines 940 and 996) draft, hear and vote the budget without `placeOnAgenda` (src/core2/modules/office-day.ts, line 330) or `holdVote`.
 

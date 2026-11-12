@@ -4,7 +4,7 @@ title: "Stopgaps in office-day-federal-president (missing-record): 2 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr: #5124
 blocked-on:
@@ -42,3 +42,5 @@ checked: fable 2026-11-10
 Oct 20 (cto): PR #5124 merged. SG-OFFICE-FED-situation-room resolved (situation room opens on FEMA disaster records, daily brief observes crisis). SG-OFFICE-FED-trip-residents remains open.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+**Notes (depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have given the resident a president meets abroad a job and family, but it only shows when playing as president, which early access does not wait for.

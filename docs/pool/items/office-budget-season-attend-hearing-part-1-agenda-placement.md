@@ -19,7 +19,7 @@ source: split from office-budget-season-attend-hearing in the pool redo, Nov 10,
 checked: fable 2026-11-10
 ---
 
-**What.** On main a hearing on the budget exists (`holdCouncilBudgetHearing` in src/core2/modules/legislature.ts writes a budgetHearings row and the room speaks), but it and the vote run as direct calls on set days, so the budget bill never sits on the body's meeting agenda and a seated player with the every-meeting stop is never held at it. Place the bill on the agenda of the body's meeting before the fiscal year starts with `placeOnAgenda`, the meeting day coming from the body's own rule. The player then has a real meeting to attend. This is part 1 of office-budget-season-attend-hearing.
+**What.** On main a hearing on the budget exists (`holdCouncilBudgetHearing` in src/core2/modules/legislature.ts writes a budgetHearings row and the room speaks), but it and the vote run as direct calls on set days, so the budget bill never sits on the body's meeting agenda and a seated player with the every-meeting stop is never held at it. Place the bill on the agenda of the body's meeting before the fiscal year starts with `placeOnAgenda`, the meeting day coming from the body's own rule. The player then has a real meeting to attend. This is part 1 of office-budget-season-attend-hearing. Feeds: office-budget-season-attend-hearing-part-3-player-at-hearing, which holds the player at the budget meeting.
 
 **Cause.** Found in code: `holdCouncilBudgetHearing` and `councilBudget` in src/core2/modules/legislature.ts (lines 940 and 996) draft and hear the budget bill without `placeOnAgenda` (src/core2/modules/office-day.ts, line 330).
 

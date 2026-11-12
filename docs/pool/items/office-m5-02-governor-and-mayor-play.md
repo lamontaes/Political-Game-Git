@@ -21,7 +21,7 @@ lead: governing
 checked: fable 2026-11-10
 ---
 
-**What.** Set budget priorities with staff advice, appoint a cabinet, sign or veto, and live with the results, for a played governor or mayor. The umbrella was written Oct 12. Its children office-governor and the three office-budget-season items are done, so what remains (governor priorities moving spending, cabinet, veto) has to be listed before anything is built. Line-by-line budgets are optional depth.
+**What.** Set budget priorities with staff advice, appoint a cabinet, sign or veto, and live with the results, for a played governor or mayor. The umbrella was written Oct 12. Its children office-governor and the three office-budget-season items are done, so what remains (governor priorities moving spending, cabinet, veto) has to be listed before anything is built. Line-by-line budgets are optional depth. Seen: a governor or mayor setting priorities, appointing a cabinet and signing or vetoing (early access includes the executive role).
 
 **Cause.** Needs cause. Looked at: office-governor, office-budget-season-mayor-act, -bench-editor and -payment-chain are done; the spec (docs/roadmap/later-specs-draft.md, M5-02) says to verify how much is built. Nobody has listed the remaining gap.
 

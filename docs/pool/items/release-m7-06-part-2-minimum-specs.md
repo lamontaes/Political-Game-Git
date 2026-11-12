@@ -20,7 +20,7 @@ source: split from release-m7-06-steam in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Measure the machine the game needs: run npm run speed:year and the desktop package on the smallest machine available and record time, memory and disk, so the store page can state minimum specs.
+**What.** Measure the machine the game needs: run npm run speed:year and the desktop package on the smallest machine available and record time, memory and disk, so the store page can state minimum specs. Seen: the minimum specs line on the Steam store page (early-access checklist, Oct 12).
 
 **Cause.** Design: docs/roadmap/later-specs-draft.md section M7-06 (approved by the owner Oct 12) and docs/packages/M7-early-access.md.
 
