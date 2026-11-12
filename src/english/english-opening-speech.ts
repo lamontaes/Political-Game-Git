@@ -92,8 +92,19 @@ const ACTS: Readonly<Record<string, SpeechAct>> = {
   context: "tell",
   // What the context has meant for people, between the context and the stand.
   meaning: "tell",
-  // How a point's question stands today, from the law in force.
+  // How a point's question stands today, from the law in force, as the
+  // speaker's side describes it.
   today: "tell",
+  // What the speaker believes, as a clause the planner words first by the
+  // question's family and the speaker's pole of it; then said standing
+  // first (`belief`) or as the reason after the ask (`why`).
+  "belief-words": "tell",
+  belief: "tell",
+  why: "tell",
+  // A point that opens on a question to the audience.
+  question: "tell",
+  // The sentence that ties a figure to the question it bears on.
+  tie: "tell",
   "story-says": "tell",
   "story-turn": "tell",
   pledge: "promise",

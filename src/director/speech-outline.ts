@@ -54,10 +54,14 @@ import openingData from "./data/opening-story.json" with { type: "json" };
 import {
   NAMED_QUESTIONS,
   questionAbout,
+  questionFamily,
+  questionFigures,
+  questionNumber,
   questionSide,
   questionTo,
   questionToday,
 } from "../english/question-names";
+import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
 import { questionSubject } from "../english/policy-names";
 import addressData from "./data/opening-address.json" with { type: "json" };
 import outlineData from "./data/speech-outlines.json" with { type: "json" };
@@ -135,6 +139,18 @@ const OUTLINES = outlineData as unknown as {
   themes: Readonly<Record<string, readonly string[] | string>>;
   subjectOfQuestion: Readonly<Record<string, string>>;
   subjectPull: Readonly<Record<string, readonly string[] | string>>;
+  pointShapes: {
+    shapes: Readonly<
+      Record<
+        string,
+        {
+          readonly moves: readonly string[];
+          readonly belief: "belief-leads" | "belief-stands" | "belief-after";
+          readonly pull: readonly string[];
+        }
+      >
+    >;
+  };
 };
 
 /** The outline row of a kind of speech. */
@@ -746,6 +762,94 @@ export interface SpeechPlan {
   /** The bill catalog's subject the speech is about; null when the record gives it none. */
   readonly theme: string | null;
   readonly asks: readonly string[];
+  /** Each point as planned: its question, shape, the speaker's side, the belief's family and pole, its figure and its name's number. */
+  readonly points: readonly PlannedPoint[];
+}
+
+/** One point of a speech as the planner chose it, for the reader and the tests. */
+export interface PlannedPoint {
+  readonly question: string;
+  readonly shape: string;
+  readonly side: "for" | "against";
+  /** How the question stands, as the speaker's side describes it. */
+  readonly today: string | null;
+  readonly family: string | null;
+  readonly pole: "a" | "b" | null;
+  /** The measure the point's figure is about; null when the question's row lets the speaker's side use none. */
+  readonly figure: string | null;
+  readonly number: "one" | "many";
+}
+
+/**
+ * The shapes a speaker's points take, in the order their traits pull
+ * hardest (speech-outlines.json `pointShapes`): the first point takes the
+ * first, the next the next, so no two points of a speech share a shape.
+ * Ties go by the shape's name.
+ */
+function shapeOrder(person: PersonState): string[] {
+  return Object.entries(OUTLINES.pointShapes.shapes)
+    .map(([name, row]) => ({ name, pull: traitSum(person, row.pull) }))
+    .sort((a, b) => b.pull - a.pull || a.name.localeCompare(b.name))
+    .map((row) => row.name);
+}
+
+/** The words a sentence's first word keeps its capital in after a comma. */
+const KEEPS_CAPITAL =
+  /^(?:I|Medicare|Medicaid|Washington|Congress|Social|American)\b/;
+
+/** A whole sentence as the clause it becomes after an opener and a comma ("Right now, the federal minimum wage ..."). */
+function clauseOf(sentence: string): string {
+  return KEEPS_CAPITAL.test(sentence)
+    ? sentence
+    : sentence.charAt(P.zero).toLocaleLowerCase("en-US") +
+        sentence.slice(P.one);
+}
+
+/**
+ * What the speaker believes on a question, worded from the bank's
+ * belief-words clauses by the question's family and the pole of it the
+ * speaker stands on, in the speaker's manner: the English engine's words,
+ * never the director's. The clause is said as the bank wrote it (its own
+ * case), so a frame says "Because I believe {belief}, ...". Null when the
+ * bank holds none.
+ */
+function beliefWords(
+  core: CoreState,
+  speakerId: string,
+  kind: OpeningSpeechKind,
+  voice: SpeechVoice,
+  family: string,
+  pole: "a" | "b",
+  question: string,
+  said: Set<string>,
+): string | null {
+  const move = openingMove(kind, voice, "belief-words");
+  if (!move) return null;
+  const result = composeAddress(
+    packet(
+      `opening:${core.date}:${speakerId}/belief-${question}`,
+      core.seed,
+      speakerId,
+      "chair-male",
+      {
+        [`family-${family}`]: fact("yes", `question:${question}`),
+        [`pole-${pole}`]: fact("yes", `question:${question}`),
+      },
+      [speakerId],
+    ),
+    "election-night",
+    [move],
+    // A belief already said in this speech is said again only when its
+    // family and pole hold no other wording.
+    { recentPartKeys: [...said] },
+  );
+  if (result.kind !== "rendered") return null;
+  const part = result.moves[P.zero]?.parts[P.zero];
+  if (part) said.add(part.partKey);
+  const key = part?.variantKey;
+  return (
+    OPENING_SPEECH_BANK.parts.find((part) => part.key === key)?.text ?? null
+  );
 }
 
 /** A governor's or a mayor's year as claims, read from the term read of their realm. */
@@ -1133,15 +1237,19 @@ export function planSpeech(
         (country.movement[b] ?? P.zero) - (country.movement[a] ?? P.zero) ||
         a.localeCompare(b),
     );
-  // Each measure is told once, as the context of the first point whose
-  // subject it bears on.
+  // A figure joins a point only when the question's own row names the
+  // measure as bearing on it and helping the speaker's side (question-names
+  // `figures`; the words lead, Nov 12: grocery prices led into the debt
+  // limit). Each measure is told once, at the first point it may join.
   const topicOf = new Map<string, string>();
   for (const stand of pointStands) {
     const used = new Set(topicOf.values());
+    const side = stand.stance > P.zero ? "for" : "against";
+    const allowed = questionFigures(stand.question)
+      .filter((row) => row.side === side)
+      .map((row) => row.measure);
     const topic = themeTopics.find(
-      (row) =>
-        !used.has(row) &&
-        topicsOf(subjectOf(stand.question) ?? "").includes(row),
+      (row) => !used.has(row) && allowed.includes(row),
     );
     if (topic) topicOf.set(stand.question, topic);
   }
@@ -1198,6 +1306,31 @@ export function planSpeech(
   const asides = asidesOf(person, row.asides);
   const ownRecord = row.ownRecord && !firstYear;
 
+  // Each point's plan: its shape (one per point, in the order the speaker's
+  // traits pull), the speaker's side, how that side describes the question
+  // today, the belief's family and pole, its figure and its name's number.
+  const order = shapeOrder(person);
+  const beliefsSaid = new Set<string>();
+  const planned: PlannedPoint[] = pointStands.map((stand, at) => {
+    const side = stand.stance > P.zero ? "for" : "against";
+    const family = questionFamily(stand.question);
+    return {
+      question: stand.question,
+      shape: order[at % order.length]!,
+      side,
+      today: questionToday(stand.question, stand.law.inForce, side),
+      family: family?.family ?? null,
+      pole: family
+        ? side === "for"
+          ? family.forPole
+          : family.forPole === "a"
+            ? "b"
+            : "a"
+        : null,
+      figure: topicOf.get(stand.question) ?? null,
+      number: questionNumber(stand.question),
+    };
+  });
   type Draft = Omit<Block, "part"> & { readonly joins?: boolean };
   const sections: Record<Section, () => Draft[]> = {
     salutation: () => [
@@ -1244,72 +1377,85 @@ export function planSpeech(
         moves: [move("history")],
       },
     ],
-    // Each point, one paragraph in order (owner, Nov 12: "disjointed
-    // statements put together"): how its question stands today, from the
-    // law in force (and the first point's figure where the records hold
-    // one), what that has meant for people, what the speaker believes, and
-    // the ask, plainly for or against. A point is never a bare ask.
+    // Each point, one paragraph (owner, Nov 12: "disjointed statements put
+    // together"), in one of several shapes (`pointShapes`): how its question
+    // stands today, as the speaker's side describes it; its figure, only
+    // where the question's row lets that side use one, tied to the question;
+    // what the speaker believes, by the question's family and the speaker's
+    // pole of it; and the ask, plainly for or against.
     theme: () =>
       pointStands.map((stand, at): Draft => {
+        const plan = planned[at]!;
+        const shape = OUTLINES.pointShapes.shapes[plan.shape]!;
         const rank =
           stand.stance < P.zero ? "rank-line" : (RANKS[at] ?? "rank-line");
         const facts = standFacts(stand, official!, rank);
-        // An unnumbered speech lists no ranks ("no ask list by number").
-        if (!row.numberedAsks) delete facts[rank];
+        // An unnumbered speech lists no ranks ("no ask list by number"), and a
+        // belief that leads into the ask takes the opener's place.
+        if (!row.numberedAsks || shape.belief === "belief-leads")
+          delete facts[rank];
         // A federal stand is said as federal only by a federal speaker.
         if (!federal) delete facts["federal-level"];
-        const today = questionToday(stand.question, stand.law.inForce);
         const topic = topicOf.get(stand.question);
-        // What the speaker believes on this point, by the theme and the way
-        // their side of it leans: a side the left favors is said with the
-        // left's belief, whichever way the speaker leans overall, so the
-        // reason always fits the ask.
-        const tilt =
-          ownStance(-P.one, [], stand.question) -
-          ownStance(P.one, [], stand.question);
-        const lean = stand.stance > P.zero === tilt > P.zero ? "left" : "right";
-        // A question with no lean between left and right takes no belief.
-        const beliefFacts: Facts =
-          theme && tilt !== P.zero
-            ? {
-                [`theme-${theme}`]: fact("yes", official!.id),
-                [`lean-${lean}`]: fact("yes", official!.id),
-              }
-            : {};
+        const belief =
+          plan.family && plan.pole
+            ? beliefWords(
+                core,
+                person.id,
+                kind,
+                voice,
+                plan.family,
+                plan.pole,
+                stand.question,
+                beliefsSaid,
+              )
+            : null;
+        const cited = [`question:${stand.question}`, stand.law.id];
+        const figureMoves = topic
+          ? [
+              move("context", { topic }),
+              move("meaning", { topic }),
+              // The year's claim, only by one who governed it.
+              ...(ownRecord ? [move("story-says", { topic })] : []),
+              move("tie"),
+            ]
+          : [];
         return {
           key: `point-${stand.question}`,
           level: "country",
           facts: {
             ...themeFacts,
             ...(topic
-              ? contextFacts(core, topic, country, speaker.serviceStart)
-              : {}),
-            ...facts,
-            ...(today
               ? {
-                  today: fact(
-                    today,
-                    `question:${stand.question}`,
-                    stand.law.id,
-                  ),
+                  ...contextFacts(core, topic, country, speaker.serviceStart),
+                  "figure-ties": fact("yes", ...cited),
                 }
               : {}),
-            ...beliefFacts,
+            ...facts,
+            [`about-${plan.number}`]: fact("yes", `question:${stand.question}`),
+            ...(plan.today
+              ? {
+                  today: fact(plan.today, ...cited),
+                  "today-clause": fact(clauseOf(plan.today), ...cited),
+                }
+              : {}),
+            ...(belief
+              ? {
+                  belief: fact(
+                    belief,
+                    official!.id,
+                    `question:${stand.question}`,
+                  ),
+                  [shape.belief]: fact("yes", official!.id),
+                }
+              : {}),
+            ...(plan.shape === "question-first"
+              ? { "asks-question": fact("yes", `question:${stand.question}`) }
+              : {}),
           },
-          moves: [
-            move("today"),
-            ...(topic
-              ? [
-                  move("context", { topic }),
-                  move("meaning", { topic }),
-                  // The year's claim, only by one who governed it.
-                  ...(ownRecord ? [move("story-says", { topic })] : []),
-                ]
-              : []),
-            // The belief leads into the ask ("Because I believe ..., I ask
-            // Congress to ..."), an opener typed by the theme and the lean.
-            move("ask"),
-          ],
+          moves: shape.moves.flatMap((name) =>
+            name === "figure" ? figureMoves : [move(name)],
+          ),
         };
       }),
     people: () => [
@@ -1420,6 +1566,7 @@ export function planSpeech(
     addressKind,
     theme,
     asks: asks.map((stand) => stand.question),
+    points: planned,
   };
 }
 

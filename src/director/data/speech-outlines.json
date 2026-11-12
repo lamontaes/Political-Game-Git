@@ -343,5 +343,50 @@
       "personality-v1:facet-philanthropic",
       "personality-v1:facet-mediating"
     ]
+  },
+  "pointShapes": {
+    "about": "The shapes a speech's point may take (owner, Nov 8: \"almost all of them feel the exact same\"; the words lead, Nov 12: \"A point has several shapes\"). Each lists its moves in order; `figure` stands for the figure's sentences (context, what it has meant, the speaker's own record, and the sentence that ties it to the question), said only where the question's row lets the speaker's side use a measure. `belief` says where the belief goes: leading into the ask (`belief-leads`), first as its own sentence (`belief-stands`), or after the ask as its reason (`belief-after`). A speech's points take the shapes in the order the speaker's traits pull hardest (`pull`, the summed facets), one shape per point, so no two points of a speech share one; ties go by the shape's name. No roll.",
+    "shapes": {
+      "context-first": {
+        "moves": ["today", "figure", "ask"],
+        "belief": "belief-leads",
+        "pull": [
+          "personality-v1:facet-analytical",
+          "personality-v1:facet-studious",
+          "personality-v1:facet-practical",
+          "personality-v1:facet-guarded"
+        ]
+      },
+      "belief-first": {
+        "moves": ["belief", "today", "figure", "ask"],
+        "belief": "belief-stands",
+        "pull": [
+          "personality-v1:facet-sincere",
+          "personality-v1:facet-duty-bound",
+          "personality-v1:facet-proud",
+          "personality-v1:facet-philanthropic"
+        ]
+      },
+      "question-first": {
+        "moves": ["question", "today", "figure", "ask"],
+        "belief": "belief-leads",
+        "pull": [
+          "personality-v1:facet-dramatic",
+          "personality-v1:facet-charming",
+          "personality-v1:facet-excitable",
+          "personality-v1:facet-imaginative"
+        ]
+      },
+      "ask-first": {
+        "moves": ["ask", "why", "today", "figure"],
+        "belief": "belief-after",
+        "pull": [
+          "personality-v1:facet-blunt",
+          "personality-v1:facet-assertive",
+          "personality-v1:facet-informal",
+          "personality-v1:facet-argumentative"
+        ]
+      }
+    }
   }
 }

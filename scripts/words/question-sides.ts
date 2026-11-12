@@ -39,7 +39,11 @@ const data = JSON.parse(readFileSync(FILE, "utf8")) as {
       against?: string;
       repeal?: string;
       keep?: string;
-      today?: { without: string; with: string };
+      today?: unknown;
+      family?: string;
+      pole?: "a" | "b";
+      number?: "one" | "many";
+      figures?: { measure: string; side: "for" | "against" }[];
     }
   >;
 };
@@ -89,31 +93,66 @@ for (const row of Object.values(data.names)) {
     count("2-3. a question's two sides are said as people say them");
   }
 }
-// 4. How each question stands today, by the law's state.
+// 4. How each question stands today, by the law's state AND the side
+// speaking (owner, Nov 12, via the words lead: "The context argues for the
+// other side"): `today.without.for` is how a supporter describes the world
+// while no law answers the question yes, `today.without.against` how an
+// opponent describes the same world, and `today.with` the same once a law
+// does. Each sentence is bare: the speech's own openers ("Right now,", "As
+// things stand,") are the bank's, so no two context sentences open alike.
+// The same row gives the question's family and which pole of it a supporter
+// stands on (the belief a speaker gives is typed by these, never by theme),
+// its grammatical number (`one` or `many`: "limits on pumping groundwater
+// ARE"), and the measures that bear on it, each with the side it helps.
+const [header, ...lines] = readFileSync(
+  "scripts/words/question-today.tsv",
+  "utf8",
+)
+  .trim()
+  .split("\n");
+const columns = header!.split("\t");
 const today = new Map(
-  readFileSync("scripts/words/question-today.tsv", "utf8")
-    .trim()
-    .split("\n")
-    .map((line) => {
-      const [key, without, withLaw] = line.split("\t") as [
-        string,
-        string,
-        string,
-      ];
-      return [key, { without, with: withLaw }] as const;
-    }),
+  lines.map((line) => {
+    const cells = Object.fromEntries(
+      line.split("\t").map((cell, at) => [columns[at]!, cell]),
+    ) as Record<string, string>;
+    return [cells.key!, cells] as const;
+  }),
 );
 for (const [question, row] of Object.entries(data.names)) {
   const found = today.get(question.split(":")[1]!);
   if (!found) throw new Error(`No today form for ${question}`);
-  if (row.today?.without !== found.without || row.today?.with !== found.with) {
-    row.today = found;
-    count("4. a question says how it stands today, with and without its law");
-  }
+  const wanted = {
+    today: {
+      without: {
+        for: found["without-for"]!,
+        against: found["without-against"]!,
+      },
+      with: { for: found["with-for"]!, against: found["with-against"]! },
+    },
+    family: found.family!,
+    pole: found.pole as "a" | "b",
+    number: found.number as "one" | "many",
+    figures:
+      found.figures === "-"
+        ? []
+        : found.figures!.split(",").map((pair) => {
+            const [measure, side] = pair.split(":") as [string, string];
+            return { measure, side: side as "for" | "against" };
+          }),
+  };
+  for (const [field, value] of Object.entries(wanted))
+    if (
+      JSON.stringify(row[field as keyof typeof row]) !== JSON.stringify(value)
+    ) {
+      (row as Record<string, unknown>)[field] = value;
+      count(`4. a question's ${field} is set from its row`);
+    }
 }
-data.about = data.about.includes("`today`")
-  ? data.about
-  : `${data.about} \`today\` says how the question stands now: \`without\` while no law answers it yes, \`with\` once one does.`;
+data.about = data.about.replace(
+  /`today` says how the question stands now:[^.]*\./,
+  "`today` says how the question stands now, as each side describes it: `without.for` and `without.against` while no law answers it yes, `with.for` and `with.against` once one does. `family` and `pole` type the belief a speaker gives (speech-outline.ts); `number` is `one` or `many`, for the verbs that agree with `about`; `figures` names the measures that bear on the question and the side each helps.",
+);
 data.about = data.about.includes("`for`")
   ? data.about
   : `${data.about} Each question also has a form for each side, written by scripts/words/question-sides.ts: \`for\` is what a supporter wants done and \`against\` what an opponent will keep off the books ("keep higher tariffs off the books") and \`repeal\` what they will undo; both read after "I want to" and "I will".`;

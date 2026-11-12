@@ -19,18 +19,56 @@ const NAMES = data.names as Readonly<
       readonly against?: string;
       readonly repeal?: string;
       readonly keep?: string;
-      readonly today?: { readonly without: string; readonly with: string };
+      readonly today?: {
+        readonly without: Readonly<Record<"for" | "against", string>>;
+        readonly with: Readonly<Record<"for" | "against", string>>;
+      };
+      readonly family?: string;
+      readonly pole?: "a" | "b";
+      readonly number?: "one" | "many";
+      readonly figures?: readonly {
+        readonly measure: string;
+        readonly side: "for" | "against";
+      }[];
     }
   >
 >;
 
-/** How the question stands today, one plain sentence, by whether a law in force answers it yes. */
+/**
+ * How the question stands today, one plain sentence, by whether a law in
+ * force answers it yes and by the side describing it: a supporter (`for`)
+ * and an opponent (`against`) tell the same world their own way, so a
+ * speech's context never argues against its own ask.
+ */
 export function questionToday(
   question: string,
   inForce: boolean,
+  side: "for" | "against",
 ): string | null {
   const row = NAMES[question]?.today;
-  return row ? (inForce ? row.with : row.without) : null;
+  return row ? (inForce ? row.with : row.without)[side] : null;
+}
+
+/** The family of questions that share a real reason on each side, and the pole of it a supporter stands on; null for a question with none. */
+export function questionFamily(
+  question: string,
+): { readonly family: string; readonly forPole: "a" | "b" } | null {
+  const row = NAMES[question];
+  return row?.family && row.pole
+    ? { family: row.family, forPole: row.pole }
+    : null;
+}
+
+/** Whether the question's spoken name is one thing or several ("limits on pumping groundwater" are several), for the verbs that agree with it. */
+export function questionNumber(question: string): "one" | "many" {
+  return NAMES[question]?.number ?? "one";
+}
+
+/** The measures of the world's record that bear on the question, each with the side it helps; empty when none does. */
+export function questionFigures(
+  question: string,
+): readonly { readonly measure: string; readonly side: "for" | "against" }[] {
+  return NAMES[question]?.figures ?? [];
 }
 
 /** The question as one side says it: what a supporter wants done, what an opponent will keep off the books, or what they will repeal. */
