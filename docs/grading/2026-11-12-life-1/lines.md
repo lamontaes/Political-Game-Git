@@ -2,7 +2,6 @@
 
 Player: Veronica Boyd (female). Place: Wofford Heights, California. Seed: a9c85de3-e7fa-4418-8499-569a5c5e6e10.
 
-
 ## Scene 1: President's address
 
 - When/where: Monday, January 20, 20258:30 PM
@@ -52,11 +51,10 @@ Player: Veronica Boyd (female). Place: Wofford Heights, California. Seed: a9c85d
 
 > To wrap up, I'm thankful for every one of you, and I'll be back to report on rising pay.
 
-
 ### after the address (Monday, January 20, 2025 8:30 PM)
+
 - Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 - News toast: NEWS / Child care income limit (family of three) took effect on January 1, 2025.
-
 
 ### Menu: journal ()
 
@@ -70,9 +68,7 @@ Player: Veronica Boyd (female). Place: Wofford Heights, California. Seed: a9c85d
 > Three years on, I moved to Wofford Heights, California. I was 23 that year.
 > Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
-
 ### Home after the opening: Monday, January 20, 2025 8:30 PM; here: Logan Harper, Maya Williamson
-
 
 ## Scene 2: talk with Logan Harper
 
@@ -94,7 +90,6 @@ Replies offered: 1. “No argument from me, Logan.” · 2. “I'm with Joshua F
 > Good. We'll watch what it does to Wofford Heights.
 > Let's pick this up again tonight.
 
-
 ## Scene 3: talk with Maya Williamson
 
 - When/where: Monday, January 20, 20258:30 PM
@@ -115,21 +110,18 @@ Replies offered: 1. “I'd say the same, Maya.” · 2. “Honestly, Joshua Fitz
 > Maybe so. Joshua Fitzgerald will settle it one way or the other.
 > Go on and enjoy what's left of tonight.
 
-
 ### evening (Monday, January 20, 2025 8:30 PM)
+
 - Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 - News toast: NEWS / Child care income limit (family of three) took effect on January 1, 2025.
 
-
 --- Day pressed at Monday, January 20, 2025 8:30 PM
 
-
 ### after the day (Tuesday, January 21, 2025 7:00 AM)
+
 - Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
-
 Here at Tuesday, January 21, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 4: talk with Logan Harper
 
@@ -149,7 +141,6 @@ Replies offered: 1. “I'm a stocker.” · 2. “I'm at Sullivan's Market. What
 > VERONICA BOYD
 > I'm a stocker.
 > Okay.
-
 
 ## Scene 5: talk with Maya Williamson
 
@@ -180,16 +171,13 @@ Replies offered: 1. “Oh, I see.” · 2. “Alright.”
 > Oh, I see.
 > I'll check on you again this morning.
 
-
 --- Day pressed at Tuesday, January 21, 2025 7:16 AM
 
-
 ### after the day (Wednesday, January 22, 2025 7:00 AM)
+
 - Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
-
 Here at Wednesday, January 22, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 6: talk with Logan Harper
 
@@ -210,7 +198,6 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > I missed you today.
 > I missed you too.
 
-
 ### Menu: journal ()
 
 > Journal
@@ -223,16 +210,13 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > Three years on, I moved to Wofford Heights, California. I was 23 that year.
 > Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
-
 --- Day pressed at Wednesday, January 22, 2025 7:06 AM
 
-
 ### after the day (Thursday, January 23, 2025 7:00 AM)
+
 - Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
-
 Here at Thursday, January 23, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 7: talk with Logan Harper
 
@@ -253,16 +237,13 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > Pretty good, actually.
 > Good to hear.
 
-
 --- Day pressed at Thursday, January 23, 2025 7:06 AM
 
-
 ### after the day (Friday, January 24, 2025 7:00 AM)
+
 - Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
-
 Here at Friday, January 24, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 8: talk with Logan Harper
 
@@ -283,36 +264,29 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > I just need some quiet right now.
 > Okay. I'll leave you be.
 
-
 --- Day pressed at Friday, January 24, 2025 7:06 AM
 
-
 ### after the day (Saturday, January 25, 2025 7:00 AM)
-- Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
+- Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
 Here at Saturday, January 25, 2025 7:00 AM: Sage Boyd
 
-
 --- Day pressed at Saturday, January 25, 2025 7:00 AM
 
-
 ### after the day (Sunday, January 26, 2025 7:00 AM)
-- Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
+- Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
 Here at Sunday, January 26, 2025 7:00 AM: Logan Harper, Maya Williamson
 
-
 --- Day pressed at Sunday, January 26, 2025 7:00 AM
 
-
 ### after the day (Monday, January 27, 2025 7:00 AM)
+
 - Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
-
 Here at Monday, January 27, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 9: talk with Logan Harper
 
@@ -333,7 +307,6 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > Long. I don't want to get into it.
 > Get some rest.
 
-
 ### Menu: journal ()
 
 > Journal
@@ -346,16 +319,13 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > Three years on, I moved to Wofford Heights, California. I was 23 that year.
 > Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
-
 --- Day pressed at Monday, January 27, 2025 7:06 AM
 
-
 ### after the day (Tuesday, January 28, 2025 7:00 AM)
+
 - Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
-
 Here at Tuesday, January 28, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 10: talk with Logan Harper
 
@@ -376,16 +346,13 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > I missed you today.
 > I missed you too.
 
-
 --- Day pressed at Tuesday, January 28, 2025 7:06 AM
 
-
 ### after the day (Wednesday, January 29, 2025 7:00 AM)
+
 - Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
-
 Here at Wednesday, January 29, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 11: talk with Logan Harper
 
@@ -407,16 +374,13 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > Good to hear.
 > Go on and enjoy what's left of this morning.
 
-
 --- Day pressed at Wednesday, January 29, 2025 7:08 AM
 
-
 ### after the day (Thursday, January 30, 2025 7:00 AM)
+
 - Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
-
 Here at Thursday, January 30, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 12: talk with Logan Harper
 
@@ -437,16 +401,13 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > I just need some quiet right now.
 > Okay. I'll leave you be.
 
-
 --- Day pressed at Thursday, January 30, 2025 7:06 AM
 
-
 ### after the day (Friday, January 31, 2025 7:00 AM)
+
 - Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
-
 Here at Friday, January 31, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 13: talk with Logan Harper
 
@@ -467,26 +428,21 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > Long. I don't want to get into it.
 > Get some rest.
 
-
 --- Day pressed at Friday, January 31, 2025 7:06 AM
 
-
 ### after the day (Saturday, February 1, 2025 7:00 AM)
-- Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
+- Journal note: Two months later, I left for a job at Sullivan's Market. I had been there seven months. It paid about $20 an hour.
 
 Here at Saturday, February 1, 2025 7:00 AM: Jack Pickett
 
-
 --- Day pressed at Saturday, February 1, 2025 7:00 AM
 
-
 ### after the day (Sunday, February 2, 2025 7:00 AM)
+
 - Journal note: Logan Harper works as a works outside the town.
 
-
 Here at Sunday, February 2, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 14: talk with Logan Harper
 
@@ -507,7 +463,6 @@ Replies offered: 1. “I saw Maya a few days ago.” · 2. “Not lately.” · 
 > Not lately.
 > Okay.
 
-
 ## Scene 15: talk with Maya Williamson
 
 - When/where: Sunday, February 2, 20257:06 AM
@@ -527,16 +482,13 @@ Replies offered: 1. “I talked to Logan today.” · 2. “Not lately.” · 3.
 > Nope. Not in a while.
 > Okay.
 
-
 --- Day pressed at Sunday, February 2, 2025 7:12 AM
 
-
 ### after the day (Monday, February 3, 2025 7:00 AM)
+
 - Journal note: Logan Harper works as a works outside the town.
 
-
 Here at Monday, February 3, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 16: talk with Logan Harper
 
@@ -557,7 +509,6 @@ Replies offered: 1. “That's great news.” · 2. “What will you be doing the
 > That's great news.
 > We'll talk more later this morning.
 
-
 ## Scene 17: talk with Maya Williamson
 
 - When/where: Monday, February 3, 20257:06 AM
@@ -577,16 +528,13 @@ Replies offered: 1. “I'm beat. Just glad to be home.” · 2. “I missed you 
 > I'm beat. Just glad to be home.
 > Take it easy tonight.
 
-
 --- Day pressed at Monday, February 3, 2025 7:12 AM
 
-
 ### after the day (Tuesday, February 4, 2025 7:00 AM)
+
 - Journal note: That law on transportation is behind what I pay now.
 
-
 Here at Tuesday, February 4, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 18: talk with Logan Harper
 
@@ -606,7 +554,6 @@ Replies offered: 1. “That sounds like a good fit.” · 2. “I hope they trea
 > VERONICA BOYD
 > Well, it's a start.
 > Find me this morning if you want to talk more.
-
 
 ## Scene 19: talk with Maya Williamson
 
@@ -628,16 +575,13 @@ Replies offered: 1. “I'm beat. Just glad to be home.” · 2. “I missed you 
 > Good to hear.
 > Find me this morning if you want to talk more.
 
-
 --- Day pressed at Tuesday, February 4, 2025 7:14 AM
 
-
 ### after the day (Wednesday, February 5, 2025 7:00 AM)
+
 - Journal note: That law on transportation is behind what I pay now.
 
-
 Here at Wednesday, February 5, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 20: talk with Logan Harper
 
@@ -658,16 +602,13 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > I just need some quiet right now.
 > Okay. I'll leave you be.
 
-
 --- Day pressed at Wednesday, February 5, 2025 7:06 AM
 
-
 ### after the day (Thursday, February 6, 2025 7:00 AM)
+
 - Journal note: That law on transportation is behind what I pay now.
 
-
 Here at Thursday, February 6, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 21: talk with Logan Harper
 
@@ -688,16 +629,13 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > Long. I don't want to get into it.
 > Get some rest.
 
-
 --- Day pressed at Thursday, February 6, 2025 7:06 AM
 
-
 ### after the day (Friday, February 7, 2025 7:00 AM)
+
 - Journal note: That law on transportation is behind what I pay now.
 
-
 Here at Friday, February 7, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 22: talk with Logan Harper
 
@@ -718,16 +656,13 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > I missed you today.
 > I missed you too.
 
-
 --- Day pressed at Friday, February 7, 2025 7:06 AM
 
-
 ### after the day (Saturday, February 8, 2025 7:00 AM)
+
 - Journal note: That law on transportation is behind what I pay now.
 
-
 Here at Saturday, February 8, 2025 7:00 AM: Crystal Pickett
-
 
 ## Scene 23: talk with Crystal Pickett
 
@@ -751,26 +686,21 @@ Replies offered: 1. “Good to know.” · 2. “I'll keep mine.” · 3. “I s
 > Okay.
 > Come back soon.
 
-
 --- Day pressed at Saturday, February 8, 2025 7:12 AM
 
-
 ### after the day (Sunday, February 9, 2025 7:00 AM)
-- Journal note: That law on transportation is behind what I pay now.
 
+- Journal note: That law on transportation is behind what I pay now.
 
 Here at Sunday, February 9, 2025 7:00 AM: Logan Harper, Maya Williamson
 
-
 --- Day pressed at Sunday, February 9, 2025 7:00 AM
 
-
 ### after the day (Monday, February 10, 2025 7:00 AM)
+
 - Journal note: That law on transportation is behind what I pay now.
 
-
 Here at Monday, February 10, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 24: talk with Logan Harper
 
@@ -791,16 +721,13 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > Sit with me a minute?
 > Sure.
 
-
 --- Day pressed at Monday, February 10, 2025 7:06 AM
 
-
 ### after the day (Tuesday, February 11, 2025 7:00 AM)
+
 - Journal note: I learned the law on the local income tax rate changed my costs.
 
-
 Here at Tuesday, February 11, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 25: talk with Logan Harper
 
@@ -822,16 +749,13 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > Get some rest.
 > Let's pick this up again this morning.
 
-
 --- Day pressed at Tuesday, February 11, 2025 7:08 AM
 
-
 ### after the day (Wednesday, February 12, 2025 7:00 AM)
+
 - Journal note: I learned the law on the local income tax rate changed my costs.
 
-
 Here at Wednesday, February 12, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 26: talk with Logan Harper
 
@@ -852,16 +776,13 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > I missed you today.
 > I missed you too.
 
-
 --- Day pressed at Wednesday, February 12, 2025 7:06 AM
 
-
 ### after the day (Thursday, February 13, 2025 7:00 AM)
+
 - Journal note: I learned the law on the local income tax rate changed my costs.
 
-
 Here at Thursday, February 13, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 27: talk with Logan Harper
 
@@ -883,16 +804,13 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > Good to hear.
 > I've got a few things to get done this morning.
 
-
 --- Day pressed at Thursday, February 13, 2025 7:08 AM
 
-
 ### after the day (Friday, February 14, 2025 7:00 AM)
+
 - Journal note: I learned the law on the local income tax rate changed my costs.
 
-
 Here at Friday, February 14, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 28: talk with Logan Harper
 
@@ -913,36 +831,29 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > Sit with me a minute?
 > Sure.
 
-
 --- Day pressed at Friday, February 14, 2025 7:06 AM
 
-
 ### after the day (Saturday, February 15, 2025 7:00 AM)
-- Journal note: I learned the law on the local income tax rate changed my costs.
 
+- Journal note: I learned the law on the local income tax rate changed my costs.
 
 Here at Saturday, February 15, 2025 7:00 AM: Jack Pickett
 
-
 --- Day pressed at Saturday, February 15, 2025 7:00 AM
 
-
 ### after the day (Sunday, February 16, 2025 7:00 AM)
-- Journal note: I learned the law on the local income tax rate changed my costs.
 
+- Journal note: I learned the law on the local income tax rate changed my costs.
 
 Here at Sunday, February 16, 2025 7:00 AM: Crystal Pickett
 
-
 --- Day pressed at Sunday, February 16, 2025 7:00 AM
 
-
 ### after the day (Monday, February 17, 2025 7:00 AM)
+
 - Journal note: I learned the law on the local income tax rate changed my costs.
 
-
 Here at Monday, February 17, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 29: talk with Logan Harper
 
@@ -964,16 +875,13 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > Get some rest.
 > I'll be around this morning if you need me.
 
-
 --- Day pressed at Monday, February 17, 2025 7:08 AM
 
-
 ### after the day (Tuesday, February 18, 2025 7:00 AM)
+
 - Journal note: I learned the law on the local income tax rate changed my costs.
 
-
 Here at Tuesday, February 18, 2025 7:00 AM: Logan Harper, Maya Williamson
-
 
 ## Scene 30: talk with Logan Harper
 
@@ -994,7 +902,6 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > I missed you today.
 > I missed you too.
 
-
 ### Menu: journal ()
 
 > Journal
@@ -1013,8 +920,6 @@ Replies offered: 1. “Long. I don't want to get into it.” · 2. “I missed y
 > That law on transportation is behind what I pay now.
 > I learned the law on the local income tax rate changed my costs.
 
-
 Travel lists no office that takes filings for this life.
-
 
 Scenes recorded: 30. Ended at Tuesday, February 18, 2025 7:06 AM.
