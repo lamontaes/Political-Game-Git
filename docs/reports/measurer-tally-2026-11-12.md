@@ -6,11 +6,11 @@ Branch `claude/measurer-tally-gap-rows`, off `claude/skills-gap-trace` (33ed4ac8
 
 **Measured.** `scripts/measure/row02-outside-jobs.ts`: build the town, fill in 600 counted adults (ages 18 to 64, spread evenly over the households) with `fillInPerson`, read each one's job title.
 
-| Place | Seed | Counted adults 18-64 | Sampled | No job | "Works outside the town" | Share of sample | Share of those with a job |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Songsong, Rota, Northern Mariana Islands | r2a (f04e657b0bc6b403) | 970 | 600 | 93 | 441 | 73.5% | 87.0% |
-| LaBelle, Florida | r2b (ee80728a75cdd79b) | 16,128 | 600 | 119 | 445 | 74.2% | 92.5% |
-| Grandview, Washington | r2c (940b3e7c9ea31407) | 25,257 | 600 | 84 | 466 | 77.7% | 90.3% |
+| Place                                    | Seed                   | Counted adults 18-64 | Sampled | No job | "Works outside the town" | Share of sample | Share of those with a job |
+| ---------------------------------------- | ---------------------- | -------------------- | ------- | ------ | ------------------------ | --------------- | ------------------------- |
+| Songsong, Rota, Northern Mariana Islands | r2a (f04e657b0bc6b403) | 970                  | 600     | 93     | 441                      | 73.5%           | 87.0%                     |
+| LaBelle, Florida                         | r2b (ee80728a75cdd79b) | 16,128               | 600     | 119    | 445                      | 74.2%           | 92.5%                     |
+| Grandview, Washington                    | r2c (940b3e7c9ea31407) | 25,257               | 600     | 84     | 466                      | 77.7%           | 90.3%                     |
 
 **Result.** About three in four filled-in adults, and nine in ten of those who work, carry the title. Every other title is a handful (the next is 8 of 600). So the title is not the fill-in's leftover for a few people; it is the job most adults in a drawn town are given.
 
@@ -18,11 +18,11 @@ Branch `claude/measurer-tally-gap-rows`, off `claude/skills-gap-trace` (33ed4ac8
 
 `scripts/measure/worklife.ts <seed> [fill]` builds the town, takes every full resident aged 18 to 64 (not the player), fills in up to 600 counted adults of that age spread over the households (`fillInPerson`; fill-in runs the whole past), opens each past and reads `lifeOf`. Three drawn towns (seeds w1, w2, w3, through `drawPlace`) and the two worlds the sheet names, replayed by place key and seed (Kaibito, Arizona, 0436640, seed 7c1e5a90b3d24f68, which gives the sheet's "McKenzie's Kitchen, McCarthy's, Santiago"; Kingston, Rhode Island, 4438980, seed e41b9d02a7c35f18).
 
-| Place (seed) | Full adults | Filled in | Players' own events | Full adults, events each | Filled in, events each |
-| --- | --- | --- | --- | --- | --- |
-| St. George, Utah (w1, d7ade2c86c86c37a) | 629 | 600 | 4 | 4.63 | 4.64 |
-| Voltaire, North Dakota (w2, f95408f7ad33b557) | 588 | 285 | 4 | 3.64 | 3.10 |
-| Trappe, Maryland (w3, a4e8434ee9da4630) | 691 | 600 | 4 | 4.35 | 4.39 |
+| Place (seed)                                  | Full adults | Filled in | Players' own events | Full adults, events each | Filled in, events each |
+| --------------------------------------------- | ----------- | --------- | ------------------- | ------------------------ | ---------------------- |
+| St. George, Utah (w1, d7ade2c86c86c37a)       | 629         | 600       | 4                   | 4.63                     | 4.64                   |
+| Voltaire, North Dakota (w2, f95408f7ad33b557) | 588         | 285       | 4                   | 3.64                     | 3.10                   |
+| Trappe, Maryland (w3, a4e8434ee9da4630)       | 691         | 600       | 4                   | 4.35                     | 4.39                   |
 
 ### Row 5: a filled-in person against the player
 
@@ -34,18 +34,18 @@ Branch `claude/measurer-tally-gap-rows`, off `claude/skills-gap-trace` (33ed4ac8
 
 **Measured.** Among adults who have any spell, spells per person (the window's past work, counted per person):
 
-| Place | Group | Have any spell | Median spells (of those) | Mean | 7 or more | Most |
-| --- | --- | --- | --- | --- | --- | --- |
-| St. George | full | 94 of 629 | 7 | 7.87 | 50 | 32 |
-| St. George | filled in | 129 of 600 | 5 | 6.28 | 46 | 20 |
-| Voltaire | full | 30 of 588 | 4 | 4.73 | 6 | 10 |
-| Voltaire | filled in | 3 of 285 | 6 | 4.33 | 0 | 6 |
-| Trappe | full | 84 of 691 | 6 | 6.46 | 34 | 19 |
-| Trappe | filled in | 111 of 600 | 5 | 6.25 | 41 | 22 |
-| Kaibito | full | 77 of 606 | 6 | 6.73 | 32 | 27 |
-| Kaibito | filled in | 130 of 600 | 6 | 7.19 | 55 | 34 |
-| Kingston, RI | full | 56 of 612 | 5 | 5.0 | 13 | 13 |
-| Kingston, RI | filled in | 68 of 600 | 2 | 2.53 | 5 | 14 |
+| Place        | Group     | Have any spell | Median spells (of those) | Mean | 7 or more | Most |
+| ------------ | --------- | -------------- | ------------------------ | ---- | --------- | ---- |
+| St. George   | full      | 94 of 629      | 7                        | 7.87 | 50        | 32   |
+| St. George   | filled in | 129 of 600     | 5                        | 6.28 | 46        | 20   |
+| Voltaire     | full      | 30 of 588      | 4                        | 4.73 | 6         | 10   |
+| Voltaire     | filled in | 3 of 285       | 6                        | 4.33 | 0         | 6    |
+| Trappe       | full      | 84 of 691      | 6                        | 6.46 | 34        | 19   |
+| Trappe       | filled in | 111 of 600     | 5                        | 6.25 | 41        | 22   |
+| Kaibito      | full      | 77 of 606      | 6                        | 6.73 | 32        | 27   |
+| Kaibito      | filled in | 130 of 600     | 6                        | 7.19 | 55        | 34   |
+| Kingston, RI | full      | 56 of 612      | 5                        | 5.0  | 13        | 13   |
+| Kingston, RI | filled in | 68 of 600      | 2                        | 2.53 | 5         | 14   |
 
 So the sheet's seven in fifteen years is the middle of the range, not an outlier: a worker who has any past work has a median of 5 to 7 spells.
 
@@ -59,13 +59,13 @@ Names: the same few employers carry the work. St. George full adults: James's, A
 
 **Measured.** Spells with no `organizationId`, across the same five worlds:
 
-| Place | Spells with no employer | Of all spells | People | How they began |
-| --- | --- | --- | --- | --- |
-| St. George | 0 | 0 of 1,550 | 0 | none |
-| Voltaire | 0 | 0 of 155 | 0 | none |
-| Trappe | 0 | 0 of 1,237 | 0 | none |
-| Kingston, RI (e41b9d02a7c35f18) | 2 | 2 of 452 (0.4 percent) | 1 (aged 53) | one first job (1994), one "after-out-of-work" (1997), both ended "let-go" |
-| Kaibito (7c1e5a90b3d24f68) | 3 | 3 of 1,453 (0.2 percent) | 1 (aged 43) | first job (2004), "after-out-of-work" (2012), "after-out-of-work" (2018) |
+| Place                           | Spells with no employer | Of all spells            | People      | How they began                                                            |
+| ------------------------------- | ----------------------- | ------------------------ | ----------- | ------------------------------------------------------------------------- |
+| St. George                      | 0                       | 0 of 1,550               | 0           | none                                                                      |
+| Voltaire                        | 0                       | 0 of 155                 | 0           | none                                                                      |
+| Trappe                          | 0                       | 0 of 1,237               | 0           | none                                                                      |
+| Kingston, RI (e41b9d02a7c35f18) | 2                       | 2 of 452 (0.4 percent)   | 1 (aged 53) | one first job (1994), one "after-out-of-work" (1997), both ended "let-go" |
+| Kaibito (7c1e5a90b3d24f68)      | 3                       | 3 of 1,453 (0.2 percent) | 1 (aged 43) | first job (2004), "after-out-of-work" (2012), "after-out-of-work" (2018)  |
 
 In both worlds the spells' place is **not** the person's home place today (`placeIsHome` false): the person lived in a place with no recorded business when they worked. That is the header's own "someone whose town has no business on record" case. It confirms the cause in the sheet. **It is rare: one person in about 1,200 adults, 0.2 to 0.4 percent of spells, and none in three of five towns.** So it will be seen on the Journal of an adult who came from elsewhere, not of a town-born one. The "found work again in Kingston" line is this case.
 
@@ -73,13 +73,13 @@ In both worlds the spells' place is **not** the person's home place today (`plac
 
 **Measured.** Child and parent pairs where both have at least one spell, taken from the `family:parent` facts (counted parents are filled in): the share of the child's employers that the parent also names, against each adult paired with an unrelated adult of the same town.
 
-| Place | Parent-child pairs found | Both with work | Child's employers also the parent's (mean) | Pairs over half | Unrelated adults (mean) |
-| --- | --- | --- | --- | --- | --- |
-| St. George | 38 | 8 | 59% | 4 | 52% |
-| Voltaire | 12 | 2 | 73% | 2 | 64% |
-| Trappe | 33 | 9 | 54% | 4 | 57% |
-| Kingston, RI | 44 | 6 | 69% | 5 | 39% |
-| Kaibito | 33 | 8 | 62% | 6 | 50% |
+| Place        | Parent-child pairs found | Both with work | Child's employers also the parent's (mean) | Pairs over half | Unrelated adults (mean) |
+| ------------ | ------------------------ | -------------- | ------------------------------------------ | --------------- | ----------------------- |
+| St. George   | 38                       | 8              | 59%                                        | 4               | 52%                     |
+| Voltaire     | 12                       | 2              | 73%                                        | 2               | 64%                     |
+| Trappe       | 33                       | 9              | 54%                                        | 4               | 57%                     |
+| Kingston, RI | 44                       | 6              | 69%                                        | 5               | 39%                     |
+| Kaibito      | 33                       | 8              | 62%                                        | 6               | 50%                     |
 
 The overlap with a parent is high (54 to 73 percent), but so is the overlap with a stranger (39 to 64 percent), and in two towns the stranger's is higher or equal. So the repetition is the town's: all adults draw the same few employers. It is not a family effect (and the sheet's "mother repeats the player" is the same cause as row 12). The sample of pairs is small (2 to 9 a town, 33 in all), because most adults have no past work (row 5). Ordering: fixing row 12 (employer by size, fit and referral) fixes this one; it needs no separate change.
 
@@ -87,14 +87,14 @@ The overlap with a parent is high (54 to 73 percent), but so is the overlap with
 
 **Measured.** `scripts/measure/row17-evictions.ts <placeKey> <seed>`: build the town, advance 120 to 150 days from the opening (January 20, 2025) one day at a time, and keep the first sight of every eviction case and every housing status row (the status row is removed when a household is housed again, so it has to be caught as it is written). For every "doubled-up" status, look up the host household's eviction cases.
 
-| Place | Seed | Households | Cases opened | Notice March 6 | Doubled-up | Hosts with any case |
-| --- | --- | --- | --- | --- | --- | --- |
-| Shelbyville, Tennessee (4767760) | 17a1b2c3d4e5f607 | 946 | 11 | 6 | 2 | 0 |
-| Shelbyville, Tennessee | 5a1b2c3d4e5f6071 | 957 | 8 | 3 | 1 | 0 |
-| Shelbyville, Tennessee | 9c8b7a6f5e4d3c2b | 946 | 8 | 4 | 2 | 0 |
-| Beckett, New Jersey (3404400) | 17a1b2c3d4e5f607 | 941 | 12 | 8 | 1 | 0 |
-| Beckett, New Jersey | 5a1b2c3d4e5f6071 | 943 | 12 | 7 | 1 | 0 |
-| Beckett, New Jersey | 9c8b7a6f5e4d3c2b | 942 | 13 | 9 | 1 | 0 |
+| Place                            | Seed             | Households | Cases opened | Notice March 6 | Doubled-up | Hosts with any case |
+| -------------------------------- | ---------------- | ---------- | ------------ | -------------- | ---------- | ------------------- |
+| Shelbyville, Tennessee (4767760) | 17a1b2c3d4e5f607 | 946        | 11           | 6              | 2          | 0                   |
+| Shelbyville, Tennessee           | 5a1b2c3d4e5f6071 | 957        | 8            | 3              | 1          | 0                   |
+| Shelbyville, Tennessee           | 9c8b7a6f5e4d3c2b | 946        | 8            | 4              | 2          | 0                   |
+| Beckett, New Jersey (3404400)    | 17a1b2c3d4e5f607 | 941        | 12           | 8              | 1          | 0                   |
+| Beckett, New Jersey              | 5a1b2c3d4e5f6071 | 943        | 12           | 7              | 1          | 0                   |
+| Beckett, New Jersey              | 9c8b7a6f5e4d3c2b | 942        | 13           | 9              | 1          | 0                   |
 
 (W1's seeds were not given on the sheet, so these are six new seeds of the two places.)
 
@@ -106,15 +106,15 @@ The overlap with a parent is high (54 to 73 percent), but so is the overlap with
 
 **Measured.** `scripts/measure/row07-layoffs.ts <seed> 183`: build a drawn town, advance 183 days from the opening (January 20, 2025) a day at a time. At the start, list every open job of a full person by the class of its employer (private employer, public, outside employer with `outsideFlow`, other) and every private counted job with its heads (`countedJobHeads`). Each day, read the `turnover` table (any pull at one or more is a layoff the review wanted and `layOff` did not do) and the jobs engine's `changes` table (every layoff and other ending, first sight only).
 
-| Place | Seed | Full jobs: outside / private / public / treasury | Full private layoffs | Counted private heads | Counted layoff heads | Counted regional layoffs |
-| --- | --- | --- | --- | --- | --- | --- |
-| Fords Prairie, Washington | c6798d1c753ef207 | 556 / 13 / 6 / 176 | 0 | 361 | 21 | 215 |
-| Hudson, Colorado | ee752cc6427cafeb | 566 / 28 / 9 / 127 | 2 | 333 | 20 | 162 |
-| Westboro, Missouri | (l3) | not classed | 0 of 18 | 15 | 1 | 14 |
-| Lake Forest Park, Washington | (l4) | 570 / 21 / 9 / 181 | 1 | 2,125 | 139 | 1,249 |
-| Regina, New Mexico | (l5) | not classed | 1 of 10 | 7 | 1 | 6 |
-| Koontz Lake, Indiana | 7ef97dd1539fa90e | 555 / 33 / 4 / 180 | 1 (3 endings by layoff) | 243 | 10 | 114 |
-| Center, Missouri | (l7) | not classed | 1 of 29 | 123 | 5 | 59 |
+| Place                        | Seed             | Full jobs: outside / private / public / treasury | Full private layoffs    | Counted private heads | Counted layoff heads | Counted regional layoffs |
+| ---------------------------- | ---------------- | ------------------------------------------------ | ----------------------- | --------------------- | -------------------- | ------------------------ |
+| Fords Prairie, Washington    | c6798d1c753ef207 | 556 / 13 / 6 / 176                               | 0                       | 361                   | 21                   | 215                      |
+| Hudson, Colorado             | ee752cc6427cafeb | 566 / 28 / 9 / 127                               | 2                       | 333                   | 20                   | 162                      |
+| Westboro, Missouri           | (l3)             | not classed                                      | 0 of 18                 | 15                    | 1                    | 14                       |
+| Lake Forest Park, Washington | (l4)             | 570 / 21 / 9 / 181                               | 1                       | 2,125                 | 139                  | 1,249                    |
+| Regina, New Mexico           | (l5)             | not classed                                      | 1 of 10                 | 7                     | 1                    | 6                        |
+| Koontz Lake, Indiana         | 7ef97dd1539fa90e | 555 / 33 / 4 / 180                               | 1 (3 endings by layoff) | 243                   | 10                   | 114                      |
+| Center, Missouri             | (l7)             | not classed                                      | 1 of 29                 | 123                   | 5                    | 59                       |
 
 (The seeds l1 to l7 are the draw seeds of `drawPlace(seed, "row07")`.)
 
@@ -131,11 +131,11 @@ The overlap with a parent is high (54 to 73 percent), but so is the overlap with
 
 **Measured.** `scripts/measure/row09-address-walk.mjs`, run on the speech branch (`claude/words-speech-outline`, head 8ca47fa22b) with a bench on it and Playwright's Chromium: a new life, Week pressed from the opening (Monday, January 20, 2025, 8:30 PM) and the clock read every 300 ms until the day came back, with each scene's opening clock and the whole trail of clocks written down. Three drawn places by bench seed.
 
-| Place (seed) | Week pressed at | First stop | The address | Scene opened with the clock at | Clock went back? |
-| --- | --- | --- | --- | --- | --- |
-| Lyndon, Vermont (a9d3) | Jan 20, 8:30 PM | Wednesday, Jan 22, 7:00 AM | the governor's, "last night" | Jan 22, 7:00 AM | no |
-| Fairdale, North Dakota (b7e1) | Jan 20, 8:30 PM | Wednesday, Jan 22, 7:00 AM | the governor's, "last night" | Jan 22, 7:00 AM | no |
-| Bluewell, West Virginia (c4f2) | Jan 20, 8:30 PM | Wednesday, Jan 22, 7:00 AM | the governor's, "last night" | Jan 22, 7:00 AM | no |
+| Place (seed)                   | Week pressed at | First stop                 | The address                  | Scene opened with the clock at | Clock went back? |
+| ------------------------------ | --------------- | -------------------------- | ---------------------------- | ------------------------------ | ---------------- |
+| Lyndon, Vermont (a9d3)         | Jan 20, 8:30 PM | Wednesday, Jan 22, 7:00 AM | the governor's, "last night" | Jan 22, 7:00 AM                | no               |
+| Fairdale, North Dakota (b7e1)  | Jan 20, 8:30 PM | Wednesday, Jan 22, 7:00 AM | the governor's, "last night" | Jan 22, 7:00 AM                | no               |
+| Bluewell, West Virginia (c4f2) | Jan 20, 8:30 PM | Wednesday, Jan 22, 7:00 AM | the governor's, "last night" | Jan 22, 7:00 AM                | no               |
 
 The clock trails: Lyndon, `Mon Jan 20 8:30 PM -> Wed Jan 22 7:00 AM -> Thu Jan 23 7:00 AM -> Tue Jan 28 7:00 AM`; the same shape in the other two. In Lyndon the town's own address was tried with a Week pressed on Thursday, February 6, five days before it: the Week stopped on Tuesday, February 11, 7:00 AM (the selectboard chair's address, "last night") after five of its seven days, and then ran on to Thursday, February 13.
 
