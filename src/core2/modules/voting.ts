@@ -243,6 +243,8 @@ export interface BallotRow {
         readonly relationship?: number;
         /** Their own "yes" at the candidate's door, as far as it still holds. */
         readonly pledge?: number;
+        /** How far that "yes" held on the ballot day, 0 to 1 (one less the doubt `pledgeDoubt` read then), kept so a later read of the ties and news cannot differ from it. */
+        readonly pledgeHeld?: number;
       }
     >
   >;
@@ -403,7 +405,12 @@ export const VOTING_MODULE: CoreModule = {
       /** Each contest's returns as the night reports them, place by place. */
       returns: {},
       /** The races the town doesn't vote in: each seat's race and the presidency's electors. */
-      races: { indexes: { byDate: { fields: ["date"] } } },
+      races: {
+        indexes: {
+          byDate: { fields: ["date"] },
+          bySeat: { fields: ["seatId"] },
+        },
+      },
       /** Congress seats outside the town's state: who holds them now. */
       seats: {},
       /** A presidential election the electors left to the House and the Senate: every vote, with its parts. */
@@ -963,6 +970,8 @@ export interface NamedAppeal extends CountedAppeal {
   readonly relationship: number;
   /** The incumbent's record as they weigh it, where they know the officeholder. */
   readonly record: number;
+  /** How far their door "yes" to this candidate held on the ballot day, where they gave one. */
+  readonly pledgeHeld?: number;
 }
 
 /**
@@ -985,6 +994,7 @@ function appealFor(
 ) {
   const lean = voterLean(api, voter);
   const view = contestView(api, contest, filings);
+  const pledgesHeld = namedPledges(api, voter, lean, contest.id, view.field);
   const base = countedAppeal(lean, view.field, {
     inTown: true,
     local: true,
@@ -995,7 +1005,7 @@ function appealFor(
     profile: api.state.modules.has(VIEWS_MODULE_ID)
       ? viewOf(api, voter.id)
       : undefined,
-    pledges: namedPledges(api, voter, lean, contest.id, view.field),
+    pledges: pledgesHeld,
   });
   const tie = partyTie(api, voter.id);
   let heardPlatform = false;
@@ -1070,6 +1080,9 @@ function appealFor(
       ballot: parts.ballot,
       scandal,
       pledge: parts.pledge,
+      ...(pledgesHeld?.[entry.id] !== undefined
+        ? { pledgeHeld: pledgesHeld[entry.id] }
+        : {}),
     };
   }
   // A held door yes keeps its candidate ahead, in proportion to how far it
@@ -3120,6 +3133,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   // town's people like them, so their vote counts at the share of them who
   // turn out. Each ballot is kept with its reasons, like a named voter's.
   const countedVotes: Record<string, number> = {};
+  // What the counted voters tell the exit pollster, by the named voters'
+  // rule (pollsterCase and the trait lean), at their turnout share.
+  const countedExitPoll: Record<string, number> = {};
   let countedVoted = 0;
   let countedEligible = 0;
   const field = countedField(api, counting, filings);
@@ -3229,6 +3245,27 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     for (const [backed, weight] of Object.entries(division.votes))
       countedVotes[backed] =
         (countedVotes[backed] ?? 0) + t.propensity * weight;
+    // The record tells the pollster as a named voter would: a reluctant one
+    // declines, so its whole turnout share counts as declined.
+    const tells = leanedYes(
+      api.state,
+      voter,
+      "voting.exit-poll",
+      "tell",
+      "decline",
+      pollsterCase(api, voter, t.interest).case,
+    );
+    // An at-large ballot divides several votes; the poll asks for the first
+    // choice, so the record's turnout share divides in proportion.
+    const cast = Object.values(division.votes).reduce((a, b) => a + b, 0);
+    if (tells && cast > 0)
+      for (const [backed, weight] of Object.entries(division.votes))
+        countedExitPoll[backed] =
+          (countedExitPoll[backed] ?? 0) +
+          (t.propensity * voter.weight * weight) / cast;
+    else if (!tells)
+      countedExitPoll.declined =
+        (countedExitPoll.declined ?? 0) + t.propensity * voter.weight;
   }
   if (!bookkeeping()) dropOldCountedBallots(api);
   table(api, "countedBallots").put({
@@ -3245,6 +3282,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const scale = countedScale(api);
   for (const id of Object.keys(countedVotes))
     countedVotes[id] = Math.round(countedVotes[id]! * scale);
+  for (const id of Object.keys(countedExitPoll))
+    exitPoll[id] =
+      (exitPoll[id] ?? 0) + Math.round(countedExitPoll[id]! * scale);
   countedVoted = Math.round(countedVoted * scale);
   countedEligible = Math.round(countedEligible * scale);
   // The rest of the race's electorate, place by place, on the same engine.
@@ -4273,6 +4313,34 @@ export interface RaceRow {
   readonly nonpartisan?: boolean;
   /** The race's count, kept by the one count writer (`resultOf`). */
   readonly resultId: string;
+  /** Each major party's votes and the ballots cast, kept on the row so they outlive the count (`foldOutsideRaces`). */
+  readonly votes?: { readonly republican: number; readonly democratic: number };
+  readonly cast?: number;
+  /** The seat's older races, folded into its newest seated race row (`foldOutsideRaces`). */
+  readonly past?: SeatRacePast;
+}
+
+/** One folded race of a seat: what its readers read of the race row and its count. */
+export interface FoldedRace {
+  readonly id: string;
+  readonly seatId: string;
+  readonly office: string;
+  readonly date: string;
+  readonly incumbentParty: string | null;
+  readonly winnerParty: string;
+  readonly seatedOn: string;
+  readonly republican: number;
+  readonly democratic: number;
+  readonly cast: number;
+}
+
+/** A seat's folded races: how many, the wins by party, the flips, and each race, oldest first. */
+export interface SeatRacePast {
+  readonly races: number;
+  readonly wins: Readonly<Record<string, number>>;
+  readonly flips: number;
+  readonly lastFlip: string | null;
+  readonly entries: readonly FoldedRace[];
 }
 
 /** A count by its result record's id (`ResultRow.id`). */
@@ -4293,6 +4361,7 @@ export function raceVotes(
   api: CoreAPI,
   race: RaceRow,
 ): { readonly republican: number; readonly democratic: number } {
+  if (race.votes) return race.votes;
   const totals = raceResult(api, race)?.totals ?? {};
   return {
     republican: totals["party:R"] ?? 0,
@@ -4302,8 +4371,132 @@ export function raceVotes(
 
 /** A race's Republican two-party share: its count's, else its places' lean where no one was counted. */
 export function raceShare(api: CoreAPI, race: RaceRow): number {
+  if (race.votes) {
+    const { republican, democratic } = race.votes;
+    return republican + democratic
+      ? republican / (republican + democratic)
+      : race.lean;
+  }
   const result = raceResult(api, race);
   return (result && republicanShareOf(result)) ?? race.lean;
+}
+
+/** The seat a race id names: `race:<seat>:<year>` or `race:<seat>:<date>:special`. */
+function seatOfRaceId(id: string): string | null {
+  const m = /^race:(.+?):(\d{4}|\d{4}-\d{2}-\d{2}:special)$/.exec(id);
+  return m ? m[1]! : null;
+}
+
+/**
+ * A race the town doesn't vote in, by its id: its row, or, once folded, its
+ * entry in its seat's newest race row (OWNER-DECISIONS, Nov 1 23:40: a folded
+ * race is found by its id inside its seat's summary).
+ */
+export function raceById(
+  api: CoreAPI,
+  id: string,
+): RaceRow | FoldedRace | null {
+  if (!api.state.modules.has(VOTING_MODULE_ID)) return null;
+  const row = table(api, "races").get(id) as unknown as RaceRow | undefined;
+  if (row) return row;
+  const seatId = seatOfRaceId(id);
+  if (!seatId) return null;
+  for (const held of table(api, "races").query("bySeat", [
+    seatId,
+  ]) as unknown as RaceRow[]) {
+    const entry = held.past?.entries.find((e) => e.id === id);
+    if (entry) return entry;
+  }
+  return null;
+}
+
+/**
+ * Old outside races fold (core-long-run-election-and-term-rows, the laws
+ * lead's answer of Nov 2): on a general election day, every race the town
+ * doesn't vote in (picked by its `race:` id, never by following a resultId:
+ * the presidency's row carries the town's own count) that was counted
+ * strictly before the previous general election drops its count, its
+ * places and its returns, its votes already kept on its row; and each
+ * seat's older race rows fold into the seat's newest seated race row as a
+ * summary. A race whose winner is not yet seated, and every presidential
+ * row and count, is kept whole.
+ */
+export function foldOutsideRaces(api: CoreAPI, before: string): void {
+  const today = api.state.date;
+  const races = table(api, "races");
+  const seated = (r: RaceRow) => r.seatedOn < today;
+  const old = (races.rows() as unknown as RaceRow[]).filter(
+    (r) => r.id.startsWith("race:") && r.date < before && seated(r),
+  );
+  const seats = new Set<string>();
+  for (const race of old) {
+    seats.add(race.seatId);
+    if (!race.votes) {
+      const counted = raceResult(api, race);
+      races.put({
+        ...race,
+        votes: raceVotes(api, race),
+        cast: counted?.placesCast ?? counted?.electorate ?? 0,
+      } as unknown as ModuleRow);
+    }
+    table(api, "results").remove(`result:${race.id}`);
+    table(api, "returns").remove(`returns:${race.id}`);
+    for (const place of table(api, "places").query("byContest", [race.id]))
+      table(api, "places").remove(place.id);
+  }
+  for (const seatId of [...seats].sort()) {
+    const rows = [
+      ...(races.query("bySeat", [seatId]) as unknown as RaceRow[]),
+    ].sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+    const newest = rows.filter(seated).at(-1);
+    if (!newest) continue;
+    const folding = rows.filter(
+      (r) =>
+        r.id !== newest.id &&
+        r.id.startsWith("race:") &&
+        r.date < before &&
+        seated(r),
+    );
+    if (!folding.length) continue;
+    const entries: FoldedRace[] = [...(newest.past?.entries ?? [])];
+    for (const r of folding) {
+      entries.push(...(r.past?.entries ?? []));
+      entries.push({
+        id: r.id,
+        seatId: r.seatId,
+        office: r.office,
+        date: r.date,
+        incumbentParty: r.incumbentParty,
+        winnerParty: r.winnerParty,
+        seatedOn: r.seatedOn,
+        republican: r.votes?.republican ?? 0,
+        democratic: r.votes?.democratic ?? 0,
+        cast: r.cast ?? 0,
+      });
+    }
+    entries.sort(
+      (a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
+    );
+    const wins: Record<string, number> = {};
+    let flips = 0,
+      lastFlip: string | null = null;
+    for (const e of entries) {
+      if (e.winnerParty) wins[e.winnerParty] = (wins[e.winnerParty] ?? 0) + 1;
+      if (
+        e.incumbentParty &&
+        e.winnerParty &&
+        e.winnerParty !== e.incumbentParty
+      ) {
+        flips += 1;
+        lastFlip = e.date;
+      }
+    }
+    races.put({
+      ...newest,
+      past: { races: entries.length, wins, flips, lastFlip, entries },
+    } as unknown as ModuleRow);
+    for (const r of folding) races.remove(r.id);
+  }
 }
 
 /**
@@ -4410,6 +4603,14 @@ interface Race {
 function raceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind === "general-election") {
     const year = Number(work.sourceRecordIds[0]);
+    // The races counted before the previous general election fold first.
+    const held = table(api, "world").get("generals") as unknown as
+      { last: string } | undefined;
+    if (held) foldOutsideRaces(api, held.last);
+    table(api, "world").put({
+      id: "generals",
+      last: api.state.date,
+    } as unknown as ModuleRow);
     scheduleElection(api, nextRaceYear(api, year + 1));
     for (const race of racesIn(api, year)) decide(api, race, year);
     if (year % 4 === 0)
@@ -4694,7 +4895,7 @@ export function electoralCollege(
       const counted = countPlaces(
         sample,
         coarse(places, key === stateKey, change),
-        partyField(reasons, field),
+        partyField(api, reasons, field),
       );
       // The state's popular vote is a count like any other: kept by the one
       // writer, its winner the side its electors go to.
@@ -5195,11 +5396,9 @@ function worldRacePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
     const place = housePlace(usps, race.code, api.state.seed);
     if (place) return [place];
     // A delegate's seat with no House vote on record (a territory): the
-    // place at its 2024 delegate race's lean, its size not yet read.
-    // stopgapId: SG-GOV-delegate-race-size
-    api.stopgap("SG-GOV-delegate-race-size");
+    // place at its 2024 delegate race's lean, sized by the votes it cast.
     const delegate = statePlaces(usps, api.state.seed, 1)[0];
-    return delegate ? [{ ...delegate, eligible: 0 }] : [];
+    return delegate ? [delegate] : [];
   }
   const offices = api.moduleState(OFFICES_MODULE_ID);
   // A seat the whole state elects (a senator, a governor, an attorney
@@ -5266,7 +5465,8 @@ function coarse(
 }
 
 /** Each candidate as a counted voter sees them on a race the town doesn't vote in. */
-function partyField(
+export function partyField(
+  api: CoreAPI,
   reasons: readonly CandidateReasons[],
   field: readonly CandidateInputs[],
 ): readonly CountedFieldEntry[] {
@@ -5274,6 +5474,10 @@ function partyField(
     id: c.id,
     side: c.side,
     isIncumbent: c.incumbent,
+    // The holder's standing carries the average incumbency advantage, so each
+    // voter's own incumbent lean is read against the town's average, as the
+    // town's own races read it.
+    ...(c.incumbent ? { incumbentLeanCenter: townIncumbentLean(api) } : {}),
     standing: appealOfShare(reasons[i]!.total),
     localStanding: 0,
     recognition: 0,
@@ -5365,7 +5569,7 @@ function decide(
   const counted = countPlaces(
     sampleFor(api, date),
     coarse(places, townsState, electorateChange(api)),
-    partyField(reasons, candidates),
+    partyField(api, reasons, candidates),
   );
   const raceId = special
     ? `race:${race.seatId}:${date}:special`
@@ -5409,6 +5613,11 @@ function decide(
     seatedOn: race.seatedOn,
     leanSource: race.leanSource,
     resultId: result.id,
+    votes: {
+      republican: result.totals["party:R"] ?? 0,
+      democratic: result.totals["party:D"] ?? 0,
+    },
+    cast: result.placesCast ?? result.electorate,
     ...(race.nonpartisan ? { nonpartisan: true } : {}),
   };
   table(api, "races").put({

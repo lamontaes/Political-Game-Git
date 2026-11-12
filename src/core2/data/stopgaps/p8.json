@@ -27,13 +27,15 @@
     "id": "SG-P8-household-shared-time-contact",
     "kind": "household-contact-logic-gap",
     "file": "src/core2/modules/life.ts",
-    "line": 282,
-    "whatItFakes": "Shared residence and need for company do not yet reliably produce household contact before distant acquaintance offers.",
+    "line": 294,
+    "whatItFakes": "Housemates who are family are together 243 minutes a day (sourced) and other housemates 43 (an estimate), so shared homes do produce household contact; what is still faked is the need for company, which counts only days since the last contact rather than time with housemates.",
     "why": "P13 reported no contact with the player's husband or two children during the measured year. CTO REVIEW 10 requires household time to arise from shared home and company needs.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Causal shared-home availability and family contact offers checked against household time-use and tie-contact evidence, with actual chosen contact outcomes retained.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Causal shared-home availability and family contact offers checked against household time-use and tie-contact evidence, with actual chosen contact outcomes retained.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-marriageReferenceAge",
@@ -128,8 +130,10 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-goalWeight",
@@ -140,8 +144,10 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-driveWeight",
@@ -152,20 +158,24 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-traitWeight",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/parameters.json",
     "line": 526,
-    "whatItFakes": "One-fifth normalized trait contribution from the existing direction table; magnitude remains uncalibrated.",
+    "whatItFakes": "How much a person's traits weigh in choosing an act is set equal to need, goal and drive (weight 1) on the owner's ruling of Oct 14, checked against a 0.2 to 1.0 spread; no empirical coefficient exists.",
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-emotionWeight",
@@ -176,8 +186,10 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-effortWeight",
@@ -188,8 +200,10 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-restEffect",
@@ -200,8 +214,10 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-careEffect",
@@ -212,8 +228,10 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-companyHorizonDays",
@@ -224,8 +242,10 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A sourced value or tested empirical calibration for the same quantity.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-moneyBufferDays",
@@ -248,8 +268,10 @@
     "why": "Payroll is a flow and the multiplier is TUNABLE. A public salary, grant, donation, capital contribution or tax payment has no imported authority merely because an organization employs people.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "For public obligations, the later public-budget/public-payroll and intergovernmental-transfers modules resolve actual paying owners and due terms with zero prepaid outside stock. Normal private firm stocks require separate real balance/owner-capital evidence; branch, utility, bank, nonprofit and membership modules retain their own actual sources.",
-    "status": "open"
+    "replacement": "Resolved Nov 10 (stand-in triage): no code reads organizationReserveMonths; an opening organization's cash now comes from opening-capital.ts (private firms from the JPMorgan Chase buffer-days rows, others modeled zero-funded under SG-P8-opening-unsupported-owner-funding). The marker rows stay in src/core2/data/parameters.json and src/core2/data/opening-employment.json. PR not named: this checkout's history is cut to one root commit (09a28996). Was: For public obligations, the later public-budget/public-payroll and intergovernmental-transfers modules resolve actual paying owners and due terms with zero prepaid outside stock. Normal private firm stocks require separate real balance/owner-capital evidence; branch, utility, bank, nonprofit and membership modules retain their own actual sources.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-appraisalRelationshipWeight",
@@ -260,32 +282,38 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A sourced value or tested empirical calibration for the same quantity.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-appraisalDistressTraitWeight",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/parameters.json",
     "line": 1380,
-    "whatItFakes": "Concern for distress changes event appraisal continuously; half-scale magnitude remains uncalibrated.",
+    "whatItFakes": "The extra reaction of people high in concern for distress is an estimate (0.255, spread 0.15 to 0.375) from Bolger and Schilling 1991, which reports shares of the distress gap rather than a per-trait slope; no sourced slope exists.",
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A sourced value or tested empirical calibration for the same quantity.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-appraisalBroodingTraitWeight",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/parameters.json",
     "line": 1393,
-    "whatItFakes": "Brooding changes ongoing appraisal continuously; half-scale magnitude remains uncalibrated.",
+    "whatItFakes": "The extra reaction of people high in brooding is an estimate (0.255, spread 0.15 to 0.375) from Bolger and Schilling 1991, which reports shares of the distress gap rather than a per-trait slope; no sourced slope exists.",
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A sourced value or tested empirical calibration for the same quantity.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-relationInitial",
@@ -320,20 +348,24 @@
     "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A source-calibrated actor-specific affect model checked against documented adult trajectories. Researched Oct 23, 2026 (research-core-sourced-parameters): the documented adult trajectories after a potentially traumatic event (Galatzer-Levy, Huang and Bonanno, Clinical Psychology Review, 2018: resilience 65.7%, recovery 20.8%, chronic 10.6%, delayed onset 8.9%) and next-day carryover of a daily stressor (Leger, Charles and Almeida, Psychological Science, 2018) are in data/research/core/affect-trajectories-2018.json; scripts/research/core-year.ts reports the share of a town's bereaved still raised six months on. Still open: one fixed half-life returns every person to baseline, so no chronic or delayed course can occur; the builder item core-emotion-chronic-affect-trajectories adds the slower course and checks it against the file.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A source-calibrated actor-specific affect model checked against documented adult trajectories. Researched Oct 23, 2026 (research-core-sourced-parameters): the documented adult trajectories after a potentially traumatic event (Galatzer-Levy, Huang and Bonanno, Clinical Psychology Review, 2018: resilience 65.7%, recovery 20.8%, chronic 10.6%, delayed onset 8.9%) and next-day carryover of a daily stressor (Leger, Charles and Almeida, Psychological Science, 2018) are in data/research/core/affect-trajectories-2018.json; scripts/research/core-year.ts reports the share of a town's bereaved still raised six months on. Still open: one fixed half-life returns every person to baseline, so no chronic or delayed course can occur; the builder item core-emotion-chronic-affect-trajectories adds the slower course and checks it against the file.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-life-utility",
     "kind": "estimated-behavior",
     "file": "src/core2/data/content.json",
     "line": 11,
-    "whatItFakes": "Prototype need, goal, affect and trait utility mappings; authored player-circle daily, local-town weekly, state monthly and inactive husk cadence; one scored discretionary act per tier activation instead of a complete activity plan; empirical individual-choice calibration remains incomplete.",
+    "whatItFakes": "Prototype need, goal, affect and trait utility mappings; authored player-circle daily, local-town weekly, state monthly and inactive husk cadence; empirical individual-choice calibration remains incomplete. (A person's free hours are now filled from one scoring pass with several acts, src/core2/life.ts planFreeTime and src/core2/free-block.ts, so the old 'one scored act per activation' no longer applies.)",
     "why": "The authored cadence is an explicit coarse prototype default. One scored act per activation does not establish a complete calendar or empirical activity distribution.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Validated data coefficients and activity totals across documented P9 lives and real cohort spreads. Oct 23, 2026 (research-content-sourced-parameters): the ATUS activity totals the plan is to be checked against are in data/research/core/bls-atus-table-a1-2025.json (2018 to 2025: caring for household members 21.6 to 24.1 percent of people a day, household adults 4.6 to 6.2, socializing 28.7 to 35.0, volunteering 4.0 to 5.7, household management 16.0 to 19.1), and scripts/research/content-year.ts reports a played year against them. careNeedHalfExcessHazard stays TUNABLE: no source measures care asked per unit of condition hazard, and values of 3 and 6 give the same care share. Still open: one scored act per activation instead of a time-budget plan (builder item core-stopgap-content-estimated-behavior).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Validated data coefficients and activity totals across documented P9 lives and real cohort spreads. Oct 23, 2026 (research-content-sourced-parameters): the ATUS activity totals the plan is to be checked against are in data/research/core/bls-atus-table-a1-2025.json (2018 to 2025: caring for household members 21.6 to 24.1 percent of people a day, household adults 4.6 to 6.2, socializing 28.7 to 35.0, volunteering 4.0 to 5.7, household management 16.0 to 19.1), and scripts/research/content-year.ts reports a played year against them. careNeedHalfExcessHazard stays TUNABLE: no source measures care asked per unit of condition hazard, and values of 3 and 6 give the same care share. Still open: one scored act per activation instead of a time-budget plan (builder item core-stopgap-content-estimated-behavior).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-civic-progress",
@@ -379,8 +411,10 @@
     "why": "The years before the start run general, with no depth (owner, Oct 28, 2026); a cross-sectional enrollment table does not time any child's entry into a grade.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Oct 28, 2026 (wire-opening-and-home, line 7): the generated school cohorts, present campus names and opening-locality proxies (buildDeepPast) are deleted; the school engine's own rule runs the school years from the player's birth year (src/core2/past-school.ts). What stays faked is the fixed stage ages; they become SOURCED when a source that follows children from kindergarten entry gives the years to each grade.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Oct 28, 2026 (wire-opening-and-home, line 7): the generated school cohorts, present campus names and opening-locality proxies (buildDeepPast) are deleted; the school engine's own rule runs the school years from the player's birth year (src/core2/past-school.ts). What stays faked is the fixed stage ages; they become SOURCED when a source that follows children from kindergarten entry gives the years to each grade.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-civic-inputs",
@@ -391,8 +425,10 @@
     "why": "Prototype offers need source-grounded civic targets while historical directory and access records are incomplete.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Era-specific directories with explicit institution access, membership and authority records. Oct 23, 2026 (research-deep-past-sourced-parameters): the band a school meeting-place offer should land in is in data/research/core/shpps-2012-joint-use.json (CDC School Health Policies and Practices Study 2012, Jones and Wendel 2015: 61.6% of districts, 57.5% to 65.5%, had a formal agreement letting outside groups use school property, by metro status, district size and region), reported by scripts/research/deep-past-year.ts; the builder item core-stopgap-civic-inputs-civic-data-vintage-and-permission establishes access from the district's own record and checks the town against it. Historical directories remain unsourced.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Era-specific directories with explicit institution access, membership and authority records. Oct 23, 2026 (research-deep-past-sourced-parameters): the band a school meeting-place offer should land in is in data/research/core/shpps-2012-joint-use.json (CDC School Health Policies and Practices Study 2012, Jones and Wendel 2015: 61.6% of districts, 57.5% to 65.5%, had a formal agreement letting outside groups use school property, by metro status, district size and region), reported by scripts/research/deep-past-year.ts; the builder item core-stopgap-civic-inputs-civic-data-vintage-and-permission establishes access from the district's own record and checks the town against it. Historical directories remain unsourced.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-authored-job-mix",
@@ -403,8 +439,10 @@
     "why": "CTO October 9 2:08 review requires this unresolved prototype input to be exposed separately.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A source-grounded open occupation/employer mix with verified coverage and deterministic individual matching.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A source-grounded open occupation/employer mix with verified coverage and deterministic individual matching.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-historical-start",
@@ -427,8 +465,10 @@
     "why": "The canonical opening population preserves household/family links and dated school proxies but supplies no cross-household named school-peer acquaintance generator. The observed selected opening circle had three actors and all inspected adult/job candidates had at most six.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance. Oct 23, 2026 (research-deep-past-sourced-parameters): openingPeerGroupSize re-checked against the NCES NTPS 2020-21 class sizes (National Center for Education Statistics, survey year 2020-21; ESTIMATED, 20, spread corrected to 16.9 to 22.0) in data/research/core/nces-ntps-2021-class-size.json, read by opening-peer-network.ts buildOpeningPeerContacts and candidacy.ts countedKnown; it stays ESTIMATED because a class is not a remembered-peer circle. Its other read, the ceiling in buildOpeningPeerContacts (Math.ceil(cohort / size) groups, so one more classmate halves a group), is a cutoff filed as core-opening-peer-network-openingPeerGroupSize-as-cause. Recognition fading with years since school is the builder item people-peer-recognition-fades.",
-    "status": "open"
+    "replacement": "Resolved Nov 10 (stand-in triage): no school peer count is read any more; candidacy.ts countedKnown counts only coworkers and neighbors and schoolmates come from the school engine's attended records (attendedSchool in src/core2/shared-history.ts); the writer opening-peer-network.ts is deleted and no code reads openingPeerGroupSize (the unread parameter row stays at src/core2/data/parameters.json). The row's own text dates the change Oct 28, 2026 (wire-people-and-director). PR not named: this checkout's history is cut to one root commit (09a28996). Was: Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance. Oct 23, 2026 (research-deep-past-sourced-parameters): openingPeerGroupSize re-checked against the NCES NTPS 2020-21 class sizes (National Center for Education Statistics, survey year 2020-21; ESTIMATED, 20, spread corrected to 16.9 to 22.0) in data/research/core/nces-ntps-2021-class-size.json, read by opening-peer-network.ts buildOpeningPeerContacts and candidacy.ts countedKnown; it stays ESTIMATED because a class is not a remembered-peer circle. Its other read, the ceiling in buildOpeningPeerContacts (Math.ceil(cohort / size) groups, so one more classmate halves a group), is a cutoff filed as core-opening-peer-network-openingPeerGroupSize-as-cause. Recognition fading with years since school is the builder item people-peer-recognition-fades.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-opening-employment",
@@ -451,8 +491,10 @@
     "why": "A cell for an age can be empty or suppressed in a small county or municipio; the island-area rows are island-wide, so a village or district is not told apart from its island.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A nearest-neighbor or state-level rate for an empty county cell, and village-level island-area rows from the same PCT47 table with its suppression and margin handling, in place of the national ratio with a tunable scale.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A nearest-neighbor or state-level rate for an empty county cell, and village-level island-area rows from the same PCT47 table with its suppression and margin handling, in place of the national ratio with a tunable scale.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-work-schedule-data",
@@ -463,8 +505,10 @@
     "why": "Legacy header labels every pattern GAME ASSUMPTION; shifts/rotation/part-time shortening/holidays are not observed employer calendars.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Source-backed schedule and leave records with matched occupation/weekday and within-role spread; preserve actual input calendars.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Source-backed schedule and leave records with matched occupation/weekday and within-role spread; preserve actual input calendars.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-attendance-choice",
@@ -475,15 +519,17 @@
     "why": "Commitment magnitude and daily segment attendance policy are uncalibrated; detailed health/care constraints are absent.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Empirical attendance/absence evidence and causal counterfactual checks, without percentage rolls or desired outcomes.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Empirical attendance/absence evidence and causal counterfactual checks, without percentage rolls or desired outcomes.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-work-pay-terms",
     "kind": "prototype-pay-projection",
     "file": "src/core2/modules/work.ts",
-    "line": 546,
-    "whatItFakes": "Projects hourly SOC wage proxies onto actual attended minutes and immediate same-day conserving payment.",
+    "line": 541,
+    "whatItFakes": "Projects hourly SOC wage proxies onto actual attended minutes and pays them on each employer's payroll calendar (src/core2/work-payroll-cash.ts); no recorded salary, contract, overtime or tax terms.",
     "why": "No historical signed hourly/salary/overtime agreement, pay calendar, tax/law treatment or revenue model. Same-payer lexical job order is authored.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
@@ -495,12 +541,14 @@
     "kind": "uncalibrated-time-plan",
     "file": "src/core2/data/parameters.json",
     "line": 1205,
-    "whatItFakes": "Reserves guessed sleep hours and gives waking recovery a separate guessed duration.",
+    "whatItFakes": "Every worker reserves one estimated sleep length (8.7 hours, the ATUS 2025 employed-adult average) and one waking recovery length (5.16 hours); neither varies by the person's age, job or children at home.",
     "why": "Sleep reserve is planned, not observed; full education/care/consumption/primary-activity diary is absent.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Each person's sleep reserve from their own ATUS group (age, employed or not, a child under 18 at home: BLS ATUS 2025 Tables 8B and 8C, data/research/core/atus-2025-sleep.json), read per person by work.ts discretionaryHours and free-block.ts; builder item core-sleep-reserve-by-person. Until then workSleepReserveHours is ESTIMATED at 8.7 (employed midpoint, spread 8.56 to 8.83) and restDayHours at 5.16 (ATUS 2025 Table 3, spread 3.89 to 7.39 by age), both checked by scripts/research/core-parameters-check.ts; ATUS participant durations would be needed for a per-sitting rest length (core-recovery-hours-per-offer).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each person's sleep reserve from their own ATUS group (age, employed or not, a child under 18 at home: BLS ATUS 2025 Tables 8B and 8C, data/research/core/atus-2025-sleep.json), read per person by work.ts discretionaryHours and free-block.ts; builder item core-sleep-reserve-by-person. Until then workSleepReserveHours is ESTIMATED at 8.7 (employed midpoint, spread 8.56 to 8.83) and restDayHours at 5.16 (ATUS 2025 Table 3, spread 3.89 to 7.39 by age), both checked by scripts/research/core-parameters-check.ts; ATUS participant durations would be needed for a per-sitting rest length (core-recovery-hours-per-offer).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-work-result-retention",
@@ -523,8 +571,10 @@
     "why": "The prototype has recorded planned payroll and industry/classification evidence but lacks individual sales, operating-cost and credit-facility observations. Suppressed-cost estimates retain their original flag.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Recorded firm budgets/books or cohort-matched individual data, with source availability and measured distributions; actual receipts remain conserving ledger outcomes.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Recorded firm budgets/books or cohort-matched individual data, with source availability and measured distributions; actual receipts remain conserving ledger outcomes.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-business-books-classification",
@@ -535,20 +585,10 @@
     "why": "The current input preserves employer classifications but not firm legal form and all funding routes. Unknown classifications produce a gap; mods extend the mapping as data.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Recorded industry/legal-form and funding evidence for actual employers and counterparties, including public/branch/nonprofit budgets.",
-    "status": "open"
-  },
-  {
-    "id": "SG-P8-business-books-dynamics",
-    "kind": "uncalibrated-tunable",
-    "file": "src/core2/data/parameters.json",
-    "line": 2584,
-    "whatItFakes": "Town sales-to-income response, analytic linear income relaxation, price adjustment and rival allocation coefficients, including the legacy Moretti employment proxy and food-away-from-home price crosswalk.",
-    "why": "All new model coefficients are TUNABLE with explicitly unmeasured spreads. Source employment or category-price estimates do not identify these generated-town sales/price coefficients.",
-    "addedBy": "SOL-1258",
-    "addedAt": "2026-10-09",
-    "replacement": "Matched dated town income, market sales, prices/capacity and within-market shares with identified coefficient ranges and executed calibration; review cadence also requires evidence.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Recorded industry/legal-form and funding evidence for actual employers and counterparties, including public/branch/nonprofit budgets.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-business-books-credit-policy",
@@ -559,8 +599,10 @@
     "why": "The finance engine settles facility interest and repayment with finite cash, but the share a firm repays is one authored number, not a behavior rule.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Recorded facility terms and a repayment decision from the firm's cash need, the lender's terms and claim priority, with the share derived from them.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Recorded facility terms and a repayment decision from the firm's cash need, the lender's terms and claim priority, with the share derived from them.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-finance-settlement-policy",
@@ -571,8 +613,10 @@
     "why": "Prototype finance mechanism; real household purchase decisions, complete institutional accounts and jurisdiction-specific insolvency process remain absent.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Recorded household contracts and institution accounts, tested bankruptcy/closure policy and matched economic observables.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Recorded household contracts and institution accounts, tested bankruptcy/closure policy and matched economic observables.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-opening-finance-bindings",
@@ -583,8 +627,10 @@
     "why": "The input preserves actual households, member cash, living-cost priors, owned jobs, schedules, organizations, and classifications, but lacks observed purchase/provider ties. CEX category means and IRS corporate ratios support amount priors, not these actor-level counterparty choices. Unbound supplier/fixed-cost/housing categories remain gaps.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Recorded product/provider and standing-contract records or a causal consumption/ordering producer with actor knowledge and supplied goods/services. Match household and individual-firm data before treating cohort means or capacity-weighted ties as observed behavior.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Recorded product/provider and standing-contract records or a causal consumption/ordering producer with actor knowledge and supplied goods/services. Match household and individual-firm data before treating cohort means or capacity-weighted ties as observed behavior.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-opening-finance-cadence",
@@ -595,8 +641,10 @@
     "why": "The finite prototype lacks daily goods consumption/delivery and dated opening billing observations. openingFinancePeriodMonths is TUNABLE with unmeasured spread and an applicability-blocked generic target pointer; the source CEX/IRS vintages are later than the opening and are generation priors, never actor knowledge. Ended/future known schedules do not become active pay plans; known annual records override proxies.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Recorded standing-term calendars or identified dated purchase/budget distributions, explicit operating claim priorities and actual supplier/cost inventory; matched empirical calibration for cadence and demand-adjusted expenditure crosswalks. Keep conserving receipts distinct from priors.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Recorded standing-term calendars or identified dated purchase/budget distributions, explicit operating claim priorities and actual supplier/cost inventory; matched empirical calibration for cadence and demand-adjusted expenditure crosswalks. Keep conserving receipts distinct from priors.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-finance-sales-receipt-budgets",
@@ -607,8 +655,10 @@
     "why": "The completed finance year exhausted retailers with forecast-based input budgets and left most other firms without customers. Industry-level IRS ratios exist, but individual invoices and a verified input-output/counterparty allocation do not.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Recorded firm-specific procurement/inventory terms or an independently validated procurement-to-actual-sales crosswalk and payment calendar; a funded ordinary-world receipt that preserves employment and bills without forced solvency.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Recorded firm-specific procurement/inventory terms or an independently validated procurement-to-actual-sales crosswalk and payment calendar; a funded ordinary-world receipt that preserves employment and bills without forced solvency.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-opening-retirement-income",
@@ -619,8 +669,10 @@
     "why": "Ordinary P8 records omit prior retirement income. WHO/PAST generation is authorized; numeric and population calibration remains unmeasured.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Source-matched individual covered-career, claim/eligibility, award and SSA insured-worker payment-calendar producers, with actual award/territory/provider crosswalk and population calibration. Keep signed outside net flows separate from local stock.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Source-matched individual covered-career, claim/eligibility, award and SSA insured-worker payment-calendar producers, with actual award/territory/provider crosswalk and population calibration. Keep signed outside net flows separate from local stock.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-openingRetirementClaimAgeYears",
@@ -643,8 +695,10 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-openingRetirementCoveredFraction",
@@ -667,8 +721,10 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-openingRetirementMinimumCoveredMonths",
@@ -739,8 +795,10 @@
     "why": "Saved retirement obligations need source-owned incoming-flow admission under REVIEW 15. Producer descriptors supply no arbitrary spending authority; root owns genuine due-source resolution and signed outside net-flow posting.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched 2021 award/eligibility/amount/payment-date evidence and an actual source-qualified due provider, preserving local stock plus signed outside net-flow accounting.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Matched 2021 award/eligibility/amount/payment-date evidence and an actual source-qualified due provider, preserving local stock plus signed outside net-flow accounting.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-param-openingRetirementFundingEnvelopeShare",
@@ -775,8 +833,10 @@
     "why": "P10 reports only 6,481 of 10,001 residents have any recorded family, 1.5 family links per person, and 74 deaths reaching 57 relatives. These are P10 measurements, not rerun here.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Source-qualified kinship and summarized family histories with realistic relation-type and household coverage; validate actual event recipients. Coverage is measured in src/core2/opening-family-coverage.test.ts; counted deaths already reach relatives (counted-death-notices.test.ts).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Source-qualified kinship and summarized family histories with realistic relation-type and household coverage; validate actual event recipients. Coverage is measured in src/core2/opening-family-coverage.test.ts; counted deaths already reach relatives (counted-death-notices.test.ts).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-person-trait-diversity",
@@ -847,8 +907,10 @@
     "why": "Source means do not establish individual needs, supplier scope, recurring bill dates, delivered services or a per-world person dispersion.",
     "addedBy": "SOL-1258/opening_customer_routes",
     "addedAt": "2026-10-09",
-    "replacement": "Use recorded individual budgets and product-compatible agreements plus matched service-level size/region priors and actor purchasing producers. Oct 23, 2026 research (research-opening-customers-sourced-parameters): the 60 regional and household-size parent means now carry their published 95 percent sampling intervals (BLS CEX Tables 1800 and 1400, calendar 2024), and openingCustomerSizeTopCode is that table's own last column ('Five or more people'), a lookup key rather than a threshold. openingCustomerPeriodMonths and openingCustomerAgreementLeadDays stay TUNABLE: they are calendar conventions and no published table gives these services' invoice cadence or the start dates of agreements running at the opening. Still faked: individual budgets, component shares within each parent and the equal vendor shares; a matched individual-level spending distribution (for example CE Interview microdata) and recorded purchasing producers would close it.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Use recorded individual budgets and product-compatible agreements plus matched service-level size/region priors and actor purchasing producers. Oct 23, 2026 research (research-opening-customers-sourced-parameters): the 60 regional and household-size parent means now carry their published 95 percent sampling intervals (BLS CEX Tables 1800 and 1400, calendar 2024), and openingCustomerSizeTopCode is that table's own last column ('Five or more people'), a lookup key rather than a threshold. openingCustomerPeriodMonths and openingCustomerAgreementLeadDays stay TUNABLE: they are calendar conventions and no published table gives these services' invoice cadence or the start dates of agreements running at the opening. Still faked: individual budgets, component shares within each parent and the equal vendor shares; a matched individual-level spending distribution (for example CE Interview microdata) and recorded purchasing producers would close it.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-opening-customer-public-procurement",
@@ -859,8 +921,10 @@
     "why": "County identity and geographic reach do not observe enacted appropriation, price, award or treasury authority. Zero-stock due-flow accounting cannot manufacture that legal/source crosswalk.",
     "addedBy": "SOL-1258/opening_customer_routes",
     "addedAt": "2026-10-09",
-    "replacement": "The later public-budget, procurement and intergovernmental-transfers modules provide dated own-government authority, appropriation, award/agreement, price, supplier scope and actual source-owned payment calendar. Preserve actual county owner IDs and never invent a municipal budget for a census-designated place. Oct 23, 2026 research: openingCustomerPublicCleaningBudgetShare is ESTIMATED 0.124 (BOMA International 2012 cleaning share of operating cost 0.183 times the Census 2022 current-operations share 0.6754 of local general-public-buildings spending) and openingCustomerLocalAuthorityBudgetCoverage is ESTIMATED 0.80 (Census 2022: county, municipal and township governments make all of it, counties 0.4987; weighted by the share of playable places with their own government), read by buildOpeningCustomers in src/core2/opening-customers.ts; research files data/research/core/census-2022-local-public-buildings-by-government-type.json and data/research/core/building-operating-cost-janitorial-share.json, checked by scripts/research/check-opening-customer-priors.ts. A measured share of local public-building spending paid to custodial contractors would make the cleaning share SOURCED; reading each place's buyer government types against its state's county share is pool item core-opening-public-buyers-sourced-reads.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The later public-budget, procurement and intergovernmental-transfers modules provide dated own-government authority, appropriation, award/agreement, price, supplier scope and actual source-owned payment calendar. Preserve actual county owner IDs and never invent a municipal budget for a census-designated place. Oct 23, 2026 research: openingCustomerPublicCleaningBudgetShare is ESTIMATED 0.124 (BOMA International 2012 cleaning share of operating cost 0.183 times the Census 2022 current-operations share 0.6754 of local general-public-buildings spending) and openingCustomerLocalAuthorityBudgetCoverage is ESTIMATED 0.80 (Census 2022: county, municipal and township governments make all of it, counties 0.4987; weighted by the share of playable places with their own government), read by buildOpeningCustomers in src/core2/opening-customers.ts; research files data/research/core/census-2022-local-public-buildings-by-government-type.json and data/research/core/building-operating-cost-janitorial-share.json, checked by scripts/research/check-opening-customer-priors.ts. A measured share of local public-building spending paid to custodial contractors would make the cleaning share SOURCED; reading each place's buyer government types against its state's county share is pool item core-opening-public-buyers-sourced-reads.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-opening-customer-outside-households",
@@ -879,7 +943,7 @@
     "kind": "estimated-modeled-public-pay-obligation-bridge",
     "file": "src/core2/work-cash.ts",
     "line": 717,
-    "whatItFakes": "A proposed source-owned public-payroll bridge would use saved estimated hourly work/pay terms and an explicitly linked modeled paying authority to fund only each genuine current attended-work obligation; it would not claim actual historical salary entitlement or appropriation.",
+    "whatItFakes": "A public employee's pay is funded through a modeled paying link to the government's treasury, which pays from its adopted budget line (src/core2/public-work-pay.ts, src/core2/budgets-treasury.ts); the pay terms are saved estimated hourly rates, not real salary schedules, appropriations or legal pay authority.",
     "why": "The current public owner/job/pay/schedule records do not reconstruct 2021 employment authority, appropriation, deductions, pension contributions or government treasury funding.",
     "addedBy": "SOL-1258/public-outside-flow-audit",
     "addedAt": "2026-10-09",
@@ -895,8 +959,10 @@
     "why": "Industry payroll/IRS ratios and aggregate CFS international shipments do not identify town-firm product scope, actual outside buyer agreement or a 2021 macro demand path.",
     "addedBy": "SOL-1258/public-outside-flow-audit",
     "addedAt": "2026-10-09",
-    "replacement": "The later national-external-economy/trade and industry-specific customer modules provide matched commodity/service geography, buyer/order/delivery scope and dated demand/price priors. Freight, construction, insurance, realty, care and tuition retain distinct obligations and authorities. Oct 23, 2026 research: data/research/core/bea-2023-use-summary-buyer-shares.json gives each unsupported class's national buyer mix (businesses, households, federal, state and local, exports) from the BEA 2023 summary use table, with the 2019-2023 range, checked by scripts/research/check-opening-customer-priors.ts; it says who buys, not whether the buyer is in the town (src/core2/data/outside-market.json says that). The builder item that gives each missing buyer class a sourced customer is world-local-sales-below-opening-forecast.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The later national-external-economy/trade and industry-specific customer modules provide matched commodity/service geography, buyer/order/delivery scope and dated demand/price priors. Freight, construction, insurance, realty, care and tuition retain distinct obligations and authorities. Oct 23, 2026 research: data/research/core/bea-2023-use-summary-buyer-shares.json gives each unsupported class's national buyer mix (businesses, households, federal, state and local, exports) from the BEA 2023 summary use table, with the 2019-2023 range, checked by scripts/research/check-opening-customer-priors.ts; it says who buys, not whether the buyer is in the town (src/core2/data/outside-market.json says that). The builder item that gives each missing buyer class a sourced customer is world-local-sales-below-opening-forecast.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-customer-due-calendar-renewal",
@@ -907,8 +973,10 @@
     "why": "CEX annual expenditure and aggregate public fiscal-year data cannot choose an individual invoice day or legally end a standing due obligation.",
     "addedBy": "SOL-1258/public-outside-flow-audit",
     "addedAt": "2026-10-09",
-    "replacement": "The later public-budget/procurement and national-external-customer modules supply actual dated agreements, invoice/calendar and amendment/renewal/end records. Preserve supplied real ends; do not fabricate a one-year legal cutoff.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The later public-budget/procurement and national-external-customer modules supply actual dated agreements, invoice/calendar and amendment/renewal/end records. Preserve supplied real ends; do not fabricate a one-year legal cutoff.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-opening-private-cash-buffer",
@@ -919,8 +987,10 @@
     "why": "The observed bank-account/all-debit sample differs from a generated local/territorial employer and accounting-cost proxy. Firm legal form, total size, cash-debit coverage, banking coverage, actual owner capital and individual crosswalk remain unmeasured; observed quartiles do not establish them.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Open Oct 23, 2026: the thirteen openingEmployerCashBufferDays* rows were reopened against the JPMorgan Chase Institute PDF (same SHA256, Figures 6 and 7) and stay ESTIMATED: they are Chase-sample medians and quartiles of balance over ALL cash outflows, applied to generated employers whose outflow is planned payroll plus an IRS accounting-cost proxy. The Census Small Business Pulse Survey (April 2022, employer firms, data/research/core/census-sbps-cash-on-hand-2022.json) agrees on the lower tail but counts pandemic aid and loans, so it cannot replace them. They become SOURCED with a measured cash-buffer distribution for employer firms by industry on a payroll-and-operating-cost denominator, or recorded firm opening balances. Earlier replacement: Recorded firm opening balances and capital provenance, or a matched ALL-debit/balance cohort adapter with honest distributions and measured crosswalk evidence. No survival-based stock tuning or fictional contribution.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Open Oct 23, 2026: the thirteen openingEmployerCashBufferDays* rows were reopened against the JPMorgan Chase Institute PDF (same SHA256, Figures 6 and 7) and stay ESTIMATED: they are Chase-sample medians and quartiles of balance over ALL cash outflows, applied to generated employers whose outflow is planned payroll plus an IRS accounting-cost proxy. The Census Small Business Pulse Survey (April 2022, employer firms, data/research/core/census-sbps-cash-on-hand-2022.json) agrees on the lower tail but counts pandemic aid and loans, so it cannot replace them. They become SOURCED with a measured cash-buffer distribution for employer firms by industry on a payroll-and-operating-cost denominator, or recorded firm opening balances. Earlier replacement: Recorded firm opening balances and capital provenance, or a matched ALL-debit/balance cohort adapter with honest distributions and measured crosswalk evidence. No survival-based stock tuning or fictional contribution.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-opening-private-cash-buffer-spread",
@@ -931,8 +1001,10 @@
     "why": "Observed cohort quartiles do not identify individual firm liquidity, uniform identity ranks, piecewise-linear interpolation, tail extrema or a coefficient uncertainty interval. Generated legal form, location, vintage and ALL-cash-debit denominator differ from the selected employer/nonemployer Chase sample.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Open Oct 23, 2026: openingEmployerCashBufferTailSpan is now ESTIMATED 2.7 (spread 2.6 to 2.85) from JPMorgan Chase Institute, Cash Is King (2016), Figure 5, the cohort's own drawn distribution of cash buffer days (data/research/core/jpmci-cash-buffer-days-2016.json, derived and checked by scripts/research/opening-capital-tail-span.ts), read by src/core2/opening-capital.ts openingEmployerCashBufferAtQuantile; the Census Small Business Pulse Survey (April 2022) confirms the lower tail. It becomes SOURCED with a published table of cash-buffer-day percentiles beyond the quartiles (the 90th and 95th, by industry) or recorded individual firm liquidity; until then straight tail segments and uniform startup ranks stay assumptions. Earlier replacement: Recorded individual firm liquidity/capital provenance or an independently observed matched ALL-cash-debit/balance cohort distribution with identified crosswalk and tail evidence. Never calibrate to future closures or wages surviving a requested year.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Open Oct 23, 2026: openingEmployerCashBufferTailSpan is now ESTIMATED 2.7 (spread 2.6 to 2.85) from JPMorgan Chase Institute, Cash Is King (2016), Figure 5, the cohort's own drawn distribution of cash buffer days (data/research/core/jpmci-cash-buffer-days-2016.json, derived and checked by scripts/research/opening-capital-tail-span.ts), read by src/core2/opening-capital.ts openingEmployerCashBufferAtQuantile; the Census Small Business Pulse Survey (April 2022) confirms the lower tail. It becomes SOURCED with a published table of cash-buffer-day percentiles beyond the quartiles (the 90th and 95th, by industry) or recorded individual firm liquidity; until then straight tail segments and uniform startup ranks stay assumptions. Earlier replacement: Recorded individual firm liquidity/capital provenance or an independently observed matched ALL-cash-debit/balance cohort distribution with identified crosswalk and tail evidence. Never calibrate to future closures or wages surviving a requested year.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-opening-unsupported-owner-funding",
@@ -943,8 +1015,10 @@
     "why": "The superseded six-month payroll stock has no observed institutional balance, dated appropriation or funding receipt. Private JPMC employer/nonemployer cash evidence cannot supply those missing public or other unsupported owner facts.",
     "addedBy": "SOL-1258/customer_default_recover",
     "addedAt": "2026-10-09",
-    "replacement": "Open Oct 23, 2026: a mechanic, not a number. The builder items that give these owners dated funding from a named payer on the journal are world-corporate-office-staff-never-paid (regional offices and other branch-or-institution owners), world-public-employer-staff-never-paid and world-town-public-works-staff-never-paid (town, state and national departments paid through their government's treasury); the row resolves when every owner in this branch is funded that way in a played year. What they must not read: the U.S. Census Bureau 2022 State and Local Government Finances Table 1 'Cash and security holdings' line (data/research/money/state-local-finances-2022.json, cashAndSecurityHoldings) equals its 'Insurance trust funds' line exactly ($5.60 trillion nationally, $5.41 trillion of it employee retirement), so it is pension, unemployment and workers' compensation trust assets, not an institution's or treasury's operating cash, and cannot seed an opening balance. Earlier replacement: REVIEW16 public-budget and national modules must supply genuine dated funding authority, appropriations and treasury/account receipts for represented institutions; other unsupported owners need separately source-qualified recorded funding. Preserve actual supplied balances. Never infer a measured zero, private JPMC reserve, survival stock or synthetic owner contribution.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Open Oct 23, 2026: a mechanic, not a number. The builder items that give these owners dated funding from a named payer on the journal are world-corporate-office-staff-never-paid (regional offices and other branch-or-institution owners), world-public-employer-staff-never-paid and world-town-public-works-staff-never-paid (town, state and national departments paid through their government's treasury); the row resolves when every owner in this branch is funded that way in a played year. What they must not read: the U.S. Census Bureau 2022 State and Local Government Finances Table 1 'Cash and security holdings' line (data/research/money/state-local-finances-2022.json, cashAndSecurityHoldings) equals its 'Insurance trust funds' line exactly ($5.60 trillion nationally, $5.41 trillion of it employee retirement), so it is pension, unemployment and workers' compensation trust assets, not an institution's or treasury's operating cash, and cannot seed an opening balance. Earlier replacement: REVIEW16 public-budget and national modules must supply genuine dated funding authority, appropriations and treasury/account receipts for represented institutions; other unsupported owners need separately source-qualified recorded funding. Preserve actual supplied balances. Never infer a measured zero, private JPMC reserve, survival stock or synthetic owner contribution.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-opening-public-owner-history",
@@ -955,8 +1029,10 @@
     "why": "The 2017 Census government listing was recorded before the January 1, 2021 opening; a later canonical directory cannot be backdated. Historical identity supplies an owner candidate, not legal powers, enacted appropriation or opening cash.",
     "addedBy": "SOL-1258/customer_defaults_review",
     "addedAt": "2026-10-09",
-    "replacement": "A dated opening government directory or independently sourced legal identity/change history matched to the same official government ID. Preserve the original 2017 observation date and account ID. Oct 23, 2026 research: the Census Government Units listing 2021 (units active as of fiscal year ending June 30, 2021, a year that contains the opening; posted January 28, 2022) carries every one of the 3,031 county governments of the 2017 listing with the same PID6, GID, county FIPS and state, all functionally active, and the 2022 Census of Governments counts 3,031 in the same states (data/research/core/census-gus-2021-county-identity-continuity.json). Reading that listing as the opening-dated observation, and comparing names without punctuation (one 2017 name lacks the apostrophe of its 2021 and 2025 names, so the current name match refuses it), is pool item core-opening-public-buyers-sourced-reads.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A dated opening government directory or independently sourced legal identity/change history matched to the same official government ID. Preserve the original 2017 observation date and account ID. Oct 23, 2026 research: the Census Government Units listing 2021 (units active as of fiscal year ending June 30, 2021, a year that contains the opening; posted January 28, 2022) carries every one of the 3,031 county governments of the 2017 listing with the same PID6, GID, county FIPS and state, all functionally active, and the 2022 Census of Governments counts 3,031 in the same states (data/research/core/census-gus-2021-county-identity-continuity.json). Reading that listing as the opening-dated observation, and comparing names without punctuation (one 2017 name lacks the apostrophe of its 2021 and 2025 names, so the current name match refuses it), is pool item core-opening-public-buyers-sourced-reads.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-opening-public-owner-coverage",
@@ -967,8 +1043,10 @@
     "why": "The county keeps its county jurisdiction while the represented cohort lives in a CDP. Census geography was observed April 1, 2020 but published August 12, 2021, so an earlier opening uses it only as a retrospective generation prior. Unverified membership remains unbound.",
     "addedBy": "SOL-1258/customer_defaults_review",
     "addedAt": "2026-10-09",
-    "replacement": "Dated own-county procurement/service-area records and actual contract scope with matched represented-resident coverage. A verified geographic relation alone must not close the existing public-procurement appropriation/price stopgap. Oct 23, 2026 research: the county share of local general-public-buildings current operations per state (Census 2022 Census of Governments: Finance; national 0.4987, 10th to 90th percentile 0.243 to 0.807 among states with county governments, the five territories at the median) is in data/research/core/census-2022-local-public-buildings-by-government-type.json; bounding each county buyer's represented share by it is pool item core-opening-public-buyers-sourced-reads.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Dated own-county procurement/service-area records and actual contract scope with matched represented-resident coverage. A verified geographic relation alone must not close the existing public-procurement appropriation/price stopgap. Oct 23, 2026 research: the county share of local general-public-buildings current operations per state (Census 2022 Census of Governments: Finance; national 0.4987, 10th to 90th percentile 0.243 to 0.807 among states with county governments, the five territories at the median) is in data/research/core/census-2022-local-public-buildings-by-government-type.json; bounding each county buyer's represented share by it is pool item core-opening-public-buyers-sourced-reads.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   },
   {
     "id": "SG-P8-opening-employer-pay-calendar",
@@ -991,7 +1069,9 @@
     "why": "The tier's sector list follows the BLS payroll supersectors, which leave farms out; a farm seller still needs a sector to meet buyers.",
     "addedBy": "Fable helper",
     "addedAt": "2026-11-10",
-    "replacement": "An agriculture sector added to the country tier's list (COUNTRY_SECTORS) with its own pay, basket and trade shares, then the farm kind moved to it.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An agriculture sector added to the country tier's list (COUNTRY_SECTORS) with its own pay, basket and trade shares, then the farm kind moved to it.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T5"
   }
 ]
