@@ -1603,8 +1603,8 @@ export function seatCoveringTown(
  * "custom start as a sitting officeholder"): the serving holder's term ends
  * and the player serves out the rest of it, as a winner takes office; the
  * officials and pay engines read the took-office event. A legislator takes
- * the town's own seat in the chamber.
- * stopgapId: SG-STATE-dev-seat-player
+ * the town's own seat in the chamber. The seat is put through the offices
+ * engine's own term writer (`seatTerm`), as a winner's is.
  */
 export function seatPlayerInStateOffice(
   api: CoreAPI,
@@ -1615,7 +1615,6 @@ export function seatPlayerInStateOffice(
     readonly chamberKind?: string;
   },
 ): StateOffice {
-  api.stopgap("SG-STATE-dev-seat-player");
   const person = api.state.people.get(input.personId);
   if (!person?.alive) throw new Error(`No living person ${input.personId}.`);
   const offices = api.moduleState(OFFICES_MODULE_ID);
@@ -1655,7 +1654,7 @@ export function seatPlayerInStateOffice(
         tag: "ESTIMATED",
         citation: "Dev mode custom start as a sitting officeholder",
         asOf: date,
-        estimatedFrom: "SG-STATE-dev-seat-player",
+        estimatedFrom: "Dev mode custom start as a sitting officeholder",
       },
       news: false,
       facts: { office: office.id, seatId: seat.id, winnerId: person.id },
