@@ -95,6 +95,12 @@ export interface SituationCause {
    */
   sceneKey?: string;
   /**
+   * The purpose this cause plays, for a type whose other causes have none (a
+   * piece of news a household member brings the player asks something of them;
+   * news the player carries to their household stays a plain talk).
+   */
+  purpose?: string;
+  /**
    * Where this cause stages the type, when it is not the type's own order of
    * settings: a vote trade is asked for in the chamber its record names.
    */
