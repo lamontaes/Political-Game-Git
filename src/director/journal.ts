@@ -92,7 +92,7 @@ const rewordings = P.two * P.two * P.two;
 const zero = P.zero;
 const one = P.one;
 
-/** The events of a life the Journal tells as its rows, by the event's pair (data/journal-life.json). */
+/** The events of a life the Journal tells as its rows, by the event's pair (src/director/data/journal-life.json). */
 const LIFE_PAIRS = journalLife.pairs as readonly {
   life: string;
   what: string;
@@ -592,7 +592,7 @@ function householdMoments(
  * they came to the county, the first school and the high school, the working
  * life before the start (the first job after school, each job lost and the
  * time out of work after it, each move to another employer, the reason on
- * record someone stopped), and every event of the table (data/journal-life.json)
+ * record someone stopped), and every event of the table (src/director/data/journal-life.json)
  * the list holds, in play or before: a job lost, a child born, a move, a death in
  * the family, an illness, a home, a business, a race. The job held on day one is
  * told by the line that leads into it. Each moment cites the id of the event it
