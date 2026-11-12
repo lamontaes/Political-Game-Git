@@ -4,6 +4,7 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { composeLocalAddress, type LocalLevel } from "./local-address";
+import { addressSentences } from "./address-sentences";
 
 /**
  * A governor's and a town head's address say their own world, not a stock
@@ -22,11 +23,11 @@ const WORLDS = 10;
 const MOST_WORLDS_PER_SENTENCE = 2;
 const LEVELS: readonly LocalLevel[] = ["state", "town"];
 
-const sentencesOf = (text: string) =>
-  text
-    .split(/(?<=[.!?])\s+/)
-    .map((row) => row.trim())
-    .filter(Boolean);
+// One splitter for both versions tests: a question of three words or fewer
+// ("Why?") is read with the sentence after it (the words lead's ruling of
+// Nov 12; owner, Nov 11, call 12: "Replies of one to three words and action
+// names stay"). The bound is unchanged.
+const sentencesOf = addressSentences;
 
 it(`a governor's and a town's addresses say no sentence in more than two of ten drawn worlds (seed ${base})`, () => {
   const was = setBookkeeping(false);

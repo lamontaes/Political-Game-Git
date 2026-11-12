@@ -167,6 +167,8 @@ const OUTLINES = outlineData as unknown as {
   themeShort: Readonly<Record<string, string>>;
   /** A budget line's name said with what the government spends on it now ("{about} beyond {spent} a year"). */
   lineSpent: string;
+  /** A budget line's side in a close, said with what the government spends on it now, by the speaker's side. */
+  lineSideSpent: Readonly<Record<"for" | "against", string>>;
   /** The slot endings of the first, second and third wordings of how a question stands. */
   todaySlots: readonly string[];
   /** What a body's measures are called by their form (bodyNumbering's kind). */
@@ -1417,6 +1419,22 @@ function budgetsNow(
  * citing the budget row. Null for a question that is not a budget line or a
  * line the budget does not fund.
  */
+/** What this government spends on a budget line this year, as people say it, with the budget row; null for any other question. */
+function lineSpentAmount(
+  core: CoreState,
+  level: PolicyLevel,
+  jurisdiction: string | null,
+  local: OutlineSpeaker["local"],
+  question: string,
+): { readonly said: string; readonly budgetId: string } | null {
+  if (!question.startsWith(BUDGET_LINE)) return null;
+  const [budget] = budgetsNow(core, level, jurisdiction, local);
+  const spent = budget?.spendingMinor[question.slice(BUDGET_LINE.length)];
+  return budget && spent
+    ? { said: moneySaid(spent), budgetId: budget.id }
+    : null;
+}
+
 function lineSpentFact(
   core: CoreState,
   level: PolicyLevel,
@@ -2174,11 +2192,44 @@ export function planSpeech(
           moves: [move("close", { required: true })],
           required: true,
         },
-      ].map((draft): Draft => ({
-        ...draft,
-        level: "close",
-        facts: { ...draft.facts, ...closeFacts() } as Facts,
-      })),
+      ].map((draft): Draft => {
+        const first = pointStands[P.zero];
+        const side = draft.facts["first-side"];
+        // A budget line's side said with what this government spends on it
+        // now (`lineSideSpent`), as its ask is: three towns closed on one
+        // sentence (local-address-versions, seed 0df1bce3c91a1ce7).
+        const spent =
+          first && side
+            ? lineSpentAmount(
+                core,
+                level,
+                speaker.jurisdiction,
+                local,
+                first.question,
+              )
+            : null;
+        return {
+          ...draft,
+          level: "close",
+          facts: {
+            ...draft.facts,
+            ...(first && side && spent
+              ? {
+                  "first-side": fact(
+                    OUTLINES.lineSideSpent[
+                      first.stance > P.zero ? "for" : "against"
+                    ]
+                      .replace("{side}", side.text)
+                      .replace("{spent}", spent.said),
+                    ...side.sourceRecordIds,
+                    spent.budgetId,
+                  ),
+                }
+              : {}),
+            ...closeFacts(),
+          } as Facts,
+        };
+      }),
   };
   const drafts = row.sections
     .filter((section) => !row.asides.includes(section) || asides.has(section))

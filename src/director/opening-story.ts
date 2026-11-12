@@ -186,6 +186,26 @@ const CASES = {
   "-addressed": "subject",
 } as const;
 
+/**
+ * The fact keys a composed part used, with each person said in a case
+ * ({vice-president-object}) also counted as that person's own fact: the bank
+ * requires a case slot by its own name, and the composer fills it from the
+ * person's one fact (`withCases`), so the name budgets count the person.
+ */
+function usedKeys(part: {
+  readonly usedFactKeys: readonly string[];
+}): string[] {
+  return [
+    ...new Set([
+      ...part.usedFactKeys,
+      ...part.usedFactKeys.flatMap((key) => {
+        const slot = personSlot(key);
+        return slot ? [slot.person] : [];
+      }),
+    ]),
+  ];
+}
+
 /** The person and the case a slot's fact key says, or null for a slot that is no person. */
 function personSlot(
   key: string,
@@ -539,7 +559,7 @@ export function composeBlocks(
         row.moves.some((done) => {
           if (
             !done.parts.some((part) =>
-              part.usedFactKeys.includes("vice-president"),
+              usedKeys(part).includes("vice-president"),
             )
           )
             return false;
@@ -617,9 +637,7 @@ export function composeBlocks(
       if (result?.kind === "rendered")
         for (const done of result.moves)
           if (
-            done.parts.some((part) =>
-              part.usedFactKeys.includes("vice-president"),
-            )
+            done.parts.some((part) => usedKeys(part).includes("vice-president"))
           )
             viceSaid.push(
               fourWordRuns(done.text, block.facts["vice-president"]?.text),
@@ -635,7 +653,7 @@ export function composeBlocks(
         for (const part of done.parts)
           if (part.part === "opener") ledIn.add(part.text);
         for (const key of new Set(
-          done.parts.flatMap((part) => part.usedFactKeys),
+          done.parts.flatMap((part) => usedKeys(part)),
         )) {
           const text = told[key]?.text;
           if (counted(key) && text)
@@ -652,7 +670,7 @@ export function composeBlocks(
         // A later move of this block does not repeat this one's wordings.
         said.push(...done.parts.map((part) => part.partKey));
         // A question said in this sentence is said again by its second name.
-        for (const key of done.parts.flatMap((part) => part.usedFactKeys)) {
+        for (const key of done.parts.flatMap((part) => usedKeys(part))) {
           const question = questionOf(told[key]);
           if (question && NAMING_KEYS.test(key)) questionsNamed.add(question);
         }
@@ -672,7 +690,7 @@ export function composeBlocks(
     }
     for (const [at, move] of address.moves.entries()) {
       const facts = toldOf[at] ?? block.facts;
-      const used = new Set(move.parts.flatMap((part) => part.usedFactKeys));
+      const used = new Set(move.parts.flatMap((part) => usedKeys(part)));
       // A crafted device cites the addresses that earned it.
       const earned = move.parts.some((part) => part.device) ? craft : [];
       const visit = used.has("place")
