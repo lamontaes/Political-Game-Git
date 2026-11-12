@@ -59,7 +59,7 @@ import type {
   Relationship,
 } from "../types";
 import { offer } from "./life";
-import { departureRateFor, livesElsewhere } from "./moves";
+import { departureRateFor, livesElsewhere, withinCountyRateFor } from "./moves";
 import { pairKey } from "../kernel/ids";
 import { bookkeeping } from "../bookkeeping";
 import { registerWorldMapPart } from "../snapshot";
@@ -344,7 +344,7 @@ function peopleHistory(
     date >= window.from && date <= window.through;
   // Who came to the county and when, first: births, schools, the working
   // life and partnerships are placed by where people lived.
-  pastMovesHistory(api, window, history, departureRateFor);
+  pastMovesHistory(api, window, history, departureRateFor, withinCountyRateFor);
   for (const person of api.state.people.values()) {
     if (person.tier === "husk") continue;
     if (inside(person.birthDate)) {
@@ -586,7 +586,13 @@ export function openWholePast(core: CoreState, personId: PersonId): void {
   // A relative living elsewhere is opened the same way, one card at a time;
   // the inactive tier's other people (the counts, the central bank) are not.
   if (person.tier === "husk" && !livesElsewhere(core, person)) return;
-  pastMovesFor(core, [person], departureRateFor, PEOPLE_MODULE_ID);
+  pastMovesFor(
+    core,
+    [person],
+    departureRateFor,
+    PEOPLE_MODULE_ID,
+    withinCountyRateFor,
+  );
   schoolHistoryFor(core, [person]);
   pastWorkFor(core, [person], PEOPLE_MODULE_ID);
 }

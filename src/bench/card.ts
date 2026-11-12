@@ -585,6 +585,11 @@ function lineOf(
     }
     case "move/moved-home":
       return make("moved.home", {});
+    // A move to another home in the same county before the start.
+    case "move/moved-within": {
+      const place = placeName(facts.toPlaceId);
+      return place ? make("moved.within", { place }) : null;
+    }
     case "move/moved-away": {
       const place = placeName(facts.toPlaceId);
       return place ? make("moved.away-to", { place }) : make("moved.away", {});
