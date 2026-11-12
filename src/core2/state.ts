@@ -777,7 +777,10 @@ export function retainLog(
       core.date,
       row.id,
     );
-  else if (row.visibility === "public" && CAMPAIGN_RECORD_KINDS.has(row.kind))
+  // A campaign gift or endorsement goes a year after its day whoever saw it:
+  // one the player's circle saw is a public record too, so the circle's own
+  // window above does not take it.
+  else if (row.visibility !== "observer" && CAMPAIGN_RECORD_KINDS.has(row.kind))
     queueCampaignRecord(core, core.date, row.id);
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
