@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T05:04:37.355Z
 branch: claude/pool-core-fast-clock-part-5-the-life-record-keeps-writing-in-skipped-time
 ---
 
-**What.** A skip must not leave a hole in anyone's life. What happened to the player's household and circle in skipped years (a death, a birth, a job taken or lost, a move, an election) has to be on their cards and in the Journal when play resumes. This part is a test first, and code only where the test finds a hole.
+**What.** A skip must not leave a hole in anyone's life. What happened to the player's household and circle in skipped years (a death, a birth, a job taken or lost, a move, an election) has to be on their cards and in the Journal when play resumes. This part is a test first, and code only where the test finds a hole. Seen: the Journal and the cards of the household and circle after a skip, which must hold dated sentences from the skipped years.
 
 **Cause.** Design: docs/design/life-record.md, and the CTO's note of Nov 10, 2026 on docs/design/country-tier.md: the life record keeps writing remembered events for the player and the people around them during a skip.
 

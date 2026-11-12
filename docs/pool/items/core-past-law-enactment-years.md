@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/past-laws.ts, src/core2/past.test.ts, src/core2/data/past/parameters.json, src/core2/data/stopgaps/core.json, data/research/core/state-law-adoption-dates-2025.json
 
 **Notes.** TODO
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have researched the year each starting law was enacted for all 56 places so a 1947 law reads as 1947, and the player sees a law in force either way; the age is an estimate.

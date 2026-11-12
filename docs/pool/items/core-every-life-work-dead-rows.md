@@ -20,7 +20,7 @@ checked: fable 2026-11-10
 claimed-at: 2026-11-11T00:01:04.463Z
 ---
 
-**What.** The jobs engine's review of people living elsewhere (src/core2/jobs-elsewhere.ts, PR #7049) keeps one row per person in jobs.elsewhere and never removes it, so a dead person's row stays for good. Over a long save the table grows with the dead instead of holding only the living. The cause is that the review only reads people who are alive and never hears of a death, so nothing removes the row; the partnerships module drops its row on the life.death event, and the jobs engine should do the same.
+**What.** The jobs engine's review of people living elsewhere (src/core2/jobs-elsewhere.ts, PR #7049) keeps one row per person in jobs.elsewhere and never removes it, so a dead person's row stays for good. Over a long save the table grows with the dead instead of holding only the living. The cause is that the review only reads people who are alive and never hears of a death, so nothing removes the row; the partnerships module drops its row on the life.death event, and the jobs engine should do the same. Guards: the speed of a long save, where the jobs table grows with every death and later years run slower than year 1.
 
 **Cause.** Found in code: src/core2/jobs-elsewhere.ts keeps one row per person in `WORK_ELSEWHERE_TABLE` (line 53) and never removes it; the review reads only living people and never hears of a death, while src/core2/modules/partnerships.ts drops its row on the "life.death" event (line 949).
 

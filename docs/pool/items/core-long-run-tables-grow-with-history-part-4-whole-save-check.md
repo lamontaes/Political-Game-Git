@@ -19,7 +19,7 @@ root: rc5-full-detail-every-day
 checked: fable 2026-11-10
 ---
 
-**What.** After the folds land, one run of a whole save must show the rule the owner set on Oct 29: year 100 runs as fast as year 1. Run twenty years of the played world in two drawn places and compare years 17 to 20 against years 1 to 4 in seconds, heap after a collection and records kept. File an item for any table still growing.
+**What.** After the folds land, one run of a whole save must show the rule the owner set on Oct 29: year 100 runs as fast as year 1. Run twenty years of the played world in two drawn places and compare years 17 to 20 against years 1 to 4 in seconds, heap after a collection and records kept. File an item for any table still growing. Feeds: core-long-run-tables-grow-with-history (the one run that shows year 100 runs as fast as year 1).
 
 **Cause.** Measured: `npm run speed:year -- --seed long-1 --years 100` (Ringgold, Louisiana) before the folds: years 1 to 6 take 42, 60, 135, 168, 162 and 161 seconds. The runner is scripts/speed-years/run.ts.
 

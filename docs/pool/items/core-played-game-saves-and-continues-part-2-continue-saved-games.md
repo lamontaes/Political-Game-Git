@@ -19,7 +19,7 @@ source: split from core-played-game-saves-and-continues in the pool redo, Nov 10
 checked: fable 2026-11-10
 ---
 
-**What.** After part 1 writes a save, the title screen must offer it. Continue returns the most recent life and Saved games lists the saves by player name and date, with no file names shown. Loading restores the same date, player and household. This is part 2 of core-played-game-saves-and-continues.
+**What.** After part 1 writes a save, the title screen must offer it. Continue returns the most recent life and Saved games lists the saves by player name and date, with no file names shown. Loading restores the same date, player and household. This is part 2 of core-played-game-saves-and-continues. Feeds: core-played-game-saves-and-continues (the title screen's Continue and Saved games list).
 
 **Cause.** Found in code: src/bench/handler.ts line 760 ("continue (the server's current life), or none") is only the server's in-memory life, and nothing in src/bench or the desktop host calls `saveGame` or `loadGame` from src/core2/saves.ts. The title route at line 757 builds the scenes and the in-progress life only from memory.
 

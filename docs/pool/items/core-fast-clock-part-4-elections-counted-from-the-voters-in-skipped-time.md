@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T05:12:03.127Z
 branch: claude/pool-core-fast-clock-part-4-elections-counted-from-the-voters-in-skipped-time
 ---
 
-**What.** In skipped time every race is still campaigned event by event; the only shortcut is a switch that plays one rival campaign day in four. This part decides a race the player is not in from its voters on election day, through the one election engine, and deletes the switch. A race the player or the people around them are in is not touched.
+**What.** In skipped time every race is still campaigned event by event; the only shortcut is a switch that plays one rival campaign day in four. This part decides a race the player is not in from its voters on election day, through the one election engine, and deletes the switch. A race the player or the people around them are in is not touched. Feeds: core-fast-clock-twenty-years (a skip decides every race from its voters, so the 20 years button finishes in seconds).
 
 **Cause.** Found in code: `fastForward()` (src/core2/fast-forward.ts, 28 lines; read in src/core2/modules/campaigns.ts line 6570) thins rival campaign days by a stride of four (stopgap SG-SPEED-fast-forward-campaigns, src/core2/data/stopgaps/speed.json line 3) and nothing else about a campaign changes in a long run. Measured in the calendar-only year above: the press week cost 1.8 seconds and local meetings 0.9 of the 14.6.
 

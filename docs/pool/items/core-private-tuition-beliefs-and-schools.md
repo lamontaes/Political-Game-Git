@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** Reopened Oct 23: blocked with no blocked-on and the claimed branch claude/tuition-continuing is gone.
 
 Oct 25 audit: From the dropped core-private-tuition-choice-reads-beliefs: a child's own needs also enter the choice (owner ruling Oct 20).
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have moved each child's private-school enrollment with the family's income, beliefs, nearby schools and the child's needs, and the player sees a child enrolled or not either way (the opening already ranks by cash and faith).

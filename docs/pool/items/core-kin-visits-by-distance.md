@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/closeness.ts, src/core2/modules/people.ts, src/core2/data/parameters.json, data/research/core/pew-2006-family-contact.json, src/core2/data/stopgaps/p15.json
 
 **Notes.** TODO
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have made a relative's visits fall with the travel time between two places from the Gazetteer, and the player sees a relative visit or not either way (a near or far share already exists).

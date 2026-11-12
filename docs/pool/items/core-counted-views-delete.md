@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -65,3 +65,5 @@ Sent back 2026-10-23 from PR #4920 (branch claude/births-columns): Done when req
 Sent back 2026-10-26 from PR #4915 (branch claude/counted-views-delete): Current-main integration conflicts in births-counted.ts, counted-demotion.test.ts, housing-construction.ts, housing-occupancy.ts, modules/residents.ts, modules/world-metrics.ts and residents.test.ts, plus pool and stopgap data; reconcile code, retain every stopgap ID and pool Note, regenerate INDEX and provide the Done-when evidence table; finish on that branch, merge main into it first.
 
 Released (2026-11-11): read it: births-counted.ts (1,253 lines) builds ResidentHouseholdRecord shapes at four sites (lines 409, 839, 892, 1163) that its births, deaths and arrivals logic consumes, and about 15 tests read rt.households; a column-based rewrite of that pass is the item's own named prerequisite and is not a small edit; not started. Continue on branch claude/pool-core-counted-views-delete.
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It deletes counted-view code that works, and the only item waiting on it is already dropped.

@@ -19,7 +19,7 @@ source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, N
 checked: fable 2026-11-10
 ---
 
-**What.** The country tier steps every state for a month in a few milliseconds because a state is a few dozen cells. The town's own monthly engines work record by record, so a skipped year stays at seconds, not hundredths. Reaching twenty years in about five seconds needs the town itself kept as the tier's kind of cells during a skip, with only the player's household and circle kept as people, and rebuilt on return. That design does not exist yet.
+**What.** The country tier steps every state for a month in a few milliseconds because a state is a few dozen cells. The town's own monthly engines work record by record, so a skipped year stays at seconds, not hundredths. Reaching twenty years in about five seconds needs the town itself kept as the tier's kind of cells during a skip, with only the player's household and circle kept as people, and rebuilt on return. That design does not exist yet. Feeds: core-fast-clock-twenty-years (the design that takes a skipped year under one second).
 
 **Cause.** Needs cause. Looked at: the calendar-only year in Chumuckla, Florida (14.6 seconds, mostly the engines' own monthly work on counted records plus about 820 state and federal officials kept as people); the tier's month in src/core2/country-model.ts; docs/design/country-tier.md point 7, which says the town runs as results in a skip and does not say how its records become cells and come back. Not yet known: which of the town's records can be summed into cells and rebuilt without changing what a player later sees, and what part 7's table shows once parts 1 to 4 are in.
 

@@ -19,7 +19,7 @@ source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, N
 checked: fable 2026-11-10
 ---
 
-**What.** The owner asked for twenty years in about five seconds. Parts 1 to 4 bring a skipped year down from day-by-day time; nobody knows yet to what. This part measures it in three towns of different sizes and names, engine by engine, what still costs more than a second a year.
+**What.** The owner asked for twenty years in about five seconds. Parts 1 to 4 bring a skipped year down from day-by-day time; nobody knows yet to what. This part measures it in three towns of different sizes and names, engine by engine, what still costs more than a second a year. Feeds: core-fast-clock-twenty-years (it names what still costs more than a second a year, so the 20 years button reaches about five seconds).
 
 **Cause.** Measured: Chumuckla, Florida (953 people; world seed aa4665b284a797eb671c6eafef8865086489b881e3eb81e1116a200598fb6482): a year of only dated work took 14.6 seconds, so twenty would take about five minutes in the smallest town before parts 2 to 4 add their monthly steps. The largest costs were the press week 1.8 seconds, other governments' floor weeks 1.6, the housing review 1.4, the jobs review 1.3, counted renewal 0.9 and local meetings 0.9.
 

@@ -19,7 +19,7 @@ source: found Nov 10 by the builder of the fast clock's part 3 (pull request #82
 checked: fable 2026-11-10
 ---
 
-**What.** After the fast clock's part 3, a skipped year moves prices, but in some places it moves them more than the same year played day by day. A player who skips ahead should come back to about the world they would have reached by playing. The gap is outside the fifth the fast clock's parts hold themselves to.
+**What.** After the fast clock's part 3, a skipped year moves prices, but in some places it moves them more than the same year played day by day. A player who skips ahead should come back to about the world they would have reached by playing. The gap is outside the fifth the fast clock's parts hold themselves to. Seen: prices and the Metrics tab after a skip, which rise more than the same years played.
 
 **Cause.** Measured: three causes, found with a month-by-month probe of every business's review in Houston, Delaware (seed 7b20d94f3ce81a6655c0), Chumuckla, Florida (seed 2fdde3f8466bb2ae9991) and Oak City, Utah (world seed 8beeea108f57624a9f74ea03af24bff99c3032859dadb259b322fc1c26011c32), on main at 6af036c7. Found in code:
 

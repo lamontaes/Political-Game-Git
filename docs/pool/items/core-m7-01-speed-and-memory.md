@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -61,3 +61,5 @@ Sent back 2026-10-23 from PR #5364 (branch claude/m7-speed): the first-line bare
 Sent back 2026-10-24 from PR #5364 (branch claude/m7-speed): reporting scope corrected, but the Notes-only diff has no docs/release/changes declaration; add impact:none and keep the unfinished umbrella open; finish on that branch, merge main into it first.
 
 Cause found (Nov 11, 2026, cause finder for Fable B): load, year and peak memory measured in a dense town and two small ones, and the targets drawn from the October 2026 Steam survey. The dense town fits a 4-core, 8 GB machine.
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have measured new-game load time and peak memory on a minimum-spec PC and set targets from Steam's survey, which is early-access preparation and shows nothing in play; the year-time bar and memory crashes are held by other items.

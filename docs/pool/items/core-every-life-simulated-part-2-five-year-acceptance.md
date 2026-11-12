@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after: core-every-life-simulated-part-1-births-for-couples-elsewhere, core-every-life-partners, core-every-life-partner-from-counts, core-every-life-work-dead-rows
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** core-every-life-simulated-part-1-births-for-couples-elsewhere, core-every-life-partner-from-counts and core-every-life-work-dead-rows merged (core-every-life-partners is done).
 
 **Files.** src/director/household-talk.test.ts, src/core2/modules/people.ts, src/core2/modules/jobs.ts
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It is only the parent's own acceptance run repeated in three places; the parent keeps its Done when and the talk that opens on news.

@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T02:44:44.268Z
 merged-at: 2026-11-12T05:04:16.708Z
 ---
 
-**What.** src/core2/group-quarters.test.ts is red on main in every place it draws, 3 of 4 tests: an arriving household is housed in a group-quarters room ('college' in 0973980, 'nursing' in 3929428 and 5683040) where the test says no arrival may be. The moves engine now keeps a room capacity and a room queue, so rooms do admit arrivals, and either that admission or this test's rule is out of date. Decide which, and make the test say it.
+**What.** src/core2/group-quarters.test.ts is red on main in every place it draws, 3 of 4 tests: an arriving household is housed in a group-quarters room ('college' in 0973980, 'nursing' in 3929428 and 5683040) where the test says no arrival may be. The moves engine now keeps a room capacity and a room queue, so rooms do admit arrivals, and either that admission or this test's rule is out of date. Decide which, and make the test say it. Guards: who is housed in a college or nursing-home room, which the Metrics population and the person cards show; the test is red on main in every place.
 
 **Cause.** Measured: `npx vitest run src/core2/group-quarters.test.ts` fails on main c00d0a7b6d, for example `move:in:household_194eae169e3d9dc1:2025-03-01: expected 'college' to be undefined` in place 0973980; the admission is `roomCapacity`/`roomQueue` in src/core2/modules/counted-moves.ts.
 

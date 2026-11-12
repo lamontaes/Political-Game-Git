@@ -20,7 +20,7 @@ root: design-one-model-two-tiers
 checked: fable 2026-11-10
 ---
 
-**What.** In the two-level opening (src/bench/world.ts), build the population without kin, pick the entrant, build peer contacts and decide the kept set from residents alone, then add kin, temperament and falling-outs for the kept households only, and run the deep past after that. Counted households get none of it at the opening. The historical Vonore measurement (9,940 residents against 39,685 records with kin) identifies the cost of materializing outside relatives, not permission to drop people from the model's counts. Preserve the parent's count, household and inherited-trait contracts while avoiding unnecessary full records.
+**What.** In the two-level opening (src/bench/world.ts), build the population without kin, pick the entrant, build peer contacts and decide the kept set from residents alone, then add kin, temperament and falling-outs for the kept households only, and run the deep past after that. Counted households get none of it at the opening. The historical Vonore measurement (9,940 residents against 39,685 records with kin) identifies the cost of materializing outside relatives, not permission to drop people from the model's counts. Preserve the parent's count, household and inherited-trait contracts while avoiding unnecessary full records. Feeds: core-light-opening.
 
 **Cause.** Found in code: src/core2/population.ts builds kin for all households (`buildOpeningKin`, line 1660) before src/bench/world.ts decides the kept set. Measured: Vonore, Tennessee, 9,940 residents against 39,685 records with kin.
 

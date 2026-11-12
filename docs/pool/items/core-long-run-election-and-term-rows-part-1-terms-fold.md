@@ -21,7 +21,7 @@ claimed-at: 2026-11-10T23:58:53.118Z
 branch: claude/pool-core-long-run-election-and-term-rows-part-1-terms-fold
 ---
 
-**What.** Every election adds a term row per seat, and none is dropped, so a century-long save keeps decades of every legislature's terms. In Kirkman, Iowa offices.terms rises from 782 to 34,145 in four years. The agreed fold keeps the serving row and each seat's newest ended row and folds older ended terms at their seat's next seating into two new offices tables: seatPasts (one row per seat) and careers (one row per filled-in official), read through one resolver, termById, and one helper, careerOf.
+**What.** Every election adds a term row per seat, and none is dropped, so a century-long save keeps decades of every legislature's terms. In Kirkman, Iowa offices.terms rises from 782 to 34,145 in four years. The agreed fold keeps the serving row and each seat's newest ended row and folds older ended terms at their seat's next seating into two new offices tables: seatPasts (one row per seat) and careers (one row per filled-in official), read through one resolver, termById, and one helper, careerOf. Feeds: core-long-run-election-and-term-rows.
 
 **Cause.** Measured: `npm run speed:year -- --seed 905132a2f8984748 --years 4` in Kirkman, Iowa (key 1941520) shows offices.terms 782 to 34,145. The reader map and the laws lead's changes are in the Notes of core-long-run-election-and-term-rows; the table is in src/core2/modules/offices.ts.
 

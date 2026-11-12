@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/data/country/parameters.json, src/core2/country-model.ts, src/core2/country-model.test.ts, src/core2/data/stopgaps/nation.json, docs/research/
 
 **Notes.** Rows that matter most to what the owner will see: countryMoveIncomeElasticity and countryMovePushElasticity (how many people a tax change moves), countryStaffAdjustPerMonth and countryFirmSpread (how fast jobs answer sales), countryPayPerLogTightness and countryPricePassPerMonth (inflation). With the working values, a state that ends its income tax loses about 9% of its budget and does not gain people over three years; say in the pull request what the sourced values give.
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have given 157 working numbers a citation and a spread, and no player sees a number's source; a number may stay an estimate.

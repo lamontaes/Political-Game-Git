@@ -19,7 +19,7 @@ root: rc1-world-outside-town
 checked: fable 2026-11-10
 ---
 
-**What.** Today renewal closes a husk couple as inactive, so a couple among the player's relatives who live elsewhere never has a child. Under the owner's ruling that every life is simulated at low intensity, a husk couple should have births through the same renewal engine the town's couples use, at a coarse cadence, with a dated record each time. The child joins the counts of the place where the couple lives, and the player's family tree shows the birth as news.
+**What.** Today renewal closes a husk couple as inactive, so a couple among the player's relatives who live elsewhere never has a child. Under the owner's ruling that every life is simulated at low intensity, a husk couple should have births through the same renewal engine the town's couples use, at a coarse cadence, with a dated record each time. The child joins the counts of the place where the couple lives, and the player's family tree shows the birth as news. Feeds: core-every-life-simulated (the player's family tree shows a relative's birth as news).
 
 **Cause.** Found in code: src/core2/modules/renewal.ts treats anyone of the inactive tier as out of the births engine: `INACTIVE_TIER` is "husk" (line 26), a couple is not active when either parent is of that tier (line 75), a mother of that tier is turned away (line 491), and the reader of `family.partnered` (line 744) therefore never opens a couple who live elsewhere. src/core2/modules/partnerships.ts already schedules and records the unions of people elsewhere. Design: owner ruling Nov 1, 2026 (docs/coordination/OWNER-DECISIONS.md, Nov 1 16:50: every life is simulated).
 

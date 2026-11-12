@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T01:46:25.043Z
 branch: claude/pool-core-long-run-race-close-campaign-rows
 ---
 
-**What.** The campaigns engine keeps every gift, endorsement, poll and stepped-up row of every race forever, though every reader in play reads them only while the race is open or reads the player's own race. They grow with every election in every place the world plays. The campaign row keeps raisedMinor, and the campaign-endorsed and campaign-stepped-up events carry what news reads.
+**What.** The campaigns engine keeps every gift, endorsement, poll and stepped-up row of every race forever, though every reader in play reads them only while the race is open or reads the player's own race. They grow with every election in every place the world plays. The campaign row keeps raisedMinor, and the campaign-endorsed and campaign-stepped-up events carry what news reads. Guards: the speed of a long save, where every decided race keeps its gifts, polls and endorsements and later years run slower.
 
 **Cause.** Found in code: src/core2/modules/campaigns.ts `closeRace` (line 6602) drops a race's door rows (and pledges, when the player did not file) but leaves the gifts, endorsements, polls and stepped-up rows of every closed race forever.
 

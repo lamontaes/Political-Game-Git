@@ -19,7 +19,7 @@ source: split from core-country-tier-town-joins-its-state by Fable, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Town workers are let go at a fixed national pace because, until parts 2 and 3, no firm's sales ever fell on their own. This part proves the pace is no longer needed and deletes it, or says exactly why it cannot be deleted yet. It builds nothing new: it is a proof in three drawn places, then a deletion.
+**What.** Town workers are let go at a fixed national pace because, until parts 2 and 3, no firm's sales ever fell on their own. This part proves the pace is no longer needed and deletes it, or says exactly why it cannot be deleted yet. It builds nothing new: it is a proof in three drawn places, then a deletion. Feeds: core-country-tier-town-joins-its-state (the fixed layoff pace is what the player sees as people let go with no cause on their employer's books).
 
 **Cause.** Found in code: `reviewTurnover` (src/core2/modules/jobs.ts line 2295, called at line 2119) lets workers go at a fixed pace (stopgap SG-LABOR-turnover-fixed-rate, src/core2/data/stopgaps/labor.json line 129). The stopgap's own text records what was measured on Nov 8 and 9 with the pace switched off: four small towns had no layoffs in most months.
 

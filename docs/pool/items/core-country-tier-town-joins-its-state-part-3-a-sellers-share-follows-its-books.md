@@ -19,7 +19,7 @@ source: split from core-country-tier-town-joins-its-state by Fable, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Outside buyers are divided among a town's sellers of one kind by how well staffed each is, and a seller with no rival in town keeps everything. So in a small town a seller almost never loses a customer. After this part a seller's share of its sector's outside demand moves with its own price and capacity against the rest of its sector in the state.
+**What.** Outside buyers are divided among a town's sellers of one kind by how well staffed each is, and a seller with no rival in town keeps everything. So in a small town a seller almost never loses a customer. After this part a seller's share of its sector's outside demand moves with its own price and capacity against the rest of its sector in the state. Feeds: core-country-tier-town-joins-its-state.
 
 **Cause.** Found in code: `divideOutsideSales` (src/core2/residents-economy.ts, the function below `scaleOutsideSales` at line 476) divides one kind's outside spending among that kind's sellers in the same town by service level alone, and gives a lone seller all of it (stopgap SG-CORE-outside-share-service-level, src/core2/data/stopgaps/core.json line 599).
 

@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -40,3 +40,5 @@ branch: claude/pool-core-opening-public-buyers-sourced-reads
 **Notes.** TODO
 
 Released (2026-11-11): Read and scoped, not built: needs a per-state buyer-type share table, a per-place buyer-kind read, and re-keying the county owner check to the 2021 listing across opening-public-owner.ts and opening-customers.ts (hashed-provenance validators and the opening hash); more than one bounded part for this session. Suggested first part: the per-state county share scaling authorityCoverage in opening-customers.ts (line ~1509) only. Continue on branch claude/pool-core-opening-public-buyers-sourced-reads.
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have set a public building-services buyer's budget from the 2021 county listing instead of one national share, and no player sees a custodial agreement's monthly budget to that precision.
