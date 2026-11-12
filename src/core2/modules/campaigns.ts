@@ -4459,6 +4459,11 @@ export function makeStatements(
         desiredChange: statement.position > 0 ? "enact" : "repeal",
         audienceIds,
         groupUnwatched: true,
+        // The statement's own promise record: who, when, how, where, which question.
+        occasion: {
+          recordId: `promise:${campaign.candidateId}:${api.state.date}:${input.act}:${input.venue}:${statement.question}`,
+          kind: input.act,
+        },
       }),
     );
   }

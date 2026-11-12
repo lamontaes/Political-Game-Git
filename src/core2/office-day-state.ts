@@ -1082,6 +1082,7 @@ function stateOfTheState(
       topic: stance.question,
       desiredChange: stance.position > 0 ? "enact" : "repeal",
       audienceIds,
+      occasion: { recordId: entry.id, kind: "state-of-the-state" },
     });
     ids.push(id);
   }
