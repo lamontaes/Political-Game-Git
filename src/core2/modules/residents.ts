@@ -3776,7 +3776,8 @@ function startCommuterJob(
  * gains one worker (less what its share already covered, never past its
  * working-age members without a recorded job), and the pool's pay grows by
  * that many workers for each household the record stands for, each at the
- * pool's pay. Returns the job's id for a full person,
+ * pool's pay. A member who holds a recorded job, or whose household's share
+ * already covers all its free members, is not hired (undefined). Returns the job's id for a full person,
  * `counted` for a counted one, and undefined where the place has no unplaced
  * pool to take them.
  */
@@ -3824,15 +3825,18 @@ export function startRegionalWork(
       const a = ageOn(rt.store.born[x]!, core.date);
       return a >= from && a < below;
     }).length;
+    // A member who already holds a recorded job takes no regional work, and
+    // neither does one whose household's share already covers every free
+    // working-age member: they are at work, so nobody is hired (they stay a
+    // seeker, if they were one).
     const gain = Math.min(1, Math.max(0, open - h.unplacedWorkers));
+    if (held.has(personId) || !(gain > 0)) return undefined;
     rt.regionalGains.set(personId, gain);
-    if (gain > 0) {
-      base.amountMinor += Math.round(
-        (gain * rt.store.weightOf(h) * perWorker) / perYear,
-      );
-      h.unplacedWorkers += gain;
-      regroupHousehold(rt, h, core.date);
-    }
+    base.amountMinor += Math.round(
+      (gain * rt.store.weightOf(h) * perWorker) / perYear,
+    );
+    h.unplacedWorkers += gain;
+    regroupHousehold(rt, h, core.date);
     return "counted";
   }
   const person = core.people.get(personId);

@@ -159,7 +159,9 @@ it(`a counted household's out-of-town workers are per household everywhere, in $
         !h.quarters &&
         store.weightOf(h) > 1 &&
         unplacedPayPerWorkerBase(rt, h) > 0 &&
-        openMembers(h).length >= 1,
+        // A free member, in a household whose share leaves room for them
+        // (a member it already covers is not hired again).
+        openMembers(h).length - h.unplacedWorkers > 0,
     )
     .sort(
       (a, b) => store.weightOf(b) - store.weightOf(a) || (a.id < b.id ? -1 : 1),
