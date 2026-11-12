@@ -1,6 +1,6 @@
 /* global fetch */
 // Dev mode's bribe, below the Bills panel: pick who wants the favor (one of the wealthiest
-// residents), which official and which bill is the vote they want, and the stake. The offer runs
+// residents), which official (only those with a say on the pending bill) and the stake. The offer runs
 // through the game's own bribe code; each decides as the engine decides. The result line shows
 // whether it was offered and taken, the money moved and the record id.
 import { el } from "./dom.mjs";
@@ -23,14 +23,23 @@ async function send(path, input) {
 /** The bribe panel. `labels` is controls.devBribe; `bodies` the lawmaking bodies; `billId()` the pending vote. */
 export async function devBribePanel({ labels, bodies, billId, onDone }) {
   const rich = await send("wealthiest");
-  const officials = bodies.flatMap((b) =>
-    b.members
-      .filter((m) => m.personId)
-      .map((m) => ({
-        value: m.personId,
-        label: `${m.givenName} ${m.familyName} · ${b.name}`,
-      })),
-  );
+  // Only people with a say on the pending bill: its chambers' members and the executive who signs.
+  const pending = billId();
+  const officials = pending
+    ? (await send(`bill-deciders?billId=${encodeURIComponent(pending)}`)).map(
+        (p) => ({
+          value: p.personId,
+          label: `${p.name} · ${p.body}`,
+        }),
+      )
+    : bodies.flatMap((b) =>
+        b.members
+          .filter((m) => m.personId)
+          .map((m) => ({
+            value: m.personId,
+            label: `${m.givenName} ${m.familyName} · ${b.name}`,
+          })),
+      );
   if (!rich.length || !officials.length) return null;
   const offerer = select({
     label: labels.offerer,

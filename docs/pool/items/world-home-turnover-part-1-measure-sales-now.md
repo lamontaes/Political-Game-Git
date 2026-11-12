@@ -5,10 +5,10 @@ area: world
 kind: research
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-world-home-turnover-part-1-measure-sales-now
-pr:
+pr: #8502
 after:
 blocked-on:
 lead: laws-effects

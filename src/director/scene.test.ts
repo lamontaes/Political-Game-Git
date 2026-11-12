@@ -84,9 +84,14 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
   it("builds each staged scene from its records, in second person, and opens a conversation", () => {
     let scenes = 0;
     let narrated = 0;
+    // The moments no situation type staged, kept so a failure can name them.
+    const passedOver: string[] = [];
     for (const book of director.ledger.people.values())
       for (const entry of book.schedule) {
-        if (!entry.bindings.length) continue;
+        if (!entry.bindings.length) {
+          passedOver.push(entry.momentId);
+          continue;
+        }
         const scene = composeScene(core, director, book.personId, entry)!;
         // A line the mined bank has no sentence for is left out, so a scene
         // may narrate fewer lines.
@@ -110,7 +115,10 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
         }
         scenes += 1;
       }
-    expect(scenes).toBeGreaterThan(0);
+    expect(
+      scenes,
+      `${base.placeMetadata?.placeName} (seed ${seed}): no scene was staged; ${passedOver.length} moments had no situation type: ${passedOver.slice(0, 8).join(", ")}`,
+    ).toBeGreaterThan(0);
     expect(narrated).toBeGreaterThan(0);
   });
 

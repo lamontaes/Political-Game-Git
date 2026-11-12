@@ -19,6 +19,7 @@ import {
   CAMPAIGNS_MODULE_ID,
   causeSummariesOf,
   donationAnswer,
+  askPlayerForMoney,
   type DonationWhy,
   unitPrice,
   askCircleToSign,
@@ -941,6 +942,17 @@ export function takeCampaignDayChoice(
   }
 
   if (choice === "raise-money") {
+    // A world candidate whose list reaches the controlled person asks them as a
+    // request they answer (play-campaign-ask-reaches-player); their money moves
+    // only by that answer, so they stay out of the asks below.
+    const playerId = (api.state as CoreState).playerId;
+    if (
+      world &&
+      playerId &&
+      reachablePeople(api, campaign).includes(playerId) &&
+      askableFor(api, campaign)(playerId)
+    )
+      askPlayerForMoney(api, filingId, playerId);
     const { pool, askable } = peopleToAsk(api, campaign, world);
     const asks = Math.min(askable.length, asksPerSession(hours));
     // Walk the list from where the last session stopped (the campaign's own

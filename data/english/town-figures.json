@@ -1,0 +1,12 @@
+{
+  "about": "A town's own figures as a resident says them in passing, read after \"with\" (\"With {town_figure}, {place} would feel it.\"): one noun phrase per comparison the director makes from world-metrics (the town's unemployment against the country's from the macro months, and a year of the town's typical rent against its typical household's earnings, against HUD's cost-burden line). Never a figure: people do not quote rates at home.",
+  "origin": "authored",
+  "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+  "date": "2026-11-11",
+  "figures": {
+    "town-jobs-high": "more people out of work than most places",
+    "town-jobs-low": "fewer people out of work than most places",
+    "town-rent-high": "rents that take too much of a paycheck",
+    "town-rent-low": "rents most folks can still manage"
+  }
+}

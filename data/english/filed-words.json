@@ -1,0 +1,16 @@
+{
+  "about": "How a clerk says how many others have filed for an office so far, from the elections engine's filings: a count said as people say it, with its noun. Read by src/english/count-words.ts (filedSaid).",
+  "others": [
+    "one other candidate",
+    "two other candidates",
+    "three other candidates",
+    "four other candidates",
+    "five other candidates",
+    "six other candidates",
+    "seven other candidates",
+    "eight other candidates",
+    "nine other candidates",
+    "ten other candidates"
+  ],
+  "many": "more than ten other candidates"
+}
