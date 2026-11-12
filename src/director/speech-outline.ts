@@ -165,6 +165,10 @@ const OUTLINES = outlineData as unknown as {
   themeNames: Readonly<Record<string, string>>;
   /** A theme said short, where a frame names it after the speech has said it in full (a close). */
   themeShort: Readonly<Record<string, string>>;
+  /** A budget line's name said with what the government spends on it now ("{about} beyond {spent} a year"). */
+  lineSpent: string;
+  /** The slot endings of the first, second and third wordings of how a question stands. */
+  todaySlots: readonly string[];
   /** What a body's measures are called by their form (bodyNumbering's kind). */
   measureWords: Readonly<Record<string, string>>;
   conditions: { budgetEvenBand: Weight; budgetThemes: readonly string[] };
@@ -1380,6 +1384,60 @@ export function themeOf(
 /** How a line of the budget is keyed as a question (contest-positions.ts, law-reach). */
 const BUDGET_LINE = "budget-line:";
 
+/** The speaker's government's budgets that have begun, newest first, from the budgets engine. */
+function budgetsNow(
+  core: CoreState,
+  level: PolicyLevel,
+  jurisdiction: string | null,
+  local: OutlineSpeaker["local"],
+) {
+  const api = coreAPI(core);
+  // The engine's own reader of the government a jurisdiction names.
+  const government = jurisdiction
+    ? (governmentOfJurisdiction(api, jurisdiction) ??
+      (local && core.modules.has(BUDGETS_MODULE_ID)
+        ? governments(api).find(
+            (row) => row.level === (level === "county" ? "county" : "city"),
+          )
+        : undefined))
+    : undefined;
+  return government
+    ? [...budgetsOf(api, government.id)]
+        .filter((row) => row.startsOn <= core.date)
+        .sort((a, b) => b.fiscalYear - a.fiscalYear)
+    : [];
+}
+
+/**
+ * A budget line's ask said with what this government already spends on it
+ * (the lead, Nov 12: three towns said "I am against more assistance
+ * spending" word for word, the question, side and body the same; what
+ * differs is each town's own spending): the line's name filled into
+ * speech-outlines.json `lineSpent` with this year's amount through moneySaid,
+ * citing the budget row. Null for a question that is not a budget line or a
+ * line the budget does not fund.
+ */
+function lineSpentFact(
+  core: CoreState,
+  level: PolicyLevel,
+  jurisdiction: string | null,
+  local: OutlineSpeaker["local"],
+  question: string,
+): GroundedEnglishFact | null {
+  if (!question.startsWith(BUDGET_LINE)) return null;
+  const [budget] = budgetsNow(core, level, jurisdiction, local);
+  const spent = budget?.spendingMinor[question.slice(BUDGET_LINE.length)];
+  const about = questionAbout(question);
+  if (!budget || !spent || !about) return null;
+  return fact(
+    OUTLINES.lineSpent
+      .replace("{about}", about)
+      .replace("{spent}", moneySaid(spent)),
+    `question:${question}`,
+    budget.id,
+  );
+}
+
 function conditionFacts(
   core: CoreState,
   level: PolicyLevel,
@@ -1392,19 +1450,7 @@ function conditionFacts(
   const out: Facts = {};
   const band = OUTLINES.conditions.budgetEvenBand.value;
   // The engine's own reader of the government a jurisdiction names.
-  const government = jurisdiction
-    ? (governmentOfJurisdiction(api, jurisdiction) ??
-      (local && core.modules.has(BUDGETS_MODULE_ID)
-        ? governments(api).find(
-            (row) => row.level === (level === "county" ? "county" : "city"),
-          )
-        : undefined))
-    : undefined;
-  const [budget, before] = government
-    ? [...budgetsOf(api, government.id)]
-        .filter((row) => row.startsOn <= core.date)
-        .sort((a, b) => b.fiscalYear - a.fiscalYear)
-    : [];
+  const [budget, before] = budgetsNow(core, level, jurisdiction, local);
   const sum = (rows: Readonly<Record<string, number>>) =>
     Object.values(rows).reduce((total, minor) => total + minor, P.zero);
   // What a budget takes in over what it spends, as a share of its spending.
@@ -1993,6 +2039,15 @@ export function planSpeech(
         const rank =
           stand.stance < P.zero ? "rank-line" : (RANKS[at] ?? "rank-line");
         const facts = standFacts(stand, person.id, rank);
+        // A budget line is said with what this government spends on it now.
+        const spent = lineSpentFact(
+          core,
+          level,
+          speaker.jurisdiction,
+          local,
+          stand.question,
+        );
+        if (spent) facts.about = spent;
         // An unnumbered speech lists no ranks ("no ask list by number"), and a
         // belief that leads into the ask takes the opener's place.
         if (!row.numberedAsks || shape.belief === "belief-leads")
@@ -2028,7 +2083,10 @@ export function planSpeech(
             // composer's pick among the bank's today pieces spreads them.
             ...Object.fromEntries(
               plan.todays.flatMap((said, at) => {
-                const n = at === P.zero ? "" : `-${at + P.one}`;
+                // The wording's slot ending, in words (`todaySlots`): a slot
+                // name holds no digit.
+                const n = OUTLINES.todaySlots[at];
+                if (n === undefined) return [];
                 return [
                   [`today${n}`, fact(said, ...cited)],
                   [`today-clause${n}`, fact(clauseOf(said), ...cited)],
