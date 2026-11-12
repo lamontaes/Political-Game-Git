@@ -27838,33 +27838,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.farewell-core.we-ll-talk-more-later-daypart",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "We'll talk more {ahead}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11",
-      "revised": {
-        "by": "Words builder W-A (words composer unit 2)",
-        "date": "2026-11-12",
-        "why": "A line that looks ahead says what is left of the day ({ahead}), never a part of the day that is over."
-      }
-    },
-    {
       "key": "conversation.farewell-core.i-ll-be-around-daypart-if-you-need-me",
       "move": "farewell-core",
       "kind": "spoken",
@@ -27907,33 +27880,6 @@
       "origin": "authored",
       "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
       "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.let-s-pick-this-up-again-daypart",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Let's pick this up again {ahead}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11",
-      "revised": {
-        "by": "Words builder W-A (words composer unit 2)",
-        "date": "2026-11-12",
-        "why": "A line that looks ahead says what is left of the day ({ahead}), never a part of the day that is over."
-      }
     },
     {
       "key": "conversation.farewell-core.i-ll-be-in-the-kitchen-daypart-if-you-want-me",
