@@ -18,7 +18,7 @@
  */
 import { stateJurisdictionId } from "../government-jurisdictions";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
-import type { CountryState } from "../country-model";
+import type { CountryState } from "./macro";
 import { registerModule } from "../state";
 import { lawChain } from "./laws";
 import { nationalDisasterDetail, NATIONAL_DISASTER } from "./national-events";
