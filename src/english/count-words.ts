@@ -68,3 +68,37 @@ export function filedSaid(count: number): string {
   if (count < 1) return "";
   return filedWords.others[count - 1] ?? filedWords.many;
 }
+
+/** A percent as people say it: "about 9 percent", "about 4.5 percent". */
+function percentSaid(value: number): string {
+  const words = data.percentWords;
+  const count =
+    Math.abs(value) < words.decimalBelow.value
+      ? Math.round(value * 10) / 10
+      : Math.round(value);
+  return words.percent.replace("{count}", count.toLocaleString("en-US"));
+}
+
+/**
+ * How far a measure moved, as a speech says it (`percentWords`): a share by
+ * where it stood and where it stands ("from about 12 percent to about 14
+ * percent"), any other measure by how far it moved against where it stood
+ * ("by about 9 percent"). Null when the move rounds to nothing.
+ */
+export function changeSaid(
+  from: number,
+  to: number,
+  share: boolean,
+): string | null {
+  const words = data.percentWords;
+  if (share) {
+    const [was, now] = [percentSaid(from), percentSaid(to)];
+    return was === now
+      ? null
+      : words.fromTo.replace("{from}", was).replace("{to}", now);
+  }
+  if (!from) return null;
+  const moved = Math.abs((to - from) / from) * 100;
+  const said = percentSaid(moved);
+  return said === percentSaid(0) ? null : words.by.replace("{change}", said);
+}

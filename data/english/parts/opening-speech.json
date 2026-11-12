@@ -74,7 +74,11 @@
     "first-after": "how the first ask's question will stand once the ask passes, in the speaker's side's words, where it changes the law",
     "first-reason": "the first ask's own reason on the speaker's side, where the belief has not said it",
     "theme-short": "the theme said short for a close (speech-outlines.json themeShort)",
-    "speaker-addressed": "the Speaker of the House spoken to, with title and name"
+    "speaker-addressed": "the Speaker of the House spoken to, with title and name",
+    "condition-measure": "a hurt address's worst condition: the area's measure that moved furthest the wrong way, in its measure words (area-names.json), from the term read",
+    "condition-change": "how far that measure moved since the speaker took office, through the count-words reader (changeSaid), from the term read's two web rows",
+    "condition-name": "a hurt address's worst condition by its area's spoken name (area-names.json)",
+    "turn-to": "the speech's theme by its spoken name, where a hurt address turns from its answer to the theme"
   },
   "maxWords": 40,
   "mining": {
@@ -115281,7 +115285,8 @@
           "choice": "occasion",
           "requiresFacts": [
             "realm-name",
-            "theme-name"
+            "theme-name",
+            "one-subject"
           ]
         },
         {
@@ -115291,7 +115296,8 @@
           "choice": "occasion",
           "requiresFacts": [
             "realm-name",
-            "theme-name"
+            "theme-name",
+            "one-subject"
           ]
         }
       ],
@@ -115380,7 +115386,8 @@
           "choice": "occasion",
           "requiresFacts": [
             "realm-name",
-            "theme-name"
+            "theme-name",
+            "one-subject"
           ]
         },
         {
@@ -115390,7 +115397,8 @@
           "choice": "occasion",
           "requiresFacts": [
             "realm-name",
-            "theme-name"
+            "theme-name",
+            "one-subject"
           ]
         }
       ],
@@ -119100,6 +119108,784 @@
       },
       "restoredFrom": "opening-speech.state-of-the-union-salutation.thank-you-very-much",
       "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "opening-speech.story-says.both-rent-since-i-took-this-office-we-have-seen-rise-and",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Since I took this office, we have seen {condition-measure} rise {condition-change}, and that weighs on every family that rents here.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "rent-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "rent-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "rent-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "rent-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "floor-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "rent-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "campaign-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "rent-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        }
+      ],
+      "voice": [
+        "polished",
+        "plain"
+      ],
+      "bearing": "braced",
+      "topic": "rent",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.story-says.both-crime-since-i-took-this-office-we-have-seen-rise-and",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Since I took this office, we have seen {condition-measure} rise {condition-change}, and no one here should have to get used to that.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "crime-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "crime-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "crime-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "crime-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "floor-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "crime-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "campaign-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "crime-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        }
+      ],
+      "voice": [
+        "polished",
+        "plain"
+      ],
+      "bearing": "braced",
+      "topic": "crime",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.story-says.both-schools-since-i-took-this-office-we-have-seen-fall-and",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Since I took this office, we have seen {condition-measure} fall {condition-change}, and our children deserve better than that.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "schools-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "schools-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "schools-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "schools-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "floor-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "schools-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "campaign-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "schools-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        }
+      ],
+      "voice": [
+        "polished",
+        "plain"
+      ],
+      "bearing": "braced",
+      "topic": "schools",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.story-says.both-health-since-i-took-this-office-we-have-seen-rise-and",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Since I took this office, we have seen {condition-measure} rise {condition-change}, and no family here should have to accept that.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "health-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "health-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "health-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "health-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "floor-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "health-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "campaign-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "health-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        }
+      ],
+      "voice": [
+        "polished",
+        "plain"
+      ],
+      "bearing": "braced",
+      "topic": "health",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.story-says.both-roads-since-i-took-this-office-we-have-seen-rise-and",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Since I took this office, we have seen {condition-measure} rise {condition-change}, and every family that drives here pays for it.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "roads-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "roads-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "roads-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "roads-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "floor-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "roads-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "campaign-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "roads-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        }
+      ],
+      "voice": [
+        "polished",
+        "plain"
+      ],
+      "bearing": "braced",
+      "topic": "roads",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.story-says.both-environment-since-i-took-this-office-we-have-seen-rise-and",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Since I took this office, we have seen {condition-measure} rise {condition-change}, and our families deserve cleaner air and water than that.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "environment-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "environment-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "environment-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "environment-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "floor-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "environment-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "campaign-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "environment-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        }
+      ],
+      "voice": [
+        "polished",
+        "plain"
+      ],
+      "bearing": "braced",
+      "topic": "environment",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.owning.polished-nothing-is-yet-before-us-on-and-i-will-not",
+      "move": "owning",
+      "kind": "spoken",
+      "text": "Nothing is yet before us on {condition-name}, and I will not pretend otherwise.",
+      "uses": [
+        {
+          "move": "owning",
+          "subject": "inaugural",
+          "role": "owning",
+          "choice": "owning",
+          "requiresFacts": [
+            "condition-name",
+            "response-none"
+          ]
+        },
+        {
+          "move": "owning",
+          "subject": "state-of-the-union",
+          "role": "owning",
+          "choice": "owning",
+          "requiresFacts": [
+            "condition-name",
+            "response-none"
+          ]
+        },
+        {
+          "move": "owning",
+          "subject": "state-of-the-state",
+          "role": "owning",
+          "choice": "owning",
+          "requiresFacts": [
+            "condition-name",
+            "response-none"
+          ]
+        },
+        {
+          "move": "owning",
+          "subject": "town-address",
+          "role": "owning",
+          "choice": "owning",
+          "requiresFacts": [
+            "condition-name",
+            "response-none"
+          ]
+        },
+        {
+          "move": "owning",
+          "subject": "floor-speech",
+          "role": "owning",
+          "choice": "owning",
+          "requiresFacts": [
+            "condition-name",
+            "response-none"
+          ]
+        },
+        {
+          "move": "owning",
+          "subject": "campaign-speech",
+          "role": "owning",
+          "choice": "owning",
+          "requiresFacts": [
+            "condition-name",
+            "response-none"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.owning.plain-we-dont-have-a-plan-on-the-table-yet-for",
+      "move": "owning",
+      "kind": "spoken",
+      "text": "We don't have a plan on the table yet for {condition-name}, and I won't pretend we do.",
+      "uses": [
+        {
+          "move": "owning",
+          "subject": "inaugural",
+          "role": "owning",
+          "choice": "owning",
+          "requiresFacts": [
+            "condition-name",
+            "response-none"
+          ]
+        },
+        {
+          "move": "owning",
+          "subject": "state-of-the-union",
+          "role": "owning",
+          "choice": "owning",
+          "requiresFacts": [
+            "condition-name",
+            "response-none"
+          ]
+        },
+        {
+          "move": "owning",
+          "subject": "state-of-the-state",
+          "role": "owning",
+          "choice": "owning",
+          "requiresFacts": [
+            "condition-name",
+            "response-none"
+          ]
+        },
+        {
+          "move": "owning",
+          "subject": "town-address",
+          "role": "owning",
+          "choice": "owning",
+          "requiresFacts": [
+            "condition-name",
+            "response-none"
+          ]
+        },
+        {
+          "move": "owning",
+          "subject": "floor-speech",
+          "role": "owning",
+          "choice": "owning",
+          "requiresFacts": [
+            "condition-name",
+            "response-none"
+          ]
+        },
+        {
+          "move": "owning",
+          "subject": "campaign-speech",
+          "role": "owning",
+          "choice": "owning",
+          "requiresFacts": [
+            "condition-name",
+            "response-none"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.turn.polished-there-is-other-work-before-us-as-well-and-it",
+      "move": "turn",
+      "kind": "spoken",
+      "text": "There is other work before us as well, and it is {turn-to}.",
+      "uses": [
+        {
+          "move": "turn",
+          "subject": "inaugural",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-union",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-state",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "floor-speech",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "campaign-speech",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.turn.plain-theres-other-work-on-the-table-too-and-its",
+      "move": "turn",
+      "kind": "spoken",
+      "text": "There's other work on the table, too, and it's {turn-to}.",
+      "uses": [
+        {
+          "move": "turn",
+          "subject": "inaugural",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-union",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-state",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "floor-speech",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "campaign-speech",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
     }
   ]
 }

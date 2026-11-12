@@ -33,6 +33,7 @@ import {
   planSpeech,
   type OutlineSpeaker,
   type PlannedPoint,
+  type SpeechPlan,
 } from "./speech-outline";
 import { contestPositions } from "../core2/modules/campaigns";
 import { presidingOfficer } from "../core2/modules/legislature";
@@ -79,6 +80,9 @@ export interface LocalStory {
   readonly asks: readonly string[];
   /** Each point as the outline planned it (shape, side, belief, figure). */
   readonly points: readonly PlannedPoint[];
+  /** A hurt address's worst condition and its answer, as the outline planned them. */
+  readonly crisis: SpeechPlan["crisis"];
+  readonly response: SpeechPlan["response"];
 }
 
 /** The day of a year a level's address is given. */
@@ -332,6 +336,8 @@ export function composeLocalAddress(
     theme: plan.theme,
     asks: plan.asks,
     points: plan.points,
+    crisis: plan.crisis,
+    response: plan.response,
     speakerId: speaker.id,
     sentences,
     text: sentences.map((row) => row.text).join(" "),

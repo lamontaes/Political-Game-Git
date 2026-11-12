@@ -255,6 +255,19 @@
     "us-federal-positions:transport-water.expand-passenger-rail": "infrastructure",
     "us-federal-positions:agriculture.cut-farm-subsidies": "agriculture"
   },
+  "budgetLineTopics": {
+    "about": "The measures each line of a budget bears on, for the answer a hurt address gives to its worst condition (a line the speaker backs in that area is a response; owner rule via the words lead, Nov 12: a hurt address answers its own bad news). The bill catalog gives budget lines no subject, so they are placed here, and only this answer reads them, so no theme changes.",
+    "budget-line:police": ["crime"],
+    "budget-line:corrections": ["crime"],
+    "budget-line:schools": ["schools"],
+    "budget-line:higherEducation": ["schools"],
+    "budget-line:parks": ["environment"],
+    "budget-line:naturalResources": ["environment"],
+    "budget-line:housing": ["rent"],
+    "budget-line:healthAndHospitals": ["health"],
+    "budget-line:welfareAndMedicaid": ["health"],
+    "budget-line:highways": ["roads"]
+  },
   "subjectPull": {
     "about": "Which subject under a theme a speaker leads with when none of their own causes is in it: the subject whose facets their recorded traits sum highest on (the traits are the speaker's record; no roll). The facets are the personality catalog's. TUNABLE: checked so that no question leads more than half of ten drawn addresses.",
     "tag": "TUNABLE",

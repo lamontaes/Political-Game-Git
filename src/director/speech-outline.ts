@@ -82,12 +82,18 @@ import addressData from "./data/opening-address.json" with { type: "json" };
 import outlineData from "./data/speech-outlines.json" with { type: "json" };
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { P } from "../core2/parameters";
-import { formKindOf } from "../core2/modules/legislature";
+import {
+  formKindOf,
+  LEGISLATURE_MODULE_ID,
+  type BillRow,
+} from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { earlierAddressPieces } from "./opening-facts";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
-import { moneySaid } from "../english/count-words";
+import { changeSaid, moneySaid } from "../english/count-words";
+import { areaName, measureWords } from "../english/area-names";
+
 import { addDays, daysBetweenText } from "../core2/kernel/dates";
 import type { IsoDate } from "../core2/kernel/brands";
 import {
@@ -161,6 +167,8 @@ const OUTLINES = outlineData as unknown as {
   >;
   topicsBySubject: Readonly<Record<string, readonly string[] | string>>;
   subjectOfQuestion: Readonly<Record<string, string>>;
+  /** The measures a line of the budget bears on, read only by a hurt address's answer. */
+  budgetLineTopics: Readonly<Record<string, readonly string[] | string>>;
   subjectPull: Readonly<Record<string, readonly string[] | string>>;
   themeNames: Readonly<Record<string, string>>;
   /** A theme said short, where a frame names it after the speech has said it in full (a close). */
@@ -883,6 +891,13 @@ export interface SpeechPlan {
   /** The bill catalog's subject the speech is about; null when the record gives it none. */
   readonly theme: string | null;
   readonly asks: readonly string[];
+  /** A hurt address's worst condition, which its body opens on; null for any other kind. */
+  readonly crisis: string | null;
+  /** Its answer: the question from the speaker's record it answers with, and the bill they sponsored on it; null when it owns that nothing is proposed. */
+  readonly response: {
+    readonly question: string;
+    readonly billId: string | null;
+  } | null;
   /** Each point as planned: its question, shape, the speaker's side, the belief's family and pole, its figure and its name's number. */
   readonly points: readonly PlannedPoint[];
 }
@@ -1117,6 +1132,103 @@ function worstCondition(country: Country): string | null {
           wrongBy(country, b) - wrongBy(country, a) || a.localeCompare(b),
       )[P.zero] ?? null
   );
+}
+
+/** The measures a question bears on: its catalog subject's, or a budget line's own (speech-outlines.json `budgetLineTopics`). */
+export function questionTopics(question: string): readonly string[] {
+  const line = OUTLINES.budgetLineTopics[question];
+  return [
+    ...topicsOf(subjectOf(question) ?? ""),
+    ...(Array.isArray(line) ? line : []),
+  ];
+}
+
+/**
+ * The figure a hurt address says its worst condition with when the speaker
+ * has held office too short a time to say it over years: of the area's
+ * measures that moved the wrong way, the one that moved furthest, named in
+ * the area's measure words and said through the count-words reader (by how
+ * far it moved, or a share by where it stood and where it stands). Empty
+ * where the area holds no such measure.
+ */
+function conditionFigure(country: Country, topic: string): Facts {
+  const read = country.areas.find((row) => row.area === topic);
+  const worst = [...(read?.measures ?? [])]
+    .filter((row) => row.slide < P.zero && measureWords(row.measure))
+    .sort((a, b) => a.slide - b.slide || a.measure.localeCompare(b.measure))[
+    P.zero
+  ];
+  if (!read || !worst) return {};
+  const words = measureWords(worst.measure)!;
+  const change = changeSaid(worst.from, worst.to, words.share);
+  return change
+    ? {
+        "condition-measure": fact(words.said, ...read.sourceRecordIds),
+        "condition-change": fact(change, ...read.sourceRecordIds),
+      }
+    : {};
+}
+
+/** The bills a person sponsored, newest first, from the legislature engine's rows. */
+function billsSponsoredBy(core: CoreState, personId: string): BillRow[] {
+  if (!core.modules.has(LEGISLATURE_MODULE_ID)) return [];
+  return (
+    coreAPI(core)
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .rows() as unknown as BillRow[]
+  )
+    .filter((bill) => bill.sponsorId === personId)
+    .sort(
+      (a, b) =>
+        b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
+    );
+}
+
+/** The questions a bill answers: its policy questions and its budget lines. */
+function billQuestions(bill: BillRow): string[] {
+  return bill.provisions.flatMap((row) =>
+    row.question
+      ? [row.question]
+      : row.kind === "budget-line" && row.line
+        ? [`${BUDGET_LINE}${row.line}`]
+        : [],
+  );
+}
+
+/**
+ * A hurt address's answer to its worst condition (the words lead, Nov 12: "a
+ * hurt address answers its own bad news"), from the speaker's records in that
+ * condition's area, in this order: a question a bill they sponsored answers,
+ * where they hold a view on it; a question or budget line they back; any
+ * other view they hold there. Each by how strongly they hold it, then by
+ * question. Null when the records hold none, and the address owns that
+ * nothing is yet proposed.
+ */
+function responseOf(
+  core: CoreState,
+  personId: string,
+  stands: readonly Stand[],
+  topic: string,
+): { stand: Stand; bill: BillRow | null } | null {
+  const bills = billsSponsoredBy(core, personId).filter((bill) =>
+    billQuestions(bill).some((question) =>
+      questionTopics(question).includes(topic),
+    ),
+  );
+  const billOf = (stand: Stand) =>
+    bills.find((bill) => billQuestions(bill).includes(stand.question)) ?? null;
+  const ranked = stands
+    .filter((stand) => questionTopics(stand.question).includes(topic))
+    .sort(
+      (a, b) =>
+        Number(!!billOf(b)) - Number(!!billOf(a)) ||
+        Number(b.stance > P.zero) - Number(a.stance > P.zero) ||
+        Math.abs(b.stance) - Math.abs(a.stance) ||
+        a.question.localeCompare(b.question),
+    );
+  const stand = ranked[P.zero];
+  return stand ? { stand, bill: billOf(stand) } : null;
 }
 
 /** The levels of government the bill catalog says may answer each question. */
@@ -1674,15 +1786,14 @@ export function planSpeech(
     row.leastPoints,
     person,
   );
-  const pointStands = theme
+  const themePoints = theme
     ? themeStands(official, stands, theme, person).slice(P.zero, row.points)
     : [];
-  const asks = pointStands;
   // The kind of address (owner, Nov 8), from the world and the speaker.
   const situation = addressSituation(core, {
     macroSlide: country.macroSlide,
     areas: country.areas,
-    priorities: asks.length,
+    priorities: themePoints.length,
     prioritiesMax: Math.max(P.one, row.asks),
   });
   const firstYear =
@@ -1702,6 +1813,44 @@ export function planSpeech(
     ...(crisisTopic ? [] : HURT_KINDS),
   ]);
   const crisis = HURT_KINDS.includes(addressKind) ? crisisTopic : null;
+  // A hurt address answers its own bad news before its theme begins (the
+  // words lead, Nov 12): the speaker's own record in the condition's area
+  // (`responseOf`) is its first point, said with the condition in one
+  // paragraph; with no such record it owns that nothing is yet proposed.
+  const response = crisis ? responseOf(core, person.id, stands, crisis) : null;
+  const pointStands = response
+    ? [
+        response.stand,
+        ...themePoints.filter(
+          (stand) => stand.question !== response.stand.question,
+        ),
+      ].slice(P.zero, Math.max(P.one, row.points))
+    : themePoints;
+  const asks = pointStands;
+  // The theme's own points, after the answer: where any is left, the address
+  // turns to it with a sentence of its own, so it says two subjects.
+  const turnsTo = crisis
+    ? pointStands.filter(
+        (stand) => !questionTopics(stand.question).includes(crisis),
+      )
+    : [];
+  const oneSubject = !turnsTo.length;
+  const themeName = theme ? (OUTLINES.themeNames[theme] ?? null) : null;
+  const themeCited = pointStands.map((stand) => `question:${stand.question}`);
+  // The worst condition by its spoken name, and the records that say it went wrong.
+  const crisisIds = crisis
+    ? [
+        ...new Set(
+          Object.values(badFacts(country, crisis)).flatMap(
+            (row) => row.sourceRecordIds as readonly string[],
+          ),
+        ),
+      ]
+    : [];
+  const conditionName = crisis
+    ? (areaName(crisis) ??
+      subjectWords(core, person.id, kind, voice, crisis, "condition"))
+    : null;
   // What the theme is about in the world's measures, the hardest first: the
   // first point opens with its figure where the records hold one.
   const held = (topic: string) =>
@@ -1907,10 +2056,83 @@ export function planSpeech(
     return {
       key: `crisis-${topic}`,
       level: "country",
-      facts: { ...badFacts(country, topic), ...context },
+      facts: {
+        ...badFacts(country, topic),
+        ...context,
+        // Too short a time in office to say it over years: its figure.
+        ...(told ? {} : conditionFigure(country, topic)),
+      },
       moves: told
         ? [told, move("meaning", { topic })]
         : [move("story-says", { topic })],
+    };
+  };
+  /** One point of the theme (or a hurt address's answer), as its block. */
+  const pointDraft = (stand: Stand, at: number): Draft => {
+    const plan = planned[at]!;
+    const shape = OUTLINES.pointShapes.shapes[plan.shape]!;
+    const rank =
+      stand.stance < P.zero ? "rank-line" : (RANKS[at] ?? "rank-line");
+    const facts = standFacts(stand, person.id, rank);
+    // An unnumbered speech lists no ranks ("no ask list by number"), and a
+    // belief that leads into the ask takes the opener's place.
+    if (!row.numberedAsks || shape.belief === "belief-leads")
+      delete facts[rank];
+    // A federal stand is said as federal only by a federal speaker.
+    if (!federal) delete facts["federal-level"];
+    const topic = topicOf.get(stand.question);
+    const belief = plan.belief?.text ?? null;
+    const cited = [`question:${stand.question}`, stand.law.id];
+    const figureMoves = topic
+      ? [
+          move("context", { topic }),
+          move("meaning", { topic }),
+          // The year's claim, only by one who governed it.
+          ...(ownRecord ? [move("story-says", { topic })] : []),
+          move("tie"),
+        ]
+      : [];
+    return {
+      key: `point-${stand.question}`,
+      level: "country",
+      facts: {
+        ...themeFacts,
+        ...(topic
+          ? {
+              ...contextFacts(core, topic, country, speaker.serviceStart),
+              "figure-ties": fact("yes", ...cited),
+            }
+          : {}),
+        ...facts,
+        [`about-${plan.number}`]: fact("yes", `question:${stand.question}`),
+        // Every wording of how the question stands for this side: the
+        // composer's pick among the bank's today pieces spreads them.
+        ...Object.fromEntries(
+          plan.todays.flatMap((said, at) => {
+            const n = at === P.zero ? "" : `-${at + P.one}`;
+            return [
+              [`today${n}`, fact(said, ...cited)],
+              [`today-clause${n}`, fact(clauseOf(said), ...cited)],
+              [
+                `today-question${n}`,
+                fact(clauseOf(said).replace(/[.!?]$/, ""), ...cited),
+              ],
+            ];
+          }),
+        ),
+        ...(belief
+          ? {
+              belief: fact(belief, person.id, `question:${stand.question}`),
+              [shape.belief]: fact("yes", person.id),
+            }
+          : {}),
+        ...(plan.shape === "question-first"
+          ? { "asks-question": fact("yes", `question:${stand.question}`) }
+          : {}),
+      },
+      moves: shape.moves.flatMap((name) =>
+        name === "figure" ? figureMoves : [move(name)],
+      ),
     };
   };
   const sections: Record<Section, () => Draft[]> = {
@@ -1934,6 +2156,20 @@ export function planSpeech(
           joins: true,
           facts: {
             ...themeFacts,
+            // The opening announces the body's first point: a hurt address's
+            // worst condition, by the area's spoken name; and it promises one
+            // matter only when the body has one subject.
+            ...(crisis && conditionName
+              ? { "theme-name": fact(conditionName, ...crisisIds) }
+              : {}),
+            ...(oneSubject
+              ? {
+                  "one-subject": fact(
+                    "yes",
+                    ...(crisis ? crisisIds : themeCited),
+                  ),
+                }
+              : {}),
             ...(prior?.facts?.title
               ? { "prior-office": fact(prior.facts.title, prior.id) }
               : {}),
@@ -1984,75 +2220,64 @@ export function planSpeech(
     // what the speaker believes, by the question's family and the speaker's
     // pole of it; and the ask, plainly for or against.
     theme: () => [
-      // A crisis or combative address's first point is the term's worst condition, said
-      // with its fact; the speaker's own theme follows.
+      // A crisis or combative address's first point is the term's worst
+      // condition, said with its fact; then its answer from the speaker's
+      // record (the first point below, joined to the same paragraph), or the
+      // plain owning that nothing is yet proposed; then a turn to the theme.
       ...(crisis ? [crisisDraft(crisis)] : []),
-      ...pointStands.map((stand, at): Draft => {
-        const plan = planned[at]!;
-        const shape = OUTLINES.pointShapes.shapes[plan.shape]!;
-        const rank =
-          stand.stance < P.zero ? "rank-line" : (RANKS[at] ?? "rank-line");
-        const facts = standFacts(stand, person.id, rank);
-        // An unnumbered speech lists no ranks ("no ask list by number"), and a
-        // belief that leads into the ask takes the opener's place.
-        if (!row.numberedAsks || shape.belief === "belief-leads")
-          delete facts[rank];
-        // A federal stand is said as federal only by a federal speaker.
-        if (!federal) delete facts["federal-level"];
-        const topic = topicOf.get(stand.question);
-        const belief = plan.belief?.text ?? null;
-        const cited = [`question:${stand.question}`, stand.law.id];
-        const figureMoves = topic
-          ? [
-              move("context", { topic }),
-              move("meaning", { topic }),
-              // The year's claim, only by one who governed it.
-              ...(ownRecord ? [move("story-says", { topic })] : []),
-              move("tie"),
-            ]
-          : [];
-        return {
-          key: `point-${stand.question}`,
-          level: "country",
-          facts: {
-            ...themeFacts,
-            ...(topic
-              ? {
-                  ...contextFacts(core, topic, country, speaker.serviceStart),
-                  "figure-ties": fact("yes", ...cited),
-                }
-              : {}),
-            ...facts,
-            [`about-${plan.number}`]: fact("yes", `question:${stand.question}`),
-            // Every wording of how the question stands for this side: the
-            // composer's pick among the bank's today pieces spreads them.
-            ...Object.fromEntries(
-              plan.todays.flatMap((said, at) => {
-                const n = at === P.zero ? "" : `-${at + P.one}`;
-                return [
-                  [`today${n}`, fact(said, ...cited)],
-                  [`today-clause${n}`, fact(clauseOf(said), ...cited)],
-                  [
-                    `today-question${n}`,
-                    fact(clauseOf(said).replace(/[.!?]$/, ""), ...cited),
-                  ],
-                ];
-              }),
-            ),
-            ...(belief
-              ? {
-                  belief: fact(belief, person.id, `question:${stand.question}`),
-                  [shape.belief]: fact("yes", person.id),
-                }
-              : {}),
-            ...(plan.shape === "question-first"
-              ? { "asks-question": fact("yes", `question:${stand.question}`) }
-              : {}),
-          },
-          moves: shape.moves.flatMap((name) =>
-            name === "figure" ? figureMoves : [move(name)],
-          ),
-        };
+      ...(crisis && !response && conditionName
+        ? [
+            {
+              key: `owning-${crisis}`,
+              level: "country" as const,
+              joins: true,
+              facts: {
+                "condition-name": fact(conditionName, ...crisisIds),
+                "response-none": fact("yes", ...crisisIds, person.id),
+              },
+              moves: [move("owning")],
+            },
+          ]
+        : []),
+      ...pointStands.flatMap((stand, at): Draft[] => {
+        const draft = pointDraft(stand, at);
+        if (crisis && at === P.zero && response) {
+          return [
+            {
+              ...draft,
+              joins: true,
+              facts: {
+                ...draft.facts,
+                ...(response.bill
+                  ? {
+                      "response-bill": fact(
+                        "yes",
+                        response.bill.id,
+                        `question:${stand.question}`,
+                      ),
+                    }
+                  : {}),
+              },
+            },
+          ];
+        }
+        // The turn from the answer to the theme, worded by the engine.
+        if (crisis && stand === turnsTo[P.zero] && themeName)
+          return [
+            {
+              key: "turn",
+              level: "country",
+              facts: {
+                "turn-to": fact(
+                  themeName,
+                  ...turnsTo.map((row) => `question:${row.question}`),
+                ),
+              },
+              moves: [move("turn")],
+            },
+            { ...draft, joins: true },
+          ];
+        return [draft];
       }),
     ],
     people: () => [
@@ -2148,8 +2373,6 @@ export function planSpeech(
       : (local?.realmName ??
         (core.placeMetadata.placeName ?? "").split(",")[P.zero]?.trim() ??
         null);
-  const themeName = theme ? (OUTLINES.themeNames[theme] ?? null) : null;
-  const themeCited = pointStands.map((stand) => `question:${stand.question}`);
   const world: Facts = federal
     ? worldFacts(core, person, kind, voice, country, points)
     : {
@@ -2205,6 +2428,13 @@ export function planSpeech(
     addressKind,
     theme,
     asks: asks.map((stand) => stand.question),
+    crisis,
+    response: response
+      ? {
+          question: response.stand.question,
+          billId: response.bill?.id ?? null,
+        }
+      : null,
     points: planned,
   };
 }

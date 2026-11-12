@@ -9,8 +9,16 @@
   "moneyUnits": {
     "about": "A sum of a million dollars or more said in the unit people use (\"about $40 million\", \"about $2.3 billion\"), never the dollars written out; one decimal below ten of the unit, whole units above. Read by moneySaid in src/english/count-words.ts.",
     "rows": [
-      { "atLeast": 1000000000, "divisor": 1000000000, "word": "billion" },
-      { "atLeast": 1000000, "divisor": 1000000, "word": "million" }
+      {
+        "atLeast": 1000000000,
+        "divisor": 1000000000,
+        "word": "billion"
+      },
+      {
+        "atLeast": 1000000,
+        "divisor": 1000000,
+        "word": "million"
+      }
     ],
     "decimalBelow": 10
   },
@@ -61,20 +69,62 @@
   "lateSteps": {
     "about": "How long rent has gone unpaid, said as people say it in talk (the notice at home, Nov 8: a shortfall left for two months is 'about two months', never '61 days'). Each row: the days below which the phrase is said. Read by lateSaid in src/english/count-words.ts; the director passes the days.",
     "rows": [
-      { "below": 10, "said": "a week or so" },
-      { "below": 21, "said": "a couple of weeks" },
-      { "below": 45, "said": "about a month" },
-      { "below": 76, "said": "about two months" },
-      { "below": 106, "said": "about three months" },
-      { "below": 137, "said": "about four months" },
-      { "below": 167, "said": "about five months" },
-      { "below": 198, "said": "about six months" },
-      { "below": 228, "said": "about seven months" },
-      { "below": 259, "said": "about eight months" },
-      { "below": 289, "said": "about nine months" },
-      { "below": 320, "said": "about ten months" },
-      { "below": 350, "said": "about eleven months" },
-      { "below": null, "said": "a year or more" }
+      {
+        "below": 10,
+        "said": "a week or so"
+      },
+      {
+        "below": 21,
+        "said": "a couple of weeks"
+      },
+      {
+        "below": 45,
+        "said": "about a month"
+      },
+      {
+        "below": 76,
+        "said": "about two months"
+      },
+      {
+        "below": 106,
+        "said": "about three months"
+      },
+      {
+        "below": 137,
+        "said": "about four months"
+      },
+      {
+        "below": 167,
+        "said": "about five months"
+      },
+      {
+        "below": 198,
+        "said": "about six months"
+      },
+      {
+        "below": 228,
+        "said": "about seven months"
+      },
+      {
+        "below": 259,
+        "said": "about eight months"
+      },
+      {
+        "below": 289,
+        "said": "about nine months"
+      },
+      {
+        "below": 320,
+        "said": "about ten months"
+      },
+      {
+        "below": 350,
+        "said": "about eleven months"
+      },
+      {
+        "below": null,
+        "said": "a year or more"
+      }
     ],
     "daysPerMonth": 30.4,
     "tag": "ESTIMATED",
@@ -83,5 +133,17 @@
   "vote": "{count} vote",
   "votes": "{count} votes",
   "aboutVotes": "about {count} votes",
-  "aboutMoney": "about ${count}"
+  "aboutMoney": "about ${count}",
+  "percentWords": {
+    "about": "A change in a measure said aloud (\"by about 9 percent\", \"from about 12 percent to about 14 percent\"): a share said by where it stood and where it stands, any other measure by how far it moved against where it stood. Whole percents, one decimal below decimalBelow. Read by changeSaid in src/english/count-words.ts.",
+    "percent": "about {count} percent",
+    "by": "by {change}",
+    "fromTo": "from {from} to {to}",
+    "decimalBelow": {
+      "value": 10,
+      "tag": "TUNABLE",
+      "spread": [1, 10],
+      "checkedAgainst": "Below this many percent a figure keeps one decimal (\"about 4.5 percent\"); above it, whole percents, as a speech rounds (State of the City addresses, Ginther 2024)."
+    }
+  }
 }
