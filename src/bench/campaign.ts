@@ -28,6 +28,8 @@ import { petitionOf } from "../core2/modules/elections";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
+import { promisesOf, votesOf } from "../core2/modules/people";
+import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { retellingsOf } from "../core2/modules/speech";
 import {
   answerDebate,
@@ -782,6 +784,66 @@ export function speechGive(
     retold,
     scene: speechScene(core, personId, venue, causes),
   };
+}
+
+/**
+ * The player's own record in office, as voters read it (`recordAppeal`): the
+ * roll-call votes they cast, the bills they sponsored with how each stands,
+ * and each promise they made with whether their votes since kept it. A view of
+ * the record and legislature tables; it keeps nothing of its own.
+ */
+export function playerRecord(core: CoreState, personId: string) {
+  const api = coreAPI(core);
+  const billNumbers = new Map<string, string>();
+  if (core.modules.has(LEGISLATURE_MODULE_ID))
+    for (const bill of api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .rows() as unknown as { id: string; number: string }[])
+      billNumbers.set(bill.id, bill.number);
+  // A vote with no outcome on record is left out, never shown half-filled.
+  const votes = votesOf(api, personId)
+    .filter((vote) => vote.passed !== null)
+    .map((vote) => ({
+      id: vote.id,
+      date: vote.date,
+      // A vote on a bill the legislature still holds shows its number; an old
+      // measure with no bill number shows its title and date only.
+      number: billNumbers.get(vote.measureId) ?? null,
+      question: vote.stance.question,
+      position: Math.sign(vote.stance.position),
+      passed: vote.passed,
+    }));
+  const bills = core.modules.has(LEGISLATURE_MODULE_ID)
+    ? (
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .rows() as unknown as {
+          id: string;
+          number: string;
+          status: string;
+          sponsorId: string;
+          introduced: string;
+        }[]
+      )
+        .filter((bill) => bill.sponsorId === personId)
+        .map((bill) => ({
+          id: bill.id,
+          number: bill.number,
+          status: bill.status,
+          introduced: bill.introduced,
+        }))
+    : [];
+  const promises = promisesOf(api, personId).map((row) => ({
+    id: row.promise.id,
+    date: row.promise.date,
+    question: row.promise.stance.question,
+    position: Math.sign(row.promise.stance.position),
+    status: row.status,
+    voteId: row.voteId,
+  }));
+  return { votes, bills, promises };
 }
 
 /**
