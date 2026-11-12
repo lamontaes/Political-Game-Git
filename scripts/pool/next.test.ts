@@ -427,6 +427,57 @@ describe("next --for <kind>", () => {
       ),
     ).toBe(true);
   });
+  it("hands out no new item while the cap is on, except what still comes first", () => {
+    const withCheck = {
+      ...items,
+      "tests-a-check": unit("tests-a-check", { area: "laws", priority: "3" }),
+    };
+    const run = (set: typeof withCheck | typeof items, open: number | null) => {
+      const { clones } = world(set);
+      const out: string[] = [];
+      const said: string[] = [];
+      const cwd = process.cwd();
+      process.chdir(clones[0]);
+      try {
+        const err = command(
+          ["next", "--dry-run"],
+          {},
+          {
+            out: (l) => out.push(l),
+            progress: (l) => said.push(l),
+            openGame: () => open,
+          },
+        );
+        return { err, out, said };
+      } finally {
+        process.chdir(cwd);
+      }
+    };
+    const most = readOrder(join(ROOT, "docs/pool")).cap!.openGamePullRequests;
+    // Over the cap with only game items: nothing is taken, and the line says why.
+    const over = run(items, most + 1);
+    expect(over.err).toBeNull();
+    expect(line(over.out, "The cap is on:")).toContain(`${most + 1} game`);
+    expect(line(over.out, "Would take:")).toBe("");
+    expect(over.out).toContain(
+      "Nothing that comes before the cap is ready for your tier.",
+    );
+    // Over the cap, a check is still handed out.
+    expect(line(run(withCheck, most + 1).out, "Would take:")).toBe(
+      "Would take: tests-a-check (sonnet, p3)",
+    );
+    // At the cap, and when the count cannot be read, items are handed out as before.
+    expect(line(run(items, most).out, "Would take:")).toBe(
+      "Would take: play-area (sonnet, p3)",
+    );
+    const blind = run(items, null);
+    expect(line(blind.out, "Would take:")).toBe(
+      "Would take: play-area (sonnet, p3)",
+    );
+    expect(blind.said).toContain(
+      "Could not count the open pull requests, so the cap was not checked.",
+    );
+  });
   it("claims the play item for real, and leaves the higher one for plain next", () => {
     fakeGh(null);
     const { clones, onOrigin } = world(items);

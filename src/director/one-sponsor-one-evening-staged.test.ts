@@ -35,7 +35,8 @@ import { coreAPI, fillInPerson } from "../core2/state";
 import type { CoreEventInput, PersonId } from "../core2/types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const DRAWS = 8;
+/** Places drawn at most: a small town has no body of three held seats, so the search is wide. */
+const DRAWS = 24;
 const MOST_TURNS = 12;
 
 it(`a sponsor's two asks on one evening, written by the engine, play in one stop and reach their roll calls (seed ${seed})`, () => {

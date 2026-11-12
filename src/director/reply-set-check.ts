@@ -1,4 +1,9 @@
 import { expect } from "vitest";
+import { P } from "../core2/parameters";
+import { DEFAULT_DIRECTOR_DATA } from "./ledger";
+
+/** The most replies a talk offers: the director's own number (data/director.json), named once. */
+const MOST = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
 
 /**
  * A talk offers up to four replies, and the scene sets the count (owner,
@@ -13,9 +18,11 @@ export function expectUpToFourDifferent(
 ): void {
   const texts = rows.map((row) => row.text);
   expect(rows.length, `${where}: ${texts.join(" / ")}`).toBeGreaterThanOrEqual(
-    1,
+    P.one,
   );
-  expect(rows.length, `${where}: ${texts.join(" / ")}`).toBeLessThanOrEqual(4);
+  expect(rows.length, `${where}: ${texts.join(" / ")}`).toBeLessThanOrEqual(
+    MOST,
+  );
   expect(
     new Set(rows.map((row) => row.move)).size,
     `${where}: two replies share a move: ${texts.join(" / ")}`,

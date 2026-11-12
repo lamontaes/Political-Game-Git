@@ -5,10 +5,10 @@ area: play
 kind: research
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-dev-mode-bodies-without-game-code
-pr:
+pr: #8675
 after:
 blocked-on:
 lead: play-first

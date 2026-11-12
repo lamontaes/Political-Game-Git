@@ -11,7 +11,7 @@ import {
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
-import { backdropFor, stagePeople } from "./scene";
+import { backdropFor, peopleHere } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import { districtWords, raceTitle } from "./race-words";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -275,6 +275,6 @@ export function resultsScene(core: CoreState, playerId: string) {
   return {
     place,
     backdrop,
-    people: stagePeople(core, backdrop.file, cast).people,
+    people: peopleHere(core, backdrop.file, cast).people,
   };
 }

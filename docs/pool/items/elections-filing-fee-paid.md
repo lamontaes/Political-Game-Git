@@ -5,10 +5,10 @@ area: elections
 kind: feature
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-elections-filing-fee-paid
+pr: #8722
 after:
 blocked-on:
 model: sonnet
@@ -17,7 +17,7 @@ root: rc9-place-facts-one-default
 source: added with npm run pool -- add
 lead: wire-elections
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:22:04.513Z
 branch: claude/pool-elections-filing-fee-paid
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-elections-filing-fee-paid
 **Notes.** TODO
 
 Released (2026-11-11): Not built. Cause holds (fileCandidacy elections.ts:1199 and candidacy.ts:828 charge nothing; side.feeUSD is read only for the petition rule at elections.ts:251/399). It needs a fee field on FilingRequirements, a cash transfer to the filing office's treasury, a refusal rule, and then every world candidate must hold the fee to file, which changes who stands in all 56 places; that needs the full elections, candidacy and campaign test families rerun on several seeds, more than one verified unit here. Continue on branch claude/pool-elections-filing-fee-paid.
+
+Released (2026-11-11): Released again after re-reading, no change to the earlier finding: charging the fee changes who can file in all 56 places, so it needs the elections, candidacy and campaign test families rerun on several seeds, and a decision on what a candidate who cannot pay does (refused at the counter, per the item) before the fee field, the treasury transfer and the refusal are built together. Continue on branch claude/pool-elections-filing-fee-paid.

@@ -48,17 +48,38 @@ try {
     await page.locator("#advanced-build").click();
     seed = new URL((await built).url()).searchParams.get("seed");
     await page.locator("#front-pick:not([hidden])").waitFor();
+    // A member of the played place's own legislature, matched by its government's records (the
+    // State level of Politics: the home state's chambers and their members), never by a word in a
+    // title: "Assemblymember" also matched another state's assembly (Frederick, Oklahoma stepped in
+    // as a California member, Nov 11). Only a bill of the town's own state or the nation reaches
+    // its residents, so only those hearings can hear them.
+    const own = await page.evaluate(async () => {
+      const v = await (
+        await fetch("/api/government/bodies?id=&level=state&state=")
+      ).json();
+      const memberIds = new Set(
+        v.legislative.flatMap((b) => b.members.map((m) => m.cardId)),
+      );
+      const holders = await (await fetch("/api/advanced/officeholders")).json();
+      return {
+        state: v.state.key,
+        name:
+          holders
+            .filter((h) => memberIds.has(h.personId))
+            .map((h) => h.name)
+            .sort()[0] ?? null,
+      };
+    });
+    // The picker lists the first 200 holders; searching for the member's name finds theirs.
+    if (own.name && !process.env.BENCH_ROLE)
+      await page.locator("#pick-search").fill(own.name);
     names = await page.locator("#pick-list button").allInnerTexts();
-    at = names.findIndex((t) =>
-      new RegExp(
-        process.env.BENCH_ROLE ??
-          "state (senator|representative)|assembl|delegate",
-        "i",
-      ).test(t),
-    );
+    at = process.env.BENCH_ROLE
+      ? names.findIndex((t) => new RegExp(process.env.BENCH_ROLE, "i").test(t))
+      : names.findIndex((t) => own.name && t.includes(own.name));
     if (at < 0)
       console.log(
-        `unusable draw ${attempt}: seed ${seed}, no member of a body`,
+        `unusable draw ${attempt}: seed ${seed}, no member of ${own.state}'s legislature`,
       );
   }
   assert.ok(at >= 0, "no member of a body to step in as in five draws");
@@ -107,11 +128,18 @@ try {
       });
       return { status: r.status, value: await r.json() };
     };
+    // The played place's own state chambers, from its government's records: another state's bill
+    // never reaches the town's residents, so its hearing has none of them to hear.
+    const home = await (
+      await fetch("/api/government/bodies?id=&level=state&state=")
+    ).json();
+    const ownChambers = new Set(home.legislative.map((b) => b.officeId));
     const bodies = await (await fetch("/api/dev/lawmaking-bodies")).json();
     const chambers = bodies.filter(
-      (b) => b.level === "state" && b.members.length > 0,
+      (b) => ownChambers.has(b.id) && b.members.length > 0,
     );
-    if (!chambers.length) return { error: "no state chamber" };
+    if (!chambers.length)
+      return { error: `no chamber of ${home.state.key}'s legislature` };
     const laws = await (await fetch("/api/dev/laws")).json();
     // A hearing on a policy question hears the residents the interest groups show on each side.
     const rows = [...laws.series].sort(
@@ -182,11 +210,18 @@ try {
     return list.findIndex((item) => item.id === id);
   }, result.billId);
   assert.ok(place >= 0, "the Bills tab follows the bill dev mode decided");
+  // The bill by its own row in the list (the row carries the bill's id).
   await page
-    .locator("#sheet-body")
-    .getByRole("button", { name: "Read the bill" })
-    .nth(place)
+    .locator(
+      `.roster-screen.bills .roster-row[data-key=${JSON.stringify(result.billId)}]`,
+    )
     .click();
+  // The page of that bill, not the one that was on screen before the click.
+  await page
+    .locator(
+      `.roster-screen.bills .roster-page[data-key=${JSON.stringify(result.billId)}]`,
+    )
+    .waitFor();
   await page.getByText("In committee: ", { exact: false }).first().waitFor();
   const paper = await page.locator("#sheet-body").innerText();
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/committee-paper.png` });

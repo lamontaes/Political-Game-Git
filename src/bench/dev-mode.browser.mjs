@@ -123,11 +123,15 @@ try {
       );
     }
   }
-  // Watch and the golden path, on the Calendar beside Run until.
+  // Watch and the golden path, on the Calendar's Watch tab.
+  await page
+    .locator("#sheet-tabs")
+    .getByRole("button", { name: "Watch" })
+    .click();
   await page.locator(".dev-watch").waitFor();
   assert.ok(
     (await page.locator(".dev-watch table").count()) >= 3,
-    "the watch and path tables are on the calendar",
+    "the watch and path tables are on the Watch tab",
   );
   await shot("run-until");
   await closeSheet();

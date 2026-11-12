@@ -52,3 +52,5 @@ Released (2026-11-11): Left for Fable B, as the item's Nov 11 note says (screens
 Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:46 UTC) on branch claude/pool-play-dev-watch-panel-is-black-on-black.
 
 Released (2026-11-11): Re-offered; set model: fable so next keeps it for Fable B, as its Nov 11 note says. Continue on branch claude/pool-play-dev-watch-panel-is-black-on-black.
+
+**Notes (Nov 11, 2026, first part built).** #8574 gives Watch its own tab on the Calendar's sheet in dev mode, with one table style and a browser check (src/bench/dev-watch.browser.mjs); Watch, the Golden path and the loans table can be read. Left: the person card's Records tree is drawn elsewhere and still has its own look, and nobody has yet opened Watch after a passed bill and 60 days, or in Ten Broeck, Kentucky.

@@ -5,13 +5,13 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-staffing-line-unstaffed-employer
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T06:21:19.010Z
 after:
 lead: laws-effects
 model: sonnet
@@ -43,3 +43,5 @@ Analysis (claude pool worker, Oct 27; released unbuilt, more than the S/3-hour b
 Released (2026-11-11): 6-hour item needing a new sourced role data row and payroll template; not started. Continue on branch claude/pool-laws-staffing-line-unstaffed-employer.
 
 Released (2026-11-11): Not built: the funding half alone (money-based positions for an employer with no paid staff, split among the town's unstaffed employers, group-a-staffing.ts line ~197) would write a positions record no engine reads, because hiring copies a template job and a volunteer company has none; the item is one unit with the sourced role row (title, occupation, BLS OEWS wage, public-safety hours) and startPublicJob template, which is the 6-hour part and needs a researched wage row first. Continue on branch claude/pool-laws-staffing-line-unstaffed-employer.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:21 UTC) on branch claude/pool-laws-staffing-line-unstaffed-employer.

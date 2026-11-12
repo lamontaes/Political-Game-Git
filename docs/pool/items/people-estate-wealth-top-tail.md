@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #8698
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,13 +17,15 @@ effort: medium
 root: design-one-model-two-tiers
 lead: laws
 checked: fable 2026-11-10
+claimed-at:
+branch: claude/pool-people-estate-wealth-top-tail
 ---
 
 **What.** The estate tax settles nothing in any place it ran. Every full person holds at most about $504,000, below every state estate tax exemption and the federal one. The only people above an exemption are state cabinet members ($11M to $60M each), who have no kin, so their estates escheat and are assessed at 0. The Survey of Consumer Finances puts about one household in ten at a net worth above $1 million (recalled, not checked), and a few states' estate taxes start near there, so some deaths in a larger town should owe it. Seen: the estate-tax line in the budget, which collects nothing today because no resident is rich enough.
 
-**Cause.** Measured: Scissors, Texas, seed c887792099075f8c, 640 days: the revenue cabinet member died on 2026-01-04 and probate closed on 2026-10-01 with an estate assessed at 0; no full person holds more than about $504,000 (taxes family money pass, 30 full-year places and 60 more draws). Code: src/core2/estates.ts.
+**Cause.** Needs cause. Looked at (opus-5234, Nov 11, PR #8698): the measured cause holds (opening cash is the SCF 2022 transaction-account median by income, src/core2/starting-cash.ts; an estate is the cash balance plus a sold home's surplus, src/core2/estates.ts `settleEstate`), but the old Fix had nowhere to put the wealth: a person's money is one total, `liquidMinor` (named accounts only set part aside, src/core2/accounts.ts `balanceOf`), read directly as cash in 175 places across about 40 files (credit, candidacy, campaigns, housing, corruption and more), so SCF net worth there would make retirement and investment wealth spendable everywhere. The writer decides where non-cash wealth lives (a holdings record that estates read and cash readers do not, or cash with each reader checked). SCF 2022 net worth by age (Fed, scf23.pdf Table 2, thousands of 2022 dollars, median / mean): under 35 39.0 / 183.5; 35-44 135.6 / 549.6; 45-54 247.2 / 975.8; 55-64 364.5 / 1,566.9; 65-74 409.9 / 1,794.6; 75+ 335.6 / 1,624.1.
 
-**Fix.** Draw opening wealth (cash, home and business) for full and counted people from the Survey of Consumer Finances by age, including the top tail, with its source and spread, in src/core2/modules/residents.ts.
+**Fix.** None until the cause is found.
 
 **Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -36,3 +38,7 @@ checked: fable 2026-11-10
 **Files.** src/core2/estates.ts, src/core2/modules/residents.ts, src/core2/data/parameters.json
 
 **Notes.** Filed by the laws lead, Oct 25, from the taxes helper's report. `core-opening-resident-cash` (done) gave residents opening cash; this is the top of the distribution.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:21 UTC) on branch claude/pool-people-estate-wealth-top-tail.
+
+Released (2026-11-11): The Fix has no place in the code to hold non-cash wealth; findings and SCF research on PR 8698. Continue on branch claude/pool-people-estate-wealth-top-tail and pull request #8698.

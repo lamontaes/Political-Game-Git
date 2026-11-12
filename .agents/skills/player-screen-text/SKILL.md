@@ -7,7 +7,7 @@ description: Checks every string a player of Our Civic Duty can see for develope
 
 **Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
 
-`docs/play-first/LAW.md` (lines 91 and 94): nothing ships in developer speak; player screens get no developer text. On Oct 26 the owner still met every item below in one sitting. No automated check enforces this yet: the planned screen-text test does not exist, and `tests/e2e/runtime-text-audit.spec.ts`, which `src/english/runtime-text-origin.ts` names as its audit, is not on main. So every builder and merger checks by hand.
+`docs/play-first/LAW.md` (lines 91 and 94): nothing ships in developer speak; player screens get no developer text. On Oct 26 the owner still met every item below in one sitting. The checks that exist are the English guards (`tests/guards/english/player-text.test.ts`, `vocabulary.test.ts`, `sitting-bans.test.ts`, `spelling-dates-units.test.ts`) and the line rules (`npm run words:rules`); they catch banned words and some patterns, not every string. The audit `src/english/runtime-text-origin.ts` names (`tests/e2e/runtime-text-audit.spec.ts`) is not on main. So every builder and checker also reads the screens by hand, and a merger checks the diff and the after screenshot.
 
 ## Never on a player screen
 
@@ -29,6 +29,9 @@ description: Checks every string a player of Our Civic Duty can see for develope
 ## How to check
 
 - **Builder:** open every screen the PR touches in a drawn place (bench `/play`, 1440×900), read every string, and list the screens under "Screen text checked" in the PR body with place and seed.
-- Labels come from a worded table (the controls file or the English engine), never a fallback that prints the raw key.
+- Labels come from a worded table (the controls file or the English engine), never a fallback that prints the raw key. If a screen needs a new line under `data/english/parts/`, list it on the pull request: only the Story session writes those lines (owner, Nov 10). A line a rule pulls (`data/english/pulled.json`) is not shown again until Story rewrites it.
 - A test that asserts one of the above (`politics.browser.mjs` requiring an ISO service date, `news.browser.mjs` requiring the masthead "News") is fixed in the same PR, never kept.
 - **Merger:** any of the above in the diff or the after screenshot is a send-back naming file and line.
+- **A bill's number is never shown bare, and a date is always in words (owner, Nov 11: "Don't let dates go 2025-8 like how they are in the council member thing. Like, have August 2025 or something").** Under an ordinance's name the meeting printed "2025-8", its number, and it read as a date. A number goes through the English engine's `spokenDesignation` ("Ordinance 2025-8"); a date goes through the page's date words ("August 2025", "February 4, 2025"). A year, a dash and a number alone on a screen is a defect either way.
+- **A list of names never carries a repeated word after each name (owner, Nov 11: "it looks like against is a name every time").** Put the word once, as a label with a count ("Spoke against · 6"), and the names after it.
+- **A panel never half covers the people in the room (owner, Nov 11: "it's being covered up by the menu").** The strip of people stands in the room a side panel leaves, or is hidden when a menu takes the whole frame; nobody is cut in half. Check every new panel with people in the room.
