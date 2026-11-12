@@ -31,11 +31,13 @@ import { historyMonths, monthKey, shiftMonth } from "../core2/macro-model";
 import type { MacroMonth } from "../core2/macro-model";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
-import { ownStance } from "../core2/officials-roster";
-import { PRESIDENT_FACT } from "../core2/officials-president";
+import { ownStance, PRESIDENT_FACT } from "../core2/modules/officials";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
-import { policyAuthority, type PolicyLevel } from "../core2/policy-authority";
-import type { LawRowInput } from "../core2/laws-starting";
+import {
+  policyAuthority,
+  type LawRowInput,
+  type PolicyLevel,
+} from "../core2/modules/laws";
 import type { CoreAPI, CoreState, PersonState } from "../core2/types";
 import type { EntityId } from "../core2/kernel/brands";
 import type {
