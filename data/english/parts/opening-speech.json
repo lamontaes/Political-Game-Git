@@ -68,6 +68,7 @@
     "condition-law": "a law of the speaker's jurisdiction that took effect in the past year, by its spoken name (the laws engine's row)",
     "condition-disaster": "a disaster declared for the place in the past year, by its kind (the disasters engine's declaration)",
     "budget-year": "the fiscal year of the budget the speaker's government lives under (the budgets engine's row)",
+    "budget-gap": "how far the speaker's government's budget runs ahead or short, as people say a sum (\"about $40,000\", \"about $2.3 billion\"), from the budgets engine's row: what it takes in against what it spends",
     "condition-law-reached": "the law-reach records show the law of condition-law has reached people here (law-reach host.ts reachedBy); said only as the sentence's tie, never as a figure",
     "measure": "what the body the speech is given to passes, as it names its measures (bill, ordinance)",
     "first-after": "how the first ask's question will stand once the ask passes, in the speaker's side's words, where it changes the law",
@@ -116766,7 +116767,7 @@
       "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-takes-in-more-than-it-spends-condition-budget-ahead-condition-budget-steady-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "The {budget-year} budget takes in more than it spends, and I intend to keep it that way.",
+      "text": "The {budget-year} budget takes in {budget-gap} more than it spends, and I intend to keep it that way.",
       "uses": [
         {
           "move": "budget-condition",
@@ -116776,7 +116777,8 @@
           "requiresFacts": [
             "condition-budget-ahead",
             "condition-budget-steady",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -116790,7 +116792,7 @@
       "key": "opening-speech.budget-condition.plain-state-of-the-state-the-state-s-books-for-show-more-coming-condition-budget-ahead-condition-budget-steady-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "The state's books for {budget-year} show more coming in than going out, and I'd like to keep them that way.",
+      "text": "The state's books for {budget-year} show {budget-gap} more coming in than going out, and I'd like to keep them that way.",
       "uses": [
         {
           "move": "budget-condition",
@@ -116800,7 +116802,8 @@
           "requiresFacts": [
             "condition-budget-ahead",
             "condition-budget-steady",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -116814,7 +116817,7 @@
       "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-runs-further-ahead-than-the-year-condition-budget-ahead-condition-budget-better-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "The {budget-year} budget runs further ahead than the year before, and that money belongs to the taxpayers who sent it.",
+      "text": "The {budget-year} budget runs {budget-gap} ahead, further than the year before, and that money belongs to the taxpayers who sent it.",
       "uses": [
         {
           "move": "budget-condition",
@@ -116824,7 +116827,8 @@
           "requiresFacts": [
             "condition-budget-ahead",
             "condition-budget-better",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -116838,7 +116842,7 @@
       "key": "opening-speech.budget-condition.plain-state-of-the-state-we-closed-out-further-ahead-than-the-year-condition-budget-ahead-condition-budget-better-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "We closed out {budget-year} further ahead than the year before, and that money is the taxpayers', not ours.",
+      "text": "We closed out {budget-year} {budget-gap} ahead, further than the year before, and that money is the taxpayers', not ours.",
       "uses": [
         {
           "move": "budget-condition",
@@ -116848,7 +116852,8 @@
           "requiresFacts": [
             "condition-budget-ahead",
             "condition-budget-better",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -116862,7 +116867,7 @@
       "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-is-still-in-the-black-but-condition-budget-ahead-condition-budget-worse-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "The {budget-year} budget is still in the black, but by less than the year before, so we will spend with care.",
+      "text": "The {budget-year} budget is still {budget-gap} in the black, but by less than the year before, so we will spend with care.",
       "uses": [
         {
           "move": "budget-condition",
@@ -116872,7 +116877,8 @@
           "requiresFacts": [
             "condition-budget-ahead",
             "condition-budget-worse",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -116886,7 +116892,7 @@
       "key": "opening-speech.budget-condition.plain-state-of-the-state-we-re-still-ahead-in-just-not-by-condition-budget-ahead-condition-budget-worse-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "We're still ahead in {budget-year}, just not by as much as last year, so we watch every dollar.",
+      "text": "We're still {budget-gap} ahead in {budget-year}, just not by as much as last year, so we watch every dollar.",
       "uses": [
         {
           "move": "budget-condition",
@@ -116896,7 +116902,8 @@
           "requiresFacts": [
             "condition-budget-ahead",
             "condition-budget-worse",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -116910,7 +116917,7 @@
       "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-spends-more-than-it-takes-in-condition-budget-short-condition-budget-steady-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "The {budget-year} budget spends more than it takes in, and closing that gap is part of tonight's work.",
+      "text": "The {budget-year} budget spends {budget-gap} more than it takes in, and closing that gap is part of tonight's work.",
       "uses": [
         {
           "move": "budget-condition",
@@ -116920,7 +116927,8 @@
           "requiresFacts": [
             "condition-budget-short",
             "condition-budget-steady",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -116934,7 +116942,7 @@
       "key": "opening-speech.budget-condition.plain-state-of-the-state-the-state-is-spending-more-in-than-it-condition-budget-short-condition-budget-steady-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "The state is spending more in {budget-year} than it brings in, and we've got to close that gap.",
+      "text": "The state is spending {budget-gap} more in {budget-year} than it brings in, and we've got to close that gap.",
       "uses": [
         {
           "move": "budget-condition",
@@ -116944,7 +116952,8 @@
           "requiresFacts": [
             "condition-budget-short",
             "condition-budget-steady",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -116958,7 +116967,7 @@
       "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-still-spends-more-than-it-takes-condition-budget-short-condition-budget-better-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "The {budget-year} budget still spends more than it takes in, though by less than the year before.",
+      "text": "The {budget-year} budget still spends {budget-gap} more than it takes in, though by less than the year before.",
       "uses": [
         {
           "move": "budget-condition",
@@ -116968,7 +116977,8 @@
           "requiresFacts": [
             "condition-budget-short",
             "condition-budget-better",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -116982,7 +116992,7 @@
       "key": "opening-speech.budget-condition.polished-state-of-the-state-the-budget-falls-further-short-than-the-year-condition-budget-short-condition-budget-worse-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "The {budget-year} budget falls further short than the year before, and we cannot keep borrowing against tomorrow.",
+      "text": "The {budget-year} budget falls {budget-gap} short, further than the year before, and we cannot keep borrowing against tomorrow.",
       "uses": [
         {
           "move": "budget-condition",
@@ -116992,7 +117002,8 @@
           "requiresFacts": [
             "condition-budget-short",
             "condition-budget-worse",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -117006,7 +117017,7 @@
       "key": "opening-speech.budget-condition.plain-state-of-the-state-the-hole-in-the-budget-is-deeper-than-condition-budget-short-condition-budget-worse-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "The hole in the {budget-year} budget is deeper than last year's, and we've got to stop digging.",
+      "text": "The hole in the {budget-year} budget is {budget-gap}, deeper than last year's, and we've got to stop digging.",
       "uses": [
         {
           "move": "budget-condition",
@@ -117016,7 +117027,8 @@
           "requiresFacts": [
             "condition-budget-short",
             "condition-budget-worse",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -117174,7 +117186,7 @@
       "key": "opening-speech.budget-condition.polished-town-address-for-we-are-taking-in-more-than-we-condition-budget-ahead-condition-budget-steady-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "For {budget-year}, we are taking in more than we spend here, and I mean to keep it so.",
+      "text": "For {budget-year}, we are taking in {budget-gap} more than we spend here, and I mean to keep it so.",
       "uses": [
         {
           "move": "budget-condition",
@@ -117184,7 +117196,8 @@
           "requiresFacts": [
             "condition-budget-ahead",
             "condition-budget-steady",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -117198,7 +117211,7 @@
       "key": "opening-speech.budget-condition.plain-town-address-our-books-have-more-coming-in-than-going-condition-budget-ahead-condition-budget-steady-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "Our {budget-year} books have more coming in than going out, and I'd like to keep it that way.",
+      "text": "Our {budget-year} books have {budget-gap} more coming in than going out, and I'd like to keep it that way.",
       "uses": [
         {
           "move": "budget-condition",
@@ -117208,7 +117221,8 @@
           "requiresFacts": [
             "condition-budget-ahead",
             "condition-budget-steady",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -117222,7 +117236,7 @@
       "key": "opening-speech.budget-condition.polished-town-address-we-finished-further-ahead-than-the-year-before-condition-budget-ahead-condition-budget-better-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "We finished {budget-year} further ahead than the year before, and every dollar of it came from our neighbors.",
+      "text": "We finished {budget-year} {budget-gap} ahead, further than the year before, and every dollar of it came from our neighbors.",
       "uses": [
         {
           "move": "budget-condition",
@@ -117232,7 +117246,8 @@
           "requiresFacts": [
             "condition-budget-ahead",
             "condition-budget-better",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -117246,7 +117261,7 @@
       "key": "opening-speech.budget-condition.plain-town-address-our-books-came-out-better-than-last-year-condition-budget-ahead-condition-budget-better-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "Our {budget-year} books came out better than last year's, and that's our neighbors' money, not mine.",
+      "text": "Our {budget-year} books came out {budget-gap} ahead, better than last year's, and that's our neighbors' money, not mine.",
       "uses": [
         {
           "move": "budget-condition",
@@ -117256,7 +117271,8 @@
           "requiresFacts": [
             "condition-budget-ahead",
             "condition-budget-better",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -117270,7 +117286,7 @@
       "key": "opening-speech.budget-condition.polished-town-address-we-are-still-ahead-for-though-by-less-condition-budget-ahead-condition-budget-worse-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "We are still ahead for {budget-year}, though by less than the year before, so every request gets a hard look.",
+      "text": "We are still {budget-gap} ahead for {budget-year}, though by less than the year before, so every request gets a hard look.",
       "uses": [
         {
           "move": "budget-condition",
@@ -117280,7 +117296,8 @@
           "requiresFacts": [
             "condition-budget-ahead",
             "condition-budget-worse",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -117294,7 +117311,7 @@
       "key": "opening-speech.budget-condition.plain-town-address-we-re-ahead-for-but-not-by-as-condition-budget-ahead-condition-budget-worse-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "We're ahead for {budget-year}, but not by as much as last year, so I'm watching every dollar.",
+      "text": "We're {budget-gap} ahead for {budget-year}, but not by as much as last year, so I'm watching every dollar.",
       "uses": [
         {
           "move": "budget-condition",
@@ -117304,7 +117321,8 @@
           "requiresFacts": [
             "condition-budget-ahead",
             "condition-budget-worse",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -117318,7 +117336,7 @@
       "key": "opening-speech.budget-condition.polished-town-address-for-we-are-spending-more-than-we-take-condition-budget-short-condition-budget-steady-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "For {budget-year}, we are spending more than we take in, and I won't hand that bill to whoever sits here next.",
+      "text": "For {budget-year}, we are spending {budget-gap} more than we take in, and I won't hand that bill to whoever sits here next.",
       "uses": [
         {
           "move": "budget-condition",
@@ -117328,7 +117346,8 @@
           "requiresFacts": [
             "condition-budget-short",
             "condition-budget-steady",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -117342,7 +117361,7 @@
       "key": "opening-speech.budget-condition.plain-town-address-we-re-spending-more-than-we-bring-in-condition-budget-short-condition-budget-steady-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "We're spending more than we bring in for {budget-year}, and that has to stop on our watch.",
+      "text": "We're spending {budget-gap} more than we bring in for {budget-year}, and that has to stop on our watch.",
       "uses": [
         {
           "move": "budget-condition",
@@ -117352,7 +117371,8 @@
           "requiresFacts": [
             "condition-budget-short",
             "condition-budget-steady",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -117366,7 +117386,7 @@
       "key": "opening-speech.budget-condition.polished-town-address-we-are-still-short-for-but-by-less-condition-budget-short-condition-budget-better-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "We are still short for {budget-year}, but by less than the year before, and I intend to finish the job.",
+      "text": "We are still {budget-gap} short for {budget-year}, but by less than the year before, and I intend to finish the job.",
       "uses": [
         {
           "move": "budget-condition",
@@ -117376,7 +117396,8 @@
           "requiresFacts": [
             "condition-budget-short",
             "condition-budget-better",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -117390,7 +117411,7 @@
       "key": "opening-speech.budget-condition.plain-town-address-we-fell-further-behind-in-than-last-year-condition-budget-short-condition-budget-worse-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "We fell further behind in {budget-year} than last year, and we can't keep putting it on a tab.",
+      "text": "We fell {budget-gap} behind in {budget-year}, further than last year, and we can't keep putting it on a tab.",
       "uses": [
         {
           "move": "budget-condition",
@@ -117400,7 +117421,8 @@
           "requiresFacts": [
             "condition-budget-short",
             "condition-budget-worse",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -118524,7 +118546,7 @@
       "key": "opening-speech.budget-condition.plain-state-of-the-state-we-re-still-short-in-but-by-less-condition-budget-short-condition-budget-better-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "We're still short in {budget-year}, but by less than last year, and we're going to finish the job.",
+      "text": "We're still {budget-gap} short in {budget-year}, but by less than last year, and we're going to finish the job.",
       "uses": [
         {
           "move": "budget-condition",
@@ -118534,7 +118556,8 @@
           "requiresFacts": [
             "condition-budget-short",
             "condition-budget-better",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -118548,7 +118571,7 @@
       "key": "opening-speech.budget-condition.plain-town-address-we-re-still-short-for-but-by-less-condition-budget-short-condition-budget-better-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "We're still short for {budget-year}, but by less than last year, and we're not done.",
+      "text": "We're still {budget-gap} short for {budget-year}, but by less than last year, and we're not done.",
       "uses": [
         {
           "move": "budget-condition",
@@ -118558,7 +118581,8 @@
           "requiresFacts": [
             "condition-budget-short",
             "condition-budget-better",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],
@@ -118572,7 +118596,7 @@
       "key": "opening-speech.budget-condition.polished-town-address-our-books-fall-further-short-than-the-year-condition-budget-short-condition-budget-worse-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
-      "text": "Our {budget-year} books fall further short than the year before, and we cannot keep paying today's bills with tomorrow's money.",
+      "text": "Our {budget-year} books fall {budget-gap} short, further than the year before, and we cannot keep paying today's bills with tomorrow's money.",
       "uses": [
         {
           "move": "budget-condition",
@@ -118582,7 +118606,8 @@
           "requiresFacts": [
             "condition-budget-short",
             "condition-budget-worse",
-            "budget-year"
+            "budget-year",
+            "budget-gap"
           ]
         }
       ],

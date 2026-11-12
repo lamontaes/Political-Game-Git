@@ -87,6 +87,7 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { earlierAddressPieces } from "./opening-facts";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
+import { moneySaid } from "../english/count-words";
 import { addDays, daysBetweenText } from "../core2/kernel/dates";
 import type { IsoDate } from "../core2/kernel/brands";
 import {
@@ -1406,6 +1407,16 @@ function conditionFacts(
             : "condition-budget-steady"
       ] = before ? fact("yes", before.id) : fact("yes", budget.id);
       out["budget-year"] = fact(String(budget.fiscalYear), budget.id);
+      // How far ahead or short this government's year is, as people say a
+      // sum ("about $40,000"): the year is the same in every world, the gap
+      // is this government's own.
+      if (balance > band || balance < -band)
+        out["budget-gap"] = fact(
+          moneySaid(
+            Math.abs(sum(budget.revenueMinor) - sum(budget.spendingMinor)),
+          ),
+          budget.id,
+        );
     }
   }
   const yearAgo = addDays(
