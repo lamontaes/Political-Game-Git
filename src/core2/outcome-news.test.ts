@@ -192,6 +192,13 @@ function play(
 }
 
 describe(`the town hears the outcome web's month (${place.name}, seed ${seed})`, () => {
+  it("lists the minor-offense arrest rate under crime, so the police line's newest effect can be heard of", () => {
+    const spec = NEWS_MEASURES["justice.low-level-arrests"];
+    expect(spec, "no news row for justice.low-level-arrests").toBeDefined();
+    expect(spec!.topic).toBe("crime");
+    expect(conditionQuestion(spec!.topic)).toBe("budget-line:police");
+  });
+
   it("lists only measures an engine reads", () => {
     for (const [measure, spec] of Object.entries(NEWS_MEASURES)) {
       expect(spec.topic.length, measure).toBeGreaterThan(0);
