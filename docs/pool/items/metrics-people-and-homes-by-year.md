@@ -15,6 +15,7 @@ lead: people
 model: sonnet
 effort: medium
 root: design-one-model-two-tiers
+checked: fable 2026-11-12
 source: docs/design/output-numbers.md (#8926), owner's ask of Nov 12
 ---
 
