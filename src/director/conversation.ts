@@ -143,7 +143,12 @@ import {
 } from "./words";
 import { dayParts, sceneMinute } from "./day-part";
 import { noteMention, tellingOf } from "../english/telling";
-import { saidAs, sentenceStarts } from "../english/said-as";
+import {
+  laterMentionsAsPronoun,
+  officeWords,
+  saidAs,
+  sentenceStarts,
+} from "../english/said-as";
 import { saidPersonOf } from "./said-person";
 import {
   learnView,
@@ -344,6 +349,8 @@ export interface Conversation {
   topics: string[];
   /** The main topic's facts, which the goodbye may name (internal). */
   topicFacts?: Facts;
+  /** The policy questions this talk named (internal): kept as heard today, so a housemate names another. */
+  questions?: string[];
   /** The minute of the day the talk is had at, when the caller gave it (internal). */
   minuteOfDay?: number;
   /** The organization whose place the player came to for the talk, when the screen knows it (internal). */
@@ -1746,7 +1753,13 @@ export function subjectsBetween(
         ? addressPointFor(
             core,
             speakerId,
-            addressPoints(opening),
+            // A point someone in the house made today is behind them: each
+            // person makes their own (owner, Nov 12: "basically saying the
+            // same thing"), unless it is the only one.
+            fresher(
+              addressPoints(opening),
+              (row) => !heardNow.has(`${HEARD_QUESTION}${row.question}`),
+            ),
             listenerId,
             director,
           )
@@ -2615,7 +2628,10 @@ function askSubject(
   const { playerId, otherId } = conversation;
   // Nobody asks what they already know (a relative asking "Where do you come
   // from?", batch 11).
-  if (subject.own && knowsTruth(core, otherId, playerId, subject.own)) {
+  if (
+    (subject.kind === "address" && watchedTogether(core, playerId, otherId)) ||
+    (subject.own && knowsTruth(core, otherId, playerId, subject.own))
+  ) {
     conversation.used.push(subject.id);
     return false;
   }
@@ -2750,6 +2766,9 @@ function raiseSubject(
         ]),
       ],
     });
+  // The policy question it names is named for the house today.
+  const question = subject.news?.question ?? subject.point?.question;
+  if (question) (conversation.questions ??= []).push(question);
   // Someone both know, or news both may know, is shared: neither raises it again.
   if (subject.kind === "mutual" || subject.kind === "news")
     conversation.used.push(subject.id);
@@ -3013,6 +3032,27 @@ function carryOn(
 }
 
 /**
+ * Whether two people of one household watched the President's address
+ * together: each holds the address's record, learned the same day.
+ */
+function watchedTogether(
+  core: Readonly<CoreState>,
+  a: PersonId,
+  b: PersonId,
+): boolean {
+  if (core.people.get(a)?.householdId !== core.people.get(b)?.householdId)
+    return false;
+  const mine = core.knowledgeByPerson.get(a)?.get(ADDRESS_FACT.event);
+  const theirs = core.knowledgeByPerson.get(b)?.get(ADDRESS_FACT.event);
+  return (
+    !!mine &&
+    !!theirs &&
+    mine.value === theirs.value &&
+    mine.learnedAt === theirs.learnedAt
+  );
+}
+
+/**
  * The talk's main topic: the subject of either person that the biggest
  * recent recorded event is about, never the topic of their last talk.
  */
@@ -3037,6 +3077,13 @@ function mainTopic(
     // Small talk loses to anything with a record: it is never the leading
     // subject, only the last thing the opening order reaches.
     if (subject.kind === "quiet") return;
+    // What the two did together each of them knows (the telling's shared
+    // events): nobody who watched the address with the player asks whether
+    // they saw it; they open on their own point of it, which weighs what
+    // the address would (owner, Nov 12: "settle in to listen to the
+    // president's address").
+    const together = watchedTogether(core, playerId, otherId);
+    if (subject.kind === "address" && together) return;
     if (
       conversation.used.includes(subject.id) ||
       conversation.used.includes(`${otherId}>${subject.id}`)
@@ -3046,7 +3093,15 @@ function mainTopic(
     // two of them: what they share stands for it when no subject is about
     // its cause, ahead of any other recorded event.
     const weight = !occasion
-      ? topicWeight(core, director, holderId, subject, data)
+      ? subject.kind === POINT && together
+        ? topicWeight(
+            core,
+            director,
+            holderId,
+            { ...subject, kind: "address" },
+            data,
+          )
+        : topicWeight(core, director, holderId, subject, data)
       : isAbout(subject, occasion, data)
         ? // What the other person has to tell comes before the player's
           // question about the same thing.
@@ -3060,6 +3115,20 @@ function mainTopic(
     // Where they stand politically competes with small talk only: any
     // recorded event, or the address while it is news, leads before it.
     if (subject.weight !== undefined) {
+      // Where someone stands needs a cause to come up (owner, Oct 24: a talk
+      // with nothing on record says nothing): news they took in since
+      // yesterday. And two people in one house never name the same question
+      // on one day (the telling's "said today").
+      const question = subject.news?.question;
+      if (question && heardNow.has(`${HEARD_QUESTION}${question}`)) return;
+      if (
+        !storiesHeard(
+          coreAPI(core as CoreState),
+          holderId,
+          addDays(makeIsoDate(core.date), -one),
+        ).length
+      )
+        return;
       if (weight > zero && (!standing || weight > standing.weight))
         standing = { subject, asks, weight };
       return;
@@ -3365,6 +3434,16 @@ function openConversationNow(
  * (owner, Nov 12: "basically saying the same thing").
  */
 const HEARD_PREFIX = "talk:heard:";
+/** The rows that pass, or all of them when none does. */
+function fresher<T>(rows: readonly T[], keep: (row: T) => boolean): T[] {
+  const kept = rows.filter(keep);
+  return kept.length ? kept : [...rows];
+}
+
+/** A town or state figure told today. */
+const HEARD_FIGURE = "figure:";
+/** A policy question named today, by anyone in the house. */
+const HEARD_QUESTION = "question:";
 /** A subject heard today, kept beside the pieces: news one housemate told is not told again by the next. */
 const HEARD_SUBJECT = "subject:";
 let heardNow: ReadonlySet<string> = new Set();
@@ -3389,6 +3468,10 @@ function noteHeard(core: CoreState, conversation: Conversation): void {
     for (const part of [
       ...(line.wording?.parts ?? []),
       `${HEARD_SUBJECT}${line.subjectId}`,
+      // A key that starts with "=" is kept as it stands (a figure told).
+      ...(conversation.questions ?? []).map((q) =>
+        q.startsWith("=") ? q.slice(one) : `${HEARD_QUESTION}${q}`,
+      ),
     ])
       api.observe(conversation.playerId, {
         key: `${HEARD_PREFIX}${part}`,
@@ -3424,6 +3507,7 @@ export function openConversation(
 ): Conversation {
   const [core, playerId] = args;
   const talk = withHeard(core, playerId, () => openConversationNow(...args));
+  laterMentions(core, talk, zero);
   if (!talk.look && talk.lines.length) noteHeard(core as CoreState, talk);
   return talk;
 }
@@ -3431,9 +3515,42 @@ export function openConversation(
 /** The player says a line (see `sayNow`); what the other person says back is kept as heard today. */
 export function say(...args: Parameters<typeof sayNow>): Conversation {
   const [core, conversation] = args;
+  const from = conversation.lines.length;
   const talk = withHeard(core, conversation.playerId, () => sayNow(...args));
+  laterMentions(core, talk, from);
   noteHeard(core, talk);
   return talk;
+}
+
+/**
+ * The people a talk says by role, said once by role and then by pronoun
+ * across the whole talk, its lines and the replies offered (said-as; owner,
+ * Nov 12: "There needs to be pronouns and titles"). The President is the one
+ * role talk says today.
+ */
+function laterMentions(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  from: number,
+): void {
+  const id = conversation.director?.ledger.opening?.president.id;
+  const role = officeWords("president")?.again;
+  if (!id || !role) return;
+  const person = saidPersonOf(core, id, {
+    speakerId: conversation.otherId,
+    listenerId: conversation.playerId,
+  });
+  const named = (text: string) =>
+    text.toLowerCase().includes(role.toLowerCase());
+  let mentioned = conversation.lines
+    .slice(zero, from)
+    .some((line) => named(line.text));
+  for (const line of conversation.lines.slice(from)) {
+    line.text = laterMentionsAsPronoun(line.text, role, person, mentioned);
+    mentioned ||= named(line.text);
+  }
+  for (const choice of conversation.choices)
+    choice.text = laterMentionsAsPronoun(choice.text, role, person, mentioned);
 }
 
 /**
@@ -3804,7 +3921,7 @@ function offerChoices(
       !!data.tells?.[last.kind]?.[choiceKey] ||
       // Every reply to the address's point is answered, in composed words,
       // and so is asking someone why they stand where they do.
-      last.kind === POINT ||
+      (last.kind === POINT && pointAnswerable(last.facts, choiceKey)) ||
       (last.kind === "own-view" && choiceKey === OWN_VIEW_WHY) ||
       REPLY_MOVES.answerable.includes(replyMoveOf(last.kind, choiceKey));
     const text = joinedReply(head, tail);
@@ -3931,6 +4048,12 @@ function offerChoices(
     }
     conversation.choices = ranked.filter((row) => kept.has(row));
   }
+  // A reply that only takes the line in ("Oh, I see.", "Alright.") says
+  // nothing and gets nothing back: it is not offered (owner, Nov 12: "the
+  // just non-replies"). With nothing else to say, the talk ends on their line.
+  conversation.choices = conversation.choices.filter(
+    (row) => replyMoveOf(last.kind, row.move) !== "note",
+  );
   // The scales: a question about the player's own record they could deny.
   const asked = conversation.lines.at(-one);
   if (
@@ -4796,6 +4919,14 @@ function answerPoint(
     `${eventId}:back`,
     saidParts(conversation, otherId),
   );
+  // The town's or the state's record the answer told is heard for the day.
+  const figure = last.facts.state ?? last.facts["town-figure"];
+  if (
+    back &&
+    figure &&
+    back.wording?.facts.some((key) => key === "state" || key === "town-figure")
+  )
+    (conversation.questions ??= []).push(`=${HEARD_FIGURE}${figure.text}`);
   if (back)
     conversation.lines.push({
       speakerId: otherId,
@@ -4807,6 +4938,30 @@ function answerPoint(
     });
   carryOn(core, conversation, data);
 }
+
+/**
+ * Whether a question the player puts on the address's point can be answered
+ * from what the other person holds (owner, Nov 12: "how the hell would she
+ * know?"): what it means here needs this world's own record (the state's law
+ * or the town's figure) that the player has not already heard today; what
+ * they would do instead needs a stand of their own with a reason from their
+ * own life. A dodge is never the whole answer, so with no record the
+ * question is not offered.
+ */
+function pointAnswerable(facts: Facts, choiceKey: string): boolean {
+  if (choiceKey === POINT_HERE) {
+    const fact = facts.state ?? facts["town-figure"];
+    return !!fact && !heardNow.has(`${HEARD_FIGURE}${fact.text}`);
+  }
+  if (choiceKey === POINT_INSTEAD)
+    return (
+      !!facts["stand-decided"] && !!(facts["why-work"] ?? facts["why-money"])
+    );
+  return true;
+}
+/** The point's replies that ask: what it means here, what they would do instead (conversation-rules.json replyMoves). */
+const POINT_HERE = "here";
+const POINT_INSTEAD = "instead";
 
 /** The player's replies to where someone stands that say where the player stands. */
 const OWN_VIEW_TAKES: readonly string[] = ["agree", "disagree"];

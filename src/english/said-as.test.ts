@@ -3,6 +3,7 @@ import {
   employerSaidAs,
   jobSaidAs,
   saidAs,
+  laterMentionsAsPronoun,
   sentenceStarts,
   type SaidPerson,
 } from "./said-as";
@@ -139,5 +140,44 @@ describe("sentence starts", () => {
     expect(sentenceStarts("the President said it. he meant it.")).toBe(
       "The President said it. He meant it.",
     );
+  });
+});
+
+describe("later mentions", () => {
+  it("says a role once, then the pronoun in its case", () => {
+    const he = { pronouns: "he-him" };
+    expect(
+      laterMentionsAsPronoun(
+        "The President spent time on pay. Nothing here looks like what the President described.",
+        "the President",
+        he,
+      ),
+    ).toBe(
+      "The President spent time on pay. Nothing here looks like what he described.",
+    );
+    expect(
+      laterMentionsAsPronoun(
+        "Same as the President, honestly.",
+        "the President",
+        he,
+        true,
+      ),
+    ).toBe("Same as him, honestly.");
+    expect(
+      laterMentionsAsPronoun(
+        "The President's plan won't work.",
+        "the President",
+        { gender: "female" },
+        true,
+      ),
+    ).toBe("Her plan won't work.");
+    expect(
+      laterMentionsAsPronoun(
+        "The President said it.",
+        "the President",
+        {},
+        true,
+      ),
+    ).toBe("The President said it.");
   });
 });

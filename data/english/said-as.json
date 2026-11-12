@@ -29,30 +29,54 @@
     }
   },
   "offices": {
-    "president": { "before": "President", "again": "the President" },
+    "president": {
+      "before": "President",
+      "again": "the President"
+    },
     "vice-president": {
       "before": "Vice President",
       "again": "the Vice President"
     },
-    "governor": { "before": "Governor", "again": "the governor" },
+    "governor": {
+      "before": "Governor",
+      "again": "the governor"
+    },
     "lieutenant-governor": {
       "before": "Lieutenant Governor",
       "again": "the lieutenant governor"
     },
-    "us-senate": { "before": "Senator", "again": "the senator" },
-    "us-house": { "before": "Representative", "again": "the congressman" },
-    "us-house-delegate": { "before": "Delegate", "again": "the delegate" },
+    "us-senate": {
+      "before": "Senator",
+      "again": "the senator"
+    },
+    "us-house": {
+      "before": "Representative",
+      "again": "the congressman"
+    },
+    "us-house-delegate": {
+      "before": "Delegate",
+      "again": "the delegate"
+    },
     "legislature-lower": {
       "before": "Representative",
       "again": "the representative"
     },
-    "legislature-upper": { "before": "Senator", "again": "the senator" },
+    "legislature-upper": {
+      "before": "Senator",
+      "again": "the senator"
+    },
     "legislature-unicameral": {
       "before": "Senator",
       "again": "the senator"
     },
-    "council": { "before": "Council member", "again": "the council member" },
-    "mayor": { "before": "Mayor", "again": "the mayor" }
+    "council": {
+      "before": "Council member",
+      "again": "the council member"
+    },
+    "mayor": {
+      "before": "Mayor",
+      "again": "the mayor"
+    }
   },
   "relation": {
     "yours": "your {relation} {given}",
@@ -64,5 +88,58 @@
     "title": "Works outside the town",
     "does": "works outside the town",
     "job": "a job out of town"
+  },
+  "subjectBefore": {
+    "about": "The words after a person's role that make the role the subject of its clause, so a later mention is said as the subject pronoun (\"what the President described\" becomes \"what he described\"); after any other word it is the object (\"same as him\"), and with 's the possessive. A stand-in until the slot carries its case (said-as case per slot, builder W-C).",
+    "words": [
+      "is",
+      "isn't",
+      "was",
+      "wasn't",
+      "has",
+      "hasn't",
+      "had",
+      "does",
+      "doesn't",
+      "did",
+      "didn't",
+      "will",
+      "won't",
+      "would",
+      "wouldn't",
+      "should",
+      "shouldn't",
+      "could",
+      "couldn't",
+      "can",
+      "can't",
+      "might",
+      "may",
+      "must",
+      "says",
+      "said",
+      "wants",
+      "wanted",
+      "means",
+      "meant",
+      "described",
+      "spoke",
+      "talked",
+      "mentioned",
+      "brought",
+      "went",
+      "made",
+      "got",
+      "gets",
+      "keeps",
+      "thinks",
+      "knows",
+      "promised",
+      "asked",
+      "called",
+      "put",
+      "says,",
+      "and"
+    ]
   }
 }

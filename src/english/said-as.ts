@@ -226,3 +226,51 @@ export function sentenceStarts(text: string): string {
     (_, before: string, letter: string) => before + letter.toUpperCase(),
   );
 }
+
+const SUBJECT_BEFORE = new Set(data.subjectBefore.words);
+
+/**
+ * A role said more than once in a text: the first stays, every later one is
+ * the person's pronoun (owner, Nov 12: "There needs to be pronouns and
+ * titles"), in the case its place in the clause takes. `mentioned` says the
+ * text already named them before this piece, so every mention here is a
+ * later one. A person said with the they form keeps the role.
+ */
+export function laterMentionsAsPronoun(
+  text: string,
+  role: string,
+  person: Pick<SaidPerson, "pronouns" | "gender">,
+  mentioned = false,
+): string {
+  const set = person.pronouns ?? pronounSetOfGender(person.gender);
+  const words = pronounWords(set);
+  if (!words || !role) return text;
+  const bare = role.replace(/^the\s+/i, "");
+  const pattern = new RegExp(
+    `\\b[Tt]he ${bare.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}('s)?(?=(\\W*)(\\S*))`,
+    "g",
+  );
+  let seen = mentioned;
+  return text.replace(
+    pattern,
+    (
+      match: string,
+      owner: string | undefined,
+      _gap: string,
+      next: string | undefined,
+      at: number,
+    ) => {
+      if (!seen) {
+        seen = true;
+        return match;
+      }
+      const start = at === 0 || /[.!?]\s*$/.test(text.slice(0, at));
+      const word = owner
+        ? words.possessive
+        : SUBJECT_BEFORE.has((next ?? "").toLowerCase().replace(/[^a-z']/g, ""))
+          ? words.lower
+          : words.object;
+      return start ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+    },
+  );
+}
