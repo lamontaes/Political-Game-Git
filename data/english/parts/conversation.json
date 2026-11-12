@@ -33867,52 +33867,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.address-point-back-agree.then-we-ll-both-be-watching-what-congress-does-on-about",
-      "move": "address-point-back-agree",
-      "kind": "spoken",
-      "text": "Then we'll both be watching what Congress does on {about}.",
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-back-agree",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["agree"],
-          "requiresFacts": ["policy-point"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.address-point-back-disagree.we-ll-see-who-s-right-once-congress-takes-up-about",
-      "move": "address-point-back-disagree",
-      "kind": "spoken",
-      "text": "We'll see who's right once Congress takes up {about}.",
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-back-disagree",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["disagree"],
-          "requiresFacts": ["policy-point"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.address-point-back-disagree.you-and-i-heard-president-differently-then",
       "move": "address-point-back-disagree",
       "kind": "spoken",
@@ -33975,6 +33929,121 @@
           "role": "core",
           "stages": ["disagree"],
           "requiresFacts": ["year-point"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-agree.then-we-ll-both-see-what-congress-makes-of-president-possessive-plan",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Then we'll both see what Congress makes of {president-possessive} plan.",
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["policy-point"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-agree.glad-you-see-it-like-i-do-name",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Glad you see it like I do, {name}.",
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["policy-point"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-agree.good-somebody-in-this-house-agrees-with-me-name",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Good. Somebody in this house agrees with me, {name}.",
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["policy-point"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.we-ll-see-who-s-right-once-congress-votes-name",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "We'll see who's right once Congress votes, {name}.",
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["policy-point"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.fair-enough-name-we-don-t-have-to-agree",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "Fair enough, {name}. We don't have to agree.",
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["policy-point"]
         }
       ],
       "origin": "authored",
