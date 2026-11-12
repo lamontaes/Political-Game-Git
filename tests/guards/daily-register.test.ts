@@ -64,6 +64,8 @@ describe("the daily register", () => {
   for (const module of core.modules.values()) {
     if (module.onDay) steps.push(`${module.id}.onDay`);
     if (module.onAfterDay) steps.push(`${module.id}.onAfterDay`);
+    // Results mode's own step runs on every skipped day.
+    if (module.onResultsDay) steps.push(`${module.id}.onResultsDay`);
   }
   for (const kit of officeActKits()) {
     if (kit.onDay) steps.push(`office-kit:${kit.id}.onDay`);
