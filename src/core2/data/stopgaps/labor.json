@@ -196,5 +196,17 @@
     "addedAt": "2026-11-09",
     "replacement": "Read the state row's private-employer coverage for private employers, and a counted seeker's share with a record from the justice engine's counted cases, by the same rule as a full person; size the penalty from the callback gap by employer type.",
     "status": "open"
+  },
+  {
+    "id": "SG-LABOR-commuter-role-pool-pay",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/residents.ts",
+    "line": 1,
+    "whatItFakes": "A resident who works outside the town takes a role from the county's mix of work (the role furthest below its share among the place's commuters), but is paid their household's share of the place's unplaced workers' pay, not that role's own wage.",
+    "why": "The unplaced workers' pay is one pooled flow per place sized from the place's earnings; splitting it by role would need each commuter's wage priced at fill-in and the pool re-sized to match.",
+    "addedBy": "jobs builder opus-3ab1",
+    "addedAt": "2026-11-12",
+    "replacement": "Price a commuter's job from the role's BLS OEWS wage (townJobRate) and take the difference out of the place's pooled flow.",
+    "status": "open"
   }
 ]

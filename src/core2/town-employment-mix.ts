@@ -186,6 +186,16 @@ const SECTOR_WORKPLACES: Readonly<
   ],
 };
 
+/** The other workplaces of a workplace's own private sector, with their shares of it. */
+export function sectorSiblingWorkplaces(
+  key: string,
+): readonly (readonly [string, number])[] {
+  const sector = Object.values(SECTOR_WORKPLACES).find((places) =>
+    places.some(([place]) => place === key),
+  );
+  return sector?.filter(([place]) => place !== key) ?? [];
+}
+
 /** GAME ASSUMPTION: which local workplaces each major group works in. */
 const LOCAL_GROUP_WORKPLACES: Readonly<
   Record<LocalGroup, readonly (readonly [string, number])[]>

@@ -1,3 +1,4 @@
+import { OUTSIDE_MARKET_KIND } from "../core2/opening-outside-market";
 import { servingTermsOf } from "../core2/modules/offices";
 import { officeInSentence, personWorkOf } from "../core2/person-work";
 import {
@@ -60,6 +61,21 @@ import { preStartHistory, sharedHistory } from "../core2/past";
 const CLOSEST = 8;
 
 /** A person card: who they are, from their records only. */
+/**
+ * The name of the employer a job is with, as a card says it; none for work
+ * outside the town, whose payer is the place's outside account ("Buyers and
+ * sellers outside the town") and not anyone's workplace.
+ */
+function employerName(
+  core: CoreState,
+  organizationId: string,
+): string | undefined {
+  const organization = core.organizations.get(organizationId);
+  return organization && organization.kind !== OUTSIDE_MARKET_KIND
+    ? organization.name
+    : undefined;
+}
+
 export function personCard(core: CoreState, personId: string) {
   // A counted resident is filled in the moment they are clicked, from the
   // world's records, so the card is the same person every time.
@@ -72,7 +88,7 @@ export function personCard(core: CoreState, personId: string) {
   const relatives = familyFactsOf(person);
   const relationOf = (id: string) => relatives.get(id as PersonId)?.relation;
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
-  const employer = job ? core.organizations.get(job.organizationId) : undefined;
+  const employer = job ? employerName(core, job.organizationId) : undefined;
   const household = core.households.get(person.householdId);
   // Faces for the People map: each the figure a room here would draw.
   const place = scenePlace(core, personId).place;
@@ -143,7 +159,7 @@ export function personCard(core: CoreState, personId: string) {
     job: job && {
       jobId: job.id,
       title: job.title,
-      employer: employer?.name,
+      employer,
       wageDailyMinor: job.wageDailyMinor,
       hoursDaily: job.hoursDaily,
     },
@@ -369,8 +385,7 @@ function lineOf(
     const row = typeof id === "string" ? core.people.get(id) : undefined;
     return row ? `${row.givenName} ${row.familyName}` : "";
   };
-  const orgName = (id: unknown) =>
-    core.organizations.get(String(id ?? ""))?.name ?? "";
+  const orgName = (id: unknown) => employerName(core, String(id ?? "")) ?? "";
   const placeName = (id: unknown) =>
     typeof id === "string" && corePlaceByJurisdictionId(id as never)
       ? corePlaceByJurisdictionId(id as never)!.displayName
@@ -1008,7 +1023,8 @@ function noJobLine(
     .sort((a, b) => rank(a!.id) - rank(b!.id))[0];
   const job = earner?.jobId ? core.jobs.get(earner.jobId) : undefined;
   const employer = job ? core.organizations.get(job.organizationId) : undefined;
-  if (earner && job && employer) {
+  // Work outside the town has no workplace to name: the line without one is told.
+  if (earner && job && employer && employer.kind !== OUTSIDE_MARKET_KIND) {
     const text = screenLine(
       "person-history",
       "person-history.summary.no-work.earner.you",
@@ -1523,7 +1539,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     work: job
       ? {
           title: job.title,
-          employer: core.organizations.get(job.organizationId)?.name ?? null,
+          employer: employerName(core, job.organizationId) ?? null,
         }
       : null,
     school: school?.name ?? null,
@@ -1601,7 +1617,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
       (family || housemate || coworker) && job
         ? {
             title: job.title,
-            employer: core.organizations.get(job.organizationId)?.name ?? null,
+            employer: employerName(core, job.organizationId) ?? null,
           }
         : null,
     tie: tie
