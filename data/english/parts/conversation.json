@@ -49,7 +49,8 @@
     "rent": "The household's rent, as people round it (\"about $1,200\"), from the lease record.",
     "due": "When the rent is due, from today (\"tomorrow\", \"in three days\"), from the lease record.",
     "usual": "How long the speaker's shift usually runs (\"eight hours\"), from the job record's daily hours.",
-    "age": "The age a person turned, from the paper's milestone birthday story."
+    "age": "The age a person turned, from the paper's milestone birthday story.",
+    "office": "The office a race is for, as its contest record names it."
   },
   "maxWords": 10,
   "lineWords": {
@@ -33796,7 +33797,7 @@
           "move": "work-done-say-core",
           "subject": "work-done-say",
           "role": "core",
-          "requiresFacts": ["employer", "hours"]
+          "requiresFacts": ["employer", "hours", "longer"]
         }
       ],
       "piece": {
@@ -33819,7 +33820,7 @@
           "move": "work-done-say-core",
           "subject": "work-done-say",
           "role": "core",
-          "requiresFacts": ["employer", "hours", "end"]
+          "requiresFacts": ["employer", "hours", "end", "longer"]
         }
       ],
       "piece": {
@@ -33828,52 +33829,6 @@
         "required": true
       },
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-done-say-core.i-put-in-hours-at-employer-today",
-      "move": "work-done-say-core",
-      "kind": "spoken",
-      "text": "I put in {hours} at {employer} today.",
-      "uses": [
-        {
-          "move": "work-done-say-core",
-          "subject": "work-done-say",
-          "role": "core",
-          "requiresFacts": ["employer", "hours"]
-        }
-      ],
-      "piece": {
-        "of": "work-done-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-done-say-core.done-at-employer-for-the-day-finally",
-      "move": "work-done-say-core",
-      "kind": "spoken",
-      "text": "Done at {employer} for the day, finally.",
-      "uses": [
-        {
-          "move": "work-done-say-core",
-          "subject": "work-done-say",
-          "role": "core",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "piece": {
-        "of": "work-done-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
       "date": "2026-11-12"
@@ -34137,7 +34092,7 @@
           "subject": "work-done-back",
           "role": "core",
           "stages": ["ask"],
-          "requiresFacts": ["hours", "wage"]
+          "requiresFacts": ["hours", "wage", "longer"]
         }
       ],
       "piece": {
@@ -34146,30 +34101,6 @@
         "required": true
       },
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-done-back-core.same-as-ever-at-wage-an-hour-i-m-not-complaining",
-      "move": "work-done-back-core",
-      "kind": "spoken",
-      "text": "Same as ever. At {wage} an hour, I'm not complaining.",
-      "uses": [
-        {
-          "move": "work-done-back-core",
-          "subject": "work-done-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["wage"]
-        }
-      ],
-      "piece": {
-        "of": "work-done-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
       "date": "2026-11-12"
@@ -34232,7 +34163,7 @@
           "subject": "work-done-back",
           "role": "core",
           "stages": ["ask"],
-          "requiresFacts": ["hours"]
+          "requiresFacts": ["hours", "shorter"]
         }
       ],
       "piece": {
@@ -36051,6 +35982,1288 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.so-employer-hired-you",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "So {employer} hired you.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["job-got"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.i-heard-you-got-on-at-employer",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "I heard you got on at {employer}.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["job-got"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.so-it-s-employer-now",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "So it's {employer} now.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["job-changed"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.i-heard-you-moved-over-to-employer",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "I heard you moved over to {employer}.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["job-changed"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.i-heard-about-employer-i-m-sorry",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "I heard about {employer}. I'm sorry.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["job-lost"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.employer-let-you-go-that-s-rough",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "{employer} let you go? That's rough.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["job-lost"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.so-you-re-done-at-employer",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "So you're done at {employer}.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["job-left"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.i-heard-you-left-employer",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "I heard you left {employer}.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["job-left"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.i-saw-you-filed-for-office",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "I saw you filed for {office}.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["filed"],
+          "requiresFacts": ["office"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.so-you-re-really-running-for-office",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "So you're really running for {office}.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["filed"],
+          "requiresFacts": ["office"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.you-won-office-you-actually-won",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "You won {office}. You actually won.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["won"],
+          "requiresFacts": ["office"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.office-you-did-it",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "{office}. You did it.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["won"],
+          "requiresFacts": ["office"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.i-saw-how-office-came-out",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "I saw how {office} came out.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["lost"],
+          "requiresFacts": ["office"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.i-m-sorry-about-office",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "I'm sorry about {office}.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["lost"],
+          "requiresFacts": ["office"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.outlet-had-a-good-word-about-you",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "{outlet} had a good word about you.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["in-paper"],
+          "requiresFacts": ["outlet", "ran-for"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.outlet-wasn-t-kind-to-you",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "{outlet} wasn't kind to you.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["in-paper"],
+          "requiresFacts": ["outlet", "ran-against"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-core.your-name-was-in-outlet",
+      "move": "player-news-say-core",
+      "kind": "spoken",
+      "text": "Your name was in {outlet}.",
+      "uses": [
+        {
+          "move": "player-news-say-core",
+          "subject": "player-news-say",
+          "role": "core",
+          "stages": ["in-paper"],
+          "requiresFacts": ["outlet", "ran-even"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-closer.i-m-proud-of-you-you",
+      "move": "player-news-say-closer",
+      "kind": "spoken",
+      "text": "I'm proud of you, {you}.",
+      "uses": [
+        {
+          "move": "player-news-say-closer",
+          "subject": "player-news-say",
+          "role": "closer",
+          "stages": [
+            "filed",
+            "won",
+            "in-paper",
+            "job-got",
+            "job-changed",
+            "job-left"
+          ],
+          "requiresFacts": ["stance-proud"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "closer"
+      },
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-closer.good-for-you-you",
+      "move": "player-news-say-closer",
+      "kind": "spoken",
+      "text": "Good for you, {you}.",
+      "uses": [
+        {
+          "move": "player-news-say-closer",
+          "subject": "player-news-say",
+          "role": "closer",
+          "stages": [
+            "filed",
+            "won",
+            "in-paper",
+            "job-got",
+            "job-changed",
+            "job-left"
+          ],
+          "requiresFacts": ["stance-glad"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "closer"
+      },
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-closer.don-t-let-it-go-to-your-head-you",
+      "move": "player-news-say-closer",
+      "kind": "spoken",
+      "text": "Don't let it go to your head, {you}.",
+      "uses": [
+        {
+          "move": "player-news-say-closer",
+          "subject": "player-news-say",
+          "role": "closer",
+          "stages": ["filed", "won", "in-paper", "job-got", "job-changed"],
+          "requiresFacts": ["stance-tease"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "closer"
+      },
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-closer.i-just-worry-what-it-ll-cost-you-you",
+      "move": "player-news-say-closer",
+      "kind": "spoken",
+      "text": "I just worry what it'll cost you, {you}.",
+      "uses": [
+        {
+          "move": "player-news-say-closer",
+          "subject": "player-news-say",
+          "role": "closer",
+          "stages": ["filed", "in-paper"],
+          "requiresFacts": ["stance-worry"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "closer"
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-closer.i-worry-about-you-you",
+      "move": "player-news-say-closer",
+      "kind": "spoken",
+      "text": "I worry about you, {you}.",
+      "uses": [
+        {
+          "move": "player-news-say-closer",
+          "subject": "player-news-say",
+          "role": "closer",
+          "stages": ["job-lost", "lost"],
+          "requiresFacts": ["stance-worry"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "closer"
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-closer.something-better-will-come-along-you",
+      "move": "player-news-say-closer",
+      "kind": "spoken",
+      "text": "Something better will come along, {you}.",
+      "uses": [
+        {
+          "move": "player-news-say-closer",
+          "subject": "player-news-say",
+          "role": "closer",
+          "stages": ["job-lost"],
+          "requiresFacts": ["stance-steady"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-closer.there-s-always-the-next-one-you",
+      "move": "player-news-say-closer",
+      "kind": "spoken",
+      "text": "There's always the next one, {you}.",
+      "uses": [
+        {
+          "move": "player-news-say-closer",
+          "subject": "player-news-say",
+          "role": "closer",
+          "stages": ["lost"],
+          "requiresFacts": ["stance-steady"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-say-closer.you-know-i-d-vote-the-other-way-you",
+      "move": "player-news-say-closer",
+      "kind": "spoken",
+      "text": "You know I'd vote the other way, {you}.",
+      "uses": [
+        {
+          "move": "player-news-say-closer",
+          "subject": "player-news-say",
+          "role": "closer",
+          "stages": ["filed", "won", "in-paper"],
+          "requiresFacts": ["stance-other-side"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-say",
+        "part": "closer"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-answer-take.thanks-first-that-means-a-lot",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Thanks, {first}. That means a lot.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-proud"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-answer-take.thanks-first-i-m-glad-too",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Thanks, {first}. I'm glad too.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-glad"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-answer-take.very-funny-first-thanks-though",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Very funny, {first}. Thanks, though.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-tease"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-answer-take.i-ll-be-okay-first-thanks",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "I'll be okay, {first}. Thanks.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-steady"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-answer-take.i-ll-be-careful-first-i-promise",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "I'll be careful, {first}. I promise.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-worry"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-answer-take.i-know-first-i-ll-take-my-chances",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "I know, {first}. I'll take my chances.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-other-side"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-answer-tell.somebody-has-to-run-for-office-first",
+      "move": "player-news-answer-tell",
+      "kind": "spoken",
+      "text": "Somebody has to run for {office}, {first}.",
+      "uses": [
+        {
+          "move": "player-news-answer-tell",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["stance-tease"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-answer-tell.we-ll-see-how-employer-goes-first",
+      "move": "player-news-answer-tell",
+      "kind": "spoken",
+      "text": "We'll see how {employer} goes, {first}.",
+      "uses": [
+        {
+          "move": "player-news-answer-tell",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["stance-worry"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-answer-ask.you-think-it-s-a-mistake-first",
+      "move": "player-news-answer-ask",
+      "kind": "spoken",
+      "text": "You think it's a mistake, {first}?",
+      "uses": [
+        {
+          "move": "player-news-answer-ask",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["stance-worry", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-answer-ask.you-d-really-vote-against-me-first",
+      "move": "player-news-answer-ask",
+      "kind": "spoken",
+      "text": "You'd really vote against me, {first}?",
+      "uses": [
+        {
+          "move": "player-news-answer-ask",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["stance-other-side"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-back-core.i-mean-it-you",
+      "move": "player-news-back-core",
+      "kind": "spoken",
+      "text": "I mean it, {you}.",
+      "uses": [
+        {
+          "move": "player-news-back-core",
+          "subject": "player-news-back",
+          "role": "core",
+          "stages": ["take"],
+          "requiresFacts": ["stance-proud"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-back-core.you-earned-it-you",
+      "move": "player-news-back-core",
+      "kind": "spoken",
+      "text": "You earned it, {you}.",
+      "uses": [
+        {
+          "move": "player-news-back-core",
+          "subject": "player-news-back",
+          "role": "core",
+          "stages": ["take"],
+          "requiresFacts": ["stance-glad"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-back-core.somebody-has-to-keep-you-humble-you",
+      "move": "player-news-back-core",
+      "kind": "spoken",
+      "text": "Somebody has to keep you humble, {you}.",
+      "uses": [
+        {
+          "move": "player-news-back-core",
+          "subject": "player-news-back",
+          "role": "core",
+          "stages": ["take"],
+          "requiresFacts": ["stance-tease"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-back-core.i-know-you-will-you",
+      "move": "player-news-back-core",
+      "kind": "spoken",
+      "text": "I know you will, {you}.",
+      "uses": [
+        {
+          "move": "player-news-back-core",
+          "subject": "player-news-back",
+          "role": "core",
+          "stages": ["take"],
+          "requiresFacts": ["stance-steady"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-back-core.good-that-s-all-i-ask-you",
+      "move": "player-news-back-core",
+      "kind": "spoken",
+      "text": "Good. That's all I ask, {you}.",
+      "uses": [
+        {
+          "move": "player-news-back-core",
+          "subject": "player-news-back",
+          "role": "core",
+          "stages": ["take"],
+          "requiresFacts": ["stance-worry"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-back-core.proud-of-you-anyway-you-just-not-my-vote",
+      "move": "player-news-back-core",
+      "kind": "spoken",
+      "text": "Proud of you anyway, {you}. Just not my vote.",
+      "uses": [
+        {
+          "move": "player-news-back-core",
+          "subject": "player-news-back",
+          "role": "core",
+          "stages": ["take"],
+          "requiresFacts": ["stance-other-side"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-back-core.then-go-do-it-right-you",
+      "move": "player-news-back-core",
+      "kind": "spoken",
+      "text": "Then go do it right, {you}.",
+      "uses": [
+        {
+          "move": "player-news-back-core",
+          "subject": "player-news-back",
+          "role": "core",
+          "stages": ["tell"],
+          "requiresFacts": ["office"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-back-core.then-make-it-count-at-employer-you",
+      "move": "player-news-back-core",
+      "kind": "spoken",
+      "text": "Then make it count at {employer}, {you}.",
+      "uses": [
+        {
+          "move": "player-news-back-core",
+          "subject": "player-news-back",
+          "role": "core",
+          "stages": ["tell"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-back-core.not-a-mistake-you-just-a-lot-to-take-on",
+      "move": "player-news-back-core",
+      "kind": "spoken",
+      "text": "Not a mistake, {you}. Just a lot to take on.",
+      "uses": [
+        {
+          "move": "player-news-back-core",
+          "subject": "player-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["stance-worry"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.player-news-back-core.against-your-side-you-never-against-you",
+      "move": "player-news-back-core",
+      "kind": "spoken",
+      "text": "Against your side, {you}. Never against you.",
+      "uses": [
+        {
+          "move": "player-news-back-core",
+          "subject": "player-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["stance-other-side"]
+        }
+      ],
+      "piece": {
+        "of": "player-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-say-reason.i-make-payroll-at-employer-i-know-what-it-costs",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "I make payroll at {employer}. I know what it costs.",
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason",
+          "requiresFacts": ["why-payroll", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a reason holds for the side)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-say-reason.i-sign-the-checks-at-employer-so-i-see-both-sides",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "I sign the checks at {employer}, so I see both sides.",
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason",
+          "requiresFacts": ["why-payroll", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a reason holds for the side)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-back-core.i-sign-the-checks-at-employer-you",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "I sign the checks at {employer}, {you}.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-payroll", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a reason holds for the side)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-back-core.you-try-making-payroll-at-employer-you",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "You try making payroll at {employer}, {you}.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-payroll", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a reason holds for the side)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-back-core.every-raise-at-employer-comes-out-of-somewhere-you",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Every raise at {employer} comes out of somewhere, {you}.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-payroll", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a reason holds for the side)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-done-say-core.employer-sent-me-home-early-only-hours-today",
+      "move": "work-done-say-core",
+      "kind": "spoken",
+      "text": "{employer} sent me home early. Only {hours} today.",
+      "uses": [
+        {
+          "move": "work-done-say-core",
+          "subject": "work-done-say",
+          "role": "core",
+          "requiresFacts": ["employer", "hours", "shorter"]
+        }
+      ],
+      "piece": {
+        "of": "work-done-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a shift is told when it differed)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-done-say-core.short-day-at-employer-hours-not-usual",
+      "move": "work-done-say-core",
+      "kind": "spoken",
+      "text": "Short day at {employer}. {hours}, not {usual}.",
+      "uses": [
+        {
+          "move": "work-done-say-core",
+          "subject": "work-done-say",
+          "role": "core",
+          "requiresFacts": ["employer", "hours", "usual", "shorter"]
+        }
+      ],
+      "piece": {
+        "of": "work-done-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a shift is told when it differed)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-done-say-core.employer-kept-me-hours-today-usually-it-s-usual",
+      "move": "work-done-say-core",
+      "kind": "spoken",
+      "text": "{employer} kept me {hours} today. Usually it's {usual}.",
+      "uses": [
+        {
+          "move": "work-done-say-core",
+          "subject": "work-done-say",
+          "role": "core",
+          "requiresFacts": ["employer", "hours", "usual", "longer"]
+        }
+      ],
+      "piece": {
+        "of": "work-done-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a shift is told when it differed)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-done-back-core.long-one-you-hours-and-my-back-knows-it",
+      "move": "work-done-back-core",
+      "kind": "spoken",
+      "text": "Long one, {you}. {hours}, and my back knows it.",
+      "uses": [
+        {
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["hours", "longer"]
+        }
+      ],
+      "piece": {
+        "of": "work-done-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a shift is told when it differed)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-done-back-core.just-hours-you-i-ll-take-the-early-night",
+      "move": "work-done-back-core",
+      "kind": "spoken",
+      "text": "Just {hours}, {you}. I'll take the early night.",
+      "uses": [
+        {
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["hours", "shorter"]
+        }
+      ],
+      "piece": {
+        "of": "work-done-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a shift is told when it differed)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-done-back-core.short-day-means-a-short-check-you",
+      "move": "work-done-back-core",
+      "kind": "spoken",
+      "text": "Short day means a short check, {you}.",
+      "uses": [
+        {
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
+          "role": "core",
+          "stages": ["rest"],
+          "requiresFacts": ["shorter"]
+        }
+      ],
+      "piece": {
+        "of": "work-done-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a shift is told when it differed)",
       "date": "2026-11-12"
     }
   ]

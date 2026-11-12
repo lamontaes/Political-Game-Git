@@ -175,6 +175,7 @@ import {
   learnViewQuestion,
   stanceRecordId,
   viewKey,
+  viewRecordId,
   viewSubjectOf,
 } from "./view-learned";
 
@@ -1134,8 +1135,18 @@ function workDay(
       Object.assign(facts, mark("shift-ahead"));
       Object.assign(facts, mark(change > zero ? "longer" : "shorter"));
       facts.usual = { text: hoursSaid(usual), sourceRecordIds: cites };
-    } else if (minuteOfDay >= end) done = true;
-    else return null;
+    } else if (minuteOfDay >= end) {
+      // The shift just worked is news only when it was not the usual day
+      // (lead, Nov 12: "Done at work for the day, finally." / "Same as
+      // ever." is filler): longer or shorter than the job's usual hours.
+      const usual = usualShift(core, speaker.id, mine.job.id);
+      if (usual === undefined) return null;
+      const change = owner.plannedMinutes - usual;
+      if (Math.abs(change) < DAY_TALK.unusualShiftMinutes.value) return null;
+      Object.assign(facts, mark(change > zero ? "longer" : "shorter"));
+      facts.usual = { text: hoursSaid(usual), sourceRecordIds: cites };
+      done = true;
+    } else return null;
   }
   const hourly =
     mine.job.hourlyMinor ??
@@ -1345,6 +1356,159 @@ function storyTouching(
       id: `news-touch:${story.id}`,
       kind: "news-touch",
       aboutId: story.id,
+      facts,
+    };
+  }
+  return null;
+}
+
+/** The player's own news a housemate brings up, by the moment's cause kind (conversation-rules.json playerNews, TUNABLE). */
+interface StanceRow {
+  readonly riskLow: string;
+  readonly riskHigh: string;
+}
+const PLAYER_NEWS = (
+  rulesFile as unknown as {
+    playerNews: {
+      causes: Readonly<Record<string, string>>;
+      civic: readonly string[];
+      losses: readonly string[];
+      withinDays: { value: number };
+      stances: Readonly<
+        Record<
+          string,
+          { good: StanceRow; loss: StanceRow; civic: StanceRow } | string
+        >
+      >;
+      riskBelow: { value: number };
+      otherSideLean: { value: number };
+    };
+  }
+).playerNews;
+/** The trait the stance on the player's news reads: the cautious end worries (people-mind-v1). */
+const RISK_TRAIT = "people-mind-v1:risk";
+/** The heard key of a moment of the player's that a scene already played. */
+const playerNewsHeard = (causeId: string) => `player-news:${causeId}`;
+
+/**
+ * The player's own recorded news, brought up by someone they live with (words
+ * composer; lead, Nov 12: "the people at home talk most about the person in
+ * front of them"): the newest moment of the player's own ledger within the
+ * window whose cause kind the rules name (a job got or lost, a filing, a race
+ * won or lost, their name in the paper, a vote, a bill). The housemate knows
+ * it because they live with the player (the household is cited) or read it
+ * (the printed story). Their stance is from their tie to the player and
+ * their risk trait, or the other side when their lean and the player's
+ * differ (the views engine). A moment a scene already played, or one the
+ * house already told the player, is not brought up again.
+ */
+function playerNews(
+  core: Readonly<CoreState>,
+  director: Director | undefined,
+  speaker: Readonly<PersonState>,
+  listener: Readonly<PersonState>,
+): Subject | null {
+  if (!director?.ledger.people.has(listener.id)) return null;
+  for (const moment of recentMoments(core, director, listener.id)) {
+    const mark = PLAYER_NEWS.causes[moment.causeKind];
+    if (!mark) continue;
+    if (
+      daysBetween(makeIsoDate(moment.date), makeIsoDate(core.date)) >
+      PLAYER_NEWS.withinDays.value
+    )
+      break;
+    // Another member's job named in the player's book is theirs, not the player's.
+    if (moment.label.startsWith("money:") && moment.counterpartIds.length)
+      continue;
+    const id = playerNewsHeard(moment.causeId);
+    // Told by the house once, or played as a scene: heard.
+    if (heardRows.some((row) => row.key === `${HEARD_SUBJECT}${id}`)) continue;
+    const record = core.durableLog.get(moment.causeId as never) as
+      { facts?: Readonly<Record<string, string>> } | undefined;
+    const cites = [moment.causeId];
+    const fact = (text: string, ids = cites): Fact => ({
+      text,
+      sourceRecordIds: ids,
+    });
+    const facts: Facts = {
+      // How they know: they live with the player.
+      "knows-home": fact("yes", [listener.householdId, moment.causeId]),
+      you: calledBy(core, speaker.id, listener.id),
+      // What the player calls them, for the player's replies.
+      first: calledBy(core, listener.id, speaker.id),
+    };
+    let said = mark;
+    if (mark.startsWith("job-")) {
+      const job =
+        mark === "job-got" || mark === "job-changed"
+          ? jobOf(core, listener)?.job
+          : lastEndedJob(core, listener.id);
+      const org = job ? core.organizations.get(job.organizationId) : undefined;
+      const words = org ? employerWords(org) : null;
+      if (!job || !org || !words) continue;
+      facts.employer = fact(words, [job.id, org.id]);
+    } else {
+      const office = record?.facts?.office;
+      if (office) facts.office = fact(properName(office));
+      if (mark === "result") {
+        said = record?.facts?.winnerId === listener.id ? "won" : "lost";
+        if (!office) continue;
+      }
+      if (mark === "filed" && !office) continue;
+      // Their name in the paper: the outlet that printed it and which way
+      // the story ran, from the press desk's record of who it names.
+      if (mark === "in-paper") {
+        const outlet = record?.facts?.outletId
+          ? core.organizations.get(record.facts.outletId)
+          : undefined;
+        if (!outlet || record?.facts?.subjectId !== listener.id) continue;
+        facts.outlet = fact(properName(outlet.name), [
+          moment.causeId,
+          outlet.id,
+        ]);
+        facts[`ran-${record.facts.subjectFraming ?? "even"}`] = fact("yes");
+        facts["knows-paper"] = fact("yes", [
+          record.facts.storyId ?? moment.causeId,
+        ]);
+      }
+    }
+    // The stance, from their tie and their caution, or the other side.
+    const relation =
+      familyFactsOf(listener).get(speaker.id)?.relation ?? "other";
+    const rows = PLAYER_NEWS.stances[relation] ?? PLAYER_NEWS.stances.other;
+    if (!rows || typeof rows === "string") continue;
+    const group = PLAYER_NEWS.losses.includes(said)
+      ? rows.loss
+      : PLAYER_NEWS.civic.includes(mark)
+        ? rows.civic
+        : rows.good;
+    const cautious =
+      (speaker.traits[RISK_TRAIT] ?? PLAYER_NEWS.riskBelow.value) <
+      PLAYER_NEWS.riskBelow.value;
+    let stance = cautious ? group.riskLow : group.riskHigh;
+    const api = coreAPI(core as CoreState);
+    const theirs = viewOf(api, speaker.id)?.lean;
+    const mine = viewOf(api, listener.id)?.lean;
+    if (
+      PLAYER_NEWS.civic.includes(mark) &&
+      theirs !== undefined &&
+      mine !== undefined &&
+      Math.sign(theirs) !== Math.sign(mine) &&
+      Math.abs(theirs - mine) >= PLAYER_NEWS.otherSideLean.value
+    )
+      stance = "other-side";
+    facts[`stance-${stance}`] = fact("yes", [
+      ...(relation === "other" ? [speaker.id] : []),
+      ...(stance === "other-side"
+        ? [viewRecordId(speaker.id), viewRecordId(listener.id)]
+        : [speaker.id]),
+    ]);
+    return {
+      id,
+      kind: "player-news",
+      aboutId: moment.causeId,
+      stage: said,
+      weight: moment.impact,
       facts,
     };
   }
@@ -2138,8 +2302,19 @@ export function subjectsBetween(
                 text: properName(reason.employer),
                 sourceRecordIds: reason.recordIds,
               },
-              // The reason itself: what the job pays an hour, from its record.
-              ...hourlyFact(core, reason.recordIds[zero]),
+              // The reason itself, as the fit the rules found: what the job
+              // pays an hour against the proposal, or that they make payroll.
+              ...(reason.fit === "pay-near"
+                ? hourlyFact(core, reason.recordIds[zero])
+                : {}),
+              ...(reason.fit === "payroll"
+                ? {
+                    "why-payroll": {
+                      text: "yes",
+                      sourceRecordIds: reason.recordIds,
+                    },
+                  }
+                : {}),
             }
           : {}),
         ...(reason?.reason === "money"
@@ -2198,15 +2373,56 @@ export function subjectsBetween(
     if (touching) out.push(touching);
     const lessons = schoolDay(core, speaker, room.minuteOfDay);
     if (lessons) out.push(lessons);
+    // The player's own news, from the player's ledger, by someone they
+    // live with (the people at home talk most about the person in front of
+    // them).
+    const theirNews = playerNews(core, director, speaker, listener);
+    if (theirNews) out.push(theirNews);
     const quiet = quietDay(core, speaker, listener, room.minuteOfDay);
     if (quiet) out.push(quiet);
   }
+  // A figure of their own (what they make an hour) told to this listener
+  // lately and unchanged since is not said again (lead, Nov 12: Brett states
+  // his hourly wage in three of four talks).
+  const told = out.map((row) => withoutToldFigures(row, speakerId, core.date));
   // Between relatives, a talk is personal only.
   if (speaker.familyIds.has(listenerId))
-    return out.filter(
+    return told.filter(
       (row) => !CONVERSATION_RULES.familyTalk.dropped.includes(row.kind),
     );
-  return out;
+  return told;
+}
+
+/** The heard key of a figure of a speaker's own, by its fact and its words (a changed figure is a new key). */
+const ownFigureKey = (speakerId: string, fact: string, text: string) =>
+  `${HEARD_FIGURE}own:${speakerId}:${fact}:${text}`;
+
+/**
+ * A subject without the speaker's own figures (conversation-rules.json
+ * dayTalk.figures) that the player heard from them within the wait
+ * (dayTalk.figureAgainDays, TUNABLE), at the same value.
+ */
+function withoutToldFigures(
+  subject: Subject,
+  speakerId: PersonId,
+  today: string,
+): Subject {
+  const drop = DAY_TALK.figures.filter((key) => {
+    const fact = subject.facts[key];
+    if (!fact) return false;
+    const heard = heardRows.find(
+      (row) => row.key === ownFigureKey(speakerId, key, fact.text),
+    );
+    return (
+      !!heard &&
+      daysBetween(makeIsoDate(heard.at), makeIsoDate(today)) <
+        DAY_TALK.figureAgainDays.value
+    );
+  });
+  if (!drop.length) return subject;
+  const facts = { ...subject.facts };
+  for (const key of drop) delete facts[key];
+  return { ...subject, facts };
 }
 
 /** Why someone raises the point of the address they raise. */
@@ -3388,7 +3604,8 @@ const OPENING_ORDER = [
   "kin",
   "address",
   // Their own day, from its record (the shift, the rent coming due),
-  // before the day itself.
+  // before the day itself; the player's own news first of these.
+  "player-news",
   "rent-due",
   "news-touch",
   "work-done",
@@ -3431,6 +3648,8 @@ const DAY_TALK = (
       kinds: readonly string[];
       comesBack: readonly string[];
       againAfterDays: { value: number };
+      figures: readonly string[];
+      figureAgainDays: { value: number };
       rentDaysBefore: { value: number };
       unusualShiftMinutes: { value: number };
       usualWeekDays: { value: number };
@@ -4045,6 +4264,9 @@ export function noteHeard(core: CoreState, conversation: Conversation): void {
       ...(conversation.questions ?? []).map((q) =>
         q.startsWith("=") ? q.slice(one) : `${HEARD_QUESTION}${q}`,
       ),
+      // A figure of the speaker's own said in it (what they make an hour),
+      // by its words, so it is said to the player once in its wait.
+      ...ownFiguresSaid(core, line),
     ])
       api.observe(conversation.playerId, {
         key: `${HEARD_PREFIX}${part}`,
@@ -4066,6 +4288,22 @@ export function noteHeard(core: CoreState, conversation: Conversation): void {
         sourceId: `conversation:${conversation.playerId}:${conversation.otherId}:${core.date}`,
         access: "perceived",
       });
+}
+
+/** The speaker's own figures a line said, as heard keys: their hourly pay, from their job record. */
+function ownFiguresSaid(
+  core: Readonly<CoreState>,
+  line: ConversationLine,
+): string[] {
+  const used = line.wording?.facts ?? [];
+  if (!DAY_TALK.figures.some((key) => used.includes(key))) return [];
+  const wage = hourlyFact(
+    core,
+    core.people.get(line.speakerId)?.jobId ?? undefined,
+  ).wage;
+  return used.includes("wage") && wage
+    ? [ownFigureKey(line.speakerId, "wage", wage.text)]
+    : [];
 }
 
 /**
@@ -4090,6 +4328,16 @@ export function noteSceneHeard(
       break;
     }
   }
+  // The player's own news the scene played is heard: no one at home brings
+  // it up again (the talk points back to the scene, never twins it).
+  if (causeId)
+    api.observe(playerId, {
+      key: `${HEARD_PREFIX}${HEARD_SUBJECT}${playerNewsHeard(causeId)}`,
+      value: playerNewsHeard(causeId),
+      learnedAt: core.date,
+      sourceId: `scene:${momentId}:${core.date}`,
+      access: "perceived",
+    });
   const storyId = causeId ? storyOfReadEvent(causeId) : null;
   if (!storyId) return;
   const story =

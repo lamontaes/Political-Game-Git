@@ -137,6 +137,10 @@
     "news-touch": {
       "kind": "news-touch",
       "stage": "default"
+    },
+    "player-news": {
+      "kind": "player-news",
+      "stage": "default"
     }
   },
   "follows": {
@@ -307,6 +311,11 @@
     "news-touch": {
       "ask": "request",
       "glad": "answer"
+    },
+    "player-news": {
+      "thanks": "answer",
+      "tell": "answer",
+      "ask": "request"
     }
   },
   "addressPoint": {
@@ -447,7 +456,8 @@
       "work-done",
       "school-missed",
       "rent-due",
-      "news-touch"
+      "news-touch",
+      "player-news"
     ],
     "againAfterDays": {
       "value": 3,
@@ -479,6 +489,13 @@
       "tag": "TUNABLE",
       "spread": [7, 14],
       "checkedAgainst": "A job's usual day is the length its work days most often run over the coming week, the cycle most schedules repeat on (BLS: most workers keep a weekly schedule)."
+    },
+    "figures": ["wage"],
+    "figureAgainDays": {
+      "value": 28,
+      "tag": "TUNABLE",
+      "spread": [14, 56],
+      "checkedAgainst": "Lead, Nov 12 (Brett states his hourly wage in three of four talks): a person's own pay, rent or hours figure is said to the same listener once, then not again for this many days (four weeks) unless it changed. A month is about how often a household's money comes up again (a rent or pay cycle; BLS: most workers are paid weekly or biweekly, rent monthly)."
     }
   },
   "stands": {
@@ -488,6 +505,203 @@
       "tag": "TUNABLE",
       "spread": [14, 18],
       "checkedAgainst": "Pew Research Center (2022, teens and politics): most teens under 15 report little interest in national politics; civics instruction on federal policy is concentrated in high school (grades 9 to 12, ages 14 to 18). Sixteen is the middle of that spread."
+    },
+    "minEngagement": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "spread": [0.4, 0.8],
+      "checkedAgainst": "Lead, Nov 12 (sixteen-year-olds: the age gate against the person's engagement, not age alone): a person under the voting age takes a stand only when they follow politics this closely (the views engine's engagement, 0 to 1). Pew Research Center (2022): a minority of teens follow politics closely; the bar keeps most of them out and lets the engaged speak."
+    },
+    "reasonFits": {
+      "about": "Lead, Nov 12 (\"At about $15 an hour, it's my own paycheck on the line\" from someone against a raise that would pay her more): a reason from the speaker's own life is offered only when the record supports the side taken, by question and side. `pay-near`: their hourly pay is at or under the proposed wage times payNear. `payroll`: they hold a job whose title names someone who sets pay (payrollTitles). `worker`: they hold a job and do not set pay. `hardship`: the trait engine's hardship stress is past zero. A side not listed has no reason from their life; they say the principle. Question ids and fit names only.",
+      "payNear": {
+        "value": 1.25,
+        "tag": "TUNABLE",
+        "spread": [1.1, 1.5],
+        "checkedAgainst": "Economic Policy Institute (2023, Raise the Wage Act analysis): a raise reaches workers paid somewhat above the new floor through spillover, up to about a quarter above it."
+      },
+      "payrollTitles": [
+        "owner",
+        "manager",
+        "proprietor",
+        "supervisor",
+        "director",
+        "president"
+      ],
+      "wages": {
+        "about": "The proposed wage each question would set, in cents an hour (the job record's minor units).",
+        "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
+          "value": 1700,
+          "tag": "ESTIMATED",
+          "source": "Raise the Wage Act of 2023 (S. 2488, 118th Congress): $17 an hour by 2028",
+          "spread": [1500, 1700]
+        },
+        "us-policy-positions:labor-workforce.raise-minimum-wage": {
+          "value": 1500,
+          "tag": "ESTIMATED",
+          "source": "State minimum wage proposals of 2023-2024 (NCSL state minimum wage tracker): $15 the most common target",
+          "spread": [1200, 2000]
+        },
+        "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+          "value": 1500,
+          "tag": "ESTIMATED",
+          "source": "City minimum wages in force in 2024 (UC Berkeley Labor Center inventory): most near $15",
+          "spread": [1200, 2000]
+        }
+      },
+      "questions": {
+        "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
+          "for": "pay-near",
+          "against": "payroll"
+        },
+        "us-policy-positions:labor-workforce.raise-minimum-wage": {
+          "for": "pay-near",
+          "against": "payroll"
+        },
+        "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+          "for": "pay-near",
+          "against": "payroll"
+        },
+        "us-policy-positions:labor-workforce.paid-family-leave": {
+          "for": "worker",
+          "against": "payroll"
+        },
+        "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
+          "for": "worker",
+          "against": "payroll"
+        },
+        "us-policy-positions:labor-workforce.right-to-work": {
+          "against": "worker",
+          "for": "payroll"
+        },
+        "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
+          "for": "hardship"
+        },
+        "us-federal-positions:health.medicare-drug-price-negotiation": {
+          "for": "hardship"
+        },
+        "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
+          "for": "hardship"
+        },
+        "us-federal-positions:monetary-financial.cap-consumer-loan-interest": {
+          "for": "hardship"
+        },
+        "us-federal-positions:trade.raise-tariffs": {
+          "against": "hardship"
+        },
+        "us-policy-positions:housing-land-use.rent-stabilization": {
+          "for": "hardship"
+        },
+        "us-federal-positions:housing.vouchers-for-every-eligible-family": {
+          "for": "hardship"
+        }
+      }
+    }
+  },
+  "playerNews": {
+    "about": "Words composer (lead, Nov 12: the people at home talk most about the person in front of them). A housemate brings up the player's own recorded news from the player's ledger moment, by the moment's cause kind: they know it because they live with the player (the household) or read it (a printed story naming the player). Each is said with the housemate's own stance on it, from their tie to the player and their traits (no dice). A moment a scene already played is heard (noteSceneHeard) and not brought up again. Names, marks and numbers only; no sentence.",
+    "causes": {
+      "job-started": "job-got",
+      "job-changed": "job-changed",
+      "job-ended": "job-lost",
+      "job-left": "job-left",
+      "event:candidate-filed": "filed",
+      "event:election-result": "result",
+      "event:primary-result": "result",
+      "event:press-story": "in-paper"
+    },
+    "civic": ["filed", "result", "in-paper"],
+    "withinDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "spread": [3, 14],
+      "checkedAgainst": "News of one's own household is talked over in the days after it happens and then is old (a week, the talk's own small-talk wait, smallTalk.againAfterDays)."
+    },
+    "stances": {
+      "about": "The stance a housemate takes on the player's news, by their tie to the player (the relation the player's family record names; anyone else at home is `other`) and by whether the news is good, a loss, or civic (a race, a vote, a bill): `riskLow` is said by someone whose risk trait is under riskBelow (they worry), `riskHigh` by the rest. A civic stance gives way to `other-side` when the speaker's lean and the player's party lean differ by sides (otherSideLean).",
+      "parent": {
+        "good": {
+          "riskLow": "proud",
+          "riskHigh": "proud"
+        },
+        "loss": {
+          "riskLow": "worry",
+          "riskHigh": "steady"
+        },
+        "civic": {
+          "riskLow": "worry",
+          "riskHigh": "proud"
+        }
+      },
+      "partner": {
+        "good": {
+          "riskLow": "glad",
+          "riskHigh": "glad"
+        },
+        "loss": {
+          "riskLow": "worry",
+          "riskHigh": "steady"
+        },
+        "civic": {
+          "riskLow": "worry",
+          "riskHigh": "glad"
+        }
+      },
+      "sibling": {
+        "good": {
+          "riskLow": "glad",
+          "riskHigh": "tease"
+        },
+        "loss": {
+          "riskLow": "steady",
+          "riskHigh": "steady"
+        },
+        "civic": {
+          "riskLow": "tease",
+          "riskHigh": "tease"
+        }
+      },
+      "child": {
+        "good": {
+          "riskLow": "glad",
+          "riskHigh": "glad"
+        },
+        "loss": {
+          "riskLow": "worry",
+          "riskHigh": "steady"
+        },
+        "civic": {
+          "riskLow": "glad",
+          "riskHigh": "proud"
+        }
+      },
+      "other": {
+        "good": {
+          "riskLow": "glad",
+          "riskHigh": "glad"
+        },
+        "loss": {
+          "riskLow": "steady",
+          "riskHigh": "steady"
+        },
+        "civic": {
+          "riskLow": "glad",
+          "riskHigh": "glad"
+        }
+      }
+    },
+    "losses": ["job-lost", "lost"],
+    "riskBelow": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "spread": [0.3, 0.5],
+      "checkedAgainst": "The trait engine's risk trait runs 0 to 1 with its middle at 0.5; the lower part of the scale is the cautious end that worries over a run for office or a lost job (people-mind-v1:risk)."
+    },
+    "otherSideLean": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": [0.5, 2],
+      "checkedAgainst": "The views engine's lean runs from very liberal to very conservative in whole steps; a step apart across the middle is the other side (views.ts labels)."
     }
   }
 }
