@@ -1240,7 +1240,12 @@ describe("hellos and goodbyes are composed from the records", () => {
         if (employerFact) employers.push(employerFact);
         if (!bye) continue;
         said += 1;
-        goodbyes.add(bye.text);
+        // Variety is read over the first 100 goodbyes, as the title says: the
+        // goodbye's wordings are a fixed set, so over 300 talks (a big town's
+        // 200 people twice) repeats grow with the count, not with sameness
+        // (Bradford, Rhode Island, seed 09ba9bd3...: 312 goodbyes, no
+        // wording said more than four times, 147 different).
+        if (said <= 100) goodbyes.add(bye.text);
         const employer = talk.topicFacts?.employer?.text;
         if (employer) {
           aboutWork += 1;
@@ -1262,7 +1267,7 @@ describe("hellos and goodbyes are composed from the records", () => {
     // Most goodbyes said differ, and 100 goodbyes composed from the topics
     // these talks recorded say at least 30 different things.
     expect(said).toBeGreaterThan(0);
-    expect(goodbyes.size * 2).toBeGreaterThan(said);
+    expect(goodbyes.size * 2).toBeGreaterThan(Math.min(said, 100));
     const composed = new Set<string>();
     for (let n = 0; n < 100 && employers.length; n += 1) {
       const line = composedLine(
