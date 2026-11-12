@@ -32,8 +32,6 @@ Scenes the story needs that no engine models yet; each names the engine it would
 - **polling-place**: A voter-roll record in voting.ts: who is on which precinct's list and who is not, so a poll worker can turn someone to a provisional ballot.
 - **betrayal**: An obligations ledger: the promises and favors scene replies keep, read when they come due, kept or broken.
 - **A court scene** (hearing, verdict): a prosecutor, a defense and a judge in the room, from the justice engine's charge and ruling records; courts come after early access (AGENTS.md).
-- **An obligations ledger** (betrayal, and every ending that keeps a promise or a favor): one reader of the promises and favors scene replies keep, so a broken word can come due (SG-WORDS-favor-promise-keeps-unread).
-- **A voter-roll record** (polling-place's poll-problem talk): who is on which precinct's list, in voting.ts.
 
 Records the types said they waited on (their `awaiting` lists and never-built `awaitingProducer` causes, removed from situation-types.json with this inventory), which no engine writes:
 

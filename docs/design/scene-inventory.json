@@ -73,9 +73,7 @@
     }
   ],
   "neededLater": [
-    "**A court scene** (hearing, verdict): a prosecutor, a defense and a judge in the room, from the justice engine's charge and ruling records; courts come after early access (AGENTS.md).",
-    "**An obligations ledger** (betrayal, and every ending that keeps a promise or a favor): one reader of the promises and favors scene replies keep, so a broken word can come due (SG-WORDS-favor-promise-keeps-unread).",
-    "**A voter-roll record** (polling-place's poll-problem talk): who is on which precinct's list, in voting.ts."
+    "**A court scene** (hearing, verdict): a prosecutor, a defense and a judge in the room, from the justice engine's charge and ruling records; courts come after early access (AGENTS.md)."
   ],
   "likedLinesRetired": [
     {
