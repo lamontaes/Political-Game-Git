@@ -115,8 +115,10 @@ try {
     .first()
     .evaluate((e) => e.click());
   await page.waitForTimeout(800);
-  await page.locator(".people-roster .person").first().click();
-  await page.locator(".people-pane .strip-screen").waitFor();
+  await page.locator(".roster-screen.people .roster-row").first().click();
+  await page
+    .locator(".roster-screen.people .roster-page .strip-screen")
+    .waitFor();
   await page.waitForTimeout(800);
   await check("person card");
   assert.deepEqual(errors, [], "page errors");

@@ -7,6 +7,7 @@ import { makeButton } from "./button.mjs";
 import { makeCard } from "./card.mjs";
 import { bold, line, prose, heading } from "./text.mjs";
 import { stripSection, typedRow } from "./strips.mjs";
+import { noteLine } from "./list-row.mjs";
 import { tabBar, chooseTab } from "./tab.mjs";
 
 /**
@@ -34,9 +35,9 @@ const compareOf = (compare) =>
       )
     : "";
 
-const estimateOf = (label, estimate) => [
-  bold(label),
-  prose(estimate.prose),
+// The column's strip already carries the label, so the estimate starts at its words.
+const estimateOf = (estimate) => [
+  ...(estimate.prose ? [prose(estimate.prose)] : []),
   compareOf(estimate.compare),
   ...estimate.lines.filter(Boolean).map((text) => line(text)),
 ];
@@ -57,11 +58,10 @@ export function billPaper(paper) {
   const aside = makeCard(
     "bill-estimate",
     {},
-    ...estimateOf(
-      paper.estimateLabel,
-      paper.sections[0]?.estimate ?? paper.blank,
-    ),
+    ...estimateOf(paper.sections[0]?.estimate ?? paper.blank),
   );
+  const showEstimate = (section) =>
+    aside.replaceChildren(...estimateOf(section.estimate));
   // The bill as typed: Compare strikes the clause the law in force holds and inserts the bill's;
   // Clean copy shows the bill's alone (the views are the same records, drawn two ways).
   const views = paper.views;
@@ -70,15 +70,24 @@ export function billPaper(paper) {
     changes.replaceChildren(
       ...paper.sections.flatMap((section) => {
         if (!section.inserted) return [];
+        // The typed clause is the section: clicking it shows its estimate.
+        const clause = el(
+          "p",
+          { className: "bill-clause", tabIndex: 0 },
+          ...(compare && section.struck
+            ? [el("s", { textContent: section.struck }), " "]
+            : []),
+          el("u", { textContent: section.inserted }),
+        );
+        clause.setAttribute("role", "button");
+        clause.addEventListener("click", () => showEstimate(section));
+        clause.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          showEstimate(section);
+        });
         return [
-          el(
-            "p",
-            { className: "bill-clause" },
-            ...(compare && section.struck
-              ? [el("s", { textContent: section.struck }), " "]
-              : []),
-            el("u", { textContent: section.inserted }),
-          ),
+          clause,
           ...(section.amends
             ? [typedRow(paper.amendsLabel, section.amends)]
             : []),
@@ -111,6 +120,9 @@ export function billPaper(paper) {
       ],
     });
   }
+  const listed = paper.sections.filter(
+    (section) => !views || !section.inserted,
+  );
   const typed = el(
     "div",
     { className: "bill-doc ink" },
@@ -119,17 +131,15 @@ export function billPaper(paper) {
     prose(paper.title),
     line(paper.sponsor),
     ...(views ? [changes] : []),
-    bold(paper.sectionsLabel),
-    ...paper.sections.map((section) => {
+    // A section the paper has typed above is not listed again; one with no
+    // typed clause is listed here, so every section can be clicked once.
+    ...(listed.length ? [bold(paper.sectionsLabel)] : []),
+    ...listed.map((section) => {
       const open = makeButton({
         className: "action bill-section",
         textContent: section.text,
       });
-      open.addEventListener("click", () =>
-        aside.replaceChildren(
-          ...estimateOf(paper.estimateLabel, section.estimate),
-        ),
-      );
+      open.addEventListener("click", () => showEstimate(section));
       return open;
     }),
   );
@@ -144,6 +154,13 @@ export function billPaper(paper) {
     el("p", { className: "lbig", textContent: vote.big }),
     ...(vote.text ? [line(vote.text)] : []),
     ...(vote.rows ?? []).map((row) => typedRow(row.label, row.value)),
+    // The player's own members: a small label, then each name with their vote.
+    ...(vote.members?.rows.length
+      ? [
+          noteLine(vote.members.label),
+          ...vote.members.rows.map((row) => typedRow(row.label, row.value)),
+        ]
+      : []),
   ]);
   return el(
     "div",
@@ -166,6 +183,9 @@ export function billPaper(paper) {
         "div",
         { className: "mx3col" },
         stripSection(1, paper.whereLabel, ...where),
+        // Where the bill stands and what the player may do about it (the
+        // committee, the floor, staff, their vote), under where it is.
+        ...(paper.stage ?? []),
       ),
       el(
         "div",

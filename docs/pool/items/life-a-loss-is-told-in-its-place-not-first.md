@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-life-a-loss-is-told-in-its-place-not-first
 pr: #8298
@@ -19,6 +19,7 @@ source: the life record's second session, Nov 10 (not seen; its note is on core-
 checked: fable 2026-11-10
 claimed-at: 2026-11-10T23:32:44.926Z
 branch: claude/pool-life-a-loss-is-told-in-its-place-not-first
+merged-at: 2026-11-11T02:56:40.020Z
 ---
 
 **What.** My life and a person's card group a life into paragraphs. The first paragraph holds partner, children and losses together, so "I lost my parent" is read before the school sentences even when the parent died last year. A loss should come late in the story, where it falls for nearly everyone.
