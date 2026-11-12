@@ -595,13 +595,13 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     expect(
       Math.abs(lengths[Math.floor(lengths.length / 2)]! - median),
     ).toBeLessThanOrEqual(3);
-    // The short share fell from 0.29 to 0.17 when the hello stopped being
-    // "Hey." in nearly every talk (the heard record kept a re-heard piece
-    // where it was first heard, so the least recently used hello was the
-    // same one all day). With the non-replies gone too, the share is held
-    // within 0.3 of the card until the lead rules on recounting it.
+    // The short share fell from 0.29 to 0.17 (default seed) when the hello
+    // stopped being "Hey." in nearly every talk (the heard record kept a
+    // re-heard piece where it was first heard). The bound is the lead's
+    // (Nov 12: never widened to pass); with the non-replies gone this check
+    // is red until the card is recounted or more short turns are said.
     const shortShare = lengths.filter((n) => n <= 3).length / lengths.length;
-    expect(Math.abs(shortShare - short)).toBeLessThan(0.3);
+    expect(Math.abs(shortShare - short)).toBeLessThan(0.2);
   });
   it("leaves no belief in a hearer whose traits lean hard toward doubt", () => {
     expect(doubter).toBeDefined();
