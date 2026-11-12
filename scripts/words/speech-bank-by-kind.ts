@@ -795,6 +795,12 @@ const TODAY: [string | string[], string][] = [
   ["plain", "Here's where things stand: {today-clause}"],
   ["polished", "Consider where we are: {today-clause}"],
   ["plain", "These days, {today-clause}"],
+  ["polished", "As we meet tonight, {today-clause}"],
+  ["polished", "At this moment, {today-clause}"],
+  ["polished", "Here is the situation: {today-clause}"],
+  ["plain", "As of today, {today-clause}"],
+  ["plain", "The way it is now, {today-clause}"],
+  ["plain", "Look where we are: {today-clause}"],
 ];
 for (const [voice, text] of TODAY)
   ADD.push({
@@ -1067,7 +1073,7 @@ const CLOSES: [string[], string, string][] = [
   [
     FEDERAL,
     "plain",
-    "So let's {first-side}, starting tomorrow. Thank you, and good night.",
+    "So let's {first-side}, starting tomorrow. Good night, everybody.",
   ],
   [
     FEDERAL,
@@ -1138,6 +1144,10 @@ const CLOSES: [string[], string, string][] = [
 for (const [subjects, voice, text] of CLOSES)
   ADD.push({ role: "close", subjects, voice, text, needs: ["first-side"] });
 const GREETINGS: [string, string][] = [
+  ["polished", "Honored guests, and my fellow Americans."],
+  ["polished", "Members of Congress, and citizens of this country."],
+  ["plain", "Folks here, and folks all across the country."],
+  ["plain", "Everybody in this hall, and everybody listening."],
   ["plain", "Good people of this country, here and at home."],
   ["plain", "Folks in this hall, and folks watching at home."],
   [
