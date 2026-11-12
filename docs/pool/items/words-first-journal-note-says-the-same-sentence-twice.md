@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: 8772
 after:
 blocked-on:
 lead: words
@@ -45,3 +45,5 @@ branch:
 **Files.** src/director/journal.ts, src/english/journal-words.ts, src/core2/past-work.ts, data/english/parts/journal.json, data/english/part-grades.json, src/director/journal-opening.test.ts, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Found by the lead on Nov 11, 2026, playing the opening on main at 3a9e824ddd. The note's first words there, "A year and a half on,", come from the piece `{span} on.` and are right when a line stands before them; if the note can start on that piece with nothing before it, say so in the pull request.
+
+Built by Words builder W8 in #8772, merged 2026-11-11 11:54 UTC (ebbd2654d55d673671c34a39240dcb83750e5bfe), whose line 1 names this item; the merge did not flip the status, so it is set here by hand. The journal reader for a job and an employer is `employerName` and the livelihood moments in `src/director/journal.ts`. Not yet seen in the game by a second session.

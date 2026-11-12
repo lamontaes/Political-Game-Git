@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: L
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/words-opening-evening-talk
-pr:
+pr: #8736
 after:
 blocked-on:
 lead: words
@@ -58,3 +58,5 @@ Released (2026-11-11): The Fix writes and deletes lines under data/english/parts
 Assigned by name (2026-11-11 07:10 UTC): the lead holds the words work (CTO, Nov 11, on the owner's ruling that every line goes through the English engine) and assigned this item to the Words builder W1 on branch claude/words-opening-evening-talk, started 06:20 UTC. `next` should not hand it to a pool builder. Who writes the lines: the Words builder drafts the pieces under `data/english/parts` in its own pull request with `Review: words`; a pool builder still writes nothing there. The lead told the CTO this at 06:10 UTC on the crew's issue.
 
 Lead's review of #8736 (2026-11-11 07:20 UTC): the Done when said every reply names the point, and one screen then said it six times; it now reads as above. The answer about the town must carry a fact. Both are sent back on the pull request.
+
+In pull request #8736 on branch claude/words-opening-evening-talk (2026-11-11), built from Fable B's copy of this item; steps 1 and 11 carry Fable B's amendment of that day (the address's year as points).

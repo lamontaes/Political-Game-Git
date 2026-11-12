@@ -1,5 +1,5 @@
 import { servingTermsOf } from "../core2/modules/offices";
-import { hash as fnv } from "./appearance";
+import { hash as fnv, readRecipe } from "./appearance";
 import { ageOnDate } from "../core2/kernel/dates";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import {
@@ -8,6 +8,7 @@ import {
   workplacePlaceFor,
 } from "./backdrop-places";
 import { backdropStaging } from "./staging";
+import { isOnShift } from "./shift";
 import type { CoreState, PersonState } from "../core2/types";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
@@ -579,6 +580,12 @@ export function presentIds(
   place: string,
   why: string,
   targetId?: string,
+  /**
+   * The minute the scene is drawn at: a household member on a shift then is at
+   * work, not at home. Left out on the opening evening, which keeps the whole
+   * household (the address is watched at home, owner, Oct 14).
+   */
+  atMinute?: number,
 ): string[] {
   const person = core.people.get(personId)!;
   const alive = (id: string) => core.people.get(id)?.alive === true;
@@ -604,11 +611,12 @@ export function presentIds(
     alive(targetId)
   )
     return [targetId];
-  // At home the household is there.
+  // At home the household is there, except whoever is on a shift just now.
   if (homeRooms(core, personId).has(place))
     return (core.households.get(person.householdId)?.memberIds ?? [])
       .filter((id) => id !== personId)
-      .filter(alive);
+      .filter(alive)
+      .filter((id) => atMinute === undefined || !isOnShift(core, id, atMinute));
   return [];
 }
 
@@ -624,24 +632,16 @@ interface Looks {
   /** The look chosen in the creator (the player), when there is one. */
   look?: FigurePerson["look"];
 }
-/** A look saved by the creator, or none where the record holds no readable one. */
+/**
+ * A look saved by the creator, checked against the bust bank as the creator
+ * checks it (`readRecipe`): the person, hair and facial hair, and the clothes
+ * chosen in its Everyday and Formal tabs. None where the record holds no
+ * readable one.
+ */
 function chosenLook(text: string | undefined): FigurePerson["look"] {
   if (!text) return undefined;
   try {
-    const { person, hair, hairColor, face } = JSON.parse(text) as Record<
-      string,
-      unknown
-    >;
-    return typeof person === "string" &&
-      typeof hair === "string" &&
-      typeof hairColor === "string"
-      ? {
-          person,
-          hair,
-          hairColor,
-          ...(typeof face === "string" ? { face } : {}),
-        }
-      : undefined;
+    return readRecipe(text);
   } catch {
     return undefined;
   }
@@ -789,7 +789,17 @@ export function benchScene(
   );
   const working =
     why === "work-shift" || why === "attend-scheduled-work-date-segment";
-  const ids = [personId, ...presentIds(core, personId, place, why, targetId)];
+  const ids = [
+    personId,
+    ...presentIds(
+      core,
+      personId,
+      place,
+      why,
+      targetId,
+      openingEvening === undefined ? minute : undefined,
+    ),
+  ];
   const backdrop = backdropFor(core, place, minute, personId);
   const { people, more } = peopleHere(
     core,

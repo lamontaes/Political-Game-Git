@@ -144,11 +144,19 @@ it("reads price laws at settlement and removes their rules on repeal", () => {
       advanceCore(core, addDays(makeIsoDate(core.date), 32));
     };
     changeLaws(1);
-    // A price paid to the public is a rule only where the governing level
-    // keeps a treasury to be paid to (the engine ends it otherwise).
+    // A price paid to the public is a rule only where some government at or above the
+    // governing level keeps a treasury to be paid to (the engine ends it otherwise).
     for (const key of keys) {
       const governing = lawInForce(api, key).governing?.jurisdiction;
-      const treasury = governments(api).some((g) => g.id === governing);
+      // The engine pays the governing row's own treasury, else the nearest government in the
+      // town's chain that keeps one, else the town's city, county or state government.
+      const all = governments(api);
+      const treasury =
+        all.some((g) => g.id === governing) ||
+        lawChain(api).levels.some((level) =>
+          all.some((g) => g.id === level.jurisdiction),
+        ) ||
+        all.some((g) => ["city", "county", "state"].includes(g.level));
       const expected = !publicPayee.has(key) || treasury;
       expect(
         rules().some((row) => String(row.cause).startsWith(`law:${key}:`)),

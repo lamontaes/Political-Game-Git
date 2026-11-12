@@ -31,6 +31,15 @@
       "source": "How many days before a regular meeting its agenda is posted, after which a new item waits for the next meeting. State open-meetings laws commonly require 24 to 72 hours' public notice of a regular meeting's agenda (for example California's Brown Act, Gov. Code sec. 54954.2, 72 hours; Texas Gov. Code sec. 551.043, 72 hours).",
       "spread": [1, 7]
     },
+    "decidingSeats": {
+      "role": "level",
+      "value": 9,
+      "tag": "TUNABLE",
+      "stopgapId": "SG-OFFICE-deciding-seats",
+      "source": "The most seats a body may have for one member's vote to count as one that could decide its meetings, for the player's deciding-vote stop (owner, Oct 29: 'any vote where yours could decide it'). On a board of three or five one seat turns most votes; town councils and county boards mostly have three to nine members (ICMA municipal form of government surveys), and state chambers far more.",
+      "spread": [5, 15],
+      "checkedAgainst": "Local bodies in the offices table: county boards of three and five, town councils of five to nine; a state chamber of forty or more never stops the player on this kind."
+    },
     "fullTimeWeeklyHours": {
       "value": 35,
       "tag": "SOURCED",

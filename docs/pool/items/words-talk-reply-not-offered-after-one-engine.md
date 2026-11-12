@@ -46,3 +46,7 @@ Nov 11 (cause finder for Fable B): traced in code. The reply key carries its tur
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 09:10 UTC) on branch claude/pool-words-talk-reply-not-offered-after-one-engine.
 
 Released (2026-11-11): Cap is on (AGENTS.md, owner Nov 11: no new item while over 150 game PRs are open; 381 PRs open now); next handed it out when gh could not open the draft PR and probably could not count. Not started. Continue on branch claude/pool-words-talk-reply-not-offered-after-one-engine.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 10:14 UTC) on branch claude/pool-words-talk-reply-not-offered-after-one-engine.
+
+Released (2026-11-11): Cap is on (260 game PRs open, cap 150); next prints the cap and still claims this bug item, which is not a red, rule, check or skill. Not started. Continue on branch claude/pool-words-talk-reply-not-offered-after-one-engine.

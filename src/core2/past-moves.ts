@@ -19,6 +19,7 @@
  */
 import moveRows from "./data/moves/parameters.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { SeededRng } from "./kernel/rng";
 import {
   grainDate,
   ownWindowOf,
@@ -41,6 +42,8 @@ import type {
 import { townWithin } from "./places-elsewhere";
 
 export const PERSON_MOVED_IN = ownPastKind("person.moved-in");
+/** A move to another home inside the county the person lived in then. */
+export const PERSON_MOVED_WITHIN = ownPastKind("person.moved-within");
 
 const MOVES = moveRows as unknown as Readonly<
   Record<string, { value: number }>
@@ -117,7 +120,9 @@ function moveRecords(
   };
   const rows: Omit<HistoryRecord, "moduleId">[] = [];
   for (const person of people) {
-    if (!person.alive || person.tier === "husk") continue;
+    // The run over everyone skips relatives living elsewhere; their own past,
+    // opened one at a time, runs the same rule against the place they live.
+    if (!person.alive || (person.tier === "husk" && !worldFrom)) continue;
     // A child comes with the parent who moved, never alone.
     const born = makeIsoDate(person.birthDate);
     if (addDays(born, Math.round(grown * daysPerYear)) > window.through)
@@ -198,14 +203,136 @@ function moveRecords(
   return rows;
 }
 
-/** The pre-start pass: every full adult who came to the county, written through the history. */
+/**
+ * The moves to another home inside the county before the start (gap sheet,
+ * Nov 12, 2026, row 16: a past held at most one move). Each year from the
+ * year they were grown, the share of people their age in their state who
+ * moved within their county that year (ACS 2024, B07401, the moves engine's
+ * `withinCountyRateFor`) builds a pull against their own seeded line; a pull
+ * that reaches it is a move on the day it does, and a new line begins. The county is
+ * the one they lived in that year: their origin's before they came, the
+ * town's after (`arrived`). Seeded generation of what happened before the
+ * world opened; no roll decides what anyone does.
+ */
+function withinRecords(
+  api: CoreAPI,
+  window: PreStartWindow,
+  rate: DepartureRate,
+  people: Iterable<PersonState>,
+  arrivals: readonly Omit<HistoryRecord, "moduleId">[],
+  worldFrom: IsoDate | undefined,
+): Omit<HistoryRecord, "moduleId">[] {
+  const core = api.state as CoreState;
+  const grown = api.parameter("votingAge");
+  const daysPerYear = api.parameter("daysPerMeanYear");
+  const arrivedOn = new Map(
+    arrivals.map((row) => [String(row.facts.personId), row]),
+  );
+  const rows: Omit<HistoryRecord, "moduleId">[] = [];
+  for (const person of people) {
+    if (!person.alive || (person.tier === "husk" && !worldFrom)) continue;
+    const born = makeIsoDate(person.birthDate);
+    const arrived =
+      arrivedOn.get(person.id) ??
+      preStartHistory(core, { kind: PERSON_MOVED_IN, personId: person.id })[0];
+    const rng = new SeededRng(core.seed).fork(`past-moved-within:${person.id}`);
+    const lineOf = (move: number) =>
+      -Math.log(1 - rng.fork(`move:${move}`).next());
+    const children = childrenOf(core, person);
+    let count = 0;
+    let line = lineOf(count);
+    const grainedYears = new Set<string>();
+    let pull = 0;
+    for (let age = grown; ; age += 1) {
+      const from = addDays(born, Math.round(age * daysPerYear));
+      if (from > window.through) break;
+      const placeId =
+        arrived && from < arrived.date
+          ? String(arrived.facts.fromPlaceId)
+          : person.placeId;
+      const year = -Math.log(1 - rate(placeId, age));
+      for (; pull + year >= line; line = lineOf(count)) {
+        const share = (line - pull) / year;
+        pull -= line;
+        count += 1;
+        let date: string = addDays(
+          makeIsoDate(from),
+          Math.round(share * daysPerYear),
+        );
+        if (date > window.through) break;
+        if (date < window.from) continue;
+        // Never the same year as the move into the county: that move is told.
+        if (arrived && date.slice(0, 4) === arrived.date.slice(0, 4)) continue;
+        // Before the world's window a move is told on the birthday in its
+        // year, so a year holds one move there.
+        if (worldFrom && date < worldFrom) {
+          date = grainDate(person, date, worldFrom);
+          if (grainedYears.has(date.slice(0, 4))) continue;
+          grainedYears.add(date.slice(0, 4));
+        }
+        // stopgapId: SG-HIST-within-moves-child-own-past
+        stopgap("SG-HIST-within-moves-child-own-past", core);
+        const withThem = children
+          .filter(
+            (child) =>
+              child.alive &&
+              child.householdId === person.householdId &&
+              child.birthDate < date &&
+              addDays(
+                makeIsoDate(child.birthDate),
+                Math.round(grown * daysPerYear),
+              ) > date,
+          )
+          .map((child) => child.id);
+        rows.push({
+          id: `${PERSON_MOVED_WITHIN}:${person.id}:${count}`,
+          date: makeIsoDate(date),
+          kind: PERSON_MOVED_WITHIN,
+          placeId,
+          personIds: [person.id],
+          facts: {
+            personId: person.id,
+            fromPlaceId: placeId,
+            toPlaceId: placeId,
+            ...(withThem.length ? { childIds: withThem.join(" ") } : {}),
+          },
+          publicRecord: false,
+          source: {
+            tag: "ESTIMATED",
+            asOf: core.date,
+            citation:
+              "ACS 2024 B07401, moved within the same county by age and state (data/research/migration/mover-rates-acs-2024.json, withinCountyPerYearByAge).",
+            estimatedFrom:
+              "The person's own seeded line against that yearly share, from the year they were grown, in the county they lived in that year.",
+          },
+        });
+      }
+      pull += year;
+    }
+  }
+  return rows;
+}
+
+/** The pre-start pass: every full adult who came to the county, and every move inside a county, written through the history. */
 export function pastMovesHistory(
   api: CoreAPI,
   window: PreStartWindow,
   history: HistoryWriter,
   rate: DepartureRate,
+  within?: DepartureRate,
 ): void {
-  for (const row of moveRecords(api, window, rate)) history.record(row);
+  const arrivals = moveRecords(api, window, rate);
+  for (const row of arrivals) history.record(row);
+  if (!within) return;
+  for (const row of withinRecords(
+    api,
+    window,
+    within,
+    (api.state as CoreState).people.values(),
+    arrivals,
+    undefined,
+  ))
+    history.record(row);
 }
 
 /**
@@ -218,6 +345,7 @@ export function pastMovesFor(
   people: readonly PersonState[],
   rate: DepartureRate,
   moduleId: string,
+  within?: DepartureRate,
 ): void {
   for (const person of people) {
     const window = ownWindowOf(core, person);
@@ -234,6 +362,24 @@ export function pastMovesFor(
       [person],
       preStartWindowOf(core)!.from,
     ).filter((row) => !held.has(row.id));
+    if (within) {
+      const heldWithin = new Set(
+        preStartHistory(core, {
+          kind: PERSON_MOVED_WITHIN,
+          personId: person.id,
+        }).map((row) => row.id),
+      );
+      rows.push(
+        ...withinRecords(
+          coreAPI(core),
+          window,
+          within,
+          [person],
+          rows,
+          preStartWindowOf(core)!.from,
+        ).filter((row) => !heldWithin.has(row.id)),
+      );
+    }
     recordPreStartLater(core, moduleId, rows, { person: person.id });
   }
 }

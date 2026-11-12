@@ -4,7 +4,7 @@
    .name / .heading (Cinzel), .speech / .prose (Andada Pro), .label / .role / .when
    (Fira Sans), .replies / .reply (numbered lines), .action (a button: .primary is Continue,
    plain is Back; one size for all; the brass corner mark shows only while .active or
-   pressed), .tabs / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
+   pressed), .tab-rail / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
    .glyph (thin close X, return arrow), .row (a gold label and its value), .lie-scales.
    The chevron rule: a mark appears only on a static button while it is activated; never in
    radial menus, items, cards, tabs or rows. Nothing inside a menu scrolls: long screens page.
@@ -397,6 +397,51 @@ ol {
 #game:has(#front:not([hidden])) #here {
   display: none;
 }
+/* A panel at the side of the room (the meeting, the desk, the ballot, election
+   day, the returns) never covers the people: they stand in the room it leaves,
+   smaller, and nobody is cut in half (owner, Nov 11: "it's being covered up by
+   the menu"). A bill read there takes the whole frame, and the foot with it. */
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here {
+  right: calc(
+    var(--gutter) + min(560px, calc(var(--vw) - 2 * var(--gutter))) + 16px
+  );
+}
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .bust-strip {
+  --bust: 96px;
+}
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .busts-row {
+  padding: 0 8px;
+}
+/* The band is too narrow there for its label beside the names. */
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .busts-label {
+  display: none;
+}
+/* Three stand in the room the panel leaves; the rest are the faces on it. */
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .busts-person
+  ~ .busts-person
+  ~ .busts-person
+  ~ .busts-person {
+  display: none;
+}
+#game:has(:is(#meeting, #desk) .bill-board) #here {
+  display: none;
+}
+/* A person's card takes the room: the talk it was opened from waits under it
+   out of sight, and comes back when the card closes. Its lower edge used to
+   show under the card (owner, Nov 11: nothing is left half covered). */
+#game:has(#person:not([hidden])) #talk,
+#game:has(#person:not([hidden])) #here {
+  visibility: hidden;
+}
 /* On the talk box the strip joins its top edge, and the busts follow how many
    stand there (the owner's sizes: one, two, and three or four). */
 #talk-strip {
@@ -612,7 +657,6 @@ select:focus-visible {
    and something to delineate that that's the one that's selected"): a recessed bar with
    a brass edge; a tab at rest is plain type in it, and the chosen one is a raised glass
    plate, lit, with a gold bar where it meets what it shows. */
-.tabs,
 .tab-rail {
   display: flex;
   flex-wrap: wrap;
@@ -630,7 +674,6 @@ select:focus-visible {
     inset 0 -1px 0 rgba(255, 240, 199, 0.05),
     0 1px 0 rgba(255, 255, 255, 0.05);
 }
-.tabs:empty,
 .tab-rail:empty {
   display: none;
 }
@@ -1126,6 +1169,61 @@ input[type="range"]::-moz-range-thumb {
 #cr-character .choices .action {
   white-space: nowrap;
   padding: 6px 6px;
+}
+/* How I look's two tabs of clothes (owner, Nov 12: "two tabs, everyday and formal"),
+   on the owner's menu look: the open tab a lit brass fill, the other raised glass in
+   soft light; no rail, no ring, no bar under the open one. */
+#cr-rows .look-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  margin: 4px 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+/* With the tabs the look has one more line: its rows sit closer so the creator still fits
+   the screen without scrolling. */
+#cr-rows .look-row {
+  padding: 0;
+}
+#cr-rows {
+  display: grid;
+  gap: 1px;
+}
+#cr-rows .look-tabs .tab {
+  min-height: 26px;
+  padding: 0 12px;
+  text-align: center;
+  color: var(--text-2);
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    linear-gradient(rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+    var(--raised);
+  border: 0;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 10px rgba(255, 255, 255, 0.04);
+}
+#cr-rows .look-tabs .tab.on,
+#cr-rows .look-tabs .tab.on:hover {
+  color: var(--iron);
+  text-shadow: none;
+  background: linear-gradient(
+    var(--brass-hi),
+    var(--gold) 55%,
+    var(--brass-lo)
+  );
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 248, 225, 0.6),
+    0 0 14px rgba(214, 189, 132, 0.35);
+}
+#cr-rows .look-tabs .tab.on::after {
+  content: none;
 }
 /* A picked button is a lit brass fill: no corner mark on any control (owner, Nov 5). */
 .action[aria-pressed="true"] {
@@ -2345,6 +2443,14 @@ body:not(.dev) .dev-only {
   color: var(--text-2);
   font: var(--t-label) var(--ui);
 }
+.meeting-remarks small {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--gold);
+  font: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
 .meeting-acts {
   display: flex;
   flex-wrap: wrap;
@@ -2606,43 +2712,39 @@ body:not(.dev) .dev-only {
   max-width: none;
   user-select: none;
 }
-/* People: the roster of everyone you know at the left, grouped, and the selected person's
-   card beside it (owner, Nov 7: the person card, "perfect"; the mock's pl-people). */
-#sheet-body:has(.people-screen) {
-  max-width: none;
-}
-/* The list and the card each keep to the panel's height and scroll inside
-   themselves; the screen never runs past the panel's foot (a menu never
-   scrolls as a page). */
-#sheet-body:has(.people-screen) {
+/* People on the one roster (owner, Nov 7: the person card, "perfect"; the mock's
+   pl-people): the roster at the left and the chosen person's card beside it, the
+   width of the panel; each keeps to the panel's height and scrolls inside itself
+   (a menu never scrolls as a page). */
+#sheet-body:has(.roster-screen.people) {
   display: flex;
   overflow: hidden;
 }
-.people-screen {
+.roster-screen.people {
   flex: 1;
+  width: auto;
   min-height: 0;
-  display: grid;
-  grid-template-columns: 270px 1fr;
+  grid-template-columns: 270px minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
   gap: 22px;
 }
-.people-roster,
-.people-pane {
+.roster-screen.people > .roster,
+.roster-screen.people > .roster-page {
   min-height: 0;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
-.people-roster {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-family: var(--ui);
+.roster-screen.people > .roster {
+  align-content: start;
+  max-height: none;
+  margin: 0;
 }
-.people-pane .strip-screen {
+.roster-screen.people > .roster-page .strip-screen {
   grid-template-columns: 1fr;
 }
-.people-pane .strip-screen:has(.mxbust) {
+.roster-screen.people > .roster-page .strip-screen:has(.mxbust) {
   grid-template-columns: 300px 1fr;
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
@@ -3827,7 +3929,9 @@ details.entry[open] {
   align-items: start;
   font-family: var(--ui);
 }
-.patch-detail {
+/* Patch notes and the journal run long: their page scrolls inside its own box, never the sheet. */
+.roster-screen.patch-notes .roster-page,
+.roster-screen.journal .roster-page {
   max-height: calc(100vh - 250px);
   overflow-y: auto;
   scrollbar-width: thin;
@@ -4047,18 +4151,13 @@ details.entry[open] {
   align-items: center;
   margin-bottom: 12px;
 }
-.guide-body {
-  display: grid;
-  grid-template-columns: 290px minmax(0, 1fr);
-  gap: 26px;
-  align-items: start;
+.roster-screen.guide {
+  width: auto;
 }
-.guide-article.strip-screen {
+.roster-screen.guide > .roster-page.strip-screen {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: auto;
-  min-width: 0;
 }
 #sheet-body .guide-term {
   margin: 0;
@@ -5377,7 +5476,7 @@ select.release-pick {
   width: auto;
 }
 
-.guide-article .sec {
+.roster-screen.guide .sec {
   width: 100%;
 }
 
@@ -5534,4 +5633,32 @@ body.color-blind .meeting-member.vote-abstain {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+
+/* The journal chapter's picture: the place its lines happened in (no caption).
+   No line box: its sides and lower edge fade into the panel, as the bust does. */
+.journal-picture {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  margin-bottom: 12px;
+  -webkit-mask-image:
+    linear-gradient(180deg, black 62%, transparent 100%),
+    linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(180deg, black 62%, transparent 100%),
+    linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  mask-composite: intersect;
+}
+
+/* Government in Dev mode: Bills and Bribe sit in the main column under the members; the chamber picture gives them its room. */
+.dev-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.split-main:has(.dev-panels) .chamber {
+  display: none;
 }

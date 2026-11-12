@@ -32,7 +32,11 @@ description: >
 - Typecheck, eslint, prettier, the vitest files and every guard ran in a sparse copy on Oct 29. `src/bench` and `scripts/dev-lab` import JSON from `art/`, `vite.config.ts` imports from `desktop/`, and the guards read code and notes under `art/` and `docs/`. That is why only images are skipped, never whole folders.
 - A scanner that reads every tracked file skips the ones the copy does not hold. The English spelling guard and the secrets scan do this with `existsSync`; CI's full checkout still reads them all. A new scanner of `git ls-files` does the same.
 - `du -sh --exclude=node_modules <dir>` stays near 0.9 GB, and `du -sh <dir>/.git` stays in megabytes.
+- **Leave out image files, never the `art/` folder.** A copy made with a rule that drops `art/` whole fails every test that reads a manifest there (`ENOENT ... art/busts/v1/manifest.json`, Nov 11). The rule is by extension: `'/*' '!*.png' '!*.jpg' '!*.jpeg' '!*.webp' '!*.gif'`.
+- **A pull request that moves or adds pictures is built in a copy that has them.** `git add` refuses a path the sparse rule leaves out; `git add --sparse <path>` adds it, and `git mv` of pictures wants the full copy.
 - Anything that draws a person reads a picture, and the copy has none. `src/bench/path-check.ts` and the bench tests print their whole log and then exit 1 on a people-pack `ENOENT` for a `.png` (Nov 1, governing lead). Read the log rather than the exit code, or make the copy with `--keep-images` when the exit code matters.
+
+- **`helper-checkout.sh new <dir> <branch>` can leave the local branch on an old commit (Nov 12, Fixer F2).** One copy (for #8222) came up on a merge commit of another branch, not the pull request's head, so `git merge origin/main` merged the wrong tree and looked clean. Right after making a copy run `git fetch origin main <branch>`, then `git reset --hard -q origin/<branch>` (the copy is new, so nothing is lost), and check `git log -1 --oneline` against the head the pull request names before merging main.
 
 ## When it ends
 

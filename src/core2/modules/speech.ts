@@ -31,6 +31,9 @@ import { hearAsGroups, hearsAsPerson } from "../hearer-groups";
 export const SPEECH_MODULE_ID = "speech";
 export const SPEECH_HEARD = "speech.heard";
 export const SPEECH_RETOLD = "speech.retold";
+/** The facts of `speech.heard` that name what the speech was given at. */
+export const SPEECH_OCCASION_ID = "occasionId";
+export const SPEECH_OCCASION_KIND = "occasionKind";
 const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
 const s = (api: CoreAPI, key: string) => {
   const row = PARAMETERS[key];
@@ -54,6 +57,12 @@ export interface SpeechInput {
    * campaign speech; the player's own speeches keep every hearer a person.
    */
   groupUnwatched?: boolean;
+  /**
+   * What the speech was given at: the record id of the event (the meeting, the
+   * hearing, the sitting, the campaign's statement) and its kind, read from
+   * that record. A speech with no event behind it carries none.
+   */
+  occasion?: { readonly recordId: string; readonly kind: string };
 }
 
 export interface Retelling {
@@ -148,6 +157,12 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
     [VIEWS_SPEAKER_KEY]: speech.speakerId,
     ...(speech.countedSpeakerLean !== undefined
       ? { [VIEWS_SPEAKER_LEAN_KEY]: String(speech.countedSpeakerLean) }
+      : {}),
+    ...(speech.occasion
+      ? {
+          [SPEECH_OCCASION_ID]: speech.occasion.recordId,
+          [SPEECH_OCCASION_KIND]: speech.occasion.kind,
+        }
       : {}),
   };
   const source = {
@@ -366,24 +381,38 @@ export function makeCase(
     readonly topic: string;
     readonly desiredChange: string;
     readonly citation: string;
+    /** A speaker still in the wider population: their counted lean (they have no view row). */
+    readonly countedSpeakerLean?: number;
   },
 ): void {
   const listeners = input.listenerIds.filter(
     (id) => id !== input.speakerId && api.state.people.get(id)?.alive,
   );
-  if (!listeners.length || !api.state.people.get(input.speakerId)?.alive)
+  const counted =
+    input.countedSpeakerLean !== undefined &&
+    !api.state.people.has(input.speakerId);
+  if (
+    !listeners.length ||
+    (!counted && !api.state.people.get(input.speakerId)?.alive)
+  )
     return;
   api.emit({
     id: input.id,
     date: api.state.date,
     kind: CASE_MADE,
-    personIds: [input.speakerId],
+    // A speaker still in the wider population is named by the event's speaker fact, not as a person.
+    personIds: counted ? [] : [input.speakerId],
     witnessIds: listeners,
     placeId: input.placeId,
     topic: input.topic,
     desiredChange: input.desiredChange,
     moodImpulse: s(api, "speechImpulse"),
-    facts: { [VIEWS_SPEAKER_KEY]: input.speakerId },
+    facts: {
+      [VIEWS_SPEAKER_KEY]: input.speakerId,
+      ...(counted
+        ? { [VIEWS_SPEAKER_LEAN_KEY]: String(input.countedSpeakerLean) }
+        : {}),
+    },
     source: { tag: "SOURCED", citation: input.citation, asOf: api.state.date },
   });
 }

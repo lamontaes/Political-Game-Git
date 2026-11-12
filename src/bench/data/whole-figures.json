@@ -37,7 +37,7 @@
     "governor": ["governor"]
   },
   "creator": {
-    "about": "The creator's worded labels (src/bench/appearance.ts). The words for a skin, a hairstyle, a hair color and facial hair are in the bust bank's manifest (art/busts/v1/manifest.json, `names`).",
+    "about": "The creator's worded labels (src/bench/appearance.ts). The words for a skin, a hairstyle, a hair color, facial hair and a color of clothes are in the bust bank's manifest (art/busts/v1/manifest.json, `names`).",
     "sex": {
       "woman": "Woman",
       "man": "Man"
@@ -48,7 +48,12 @@
       "skin": "Skin",
       "hair": "Hair",
       "hairColor": "Hair color",
-      "face": "Facial hair"
+      "face": "Facial hair",
+      "top": "Top",
+      "topColor": "Top color",
+      "shirt": "Shirt",
+      "tie": "Tie",
+      "jacket": "Jacket"
     }
   },
   "propPlaces": {

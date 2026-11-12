@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-laws-price-laws-public-payee-nearest-treasury
 pr: #8454
@@ -18,6 +18,7 @@ effort: low
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T01:55:59.343Z
+merged-at: 2026-11-12T01:15:30.079Z
 ---
 
 **What.** src/core2/price-laws.test.ts ("reads price laws at settlement and removes their rules on repeal") fails on main 15059c66cc in Farson, Wyoming (5626055), seed 940b68b7e6950184a2b3e24dc1ab278af33b9d874b49a7937a24757cbe8fd2f7, with "us-policy-positions:environment-energy.price-carbon, governing place:5626055, treasury false: expected true to be false" at price-laws.test.ts:149-157. The test expects a law whose price is paid to the public to make no rule where the governing jurisdiction keeps no budget row. src/core2/modules/place-prices.ts:964-983 instead pays the town's nearest government that keeps one (its comment names a territory), so the carbon price rule exists. One of the two is wrong: decide what the law means where the governing place has no treasury, and make the other read the same rule. Guards: a price law the player passes (carbon price) charges and pays the right treasury in any town, and main stays green.
