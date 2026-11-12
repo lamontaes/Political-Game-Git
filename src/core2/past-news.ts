@@ -17,6 +17,7 @@
  * calendar for that day. Nobody too young to follow the news hears it.
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { lawRows } from "./modules/laws";
 import { printStory, readingDelay, type Story } from "./modules/news";
 import { writeArchiveStory } from "./modules/press";
 import type { PastTown } from "./past-bodies";
@@ -98,10 +99,19 @@ export function buildNewsArchive(
         winnerId: election.winnerId,
         winnerVotes: String(election.candidates[0]!.votes),
         totalVotes: String(election.totalVotes),
+        // The count this world's total was drawn around; never printed as it.
+        sourceVotes: String(election.sourceVotes),
       },
       { personIds: [election.winnerId] },
     );
   for (const history of past.histories) {
+    // A starting row that records the place has no such tax or program (its
+    // terms say system "none") enacted nothing, so no story tells it.
+    const row = lawRows(api, history.series, history.jurisdiction).find(
+      (r) => r.id === history.lawId,
+    );
+    if ((row?.terms as { system?: unknown } | undefined)?.system === "none")
+      continue;
     const facts = {
       lawId: history.lawId,
       series: history.series,

@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: L
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/words-opening-evening-talk
+pr: #8736
 after:
 blocked-on:
 lead: words
@@ -18,7 +18,7 @@ root: rc4-hand-written-words
 source: owner, Nov 11, 2026, on the first evening's talk in the strip pull request's picture (docs/coordination/OWNER-DECISIONS.md, "Nov 11: every line goes through the English engine")
 checked: fable 2026-11-11
 claimed-at:
-branch: claude/pool-words-opening-evening-talk-raises-what-the-president-said
+branch: claude/words-opening-evening-talk
 ---
 
 **What.** A new life opens on the President's address, and that evening a relative talks about it. Today the relative says one of 23 fixed sentences ("I've heard those promises too many times.") and the player picks from four fixed replies, the same in every town and whatever the President said. The owner ruled that this is the demonstration of the game: the relative raises a real thing the President said in this world's address, and where they stand on it from their own views, job and town, composed by the English engine in many versions with inserts from the records. Seen: the first evening at home, in the talk box, after the President's address.
@@ -43,9 +43,9 @@ branch: claude/pool-words-opening-evening-talk-raises-what-the-president-said
 
 **Rules.** No hand-written player text in code: every word is a bank part, composed by the engine. No dice: which point and which stand come from the person's own records, never a draw. Ask why: the relative cites the address only because their knowledge holds it, and the line's source ids name the address and the record behind the reason. One rule, all 56 places: nothing names a place, and the tests draw their places. An effect is a read, not a record: what the player answered is read by a later talk, named by record id in the pull request.
 
-**Done when.** A second session, in the running game on main at 1440x900, starts three new lives in drawn places it writes down with their seeds. In each, on the first evening it talks to a relative and sees them name something the President said that is in that life's address (it reads the address in the journal or the news to confirm), with a stand and a reason from their own job, money or town; the three talks do not share a sentence. The replies are at most four, each a different move, each naming the point. It answers, opens the same person's card or a later talk, and finds the answer on record. `git grep -n "address-view" -- src data` returns nothing, and tests/guards/english passes with the lowered counts.
+**Done when.** A second session, in the running game on main at 1440x900, starts three new lives in drawn places it writes down with their seeds. In each, on the first evening it talks to a relative and sees them name something the President said that is in that life's address (it reads the address in the journal or the news to confirm), with a stand and a reason from their own job, money or town; the three talks do not share a sentence. The replies are at most four, each a different move; each names the point, the town, the President or the person, and no two carry the same insert. The answer to the reply about the town says one thing that world keeps about the town or its own law on the question, never only that it is too soon to say. It answers, opens the same person's card or a later talk, and finds the answer on record. `git grep -n "address-view" -- src data` returns nothing, and tests/guards/english passes with the lowered counts.
 
-**Waits on.** The CTO's answer to whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (Notes; PR #8715); set back to Nothing once he rules.
+**Waits on.** Nothing.
 
 **Files.** src/director/conversation.ts, src/director/opening-facts.ts, src/director/opening-story.ts, src/director/data/conversation-rules.json, src/director/conversation-address-talk.test.ts, src/director/household-talk.test.ts, src/director/reply-set-check.ts, src/english/conversation-words.ts, src/english/english-composition.ts, src/core2/modules/views.ts, src/core2/trait-decisions.ts, data/english/parts/conversation.json, data/english/parts/scene-talk.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
 
@@ -54,3 +54,9 @@ branch: claude/pool-words-opening-evening-talk-raises-what-the-president-said
 Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:35 UTC) on branch claude/pool-words-opening-evening-talk-raises-what-the-president-said.
 
 Released (2026-11-11): The Fix writes and deletes lines under data/english/parts, which this builder may not touch; it waits on the CTO's ruling on who writes them (PR #8715). Continue on branch claude/pool-words-opening-evening-talk-raises-what-the-president-said.
+
+Assigned by name (2026-11-11 07:10 UTC): the lead holds the words work (CTO, Nov 11, on the owner's ruling that every line goes through the English engine) and assigned this item to the Words builder W1 on branch claude/words-opening-evening-talk, started 06:20 UTC. `next` should not hand it to a pool builder. Who writes the lines: the Words builder drafts the pieces under `data/english/parts` in its own pull request with `Review: words`; a pool builder still writes nothing there. The lead told the CTO this at 06:10 UTC on the crew's issue.
+
+Lead's review of #8736 (2026-11-11 07:20 UTC): the Done when said every reply names the point, and one screen then said it six times; it now reads as above. The answer about the town must carry a fact. Both are sent back on the pull request.
+
+In pull request #8736 on branch claude/words-opening-evening-talk (2026-11-11), built from Fable B's copy of this item; steps 1 and 11 carry Fable B's amendment of that day (the address's year as points).
