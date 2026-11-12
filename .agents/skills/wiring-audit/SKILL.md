@@ -10,13 +10,13 @@ description: >
 
 # Wiring audit
 
-**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+**Look first:** run the `look-first` search before building, fixing, filing or asking; a found ruling is built and cited, never asked again.
 
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Each per-family fix PR and each row's `Needs` line is SMART with a time box. Laws and effects share one checker and one matrix; traits rows live in the effects matrix.
 
-Current as of 2026-10-24, 21:30 UTC (owner, Oct 20: Opus leads with Sonnet helpers; owner, Oct 24: at most two helpers per lead, status on the channel every two hours; the lead role itself is `lead-session`)
+The lead role itself is `lead-session` (an Opus lead with at most two helpers, status on the channel every two hours; owner, Oct 20 and Oct 24).
 
-"Wired" means a played world shows it, row by row. A unit test, a catalog entry or a session's own claim is not proof. **Wired is not seen:** the links below are measured headless. Never tell the owner a law or link is wired without also saying whether a player can see it in play, on which screen or scene, by screenshot with place and seed (Oct 26: the matrix read 55 of 89 laws wired while a player's own bill never got a vote all year and News reported no law). This is how the LAW-WIRING, EFFECT-WEB-WIRING and TRAIT-WIRING jobs work; follow it for any family.
+"Wired" means a played world shows it, row by row. A unit test, a catalog entry or a session's own claim is not proof. **Wired is not seen:** the links below are measured headless. Never tell the owner a law or link is wired without also saying whether a player can see it in play, on which screen or scene, by screenshot with place and seed, and that it counts as done only when a second session has seen it (`seen-in-game`; dev mode's bill card and "Follow the money" are the check; `dev-tester` proves laws through the real body) (Oct 26: the matrix read 55 of 89 laws wired while a player's own bill never got a vote all year and News reported no law). This is how the LAW-WIRING, EFFECT-WEB-WIRING and TRAIT-WIRING jobs work; follow it for any family.
 
 ## 1. Define wired, point by point
 
@@ -44,13 +44,13 @@ A declared file's `why` or `evidence` text (`scripts/law-wiring/declared/*.json`
 
 ## 4. Fix by family
 
-One family per helper (Sonnet, at most two per lead), each with its own paths, branch and check. The lead (Opus) reviews every diff before it becomes a PR and sends back:
+One family per helper (a Sonnet-level helper, at most two per lead), each with its own paths, branch and check. The lead (Opus) reviews every diff before it becomes a PR and sends back:
 
 - narrowed, skipped or early-returning tests, `>= 0`, or loops over sets that can be empty;
 - unexplained timeouts;
 - dice;
-- hand-written player text;
-- imports from `src/simulation`;
+- hand-written player text, or lines written under `data/english/parts/` by anyone but the Story session (owner, Nov 10);
+- imports from `src/simulation` (deleted Oct 28; the `old-imports` guard refuses it);
 - owner or date notes in data;
 - claims the diff doesn't make.
 
@@ -65,7 +65,7 @@ Write one test per item that fails when nothing moved. When several PRs share a 
 - **Every run file, never the family files alone.** `matrix.ts` grades from the places in the files it is given. A run over `families/*.json` alone read two places and dropped 83 laws to partly: main's table read "3 of 89" for two hours on Oct 29, from a merge-main commit. Pass every file in `docs/reports/law-wiring/*.json` and `families/*.json` that holds a `results` array, and check that the table's first line did not fall before committing.
 - **A law that moves money gets one skeptic on its payment path before the PR.** The medical-debt branch's tests passed through three review rounds that each found a real money defect: a cash stand-in left beside the new bill, a federal payment recorded against a line the federal budget lacks, and the coverage engine reading the same law a second time. The skeptic reads the path line by line against the budget lines and the two tiers.
 - **A matrix cell cites a read where the read happens** (laws lead, Nov 1). Never grade a link from a place that cannot show it: a lender link from a state that begins with the cap and has no lender, or a town web row the engine leaves out for households whose coverage it keeps by person id. Grade it from the records that read it (bill or loan records by id) or mark it carried by the engine that does. A link whose lag is longer than the checker's one-year window cannot be shown by the checker when a legislature in play repeals the law first. Its evidence comes from a played test that holds the law, and the cell is declared partial with an open stopgap. `matrix.ts` takes a partial declaration that can only lower a grade, never raise one.
-- **A merge conflict in the generated reports** is resolved by taking main's copy and regenerating; the source files (`outcome-web.json`, the stopgap register) keep both sides' rows. Since Oct 29 a checker session does this on an open PR; the builder asks it before pushing.
+- **A merge conflict in the generated reports** is resolved by taking main's copy and regenerating; the source files (`src/core2/data/outcome-web/outcome-web.json`, the stopgap register) keep both sides' rows. Since Oct 29 a checker does this on an open pull request (`checker`); the builder asks it before pushing, on the item's pull request.
 - **Never hand-edit a generated report** (CTO, Nov 8, on #7404). `docs/reports/law-wiring-table.md` and `law-wiring-matrix.json` are written by `scripts/law-wiring/matrix.ts` from the checker's place runs. A proof that should move a law (a played test, a dev-mode run) changes its declaration in `scripts/law-wiring/declared/` and its stopgap, and the Dev Tester reruns the checker on main to regenerate the table; the PR body states what the regenerated row should read. Regenerating from only the few run files in the repo breaks the whole table.
 - **Speed and space:** helpers work in `helper-checkout` copies and, under the Oct 29 "builders build" ruling, run only the tests they wrote. A played twin test builds two worlds, so at most one runs at a time on a crowded container; three runs were killed for memory on Oct 29.
 

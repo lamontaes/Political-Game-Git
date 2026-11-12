@@ -141,13 +141,11 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Bills", exact: true })
     .click();
-  await page
-    .locator("#sheet-body")
-    .getByRole("button", { name: "Read the bill" })
-    .first()
-    .waitFor();
+  await page.locator(".roster-screen.bills .roster-row").first().waitFor();
   const listed = await page.evaluate(() =>
-    [...document.querySelectorAll("#sheet-body .sec")].map((n) => n.innerText),
+    [...document.querySelectorAll("#sheet-body .roster-row")].map(
+      (n) => n.innerText,
+    ),
   );
   console.log("bills:", listed.slice(0, 3));
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/bills-state.png` });
@@ -158,11 +156,18 @@ try {
     return list.findIndex((item) => item.id === id);
   }, result.billId);
   assert.ok(place >= 0, "the Bills tab follows the bill dev mode decided");
+  // The bill by its own row in the list (the row carries the bill's id).
   await page
-    .locator("#sheet-body")
-    .getByRole("button", { name: "Read the bill" })
-    .nth(place)
+    .locator(
+      `.roster-screen.bills .roster-row[data-key=${JSON.stringify(result.billId)}]`,
+    )
     .click();
+  // The page of that bill, not the one that was on screen before the click.
+  await page
+    .locator(
+      `.roster-screen.bills .roster-page[data-key=${JSON.stringify(result.billId)}]`,
+    )
+    .waitFor();
   await page.locator(".stage-chamber").first().waitFor();
   const floor = await page.evaluate(() =>
     [...document.querySelectorAll(".stage-chamber")].map((n) => n.innerText),

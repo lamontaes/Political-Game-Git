@@ -34,6 +34,11 @@ export interface WordedStory {
   readonly paragraphs?: readonly string[];
   /** A side item: a headline and one line, never paragraphs; the screen does not open it. */
   readonly brief?: true;
+  /**
+   * The headline as a person says it in talk: a bill by what it does (its
+   * purpose), never by its number. Absent where the headline names no bill.
+   */
+  readonly spoken?: string;
   readonly sourceRecordIds: readonly string[];
 }
 
@@ -144,8 +149,21 @@ export function wordPrintedStory(
     read.facts,
   );
   if (!text) return null;
+  // In talk a bill is said by what it does: the same words, with the
+  // designation's place taken by the bill's purpose.
+  const spoken =
+    read.facts.designation && read.facts.purpose
+      ? worded(core, story.id, read.kind, read.speaker || story.id, {
+          ...read.facts,
+          designation: read.facts.purpose,
+        })?.headline
+      : undefined;
   const outlet = story.outletId ? outletOf(core, story.outletId) : undefined;
-  return { ...text, ...(outlet ? { outlet } : {}) };
+  return {
+    ...text,
+    ...(spoken && spoken !== text.headline ? { spoken } : {}),
+    ...(outlet ? { outlet } : {}),
+  };
 }
 
 /** An outlet as News draws it: its record id, name and the layout of its kind. */

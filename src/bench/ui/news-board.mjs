@@ -144,6 +144,9 @@ export function newsBoard({
                     rows: 5,
                     columns: 1,
                     rowHeight: 86,
+                    // A long brief takes the room it needs; the box scrolls
+                    // and no brief is printed over the next.
+                    growRows: true,
                     gap: 6,
                     className: "news-briefs",
                   }),
