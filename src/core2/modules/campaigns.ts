@@ -1964,6 +1964,80 @@ export function volunteerReason(
   );
 }
 
+/** The kind of the record written when someone joins a campaign's volunteers. */
+export const VOLUNTEER_JOINED_EVENT = "campaign-volunteer-joined";
+/** The kind of the record written when a volunteer's reasons have weakened past giving evenings. */
+export const VOLUNTEER_LAPSED_EVENT = "campaign-volunteer-lapsed";
+
+/**
+ * Writes the record of someone joining a campaign: when, and the ask or the
+ * filing that brought them (`causeId`, the group speaker's id when a group's
+ * ask did, else the candidate's filing record).
+ */
+function recordVolunteerJoined(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  personId: string,
+  how: "asked" | "said-so" | "group-ask",
+  askerId?: string,
+): void {
+  // stopgapId: SG-CAMPAIGN-volunteer-joined-lapsed-unread
+  api.stopgap("SG-CAMPAIGN-volunteer-joined-lapsed-unread");
+  const date = api.state.date;
+  const person = api.state.people.get(personId);
+  const filed = api.state.durableLog.get(
+    `candidate-filed:${campaign.filingId}` as never,
+  );
+  api.emit({
+    id: `${VOLUNTEER_JOINED_EVENT}:${campaign.filingId}:${personId}`,
+    date,
+    kind: VOLUNTEER_JOINED_EVENT,
+    personIds: api.state.people.has(campaign.candidateId)
+      ? [campaign.candidateId as PersonId, personId as PersonId]
+      : [personId as PersonId],
+    placeId: townRow(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `${person?.givenName ?? ""} ${person?.familyName ?? ""} joins campaign ${campaign.filingId}`,
+      asOf: date,
+    },
+    facts: {
+      volunteerId: personId,
+      candidateId: campaign.candidateId,
+      campaignId: campaign.id,
+      filingId: campaign.filingId,
+      how,
+      causeId: askerId ?? (filed ? String(filed.id) : campaign.filingId),
+      ...(askerId ? { askerId } : {}),
+    },
+  });
+}
+
+/**
+ * Why a volunteer's reasons have weakened past giving evenings, or null while
+ * they hold. The reasons are the ones that brought them (`volunteerReason`:
+ * liking, closeness, family, against the hours their work takes); the cause
+ * named is the largest one working against them: their work's hours, a
+ * candidate they no longer like, or no closeness left to carry them.
+ */
+export function volunteerLapseReason(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState>,
+): "work-hours" | "cooled" | "distant" | null {
+  if (volunteerReason(api, campaign, person) > 0) return null;
+  const core = api.state as CoreState;
+  const warmth =
+    impressionOf(api, person.id, campaign.candidateId)?.warmth ?? 0;
+  const tie = closenessBetween(core, person.id, campaign.candidateId);
+  const weeklyWork = [...(core.work.commitmentsByPerson.get(person.id) ?? [])]
+    .map((id) => core.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0)
+    .reduce((a, b) => a + b, 0);
+  const load = weeklyWork / campaignParameter("turnoutWorkWeekMinutes");
+  if (load >= Math.max(0, -warmth) && load >= tie) return "work-hours";
+  return warmth < 0 ? "cooled" : "distant";
+}
+
 /**
  * Ask someone to volunteer. They say yes when liking the candidate,
  * closeness, an outgoing or dutiful temperament (and, asked through a group
@@ -1998,11 +2072,19 @@ export function askToVolunteer(
         "decline",
         volunteerReason(api, campaign, person, ask),
       );
-  if (yes && !campaign.volunteerIds.includes(personId))
+  if (yes && !campaign.volunteerIds.includes(personId)) {
     save(api, {
       ...campaign,
       volunteerIds: [...campaign.volunteerIds, personId],
     });
+    recordVolunteerJoined(
+      api,
+      campaign,
+      personId,
+      ask ? "group-ask" : "asked",
+      ask?.askerId,
+    );
+  }
   return yes;
 }
 
@@ -2750,6 +2832,7 @@ export function enlistVolunteer(
     ...campaign,
     volunteerIds: [...campaign.volunteerIds, personId],
   });
+  recordVolunteerJoined(api, campaign, personId, "said-so");
   return true;
 }
 
@@ -2874,6 +2957,37 @@ export function volunteerShifts(
       walked.has(id)
     )
       continue;
+    // A volunteer whose reasons have weakened past giving evenings is written
+    // down once, with the cause that weakened them (a record, not a roll).
+    const lapse = volunteerLapseReason(api, campaign, person);
+    if (
+      lapse &&
+      !api.state.durableLog.get(
+        `${VOLUNTEER_LAPSED_EVENT}:${filingId}:${id}` as never,
+      )
+    )
+      api.emit({
+        id: `${VOLUNTEER_LAPSED_EVENT}:${filingId}:${id}`,
+        date,
+        kind: VOLUNTEER_LAPSED_EVENT,
+        personIds: api.state.people.has(campaign.candidateId)
+          ? [campaign.candidateId as PersonId, person.id]
+          : [person.id],
+        placeId: townRow(api).townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: `${person.givenName} ${person.familyName} stops giving evenings to campaign ${filingId}`,
+          asOf: date,
+        },
+        facts: {
+          volunteerId: id,
+          candidateId: campaign.candidateId,
+          campaignId: campaign.id,
+          filingId,
+          reason: lapse,
+          joinedId: `${VOLUNTEER_JOINED_EVENT}:${filingId}:${id}`,
+        },
+      });
     const hours = canvassHoursFree(api, person);
     if (hours <= 0) continue;
     // Each working day adds their share to what they are owed (starting

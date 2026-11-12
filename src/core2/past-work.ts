@@ -50,7 +50,7 @@ import {
 } from "./pre-start";
 import { ownPastKind } from "./own-past-kinds";
 import { residenceOn } from "./past-moves";
-import { openingWorkStatus } from "./jobs-elsewhere";
+import { openingWorkStatus } from "./modules/jobs";
 import { registerWorldMapPart } from "./snapshot";
 import { stopgap } from "./stopgaps";
 import { coreAPI } from "./state";

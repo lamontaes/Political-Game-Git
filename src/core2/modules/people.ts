@@ -172,7 +172,12 @@ export {
 } from "../closeness";
 // The vote record's id and rows, the key people of the opening and the school
 // measure's id and rows, for readers outside the family.
-export { RECORD_MODULE_ID, votesOf, type VoteRecordRow } from "./record";
+export {
+  RECORD_MODULE_ID,
+  promisesOf,
+  votesOf,
+  type VoteRecordRow,
+} from "./record";
 export { keyPeopleOf } from "../opening-key-people";
 // The town's moves, for the screens that count them: counted households'
 // move records and a named resident's moved-away event.
