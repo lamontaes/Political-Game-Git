@@ -200,12 +200,26 @@
     "id": "SG-OFFICE-FED-acting-head",
     "kind": "missing-engine",
     "file": "src/core2/office-day-federal-president.ts",
-    "line": 0,
+    "line": 295,
     "whatItFakes": "A cabinet post the president leaves open (or cannot fill) is marked acting for 210 days (5 U.S.C. 3346(a)(1), sourced). The acting head is a person drawn from the wider population (the first counted adult aged 40 to 66 in the town's counts is the template, seeded by the post and the day), not the department's first assistant; they are not paid as the acting official and the department's work is not handed to them.",
     "why": "The game keeps no first-assistant or deputy record for a department, so there is no one to name as acting head under 5 U.S.C. 3345(a)(1); a drawn person stands in so the post has a name.",
     "addedBy": "Legislation",
     "addedAt": "2026-11-08",
-    "replacement": "Name the department's first assistant as acting head (5 U.S.C. 3345(a)(1)), or a Senate-confirmed officer or qualified senior employee the president directs (3345(a)(2)-(3)), pay and credit them as the acting official, hand the department's work to them, draw them from the capital's counted people rather than the town's, and extend service while a nomination is pending (3346(a)(2)).",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Name the department's first assistant as acting head (5 U.S.C. 3345(a)(1)), or a Senate-confirmed officer or qualified senior employee the president directs (3345(a)(2)-(3)), pay and credit them as the acting official, hand the department's work to them, draw them from the capital's counted people rather than the town's, and extend service while a nomination is pending (3346(a)(2)).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
+  },
+  {
+    "id": "SG-OFFICE-place-district-from-county",
+    "kind": "assumed-data",
+    "file": "src/districts/place-membership.ts",
+    "line": 1,
+    "whatItFakes": "A place the Census place-to-district relationship files do not know (518 places created after the 2020 place list they were compiled from, most in Indiana, Pennsylvania and Virginia) is placed whole in the district, in each chamber, that holds the most resident workers (LODES8) among the places of its own county the files do know (src/districts/place-district-estimates.generated.json).",
+    "why": "The relationship files list only the 2020 places; the game's places are the 2025 Gazetteer's, and the files that assign each block to a district were not kept for these places.",
+    "addedBy": "opus-5234 (gov-offices-spec-opening-careers-alonzaville)",
+    "addedAt": "2026-11-11",
+    "replacement": "Each such place assigned by its own Census interior point (or its blocks) against each chamber's district lines.",
     "status": "open"
   }
 ]
