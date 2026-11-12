@@ -539,18 +539,6 @@
     "status": "open"
   },
   {
-    "id": "SG-P8-business-books-dynamics",
-    "kind": "uncalibrated-tunable",
-    "file": "src/core2/data/parameters.json",
-    "line": 2584,
-    "whatItFakes": "Town sales-to-income response, analytic linear income relaxation, price adjustment and rival allocation coefficients, including the legacy Moretti employment proxy and food-away-from-home price crosswalk.",
-    "why": "All new model coefficients are TUNABLE with explicitly unmeasured spreads. Source employment or category-price estimates do not identify these generated-town sales/price coefficients.",
-    "addedBy": "SOL-1258",
-    "addedAt": "2026-10-09",
-    "replacement": "Matched dated town income, market sales, prices/capacity and within-market shares with identified coefficient ranges and executed calibration; review cadence also requires evidence.",
-    "status": "open"
-  },
-  {
     "id": "SG-P8-business-books-credit-policy",
     "kind": "authored-finance-policy",
     "file": "src/core2/data/parameters.json",
