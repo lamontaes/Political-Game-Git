@@ -1278,7 +1278,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     );
   // Congress files each question once in each chamber, from that chamber's own
   // members; a state's members file together.
-  const filerGroups: TermRow[][] = federal
+  const filerGroups: (readonly TermRow[])[] = federal
     ? [members(api, FEDERAL_HOUSE), members(api, FEDERAL_SENATE)]
     : [
         ["legislature-lower", "legislature-upper", "legislature-unicameral"]
