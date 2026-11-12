@@ -22,7 +22,7 @@
  * A local seat runs only on what its place's records hold (the lead, Nov 12:
  * a council candidate in a town of a few hundred campaigning on civilian
  * oversight of the police): a question that is about a line of the local
- * budget (data/campaigns/local-question-records.json) is offered only where
+ * budget (src/core2/data/campaigns/local-question-records.json) is offered only where
  * the government's latest budget spends on, or takes in, that line.
  */
 import { questionAxis } from "./campaign-views";
