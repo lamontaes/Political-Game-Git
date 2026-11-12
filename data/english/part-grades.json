@@ -9,6 +9,7 @@
     "batch-13",
     "batch-22",
     "restored-liked-lines",
+    "w2-scene-words-inserts",
     "voice-notes-batches-11-19",
     "voice-notes-oct15-28",
     "2026-11-09-batch-2:voice",
@@ -2087,6 +2088,14 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-words.cause-acquitted-self.you-have-been-acquitted-of-offense": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-words.cause-birth-self.you-have-a-new-baby": {
       "good": 0,
       "bad": 1,
@@ -2111,7 +2120,23 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-words.cause-charged-self.you-have-been-charged-with-offense": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-words.cause-convicted-self.you-have-been-convicted": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-words.cause-convicted-self.you-have-been-convicted-of-offense": {
       "good": 1,
       "bad": 0,
       "fix": 0,
