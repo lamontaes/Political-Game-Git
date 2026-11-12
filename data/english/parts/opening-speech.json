@@ -118776,7 +118776,7 @@
       "key": "opening-speech.close.polished-sos-twn-let-us-ask-then-after",
       "move": "close",
       "kind": "spoken",
-      "text": "Let us {first-side}. Then {first-after} Thank you.",
+      "text": "Let us {first-side}. Then {first-after} Thank you, {realm-name}.",
       "uses": [
         {
           "move": "close",
@@ -118785,7 +118785,8 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "first-after"
+            "first-after",
+            "realm-name"
           ]
         },
         {
@@ -118795,7 +118796,8 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "first-after"
+            "first-after",
+            "realm-name"
           ]
         }
       ],
@@ -118809,7 +118811,7 @@
       "key": "opening-speech.close.plain-sos-twn-lets-ask-and-then-after",
       "move": "close",
       "kind": "spoken",
-      "text": "So let's {first-side}, and then {first-after} Thanks, everybody.",
+      "text": "So let's {first-side}, and then {first-after} Thanks, {realm-name}.",
       "uses": [
         {
           "move": "close",
@@ -118818,7 +118820,8 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "first-after"
+            "first-after",
+            "realm-name"
           ]
         },
         {
@@ -118828,7 +118831,8 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "first-after"
+            "first-after",
+            "realm-name"
           ]
         }
       ],
@@ -118842,7 +118846,7 @@
       "key": "opening-speech.close.polished-sos-twn-i-ask-you-to-ask-because-reason",
       "move": "close",
       "kind": "spoken",
-      "text": "I ask you to {first-side}, because {first-reason}. Thank you, and good night.",
+      "text": "I ask you to {first-side}, because {first-reason}. Good night, {realm-name}.",
       "uses": [
         {
           "move": "close",
@@ -118851,7 +118855,8 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "first-reason"
+            "first-reason",
+            "realm-name"
           ]
         },
         {
@@ -118861,7 +118866,8 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "first-reason"
+            "first-reason",
+            "realm-name"
           ]
         }
       ],
@@ -118875,7 +118881,7 @@
       "key": "opening-speech.close.plain-sos-twn-lets-ask-because-reason",
       "move": "close",
       "kind": "spoken",
-      "text": "Let's {first-side}, because {first-reason}. Thank you.",
+      "text": "Let's {first-side}, because {first-reason}. Thank you, {realm-name}.",
       "uses": [
         {
           "move": "close",
@@ -118884,7 +118890,8 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "first-reason"
+            "first-reason",
+            "realm-name"
           ]
         },
         {
@@ -118894,7 +118901,8 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "first-reason"
+            "first-reason",
+            "realm-name"
           ]
         }
       ],
@@ -118908,7 +118916,7 @@
       "key": "opening-speech.close.polished-sos-twn-on-theme-short-let-us-ask",
       "move": "close",
       "kind": "spoken",
-      "text": "On {theme-short}, let us {first-side}. Thank you, and good night.",
+      "text": "On {theme-short}, let us {first-side}. Thank you, and good night, {realm-name}.",
       "uses": [
         {
           "move": "close",
@@ -118917,7 +118925,8 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "theme-short"
+            "theme-short",
+            "realm-name"
           ]
         },
         {
@@ -118927,7 +118936,8 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "theme-short"
+            "theme-short",
+            "realm-name"
           ]
         }
       ],
@@ -118941,7 +118951,7 @@
       "key": "opening-speech.close.plain-sos-twn-on-theme-short-lets-ask",
       "move": "close",
       "kind": "spoken",
-      "text": "On {theme-short}, let's {first-side}. Thanks, everybody.",
+      "text": "On {theme-short}, let's {first-side}. Thanks, {realm-name}, and good night.",
       "uses": [
         {
           "move": "close",
@@ -118950,7 +118960,8 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "theme-short"
+            "theme-short",
+            "realm-name"
           ]
         },
         {
@@ -118960,7 +118971,8 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "theme-short"
+            "theme-short",
+            "realm-name"
           ]
         }
       ],
@@ -118974,7 +118986,7 @@
       "key": "opening-speech.close.polished-twn-i-ask-body-to-ask",
       "move": "close",
       "kind": "spoken",
-      "text": "I ask {body} to {first-side} this year. Thank you.",
+      "text": "I ask {body} to {first-side} this year. Thank you, {realm-name}.",
       "uses": [
         {
           "move": "close",
@@ -118983,7 +118995,8 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "body"
+            "body",
+            "realm-name"
           ]
         }
       ],
@@ -118997,7 +119010,7 @@
       "key": "opening-speech.close.plain-twn-im-asking-body-to-ask",
       "move": "close",
       "kind": "spoken",
-      "text": "I'm asking {body} to {first-side} this year. Thanks, everybody.",
+      "text": "I'm asking {body} to {first-side} this year. Thanks, {realm-name}.",
       "uses": [
         {
           "move": "close",
@@ -119006,7 +119019,8 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "body"
+            "body",
+            "realm-name"
           ]
         }
       ],
