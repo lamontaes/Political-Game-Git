@@ -44,7 +44,8 @@ import type {
   Source,
 } from "../types";
 
-export const PLACE_PRICES_MODULE_ID = "place-prices";
+import { PLACE_PRICES_MODULE_ID } from "../business-module-id";
+export { PLACE_PRICES_MODULE_ID };
 export const PRICES_PARAMETERS = pricesParameters as unknown as Readonly<
   Record<string, Parameter>
 >;

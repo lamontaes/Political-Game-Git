@@ -14,6 +14,7 @@ import { coreAPI } from "../core2/state";
 import journalLife from "./data/journal-life.json" with { type: "json" };
 import JOURNAL_OUTLINE from "./data/journal-outline.json" with { type: "json" };
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { PLACE_PRICES_MODULE_ID } from "../core2/business-module-id";
 import {
   ELECTIONS_MODULE_ID,
   type ContestRow,
@@ -1556,15 +1557,18 @@ export function composeJournal(
     if (moment.causeKind === "event:law.effect-learned") {
       const moved = Number(logged?.facts?.movedMinor);
       const ruleId = logged?.facts?.priceRuleId;
-      // The rule's id names its good (`<place>:<good>:<kind>`, the price
-      // engine's own key): read from the record, so the Journal loads no
-      // part of the price engine.
-      const bills = JOURNAL_OUTLINE.goodBills as Record<string, string>;
-      const good =
-        typeof ruleId === "string"
-          ? ruleId.split(":").find((part) => part !== "about" && bills[part])
+      // The price engine's rule the record cites, read by the prices
+      // family's id entry (no part of the engine is loaded): its good.
+      const rule =
+        typeof ruleId === "string" && core.modules.has(PLACE_PRICES_MODULE_ID)
+          ? (coreAPI(core as CoreState)
+              .moduleState(PLACE_PRICES_MODULE_ID)
+              .table("rules")
+              .get(ruleId) as unknown as { good?: string } | undefined)
           : undefined;
-      const bill = good ? bills[good] : undefined;
+      const bill = rule?.good
+        ? (JOURNAL_OUTLINE.goodBills as Record<string, string>)[rule.good]
+        : undefined;
       if (!bill || !Number.isFinite(moved) || moved === zero) return null;
       facts.bill = {
         text: bill,
