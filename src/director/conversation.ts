@@ -3097,16 +3097,16 @@ export function openConversation(
     // The hello is its own short turn, as people say it ("Hi." then "Back
     // again?"): a composed greeting's opener is said first, the rest after.
     const parts = greeting.wording?.parts ?? [];
-    const cut =
-      parts.length > 1 && parts[zero]!.includes(".greet-open-")
-        ? greeting.text.search(/[.!?] /)
-        : -1;
+    const split =
+      parts.length > one && parts[zero]!.includes(".greet-open-")
+        ? /^(?<hello>.*?[.!?]) (?<rest>.+)$/s.exec(greeting.text)?.groups
+        : undefined;
     const said =
-      cut > 0 && greeting.wording
+      split?.hello && split.rest && greeting.wording
         ? [
             {
               ...greeting,
-              text: greeting.text.slice(0, cut + 1),
+              text: split.hello,
               wording: {
                 ...greeting.wording,
                 parts: [parts[zero]!],
@@ -3115,8 +3115,8 @@ export function openConversation(
             },
             {
               ...greeting,
-              text: greeting.text.slice(cut + 2),
-              wording: { ...greeting.wording, parts: parts.slice(1) },
+              text: split.rest,
+              wording: { ...greeting.wording, parts: parts.slice(one) },
             },
           ]
         : [greeting];
