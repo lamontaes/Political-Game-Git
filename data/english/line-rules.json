@@ -5136,11 +5136,15 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Composed check (docs/design/words-composer.md, part 6): a full name twice on one screen, and a full name first said with no role or relationship about someone the listener was not given, over every kind of text. Sample: it reports, it pulls no bank line.",
+      "note": "Composed check (docs/design/words-composer.md, part 6): a full name twice on one screen, and a full name first said with no role or relationship about someone the listener was not given, over every kind of text. Sample: it reports, it pulls no bank line. An organization (an employer, a school district) is named once in an exchange, then said by the tie (organization-named-once).",
       "status": "sample",
       "test": {
         "kind": "composed",
-        "check": ["full-name-once-per-screen", "no-bare-full-name-unintroduced"]
+        "check": [
+          "full-name-once-per-screen",
+          "no-bare-full-name-unintroduced",
+          "organization-named-once"
+        ]
       }
     },
     {
@@ -5264,11 +5268,15 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Composed check: a line looking ahead to a part of the day already here or over, or end-of-day talk in the morning, read against the minute it was said; and the same opener to the same person on three days of one week. Whose day it was (no job, no school) is not read yet. Sample: it reports, it pulls no bank line.",
+      "note": "Composed check: a line looking ahead to a part of the day already here or over, or end-of-day talk in the morning, read against the minute it was said; and the same opener to the same person on three days of one week. Whose day it was (no job, no school) is not read yet. Sample: it reports, it pulls no bank line. A line naming the month a vote comes is checked against the world's election calendar (vote-month-on-calendar).",
       "status": "sample",
       "test": {
         "kind": "composed",
-        "check": ["no-over-daypart", "no-daily-subject-loop"],
+        "check": [
+          "no-over-daypart",
+          "no-daily-subject-loop",
+          "vote-month-on-calendar"
+        ],
         "applies": ["talk:home", "talk:town", "scene", "narration"]
       }
     },

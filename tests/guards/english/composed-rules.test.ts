@@ -197,6 +197,52 @@ const FIXTURES: Record<
       talk("dad", [[["dad", "I drive the long way to dodge that toll."]]]),
     ),
   },
+  "vote-month-on-calendar": {
+    catches: sampleOf(
+      talk("dad", [
+        [["dad", "The mayor wants a bridge toll. I'm for it."]],
+        [
+          [PLAYER, "I'm not."],
+          ["dad", "We'll see who's right come November, Dana."],
+        ],
+      ]),
+    ),
+    spares: {
+      ...sampleOf(
+        talk("dad", [
+          [["dad", "The mayor wants a bridge toll. I'm for it."]],
+          [
+            [PLAYER, "I'm not."],
+            ["dad", "We'll see who's right come November, Dana."],
+          ],
+        ]),
+      ),
+      electionDates: ["2025-11-04"],
+    },
+  },
+  "organization-named-once": {
+    catches: sampleOf(
+      talk("dad", [
+        [["dad", "I'm off from Millbrook Supply Company today."]],
+        [
+          [
+            PLAYER,
+            "What will you do with a day off from Millbrook Supply Company?",
+          ],
+          ["dad", "Sleep, mostly."],
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      talk("dad", [
+        [["dad", "I'm off from Millbrook Supply Company today."]],
+        [
+          [PLAYER, "What will you do with a day off from work?"],
+          ["dad", "Sleep, mostly. Work wears me out."],
+        ],
+      ]),
+    ),
+  },
   "concession-names-what-it-concedes": {
     catches: sampleOf(
       talk("dad", [

@@ -82,6 +82,8 @@ export interface ComposedSample {
   readonly stateNames: readonly string[];
   /** The player's town, for a national speech that must not name it. */
   readonly townName: string;
+  /** The world's election days (YYYY-MM-DD), where the sample was read from a world. */
+  readonly electionDates?: readonly string[];
   readonly texts: readonly ComposedText[];
 }
 

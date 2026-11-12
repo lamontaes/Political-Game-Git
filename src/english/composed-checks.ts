@@ -805,6 +805,95 @@ export const answerAddsSomething: ComposedCheck = (text, sample) => {
   return found;
 };
 
+// ---- vote-month-on-calendar ----
+
+const VOTE_MONTH = new RegExp(data.voteMonth, "g");
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+const DAYS_IN_YEAR = 366;
+
+/**
+ * A line that names the month a vote comes ("come November") when the
+ * world's election calendar holds no election in that month within the year
+ * after the line is said (owner via the coordinator, Nov 12). A sample with
+ * no calendar is read as holding none.
+ */
+export const voteMonthOnCalendar: ComposedCheck = (text, sample) => {
+  const found: ComposedBreak[] = [];
+  const said = Date.parse(`${text.date}T00:00:00Z`);
+  const held = new Set(
+    (sample.electionDates ?? [])
+      .filter((date) => {
+        const at = Date.parse(`${date}T00:00:00Z`);
+        return at >= said && at - said <= DAYS_IN_YEAR * DAY_MS;
+      })
+      .map((date) => MONTHS[Number(date.slice(5, 7)) - one]),
+  );
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      for (const match of plainQuotes(line.text).matchAll(VOTE_MONTH))
+        if (!held.has(match[one]!))
+          found.push(
+            breakOf(
+              "vote-month-on-calendar",
+              text,
+              at,
+              `names ${match[one]} with no election on the calendar then`,
+              line.text,
+            ),
+          );
+  });
+  return found;
+};
+
+// ---- organization-named-once ----
+
+const ORGANIZATION = new RegExp(
+  `\\b(?:[A-Z][\\w'&.]*\\s+(?:and\\s+|of\\s+)?)+(?:${data.organizationWords.join("|")})\\b`,
+  "g",
+);
+
+/**
+ * An organization named more than once in one spoken exchange (one screen's
+ * lines and the replies it offers): after the first naming it is said by the tie,
+ * "work" or "school" (said-as ownPlace; owner via the coordinator, Nov 12).
+ */
+export const organizationNamedOnce: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  // Said aloud only: a printed story names its subject as print does.
+  if (!text.kind.startsWith("talk") && text.kind !== "scene") return found;
+  // The exchange is the whole talk: its lines on every screen and the
+  // replies offered there.
+  const said = screenTexts(text).join(" ");
+  const counts = new Map<string, number>();
+  for (const match of plainQuotes(said).matchAll(ORGANIZATION))
+    counts.set(match[zero], (counts.get(match[zero]) ?? zero) + one);
+  for (const [name, count] of counts)
+    if (count > one)
+      found.push(
+        breakOf(
+          "organization-named-once",
+          text,
+          zero,
+          `${name} named ${count} times in one exchange`,
+          said,
+        ),
+      );
+  return found;
+};
+
 /** Every composed check by its name: the names a rule row's `check` may hold. */
 export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "full-name-once-per-screen": fullNameOncePerScreen,
@@ -823,6 +912,8 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "act-named": actNamed,
   "concession-names-what-it-concedes": concessionNamesWhat,
   "answer-adds-something": answerAddsSomething,
+  "vote-month-on-calendar": voteMonthOnCalendar,
+  "organization-named-once": organizationNamedOnce,
 };
 
 /** A composed rule's checks, as a list. */
