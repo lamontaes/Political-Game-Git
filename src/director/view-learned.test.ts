@@ -364,7 +364,7 @@ function ownViewIn(drawSeed: string, skipped: string[]): boolean {
     expect(said[0].text).toContain(said[0].about);
     expect(said[1].text).toContain(said[1].about);
   }
-  // Someone whose strongest question is about work names their employer.
+  // Someone whose stand has a work reason says it from the job record.
   for (const person of people) {
     const subject = subjectsBetween(
       core,
@@ -381,7 +381,12 @@ function ownViewIn(drawSeed: string, skipped: string[]): boolean {
       subject.stage!,
       `own-view-work:${person.id}`,
     );
-    expect(line?.text, where).toContain(subject.facts.employer!.text);
+    // The reason is said from the record (owner via the lead, Nov 12: "a
+    // reason is said, not pointed at"): the hourly pay where the job has it,
+    // else the employer.
+    expect(line?.text, where).toContain(
+      (subject.facts.wage ?? subject.facts.employer)!.text,
+    );
     process.stdout.write(`OWN VIEW WORK ${where}: "${line!.text}"\n`);
     break;
   }
