@@ -922,15 +922,27 @@ const QUESTIONS: [string, string, string, string][] = [
 ];
 // The question carries how things stand, as the speaker's side tells it,
 // and names no question, so the ask after it names the question once.
+// A question names the speaker's own realm: a governor asks about the
+// state, a mayor about the town, never "a country" (the words lead's read).
+const REALMS: [string[], string][] = [
+  [["inaugural", "state-of-the-union"], "country"],
+  [["state-of-the-state"], "state"],
+  [["town-address"], "town"],
+];
 for (const [voice, side, law, text] of QUESTIONS)
-  for (const n of ["", "-2", "-3"])
-    ADD.push({
-      role: "question",
-      subjects: ALL,
-      voice,
-      text: text.replace("{today-question}", `{today-question${n}}`),
-      needs: [`today-question${n}`, `stance-${side}`, law, "asks-question"],
-    });
+  for (const [subjects, realm] of text.includes("a country where")
+    ? REALMS
+    : [[ALL, "country"] as [string[], string]])
+    for (const n of ["", "-2", "-3"])
+      ADD.push({
+        role: "question",
+        subjects,
+        voice,
+        text: text
+          .replace("{today-question}", `{today-question${n}}`)
+          .replace("a country where", `a ${realm} where`),
+        needs: [`today-question${n}`, `stance-${side}`, law, "asks-question"],
+      });
 // 19. A figure joins a point only when the question's own row says the
 // measure bears on it and helps the speaker's side (question-names
 // `figures`); this sentence ties the figure to the question, by side, by
@@ -1435,7 +1447,6 @@ const CLOSES: [string[], string, string][] = [
 for (const [subjects, voice, text] of CLOSES)
   ADD.push({ role: "close", subjects, voice, text, needs: ["first-side"] });
 const GREETINGS: [string, string][] = [
-  ["polished", "Mr. Vice President, members of Congress, my fellow citizens."],
   [
     "polished",
     "Distinguished guests, members of Congress, and all my fellow Americans.",
@@ -1479,6 +1490,33 @@ for (const [voice, text] of GREETINGS)
     needs: [],
     piece: { of: "opening-salutation", part: "opener" },
   });
+// 16. A greeting that names the Vice President says them as the record has
+// them ("Vice President Ann Lee", the shared said-as reader's addressed
+// form), never by a title that guesses their sex ("Mr. Vice President"; the
+// words lead, Nov 12), and it is said only where the world seats one. Real
+// inaugurals open by naming who is there, so each world's greeting is its own.
+const VP_GREETINGS: [string, string][] = [
+  [
+    "polished",
+    "{vice-president-addressed}, members of Congress, my fellow citizens.",
+  ],
+  [
+    "polished",
+    "{vice-president-addressed}, distinguished guests, and my fellow Americans.",
+  ],
+  ["polished", "{vice-president-addressed}, honored guests, fellow citizens."],
+  ["plain", "{vice-president-addressed}, folks here, and folks back home."],
+  ["plain", "{vice-president-addressed}, and everybody watching at home."],
+];
+for (const [voice, text] of VP_GREETINGS)
+  ADD.push({
+    role: "salutation",
+    subjects: ["inaugural"],
+    voice,
+    text,
+    needs: ["vice-president"],
+    piece: { of: "opening-salutation", part: "opener" },
+  });
 // 15. A piece of these kinds written by this script whose words are no
 // longer in the lists above gives way to its rewording: closes, the today
 // openers, belief frames and clauses (a W-C belief by theme and lean among
@@ -1497,6 +1535,19 @@ const SCRIPT_ROLES = [
   "question",
   "tie",
 ];
+// 16. A greeting of this script's whose words are no longer in its lists
+// gives way to its rewording.
+bank.parts = bank.parts.filter((part) => {
+  if (
+    part.author !== "Claude (Words builder W-E, speech points)" ||
+    !hasRole(part, "salutation") ||
+    part.piece?.part !== "opener" ||
+    current.has(part.text)
+  )
+    return true;
+  count("16. a greeting of this script's gives way to its rewording");
+  return false;
+});
 bank.parts = bank.parts.filter((part) => {
   const mine =
     SCRIPT_AUTHORS.includes(part.author as string) &&
@@ -1523,6 +1574,21 @@ for (const add of ADD) {
     const found = bank.parts.find(
       (part) => part.text.toLowerCase() === add.text.toLowerCase(),
     );
+    // A question said in fewer kinds of address than it was is said only in those.
+    if (
+      found &&
+      add.role === "question" &&
+      found.uses.length !== add.subjects.length
+    ) {
+      found.uses = add.subjects.map((subject) => ({
+        move: add.role,
+        subject,
+        role: add.role,
+        choice: add.role,
+        requiresFacts: add.needs,
+      }));
+      count("17. a question is said only in the kinds of address of its realm");
+    }
     if (
       found &&
       add.piece &&

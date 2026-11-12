@@ -105819,30 +105819,6 @@
             "law-not-in-force",
             "asks-question"
           ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-state",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question",
-            "stance-against",
-            "law-not-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "town-address",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question",
-            "stance-against",
-            "law-not-in-force",
-            "asks-question"
-          ]
         }
       ],
       "voice": "polished",
@@ -105933,30 +105909,6 @@
         {
           "move": "question",
           "subject": "state-of-the-union",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question",
-            "stance-for",
-            "law-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-state",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question",
-            "stance-for",
-            "law-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "town-address",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -106324,30 +106276,6 @@
         {
           "move": "question",
           "subject": "state-of-the-union",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question",
-            "stance-for",
-            "law-not-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-state",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question",
-            "stance-for",
-            "law-not-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "town-address",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -110293,30 +110221,6 @@
             "law-not-in-force",
             "asks-question"
           ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-state",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question-2",
-            "stance-for",
-            "law-not-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "town-address",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question-2",
-            "stance-for",
-            "law-not-in-force",
-            "asks-question"
-          ]
         }
       ],
       "voice": "polished",
@@ -110346,30 +110250,6 @@
         {
           "move": "question",
           "subject": "state-of-the-union",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question-3",
-            "stance-for",
-            "law-not-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-state",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question-3",
-            "stance-for",
-            "law-not-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "town-address",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -110537,30 +110417,6 @@
             "law-not-in-force",
             "asks-question"
           ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-state",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question-2",
-            "stance-against",
-            "law-not-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "town-address",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question-2",
-            "stance-against",
-            "law-not-in-force",
-            "asks-question"
-          ]
         }
       ],
       "voice": "polished",
@@ -110590,30 +110446,6 @@
         {
           "move": "question",
           "subject": "state-of-the-union",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question-3",
-            "stance-against",
-            "law-not-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-state",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question-3",
-            "stance-against",
-            "law-not-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "town-address",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -110781,30 +110613,6 @@
             "law-in-force",
             "asks-question"
           ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-state",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question-2",
-            "stance-for",
-            "law-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "town-address",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question-2",
-            "stance-for",
-            "law-in-force",
-            "asks-question"
-          ]
         }
       ],
       "voice": "polished",
@@ -110834,30 +110642,6 @@
         {
           "move": "question",
           "subject": "state-of-the-union",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question-3",
-            "stance-for",
-            "law-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-state",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question-3",
-            "stance-for",
-            "law-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "town-address",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -111302,30 +111086,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.salutation.polished-inaugural-mr-vice-president-members-of-congress-my-fellow-",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Mr. Vice President, members of Congress, my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": []
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.salutation.polished-inaugural-distinguished-guests-members-of-congress-and-all-my-",
       "move": "salutation",
       "kind": "spoken",
@@ -111369,6 +111129,586 @@
         "of": "opening-salutation",
         "part": "opener"
       },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.polished-inaugural-members-of-congress-my-fellow-citizens-vice-president",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{vice-president-addressed}, members of Congress, my fellow citizens.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": [
+            "vice-president"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.polished-inaugural-distinguished-guests-and-my-fellow-americans-vice-president",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{vice-president-addressed}, distinguished guests, and my fellow Americans.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": [
+            "vice-president"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.polished-inaugural-honored-guests-fellow-citizens-vice-president",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{vice-president-addressed}, honored guests, fellow citizens.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": [
+            "vice-president"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.plain-inaugural-folks-here-and-folks-back-home-vice-president",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{vice-president-addressed}, folks here, and folks back home.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": [
+            "vice-president"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.plain-inaugural-and-everybody-watching-at-home-vice-president",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{vice-president-addressed}, and everybody watching at home.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": [
+            "vice-president"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-state-of-the-state-should-we-go-on-in-a-state-where-today-question-stance-for-law-not-in-force",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Should we go on in a state where {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-state-of-the-state-should-we-go-on-in-a-state-where-today-question-stance-for-law-not-in-force-2",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Should we go on in a state where {today-question-2}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-state-of-the-state-should-we-go-on-in-a-state-where-today-question-stance-for-law-not-in-force-3",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Should we go on in a state where {today-question-3}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-town-address-should-we-go-on-in-a-town-where-today-question-stance-for-law-not-in-force",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Should we go on in a town where {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-town-address-should-we-go-on-in-a-town-where-today-question-stance-for-law-not-in-force-2",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Should we go on in a town where {today-question-2}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-town-address-should-we-go-on-in-a-town-where-today-question-stance-for-law-not-in-force-3",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Should we go on in a town where {today-question-3}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-state-of-the-state-why-would-we-change-a-state-where-today-question-stance-against-law-not-in-force",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why would we change a state where {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-state-of-the-state-why-would-we-change-a-state-where-today-question-stance-against-law-not-in-force-2",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why would we change a state where {today-question-2}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-state-of-the-state-why-would-we-change-a-state-where-today-question-stance-against-law-not-in-force-3",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why would we change a state where {today-question-3}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-town-address-why-would-we-change-a-town-where-today-question-stance-against-law-not-in-force",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why would we change a town where {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-town-address-why-would-we-change-a-town-where-today-question-stance-against-law-not-in-force-2",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why would we change a town where {today-question-2}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-town-address-why-would-we-change-a-town-where-today-question-stance-against-law-not-in-force-3",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why would we change a town where {today-question-3}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-state-of-the-state-do-we-really-want-to-give-up-a-today-question-stance-for-law-in-force-asks",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Do we really want to give up a state where {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-state-of-the-state-do-we-really-want-to-give-up-a-today-question-stance-for-law-in-force-asks-2",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Do we really want to give up a state where {today-question-2}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-state-of-the-state-do-we-really-want-to-give-up-a-today-question-stance-for-law-in-force-asks-3",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Do we really want to give up a state where {today-question-3}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-town-address-do-we-really-want-to-give-up-a-today-question-stance-for-law-in-force-asks",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Do we really want to give up a town where {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-town-address-do-we-really-want-to-give-up-a-today-question-stance-for-law-in-force-asks-2",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Do we really want to give up a town where {today-question-2}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-town-address-do-we-really-want-to-give-up-a-today-question-stance-for-law-in-force-asks-3",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Do we really want to give up a town where {today-question-3}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
       "date": "2026-11-12"
