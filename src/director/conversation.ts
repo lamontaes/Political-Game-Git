@@ -5753,6 +5753,11 @@ function endConversation(
   // check in (owner, Nov 12: "the same bullshit ... with the just
   // non-replies").
   if (housemate) return;
+  // Nor does a talk about hard news of their own life (put out of their home,
+  // a job lost, a death): it ends on their last answer, never "Come back
+  // soon." or "Say hello to Mom." to someone who just lost their home (W1's
+  // strict review, Nov 12).
+  if (NEWS_SUBJECTS.has(subjectKindOf(conversation.topics[zero] ?? ""))) return;
   // "Say hello to {name}." only for someone in the player's family they know.
   const family = housemate
     ? undefined
