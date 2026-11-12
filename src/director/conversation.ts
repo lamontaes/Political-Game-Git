@@ -87,6 +87,7 @@ import type {
   CoreModule,
   CoreState,
   IsoDate,
+  KnownFact,
   OrganizationInput,
   PersonId,
   PersonState,
@@ -4483,7 +4484,6 @@ function heardToday(
  */
 export function noteHeard(core: CoreState, conversation: Conversation): void {
   if (conversation.look) return;
-  const api = coreAPI(core);
   for (const line of conversation.lines) {
     if (line.speakerId === conversation.playerId) continue;
     for (const part of [
@@ -4504,7 +4504,7 @@ export function noteHeard(core: CoreState, conversation: Conversation): void {
       // by its words, so it is said to the player once in its wait.
       ...ownFiguresSaid(core, line),
     ])
-      api.observe(conversation.playerId, {
+      hear(core, conversation.playerId, {
         key: `${HEARD_PREFIX}${part}`,
         value: part,
         learnedAt: core.date,
@@ -4517,13 +4517,26 @@ export function noteHeard(core: CoreState, conversation: Conversation): void {
   // people one morning; lead, Nov 12).
   for (const choice of conversation.choices)
     for (const part of choice.wording?.parts ?? [])
-      api.observe(conversation.playerId, {
+      hear(core, conversation.playerId, {
         key: `${HEARD_PREFIX}${part}`,
         value: part,
         learnedAt: core.date,
         sourceId: `conversation:${conversation.playerId}:${conversation.otherId}:${core.date}`,
         access: "perceived",
       });
+}
+
+/**
+ * Keeps a piece as heard now. The player's record holds its pieces in the
+ * order last heard, so a piece heard again moves after the rest: the least
+ * recently used wording is read from that order (`heardToday`,
+ * `heardByDay`), and a piece kept where it was first heard would be the
+ * "oldest" every time once a day had heard them all (conversation.test,
+ * Jackson Center, Ohio: one hello, "Hey.", in nearly every greeting).
+ */
+function hear(core: CoreState, playerId: PersonId, fact: KnownFact): void {
+  core.knowledgeByPerson.get(playerId)?.delete(fact.key);
+  coreAPI(core).observe(playerId, fact);
 }
 
 /** The speaker's own figures a line said, as heard keys: their hourly pay, from their job record. */
