@@ -858,8 +858,8 @@
       "for": "ban members of Congress from trading stocks",
       "against": "keep a ban on stock trading by members of Congress off the books",
       "today": {
-        "without": "Right now, a member of Congress can buy and sell stock in the very companies they write laws for.",
-        "with": "Today, members of Congress can't trade stocks."
+        "without": "Right now, a lawmaker in Washington can buy and sell stock in the very companies they write laws for.",
+        "with": "Today, lawmakers in Washington can't trade stocks."
       },
       "repeal": "repeal a ban on stock trading by members of Congress"
     },
@@ -875,15 +875,15 @@
       "repeal": "repeal a national data privacy law"
     },
     "us-federal-positions:territories-culture.statehood-for-dc": {
-      "about": "statehood for the District of Columbia",
-      "to": "make the District of Columbia a state",
-      "for": "make the District of Columbia a state",
-      "against": "keep statehood for the District of Columbia off the books",
+      "about": "statehood for the nation's capital",
+      "to": "make the nation's capital a state",
+      "for": "make the nation's capital a state",
+      "against": "keep statehood for the nation's capital off the books",
       "today": {
-        "without": "Right now, the people of the District of Columbia pay federal taxes and have no vote in Congress.",
-        "with": "Today, the District of Columbia is a state."
+        "without": "Right now, the people who live in the nation's capital pay federal taxes and have no voting member in the House or the Senate.",
+        "with": "Today, the nation's capital is a state."
       },
-      "repeal": "repeal statehood for the District of Columbia"
+      "repeal": "repeal statehood for the nation's capital"
     }
   }
 }

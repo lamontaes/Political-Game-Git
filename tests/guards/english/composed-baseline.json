@@ -3,21 +3,21 @@
   "days": 14,
   "draws": [
     {
-      "seed": "70ff55f0-1ba5-4b59-bbc5-36b98523a81c",
-      "placeKey": "3035725",
-      "place": "Helmville, Montana"
+      "seed": "5c1723a6-5e97-4f47-a2e3-942495517c22",
+      "placeKey": "1067700",
+      "place": "South Bethany, Delaware"
     }
   ],
   "rules": {
     "address-is-national-not-about-the-player": {
       "read": 2,
-      "breaks": 1,
-      "per100": 50
+      "breaks": 0,
+      "per100": 0
     },
     "speech-has-one-theme": {
       "read": 2,
-      "breaks": 1,
-      "per100": 50
+      "breaks": 0,
+      "per100": 0
     },
     "asks-differ-by-world": {
       "read": 2,
@@ -25,37 +25,37 @@
       "per100": 0
     },
     "person-said-by-role-pronoun-or-relationship": {
-      "read": 20,
-      "breaks": 8,
-      "per100": 40
+      "read": 18,
+      "breaks": 4,
+      "per100": 22.2
     },
     "one-idea-to-a-sentence": {
-      "read": 20,
+      "read": 18,
       "breaks": 0,
       "per100": 0
     },
     "no-reply-asks-what-the-listener-cannot-know": {
-      "read": 7,
+      "read": 8,
       "breaks": 0,
       "per100": 0
     },
     "two-speakers-make-different-points": {
-      "read": 7,
+      "read": 8,
       "breaks": 0,
       "per100": 0
     },
     "line-fits-the-hour": {
-      "read": 9,
+      "read": 10,
       "breaks": 0,
       "per100": 0
     },
     "no-non-replies": {
-      "read": 7,
-      "breaks": 0,
-      "per100": 0
+      "read": 8,
+      "breaks": 4,
+      "per100": 50
     },
     "note-stands-alone": {
-      "read": 5,
+      "read": 3,
       "breaks": 0,
       "per100": 0
     }

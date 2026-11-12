@@ -47,6 +47,12 @@ const count = (rule: string) => (counts[rule] = (counts[rule] ?? 0) + 1);
 
 // 1. Names that hide what the bill does, renamed from their source record.
 const RENAMED: Record<string, { about: string; to: string }> = {
+  // The capital by what it is, so a speech about it names no place as a
+  // state (composed check speech-names-no-stray-place).
+  "us-federal-positions:territories-culture.statehood-for-dc": {
+    about: "statehood for the nation's capital",
+    to: "make the nation's capital a state",
+  },
   "us-federal-positions:budget.pay-for-a-higher-debt-limit": {
     about: "raising the debt limit only with spending cuts to match",
     to: "raise the debt limit only with spending cuts to match",
