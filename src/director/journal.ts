@@ -1831,20 +1831,19 @@ export function composeJournal(
     // record of one day to one place, #8234's Jaguas) is told once: by the
     // move's own destination on the list, never by where the person lives
     // now, which every move would share.
-    const movedTo =
-      moment.causeKind === "moved"
-        ? lifeById.get(moment.causeFactId ?? moment.causeId)?.placeId
-        : undefined;
-    if (movedTo) {
-      const key = `moved|${movedTo}|${moment.date.slice(zero, P.two * P.two)}`;
-      if (toldFacts.has(key)) continue;
-      toldFacts.add(key);
-    } else if (moment.causeKind === "moved" && facts.place) {
-      // A move whose record names no destination is told by where the
-      // person lives now, which every such move shares: told once.
-      // stopgapId: SG-DIRECTOR-journal-life-gaps (the move's own destination
-      // is not on its record; the Journal tells one such move, not each).
-      const key = `moved|now|${facts.place.text}`;
+    // A move is told by where the person lives now (the record's own
+    // destination is not read yet), so two moves before the start read the
+    // same: the first is told, never the same sentence twice (#8234's
+    // Jaguas; Washington, D.C., seed dd487c96b0e937fb). A move in play is
+    // always told.
+    // stopgapId: SG-DIRECTOR-journal-life-gaps (a move's destination is not
+    // on the life list's event; the Journal tells one past move per place).
+    if (
+      moment.causeKind === "moved" &&
+      facts.place &&
+      moment.date < core.startedAt
+    ) {
+      const key = `moved|${facts.place.text}`;
       if (toldFacts.has(key)) continue;
       toldFacts.add(key);
     }

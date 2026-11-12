@@ -65,10 +65,12 @@ describe.each(["a", "b"])("a relative's work and office (case %s)", (draw) => {
           `${where}: ${id}'s card does not name ${office.title} (${office.termId})`,
         ).toMatch(/office|commission|council|board|since|serv/i);
         // The journal tells the office on its term's record.
-        const officeLine = lines.find((line) =>
-          line.momentIds.some((m) =>
-            m.startsWith(`${office.termId}:livelihood`),
-          ),
+        // The household-now paragraph tells each earner in one sentence
+        // (lead, Nov 11), on the term's record (moment `livelihood:<order>:<person>:<termId>`).
+        const officeLine = lines.find(
+          (line) =>
+            line.momentIds.some((m) => m.endsWith(`:${office.termId}`)) ||
+            line.sourceRecordIds.includes(office.termId),
         );
         expect(
           officeLine,
@@ -93,16 +95,16 @@ describe.each(["a", "b"])("a relative's work and office (case %s)", (draw) => {
             ),
             `${where}: ${id}'s card does not name ${employer} beside the office: ${card.summary.join(" | ")}`,
           ).toBe(true);
-          // And in the journal, on the job's record.
-          const jobLine = lines.find((line) =>
-            line.momentIds.some(
-              (m) => m.includes(":livelihood:") && !m.startsWith(office.termId),
-            ),
-          );
+          // And in the journal, in the same sentence as the office (one
+          // sentence per person; #8772, #8808), naming the employer.
+          const first = (employer ?? "").toLowerCase().split(" ")[0]!;
+          const sentence = officeLine!.text
+            .split(/(?<=\.)\s+/)
+            .find((text) => text.includes(core.people.get(id)!.givenName));
           expect(
-            jobLine,
-            `${where}: the journal tells no job for ${id}`,
-          ).toBeDefined();
+            !!first && !!sentence?.toLowerCase().includes(first),
+            `${where}: the journal's sentence for ${id} names no ${employer}: "${sentence}"`,
+          ).toBe(true);
           // Travel lists the job's employer as a family workplace, where it is pictured.
           const listed = townPlaces(core, player).find(
             (row) => row.organizationId === work.job!.organizationId,
