@@ -41,6 +41,7 @@ import {
   ADDRESS_PART_BREAK,
 } from "../../src/director/opening-facts";
 import {
+  baselineFailures,
   runComposedRules,
   type ComposedBreak,
   type ComposedRuleRow,
@@ -626,16 +627,10 @@ async function main() {
     say(`Wrote ${path.relative(ROOT, BASELINE)}`);
   }
   if (committed) {
-    const rose = Object.entries(fresh).filter(
-      ([rule, row]) =>
-        committed.rules[rule] !== undefined &&
-        row.per100 > committed.rules[rule]!.per100,
-    );
-    for (const [rule, row] of rose)
-      say(
-        `ROSE: ${rule} ${committed.rules[rule]!.per100} -> ${row.per100} breaks per 100 texts (draws ${draws.map((d) => `${d.place} ${d.seed}`).join("; ")})`,
-      );
-    if (rose.length) process.exitCode = 1;
+    const where = draws.map((d) => `${d.place} ${d.seed}`).join("; ");
+    const failures = baselineFailures(committed.rules, fresh);
+    for (const failure of failures) say(`${failure} (draws ${where})`);
+    if (failures.length) process.exitCode = 1;
     else say("No composed rule's count rose.");
   }
 }

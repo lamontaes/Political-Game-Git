@@ -81,6 +81,10 @@
       "note": "Before 11 a.m., talk of a day already done is end-of-day talk in the morning (owner, Nov 12: \"Busy one at work today?\" at 7:00 a.m.)."
     }
   },
+  "placeSaidOnlyAs": {
+    "note": "A place whose bare name means something else in a speech, with the spelling that means the place. Alone, the first is the federal capital, so the stray-place check counts only the spelling given here.",
+    "names": { "Washington": "Washington State" }
+  },
   "roleWords": [
     "President",
     "Vice President",
