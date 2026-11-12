@@ -322,11 +322,23 @@
     "kind": "generated-identity",
     "file": "src/core2/past-elections.ts",
     "line": 392,
-    "whatItFakes": "The prior election's challenger, a law's sponsor or signer who left office before day one, and the predecessors who held a seat are names drawn from the seed, not people of the world.",
+    "whatItFakes": "The prior election's challenger where none of the town's full people fits it, a law's sponsor or signer who left office before day one, and the predecessors who held a seat are names drawn from the seed, not people of the world.",
     "why": "Only officeholders and the player's circle are full people (two-level population); the people who lost or left are not filled in yet.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
     "replacement": "The core's fill-in makes a challenger or former official a full person the moment the player meets or looks them up, matching the name, party and record already written (OPUS-CORE fill-in).",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-past-challenger-moved-after",
+    "kind": "approximation",
+    "file": "src/core2/past-elections.ts",
+    "line": 565,
+    "whatItFakes": "A past race's challenger is picked from the town's full people living there now, before the pre-start run writes their moves; one who moved into the county after the race keeps the name on the race but has no lost race on their past.",
+    "why": "The past is opened before the pre-start run's window exists, and the moves are written in its people pass, after the races are named; a mover is about one in a hundred of the town's full people.",
+    "addedBy": "opus-5251 (core-life-record-part-8-a-race-lost-before-the-start-is-told)",
+    "addedAt": "2026-11-11",
+    "replacement": "The past's races are named in the pre-start run's government pass, after the people pass, so the pick reads residenceOn on the race's day and passes over a later mover.",
     "status": "open"
   },
   {

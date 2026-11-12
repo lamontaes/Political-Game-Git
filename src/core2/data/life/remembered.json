@@ -1002,6 +1002,7 @@
       "kind": "office.seat-reached",
       "life": "politics",
       "what": "took-office"
-    }
+    },
+    { "kind": "election.lost-before-start", "life": "politics", "what": "lost" }
   ]
 }
