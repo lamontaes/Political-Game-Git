@@ -707,7 +707,18 @@ function topicWeight(
   subject: Subject,
   data: ConversationData,
 ): number {
-  if (subject.kind === "address") {
+  // The address, and a printed story on a question the teller holds a stand
+  // on, weigh what how closely they follow politics makes them: a story read
+  // leaves no moment in the teller's own ledger (only the watched player's
+  // is kept), so a moment's impact alone never let news with a stand open a
+  // talk, and nobody's view was learned in talk (trace, Ramos, Puerto Rico
+  // (7268771), Nov 12: the story's subject was there, weight 0, no talk).
+  if (
+    subject.kind === "address" ||
+    (subject.kind === "news" &&
+      !!subject.facts.story &&
+      !!subject.news?.question)
+  ) {
     const engagement = viewOf(coreAPI(core as CoreState), holderId)?.engagement;
     return (
       (engagement ?? zero) *
@@ -1197,7 +1208,7 @@ function printedSubject(
         about: { text: about, sourceRecordIds: [story.id] },
         ...stakeMarks(stake, "their-"),
         // A printed story, told by what it is about (never its headline).
-        story: { text: "", sourceRecordIds: cited },
+        story: { text: "yes", sourceRecordIds: cited },
         storyId: { text: "", sourceRecordIds: [story.id] },
         // The day it ran, said in passing ("yesterday", "on Monday").
         ran: {
@@ -2748,9 +2759,12 @@ function raiseSubject(
   const composedRaise =
     subject.kind === POINT
       ? POINT
-      : composedConversationBank(`${subject.kind}-say`)
-        ? `${subject.kind}-say`
-        : null;
+      : // A printed story, told by its reader: what it is about and their stand.
+        subject.kind === "news" && subject.facts.story
+        ? "news-ask"
+        : composedConversationBank(`${subject.kind}-say`)
+          ? `${subject.kind}-say`
+          : null;
   const composed =
     !said && composedRaise
       ? composedLine(
@@ -3177,8 +3191,11 @@ function mainTopic(
     conversation,
   ))
     if (
-      conversationHas(subject.kind, "ask", data) ||
-      composedConversationBank(`${subject.kind}-ask`)
+      // A story is told by the one who read it, in their own words and
+      // stand: nobody asks the player to tell the player's news back.
+      subject.kind !== "news" &&
+      (conversationHas(subject.kind, "ask", data) ||
+        composedConversationBank(`${subject.kind}-ask`))
     )
       consider(subject, true, playerId);
   for (const subject of subjectsBetween(

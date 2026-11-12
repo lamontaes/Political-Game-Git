@@ -75,12 +75,22 @@ function stageNews(
     [id],
     [id],
   );
-  advanceCore(core, addDays(makeIsoDate(core.date), 1));
-  return storyId;
+  // Delivered on the reader's own day (their reading habits): wait for it.
+  for (
+    let day = 0;
+    day < WEEK_DAYS && !storiesHeard(api, id).some((row) => row.id === storyId);
+    day += 1
+  )
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  return storiesHeard(api, id).some((row) => row.id === storyId)
+    ? storyId
+    : null;
 }
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const DRAWS = 4;
+/** How long a staged story may take to reach its reader. */
+const WEEK_DAYS = 7;
 const TURNS = 3;
 const AFTER_ADDRESS_DAYS = 28;
 // Only some towns print letters the player's habits bring to them (about one
