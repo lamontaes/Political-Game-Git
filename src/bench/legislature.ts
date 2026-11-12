@@ -599,30 +599,16 @@ export function bodyPicture(
 ): string | null {
   const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
   if (!body) return null;
-  return bodyPlaceOf(core, body.kind, officeId, body.members.length);
-}
-
-/**
- * Any body's meeting room by its office kind and size, whoever sits on it:
- * the body scene's room, and the chamber an address is given in (a
- * governor's to the legislature, a town head's to their council or board).
- */
-export function bodyPlaceOf(
-  core: CoreState,
-  officeKind: string,
-  officeId?: string,
-  members = 0,
-): string {
   const places = scenePlaces.bodyPlaces as unknown as Record<string, string[]>;
   const offices = coreAPI(core).moduleState(OFFICES).table("offices");
   // A legislature with no upper chamber on record meets in a one-house chamber.
   const kind =
-    officeKind === "legislature-lower" &&
+    body.kind === "legislature-lower" &&
     !(offices.rows() as unknown as { kind: string }[]).some(
       (row) => row.kind === "legislature-upper",
     )
       ? "legislature-unicameral"
-      : officeKind;
+      : body.kind;
   // A council's room by its seats, a county board's by the town's size.
   const sized = (
     scenePlaces.bodyPlacesBySize as unknown as Record<
@@ -631,17 +617,16 @@ export function bodyPlaceOf(
     >
   )[kind]?.find((row) =>
     row.underSeats !== undefined
-      ? ((officeId
-          ? (offices.get(officeId) as { seats?: number } | undefined)?.seats
-          : undefined) ?? members) < row.underSeats
+      ? ((offices.get(officeId) as { seats?: number } | undefined)?.seats ??
+          body.members.length) < row.underSeats
       : Number(core.placeMetadata?.referencePopulation ?? 0) <
         (row.underPopulation ?? 0),
   )?.places;
-  return (
+  const place =
     [...(sized ?? []), ...(places[kind] ?? []), ...places.default!].find(
       hasBackdrop,
-    ) ?? places.default![0]!
-  );
+    ) ?? places.default![0]!;
+  return place;
 }
 
 /** The body in its meeting room: the player at the front, colleagues behind. */

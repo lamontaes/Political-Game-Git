@@ -22,6 +22,10 @@ import {
 } from "./scheduling";
 import { properName, spoken } from "./words";
 import { dayOpening, daySince } from "../english/day-words";
+import { officeWords } from "../english/said-as";
+import { outletsHere } from "../core2/modules/press";
+import { coreAPI } from "../core2/state";
+import localAddressData from "./data/local-address.json" with { type: "json" };
 
 const zero = P.zero;
 
@@ -76,8 +80,6 @@ export interface Scene {
     inRoom: boolean;
     /** The speaker's office as the said-as words key it ("governor"): the nameplate says them by it first. */
     office?: string;
-    /** The body an address is given to, by its record: the scene is set in that body's chamber, the speaker at the front. */
-    givenTo?: { kind: string; officeId?: string };
   };
   /** The scene's occasion from its type's data ("ceremony"), for how the room is drawn. */
   occasion?: string;
@@ -361,6 +363,14 @@ export function composeScene(
       );
   if (cause) sentences.push(cause);
   if (opening) sentences.push(opening);
+  // A broadcast heard at home (an address a governor or a town's head gave):
+  // the narrator says how it reached the player, from the outlets the place
+  // keeps, and names the speaker by office. One staging rule any broadcast
+  // can use.
+  const heardHow = heardLine(core, moment.causeId, (move, facts) =>
+    render(move, facts, `${moment.id}:heard`),
+  );
+  if (heardHow) sentences.push(heardHow);
 
   // The sentences are one paragraph, so the narrator sets the scene before
   // anyone speaks.
@@ -416,9 +426,8 @@ export function composeScene(
             .filter(Boolean),
           sourceRecordIds: [record!.id],
           // The President's address plays over its montage (the desk, the
-          // colonnade, the country); a governor's or a town's in the chamber
-          // it is given in (the one staging rule: an address is set where it
-          // is given, as the President's opens at the desk).
+          // colonnade, the country); a governor's or a town's is heard at
+          // home, as the narrator says (`heardLine`), its speaker not drawn.
           montage: !!record!.facts?.[ADDRESS_FACT.president],
           opens: false,
           inRoom: false,
@@ -428,16 +437,6 @@ export function composeScene(
                 office:
                   record!.facts?.[ADDRESS_FACT.office] ??
                   ADDRESS_PRESIDENT_OFFICE,
-              }
-            : {}),
-          ...(record!.facts?.[ADDRESS_FACT.bodyKind]
-            ? {
-                givenTo: {
-                  kind: record!.facts[ADDRESS_FACT.bodyKind]!,
-                  ...(record!.facts[ADDRESS_FACT.bodyOffice]
-                    ? { officeId: record!.facts[ADDRESS_FACT.bodyOffice] }
-                    : {}),
-                },
               }
             : {}),
         }
@@ -458,6 +457,60 @@ export function composeScene(
     ...(occasion ? { occasion } : {}),
   };
 }
+
+/**
+ * How a broadcast reached the player at home: the narrator's line naming the
+ * outlet that carried it, from the place's own outlets by the order the
+ * director's data gives (television, then radio, then the paper the next
+ * morning), and the speaker by office first. Null for a record that is no
+ * broadcast heard at home (the President's address plays as its montage) or
+ * a place with no outlet on record.
+ */
+export function heardLine(
+  core: Readonly<CoreState>,
+  recordId: string,
+  render: (
+    move: { part: "opening"; move: string },
+    facts: Record<string, Fact>,
+  ) => SceneLine | null,
+): SceneLine | null {
+  const record = core.durableLog.get(recordId);
+  const office = record?.facts?.[ADDRESS_FACT.office];
+  const speakerId = record?.facts?.[ADDRESS_FACT.speaker];
+  const occasion = HEARD.occasions[record?.facts?.[ADDRESS_FACT.kind] ?? ""];
+  const speaker = speakerId ? core.people.get(speakerId as PersonId) : null;
+  if (!record || !office || !speaker || !occasion) return null;
+  const api = coreAPI(core as CoreState);
+  const here = core.people.get(core.playerId ?? ("" as PersonId))?.placeId;
+  const outlets = outletsHere(api).filter(
+    (row) => row.tier !== "national" && (!here || row.placeId === here),
+  );
+  for (const medium of HEARD.order) {
+    const outlet = outlets.find((row) => row.kind === medium);
+    const org = outlet ? core.organizations.get(outlet.organizationId) : null;
+    if (!outlet || !org) continue;
+    const title = officeWords(office)?.before;
+    return render(
+      { part: "opening", move: `heard-${medium}` },
+      {
+        speaker: {
+          text: `${title ? `${title} ` : ""}${speaker.givenName} ${speaker.familyName}`,
+          sourceRecordIds: [speaker.id, record.id],
+        },
+        occasion: { text: occasion, sourceRecordIds: [record.id] },
+        outlet: {
+          text: properName(org.name),
+          sourceRecordIds: [outlet.id, org.id],
+        },
+      },
+    );
+  }
+  return null;
+}
+const HEARD = localAddressData.heard as unknown as {
+  order: readonly string[];
+  occasions: Readonly<Record<string, string>>;
+};
 
 /** The said-as office key the President's address names its speaker by. */
 const ADDRESS_PRESIDENT_OFFICE = "president";

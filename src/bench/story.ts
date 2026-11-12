@@ -5,7 +5,7 @@ import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
 import { dateSaid } from "../english/day-words";
 import { shipped } from "../english/scene-talk-words";
 import { hasBackdrop } from "./backdrop-places";
-import { bodyPicture, bodyPlaceOf } from "./legislature";
+import { bodyPicture } from "./legislature";
 import { officeWords } from "../english/said-as";
 import { addressMontage, namedInParts, partLevels } from "./montage";
 import {
@@ -116,12 +116,7 @@ export function storyScene(
     scene.setting.kind === "chamber" && scene.setting.recordId
       ? bodyPicture(core, personId, scene.setting.recordId)
       : null;
-  // An address is set where it is given (the one staging rule, as the
-  // President's opens at the desk): a governor's or a town head's in the
-  // chamber of the body it is given to, by that body's record.
-  const givenTo = scene.speech?.givenTo;
   const steps = [
-    ...(givenTo ? [bodyPlaceOf(core, givenTo.kind, givenTo.officeId)] : []),
     ...(chamber ? [chamber] : []),
     ...(SITUATIONS[`${scene.typeKey}:${scene.setting.kind}`] ?? []),
     ...(scene.setting.kind === "school"
@@ -169,18 +164,15 @@ export function storyScene(
     : "";
   const cast = [
     personId,
-    // In the chamber an address is given in, the speaker stands alone: the
-    // player's household is at home, not in the room.
-    ...(givenTo && speaker
-      ? [speaker.id]
-      : scene.presentIds.filter(
-          (id) =>
-            id !== personId &&
-            core.people.get(id)?.alive &&
-            // An address heard is on the screen at home, not in the room; a
-            // floor or stump speech is given by someone standing in it.
-            (id !== scene.speech?.speakerId || scene.speech.inRoom),
-        )),
+    ...scene.presentIds.filter(
+      (id) =>
+        id !== personId &&
+        core.people.get(id)?.alive &&
+        // An address heard is on the screen at home, not in the room: the
+        // narrator says how it was heard; a floor or stump speech is given
+        // by someone standing in it.
+        (id !== scene.speech?.speakerId || scene.speech.inRoom),
+    ),
   ].map((id) => {
     const row = core.people.get(id)!;
     return {

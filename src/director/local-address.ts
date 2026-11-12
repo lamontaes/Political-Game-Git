@@ -105,8 +105,6 @@ interface Speaker {
   readonly local?: OutlineSpeaker["local"];
   /** Their office as the said-as words key it (`officeWords`), for the nameplate. */
   readonly officeWords: string;
-  /** The body the address is given to: its office kind, and its office row where one is kept. */
-  readonly body: { readonly kind: string; readonly officeId?: string };
 }
 
 type TownSeat = ReturnType<typeof townSeats>[number];
@@ -216,7 +214,6 @@ function townHead(
     if (!chosen?.holder?.personId) continue;
     const words =
       chosen === head ? chosen.office.kind : `${chosen.office.kind}:presiding`;
-    const sitting = bodyOfficeOf(core, chosen.office);
     const title =
       chosen === head
         ? chosen.office.title.toLocaleLowerCase("en-US")
@@ -230,7 +227,6 @@ function townHead(
       jurisdiction: chosen.office.jurisdiction,
       local: localSpeaker(core, chosen.holder, chosen.office, title),
       officeWords: officeWords(words) ? words : chosen.office.kind,
-      body: { kind: sitting.kind, officeId: sitting.id },
     };
   }
   return null;
@@ -253,9 +249,6 @@ function speakerOf(core: CoreState, level: LocalLevel): Speaker | null {
           official,
           jurisdiction: stateKey,
           officeWords: spec.office,
-          // A governor gives the State of the State to the legislature in
-          // its own chamber (the lower house, or the one house).
-          body: { kind: "legislature-lower" },
         }
       : null;
   }
@@ -405,10 +398,6 @@ export function recordLocalAddress(
       ...(spoken
         ? {
             [ADDRESS_FACT.office]: spoken.officeWords,
-            [ADDRESS_FACT.bodyKind]: spoken.body.kind,
-            ...(spoken.body.officeId
-              ? { [ADDRESS_FACT.bodyOffice]: spoken.body.officeId }
-              : {}),
           }
         : {}),
     },

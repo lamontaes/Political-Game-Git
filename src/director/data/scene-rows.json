@@ -40,7 +40,10 @@
     "request",
     "congratulate",
     "announce-result",
-    "deliver-news"
+    "deliver-news",
+    "heard-television",
+    "heard-radio",
+    "heard-newspaper"
   ],
   "leads": [
     "becoming-friends",

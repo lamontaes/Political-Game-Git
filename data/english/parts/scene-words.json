@@ -20,7 +20,10 @@
     "topic": "What a law is about, as the policy catalog names it, from the law record.",
     "begins": "The day a scene starts on, with the part of the day, as people say it ('First thing on June 7th'), from the clock.",
     "where": "The workplace, office or school the scene is set in, from the setting's organization record.",
-    "since": "The day of the record that caused the scene, told as past from the day it plays ('yesterday', 'the other day', 'on January 3rd'), from daySince; absent when the record is from the same day."
+    "since": "The day of the record that caused the scene, told as past from the day it plays ('yesterday', 'the other day', 'on January 3rd'), from daySince; absent when the record is from the same day.",
+    "speaker": "the person a broadcast heard at home carries, by office first ('Governor Lori Lopez'), from the address record and said-as",
+    "occasion": "the broadcast's occasion as people say it after a possessive ('State of the State address'), from local-address.json heard.occasions",
+    "outlet": "the place's own outlet that carried it, by its organization's name, from the press records"
   },
   "maxWords": 10,
   "mining": {
@@ -6671,6 +6674,126 @@
       "origin": "authored",
       "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
       "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-television.last-night-outlet-carried-speakers-occasion",
+      "move": "opening-heard-television",
+      "kind": "spoken",
+      "text": "Last night {outlet} carried {speaker}'s {occasion}, and you watched it from the couch.",
+      "uses": [
+        {
+          "move": "opening-heard-television",
+          "subject": "opening",
+          "role": "heard-television",
+          "choice": "heard-television"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-television.you-caught-speakers-occasion-on-outlet",
+      "move": "opening-heard-television",
+      "kind": "spoken",
+      "text": "Last night you caught {speaker}'s {occasion} on {outlet}.",
+      "uses": [
+        {
+          "move": "opening-heard-television",
+          "subject": "opening",
+          "role": "heard-television",
+          "choice": "heard-television"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-radio.last-night-speakers-occasion-came-over-outlet",
+      "move": "opening-heard-radio",
+      "kind": "spoken",
+      "text": "Last night {speaker}'s {occasion} came over {outlet}, and you listened from the kitchen.",
+      "uses": [
+        {
+          "move": "opening-heard-radio",
+          "subject": "opening",
+          "role": "heard-radio",
+          "choice": "heard-radio"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-radio.you-heard-speakers-occasion-on-outlet",
+      "move": "opening-heard-radio",
+      "kind": "spoken",
+      "text": "You heard {speaker}'s {occasion} on {outlet} last night.",
+      "uses": [
+        {
+          "move": "opening-heard-radio",
+          "subject": "opening",
+          "role": "heard-radio",
+          "choice": "heard-radio"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-newspaper.outlet-prints-speakers-occasion-in-full",
+      "move": "opening-heard-newspaper",
+      "kind": "spoken",
+      "text": "This morning {outlet} prints {speaker}'s {occasion} in full, and you read it over breakfast.",
+      "uses": [
+        {
+          "move": "opening-heard-newspaper",
+          "subject": "opening",
+          "role": "heard-newspaper",
+          "choice": "heard-newspaper"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-newspaper.outlet-runs-speakers-occasion-word-for-word",
+      "move": "opening-heard-newspaper",
+      "kind": "spoken",
+      "text": "{outlet} runs {speaker}'s {occasion} this morning, word for word.",
+      "uses": [
+        {
+          "move": "opening-heard-newspaper",
+          "subject": "opening",
+          "role": "heard-newspaper",
+          "choice": "heard-newspaper"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
       "tag": {
         "move": "narrate"
       }

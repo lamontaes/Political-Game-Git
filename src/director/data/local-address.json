@@ -45,5 +45,13 @@
         "spread": "a county executive before a city's mayor where the place is unincorporated; else as listed"
       }
     }
+  },
+  "heard": {
+    "about": "How a governor's or a town head's address reaches a player at home (the one staging rule for a broadcast heard; the newscast could use it too): the narrator names the first of the place's own outlets in `order` that the press records keep, and the occasion as people say it by the address's kind. The President's address plays as its montage instead (src/bench/data/opening-montage.json). TUNABLE order, checked against how people follow a State of the State (most watch or hear it live; the paper prints it the next morning).",
+    "order": ["television", "radio", "newspaper"],
+    "occasions": {
+      "state-of-the-state": "State of the State address",
+      "town-address": "yearly address"
+    }
   }
 }

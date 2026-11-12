@@ -26,10 +26,6 @@ export const ADDRESS_FACT = {
   pieces: "address:pieces",
   /** The speaker's office as the said-as words key it ("governor", "county-board:presiding"): the nameplate says them by it ("Chair Sara Mullen"). */
   office: "address:office",
-  /** The kind of body the address is given to (legislature-lower, council, county-board): the chamber it is staged in. */
-  bodyKind: "address:body-kind",
-  /** That body's office row, where the records keep one: its room by its seats. */
-  bodyOffice: "address:body-office",
 } as const;
 
 /**

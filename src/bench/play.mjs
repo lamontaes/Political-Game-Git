@@ -2231,7 +2231,13 @@ async function showStory(momentId) {
     for (const beat of story.beats ?? []) new Image().src = beat.backdrop.url;
     const sayPart = (at) => {
       show("talk-skip", true);
-      setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
+      // A speaker heard on a broadcast is named, never drawn in the room
+      // (the narrator said how it was heard); one on the montage or in the
+      // room stands on the strip.
+      setWho(
+        story.beats || story.speech.inRoom ? story.speech.speakerId : null,
+        story.names[story.speech.speakerId],
+      );
       // The part's picture and cast: the desk, the town, the colonnade, the
       // officials on the strip with their office under their name, and home.
       const beat = story.beats?.[at];
