@@ -155,11 +155,10 @@ function schoolRecords(
 
 /**
  * Everyone the school years before the start are run for: the full people
- * alive at the opening. Relatives living elsewhere are run when the game
- * first simulates them (SG-P15-kin-light-past).
+ * alive at the opening. A relative living elsewhere is run when their card is
+ * first opened (`openWholePast`, src/core2/modules/people.ts).
  */
 function schoolPeople(core: Readonly<CoreState>) {
-  stopgap("SG-P15-kin-light-past");
   return [...core.people.values()].filter(
     (person) => person.alive && person.tier !== KIN_TIER,
   );
@@ -266,4 +265,46 @@ export function schoolsAttended(
     });
   }
   return rows;
+}
+
+/** A run of school years at one school: its first and last school year (by calendar year the year starts in), and the record it opens on. */
+export interface SchoolSpan {
+  schoolId: string;
+  from: number;
+  to: number;
+  recordId: string;
+}
+
+/**
+ * The school years a person spent at each school, read from their school
+ * records: a record opens a run at its school, and the run lasts until the
+ * next record or, for the last one, until the person's last school year or
+ * today's school year, whichever comes first.
+ */
+export function schoolSpans(
+  core: Readonly<CoreState>,
+  personId: string,
+): SchoolSpan[] {
+  const person = core.people.get(personId as PersonId);
+  if (!person) return [];
+  const rows = schoolsAttended(core, personId);
+  if (!rows.length) return [];
+  const kindergarten = kindergartenYear(makeIsoDate(person.birthDate));
+  const today = Number(core.date.slice(0, 4));
+  const thisYear =
+    core.date.slice(5) >= data.schoolYear.firstDay ? today : today - 1;
+  const lastYear = Math.min(
+    kindergarten + SCHOOL_STAGE_CALENDAR.endsAfterYears.high - 1,
+    thisYear,
+  );
+  return rows.map((row, index) => {
+    const from = kindergarten + row.grade;
+    const next = rows[index + 1];
+    return {
+      schoolId: row.schoolId,
+      from,
+      to: next ? kindergarten + next.grade - 1 : lastYear,
+      recordId: row.recordId,
+    };
+  });
 }

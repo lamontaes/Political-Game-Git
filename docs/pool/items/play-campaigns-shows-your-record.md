@@ -37,7 +37,7 @@ branch: claude/pool-play-campaigns-shows-your-record
 
 **Files.** src/bench/play.mjs, src/bench/campaign.ts, src/core2/campaign-views.ts
 
-**Notes.** TODO
+**Notes.** TODO. Nov 12 (gap sheet row 19): the record rows the legislature wrote carried passed: null, so a member's vote on this screen had no outcome (Providence, Rhode Island, seed b81d4b98-af43-41b5-8d47-7571d882c213, five votes dated the first day). Fixed at the root by gov-record-vote-outcome-written-at-tally: the legislature writes the roll's outcome on each row when the tally closes; this screen reads `passed` from the row and never recomputes it.
 
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:52 UTC) on branch claude/pool-play-campaigns-shows-your-record.
 

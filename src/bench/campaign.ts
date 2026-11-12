@@ -1,8 +1,10 @@
 import { spokenDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import {
+  answerDonationAsk,
   askForEndorsement,
   contributeOwnMoney,
+  donationAsksFor,
   askToVolunteer,
   campaignFor,
   commissionPoll,
@@ -22,6 +24,7 @@ import {
   type CandidateStanding,
   type CampaignDayKind,
 } from "../core2/campaign-day";
+import { petitionOf } from "../core2/modules/elections";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
@@ -43,7 +46,7 @@ import {
   type SpeechBuild,
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-data";
-import { backdropFor, homeOf, stagePeople } from "./scene";
+import { backdropFor, homeOf, peopleHere } from "./scene";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
 import { campaignAnswer } from "../director/campaign-answer";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -52,6 +55,29 @@ import scenePlaces from "./data/scene-places.json" with { type: "json" };
 const POLL_SAMPLE = campaignParameter("pollSampleSize");
 
 const ELECTIONS = "core2-elections-v1";
+
+/**
+ * A filing's petition as the screens show it, read from the petition record
+ * (the signatures the clerk will count, the last day, the signatures held and,
+ * once the clerk has checked it, the verdict). Null for a filing with none.
+ */
+export function petitionView(api: CoreAPI, filingId: string) {
+  const petition = petitionOf(api, filingId);
+  if (!petition) return null;
+  return {
+    id: petition.id,
+    needed: petition.needed,
+    due: petition.due,
+    signed: petition.signed,
+    check: petition.check
+      ? {
+          on: petition.check.on,
+          valid: petition.check.valid,
+          struck: petition.check.struckIds.length,
+        }
+      : null,
+  };
+}
 const CAMPAIGNS = "core2-campaigns-v1";
 
 /** The campaign day's acts that open as a scene, by the name the screen's control carries. */
@@ -125,6 +151,7 @@ export function campaignView(core: CoreState, personId: string) {
           ).length,
         },
         polls: polls.slice(-3),
+        petition: petitionView(api, filing.id),
         // What the contest turns on: each candidate's acts and how the people they reached came to feel.
         causes,
         // The sample a poll asks, so the screen's Poll button and the price below agree.
@@ -459,7 +486,7 @@ function askScene(core: CoreState, personId: string, place: string) {
   return {
     place,
     backdrop,
-    ...stagePeople(core, backdrop.file, [
+    ...peopleHere(core, backdrop.file, [
       {
         id: personId,
         name: row ? `${row.givenName} ${row.familyName}` : "",
@@ -486,7 +513,7 @@ function speechScene(
   return {
     place,
     backdrop,
-    ...stagePeople(
+    ...peopleHere(
       core,
       backdrop.file,
       ids.map((id) => {
@@ -569,7 +596,7 @@ function outingScene(
   return {
     place,
     backdrop,
-    ...stagePeople(
+    ...peopleHere(
       core,
       backdrop.file,
       ids.map((id) => {
@@ -754,5 +781,65 @@ export function speechGive(
     text: speechText(build),
     retold,
     scene: speechScene(core, personId, venue, causes),
+  };
+}
+
+/**
+ * Candidates' asks for money that reached the player and wait on their answer
+ * (play-campaign-ask-reaches-player): who asks, for which race, what they
+ * would give by their own reasons, and the cash they hold to give from.
+ */
+export function donationAsksView(core: CoreState, personId: string) {
+  const api = coreAPI(core);
+  const asks = core.modules.has("core2-campaigns-v1")
+    ? donationAsksFor(api, personId)
+    : [];
+  const person = core.people.get(personId);
+  return {
+    cashMinor: person?.liquidMinor ?? 0,
+    asks: asks.map((ask) => {
+      const candidate = core.people.get(ask.candidateId);
+      const filing = api
+        .moduleState(ELECTIONS)
+        .table("filings")
+        .get(ask.campaignId) as unknown as FilingRow | undefined;
+      const contest = filing
+        ? (api
+            .moduleState(ELECTIONS)
+            .table("contests")
+            .get(filing.contestId) as unknown as ContestRow | undefined)
+        : undefined;
+      return {
+        id: ask.id,
+        candidateId: ask.candidateId,
+        candidate: candidate
+          ? `${candidate.givenName} ${candidate.familyName}`
+          : "",
+        race: contest ? raceTitle(contest.title, contest.district) : "",
+        party: filing?.party ?? null,
+        suggestedMinor: ask.suggestedMinor,
+        askedOn: ask.askedOn,
+      };
+    }),
+  };
+}
+
+/** The player's answer to one of their own open asks: give a sum, or decline. */
+export function answerAsk(
+  core: CoreState,
+  personId: string,
+  input: { askId: string; answer: string; amountMinor?: number },
+) {
+  if (input.answer !== "give" && input.answer !== "decline")
+    throw new Error("Invalid answer.");
+  if (!donationAsksView(core, personId).asks.some((a) => a.id === input.askId))
+    throw new Error("This ask is not open for this person.");
+  return {
+    answered: answerDonationAsk(
+      coreAPI(core),
+      input.askId,
+      input.answer,
+      input.amountMinor,
+    ),
   };
 }

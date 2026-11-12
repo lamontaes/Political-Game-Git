@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-gov-city-budget-unvoted-where-council-is-state-body
-pr: #5588
+pr: #8733
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-11T06:37:21.629Z

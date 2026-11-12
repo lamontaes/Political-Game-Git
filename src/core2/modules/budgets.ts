@@ -56,7 +56,12 @@ import {
 import { worldOffsetUnit } from "../world-draw";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import propertyTaxCaps from "../data/laws/property-tax-caps.json" with { type: "json" };
-import { registerPropertyTax } from "../housing-property-tax";
+import {
+  PROPERTY_TAX_AVERAGE_SOURCE,
+  registerPropertyTax,
+  stateEffectiveRate,
+} from "../housing-property-tax";
+import { placeStateKey } from "../place-map";
 import {
   lawChainForPlace,
   startingLawRows,
@@ -171,6 +176,8 @@ export interface BudgetRow {
   readonly revenueMinor: Readonly<Record<string, number>>;
   readonly spendingMinor: Readonly<Record<string, number>>;
   readonly source: string;
+  /** Another state's budget: the country tier's row whose ledger it is a view of (outside-budgets). */
+  readonly ledgerId?: string;
 }
 
 interface WithholdingRecord {
@@ -1120,8 +1127,14 @@ export function syncSalesTax(api: CoreAPI): void {
  * the home's value), paid to the treasury that collects it: the county,
  * else the city, else the state.
  */
-function propertyTaxTerms(api: CoreAPI) {
+function propertyTaxTerms(api: CoreAPI, placeId?: string) {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return undefined;
+  // A home outside the played town is billed by its own place's terms, not
+  // the played town's rate and collector (owner, Nov 5: "It should be
+  // everywhere").
+  const town = api.state.placeMetadata?.housingTown;
+  if (placeId && town && placeId !== town)
+    return otherPlacePropertyTax(api, placeId);
   const answer = lawInForce(api, "property-tax");
   const row = answer.governing;
   if (!row || answer.value === null || !(answer.value >= 0)) return undefined;
@@ -1168,6 +1181,27 @@ function propertyTaxTerms(api: CoreAPI) {
       asOf: api.state.date,
       estimatedFrom:
         "Property tax in force, to the county's tax collector; a yes/no growth cap uses the registered assessment-cap estimate.",
+    },
+  };
+}
+
+/**
+ * Property tax for a home in a place whose law rows are not kept: its state's
+ * average effective rate (ACS, by state), paid to its place's outside account
+ * (the payee is left to `billPropertyTax`), marked as an estimate with its
+ * source. Never the played town's rate or collector.
+ */
+function otherPlacePropertyTax(api: CoreAPI, placeId: string) {
+  // stopgapId: SG-WORLD-property-tax-other-places-state-average
+  api.stopgap("SG-WORLD-property-tax-other-places-state-average");
+  const usps = placeStateKey(placeId)?.slice(3) ?? "";
+  return {
+    rate: stateEffectiveRate(usps),
+    source: {
+      tag: "ESTIMATED" as const,
+      citation: PROPERTY_TAX_AVERAGE_SOURCE.citation,
+      asOf: api.state.date,
+      estimatedFrom: `${usps || "national"} average effective property tax rate; no law row is kept for this place`,
     },
   };
 }

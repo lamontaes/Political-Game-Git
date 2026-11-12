@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-core-played-game-saves-and-continues-part-1-bench-saves-life
+pr: #8742
 after:
 blocked-on:
 lead: play-first
@@ -17,7 +17,7 @@ effort: medium
 root: none
 source: split from core-played-game-saves-and-continues in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T07:31:19.693Z
 branch: claude/pool-core-played-game-saves-and-continues-part-1-bench-saves-life
 ---
 
@@ -44,3 +44,5 @@ Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), t
 Released (2026-11-11): Re-offered after opus-1fd7's release; confirmed nothing in src/bench calls saveGame or loadGame and only 9 source files declare snapshot coverage; marking its Cause Needs cause with that finding. Continue on branch claude/pool-core-played-game-saves-and-continues-part-1-bench-saves-life.
 
 Cause found (Nov 11, 2026, cause finder for Fable B): reproduced on a fresh draw (62 of 81 modules uncovered, seed cause-snap). The snapshot route is part 4's work and is not needed here: the bench world rebuilds identically from its seed (two builds of seed cause-twin played two months gave the same snapshot hash), so this part saves the recipe plus the player's recorded requests and replays them. The one trap is a read-only screen that fills someone in; the fill-in count catches it.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 07:31 UTC) on branch claude/pool-core-played-game-saves-and-continues-part-1-bench-saves-life.
