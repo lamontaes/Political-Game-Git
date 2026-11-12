@@ -16,6 +16,25 @@ const walk = (value: unknown): void => {
 };
 walk(billCatalog);
 
+// A law's catalog name is read as words by the news: never a field name such as stateSenate.
+const lawNames: string[] = [];
+const walkLaws = (value: unknown): void => {
+  if (Array.isArray(value)) value.forEach(walkLaws);
+  else if (value && typeof value === "object") {
+    const row = value as { kind?: string; name?: string };
+    if (row.kind === "law-amount" && row.name) lawNames.push(row.name);
+    Object.values(value).forEach(walkLaws);
+  }
+};
+walkLaws(billCatalog);
+
+describe("law names in the catalog", () => {
+  it("read as words, with no camel-case field name", () => {
+    expect(lawNames.length).toBeGreaterThan(20);
+    for (const name of lawNames) expect(name).not.toMatch(/[a-z][A-Z]/);
+  });
+});
+
 describe("bill names", () => {
   it("names every policy question a bill can enact or repeal, and never by its description", () => {
     expect(questions.length).toBeGreaterThan(50);

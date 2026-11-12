@@ -3120,6 +3120,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   // town's people like them, so their vote counts at the share of them who
   // turn out. Each ballot is kept with its reasons, like a named voter's.
   const countedVotes: Record<string, number> = {};
+  // What the counted voters tell the exit pollster, by the named voters'
+  // rule (pollsterCase and the trait lean), at their turnout share.
+  const countedExitPoll: Record<string, number> = {};
   let countedVoted = 0;
   let countedEligible = 0;
   const field = countedField(api, counting, filings);
@@ -3229,6 +3232,27 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     for (const [backed, weight] of Object.entries(division.votes))
       countedVotes[backed] =
         (countedVotes[backed] ?? 0) + t.propensity * weight;
+    // The record tells the pollster as a named voter would: a reluctant one
+    // declines, so its whole turnout share counts as declined.
+    const tells = leanedYes(
+      api.state,
+      voter,
+      "voting.exit-poll",
+      "tell",
+      "decline",
+      pollsterCase(api, voter, t.interest).case,
+    );
+    // An at-large ballot divides several votes; the poll asks for the first
+    // choice, so the record's turnout share divides in proportion.
+    const cast = Object.values(division.votes).reduce((a, b) => a + b, 0);
+    if (tells && cast > 0)
+      for (const [backed, weight] of Object.entries(division.votes))
+        countedExitPoll[backed] =
+          (countedExitPoll[backed] ?? 0) +
+          (t.propensity * voter.weight * weight) / cast;
+    else if (!tells)
+      countedExitPoll.declined =
+        (countedExitPoll.declined ?? 0) + t.propensity * voter.weight;
   }
   if (!bookkeeping()) dropOldCountedBallots(api);
   table(api, "countedBallots").put({
@@ -3245,6 +3269,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const scale = countedScale(api);
   for (const id of Object.keys(countedVotes))
     countedVotes[id] = Math.round(countedVotes[id]! * scale);
+  for (const id of Object.keys(countedExitPoll))
+    exitPoll[id] =
+      (exitPoll[id] ?? 0) + Math.round(countedExitPoll[id]! * scale);
   countedVoted = Math.round(countedVoted * scale);
   countedEligible = Math.round(countedEligible * scale);
   // The rest of the race's electorate, place by place, on the same engine.
