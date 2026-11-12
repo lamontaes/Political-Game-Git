@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 3
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-jmnnjg
 pr:
 blocked-on:
 source: laws-and-effects lead, Oct 27 (laws-session-passes-moot-and-opposite-bills' played-world test)
@@ -17,7 +17,7 @@ model: opus
 effort: medium
 root: rc1-world-outside-town
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-12T23:48:52.016Z
 branch: pool/laws-session-moves-too-many-questions
 ---
 
