@@ -46,7 +46,7 @@ import {
   addressPoints,
   type AddressPoint,
 } from "./opening-facts";
-import { macroMonths } from "./opening-story";
+import { OPENING_ADDRESS_EVENT, macroMonths } from "./opening-story";
 import { stableHash } from "../core2/kernel/ids";
 import {
   CALIBRATION,
@@ -3313,8 +3313,20 @@ function openConversationNow(
         `news:${storyOfReadEvent(told.change.eventId) ?? ""}`,
       ]
     : [];
+  // News of something the two watched together is not news between them
+  // (owner, Nov 12: the address's headline read out to someone who watched
+  // it in the same room): it is not brought up.
+  const toldStory = told ? storyOfReadEvent(told.change.eventId) : null;
+  const aboutShared =
+    !!toldStory &&
+    watchedTogether(core, playerId, otherId) &&
+    storiesHeard(coreAPI(core), otherId).some(
+      (row) =>
+        row.id === toldStory && row.facts.recordKind === OPENING_ADDRESS_EVENT,
+    );
   const brought =
     told &&
+    !aboutShared &&
     !toldIds.some(
       (id) =>
         heardNow.has(`${HEARD_SUBJECT}${id}`) ||

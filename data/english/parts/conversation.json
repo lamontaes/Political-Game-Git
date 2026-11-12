@@ -28638,28 +28638,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.news-back-core.fair-enough-i-ve-chewed-on-it-since-when",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "Fair enough. I've chewed on it since {when}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-opinion"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-news-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.news-answer-for.i-ve-been-for-about-a-long-time",
       "move": "news-answer-for",
       "kind": "spoken",

@@ -50,8 +50,8 @@ const MORNING = 7 * 60;
 const EVENING = 20 * 60 + 30;
 const TURNS = 8;
 const WEEK = 7;
-/** The days whose lines are printed: the first evening, the next morning, a day in the second week. */
-const SHOWN_DAYS = new Set([0, 1, 9]);
+/** Every talk of the fortnight is printed, for reading aloud. */
+const SHOWN_DAYS = new Set(Array.from({ length: 14 }, (_, day) => day));
 
 function build() {
   const labeled = process.env.TALK_PLACE_SEED;
@@ -259,6 +259,10 @@ it(`two weeks of talk at home hold the telling's rules (seed ${seed})`, () => {
           )
             broken.push(
               `${here}: a part of the day that is over: "${line.text}"`,
+            );
+          if (/\b(sworn in, gives|chewed on it)\b/i.test(line.text))
+            broken.push(
+              `${here}: a headline read out, or a follow that says nothing: "${line.text}"`,
             );
           if (/\bcheck on you again\b/i.test(line.text))
             broken.push(`${here}: a promise to check in: "${line.text}"`);
