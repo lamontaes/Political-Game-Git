@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/cases-keep-counted-seekers-counted
 pr: #8861
@@ -17,6 +17,7 @@ root: rc5-full-detail-every-day
 lead: speed
 branch: claude/cases-keep-counted-seekers-counted
 source: written by the speed lead from the Nov 11 counts (#7365)
+merged-at: 2026-11-12T01:35:50.041Z
 ---
 
 **What.** In South Hooksett, New Hampshire (key 3371220, seed s8333), full people grow from 1,961 to 2,921, 3,525 and 4,109 at the ends of years 1 to 4, while the counted population holds. Three in four fill-ins are counted residents out of work who bring a case to a local official's office hours (`bringCases`, src/core2/modules/constituent-cases.ts): 164 households in year 1, 179 in year 2. Every engine that walks full people slows with them: a campaign event's guest list, people acting each day, news, coverage and the collector. The two-level rule (owner, Oct 11, "Keep it simple") fills a counted person in when the player meets or clicks them, not when an official the player does not watch holds office hours. Seen: the game running; a year, and so a Week, takes less time, and the town's people the player meets are filled in as before.
