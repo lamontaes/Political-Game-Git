@@ -270,6 +270,8 @@ const SLOTS: Record<string, string> = {
   "first-side":
     "the speech's first point as the speaker's side says it (question-names `for` or `against`), for the close",
   side: "the question as the speaker's side says it (question-names.json `for` or `against`)",
+  "law-name":
+    'the law in force on the question, as the thing itself (question-names.json `law`: "paid family leave", "the higher federal minimum wage")',
   "speaker-object": "the Speaker where the sentence needs the object case",
   "speaker-possessive": "the Speaker where the sentence needs the possessive",
 };

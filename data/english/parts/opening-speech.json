@@ -58,7 +58,8 @@
     "today-clause-2": "`today-2` after an opener and a comma",
     "today-clause-3": "`today-3` after an opener and a comma",
     "today-question-2": "`today-2` inside a question to the audience",
-    "today-question-3": "`today-3` inside a question to the audience"
+    "today-question-3": "`today-3` inside a question to the audience",
+    "law-name": "the law in force on the question, as the thing itself (question-names.json `law`: \"paid family leave\", \"the higher federal minimum wage\")"
   },
   "maxWords": 40,
   "mining": {
