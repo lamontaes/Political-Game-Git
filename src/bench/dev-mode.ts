@@ -21,6 +21,7 @@ import { advanceCore, availableActs, type Controller } from "../core2/life";
 import { STOPGAPS } from "../core2/stopgaps";
 import {
   considerBribe,
+  bribeRefusal,
   CORRUPTION_MODULE_ID,
   enactLaw,
   lawChain,
@@ -1560,6 +1561,35 @@ export class DevMode {
     });
   }
 
+  /** Who has a say on a bill: the members of each chamber it passes through and the executive who signs it. */
+  billDeciders(billId: string) {
+    const api = this.api;
+    const bill = api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .get(billId) as unknown as BillRow | undefined;
+    if (!bill) throw new Error("No such bill.");
+    const out: { personId: string; name: string; body: string }[] = [];
+    for (const chamber of chambersOf(api, bill)) {
+      const body = bodyOf(api, chamber);
+      for (const term of members(api, chamber))
+        if (term.personId)
+          out.push({
+            personId: term.personId,
+            name: `${term.identity.givenName} ${term.identity.familyName}`,
+            body: body?.bodyName ?? body?.governmentName ?? "",
+          });
+    }
+    const executive = executiveOf(api, bill.bodyOfficeId).term;
+    if (executive?.personId)
+      out.push({
+        personId: executive.personId,
+        name: `${executive.identity.givenName} ${executive.identity.familyName}`,
+        body: executiveOf(api, bill.bodyOfficeId).office?.kind ?? "",
+      });
+    return out;
+  }
+
   /** The wealthiest living people in the world: who might want a favor enough to pay for it. */
   wealthiest(count = 12) {
     return [...this.core.people.values()]
@@ -1600,8 +1630,12 @@ export class DevMode {
         ? { pick: { offer: true, take: input.answer === "takes" } }
         : {}),
     });
-    if (!record)
-      throw new Error("No bribe: the offerer has no money or someone is gone.");
+    if (!record) {
+      const refusal = bribeRefusal(this.api, input);
+      throw new Error(
+        refusal ?? "No bribe: the offerer has no money or someone is gone.",
+      );
+    }
     return {
       mark: this.mark("bribe", [record.id], {
         offererId: input.offererId,

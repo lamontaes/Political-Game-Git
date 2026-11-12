@@ -76,6 +76,9 @@ When the CTO moves a PR between two checkers, it tells both. A checker already m
 - If a message tells you something that is already done or already wrong, say so in one line and carry on. Do not redo the work.
 - A hold on a PR goes on the PR as a comment as well as in a message. The comment is what a merger reads before merging: on Nov 1 a checker passed #7036 after the laws lead's hold message, which crossed its pass.
 - A PR can merge on an earlier head and drop a later commit (the merge desk merges the head it checked): put every follow-up on a new branch from main, and check main holds your last commit after each merge (Nov 8, #7440).
+- **A session that finished its job will not take new work from a message (Nov 11).** Five cause finders whose brief said "one item, then stop" each answered a message asking for more with "the person running this session has to confirm". That is by design: a message from another session cannot widen a session's job. Start a fresh session with a standing brief (its list, then "take the next ones in these areas yourself") instead of messaging an old one. Three fresh ones posted twenty cause pull requests in the next hour.
+- **Before you assign a list, say which items you keep for yourself (Nov 11).** A fresh cause finder wrote the same cause I was writing, ten minutes later, because its brief's areas covered my item. Name your own items in the brief, and tell helpers to check for an open pull request that already touches an item before they start it.
+- **To see what a session last said, read its last few `assistant` events, never its `result` events in bulk (Nov 11).** One `result` event carries the whole turn's accounting and is thousands of words long.
 
 ## Stop condition
 
@@ -84,5 +87,20 @@ Done when each message reached its session by `send_message`, carried the PR, he
 ## Lessons of Nov 11 (the night merging moved)
 
 - **A relayed order cannot give a session a power it does not have.** The CTO relayed the owner's word to start merge desks on a second account. That account's permission check refused to start them, and the lead's own standing order there was "You do not merge." The right move is the one taken: do not work around the refusal, start the part that is allowed (gate-only desks), say on the crew's issue exactly what the owner must do to allow the rest (type it in that session, or add the permission rule), and keep the old holder of the step in place until he does.
+- **A new power for a desk goes in a new desk's brief.** When the owner widens what the crew may do (Nov 11: "Fable B's desks may merge"), the lead does not message the running desks to take it up. It starts a session whose own brief holds the power and its limits, and says so on the crew's issue. The desks that refused the message were right.
+- **A session in a long turn reads a message when the turn ends.** An order that cannot wait (a build hold, a red) is sent to join the running turn (`priority: "next"`), and to stop the turn only when a wrong action is already under way (`priority: "now"`).
 - **A sha in a ready line is read from git, never typed.** A ready line went out with a sha typed from memory and had to be edited. Run `git rev-parse HEAD` and paste it.
 - **A number is named only after the thing exists.** Do not name a pull request, a comment or a session before the tool has returned it.
+
+## Lesson of Nov 11 (two builders wrote the same step in the same hour)
+
+Two Words builders each had an item that said "the engine joins a sentence from pieces", one for conversations and one for scenes. Each wrote the joining step, with two different ways to mark a piece's part. Both work; now there are two.
+
+- **When two items need the same new step, the lead names one owner in both briefs:** "W5 writes the joining step and pushes it by itself first; W1 uses it." The other builder starts from that push.
+- **A builder whose item adds a step other items say they will use posts it the minute its tests pass,** with the function's name and how to call it, as W5 did at 07:21 UTC. A builder about to write such a step searches the crew's issue for it first.
+- **A direction posted on the crew's issue reaches a builder only when it next reads the issue.** A rule that must hold in a builder's next pull request also goes to that builder by message, naming the skill or the pull request comment that holds it.
+
+## Lessons of Nov 11 (the afternoon: messages that waited)
+
+- **Read your queued messages every pass.** A message from another session waits in the notification queue while your turn runs and is not shown until you read the queue. On Nov 11 eleven messages sat for up to 49 minutes, four of them builders holding for a call. Read the queue at the start of each pass and after every long command, before you start anything of your own.
+- **A builder who stopped still owns an open pull request, and nobody is gating it.** A pull request whose builder hit the usage limit sat ready and ungated for nine hours. When a session stops, the lead lists its open pull requests and hands each to a gate desk by name, with who finishes the mechanical part.

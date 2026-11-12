@@ -8,7 +8,6 @@ import parameters from "../core2/data/parameters.json";
 
 const sites = [
   "m0-check.ts",
-  "scene-check.ts",
   "m1-10-check.ts",
   "verify.mjs",
   "whole-figures.ts",

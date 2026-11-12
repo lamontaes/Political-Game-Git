@@ -34,6 +34,7 @@ Before any of these, in any session (lead, lane, words, director, merger, fixer,
 7. `docs/pool/items/`: an item on the subject carries its Notes and its PRs.
    Then the data files that carry rulings: `rg -i '<subject>' src/director/data src/core2/data data/english` and read the `about` and `source` fields near a match. The owner's rulings on how people talk, what a scene is and what a number means are quoted there, not only in `docs/` (Oct 30: the CTO ruled that a relative with no news could be asked after; the owner's Oct 14 Q7 and Oct 15 family-talk rulings in `src/director/data/conversation-rules.json` already said no, and the ruling was withdrawn).
 8. The owner's Drive, when the session has the Drive connector: `search_files` with `fullText contains '<subject>'`; the CTO rulings docs there ("03 CTO RULINGS", "OVERNIGHT ORDERS", "RESEARCH FOR CTO REVIEW") are his words from September and October. A session without the connector reads the prior-rulings digests, which are made from them, and says so.
+9. The open pull requests, before you fix anything you saw in play: `gh api -X GET search/issues -f q='repo:OWNER/REPO is:pr is:open <two words of what you saw>'`. A built fix can wait ungated for hours. On Nov 11 the lead saw the Journal note over the President's address, wrote the fix, and only then found the pool item and a six-hour-old pull request with the same change line for line. The right move was to replay that pull request in a drawn place and send it to a desk.
 
 Stop at the first hit that answers; read it whole.
 
@@ -61,5 +62,6 @@ Stop at the first hit that answers; read it whole.
 - [ ] I read OWNER-DECISIONS whole and the prior-rulings digest for my area.
 - [ ] I searched docs/, the pool and Drive (or said the connector was missing) for the subject and its synonyms.
 - [ ] Before I built, or started a helper on, a fix for a red test or a line someone else owns, I read the titles of the open pull requests and the pool items claimed in the last day for the same file or line. (Nov 10: a helper reworded two journal lines an hour after the Story line had claimed the same two; the second pull request was withdrawn.)
+- [ ] Before I measured or wrote a cause, I searched the open pull requests for the engine and function it names and read the skill for that kind of work. (Nov 11: the lead spent an hour measuring why memory grows, found that office hours fill in counted residents, and wrote the fix into an item. The Speed lead's pull request for that fix had been open for nine hours, and `speed-work` already named the cause. One search for `bringCases` would have found both.)
 - [ ] Every question I still have ends with the reading line, and none of them is answered above.
 - [ ] Every ruling I found is cited where I build on it.

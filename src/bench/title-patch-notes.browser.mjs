@@ -21,17 +21,18 @@ try {
   assert.equal(await item.isDisabled(), false, "Patch notes is grayed out");
   await item.click();
   await page.locator("#sheet:not([hidden])").waitFor();
-  await page.locator("#sheet-body .bsdept").first().waitFor();
+  await page.locator("#sheet-body .roster-row").first().waitFor();
   const read = () =>
     page.evaluate(() => {
       const body = document.getElementById("sheet-body");
       return {
         title: document.getElementById("sheet-title").textContent,
-        builds: [...document.querySelectorAll("#sheet-body .bsdept b")].map(
+        builds: [...document.querySelectorAll("#sheet-body .roster-row b")].map(
           (b) => b.textContent,
         ),
-        chosen: document.querySelector("#sheet-body .bsdept.sel b")
-          ?.textContent,
+        chosen: document.querySelector(
+          '#sheet-body .roster-row[aria-pressed="true"] b',
+        )?.textContent,
         headings: [...document.querySelectorAll("#sheet-body .sechead")].map(
           (h) => h.textContent,
         ),
@@ -57,7 +58,7 @@ try {
   assert.ok(!/unreleased/i.test(newest.text), "nothing unreleased on the page");
   assert.equal(newest.scrolls, false, "the sheet scrolls");
   assert.equal(newest.strays, 0, "a Continue or Back button");
-  await page.locator("#sheet-body .bsdept").nth(1).click();
+  await page.locator("#sheet-body .roster-row").nth(1).click();
   const second = await read();
   assert.equal(
     second.chosen,
