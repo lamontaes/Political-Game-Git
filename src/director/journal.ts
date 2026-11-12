@@ -1972,34 +1972,49 @@ export function composeJournal(
 
   /**
    * A working life of more employers than the outline tells one by one is
-   * told as one run from its counts: how many, over how long, where it ended
-   * and how many times they were let go (lead, Nov 12).
+   * told as one thought, in the order a person tells it: what kind of work
+   * it was and where, how it went (let go, from the records), and where it
+   * ended (lead, Nov 12: "lead with the kind of work, not the count"). The
+   * three are pieces of one sentence (`journal.work-run`), joined by the
+   * outline's join words.
    */
   const foldWork = (told: readonly Unit[]): JournalWorded[] | null => {
-    const employers = [
-      ...new Set(
-        told.flatMap((unit) =>
-          [unit.facts.employer?.text, unit.facts.next?.text].filter(
-            (text): text is string => !!text,
-          ),
-        ),
-      ),
-    ];
+    const employers = new Map<string, string>();
+    for (const unit of told)
+      for (const fact of [unit.facts.employer, unit.facts.next])
+        if (fact)
+          employers.set(fact.text, String(fact.sourceRecordIds.at(-one)));
     const foldAt =
       DEFAULT_DIRECTOR_DATA.parameters.journalWorkFoldAt?.value ??
       Number.POSITIVE_INFINITY;
-    if (employers.length <= foldAt) return null;
+    if (employers.size <= foldAt) return null;
     const ids = told.map((unit) => unit.moment.causeId);
     const first = told[zero]!;
     const lastUnit = told.at(-one)!;
     const ended = lastUnit.facts.next ?? lastUnit.facts.employer;
-    const letGo = told.filter(
-      (unit) => unit.moment.causeKind === "job-ended:let-go",
-    ).length;
-    const count = (n: number) =>
-      JOURNAL_OUTLINE.numberWords[n] ?? n.toLocaleString("en-US");
+    const lostIds = told
+      .filter((unit) => unit.moment.causeKind === "job-ended:let-go")
+      .map((unit) => unit.moment.causeId);
+    // The kinds of work, from each employer's record, the most held first.
+    const workWords = JOURNAL_OUTLINE.workWords as Record<string, string>;
+    const kinds = new Map<string, { n: number; ids: string[] }>();
+    for (const orgId of employers.values()) {
+      const kind = (core.organizations.get(orgId)?.classification ?? "")
+        .split(":")
+        .at(-one);
+      const word = kind ? workWords[kind] : undefined;
+      if (!word) continue;
+      const row = kinds.get(word) ?? { n: zero, ids: [] };
+      row.n += one;
+      row.ids.push(orgId);
+      kinds.set(word, row);
+    }
+    const said = [...kinds]
+      .sort(([a, x], [b, y]) => y.n - x.n || a.localeCompare(b))
+      .slice(zero, P.two);
+    const join = JOURNAL_OUTLINE.workJoin;
+    const where = lastUnit.facts.place ?? first.facts.place;
     const facts: Facts = {
-      count: { text: count(employers.length), sourceRecordIds: ids },
       span: {
         text: spanSaid(
           daysBetween(
@@ -2009,6 +2024,15 @@ export function composeJournal(
         ),
         sourceRecordIds: ids,
       },
+      ...(said.length
+        ? {
+            work: {
+              text: said.map(([word]) => word).join(join.kindsAnd),
+              sourceRecordIds: said.flatMap(([, row]) => row.ids),
+            },
+          }
+        : {}),
+      ...(where ? { place: where } : {}),
     };
     const run = render(
       { part: "memoir", field: "workRun" },
@@ -2017,6 +2041,20 @@ export function composeJournal(
       ids,
     );
     if (!run) return null;
+    const times = (words ?? JOURNAL_WORDS).countWords;
+    const lost = lostIds.length
+      ? render(
+          { part: "memoir", field: "workLost" },
+          {
+            times: {
+              text: times[lostIds.length] ?? (words ?? JOURNAL_WORDS).manyTimes,
+              sourceRecordIds: lostIds,
+            },
+          },
+          `${first.moment.id}:work-lost`,
+          ids,
+        )
+      : null;
     const end = ended
       ? render(
           { part: "memoir", field: "workEnd" },
@@ -2025,26 +2063,30 @@ export function composeJournal(
           ids,
         )
       : null;
-    const times = (words ?? JOURNAL_WORDS).countWords;
-    const lost =
-      letGo > zero
-        ? render(
-            { part: "memoir", field: "workLost" },
-            {
-              times: {
-                text: times[letGo] ?? (words ?? JOURNAL_WORDS).manyTimes,
-                sourceRecordIds: told
-                  .filter(
-                    (unit) => unit.moment.causeKind === "job-ended:let-go",
-                  )
-                  .map((unit) => unit.moment.causeId),
-              },
-            },
-            `${first.moment.id}:work-lost`,
-            ids,
-          )
-        : null;
-    return [run, end, lost].filter((part): part is JournalWorded => !!part);
+    const lower = (part: JournalWorded) =>
+      part.text.charAt(zero).toLowerCase() + part.text.slice(one);
+    const tail = [lost, end].filter((part): part is JournalWorded => !!part);
+    const text =
+      run.text +
+      tail
+        .map(
+          (part, at) =>
+            (at === tail.length - one ? join.beforeLast : join.between) +
+            lower(part),
+        )
+        .join("") +
+      join.end;
+    return [
+      {
+        text:
+          tail.length === one
+            ? text.replace(join.beforeLast, join.onlyLast)
+            : text,
+        sourceRecordIds: [
+          ...new Set([run, ...tail].flatMap((part) => part.sourceRecordIds)),
+        ],
+      },
+    ];
   };
 
   const entryOf = (told: readonly Unit[], sentences: JournalWorded[]) => ({

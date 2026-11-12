@@ -45,7 +45,8 @@
     "school_for": "How long the person had been at a school, from the school's attendance record.",
     "body": "The body a relative's seat belongs to, as the reader says it: the Nelson City Council.",
     "workplace": "Where a relative who holds an office also works, as the reader says it: Michael's Market.",
-    "count": "How many, counted from the records (employers in a working life)."
+    "count": "How many, counted from the records (employers in a working life).",
+    "work": "The kinds of work a working life was in, from its employers' records (\"kitchens and stores\")."
   },
   "maxWords": 10,
   "mining": {
@@ -3746,75 +3747,6 @@
       },
       "tag": {
         "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.i-didnt-know-that-at-the-time",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I didn't know that at the time.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "NASA oral histories": 3,
-        "U.S. House oral histories": 2
-      },
-      "source": {
-        "document": "U.S. House oral history: The Honorable Michael F. Doyle",
-        "date": "2022-06-14",
-        "granule": "house-doyle-transcript",
-        "url": "https://history.house.gov/Oral-History/Transcripts/Doyle-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.i-didnt-know-at-the-time",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I didn't know at the time.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 2
-      },
-      "source": {
-        "document": "NASA oral history hillps-3-24-15",
-        "date": "2015-03-24",
-        "granule": "nasa-hillps-3-24-15",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/hillps-3-24-15.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
       }
     },
     {
@@ -9229,16 +9161,16 @@
       }
     },
     {
-      "key": "journal.memoir-work-run.i-worked-for-count-employers-over-span",
+      "key": "journal.memoir-work-run.i-worked-in-work-around-place-for-span",
       "move": "memoir-work-run",
       "kind": "spoken",
-      "text": "I worked for {count} employers over {span}.",
+      "text": "I worked in {work} around {place} for {span}",
       "uses": [
         {
           "move": "memoir-work-run",
           "subject": "memoir",
           "role": "workRun",
-          "choice": "i-worked-for-count-employers-over-span",
+          "choice": "i-worked-in-work-around-place-for-span",
           "journal": [
             {
               "kindPrefix": "memoir:",
@@ -9247,6 +9179,11 @@
           ]
         }
       ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "core",
+        "required": true
+      },
       "origin": "authored",
       "author": "Words session (journal composer, words composer unit 6)",
       "date": "2026-11-12",
@@ -9255,16 +9192,16 @@
       }
     },
     {
-      "key": "journal.memoir-work-run.over-span-i-held-jobs-with-count-employe",
+      "key": "journal.memoir-work-run.for-span-i-worked-in-work-around-place",
       "move": "memoir-work-run",
       "kind": "spoken",
-      "text": "Over {span}, I held jobs with {count} employers.",
+      "text": "For {span}, I worked in {work} around {place}",
       "uses": [
         {
           "move": "memoir-work-run",
           "subject": "memoir",
           "role": "workRun",
-          "choice": "over-span-i-held-jobs-with-count-employe",
+          "choice": "for-span-i-worked-in-work-around-place",
           "journal": [
             {
               "kindPrefix": "memoir:",
@@ -9273,6 +9210,11 @@
           ]
         }
       ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "core",
+        "required": true
+      },
       "origin": "authored",
       "author": "Words session (journal composer, words composer unit 6)",
       "date": "2026-11-12",
@@ -9281,16 +9223,16 @@
       }
     },
     {
-      "key": "journal.memoir-work-run.i-went-through-count-jobs-in-span",
+      "key": "journal.memoir-work-run.i-spent-span-working-in-work-around-plac",
       "move": "memoir-work-run",
       "kind": "spoken",
-      "text": "I went through {count} jobs in {span}.",
+      "text": "I spent {span} working in {work} around {place}",
       "uses": [
         {
           "move": "memoir-work-run",
           "subject": "memoir",
           "role": "workRun",
-          "choice": "i-went-through-count-jobs-in-span",
+          "choice": "i-spent-span-working-in-work-around-plac",
           "journal": [
             {
               "kindPrefix": "memoir:",
@@ -9299,6 +9241,11 @@
           ]
         }
       ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "core",
+        "required": true
+      },
       "origin": "authored",
       "author": "Words session (journal composer, words composer unit 6)",
       "date": "2026-11-12",
@@ -9307,24 +9254,29 @@
       }
     },
     {
-      "key": "journal.memoir-work-end.the-last-of-them-was-employer",
-      "move": "memoir-work-end",
+      "key": "journal.memoir-work-run.i-worked-in-work-for-span",
+      "move": "memoir-work-run",
       "kind": "spoken",
-      "text": "The last of them was {employer}.",
+      "text": "I worked in {work} for {span}",
       "uses": [
         {
-          "move": "memoir-work-end",
+          "move": "memoir-work-run",
           "subject": "memoir",
-          "role": "workEnd",
-          "choice": "the-last-of-them-was-employer",
+          "role": "workRun",
+          "choice": "i-worked-in-work-for-span",
           "journal": [
             {
               "kindPrefix": "memoir:",
-              "field": "workEnd"
+              "field": "workRun"
             }
           ]
         }
       ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "core",
+        "required": true
+      },
       "origin": "authored",
       "author": "Words session (journal composer, words composer unit 6)",
       "date": "2026-11-12",
@@ -9333,24 +9285,29 @@
       }
     },
     {
-      "key": "journal.memoir-work-end.my-last-job-of-those-was-at-employer",
-      "move": "memoir-work-end",
+      "key": "journal.memoir-work-run.for-span-i-worked-around-place",
+      "move": "memoir-work-run",
       "kind": "spoken",
-      "text": "My last job of those was at {employer}.",
+      "text": "For {span}, I worked around {place}",
       "uses": [
         {
-          "move": "memoir-work-end",
+          "move": "memoir-work-run",
           "subject": "memoir",
-          "role": "workEnd",
-          "choice": "my-last-job-of-those-was-at-employer",
+          "role": "workRun",
+          "choice": "for-span-i-worked-around-place",
           "journal": [
             {
               "kindPrefix": "memoir:",
-              "field": "workEnd"
+              "field": "workRun"
             }
           ]
         }
       ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "core",
+        "required": true
+      },
       "origin": "authored",
       "author": "Words session (journal composer, words composer unit 6)",
       "date": "2026-11-12",
@@ -9359,16 +9316,16 @@
       }
     },
     {
-      "key": "journal.memoir-work-lost.i-was-let-go-times-along-the-way",
+      "key": "journal.memoir-work-lost.was-let-go-times",
       "move": "memoir-work-lost",
       "kind": "spoken",
-      "text": "I was let go {times} along the way.",
+      "text": "was let go {times}",
       "uses": [
         {
           "move": "memoir-work-lost",
           "subject": "memoir",
           "role": "workLost",
-          "choice": "i-was-let-go-times-along-the-way",
+          "choice": "was-let-go-times",
           "journal": [
             {
               "kindPrefix": "memoir:",
@@ -9377,6 +9334,11 @@
           ]
         }
       ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "turn",
+        "required": false
+      },
       "origin": "authored",
       "author": "Words session (journal composer, words composer unit 6)",
       "date": "2026-11-12",
@@ -9385,16 +9347,16 @@
       }
     },
     {
-      "key": "journal.memoir-work-lost.i-lost-a-job-times-in-those-years",
+      "key": "journal.memoir-work-lost.lost-a-job-times-along-the-way",
       "move": "memoir-work-lost",
       "kind": "spoken",
-      "text": "I lost a job {times} in those years.",
+      "text": "lost a job {times} along the way",
       "uses": [
         {
           "move": "memoir-work-lost",
           "subject": "memoir",
           "role": "workLost",
-          "choice": "i-lost-a-job-times-in-those-years",
+          "choice": "lost-a-job-times-along-the-way",
           "journal": [
             {
               "kindPrefix": "memoir:",
@@ -9403,6 +9365,104 @@
           ]
         }
       ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "turn",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-end.ended-up-at-employer",
+      "move": "memoir-work-end",
+      "kind": "spoken",
+      "text": "ended up at {employer}",
+      "uses": [
+        {
+          "move": "memoir-work-end",
+          "subject": "memoir",
+          "role": "workEnd",
+          "choice": "ended-up-at-employer",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workEnd"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "close",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-end.finished-at-employer",
+      "move": "memoir-work-end",
+      "kind": "spoken",
+      "text": "finished at {employer}",
+      "uses": [
+        {
+          "move": "memoir-work-end",
+          "subject": "memoir",
+          "role": "workEnd",
+          "choice": "finished-at-employer",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workEnd"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "close",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-end.landed-at-employer",
+      "move": "memoir-work-end",
+      "kind": "spoken",
+      "text": "landed at {employer}",
+      "uses": [
+        {
+          "move": "memoir-work-end",
+          "subject": "memoir",
+          "role": "workEnd",
+          "choice": "landed-at-employer",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workEnd"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "close",
+        "required": false
+      },
       "origin": "authored",
       "author": "Words session (journal composer, words composer unit 6)",
       "date": "2026-11-12",

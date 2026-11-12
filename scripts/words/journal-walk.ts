@@ -44,7 +44,7 @@ const drawn = drawPlace(seed, "journal-walk");
 const place =
   realLocalities().find((row) => row.key === drawn.key)?.displayName ??
   drawn.name;
-const [year, month, day] = gameStartDate().split("-").map(Number);
+const [year, month] = gameStartDate().split("-").map(Number);
 const person = {
   givenName: "Jordan",
   familyName: "Avery",

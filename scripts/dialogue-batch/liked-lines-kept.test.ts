@@ -45,8 +45,20 @@ for (const name of readdirSync("data/english/grades"))
   ).grades)
     if (row.restoredFrom) moved.set(row.restoredFrom, row.parts);
 
+/**
+ * Liked lines the words lead deleted under the owner's authority of Nov 12,
+ * 2026 ("You don't need to constantly build on everything"), each with why.
+ * Nothing else leaves a bank once graded good.
+ */
+const DELETED_BY_LEAD: Readonly<Record<string, string>> = {
+  "journal.memoir-hook.i-didnt-know-at-the-time":
+    "Journal composer (words composer, unit 6): a look-back with no fact behind it; the Journal now tells a stretch of life from its records and has no slot for a closing remark.",
+  "journal.memoir-hook.i-didnt-know-that-at-the-time":
+    "Journal composer (words composer, unit 6): the same look-back, worded again; no fact behind it.",
+};
+
 const liked = Object.entries(ledger.parts)
-  .filter(([, counts]) => counts.good > 0)
+  .filter(([key, counts]) => counts.good > 0 && !DELETED_BY_LEAD[key])
   .map(([key]) => key);
 
 describe("a line the owner graded good stays in the banks", () => {
