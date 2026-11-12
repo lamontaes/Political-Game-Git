@@ -397,7 +397,7 @@ export function composeGroundedLine(
       (line, text) =>
         line === ""
           ? sentenceStart(text)
-          : `${line} ${/[.!?]["”’)]?$/.test(line) ? sentenceStart(text) : text}`,
+          : `${line} ${/[.!?]["”’)]?$/.test(line) ? sentenceStart(text) : clauseStart(text)}`,
       "",
     );
   tagEngineText(composed, { bank: bank.key });
@@ -408,6 +408,40 @@ export function composeGroundedLine(
     parts,
     sourceRecordIds: [...sourceRecordIds],
   };
+}
+
+/**
+ * The words that open a sentence with a capital only because they open it:
+ * after a lead-in joined by a comma they are said in lower case ("Because I
+ * believe ..., a bill for ... gets a veto from me"). A name, "I" and
+ * "Congress" keep their capital.
+ */
+const SENTENCE_WORDS = new Set([
+  "A",
+  "An",
+  "Any",
+  "The",
+  "There",
+  "That",
+  "This",
+  "It",
+  "It's",
+  "We",
+  "We'll",
+  "Let's",
+  "If",
+  "Should",
+  "Get",
+  "Send",
+  "So",
+]);
+
+/** A joined clause's first word in the case a clause after a comma takes. */
+function clauseStart(text: string): string {
+  const first = /^[^\s,]+/.exec(text)?.[0] ?? "";
+  return SENTENCE_WORDS.has(first)
+    ? first.charAt(0).toLowerCase() + text.slice(1)
+    : text;
 }
 
 /**

@@ -1,6 +1,6 @@
 {
   "version": "speech-outlines-v1",
-  "about": "One outline row per kind of speech, read by the one planner every speech goes through (src/director/speech-outline.ts; words composer, unit 3, docs/design/words-composer.md). A row says the sections in order, which are required, how many points and asks the theme carries, whether the asks are numbered, and whether the speech may tell the past year as the speaker's own record. Sections: `salutation` (the people acknowledged, one sentence of its own), `occasion` (why we are here; `oath` in an inaugural), `creed` (what the speaker believes, and unity with those who voted otherwise), `history` (the day in the long story), `theme` (the theme's point, one paragraph in order: its context from the world's records, what that has meant for people, the year's claim where the speaker governed it, the speaker's stand, then the asks, each said once to the level that can act), `people` (the people met), `states` (the turn to the states, with no federal ask), `call` (what the speaker asks of the people), `hope`, `families`, `close`. A section in `asides` is said only when the speaker's traits pull for it (opening-address.json `asides`). The rows hold no sentence: the words are the opening-speech bank's. ESTIMATED from the pages read in docs/research/speech-structure-2026-11-12.md: real inaugurals give no numbered ask list and no last-year record (Bush 2001, Biden 2021); a State of the Union moves each point context, stand, ask and numbers its asks (Biden 2022); a State of the State and a State of the City do the same at their level (Polis 2024, Ginther 2024); speech courses keep one theme with about three points.",
+  "about": "One outline row per kind of speech, read by the one planner every speech goes through (src/director/speech-outline.ts; words composer, unit 3, docs/design/words-composer.md). A row says the sections in order, which are required, how many points and asks the theme carries, whether the asks are numbered, and whether the speech may tell the past year as the speaker's own record. Sections: `salutation` (the people acknowledged, one sentence of its own), `occasion` (why we are here; `oath` in an inaugural), `creed` (what the speaker believes, and unity with those who voted otherwise), `history` (the day in the long story), `theme` (the theme's point, one paragraph in order: its context from the world's records, what that has meant for people, the year's claim where the speaker governed it, the speaker's stand, then the ask, plainly for or against, to the level that can act; a theme makes `points` of them at most and `leastPoints` at least, or the speech is not given), `people` (the people met), `states` (the turn to the states, with no federal ask), `call` (what the speaker asks of the people), `hope`, `families`, `close`. A section in `asides` is said only when the speaker's traits pull for it (opening-address.json `asides`). The rows hold no sentence: the words are the opening-speech bank's. ESTIMATED from the pages read in docs/research/speech-structure-2026-11-12.md: real inaugurals give no numbered ask list and no last-year record (Bush 2001, Biden 2021); a State of the Union moves each point context, stand, ask and numbers its asks (Biden 2022); a State of the State and a State of the City do the same at their level (Polis 2024, Ginther 2024); speech courses keep one theme with about three points.",
   "tag": "ESTIMATED",
   "source": "docs/research/speech-structure-2026-11-12.md",
   "kinds": {
@@ -14,7 +14,6 @@
         "creed",
         "history",
         "theme",
-        "asks",
         "people",
         "states",
         "call",
@@ -24,7 +23,7 @@
       ],
       "required": ["salutation", "theme", "close"],
       "asides": ["history", "people", "call", "hope"],
-      "points": 1,
+      "points": 3,
       "asks": 2,
       "numberedAsks": false,
       "ownRecord": false,
@@ -32,7 +31,8 @@
         "value": 18,
         "spread": "12 to 26",
         "note": "Real inaugurals run about 1,400 to 2,400 words; the game's paragraph-per-Continue address keeps the shape at a third of that."
-      }
+      },
+      "leastPoints": 2
     },
     "state-of-the-union": {
       "bank": "state-of-the-union",
@@ -42,7 +42,6 @@
         "salutation",
         "occasion",
         "theme",
-        "asks",
         "people",
         "states",
         "call",
@@ -51,7 +50,7 @@
       ],
       "required": ["salutation", "theme", "close"],
       "asides": ["people", "call", "hope"],
-      "points": 1,
+      "points": 3,
       "asks": 3,
       "numberedAsks": true,
       "ownRecord": true,
@@ -59,16 +58,17 @@
         "value": 20,
         "spread": "14 to 30",
         "note": "A State of the Union runs 5,000 to 7,000 words; the game keeps its order at a small share of that."
-      }
+      },
+      "leastPoints": 2
     },
     "state-of-the-state": {
       "bank": "state-of-the-state",
       "register": "state-of-the-state",
       "level": "state",
-      "sections": ["salutation", "occasion", "theme", "asks", "hope", "close"],
+      "sections": ["salutation", "occasion", "theme", "hope", "close"],
       "required": ["salutation", "close"],
       "asides": [],
-      "points": 1,
+      "points": 3,
       "asks": 2,
       "numberedAsks": false,
       "ownRecord": true,
@@ -76,16 +76,17 @@
         "value": 12,
         "spread": "8 to 18",
         "note": "Shorter than the President's: a governor's address is about a third as long as a State of the Union (Polis 2024)."
-      }
+      },
+      "leastPoints": 2
     },
     "town-address": {
       "bank": "town-address",
       "register": "town-address",
       "level": "city",
-      "sections": ["salutation", "occasion", "theme", "asks", "hope", "close"],
+      "sections": ["salutation", "occasion", "theme", "hope", "close"],
       "required": ["salutation", "close"],
       "asides": [],
-      "points": 1,
+      "points": 3,
       "asks": 2,
       "numberedAsks": false,
       "ownRecord": true,
@@ -93,16 +94,17 @@
         "value": 10,
         "spread": "6 to 16",
         "note": "A State of the City gives three or four points (Ginther 2024)."
-      }
+      },
+      "leastPoints": 2
     },
     "campaign": {
       "bank": null,
       "register": "campaign",
       "level": null,
-      "sections": ["salutation", "theme", "asks", "close"],
+      "sections": ["salutation", "theme", "close"],
       "required": ["salutation", "close"],
       "asides": [],
-      "points": 1,
+      "points": 3,
       "asks": 1,
       "numberedAsks": false,
       "ownRecord": true,
@@ -110,16 +112,17 @@
         "value": 6,
         "spread": "4 to 10",
         "note": "A stump speech is short and repeated at every stop (Wikipedia, Stump speech). Its words are the player's built speech (src/director/speech-builder.ts); see SG-WORDS-speech-outline-other-kinds."
-      }
+      },
+      "leastPoints": 2
     },
     "floor": {
       "bank": null,
       "register": "floor",
       "level": null,
-      "sections": ["salutation", "theme", "asks", "close"],
+      "sections": ["salutation", "theme", "close"],
       "required": ["salutation", "close"],
       "asides": [],
-      "points": 1,
+      "points": 3,
       "asks": 1,
       "numberedAsks": false,
       "ownRecord": true,
@@ -127,7 +130,8 @@
         "value": 4,
         "spread": "2 to 6",
         "note": "A House one-minute addresses the chair, makes one point and yields (CRS RL30135)."
-      }
+      },
+      "leastPoints": 2
     },
     "victory": {
       "bank": null,
@@ -144,7 +148,8 @@
         "value": 5,
         "spread": "3 to 8",
         "note": "Thanks, what the win is for, unity with those who voted otherwise, close."
-      }
+      },
+      "leastPoints": 1
     },
     "concession": {
       "bank": null,
@@ -161,7 +166,8 @@
         "value": 4,
         "spread": "2 to 7",
         "note": "Defeat and congratulations, thanks, a call to unite, the cause carried on (Wikipedia, Concession (politics))."
-      }
+      },
+      "leastPoints": 1
     },
     "swearing-in": {
       "bank": null,
@@ -178,7 +184,8 @@
         "value": 5,
         "spread": "3 to 8",
         "note": "An inaugural at small scale: thanks, the oath's meaning, one charge, close."
-      }
+      },
+      "leastPoints": 1
     }
   },
   "theme": {
@@ -231,5 +238,30 @@
     "education": ["schools"],
     "healthcare": ["health"],
     "infrastructure": ["roads"]
+  },
+  "themes": {
+    "about": "The themes a speech can take, each a set of the bill catalog's subjects (speechwriting guides: one theme carried by about three points). A theme's points are the speaker's stands on its questions; a theme needs at least a row's `leastPoints` of them. Grouped so the federal level, whose questions are few in each subject, can still make two points under one theme.",
+    "economy": ["taxes-finance", "labor", "business", "foreign-trade"],
+    "government": ["government", "technology"],
+    "justice": ["justice"],
+    "families": [
+      "healthcare",
+      "education",
+      "housing",
+      "rights",
+      "social-insurance"
+    ],
+    "land": ["energy-environment", "infrastructure", "agriculture"],
+    "world": ["immigration", "defense", "foreign-affairs"]
+  },
+  "subjectOfQuestion": {
+    "about": "Questions the bill catalog gives no subject, placed under the subject a speech treats them as part of.",
+    "us-federal-positions:tax.raise-top-income-tax-rate": "taxes-finance",
+    "us-federal-positions:monetary-financial.cap-consumer-loan-interest": "business",
+    "us-federal-positions:defense.grow-defense-spending": "defense",
+    "us-federal-positions:foreign-affairs.increase-foreign-aid": "foreign-affairs",
+    "us-federal-positions:social-insurance.raise-retirement-age": "social-insurance",
+    "us-federal-positions:transport-water.expand-passenger-rail": "infrastructure",
+    "us-federal-positions:agriculture.cut-farm-subsidies": "agriculture"
   }
 }

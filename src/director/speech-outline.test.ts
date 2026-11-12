@@ -52,6 +52,11 @@ interface Speech {
   readonly asks: readonly string[];
   /** The state whose speech it is; null for the President's, which names none. */
   readonly ownState: string | null;
+  readonly sentences: readonly {
+    readonly text: string;
+    readonly facts: readonly string[];
+    readonly stand?: { readonly about: string };
+  }[];
 }
 
 const stateNames = placeStateKeys().map((key) => ({
@@ -84,6 +89,7 @@ describe("every speech through the one outline planner", () => {
             theme: opening!.theme,
             asks: opening!.asks,
             ownState: null,
+            sentences: opening!.address.sentences,
           },
           ...(["state", "town"] as const).flatMap((level): Speech[] => {
             const local = composeLocalAddress(core, level);
@@ -95,6 +101,7 @@ describe("every speech through the one outline planner", () => {
                     theme: local.theme,
                     asks: local.asks,
                     ownState: own,
+                    sentences: local.sentences,
                   },
                 ]
               : [];
@@ -127,6 +134,25 @@ describe("every speech through the one outline planner", () => {
             if (questionSubject(ask) !== speech.theme)
               failures.push(
                 `${label}: ask ${ask} is outside the theme ${speech.theme}`,
+              );
+          // At least two points (the owner, on the rally: "a four-line rally
+          // is not a speech"), and each opens on how its question stands
+          // today before its ask: never a bare ask.
+          const points = new Map<string, (typeof speech.sentences)[number][]>();
+          for (const sentence of speech.sentences)
+            if (sentence.stand)
+              points.set(sentence.stand.about, [
+                ...(points.get(sentence.stand.about) ?? []),
+                sentence,
+              ]);
+          if (points.size < 2)
+            failures.push(
+              `${label}: ${points.size} point(s); a speech makes at least two`,
+            );
+          for (const [about, said] of points)
+            if (!said[0]!.facts.includes("today"))
+              failures.push(
+                `${label}: the point on ${about} opens without how it stands today: "${said[0]!.text}"`,
               );
           // Each ask once.
           if (new Set(speech.asks).size !== speech.asks.length)

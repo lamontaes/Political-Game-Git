@@ -42,13 +42,14 @@
     "say-environment": "environment in the bank's subject words, when the year holds a claim on it",
     "context-years": "how many whole years a context sentence covers: the macro engine's months, or the years since the speaker took office for an area of the term read",
     "context-amount": "a measure's average over the context's years, to one decimal, from the macro engine's months",
-    "context-law-years": "how many whole years the law in force on an ask has stood, from the laws engine's row",
     "vice-president-addressed": "the Vice President spoken to, said with title and name every time",
     "vice-president-object": "the Vice President where the sentence needs the object case (with her)",
     "vice-president-possessive": "the Vice President where the sentence needs the possessive (her counsel)",
     "side": "the question as the speaker's side says it (question-names.json `for` or `against`)",
     "speaker-object": "the Speaker where the sentence needs the object case",
-    "speaker-possessive": "the Speaker where the sentence needs the possessive"
+    "speaker-possessive": "the Speaker where the sentence needs the possessive",
+    "today": "how the policy question stands today, by the law in force (question-names.json `today`)",
+    "first-side": "the speech's first point as the speaker's side says it (question-names `for` or `against`), for the close"
   },
   "maxWords": 40,
   "mining": {
@@ -4605,94 +4606,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.close.polished-sos-thank-you-it-is-an-honor-to-work-for-you",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Thank you. It is an honor to work for you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close"
-        },
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.close.plain-sos-thank-you-its-an-honor-to-work-for-you",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Thank you. It's an honor to work for you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close"
-        },
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.close.polished-sos-that-is-where-this-state-stands-and-what-i-intend-thank-you",
-      "move": "close",
-      "kind": "spoken",
-      "text": "That is where this state stands, and what I intend. Thank you for listening.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.close.plain-sos-thats-where-this-state-stands-and-what-i-intend-thank-you-for",
-      "move": "close",
-      "kind": "spoken",
-      "text": "That's where this state stands and what I intend. Thank you for listening.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.story-says.polished-sos-fewer-of-the-people-of-this-state-have-work-than-when-this",
       "move": "story-says",
       "kind": "spoken",
@@ -5114,7 +5027,7 @@
       "key": "opening-speech.ask.polished-sos-there-is-one-thing-i-will-not-move-on-i-will-oppose",
       "move": "ask",
       "kind": "spoken",
-      "text": "There is one thing I will not move on: I will oppose any bill to {to}.",
+      "text": "I will oppose any bill to {to}.",
       "uses": [
         {
           "move": "ask",
@@ -5141,7 +5054,7 @@
       "key": "opening-speech.ask.plain-sos-theres-one-thing-i-wont-move-on-ill-oppose-any-bill-to",
       "move": "ask",
       "kind": "spoken",
-      "text": "There's one thing I won't move on: I'll oppose any bill to {to}.",
+      "text": "I'll oppose any bill to {to}.",
       "uses": [
         {
           "move": "ask",
@@ -5728,44 +5641,6 @@
           "subject": "town-address",
           "role": "story-turn",
           "choice": "story-turn"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.close.polished-twn-that-is-where-this-town-stands-and-what-i-intend-thank-you",
-      "move": "close",
-      "kind": "spoken",
-      "text": "That is where we stand, and what I intend. Thank you for listening.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.close.plain-twn-thats-where-this-town-stands-and-what-i-intend-thank-you-for",
-      "move": "close",
-      "kind": "spoken",
-      "text": "That's where we stand and what I intend. Thank you for listening.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close"
         }
       ],
       "voice": "plain",
@@ -40592,338 +40467,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.close.polished-ina-sta-all-opener-in-closing",
-      "move": "close",
-      "kind": "spoken",
-      "text": "In closing,",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close"
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-sta-all-opener-finally",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Finally,",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close"
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-opener-to-wrap-up",
-      "move": "close",
-      "kind": "spoken",
-      "text": "To wrap up,",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close"
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-sta-all-core-from-home-state-to-every-corner-of-this-country",
-      "move": "close",
-      "kind": "spoken",
-      "text": "from {home-state} to every corner of this country, I thank you, and may God bless you all.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-sta-all-core-i-thank-the-people-of-home-state-who-set",
-      "move": "close",
-      "kind": "spoken",
-      "text": "I thank the people of {home-state}, who set me on this road, and every American I now serve.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-sta-all-core-with-vice-president-vice-president-beside-me-and-the",
-      "move": "close",
-      "kind": "spoken",
-      "text": "with {vice-president-object} beside me and the work on {hardest} before us, I thank you for your trust.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["vice-president", "hardest"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["vice-president", "hardest"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-sta-all-core-may-we-build-on-best-and-meet-hardest-together",
-      "move": "close",
-      "kind": "spoken",
-      "text": "may we build on {best} and meet {hardest} together, and may God bless this country and all who call it home.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["best", "hardest"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["best", "hardest"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-core-thanks-to-everyone-back-home-in-home-state-and",
-      "move": "close",
-      "kind": "spoken",
-      "text": "thanks to everyone back home in {home-state}, and thanks to all of you; God bless.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-core-i-owe-home-state-more-than-i-can-say",
-      "move": "close",
-      "kind": "spoken",
-      "text": "I owe {home-state} more than I can say, and I owe all of you my thanks.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-core-let-s-get-to-work-on-hardest-together-and",
-      "move": "close",
-      "kind": "spoken",
-      "text": "let's get to work on {hardest} together, and thank you, every one of you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-core-vice-president-and-i-are-ready-to-get-to",
-      "move": "close",
-      "kind": "spoken",
-      "text": "{vice-president} and I are ready to get to work, so thank you, and God bless.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["vice-president"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["vice-president"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.ask.polished-ina-sta-all-opener-first",
       "move": "ask",
       "kind": "spoken",
@@ -42329,130 +41872,6 @@
       "voice": "plain",
       "piece": {
         "of": "opening-families",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-sta-all-core-the-work-on-hardest-starts-now-and-i-thank",
-      "move": "close",
-      "kind": "spoken",
-      "text": "the work on {hardest} starts now, and I thank you for your trust.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-sta-all-core-let-us-carry-best-forward-together-and-may-god",
-      "move": "close",
-      "kind": "spoken",
-      "text": "let us carry {best} forward together, and may God bless you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["best"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["best"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-core-let-s-keep-best-going-and-thank-you-all",
-      "move": "close",
-      "kind": "spoken",
-      "text": "let's keep {best} going, and thank you all.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["best"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["best"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-core-thank-you-all-and-a-special-thanks-to-home",
-      "move": "close",
-      "kind": "spoken",
-      "text": "thank you all, and a special thanks to {home-state}; God bless.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
         "part": "core",
         "required": true
       },
@@ -57299,68 +56718,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.close.polished-ina-all-core-thank-you-for-listening-i-ask-for-your-help",
-      "move": "close",
-      "kind": "spoken",
-      "text": "thank you for listening; I ask for your help on {hardest}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-all-core-may-god-bless-home-state-every-other-state-and",
-      "move": "close",
-      "kind": "spoken",
-      "text": "may God bless {home-state}, every other state, and all of you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-ina-hopeful-core-i-am-glad-speaker-speaker-is-here-for-this",
       "move": "salutation",
       "kind": "spoken",
@@ -64640,285 +63997,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.close.polished-ina-sta-all-core-i-thank-vice-president-vice-president-who-will-work",
-      "move": "close",
-      "kind": "spoken",
-      "text": "I thank {vice-president-object}, who will work with me, and all of you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["vice-president"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["vice-president"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-sta-all-core-i-leave-you-with-my-thanks-and-my-resolve",
-      "move": "close",
-      "kind": "spoken",
-      "text": "I leave you with my thanks and my resolve on {hardest}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-sta-all-core-may-the-good-news-on-best-be-the-first",
-      "move": "close",
-      "kind": "spoken",
-      "text": "may the good news on {best} be the first of many, and God bless you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["best"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["best"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-sta-all-core-i-thank-home-state-and-all-of-you-and",
-      "move": "close",
-      "kind": "spoken",
-      "text": "I thank {home-state} and all of you, and God bless America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-core-thank-you-for-trusting-me-on-hardest-i-won",
-      "move": "close",
-      "kind": "spoken",
-      "text": "thank you for trusting me on {hardest}; I won't let you down.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-core-thank-you-and-to-my-neighbors-in-home-state",
-      "move": "close",
-      "kind": "spoken",
-      "text": "thank you, and to my neighbors in {home-state}, I'll make you proud.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-core-god-bless-you-all-and-let-s-go-fix",
-      "move": "close",
-      "kind": "spoken",
-      "text": "God bless you all, and let's go fix {hardest}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-core-thanks-for-having-me-and-let-s-keep-best",
-      "move": "close",
-      "kind": "spoken",
-      "text": "thanks for having me, and let's keep {best} rolling.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["best"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["best"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-core-vice-president-will-work-with-me-and-i-thank",
-      "move": "close",
-      "kind": "spoken",
-      "text": "{vice-president} will work with me, and I thank every one of you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["vice-president"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["vice-president"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.story-says.polished-ina-sta-all-unemployment-core-for-all-that-the-jobless-rate-edged-up-change",
       "move": "story-says",
       "kind": "spoken",
@@ -70826,130 +69904,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.close.plain-ina-sta-all-core-thanks-for-listening-and-i-ll-keep-working-on",
-      "move": "close",
-      "kind": "spoken",
-      "text": "thanks for listening, and I'll keep working on {hardest} until it's better.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-core-we-ve-got-good-news-on-best-so-let",
-      "move": "close",
-      "kind": "spoken",
-      "text": "we've got good news on {best}, so let's build on it, and thank you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["best"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["best"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-core-god-bless-you-and-hello-to-everybody-watching-back",
-      "move": "close",
-      "kind": "spoken",
-      "text": "God bless you, and hello to everybody watching back in {home-state}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.plain-ina-sta-all-core-thank-you-vice-president-and-thank-you-all",
-      "move": "close",
-      "kind": "spoken",
-      "text": "thank you, {vice-president}, and thank you all.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["vice-president"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["vice-president"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.story-says.polished-ina-sta-all-inflation-core-prices-climbed-change-inflation-in-the-months-behind-us",
       "move": "story-says",
       "kind": "spoken",
@@ -72662,37 +71616,6 @@
       "move": "ask",
       "kind": "spoken",
       "text": "keep any bill on {about} off my desk, because I won't sign it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["law-not-in-force", "stance-against", "about"]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["law-not-in-force", "stance-against", "about"]
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.ask.plain-ina-sta-all-core-about-isn-t-the-answer-and-i-won-t",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "{about} isn't the answer, and I won't let it become law.",
       "uses": [
         {
           "move": "ask",
@@ -78291,130 +77214,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.close.polished-ina-sta-all-core-thank-you-for-your-trust-i-will-work-to",
-      "move": "close",
-      "kind": "spoken",
-      "text": "thank you for your trust; I will work to earn it on {hardest}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-sta-all-core-thank-you-and-may-we-meet-again-with-better",
-      "move": "close",
-      "kind": "spoken",
-      "text": "thank you, and may we meet again with better news on {hardest}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["hardest"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-sta-all-core-i-carry-the-hopes-of-home-state-and-of",
-      "move": "close",
-      "kind": "spoken",
-      "text": "I carry the hopes of {home-state} and of every state into this work, and I thank you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["home-state"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-sta-all-core-the-work-on-best-and-on-all-that-remains",
-      "move": "close",
-      "kind": "spoken",
-      "text": "the work on {best} and on all that remains belongs to every one of us, and I thank you for sharing it.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["best"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["best"]
-        }
-      ],
-      "voice": "polished",
-      "piece": {
-        "of": "opening-close",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.pledge.plain-ina-sta-all-unemployment-core-i-ll-fight-for-everybody-looking-for-work-in",
       "move": "pledge",
       "kind": "spoken",
@@ -81567,194 +80366,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.context.polished-law-for-years-the-law-has-said-no-to",
-      "move": "context",
-      "kind": "spoken",
-      "text": "For {context-law-years} years, the law has said no to {about}, and I believe that has gone on long enough.",
-      "uses": [
-        {
-          "move": "context",
-          "subject": "inaugural",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-law-years",
-            "about",
-            "stance-for",
-            "law-not-in-force"
-          ]
-        },
-        {
-          "move": "context",
-          "subject": "state-of-the-union",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-law-years",
-            "about",
-            "stance-for",
-            "law-not-in-force"
-          ]
-        },
-        {
-          "move": "context",
-          "subject": "state-of-the-state",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-law-years",
-            "about",
-            "stance-for",
-            "law-not-in-force"
-          ]
-        },
-        {
-          "move": "context",
-          "subject": "town-address",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-law-years",
-            "about",
-            "stance-for",
-            "law-not-in-force"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "topic": "law",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.context.plain-law-for-years-the-law-s-said-no-to",
-      "move": "context",
-      "kind": "spoken",
-      "text": "For {context-law-years} years, the law's said no to {about}, and I think that's long enough.",
-      "uses": [
-        {
-          "move": "context",
-          "subject": "inaugural",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-law-years",
-            "about",
-            "stance-for",
-            "law-not-in-force"
-          ]
-        },
-        {
-          "move": "context",
-          "subject": "state-of-the-union",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-law-years",
-            "about",
-            "stance-for",
-            "law-not-in-force"
-          ]
-        },
-        {
-          "move": "context",
-          "subject": "state-of-the-state",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-law-years",
-            "about",
-            "stance-for",
-            "law-not-in-force"
-          ]
-        },
-        {
-          "move": "context",
-          "subject": "town-address",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-law-years",
-            "about",
-            "stance-for",
-            "law-not-in-force"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "topic": "law",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.polished-for-inaugural-on-i-am-for-it-and-i-ask",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "On {about}, I am for it, and I ask Congress to {side} and send me the bill to sign.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-for-inaugural-on-i-m-for-it-congress-and-i",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "On {about}, I'm for it: Congress, {side}, and I'll sign it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.ask.polished-against-inaugural-i-am-against-and-if-congress-passes-it",
       "move": "ask",
       "kind": "spoken",
@@ -81819,56 +80430,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.ask.polished-for-state-of-the-state-on-i-am-for-it-and-i-ask",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "On {about}, I am for it, and I ask the legislature to {side} and send me the bill.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-for-state-of-the-state-on-i-m-for-it-send-me-a",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "On {about}, I'm for it: send me a bill to {side}, and I'll sign it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.ask.polished-against-state-of-the-state-i-am-against-and-if-the-legislature-passes",
       "move": "ask",
       "kind": "spoken",
@@ -81905,56 +80466,6 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["stance-against", "law-not-in-force", "about"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.polished-for-town-address-on-i-am-for-it-and-i-ask",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "On {about}, I am for it, and I ask the council to {side} this year.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-for-town-address-on-i-m-for-it-let-s-this",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "On {about}, I'm for it: let's {side} this year.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
         }
       ],
       "voice": "plain",
@@ -82798,6 +81309,1807 @@
       "voice": "plain",
       "bearing": "calm",
       "topic": "environment",
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-for-inaugural-i-am-for-and-i-ask-congress-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I am for {about}, and I ask Congress to {side} and send me the bill to sign.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-for-inaugural-i-m-for-so-send-me-a-bill",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm for {about}, so send me a bill to {side}, and I'll sign it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-for-state-of-the-state-i-am-for-and-i-ask-the-legislature",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I am for {about}, and I ask the legislature to {side} and send me the bill.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-for-state-of-the-state-i-m-for-so-send-me-a-bill",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm for {about}, so send me a bill to {side}, and I'll sign it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-for-town-address-i-am-for-and-i-ask-the-council",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I am for {about}, and I ask the council to {side} this year.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-for-town-address-i-m-for-so-let-s-this-year",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm for {about}, so let's {side} this year.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.both-inaugural--today",
+      "move": "today",
+      "kind": "spoken",
+      "text": "{today}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today"]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today"]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today"]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-an-economy-is-strong-only-theme-economy-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe an economy is strong only when the people who do the work can live on what they earn,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-left"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-ve-always-thought-a-paycheck-ought-theme-economy-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I've always thought a paycheck ought to cover a decent life,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-left"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-people-build-more-with-their-theme-economy-lean-right",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe people build more with their own money than government ever builds with it,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-ve-always-thought-folks-should-keep-theme-economy-lean-right",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I've always thought folks should keep more of what they earn,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-economy", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-government-belongs-to-everyone-it-theme-government-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe government belongs to everyone it serves, not to those who can pay for a hearing,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-think-government-ought-to-answer-to-theme-government-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I think government ought to answer to everybody, not just the folks with lawyers,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-government-should-be-honest-with-theme-government-lean-right",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe government should be honest with the people and small enough to answer for itself,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-think-government-works-best-when-it-theme-government-lean-right",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I think government works best when it's honest and stays in its lane,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-safety-and-fairness-go-together-theme-justice-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe safety and fairness go together, and the law earns trust only when it treats people alike,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-left"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-think-you-can-t-have-real-theme-justice-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I think you can't have real safety without fairness,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-left"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-the-first-duty-of-government-theme-justice-lean-right",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe the first duty of government is to keep people safe and to back those who do it,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-think-keeping-folks-safe-comes-first-theme-justice-lean-right",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I think keeping folks safe comes first,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-no-family-should-have-to-theme-families-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe no family should have to choose between a doctor, a classroom and the rent,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-left"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-think-every-family-deserves-a-fair-theme-families-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I think every family deserves a fair shot at a good school, a doctor and a roof,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-left"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-families-not-government-know-best-theme-families-lean-right",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe families, not government, know best what their children need,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-think-parents-ought-to-make-the-theme-families-lean-right",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I think parents ought to make the big calls for their own kids,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-we-hold-this-land-this-theme-land-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe we hold this land, this water and this air in trust for our children,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-left"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-think-we-owe-our-kids-clean-theme-land-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I think we owe our kids clean air, clean water and roads that work,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-left"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-the-people-who-work-the-theme-land-lean-right",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe the people who work the land care for it better than any regulator can,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-think-the-folks-who-work-the-theme-land-lean-right",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I think the folks who work the land know it best,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-land", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-this-country-is-strongest-when-theme-world-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe this country is strongest when it keeps faith with its friends and with its history as a nation of newcomers,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-left"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-think-we-re-stronger-when-we-theme-world-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I think we're stronger when we stand with our friends and welcome folks who come here to work,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-left"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-this-country-is-safest-when-theme-world-lean-right",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe this country is safest when it is strong, guards its borders and puts its own people first,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-think-a-strong-country-looks-after-theme-world-lean-right",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I think a strong country looks after its own first,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-world", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-inaugural-is-the-law-today-and-i-will-defend-stance-for-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} is the law today, and I will defend it against any bill that would undo it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-inaugural-is-the-law-now-and-i-ll-fight-stance-for-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} is the law now, and I'll fight anybody who tries to undo it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-inaugural-is-the-law-today-and-i-will-sign-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} is the law today, and I will sign its repeal the day Congress sends it to me.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-inaugural-is-the-law-right-now-and-i-ll-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} is the law right now, and I'll sign the repeal the day Congress sends it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-state-of-the-state-is-the-law-of-this-state-and-i-stance-for-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} is the law of this state, and I will veto any bill that would undo it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-state-of-the-state-is-the-law-here-and-i-ll-veto-stance-for-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} is the law here, and I'll veto any bill that tries to undo it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-state-of-the-state-is-the-law-of-this-state-and-i-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} is the law of this state, and I will sign its repeal when the legislature sends it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-state-of-the-state-is-the-law-here-and-i-ll-sign-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} is the law here, and I'll sign the repeal the day the legislature sends it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-town-address-is-how-this-town-does-things-and-i-stance-for-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} is how this town does things, and I will defend it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-town-address-is-how-we-do-things-here-and-i-stance-for-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} is how we do things here, and I'm going to keep it that way.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-town-address-is-how-this-town-does-things-today-and-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} is how this town does things today, and I will ask the council to end it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-town-address-is-how-we-do-things-here-now-and-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} is how we do things here now, and I'll ask the council to end it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-if-we-this-country-will-be-the-stronger-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we {first-side}, this country will be the stronger for it. Thank you, and God bless America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-side"]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-side"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-let-us-and-leave-our-children-a-better-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let us {first-side}, and leave our children a better country for it. Thank you, and God bless you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-side"]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-side"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-let-s-and-this-country-s-better-off-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let's {first-side}, and this country's better off for it. Thank you, and God bless.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-side"]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-side"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-we-and-folks-will-feel-it-for-years-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "We {first-side}, and folks will feel it for years. Thank you all.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-side"]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-side"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-state-of-the-state-if-we-this-state-will-be-the-stronger-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we {first-side}, this state will be the stronger for it. Thank you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-side"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-state-of-the-state-let-s-and-this-state-s-better-off-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let's {first-side}, and this state's better off for it. Thank you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-side"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-town-address-if-we-this-town-will-be-the-better-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we {first-side}, this town will be the better for it. Thank you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-side"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-town-address-let-s-and-this-town-s-better-off-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let's {first-side}, and this town's better off for it. Thank you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-side"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-C, speech outline)",
       "date": "2026-11-12"

@@ -17,14 +17,25 @@ const NAMES = data.names as Readonly<
       readonly to: string;
       readonly for?: string;
       readonly against?: string;
+      readonly repeal?: string;
+      readonly today?: { readonly without: string; readonly with: string };
     }
   >
 >;
 
-/** The question as one side says it: what a supporter wants done, or what an opponent will stop ("stop raising tariffs"). */
+/** How the question stands today, one plain sentence, by whether a law in force answers it yes. */
+export function questionToday(
+  question: string,
+  inForce: boolean,
+): string | null {
+  const row = NAMES[question]?.today;
+  return row ? (inForce ? row.with : row.without) : null;
+}
+
+/** The question as one side says it: what a supporter wants done, what an opponent will keep off the books, or what they will repeal. */
 export function questionSide(
   question: string,
-  side: "for" | "against",
+  side: "for" | "against" | "repeal",
 ): string | null {
   return NAMES[question]?.[side] ?? null;
 }
