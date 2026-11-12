@@ -235,6 +235,12 @@ export interface ResidentsRuntime {
   workingAgeEnds: Map<string, number[]>;
   /** The last day `passWorkingAge` has run through (a skipped month catches up from it). */
   workingAgePassedThrough: string;
+  /**
+   * Counted people in regional work: the workers their start added to their
+   * household (at most one, less what its share already covered), which their
+   * stop takes off again.
+   */
+  regionalGains: Map<string, number>;
 }
 
 interface ResidentMonth {
@@ -285,6 +291,7 @@ registerSnapshotPart("core2-residents", {
       retirementLevel: saved.retirementLevel ?? new Map(),
       workingAgeEnds: saved.workingAgeEnds ?? new Map(),
       workingAgePassedThrough: saved.workingAgePassedThrough ?? core.date,
+      regionalGains: saved.regionalGains ?? new Map(),
       store,
       households: new CountedHouseholdMap(store),
       householdOfPerson: new CountedPersonHouseholdMap(store),
@@ -791,6 +798,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     fillIns: 0,
     workingAgeEnds: new Map(),
     workingAgePassedThrough: core.date,
+    regionalGains: new Map(),
   };
   const owners = packOpening(core, rt, input);
   for (const row of input.flows) {
@@ -3060,6 +3068,7 @@ export function removeCountedPerson(
   const h = store.households[store.household[m]!]!;
   // Their share of the household's out-of-town workers dies with them.
   leaveUnplacedWork(rt, h, m, core.date, false);
+  rt.regionalGains.delete(personId);
   dropCountedJobs(rt, countedJobIdsOf(rt, h.jobs, new Set([personId])));
   const awards = h.incomeContracts.filter(
     (row) => row.recipientIncome?.personId === personId,
@@ -3816,6 +3825,7 @@ export function startRegionalWork(
       return a >= from && a < below;
     }).length;
     const gain = Math.min(1, Math.max(0, open - h.unplacedWorkers));
+    rt.regionalGains.set(personId, gain);
     if (gain > 0) {
       base.amountMinor += Math.round(
         (gain * rt.store.weightOf(h) * perWorker) / perYear,
@@ -3851,7 +3861,13 @@ export function stopRegionalWork(core: CoreState, personId: string): boolean {
   const m = rt?.store.countedMember(personId);
   if (!rt || m === undefined) return false;
   const h = rt.store.households[rt.store.household[m]!]!;
-  return shedUnplacedWorkers(rt, h, Math.min(1, h.unplacedWorkers), core.date);
+  // What their start added comes off again; one whose share already covered
+  // them added nothing and ends with nothing to take.
+  const gain = rt.regionalGains.get(personId) ?? 1;
+  rt.regionalGains.delete(personId);
+  const workers = Math.min(gain, h.unplacedWorkers);
+  if (!(workers > 0)) return true;
+  return shedUnplacedWorkers(rt, h, workers, core.date);
 }
 
 /**
