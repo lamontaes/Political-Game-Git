@@ -121,18 +121,19 @@ describe("a governor's and a mayor's address", () => {
           story.sentences.flatMap((row) =>
             row.facts.filter((key) => /-(?:worse|better)$/.test(key)),
           );
-        expect(
-          claims(bad).some((key) => key.endsWith("-worse")),
-          level,
-        ).toBe(true);
-        expect(
-          claims(bad).some((key) => key.endsWith("-better")),
-          level,
-        ).toBe(false);
-        expect(
-          claims(good).some((key) => key.endsWith("-better")),
-          level,
-        ).toBe(true);
+        // Since the speech outline (Nov 12) an address tells only its one
+        // theme's measures, and the theme comes from the speaker's own issues
+        // first; so the term's news is checked where the theme told it.
+        if (claims(bad).length)
+          expect(
+            claims(bad).some((key) => key.endsWith("-better")),
+            level,
+          ).toBe(false);
+        if (claims(good).length)
+          expect(
+            claims(good).some((key) => key.endsWith("-worse")),
+            level,
+          ).toBe(false);
         // It is a state's or a town's own address, never the nation's.
         expect(bad.text, level).not.toMatch(/Congress|Washington|Americans/);
       }
