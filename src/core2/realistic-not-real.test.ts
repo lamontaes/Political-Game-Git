@@ -39,7 +39,11 @@ import {
   publishedPrivateShareOf,
   worldPrivateTuitionAnnualUsd,
 } from "./opening-private-tuition";
-import { federalDebtOf } from "./budgets-treasury";
+import {
+  debtBalanceMinor,
+  debtBorrowedMinor,
+  federalDebtOf,
+} from "./budgets-treasury";
 import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
 import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import { publishedStateStake, stateStake } from "./budget-stakes";
@@ -771,7 +775,7 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       new Map(
         federalDebtOf(coreAPI(core)).map((r) => [
           r.id,
-          r.balanceMinor - r.borrowedMinor,
+          debtBalanceMinor(r) - debtBorrowedMinor(r),
         ]),
       );
     const da = debt(a),
