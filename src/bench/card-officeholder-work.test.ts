@@ -26,13 +26,10 @@ it(`an officeholder's card tells the office, not the seat's pay as a job, ${plac
     const work = personWorkOf(core, person.id);
     if (!work.offices.length) continue;
     const job = core.jobs.get(person.jobId)!;
-    // The seat's own job: its organization is the office's.
-    if (
-      !work.offices.some(
-        (office) => office.organizationId === job.organizationId,
-      )
-    )
-      continue;
+    // The seat's own pay: a job at a government itself (its treasury, or the
+    // federal government), which is no employer a card names.
+    const kind = core.organizations.get(job.organizationId)?.kind ?? "";
+    if (!/^government-(treasury|outside)$/.test(kind)) continue;
     const card = knownCard(core, playerId!, person.id);
     const here = `${where}: ${person.givenName} ${person.familyName}`;
     expect(work.job, here).toBeNull();
