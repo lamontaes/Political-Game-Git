@@ -5,9 +5,9 @@ area: docs
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: R1 (Fable A's builder)
 pr:
 after:
 blocked-on:
@@ -41,3 +41,5 @@ source: the lead (Fable A), Nov 12, 2026, on the CTO's line on #7365 (comment 68
 **Notes.**
 
 Added by the lead (Fable A) on Nov 12, 2026. Until it merges, a new item is written on the hour's notes branch, formatted and checked by hand (skill `pool-notes`).
+
+**Notes (Nov 12, R1).** Built on branch claude/pool-pool-add-formats-the-item-it-writes. `writeItem` in scripts/pool/index.ts is the one writer of an item file: it runs the repository's Prettier (resolved from the tool's own folder, given the item's path) on the text, then writes it. Every item write goes through it: add, claim, release, status, seen, next's claims and releases, the draft's pull request number, and the merged flip (done-on-merge calls the status command).
