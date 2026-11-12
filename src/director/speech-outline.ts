@@ -59,6 +59,7 @@ import {
   questionNumber,
   questionSide,
   questionTo,
+  questionLaw,
   questionToday,
   questionTodayWordings,
 } from "../english/question-names";
@@ -710,6 +711,9 @@ export function standFacts(
   return {
     about: fact(questionAbout(stand.question)!, ...asked),
     to: fact(questionTo(stand.question)!, ...asked),
+    ...(questionLaw(stand.question)
+      ? { "law-name": fact(questionLaw(stand.question)!, ...asked) }
+      : {}),
     ...(sideWords ? { side: fact(sideWords, ...asked) } : {}),
     [stand.stance > P.zero ? "stance-for" : "stance-against"]: fact(
       "yes",

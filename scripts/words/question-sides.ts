@@ -18,8 +18,8 @@
  * 3. `against`: say no to the question's noun phrase, while no law answers
  *    it yes ("say no to higher tariffs"; "keep ... off the books" fit few
  *    questions, the words lead, Nov 12); `repeal`, once one does, names the
- *    law, not the proposal ("repeal the law that brought in right-to-work
- *    rules"). ("stop raising tariffs" read as ceasing what was never begun.)
+ *    law in force as the thing itself (`law`: "repeal paid family leave",
+ *    "repeal the right-to-work rules"). ("stop raising tariffs" read as ceasing what was never begun.)
  * 4. `today`: how the question stands now, one plain sentence for each state
  *    of the law (`without` while no law answers it yes, `with` once one
  *    does), from scripts/words/question-today.tsv, written for every
@@ -74,12 +74,63 @@ for (const [question, names] of Object.entries(RENAMED)) {
   }
 }
 
+// 3b. The law in force, said as the thing itself ("paid family leave", "the
+// higher federal minimum wage", "the law ending cash bail"), which a repeal
+// names (the words lead, Nov 12: "a repeal of the law that brought in paid
+// family leave" is said-as trouble). "A"/"an" becomes "the"; a phrase that
+// opens on a doing word is "the law" doing it; a phrase that reads as a
+// proposal, not a law, is named below from its record.
+const LAW_NAMES: Record<string, string> = {
+  "Medicare negotiating drug prices":
+    "the law letting Medicare negotiate drug prices",
+  "more defense spending": "the increase in defense spending",
+  "more foreign aid": "the increase in foreign aid",
+  "more local government power": "the law giving towns more power",
+  "more passenger rail": "the law adding passenger rail",
+  "states sharing disaster costs": "the law making states share disaster costs",
+  "photo ID to vote": "the photo ID law",
+  "working with federal immigration enforcement":
+    "the agreement to work with federal immigration enforcement",
+  "apartments in single-family neighborhoods":
+    "the law allowing apartments in single-family neighborhoods",
+  "higher tariffs": "the higher tariffs",
+  "right-to-work rules": "the right-to-work rules",
+  "stand-your-ground rules": "the stand-your-ground rules",
+  "shorter mandatory minimum sentences": "the shorter mandatory minimums",
+  // Nouns that end in "-ing" but are no doing word.
+  "housing vouchers for every family that qualifies":
+    "housing vouchers for every family that qualifies",
+  "voting by mail for everyone": "voting by mail for everyone",
+  "asking about criminal records on state job applications":
+    "the rule against asking about criminal records on state job applications",
+  "a lawyer for tenants facing eviction":
+    "the right to a lawyer for tenants facing eviction",
+  "a permit to carry a concealed gun":
+    "the permit rule for carrying a concealed gun",
+  "a balanced operating budget": "the balanced budget rule",
+  "a minimum reserve balance": "the reserve requirement",
+};
+const lawOf = (about: string) =>
+  LAW_NAMES[about] ??
+  (/^an? /.test(about)
+    ? about.replace(/^an? /, "the ")
+    : /^[a-z]+ing\b/.test(about)
+      ? `the law ${about}`
+      : about);
+for (const row of Object.values(data.names)) {
+  const law = lawOf(row.about);
+  if ((row as { law?: string }).law !== law) {
+    (row as { law?: string }).law = law;
+    count("3b. a question's law in force is said as the thing itself");
+  }
+}
+
 // 2 and 3. Each side's spoken form.
 for (const row of Object.values(data.names)) {
   const sides = {
     for: row.to,
     against: `say no to ${row.about}`,
-    repeal: `repeal the law that brought in ${row.about}`,
+    repeal: `repeal ${(row as { law?: string }).law}`,
     keep: `keep ${row.about} on the books`,
   };
   if (

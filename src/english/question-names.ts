@@ -19,6 +19,7 @@ const NAMES = data.names as Readonly<
       readonly against?: string;
       readonly repeal?: string;
       readonly keep?: string;
+      readonly law?: string;
       readonly today?: {
         readonly without: Readonly<Record<"for" | "against", string>>;
         readonly with: Readonly<Record<"for" | "against", string>>;
@@ -102,6 +103,11 @@ export function questionSide(
 /** The question as a noun phrase: "the bill is about {a higher minimum wage}". */
 export function questionAbout(question: string): string | null {
   return NAMES[question]?.about ?? null;
+}
+
+/** The law in force on the question, as the thing itself: "repeal {paid family leave}", "{the higher federal minimum wage}". */
+export function questionLaw(question: string): string | null {
+  return NAMES[question]?.law ?? null;
 }
 
 /** The question as a verb phrase: "I want to {raise the minimum wage}". */

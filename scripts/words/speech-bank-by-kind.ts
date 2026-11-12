@@ -1268,13 +1268,13 @@ const LAWS: [string[], string, string, string][] = [
     FEDERAL,
     "polished",
     "against",
-    "I will sign a repeal of the law that brought in {about} the day Congress sends it to me.",
+    "I will sign a repeal of {law-name} the day Congress sends it to me.",
   ],
   [
     FEDERAL,
     "plain",
     "against",
-    "I'll sign a repeal of the law that brought in {about} the day Congress sends it.",
+    "I'll sign a repeal of {law-name} the day Congress sends it.",
   ],
   [
     ["state-of-the-state"],
@@ -1292,13 +1292,13 @@ const LAWS: [string[], string, string, string][] = [
     ["state-of-the-state"],
     "polished",
     "against",
-    "I will sign a repeal of the law that brought in {about} when the legislature sends it.",
+    "I will sign a repeal of {law-name} when the legislature sends it.",
   ],
   [
     ["state-of-the-state"],
     "plain",
     "against",
-    "I'll sign a repeal of the law that brought in {about} the day the legislature sends it.",
+    "I'll sign a repeal of {law-name} the day the legislature sends it.",
   ],
   [
     ["town-address"],

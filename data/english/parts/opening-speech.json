@@ -104243,146 +104243,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.ask.polished-inaugural-i-will-sign-a-repeal-of-the-law-stance-against-law-in-force-about",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I will sign a repeal of the law that brought in {about} the day Congress sends it to me.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "about",
-            "about-one"
-          ]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "about",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-inaugural-i-ll-sign-a-repeal-of-the-law-stance-against-law-in-force-about",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'll sign a repeal of the law that brought in {about} the day Congress sends it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "about"
-          ]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "about"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.polished-state-of-the-state-i-will-sign-a-repeal-of-the-law-stance-against-law-in-force-about",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I will sign a repeal of the law that brought in {about} when the legislature sends it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "about"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-state-of-the-state-i-ll-sign-a-repeal-of-the-law-stance-against-law-in-force-about",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'll sign a repeal of the law that brought in {about} the day the legislature sends it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "about"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.close.polished-inaugural-let-us-and-let-history-judge-us-by-first-side",
       "move": "close",
       "kind": "spoken",
@@ -111709,6 +111569,144 @@
       ],
       "voice": "polished",
       "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-inaugural-i-will-sign-a-repeal-of-the-day-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will sign a repeal of {law-name} the day Congress sends it to me.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-inaugural-i-ll-sign-a-repeal-of-the-day-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll sign a repeal of {law-name} the day Congress sends it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-state-of-the-state-i-will-sign-a-repeal-of-when-the-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will sign a repeal of {law-name} when the legislature sends it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-state-of-the-state-i-ll-sign-a-repeal-of-the-day-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll sign a repeal of {law-name} the day the legislature sends it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
       "date": "2026-11-12"
