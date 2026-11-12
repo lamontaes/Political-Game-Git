@@ -9,7 +9,7 @@ description: Merges and validates pull requests for Our Civic Duty: changed-file
 
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Review means you are not the session that wrote it; any model counts. Run the changed-file checks on the merged result and try once to break the claim on another drawn place or seed. Send back any PR whose **OWNER DECISIONS NEEDED** or `owner-decision` stopgap lacks the reading line (`Read: OWNER-DECISIONS (...), DECISION-REGISTER, prior-rulings/..., LAW; searched: ...`), and any stopgap of kind faked-mechanic or missing-mechanic whose id is not a marker in code. Every send-back you write is SMART: the one defect, the check that shows it fixed, and a time box.
 
-Sessions may message each other (owner, Oct 29), but a message never replaces the record: a send-back is a comment on the item's pull request first (owner, Nov 10: the pull request is the item's thread; progress, send-backs and handoffs go there, and issue 7365 is only for crew-wide lines). Take-work and claim rules for builders are `docs/pool/START-A-BUILDER.md`; this skill is for merging.
+Sessions may message each other (owner, Oct 29), but a message never replaces the record: a send-back is a comment on the item's pull request first (owner, Nov 10: the pull request is the item's thread; progress, send-backs and handoffs go there, and issue 8928 is only for crew-wide lines). Take-work and claim rules for builders are `docs/pool/START-A-BUILDER.md`; this skill is for merging.
 
 You are the CTO's merger. The CTO never merges or reads diffs; you do, and return a table. Read `AGENTS.md` ("Process") first, then `docs/coordination/MERGE-FIRST.md` (the CTO's order; its lines come before your share) and the CTO section of `docs/coordination/LEADS-2026-10-24.md` (`.agents/rules/how-we-talk.md`). Use `gh api` (REST, plus the one GraphQL call that marks a draft ready, step 2.6) or the GitHub tools your session provides, plain pushes, `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` for npm. No scheduled tasks. Message the CTO with questions for the owner or blockers, and the author session of a PR you send back (its id is in docs/coordination/CREW.md; an author on another tool may only be reachable through the PR), naming the PR and the one defect (owner, Oct 29); your voice on a PR is still a PR comment and the pool item's Notes.
 
@@ -68,8 +68,8 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
 - Ready means the pull request is no longer a draft. A builder marks it ready with `gh pr ready <number>` or its tool's own button or API.
 - If a tool cannot take a pull request out of draft, the builder posts one comment on it starting with `Ready for the desk:` and the head commit's hash. The desk treats that the same way.
 - The merge desk scans open pull requests whose body names a pool item and gates each one that is ready by either signal, oldest first after the merge-first group (rules, checks and skills).
-- Its `Merge desk: ready #N <sha>` line still goes on issue 7365 for the CTO to merge.
-- A send-back goes on the item's own pull request, not on issue 7365. The pull request is the item's thread (`docs/pool/START-A-BUILDER.md`).
+- Its `Merge desk: ready #N <sha>` line still goes on issue 8928 for the CTO to merge.
+- A send-back goes on the item's own pull request, not on issue 8928. The pull request is the item's thread (`docs/pool/START-A-BUILDER.md`).
 
 ## 1c. A stack gated as one tree (CTO, Nov 10)
 

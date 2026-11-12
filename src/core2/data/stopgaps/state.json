@@ -57,6 +57,8 @@
     "addedBy": "OFFICE-STATE",
     "addedAt": "2026-10-14",
     "replacement": "An offices-engine function to seat a chosen person for the rest of a term (OPUS-GOV), with the player's own party from the parties engine, called by dev mode.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "seatPlayerInStateOffice (src/core2/office-day-state.ts) seats the player through the offices engine's exported term writer seatTerm, which ends the serving term and puts the player's term with the previous holder's party; the took-office event it emits is read by the officials and pay engines, and the state office day reads the term (stateOfficeOf). No direct table write remains.",
+    "resolvedAt": "2026-11-11"
   }
 ]
