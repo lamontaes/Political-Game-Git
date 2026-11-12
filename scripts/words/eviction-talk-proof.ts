@@ -96,19 +96,23 @@ for (let draw = 0; draw < draws; draw += 1) {
       );
       for (const choice of first.choices)
         console.log(`  - offered: ${choice.text} (${choice.move})`);
-      // Each reply in a talk of its own, so every answer back is seen.
+      // Each reply said on its own copy of the opened talk, so every
+      // answer back is seen (a subject told once is not told again).
       for (const choice of first.choices) {
-        const talk = openConversation(core, playerId, adult, { director });
-        const pick = talk.choices.find((row) => row.move === choice.move);
-        if (!pick) continue;
+        const talk = Object.fromEntries(
+          Object.entries(first).map(([key, value]) => [
+            key,
+            Array.isArray(value) ? [...value] : value,
+          ]),
+        ) as typeof first;
         const from = talk.lines.length;
-        say(core, talk, pick.key);
+        say(core, talk, choice.key);
         const back = talk.lines
           .slice(from)
           .filter((line) => line.speakerId !== playerId)
           .map((line) => `${line.text} [${line.wording?.facts.join(", ")}]`);
         console.log(
-          `  > You: ${pick.text}\n    ${nameOf(core, adult)}: ${back.join(" / ") || "(says nothing more)"}`,
+          `  > You: ${choice.text}\n    ${nameOf(core, adult)}: ${back.join(" / ") || "(says nothing more)"}`,
         );
       }
     }

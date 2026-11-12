@@ -56,7 +56,8 @@
     "lost-at": "The employer of a job the speaker lost in the year before an eviction, from their own record of it ending.",
     "host-place": "The town of the relative an evicted household moved in with, when it is not their own, from the housing status and the host household's record.",
     "shelter-place": "The town whose shelter took an evicted household in, from the housing status record.",
-    "no-bed-place": "The town whose shelters had no bed for an evicted household, from the housing status record."
+    "no-bed-place": "The town whose shelters had no bed for an evicted household, from the housing status record.",
+    "host": "The relative an evicted household moved in with, as the speaker names them with the possessive (\"my mother\"), from the housing status and the family record."
   },
   "maxWords": 10,
   "lineWords": {
@@ -36822,17 +36823,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-back-core.to-relation-s-in-host-place-until-we-find-something",
+      "key": "conversation.eviction-back-core.to-host-s-in-host-place-until-we-find-something",
       "move": "eviction-back-core",
       "kind": "spoken",
-      "text": "To {relation}'s, in {host-place}, until we find something.",
+      "text": "To {host}'s, in {host-place}, until we find something.",
       "uses": [
         {
           "move": "eviction-back-core",
           "subject": "eviction-back",
           "role": "core",
           "stages": ["where"],
-          "requiresFacts": ["relation", "host-place"],
+          "requiresFacts": ["host", "host-place"],
           "excludesFacts": ["alone"]
         }
       ],
@@ -36847,17 +36848,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-back-core.to-relation-s-in-host-place-for-now",
+      "key": "conversation.eviction-back-core.to-host-s-in-host-place-for-now",
       "move": "eviction-back-core",
       "kind": "spoken",
-      "text": "To {relation}'s, in {host-place}, for now.",
+      "text": "To {host}'s, in {host-place}, for now.",
       "uses": [
         {
           "move": "eviction-back-core",
           "subject": "eviction-back",
           "role": "core",
           "stages": ["where"],
-          "requiresFacts": ["relation", "host-place", "alone"]
+          "requiresFacts": ["host", "host-place", "alone"]
         }
       ],
       "piece": {
@@ -36871,17 +36872,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-back-core.relation-has-room-for-us-for-now",
+      "key": "conversation.eviction-back-core.host-is-taking-us-in-for-a-while",
       "move": "eviction-back-core",
       "kind": "spoken",
-      "text": "{relation} has room for us for now.",
+      "text": "{host} is taking us in for a while.",
       "uses": [
         {
           "move": "eviction-back-core",
           "subject": "eviction-back",
           "role": "core",
           "stages": ["where"],
-          "requiresFacts": ["relation"],
+          "requiresFacts": ["host"],
           "excludesFacts": ["host-place", "alone"]
         }
       ],
@@ -36896,17 +36897,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-back-core.we-re-on-relation-s-floor-until-something-opens-up",
+      "key": "conversation.eviction-back-core.we-re-on-host-s-floor-until-something-opens-up",
       "move": "eviction-back-core",
       "kind": "spoken",
-      "text": "We're on {relation}'s floor until something opens up.",
+      "text": "We're on {host}'s floor until something opens up.",
       "uses": [
         {
           "move": "eviction-back-core",
           "subject": "eviction-back",
           "role": "core",
           "stages": ["where"],
-          "requiresFacts": ["relation"],
+          "requiresFacts": ["host"],
           "excludesFacts": ["host-place", "alone"]
         }
       ],
@@ -36921,17 +36922,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-back-core.relation-has-room-for-me-for-now",
+      "key": "conversation.eviction-back-core.host-is-taking-me-in-for-a-while",
       "move": "eviction-back-core",
       "kind": "spoken",
-      "text": "{relation} has room for me for now.",
+      "text": "{host} is taking me in for a while.",
       "uses": [
         {
           "move": "eviction-back-core",
           "subject": "eviction-back",
           "role": "core",
           "stages": ["where"],
-          "requiresFacts": ["relation", "alone"],
+          "requiresFacts": ["host", "alone"],
           "excludesFacts": ["host-place"]
         }
       ],
@@ -37167,17 +37168,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-back-core.thanks-you-most-of-it-s-going-to-relation-s",
+      "key": "conversation.eviction-back-core.thanks-you-most-of-it-s-going-to-host-s",
       "move": "eviction-back-core",
       "kind": "spoken",
-      "text": "Thanks, {you}. Most of it's going to {relation}'s.",
+      "text": "Thanks, {you}. Most of it's going to {host}'s.",
       "uses": [
         {
           "move": "eviction-back-core",
           "subject": "eviction-back",
           "role": "core",
           "stages": ["help"],
-          "requiresFacts": ["relation"],
+          "requiresFacts": ["host"],
           "excludesFacts": ["together"]
         }
       ],
@@ -37242,17 +37243,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-back-core.thanks-you-we-owe-relation-for-taking-us-in",
+      "key": "conversation.eviction-back-core.thanks-you-we-owe-host-for-taking-us-in",
       "move": "eviction-back-core",
       "kind": "spoken",
-      "text": "Thanks, {you}. We owe {relation} for taking us in.",
+      "text": "Thanks, {you}. We owe {host} for taking us in.",
       "uses": [
         {
           "move": "eviction-back-core",
           "subject": "eviction-back",
           "role": "core",
           "stages": ["help"],
-          "requiresFacts": ["together", "relation"]
+          "requiresFacts": ["together", "host"]
         }
       ],
       "piece": {
@@ -37314,10 +37315,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-back-core.thanks-you-owed-shouldn-t-be-enough-to-lose-a-home-over",
+      "key": "conversation.eviction-back-core.thanks-you-losing-a-home-over-owed-still-doesn-t-seem-real",
       "move": "eviction-back-core",
       "kind": "spoken",
-      "text": "Thanks, {you}. {owed} shouldn't be enough to lose a home over.",
+      "text": "Thanks, {you}. Losing a home over {owed} still doesn't seem real.",
       "uses": [
         {
           "move": "eviction-back-core",
@@ -37339,10 +37340,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.eviction-back-core.thanks-you-behind-of-rent-is-a-deep-hole",
+      "key": "conversation.eviction-back-core.thanks-you-behind-late-and-that-was-the-end-of-it",
       "move": "eviction-back-core",
       "kind": "spoken",
-      "text": "Thanks, {you}. {behind} of rent is a deep hole.",
+      "text": "Thanks, {you}. {behind} late, and that was the end of it.",
       "uses": [
         {
           "move": "eviction-back-core",

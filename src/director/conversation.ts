@@ -948,7 +948,7 @@ function evictionSubjects(
           )
         : undefined;
       if (kin && phrase) {
-        facts.relation = fact(phrase, [kin.factId, ...at]);
+        facts.host = fact(phrase, [kin.factId, ...at]);
         // Their town, when it is not the one the speaker was put out of.
         const hostPlace = status.hostHouseholdId
           ? core.households.get(status.hostHouseholdId)?.placeId
