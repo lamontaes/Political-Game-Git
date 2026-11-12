@@ -56,3 +56,8 @@ On Nov 10 five pull requests each changed `data/english/line-rules.json`. They m
 ## A stack that merged from the bottom
 
 When the bottom pull request of a stack is squash-merged, every branch above it conflicts with main in the files the bottom one changed. If nothing else on main touched those files since the upper branch last merged the lower one, the upper branch's copy is the right one for every such hunk (`git checkout --ours <file>`), because it already holds the lower one's last commit. Check both facts with `git log` before you rely on it. The CTO's rule (Nov 10) avoids the problem: a stack gated as one tree merges from its top, and the lower pull requests close as contained.
+
+## Two traps after a merge
+
+- **A merge that deletes or renames a file a report or doc cites raises the pointer baseline.** `tests/guards/current-pointers.test.ts` then fails. Fix the citing line, or add the old path to the `replaced` list in `docs/current.json` (skill `current-pointers`). Never raise `tests/guards/current-pointers-baseline.json` to make room: that count may only fall.
+- **`git add -A` inside a sparse helper copy is safe.** It stages only what the copy holds; the image files the copy skips are not read as deleted (checked Nov 12: 6,236 skipped paths, 0 staged). Only pictures you add or move need `git add --sparse` (skill `helper-checkout`).
