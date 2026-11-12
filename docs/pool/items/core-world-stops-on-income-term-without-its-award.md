@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: R1 (Fable A's builder)
-pr: 8882
+pr: #8882
 after:
 blocked-on:
 lead: core
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-12T13:00:56.417Z
 ---
 
 **What.** Seen: the game stops. A world that throws cannot be played (CTO, Nov 12, #7365 comment 6822123666). In South Ogden, Utah (place 4970960), seed 7a605c17-6fe1-465b-b397-caf285473399, the played world reaches 2025-09-01 and throws "Actual income term does not resolve its current qualified award." from src/core2/finance-cash.ts line 313, reached through contractAuthority and settleDueFinance. Found by Merger codex-4629 while gating #8375 (#7365 comment 6822115296): src/core2/drives-filled-in-job-loss.test.ts, test line 138, fails the same way on clean main 3ed3915c59 with NODE_OPTIONS unset and GOLDEN_PATH_SEED=7a605c17-6fe1-465b-b397-caf285473399. The other failure in that file (Steamboat Springs, Colorado) is tests-drives-filled-in-job-loss-no-counted-loss, not this item. Seen: the world keeps playing past September 1 of the first year
