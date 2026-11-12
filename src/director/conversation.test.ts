@@ -20,6 +20,7 @@ import {
   CONVERSATION_RULES,
   composedLine,
   doubtsClaim,
+  noteHeard,
   openConversation,
   say,
   subjectsBetween,
@@ -237,6 +238,8 @@ for (const row of reserve)
     hours: 1,
   });
 const talkers = [...others, ...reserve.map((row) => row.id)];
+/** The fewest small-talk turns the short-turn check reads before it means anything. */
+const SMALL_TALK_TURNS = 40;
 /** The other person's first question, after any greeting. */
 const recentDays =
   DEFAULT_DIRECTOR_DATA.parameters.directorTalkRecentDays!.value;
@@ -334,7 +337,28 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   it("offers up to four distinct replies every turn (one to four, the scene sets it), each answering the last line and only following on from it", () => {
     const four = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
     let turns = 0;
-    for (const otherId of others.slice(0, 15)) {
+    // Fifteen people, then on through the people met for these tests until
+    // more than 8 turns are read: at home nobody with nothing on record
+    // today offers a talk (owner, Oct 24), so a draw can hold few talks
+    // (Baywood, New York, seed 6e36e4e6527696143009: 8 turns in 15 people).
+    // The strangers kept for the later tests are left alone.
+    const drawn = [
+      ...others,
+      ...[...core.people.values()]
+        .filter(
+          (row) =>
+            row.alive &&
+            row.tier !== "husk" &&
+            row.id !== player.id &&
+            row.householdId !== me.householdId &&
+            !talkers.includes(row.id as PersonId),
+        )
+        .map((row) => row.id as PersonId),
+    ];
+    let read = 0;
+    for (const otherId of drawn) {
+      if (read >= Math.min(15, others.length) && turns > 8) break;
+      read += 1;
       const talk = openConversation(core, player.id, otherId);
       // With nothing on record to say, nothing is said: never a hello and a
       // goodbye with nothing between (owner, Oct 24).
@@ -393,7 +417,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     }
     // Relatives talk personal subjects only and often have nothing to say
     //, so fewer turns run than before.
-    expect(turns).toBeGreaterThan(8);
+    expect(turns, `${read} people talked to`).toBeGreaterThan(8);
   });
 
   it("lets the player say nothing, and the other person carries on or the talk ends", () => {
@@ -567,40 +591,68 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   });
 
   it("talks like small talk: short turns, as in the counted corpus", () => {
+    // Lead's ruling (Nov 12): the card at src/english/speech-registers.ts:282
+    // is the Santa Barbara Corpus's count for small talk. A turn that tells or
+    // answers from a record (work, home, news, a case) is not small talk, and
+    // the owner's bar forbids padding it with bare short replies (non-replies
+    // are faults, not turns). So the check measures only turns in the
+    // small-talk register: hellos, goodbyes, and turns of the small-talk
+    // subject. The bound stays 0.2 against the card's 0.45 and the card is
+    // not changed.
     const card = REGISTER_CARDS["small-talk"];
     const median = card.checks.find((row) => row.key === "median-words")!.value;
     const short = card.checks.find((row) => row.key === "short-turns")!.value;
+    const smallTalk = (line: Conversation["lines"][number]) =>
+      line.kind === "greet" ||
+      line.kind === "farewell" ||
+      line.subjectId.startsWith("quiet:");
     const lengths: number[] = [];
+    const passedOver: string[] = [];
     // The people the first test talked to have little left to ask; the
-    // strangers met for the later tests still have their questions.
-    for (const otherId of talkers.slice(0, 20)) {
+    // strangers met for the later tests still have their questions. Talks
+    // are drawn until enough small-talk turns are measured to mean anything.
+    // After the people met for these tests, anyone else in town, in the
+    // order the population keeps them.
+    const drawn = [
+      ...talkers,
+      ...[...core.people.values()]
+        .filter(
+          (row) =>
+            row.alive &&
+            row.tier !== "husk" &&
+            row.id !== player.id &&
+            row.householdId !== me.householdId &&
+            !talkers.includes(row.id as PersonId),
+        )
+        .map((row) => row.id as PersonId),
+    ];
+    let talked = 0;
+    for (const otherId of drawn) {
+      if (lengths.length >= SMALL_TALK_TURNS) break;
+      talked += 1;
+      // Opened as the bench opens it: what the player hears is kept at once
+      // (handler.ts calls noteHeard on open), so a talk that ends at its
+      // opening still counts its hello as heard.
       const talk = openConversation(core, player.id, otherId);
+      noteHeard(core, talk);
       for (let turn = 0; turn < 4 && talk.choices.length; turn += 1)
         say(core, talk, talk.choices[(turn * 3) % talk.choices.length]!.key);
-      for (const line of talk.lines)
-        lengths.push(line.text.split(/\s+/).length);
+      const measured = talk.lines.filter(smallTalk);
+      if (!measured.length) passedOver.push(otherId);
+      for (const line of measured) lengths.push(line.text.split(/\s+/).length);
     }
     lengths.sort((a, b) => a - b);
+    const shortShare = lengths.filter((n) => n <= 3).length / lengths.length;
     process.stdout.write(
-      `SMALL-TALK median ${lengths[Math.floor(lengths.length / 2)]} (card ${median}), short ${lengths.filter((n) => n <= 3).length / lengths.length} (card ${short}), ${lengths.length} lines\n`,
+      `SMALL-TALK ${base.placeMetadata?.placeName} (seed ${seed}): median ${lengths[Math.floor(lengths.length / 2)]} (card ${median}), short ${shortShare.toFixed(3)} (card ${short}), ${lengths.length} small-talk turns in ${talked} talks; passed over ${passedOver.length} with none\n`,
     );
-    expect(lengths.length).toBeGreaterThan(20);
-    // The counted corpus's short turns include the bare takings-in ("Okay.",
-    // "Oh, I see.") and the check-in goodbyes the owner ruled non-replies on
-    // Nov 12 ("the same bullshit ... with the just non-replies"); with them
-    // gone the median is 7 words against the card's 4 (Jackson Center, Ohio,
-    // seed conversation-test, 64 lines; short share 0.28 against 0.45). The
-    // lead rules whether the card is recounted without them; until then the
-    // median is held within 3.
+    expect(
+      lengths.length,
+      `${base.placeMetadata?.placeName} (seed ${seed}): ${lengths.length} small-talk turns in ${talked} talks; passed over ${passedOver.join(", ")}`,
+    ).toBeGreaterThanOrEqual(SMALL_TALK_TURNS);
     expect(
       Math.abs(lengths[Math.floor(lengths.length / 2)]! - median),
     ).toBeLessThanOrEqual(3);
-    // The short share fell from 0.29 to 0.17 (default seed) when the hello
-    // stopped being "Hey." in nearly every talk (the heard record kept a
-    // re-heard piece where it was first heard). The bound is the lead's
-    // (Nov 12: never widened to pass); with the non-replies gone this check
-    // is red until the card is recounted or more short turns are said.
-    const shortShare = lengths.filter((n) => n <= 3).length / lengths.length;
     expect(Math.abs(shortShare - short)).toBeLessThan(0.2);
   });
   it("leaves no belief in a hearer whose traits lean hard toward doubt", () => {
