@@ -34,7 +34,7 @@ let shown = 0;
 for (const person of [...core.people.values()].sort((a, b) =>
   a.id.localeCompare(b.id),
 )) {
-  if (shown >= 12) break;
+  if (shown >= 15) break;
   const known = changesKnownTo(core, person.id as PersonId);
   if (!known.length) continue;
   const listener = [...(person.knownIds ?? [])]
@@ -43,7 +43,8 @@ for (const person of [...core.people.values()].sort((a, b) =>
   if (!listener) continue;
   const how = believedCause(core, person.id as PersonId, known[0]!).how;
   const said = bringItUp(core, person.id as PersonId, listener);
-  if (!said) continue;
+  // A printed story never carries a blame: only a change in town is shown.
+  if (!said || /news/.test(said.change.kind)) continue;
   shown += 1;
   console.log(
     `${person.givenName} ${person.familyName} (${how}) to ${listener}: ${said.lines.map((l) => l.text).join(" ")}`,
