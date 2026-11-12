@@ -143,6 +143,18 @@ export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
 const DELEGATE_DISTRICT = 98;
 
 const seed = process.env.REALISTIC_SEED ?? randomBytes(8).toString("hex");
+/**
+ * The most of a world's past races of a thousand votes or more whose count
+ * may equal another world's by chance (row 44), rounded up per world, so one
+ * chance repeat passes and a pattern of repeats fails. Measured Nov 12, 2026
+ * over ten draws (Fairacres NM, Gibsonburg OH, Dover NH, Boyce LA, Bend OR,
+ * Bangor MI, Thomasville AL, Alega AS, North Falmouth MA, Westminster CO):
+ * 0 of 87 large races shared a count; this is the 95% upper limit for 0 of
+ * 87 (3 of 87). By arithmetic a band of 1.36% to 4% either side holds about
+ * 0.053 of a race's votes in whole counts, so a 6,845-vote race repeats about
+ * once in 360 pairs of worlds.
+ */
+const SAME_COUNT_SHARE = 3 / 87;
 const place = drawPlace(seed, "realistic-not-real");
 const where = `${place.name} (${place.key}), seed ${seed}`;
 
@@ -795,10 +807,14 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
 
   it("past races' votes cast and the national polls on policy questions (audit rows 44 and 48)", () => {
     // Row 44: every race before the start both worlds hold, as the paper
-    // printed it (the one place the game keeps a past race's votes cast). A
-    // recorded total (a House, Senate or presidential race) is the same in
-    // every world unless drawn, so each race of a thousand votes or more must
-    // differ (a race of a few hundred can land on the same count twice).
+    // printed it (the one place the game keeps a past race's votes cast).
+    // Each world's count is drawn once around the count it stands on (the
+    // recorded total, or the electorate's ballots times turnout), which no
+    // world prints as its own (CTO, Nov 12, 2026, on the owner's "realistic,
+    // not real"). Two worlds' counts of the same race may land on the same
+    // whole number by chance (a band of a few percent around 6,845 votes
+    // holds about 360 counts), so across the large races only a small share
+    // may coincide: SAME_COUNT_SHARE, measured over ten draws.
     const races = (core: CoreState) =>
       new Map(
         coreAPI(core)
@@ -809,6 +825,16 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
           .filter((facts) => facts.recordKind === "election-result")
           .map((facts) => [facts.contestId!, Number(facts.totalVotes)]),
       );
+    const sources = (core: CoreState) =>
+      new Map(
+        coreAPI(core)
+          .moduleState(NEWS_MODULE_ID)
+          .table("stories")
+          .rows()
+          .map((row) => row.facts as Record<string, string>)
+          .filter((facts) => facts.recordKind === "election-result")
+          .map((facts) => [facts.contestId!, Number(facts.sourceVotes)]),
+      );
     const racesA = races(a),
       racesB = races(b);
     const shared = [...racesA.keys()].filter((id) => racesB.has(id));
@@ -816,8 +842,26 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     const large = shared.filter(
       (id) => racesA.get(id)! >= 1000 && racesB.get(id)! >= 1000,
     );
-    for (const id of large)
-      expect(racesA.get(id), `${where} row 44 ${id}`).not.toBe(racesB.get(id));
+    for (const [world, held] of [
+      [a, racesA],
+      [b, racesB],
+    ] as const) {
+      const source = sources(world);
+      for (const id of large) {
+        expect(source.has(id), `${where} row 44 ${id}: its source count`).toBe(
+          true,
+        );
+        expect(
+          held.get(id),
+          `${where} row 44 ${id}: the count it was drawn around`,
+        ).not.toBe(source.get(id));
+      }
+    }
+    const same = large.filter((id) => racesA.get(id) === racesB.get(id));
+    expect(
+      same.length,
+      `${where} row 44: ${same.length} of ${large.length} large races share a count between the two worlds (${same.join(", ")})`,
+    ).toBeLessThanOrEqual(Math.ceil(large.length * SAME_COUNT_SHARE));
     const cast = (held: Map<string, number>) =>
       shared.reduce((n, id) => n + held.get(id)!, 0);
     // Row 48: every question's national polled share.
