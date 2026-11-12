@@ -8,8 +8,10 @@
     "why": "The research file holds each place's group-quarters count by type but no ages or sex (2020 P5); P28 has three age groups for the island areas only. Nothing in the repository holds the national age and sex profile of each type.",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
-    "replacement": "The 2020 Census Demographic and Housing Characteristics tables PCO3 to PCO10 (group quarters population by sex and age for each major type, national level), fetched by a researcher and read in place of the TUNABLE shares (SOURCED).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The 2020 Census Demographic and Housing Characteristics tables PCO3 to PCO10 (group quarters population by sex and age for each major type, national level), fetched by a researcher and read in place of the TUNABLE shares (SOURCED).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-GQ-room-size",
@@ -20,15 +22,17 @@
     "why": "No sourced occupancy per type is gathered. The number changes only how many room records exist and who is filled in together, never a count.",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
-    "replacement": "Each type's sourced occupancy where one exists (campus housing's rooms per resident, a prison's cells, a base's barracks), read per type.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each type's sourced occupancy where one exists (campus housing's rooms per resident, a prison's cells, a base's barracks), read per type.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-GQ-no-turnover",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/counted-moves.ts",
-    "line": 1101,
-    "whatItFakes": "Institutions admit only to refill a room a death or a fill-in emptied (a waiting list, drawn like the type's own residents): nobody is discharged, so students and service members still age in place year after year, and an institution never grows or shrinks from its beds.",
+    "line": 1319,
+    "whatItFakes": "Institutions refill a room when a resident dies or is filled in (admitToRooms in counted-moves.ts), but nobody is discharged on the institution's own calendar: students and service members still age in place and an institution never grows or shrinks from its beds.",
     "why": "The moves engines move households by the ACS leaving rates, which would drift a SOURCED count of residents who arrive and leave by an institution's own calendar (a college's intake, a prison's admissions), so rooms are skipped, by the same rule for counted and full residents, and no intake is built yet.",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
@@ -44,8 +48,10 @@
     "why": "The Census publishes group-quarters counts by type for every place only in the decennial redistricting tables; the ACS's B26001 is the total only (Storrs, Connecticut: ACS 2020-2024 10,929 plus or minus 249, 0.954 of the 2020 count).",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
-    "replacement": "A later vintage of P5 when one is published, or the ACS group-quarters tables by type for places when published, read in place of the 2020 row.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A later vintage of P5 when one is published, or the ACS group-quarters tables by type for places when published, read in place of the 2020 row.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-GQ-counted-prisoners-vote",
@@ -68,8 +74,10 @@
     "why": "The institutions have no books of their own in the world: no college, prison, base or nursing home bills its residents or is paid for them.",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
-    "replacement": "The institution's own books: a college bills room and board, a nursing home bills its residents or Medicaid, a prison is paid by its government, and the residents' costs move through them.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The institution's own books: a college bills room and board, a nursing home bills its residents or Medicaid, a prison is paid by its government, and the residents' costs move through them.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-GQ-military-pay",
@@ -80,8 +88,10 @@
     "why": "There is no armed-forces employer in the world.",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
-    "replacement": "An outside armed-forces payer that pays service members in military quarters at military pay by rank and years.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An outside armed-forces payer that pays service members in military quarters at military pay by rank and years.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-GQ-institution-owner",
@@ -92,15 +102,17 @@
     "why": "The town records no prison, juvenile facility, military base or other institution.",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
-    "replacement": "Prison, base and other institution records in the town, named on their rooms' dwellings.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Prison, base and other institution records in the town, named on their rooms' dwellings.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-GQ-means-tests-poverty",
     "kind": "faked-mechanic",
     "file": "src/core2/counted-reach.ts",
     "line": 207,
-    "whatItFakes": "Law reach (src/core2/counted-reach.ts, src/core2/law-reach/group-b-people.ts) and the poverty count (src/core2/world-poverty.ts) read zero-income group-quarters room records as poor households: an inmate or a nursing-home resident reads as eligible and as poor. A room's counted group is keyed to the income fifth its zero or student income reads as (src/core2/modules/residents.ts, groupKeyOf); the jobs, health and births webs read no fifth for a room.",
+    "whatItFakes": "Narrowed Nov 11, 2026: the poverty count (src/core2/world-poverty.ts) and counted law reach (src/core2/counted-reach.ts) no longer read a group-quarters room as a poor household. What remains is law reach in src/core2/law-reach/group-b-people.ts, which still reads zero-income group-quarters room records as poor households: an inmate or a nursing-home resident reads as eligible there; no program records whether it serves group quarters (Medicaid does, SNAP and cash assistance do not). A room's counted group is keyed to the income fifth its zero or student income reads as (src/core2/modules/residents.ts, groupKeyOf); the jobs, health and births webs read no fifth for a room.",
     "why": "Room records are counted households to those readers, which read no group-quarters type.",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
@@ -140,8 +152,10 @@
     "why": "The schools read every counted resident of school age and no group-quarters type.",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
-    "replacement": "The facility's own schooling, outside the town's public schools.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The facility's own schooling, outside the town's public schools.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-GQ-home-backdrop",
@@ -164,8 +178,10 @@
     "why": "The ACS median earnings universe (people with earnings) includes residents of noninstitutional group quarters, so a college town's figure is mostly students' part-time pay (Storrs, Connecticut: $6,709 a year); paid to its renting households, it put 43.5 eviction filings in a year per 100 renter households (world seed 808522d29c84), above every state's 2018 rate but Maryland's; with the blend, and the rooms' residents paid from a pool apart, 1.3 (Connecticut's 2018 rate 3.98, Tolland County's 2.18; data/research/housing/eviction-filings-2026.json and its README). The blend is a sliding stand-in, not a measured figure.",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
-    "replacement": "Household residents' earnings from the ACS Public Use Microdata Sample for the place's PUMA (people not in group quarters), read in place of the blend.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Household residents' earnings from the ACS Public Use Microdata Sample for the place's PUMA (people not in group quarters), read in place of the blend.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-GQ-full-resident-work",
@@ -190,8 +206,10 @@
     "why": "B23001 does not separate the institutional population. One denominator for the opening's targets and the collapse's unplaced workers (both without the residents outside the civilian labor force) keeps the opening from filling a prison's or a nursing home's share of the target from the town's households.",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
-    "replacement": "Each county's employed over its civilian noninstitutional population by age (ACS PUMS, or B23001 less the county's institutional residents by age from the 2020 Census DHC), read in place of the B23001 rate.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each county's employed over its civilian noninstitutional population by age (ACS PUMS, or B23001 less the county's institutional residents by age from the 2020 Census DHC), read in place of the B23001 rate.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-GQ-waiting-list-order",
@@ -202,7 +220,9 @@
     "why": "The repository holds no application or need records for an institution's list; a seeded pick would be dice, so the list is read in a fixed order.",
     "addedBy": "Tiers (Nov 9)",
     "addedAt": "2026-11-09",
-    "replacement": "A waiting-list record per institution (application date, need): the earliest application first, ties by id, the same for counted rows times their count.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A waiting-list record per institution (application date, need): the earliest application first, ties by id, the same for counted rows times their count.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   }
 ]

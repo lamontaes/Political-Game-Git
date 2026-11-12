@@ -83,6 +83,7 @@ export function withCountySample(
 ): CountySample | null {
   const county = countyOf(input);
   if (!county) return null;
+  const countyPlaceId = county.jurisdictionId;
   stopgap(COUNTY_SAMPLE_STOPGAP);
   const start = makeIsoDate(input.startedAt);
   const size = p("countySampleHouseholds");
@@ -290,26 +291,55 @@ export function withCountySample(
       ? Math.max(county.eligible - kinEligible, p("one")) / sampleEligible
       : p("one");
   const kinHouseholds = new Set(kin.map((row) => row.householdId));
-  return {
-    placeId: county.jurisdictionId,
-    weight,
-    input: {
-      ...input,
-      people: [...input.people, ...people],
-      households: [
-        ...input.households.map((home) =>
-          kinHouseholds.has(home.id) ? { ...home, weight: p("one") } : home,
-        ),
-        ...households.map((home) => ({
-          ...home,
-          weight,
-          ...(employment.has(home.id)
-            ? { employment: employment.get(home.id)! as never }
-            : {}),
-        })),
-      ],
-    },
-  };
+  // A record stands for at least one real household. Where the county's
+  // eligible voters (less the kin already placed) are fewer than the sample's
+  // own, keep the households, in the sample's order, that fit at a weight of
+  // one; where none fit, there is no sample.
+  const room = Math.max(county.eligible - kinEligible, p("zero"));
+  if (sampleEligible > p("zero") && room < sampleEligible) {
+    // Stop at the first household that does not fit: the sample's own order.
+    const prefix: typeof households = [];
+    let running = p("zero");
+    for (const home of households) {
+      const adultsIn =
+        home.memberIds.filter((id) => adultOf(byId.get(id)!)).length * share;
+      if (running + adultsIn > room) break;
+      running += adultsIn;
+      prefix.push(home);
+    }
+    if (!prefix.length || running <= p("zero")) return null;
+    const keepHomes = new Set(prefix.map((home) => home.id));
+    households.splice(0, households.length, ...prefix);
+    const keepPeople = people.filter((row) => keepHomes.has(row.householdId));
+    people.splice(0, people.length, ...keepPeople);
+    for (const id of [...employment.keys()])
+      if (!keepHomes.has(id)) employment.delete(id);
+    return build(room / running);
+  }
+  return build(weight);
+
+  function build(at: number): CountySample {
+    return {
+      placeId: countyPlaceId,
+      weight: at,
+      input: {
+        ...input,
+        people: [...input.people, ...people],
+        households: [
+          ...input.households.map((home) =>
+            kinHouseholds.has(home.id) ? { ...home, weight: p("one") } : home,
+          ),
+          ...households.map((home) => ({
+            ...home,
+            weight: at,
+            ...(employment.has(home.id)
+              ? { employment: employment.get(home.id)! as never }
+              : {}),
+          })),
+        ],
+      },
+    };
+  }
 }
 
 /** The place (jurisdiction id) of the town's county, where the world records one. */

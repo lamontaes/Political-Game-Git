@@ -148,6 +148,7 @@ export const LAWS_MODULE: PreStartModule = {
   },
   onCalendarWork: (api, work) => {
     lawTookEffect(api, work);
+    lawEnded(api, work);
     // A public pay floor or a teacher minimum salary in force holds later hires to it, monthly.
     if (work.kind === PUBLIC_PAY_REVIEW) recordPublicPay(api, work.source);
   },
@@ -964,6 +965,129 @@ export function enactLaw(
       sourceRecordIds: [row.id],
     } as unknown as ModuleCalendarWork);
   return row;
+}
+
+/** The calendar kind of a repealed law's last day in force. */
+const LAW_ENDS = "law-ends";
+
+/**
+ * A repeal: the body's own law on a series ends on the repeal's effective
+ * date, so the level holds exactly what it held before that law (an earlier
+ * law of its own, its opening row, or none at all), and the next level's law
+ * governs as before. The row the body's last bill wrote is ended, not
+ * covered by a second row (owner, Nov 7: "these should all be able to be
+ * reversed"). Returns the ended row, or null when the body has no law of its
+ * own on the series to end.
+ */
+export function repealLaw(
+  api: CoreAPI,
+  input: {
+    readonly jurisdiction: string;
+    readonly level: LawRowInput["level"];
+    readonly series: string;
+    readonly effectiveDate: string;
+    readonly measureId: string;
+    readonly citation: string;
+    readonly terms?: Readonly<Record<string, unknown>>;
+  },
+): LawRowInput | null {
+  const lawsTable = api.moduleState(LAWS_MODULE_ID).table("laws");
+  const own = seriesRows(api, input.series, input.jurisdiction).filter(
+    (row) => row.level === input.level && inForceOn(row, input.effectiveDate),
+  );
+  // The body's latest act, else the row it held from the opening.
+  const acts = own.filter((row) => row.terms?.enactedBy !== undefined);
+  const pick = (
+    rows: readonly LawRowInput[],
+    later: (a: LawRowInput, b: LawRowInput) => boolean,
+  ) =>
+    rows.reduce<LawRowInput | null>(
+      (best, row) => (!best || later(row, best) ? row : best),
+      null,
+    );
+  const ended = acts.length
+    ? pick(acts, lawRowIsLater)
+    : pick(own, (a, b) => a.effectiveDate > b.effectiveDate);
+  if (!ended) return null;
+  const row: LawRowInput = {
+    ...ended,
+    endDate: input.effectiveDate,
+    terms: {
+      ...(ended.terms ?? {}),
+      repealedBy: input.measureId,
+      ...(input.terms ?? {}),
+    },
+  };
+  lawsTable.put(row as unknown as ModuleRow);
+  const work = {
+    key: `${LAW_ENDS}:${row.id}`,
+    date: input.effectiveDate,
+    kind: LAW_ENDS,
+    source: {
+      tag: "SOURCED" as const,
+      citation: input.citation,
+      asOf: api.state.date,
+    },
+    sourceRecordIds: [row.id],
+  };
+  if (input.effectiveDate > api.state.date)
+    api.moduleCalendar(LAWS_MODULE_ID).schedule(work);
+  else lawEnded(api, work as unknown as ModuleCalendarWork);
+  return row;
+}
+
+/**
+ * A repealed law's end day: the level now holds what it held before, and the
+ * town hears that the law ended, with the row that governs now (or none).
+ */
+function lawEnded(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  if (work.kind !== LAW_ENDS) return;
+  const row = api
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .get(work.sourceRecordIds[0]!) as LawRowInput | undefined;
+  if (!row || inForceOn(row, api.state.date)) return;
+  const outside =
+    row.jurisdiction !== "US" && !inTownChain(lawChain(api), row.jurisdiction);
+  const answer = outside ? null : lawInForce(api, row.series);
+  const level = answer?.levels.find(
+    (l) => l.jurisdiction === row.jurisdiction && l.level === row.level,
+  );
+  api.emit({
+    id: `law-ended:${row.id}`,
+    date: api.state.date,
+    kind: "law-took-effect",
+    personIds: [],
+    placeId: outside
+      ? `national:${row.jurisdiction}`
+      : lawChain(api).townPlaceId,
+    source: work.source,
+    publicRecord: true,
+    news: true,
+    facts: {
+      // The row that governs now, as every reader of a law taking effect
+      // reads it: the level's earlier law, or the next level's where the
+      // level now holds none. The ended row is named apart.
+      lawId: (level?.row ?? answer?.governing)?.id ?? "",
+      endedLawId: row.id,
+      series: row.series,
+      level: row.level,
+      jurisdiction: row.jurisdiction,
+      tier: row.tier,
+      value: String(level?.row?.value ?? ""),
+      unit: row.unit ?? "",
+      change: "ended",
+      endedValue: String(row.value),
+      ...(level?.row ? { governingLawId: level.row.id } : {}),
+      ...(answer?.value !== null && answer?.value !== undefined
+        ? { inForceValue: String(answer.value) }
+        : {}),
+      ...(row.terms?.repealedBy
+        ? { repealedBy: String(row.terms.repealedBy) }
+        : {}),
+    },
+  });
+  if (!outside && row.series === "minimum-wage") raiseToFloor(api, work.source);
 }
 
 /** The laws set by an amount (a wage floor, a tax rate, a benefit), which a seat's bill can change. */

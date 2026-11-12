@@ -4895,7 +4895,7 @@ export function electoralCollege(
       const counted = countPlaces(
         sample,
         coarse(places, key === stateKey, change),
-        partyField(reasons, field),
+        partyField(api, reasons, field),
       );
       // The state's popular vote is a count like any other: kept by the one
       // writer, its winner the side its electors go to.
@@ -5465,7 +5465,8 @@ function coarse(
 }
 
 /** Each candidate as a counted voter sees them on a race the town doesn't vote in. */
-function partyField(
+export function partyField(
+  api: CoreAPI,
   reasons: readonly CandidateReasons[],
   field: readonly CandidateInputs[],
 ): readonly CountedFieldEntry[] {
@@ -5473,6 +5474,10 @@ function partyField(
     id: c.id,
     side: c.side,
     isIncumbent: c.incumbent,
+    // The holder's standing carries the average incumbency advantage, so each
+    // voter's own incumbent lean is read against the town's average, as the
+    // town's own races read it.
+    ...(c.incumbent ? { incumbentLeanCenter: townIncumbentLean(api) } : {}),
     standing: appealOfShare(reasons[i]!.total),
     localStanding: 0,
     recognition: 0,
@@ -5564,7 +5569,7 @@ function decide(
   const counted = countPlaces(
     sampleFor(api, date),
     coarse(places, townsState, electorateChange(api)),
-    partyField(reasons, candidates),
+    partyField(api, reasons, candidates),
   );
   const raceId = special
     ? `race:${race.seatId}:${date}:special`
