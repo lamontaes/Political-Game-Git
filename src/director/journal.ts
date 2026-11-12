@@ -254,6 +254,13 @@ function employerName(
     : undefined;
 }
 
+/** A list whose items may hold "and" themselves: a comma before the last "and". */
+function listOfParts(items: readonly string[]): string {
+  return items.some((item) => / and /.test(item)) && items.length > one
+    ? `${items.slice(zero, -one).join(", ")}, and ${items.at(-one)}`
+    : listOf(items);
+}
+
 function listOf(items: readonly string[]): string {
   return items.length < P.two + one
     ? items.join(" and ")
@@ -1943,6 +1950,7 @@ export function composeJournal(
       let event = unit.event;
       let timed = false;
       let aged = unit.framed;
+      let heldSaid = false;
       if (last && !unit.framed && key !== "roots") {
         const days = daysBetween(
           makeIsoDate(last.moment.date),
@@ -1963,6 +1971,9 @@ export function composeJournal(
           if (frame) {
             event = framedByAge(frame, event, unit.facts);
             timed = true;
+            // The time just said is how long the job before lasted: it is
+            // not said again as "I had been there ...".
+            if (unit.facts.held?.text === spanSaid(days)) heldSaid = true;
           }
         }
       } else if (
@@ -1994,7 +2005,8 @@ export function composeJournal(
         Object.entries(unit.facts).filter(
           ([name, fact]) =>
             !(sayOnce.has(name) && said.has(fact.text)) &&
-            !(aged && AGE_FACTS.has(name)),
+            !(aged && AGE_FACTS.has(name)) &&
+            !(heldSaid && name === "held"),
         ),
       );
       for (const named of unit.row.follow ?? []) {
@@ -2157,7 +2169,7 @@ export function composeJournal(
       // A fact one record lacks is not listed: the list would leave it out.
       if (said.length !== told.length) continue;
       facts[key] = {
-        text: listOf([...new Set(said.map((fact) => fact.text))]),
+        text: listOfParts([...new Set(said.map((fact) => fact.text))]),
         sourceRecordIds: said.flatMap((fact) => fact.sourceRecordIds),
       };
     }

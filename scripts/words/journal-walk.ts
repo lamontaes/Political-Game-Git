@@ -104,17 +104,24 @@ if (args.includes("--file")) {
   }
   console.log(`filed: ${filed || "none"} on ${world.core!.date}`);
 }
-for (let d = 0; d < days; d += 1) {
-  let body = (await ask("POST", "/api/advance?mode=day"))!;
+// A stop the player is shown (a scene, a notice) is passed as a player
+// presses Continue on it.
+const resumeStops = async () => {
   for (let stops = 0; stops < 60; stops += 1) {
-    if (body.pollingPlace || body.candidateMorning) {
-      await ask("POST", "/api/polling-place/leave").catch(() => null);
-      body = (await ask("POST", "/api/advance?mode=day"))!;
-      continue;
-    }
-    if (body.packet?.kind !== "stop") break;
-    body = (await ask("POST", "/api/resume").catch(() => null)) ?? {};
+    const packet = benchWorld().player?.packet as Json | undefined;
+    if (packet?.kind !== "stop") return;
+    await ask(
+      "POST",
+      `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: String(packet.pauseId ?? "") })}`,
+    );
   }
+};
+for (let d = 0; d < days; d += 1) {
+  await resumeStops();
+  const body = (await ask("POST", "/api/advance?mode=day"))!;
+  if (body.pollingPlace || body.candidateMorning)
+    await ask("POST", "/api/polling-place/leave").catch(() => null);
+  await resumeStops();
 }
 const chapters = ((await ask(
   "GET",
