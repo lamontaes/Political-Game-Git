@@ -299,17 +299,20 @@ for (const p of policies) {
       rec.reach = { ...reach, named: people.length };
     }
     // repeal
+    // An amount law is repealed outright: the body's own law ends and its
+    // level holds what it held before, including nothing.
     if (
       r.status === "enacted" &&
-      p.operations.some((o) => ["repeal", "lower", "restrict"].includes(o))
+      (p.kind === "law-amount" ||
+        p.operations.some((o) => ["repeal", "lower", "restrict"].includes(o)))
     ) {
-      const rop = p.operations.includes("repeal")
-        ? "repeal"
-        : p.operations.includes("lower")
-          ? "lower"
-          : "restrict";
-      const ramount =
-        p.kind === "policy-question" ? undefined : before ? before.value : 0;
+      const rop =
+        p.kind === "law-amount" || p.operations.includes("repeal")
+          ? "repeal"
+          : p.operations.includes("lower")
+            ? "lower"
+            : "restrict";
+      const ramount = undefined;
       const rr = pass(
         core,
         seat.office.id,

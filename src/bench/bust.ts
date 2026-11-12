@@ -128,6 +128,10 @@ export interface BustLook {
   tie?: string;
   /** The jacket's color; absent for no jacket where the look is not in office. */
   jacket?: string;
+  /** The everyday top, one of the set's whole tops; absent for the game's own pick. */
+  top?: string;
+  /** The everyday top's color, one the top is painted in. */
+  topColor?: string;
 }
 
 /** The pieces stacked in the manifest's order, as the screen draws them. */
@@ -212,12 +216,45 @@ export function bustFor(
 }
 
 /**
+ * The everyday top a look wears and its color: the one chosen in the
+ * creator's Everyday tab, or, for a look that names none, one of the set's
+ * everyday outfits picked from the look itself, the same every time. Null
+ * where the set paints no top.
+ */
+export function lookTop(look: BustLook): { top: string; color: string } | null {
+  const person = BY_ID.get(look.person);
+  const set = person && MANIFEST.sets[person.sex];
+  if (!set) return null;
+  const chosen = styleOf(set, "top", look.top);
+  if (chosen) {
+    const colors = Object.keys(chosen.files);
+    const color = colors.includes(look.topColor ?? "")
+      ? look.topColor!
+      : colors[0]!;
+    return { top: chosen.style, color };
+  }
+  const n = bustPick(`${look.person}:${look.hair}:${look.hairColor}:clothes`);
+  const everyday = set.dress.everyday;
+  const style = styleOf(
+    set,
+    "top",
+    everyday[n % Math.max(1, everyday.length)]?.top,
+  );
+  if (!style) return null;
+  const colors = Object.keys(style.files);
+  return {
+    top: style.style,
+    color: colors[Math.floor(n / 17) % colors.length]!,
+  };
+}
+
+/**
  * The bust of a look chosen in the creator, dressed as `dress`; null where
  * the bank lacks one of its pieces. The look's own shirt, tie and jacket are
  * what it wears to work and in office: at work the shirt, with the tie where
- * one was chosen; in office the jacket too, the look's own or the set's
- * first where none was chosen. Everyday it wears one of the set's whole
- * tops, the same one every time, set from the look itself.
+ * one was chosen, and no jacket; in office the jacket too, the look's own or
+ * the set's first where none was chosen. Everyday it wears its own top
+ * (`lookTop`).
  */
 export function bustOfLook(
   look: BustLook,
@@ -236,14 +273,10 @@ export function bustOfLook(
       : set.face.find((row) => row.style === look.face);
   if (look.face !== undefined && !face) return null;
   const first = (layer: ClothesLayer) => set.clothes[layer][0];
-  const n = bustPick(`${look.person}:${look.hair}:${look.hairColor}:clothes`);
-  const everyday = set.dress.everyday;
+  const everyday = lookTop(look);
   const top =
-    dress === "everyday"
-      ? byNumber(
-          styleOf(set, "top", everyday[n % Math.max(1, everyday.length)]?.top),
-          Math.floor(n / 17),
-        )
+    dress === "everyday" && everyday
+      ? inColor(styleOf(set, "top", everyday.top), everyday.color)
       : undefined;
   return stack(set, {
     head: set.heads[person.toneName]![older ? "older" : "adult"],
@@ -251,7 +284,7 @@ export function bustOfLook(
     shirt: top ? undefined : inColor(first("shirt"), look.shirt),
     tie: top || !look.tie ? undefined : inColor(first("tie"), look.tie),
     jacket:
-      top || (dress !== "official" && !look.jacket)
+      top || dress !== "official"
         ? undefined
         : inColor(first("jacket"), look.jacket),
     face: face && faceFile(face, color),
@@ -271,8 +304,9 @@ const named = (key: string): BustChoice => ({
 });
 /**
  * What a person may choose in the creator: hairstyles, the hair colors of
- * their tone, facial hair, and the colors of the shirt, the tie and the
- * jacket their set paints, in the manifest's order.
+ * their tone, facial hair, the colors of the shirt, the tie and the jacket
+ * their set paints, and the everyday tops (each whole top the set paints),
+ * in the manifest's order.
  */
 export function bustChoices(person: BustPerson): {
   hair: readonly BustChoice[];
@@ -281,6 +315,7 @@ export function bustChoices(person: BustPerson): {
   shirt: readonly BustChoice[];
   tie: readonly BustChoice[];
   jacket: readonly BustChoice[];
+  top: readonly BustChoice[];
 } {
   const set = MANIFEST.sets[person.sex];
   const colors = (layer: ClothesLayer) =>
@@ -292,7 +327,17 @@ export function bustChoices(person: BustPerson): {
     shirt: colors("shirt"),
     tie: colors("tie"),
     jacket: colors("jacket"),
+    top: (set?.clothes.top ?? []).map((row) => named(row.style)),
   };
+}
+/** The colors an everyday top is painted in, in the manifest's order; none for a top the set lacks. */
+export function bustTopColors(
+  person: BustPerson,
+  top: string | undefined,
+): readonly BustChoice[] {
+  const set = MANIFEST.sets[person.sex];
+  const style = set && styleOf(set, "top", top);
+  return Object.keys(style?.files ?? {}).map(named);
 }
 /** The creator's word for a person's skin. */
 export const skinLabel = (person: BustPerson) =>

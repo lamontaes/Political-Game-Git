@@ -4,6 +4,7 @@
  * one rule, two tiers. The caller says how a state's law on a series is read (the laws module's
  * `stateLawInForce` in play); answers are kept for the month this reader lives.
  */
+import type { TaxIndex } from "./tax-index";
 import type {
   CountryFederalDestination,
   CountryFederalLine,
@@ -85,6 +86,8 @@ export function countryLaw(
   read: (stateKey: string, series: string) => LawInForceAnswer,
   parameter: (key: string) => number,
   asOf: string,
+  /** How far prices and pay have moved since the law's dollar year: what the law indexes moves with it. */
+  index?: TaxIndex,
   /** The federal budget in force by state (`federalSpendingReader`); none where the world keeps no budgets. */
   federal: (state: CountryState) => readonly CountryFederalLine[] = () => [],
 ): CountryLaw {
@@ -112,6 +115,7 @@ export function countryLaw(
         incomeTax: income,
         socialSecurity: law(state, "social-security-tax"),
         medicare: law(state, "medicare-tax"),
+        ...(index ? { index } : {}),
       });
       let toState = 0,
         toNation = 0;

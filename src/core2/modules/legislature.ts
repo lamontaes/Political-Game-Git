@@ -58,6 +58,7 @@ import { personLean, personStance } from "../campaign-views";
 import { campaignParameter } from "../campaign-data";
 import {
   enactLaw,
+  repealLaw,
   calibrationRows,
   lastEnactment,
   lawChain,
@@ -153,6 +154,8 @@ export interface Provision {
   readonly value: number;
   readonly unit?: string;
   readonly effectiveDate?: string;
+  /** For an amount law: the section repeals the body's own law on the series (its value is unused), so the level holds what it held before, including nothing. */
+  readonly repeal?: boolean;
   /** For a budget line: the line's amount the change is made to, so a stance weighs its size. */
   readonly of?: number;
   /** The catalog policy the section was drafted from, and what it does to it. */
@@ -6173,6 +6176,22 @@ function enact(
     // A passed step that a later step of the same law overtakes before it
     // could take effect writes nothing: no row, no calendar entry.
     if (effectiveDate === null) continue;
+    if (
+      provision.kind === "law-amount" &&
+      provision.series &&
+      provision.repeal
+    ) {
+      repealLaw(api, {
+        jurisdiction,
+        level,
+        series: provision.series,
+        effectiveDate,
+        measureId: bill.number,
+        citation,
+        terms: { ...(terms ?? {}), repealedByBill: bill.id },
+      });
+      continue;
+    }
     if (provision.kind === "law-amount" && provision.series) {
       const current =
         lawInForce(api, provision.series).levels.find(

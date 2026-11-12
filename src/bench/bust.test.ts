@@ -9,6 +9,7 @@ import {
   bustPerson,
   bustPick,
   bustPieces,
+  bustTopColors,
 } from "./bust";
 import { packPeople } from "./people-pack";
 
@@ -168,6 +169,31 @@ describe("the bust bank", () => {
     expect(has(home, "top")).toBe(true);
     expect(has(home, "shirt") || has(home, "jacket")).toBe(false);
     expect(bustOfLook(look, "everyday")!.layers).toEqual(home);
+    // Work is the shirt and tie without the jacket, even where one is chosen;
+    // office adds it.
+    const jacketed = { ...look, jacket: jacket[1]!.key };
+    expect(has(bustOfLook(jacketed, "work")!.layers, "jacket")).toBe(false);
+    expect(
+      has(bustOfLook(jacketed, "official")!.layers, "jacket", jacket[1]!.key),
+    ).toBe(true);
+    // A chosen everyday top is the one worn everyday, in its chosen color.
+    const set = bustChoices(bustPerson(look.person)!).top;
+    for (const choice of set) {
+      const colors = bustTopColors(bustPerson(look.person)!, choice.key);
+      const last = colors.at(-1)!.key;
+      const worn = bustOfLook(
+        { ...look, top: choice.key, topColor: last },
+        "everyday",
+      )!.layers;
+      expect(
+        worn.some((url) => url.endsWith(`/top-${choice.key}-${last}.png`)),
+        choice.key,
+      ).toBe(true);
+      // Work and office ignore it.
+      expect(
+        has(bustOfLook({ ...look, top: choice.key }, "work")!.layers, "top"),
+      ).toBe(false);
+    }
   });
 
   it("puts no facial hair on someone who wears none", () => {

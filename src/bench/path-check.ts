@@ -5,7 +5,11 @@
 // Prints the furthest step reached. Usage: node --import tsx src/bench/path-check.ts
 import { coreAPI } from "../core2/state";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
-import { resultOf } from "../core2/modules/voting";
+import {
+  resultOf,
+  VOTING_MODULE_ID,
+  type BallotRow,
+} from "../core2/modules/voting";
 import { committeeRecords } from "../core2/modules/legislature";
 import { billTally } from "./bill-tally";
 import { buildBenchWorld } from "./world";
@@ -207,6 +211,7 @@ function shares(
 
 /** Steps 3 to 5 once: file for a contest the player can enter, campaign, live to the election and read it. */
 function stand(): { held: boolean; takesOffice: string | null } {
+  let yesVoters = new Set<string>();
   // Step 3: walk into the office that takes filings for a contest you can
   // enter, a council seat first where the place has one, an open seat first
   // of those (the golden path is a council race; owner, Oct 29: the player
@@ -360,7 +365,16 @@ function stand(): { held: boolean; takesOffice: string | null } {
     const pledged = coreAPI(w.core)
       .moduleState(CAMPAIGNS_MODULE_ID)
       .table("pledges")
-      .query("byCandidate", [me]) as unknown as { contestId: string }[];
+      .query("byCandidate", [me]) as unknown as {
+      contestId: string;
+      voterId: string;
+    }[];
+    // Who said yes at a door, read now: the race's first campaign turn after election day drops them.
+    yesVoters = new Set(
+      pledged
+        .filter((p) => p.contestId === enterable.contest.id)
+        .map((p) => p.voterId),
+    );
     log.push(
       `campaign ${week.weeks} weeks: doors ${week.doors}, reached ${week.reached}, raised $${Math.round(week.raised / 100)}, events ${week.events}, forums ${week.forums}, donor meetings ${week.donorMeetings}, door yes ${pledged.filter((p) => p.contestId === enterable.contest.id).length}`,
     );
@@ -374,6 +388,22 @@ function stand(): { held: boolean; takesOffice: string | null } {
   log.push(
     `election night ${day}: ${races.length} races, ${won ? "the player won" : "the player did not win"}${shares(result)}`,
   );
+  // Whether the door yeses voted more than their neighbors, read from the race's own ballots.
+  if (yesVoters.size) {
+    const ballots = (
+      coreAPI(w.core)
+        .moduleState(VOTING_MODULE_ID)
+        .table("ballots")
+        .query("byContest", [enterable.contest.id]) as unknown as BallotRow[]
+    ).filter((b) => b.voterId !== me);
+    const share = (rows: readonly BallotRow[]) =>
+      rows.length
+        ? `${Math.round((100 * rows.filter((b) => b.voted).length) / rows.length)}% of ${rows.length} voted`
+        : "none on the ballots";
+    log.push(
+      `door yes turnout: those who said yes at a door ${share(ballots.filter((b) => yesVoters.has(b.voterId)))}; the other adults on the race's ballots ${share(ballots.filter((b) => !yesVoters.has(b.voterId)))}`,
+    );
+  }
   stillMe();
   return { held: won, takesOffice: won ? (result?.takesOffice ?? null) : null };
 }
