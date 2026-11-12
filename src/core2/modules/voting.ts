@@ -99,7 +99,9 @@ import {
   openPetition,
   petitionOf,
   petitionSigners,
+  petitionSignatures,
   type ContestRow,
+  type PetitionRule,
   type FilingRow,
   atLargeGroup,
 } from "./elections";
@@ -557,7 +559,7 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
   ).petition;
   const petition = openPetition(api, filing, {
     rule,
-    needed: petitionNeededHere(api, contest, rule.count),
+    needed: petitionNeededHere(api, contest, rule),
   });
   // Where the law asks no signatures, the clerk takes the filing at the
   // counter: nothing to circulate.
@@ -576,7 +578,7 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
       tag: rule.basis === "read" ? "SOURCED" : "ESTIMATED",
       citation: rule.source,
       asOf: api.state.date,
-      ...(rule.basis === "read"
+      ...(rule.basis === "read" || rule.basis === "scaled"
         ? {}
         : { estimatedFrom: "SG-GOV-petition-count-estimated" }),
     },
@@ -585,27 +587,33 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
 }
 
 /**
- * The signatures a petition needs in this world: the law's count where the
- * town is the district. Where the district reaches past the town, the
- * world holds no one outside it to sign, so the clerk counts the town's
- * share of the law's count by eligible voters, at least one; where the
- * district's voters are not on record (an island area's), by the town's
- * share of its people (`districtPeopleShare`).
+ * The signatures a petition needs in this world. Where the law scales the
+ * count to the town (a municipal "scaled" rule), the town's own voters set
+ * it. Otherwise the law's count where the town is the district; where the
+ * district reaches past the town, the world holds no one outside it to sign,
+ * so the clerk counts the town's share of the law's count by eligible voters,
+ * at least one; where the district's voters are not on record (an island
+ * area's), by the town's share of its people (`districtPeopleShare`). No
+ * petition asks more signatures than the town has voters.
  */
 function petitionNeededHere(
   api: CoreAPI,
   contest: ContestRow,
-  count: number,
+  rule: PetitionRule,
 ): number {
+  const voters = electorateRoll(api).reduce((n, v) => n + v.count, 0);
+  if (rule.basis === "scaled" && rule.scale)
+    return petitionSignatures(rule.scale, {
+      eligible: voters,
+      population: Number(api.state.placeMetadata.referencePopulation) || 0,
+    });
+  const count = rule.count;
   if (count <= 0) return 0;
   const { places } = basePlaces(api, contest);
   const total = places.reduce((n, p) => n + p.eligible, 0);
   const share =
     places.length && total > 0
-      ? Math.min(
-          1,
-          electorateRoll(api).reduce((n, v) => n + v.count, 0) / total,
-        )
+      ? Math.min(1, voters / total)
       : contest.level === "state" || contest.level === "federal"
         ? districtPeopleShare(api, contest)
         : 1;
@@ -615,31 +623,11 @@ function petitionNeededHere(
     api.stopgap("SG-GOV-petition-town-share");
     scaled = Math.max(1, Math.ceil(count * share));
   }
-  // A local race's petition never asks more than a share of the town's own
-  // voters, as the places' own laws scale it (elections-petition-larger-than-
-  // the-town): a town of a few dozen adults is not asked for thirty names.
   if (contest.level === "state" || contest.level === "federal") return scaled;
-  const voters = electorateRoll(api).reduce((n, v) => n + v.count, 0);
-  return petitionWithinElectorate(scaled, voters);
-}
-
-/**
- * A local petition's count against the town's voters: at most
- * `petitionMaxShareOfVoters` of them, and at least one signature where the
- * law asks any.
- */
-export function petitionWithinElectorate(
-  count: number,
-  voters: number,
-): number {
-  if (count <= 0 || voters <= 0) return count;
-  const cap = Math.max(
-    1,
-    Math.floor(voters * electionsParameter("petitionMaxShareOfVoters")),
-  );
-  if (count <= cap) return count;
-  // stopgapId: SG-GOV-petition-electorate-cap
-  return cap;
+  // A local petition cannot ask more names than the town has voters.
+  return voters > 0
+    ? Math.max(1, Math.min(scaled, Math.floor(voters)))
+    : scaled;
 }
 
 const islandPeople = new Map<string, number>();
