@@ -591,16 +591,17 @@ const ROUTES: readonly Route[] = [
       // A talk a scene opens is about the scene's moment.
       const occasionId = url.searchParams.get("momentId") ?? undefined;
       // The minute the talk is had at: the opening day is that evening at
-      // home, whatever the clock's own start of the day says (the opening's
-      // talks spend their minutes from the clock's morning); else the clock.
+      // home, when the household gets home (the opening's talks spend their
+      // minutes from the clock's morning); else the clock.
       const clockMinute = state.player.packet?.at.minuteOfDay;
-      const minuteOfDay =
+      const arrivalMinute =
         state.director?.ledger.opening?.date === requireCore().date
-          ? Math.max(
-              clockMinute ?? OPENING_EVENING_MINUTE,
-              OPENING_EVENING_MINUTE,
-            )
-          : clockMinute;
+          ? openingArrivalMinute(requireCore(), state.player.personId)
+          : undefined;
+      const minuteOfDay =
+        arrivalMinute === undefined
+          ? clockMinute
+          : Math.max(clockMinute ?? arrivalMinute, arrivalMinute);
       state.conversation = openConversation(
         requireCore(),
         state.player.personId,
