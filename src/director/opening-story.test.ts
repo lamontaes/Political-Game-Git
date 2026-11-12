@@ -70,10 +70,12 @@ describe("the opening story", () => {
         sentence.sourceRecordIds.some((id) => id.startsWith("macro-month:")),
         sentence.text,
       ).toBe(true);
-    // No figure at all (owner, Nov 1: "I don't like where this part of the
-    // speech where it just laces statistics"): the year is told in words.
+    // No figure but a point's context (owner, Nov 1: "I don't like where
+    // this part of the speech where it just laces statistics"; changed with
+    // the speech outline for his Nov 12 note that context may give one).
     for (const sentence of story.address.sentences)
-      expect(sentence.text, sentence.text).not.toMatch(/\d|percent/);
+      if (!sentence.facts.some((key) => /^context-/.test(key)))
+        expect(sentence.text, sentence.text).not.toMatch(/\d|percent/);
     // The party creed says the President's own party (an Oct 28 voice note:
     // the speech reads the President's party, traits and the world), and the
     // country's story ends on what the President will do about it.
@@ -81,14 +83,13 @@ describe("the opening story", () => {
     const country = story.address.sentences.filter(
       (row) => row.level === "country",
     );
+    // The theme's point opens on its context from the records (changed with
+    // the speech outline, Nov 12: before, the country's story ended on a
+    // claim about the year).
     if (country.length)
       expect(
-        country
-          .at(-1)!
-          .facts.some((key) =>
-            /^(mood|unemployment|inflation|wages)-/.test(key),
-          ),
-        country.at(-1)!.text,
+        country[0]!.facts.some((key) => /^context-/.test(key)),
+        country[0]!.text,
       ).toBe(true);
     // Composed from records, the same every time.
     expect(composeOpeningStory(core, playerId)).toEqual(story);

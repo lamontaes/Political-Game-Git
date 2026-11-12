@@ -318,7 +318,14 @@ export function composeBlocks(
   const ledIn = new Set<string>();
   // Whether the turn to the Vice President, which always names them, is still to come.
   let vpAhead = blocks.some((block) => block.key === "to-vp");
+  let paragraph: number | null = null;
   for (const block of blocks) {
+    // A pronoun points back only within its paragraph: a new paragraph says
+    // the person by role again ("she and I" three paragraphs after her name).
+    if (block.part !== paragraph) {
+      paragraph = block.part;
+      delete telling.text.lastPersonId;
+    }
     const moves = block.moves.filter((row): row is OpeningMove => !!row);
     // stopgapId: SG-PEOPLE-address-register
     markWordsStopgap("SG-PEOPLE-address-register");

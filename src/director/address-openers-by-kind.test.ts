@@ -226,10 +226,12 @@ describe("the shared parts of an address are the kind's own", () => {
       expect(kinds.length, where).toBeGreaterThan(2);
       for (const kind of kinds) {
         // The kind's greeting, occasion, creed and the rest are said in its own pieces.
+        // At least one sentence of its own (was two before the speech
+        // outline, Nov 12, which leaves out pieces that carry nothing).
         expect(
           byKind.get(kind)!.size,
           `${where} ${speech} ${kind}`,
-        ).toBeGreaterThan(1);
+        ).toBeGreaterThan(0);
         for (const other of kinds.filter((name) => name > kind))
           for (const text of byKind.get(kind)!)
             expect(
@@ -326,13 +328,18 @@ describe("the bank holds each kind's own greeting, occasion, oath, creed and uni
             const move = openingMove(subject, voice, role, {
               addressKind: kind,
             });
-            expect(move, `${subject} ${role} ${voice} ${kind}`).toBeTruthy();
-            for (const variant of move!.bank.parts.core!.variants) {
+            // A role whose pieces carry no fact and no stand is not offered
+            // (speech outline, Nov 12).
+            if (!move) continue;
+            for (const variant of move.bank.parts.core!.variants) {
               const part = OPENING_SPEECH_BANK.parts.find(
                 (row) => row.key === variant.pieceKey,
               )!;
               expect(part.addressKind, variant.key).toBe(kind);
               const other = seen.get(part.text);
+              // A greeting is its list of people (speech outline, Nov 12), and
+              // two kinds may greet the same people in the same words.
+              if (role === "salutation") continue;
               expect(
                 other === undefined || other === kind,
                 `${subject} ${role} ${voice}: ${kind} and ${other} share "${part.text}"`,
@@ -419,7 +426,10 @@ describe("the bank holds each kind's own greeting, occasion, oath, creed and uni
             for (const party of parties) {
               const move = openingMove(subject, voice, role, {
                 addressKind: kind,
-              })!;
+              });
+              // A role whose pieces carry no fact and no stand is not offered
+              // (speech outline, Nov 12: "This is a working speech.").
+              if (!move) continue;
               const result = composeAddress(
                 withFacts("chair-female", {
                   ...WORLD_TEXT,
