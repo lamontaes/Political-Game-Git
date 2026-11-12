@@ -223,6 +223,20 @@ export function usesSpot(u: PartUse, use: SceneSpot): boolean {
 }
 
 /**
+ * A use may answer a step's move ("follow-ask": whatever the asker asked as a
+ * follow-up, never the opening statement): it fits when the line answered is
+ * a piece written for that step and move.
+ */
+const STEP_MOVE = /^(?:open|state|reply|follow|continue|close)-[a-z-]+$/;
+function answersStep(after: string, answered: string | undefined): boolean {
+  return (
+    STEP_MOVE.test(after) &&
+    !!answered &&
+    answered.startsWith(`scene-talk.${after}.`)
+  );
+}
+
+/**
  * How closely one use of a piece fits a move, or -1 where it does not fit at
  * all. The one test `fitting` and the reply pairs (`reply-pairs.ts`) both
  * make, so the pairs the judges see are the pairs the picker can offer.
@@ -237,7 +251,12 @@ export function useFit(
   if (!steps.includes(u.step) || u.move !== use.move) return -one;
   if (u.role !== use.role) return -one;
   if (!usesSpot(u, use)) return -one;
-  if (u.after && u.after !== use.after && u.after !== use.afterPiece)
+  if (
+    u.after &&
+    u.after !== use.after &&
+    u.after !== use.afterPiece &&
+    !answersStep(u.after, use.afterPiece)
+  )
     return -one;
   if (u.outcome && u.outcome !== use.outcome) return -one;
   if (u.requiresFacts?.some((name) => !facts[name])) return -one;

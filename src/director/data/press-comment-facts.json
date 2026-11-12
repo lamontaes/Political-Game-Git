@@ -19,6 +19,12 @@
     "spread": "Names only; one fact per said reason.",
     "checkedAgainst": "The pieces of the on-record set that require each fact."
   },
+  "laterByForm": {
+    "value": { "ordinance": "the ordinance", "default": "the bill" },
+    "tag": "TUNABLE",
+    "spread": "Words only: how a measure is said after its name, by its form (BillRow.form.kind).",
+    "checkedAgainst": "data/english/bill-names.json forms; the coordinator's note of Nov 12 (\"after that 'it', 'the ordinance'\")."
+  },
   "nextByStatus": {
     "value": {
       "drafted": "vote",

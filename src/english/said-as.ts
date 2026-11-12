@@ -328,7 +328,8 @@ export function ownPlaceSaid(tie: "student" | "worker"): string {
 }
 
 /**
- * An organization named once in a text, then said by the tie (`ownPlaceSaid`):
+ * An organization or a measure named once in a text, then said by the tie
+ * (`ownPlaceSaid`) or, for a measure, by its kind ("the ordinance"):
  * every later whole-word mention in these texts, in order, becomes the word
  * for it ("a day off from work", "Work wears me out."). `named` says whether
  * an earlier text already named it; it returns the texts and whether the name
@@ -337,10 +338,11 @@ export function ownPlaceSaid(tie: "student" | "worker"): string {
 export function nameOnceThen(
   texts: readonly string[],
   name: string,
-  tie: "student" | "worker",
+  /** The tie an organization is said by after, or the words a measure is said by after ("the ordinance"). */
+  tie: "student" | "worker" | { readonly after: string },
   named: boolean,
 ): { texts: string[]; named: boolean } {
-  const word = ownPlaceSaid(tie);
+  const word = typeof tie === "string" ? ownPlaceSaid(tie) : tie.after;
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const pattern = new RegExp(`(?<![\\w'])${escaped}(?![\\w'])`, "g");
   let said = named;

@@ -5300,6 +5300,25 @@
       }
     },
     {
+      "id": "measure-said-by-what-it-does",
+      "says": "A person says a bill by what it does, once by its name and then by its kind (\"the ordinance\"); its number is for the bill paper, never said aloud.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "saying the full name every time. There needs to be pronouns and titles.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check (words composer, unit 4): a measure's number in what a person says or a reply offered. The name once, then the kind, is said-as's nameOnceThen, applied to the reporter's call (src/director/press-comment-facts.ts measureOnce). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["measure-number-not-spoken"],
+        "applies": ["talk:home", "talk:town", "scene"]
+      }
+    },
+    {
       "id": "offered-replies-are-different-choices",
       "says": "The replies offered on one screen are different moves in different words: no two open with the same sentence, and no line says one sentence twice in a row.",
       "judges": "exchange",

@@ -498,6 +498,7 @@
     "^we see it differently, then\\b"
   ],
   "agreementOnlyNote": "An answer to the player's agreeing or disagreeing reply that only says the two agree or differ, and adds nothing: what the speaker expects to happen, who they will tell or what they will do (words composer, Nov 12: \"Glad you see it like I do\" in every world).",
+  "measureNumber": "\\b(?:Ordinance|Resolution|Bill|Act|H\\.R\\.|S\\.|LB|HB|SB|AB)\\s+(?:No\\.\\s*)?\\d[\\d-]*",
   "voteMonth": "\\b(?:come|in|next|this) (January|February|March|April|May|June|July|August|September|October|November|December)\\b",
   "voteMonthNote": "A line that names the month a question is voted on is true only when the world's election calendar holds an election in that month within the year after the line is said (owner via the coordinator, Nov 12: 'come November' said on January 20).",
   "organizationWords": [

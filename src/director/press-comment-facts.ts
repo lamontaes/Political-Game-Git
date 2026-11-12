@@ -33,6 +33,9 @@ import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { Fact } from "../english/scene-talk-words";
 import { questionAbout } from "../english/question-names";
+import { billNameOf, billTitleSaid } from "../english/bill-names";
+import { nameOnceThen } from "../english/said-as";
+import type { SceneTalk, SceneTalkLine, TreeNode } from "./scene-talk";
 import rules from "./data/press-comment-facts.json" with { type: "json" };
 
 /** The reasons a member says out loud, each a part of their position, in the order a tie goes. */
@@ -50,6 +53,21 @@ export function pressCommentFacts(
   const bill = billOf(api, billId);
   if (!bill) return {};
   const facts: Record<string, Fact> = {};
+  // A bill is said by what it does, never by its number (the number is the
+  // bill paper's): its name from the bill-name book, then by its kind.
+  const named = billNameOf(bill);
+  if (named) {
+    facts.bill = {
+      text: billTitleSaid(named.title),
+      sourceRecordIds: [bill.id],
+    };
+    facts.story = facts.bill;
+    const later = rules.laterByForm.value as Record<string, string>;
+    facts["bill-later"] = {
+      text: later[bill.form.kind] ?? later.default!,
+      sourceRecordIds: [bill.id],
+    };
+  }
   const question = bill.provisions.find((row) => row.question)?.question;
   const about = question ? questionAbout(question) : null;
   if (about) facts.about = { text: about, sourceRecordIds: [bill.id] };
@@ -94,6 +112,7 @@ export function pressCommentFacts(
       : bill.sponsorId === memberId
         ? "views"
         : undefined;
+    if (reason) facts["has-reason"] = { text: "yes", sourceRecordIds: cited };
     if (reason)
       facts[
         `reason-${rules.reasonFacts.value[reason as keyof typeof rules.reasonFacts.value]}`
@@ -108,4 +127,55 @@ export function pressCommentFacts(
   ];
   if (next) facts[`next-${next}`] = { text: "yes", sourceRecordIds: [bill.id] };
   return facts;
+}
+
+/**
+ * A measure named once in a scene, then said by its kind ("the ordinance"):
+ * the narration, the open and the statement first, then each branch of the
+ * tree in the order a player meets it, each branch carrying whether the name
+ * was already said on the way to it (said-as, `nameOnceThen`).
+ */
+export function measureOnce(
+  talk: SceneTalk,
+  name: string,
+  after: string,
+): void {
+  const done = new Set<SceneTalkLine>();
+  const say = (lines: readonly SceneTalkLine[], named: boolean): boolean => {
+    let said = named;
+    for (const line of lines) {
+      if (done.has(line)) {
+        said ||= line.text.includes(name);
+        continue;
+      }
+      // The name as said mid-sentence and as it opens one ("The ...").
+      for (const form of [name, name.charAt(0).toUpperCase() + name.slice(1)]) {
+        const out = nameOnceThen([line.text], form, { after }, said);
+        line.text = out.texts[0]!;
+        said = out.named;
+      }
+      done.add(line);
+    }
+    return said;
+  };
+  const head = [
+    ...talk.narration,
+    ...(talk.open ? [talk.open] : []),
+    ...talk.intro,
+    talk.state,
+  ];
+  const named = say(head, false);
+  const walk = (node: TreeNode, before: boolean): void => {
+    const here = say(node.lines, before);
+    for (const reply of node.replies) {
+      // Each reply offered is said from where the screen stands.
+      const said = say([reply.line], here);
+      if (reply.next) walk(reply.next, said);
+    }
+    for (const branch of node.branches ?? []) walk(branch.node, here);
+    if (node.end?.close) say([node.end.close], here);
+  };
+  walk(talk.tree, named);
+  say(talk.lines, false);
+  if (talk.close) say([talk.close], true);
 }

@@ -894,6 +894,37 @@ export const organizationNamedOnce: ComposedCheck = (text) => {
   return found;
 };
 
+// ---- measure-number-not-spoken ----
+
+const MEASURE_NUMBER = new RegExp(data.measureNumber, "g");
+
+/**
+ * A measure's number said aloud ("Ordinance 2025-1"): people say a bill by
+ * what it does; the number is for the bill paper. Read in what a person says
+ * and the replies offered, never in narration or print.
+ */
+export const measureNumberNotSpoken: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    const spoken = [
+      ...screen.lines.filter((line) => line.speakerId).map((line) => line.text),
+      ...screen.offered,
+    ];
+    for (const said of spoken)
+      for (const match of plainQuotes(said).matchAll(MEASURE_NUMBER))
+        found.push(
+          breakOf(
+            "measure-number-not-spoken",
+            text,
+            at,
+            `a measure said by its number (${match[zero]})`,
+            said,
+          ),
+        );
+  });
+  return found;
+};
+
 // ---- offered-replies-differ, no-sentence-twice-in-a-line ----
 
 const sameWords = (text: string): string =>
@@ -976,6 +1007,7 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "organization-named-once": organizationNamedOnce,
   "offered-replies-differ": offeredRepliesDiffer,
   "no-sentence-twice-in-a-line": noSentenceTwiceInALine,
+  "measure-number-not-spoken": measureNumberNotSpoken,
 };
 
 /** A composed rule's checks, as a list. */

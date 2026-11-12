@@ -93,7 +93,7 @@ import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { constituentFacts } from "./constituent-help-facts";
-import { pressCommentFacts } from "./press-comment-facts";
+import { measureOnce, pressCommentFacts } from "./press-comment-facts";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
@@ -1341,7 +1341,7 @@ function composeBinding(
     for (const [key, fact] of Object.entries(
       pressCommentFacts(core, askedId, said.billId),
     ))
-      facts[key] ??= fact;
+      facts[key] = fact;
   }
   if (type.purpose === "press-comment" && !facts.story) {
     const about = facts.bill ?? facts.cause;
@@ -1429,6 +1429,9 @@ function composeBinding(
     wording,
   );
   if (result.kind !== "composed") return result;
+  // A measure the call is about is named once, then said by its kind.
+  if (type.purpose === "press-comment" && facts["bill-later"] && facts.bill)
+    measureOnce(result.talk, facts.bill.text, facts["bill-later"].text);
   return {
     kind: "composed",
     scene: {

@@ -256,6 +256,21 @@ const FIXTURES: Record<
       text("scene", [[["rep", "Thanks. Your yes goes in as you said it."]]]),
     ),
   },
+  "measure-number-not-spoken": {
+    catches: sampleOf(
+      text("scene", [[["rep", "You voted against Ordinance 2025-1. Why?"]]]),
+    ),
+    spares: sampleOf(
+      text("scene", [
+        [
+          [
+            "rep",
+            "You voted against the Free Fares for Riders Ordinance. Why?",
+          ],
+        ],
+      ]),
+    ),
+  },
   "organization-named-once": {
     catches: sampleOf(
       talk("dad", [
