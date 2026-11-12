@@ -295,6 +295,11 @@ export function reportOf(
         "",
         `Lines judged: ${row.verdicts.judged}. Judged bad: ${row.verdicts.bad}. Waiting for a verdict: ${row.verdicts.waiting}; they play.`,
       );
+    else if (rule.test.kind === "composed")
+      lines.push(
+        "",
+        "Reads whole composed texts, not bank lines: npm run words:composed counts its breaks.",
+      );
     else if (rule.test.kind === "judged")
       lines.push(
         "",
