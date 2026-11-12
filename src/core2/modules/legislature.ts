@@ -1761,7 +1761,20 @@ export function shapedRate(
 ): { unit: string; terms: Record<string, unknown> } | null {
   const schedules = current?.terms?.schedules as
     Record<string, { brackets?: { over: number; rate: number }[] }> | undefined;
-  const shape = provision.shape ?? (schedules ? "graduated" : null);
+  // A row whose schedules hold no rated bracket (a "none" starting row: the
+  // place has no such tax) has nothing to scale, so a tax adopted on it is
+  // flat, the shape the policy question writes for a first tax.
+  const hasRatedBracket =
+    !!schedules &&
+    Object.values(schedules).some(
+      (s) =>
+        Array.isArray(s.brackets) &&
+        s.brackets.length > 0 &&
+        s.brackets.every((b) => typeof b.rate === "number"),
+    );
+  const shape =
+    provision.shape ??
+    (schedules ? (hasRatedBracket ? "graduated" : "flat") : null);
   if (shape === "flat")
     return { unit: "percent-flat", terms: { system: "flat" } };
   // A death tax's schedule (an exemption and a rate that slides to the top,
