@@ -3597,6 +3597,22 @@ function mainTopic(
     if (subject.kind === "own-view" && !subject.facts["has-reason"]) return;
     // What the player heard from someone in the house today is not told again.
     if (!asks && heardNow.has(`${HEARD_SUBJECT}${subject.id}`)) return;
+    // A story is told to the player once, by whoever in the house tells it
+    // first, on any day (one telling for the house).
+    if (
+      subject.kind === "news" &&
+      heardRows.some(
+        (row) =>
+          row.key === `${HEARD_SUBJECT}${subject.id}` ||
+          // Another paper's story on a question the house talked over this
+          // week is the same news.
+          (!!subject.news?.question &&
+            row.key === `${HEARD_QUESTION}${subject.news.question}` &&
+            daysBetween(makeIsoDate(row.at), makeIsoDate(core.date)) <
+              SMALL_TALK_AGAIN_DAYS),
+      )
+    )
+      return;
     if (weight > zero && (!best || weight > best.weight))
       best = { subject, asks, weight };
   };
@@ -3803,6 +3819,7 @@ function openConversationNow(
     !toldIds.some(
       (id) =>
         heardNow.has(`${HEARD_SUBJECT}${id}`) ||
+        heardRows.some((row) => row.key === `${HEARD_SUBJECT}${id}`) ||
         talked.has(id) ||
         talked.has(`${otherId}>${id}`),
     )
