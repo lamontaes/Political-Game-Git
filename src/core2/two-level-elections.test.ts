@@ -147,7 +147,7 @@ function playTo(draw: number) {
       readonly pledges: readonly (Readonly<Record<string, number>> | null)[];
       readonly pledgedChoice: readonly number[];
     };
-    const labelled = row.field.some((f) => f.side !== 0);
+    const labeled = row.field.some((f) => f.side !== 0);
     const k = 4 / electorateParameter("appealPerShare");
     for (const [i, b] of kept.entries()) {
       const ids = Object.keys(b.appeal);
@@ -159,7 +159,7 @@ function playTo(draw: number) {
         const pledgedAt = row.pledgedChoice[i]!;
         const rest = pledgedAt >= 0 ? b.weight - 1 : b.weight;
         if (pledgedAt >= 0) expected[row.field[pledgedAt]!.id] = 1;
-        if (labelled || ids.length === 1) {
+        if (labeled || ids.length === 1) {
           if (first) expected[first] = (expected[first] ?? 0) + rest;
         } else {
           const sum = ids.reduce(
@@ -189,7 +189,7 @@ function playTo(draw: number) {
     if (!contested) continue;
     partisan += 1;
     // Both major-party candidates get real votes. A candidate of no party
-    // stands on the labelled ballot without a side, and a voter goes whole to
+    // stands on the labeled ballot without a side, and a voter goes whole to
     // the first in their own appeal (countedShareRule): one with no votes is
     // one no kept ballot put first, read from the ballots themselves.
     for (const f of filings) {
