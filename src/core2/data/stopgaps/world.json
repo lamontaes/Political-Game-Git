@@ -621,6 +621,18 @@
     "status": "resolved"
   },
   {
+    "id": "SG-WORLD-tax-index-january",
+    "kind": "approximation",
+    "file": "src/core2/tax-index.ts",
+    "line": 36,
+    "whatItFakes": "An indexed tax amount moves by prices (or average pay) in January of this year against January of its dollar year. The statutes use a year's average: the federal brackets the chained CPI-U over the twelve months to August of the year before (26 U.S.C. 1(f)), the wage base the national average wage index of two years before (42 U.S.C. 430), and each indexing state its own measure.",
+    "why": "The economy keeps one price index and one average hourly pay by month; one January reading per year moves the amounts once a year, as the law does, without a second series.",
+    "addedBy": "opus-5251 (money-tax-brackets-and-benefits-not-indexed-to-prices)",
+    "addedAt": "2026-11-11",
+    "replacement": "Each law row names its own index and lag (the twelve-month average to August, or the wage index two years back), read from the economy's months.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-owner-decision-player-eviction",
     "kind": "owner-decision",
     "file": "src/core2/modules/housing.ts",

@@ -42,3 +42,5 @@ branch: claude/pool-release-audit-15-energy-cost-year
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:25 UTC) on branch claude/pool-release-audit-15-energy-cost-year.
+
+**Decision (sonnet-2698, Nov 11): employers without books never organize, on purpose.** An energy-pricing law is costed by a business's book: `interest-groups.ts` reads `book?.annualOtherCostsMinor ?? 0` for the employers a bill binds (line 262), so an employer with no finance book is costed at 0 and has nothing to organize over, and the monthly settlement (`place-prices.ts`, the loop over `c.finance.businesses`) charges such an employer nothing either, so the year cost and the settlement agree there. Nothing was added to give a bookless employer a made-up cost; if one should pay, that is a book, not a guess in this function.

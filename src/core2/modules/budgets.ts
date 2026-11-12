@@ -19,6 +19,7 @@
  *   by the law in force (`tax-withholding.ts`), move from the worker's cash to
  *   each government's account through the journal on payday.
  */
+import { taxIndexOf } from "../tax-index";
 import type { GovernmentLevel } from "../government-level";
 import { corePlaceByKey } from "../place-lookup";
 import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
@@ -1933,6 +1934,7 @@ function withholdingDue(
     incomeTax: law("income-tax"),
     socialSecurity: law("social-security-tax"),
     medicare: law("medicare-tax"),
+    index: taxIndexOf(api),
   });
   return { lines, ytdId, ytd };
 }
