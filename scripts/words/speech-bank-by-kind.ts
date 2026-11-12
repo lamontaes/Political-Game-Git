@@ -883,56 +883,61 @@ const TIES: [string, string, string, string][] = [
     "polished",
     "for",
     "law-not-in-force",
-    "That is one more reason I am for {about}.",
+    "We cannot go another {context-years} years like that.",
   ],
   [
     "plain",
     "for",
     "law-not-in-force",
-    "That's a big part of why I want {about}.",
+    "We can't keep that up for another {context-years} years.",
   ],
   [
     "polished",
     "for",
     "law-in-force",
-    "That is one more reason to keep {about}.",
+    "After {context-years} years of that, this is no time to lose ground.",
   ],
-  ["plain", "for", "law-in-force", "That's why I'm standing by {about}."],
+  [
+    "plain",
+    "for",
+    "law-in-force",
+    "After {context-years} years of that, we can't afford to go backward.",
+  ],
   [
     "polished",
     "against",
     "law-not-in-force",
-    "{about} would only add to that burden.",
+    "After {context-years} years of that, families do not need one more cost.",
   ],
   [
     "plain",
     "against",
     "law-not-in-force",
-    "{about} would only make that worse.",
+    "After {context-years} years of that, folks don't need one more thing to pay for.",
   ],
   [
     "polished",
     "against",
     "law-in-force",
-    "That is one more reason to repeal the law that brought in {about}.",
+    "After {context-years} years of that, it is time for a change.",
   ],
   [
     "plain",
     "against",
     "law-in-force",
-    "That's one more reason to get rid of {about}.",
+    "After {context-years} years of that, it's time we tried something else.",
   ],
 ];
-// The tie follows the ask with the figure between them, so it names the
-// question again: a pronoun three sentences from its noun reads as nobody's
-// (the words lead, Nov 12). A modal ("would") agrees with either number.
+// The tie joins the figure to the speaker's side and leads into the ask
+// that names the question, so the question is named once in the point and
+// no pronoun stands far from its noun (the words lead, Nov 12).
 for (const [voice, side, law, text] of TIES)
   ADD.push({
     role: "tie",
     subjects: ALL,
     voice,
     text,
-    needs: [`stance-${side}`, law, "figure-ties", "about"],
+    needs: [`stance-${side}`, law, "figure-ties", "context-years"],
   });
 // 20. A law in force is defended or repealed by what the speaker will do,
 // never stated as a fact a belief could lead into ("Because I think ..., a
