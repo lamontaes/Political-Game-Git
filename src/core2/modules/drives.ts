@@ -2128,6 +2128,14 @@ export function createDrivesModule(
       },
     },
     eligibilityRules: {
+      // A planned share runs again on later days; the drive's told set stops
+      // the second telling to the same person.
+      "drive-target-untold": (api, actor, offer) => {
+        const drive = offer.driveId
+          ? heldFor(api, actor.id)?.get(offer.driveId)
+          : undefined;
+        return !!drive && !drive.told.has(offer.targetId);
+      },
       "no-known-group-on-topic": (api, actor, offer) => {
         const drive = offer.driveId
           ? heldFor(api, actor.id)?.get(offer.driveId)
