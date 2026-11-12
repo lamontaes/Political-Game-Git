@@ -562,4 +562,10 @@ it("dev start seats the player through the offices term writer: serving term end
   expect(core.durableLog.has(`took-office:${mine.seatId}:${date}`), where).toBe(
     true,
   );
+  // Another engine reads the seated term: a month on, the state office day
+  // still finds the player in that term, by its record id.
+  advanceCore(core, addDays(makeIsoDate(core.date), 30));
+  const later = stateOfficeOf(api, player.id);
+  expect(later?.personId, `${where}: the state office day`).toBe(player.id);
+  expect(later?.termId, `${where}: the term read`).toBe(mine.id);
 });
