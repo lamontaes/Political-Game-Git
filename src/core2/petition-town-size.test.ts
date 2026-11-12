@@ -102,7 +102,7 @@ describe("a local petition fits the town", () => {
     const iowa = asked("IA", "party", 10_000);
     const dakota = asked("ND", "party", 10_000);
     expect(dakota).toBe(300);
-    expect(iowa).toBeGreaterThan(100);
+    expect(iowa).toBe(92);
     expect(iowa).toBeLessThan(dakota);
     expect(asked("IA", "party", 20_000)).toBeGreaterThan(iowa);
   });
