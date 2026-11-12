@@ -20,6 +20,10 @@ const NAMES = data.names as Readonly<
       readonly repeal?: string;
       readonly keep?: string;
       readonly law?: string;
+      readonly principles?: Readonly<
+        Record<"for" | "against", readonly number[]>
+      >;
+      readonly reasons?: Readonly<Record<"for" | "against", string>>;
       readonly today?: {
         readonly without: Readonly<Record<"for" | "against", string>>;
         readonly with: Readonly<Record<"for" | "against", string>>;
@@ -103,6 +107,22 @@ export function questionSide(
 /** The question as a noun phrase: "the bill is about {a higher minimum wage}". */
 export function questionAbout(question: string): string | null {
   return NAMES[question]?.about ?? null;
+}
+
+/**
+ * What can argue one side of a question: the places (1 to 4, in key order)
+ * of the belief-words clauses of its family's pole that are a reason for
+ * that side, and the side's own reason, said when none of them fits.
+ */
+export function questionReasons(
+  question: string,
+  side: "for" | "against",
+): { readonly principles: readonly number[]; readonly reason: string | null } {
+  const row = NAMES[question];
+  return {
+    principles: row?.principles?.[side] ?? [],
+    reason: row?.reasons?.[side] ?? null,
+  };
 }
 
 /** The law in force on the question, as the thing itself: "repeal {paid family leave}", "{the higher federal minimum wage}". */

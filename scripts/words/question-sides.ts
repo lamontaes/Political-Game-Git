@@ -202,6 +202,56 @@ for (const [question, row] of Object.entries(data.names)) {
       count(`4. a question's ${field} is set from its row`);
     }
 }
+// 6. Which principles can argue each side, and each side's own reason (the
+// words lead, Nov 12: "Law and order" does not argue for asking about
+// records on job forms). `principles.for` lists the belief-words clauses of
+// the question's family and supporters' pole that are a reason for it, by
+// their place among that pole's clauses in key order (1 to 4);
+// `principles.against` the same for the other pole. `reasons` is the
+// question's own reason on each side, said when no listed clause is in the
+// speaker's voice (scripts/words/question-reasons.tsv).
+const [reasonHeader, ...reasonLines] = readFileSync(
+  "scripts/words/question-reasons.tsv",
+  "utf8",
+)
+  .trim()
+  .split("\n");
+const reasonColumns = reasonHeader!.split("\t");
+const reasonRows = new Map(
+  reasonLines.map((line) => {
+    const cells = Object.fromEntries(
+      line.split("\t").map((cell, at) => [reasonColumns[at]!, cell]),
+    ) as Record<string, string>;
+    return [cells.key!, cells] as const;
+  }),
+);
+const numbers = (cell: string | undefined) =>
+  (cell ?? "")
+    .split(",")
+    .filter(Boolean)
+    .map((value) => Number(value));
+for (const [question, row] of Object.entries(data.names)) {
+  const found = reasonRows.get(
+    question.split(":")[1]!.split(".").slice(1).join("."),
+  );
+  if (!found) throw new Error(`${question} has no row in question-reasons.tsv`);
+  const wanted = {
+    principles: {
+      for: numbers(found["for-principles"]),
+      against: numbers(found["against-principles"]),
+    },
+    reasons: { for: found["for-reason"]!, against: found["against-reason"]! },
+  };
+  const now = row as { principles?: unknown; reasons?: unknown };
+  if (
+    JSON.stringify(now.principles) !== JSON.stringify(wanted.principles) ||
+    JSON.stringify(now.reasons) !== JSON.stringify(wanted.reasons)
+  ) {
+    now.principles = wanted.principles;
+    now.reasons = wanted.reasons;
+    count("6. a question's sides name the principles that argue them");
+  }
+}
 // 5. More wordings of how a question stands, per law state and side
 // (scripts/words/question-today-more.tsv), so the same question in many
 // worlds is not told in the same sentence (opening-address-versions; the

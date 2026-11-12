@@ -32,7 +32,7 @@
         "spread": "12 to 26",
         "note": "Real inaugurals run about 1,400 to 2,400 words; the game's paragraph-per-Continue address keeps the shape at a third of that."
       },
-      "leastPoints": 2
+      "leastPoints": 1
     },
     "state-of-the-union": {
       "bank": "state-of-the-union",
@@ -59,7 +59,7 @@
         "spread": "14 to 30",
         "note": "A State of the Union runs 5,000 to 7,000 words; the game keeps its order at a small share of that."
       },
-      "leastPoints": 2
+      "leastPoints": 1
     },
     "state-of-the-state": {
       "bank": "state-of-the-state",
@@ -77,7 +77,7 @@
         "spread": "8 to 18",
         "note": "Shorter than the President's: a governor's address is about a third as long as a State of the Union (Polis 2024)."
       },
-      "leastPoints": 2
+      "leastPoints": 1
     },
     "town-address": {
       "bank": "town-address",
@@ -95,7 +95,7 @@
         "spread": "6 to 16",
         "note": "A State of the City gives three or four points (Ginther 2024)."
       },
-      "leastPoints": 2
+      "leastPoints": 1
     },
     "campaign": {
       "bank": null,
@@ -113,7 +113,7 @@
         "spread": "4 to 10",
         "note": "A stump speech is short and repeated at every stop (Wikipedia, Stump speech). Its words are the player's built speech (src/director/speech-builder.ts); see SG-WORDS-speech-outline-other-kinds."
       },
-      "leastPoints": 2
+      "leastPoints": 1
     },
     "floor": {
       "bank": null,
@@ -131,7 +131,7 @@
         "spread": "2 to 6",
         "note": "A House one-minute addresses the chair, makes one point and yields (CRS RL30135)."
       },
-      "leastPoints": 2
+      "leastPoints": 1
     },
     "victory": {
       "bank": null,
@@ -244,21 +244,6 @@
     "education": ["schools"],
     "healthcare": ["health"],
     "infrastructure": ["roads"]
-  },
-  "themes": {
-    "about": "The themes a speech can take, each a set of the bill catalog's subjects (speechwriting guides: one theme carried by about three points). A theme's points are the speaker's stands on its questions; a theme needs at least a row's `leastPoints` of them. Grouped so the federal level, whose questions are few in each subject, can still make two points under one theme.",
-    "economy": ["taxes-finance", "labor", "business", "foreign-trade"],
-    "government": ["government", "technology"],
-    "justice": ["justice"],
-    "families": [
-      "healthcare",
-      "education",
-      "housing",
-      "rights",
-      "social-insurance"
-    ],
-    "land": ["energy-environment", "infrastructure", "agriculture"],
-    "world": ["immigration", "defense", "foreign-affairs"]
   },
   "subjectOfQuestion": {
     "about": "Questions the bill catalog gives no subject, placed under the subject a speech treats them as part of.",

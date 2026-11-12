@@ -60,6 +60,7 @@ import {
   questionSide,
   questionTo,
   questionLaw,
+  questionReasons,
   questionToday,
   questionTodayWordings,
 } from "../english/question-names";
@@ -140,7 +141,6 @@ const OUTLINES = outlineData as unknown as {
     Weight
   >;
   topicsBySubject: Readonly<Record<string, readonly string[] | string>>;
-  themes: Readonly<Record<string, readonly string[] | string>>;
   subjectOfQuestion: Readonly<Record<string, string>>;
   subjectPull: Readonly<Record<string, readonly string[] | string>>;
   pointShapes: {
@@ -845,10 +845,39 @@ function beliefWords(
   family: string,
   pole: "a" | "b",
   question: string,
+  side: "for" | "against",
   said: string[],
+  thisSpeech: Set<string>,
 ): { text: string; piece: string } | null {
   const move = openingMove(kind, voice, "belief-words");
   if (!move) return null;
+  // Only a principle the question's own row says argues this side (the
+  // words lead, Nov 12): the family and pole's clauses, by their place in
+  // key order; otherwise the side's own reason.
+  const { principles, reason } = questionReasons(question, side);
+  const ofPole = OPENING_SPEECH_BANK.parts
+    .filter((part) =>
+      part.uses.some(
+        (use) =>
+          use.role === "belief-words" &&
+          (use.requiresFacts ?? []).includes(`family-${family}`) &&
+          (use.requiresFacts ?? []).includes(`pole-${pole}`),
+      ),
+    )
+    .map((part) => part.key)
+    .sort();
+  const allowed = new Set(
+    principles.map((at) => ofPole[at - P.one]).filter(Boolean),
+  );
+  // A principle said already in this speech gives way to another, then to
+  // the side's own reason: no frame or belief twice in one speech.
+  const variants = move.bank.parts.core.variants.filter(
+    (variant) => allowed.has(variant.key) && !thisSpeech.has(variant.key),
+  );
+  const own = reason
+    ? { text: reason, piece: `reason:${question}:${side}` }
+    : null;
+  if (!variants.length) return own;
   const result = composeAddress(
     packet(
       `opening:${core.date}:${speakerId}/belief-${question}`,
@@ -862,19 +891,28 @@ function beliefWords(
       [speakerId],
     ),
     "election-night",
-    [move],
-    // A belief already said in this speech is said again only when its
-    // family and pole hold no other wording.
+    [
+      {
+        ...move,
+        bank: {
+          ...move.bank,
+          parts: { ...move.bank.parts, core: { variants } },
+        },
+      },
+    ],
+    // A belief already said, here or in the speaker's earlier addresses,
+    // is said again only when no other listed principle can say it.
     { recentPartKeys: said },
   );
-  if (result.kind !== "rendered") return null;
+  if (result.kind !== "rendered") return own;
   const part = result.moves[P.zero]?.parts[P.zero];
-  if (!part) return null;
+  if (!part) return own;
   said.push(part.variantKey);
+  thisSpeech.add(part.variantKey);
   const text = OPENING_SPEECH_BANK.parts.find(
     (row) => row.key === part.variantKey,
   )?.text;
-  return text ? { text, piece: part.variantKey } : null;
+  return text ? { text, piece: part.variantKey } : own;
 }
 
 /** A governor's or a mayor's year as claims, read from the term read of their realm. */
@@ -952,18 +990,26 @@ export function subjectOf(question: string): string | null {
   );
 }
 
-/** The theme a question's subject sits under (speech-outlines.json `themes`). */
+/**
+ * The theme a question sits under: its family, the principle both sides of
+ * it argue from (question-names.json `family`). A speech is about one
+ * principle, so every point it makes is argued from the same belief (the
+ * words lead, Nov 12: abortion, then housing discrimination, then teacher
+ * pay, "with nothing joining them").
+ */
 export function themeOfQuestion(question: string): string | null {
-  const subject = subjectOf(question);
-  return (
-    Object.keys(OUTLINES.themes).find(
-      (key) =>
-        key !== "about" &&
-        subject !== null &&
-        subjectsOf(key).includes(subject),
-    ) ?? null
-  );
+  return questionFamily(question)?.family ?? null;
 }
+
+/** Every theme: each family a named question belongs to. */
+const THEMES: readonly string[] = [
+  ...new Set(
+    NAMED_QUESTIONS.flatMap((question) => {
+      const theme = themeOfQuestion(question);
+      return theme ? [theme] : [];
+    }),
+  ),
+].sort();
 
 /** How many named questions a theme holds, at every level. */
 function themeSize(theme: string): number {
@@ -973,17 +1019,20 @@ function themeSize(theme: string): number {
 }
 
 /** The mean number of named questions a theme holds. */
-const MEAN_THEME_SIZE =
-  NAMED_QUESTIONS.length /
-  Math.max(
-    P.one,
-    Object.keys(OUTLINES.themes).filter((key) => key !== "about").length,
-  );
+const MEAN_THEME_SIZE = NAMED_QUESTIONS.length / Math.max(P.one, THEMES.length);
 
-/** The subjects under a theme. */
+/** The bill catalog's subjects a theme's questions belong to. */
 function subjectsOf(theme: string): readonly string[] {
-  const row = OUTLINES.themes[theme];
-  return Array.isArray(row) ? row : [];
+  return [
+    ...new Set(
+      NAMED_QUESTIONS.filter(
+        (question) => themeOfQuestion(question) === theme,
+      ).flatMap((question) => {
+        const subject = subjectOf(question);
+        return subject ? [subject] : [];
+      }),
+    ),
+  ];
 }
 
 /** How far a speaker's view on a question stands from a centrist's. */
@@ -1068,53 +1117,41 @@ export function themeOf(
           : P.zero;
       }),
     );
-  const strongest = Math.max(
-    P.zero,
-    ...Object.keys(OUTLINES.themes)
-      .filter((key) => key !== "about")
-      .map(pullOf),
-  );
-  const scored = Object.keys(OUTLINES.themes)
-    .filter((key) => key !== "about")
-    .map((theme) => {
-      const under = themeStands(official, stands, theme);
-      const condition = national
-        ? P.zero
-        : Math.max(
-            P.zero,
-            ...subjectsOf(theme).flatMap((subject) =>
-              topicsOf(subject).map((topic) => hardness(country, topic)),
-            ),
-          );
-      return {
-        theme,
-        enough: under.length >= least,
-        score:
-          // The speaker's own causes count where they reach a question this
-          // speech can ask about: a signature issue in a subject the
-          // speaker's level has no question in does not pull the theme.
-          // A theme that holds many questions is not favored for its size:
-          // the speaker's causes under it count against how many it holds.
-          (w.signature.value *
-            (official?.signature ?? []).filter(
-              (row) => themeOfQuestion(row.question) === theme,
-            ).length *
-            MEAN_THEME_SIZE) /
-            Math.max(P.one, themeSize(theme)) +
-          (under.some((stand) => !stand.law.inForce)
-            ? w.actable.value
-            : P.zero) +
-          w.stance.value *
-            Math.max(
-              P.zero,
-              ...under.map((stand) => distinct(official, stand)),
-            ) +
-          w.condition.value * condition +
-          (strongest > P.zero
-            ? (w.traits.value * pullOf(theme)) / strongest
-            : P.zero),
-      };
-    })
+  const strongest = Math.max(P.zero, ...THEMES.map(pullOf));
+  const scored = THEMES.map((theme) => {
+    const under = themeStands(official, stands, theme);
+    const condition = national
+      ? P.zero
+      : Math.max(
+          P.zero,
+          ...subjectsOf(theme).flatMap((subject) =>
+            topicsOf(subject).map((topic) => hardness(country, topic)),
+          ),
+        );
+    return {
+      theme,
+      enough: under.length >= least,
+      score:
+        // The speaker's own causes count where they reach a question this
+        // speech can ask about: a signature issue in a subject the
+        // speaker's level has no question in does not pull the theme.
+        // A theme that holds many questions is not favored for its size:
+        // the speaker's causes under it count against how many it holds.
+        (w.signature.value *
+          (official?.signature ?? []).filter(
+            (row) => themeOfQuestion(row.question) === theme,
+          ).length *
+          MEAN_THEME_SIZE) /
+          Math.max(P.one, themeSize(theme)) +
+        (under.some((stand) => !stand.law.inForce) ? w.actable.value : P.zero) +
+        w.stance.value *
+          Math.max(P.zero, ...under.map((stand) => distinct(official, stand))) +
+        w.condition.value * condition +
+        (strongest > P.zero
+          ? (w.traits.value * pullOf(theme)) / strongest
+          : P.zero),
+    };
+  })
     .filter((row) => row.enough && row.score > P.zero)
     .sort((a, b) => b.score - a.score || a.theme.localeCompare(b.theme));
   return scored[P.zero]?.theme ?? null;
@@ -1367,6 +1404,7 @@ export function planSpeech(
   const order = shapeOrder(person);
   // The beliefs this speaker said before, in earlier addresses, then here.
   const beliefsSaid = earlierAddressPieces(core, person.id);
+  const beliefsHere = new Set<string>();
   const planned: PlannedPoint[] = pointStands.map((stand, at) => {
     const side = stand.stance > P.zero ? "for" : "against";
     const family = questionFamily(stand.question);
@@ -1399,7 +1437,9 @@ export function planSpeech(
                 ? "b"
                 : "a",
             stand.question,
+            side,
             beliefsSaid,
+            beliefsHere,
           )
         : null,
     };
