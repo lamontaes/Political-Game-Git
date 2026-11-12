@@ -33834,28 +33834,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.news-back-core.good-then-we-re-on-the-same-side-of-it-you",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "Good. Then we're on the same side of it, {you}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-for", "their-for", "story"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W-D, Claude Opus 5.5 (an answer to a told story says no time the listener did not tell)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.news-back-core.not-me-you-we-ll-have-to-disagree-on-this-one",
       "move": "news-back-core",
       "kind": "spoken",
@@ -35934,6 +35912,75 @@
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
       "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-back-core.good-i-ll-watch-the-paper-for-what-comes-next-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Good. I'll watch the paper for what comes next, {you}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for", "story"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12",
+      "bearing": "glad"
+    },
+    {
+      "key": "conversation.news-back-core.then-i-hope-it-gets-somewhere-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Then I hope it gets somewhere, {you}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for", "story"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12",
+      "bearing": "tender"
+    },
+    {
+      "key": "conversation.news-back-core.then-let-s-hope-it-never-gets-anywhere-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Then let's hope it never gets anywhere, {you}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-against", "story"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12",
+      "bearing": "braced"
     }
   ]
 }

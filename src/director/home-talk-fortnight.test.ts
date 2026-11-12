@@ -52,7 +52,8 @@ import {
 } from "./conversation";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
-const DRAWS = 5;
+/** Five draws (TALK_DRAWS runs fewer, one process each, where memory is short). */
+const DRAWS = Number(process.env.TALK_DRAWS ?? 5);
 /** A day's own subjects and their wait, from the rules the talk reads. */
 const DAY_TALK = (
   JSON.parse(
