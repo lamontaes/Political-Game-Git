@@ -146,7 +146,9 @@ import {
   clockSaid,
   daysSaid,
   hoursSaid,
+  lateSaid,
   moneySaid,
+  monthsOfRentDays,
 } from "../english/count-words";
 import type { FinanceContractInput } from "../core2/finance-types";
 import {
@@ -824,11 +826,17 @@ const EVICTION_LABEL = "feeling:event:housing.eviction";
 const EVICTION_EVENT = "event:housing.eviction:";
 
 /**
- * A household's eviction as the speaker can tell it, from the housing
- * engine's records: that it happened (their ledger's moment, or the
- * listener's when they live together, since the record is the household's),
- * why (the case's rent owed at removal) and where they go now (the
- * household's housing status: a relative's home, a shelter, nowhere).
+ * A household's eviction as the speaker tells it (words composer, a day's
+ * own subject: `eviction-say`, answered back under `eviction-back`), from
+ * the housing engine's records: that they were put out and when (the case's
+ * removal), what was owed and how many months of rent that was (the case's
+ * rent owed at removal against the lease's monthly rent), a job lost before
+ * it (the speaker's own record of a job ended in the year before), and where
+ * they went (the household's housing status: a relative's home, a shelter
+ * bed in town, nowhere). Found from their ledger's moment, or the
+ * listener's when they live together, since the record is the household's.
+ * Told by an adult; the listener is answered as "we" when they live
+ * together and the speaker as "I" when they live alone.
  */
 function evictionSubjects(
   core: Readonly<CoreState>,
@@ -849,65 +857,125 @@ function evictionSubjects(
       moment.causeId.startsWith(EVICTION_EVENT),
   );
   if (!evicted || !core.modules.has(HOUSING_MODULE_ID)) return [];
+  // A child of the house does not tell it.
+  if (
+    ageOnDate(makeIsoDate(speaker.birthDate), makeIsoDate(core.date)) <
+    P.votingAge
+  )
+    return [];
   const housing = coreAPI(core as CoreState).moduleState(HOUSING_MODULE_ID);
   const caseId = evicted.causeId.slice(EVICTION_EVENT.length);
-  const out: Subject[] = [
-    {
-      id: `eviction:${evicted.causeId}`,
-      kind: "eviction",
-      aboutId: evicted.causeId,
-      facts: { evicted: { text: "", sourceRecordIds: [evicted.causeId] } },
-    },
-  ];
-  const owed = (
-    housing.table("cases").get(caseId) as
-      { owedAtRemovalMinor?: number } | undefined
-  )?.owedAtRemovalMinor;
-  if (owed !== undefined && owed > zero)
-    out.push({
-      id: `eviction-cause:${caseId}`,
-      kind: "eviction-cause",
-      aboutId: evicted.causeId,
-      stage: "rent",
-      facts: { owed: { text: "", sourceRecordIds: [caseId] } },
-    });
+  const row = housing.table("cases").get(caseId) as
+    | {
+        leaseId?: string;
+        removedAt?: string;
+        owedAtRemovalMinor?: number;
+      }
+    | undefined;
+  const cites = [evicted.causeId, caseId];
+  const fact = (text: string, ids: readonly string[] = cites): Fact => ({
+    text,
+    sourceRecordIds: [...ids],
+  });
+  const facts: Facts = {
+    when: fact(spokenWhen(row?.removedAt ?? evicted.date, core.date)),
+  };
+  const members = (
+    core.households.get(speaker.householdId)?.memberIds ?? []
+  ).filter((id) => core.people.get(id)?.alive);
+  if (together) facts.together = fact("yes");
+  else if (members.length <= one)
+    facts.alone = fact("yes", [speaker.householdId]);
+  const owed = row?.owedAtRemovalMinor ?? zero;
+  if (owed > zero) {
+    facts.owed = fact(moneySaid(owed));
+    // How many months of rent that was, from the lease's monthly rent.
+    const rent = row?.leaseId
+      ? core.finance.contracts.get(row.leaseId)?.amountMinor
+      : undefined;
+    if (rent && rent > zero)
+      facts.behind = fact(lateSaid(monthsOfRentDays(owed / rent)), [
+        caseId,
+        row!.leaseId!,
+      ]);
+  }
+  // A job the speaker lost in the year before they were put out.
+  const ended = lastEndedJob(core, speakerId);
+  const endedOn = ended
+    ? core.knowledgeByPerson.get(speakerId)?.get(`job:${ended.id}:status`)
+        ?.learnedAt
+    : undefined;
+  const lostAt = ended && core.organizations.get(ended.organizationId);
+  const employer = lostAt ? employerWords(lostAt) : null;
+  if (
+    ended &&
+    endedOn &&
+    employer &&
+    endedOn <= evicted.date &&
+    daysBetween(makeIsoDate(endedOn), makeIsoDate(evicted.date)) <=
+      DAY_TALK.evictionJobLostDays.value
+  )
+    facts["lost-at"] = fact(employer, [ended.id, ...cites]);
   const status = housing.table("statuses").get(speaker.householdId) as
     | {
         status: string;
         caseId: string;
+        placeId?: string;
+        hostHouseholdId?: string;
         reasons: Readonly<Record<string, number | string>>;
       }
     | undefined;
   if (status?.caseId === caseId) {
-    const facts: Facts = {
-      status: { text: "", sourceRecordIds: [caseId, speaker.householdId] },
-    };
-    const hostId = status.reasons.relative;
-    const kin =
-      typeof hostId === "string"
-        ? familyFactsOf(speaker).get(hostId as PersonId)
+    const here = corePlaceByJurisdictionId(
+      (status.placeId ?? speaker.placeId) as never,
+    );
+    const at = [caseId, speaker.householdId];
+    if (status.status === "doubled-up") {
+      const hostId = status.reasons.relative;
+      const kin =
+        typeof hostId === "string"
+          ? familyFactsOf(speaker).get(hostId as PersonId)
+          : undefined;
+      const host =
+        typeof hostId === "string"
+          ? core.people.get(hostId as PersonId)
+          : undefined;
+      const phrase = kin
+        ? relationPhrase(
+            kin.relation,
+            host?.looks?.gender ?? "other",
+            "journal",
+          )
         : undefined;
-    const host =
-      typeof hostId === "string"
-        ? core.people.get(hostId as PersonId)
-        : undefined;
-    const phrase = kin
-      ? relationPhrase(kin.relation, host?.looks?.gender ?? "other", "journal")
-      : undefined;
-    if (kin && phrase)
-      facts.relation = {
-        text: phrase,
-        sourceRecordIds: [kin.factId, caseId],
-      };
-    out.push({
-      id: `eviction-where:${caseId}`,
-      kind: "eviction-where",
-      aboutId: evicted.causeId,
-      stage: status.status,
-      facts,
-    });
+      if (kin && phrase) {
+        facts.relation = fact(phrase, [kin.factId, ...at]);
+        // Their town, when it is not the one the speaker was put out of.
+        const hostPlace = status.hostHouseholdId
+          ? core.households.get(status.hostHouseholdId)?.placeId
+          : undefined;
+        const there =
+          hostPlace && hostPlace !== status.placeId
+            ? corePlaceByJurisdictionId(hostPlace as never)
+            : undefined;
+        if (there)
+          facts["host-place"] = fact(spoken(there), [
+            status.hostHouseholdId!,
+            ...at,
+          ]);
+      }
+    } else if (here && status.status === "sheltered")
+      facts["shelter-place"] = fact(spoken(here), at);
+    else if (here && status.status === "unsheltered")
+      facts["no-bed-place"] = fact(spoken(here), at);
   }
-  return out;
+  return [
+    {
+      id: `eviction:${evicted.causeId}`,
+      kind: "eviction",
+      aboutId: evicted.causeId,
+      facts,
+    },
+  ];
 }
 
 const VICTIMIZED_LABEL = `feeling:event:${CRIME_EVENT}`;
@@ -3665,6 +3733,7 @@ const DAY_TALK = (
       unusualShiftMinutes: { value: number };
       usualWeekDays: { value: number };
       rentCoveredMonths: { value: number };
+      evictionJobLostDays: { value: number };
     };
   }
 ).dayTalk;
@@ -3697,8 +3766,6 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "job-cause",
   "job-hope",
   "eviction",
-  "eviction-cause",
-  "eviction-where",
   "victimization",
   "death-news",
   "illness-news",
