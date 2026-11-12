@@ -2058,11 +2058,22 @@ export function composeJournal(
           Object.entries(facts).filter(([key]) => !AGE_FACTS.has(key)),
         )
       : facts;
+    // An employer already named is not named again in what follows ("Copeland
+    // Construction let me go. Copeland Construction had been my job for two
+    // months."): the next sentence says "there".
+    const said = (fact: Fact | undefined) =>
+      !!fact && parts.some((part) => part.text.includes(fact.text));
+    const unsaid = (all: Facts): Facts =>
+      said(all.employer)
+        ? Object.fromEntries(
+            Object.entries(all).filter(([key]) => key !== "employer"),
+          )
+        : all;
     for (const named of row.follow ?? []) {
       for (const field of named.split("|")) {
         const told = render(
           { part: "memoir", field: field as MemoirField },
-          followFacts,
+          unsaid(followFacts),
           `${moment.id}:${field}`,
           sourceIds,
         );
