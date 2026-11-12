@@ -2,7 +2,9 @@
 id: words-speech-outline
 impact: minor
 section: Changed
-title: The President's, governors' and mayors' addresses each have one theme, with context, plain asks and people introduced by title.
+title: The President's, governors' and local leaders' addresses, and council members' floor and campaign speeches, each have one theme, with context, plain asks and people introduced by title.
 ---
 
 Every address now goes through one outline planner. The President's inaugural and State of the Union, a governor's State of the State and a mayor's State of the City each follow the order real speeches of their kind use. Each picks one theme from the speaker's own issues and from what is happening in their world, and keeps to it. A point opens with a sentence of context from the world's records ("For 4 years now, prices have gone up about 5.4 percent a year"), then gives the speaker's stand, then the ask. Each ask is made once, to the level of government that can act on it, and says plainly whether the speaker is for it or against it. An inaugural no longer brags about a year the new President did not govern and no longer numbers its asks. The greeting is its own sentence, the President's home state is no longer named, and the Vice President is said with their title the first time and as "the Vice President" after.
+
+A town's address is now given wherever the place's records seat a head: the mayor, an elected county executive, or whoever presides over the township or county board, speaking to "the council" or "the board" as that body is named. Its points come from what that body decides: the town's own budget lines and the ordinances it may pass, argued from the speaker's own views. A council or board member can give a floor speech on the measure before the body, addressed to whoever presides and ending in the vote, and a campaign speech built from what they run on. A governor's or local head's opening now tells this year's budget balance and a law that took effect or a disaster that struck. A question named once is said by a shorter name after, and a speaker argues every point of a speech from the same side of its principle.
