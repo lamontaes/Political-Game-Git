@@ -2943,10 +2943,14 @@ function otherRaises(
     (row) =>
       order.includes(row.kind) &&
       data.otherRaises[row.kind] &&
+      // Where they stand comes up only on the question the news just told
+      // was about (its cause, in the same talk), and only once a day in the
+      // house.
       !(
-        row.news?.question &&
         row.kind === "own-view" &&
-        heardNow.has(`${HEARD_QUESTION}${row.news.question}`)
+        (!row.news?.question ||
+          !(conversation.questions ?? []).includes(row.news.question) ||
+          heardNow.has(`${HEARD_QUESTION}${row.news.question}`))
       ) &&
       !conversation.used.includes(`${otherId}>${row.id}`) &&
       !conversation.used.includes(row.id),
@@ -3095,6 +3099,18 @@ function mainTopic(
     // president's address").
     const together = watchedTogether(core, playerId, otherId);
     if (subject.kind === "address" && together) return;
+    // Nor is the paper's story of it news between them.
+    if (
+      subject.kind === "news" &&
+      together &&
+      !!subject.aboutId &&
+      storiesHeard(coreAPI(core as CoreState), holderId).some(
+        (row) =>
+          row.id === subject.aboutId &&
+          row.facts.recordKind === OPENING_ADDRESS_EVENT,
+      )
+    )
+      return;
     if (
       conversation.used.includes(subject.id) ||
       conversation.used.includes(`${otherId}>${subject.id}`)

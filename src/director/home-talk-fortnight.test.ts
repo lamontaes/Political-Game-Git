@@ -299,7 +299,7 @@ it(`two weeks of talk at home hold the telling's rules (seed ${seed})`, () => {
     }
   }
   process.stdout.write(
-    `HOME-TALK ${where}: ${talks} talks\n${played.join("\n")}\n`,
+    `HOME-TALK ${where}: ${talks} talks, ${typedSeen} point parts typed by stand\n${played.join("\n")}\n`,
   );
   expect(talks, `${where}: no talk at home in two weeks`).toBeGreaterThan(0);
   expect(broken, where).toEqual([]);
