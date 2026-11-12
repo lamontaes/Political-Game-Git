@@ -17,6 +17,7 @@ import {
   questionSide,
   questionTo,
   questionToday,
+  questionTodayWordings,
 } from "../english/question-names";
 import { composeLocalAddress } from "./local-address";
 import { composeOpeningStory } from "./opening-story";
@@ -200,12 +201,19 @@ describe("every speech through the one outline planner", () => {
                 `${name}: today is not the ${point.side} side's ("${point.today}")`,
               );
             // The sentence said is the speaker's side's, never the other's.
-            for (const other of forms(otherSide))
+            for (const other of [true, false].flatMap((law) =>
+              questionTodayWordings(point.question, law, otherSide),
+            ))
               if (other && speech.text.includes(other.slice(1, -1)))
                 failures.push(
                   `${name}: says the other side's today ("${other}")`,
                 );
-            if (point.today && !speech.text.includes(point.today.slice(1, -1)))
+            if (
+              point.today &&
+              !point.todays.some((said) =>
+                speech.text.includes(said.slice(1, -1)),
+              )
+            )
               failures.push(
                 `${name}: its today is not said ("${point.today}")`,
               );

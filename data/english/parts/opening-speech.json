@@ -52,7 +52,13 @@
     "first-side": "the speech's first point as the speaker's side says it (question-names `for` or `against`), for the close",
     "today-clause": "the same sentence as `today`, in the case it takes after an opener and a comma",
     "belief": "what the speaker believes, a clause worded from the belief-words pieces by the question's family and the speaker's pole of it",
-    "today-question": "the same sentence as `today-clause` without its period, said inside a question to the audience"
+    "today-question": "the same sentence as `today-clause` without its period, said inside a question to the audience",
+    "today-2": "a second wording of `today` (question-names `todayMore`)",
+    "today-3": "a third wording of `today` (question-names `todayMore`)",
+    "today-clause-2": "`today-2` after an opener and a comma",
+    "today-clause-3": "`today-3` after an opener and a comma",
+    "today-question-2": "`today-2` inside a question to the audience",
+    "today-question-3": "`today-3` inside a question to the audience"
   },
   "maxWords": 40,
   "mining": {
@@ -106402,6 +106408,4894 @@
         }
       ],
       "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-another-years-of-that-would-be-a-failure-stance-for-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "Another {context-years} years of that would be a failure of this government.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-we-were-not-sent-here-to-watch-that-stance-for-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "We were not sent here to watch that go on for {context-years} more years.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-after-years-of-that-waiting-is-no-longer-stance-for-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, waiting is no longer an answer.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-years-of-that-is-long-enough-stance-for-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "{context-years} years of that is long enough.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-no-one-should-have-to-live-through-more-stance-for-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "No one should have to live through {context-years} more years of that.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-years-of-that-is-plenty-stance-for-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "{context-years} years of that is plenty.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-nobody-signed-up-for-more-years-of-that-stance-for-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "Nobody signed up for {context-years} more years of that.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-after-years-of-that-folks-are-done-waiting-stance-for-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, folks are done waiting.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-we-ve-had-years-of-that-and-that-stance-for-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "We've had {context-years} years of that, and that's enough.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-folks-shouldn-t-sit-through-more-years-of-stance-for-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "Folks shouldn't sit through {context-years} more years of that.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-after-years-like-these-we-should-not-give-stance-for-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years like these, we should not give back what we have won.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-years-of-that-is-a-reason-to-hold-stance-for-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "{context-years} years of that is a reason to hold firm.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-after-years-of-that-retreat-would-be-a-stance-for-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, retreat would be a mistake.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-having-come-through-years-of-that-we-should-stance-for-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "Having come through {context-years} years of that, we should keep what works.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-after-years-of-that-this-is-no-time-stance-for-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, this is no time to give up ground.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-years-of-that-tells-me-we-hold-the-stance-for-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "{context-years} years of that tells me we hold the line.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-we-ve-had-years-of-that-so-we-stance-for-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "We've had {context-years} years of that, so we keep what's working.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-after-years-like-that-going-backward-makes-no-stance-for-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years like that, going backward makes no sense.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-years-of-that-is-no-time-to-start-stance-for-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "{context-years} years of that is no time to start over.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-after-years-of-that-the-last-thing-families-stance-against-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, the last thing families need is a new burden.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-years-of-that-have-asked-enough-of-working-stance-against-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "{context-years} years of that have asked enough of working people.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-after-years-of-that-this-is-the-wrong-stance-against-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, this is the wrong time for another mandate.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-families-who-have-carried-years-of-that-deserve-stance-against-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "Families who have carried {context-years} years of that deserve relief, not a new bill.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-after-years-of-that-no-one-should-add-stance-against-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, no one should add to the load.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-after-years-of-that-nobody-needs-another-bill-stance-against-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, nobody needs another bill to pay.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-years-of-that-is-enough-on-folks-plates-stance-against-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "{context-years} years of that is enough on folks' plates already.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-after-years-of-that-piling-more-on-makes-stance-against-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, piling more on makes no sense.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-folks-who-ve-lived-through-years-of-that-stance-against-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "Folks who've lived through {context-years} years of that need a break, not a new cost.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-after-years-of-that-let-s-not-make-stance-against-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, let's not make it harder.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-years-of-that-is-reason-enough-to-change-stance-against-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "{context-years} years of that is reason enough to change course.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-after-years-of-that-the-old-way-has-stance-against-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, the old way has had its chance.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-years-of-that-should-teach-us-something-stance-against-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "{context-years} years of that should teach us something.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-after-years-of-that-we-owe-people-a-stance-against-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, we owe people a different answer.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-the-record-of-years-of-that-speaks-for-stance-against-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "The record of {context-years} years of that speaks for itself.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-years-of-that-is-long-enough-to-know-stance-against-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "{context-years} years of that is long enough to know it isn't working.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-after-years-of-that-folks-deserve-a-new-stance-against-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, folks deserve a new approach.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-we-gave-it-years-and-that-s-what-stance-against-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "We gave it {context-years} years, and that's what we got.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-years-of-that-says-it-s-time-to-stance-against-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "{context-years} years of that says it's time to switch.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-after-years-of-that-i-d-say-we-stance-against-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, I'd say we've seen enough.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.polished-inaugural-mr-chief-justice-honored-guests-my-fellow-americans-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Mr. Chief Justice, honored guests, my fellow Americans.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.polished-inaugural-members-of-congress-guests-of-this-nation-and-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Members of Congress, guests of this nation, and fellow citizens.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.polished-inaugural-fellow-citizens-here-and-in-every-corner-of-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Fellow citizens, here and in every corner of this land.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.polished-inaugural-to-all-who-are-gathered-here-and-to-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "To all who are gathered here, and to my fellow Americans.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.plain-inaugural-folks-here-today-and-folks-back-home-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Folks here today, and folks back home.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.plain-inaugural-everybody-on-this-lawn-and-everybody-watching-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Everybody on this lawn, and everybody watching.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.plain-inaugural-my-friends-and-my-fellow-americans-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "My friends, and my fellow Americans.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.plain-inaugural-neighbors-from-every-state-and-everybody-here-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Neighbors from every state, and everybody here.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.both-inaugural--today-2",
+      "move": "today",
+      "kind": "spoken",
+      "text": "{today-2}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-2"
+          ]
+        }
+      ],
+      "voice": [
+        "polished",
+        "plain"
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.both-inaugural--today-3",
+      "move": "today",
+      "kind": "spoken",
+      "text": "{today-3}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-3"
+          ]
+        }
+      ],
+      "voice": [
+        "polished",
+        "plain"
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.polished-inaugural-as-things-stand-today-clause-2",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As things stand, {today-clause-2}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.polished-inaugural-as-things-stand-today-clause-3",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As things stand, {today-clause-3}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-for-now-today-clause-2",
+      "move": "today",
+      "kind": "spoken",
+      "text": "For now, {today-clause-2}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-for-now-today-clause-3",
+      "move": "today",
+      "kind": "spoken",
+      "text": "For now, {today-clause-3}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.polished-inaugural-today-today-clause-2",
+      "move": "today",
+      "kind": "spoken",
+      "text": "Today, {today-clause-2}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.polished-inaugural-today-today-clause-3",
+      "move": "today",
+      "kind": "spoken",
+      "text": "Today, {today-clause-3}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-in-fact-today-clause-2",
+      "move": "today",
+      "kind": "spoken",
+      "text": "In fact, {today-clause-2}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-in-fact-today-clause-3",
+      "move": "today",
+      "kind": "spoken",
+      "text": "In fact, {today-clause-3}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.polished-inaugural-as-matters-stand-today-clause-2",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As matters stand, {today-clause-2}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.polished-inaugural-as-matters-stand-today-clause-3",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As matters stand, {today-clause-3}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-these-days-today-clause-2",
+      "move": "today",
+      "kind": "spoken",
+      "text": "These days, {today-clause-2}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-these-days-today-clause-3",
+      "move": "today",
+      "kind": "spoken",
+      "text": "These days, {today-clause-3}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.polished-inaugural-as-we-meet-tonight-today-clause-2",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As we meet tonight, {today-clause-2}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.polished-inaugural-as-we-meet-tonight-today-clause-3",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As we meet tonight, {today-clause-3}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.polished-inaugural-at-this-moment-today-clause-2",
+      "move": "today",
+      "kind": "spoken",
+      "text": "At this moment, {today-clause-2}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.polished-inaugural-at-this-moment-today-clause-3",
+      "move": "today",
+      "kind": "spoken",
+      "text": "At this moment, {today-clause-3}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.polished-inaugural-as-we-stand-here-today-clause-2",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As we stand here, {today-clause-2}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.polished-inaugural-as-we-stand-here-today-clause-3",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As we stand here, {today-clause-3}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-as-of-today-today-clause-2",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As of today, {today-clause-2}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-as-of-today-today-clause-3",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As of today, {today-clause-3}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-as-of-right-now-today-clause-2",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As of right now, {today-clause-2}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-as-of-right-now-today-clause-3",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As of right now, {today-clause-3}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-as-it-is-now-today-clause-2",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As it is now, {today-clause-2}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-2"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-as-it-is-now-today-clause-3",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As it is now, {today-clause-3}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause-3"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-inaugural-should-we-go-on-in-a-country-where-today-question-stance-for-law-not-in-force-2",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Should we go on in a country where {today-question-2}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-inaugural-should-we-go-on-in-a-country-where-today-question-stance-for-law-not-in-force-3",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Should we go on in a country where {today-question-3}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.plain-inaugural-is-it-fair-that-today-question-stance-for-law-not-in-force-2",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Is it fair that {today-question-2}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.plain-inaugural-is-it-fair-that-today-question-stance-for-law-not-in-force-3",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Is it fair that {today-question-3}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-inaugural-why-would-we-change-a-country-where-today-question-stance-against-law-not-in-force-2",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why would we change a country where {today-question-2}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-inaugural-why-would-we-change-a-country-where-today-question-stance-against-law-not-in-force-3",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why would we change a country where {today-question-3}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.plain-inaugural-why-fix-what-works-when-today-question-stance-against-law-not-in-force-2",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why fix what works, when {today-question-2}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.plain-inaugural-why-fix-what-works-when-today-question-stance-against-law-not-in-force-3",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why fix what works, when {today-question-3}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-inaugural-do-we-really-want-to-give-up-a-today-question-stance-for-law-in-force-asks-2",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Do we really want to give up a country where {today-question-2}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-inaugural-do-we-really-want-to-give-up-a-today-question-stance-for-law-in-force-asks-3",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Do we really want to give up a country where {today-question-3}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.plain-inaugural-why-would-we-go-back-when-today-question-stance-for-law-in-force-asks-2",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why would we go back, when {today-question-2}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.plain-inaugural-why-would-we-go-back-when-today-question-stance-for-law-in-force-asks-3",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Why would we go back, when {today-question-3}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-inaugural-should-we-accept-that-today-question-stance-against-law-in-force-asks-2",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Should we accept that {today-question-2}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-inaugural-should-we-accept-that-today-question-stance-against-law-in-force-asks-3",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Should we accept that {today-question-3}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.plain-inaugural-does-it-make-sense-that-today-question-stance-against-law-in-force-asks-2",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Does it make sense that {today-question-2}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-2",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.plain-inaugural-does-it-make-sense-that-today-question-stance-against-law-in-force-asks-3",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Does it make sense that {today-question-3}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-3",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-after-years-of-that-we-should-not-undo-stance-for-law-in-force-figure-ties-context",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "After {context-years} years of that, we should not undo our own progress.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-years"
+          ]
+        }
+      ],
+      "voice": "polished",
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",

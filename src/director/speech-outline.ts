@@ -60,6 +60,7 @@ import {
   questionSide,
   questionTo,
   questionToday,
+  questionTodayWordings,
 } from "../english/question-names";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
 import { questionSubject } from "../english/policy-names";
@@ -787,6 +788,8 @@ export interface PlannedPoint {
   readonly side: "for" | "against";
   /** How the question stands, as the speaker's side describes it. */
   readonly today: string | null;
+  /** Every wording of it the speech may say (the first is `today`). */
+  readonly todays: readonly string[];
   readonly family: string | null;
   readonly pole: "a" | "b" | null;
   /** The measure the point's figure is about; null when the question's row lets the speaker's side use none. */
@@ -1363,6 +1366,7 @@ export function planSpeech(
       shape: order[at % order.length]!,
       side,
       today: questionToday(stand.question, stand.law.inForce, side),
+      todays: questionTodayWordings(stand.question, stand.law.inForce, side),
       family: family?.family ?? null,
       pole: family
         ? side === "for"
@@ -1477,16 +1481,21 @@ export function planSpeech(
               : {}),
             ...facts,
             [`about-${plan.number}`]: fact("yes", `question:${stand.question}`),
-            ...(plan.today
-              ? {
-                  today: fact(plan.today, ...cited),
-                  "today-clause": fact(clauseOf(plan.today), ...cited),
-                  "today-question": fact(
-                    clauseOf(plan.today).replace(/[.!?]$/, ""),
-                    ...cited,
-                  ),
-                }
-              : {}),
+            // Every wording of how the question stands for this side: the
+            // composer's pick among the bank's today pieces spreads them.
+            ...Object.fromEntries(
+              plan.todays.flatMap((said, at) => {
+                const n = at === P.zero ? "" : `-${at + P.one}`;
+                return [
+                  [`today${n}`, fact(said, ...cited)],
+                  [`today-clause${n}`, fact(clauseOf(said), ...cited)],
+                  [
+                    `today-question${n}`,
+                    fact(clauseOf(said).replace(/[.!?]$/, ""), ...cited),
+                  ],
+                ];
+              }),
+            ),
             ...(belief
               ? {
                   belief: fact(

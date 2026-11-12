@@ -45,6 +45,7 @@ const data = JSON.parse(readFileSync(FILE, "utf8")) as {
       pole?: "a" | "b";
       number?: "one" | "many";
       figures?: { measure: string; side: "for" | "against" }[];
+      todayMore?: unknown;
     }
   >;
 };
@@ -149,6 +150,46 @@ for (const [question, row] of Object.entries(data.names)) {
       (row as Record<string, unknown>)[field] = value;
       count(`4. a question's ${field} is set from its row`);
     }
+}
+// 5. More wordings of how a question stands, per law state and side
+// (scripts/words/question-today-more.tsv), so the same question in many
+// worlds is not told in the same sentence (opening-address-versions; the
+// owner: "a ton of different speech versions"). The composer picks among
+// them with the bank's own variant pick.
+const [moreHeader, ...moreLines] = readFileSync(
+  "scripts/words/question-today-more.tsv",
+  "utf8",
+)
+  .trim()
+  .split("\n");
+const moreColumns = moreHeader!.split("\t");
+const more = new Map(
+  moreLines.map((line) => {
+    const cells = Object.fromEntries(
+      line.split("\t").map((cell, at) => [moreColumns[at]!, cell]),
+    ) as Record<string, string>;
+    return [cells.key!, cells] as const;
+  }),
+);
+for (const [question, row] of Object.entries(data.names)) {
+  const found = more.get(question.split(":")[1]!.split(".").slice(1).join("."));
+  const wanted = found
+    ? {
+        without: {
+          for: [found["without-for-2"]!, found["without-for-3"]!],
+          against: [found["without-against-2"]!, found["without-against-3"]!],
+        },
+        with: {
+          for: [found["with-for-2"]!, found["with-for-3"]!],
+          against: [found["with-against-2"]!, found["with-against-3"]!],
+        },
+      }
+    : undefined;
+  if (JSON.stringify(row.todayMore) !== JSON.stringify(wanted)) {
+    if (wanted) row.todayMore = wanted;
+    else delete row.todayMore;
+    count("5. a question's other wordings of how it stands are set");
+  }
 }
 data.about = data.about.replace(
   /`today` says how the question stands now:[^.]*\./,

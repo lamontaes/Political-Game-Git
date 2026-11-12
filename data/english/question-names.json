@@ -556,7 +556,29 @@
           "measure": "unemployment",
           "side": "against"
         }
-      ]
+      ],
+      "todayMore": {
+        "without": {
+          "for": [
+            "The federal floor under pay has sat still for years while rent and groceries kept climbing.",
+            "A full-time worker at the federal minimum still falls short of a living."
+          ],
+          "against": [
+            "The states set their own wage floors above the federal one, and small shops can still hire.",
+            "The federal minimum leaves room for a first job, and most states already go higher."
+          ]
+        },
+        "with": {
+          "for": [
+            "Full-time work at the federal minimum now pays more than it did.",
+            "The federal floor under pay has finally moved up."
+          ],
+          "against": [
+            "The federal minimum is higher now, and some small shops have stopped hiring.",
+            "A higher federal floor has cost some young people their first job."
+          ]
+        }
+      }
     },
     "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
       "about": "letting cities set their own minimum wage",
@@ -1509,7 +1531,29 @@
       "family": "budget",
       "pole": "a",
       "number": "one",
-      "figures": []
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Washington can borrow more without trimming a single program.",
+            "The debt limit goes up again and again, and spending never comes down."
+          ],
+          "against": [
+            "The debt limit goes up so the country can pay bills it has already run up.",
+            "Raising the debt limit keeps this country paying what it owes."
+          ]
+        },
+        "with": {
+          "for": [
+            "Every new dollar of borrowing room now comes with a cut to match.",
+            "Borrowing room only grows when spending comes down with it."
+          ],
+          "against": [
+            "Paying our existing bills now means cutting programs people count on.",
+            "Each rise in the debt limit now drags cuts to schools and services with it."
+          ]
+        }
+      }
     },
     "us-federal-positions:tax.raise-top-income-tax-rate": {
       "about": "a higher top income tax rate",
@@ -1531,7 +1575,29 @@
       "family": "taxes",
       "pole": "a",
       "number": "one",
-      "figures": []
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "The highest earners pay a lower top rate than they did a generation ago.",
+            "The top rate on the biggest incomes has fallen for decades."
+          ],
+          "against": [
+            "The top rate leaves money in the hands of the people who start and grow businesses.",
+            "The highest earners keep more of what they make, and they invest it here."
+          ]
+        },
+        "with": {
+          "for": [
+            "The biggest incomes now pay a higher top rate.",
+            "The highest earners carry more of the load than they did."
+          ],
+          "against": [
+            "The people who build businesses now keep less of each dollar.",
+            "A higher top rate takes more from those who hire and invest."
+          ]
+        }
+      }
     },
     "us-federal-positions:monetary-financial.cap-consumer-loan-interest": {
       "about": "a cap on consumer loan interest",
@@ -1553,7 +1619,29 @@
       "family": "consumers",
       "pole": "a",
       "number": "one",
-      "figures": []
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "A lender can charge a family any rate it likes, with no national limit.",
+            "Nothing in federal law stops a lender from charging triple-digit interest."
+          ],
+          "against": [
+            "A family short on cash can still find a lender to take the risk.",
+            "Lenders set rates to match the risk, and credit stays open to people who need it."
+          ]
+        },
+        "with": {
+          "for": [
+            "A national ceiling now limits the interest on a family's loan.",
+            "No lender can charge a family more than the national cap."
+          ],
+          "against": [
+            "The national cap leaves some families with nowhere to borrow.",
+            "With interest capped, lenders have stopped serving families with poor credit."
+          ]
+        }
+      }
     },
     "us-federal-positions:defense.grow-defense-spending": {
       "about": "more defense spending",
@@ -1575,7 +1663,29 @@
       "family": "world",
       "pole": "a",
       "number": "one",
-      "figures": []
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Our forces are stretched thin against the threats we face.",
+            "The defense budget has fallen behind what our troops need."
+          ],
+          "against": [
+            "We already outspend the next several nations put together on defense.",
+            "The Pentagon gets more than enough, and needs at home go unmet."
+          ]
+        },
+        "with": {
+          "for": [
+            "Our forces have more of what they need than they did.",
+            "The defense budget has grown to meet the threats we face."
+          ],
+          "against": [
+            "Defense spending has climbed while needs at home wait in line.",
+            "More money goes to the military, and less is left for the rest."
+          ]
+        }
+      }
     },
     "us-federal-positions:foreign-affairs.increase-foreign-aid": {
       "about": "more foreign aid",
@@ -1597,7 +1707,29 @@
       "family": "world",
       "pole": "a",
       "number": "one",
-      "figures": []
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Foreign aid takes up less than a penny of each federal dollar.",
+            "We give less abroad than most people imagine, and our friends notice."
+          ],
+          "against": [
+            "Money goes overseas while families here go without.",
+            "We send dollars abroad that could help people at home."
+          ]
+        },
+        "with": {
+          "for": [
+            "Our friends abroad get more help from us than they did.",
+            "Foreign aid has grown, and our partners know we stand with them."
+          ],
+          "against": [
+            "More of our money goes overseas than it did.",
+            "Foreign aid has grown while families here still wait for help."
+          ]
+        }
+      }
     },
     "us-federal-positions:trade.raise-tariffs": {
       "about": "higher tariffs",
@@ -1628,7 +1760,29 @@
           "measure": "inflation",
           "side": "against"
         }
-      ]
+      ],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Imports come in nearly free, and our factories have paid the price.",
+            "Goods made overseas cross our border with almost no tariff."
+          ],
+          "against": [
+            "Low tariffs keep prices down for every family that shops.",
+            "Goods come in with little or no tariff, and the shelves stay affordable."
+          ]
+        },
+        "with": {
+          "for": [
+            "Imports carry higher tariffs, and our factories have a fair shot.",
+            "Goods from abroad now pay a higher tariff at the border."
+          ],
+          "against": [
+            "Higher tariffs have pushed up prices at the store.",
+            "Families now pay more for goods from abroad."
+          ]
+        }
+      }
     },
     "us-federal-positions:immigration.admit-more-immigrants": {
       "about": "admitting more immigrants",
@@ -1650,7 +1804,29 @@
       "family": "immigration",
       "pole": "a",
       "number": "one",
-      "figures": []
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "People who want to come here legally wait for years, even decades.",
+            "The legal line to come here is longer than a lifetime for some."
+          ],
+          "against": [
+            "We set a limit on how many people come here, and we hold to it.",
+            "The number who come each year is set by law, and the law is enforced."
+          ]
+        },
+        "with": {
+          "for": [
+            "More people can come here legally than before.",
+            "The legal door to this country is open wider than it was."
+          ],
+          "against": [
+            "More people come each year than our towns can take in.",
+            "The number who come here has climbed past what we can absorb."
+          ]
+        }
+      }
     },
     "us-federal-positions:health.medicare-drug-price-negotiation": {
       "about": "Medicare negotiating drug prices",
@@ -1677,7 +1853,29 @@
           "measure": "health",
           "side": "for"
         }
-      ]
+      ],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Medicare pays whatever the drug makers charge.",
+            "Medicare cannot bargain over the price of most medicines."
+          ],
+          "against": [
+            "Drug makers set their own prices, and that money pays for the next cure.",
+            "The companies that make medicine set what it costs, and new cures keep coming."
+          ]
+        },
+        "with": {
+          "for": [
+            "Medicare bargains with drug makers over what it pays.",
+            "Medicare now negotiates the price of many medicines."
+          ],
+          "against": [
+            "Washington now sets what drug makers get paid, and fewer new cures are coming.",
+            "Medicare's price setting has slowed the search for new medicines."
+          ]
+        }
+      }
     },
     "us-federal-positions:social-insurance.raise-retirement-age": {
       "about": "a higher retirement age",
@@ -1699,7 +1897,29 @@
       "family": "safety-net",
       "pole": "a",
       "number": "one",
-      "figures": []
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Full Social Security starts at sixty-seven, and the fund is running short.",
+            "The fund that pays Social Security is headed for a shortfall."
+          ],
+          "against": [
+            "Full Social Security starts at the age people have planned around.",
+            "People retire at the age they were promised."
+          ]
+        },
+        "with": {
+          "for": [
+            "Full Social Security starts later, and the fund lasts longer.",
+            "The age for full benefits has gone up, and the fund is steadier."
+          ],
+          "against": [
+            "People have to work longer before full Social Security starts.",
+            "Folks are waiting longer for benefits they paid into all their lives."
+          ]
+        }
+      }
     },
     "us-federal-positions:education.forgive-student-loans": {
       "about": "forgiving student loans",
@@ -1721,7 +1941,29 @@
       "family": "schools",
       "pole": "a",
       "number": "one",
-      "figures": []
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Young people leave school buried under debt.",
+            "A college loan can follow a person for decades."
+          ],
+          "against": [
+            "A student loan is paid back like any other loan.",
+            "People who borrow for school repay what they borrowed."
+          ]
+        },
+        "with": {
+          "for": [
+            "Much of what students owed has been forgiven.",
+            "A great deal of student debt has been wiped away."
+          ],
+          "against": [
+            "People who never went to college are paying for other people's loans.",
+            "Folks who paid their loans off are now paying for those who didn't."
+          ]
+        }
+      }
     },
     "us-federal-positions:housing.vouchers-for-every-eligible-family": {
       "about": "housing vouchers for every family that qualifies",
@@ -1748,7 +1990,29 @@
           "measure": "rent",
           "side": "for"
         }
-      ]
+      ],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Families who qualify for housing help wait years on a list.",
+            "Most families eligible for housing help never get it."
+          ],
+          "against": [
+            "Housing help goes as far as the money set aside for it.",
+            "Housing aid is limited to what the budget can carry."
+          ]
+        },
+        "with": {
+          "for": [
+            "Every family that qualifies gets a housing voucher.",
+            "No eligible family waits on a list for housing help."
+          ],
+          "against": [
+            "A voucher for every eligible family costs more every year.",
+            "The bill for housing vouchers grows every year."
+          ]
+        }
+      }
     },
     "us-federal-positions:transport-water.expand-passenger-rail": {
       "about": "more passenger rail",
@@ -1770,7 +2034,29 @@
       "family": "transit",
       "pole": "a",
       "number": "one",
-      "figures": []
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "For most trips, a train is not a real choice.",
+            "Most of the country has no train worth taking."
+          ],
+          "against": [
+            "Most people drive, and the roads are what they use.",
+            "Travelers choose the car, and the roads carry them."
+          ]
+        },
+        "with": {
+          "for": [
+            "More of the country can travel by train.",
+            "Trains now reach more places than they did."
+          ],
+          "against": [
+            "Travel money goes to trains few people ride.",
+            "More of our travel dollars go to trains than to roads."
+          ]
+        }
+      }
     },
     "us-federal-positions:energy-environment.limit-power-plant-carbon": {
       "about": "limits on power plant carbon",
@@ -1797,7 +2083,29 @@
           "measure": "environment",
           "side": "for"
         }
-      ]
+      ],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Power plants put as much carbon in the air as they like.",
+            "No limit holds power plants to the carbon they release."
+          ],
+          "against": [
+            "Power plants run on whatever keeps the bills lowest.",
+            "Power plants burn what keeps the lights on cheaply."
+          ]
+        },
+        "with": {
+          "for": [
+            "Power plants are held to limits on the carbon they release.",
+            "A limit caps the carbon power plants put in the air."
+          ],
+          "against": [
+            "Carbon limits are closing plants that kept power cheap.",
+            "Power plants run under limits that raise the bills."
+          ]
+        }
+      }
     },
     "us-federal-positions:agriculture.cut-farm-subsidies": {
       "about": "cutting farm subsidies",
@@ -1819,7 +2127,29 @@
       "family": "budget",
       "pole": "a",
       "number": "one",
-      "figures": []
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "The biggest farms take the biggest checks from Washington.",
+            "Farm subsidies flow mostly to the largest operations."
+          ],
+          "against": [
+            "Farm support carries a family farm through a bad year.",
+            "Farm aid keeps family farms alive when the weather turns."
+          ]
+        },
+        "with": {
+          "for": [
+            "Farm subsidies are smaller than they were.",
+            "Washington pays out less in farm subsidies."
+          ],
+          "against": [
+            "Farm support is smaller, and a bad year can cost a family its farm.",
+            "With less farm aid, one hard season can sink a family farm."
+          ]
+        }
+      }
     },
     "us-federal-positions:emergencies.states-share-disaster-costs": {
       "about": "states sharing disaster costs",
@@ -1841,7 +2171,29 @@
       "family": "budget",
       "pole": "a",
       "number": "one",
-      "figures": []
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Washington pays most of the bill when disaster strikes a state.",
+            "The states leave most of a disaster's cost to Washington."
+          ],
+          "against": [
+            "Washington stands with a state when disaster hits.",
+            "No state rebuilds alone after a disaster."
+          ]
+        },
+        "with": {
+          "for": [
+            "The states pay a larger share of what a disaster costs.",
+            "A state hit by disaster now covers more of its own bill."
+          ],
+          "against": [
+            "A state hit by disaster is left with more of the bill.",
+            "States now carry more of the cost of a disaster alone."
+          ]
+        }
+      }
     },
     "us-federal-positions:justice-rights.reduce-mandatory-minimums": {
       "about": "shorter mandatory minimum sentences",
@@ -1868,7 +2220,29 @@
           "measure": "crime",
           "side": "against"
         }
-      ]
+      ],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Judges must hand down the same long sentence whatever the case.",
+            "A mandatory minimum ties a judge's hands."
+          ],
+          "against": [
+            "A serious crime carries a set sentence everywhere in the country.",
+            "The same crime brings the same sentence in every courtroom."
+          ]
+        },
+        "with": {
+          "for": [
+            "Judges have more room to fit a sentence to the case.",
+            "A judge can weigh each case before setting a sentence."
+          ],
+          "against": [
+            "Serious crimes can bring shorter sentences now.",
+            "Sentences for serious crimes depend more on the judge."
+          ]
+        }
+      }
     },
     "us-federal-positions:government.ban-congressional-stock-trading": {
       "about": "a ban on stock trading by members of Congress",
@@ -1890,7 +2264,29 @@
       "family": "ethics",
       "pole": "a",
       "number": "one",
-      "figures": []
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Members of Congress trade stocks in companies they regulate.",
+            "A lawmaker can buy shares in the companies their votes affect."
+          ],
+          "against": [
+            "Members of Congress report their trades, and voters can see them.",
+            "Lawmakers disclose every trade they make."
+          ]
+        },
+        "with": {
+          "for": [
+            "Members of Congress can no longer trade stocks.",
+            "Lawmakers are barred from trading stocks."
+          ],
+          "against": [
+            "Members of Congress cannot own the stocks other Americans can.",
+            "Lawmakers are barred from investments open to everyone else."
+          ]
+        }
+      }
     },
     "us-federal-positions:science-communications.national-data-privacy": {
       "about": "a national data privacy law",
@@ -1912,7 +2308,29 @@
       "family": "consumers",
       "pole": "a",
       "number": "one",
-      "figures": []
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "No national law guards your personal data.",
+            "Companies collect and sell your data with no national rules."
+          ],
+          "against": [
+            "Each state sets its own rules for personal data.",
+            "The states decide how personal data is handled."
+          ]
+        },
+        "with": {
+          "for": [
+            "A national law guards your personal data.",
+            "Your personal data is protected by national law."
+          ],
+          "against": [
+            "A national law decides how every business handles data.",
+            "Every business answers to national rules on data."
+          ]
+        }
+      }
     },
     "us-federal-positions:territories-culture.statehood-for-dc": {
       "about": "statehood for the nation's capital",
@@ -1934,7 +2352,29 @@
       "family": "self-rule",
       "pole": "a",
       "number": "one",
-      "figures": []
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "The people of the nation's capital pay taxes and have no vote in Congress.",
+            "The capital's residents pay federal taxes with no voting voice."
+          ],
+          "against": [
+            "The nation's capital belongs to the whole country.",
+            "The capital is no state's and everyone's."
+          ]
+        },
+        "with": {
+          "for": [
+            "The nation's capital is a state, with votes in Congress.",
+            "The capital's people finally have a voice in Congress."
+          ],
+          "against": [
+            "The nation's capital is a state with two Senators.",
+            "The capital now sends two Senators the founders never planned."
+          ]
+        }
+      }
     }
   }
 }

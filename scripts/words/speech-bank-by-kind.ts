@@ -257,6 +257,12 @@ const SLOTS: Record<string, string> = {
     "how the policy question stands today, by the law in force and as the speaker's side describes it (question-names.json `today`)",
   "today-clause":
     "the same sentence as `today`, in the case it takes after an opener and a comma",
+  "today-2": "a second wording of `today` (question-names `todayMore`)",
+  "today-3": "a third wording of `today` (question-names `todayMore`)",
+  "today-clause-2": "`today-2` after an opener and a comma",
+  "today-clause-3": "`today-3` after an opener and a comma",
+  "today-question-2": "`today-2` inside a question to the audience",
+  "today-question-3": "`today-3` inside a question to the audience",
   "today-question":
     "the same sentence as `today-clause` without its period, said inside a question to the audience",
   belief:
@@ -804,14 +810,20 @@ const TODAY: [string | string[], string][] = [
   ["plain", "As of right now, {today-clause}"],
   ["plain", "As it is now, {today-clause}"],
 ];
+// Each opener is said with any of a question's wordings (`{today}`, and
+// `{today-2}`, `{today-3}` where question-names holds more), so the
+// composer's own pick spreads them.
 for (const [voice, text] of TODAY)
-  ADD.push({
-    role: "today",
-    subjects: ALL,
-    voice,
-    text,
-    needs: [text.includes("{today}") ? "today" : "today-clause"],
-  });
+  for (const n of ["", "-2", "-3"]) {
+    const slot = text.includes("{today}") ? "today" : "today-clause";
+    ADD.push({
+      role: "today",
+      subjects: ALL,
+      voice,
+      text: text.replace(`{${slot}}`, `{${slot}${n}}`),
+      needs: [`${slot}${n}`],
+    });
+  }
 // 17. What the speaker believes is typed by the question's family and the
 // pole of it the speaker stands on (scripts/words/speech-beliefs.tsv), never
 // by the theme and a left or right lean ("Because I've always thought folks
@@ -864,7 +876,12 @@ for (const [role, voice, text, shape] of BELIEF_FRAMES)
 // 18. A point may open on a question to the audience, answered by how things
 // stand and the ask.
 const QUESTIONS: [string, string, string, string][] = [
-  ["polished", "for", "law-not-in-force", "Should we go on in a country where {today-question}?"],
+  [
+    "polished",
+    "for",
+    "law-not-in-force",
+    "Should we go on in a country where {today-question}?",
+  ],
   ["plain", "for", "law-not-in-force", "Is it fair that {today-question}?"],
   [
     "polished",
@@ -890,19 +907,30 @@ const QUESTIONS: [string, string, string, string][] = [
     "law-in-force",
     "Why would we go back, when {today-question}?",
   ],
-  ["polished", "against", "law-in-force", "Should we accept that {today-question}?"],
-  ["plain", "against", "law-in-force", "Does it make sense that {today-question}?"],
+  [
+    "polished",
+    "against",
+    "law-in-force",
+    "Should we accept that {today-question}?",
+  ],
+  [
+    "plain",
+    "against",
+    "law-in-force",
+    "Does it make sense that {today-question}?",
+  ],
 ];
 // The question carries how things stand, as the speaker's side tells it,
 // and names no question, so the ask after it names the question once.
 for (const [voice, side, law, text] of QUESTIONS)
-  ADD.push({
-    role: "question",
-    subjects: ALL,
-    voice,
-    text,
-    needs: ["today-question", `stance-${side}`, law, "asks-question"],
-  });
+  for (const n of ["", "-2", "-3"])
+    ADD.push({
+      role: "question",
+      subjects: ALL,
+      voice,
+      text: text.replace("{today-question}", `{today-question${n}}`),
+      needs: [`today-question${n}`, `stance-${side}`, law, "asks-question"],
+    });
 // 19. A figure joins a point only when the question's own row says the
 // measure bears on it and helps the speaker's side (question-names
 // `figures`); this sentence ties the figure to the question, by side, by
@@ -915,10 +943,70 @@ const TIES: [string, string, string, string][] = [
     "We cannot go another {context-years} years like that.",
   ],
   [
+    "polished",
+    "for",
+    "law-not-in-force",
+    "Another {context-years} years of that would be a failure of this government.",
+  ],
+  [
+    "polished",
+    "for",
+    "law-not-in-force",
+    "We were not sent here to watch that go on for {context-years} more years.",
+  ],
+  [
+    "polished",
+    "for",
+    "law-not-in-force",
+    "After {context-years} years of that, waiting is no longer an answer.",
+  ],
+  [
+    "polished",
+    "for",
+    "law-not-in-force",
+    "{context-years} years of that is long enough.",
+  ],
+  [
+    "polished",
+    "for",
+    "law-not-in-force",
+    "No one should have to live through {context-years} more years of that.",
+  ],
+  [
     "plain",
     "for",
     "law-not-in-force",
     "We can't keep that up for another {context-years} years.",
+  ],
+  [
+    "plain",
+    "for",
+    "law-not-in-force",
+    "{context-years} years of that is plenty.",
+  ],
+  [
+    "plain",
+    "for",
+    "law-not-in-force",
+    "Nobody signed up for {context-years} more years of that.",
+  ],
+  [
+    "plain",
+    "for",
+    "law-not-in-force",
+    "After {context-years} years of that, folks are done waiting.",
+  ],
+  [
+    "plain",
+    "for",
+    "law-not-in-force",
+    "We've had {context-years} years of that, and that's enough.",
+  ],
+  [
+    "plain",
+    "for",
+    "law-not-in-force",
+    "Folks shouldn't sit through {context-years} more years of that.",
   ],
   [
     "polished",
@@ -927,10 +1015,70 @@ const TIES: [string, string, string, string][] = [
     "After {context-years} years of that, this is no time to lose ground.",
   ],
   [
+    "polished",
+    "for",
+    "law-in-force",
+    "After {context-years} years like these, we should not give back what we have won.",
+  ],
+  [
+    "polished",
+    "for",
+    "law-in-force",
+    "{context-years} years of that is a reason to hold firm.",
+  ],
+  [
+    "polished",
+    "for",
+    "law-in-force",
+    "After {context-years} years of that, retreat would be a mistake.",
+  ],
+  [
+    "polished",
+    "for",
+    "law-in-force",
+    "Having come through {context-years} years of that, we should keep what works.",
+  ],
+  [
+    "polished",
+    "for",
+    "law-in-force",
+    "After {context-years} years of that, we should not undo our own progress.",
+  ],
+  [
     "plain",
     "for",
     "law-in-force",
     "After {context-years} years of that, we can't afford to go backward.",
+  ],
+  [
+    "plain",
+    "for",
+    "law-in-force",
+    "After {context-years} years of that, this is no time to give up ground.",
+  ],
+  [
+    "plain",
+    "for",
+    "law-in-force",
+    "{context-years} years of that tells me we hold the line.",
+  ],
+  [
+    "plain",
+    "for",
+    "law-in-force",
+    "We've had {context-years} years of that, so we keep what's working.",
+  ],
+  [
+    "plain",
+    "for",
+    "law-in-force",
+    "After {context-years} years like that, going backward makes no sense.",
+  ],
+  [
+    "plain",
+    "for",
+    "law-in-force",
+    "{context-years} years of that is no time to start over.",
   ],
   [
     "polished",
@@ -939,10 +1087,70 @@ const TIES: [string, string, string, string][] = [
     "After {context-years} years of that, families do not need one more cost.",
   ],
   [
+    "polished",
+    "against",
+    "law-not-in-force",
+    "After {context-years} years of that, the last thing families need is a new burden.",
+  ],
+  [
+    "polished",
+    "against",
+    "law-not-in-force",
+    "{context-years} years of that have asked enough of working people.",
+  ],
+  [
+    "polished",
+    "against",
+    "law-not-in-force",
+    "After {context-years} years of that, this is the wrong time for another mandate.",
+  ],
+  [
+    "polished",
+    "against",
+    "law-not-in-force",
+    "Families who have carried {context-years} years of that deserve relief, not a new bill.",
+  ],
+  [
+    "polished",
+    "against",
+    "law-not-in-force",
+    "After {context-years} years of that, no one should add to the load.",
+  ],
+  [
     "plain",
     "against",
     "law-not-in-force",
     "After {context-years} years of that, folks don't need one more thing to pay for.",
+  ],
+  [
+    "plain",
+    "against",
+    "law-not-in-force",
+    "After {context-years} years of that, nobody needs another bill to pay.",
+  ],
+  [
+    "plain",
+    "against",
+    "law-not-in-force",
+    "{context-years} years of that is enough on folks' plates already.",
+  ],
+  [
+    "plain",
+    "against",
+    "law-not-in-force",
+    "After {context-years} years of that, piling more on makes no sense.",
+  ],
+  [
+    "plain",
+    "against",
+    "law-not-in-force",
+    "Folks who've lived through {context-years} years of that need a break, not a new cost.",
+  ],
+  [
+    "plain",
+    "against",
+    "law-not-in-force",
+    "After {context-years} years of that, let's not make it harder.",
   ],
   [
     "polished",
@@ -951,10 +1159,70 @@ const TIES: [string, string, string, string][] = [
     "After {context-years} years of that, it is time for a change.",
   ],
   [
+    "polished",
+    "against",
+    "law-in-force",
+    "{context-years} years of that is reason enough to change course.",
+  ],
+  [
+    "polished",
+    "against",
+    "law-in-force",
+    "After {context-years} years of that, the old way has had its chance.",
+  ],
+  [
+    "polished",
+    "against",
+    "law-in-force",
+    "{context-years} years of that should teach us something.",
+  ],
+  [
+    "polished",
+    "against",
+    "law-in-force",
+    "After {context-years} years of that, we owe people a different answer.",
+  ],
+  [
+    "polished",
+    "against",
+    "law-in-force",
+    "The record of {context-years} years of that speaks for itself.",
+  ],
+  [
     "plain",
     "against",
     "law-in-force",
     "After {context-years} years of that, it's time we tried something else.",
+  ],
+  [
+    "plain",
+    "against",
+    "law-in-force",
+    "{context-years} years of that is long enough to know it isn't working.",
+  ],
+  [
+    "plain",
+    "against",
+    "law-in-force",
+    "After {context-years} years of that, folks deserve a new approach.",
+  ],
+  [
+    "plain",
+    "against",
+    "law-in-force",
+    "We gave it {context-years} years, and that's what we got.",
+  ],
+  [
+    "plain",
+    "against",
+    "law-in-force",
+    "{context-years} years of that says it's time to switch.",
+  ],
+  [
+    "plain",
+    "against",
+    "law-in-force",
+    "After {context-years} years of that, I'd say we've seen enough.",
   ],
 ];
 // The tie joins the figure to the speaker's side and leads into the ask
@@ -1167,6 +1435,17 @@ const CLOSES: [string[], string, string][] = [
 for (const [subjects, voice, text] of CLOSES)
   ADD.push({ role: "close", subjects, voice, text, needs: ["first-side"] });
 const GREETINGS: [string, string][] = [
+  ["polished", "Mr. Chief Justice, honored guests, my fellow Americans."],
+  [
+    "polished",
+    "Members of Congress, guests of this nation, and fellow citizens.",
+  ],
+  ["polished", "Fellow citizens, here and in every corner of this land."],
+  ["polished", "To all who are gathered here, and to my fellow Americans."],
+  ["plain", "Folks here today, and folks back home."],
+  ["plain", "Everybody on this lawn, and everybody watching."],
+  ["plain", "My friends, and my fellow Americans."],
+  ["plain", "Neighbors from every state, and everybody here."],
   ["polished", "Honored guests, and my fellow Americans."],
   ["polished", "Members of Congress, and citizens of this country."],
   ["plain", "Folks here, and folks all across the country."],
@@ -1231,7 +1510,9 @@ bank.parts = bank.parts.filter((part) => {
 const keysNow = new Set(bank.parts.map((part) => part.key));
 const textsNow = new Set(bank.parts.map((part) => part.text.toLowerCase()));
 for (const add of ADD) {
-  const key = `opening-speech.${add.role}.${Array.isArray(add.voice) ? "both" : add.voice}-${add.subjects[0]}-${slug(add.text)}-${slug(add.needs.join(" "))}`;
+  // A wording's number (`today-2`) is kept in the key, which slug drops.
+  const wording = add.needs.join(" ").match(/-(\d)\b/)?.[1];
+  const key = `opening-speech.${add.role}.${Array.isArray(add.voice) ? "both" : add.voice}-${add.subjects[0]}-${slug(add.text)}-${slug(add.needs.join(" "))}${wording ? `-${wording}` : ""}`;
   if (keysNow.has(key) || textsNow.has(add.text.toLowerCase())) {
     const found = bank.parts.find(
       (part) => part.text.toLowerCase() === add.text.toLowerCase(),

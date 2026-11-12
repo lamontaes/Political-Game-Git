@@ -23,6 +23,12 @@ const NAMES = data.names as Readonly<
         readonly without: Readonly<Record<"for" | "against", string>>;
         readonly with: Readonly<Record<"for" | "against", string>>;
       };
+      readonly todayMore?: {
+        readonly without: Readonly<
+          Record<"for" | "against", readonly string[]>
+        >;
+        readonly with: Readonly<Record<"for" | "against", readonly string[]>>;
+      };
       readonly family?: string;
       readonly pole?: "a" | "b";
       readonly number?: "one" | "many";
@@ -47,6 +53,20 @@ export function questionToday(
 ): string | null {
   const row = NAMES[question]?.today;
   return row ? (inForce ? row.with : row.without)[side] : null;
+}
+
+/** Every wording of how the question stands for one side and state of the law: the first is `questionToday`'s. */
+export function questionTodayWordings(
+  question: string,
+  inForce: boolean,
+  side: "for" | "against",
+): readonly string[] {
+  const first = questionToday(question, inForce, side);
+  const more = NAMES[question]?.todayMore;
+  return [
+    ...(first ? [first] : []),
+    ...(more ? (inForce ? more.with : more.without)[side] : []),
+  ];
 }
 
 /** The family of questions that share a real reason on each side, and the pole of it a supporter stands on; null for a question with none. */
