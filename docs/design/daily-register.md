@@ -90,7 +90,6 @@ Every table a world keeps, as dev mode's records proof sees it (`src/bench/dev-p
 | `core2-employer-taxes-v1.shares`                 | grows | a row per event, no fold yet       | 7,425 / 18,269 / 29,454 / 42,235  | not yet approved (on main Nov 11) |
 | `core2-voting-v1.places`                         | grows | a row per event, no fold yet       | 720 / 23,819 / 26,338 / 41,361    | not yet approved (on main Nov 11) |
 | `core2-counted-moves-v1.moves`                   | grows | a row per event, no fold yet       | 8,669 / 18,314 / 28,946 / 40,084  | not yet approved (on main Nov 11) |
-| `core2-campaigns-v1.money`                       | grows | a row per event, no fold yet       | 424 / 14,677 / 16,230 / 35,577    | not yet approved (on main Nov 11) |
 | `core.work`                                      | grows | a row per event, no fold yet       | 11,066 / 20,653 / 26,462 / 34,315 | not yet approved (on main Nov 11) |
 | `core2-offices-v1.terms`                         | flat  | measured flat over the years above | 21,067 / 27,614 / 28,286 / 34,123 | none needed                       |
 | `core.actCounters`                               | flat  | measured flat over the years above | 20,226 / 25,766 / 25,681 / 30,835 | none needed                       |
