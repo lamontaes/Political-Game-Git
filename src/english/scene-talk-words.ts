@@ -18,6 +18,7 @@
 import { P } from "../core2/parameters";
 import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import tagsFile from "../../data/english/scene-talk-tags.json" with { type: "json" };
+import moveSetsFile from "../../data/english/scene-move-sets.json" with { type: "json" };
 import { conversationPacket, renderLine, type Fact } from "./bank-line";
 import {
   composeJoinedLine,
@@ -60,6 +61,11 @@ export interface PartUse {
   move: string;
   role: SceneTalkRole;
   purpose?: string;
+  /**
+   * A shared move set (data/english/scene-move-sets.json) in place of one
+   * purpose: the piece serves every purpose the set lists.
+   */
+  set?: string;
   key?: string;
   after?: string;
   outcome?: "resolved" | "refused" | "open";
@@ -183,9 +189,35 @@ const taggedBy = (part: BankPart) =>
 /** Where a scene is said: the part of a move that decides which pieces serve it at all. */
 export type SceneSpot = Pick<SceneMove, "purpose" | "family" | "key">;
 
+/** The purposes each shared move set serves (data/english/scene-move-sets.json). */
+const MOVE_SETS = new Map(
+  Object.entries(
+    (
+      moveSetsFile as unknown as {
+        sets: Record<string, { purposes: string[] }>;
+      }
+    ).sets,
+  ).map(([name, row]) => [name, new Set(row.purposes)]),
+);
+
+/** Whether a use's purpose, or the shared move set it names, is this purpose (or its family). */
+export function usesPurpose(
+  u: Pick<PartUse, "purpose" | "set">,
+  purpose: string,
+  family?: string,
+): boolean {
+  if (u.set) {
+    const serves = MOVE_SETS.get(u.set);
+    return (
+      !!serves && (serves.has(purpose) || (!!family && serves.has(family)))
+    );
+  }
+  return u.purpose === purpose || (!!family && u.purpose === family);
+}
+
 /** Whether a use serves this purpose and situation key (a fallback "*" serves only a scene with no purpose of its own). */
 export function usesSpot(u: PartUse, use: SceneSpot): boolean {
-  if (u.purpose && u.purpose !== use.purpose && u.purpose !== use.family)
+  if ((u.purpose || u.set) && !usesPurpose(u, use.purpose, use.family))
     return false;
   return !(u.key && u.key !== use.key);
 }
@@ -214,6 +246,9 @@ export function useFit(
     // A piece written for a variant beats the family's, whatever facts either needs.
     (use.family && u.purpose === use.purpose ? sixteen : zero) +
     (u.purpose && u.purpose !== "*" ? four : zero) +
+    // A shared move set names the purposes it serves, so a piece of it fits
+    // as closely as one written for the purpose's own situation key.
+    (u.set ? four + two : zero) +
     (u.key ? two : zero) +
     (u.after ? (u.after === use.afterPiece ? four + four : one) : zero) +
     // A piece that needs a fact the record holds says more than one that does not.
@@ -620,8 +655,7 @@ export function sceneMovesWritten(filter: {
             u.step === filter.step &&
             (filter.role === undefined || u.role === filter.role) &&
             (filter.purpose === undefined ||
-              u.purpose === filter.purpose ||
-              (filter.family !== undefined && u.purpose === filter.family)) &&
+              usesPurpose(u, filter.purpose, filter.family)) &&
             (filter.after === undefined || u.after === filter.after),
         )
         .map((u) => u.move),
@@ -641,11 +675,7 @@ export function pieceAnswers(
 ): number {
   let tier = zero;
   for (const u of PART_BY_KEY.get(pieceKey)?.uses ?? []) {
-    if (
-      u.subject !== "scene" ||
-      (u.purpose !== purpose && (!family || u.purpose !== family)) ||
-      !u.after
-    )
+    if (u.subject !== "scene" || !usesPurpose(u, purpose, family) || !u.after)
       continue;
     if (u.after === answered.pieceKey) tier = two;
     else if (u.after === answered.move) tier = Math.max(tier, one);

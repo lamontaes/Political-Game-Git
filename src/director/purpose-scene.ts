@@ -93,6 +93,7 @@ import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { constituentFacts } from "./constituent-help-facts";
+import { pressCommentFacts } from "./press-comment-facts";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
@@ -1333,6 +1334,15 @@ function composeBinding(
   // A reporter's call is about something: the bill the record names, else the
   // topic it is about. The lines that follow (what the reporter will print,
   // check or hold) name it through `story`, cited to the records it came from.
+  // A member answering for a bill says it from the bill's records: what it
+  // is about, the floor count, their own side and why, and where it goes
+  // next (the on-record move set, ./press-comment-facts).
+  if (type.purpose === "press-comment") {
+    for (const [key, fact] of Object.entries(
+      pressCommentFacts(core, askedId, said.billId),
+    ))
+      facts[key] ??= fact;
+  }
   if (type.purpose === "press-comment" && !facts.story) {
     const about = facts.bill ?? facts.cause;
     if (about)

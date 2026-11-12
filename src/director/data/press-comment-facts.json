@@ -1,0 +1,37 @@
+{
+  "schema": "director-press-comment-facts/1",
+  "note": "What a member answering for a bill says of it (src/director/press-comment-facts.ts, the on-record move set). Which parts of a member's position on a bill (legislature.ts MemberPosition, the reasons the floor cast their vote from) a member says out loud as their reason, the fact each becomes, and where a bill goes next by its status. Words only choose among records; nothing here is a number the world runs on.",
+  "saidReasons": {
+    "value": ["views", "constituents", "deal", "party", "consistency"],
+    "tag": "TUNABLE",
+    "spread": "Which reasons are said: a member names their own views, the town, a section they won, their party or their last vote on the question; a lobby's push, a bribe, ambition and temperament move votes but are not what a member tells a reporter. Order breaks a tie.",
+    "checkedAgainst": "Fenno, Home Style (1978), on how members explain votes to constituents: policy belief, constituency wishes and party are the explanations offered; the press-comment arcs' own reasons on main before Nov 12."
+  },
+  "reasonFacts": {
+    "value": {
+      "views": "views",
+      "constituents": "town",
+      "deal": "deal",
+      "party": "party",
+      "consistency": "record"
+    },
+    "tag": "TUNABLE",
+    "spread": "Names only; one fact per said reason.",
+    "checkedAgainst": "The pieces of the on-record set that require each fact."
+  },
+  "nextByStatus": {
+    "value": {
+      "drafted": "vote",
+      "passed": "desk",
+      "awaiting-signature": "desk",
+      "signed": "law",
+      "enacted": "law",
+      "overridden": "law",
+      "vetoed": "override",
+      "failed": "dead"
+    },
+    "tag": "TUNABLE",
+    "spread": "Names only; one fact per stage a bill can be in after a call.",
+    "checkedAgainst": "BillRow.status in src/core2/modules/legislature.ts."
+  }
+}
