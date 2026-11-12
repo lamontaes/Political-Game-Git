@@ -20,6 +20,11 @@ import {
   type BillRow,
 } from "../core2/modules/legislature";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import {
+  MEETINGS_MODULE_ID,
+  type TownHallRow,
+} from "../core2/modules/meetings";
+import { PRESS_MODULE_ID, type InterviewRow } from "../core2/modules/press";
 import type { LawRowInput } from "../core2/laws-starting";
 import {
   billNumberAndTitle,
@@ -1058,11 +1063,61 @@ function officeActMoments(
           : {}),
         ...(town ? { place: { text: town, sourceRecordIds: [personId] } } : {}),
       };
-      if (act.kind === "town-hall") return [moment("act:town-hall", where)];
-      if (act.kind === "interview")
-        return act.detail.startsWith("declined")
-          ? []
-          : [moment("act:interview", where)];
+      // A town hall is told by who came and what they asked, from its own
+      // row; an interview by the outlet it was given to, through the
+      // outlet's organization (from W3's claude/words-w3-journal, Nov 12). A
+      // count of one is not told as a number ("1 people").
+      if (act.kind === "town-hall") {
+        const hall = core.modules.has(MEETINGS_MODULE_ID)
+          ? (api
+              .moduleState(MEETINGS_MODULE_ID)
+              .table("townHalls")
+              .get(act.recordId) as unknown as TownHallRow | undefined)
+          : undefined;
+        const counted = (n: number) =>
+          n > one ? { text: String(n), sourceRecordIds: [act.recordId] } : null;
+        const came = counted(hall?.attendeeIds.length ?? zero);
+        const asked = counted(hall?.questions.length ?? zero);
+        return [
+          moment("act:town-hall", {
+            ...where,
+            ...(came ? { attendees: came } : {}),
+            ...(asked ? { questions: asked } : {}),
+          }),
+        ];
+      }
+      if (act.kind === "interview") {
+        if (act.detail.startsWith("declined")) return [];
+        const row = core.modules.has(PRESS_MODULE_ID)
+          ? (api
+              .moduleState(PRESS_MODULE_ID)
+              .table("interviews")
+              .get(act.recordId) as unknown as InterviewRow | undefined)
+          : undefined;
+        const outletRow = row
+          ? (api
+              .moduleState(PRESS_MODULE_ID)
+              .table("outlets")
+              .get(row.outletId) as unknown as
+              { organizationId?: string } | undefined)
+          : undefined;
+        const outlet = outletRow?.organizationId
+          ? core.organizations.get(outletRow.organizationId as never)?.name
+          : undefined;
+        return [
+          moment("act:interview", {
+            ...where,
+            ...(outlet
+              ? {
+                  outlet: {
+                    text: properName(outlet),
+                    sourceRecordIds: [act.recordId, row!.outletId],
+                  },
+                }
+              : {}),
+          }),
+        ];
+      }
       if (act.kind !== "vote" || !["yes", "no"].includes(act.detail)) return [];
       // The legislature's own record of the vote is told already: one line
       // a vote (the journal printed every vote twice, Oct 29).
@@ -1252,6 +1307,17 @@ export function composeJournal(
       if (employer) facts.employer = employer;
     }
     if (moment.causeKind === "moved") {
+      const place = placeName(person.placeId);
+      if (place) facts.place = place;
+    }
+    // A lost job with no employer on record is told by where the person
+    // lived: "I lost my job in Sunbury, North Carolina." (W3, Nov 12: four
+    // losses in Delphos, Iowa were untold once "I lost my job." went).
+    if (
+      moment.causeKind.startsWith("job-ended") &&
+      !facts.employer &&
+      !facts.place
+    ) {
       const place = placeName(person.placeId);
       if (place) facts.place = place;
     }

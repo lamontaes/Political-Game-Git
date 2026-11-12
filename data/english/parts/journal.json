@@ -48,7 +48,10 @@
     "count": "How many, counted from the records (employers in a working life).",
     "work": "The kinds of work a working life was in, from its employers' records (\"kitchens and stores\").",
     "to": "What a person wants done on a question, as a verb phrase after 'to' (question-names.json `to`), from the views engine's stance record.",
-    "about": "A question as a noun phrase (question-names.json `about`), from the views engine's stance record."
+    "about": "A question as a noun phrase (question-names.json `about`), from the views engine's stance record.",
+    "attendees": "How many came to a town hall, from its row.",
+    "questions": "How many questions were asked at a town hall, from its row.",
+    "outlet": "A news outlet, from its organization's record."
   },
   "maxWords": 10,
   "mining": {
@@ -9718,6 +9721,140 @@
       ],
       "origin": "authored",
       "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.my-town-hall-drew-attendees-people",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "My town hall drew {attendees} people.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "my-town-hall-drew-attendees-people",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "W3 words builder (claude/words-w3-journal, db2c83d08d), carried by the journal composer",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.my-town-hall-drew-attendees-people-who-a",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "My town hall drew {attendees} people, who asked me {questions} questions.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "my-town-hall-drew-attendees-people-who-a",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "W3 words builder (claude/words-w3-journal, db2c83d08d), carried by the journal composer",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-gave-an-interview-to-outlet",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I gave an interview to {outlet}.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-gave-an-interview-to-outlet",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "W3 words builder (claude/words-w3-journal, db2c83d08d), carried by the journal composer",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-sat-down-with-a-reporter-from-outlet",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I sat down with a reporter from {outlet}.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-sat-down-with-a-reporter-from-outlet",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "W3 words builder (claude/words-w3-journal, db2c83d08d), carried by the journal composer",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-lost.i-lost-my-job-in-place",
+      "move": "work-line-lost",
+      "kind": "spoken",
+      "text": "I lost my job in {place}.",
+      "uses": [
+        {
+          "move": "work-line-lost",
+          "subject": "work",
+          "role": "line",
+          "choice": "i-lost-my-job-in-place",
+          "journal": [
+            {
+              "kindPrefix": "job-ended",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-ended:let-go",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "W3 words builder (claude/words-w3-journal, db2c83d08d), carried by the journal composer",
       "date": "2026-11-12",
       "tag": {
         "move": "tell"
