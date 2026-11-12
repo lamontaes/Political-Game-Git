@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/red-main-m0-03-held-meeting
-pr: 8940
+pr: #8940
 after:
 blocked-on:
 lead: cto
@@ -16,6 +16,7 @@ model: opus
 effort: low
 root: none
 source: Red desk, Nov 12 (merger sonnet-6dbb; CTO on #8928 at 21:15Z)
+merged-at: 2026-11-12T22:00:06.531Z
 ---
 
 **What.** Golden-path M0-03 (`node --import tsx src/bench/m0-check.ts M0-03`) times out after about 450 s on clean main in Spanish Fort, Alabama (place 0171976, GOLDEN_PATH_SEED=4fdc6e71e19c9e85e75c5b59fddc23fd9f946621c3564639a3df6dab1d870001). It is not slow: its first loop gets the same stop more than 400 times, the county board's meeting of 2025-01-28 at 9:00 (`meeting:office:gus2025:160514:board:2025-01-28`). Guards: the check that a skip stops at the first thing that needs the player runs in every drawn place again.
