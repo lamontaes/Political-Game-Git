@@ -74,15 +74,15 @@ const OWN: Record<string, string> = {
 const LEAD = new Set(["a", "an", "the", "more", "any"]);
 /** Heads that name no thing of their own: a second name ending on one says nothing of what is meant. */
 const BARE_HEADS = new Set(
-  "change increase right question power program money benefit choice condition protection forgiveness rules limits ban cap tax fee plan standard requirement expansion shift raise deposit price permit checks law budget balance oversight commission apartments vouchers funding cuts tariffs talks partnership age rate sentences sharing lines payments ballots statehood rule".split(
+  "change increase right question power program money benefit choice condition protection forgiveness expansion shift raise oversight requirement partnership payments funding cuts talks sharing age rate sentences balance apartments statehood law rule".split(
     " ",
   ),
 );
 const ARTICLES = new Set(["a", "an", "the", "that", "those", "this", "these"]);
-/** A second name that says what the thing is: two words or more after its article, ending on a head that names a thing. */
+/** A second name that says what the thing is: its head names a thing ("the standard", "the cap"), not a placeholder for one ("the change", "the oversight", "the higher age"). */
 const saysWhat = (name: string): boolean => {
   const words = name.split(" ").filter((word) => !ARTICLES.has(word));
-  return words.length > 1 && !BARE_HEADS.has(words.at(-1)!.toLowerCase());
+  return words.length > 0 && !BARE_HEADS.has(words.at(-1)!.toLowerCase());
 };
 const PREPOSITIONS = new Set(
   "on of for to in from against at with after before by between into over under when that who so instead without about as".split(
@@ -105,12 +105,12 @@ for (const [question, row] of Object.entries(json.names)) {
   const short = own ?? `the ${words.at(-1)}`;
   // A law's name that only says "the law ..." presumes it passed; an open
   // question is then said by its own name.
-  const full = /ing$/.test(row.about.split(" ")[0]!)
-    ? row.about
-    : `the ${row.about
-        .split(" ")
-        .filter((word, at) => at > 0 || !LEAD.has(word.toLowerCase()))
-        .join(" ")}`;
+  // Its own name, with "the" where it began on an article or a word of
+  // amount ("a higher age ..." is "the higher age ..."), else as it is.
+  const [first, ...rest] = row.about.split(" ");
+  const full = LEAD.has(first!.toLowerCase())
+    ? `the ${rest.join(" ")}`
+    : row.about;
   const again = saysWhat(short)
     ? short
     : row.law && !row.law.startsWith("the law ")
