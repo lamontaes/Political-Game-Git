@@ -5396,11 +5396,9 @@ function worldRacePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
     const place = housePlace(usps, race.code, api.state.seed);
     if (place) return [place];
     // A delegate's seat with no House vote on record (a territory): the
-    // place at its 2024 delegate race's lean, its size not yet read.
-    // stopgapId: SG-GOV-delegate-race-size
-    api.stopgap("SG-GOV-delegate-race-size");
+    // place at its 2024 delegate race's lean, sized by the votes it cast.
     const delegate = statePlaces(usps, api.state.seed, 1)[0];
-    return delegate ? [{ ...delegate, eligible: 0 }] : [];
+    return delegate ? [delegate] : [];
   }
   const offices = api.moduleState(OFFICES_MODULE_ID);
   // A seat the whole state elects (a senator, a governor, an attorney
