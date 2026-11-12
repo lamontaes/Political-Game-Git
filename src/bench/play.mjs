@@ -136,6 +136,12 @@ mountSpeakers();
 const $ = (id) => document.getElementById(id);
 let me;
 let packet;
+/** The News tab the player last chose, kept while the game is open. */
+let newsTab = null;
+// The tab order News first opened with, kept while the game is open, and
+// whose life they are (another life starts its own).
+let newsOrder = [];
+let newsFor = null;
 // The game's date is the clock's, the packet's; me.date is only the day the
 // screen loaded (P15, C10: the News kept the opening day).
 const today = () => packet?.at?.date ?? me.date;
@@ -4087,7 +4093,17 @@ const sheets = {
     // One feed, what you heard, newest first: News and the toast read the
     // news engine's same stories through storyHeadline.
     const { stories } = await nightsNews(me.id);
+    if (newsFor !== me.id) {
+      newsFor = me.id;
+      newsOrder = [];
+      newsTab = null;
+    }
     const outlets = new Map();
+    // The player's own outlets have a tab from the first day, before they print.
+    for (const paper of await api(
+      `/api/news/home?id=${encodeURIComponent(me.id)}`,
+    ))
+      outlets.set(paper.id, { ...paper, stories: [] });
     for (const story of stories) {
       const outlet = story.outlet ?? {
         id: "news",
@@ -4098,15 +4114,56 @@ const sheets = {
       if (!outlets.has(key)) outlets.set(key, { ...outlet, stories: [] });
       outlets.get(key).stories.push(story);
     }
-    if (!outlets.size)
+    // A place with no press of its own opens on the desk of stories no outlet
+    // printed, there every day.
+    if (
+      ![...outlets.values()].some((outlet) => outlet.home) &&
+      !outlets.has("news")
+    )
       outlets.set("news", {
+        id: "news",
         name: labels.title,
         layout: "broadsheet",
         stories: [],
       });
+    // One tab order, whatever came in last (play-nov8-news-opens-on-a-different-paper-each-time):
+    // the player's own paper first (an outlet of the place they live in), then the
+    // desk of stories no outlet printed (there from day one), the other papers by
+    // name, the Nation's last; News opens on the tab the player last chose, else
+    // the first.
+    const rank = (outlet) =>
+      outlet.home || outlet.stories.some((st) => st.outlet?.home)
+        ? 0
+        : outlet.id === "news"
+          ? 1
+          : outlet.id === "nation"
+            ? 3
+            : 2;
+    // Tabs News showed before keep their places; new ones follow by rank.
+    const placeOf = (key) => {
+      const at = newsOrder.indexOf(key);
+      return at < 0 ? newsOrder.length : at;
+    };
+    const ordered = new Map(
+      [...outlets].sort(
+        ([keyA, a], [keyB, b]) =>
+          placeOf(keyA) - placeOf(keyB) ||
+          rank(a) - rank(b) ||
+          // The player's own outlets keep the order the press record gives them.
+          (rank(a) ? String(a.name).localeCompare(String(b.name)) : 0),
+      ),
+    );
+    newsOrder = [
+      ...newsOrder,
+      ...[...ordered.keys()].filter((key) => !newsOrder.includes(key)),
+    ];
     return [
       newsBoard({
-        outlets,
+        outlets: ordered,
+        chosenKey: newsTab,
+        onChoose: (key) => {
+          newsTab = key;
+        },
         labels,
         date: today(),
         headlineOf: storyHeadline,
@@ -4698,6 +4755,61 @@ const sheets = {
         ),
       ];
     };
+    // The player's own record in office, as voters read it: roll calls, bills sponsored and
+    // promises with their status, each row tagged with its record id for the Trace.
+    const recordSection = (record) => {
+      const floor = controls.floor?.status ?? {};
+      const tag = (rows) => {
+        const node = dotRows(
+          rows.map((row) => ({ label: row.label, value: row.value })),
+        );
+        [...node.children].forEach((child, at) => {
+          child.dataset.recordId = rows[at].id;
+        });
+        return [node];
+      };
+      const voteRows = record.votes.map((vote) => ({
+        id: vote.id,
+        label: vote.number
+          ? `${vote.number} · ${policyLabel(vote.question)}`
+          : `${policyLabel(vote.question)} · ${dateWords(vote.date)}`,
+        value: `${vote.position > 0 ? labels.votedFor : labels.votedAgainst} · ${
+          vote.passed ? labels.votePassedResult : labels.voteAgainstResult
+        }`,
+      }));
+      const billRows = record.bills.map((bill) => ({
+        id: bill.id,
+        label: bill.number,
+        value: floor[bill.status] ?? "",
+      }));
+      const promiseRows = record.promises.map((promise) => ({
+        id: promise.id,
+        label: `${policyLabel(promise.question)} · ${promise.position > 0 ? (stance.for ?? "") : (stance.against ?? "")}`,
+        value:
+          promise.status === "kept"
+            ? labels.promiseKept
+            : promise.status === "broken"
+              ? labels.promiseBroken
+              : labels.promiseOpen,
+      }));
+      return voteRows.length || billRows.length || promiseRows.length
+        ? [
+            stripSection(
+              2,
+              labels.yourRecord,
+              ...(voteRows.length
+                ? [stripSection(3, labels.recordVotes, ...tag(voteRows))]
+                : []),
+              ...(billRows.length
+                ? [stripSection(3, labels.recordBills, ...tag(billRows))]
+                : []),
+              ...(promiseRows.length
+                ? [stripSection(3, labels.recordPromises, ...tag(promiseRows))]
+                : []),
+            ),
+          ]
+        : [];
+    };
     const byDate = new Map();
     for (const race of ballot.races) {
       const day = byDate.get(race.electionDate) ?? [];
@@ -4741,7 +4853,15 @@ const sheets = {
       groups,
       className: "elections-screen",
       render: async (entry) =>
-        entry.ask ? askPage(entry.ask) : racePage(entry.race),
+        entry.ask
+          ? askPage(entry.ask)
+          : [
+              ...racePage(entry.race),
+              ...(filed.has(entry.race.contestId) ||
+              entry.race.lastTime?.winnerId === me.id
+                ? recordSection(await api(`/api/campaign/record?id=${me.id}`))
+                : []),
+            ],
     });
   },
   /**
@@ -6044,6 +6164,9 @@ const setup = {
   recipe: null,
   initial: null,
   previous: [],
+  // The creator's open tab of clothes and the look last shown, so a tab flips at once.
+  lookTab: "everyday",
+  lookView: null,
 };
 /** A record value as the player reads it: an ISO date in words, else as kept. */
 function dateOrValue(value) {
@@ -6261,21 +6384,46 @@ $("cr-place-random").addEventListener("click", async () => {
 });
 
 // Character appearance: the look's bust (the one every screen will draw) and
-// a row with arrows for each thing a bust shows.
+// a row with arrows for each thing a bust shows. Below the rows both tabs
+// share, two tabs of clothes (owner, Nov 12: "two tabs, everyday and formal,
+// bust flips between them"): the bust wears the open tab's clothes.
 function showLook(view) {
   setup.recipe = view.recipe;
-  $("cr-bust").replaceChildren(bust(view.face, "", 250));
+  setup.lookView = view;
+  const tab = setup.lookTab;
+  $("cr-bust").replaceChildren(bust(view.faces[tab], "", 250));
+  const row = (r) =>
+    lookRow(r, {
+      onMove: (id, by) => void moveLook(id, by),
+      arrowLabel: (by, it) =>
+        controls.creator[by < 0 ? "previous" : "next"].replace(
+          "{row}",
+          it.label.toLowerCase(),
+        ),
+    });
+  const tabs = Object.entries(controls.creator.lookTabs).filter(([key]) =>
+    view.rows.some((r) => r.tab === key),
+  );
   $("cr-rows").replaceChildren(
-    ...view.rows.map((row) =>
-      lookRow(row, {
-        onMove: (id, by) => void moveLook(id, by),
-        arrowLabel: (by, r) =>
-          controls.creator[by < 0 ? "previous" : "next"].replace(
-            "{row}",
-            r.label.toLowerCase(),
-          ),
-      }),
-    ),
+    ...view.rows.filter((r) => !r.tab).map(row),
+    ...(tabs.length
+      ? [
+          tabBar({
+            attr: "lookTab",
+            className: "look-tabs",
+            active: tab,
+            tabs: tabs.map(([key, label]) => ({
+              key,
+              label,
+              onSelect: () => {
+                setup.lookTab = key;
+                showLook(setup.lookView);
+              },
+            })),
+          }),
+        ]
+      : []),
+    ...view.rows.filter((r) => r.tab === tab).map(row),
   );
   $("cr-reset").disabled =
     JSON.stringify(setup.recipe) === JSON.stringify(setup.initial);
