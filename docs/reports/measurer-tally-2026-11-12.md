@@ -101,3 +101,28 @@ The overlap with a parent is high (54 to 73 percent), but so is the overlap with
 **The same notice date: confirmed and explained.** 37 of the 64 cases (58 percent) carry March 6, 2025; the rest carry the sixth of a later month (April 6, May 6, June 6) and nothing else. The date is the opening's: every opening lease's first rent falls due March 1, and the notice step serves it on the first review after the five-day grace. It is the sheet's reading; no relative-specific cause is needed, and `world-opening-husks-in-town-hold-no-cash` is not involved.
 
 **The parent also evicted: not reproduced.** In all six worlds, none of the 8 doubled-up households had a host with an eviction case at any time in the run, before or after the move-in, and none on the same day. `hostFor` (`housing-homeless.ts:398`) refuses a host that has a status row, so a doubled-up host is not itself homeless. The two-evictions case W1 saw would need a host household that is also in arrears; in these worlds the hosts were not. Not an engine fault found: the case needs W1's world (the place's seed and date) to look at, and the measurer asks W1 for the seed. Until then the measured answer is that a relative's eviction does not by itself put the host in arrears or open a case on it.
+
+## Row 7: layoffs of full people against counted workers
+
+**Measured.** `scripts/measure/row07-layoffs.ts <seed> 183`: build a drawn town, advance 183 days from the opening (January 20, 2025) a day at a time. At the start, list every open job of a full person by the class of its employer (private employer, public, outside employer with `outsideFlow`, other) and every private counted job with its heads (`countedJobHeads`). Each day, read the `turnover` table (any pull at one or more is a layoff the review wanted and `layOff` did not do) and the jobs engine's `changes` table (every layoff and other ending, first sight only).
+
+| Place | Seed | Full jobs: outside / private / public / treasury | Full private layoffs | Counted private heads | Counted layoff heads | Counted regional layoffs |
+| --- | --- | --- | --- | --- | --- | --- |
+| Fords Prairie, Washington | c6798d1c753ef207 | 556 / 13 / 6 / 176 | 0 | 361 | 21 | 215 |
+| Hudson, Colorado | ee752cc6427cafeb | 566 / 28 / 9 / 127 | 2 | 333 | 20 | 162 |
+| Westboro, Missouri | (l3) | not classed | 0 of 18 | 15 | 1 | 14 |
+| Lake Forest Park, Washington | (l4) | 570 / 21 / 9 / 181 | 1 | 2,125 | 139 | 1,249 |
+| Regina, New Mexico | (l5) | not classed | 1 of 10 | 7 | 1 | 6 |
+| Koontz Lake, Indiana | 7ef97dd1539fa90e | 555 / 33 / 4 / 180 | 1 (3 endings by layoff) | 243 | 10 | 114 |
+| Center, Missouri | (l7) | not classed | 1 of 29 | 123 | 5 | 59 |
+
+(The seeds l1 to l7 are the draw seeds of `drawPlace(seed, "row07")`.)
+
+**Results, in the order the sheet gave its causes.**
+
+1. **The attendance skip (`jobs.ts:1815-1821`) is not the cause.** In all seven worlds, no job of a full person and no counted job ever held a pull of one or more at the end of any day (`jobsEverHeldAtPull1OrMore` is 0 and `jobDaysHeldBack` is 0 everywhere). `layOff` never returned early on an attendance record in these runs. Cause 2 is refuted.
+2. **The trait lean is a small factor, not a factor of ten.** Looking only at the full people's private local jobs, the six-month rate is 6 of 152 (3.9 percent), pooled over the seven worlds. The counted private jobs, pooled and weighted by heads, are 197 of 3,207 (6.1 percent). With six events on one side the two are not apart; this is the lean's possible "factor of a few" or noise, and at most 1.6 times.
+3. **The order-of-ten gap is the class of employer.** Across a town, about 74 percent of full people's open jobs are with an `outsideFlow` employer (the commuter job of row 2): 555 to 570 of about 750 to 800. `turnoverJobs` (`jobs.ts:2210-2224`) skips every `outsideFlow` employer, and the regional loop in `reviewTurnover` reads only the counted people's `regional` rows (162 to 1,249 layoffs a half-year). In six months the full people's outside jobs had **zero layoffs** (3 to 8 `left-work` endings each, in all four worlds that were classed); every layoff of a full person is from a private local job, 13 to 33 of them. Over all the full people's jobs the half-year layoff rate is 0 of 757 (Fords Prairie), 2 of 744 (Hudson), 1 of 797 (Lake Forest Park) and 3 of 774 (Koontz Lake): 6 of 3,072, 0.2 percent. Against 6.1 percent for counted workers, the gap is a factor of about thirty, and it is exactly the outside jobs.
+4. The comment in `reviewTurnover` says "the full people there hold commuter jobs (outside account), read as any job". The code does not do that: `turnoverJobs` drops them. This is the one line to change (an outside job of a full person needs the same pull as a counted `regional` row, with the full person's own lean), and the fix may need a layoff of an outside job to end it and put the person in the seeker list as `regional` ones are.
+
+**Result.** The full people are not laid off at a tenth the rate because of the attendance check or the lean. Three quarters of them hold commuter jobs that the turnover review never reads, so their layoffs are 0 in half a year; the ones it does read are laid off at 3.9 percent against 6.1 percent for counted workers. Add this to `people-residents-cadence-mechanic-part-2-counted-layoffs`'s Notes (no twin). Heavy-run note: each world is about a minute for 183 days.
