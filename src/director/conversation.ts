@@ -3022,7 +3022,11 @@ function pointSubject(
   )
     mark("why-first", said);
   return {
-    id: `${POINT}:${eventId}`,
+    // Each hearer's point is their own (their stand, their reason), so its
+    // id names them: one housemate telling theirs does not silence the next
+    // ("what the player heard from someone in the house today is not told
+    // again" holds for that person's point, not the address itself).
+    id: `${POINT}:${eventId}:${speaker.id}`,
     kind: POINT,
     aboutId: eventId,
     stage: pick.stand,
@@ -3857,7 +3861,10 @@ const STANDS = (
  * views engine's engagement; lead, Nov 12: a sixteen-year-old's stand is
  * gated by their engagement, not by age alone).
  */
-function takesStands(core: Readonly<CoreState>, personId: PersonId): boolean {
+export function takesStands(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+): boolean {
   const person = core.people.get(personId);
   if (!person) return false;
   const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));

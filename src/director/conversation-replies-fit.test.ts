@@ -34,6 +34,8 @@ import { openConversation, say, type Conversation } from "./conversation";
 
 const seed = process.env.GOLDEN_PATH_SEED || randomBytes(20).toString("hex");
 const PLACES = 2;
+/** The most places drawn when the first ones hold no question put to the player. */
+const MOST_PLACES = 6;
 const DAYS = 30;
 const EVERY = 5;
 const TURNS = 5;
@@ -63,7 +65,17 @@ const opening = (text: string) => text.match(/^[^.?!]*[.?!]/)?.[0] ?? text;
 
 it(`every reply in everyday talk fits the line it answers, over ${DAYS} days in ${PLACES} drawn places (seed ${seed})`, () => {
   const seen = { talks: 0, questions: 0, takes: 0, asked: 0 };
-  for (let draw = 0; draw < PLACES; draw += 1) {
+  // Talk is told from records now, so a question put to the player (one a
+  // reply must answer) is rarer than when every talk opened on stock
+  // questions: places are drawn until one is asked, and the places with none
+  // are named (skill drawn-place-tests).
+  const passedOver: string[] = [];
+  for (
+    let draw = 0;
+    draw < PLACES || (seen.questions === 0 && draw < MOST_PLACES);
+    draw += 1
+  ) {
+    const questionsBefore = seen.questions;
     setBookkeeping(false);
     const place = drawPlace(`${seed}:${draw}`, "talk-replies");
     const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
@@ -182,11 +194,13 @@ it(`every reply in everyday talk fits the line it answers, over ${DAYS} days in 
           ).toBe(true);
       });
     }
+    if (seen.questions === questionsBefore)
+      passedOver.push(`${where}: no question put to the player`);
   }
   process.stdout.write(
     `TALK REPLIES ${seed}: ${seen.talks} talks, ${seen.questions} questions answered, ${seen.takes} answers taken in, ${seen.asked} of the player's questions answered\n`,
   );
-  expect(seen.questions).toBeGreaterThan(0);
+  expect(seen.questions, passedOver.join("; ")).toBeGreaterThan(0);
   // Replaced (lead, Nov 12): "at least one answer taken in" became "no answer
   // taken in is a bare taking-in" (checked on each one above). A bare "Okay."
   // or "I see." is never said (owner, Nov 12: "a useless interaction"), so a

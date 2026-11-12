@@ -11,6 +11,7 @@ import {
   openConversation,
   say,
   subjectsBetween,
+  takesStands,
 } from "./conversation";
 import { OPENING_ADDRESS_EVENT } from "./opening-story";
 import { expectUpToFourDifferent } from "./reply-set-check";
@@ -51,6 +52,7 @@ it(`a household member opens from the day, and each reply moves the talk on (see
       continue;
     }
     const address = `${OPENING_ADDRESS_EVENT}:${core.date}`;
+    let opened = 0;
     household.forEach((member, index) => {
       const here = `${where}: ${member.id}`;
       // They watched it with the player.
@@ -68,6 +70,23 @@ it(`a household member opens from the day, and each reply moves the talk on (see
       // to listen to the president's address"; what a household did together
       // each of them knows).
       const [opener] = talk.lines;
+      // Someone who takes no stand (under the youngest age the rules name,
+      // or under the voting age without following politics closely; lead,
+      // Nov 12) has no point of their own to open on, and nobody asks
+      // whether the player saw what they watched together: they raise
+      // nothing about the address, and with nothing else on record today the
+      // talk does not open (owner, Oct 24).
+      if (!takesStands(core, member.id as PersonId)) {
+        expect(
+          talk.lines.filter(
+            (line) => line.kind === "address" || line.kind === "address-point",
+          ),
+          here,
+        ).toEqual([]);
+        if (!talk.lines.length) expect(talk.choices, here).toEqual([]);
+        return;
+      }
+      opened += 1;
       expect(opener?.speakerId, here).toBe(member.id);
       expect(opener?.kind, here).toBe("address-point");
       // Up to four replies, each a different move (owner, Nov 10).
@@ -78,22 +97,21 @@ it(`a household member opens from the day, and each reply moves the talk on (see
       const said = talk.lines.length;
       const next = say(core, talk, pick.key);
       const answer = next.lines[said + 1];
-      // A question is answered from their records; agreeing or disagreeing
-      // ends the talk on the player's reply (owner, Nov 12: an answer that
-      // says nothing about the point "makes no sense").
-      if (pick.move === "agree" || pick.move === "disagree")
-        expect(answer, `${here}: ${pick.text}`).toBeUndefined();
-      else {
-        expect(answer?.speakerId, `${here}: ${pick.text}`).toBe(member.id);
-        expect(answer?.kind, `${here}: ${pick.text}`).toBe(
-          "address-point-back",
-        );
-      }
+      // Every reply is answered, agree and disagree included, with what
+      // comes next for the side they took (round 9: an answer fits the
+      // side), so no talk ends on the player's line.
+      expect(answer?.speakerId, `${here}: ${pick.text}`).toBe(member.id);
+      expect(answer?.kind, `${here}: ${pick.text}`).toBe("address-point-back");
       noteHeard(core, next);
       console.log(
-        `HOUSEHOLD TALK ${here}: "${opener!.text}" / you: "${pick.text}" / "${answer?.text ?? "(ends on the reply)"}" / ${next.choices.map((row) => `"${row.text}"`).join(" ")}`,
+        `HOUSEHOLD TALK ${here}: "${opener!.text}" / you: "${pick.text}" / "${answer!.text}" / ${next.choices.map((row) => `"${row.text}"`).join(" ")}`,
       );
     });
+    // A household where nobody takes a stand is passed over, and named.
+    if (!opened) {
+      tried.push(`${place.name} (nobody at home takes a stand)`);
+      continue;
+    }
     // A month on, the address is no longer the day's news: nobody opens on
     // it, however late they heard of it (golden-address-talk-fades).
     const startedOn = core.date;
@@ -108,6 +126,6 @@ it(`a household member opens from the day, and each reply moves the talk on (see
     return;
   }
   throw new Error(
-    `the player lived alone in ${tried.join("; ")} (seed ${seed})`,
+    `no one at home opened on the address in ${tried.join("; ")} (seed ${seed})`,
   );
 }, 1_800_000);
