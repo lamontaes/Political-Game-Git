@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 standard: 2
-claimed-by: claude/pool-tests-plain-text-no-travel-filing-place
+claimed-by:
 pr: #8795
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T10:13:13.055Z
+claimed-at:
 branch: claude/pool-tests-plain-text-no-travel-filing-place
 ---
 
