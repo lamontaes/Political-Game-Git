@@ -1043,5 +1043,17 @@
     "addedAt": "2026-11-12",
     "replacement": "A by-household index of standing bills in the finance engine (or the household record naming its current lease), read here.",
     "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-housemate-job-search-unrecorded",
+    "kind": "missing-record",
+    "file": "src/director/conversation.ts",
+    "line": 1,
+    "whatItFakes": "A jobless housemate says nothing of looking for work: the jobs engine (src/core2/modules/jobs.ts) keeps job offers only for the person the player controls, and a jobless adult out of the labor force has no seeker row, so no application, interview, rejection or benefit paid is on record to tell.",
+    "why": "Talk from what is new on record (lead, Nov 12): a talk is offered only when a record holds something new; the engine keeps none for a housemate's search.",
+    "addedBy": "Words builder (words-telling-said-as-talk)",
+    "addedAt": "2026-11-12",
+    "replacement": "The jobs engine records each seeker's applications and answers (or benefits paid, from the income engine), and the talk reads the newest as a job-search subject.",
+    "status": "open"
   }
 ]

@@ -74,7 +74,10 @@ import {
 } from "../core2/modules/news";
 import type { EntityId } from "../core2/kernel/brands";
 import {
+  BUSINESS_ANNIVERSARY,
+  MILESTONE_BIRTHDAY,
   PRESS_MODULE_ID,
+  RETIREMENT,
   outletsHere,
   type OutletKind,
 } from "../core2/modules/press";
@@ -1280,6 +1283,68 @@ function hourlyFact(
     : {};
 }
 
+/** The story kinds a person tells when the story names their own life, by the mark their lines require. */
+const TOUCHING_STORIES: Readonly<Record<string, string>> = {
+  [BUSINESS_ANNIVERSARY]: "anniversary",
+  [RETIREMENT]: "retired",
+  [MILESTONE_BIRTHDAY]: "birthday",
+};
+
+/**
+ * A printed story that touches the speaker's own life, told to someone they
+ * live with (words composer, talk from what is new on record): one the
+ * speaker read lately whose record names their employer (the paper's
+ * anniversary of it), or someone they know (a retirement, a milestone
+ * birthday), by the story's own facts against the speaker's job and the
+ * people they know. Its outlet, the day it ran and what it says, each citing
+ * the story. None without such a story.
+ */
+function storyTouching(
+  core: Readonly<CoreState>,
+  speaker: Readonly<PersonState>,
+): Subject | null {
+  if (!core.modules.has(NEWS_MODULE_ID)) return null;
+  const since = addDays(makeIsoDate(core.date), -recentDays());
+  const employerId = jobOf(core, speaker)?.org.id;
+  for (const story of storiesHeard(coreAPI(core), speaker.id, since)) {
+    const mark = TOUCHING_STORIES[story.facts.recordKind ?? ""];
+    if (!mark) continue;
+    const cites = [story.id];
+    const fact = (text: string): Fact => ({ text, sourceRecordIds: cites });
+    const outlet = story.outletId
+      ? core.organizations.get(story.outletId as EntityId)
+      : undefined;
+    const facts: Facts = {
+      [mark]: fact("yes"),
+      ran: fact(spokenWhen(story.date, core.date)),
+      ...(outlet ? { outlet: fact(outlet.name) } : {}),
+    };
+    if (mark === "anniversary") {
+      if (!employerId || story.facts.organizationId !== employerId) continue;
+      const org = core.organizations.get(employerId);
+      if (!org || !story.facts.years) continue;
+      facts.employer = fact(properName(org.name));
+      facts.years = fact(story.facts.years);
+    } else {
+      const aboutId = story.facts.personId as PersonId | undefined;
+      const about = aboutId ? core.people.get(aboutId) : undefined;
+      if (!about || aboutId === speaker.id || !speaker.knownIds.has(aboutId!))
+        continue;
+      facts.name = fact(about.givenName);
+      if (story.facts.age) facts.age = fact(story.facts.age);
+      if (mark === "retired" && employerId === story.facts.organizationId)
+        facts["same-work"] = fact("yes");
+    }
+    return {
+      id: `news-touch:${story.id}`,
+      kind: "news-touch",
+      aboutId: story.id,
+      facts,
+    };
+  }
+  return null;
+}
+
 /** The news engine's kind for a story an outlet printed (press desk). */
 const PRINTED_STORY = "press.printed";
 
@@ -2123,6 +2188,8 @@ export function subjectsBetween(
     if (shift) out.push(shift);
     const rent = rentDue(core, speaker);
     if (rent) out.push(rent);
+    const touching = storyTouching(core, speaker);
+    if (touching) out.push(touching);
     const lessons = schoolDay(core, speaker, room.minuteOfDay);
     if (lessons) out.push(lessons);
     const quiet = quietDay(core, speaker, listener, room.minuteOfDay);
@@ -3303,6 +3370,7 @@ const OPENING_ORDER = [
   // Their own day, from its record (the shift, the rent coming due),
   // before the day itself.
   "rent-due",
+  "news-touch",
   "work-done",
   "work-day",
   "school-missed",
@@ -3949,6 +4017,18 @@ export function noteHeard(core: CoreState, conversation: Conversation): void {
         access: "perceived",
       });
   }
+  // The replies offered to the player are kept too: the next talk today
+  // offers other wordings while one fits ("Don't be late, then." to two
+  // people one morning; lead, Nov 12).
+  for (const choice of conversation.choices)
+    for (const part of choice.wording?.parts ?? [])
+      api.observe(conversation.playerId, {
+        key: `${HEARD_PREFIX}${part}`,
+        value: part,
+        learnedAt: core.date,
+        sourceId: `conversation:${conversation.playerId}:${conversation.otherId}:${core.date}`,
+        access: "perceived",
+      });
 }
 
 /**

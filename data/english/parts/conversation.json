@@ -48,7 +48,8 @@
     "against": "What an opponent of the question says they want (\"say no to higher tariffs\"), from data/english/question-names.json against.",
     "rent": "The household's rent, as people round it (\"about $1,200\"), from the lease record.",
     "due": "When the rent is due, from today (\"tomorrow\", \"in three days\"), from the lease record.",
-    "usual": "How long the speaker's shift usually runs (\"eight hours\"), from the job record's daily hours."
+    "usual": "How long the speaker's shift usually runs (\"eight hours\"), from the job record's daily hours.",
+    "age": "The age a person turned, from the paper's milestone birthday story."
   },
   "maxWords": 10,
   "lineWords": {
@@ -35736,6 +35737,318 @@
         "required": true
       },
       "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-touch-say-core.outlet-wrote-up-employer-turning-years-ran",
+      "move": "news-touch-say-core",
+      "kind": "spoken",
+      "text": "{outlet} wrote up {employer} turning {years}, {ran}.",
+      "uses": [
+        {
+          "move": "news-touch-say-core",
+          "subject": "news-touch-say",
+          "role": "core",
+          "requiresFacts": ["anniversary", "outlet", "employer", "years"]
+        }
+      ],
+      "piece": {
+        "of": "news-touch-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-touch-say-core.employer-is-years-years-old-says-outlet",
+      "move": "news-touch-say-core",
+      "kind": "spoken",
+      "text": "{employer} is {years} years old, says {outlet}.",
+      "uses": [
+        {
+          "move": "news-touch-say-core",
+          "subject": "news-touch-say",
+          "role": "core",
+          "requiresFacts": ["anniversary", "outlet", "employer", "years"]
+        }
+      ],
+      "piece": {
+        "of": "news-touch-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-touch-say-core.outlet-says-name-retired-ran",
+      "move": "news-touch-say-core",
+      "kind": "spoken",
+      "text": "{outlet} says {name} retired {ran}.",
+      "uses": [
+        {
+          "move": "news-touch-say-core",
+          "subject": "news-touch-say",
+          "role": "core",
+          "requiresFacts": ["retired", "outlet", "name"]
+        }
+      ],
+      "piece": {
+        "of": "news-touch-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-touch-say-core.name-retired-it-says-in-outlet-from-my-work-too",
+      "move": "news-touch-say-core",
+      "kind": "spoken",
+      "text": "{name} retired, it says in {outlet}. From my work, too.",
+      "uses": [
+        {
+          "move": "news-touch-say-core",
+          "subject": "news-touch-say",
+          "role": "core",
+          "requiresFacts": ["retired", "outlet", "name", "same-work"]
+        }
+      ],
+      "piece": {
+        "of": "news-touch-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-touch-say-core.name-turned-age-it-was-in-outlet-ran",
+      "move": "news-touch-say-core",
+      "kind": "spoken",
+      "text": "{name} turned {age}. It was in {outlet} {ran}.",
+      "uses": [
+        {
+          "move": "news-touch-say-core",
+          "subject": "news-touch-say",
+          "role": "core",
+          "requiresFacts": ["birthday", "outlet", "name", "age"]
+        }
+      ],
+      "piece": {
+        "of": "news-touch-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-touch-answer-ask.did-outlet-put-your-name-in-it",
+      "move": "news-touch-answer-ask",
+      "kind": "spoken",
+      "text": "Did {outlet} put your name in it?",
+      "uses": [
+        {
+          "move": "news-touch-answer-ask",
+          "subject": "news-touch",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["anniversary", "outlet"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-touch-answer-glad.years-years-that-s-a-long-time-for-one-place",
+      "move": "news-touch-answer-glad",
+      "kind": "spoken",
+      "text": "{years} years. That's a long time for one place.",
+      "uses": [
+        {
+          "move": "news-touch-answer-glad",
+          "subject": "news-touch",
+          "role": "answer",
+          "choice": "glad",
+          "requiresFacts": ["anniversary", "years"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-touch-answer-ask.did-you-know-name-well",
+      "move": "news-touch-answer-ask",
+      "kind": "spoken",
+      "text": "Did you know {name} well?",
+      "uses": [
+        {
+          "move": "news-touch-answer-ask",
+          "subject": "news-touch",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-touch-answer-glad.good-for-name-that-s-worth-a-card",
+      "move": "news-touch-answer-glad",
+      "kind": "spoken",
+      "text": "Good for {name}. That's worth a card.",
+      "uses": [
+        {
+          "move": "news-touch-answer-glad",
+          "subject": "news-touch",
+          "role": "answer",
+          "choice": "glad",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-touch-back-core.no-you-it-was-about-the-place-not-us",
+      "move": "news-touch-back-core",
+      "kind": "spoken",
+      "text": "No, {you}. It was about the place, not us.",
+      "uses": [
+        {
+          "move": "news-touch-back-core",
+          "subject": "news-touch-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["anniversary"]
+        }
+      ],
+      "piece": {
+        "of": "news-touch-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-touch-back-core.longer-than-i-ve-been-there-you",
+      "move": "news-touch-back-core",
+      "kind": "spoken",
+      "text": "Longer than I've been there, {you}.",
+      "uses": [
+        {
+          "move": "news-touch-back-core",
+          "subject": "news-touch-back",
+          "role": "core",
+          "stages": ["glad"],
+          "requiresFacts": ["anniversary"]
+        }
+      ],
+      "piece": {
+        "of": "news-touch-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-touch-back-core.we-worked-together-you-i-ll-miss-name-there",
+      "move": "news-touch-back-core",
+      "kind": "spoken",
+      "text": "We worked together, {you}. I'll miss {name} there.",
+      "uses": [
+        {
+          "move": "news-touch-back-core",
+          "subject": "news-touch-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["retired", "same-work", "name"]
+        }
+      ],
+      "piece": {
+        "of": "news-touch-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-touch-back-core.well-enough-to-say-hello-you",
+      "move": "news-touch-back-core",
+      "kind": "spoken",
+      "text": "Well enough to say hello, {you}.",
+      "uses": [
+        {
+          "move": "news-touch-back-core",
+          "subject": "news-touch-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["name"],
+          "excludesFacts": ["same-work"]
+        }
+      ],
+      "piece": {
+        "of": "news-touch-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-touch-back-core.i-ll-pick-one-up-for-name-you",
+      "move": "news-touch-back-core",
+      "kind": "spoken",
+      "text": "I'll pick one up for {name}, {you}.",
+      "uses": [
+        {
+          "move": "news-touch-back-core",
+          "subject": "news-touch-back",
+          "role": "core",
+          "stages": ["glad"],
+          "requiresFacts": ["name"]
+        }
+      ],
+      "piece": {
+        "of": "news-touch-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
       "date": "2026-11-12"
