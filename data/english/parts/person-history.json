@@ -6120,33 +6120,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.moved.within.third.w2",
-      "move": "story",
-      "text": "{who} moved over to {place} in {year}.",
-      "origin": "authored",
-      "author": "Words builder W2 (life records lines, Nov 12)",
-      "date": "2026-11-12",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.moved.within.they.w2",
-      "move": "story",
-      "text": "They moved over to {place} in {year}.",
-      "origin": "authored",
-      "author": "Words builder W2 (life records lines, Nov 12)",
-      "date": "2026-11-12",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.moved.within.i.w2",
-      "move": "story",
-      "text": "I moved over to {place} in {year}.",
-      "origin": "authored",
-      "author": "Words builder W2 (life records lines, Nov 12)",
-      "date": "2026-11-12",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.partner.widowed.third",
       "move": "story",
       "text": "{who} lost {name} in {year}.",
