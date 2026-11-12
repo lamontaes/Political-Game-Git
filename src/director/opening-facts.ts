@@ -43,6 +43,9 @@ export function earlierAddressPieces(
   return [...core.durableLog.values()]
     .filter(
       (row) =>
+        // Before today, so the day's own address, once recorded, composes
+        // the same again (composed from records, the same every time).
+        row.date < core.date &&
         row.facts?.[ADDRESS_FACT.speaker] === speakerId &&
         !!row.facts?.[ADDRESS_FACT.pieces],
     )
