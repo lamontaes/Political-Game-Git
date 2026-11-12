@@ -89,11 +89,23 @@ try {
   const front = await read();
   console.log(JSON.stringify(front, null, 1));
   if (shots) await page.screenshot({ path: `${shots}/news-front.png` });
+  // The front page is read before another outlet's tab is opened: a home
+  // outlet that has printed nothing yet has a tab of its own, and its page
+  // has no lead story.
+  const frontLead = await page
+    .locator(".news-story.lead .news-text .intro")
+    .count();
+  const frontRecords = await page.locator(".paper-records").count();
+  const frontBoard = await page.locator(".news-board").innerText();
   // Each outlet's own page: the second one photographed too.
   if (outlets.length > 1) {
     await page.locator(".news-board .tab").nth(1).click();
     const second = await read();
     console.log(JSON.stringify(second, null, 1));
+    assert.doesNotMatch(
+      await page.locator(".news-board").innerText(),
+      /\bSeries\b|\bJurisdiction\b|Public record/,
+    );
     if (shots) await page.screenshot({ path: `${shots}/news-outlet-2.png` });
   }
   for (const text of [...front.headlines, ...front.ledes, ...front.text])
@@ -101,15 +113,9 @@ try {
   assert.ok(front.headlines.length > 0, "News lists no story");
   // A front page: the lead story is printed with its text, and no record row
   // with a kind, series or jurisdiction label is on it (owner, Oct 27).
-  assert.ok(
-    (await page.locator(".news-story.lead .news-text .intro").count()) > 0,
-    "the lead story has no text",
-  );
-  assert.equal(await page.locator(".paper-records").count(), 0);
-  assert.doesNotMatch(
-    await page.locator(".news-board").innerText(),
-    /\bSeries\b|\bJurisdiction\b|Public record/,
-  );
+  assert.ok(frontLead > 0, "the lead story has no text");
+  assert.equal(frontRecords, 0);
+  assert.doesNotMatch(frontBoard, /\bSeries\b|\bJurisdiction\b|Public record/);
   assert.deepEqual(errors, []);
   console.log("PASS");
 } finally {

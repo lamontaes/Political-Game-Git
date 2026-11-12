@@ -97,6 +97,11 @@ export {
   type DepartureRate,
 } from "./past-moves";
 export {
+  PAST_DISCHARGED,
+  PAST_ENLISTED,
+  pastServiceFor,
+} from "./past-military";
+export {
   COLLEGE_ENDED,
   COLLEGE_STARTED,
   SCHOOL_FINISHED,

@@ -4,7 +4,7 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import { relationPhrase } from "../english/journal-words";
-import { lawName, lawTopic } from "./journal";
+import { causeRecordFacts } from "./cause-facts";
 import {
   sceneParagraph,
   wordSceneLine,
@@ -141,6 +141,12 @@ export function composeScene(
     return row ? { text: spoken(row), sourceRecordIds: [id] } : null;
   };
 
+  // What the moment's own record names (the office, the bill, the employer
+  // that called), read once for the lead and the cause.
+  let recordFacts: Record<string, Fact> | undefined;
+  const fromRecord = () =>
+    (recordFacts ??= causeRecordFacts(core, moment.causeId));
+
   // The narrator's lines are the English engine's: the director says which
   // line it is and what the records give it.
   const render = (
@@ -227,12 +233,25 @@ export function composeScene(
   // The call or letter line is the fallback when no arrival is worded.
   const setting = arrival
     ? null
-    : render({ part: "setting", kind }, {}, `${moment.id}:setting`);
+    : render(
+        { part: "setting", kind },
+        (): Record<string, Fact> => {
+          const writer = talkToId ? who(talkToId) : null;
+          return writer ? { who: writer } : {};
+        },
+        `${moment.id}:setting`,
+      );
   if (arrival) sentences.push(arrival);
   else if (setting) sentences.push(setting);
   // Said in full once, so later lines call them by their first name.
   if (talkToId && arrival?.usedFactKeys?.includes("name")) named.add(talkToId);
   const wasNamed = talkToId ? named.has(talkToId) : false;
+  // Whom the moment is about when they are not the one in the room: the one
+  // mourned, the one missing from the table, the newcomer.
+  const aboutId = moment.counterpartIds.find(
+    (id) => id !== talkToId && id !== personId,
+  );
+  const aboutWasNamed = aboutId ? named.has(aboutId) : false;
   const lead = binding.said
     ? null
     : render(
@@ -242,9 +261,17 @@ export function composeScene(
           setting: binding.setting.kind,
         },
         () => {
-          const facts: Record<string, Fact> = {};
+          const facts: Record<string, Fact> = { ...fromRecord() };
           const other = talkToId ? who(talkToId) : null;
           if (other) facts.other = other;
+          const about = aboutId ? who(aboutId) : null;
+          if (about) facts.about = about;
+          // The school or workplace the scene is set at, by its record.
+          if (settingOrg)
+            facts.where = {
+              text: properName(settingOrg.name),
+              sourceRecordIds: [settingOrg.id],
+            };
           const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
           const org = job
             ? core.organizations.get(job.organizationId)
@@ -266,6 +293,8 @@ export function composeScene(
   // them says it in full.
   if (talkToId && !wasNamed && !lead?.usedFactKeys?.includes("other"))
     named.delete(talkToId);
+  if (aboutId && !aboutWasNamed && !lead?.usedFactKeys?.includes("about"))
+    named.delete(aboutId);
 
   // How the scene opens, from its first move: the one who opens it and
   // what they came to do ("Your mother has something to tell you.").
@@ -297,7 +326,7 @@ export function composeScene(
     : render(
         { part: "cause", label: moment.label },
         () => {
-          const facts: Record<string, Fact> = {};
+          const facts: Record<string, Fact> = { ...fromRecord() };
           const other = otherId ? who(otherId) : null;
           if (other) facts.other = other;
           const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
@@ -320,19 +349,6 @@ export function composeScene(
           // from the learned record (place-prices: refund minus charge).
           const learned = core.durableLog.get(moment.causeId);
           if (learned?.kind === "law.effect-learned") {
-            const lawId = String(learned.facts?.lawId ?? "");
-            const named = lawName(core, lawId);
-            const about = named ? undefined : lawTopic(core, lawId);
-            if (named)
-              facts.law = {
-                text: named.text,
-                sourceRecordIds: [moment.causeId, ...named.recordIds],
-              };
-            else if (about)
-              facts.topic = {
-                text: about.text,
-                sourceRecordIds: [moment.causeId, ...about.recordIds],
-              };
             const moved = Number(learned.facts?.movedMinor ?? P.zero);
             if (Number.isFinite(moved) && moved !== P.zero)
               facts[moved < P.zero ? "cost" : "refund"] = {
@@ -366,7 +382,8 @@ export function composeScene(
           sourceRecordIds: [
             ...new Set([
               ...sentences.flatMap((line) => line.sourceRecordIds),
-              ...(cause ? [moment.causeId] : []),
+              // The scene is staged from its cause, said or not.
+              moment.causeId,
               ...(binding.joined ?? []).map((row) => row.causeId),
             ]),
           ],

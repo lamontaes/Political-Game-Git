@@ -23,7 +23,12 @@ import {
   PAST_RELEASED,
   pastArrestOf,
 } from "./past-justice";
-import { PAST_WORK_OUT, PAST_WORK_SPELL, prisonTermOf } from "./past-work";
+import {
+  PAST_WORK_OUT,
+  PAST_WORK_SPELL,
+  prisonTermOf,
+  serviceOf,
+} from "./past-work";
 import { preStartHistory } from "./pre-start";
 import type { PersonId } from "./types";
 
@@ -75,6 +80,12 @@ it(`a past can hold an arrest, a conviction and a prison term, in ${where}`, () 
     if (rows[2]) {
       count.imprisoned += 1;
       const term = prisonTermOf(core, person)!;
+      // Never in prison while in the service.
+      const served = serviceOf(core, person);
+      expect(
+        !served || term.to <= served.enlisted || term.from >= served.discharged,
+        `${person.id} in prison ${term.from} to ${term.to} while serving, ${where}`,
+      ).toBe(true);
       for (const kind of [PAST_WORK_SPELL, PAST_WORK_OUT])
         for (const row of preStartHistory(core, {
           kind,

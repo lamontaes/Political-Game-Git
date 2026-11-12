@@ -50,6 +50,7 @@ import {
   type PreStartModule,
   type PreStartWindow,
   pastJusticeFor,
+  pastServiceFor,
   prisonTermOf,
 } from "../past-module";
 import type {
@@ -606,6 +607,7 @@ export function openWholePast(core: CoreState, personId: PersonId): void {
   );
   schoolHistoryFor(core, [person]);
   pastWorkFor(core, [person], PEOPLE_MODULE_ID);
+  pastServiceFor(core, [person], PEOPLE_MODULE_ID);
   pastJusticeFor(core, [person], PEOPLE_MODULE_ID, (one) =>
     prisonTermOf(core, one),
   );
