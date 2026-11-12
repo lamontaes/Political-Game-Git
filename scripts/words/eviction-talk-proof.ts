@@ -21,6 +21,7 @@ import { coreAPI } from "../../src/core2/state";
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import type { CoreState, PersonId } from "../../src/core2/types";
 import { openConversation, say } from "../../src/director/conversation";
+import { familyFactsOf } from "../../src/core2/modules/people";
 import { drawPlace } from "../core2-year/place";
 import { gameStartDate } from "../../src/core2/game-start";
 
@@ -81,7 +82,7 @@ for (let draw = 0; draw < draws; draw += 1) {
         .table("statuses")
         .get(row.householdId) as { status?: string } | undefined;
       console.log(
-        `\n### ${core.date}: case ${row.id}, removed ${row.removedAt}, owed ${row.owedAtRemovalMinor} cents, status ${status?.status ?? "none"}; ${nameOf(core, adult)} (${adult}) talks with the player`,
+        `\n### ${core.date}: case ${row.id}, removed ${row.removedAt}, owed ${row.owedAtRemovalMinor} cents, status ${status?.status ?? "none"}; ${nameOf(core, adult)} (${adult}) talks with the player (to the player: ${familyFactsOf(core.people.get(playerId)!).get(adult)?.relation ?? "not family"})`,
       );
       const first = openConversation(core, playerId, adult, { director });
       const evicted = first.lines.find((line) => line.kind === "eviction");
