@@ -23,22 +23,10 @@ import {
 } from "../core2/modules/campaigns";
 import { electionResults } from "./results";
 import { seatAct, seatView } from "./legislature";
-import {
-  adjourn,
-  deskWaiting,
-  leaveDeskToCharacter,
-  meetingInProgress,
-  officeHost,
-  takeUpItem,
-  upcomingMeeting,
-} from "../core2/modules/office-day";
-import { colleagueDeal, officeView } from "./office";
+import { officeHost, upcomingMeeting } from "../core2/modules/office-day";
+import { colleagueDeal, leaveHoldsToCharacter, officeView } from "./office";
 import { officeActHandlers } from "../core2/office-day-acts";
-import {
-  actOn,
-  askLeaderForHearing,
-  waitingEntries,
-} from "../core2/office-day-state";
+import { askLeaderForHearing } from "../core2/office-day-state";
 import { reachedSteps } from "./reached";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { benchScene } from "./scene";
@@ -175,20 +163,12 @@ function liveUntil(date: string) {
     if (packet.kind === "stop") {
       // A meeting or the desk holds the clock: the player votes their own
       // bill and leaves the rest, and the desk, to the character.
-      const api = coreAPI(w.core);
-      const meeting = meetingInProgress(api);
-      if (meeting) {
-        for (const billId of meeting.agenda)
-          takeUpItem(api, meeting.id, billId, "own");
-        adjourn(api, meeting.id);
-      }
-      for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
       // A state legislator's own hearing or session day holds the clock too:
       // the character does it on their own choice.
-      const holderId = (packet as { controlledPersonId?: string })
-        .controlledPersonId;
-      if (holderId)
-        for (const entry of waitingEntries(api, holderId)) actOn(api, entry);
+      leaveHoldsToCharacter(
+        w.core,
+        (packet as { controlledPersonId?: string }).controlledPersonId,
+      );
       player.resume({ kind: "stop", pauseId: packet.pauseId });
     }
   }

@@ -135,13 +135,15 @@
     "id": "SG-OFFICE-FED-trip-residents",
     "kind": "missing-record",
     "file": "src/core2/office-day-federal-president.ts",
-    "line": 729,
-    "whatItFakes": "The people a traveler meets in a town other than the player's are recorded identities of that place (drawn from the world's seed and the town), with no household, job or other records there beyond the meeting.",
+    "line": 850,
+    "whatItFakes": "A person met on a trip to another town takes an age, job and wage from that town's counts, but has no household, employer or payroll there beyond the meeting.",
     "why": "Only the player's town has a counted population; other places are kept coarser.",
-    "replacement": "The other places' coarser populations fill in a met person from that place's own counts with a household, a job with an employer and pay that moves money (world-other-places-coarse-population). The age, job and wage a met person now takes from the place's counts (src/core2/coarse-place.ts) are the first part; the payroll and household are SG-WORLD-coarse-place-no-payroll.",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The other places' coarser populations fill in a met person from that place's own counts with a household, a job with an employer and pay that moves money (world-other-places-coarse-population). The age, job and wage a met person now takes from the place's counts (src/core2/coarse-place.ts) are the first part; the payroll and household are SG-WORLD-coarse-place-no-payroll.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-OFFICE-FED-pardons",
@@ -150,10 +152,12 @@
     "line": 835,
     "whatItFakes": "The president has no conviction to pardon: the list is empty.",
     "why": "The justice engine tries every crime under the state's law and records no federal prosecution.",
-    "replacement": "OPUS-GOV's justice engine records the prosecuting sovereign and exports a pardon that ends a federal sentence; the federal day lists federal convictions.",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: OPUS-GOV's justice engine records the prosecuting sovereign and exports a pardon that ends a federal sentence; the federal day lists federal convictions.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-OFFICE-FED-situation-room",
