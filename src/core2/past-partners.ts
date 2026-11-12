@@ -441,7 +441,12 @@ export function pastPartnersFor(
         })} ${named.familyName}`;
     const row: Omit<HistoryRecord, "moduleId"> = {
       id: `${PAST_PARTNERSHIP_ENDED}:${person.id}`,
-      date: grainDate(person, past.ended, world.from) as IsoDate,
+      // A day inside the world's window keeps its own date; only one before
+      // it is told on the birthday in its year (grainDate clamps a later day
+      // to the window's eve, which told every ending as the same year).
+      date: (past.ended < world.from
+        ? grainDate(person, past.ended, world.from)
+        : past.ended) as IsoDate,
       kind: PAST_PARTNERSHIP_ENDED,
       placeId: person.placeId,
       // The child's other parent is named in the facts: a relative kept as

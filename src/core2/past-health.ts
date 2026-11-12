@@ -90,9 +90,13 @@ export function pastHealthFor(
     );
     const row: Omit<HistoryRecord, "moduleId"> = {
       id: `${PAST_HOSPITAL_STAY}:${person.id}`,
-      date: (day < core.startedAt
-        ? grainDate(person, day, world.from)
-        : addDays(makeIsoDate(core.startedAt), -1)) as IsoDate,
+      // Before the world's window, the birthday in its year; inside it, its
+      // own day; never on or after the start.
+      date: (day >= core.startedAt
+        ? addDays(makeIsoDate(core.startedAt), -1)
+        : day < world.from
+          ? grainDate(person, day, world.from)
+          : day) as IsoDate,
       kind: PAST_HOSPITAL_STAY,
       placeId: person.placeId,
       personIds: [person.id],
