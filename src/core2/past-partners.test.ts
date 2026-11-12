@@ -83,6 +83,54 @@ it(`an earlier partnership comes from the opening's chain, in ${where}`, () => {
     })[0]?.date;
     if (since) expect(row!.date <= since, row!.id).toBe(true);
   }
+  // A child's other parent who is not their partner now is the earlier
+  // partner, begun before their first child (gap sheet, Nov 12, row 11).
+  let fromChildren = 0;
+  for (const person of adults) {
+    const present = new Set(
+      (person.pastFacts ?? [])
+        .filter((fact) => fact.kind === "family:partner")
+        .map((fact) => String(fact.facts?.otherPersonId)),
+    );
+    const others = new Map<string, string>();
+    for (const fact of person.pastFacts ?? []) {
+      if (fact.kind !== "family:child") continue;
+      const child = core.people.get(fact.facts?.otherPersonId as PersonId);
+      for (const parent of child?.pastFacts ?? [])
+        if (parent.kind === "family:other-parent") {
+          const id = String(parent.facts?.otherPersonId);
+          if (
+            present.has(id) ||
+            !(core.people.get(id as PersonId) ?? core.husks.get(id as PersonId))
+          )
+            continue;
+          const first = others.get(id);
+          if (!first || child!.birthDate < first)
+            others.set(id, child!.birthDate);
+        }
+    }
+    const [row] = endedOf(core, person.id);
+    if (!others.size || !row) continue;
+    fromChildren += 1;
+    expect(
+      others.has(String(row.facts.partnerId)),
+      `${row.id} names the children's other parent, ${where}`,
+    ).toBe(true);
+    expect(
+      String(row.facts.startedAt) < others.get(String(row.facts.partnerId))!,
+      `${row.id} began before their first child, ${where}`,
+    ).toBe(true);
+    expect(
+      lifeOf(core, person.id).some(
+        (event) =>
+          event.id === row.id && event.facts?.partnerId === row.facts.partnerId,
+      ),
+      `${row.id} is told with the other parent`,
+    ).toBe(true);
+  }
+  process.stdout.write(
+    `past partners from children in ${where}: ${fromChildren} adults' earlier partner is their children's other parent.\n`,
+  );
   // Opened again, and in the world built again, the same past.
   const once = ended.map(
     (p) => endedOf(core, p.id)[0]!.id + endedOf(core, p.id)[0]!.date,
