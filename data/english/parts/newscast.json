@@ -185,34 +185,6 @@
       }
     },
     {
-      "key": "newscast.anchor-open.good-morning-and-welcome",
-      "move": "anchor-open",
-      "kind": "spoken",
-      "text": "Good morning, and welcome.",
-      "uses": [
-        {
-          "move": "anchor-open",
-          "subject": "anchor",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "chrg": 3
-      },
-      "source": {
-        "document": "Principles For Outbreak Investigation: Covid-19 And Future Infectious Diseases",
-        "date": "2021-07-14",
-        "granule": "CHRG-117hhrg44965",
-        "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg44965",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
       "key": "newscast.anchor-open.welcome-back",
       "move": "anchor-open",
       "kind": "spoken",
@@ -267,127 +239,6 @@
         "date": "2024-09-10",
         "granule": "CHRG-118hhrg56759",
         "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg56759",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "newscast.anchor-open.thank-you-for-joining-us",
-      "move": "anchor-open",
-      "kind": "spoken",
-      "text": "Thank you for joining us.",
-      "uses": [
-        {
-          "move": "anchor-open",
-          "subject": "anchor",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "transcriptsUsing": 93,
-      "bySource": {
-        "chrg": 86,
-        "dcpd": 3,
-        "eac": 1,
-        "news-treasury": 1,
-        "senate": 2
-      },
-      "source": {
-        "document": "Breaking China'S Choke Hold On Critical Mineral Supply Chains",
-        "date": "2025-07-15",
-        "granule": "CHRG-119hhrg61691",
-        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61691",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "newscast.anchor-open.thanks-for-joining-us",
-      "move": "anchor-open",
-      "kind": "spoken",
-      "text": "Thanks for joining us.",
-      "uses": [
-        {
-          "move": "anchor-open",
-          "subject": "anchor",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "transcriptsUsing": 21,
-      "bySource": {
-        "chrg": 17,
-        "dcpd": 3,
-        "news-faa": 1
-      },
-      "source": {
-        "document": "Opportunities To Improve Project Reviews For A Cleaner And Stronger Economy",
-        "date": "2023-04-10",
-        "granule": "CHRG-118shrg53256",
-        "url": "https://www.govinfo.gov/app/details/CHRG-118shrg53256",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "newscast.anchor-open.thank-you-for-being-with-us",
-      "move": "anchor-open",
-      "kind": "spoken",
-      "text": "Thank you for being with us.",
-      "uses": [
-        {
-          "move": "anchor-open",
-          "subject": "anchor",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "transcriptsUsing": 45,
-      "bySource": {
-        "chrg": 31,
-        "dcpd": 13,
-        "senate": 1
-      },
-      "source": {
-        "document": "Remarks at a Black History Month Reception",
-        "date": "2025-02-20",
-        "granule": "DCPD-202500286",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202500286",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "newscast.anchor-open.thanks-for-being-with-us",
-      "move": "anchor-open",
-      "kind": "spoken",
-      "text": "Thanks for being with us.",
-      "uses": [
-        {
-          "move": "anchor-open",
-          "subject": "anchor",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "transcriptsUsing": 14,
-      "bySource": {
-        "chrg": 13,
-        "dcpd": 1
-      },
-      "source": {
-        "document": "Looking Ahead Series: Oversight Of The United States Capitol Police",
-        "date": "2023-04-18",
-        "granule": "CHRG-118hhrg54610",
-        "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg54610",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -589,94 +440,6 @@
       }
     },
     {
-      "key": "newscast.anchor-open.heres-what-we-know",
-      "move": "anchor-open",
-      "kind": "spoken",
-      "text": "Here's what we know.",
-      "uses": [
-        {
-          "move": "anchor-open",
-          "subject": "anchor",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "transcriptsUsing": 10,
-      "bySource": {
-        "chrg": 2,
-        "dcpd": 5,
-        "nasa": 3
-      },
-      "source": {
-        "document": "Remarks on the Terrorist Attack in New Orleans, Louisiana, and the Vehicular Explosion in Las Vegas, Nevada, From Camp David, Maryland",
-        "date": "2025-01-01",
-        "granule": "DCPD-202500003",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202500003",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "newscast.anchor-open.here-is-what-we-know",
-      "move": "anchor-open",
-      "kind": "spoken",
-      "text": "Here is what we know.",
-      "uses": [
-        {
-          "move": "anchor-open",
-          "subject": "anchor",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "chrg": 2,
-        "nasa": 1
-      },
-      "source": {
-        "document": "The Law Enforcement Experience On January 6Th",
-        "date": "2021-07-27",
-        "granule": "CHRG-117hhrg45472",
-        "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg45472",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "newscast.anchor-open.heres-what-we-know-so-far",
-      "move": "anchor-open",
-      "kind": "spoken",
-      "text": "Here's what we know so far.",
-      "uses": [
-        {
-          "move": "anchor-open",
-          "subject": "anchor",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 2,
-        "nasa": 1
-      },
-      "source": {
-        "document": "Remarks on the Terrorist Attack in New Orleans, Louisiana, and the Vehicular Explosion in Las Vegas, Nevada, From Camp David, Maryland",
-        "date": "2025-01-01",
-        "granule": "DCPD-202500003",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202500003",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
       "key": "newscast.anchor-open.we-begin-with-topic",
       "move": "anchor-open",
       "kind": "spoken",
@@ -804,63 +567,6 @@
       }
     },
     {
-      "key": "newscast.anchor-open.we-have-breaking-news",
-      "move": "anchor-open",
-      "kind": "spoken",
-      "text": "We have breaking news.",
-      "uses": [
-        {
-          "move": "anchor-open",
-          "subject": "anchor",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "dcpd": 9
-      },
-      "source": {
-        "document": "Remarks and a Question-and-Answer Session at the Future Investment Initiative Institute Priority Summit in Miami Beach, Florida",
-        "date": "2025-02-19",
-        "granule": "DCPD-202500280",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202500280",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "newscast.anchor-open.theres-a-lot-going-on",
-      "move": "anchor-open",
-      "kind": "spoken",
-      "text": "There's a lot going on.",
-      "uses": [
-        {
-          "move": "anchor-open",
-          "subject": "anchor",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "transcriptsUsing": 17,
-      "bySource": {
-        "dcpd": 15,
-        "nasa": 2
-      },
-      "source": {
-        "document": "dcpd of 2024-07-10",
-        "date": "2024-07-10",
-        "granule": "DCPD-202400585",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202400585",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
       "key": "newscast.anchor-hand-off.name-joins-us-from-place",
       "move": "anchor-hand-off",
       "kind": "spoken",
@@ -916,67 +622,6 @@
         "date": "2025-08-26",
         "granule": "DCPD-202500873",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500873",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "introduce"
-      }
-    },
-    {
-      "key": "newscast.anchor-hand-off.what-are-you-hearing",
-      "move": "anchor-hand-off",
-      "kind": "spoken",
-      "text": "What are you hearing?",
-      "uses": [
-        {
-          "move": "anchor-hand-off",
-          "subject": "anchor",
-          "role": "hand-off",
-          "choice": "hand-off"
-        }
-      ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "chrg": 3,
-        "dcpd": 1,
-        "nasa": 2,
-        "senate": 1
-      },
-      "source": {
-        "document": "Examining The Policies And Priorities Of The U.S. Department Of Education",
-        "date": "2021-06-24",
-        "granule": "CHRG-117hhrg44859",
-        "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg44859",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "introduce"
-      }
-    },
-    {
-      "key": "newscast.anchor-hand-off.what-can-you-tell-us",
-      "move": "anchor-hand-off",
-      "kind": "spoken",
-      "text": "What can you tell us?",
-      "uses": [
-        {
-          "move": "anchor-hand-off",
-          "subject": "anchor",
-          "role": "hand-off",
-          "choice": "hand-off"
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 2,
-        "nasa": 2
-      },
-      "source": {
-        "document": "Administration of Donald J. Trump, 2018 Remarks on Illegal Immigration and Border Security and an Exchange With Reporters November 1, 2018 The President. Well, thank you very much, everyone. Appreciat",
-        "date": "2018-11-01",
-        "granule": "DCPD-201800758",
-        "url": "https://www.govinfo.gov/app/details/DCPD-201800758",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -1413,63 +1058,6 @@
       }
     },
     {
-      "key": "newscast.anchor-close.well-be-right-back",
-      "move": "anchor-close",
-      "kind": "spoken",
-      "text": "We'll be right back.",
-      "uses": [
-        {
-          "move": "anchor-close",
-          "subject": "anchor",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 2,
-        "nasa": 1
-      },
-      "source": {
-        "document": "Remarks and a Question-and-Answer Session at a CNN Presidential Town Hall in Cincinnati, Ohio",
-        "date": "2021-07-21",
-        "granule": "DCPD-202100602",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202100602",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "close"
-      }
-    },
-    {
-      "key": "newscast.anchor-close.we-will-be-right-back",
-      "move": "anchor-close",
-      "kind": "spoken",
-      "text": "We will be right back.",
-      "uses": [
-        {
-          "move": "anchor-close",
-          "subject": "anchor",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "chrg": 2
-      },
-      "source": {
-        "document": "Department Of The Interior, Environment, And Related Agencies Appropriations For 2016",
-        "date": "2015-02-11",
-        "granule": "CHRG-114hhrg94523",
-        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg94523",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "close"
-      }
-    },
-    {
       "key": "newscast.anchor-close.good-night",
       "move": "anchor-close",
       "kind": "spoken",
@@ -1493,35 +1081,6 @@
         "date": "2025-04-13",
         "granule": "DCPD-202500474",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500474",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "close"
-      }
-    },
-    {
-      "key": "newscast.anchor-close.well-see-you-tomorrow",
-      "move": "anchor-close",
-      "kind": "spoken",
-      "text": "We'll see you tomorrow.",
-      "uses": [
-        {
-          "move": "anchor-close",
-          "subject": "anchor",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "transcriptsUsing": 13,
-      "bySource": {
-        "dcpd": 11,
-        "nasa": 2
-      },
-      "source": {
-        "document": "The President's News Conference With Acting Attorney General Todd Blanche and Federal Bureau of Investigation Director Kashyap P. \"Kash\" Patel",
-        "date": "2026-04-25",
-        "granule": "DCPD-202600285",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202600285",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -1771,38 +1330,6 @@
       }
     },
     {
-      "key": "newscast.reporter-field.we-dont-know-yet",
-      "move": "reporter-field",
-      "kind": "spoken",
-      "text": "We don't know yet.",
-      "uses": [
-        {
-          "move": "reporter-field",
-          "subject": "reporter",
-          "role": "field",
-          "choice": "field"
-        }
-      ],
-      "transcriptsUsing": 18,
-      "bySource": {
-        "chrg": 7,
-        "dcpd": 9,
-        "nasa": 1,
-        "senate": 1
-      },
-      "source": {
-        "document": "Remarks at an Executive Order Signing Ceremony and an Exchange With Reporters",
-        "date": "2025-02-14",
-        "granule": "DCPD-202500267",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202500267",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "newscast.reporter-field.we-dont-know",
       "move": "reporter-field",
       "kind": "spoken",
@@ -1828,37 +1355,6 @@
         "date": "2026-06-10",
         "granule": "DCPD-202600391",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600391",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "newscast.reporter-field.we-just-dont-know",
-      "move": "reporter-field",
-      "kind": "spoken",
-      "text": "We just don't know.",
-      "uses": [
-        {
-          "move": "reporter-field",
-          "subject": "reporter",
-          "role": "field",
-          "choice": "field"
-        }
-      ],
-      "transcriptsUsing": 15,
-      "bySource": {
-        "chrg": 10,
-        "dcpd": 2,
-        "nasa": 3
-      },
-      "source": {
-        "document": "Departments Of Labor, Health And Human Services, Education, And Related Agencies Appropriations For 2023",
-        "date": "2022-03-31",
-        "granule": "CHRG-117hhrg48855",
-        "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg48855",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -2018,37 +1514,6 @@
       }
     },
     {
-      "key": "newscast.reporter-field.no-one-was-hurt",
-      "move": "reporter-field",
-      "kind": "spoken",
-      "text": "No one was hurt.",
-      "uses": [
-        {
-          "move": "reporter-field",
-          "subject": "reporter",
-          "role": "field",
-          "choice": "field",
-          "requiresFacts": ["no-injuries"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "chrg": 1,
-        "senate": 1
-      },
-      "source": {
-        "document": "Federal Emergency Management Agency: Assessing Progress, Performance, And Preparedness",
-        "date": "2016-04-12",
-        "granule": "CHRG-114shrg21181",
-        "url": "https://www.govinfo.gov/app/details/CHRG-114shrg21181",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "newscast.reporter-field.nobody-was-hurt",
       "move": "reporter-field",
       "kind": "spoken",
@@ -2072,101 +1537,6 @@
         "date": "2026-02-10",
         "granule": "CHRG-119hhrg63964",
         "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg63964",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "newscast.reporter-field.no-one-was-injured",
-      "move": "reporter-field",
-      "kind": "spoken",
-      "text": "No one was injured.",
-      "uses": [
-        {
-          "move": "reporter-field",
-          "subject": "reporter",
-          "role": "field",
-          "choice": "field",
-          "requiresFacts": ["no-injuries"]
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "news-justice": 2,
-        "news-nps": 1
-      },
-      "source": {
-        "document": "Second Defendant Pleads Guilty In Newton Armed Robbery",
-        "date": "2020-09-30",
-        "granule": "second-defendant-pleads-guilty-newton-armed-robbery-b29cfb",
-        "url": "https://www.justice.gov/usao-ks/pr/second-defendant-pleads-guilty-newton-armed-robbery",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "newscast.reporter-field.no-injuries-were-reported",
-      "move": "reporter-field",
-      "kind": "spoken",
-      "text": "No injuries were reported.",
-      "uses": [
-        {
-          "move": "reporter-field",
-          "subject": "reporter",
-          "role": "field",
-          "choice": "field",
-          "requiresFacts": ["no-injuries"]
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "chrg": 1,
-        "news-nws": 2
-      },
-      "source": {
-        "document": "Local Storm Report from the National Weather Service Charleston SC",
-        "date": "2026-10-11",
-        "granule": "KCHS-LSR-ed01190f",
-        "url": "https://api.weather.gov/products/ed01190f-82c0-4ca7-b3b2-4e7fde9ddb33",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "newscast.reporter-field.the-investigation-is-ongoing",
-      "move": "reporter-field",
-      "kind": "spoken",
-      "text": "The investigation is ongoing.",
-      "uses": [
-        {
-          "move": "reporter-field",
-          "subject": "reporter",
-          "role": "field",
-          "choice": "field",
-          "requiresFacts": ["investigation-open"]
-        }
-      ],
-      "transcriptsUsing": 11,
-      "bySource": {
-        "chrg": 4,
-        "dcpd": 2,
-        "news-fda": 1,
-        "news-justice": 4
-      },
-      "source": {
-        "document": "FDA Roundup: November 14, 2023",
-        "date": "2023-11-14",
-        "granule": "fda-roundup-november-14-2023",
-        "url": "https://www.fda.gov/news-events/press-announcements/fda-roundup-november-14-2023",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -2457,36 +1827,6 @@
       }
     },
     {
-      "key": "newscast.story-economy.gas-prices-are-down",
-      "move": "story-economy",
-      "kind": "spoken",
-      "text": "Gas prices are down.",
-      "uses": [
-        {
-          "move": "story-economy",
-          "subject": "story",
-          "role": "economy",
-          "choice": "economy",
-          "requiresFacts": ["gas-down"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "dcpd": 4
-      },
-      "source": {
-        "document": "Remarks Prior to a Meeting With Business and Labor Leaders",
-        "date": "2022-11-18",
-        "granule": "DCPD-202201058",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202201058",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "newscast.story-economy.prices-are-up",
       "move": "story-economy",
       "kind": "spoken",
@@ -2510,37 +1850,6 @@
         "date": "2025-11-07",
         "granule": "DCPD-202501103",
         "url": "https://www.govinfo.gov/app/details/DCPD-202501103",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "newscast.story-economy.prices-are-going-up",
-      "move": "story-economy",
-      "kind": "spoken",
-      "text": "Prices are going up.",
-      "uses": [
-        {
-          "move": "story-economy",
-          "subject": "story",
-          "role": "economy",
-          "choice": "economy",
-          "requiresFacts": ["prices-up"]
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Rural Quality Of Life: Opportunities And Challenges For The Rural Care Economy",
-        "date": "2022-03-22",
-        "granule": "CHRG-117shrg50070",
-        "url": "https://www.govinfo.gov/app/details/CHRG-117shrg50070",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {

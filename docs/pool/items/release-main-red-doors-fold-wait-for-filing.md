@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/red-main-doors-fold-wait-for-filing
-pr: 8919
+pr: #8919
 after:
 blocked-on:
 lead: cto
@@ -16,6 +16,7 @@ model: opus
 effort: low
 root: none
 source: Red desk, Nov 12 (found while checking #8912)
+merged-at: 2026-11-12T21:04:13.231Z
 ---
 
 **What.** src/core2/campaign-doors-fold.test.ts, "a race the player filed in keeps every pledge after it closes, its rivals' too", fails on clean main at DOORS_FOLD_SEED=574d099749f56f43 with "no race the player could enter" in all 6 drawn places (San Antonio, Puerto Rico; Sanbornville, New Hampshire; Pulpotio Bareas, New Mexico; Scituate, Massachusetts; Ellicott City, Maryland; Lawai, Hawaii). A merge desk that runs it on a pull request sees a red that is not the pull request's. Guards: the check that a closed race keeps its pledges keeps running on every draw.
