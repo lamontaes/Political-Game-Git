@@ -5776,6 +5776,7 @@
       "key": "fare-free-transit-to-ridership",
       "status": "built",
       "unsupportedReason": null,
+      "readsNothing": "Under a fare-free law the transit fare is zero, so the price engine multiplies the web's ridership factor into a zero fare and the added riders move no money; no other engine reads transit.ridership (stopgap SG-WEB-fare-free-riders-unread).",
       "from": "law:us-policy-positions:transportation-infrastructure.fare-free-transit",
       "to": "transit.ridership",
       "strength": "strong",

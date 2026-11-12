@@ -17,6 +17,7 @@ A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/
 ## The three ways it goes wrong
 
 - **The test looks on one day.** Every race opens its filing on a real day (since Nov 4). A test that looked for a race on the player's 18th birthday found none in eight places out of eight, because filing had not opened yet (`src/bench/election-day.test.ts`, seed dcba28c7e37e52d9). In Rudyard, Montana the first race opened 46 weeks later and took the filing at once.
+- **A test that needs a race open for filing never reads a drawn place on a fixed date.** The nomination calendar opens windows on different days by place (Alabama's was open on Jan 5, 2026; the other eleven places of a draw had nothing open), so a test that files on the start date passes only where the calendar happens to be open. It advances the place to its filing window with `advanceToFilingOpen(core)` (`src/core2/gov-test-clock.ts`) or waits week by week as `src/bench/election-day.test.ts` does. Two reds on Nov 12 were this: race-told-scene and `src/core2/door-pledge.test.ts` (seed f26db0f13c6bffec4a68430111c0bdb5).
 - **The first thing that turns up refuses.** In Braggs, Oklahoma the first four races to open were governor, state house, U.S. House and U.S. Senate, and each refuses an 18-year-old on minimum age. A wait that stops at "something is open" still fails there.
 - **The test needs a named person and the world has few.** After a world is collapsed to two levels, only the player's household and circle are full people. A test that needs a full person inside a law's income band passes only when one of that handful happens to be in it (`src/core2/law-reach-group-b.test.ts`, the Medicaid case).
 
@@ -29,6 +30,7 @@ A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/
 5. **Fail by name when nothing is found.** After the last draw, throw with the whole list. Never `return` early, and never mark the test skipped: a test that passes without checking proves nothing.
 6. **Never pin a place or a seed** to get green. A pinned world breaks the day main changes the world. A named place appears only as a labeled case beside the drawn ones.
 7. **Change no assertion.** The search for a witness changes; what is asserted about it does not.
+8. **Print the place with `process.stdout.write`, never `console.log`.** The runner swallows `console.log`, so a passing test that logs its place and its passed-over list shows nothing (found Nov 12, #8580 and #8567). A pass line names the place used, its seed and every place passed over, on stdout.
 
 ## Before you call a red a flake
 

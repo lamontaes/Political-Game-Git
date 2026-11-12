@@ -36,8 +36,8 @@ export const BRING_IT_UP_WORDS: BringWords = bringWordsFromBank();
 
 /**
  * A line the speaker says: the change (by its event kind), or the blame (how
- * they came to it, and whether anyone is named; with no one named, the line
- * says nobody knows).
+ * they came to it, and whether anyone is named; with no one named there is
+ * no blame line: "I have no idea" answers nothing).
  */
 export type BringMove =
   | { part: "change"; eventKind: string }
@@ -69,7 +69,9 @@ export function wordBringMove(request: {
       ? (words.changes[move.eventKind] ?? [])
       : move.part === "yours"
         ? words.yours[move.outcome]
-        : words.blame[move.named ? move.how : "unknown"];
+        : move.named
+          ? (words.blame[move.how] ?? [])
+          : [];
   return renderLine({
     seed: request.seed,
     surface: "dialogue",
