@@ -160,8 +160,8 @@ export function meetAtWork(
 /**
  * The people at a meeting who did not know the one they came to hear, met by
  * name: each full person among `attendeeIds` meets `hostId` (a town hall's
- * host, a seated member of the body), and the first tie holds `hours`, the
- * time they sat in the room. A resident still in the counted population is
+ * host, a seated member of the body). Two-way, the first tie holds `hours`,
+ * the time they sat in the room; one-way, the attendee only learns the name. A resident still in the counted population is
  * not met (two-level population): the meeting leaves their record as it is
  * until the player meets or clicks them. Returns how many were newly met.
  */
@@ -173,16 +173,16 @@ export function meetAtMeeting(
   sourceId: string,
   cause: string,
   hours: number,
+  /** The room learns the host's name; the host does not learn the room's. */
+  oneWay = false,
 ): number {
-  api.stopgap(data.stopgapId);
   const host = api.state.people.get(hostId);
   if (!host?.alive) return api.parameter("zero");
   let met = api.parameter("zero");
   for (const id of attendeeIds) {
     const attendee = api.state.people.get(id);
     if (id === hostId || !attendee?.alive) continue;
-    if (attendee.knownIds.has(hostId) && host.knownIds.has(id)) continue;
-    if (api.meet(id, hostId, { placeId, sourceId, cause, hours }))
+    if (api.meet(id, hostId, { placeId, sourceId, cause, hours, oneWay }))
       met += api.parameter("one");
   }
   return met;

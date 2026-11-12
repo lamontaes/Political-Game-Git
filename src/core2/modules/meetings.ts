@@ -816,8 +816,8 @@ export function holdTownHall(
     ...(input.calledFor ? { calledFor: input.calledFor } : {}),
   };
   table(api, "townHalls").put(row as unknown as ModuleRow);
-  // The room meets the host: whoever came and did not know them now does, and
-  // the first tie holds the hours they sat there.
+  // The room learns the host's name: whoever came and did not know them now
+  // does. The host does not learn forty faces, so no tie is made.
   meetAtMeeting(
     api,
     input.hostId,
@@ -825,7 +825,8 @@ export function holdTownHall(
     lawChain(api).townPlaceId,
     id,
     ENCOUNTERS.causes.metAtTownHall,
-    meetingParameter("townHallHours"),
+    api.parameter("zero"),
+    true,
   );
   api.emit({
     id: `town-hall:${id}`,

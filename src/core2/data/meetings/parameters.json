@@ -25,13 +25,6 @@
       "source": "Attendance at a local official's town hall: a few dozen residents (Congressional Management Foundation 2017, 'Citizen-Centric Advocacy': in-person town halls draw dozens in most districts).",
       "spread": [15, 120]
     },
-    "townHallHours": {
-      "value": 1.5,
-      "role": "level",
-      "tag": "TUNABLE",
-      "source": "Hours a person spends in a town hall room, the time together a first tie with the host holds; a town hall runs an hour or two.",
-      "spread": [0.5, 3]
-    },
     "publicCommentHours": {
       "value": 0.05,
       "role": "level",

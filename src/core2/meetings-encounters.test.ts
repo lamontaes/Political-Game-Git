@@ -18,12 +18,7 @@ import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import { draftBill, holdVote, openLegislature } from "./modules/legislature";
 import { openPress } from "./modules/press";
-import {
-  holdTownHall,
-  meetingParameter,
-  openMeetings,
-  remarksOn,
-} from "./modules/meetings";
+import { holdTownHall, openMeetings, remarksOn } from "./modules/meetings";
 import { viewsModule } from "./modules/views";
 import { speechModule } from "./modules/speech";
 import { POLICY_QUESTIONS } from "./policy-answers";
@@ -101,7 +96,7 @@ function town() {
 }
 
 describe("meetings meet people", () => {
-  it("a town hall's room meets its host, and public comment's speakers meet the members, each with the hours they sat", () => {
+  it("a town hall's room learns its host's name without the host learning theirs, and public comment's speakers and the members know each other", () => {
     const { core, api, bill, seats, where } = town();
     const closeness = (a: string, b: string) =>
       core.relationships.get([a, b].sort().join(":"));
@@ -120,12 +115,12 @@ describe("meetings meet people", () => {
     );
     for (const id of newlyMet) {
       expect(core.people.get(id)!.knownIds.has(host), where).toBe(true);
-      expect(core.people.get(host)!.knownIds.has(id), where).toBe(true);
+      // One way: the host does not learn the room's faces.
+      expect(core.people.get(host)!.knownIds.has(id), where).toBe(false);
       const fact = core.knowledgeByPerson.get(id)?.get(`person:${host}:met`);
       expect(fact?.value, where).toBeTruthy();
       expect(fact?.sourceId, where).toBe(hall.id);
-      // The first tie holds the hours they sat in the room.
-      expect(closeness(id, host), where).toBeDefined();
+      expect(closeness(id, host), where).toBeUndefined();
     }
 
     // Public comment: the speakers who did not know a member meet that member.
@@ -151,9 +146,6 @@ describe("meetings meet people", () => {
       expect(fact?.sourceId, where).toBe(`public-comment:${bill.id}`);
       expect(closeness(id!, m!), where).toBeDefined();
     }
-    expect(meetingParameter("publicCommentHours")).toBeLessThan(
-      meetingParameter("townHallHours"),
-    );
     // Time passes: the new tie reads as an ordinary acquaintance after a day.
     advanceCore(core, "2026-01-07");
   }, 300_000);

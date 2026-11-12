@@ -308,6 +308,12 @@ export interface Encounter {
   cause: string;
   /** Hours spent together, the first tie's time together. */
   hours: number;
+  /**
+   * Only the actor comes to know the other (a person in a room who learns
+   * the name of the one at the front): the actor gets the name and the dated
+   * fact, the other learns nothing and no tie is made.
+   */
+  oneWay?: boolean;
 }
 
 export interface ActionDefinition {
