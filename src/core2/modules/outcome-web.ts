@@ -373,7 +373,11 @@ function readEngine(
     id: string;
   } & Record<string, unknown>)[];
   const latest = recorded
-    .filter((row) => row.date <= api.state.date)
+    .filter(
+      (row) =>
+        row.date <= api.state.date &&
+        typeof row[definition.field] === "number",
+    )
     .sort((a, b) => b.date.localeCompare(a.date))[0];
   const row = (latest ??
     townMetrics(api).find((metrics) => metrics.placeId === placeId)) as

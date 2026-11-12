@@ -139,30 +139,9 @@ const KEPT_LOCAL = local.keptOutcomes as unknown as Readonly<
 const BASELINES = web.baselines as Readonly<
   Record<string, { readonly value: number }>
 >;
-const ENGINE = local.engineMeasures as Readonly<
-  Record<
-    string,
-    {
-      readonly owner: string;
-      /** The field of a month row the measure reads (world-metrics', else the engine's own table). */
-      readonly field: string;
-      /** Or a named reader of an engine's own record (src/core2/modules/outcome-web.ts). */
-      readonly reader?: string;
-      /**
-       * A cause read from a law: the level it is measured from is the law the
-       * day before the web opened, so a law taking effect on the opening day
-       * (or after) moves the outcome (src/core2/modules/outcome-web.ts).
-       */
-      readonly baselineReader?: string;
-      readonly unitScale: number;
-      /** An engine that keeps its own month rows by place: its module and table (rows have `placeId`, `date`, `id`). */
-      readonly module?: string;
-      readonly table?: string;
-      /** The engine's record is the kept outcome itself; links into it do not run. */
-      readonly ownsOutcome?: boolean;
-    }
-  >
->;
+import { engineMeasure } from "./output-numbers";
+export { engineMeasure } from "./output-numbers";
+
 export const LAW_PREFIX = "law:";
 /** An index outcome reads 100 where the place began. */
 const INDEX_START = local.indexStart;
@@ -202,13 +181,9 @@ export function scaleOf(measure: string): Scale {
   return BASES[measure]?.scale ?? KEPT_LOCAL[measure]?.scale ?? "share";
 }
 
-export function engineMeasure(measure: string) {
-  return ENGINE[measure];
-}
-
 /** A kept outcome whose value is an engine's own record, not the web's product. */
 export function engineOwned(measure: string): boolean {
-  return keptOutcome(measure) && ENGINE[measure]?.ownsOutcome === true;
+  return keptOutcome(measure) && engineMeasure(measure)?.ownsOutcome === true;
 }
 
 export function isLaw(measure: string): boolean {

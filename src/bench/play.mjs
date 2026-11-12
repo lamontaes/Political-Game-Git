@@ -3824,16 +3824,12 @@ const sheets = {
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
-    // The town's own books open first; a place with no city government opens
-    // on the county's, the local government that serves it.
-    const town = ["city", "county"]
-      .map((level) =>
-        view.governments.find((g) => g.level === level && g.latest),
-      )
-      .find(Boolean);
-    const chosen =
-      view.governments.find((g) => g.id === budgetGovernment) ?? town;
-    const gov = chosen ?? view.governments[0];
+    // The governments are ordered from nation down to town; the last with a
+    // budget is the town's own local government.
+    const gov =
+      view.governments.find((g) => g.id === budgetGovernment) ??
+      view.governments.findLast((g) => g.latest) ??
+      view.governments[0];
     const tabs = tabBar({
       attr: "gov",
       active: gov?.id,

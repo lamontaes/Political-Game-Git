@@ -1,0 +1,766 @@
+{
+  "about": "The one registry of every output number the game shows or the outcome web reads from an engine. Each row names its owning module, unit, level, denominator in words, cadence (never daily), source, how a closed year folds, and the trace inputs kept beside the value.",
+  "numbers": {
+    "nation.unemployment": {
+      "id": "nation.unemployment",
+      "owner": "macro",
+      "metricsSection": "nation",
+      "metricsKey": "unemployment",
+      "field": "unemploymentPct",
+      "unit": "percent",
+      "level": "nation",
+      "denominator": "of the national civilian labor force",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Bureau of Labor Statistics, Current Population Survey (LNS14000000) and country-model monthly state sums."
+      },
+      "fold": "december",
+      "traceInputs": ["unemploymentPct"]
+    },
+    "nation.inflation": {
+      "id": "nation.inflation",
+      "owner": "macro",
+      "metricsSection": "nation",
+      "metricsKey": "inflation",
+      "field": "inflationPct",
+      "unit": "percent",
+      "level": "nation",
+      "denominator": "year-over-year change in the consumer price index",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers (CPIAUCSL) and country-model monthly price step."
+      },
+      "fold": "december",
+      "traceInputs": ["inflationPct"]
+    },
+    "nation.pay": {
+      "id": "nation.pay",
+      "owner": "macro",
+      "metricsSection": "nation",
+      "metricsKey": "pay",
+      "field": "hourlyEarnings",
+      "unit": "dollars",
+      "level": "nation",
+      "denominator": "an hour across private nonfarm payroll jobs",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Bureau of Labor Statistics, Current Employment Statistics average hourly earnings (CES0500000003) and country-model monthly wage step."
+      },
+      "fold": "december",
+      "traceInputs": ["hourlyEarnings"]
+    },
+    "nation.mortgage": {
+      "id": "nation.mortgage",
+      "owner": "macro",
+      "metricsSection": "nation",
+      "metricsKey": "mortgage",
+      "field": "mortgage30Pct",
+      "unit": "percent",
+      "level": "nation",
+      "denominator": "a year on a 30-year fixed-rate mortgage",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Freddie Mac, Primary Mortgage Market Survey 30-year fixed-rate mortgage average (MORTGAGE30US)."
+      },
+      "fold": "december",
+      "traceInputs": ["mortgage30Pct", "policyRatePct"]
+    },
+    "nation.policyRate": {
+      "id": "nation.policyRate",
+      "owner": "macro",
+      "metricsSection": "nation",
+      "metricsKey": "policyRate",
+      "field": "policyRatePct",
+      "unit": "percent",
+      "level": "nation",
+      "denominator": "a year on the central bank's target policy rate",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Board of Governors of the Federal Reserve System, federal funds target rate and central-bank board decisions."
+      },
+      "fold": "december",
+      "traceInputs": ["policyRatePct"]
+    },
+    "state.unemployment": {
+      "id": "state.unemployment",
+      "owner": "regional",
+      "metricsSection": "state",
+      "metricsKey": "unemployment",
+      "field": "stateUnemploymentPct",
+      "unit": "percent",
+      "level": "state",
+      "denominator": "of the state's labor force, weighted across its regions",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Bureau of Labor Statistics, Local Area Unemployment Statistics and Metro Area Employment and Unemployment."
+      },
+      "fold": "december",
+      "traceInputs": ["stateUnemploymentPct", "stateJobs"]
+    },
+    "state.pay": {
+      "id": "state.pay",
+      "owner": "regional",
+      "metricsSection": "state",
+      "metricsKey": "pay",
+      "field": "stateHourlyEarnings",
+      "unit": "dollars",
+      "level": "state",
+      "denominator": "an hour across the state's regions, weighted by population",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Bureau of Labor Statistics, State and Metro Area Employment, Hours, and Earnings."
+      },
+      "fold": "december",
+      "traceInputs": ["stateHourlyEarnings"]
+    },
+    "state.jobs": {
+      "id": "state.jobs",
+      "owner": "regional",
+      "metricsSection": "state",
+      "metricsKey": "jobs",
+      "field": "stateJobs",
+      "unit": "count",
+      "level": "state",
+      "denominator": "nonfarm payroll jobs across the state's regions",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Bureau of Labor Statistics, Current Employment Statistics state and metro nonfarm payrolls."
+      },
+      "fold": "december",
+      "traceInputs": ["stateJobs"]
+    },
+    "city.employed": {
+      "id": "city.employed",
+      "owner": "jobs",
+      "metricsSection": "city",
+      "metricsKey": "employed",
+      "field": "townEmployed",
+      "unit": "count",
+      "level": "place",
+      "denominator": "town residents holding a job",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The jobs and residents modules' active jobs and unplaced commuter counts for town residents."
+      },
+      "fold": "december",
+      "traceInputs": ["townEmployed", "residentsEmployed", "employed"]
+    },
+    "city.seekers": {
+      "id": "city.seekers",
+      "owner": "jobs",
+      "metricsSection": "city",
+      "metricsKey": "seekers",
+      "field": "townSeekers",
+      "unit": "count",
+      "level": "place",
+      "denominator": "town residents actively looking for work",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The jobs module's seekers and countedSeekers tables, weighted by household count."
+      },
+      "fold": "december",
+      "traceInputs": ["townSeekers", "unemployed"]
+    },
+    "city.openPositions": {
+      "id": "city.openPositions",
+      "owner": "jobs",
+      "metricsSection": "city",
+      "metricsKey": "openPositions",
+      "field": "openPositions",
+      "unit": "count",
+      "level": "place",
+      "denominator": "open job positions posted by employers in the town",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The jobs module's open positions table for the town."
+      },
+      "fold": "december",
+      "traceInputs": ["openPositions"]
+    },
+    "housing.rentals": {
+      "id": "housing.rentals",
+      "owner": "housing",
+      "metricsSection": "housing",
+      "metricsKey": "rentals",
+      "field": "rentalUnits",
+      "unit": "count",
+      "level": "place",
+      "denominator": "rental homes in the town's housing stock",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "U.S. Census Bureau, American Community Survey 5-year tenure tables and completed rental construction."
+      },
+      "fold": "december",
+      "traceInputs": ["rentalUnits", "vacantRental"]
+    },
+    "housing.vacant": {
+      "id": "housing.vacant",
+      "owner": "housing",
+      "metricsSection": "housing",
+      "metricsKey": "vacant",
+      "field": "vacantRental",
+      "unit": "count",
+      "level": "place",
+      "denominator": "empty rental homes in the town's housing stock",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The housing module's stock table: rental units less occupied rental dwellings."
+      },
+      "fold": "december",
+      "traceInputs": ["vacantRental", "rentalUnits"]
+    },
+    "housing.rent": {
+      "id": "housing.rent",
+      "owner": "housing",
+      "metricsSection": "housing",
+      "metricsKey": "rent",
+      "field": "medianRentMinor",
+      "unit": "money",
+      "level": "place",
+      "denominator": "typical monthly rent across the town's rented homes",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The housing and finance modules' active lease contracts and rented dwellings in the town."
+      },
+      "fold": "december",
+      "traceInputs": ["medianRentMinor"]
+    },
+    "housing.homeValue": {
+      "id": "housing.homeValue",
+      "owner": "housing",
+      "metricsSection": "housing",
+      "metricsKey": "homeValue",
+      "field": "medianHomeValueMinor",
+      "unit": "money",
+      "level": "place",
+      "denominator": "typical value of an owner-occupied home in the town",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The housing module's owned dwellings in the town, stepped from ACS county median values."
+      },
+      "fold": "december",
+      "traceInputs": ["medianHomeValueMinor"]
+    },
+    "evictions.evictions": {
+      "id": "evictions.evictions",
+      "owner": "housing",
+      "metricsSection": "evictions",
+      "metricsKey": "evictions",
+      "field": "evictionsLastYear",
+      "unit": "count",
+      "level": "place",
+      "denominator": "eviction notices served on town households in the past 12 months",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The housing module's eviction cases table for full and counted households in the town."
+      },
+      "fold": "december",
+      "traceInputs": ["evictionsLastYear", "evictionOrdersLastMonth"]
+    },
+    "benefits.claims": {
+      "id": "benefits.claims",
+      "owner": "jobs",
+      "metricsSection": "benefits",
+      "metricsKey": "claims",
+      "field": "openUnemploymentClaims",
+      "unit": "count",
+      "level": "place",
+      "denominator": "open unemployment insurance claims by town residents",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The jobs module's unemployment insurance claims table."
+      },
+      "fold": "december",
+      "traceInputs": ["openUnemploymentClaims"]
+    },
+    "budget.revenue": {
+      "id": "budget.revenue",
+      "owner": "core2-budgets-v1",
+      "metricsSection": "budget",
+      "metricsKey": "revenue",
+      "field": "budgetRevenueMinor",
+      "unit": "money",
+      "level": "place",
+      "denominator": "adopted annual revenue on the town government's books",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The budgets module's adopted fiscal-year budget for the town's local government."
+      },
+      "fold": "december",
+      "traceInputs": ["budgetRevenueMinor", "budgetFiscalYear"]
+    },
+    "budget.spending": {
+      "id": "budget.spending",
+      "owner": "core2-budgets-v1",
+      "metricsSection": "budget",
+      "metricsKey": "spending",
+      "field": "budgetSpendingMinor",
+      "unit": "money",
+      "level": "place",
+      "denominator": "adopted annual spending on the town government's books",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The budgets module's adopted fiscal-year budget for the town's local government."
+      },
+      "fold": "december",
+      "traceInputs": ["budgetSpendingMinor", "budgetFiscalYear"]
+    },
+    "labor.unemployment-pct": {
+      "id": "labor.unemployment-pct",
+      "owner": "jobs",
+      "webMeasure": true,
+      "record": "world-metrics months.unemploymentRate, as a percent",
+      "unit": "percent",
+      "unitScale": 100,
+      "field": "unemploymentRate",
+      "level": "place",
+      "denominator": "of residents in the labor force",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The jobs and residents modules' resident labor force and seeker counts."
+      },
+      "fold": "december",
+      "traceInputs": ["unemployed", "residentsEmployed"]
+    },
+    "household.income": {
+      "id": "household.income",
+      "owner": "residents",
+      "webMeasure": true,
+      "record": "world-metrics months.medianHouseholdEarningsMinor (the middle earning household's yearly earnings), in thousands of dollars",
+      "unit": "thousands-of-dollars",
+      "field": "medianHouseholdEarningsMinor",
+      "unitScale": 1e-5,
+      "level": "place",
+      "denominator": "a year for the middle earning household",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The jobs and residents modules' household wage flows over a work year."
+      },
+      "fold": "december",
+      "traceInputs": ["medianHouseholdEarningsMinor", "employed"]
+    },
+    "housing.home-prices": {
+      "id": "housing.home-prices",
+      "owner": "housing",
+      "webMeasure": true,
+      "record": "world-metrics months.medianHomeValueMinor (the housing engine's typical owned home), in tens of thousands of dollars",
+      "unit": "tens-of-thousands-of-dollars",
+      "field": "medianHomeValueMinor",
+      "unitScale": 1e-6,
+      "level": "place",
+      "denominator": "for the typical owner-occupied home",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The housing module's owned dwellings in the town."
+      },
+      "fold": "december",
+      "traceInputs": ["medianHomeValueMinor"]
+    },
+    "housing.rent-to-income-pct": {
+      "id": "housing.rent-to-income-pct",
+      "owner": "housing",
+      "webMeasure": true,
+      "record": "world-metrics months.rentToEarnings (a year of the typical rent against the typical household's earnings), as a percent",
+      "unit": "percent",
+      "field": "rentToEarnings",
+      "unitScale": 100,
+      "level": "place",
+      "denominator": "of the middle earning household's yearly earnings spent on 12 months of typical rent",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The housing and jobs modules' typical rent and median household earnings."
+      },
+      "fold": "december",
+      "traceInputs": ["medianRentMinor", "medianHouseholdEarningsMinor"]
+    },
+    "housing.eviction-orders": {
+      "id": "housing.eviction-orders",
+      "owner": "housing",
+      "webMeasure": true,
+      "record": "world-metrics months.evictionOrdersLastMonth (the housing engine's judgments in the month before): the engine's own records, read by links that start from evictions; the kept housing.eviction is only the factor the engine applies",
+      "unit": "count",
+      "field": "evictionOrdersLastMonth",
+      "unitScale": 1,
+      "level": "place",
+      "denominator": "eviction judgments entered in the preceding month",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The housing module's eviction case judgments."
+      },
+      "fold": "sum",
+      "traceInputs": ["evictionOrdersLastMonth"]
+    },
+    "crime.violent-victimization-index": {
+      "id": "crime.violent-victimization-index",
+      "owner": "core2-crime-v1",
+      "webMeasure": true,
+      "record": "crime months.violentIndex (robberies and assaults per person 12 and older the victimization records expect, 100 at the place's first month)",
+      "unit": "index",
+      "field": "violentIndex",
+      "unitScale": 1,
+      "module": "core2-crime-v1",
+      "table": "months",
+      "level": "place",
+      "denominator": "indexed to 100 at the town's opening month",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Bureau of Justice Statistics, National Crime Victimization Survey and the crime module's monthly records."
+      },
+      "fold": "mean",
+      "traceInputs": ["violentIndex"]
+    },
+    "crime.reported-per-capita": {
+      "id": "crime.reported-per-capita",
+      "owner": "core2-crime-v1",
+      "webMeasure": true,
+      "record": "crime months.reportedPerResident (victimizations reported to police, a year, per resident)",
+      "unit": "rate",
+      "field": "reportedPerResident",
+      "unitScale": 1,
+      "module": "core2-crime-v1",
+      "table": "months",
+      "level": "place",
+      "denominator": "reported victimizations a year per resident",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Federal Bureau of Investigation, Uniform Crime Reporting and the crime module's monthly records."
+      },
+      "fold": "mean",
+      "traceInputs": ["reportedPerResident"]
+    },
+    "household.poverty-pct": {
+      "id": "household.poverty-pct",
+      "owner": "residents",
+      "webMeasure": true,
+      "record": "world-metrics months.povertyShare (people in households whose yearly pay and awards are under the Census poverty line for their size, children and eldest member, named plus counted by weight), as a percent",
+      "unit": "percent",
+      "field": "povertyShare",
+      "unitScale": 100,
+      "ownsOutcome": true,
+      "level": "place",
+      "denominator": "of town residents in households below the Census poverty threshold",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "U.S. Census Bureau, Poverty Thresholds by Size of Family and Number of Related Children (2024)."
+      },
+      "fold": "december",
+      "traceInputs": ["povertyShare"]
+    },
+    "disaster.severe": {
+      "id": "disaster.severe",
+      "owner": "national-events",
+      "webMeasure": true,
+      "record": "the disasters engine's news events (hazard.disaster) for the town: the highest severity (0 to 1, the homes FEMA inspected as damaged per resident on the ramp in src/core2/data/disasters/severity.json) among disasters that began since the world opened, within the last ten years",
+      "unit": "index",
+      "reader": "disaster-severity",
+      "field": "",
+      "unitScale": 1,
+      "level": "place",
+      "denominator": "on the 0-to-1 FEMA damaged-homes severity scale over the past 10 years",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Federal Emergency Management Agency, Individual Assistance housing inspections."
+      },
+      "fold": "december",
+      "traceInputs": ["severity"]
+    },
+    "housing.property-tax-rate": {
+      "id": "housing.property-tax-rate",
+      "owner": "core2-budgets-v1",
+      "webMeasure": true,
+      "record": "the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value",
+      "unit": "percent",
+      "reader": "property-tax-rate",
+      "field": "",
+      "unitScale": 100,
+      "baselineReader": "property-tax-rate",
+      "level": "place",
+      "denominator": "of assessed home value a year",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "U.S. Census Bureau, American Community Survey effective property tax rates and enacted local levies."
+      },
+      "fold": "december",
+      "traceInputs": ["propertyTaxRate"]
+    },
+    "tax.state-corporate-rate-in-force": {
+      "id": "tax.state-corporate-rate-in-force",
+      "owner": "laws",
+      "webMeasure": true,
+      "record": "the state corporate income tax rate in force for the town (the laws module's state row of corporate-income-tax), in percent of taxable corporate income; 0 where the state levies none",
+      "unit": "percent",
+      "reader": "state-corporate-rate",
+      "field": "",
+      "unitScale": 1,
+      "baselineReader": "state-corporate-rate",
+      "level": "state",
+      "denominator": "of taxable corporate income",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Tax Foundation, State Corporate Income Tax Rates and Brackets and enacted state tax laws."
+      },
+      "fold": "december",
+      "traceInputs": ["stateCorporateRate"]
+    },
+    "budget.parks-added-pct": {
+      "id": "budget.parks-added-pct",
+      "owner": "core2-budgets-v1",
+      "webMeasure": true,
+      "record": "gov-measures budget.parks-added-pct: the city's parks line above its Census base this fiscal year, in percent (the budgets module's budget row in force)",
+      "unit": "percent",
+      "reader": "parks-added-pct",
+      "field": "",
+      "unitScale": 1,
+      "level": "place",
+      "denominator": "above the town's Census base parks and recreation spending",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "U.S. Census Bureau, 2022 Census of Governments Survey of State and Local Government Finances."
+      },
+      "fold": "december",
+      "traceInputs": ["parksSpendingMinor", "parksBaseMinor"]
+    },
+    "budget.highways-added-pct": {
+      "id": "budget.highways-added-pct",
+      "owner": "core2-budgets-v1",
+      "webMeasure": true,
+      "record": "gov-measures budget.highways-added-pct: the town's highway spending above its Census base this fiscal year, in percent (each government's highways line in the budgets module, by the town's share of it)",
+      "unit": "percent",
+      "reader": "highways-added-pct",
+      "field": "",
+      "unitScale": 1,
+      "level": "place",
+      "denominator": "above the town's Census base highway spending",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "U.S. Census Bureau, 2022 Census of Governments Survey of State and Local Government Finances."
+      },
+      "fold": "december",
+      "traceInputs": ["highwaysSpendingMinor", "highwaysBaseMinor"]
+    },
+    "police.officers-per-1000": {
+      "id": "police.officers-per-1000",
+      "owner": "core2-public-safety-v1",
+      "webMeasure": true,
+      "record": "public-safety months.officersPer1000 (sworn officers per 1,000 residents: the state's recorded rate times the town's police service, its police lines against where they began the year)",
+      "unit": "rate",
+      "module": "core2-public-safety-v1",
+      "table": "months",
+      "field": "officersPer1000",
+      "unitScale": 1,
+      "ownsOutcome": true,
+      "level": "place",
+      "denominator": "sworn police officers per 1,000 residents",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Federal Bureau of Investigation, Crime in the United States Police Employee Data."
+      },
+      "fold": "december",
+      "traceInputs": ["officersPer1000"]
+    },
+    "budget.schools-added-pct": {
+      "id": "budget.schools-added-pct",
+      "owner": "core2-budgets-v1",
+      "webMeasure": true,
+      "record": "the schools lines of the town's city and county budgets in force (the budgets module's rows the school engine's spending measure reads), together, above their Census base for the fiscal year, as a percent",
+      "unit": "percent",
+      "reader": "schools-line-above-base",
+      "field": "",
+      "unitScale": 1,
+      "level": "place",
+      "denominator": "above the town's Census base elementary and secondary education spending",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "U.S. Census Bureau, Annual Survey of School System Finances (F-33)."
+      },
+      "fold": "december",
+      "traceInputs": ["schoolsSpendingMinor", "schoolsBaseMinor"]
+    },
+    "federal.defense-boost-pct": {
+      "id": "federal.defense-boost-pct",
+      "owner": "core2-budgets-v1",
+      "webMeasure": true,
+      "record": "the federal budget row's national defense line in force (the budgets module), above its base as a share of the base, times the state's fiscal 2024 defense contracts per resident over its output per resident (data/research/federal/defense-contracts-by-state-fy2024.json), as a percent of what the state produces",
+      "unit": "percent",
+      "reader": "defense-boost-pct",
+      "field": "",
+      "unitScale": 1,
+      "level": "state",
+      "denominator": "of state gross domestic product from federal defense spending changes",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Department of Defense, Defense Spending by State FY2024 and U.S. Treasury Monthly Treasury Statement."
+      },
+      "fold": "december",
+      "traceInputs": ["defenseSpendingMinor", "defenseBaseMinor"]
+    },
+    "federal.deficit-change-pct-of-gdp": {
+      "id": "federal.deficit-change-pct-of-gdp",
+      "owner": "core2-budgets-v1",
+      "webMeasure": true,
+      "record": "the federal budget row in force (the budgets module): its outlays less its receipts, summed over its lines, against the base row for the same fiscal year (the Treasury's statement), as percentage points of what the nation produces (the states' BEA output, data/research/federal/defense-contracts-by-state-fy2024.json)",
+      "unit": "percent",
+      "reader": "federal-deficit-change",
+      "field": "",
+      "unitScale": 1,
+      "level": "nation",
+      "denominator": "percentage points of national gross domestic product",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "U.S. Department of the Treasury, Final Monthly Treasury Statement FY2025 and Bureau of Economic Analysis state GDP."
+      },
+      "fold": "december",
+      "traceInputs": ["federalSpendingMinor", "federalRevenueMinor"]
+    },
+    "program.snap-maximum-change-pct": {
+      "id": "program.snap-maximum-change-pct",
+      "owner": "laws",
+      "webMeasure": true,
+      "record": "the SNAP one-person maximum allotment in force (the federal snap-maximum law row), against the one in force at the opening, as a percent",
+      "unit": "percent",
+      "reader": "snap-maximum-change",
+      "field": "",
+      "unitScale": 1,
+      "level": "nation",
+      "denominator": "change from the opening one-person maximum SNAP allotment",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "U.S. Department of Agriculture, Food and Nutrition Service SNAP Cost-of-Living Adjustments."
+      },
+      "fold": "december",
+      "traceInputs": ["snapMaximum"]
+    },
+    "budget.healthAndHospitals-added-pct": {
+      "id": "budget.healthAndHospitals-added-pct",
+      "owner": "core2-budgets-v1",
+      "webMeasure": true,
+      "record": "the town's share of the health and hospitals line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "unit": "percent",
+      "reader": "budget-line-added:healthAndHospitals",
+      "field": "",
+      "unitScale": 1,
+      "level": "place",
+      "denominator": "above the town's Census base health and hospitals spending",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "U.S. Census Bureau, 2022 Census of Governments Survey of State and Local Government Finances."
+      },
+      "fold": "december",
+      "traceInputs": ["healthAndHospitalsMinor"]
+    },
+    "budget.welfareAndMedicaid-added-pct": {
+      "id": "budget.welfareAndMedicaid-added-pct",
+      "owner": "core2-budgets-v1",
+      "webMeasure": true,
+      "record": "the town's share of the welfare and Medicaid line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "unit": "percent",
+      "reader": "budget-line-added:welfareAndMedicaid",
+      "field": "",
+      "unitScale": 1,
+      "level": "place",
+      "denominator": "above the town's Census base public welfare and Medicaid spending",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "U.S. Census Bureau, 2022 Census of Governments Survey of State and Local Government Finances."
+      },
+      "fold": "december",
+      "traceInputs": ["welfareAndMedicaidMinor"]
+    },
+    "budget.higherEducation-added-pct": {
+      "id": "budget.higherEducation-added-pct",
+      "owner": "core2-budgets-v1",
+      "webMeasure": true,
+      "record": "the town's share of the higher education line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "unit": "percent",
+      "reader": "budget-line-added:higherEducation",
+      "field": "",
+      "unitScale": 1,
+      "level": "place",
+      "denominator": "above the town's Census base higher education spending",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "U.S. Census Bureau, 2022 Census of Governments Survey of State and Local Government Finances."
+      },
+      "fold": "december",
+      "traceInputs": ["higherEducationMinor"]
+    },
+    "press.local-newspaper": {
+      "id": "press.local-newspaper",
+      "owner": "press",
+      "webMeasure": true,
+      "record": "the press module's outlets table: how many of the town's own local newspapers have closed (their business books in the finance ledger carry a closing date), counted; zero while they all publish",
+      "unit": "count",
+      "reader": "newspapers-closed",
+      "field": "",
+      "unitScale": 1,
+      "level": "place",
+      "denominator": "closed local newspapers in the town",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Northwestern Medill Local News Initiative, State of Local News and the press module's outlets table."
+      },
+      "fold": "december",
+      "traceInputs": ["closedNewspapers"]
+    },
+    "budget.naturalResources-added-pct": {
+      "id": "budget.naturalResources-added-pct",
+      "owner": "core2-budgets-v1",
+      "webMeasure": true,
+      "record": "the town's share of the natural resources line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "unit": "percent",
+      "reader": "budget-line-added:naturalResources",
+      "field": "",
+      "unitScale": 1,
+      "level": "place",
+      "denominator": "above the town's Census base natural resources spending",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "U.S. Census Bureau, 2022 Census of Governments Survey of State and Local Government Finances."
+      },
+      "fold": "december",
+      "traceInputs": ["naturalResourcesMinor"]
+    }
+  }
+}
