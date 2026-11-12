@@ -87,6 +87,11 @@ function levelOf(
 ): LawLevelName | undefined {
   const core = api.state as CoreState;
   const org = core.organizations.get(organizationId);
+  // Whose floor binds an employer can differ from who funds it: a school
+  // district is paid from the town's budget line (EMPLOYER_LEVELS, which
+  // bargaining reads for funding) but is bound only by state and federal
+  // floors (BOUND_BY). Every reader of "which floors reach this employer"
+  // asks here.
   const byClass =
     BOUND_BY[org?.classification ?? ""] ??
     EMPLOYER_LEVELS[org?.classification ?? ""];

@@ -1083,7 +1083,7 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/public-pay-floor.json",
     "line": 3,
-    "whatItFakes": "A school district is bound by the federal and state public pay floors only (boundBy in public-pay-floor.json), but no law level exists for a district, so a district cannot enact a floor of its own, and its funding level in employerLevels is still the city's. A public post filled by the government (an aide, a department head) is paid at the floor in force the day it is filled, and a jobs-engine opening at the floor in force the day it is posted.",
+    "whatItFakes": "A school district is bound by the federal and state public pay floors only (boundBy in public-pay-floor.json), but no law level exists for a district, so a district cannot enact a floor of its own, and its funding level in employerLevels is still the city's (whose floor binds an employer, boundBy, differs from who funds it, employerLevels; the public bargaining law still reads employerLevels for coverage, so a city bargaining law covers school staff). A public post filled by the government (an aide, a department head) is paid at the floor in force the day it is filled, and a jobs-engine opening at the floor in force the day it is posted.",
     "why": "The CTO ruled (October 14, 2026) that a public-salary base is a standing law at each level and asked dev mode's PR to add the data row and the smallest read hook, for the GOV wiring session to own after merge.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
