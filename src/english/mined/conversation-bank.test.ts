@@ -74,18 +74,21 @@ const minedPatterns = [...CONVERSATION_BANK.parts, ...talkParts].map(
     new RegExp(
       `^${part.text
         .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
-        .replace(/\{\w+\}/g, ".+")}$`,
+        .replace(/\{[\w-]+\}/g, ".+")}$`,
       "i",
     ),
 );
 const isMined = (sentence: string) =>
   minedPatterns.some((pattern) => pattern.test(sentence));
-/** A line is one mined sentence, or two said one after the other. */
-const minedLine = (text: string) =>
+/**
+ * A line is one bank sentence, or several said one after the other (a
+ * composed line joins an opener, a core and a closer).
+ */
+const minedLine = (text: string): boolean =>
   isMined(text) ||
   [...text.matchAll(/[.?!] /g)].some((match) => {
     const cut = match.index! + 1;
-    return isMined(text.slice(0, cut)) && isMined(text.slice(cut + 1));
+    return isMined(text.slice(0, cut)) && minedLine(text.slice(cut + 1));
   });
 
 describe("the mined conversation bank in the director", () => {

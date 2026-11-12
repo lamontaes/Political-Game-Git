@@ -2527,6 +2527,7 @@ export function residentsPart(
   const rt = runtimes.get(core);
   if (rt) {
     const store = rt.store;
+    const unplacedPool: number[] = bands.map(() => 0);
     const from = countedParameter("countedWorkingAgeFrom"),
       below = countedParameter("countedWorkingAgeBelow");
     for (const h of store.liveHouseholds()) {
@@ -2557,7 +2558,9 @@ export function residentsPart(
         const job = best.get(id);
         // A county sample worker's employer is its household's record of the county's employment.
         const county = h.employment?.find((row) => row.personId === id);
-        if (job) atWork(band, job.employer, job.heads);
+        // A counted job's heads can exceed the household's weight (a hire stands for the
+        // position's heads): the member is at work for no more people than they stand for.
+        if (job) atWork(band, job.employer, Math.min(job.heads, weight));
         else if (county)
           atWork(band, county.sector, weight, part.workersByIndustry);
         else if (band >= 0 && age >= from && age < below) open.push(band);
@@ -2565,8 +2568,14 @@ export function residentsPart(
       // Its workers outside a recorded employer are its working-age members without a job, shared alike.
       const unplaced = h.unplacedWorkers * weight;
       const among = open.length ? open : adults;
-      for (const band of among) atWork(band, "", unplaced / among.length);
+      for (const band of among) unplacedPool[band]! += unplaced / among.length;
     }
+    // A band holds no more workers than it has adults: the unplaced share fills only what its
+    // recorded jobs leave of them.
+    unplacedPool.forEach((pool, band) => {
+      const room = Math.max(0, part.adults[band]! - part.workers[band]!);
+      atWork(band, "", Math.min(pool, room));
+    });
     for (const [group, fund] of rt.funds)
       if (placeIds.has(store.groups[group]?.placeId ?? "") && rt.api)
         part.cashMinor += rt.api.accounts().balance(fund);

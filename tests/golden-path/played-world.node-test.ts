@@ -244,6 +244,44 @@ function countCalls(core: CoreState): void {
       subscribers.set(key, wrap(key.replace(/^module:/, ""), listener));
 }
 /** Every module table's contents, as a hash. */
+/**
+ * Rows in every table the world keeps: each module table and each of the
+ * core's maps and lists, by count only (no digest), so the memory check can
+ * name what grew.
+ */
+function tableRows(core: CoreState): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const [field, value] of Object.entries(core))
+    if (value instanceof Map || value instanceof Set)
+      out.set(`core.${field}`, value.size);
+    else if (Array.isArray(value)) out.set(`core.${field}`, value.length);
+  for (const module of core.modules.values()) {
+    if (!module.state) continue;
+    const store = coreAPI(core).moduleState(module.id);
+    for (const name of Object.keys(module.state.tables))
+      out.set(`${module.id}.${name}`, store.table(name).size);
+  }
+  return out;
+}
+
+/** The five tables that gained the most rows between two counts, largest first. */
+function topGrowers(
+  before: ReadonlyMap<string, number>,
+  after: ReadonlyMap<string, number>,
+): string {
+  return [...after]
+    .map(([name, rows]) => ({
+      name,
+      rows,
+      gained: rows - (before.get(name) ?? 0),
+    }))
+    .filter((row) => row.gained > 0)
+    .sort((a, b) => b.gained - a.gained || a.name.localeCompare(b.name))
+    .slice(0, 5)
+    .map((row) => `${row.name} +${row.gained} to ${row.rows} rows`)
+    .join("; ");
+}
+
 function moduleRecords(core: CoreState): Map<string, string> {
   const out = new Map<string, string>();
   for (const module of core.modules.values()) {
@@ -355,6 +393,7 @@ function playWorld(seed: string) {
   // (the first payrolls, contests and stories) are not growth.
   const firstMonthEnd = addDays(makeIsoDate(start), 30);
   let firstMonthHeapMiB: number | undefined;
+  let firstMonthRows: Map<string, number> | undefined;
   for (let day = start; day < end;) {
     for (const p of core.people.values()) {
       cashYesterday.set(p.id, p.liquidMinor);
@@ -365,8 +404,10 @@ function playWorld(seed: string) {
     }
     const next = addDays(makeIsoDate(day), 1);
     advanceCore(core, next);
-    if (firstMonthHeapMiB === undefined && next >= firstMonthEnd)
+    if (firstMonthHeapMiB === undefined && next >= firstMonthEnd) {
       firstMonthHeapMiB = heapMiB();
+      firstMonthRows = tableRows(core);
+    }
     if (foundingTable.size !== foundingsSeen) {
       foundingsSeen = foundingTable.size;
       for (const row of foundingTable.rows() as unknown as Row[]) {
@@ -425,7 +466,7 @@ function playWorld(seed: string) {
     growthMiBPerMonth,
     policies.heapGrowthMiBPerMonth,
     `heap growth a month after the first (${years * 12 - 1} months)`,
-    "something keeps history it should let go: the durable log (OPUS-CORE) grows most",
+    `the tables that gained the most rows after the first month: ${topGrowers(firstMonthRows!, tableRows(core))}`,
   );
 
   // Break 17 and the module audit: every installed module did something.

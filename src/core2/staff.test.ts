@@ -59,6 +59,8 @@ describe("M3-06 staff", () => {
       unpaid: string[];
     }[] = [];
     const tried: string[] = [];
+    // Each place passed over, with the gate that rejected it.
+    const passedOver: string[] = [];
     for (let attempt = 0; attempt < 8 && !report; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
@@ -96,7 +98,10 @@ describe("M3-06 staff", () => {
       const seat = townSeats(api).find(
         (s) => s.office.kind === "council" && s.holder?.personId,
       );
-      if (!seat) continue;
+      if (!seat) {
+        passedOver.push(`${key}: no council seat held by a person`);
+        continue;
+      }
       const official = seat.holder!.personId!;
       const candidates = staffCandidates(api, official);
       // Everyone offered is someone the records can place: never a relative
@@ -110,7 +115,12 @@ describe("M3-06 staff", () => {
       }
       const known = candidates.find((c) => c.from === "known");
       const applicant = candidates.find((c) => c.from === "applicant");
-      if (!known || !applicant) continue;
+      if (!known || !applicant) {
+        passedOver.push(
+          `${key}: no ${known ? "applicant" : "known"} candidate`,
+        );
+        continue;
+      }
       const aide = hireStaff(api, {
         officialId: official,
         personId: known.personId,
@@ -213,6 +223,7 @@ describe("M3-06 staff", () => {
       ) {
         for (const row of serving)
           expect(staffJob(row.personId), `${key}: ${row.id}`).toBeUndefined();
+        passedOver.push(`${key}: noRoom (the post's budget line has no room)`);
         noRoom.push({
           place: key,
           official,
@@ -230,6 +241,9 @@ describe("M3-06 staff", () => {
           (row) =>
             (row as { dismissed?: { absentShare: number } }).dismissed !==
             undefined,
+        );
+        passedOver.push(
+          `${key}: no payday yet by the check date (first aides let go for absence)`,
         );
         expect(letGo.length, `${key}: no aide let go`).toBeGreaterThan(0);
         for (const row of letGo)
@@ -295,7 +309,7 @@ describe("M3-06 staff", () => {
     }
     expect(
       report,
-      `no office could hire in ${tried.join(", ")}`,
+      `no office could hire in ${tried.join(", ")}; passed over: ${passedOver.join("; ")}`,
     ).not.toBeNull();
     govReport("staff", JSON.stringify(report));
     // Up to 8 drawn towns, each built in about 0.4 to 1.1 s and played 46
