@@ -3190,7 +3190,10 @@ function otherRaises(
       // house.
       !(
         row.kind === "own-view" &&
-        (!row.news?.question ||
+        // Only as far as their tie and temperament allow (the views
+        // engine's willingness): a stranger keeps where they stand.
+        (!(row.weight ?? zero) ||
+          !row.news?.question ||
           !(conversation.questions ?? []).includes(row.news.question) ||
           heardNow.has(`${HEARD_QUESTION}${row.news.question}`))
       ) &&

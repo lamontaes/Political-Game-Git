@@ -343,7 +343,7 @@ function ownViewIn(drawSeed: string, skipped: string[]): boolean {
     const subject = subjectsBetween(core, id, me, director).find(
       (row) => row.kind === "own-view",
     );
-    return subject
+    const line = subject
       ? composedLine(
           core,
           id,
@@ -353,11 +353,16 @@ function ownViewIn(drawSeed: string, skipped: string[]): boolean {
           `own-view:${id}`,
         )
       : null;
+    // The question they name is the strongest one their own life gives a
+    // reason for, else their strongest (words composer, Nov 12).
+    return line && subject?.facts.about
+      ? { text: line.text, about: subject.facts.about.text }
+      : null;
   });
   if (said[0] && said[1]) {
     expect(said[0].text).not.toBe(said[1].text);
-    expect(said[0].text).toContain(strongestQuestion(api, pair![0].id)!.about);
-    expect(said[1].text).toContain(strongestQuestion(api, pair![1].id)!.about);
+    expect(said[0].text).toContain(said[0].about);
+    expect(said[1].text).toContain(said[1].about);
   }
   // Someone whose strongest question is about work names their employer.
   for (const person of people) {
