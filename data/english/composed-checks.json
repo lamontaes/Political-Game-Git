@@ -83,7 +83,9 @@
   },
   "placeSaidOnlyAs": {
     "note": "A place whose bare name means something else in a speech, with the spelling that means the place. Alone, the first is the federal capital, so the stray-place check counts only the spelling given here.",
-    "names": { "Washington": "Washington State" }
+    "names": {
+      "Washington": "Washington State"
+    }
   },
   "roleWords": [
     "President",
@@ -140,6 +142,8 @@
     "coworker",
     "roommate"
   ],
+  "actStandIn": "\\b(?:to|not|and|plan to|trying to) do (?:that|it)\\b",
+  "actStandInNote": "A stance verb whose object is the stand-in \"do that\" instead of the act it means (check act-named).",
   "acknowledgments": [
     "okay",
     "ok",
@@ -161,7 +165,13 @@
     "noted",
     "good to know",
     "makes sense",
-    "fine"
+    "fine",
+    "wow",
+    "no",
+    "yes",
+    "really",
+    "i know",
+    "oh my"
   ],
   "checkInClose": [
     "\\b(?:let's|we'll|i'll|we can)\\b[^.?!]*\\b(?:pick (?:this|it) up|talk (?:again|later|soon|more)|catch up|check in|circle back|come back to (?:this|it))\\b",
@@ -476,5 +486,55 @@
     "it's",
     "don't",
     "won't"
+  ],
+  "concession": "\\b(?:even so|all the same|just the same|anyway)[.!]?$",
+  "concessionNote": "A sentence that concedes ('even so', 'all the same') must follow something it concedes: an earlier sentence of the same line with a contrary word (concessionBefore). Words composer, Nov 12: \"I'd vote to make the nation's capital a state even so\" with nothing before it to concede.",
+  "concessionBefore": "\\b(?:but|though|although|against|won't|wouldn't|doesn't|didn't|isn't|not|no|never|wrong|mistake)\\b",
+  "agreementOnly": [
+    "^(?:good\\.\\s*)?glad you see it like i do\\b",
+    "^(?:good\\.\\s*)?somebody in this house agrees with me\\b",
+    "^(?:good\\.\\s*)?then we(?:'re| are) on the same side of it\\b",
+    "^fair enough\\b[^.]*\\.\\s*we don't have to agree\\b",
+    "^we see it differently, then\\b"
+  ],
+  "agreementOnlyNote": "An answer to the player's agreeing or disagreeing reply that only says the two agree or differ, and adds nothing: what the speaker expects to happen, who they will tell or what they will do (words composer, Nov 12: \"Glad you see it like I do\" in every world).",
+  "voteMonth": "\\b(?:come|in|next|this) (January|February|March|April|May|June|July|August|September|October|November|December)\\b",
+  "voteMonthNote": "A line that names the month a question is voted on is true only when the world's election calendar holds an election in that month within the year after the line is said (owner via the coordinator, Nov 12: 'come November' said on January 20).",
+  "organizationWords": [
+    "Company",
+    "Associates",
+    "Market",
+    "Store",
+    "Schools",
+    "School",
+    "Home",
+    "Hospital",
+    "Bank",
+    "Supply",
+    "Inc",
+    "Corporation",
+    "Center",
+    "Clinic",
+    "Services",
+    "Group",
+    "Press"
+  ],
+  "organizationNote": "A capitalized name of two words or more ending in one of these words is an organization: named once in one exchange (one screen's lines and replies), then said by the tie ('work', 'school'; said-as ownPlace).",
+  "ownPay": "\\$(\\d[\\d,]*)(?:\\.\\d+)? an hour",
+  "ownPayNote": "Words builder, Nov 12 (reason-fits-the-side): a speaker's own hourly pay said as a reason, and the minimum-wage questions with the wage each proposes (dollars an hour, the same proposals as src/director/data/conversation-rules.json stands.reasonFits.wages). Pay at or under the proposal times payNear argues for a raise; any other own pay is no reason on either side.",
+  "payQuestions": {
+    "a higher federal minimum wage": 17,
+    "a higher minimum wage": 15,
+    "letting cities set their own minimum wage": 15
+  },
+  "payNear": 1.25,
+  "againstFrames": [
+    "\\bagainst\\b",
+    "draw the line",
+    "count me out",
+    "fight hardest",
+    "fought",
+    "don't want",
+    "say no to"
   ]
 }

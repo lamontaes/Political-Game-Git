@@ -9,6 +9,18 @@
  */
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 
+/** What a budget line is for, as people say it: the bill catalog's budget row, its purpose for a raise or its repeal purpose for a cut. */
+export function budgetPurposeSaid(line: string, cut: boolean): string | null {
+  const row = (
+    billNames as unknown as {
+      policies: Readonly<
+        Record<string, { purpose?: string; repealPurpose?: string }>
+      >;
+    }
+  ).policies[`budget:${line}`];
+  return (cut ? row?.repealPurpose : row?.purpose) ?? null;
+}
+
 export interface BillNameBook {
   /** The article a sentence says a short title with: "the Fair Wage Act". */
   readonly article: string;

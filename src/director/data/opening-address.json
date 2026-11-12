@@ -1,13 +1,6 @@
 {
   "version": "opening-address-v3",
-  "about": "How the President's own record shapes the address (owner, Oct 27, 2026: 'it needs to flow like a real speech ... if there are 58 laws, there are 58 choices they have in the speech'). Any policy question in the bill catalog can be a priority: the President's recorded stance on each (`ownStance`) picks the few they lead with and the one line they will not cross, and the laws engine's answer in force for the question (the nation's for a federal question, the player's state's for any other) is what the address says about it. `numbersBySubject` says which of the country's numbers bear on a catalog subject, so a priority can be argued from one. It holds no sentence: the words are the opening-speech bank's.",
-  "numbersBySubject": {
-    "labor": ["wages", "jobs"],
-    "housing": ["mortgage"],
-    "taxes-finance": ["growth"],
-    "business": ["growth", "jobs"],
-    "energy-environment": ["inflation"]
-  },
+  "about": "How the speaker's own record shapes an address: the manner of speaking from their traits, the asides they say, how often a name or subject is said, and how far each measure moves in an ordinary year. The order of each kind of speech, its theme and its asks are the outline rows of speech-outlines.json (src/director/speech-outline.ts, owner, Nov 12: 'the problem is the engine'). It holds no sentence: the words are the opening-speech bank's.",
   "mannerTraits": {
     "about": "The recorded traits that make a President's address plain-spoken or polished: the manner is whichever side the President's traits sum higher on, polished when they tie.",
     "plain": [
@@ -29,24 +22,6 @@
       "spread": "3 to 5",
       "note": "How many words in a row make two sentences of one address say the same thing, so the second is worded again (the words lead's third read, Nov 11: the Vice President praised twice in the same words). Three catches ordinary phrases such as \"of the country\"; five lets a repeated praise through."
     },
-    "prioritiesMax": {
-      "value": 3,
-      "tag": "TUNABLE",
-      "spread": "2 to 4",
-      "note": "The most priorities the address leads with, each a stake, a law and an ask (real inaugural addresses name two to four)."
-    },
-    "priorityStanceShare": {
-      "value": 0.5,
-      "tag": "TUNABLE",
-      "spread": "0.3 to 0.7",
-      "note": "A supported question is a priority while the President's stance on it is at least this share of their strongest stance; the address is as long as the President's convictions are many."
-    },
-    "storyTopics": {
-      "value": 1,
-      "tag": "TUNABLE",
-      "spread": "1 to 3",
-      "note": "How many of the country's subjects the story of the country tells besides work, always told: those that moved most over the year, apart from the ones the priorities argue from. Each is told in words, never as a figure (owner, Oct 27 and Nov 1)."
-    },
     "asidesBase": {
       "value": 2,
       "tag": "TUNABLE",
@@ -66,10 +41,10 @@
       "note": "How many times an address says one of the world's names or subjects (the Vice President, the Speaker, the home state, the year's hardest and best subject) before it turns to the wordings that do without it; a name is said again only where no other wording can say the move. Real addresses name a home state or a running mate once or twice."
     },
     "subjectsSaid": {
-      "value": 3,
+      "value": 1,
       "tag": "TUNABLE",
-      "spread": "2 to 4",
-      "note": "How many times an address says the same words for one of the year's subjects (\"take-home pay\") before it turns to wordings with a different insert (words lead's read, Nov 11: \"a subject's word at most three times\")."
+      "spread": "1 to 2",
+      "note": "How many times an address names one of the theme's subjects in the same words (\"a stronger economy\") before it turns to wordings that say it another way; the greeting and the close may name it once more (owner, Nov 12: \"good news on a stronger economy ... feeling good about what's coming on a stronger economy ... report on a stronger economy\")."
     },
     "redraws": {
       "value": 6,
@@ -77,45 +52,6 @@
       "spread": "3 to 10",
       "note": "How many times a sentence naming the Vice President is drawn again when it would repeat four words of an earlier one (the words lead's third read, Nov 11: the Vice President praised twice in nearly the same words)."
     }
-  },
-  "leads": {
-    "about": "What an address leads with after the greeting, from the President's recorded traits (owner, Nov 1: 'Every one of these speeches has the same general outline. They need to vary.'). Each lead sums the President's values on its facets; the highest lead above zero opens the speech, and with none above zero the occasion does. A hard year always leads with the country's story, as real addresses in a crisis do; the mission lead needs a priority to lead with. Facets are the personality catalog's.",
-    "people": [
-      "personality-v1:facet-friendly",
-      "personality-v1:facet-affectionate",
-      "personality-v1:facet-nurturing",
-      "personality-v1:facet-comforting",
-      "personality-v1:facet-supportive",
-      "personality-v1:facet-tender-hearted"
-    ],
-    "history": [
-      "personality-v1:facet-nostalgic",
-      "personality-v1:facet-imaginative",
-      "personality-v1:facet-dramatic",
-      "personality-v1:facet-studious",
-      "personality-v1:facet-proud"
-    ],
-    "mission": [
-      "personality-v1:facet-ambitious",
-      "personality-v1:facet-assertive",
-      "personality-v1:facet-enterprising",
-      "personality-v1:facet-zealous",
-      "personality-v1:facet-competitive"
-    ],
-    "country": [
-      "personality-v1:facet-practical",
-      "personality-v1:facet-work-centered",
-      "personality-v1:facet-analytical",
-      "personality-v1:facet-meticulous"
-    ]
-  },
-  "orders": {
-    "about": "The order of the address's middle for each lead, after the greeting and before the Vice President, the states, the call, hope and the close. 'congress' is the turn to Congress with the priorities and the line not crossed. A part the President leaves out is skipped where it stands.",
-    "occasion": ["occasion", "creed", "history", "story", "people", "congress"],
-    "country": ["story", "people", "occasion", "creed", "history", "congress"],
-    "people": ["occasion", "people", "story", "creed", "history", "congress"],
-    "history": ["history", "occasion", "creed", "story", "people", "congress"],
-    "mission": ["occasion", "creed", "congress", "story", "people", "history"]
   },
   "asides": {
     "about": "The parts an address may leave out, and the facets that pull a President to say each: the country's long story, the people met on the way, the call to the people, the closing hope. A talkative President says more of them (talk), a terse one fewer; those said are the ones the President's traits pull hardest, and the part the address leads with is always said.",

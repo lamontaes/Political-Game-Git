@@ -88,6 +88,12 @@ const ACTS: Readonly<Record<string, SpeechAct>> = {
   creed: "tell",
   unity: "promise",
   "story-open": "tell",
+  // A point's context from the world's records over a span (speech-outline.ts).
+  context: "tell",
+  // What the context has meant for people, between the context and the stand.
+  meaning: "tell",
+  // How a point's question stands today, from the law in force.
+  today: "tell",
   "story-says": "tell",
   "story-turn": "tell",
   pledge: "promise",
@@ -129,6 +135,30 @@ export function partValues(
   return value === undefined ? [] : typeof value === "string" ? [value] : value;
 }
 
+/** The roles a piece may play with no fact and no stand: the greeting and the goodbye. */
+const BARE_ROLES: readonly string[] = ["salutation", "close"];
+
+/**
+ * Whether a core piece carries something: a slot filled from the world's
+ * records, or a fact it is said only when the record holds. A core that
+ * carries neither ("This is a working speech.", "I'll keep this practical
+ * tonight.") is not a type the outline can pick (owner, Nov 12, via the
+ * words lead: four sentences that say nothing). Openers and closers lead or
+ * end a core that does.
+ */
+function carries(
+  part: OpeningPart,
+  kind: OpeningSpeechKind,
+  role: string,
+  line: "opener" | "core" | "closer",
+): boolean {
+  if (line !== "core" || BARE_ROLES.includes(role)) return true;
+  const use = part.uses.find(
+    (row) => row.subject === kind && row.role === role,
+  );
+  return /\{[^}]+\}/.test(part.text) || !!use?.requiresFacts?.length;
+}
+
 /** The line part a piece is said as: an opener, a closer, or the core. */
 function lineOf(part: OpeningPart): "opener" | "core" | "closer" {
   return part.piece?.part === "opener" || part.piece?.part === "closer"
@@ -151,6 +181,7 @@ function variantsFor(
 ): LinePartVariant[] {
   const fits = (part: OpeningPart) =>
     partHolds(part.voice, voice) &&
+    carries(part, kind, role, line) &&
     lineOf(part) === line &&
     (!topic ||
       partHolds(part.topic, topic) ||

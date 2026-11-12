@@ -197,7 +197,7 @@
     "src/director/conversation.ts": 2,
     "src/director/journal.ts": 2,
     "src/director/ledger.ts": 3,
-    "src/director/opening-story.ts": 6,
+    "src/director/opening-story.ts": 3,
     "src/director/play-modules.ts": 7,
     "src/director/purpose-scene.ts": 2,
     "src/director/school.ts": 1,

@@ -34,6 +34,8 @@ export interface MinedUse {
   stages?: string[];
   raises?: string;
   requiresFacts?: string[];
+  /** Facts whose presence holds the piece back. */
+  excludesFacts?: string[];
   /** A `reason` piece: the role of the lines it may follow (`raise`, `reply`, `answer`), joined after them by the engine. */
   for?: string;
 }

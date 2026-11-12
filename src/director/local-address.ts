@@ -1,13 +1,12 @@
 /**
  * A governor's State of the State and a mayor's State of the City (owner,
  * Nov 8: addresses by "the President, and governors' and mayors'"). It is the
- * same address the President gives, at a smaller scale: the kind (a candid
- * reckoning, a railing, a hopeful lift, a victory lap, words for the dead, a
- * policy push) is picked from the term read of the state's or town's areas and
- * the speaker's traits (address-kind.ts), the subjects are the areas that
- * moved most, bad news first in a hard year, and what the speaker asks of
- * their legislature or council is the questions they hold a view on and their
- * level may answer. The English engine writes every sentence; the address is
+ * same address the President gives, at a smaller scale, planned by the same
+ * one outline planner (speech-outline.ts) from its own outline row: one theme
+ * from the speaker's record and the term read of the state's or town's areas,
+ * each point context, stand and ask, and each ask said once to the level that
+ * can act. This file says who speaks, on which day, and what their realm's
+ * term read is. The English engine writes every sentence; the address is
  * recorded as a public event the news carries and the household watching it
  * can bring up, like the President's.
  */
@@ -21,31 +20,14 @@ import {
   placeTermRead,
   type AreaRead,
 } from "../core2/modules/laws";
-import { daysBetweenText } from "../core2/kernel/dates";
 import { applyCoreEvent, coreAPI } from "../core2/state";
-import type { CoreState, PersonId, PersonState } from "../core2/types";
-import {
-  addressSituation,
-  chooseAddressKind,
-  type AddressKind,
-} from "./address-kind";
+import type { CoreState, PersonId } from "../core2/types";
+import type { AddressKind } from "./address-kind";
 import { ADDRESS_FACT, ADDRESS_PART_BREAK } from "./opening-facts";
-import {
-  composeBlocks,
-  fact,
-  voiceOf,
-  opposedOf,
-  standFacts,
-  standsAt,
-  wantedOf,
-  type Block,
-  type Facts,
-  type OpeningSentence,
-} from "./opening-story";
+import { composeBlocks, type OpeningSentence } from "./opening-story";
+import { planSpeech } from "./speech-outline";
 import { recordAddressResponse } from "./address-response";
-import { openingMove } from "../english/english-opening-speech";
 import type { OpeningSpeechKind } from "../english/english-opening-speech";
-import kindData from "./data/address-kinds.json" with { type: "json" };
 import localData from "./data/local-address.json" with { type: "json" };
 
 export type LocalLevel = "state" | "town";
@@ -59,10 +41,6 @@ interface LevelData {
 }
 const DATA = localData as unknown as {
   levels: Readonly<Record<LocalLevel, LevelData>>;
-  parameters: Record<"asksMax" | "topicsMax", { value: number }>;
-};
-const KIND_DATA = kindData as unknown as {
-  kinds: Readonly<Record<AddressKind, { topics: number; tone?: number }>>;
 };
 
 export interface LocalStory {
@@ -74,6 +52,8 @@ export interface LocalStory {
   readonly sentences: readonly OpeningSentence[];
   readonly text: string;
   readonly parts: readonly string[];
+  /** The one theme the speech is about, from the speech outline. */
+  readonly theme: string | null;
   /** The questions the speaker asked for (their level's, not yet law). */
   readonly asks: readonly string[];
 }
@@ -183,150 +163,6 @@ function realmRead(
   });
 }
 
-/** The blocks of a local address, and the kind it took. */
-function planLocal(
-  core: CoreState,
-  level: LocalLevel,
-  speaker: PersonState,
-  spoken: Speaker,
-): { blocks: Block[]; addressKind: AddressKind; asks: string[] } {
-  const api = coreAPI(core);
-  const spec = DATA.levels[level];
-  const voice = voiceOf(speaker);
-  const { official, jurisdiction } = spoken;
-  const areas = realmRead(core, level, spoken.serviceStart);
-  const stands = official
-    ? standsAt(api, official, spec.policyLevel, jurisdiction)
-    : [];
-  const open = stands.filter((row) => !row.law.inForce);
-  const asks = [
-    ...wantedOf(open),
-    ...opposedOf(open).slice(P.zero, P.one),
-  ].slice(P.zero, DATA.parameters.asksMax.value);
-  const facts: Facts = {};
-  let better = P.zero,
-    worse = P.zero;
-  for (const read of areas) {
-    facts[`${read.area}-${read.slide >= P.zero ? "better" : "worse"}`] = fact(
-      "yes",
-      ...read.sourceRecordIds,
-    );
-    better += Math.max(P.zero, read.slide);
-    worse += Math.max(P.zero, -read.slide);
-  }
-  const situation = addressSituation(core, {
-    macroSlide: P.zero,
-    areas,
-    priorities: asks.length,
-    prioritiesMax: DATA.parameters.asksMax.value,
-  });
-  // A governor or mayor in their first year takes no lap for a record they did not make.
-  const firstYear =
-    daysBetweenText(spoken.serviceStart, core.date) <
-    api.parameter("daysPerMeanYear");
-  const addressKind = chooseAddressKind(
-    speaker,
-    situation,
-    firstYear ? ["victory"] : [],
-  );
-  facts[`kind-${addressKind}`] = fact(
-    "yes",
-    ...new Set([
-      ...areas.flatMap((read) => read.sourceRecordIds),
-      ...(situation.griefId ? [situation.griefId] : []),
-      speaker.id,
-    ]),
-  );
-  const move = (
-    role: string,
-    options: { topic?: string; required?: boolean } = {},
-  ) => openingMove(spec.subject, voice, role, { ...options, addressKind });
-  // The subjects the story tells: a kind that tells hard news leads with what
-  // fell and tells no good news beside it while there is bad; a kind that
-  // tells good news leads with what rose; the rest follow the year.
-  const tone =
-    KIND_DATA.kinds[addressKind].tone ??
-    (better > worse ? P.one : worse > better ? -P.one : P.zero);
-  const anyFell = areas.some((read) => read.slide < P.zero);
-  const told = areas
-    .filter((read) => !(tone < P.zero && anyFell && read.slide >= P.zero))
-    .sort(
-      (a, b) =>
-        (tone === P.zero
-          ? Math.abs(b.slide) - Math.abs(a.slide)
-          : tone * (b.slide - a.slide)) || a.area.localeCompare(b.area),
-    )
-    .slice(
-      P.zero,
-      Math.min(
-        DATA.parameters.topicsMax.value,
-        Math.max(P.one, KIND_DATA.kinds[addressKind].topics),
-      ),
-    )
-    .map((read) => read.area);
-  const blocks: Omit<Block, "part">[] = [
-    {
-      key: "salutation",
-      level: "salutation",
-      facts: {},
-      moves: [move("salutation", { required: true })],
-      required: true,
-    },
-    {
-      key: "occasion",
-      level: "occasion",
-      facts: {},
-      moves: [move("occasion")],
-    },
-    {
-      key: "story",
-      level: "country",
-      facts,
-      moves: [
-        move("story-open"),
-        ...told.map((topic) => move("story-says", { topic })),
-        move("story-turn"),
-        move("pledge"),
-      ],
-    },
-    ...asks.map((stand, at): Omit<Block, "part"> => ({
-      key: `ask-${at}-${stand.question}`,
-      level: "congress",
-      facts: standFacts(stand, official!, at ? "rank-line" : "rank-first"),
-      moves: [move("ask")],
-    })),
-    {
-      key: "hope",
-      level: "close",
-      facts,
-      moves: [move("hope")],
-    },
-    {
-      key: "close",
-      level: "close",
-      facts: {},
-      moves: [move("close", { required: true })],
-      required: true,
-    },
-  ];
-  // One paragraph for the greeting, the story, the asks and the close.
-  const partOf: Record<string, number> = {
-    salutation: P.zero,
-    occasion: P.zero,
-    story: P.one,
-  };
-  return {
-    blocks: blocks.map((block) => ({
-      ...block,
-      part:
-        partOf[block.key] ??
-        (block.key.startsWith("ask-") ? P.one + P.one : P.one + P.one + P.one),
-    })),
-    addressKind,
-    asks: asks.map((stand) => stand.question),
-  };
-}
-
 /**
  * Compose a governor's or mayor's address from the world's records. Null where
  * the player's state or town seats no one in the office, or the address cannot
@@ -339,7 +175,17 @@ export function composeLocalAddress(
   const spoken = speakerOf(core, level);
   const speaker = spoken ? core.people.get(spoken.personId) : undefined;
   if (!spoken || !speaker) return null;
-  const plan = planLocal(core, level, speaker, spoken);
+  const plan = planSpeech(core, DATA.levels[level].subject, {
+    person: speaker,
+    ...(spoken.official ? { official: spoken.official } : {}),
+    jurisdiction: spoken.jurisdiction,
+    serviceStart: spoken.serviceStart,
+    areas: realmRead(core, level, spoken.serviceStart),
+  });
+  // A speech with nothing to say is not given: no theme from the records and
+  // nothing to ask (pool note on the pull request: no officials row holds a
+  // mayor's views, so a mayor has no stands to ask for).
+  if (!plan.theme && !plan.asks.length) return null;
   const sentences = composeBlocks(core, speaker, plan.blocks);
   if (!sentences?.length) return null;
   return {
@@ -347,6 +193,7 @@ export function composeLocalAddress(
     level,
     date: core.date,
     addressKind: plan.addressKind,
+    theme: plan.theme,
     asks: plan.asks,
     speakerId: speaker.id,
     sentences,
@@ -409,6 +256,9 @@ export function recordLocalAddress(
       ).text,
       [ADDRESS_FACT.text]: story.text,
       [ADDRESS_FACT.parts]: story.parts.join(ADDRESS_PART_BREAK),
+      // The first stand the address took, in its own words, with the
+      // speaker's side: what a hearer at home brings up.
+      ...pointFacts(story),
     },
   });
   // The other side answers a governor the same day.
@@ -417,6 +267,17 @@ export function recordLocalAddress(
     if (spoken?.official) recordAddressResponse(core, story, spoken.official);
   }
   return story;
+}
+
+/** The first stand an address took, as event facts. */
+function pointFacts(story: LocalStory): Record<string, string> {
+  const stand = story.sentences.find((row) => row.stand)?.stand;
+  return stand
+    ? {
+        [ADDRESS_FACT.pointAbout]: stand.about,
+        [ADDRESS_FACT.pointStance]: stand.stance,
+      }
+    : {};
 }
 
 /** Record today's governor's and mayor's addresses, for the levels whose day it is. */
