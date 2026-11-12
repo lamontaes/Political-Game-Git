@@ -51,7 +51,9 @@
     "today": "how the policy question stands today, by the law in force and as the speaker's side describes it (question-names.json `today`)",
     "first-side": "the speech's first point as the speaker's side says it (question-names `for` or `against`), for the close",
     "today-clause": "the same sentence as `today`, in the case it takes after an opener and a comma",
-    "belief": "what the speaker believes, a clause worded from the belief-words pieces by the question's family and the speaker's pole of it"
+    "belief": "what the speaker believes, a clause worded from the belief-words pieces by the question's family and the speaker's pole of it",
+    "it": "the pronoun for the point's question as an object (it, or them for a name that is several)",
+    "it-subject": "the pronoun for the point's question as a subject (it, or they for a name that is several)"
   },
   "maxWords": 40,
   "mining": {
@@ -104340,982 +104342,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.tie.polished-inaugural-that-is-one-more-reason-i-am-for-stance-for-law-not-in-force-figure-ties",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "That is one more reason I am for it.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.plain-inaugural-that-s-a-big-part-of-why-i-stance-for-law-not-in-force-figure-ties",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "That's a big part of why I want it.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.polished-inaugural-that-is-one-more-reason-to-keep-it-stance-for-law-in-force-figure-ties-about",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "That is one more reason to keep it.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.polished-inaugural-that-is-one-more-reason-to-keep-them-stance-for-law-in-force-figure-ties-about",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "That is one more reason to keep them.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.plain-inaugural-that-s-why-i-m-standing-by-it-stance-for-law-in-force-figure-ties-about",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "That's why I'm standing by it.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.plain-inaugural-that-s-why-i-m-standing-by-them-stance-for-law-in-force-figure-ties-about",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "That's why I'm standing by them.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.polished-inaugural-it-would-only-add-to-that-burden-stance-against-law-not-in-force-figure-ties",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "It would only add to that burden.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.polished-inaugural-they-would-only-add-to-that-burden-stance-against-law-not-in-force-figure-ties",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "They would only add to that burden.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.plain-inaugural-it-would-only-make-that-worse-stance-against-law-not-in-force-figure-ties",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "It would only make that worse.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.plain-inaugural-they-would-only-make-that-worse-stance-against-law-not-in-force-figure-ties",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "They would only make that worse.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.polished-inaugural-that-is-one-more-reason-to-repeal-it-stance-against-law-in-force-figure-ties-about",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "That is one more reason to repeal it.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.polished-inaugural-that-is-one-more-reason-to-repeal-them-stance-against-law-in-force-figure-ties-about",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "That is one more reason to repeal them.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "figure-ties",
-            "about-many"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.plain-inaugural-that-s-one-more-reason-to-get-rid-stance-against-law-in-force-figure-ties-about",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "That's one more reason to get rid of it.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "figure-ties",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.polished-inaugural-that-is-one-more-reason-i-am-for-about-many-stance-for-law-not-in-force",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "That is one more reason I am for them.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "about-many",
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "about-many",
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "about-many",
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "about-many",
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.plain-inaugural-that-s-a-big-part-of-why-i-about-many-stance-for-law-not-in-force",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "That's a big part of why I want them.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "about-many",
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "about-many",
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "about-many",
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "about-many",
-            "stance-for",
-            "law-not-in-force",
-            "figure-ties"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.tie.plain-inaugural-that-s-one-more-reason-to-get-rid-about-many-stance-against-law-in-force-figure",
-      "move": "tie",
-      "kind": "spoken",
-      "text": "That's one more reason to get rid of them.",
-      "uses": [
-        {
-          "move": "tie",
-          "subject": "inaugural",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "about-many",
-            "stance-against",
-            "law-in-force",
-            "figure-ties"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-union",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "about-many",
-            "stance-against",
-            "law-in-force",
-            "figure-ties"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "state-of-the-state",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "about-many",
-            "stance-against",
-            "law-in-force",
-            "figure-ties"
-          ]
-        },
-        {
-          "move": "tie",
-          "subject": "town-address",
-          "role": "tie",
-          "choice": "tie",
-          "requiresFacts": [
-            "about-many",
-            "stance-against",
-            "law-in-force",
-            "figure-ties"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.belief-words.plain-inaugural-anybody-who-puts-in-the-hours-ought-to-family-wages-pole-a",
       "move": "belief-words",
       "kind": "spoken",
@@ -105879,6 +104905,462 @@
         }
       ],
       "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-that-is-one-more-reason-i-am-for-stance-for-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "That is one more reason I am for {it}.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-that-s-a-big-part-of-why-i-stance-for-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "That's a big part of why I want {it}.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-that-is-one-more-reason-to-keep-stance-for-law-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "That is one more reason to keep {it}.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-that-s-why-i-m-standing-by-stance-for-law-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "That's why I'm standing by {it}.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-would-only-add-to-that-burden-stance-against-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "{it-subject} would only add to that burden.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-would-only-make-that-worse-stance-against-law-not-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "{it-subject} would only make that worse.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.polished-inaugural-that-is-one-more-reason-to-repeal-stance-against-law-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "That is one more reason to repeal {it}.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.tie.plain-inaugural-that-s-one-more-reason-to-get-rid-stance-against-law-in-force-figure-ties",
+      "move": "tie",
+      "kind": "spoken",
+      "text": "That's one more reason to get rid of {it}.",
+      "uses": [
+        {
+          "move": "tie",
+          "subject": "inaugural",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-union",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties"
+          ]
+        },
+        {
+          "move": "tie",
+          "subject": "town-address",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties"
+          ]
+        }
+      ],
+      "voice": "plain",
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",

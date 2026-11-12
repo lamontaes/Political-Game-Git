@@ -1477,6 +1477,15 @@ export function planSpeech(
               : {}),
             ...facts,
             [`about-${plan.number}`]: fact("yes", `question:${stand.question}`),
+            // The pronoun a sentence after the ask says for the question.
+            it: fact(
+              plan.number === "many" ? "them" : "it",
+              `question:${stand.question}`,
+            ),
+            "it-subject": fact(
+              plan.number === "many" ? "they" : "it",
+              `question:${stand.question}`,
+            ),
             ...(plan.today
               ? {
                   today: fact(plan.today, ...cited),

@@ -257,6 +257,9 @@ const SLOTS: Record<string, string> = {
     "how the policy question stands today, by the law in force and as the speaker's side describes it (question-names.json `today`)",
   "today-clause":
     "the same sentence as `today`, in the case it takes after an opener and a comma",
+  it: "the pronoun for the point's question as an object (it, or them for a name that is several)",
+  "it-subject":
+    "the pronoun for the point's question as a subject (it, or they for a name that is several)",
   belief:
     "what the speaker believes, a clause worded from the belief-words pieces by the question's family and the speaker's pole of it",
   "first-side":
@@ -890,9 +893,14 @@ const TIES: [string, string, string, string][] = [
     "polished",
     "against",
     "law-not-in-force",
-    "{It} would only add to that burden.",
+    "{it-subject} would only add to that burden.",
   ],
-  ["plain", "against", "law-not-in-force", "{It} would only make that worse."],
+  [
+    "plain",
+    "against",
+    "law-not-in-force",
+    "{it-subject} would only make that worse.",
+  ],
   [
     "polished",
     "against",
@@ -907,18 +915,16 @@ const TIES: [string, string, string, string][] = [
   ],
 ];
 // The tie follows the ask, so the question is named once in a point and
-// the tie says "it" (or "them" for a name that is several).
+// the tie says "it" or "them" (`{it}`, `{it-subject}`: the pronoun for the
+// name's number, filled by the planner).
 for (const [voice, side, law, text] of TIES)
-  for (const number of ["one", "many"])
-    ADD.push({
-      role: "tie",
-      subjects: ALL,
-      voice,
-      text: text
-        .replace("{it}", number === "many" ? "them" : "it")
-        .replace("{It}", number === "many" ? "They" : "It"),
-      needs: [`about-${number}`, `stance-${side}`, law, "figure-ties"],
-    });
+  ADD.push({
+    role: "tie",
+    subjects: ALL,
+    voice,
+    text,
+    needs: [`stance-${side}`, law, "figure-ties"],
+  });
 // 20. A law in force is defended or repealed by what the speaker will do,
 // never stated as a fact a belief could lead into ("Because I think ..., a
 // price on carbon is the law here"). `{it}` agrees with the name's number.
