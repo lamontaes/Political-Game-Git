@@ -104,6 +104,7 @@ import {
   perkList,
   introText,
   lifeStory,
+  saidList,
   peopleSentence,
   nameLink,
   dotRows,
@@ -2504,6 +2505,26 @@ async function personCardNode(
       : []),
   ];
   const secondColumn = [
+    // What the people closest to them say about them, from their own life lists.
+    ...(c.said?.length
+      ? [
+          stripSection(
+            3,
+            capital(heading("whatPeopleSay", "whatPeopleSayThey")),
+            ...saidSection(
+              c.said,
+              // The pronoun is filled here; the relation, per speaker.
+              pronoun
+                ? labels.theirRelation.replace(
+                    "{possessive}",
+                    pronoun.possessive ?? "",
+                  )
+                : labels.theirRelationThey,
+              openOther,
+            ),
+          ),
+        ]
+      : []),
     ...(people
       ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
       : []),
@@ -3414,6 +3435,29 @@ function ownStrip(columns) {
     columns,
   });
 }
+/**
+ * What people say about someone (`said`: the card's rows, each person's
+ * sentences on their records), with each speaker's name opening their card
+ * and, in dev mode, each sentence opening its record in the one Trace box.
+ * `relationWords`: the byline around a relation ("my {relation}");
+ * `openOther(person)` opens a speaker's card.
+ */
+function saidSection(said, relationWords, openOther) {
+  const rows = said.map((row) => ({
+    tag: row.tag,
+    said: row.said,
+    name: row.name,
+    byline:
+      row.relation && relationWords
+        ? relationWords.replace("{relation}", row.relation)
+        : null,
+    onOpen: () =>
+      openOther({ personId: row.personId, name: row.name, face: row.face }),
+  }));
+  if (!devModeOn()) return [saidList(rows)];
+  const { node, open } = traceBox(controls.devTrace.trace);
+  return [saidList(rows, open), node];
+}
 function lifeParagraphs(lines) {
   // Dev mode: each sentence opens its record in the one Trace box, drawn under the story.
   if (!devModeOn()) return lifeStory(lines, controls.lifeGroups);
@@ -3526,8 +3570,22 @@ const sheets = {
               : []),
           ],
           [
+            // What the people closest to you say about you, from their own
+            // life lists (the mock's third section, before My people).
+            ...(known.said?.length
+              ? [
+                  stripSection(
+                    3,
+                    labels.whatPeopleSay,
+                    ...saidSection(known.said, labels.myRelation, (other) => {
+                      closeSheet();
+                      showPerson(other);
+                    }),
+                  ),
+                ]
+              : []),
             ...(peopleLine
-              ? [stripSection(3, labels.myPeople, peopleLine)]
+              ? [stripSection(4, labels.myPeople, peopleLine)]
               : []),
             // Your own life from the same lines the card tells of anyone (the mock
             // draws no life section; it follows "My people").

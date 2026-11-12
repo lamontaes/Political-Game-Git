@@ -62,6 +62,110 @@ import { preStartHistory, sharedHistory } from "../core2/past";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;
+// Engineering page sizes for What people say (the approved mock shows three
+// people, a sentence or two each), not model values.
+const SAYERS = 3;
+const SAID_EACH = 2;
+// How many of a person's closest ties are read for something they went
+// through together, before the strongest three are kept. Engineering value.
+const SAYERS_READ = 12;
+
+/**
+ * What the people closest to a person say about them (the approved You mock,
+ * docs/design/life-record.md): for each of their family and strongest ties,
+ * the events on that person's own life list (`lifeOf`, the one reader) that
+ * name the subject, each said by them in the first person from the story
+ * bank, naming the subject. Kept as nothing
+ * of its own: every sentence is a view of a life-record entry, by its id.
+ */
+export function whatPeopleSay(core: CoreState, subjectId: string) {
+  const subject = core.people.get(subjectId as PersonId);
+  if (!subject) return [];
+  const kin = familyFactsOf(subject);
+  // The subject's pronouns, for what the speakers say about them.
+  const subjectWords = pronounWords(
+    subject.looks?.pronouns ?? pronounSetOfGender(subject.looks?.gender),
+  );
+  // Family first, then ties by how close they are now.
+  const ties = [...(core.relationshipsByPerson.get(subjectId) ?? [])]
+    .map((id) => core.relationships.get(id))
+    .filter((row) => row !== undefined)
+    .map((row) => ({
+      id: row.actorId === subjectId ? row.otherId : row.actorId,
+      level: currentCloseness(core, row),
+    }))
+    .sort((a, b) => b.level - a.level)
+    .map((row) => row.id);
+  const order = [...new Set([...kin.keys(), ...ties])]
+    .filter((id) => id !== subjectId && core.people.get(id as PersonId)?.alive)
+    .slice(0, SAYERS_READ);
+  const out = [];
+  for (const speakerId of order) {
+    if (out.length >= SAYERS) break;
+    const speaker = core.people.get(speakerId as PersonId)!;
+    openWholePast(core, speaker.id);
+    // What they went through with the subject: an event on their own list
+    // that names the subject (a marriage, a child born, a move together).
+    const shared = lifeOf(core, speaker.id).filter((event) =>
+      event.withIds.includes(subject.id),
+    );
+    const lines = shared.flatMap((event) => {
+      const line = lineOf(
+        core,
+        "",
+        speaker,
+        event,
+        new Map(),
+        undefined,
+        undefined,
+        new Set(),
+        livesElsewhere(core, speaker),
+      );
+      return line ? [line] : [];
+    });
+    // Said by them about the subject: the bank's `said` piece for the event
+    // (person-history.said.<kind>, in the speaker's voice about the subject,
+    // with the subject's name and pronouns), else their first-person story
+    // piece naming the subject.
+    // stopgapId: SG-SCREENS-said-awaits-words
+    const teller: Teller = {
+      form: "you",
+      name: `${speaker.givenName} ${speaker.familyName}`,
+      words: null,
+    };
+    const said = lines
+      .flatMap((line) => {
+        const voiced = screenLine(
+          "person-history",
+          `person-history.said.${line.key}`,
+          {
+            ...line.slots,
+            given: subject.givenName,
+            they: subjectWords?.subject ?? "they",
+            them: subjectWords?.object ?? "them",
+            their: subjectWords?.possessive ?? "their",
+          },
+        );
+        const text = voiced ?? tellHistory([line], teller)[0]?.text;
+        return text ? [{ date: line.date, text, recordId: line.recordId }] : [];
+      })
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .slice(-SAID_EACH)
+      .map(({ text, recordId }) => ({ text, recordId }));
+    if (!said.length) continue;
+    out.push({
+      personId: speaker.id,
+      name: `${speaker.givenName} ${speaker.familyName}`,
+      // Who they are to the subject, from the subject's own family facts.
+      relation: relationWord(core, speaker.id, kin.get(speaker.id)?.relation),
+      // Their strongest leaning, by the pole's own label (the gold tag).
+      tag: leanings(speaker.traits)[0]?.label ?? null,
+      face: faceOf(core, speaker.id, scenePlace(core, subjectId).place),
+      said,
+    });
+  }
+  return out;
+}
 
 /** A person card: who they are, from their records only. */
 export function personCard(core: CoreState, personId: string) {
@@ -1691,6 +1795,9 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     // Their history from the one history every engine reads, oldest first, for
     // everyone the viewer opens, told as a story.
     history: tellHistory(lines, teller),
+    // What the people closest to them say about them, from their own life
+    // lists (the You screen's "What people say about me" and the person card's).
+    said: whatPeopleSay(core, otherId),
     // An officeholder's colleagues in office, by their tie records.
     colleagues: colleaguesOf(core, otherId),
     // What the public knows of a figure the viewer may never have met (the

@@ -60,6 +60,18 @@
     "status": "open"
   },
   {
+    "id": "SG-SCREENS-said-awaits-words",
+    "kind": "player-text-gap",
+    "file": "src/bench/card.ts",
+    "line": 0,
+    "whatItFakes": "What people say about someone (the You screen and the person card) words each event with the speaker's first-person story piece naming the subject (\"I had a child, Pat Rowan.\") until the bank has a piece in the speaker's voice about the subject (person-history.said.<kind>), so the quotes read as a plain fact rather than as someone talking about the subject.",
+    "why": "The person-history bank has no said move yet; its lines are the Story session's to write (owner, Nov 10).",
+    "addedBy": "Builder P1 (play-what-people-say-about-me-reads-the-life-record)",
+    "addedAt": "2026-11-11",
+    "replacement": "The Story session's person-history.said.<kind> pieces (one per kind a speaker can say: partner.home, partner.moved-in, partner.engaged, partner.married, partner.separated, child.born), which whatPeopleSay already reads first.",
+    "status": "open"
+  },
+  {
     "id": "SG-SCREENS-news-opens-on-town-paper",
     "kind": "partial-model",
     "file": "src/bench/archive-words.ts",

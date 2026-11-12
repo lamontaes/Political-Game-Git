@@ -4534,6 +4534,39 @@ select.release-pick {
 .strip-screen .nm:focus-visible {
   text-shadow: 0 0 10px rgba(240, 206, 136, 0.6);
 }
+/* What people say (the approved You mock): a gold tag, the quote, the name that opens their card. */
+.strip-screen .said {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding-top: 8px;
+}
+.strip-screen .said figure {
+  margin: 0;
+}
+.strip-screen .saidtag {
+  font: 600 var(--t-label) var(--f-ui);
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.strip-screen .said blockquote {
+  margin: 0;
+  font: italic 400 var(--t-read) / 1.5 var(--f-story);
+  color: #f3ead8;
+}
+.strip-screen .said blockquote::before {
+  content: "\201C";
+}
+.strip-screen .said blockquote::after {
+  content: "\201D";
+}
+.strip-screen .said figcaption {
+  margin-top: 5px;
+  font: 400 var(--t-label) var(--f-ui);
+  color: var(--muted);
+}
 .strip-screen .perks {
   display: flex;
   flex-direction: column;

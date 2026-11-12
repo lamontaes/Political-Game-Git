@@ -140,26 +140,71 @@ export function lifeStory(lines, groups, onOpen) {
     .map((rows) =>
       introText(
         ...rows.flatMap((row, i) => {
-          const sentence = el("span", { textContent: row.text });
-          sentence.dataset.record = row.recordId;
-          // Dev mode only: the sentence opens its record in the one Trace box.
-          if (onOpen && row.recordId) {
-            const open = () => onOpen(row.recordId);
-            sentence.classList.add("pick");
-            sentence.tabIndex = 0;
-            sentence.setAttribute("role", "button");
-            sentence.addEventListener("click", open);
-            sentence.addEventListener("keydown", (event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                open();
-              }
-            });
-          }
+          const sentence = recordSentence(row, onOpen);
           return i ? [" ", sentence] : [sentence];
         }),
       ),
     );
+}
+
+/**
+ * One sentence on the record behind it (`row`: { text, recordId }). In dev
+ * mode (`onOpen` given) it opens that record in the one Trace box.
+ */
+function recordSentence(row, onOpen) {
+  const sentence = el("span", { textContent: row.text });
+  sentence.dataset.record = row.recordId;
+  if (onOpen && row.recordId) {
+    const open = () => onOpen(row.recordId);
+    sentence.classList.add("pick");
+    sentence.tabIndex = 0;
+    sentence.setAttribute("role", "button");
+    sentence.addEventListener("click", open);
+    sentence.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        open();
+      }
+    });
+  }
+  return sentence;
+}
+
+/**
+ * What people say about someone (the approved You mock): for each person, the
+ * gold tag of their temperament, what they said as a quote (each sentence on
+ * its record, opening it in the one Trace box in dev mode via `onTrace`) and
+ * their name, which opens their card, with `byline` after it ("my partner").
+ * `rows`: [{ tag, said: [{ text, recordId }], name, byline, onOpen }].
+ */
+export function saidList(rows, onTrace) {
+  return el(
+    "div",
+    { className: "said" },
+    ...rows.map((row) =>
+      el(
+        "figure",
+        {},
+        ...(row.tag
+          ? [el("div", { className: "saidtag", textContent: row.tag })]
+          : []),
+        el(
+          "blockquote",
+          {},
+          ...row.said.flatMap((line, i) => {
+            const sentence = recordSentence(line, onTrace);
+            return i ? [" ", sentence] : [sentence];
+          }),
+        ),
+        el(
+          "figcaption",
+          {},
+          nameLink(row.name, row.onOpen),
+          ...(row.byline ? [`, ${row.byline}`] : []),
+        ),
+      ),
+    ),
+  );
 }
 
 /** A name that opens its card: bold gold in the sentence, a button for keyboard and screen reader. */
