@@ -41,5 +41,8 @@ it(`the person card shows a relative's leanings by their labels alone, ${place.n
       `${here}: ${card.traitLines.map((row) => row.label).join(", ")}`,
     );
   }
-  expect(told, `${where}: no relative on record with a leaning`).toBeGreaterThan(0);
+  expect(
+    told,
+    `${where}: no relative on record with a leaning`,
+  ).toBeGreaterThan(0);
 }, 600_000);
