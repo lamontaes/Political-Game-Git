@@ -243,6 +243,8 @@ export interface BallotRow {
         readonly relationship?: number;
         /** Their own "yes" at the candidate's door, as far as it still holds. */
         readonly pledge?: number;
+        /** How far that "yes" held on the ballot day, 0 to 1 (one less the doubt `pledgeDoubt` read then), kept so a later read of the ties and news cannot differ from it. */
+        readonly pledgeHeld?: number;
       }
     >
   >;
@@ -968,6 +970,8 @@ export interface NamedAppeal extends CountedAppeal {
   readonly relationship: number;
   /** The incumbent's record as they weigh it, where they know the officeholder. */
   readonly record: number;
+  /** How far their door "yes" to this candidate held on the ballot day, where they gave one. */
+  readonly pledgeHeld?: number;
 }
 
 /**
@@ -990,6 +994,7 @@ function appealFor(
 ) {
   const lean = voterLean(api, voter);
   const view = contestView(api, contest, filings);
+  const pledgesHeld = namedPledges(api, voter, lean, contest.id, view.field);
   const base = countedAppeal(lean, view.field, {
     inTown: true,
     local: true,
@@ -1000,7 +1005,7 @@ function appealFor(
     profile: api.state.modules.has(VIEWS_MODULE_ID)
       ? viewOf(api, voter.id)
       : undefined,
-    pledges: namedPledges(api, voter, lean, contest.id, view.field),
+    pledges: pledgesHeld,
   });
   const tie = partyTie(api, voter.id);
   let heardPlatform = false;
@@ -1075,6 +1080,9 @@ function appealFor(
       ballot: parts.ballot,
       scandal,
       pledge: parts.pledge,
+      ...(pledgesHeld?.[entry.id] !== undefined
+        ? { pledgeHeld: pledgesHeld[entry.id] }
+        : {}),
     };
   }
   // A held door yes keeps its candidate ahead, in proportion to how far it
