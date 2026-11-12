@@ -1263,6 +1263,30 @@ for (const part of bank.parts) {
 // 26. More sign-offs and greetings for the President, so a fixed formula
 // is not the same sentence in most addresses (opening-address-versions):
 // the closes below and greetings that list who is addressed.
+// 27. A plural twin's subject pronoun is "they", with a plural verb
+// ("if limits on power plant carbon come to my desk, they go back
+// unsigned", never "them goes").
+const THEY: Record<string, string> = {
+  goes: "go",
+  comes: "come",
+  is: "are",
+  has: "have",
+  does: "do",
+  gets: "get",
+  reaches: "reach",
+};
+for (const part of bank.parts) {
+  if (!part.key.endsWith("-many")) continue;
+  const text = part.text.replace(
+    /\bthem (goes|comes|is|has|does|gets|reaches)\b/g,
+    (_, verb: string) => `they ${THEY[verb]}`,
+  );
+  if (text !== part.text) {
+    part.text = text;
+    count("27. a plural twin's subject pronoun is they");
+  }
+}
+
 // 22. Removed by kind (owner's notes, Nov 12): the occasion's "what I learned
 // in my last office" says no belief ("We're not talking about any ideas that
 // this person believes in"); a greeting that is not a list of who is

@@ -103977,7 +103977,7 @@
       "key": "opening-speech.ask.plain-ina-sta-all-core-if-about-comes-to-my-desk-it-goes-back-many",
       "move": "ask",
       "kind": "spoken",
-      "text": "if {about} come to my desk, them goes back unsigned.",
+      "text": "if {about} come to my desk, they go back unsigned.",
       "uses": [
         {
           "move": "ask",
