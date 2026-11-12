@@ -43,6 +43,28 @@ function memberStrip(members, votes, words) {
 }
 
 /**
+ * Who spoke on the item, apart from the vote: one line for those who spoke for it and one
+ * for those against, each under its own label, so nobody reads a speaker as a vote.
+ */
+function spokeLines(remarks, words) {
+  return [
+    [words.spokeFor, remarks.filter((r) => r.position > 0)],
+    [words.spokeAgainst, remarks.filter((r) => r.position <= 0)],
+  ]
+    .filter(([, spoke]) => spoke.length)
+    .map(([label, spoke]) =>
+      el(
+        "p",
+        { className: "meeting-remarks" },
+        el("small", {
+          textContent: `${label ?? ""} · ${spoke.length.toLocaleString("en-US")}`,
+        }),
+        el("span", { textContent: spoke.map((r) => r.name).join(", ") }),
+      ),
+    );
+}
+
+/**
  * `item`: the bill as the office view gives it; `members`: the body's members with their
  * faces; `words`: the meeting's control names (yes, no, abstain); `floor`: the floor's
  * status words; `rows`: rows of buttons under the card.
@@ -74,17 +96,7 @@ export function meetingItem({ item, members = [], words, floor, rows = [] }) {
           }),
         )
       : "",
-    item.remarks.length
-      ? el("p", {
-          className: "meeting-remarks",
-          textContent: item.remarks
-            .map(
-              (r) =>
-                `${r.name} · ${r.position > 0 ? (words.for ?? "") : (words.against ?? "")}`,
-            )
-            .join(" · "),
-        })
-      : "",
+    ...spokeLines(item.remarks, words),
     ...rows
       .filter((row) => row.length)
       .map((row) => el("div", { className: "meeting-acts" }, ...row)),

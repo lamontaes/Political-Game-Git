@@ -218,6 +218,25 @@ export interface CampaignRow {
   }[];
 }
 
+/**
+ * A world candidate's ask for money that reached the controlled person
+ * (play-campaign-ask-reaches-player): theirs to answer, never taken. The
+ * engine never moves the player's money on its own (owner, Oct 14: the engine
+ * offers, the player decides).
+ */
+export interface AskRow {
+  readonly id: string;
+  readonly campaignId: string;
+  readonly donorId: string;
+  readonly candidateId: string;
+  /** What they would give by their own reasons and cash (`donationAnswer`'s sum); they may give another. */
+  readonly suggestedMinor: number;
+  readonly askedOn: string;
+  readonly status: "pending" | "given" | "declined";
+  readonly answeredOn?: string;
+  readonly givenMinor?: number;
+}
+
 /** One donor's running total to one campaign (the legal limit reads it). */
 export interface GiftRow {
   readonly id: string;
@@ -372,7 +391,11 @@ export interface EndorsementRow {
   readonly organizationId: string | null;
   /** Who asked: the candidate; null when a group weighed the race itself. */
   readonly askerId: string | null;
-  readonly answer: "yes" | "no";
+  /** "withdrawn": a yes ended on the day its speaker filed in the same race (`endedByFilingId`); nothing reads it as a backing. */
+  readonly answer: "yes" | "no" | "withdrawn";
+  /** The day a yes was withdrawn and the filing that ended it. */
+  readonly endedOn?: string;
+  readonly endedByFilingId?: string;
   readonly reason: EndorsementReason;
   /** The platform question the endorser disagrees with most, if any. */
   readonly issue: string | null;
@@ -488,6 +511,12 @@ export const CAMPAIGNS_MODULE: CoreModule = {
           byDonor: { fields: ["donorId"] },
         },
       },
+      /** Asks for money that reached the controlled person, and their answers. */
+      asks: {
+        indexes: {
+          byDonor: { fields: ["donorId"] },
+        },
+      },
       /** Contests the town votes in whose campaigns are under way. */
       races: {},
       /**
@@ -539,7 +568,7 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       ? foldClosedRaceCauses(api, String(event.facts?.contestId ?? ""))
       : event.kind === "candidate-filed"
         ? leaveForOwnRun(api, String(event.facts?.filingId ?? ""))
-        : answerOffer(api, event),
+        : (answerOffer(api, event), answerAskForVote(api, event)),
   journalSourceProviders: {
     [DONATION_KIND]: (api, reference) => moneySlot(api, reference.id),
     [AD_KIND]: (api, reference) => moneySlot(api, reference.id),
@@ -1862,6 +1891,29 @@ function leaveForOwnRun(api: CoreAPI, filingId: string): void {
       ],
     });
   }
+  // A yes they gave a rival in this race ends the day they file: they are no
+  // longer shown backing someone they run against, and a group whose speaker
+  // files no longer backs the rival. The row stays, ended and naming the filing.
+  for (const row of table(api, "endorsements").query("byContest", [
+    filing.contestId,
+  ]) as unknown as EndorsementRow[]) {
+    if (
+      row.answer !== "yes" ||
+      row.speakerId !== personId ||
+      row.candidateId === personId
+    )
+      continue;
+    const campaign = table(api, "campaigns").get(row.filingId) as unknown as
+      CampaignRow | undefined;
+    if (!campaign || rivalFiling(api, campaign, personId)?.id !== filing.id)
+      continue;
+    table(api, "endorsements").put({
+      ...row,
+      answer: "withdrawn",
+      endedOn: api.state.date,
+      endedByFilingId: filing.id,
+    } as unknown as ModuleRow);
+  }
 }
 
 /**
@@ -2486,6 +2538,60 @@ function answerOffer(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     volunteerIds: campaign.volunteerIds.filter((id) => id !== helperId),
     staffIds: campaign.staffIds.filter((id) => id !== helperId),
   });
+}
+
+/**
+ * A listener's answer to the candidate who came over after a speech they
+ * heard in person (the `speech-afterward` scene): a yes (an accepting move)
+ * is their word to that candidate in the race the candidate is running in
+ * that is still ahead, kept as the same pledge a yes at the door is, which
+ * the ballot reads (`pledgesOf`, `pledgeDoubt`). It cites the scene's
+ * `scene.reply` record as its cause, and replaces an earlier word to a rival
+ * in the same contest, as a door's does. A no or a deflection leaves things
+ * as they were.
+ */
+function answerAskForVote(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "speech-afterward") return;
+  const move = String(facts.move);
+  if (!ACCEPTING_MOVES.has(move)) return;
+  const speech = api.state.durableLog.get(String(facts.causeId ?? ""));
+  const candidateId = String(speech?.facts?.["views:speaker"] ?? "");
+  const voterId = event.personIds.find((id) => id !== candidateId);
+  if (!candidateId || !voterId) return;
+  // The race the candidate is running in that has not been decided yet.
+  const contests = elections(api, "contests");
+  const campaign = (table(api, "campaigns").rows() as unknown as CampaignRow[])
+    .filter((row) => row.candidateId === candidateId)
+    .filter(
+      (row) =>
+        ((
+          contests.get(row.contestId) as unknown as
+            { electionDate?: string } | undefined
+        )?.electionDate ?? "") >= api.state.date,
+    )
+    .sort((a, b) => a.contestId.localeCompare(b.contestId))[0];
+  if (!campaign) return;
+  const pledges = table(api, "pledges");
+  for (const earlier of pledgesOf(api, voterId))
+    if (
+      earlier.contestId === campaign.contestId &&
+      earlier.candidateId !== campaign.candidateId
+    )
+      pledges.remove(earlier.id);
+  pledges.put({
+    id: `${voterId}|${campaign.contestId}|${campaign.candidateId}`,
+    voterId,
+    candidateId: campaign.candidateId,
+    contestId: campaign.contestId,
+    date: api.state.date,
+    canvasserId: campaign.candidateId,
+    causeId: event.id,
+    firmness: Math.max(
+      0,
+      Math.min(1, Number(facts.firmness ?? api.parameter("one"))),
+    ),
+  } as unknown as ModuleRow);
 }
 
 /**
@@ -3330,6 +3436,8 @@ export function donationAnswer(
   api: CoreAPI,
   filingId: string,
   donorId: string,
+  /** Work out what they would give without giving it (an ask the player answers). */
+  options: { readonly suggestOnly?: boolean } = {},
 ): { readonly givenMinor: number; readonly why: DonationWhy } {
   const adultAge = api.parameter("votingAge");
   const campaign = campaignFor(api, filingId);
@@ -3388,7 +3496,7 @@ export function donationAnswer(
   // The law reached the donor when it held the gift below what they would
   // have given.
   const wouldGive = Math.min(wanted - given, donor.liquidMinor);
-  if (limit.law && room < wouldGive)
+  if (!options.suggestOnly && limit.law && room < wouldGive)
     lawApplied(api, {
       key: limit.law.key,
       lawId: limit.law.id,
@@ -3400,6 +3508,21 @@ export function donationAnswer(
     });
   if (amount <= 0)
     return { givenMinor: 0, why: room <= 0 ? "at-limit" : "small" };
+  if (options.suggestOnly) return { givenMinor: amount, why: "gave" };
+  giveDonation(api, filingId, donorId, amount);
+  return { givenMinor: amount, why: "gave" };
+}
+
+/** A gift moves from the donor's account to the campaign's through the journal, and their running total is kept in one row the next ask reads. */
+function giveDonation(
+  api: CoreAPI,
+  filingId: string,
+  donorId: string,
+  amount: number,
+): void {
+  const campaign = campaignFor(api, filingId);
+  const limit = contributionLimit(api, campaign.contestId);
+  const given = giftOf(api, filingId, donorId)?.totalMinor ?? 0;
   postMoney(
     api,
     DONATION_KIND,
@@ -3422,7 +3545,115 @@ export function donationAnswer(
     raisedMinor: campaignFor(api, filingId).raisedMinor + amount,
   });
   recordGift(api, filingId, donorId, amount, given + amount);
-  return { givenMinor: amount, why: "gave" };
+}
+
+const asksOf = (api: CoreAPI, personId: string) =>
+  table(api, "asks").query("byDonor", [personId]) as unknown as AskRow[];
+
+/**
+ * A world candidate's ask reaches the controlled person as a request: one
+ * open at a time per campaign, and none again once they have declined that
+ * candidate (the next ask reads the answer). The suggested sum is what they
+ * would give by their own reasons and cash; nothing moves until they answer.
+ * Returns whether a request was written.
+ */
+export function askPlayerForMoney(
+  api: CoreAPI,
+  filingId: string,
+  personId: string,
+): boolean {
+  if (
+    asksOf(api, personId).some(
+      (row) =>
+        row.campaignId === filingId &&
+        (row.status === "declined" || askOpen(api, row)),
+    )
+  )
+    return false;
+  const { givenMinor, why } = donationAnswer(api, filingId, personId, {
+    suggestOnly: true,
+  });
+  // Nothing to give from (no cash past their cushion, or at the limit): nobody asks.
+  if (why !== "gave" || givenMinor <= 0) return false;
+  table(api, "asks").put({
+    id: `ask:${filingId}:${personId}:${api.state.date}`,
+    campaignId: filingId,
+    donorId: personId,
+    candidateId: campaignFor(api, filingId).candidateId,
+    suggestedMinor: givenMinor,
+    askedOn: api.state.date,
+    status: "pending",
+  } satisfies AskRow as unknown as ModuleRow);
+  return true;
+}
+
+/** An ask is open while it waits on an answer and its candidate is still standing for a race not yet held. */
+function askOpen(api: CoreAPI, row: AskRow): boolean {
+  if (row.status !== "pending") return false;
+  const filing = filingOf(api, row.campaignId);
+  const contest = filing
+    ? (elections(api, "contests").get(filing.contestId) as
+        ContestRow | undefined)
+    : undefined;
+  return (
+    !!filing &&
+    standing(filing) &&
+    !!contest &&
+    contest.electionDate >= api.state.date
+  );
+}
+
+/** The requests for money waiting on a person's answer, newest first. */
+export function donationAsksFor(api: CoreAPI, personId: string): AskRow[] {
+  return asksOf(api, personId)
+    .filter((row) => askOpen(api, row))
+    .sort(
+      (a, b) => b.askedOn.localeCompare(a.askedOn) || a.id.localeCompare(b.id),
+    );
+}
+
+/**
+ * The person's answer to an ask: give a sum (the suggested one unless they
+ * size it), or decline. False when the ask is no longer open or the sum is
+ * not one they can give: whole dollars, within what they hold and within the
+ * law's limit.
+ */
+export function answerDonationAsk(
+  api: CoreAPI,
+  askId: string,
+  answer: "give" | "decline",
+  amountMinor?: number,
+): boolean {
+  const row = table(api, "asks").get(askId) as unknown as AskRow | undefined;
+  if (!row || !askOpen(api, row)) return false;
+  const settle = (patch: Partial<AskRow>) =>
+    table(api, "asks").put({
+      ...row,
+      ...patch,
+      answeredOn: api.state.date,
+    } satisfies AskRow as unknown as ModuleRow);
+  if (answer === "decline") {
+    settle({ status: "declined" });
+    return true;
+  }
+  const donor = api.state.people.get(row.donorId);
+  const amount = amountMinor ?? row.suggestedMinor;
+  const campaign = campaignFor(api, row.campaignId);
+  const limit = contributionLimit(api, campaign.contestId);
+  const given = giftOf(api, row.campaignId, row.donorId)?.totalMinor ?? 0;
+  const room = limit.minor === null ? Infinity : limit.minor - given;
+  if (
+    !donor?.alive ||
+    !Number.isInteger(amount) ||
+    amount <= 0 ||
+    amount % 100 !== 0 ||
+    amount > donor.liquidMinor ||
+    amount > room
+  )
+    return false;
+  giveDonation(api, row.campaignId, row.donorId, amount);
+  settle({ status: "given", givenMinor: amount });
+  return true;
 }
 
 /**
@@ -4309,6 +4540,11 @@ export function makeStatements(
         desiredChange: statement.position > 0 ? "enact" : "repeal",
         audienceIds,
         groupUnwatched: true,
+        // The statement's own promise record: who, when, how, where, which question.
+        occasion: {
+          recordId: `promise:${campaign.candidateId}:${api.state.date}:${input.act}:${input.venue}:${statement.question}`,
+          kind: input.act,
+        },
       }),
     );
   }

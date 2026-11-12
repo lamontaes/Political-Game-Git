@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-elections-governor-margins-twice-real
-pr:
+pr: #8724
 after:
 blocked-on:
 lead: governing
