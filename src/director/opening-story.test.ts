@@ -107,7 +107,7 @@ describe("the opening story", () => {
               (key) =>
                 key === "today" ||
                 key === "today-clause" ||
-                key === "today-question" ||
+                key.startsWith("today-") ||
                 /^context-/.test(key),
             ),
           ),

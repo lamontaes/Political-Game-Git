@@ -171,11 +171,9 @@ describe("every speech through the one outline planner", () => {
           // first, after the belief or the question, or after the ask.
           for (const [about, said] of points)
             if (
-              !said.some(
-                (sentence) =>
-                  sentence.facts.includes("today") ||
-                  sentence.facts.includes("today-clause") ||
-                  sentence.facts.includes("today-question"),
+              !said.some((sentence) =>
+                // today, today-clause, today-question and their -2, -3 wordings
+                sentence.facts.some((key) => key.startsWith("today")),
               )
             )
               failures.push(
