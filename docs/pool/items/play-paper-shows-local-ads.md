@@ -14,7 +14,7 @@ lead: play-first
 model: sonnet
 effort: medium
 root: none
-after: gov-press-outlet-revenue
+after:
 source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/press-money.ts, src/core2/modules/press.ts, src/bench/play.mjs, src/bench/ui/news-board.mjs
 
 **Notes.** Split from gov-press-outlet-revenue's last done-when line (the owner sees a local paper run an ad from a shop he knows): the bench has no newspaper page yet.
+
+After cleared (Nov 11, 2026, cause finder for Fable B): `after:` still named gov-press-outlet-revenue, which is dropped, and the pool opens an `after:` gate only for a merged or done item, so `pool next` could never offer this one. Its Waits on already says Nothing.
