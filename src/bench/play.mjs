@@ -4719,10 +4719,8 @@ const sheets = {
         label: vote.number
           ? `${vote.number} · ${policyLabel(vote.question)}`
           : `${policyLabel(vote.question)} · ${dateWords(vote.date)}`,
-        value: `${vote.position > 0 ? labels.votedFor : labels.votedAgainst}${
-          vote.passed === null
-            ? ""
-            : ` · ${vote.passed ? labels.votePassedResult : labels.voteAgainstResult}`
+        value: `${vote.position > 0 ? labels.votedFor : labels.votedAgainst} · ${
+          vote.passed ? labels.votePassedResult : labels.voteAgainstResult
         }`,
       }));
       const billRows = record.bills.map((bill) => ({

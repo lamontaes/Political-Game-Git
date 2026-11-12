@@ -10,6 +10,8 @@ Pool item `play-campaigns-shows-your-record`, PR #8471. Each picture is Politics
 
 The before pictures end after "Dates"; the after pictures add "Your record in office". The record shows only under the player's own race (1 of 14 races in Killeen, 1 of 13 in Andersonville, 1 of 11 in Manele), not under every race (Fable A's read, Nov 12: it showed under races the player is not in). Each vote reads "You voted for it" or "You voted against it", then "it passed" or "it failed", so a vote against a bill that passed no longer reads as "Against · passed".
 
+A vote with no outcome on record is left out of the section (Fable A's read, fault 3); main now records the roll's outcome with a member's vote (#8921), so the votes shown all carry "it passed" or "it failed". Not changed here: a council member's "Promises you made" list (fault 2) is traced by Fable A's tracer as a gap in how opening promises are seeded.
+
 ## Lines as played (the section's start in each place)
 
 - Killeen, Texas: Your record in office Votes you cast Graduated income tax · January 21, 2023 You voted for it · it failed Admit more immigrants · May 14, 2023 You voted for it · it failed Fund pensions to schedule · July 31, 2023 You voted against it · it passed Minimum reserve balance · December 30, 2023 You voted for it · it passed Civilian oversight ...

@@ -33,7 +33,8 @@ for (const n of [1, 2]) {
     );
     expect(voter, `${where}: nobody has voted in 150 days`).toBeDefined();
     const record = playerRecord(core, voter!);
-    const held = votesOf(api, voter!);
+    // A vote with no outcome on record is not shown (Fable A's read, Nov 12).
+    const held = votesOf(api, voter!).filter((v) => v.passed !== null);
     expect(
       record.votes.map((v) => v.id),
       where,

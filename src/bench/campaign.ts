@@ -801,16 +801,19 @@ export function playerRecord(core: CoreState, personId: string) {
       .table("bills")
       .rows() as unknown as { id: string; number: string }[])
       billNumbers.set(bill.id, bill.number);
-  const votes = votesOf(api, personId).map((vote) => ({
-    id: vote.id,
-    date: vote.date,
-    // A vote on a bill the legislature still holds shows its number; an old
-    // measure with no bill number shows its title and date only.
-    number: billNumbers.get(vote.measureId) ?? null,
-    question: vote.stance.question,
-    position: Math.sign(vote.stance.position),
-    passed: vote.passed,
-  }));
+  // A vote with no outcome on record is left out, never shown half-filled.
+  const votes = votesOf(api, personId)
+    .filter((vote) => vote.passed !== null)
+    .map((vote) => ({
+      id: vote.id,
+      date: vote.date,
+      // A vote on a bill the legislature still holds shows its number; an old
+      // measure with no bill number shows its title and date only.
+      number: billNumbers.get(vote.measureId) ?? null,
+      question: vote.stance.question,
+      position: Math.sign(vote.stance.position),
+      passed: vote.passed,
+    }));
   const bills = core.modules.has(LEGISLATURE_MODULE_ID)
     ? (
         api
