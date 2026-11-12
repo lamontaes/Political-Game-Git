@@ -406,7 +406,7 @@
     "trade": "trade and the jobs it brings"
   },
   "themeShort": {
-    "about": "A theme said short, for a frame that names it after the speech has said it in full (a close): at most themeShortWords words, which the composed check closes-fit reads. TUNABLE wording, checked by reading the closes.",
+    "about": "A theme said short, for a frame that names it after the speech has said it in full (a close): at most themeShortWords words (src/director/speech-closes-fit.test.ts). TUNABLE wording, checked by reading the closes.",
     "transit": "getting around",
     "taxes": "taxes",
     "health": "health care",
