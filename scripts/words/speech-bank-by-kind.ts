@@ -792,7 +792,7 @@ const BOTH = ["polished", "plain"];
 const TODAY: [string | string[], string][] = [
   [BOTH, "{today}"],
   ["polished", "As things stand, {today-clause}"],
-  ["plain", "Right now, {today-clause}"],
+  ["plain", "For now, {today-clause}"],
   ["polished", "Today, {today-clause}"],
   ["plain", "In fact, {today-clause}"],
   ["polished", "As matters stand, {today-clause}"],
@@ -864,7 +864,7 @@ for (const [role, voice, text, shape] of BELIEF_FRAMES)
 // 18. A point may open on a question to the audience, answered by how things
 // stand and the ask.
 const QUESTIONS: [string, string, string, string][] = [
-  ["polished", "for", "law-not-in-force", "Is it right that {today-question}?"],
+  ["polished", "for", "law-not-in-force", "Should we go on in a country where {today-question}?"],
   ["plain", "for", "law-not-in-force", "Is it fair that {today-question}?"],
   [
     "polished",

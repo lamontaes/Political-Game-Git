@@ -92021,55 +92021,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.today.plain-inaugural-right-now-today-clause",
-      "move": "today",
-      "kind": "spoken",
-      "text": "Right now, {today-clause}",
-      "uses": [
-        {
-          "move": "today",
-          "subject": "inaugural",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-union",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-state",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "town-address",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.today.polished-inaugural-today-today-clause",
       "move": "today",
       "kind": "spoken",
@@ -105773,67 +105724,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.question.polished-inaugural-is-it-right-that-today-question-stance-for-law-not-in-force",
-      "move": "question",
-      "kind": "spoken",
-      "text": "Is it right that {today-question}?",
-      "uses": [
-        {
-          "move": "question",
-          "subject": "inaugural",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question",
-            "stance-for",
-            "law-not-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-union",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question",
-            "stance-for",
-            "law-not-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "state-of-the-state",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question",
-            "stance-for",
-            "law-not-in-force",
-            "asks-question"
-          ]
-        },
-        {
-          "move": "question",
-          "subject": "town-address",
-          "role": "question",
-          "choice": "question",
-          "requiresFacts": [
-            "today-question",
-            "stance-for",
-            "law-not-in-force",
-            "asks-question"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.question.plain-inaugural-is-it-fair-that-today-question-stance-for-law-not-in-force",
       "move": "question",
       "kind": "spoken",
@@ -106363,6 +106253,116 @@
       "move": "today",
       "kind": "spoken",
       "text": "In fact, {today-clause}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-inaugural-should-we-go-on-in-a-country-where-today-question-stance-for-law-not-in-force",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Should we go on in a country where {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-for-now-today-clause",
+      "move": "today",
+      "kind": "spoken",
+      "text": "For now, {today-clause}",
       "uses": [
         {
           "move": "today",
