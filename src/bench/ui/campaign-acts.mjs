@@ -4,7 +4,7 @@
 // their own selects, paragraphs or reply lists.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
-import { makeTab, chooseTab } from "./tab.mjs";
+import { tabBar, chooseTab } from "./tab.mjs";
 import { listRow } from "./list-row.mjs";
 import { talkLine, talkReply, talkSheet } from "./talk-box.mjs";
 
@@ -20,22 +20,19 @@ export function debateCard({ words, debate, questionLabel, onAnswer }) {
   ];
   const picks = debate.questions.map((question) => {
     let position = null;
-    const bar = el("nav", { className: "tabs tab-rail" });
     const choose = (value) => {
       position = value;
       chooseTab(bar, "position", String(value));
     };
-    bar.append(
-      ...options.map(([value, label]) =>
-        makeTab({
-          key: String(value),
-          label,
-          attr: "position",
-          active: value === null,
-          onSelect: () => choose(value),
-        }),
-      ),
-    );
+    const bar = tabBar({
+      tabs: options.map(([value, label]) => ({
+        key: String(value),
+        label,
+        onSelect: () => choose(value),
+      })),
+      active: String(null),
+      attr: "position",
+    });
     return {
       row: el(
         "div",

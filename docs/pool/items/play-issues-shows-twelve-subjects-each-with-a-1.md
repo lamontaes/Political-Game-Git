@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-play-issues-shows-twelve-subjects-each-with-a-1
 pr: #8524
@@ -18,6 +18,7 @@ effort: low
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T03:26:18.275Z
+merged-at: 2026-11-12T14:34:32.030Z
 ---
 
 **What.** Measured by the Nov 9 audit: "Issues still shows 12 subjects with a '1' beside each." The audit's browser life was in Blodgett Landing, New Hampshire (a random world, no seed). The owner met it on Nov 8 (v0.94.0, Manchester, Connecticut): "Why is there only why do a bunch of things have one? I don't understand. I don't like this law menu or issues menu." The federal questions carry their own domain words such as health, trade and immigration, which the screen's subject table does not hold, so each becomes its own subject with one law and the count '1' beside it. Fix the cause, not this list: every law in every family lands in one of the subjects the player already has, from the law's own data, and no subject is made from a key the screen has no word for.

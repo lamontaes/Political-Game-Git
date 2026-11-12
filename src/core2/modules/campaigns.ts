@@ -218,6 +218,25 @@ export interface CampaignRow {
   }[];
 }
 
+/**
+ * A world candidate's ask for money that reached the controlled person
+ * (play-campaign-ask-reaches-player): theirs to answer, never taken. The
+ * engine never moves the player's money on its own (owner, Oct 14: the engine
+ * offers, the player decides).
+ */
+export interface AskRow {
+  readonly id: string;
+  readonly campaignId: string;
+  readonly donorId: string;
+  readonly candidateId: string;
+  /** What they would give by their own reasons and cash (`donationAnswer`'s sum); they may give another. */
+  readonly suggestedMinor: number;
+  readonly askedOn: string;
+  readonly status: "pending" | "given" | "declined";
+  readonly answeredOn?: string;
+  readonly givenMinor?: number;
+}
+
 /** One donor's running total to one campaign (the legal limit reads it). */
 export interface GiftRow {
   readonly id: string;
@@ -485,6 +504,12 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       gifts: {
         indexes: {
           byCampaign: { fields: ["campaignId"] },
+          byDonor: { fields: ["donorId"] },
+        },
+      },
+      /** Asks for money that reached the controlled person, and their answers. */
+      asks: {
+        indexes: {
           byDonor: { fields: ["donorId"] },
         },
       },
@@ -3330,6 +3355,8 @@ export function donationAnswer(
   api: CoreAPI,
   filingId: string,
   donorId: string,
+  /** Work out what they would give without giving it (an ask the player answers). */
+  options: { readonly suggestOnly?: boolean } = {},
 ): { readonly givenMinor: number; readonly why: DonationWhy } {
   const adultAge = api.parameter("votingAge");
   const campaign = campaignFor(api, filingId);
@@ -3388,7 +3415,7 @@ export function donationAnswer(
   // The law reached the donor when it held the gift below what they would
   // have given.
   const wouldGive = Math.min(wanted - given, donor.liquidMinor);
-  if (limit.law && room < wouldGive)
+  if (!options.suggestOnly && limit.law && room < wouldGive)
     lawApplied(api, {
       key: limit.law.key,
       lawId: limit.law.id,
@@ -3400,6 +3427,21 @@ export function donationAnswer(
     });
   if (amount <= 0)
     return { givenMinor: 0, why: room <= 0 ? "at-limit" : "small" };
+  if (options.suggestOnly) return { givenMinor: amount, why: "gave" };
+  giveDonation(api, filingId, donorId, amount);
+  return { givenMinor: amount, why: "gave" };
+}
+
+/** A gift moves from the donor's account to the campaign's through the journal, and their running total is kept in one row the next ask reads. */
+function giveDonation(
+  api: CoreAPI,
+  filingId: string,
+  donorId: string,
+  amount: number,
+): void {
+  const campaign = campaignFor(api, filingId);
+  const limit = contributionLimit(api, campaign.contestId);
+  const given = giftOf(api, filingId, donorId)?.totalMinor ?? 0;
   postMoney(
     api,
     DONATION_KIND,
@@ -3422,7 +3464,115 @@ export function donationAnswer(
     raisedMinor: campaignFor(api, filingId).raisedMinor + amount,
   });
   recordGift(api, filingId, donorId, amount, given + amount);
-  return { givenMinor: amount, why: "gave" };
+}
+
+const asksOf = (api: CoreAPI, personId: string) =>
+  table(api, "asks").query("byDonor", [personId]) as unknown as AskRow[];
+
+/**
+ * A world candidate's ask reaches the controlled person as a request: one
+ * open at a time per campaign, and none again once they have declined that
+ * candidate (the next ask reads the answer). The suggested sum is what they
+ * would give by their own reasons and cash; nothing moves until they answer.
+ * Returns whether a request was written.
+ */
+export function askPlayerForMoney(
+  api: CoreAPI,
+  filingId: string,
+  personId: string,
+): boolean {
+  if (
+    asksOf(api, personId).some(
+      (row) =>
+        row.campaignId === filingId &&
+        (row.status === "declined" || askOpen(api, row)),
+    )
+  )
+    return false;
+  const { givenMinor, why } = donationAnswer(api, filingId, personId, {
+    suggestOnly: true,
+  });
+  // Nothing to give from (no cash past their cushion, or at the limit): nobody asks.
+  if (why !== "gave" || givenMinor <= 0) return false;
+  table(api, "asks").put({
+    id: `ask:${filingId}:${personId}:${api.state.date}`,
+    campaignId: filingId,
+    donorId: personId,
+    candidateId: campaignFor(api, filingId).candidateId,
+    suggestedMinor: givenMinor,
+    askedOn: api.state.date,
+    status: "pending",
+  } satisfies AskRow as unknown as ModuleRow);
+  return true;
+}
+
+/** An ask is open while it waits on an answer and its candidate is still standing for a race not yet held. */
+function askOpen(api: CoreAPI, row: AskRow): boolean {
+  if (row.status !== "pending") return false;
+  const filing = filingOf(api, row.campaignId);
+  const contest = filing
+    ? (elections(api, "contests").get(filing.contestId) as
+        ContestRow | undefined)
+    : undefined;
+  return (
+    !!filing &&
+    standing(filing) &&
+    !!contest &&
+    contest.electionDate >= api.state.date
+  );
+}
+
+/** The requests for money waiting on a person's answer, newest first. */
+export function donationAsksFor(api: CoreAPI, personId: string): AskRow[] {
+  return asksOf(api, personId)
+    .filter((row) => askOpen(api, row))
+    .sort(
+      (a, b) => b.askedOn.localeCompare(a.askedOn) || a.id.localeCompare(b.id),
+    );
+}
+
+/**
+ * The person's answer to an ask: give a sum (the suggested one unless they
+ * size it), or decline. False when the ask is no longer open or the sum is
+ * not one they can give: whole dollars, within what they hold and within the
+ * law's limit.
+ */
+export function answerDonationAsk(
+  api: CoreAPI,
+  askId: string,
+  answer: "give" | "decline",
+  amountMinor?: number,
+): boolean {
+  const row = table(api, "asks").get(askId) as unknown as AskRow | undefined;
+  if (!row || !askOpen(api, row)) return false;
+  const settle = (patch: Partial<AskRow>) =>
+    table(api, "asks").put({
+      ...row,
+      ...patch,
+      answeredOn: api.state.date,
+    } satisfies AskRow as unknown as ModuleRow);
+  if (answer === "decline") {
+    settle({ status: "declined" });
+    return true;
+  }
+  const donor = api.state.people.get(row.donorId);
+  const amount = amountMinor ?? row.suggestedMinor;
+  const campaign = campaignFor(api, row.campaignId);
+  const limit = contributionLimit(api, campaign.contestId);
+  const given = giftOf(api, row.campaignId, row.donorId)?.totalMinor ?? 0;
+  const room = limit.minor === null ? Infinity : limit.minor - given;
+  if (
+    !donor?.alive ||
+    !Number.isInteger(amount) ||
+    amount <= 0 ||
+    amount % 100 !== 0 ||
+    amount > donor.liquidMinor ||
+    amount > room
+  )
+    return false;
+  giveDonation(api, row.campaignId, row.donorId, amount);
+  settle({ status: "given", givenMinor: amount });
+  return true;
 }
 
 /**
