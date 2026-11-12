@@ -15,7 +15,13 @@
     "tally": "Each answer with its count, from the poll record.",
     "amount": "Dollars given, from the gift row and journal entry.",
     "gave": "How many people gave on this call.",
-    "asked": "How many people were asked on this call."
+    "asked": "How many people were asked on this call.",
+    "vote": "The next day voters decide the race, as people say a date: the primary while it is ahead, else the general, from the contest record.",
+    "office": "The seat as people say it (\"a seat on the Mutual Village Council\", \"mayor\"), from the contest and office records through the one seat reader.",
+    "closes": "The day filing closes, while it is still ahead, from the contest's filing deadline.",
+    "raised": "Dollars the campaign has raised in all, from the campaign record.",
+    "cash": "Dollars the campaign holds now (raised less spent), from the campaign record.",
+    "filed": "The day the player filed, as people say a date, from the filing record."
   },
   "maxWords": 20,
   "parts": [
@@ -59,48 +65,6 @@
       "tag": {
         "move": "deliver-news",
         "key": "reached"
-      }
-    },
-    {
-      "key": "campaign-standing.reached-none.no-voters-have-heard-from-you-yet",
-      "move": "reached-none",
-      "kind": "written",
-      "text": "No voters have heard from you yet.",
-      "uses": [
-        {
-          "move": "reached-none",
-          "subject": "campaign",
-          "role": "standing",
-          "choice": "reached-none"
-        }
-      ],
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "deliver-news",
-        "key": "reached-none"
-      }
-    },
-    {
-      "key": "campaign-standing.reached-none.nobody-has-heard-from-you-yet",
-      "move": "reached-none",
-      "kind": "written",
-      "text": "Nobody has heard from you yet.",
-      "uses": [
-        {
-          "move": "reached-none",
-          "subject": "campaign",
-          "role": "standing",
-          "choice": "reached-none"
-        }
-      ],
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "deliver-news",
-        "key": "reached-none"
       }
     },
     {
@@ -164,48 +128,6 @@
       "tag": {
         "move": "deliver-news",
         "key": "opponents"
-      }
-    },
-    {
-      "key": "campaign-standing.opponents-none.no-one-else-has-filed-for-this-seat-yet",
-      "move": "opponents-none",
-      "kind": "written",
-      "text": "No one else has filed for this seat yet.",
-      "uses": [
-        {
-          "move": "opponents-none",
-          "subject": "campaign",
-          "role": "standing",
-          "choice": "opponents-none"
-        }
-      ],
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "deliver-news",
-        "key": "opponents-none"
-      }
-    },
-    {
-      "key": "campaign-standing.opponents-none.nobody-else-is-on-the-ballot-for-this-seat-yet",
-      "move": "opponents-none",
-      "kind": "written",
-      "text": "Nobody else is on the ballot for this seat yet.",
-      "uses": [
-        {
-          "move": "opponents-none",
-          "subject": "campaign",
-          "role": "standing",
-          "choice": "opponents-none"
-        }
-      ],
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "deliver-news",
-        "key": "opponents-none"
       }
     },
     {
@@ -311,48 +233,6 @@
       "tag": {
         "move": "deliver-news",
         "key": "reached"
-      }
-    },
-    {
-      "key": "campaign-standing.reached-one.you-have-reached-one-voter-so-far",
-      "move": "reached-one",
-      "kind": "written",
-      "text": "You have reached one voter so far.",
-      "uses": [
-        {
-          "move": "reached-one",
-          "subject": "campaign",
-          "role": "standing",
-          "choice": "reached-one"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-scenes lead helper",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "deliver-news",
-        "key": "reached-one"
-      }
-    },
-    {
-      "key": "campaign-standing.reached-one.so-far-one-voter-has-heard-from-you",
-      "move": "reached-one",
-      "kind": "written",
-      "text": "So far one voter has heard from you.",
-      "uses": [
-        {
-          "move": "reached-one",
-          "subject": "campaign",
-          "role": "standing",
-          "choice": "reached-one"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-scenes lead helper",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "deliver-news",
-        "key": "reached-one"
       }
     },
     {
@@ -479,48 +359,6 @@
       "tag": {
         "move": "deliver-news",
         "key": "moved-both"
-      }
-    },
-    {
-      "key": "campaign-standing.moved-none.nobody-you-reached-has-changed-their-mind-yet",
-      "move": "moved-none",
-      "kind": "written",
-      "text": "Nobody you reached has changed their mind yet.",
-      "uses": [
-        {
-          "move": "moved-none",
-          "subject": "campaign",
-          "role": "standing",
-          "choice": "moved-none"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-scenes lead helper",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "deliver-news",
-        "key": "moved-none"
-      }
-    },
-    {
-      "key": "campaign-standing.moved-none.no-one-you-reached-has-changed-their-mind-yet",
-      "move": "moved-none",
-      "kind": "written",
-      "text": "No one you reached has changed their mind yet.",
-      "uses": [
-        {
-          "move": "moved-none",
-          "subject": "campaign",
-          "role": "standing",
-          "choice": "moved-none"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-scenes lead helper",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "deliver-news",
-        "key": "moved-none"
       }
     },
     {
@@ -944,45 +782,402 @@
       }
     },
     {
-      "key": "campaign-standing.ad-none.the-campaign-has-no-money-left-to-buy-ad-time",
-      "move": "ad-none",
+      "key": "campaign-standing.reached-none.voters-decide-on-vote-and-none-of-them-has-heard-from-you-yet",
+      "move": "reached-none",
       "kind": "written",
-      "text": "The campaign has no money left to buy ad time.",
+      "text": "Voters decide on {vote}, and none of them has heard from you yet.",
       "uses": [
         {
-          "move": "ad-none",
+          "move": "reached-none",
           "subject": "campaign",
-          "role": "ads",
-          "choice": "ad-none"
+          "role": "standing",
+          "choice": "reached-none"
         }
       ],
       "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-11-02",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
-        "key": "ad-none"
+        "key": "reached-none"
       }
     },
     {
-      "key": "campaign-standing.ad-none.no-ad-time-could-be-bought-this-time",
-      "move": "ad-none",
+      "key": "campaign-standing.reached-none.no-voter-has-heard-from-you-yet-and-the-vote-is-vote",
+      "move": "reached-none",
       "kind": "written",
-      "text": "No ad time could be bought this time.",
+      "text": "No voter has heard from you yet, and the vote is {vote}.",
       "uses": [
         {
-          "move": "ad-none",
+          "move": "reached-none",
           "subject": "campaign",
-          "role": "ads",
-          "choice": "ad-none"
+          "role": "standing",
+          "choice": "reached-none"
         }
       ],
       "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-11-02",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
-        "key": "ad-none"
+        "key": "reached-none"
+      }
+    },
+    {
+      "key": "campaign-standing.reached-none.nobody-has-heard-from-you-yet-with-the-vote-on-vote",
+      "move": "reached-none",
+      "kind": "written",
+      "text": "Nobody has heard from you yet, with the vote on {vote}.",
+      "uses": [
+        {
+          "move": "reached-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-none"
+      }
+    },
+    {
+      "key": "campaign-standing.reached-one.one-voter-has-heard-from-you-so-far-and-the-vote-is-vote",
+      "move": "reached-one",
+      "kind": "written",
+      "text": "One voter has heard from you so far, and the vote is {vote}.",
+      "uses": [
+        {
+          "move": "reached-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-one"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-one"
+      }
+    },
+    {
+      "key": "campaign-standing.reached-one.so-far-you-have-reached-one-voter-with-the-vote-on-vote",
+      "move": "reached-one",
+      "kind": "written",
+      "text": "So far you have reached one voter, with the vote on {vote}.",
+      "uses": [
+        {
+          "move": "reached-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-one"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-one"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-none.none-of-the-reached-voters-you-reached-has-changed-their-mind-yet",
+      "move": "moved-none",
+      "kind": "written",
+      "text": "None of the {reached} voters you reached has changed their mind yet.",
+      "uses": [
+        {
+          "move": "moved-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-none"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-none.the-reached-voters-you-reached-feel-the-same-about-you-as-before",
+      "move": "moved-none",
+      "kind": "written",
+      "text": "The {reached} voters you reached feel the same about you as before.",
+      "uses": [
+        {
+          "move": "moved-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-none"
+      }
+    },
+    {
+      "key": "campaign-standing.opponents-none.no-one-else-has-filed-for-office-yet-filing-closes-closes",
+      "move": "opponents-none",
+      "kind": "written",
+      "text": "No one else has filed for {office} yet. Filing closes {closes}.",
+      "uses": [
+        {
+          "move": "opponents-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents-none"
+      }
+    },
+    {
+      "key": "campaign-standing.opponents-none.filing-for-office-closes-closes-and-nobody-else-has-filed-yet",
+      "move": "opponents-none",
+      "kind": "written",
+      "text": "Filing for {office} closes {closes}, and nobody else has filed yet.",
+      "uses": [
+        {
+          "move": "opponents-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents-none"
+      }
+    },
+    {
+      "key": "campaign-standing.opponents-none-closed.filing-is-closed-and-nobody-else-is-on-the-ballot-for-office",
+      "move": "opponents-none-closed",
+      "kind": "written",
+      "text": "Filing is closed, and nobody else is on the ballot for {office}.",
+      "uses": [
+        {
+          "move": "opponents-none-closed",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents-none-closed"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents-none-closed"
+      }
+    },
+    {
+      "key": "campaign-standing.opponents-none-closed.nobody-else-filed-for-office-so-yours-is-the-only-name-on-the-ballot",
+      "move": "opponents-none-closed",
+      "kind": "written",
+      "text": "Nobody else filed for {office}, so yours is the only name on the ballot.",
+      "uses": [
+        {
+          "move": "opponents-none-closed",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents-none-closed"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents-none-closed"
+      }
+    },
+    {
+      "key": "campaign-standing.ad-none-unraised.nobody-has-given-to-the-campaign-since-you-filed-filed-so-it-has-nothi",
+      "move": "ad-none-unraised",
+      "kind": "written",
+      "text": "Nobody has given to the campaign since you filed {filed}, so it has nothing for ads.",
+      "uses": [
+        {
+          "move": "ad-none-unraised",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-none-unraised"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-none-unraised"
+      }
+    },
+    {
+      "key": "campaign-standing.ad-none-unraised.the-campaign-has-raised-nothing-since-you-filed-filed-and-ad-time-cost",
+      "move": "ad-none-unraised",
+      "kind": "written",
+      "text": "The campaign has raised nothing since you filed {filed}, and ad time costs money.",
+      "uses": [
+        {
+          "move": "ad-none-unraised",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-none-unraised"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-none-unraised"
+      }
+    },
+    {
+      "key": "campaign-standing.ad-none-spent.all-raised-the-campaign-raised-is-spent-so-no-ad-time-could-be-bought",
+      "move": "ad-none-spent",
+      "kind": "written",
+      "text": "All {raised} the campaign raised is spent, so no ad time could be bought.",
+      "uses": [
+        {
+          "move": "ad-none-spent",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-none-spent"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-none-spent"
+      }
+    },
+    {
+      "key": "campaign-standing.ad-none-spent.the-campaign-has-spent-every-dollar-of-the-raised-it-raised-with-none-",
+      "move": "ad-none-spent",
+      "kind": "written",
+      "text": "The campaign has spent every dollar of the {raised} it raised, with none left for ads.",
+      "uses": [
+        {
+          "move": "ad-none-spent",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-none-spent"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-none-spent"
+      }
+    },
+    {
+      "key": "campaign-standing.ad-none-unsold.no-ad-time-was-bought-and-cash-stays-in-the-campaigns-account",
+      "move": "ad-none-unsold",
+      "kind": "written",
+      "text": "No ad time was bought, and {cash} stays in the campaign's account.",
+      "uses": [
+        {
+          "move": "ad-none-unsold",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-none-unsold"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-none-unsold"
+      }
+    },
+    {
+      "key": "campaign-standing.ad-none-unsold.the-campaign-still-has-cash-on-hand-but-no-ad-time-was-bought",
+      "move": "ad-none-unsold",
+      "kind": "written",
+      "text": "The campaign still has {cash} on hand, but no ad time was bought.",
+      "uses": [
+        {
+          "move": "ad-none-unsold",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-none-unsold"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-none-unsold"
+      }
+    },
+    {
+      "key": "campaign-standing.reached-one-unmoved.one-voter-has-heard-from-you-and-has-not-changed-their-mind-the-vote-i",
+      "move": "reached-one-unmoved",
+      "kind": "written",
+      "text": "One voter has heard from you and has not changed their mind. The vote is {vote}.",
+      "uses": [
+        {
+          "move": "reached-one-unmoved",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-one-unmoved"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-one-unmoved"
+      }
+    },
+    {
+      "key": "campaign-standing.reached-one-unmoved.so-far-one-voter-has-heard-from-you-with-no-change-of-mind-voters-deci",
+      "move": "reached-one-unmoved",
+      "kind": "written",
+      "text": "So far one voter has heard from you, with no change of mind. Voters decide on {vote}.",
+      "uses": [
+        {
+          "move": "reached-one-unmoved",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-one-unmoved"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-one-unmoved"
       }
     }
   ]
