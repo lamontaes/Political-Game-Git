@@ -47,7 +47,7 @@ const DRAWS = Number(process.env.TALK_DRAWS ?? 3);
 const AS_OFFICIAL = process.env.PLAYER_AS === "official";
 /**
  * `STAGE_OFFER=<day>` stages one thing, on that day, as dev mode would: an
- * employer's offer to the player for the first open position in their town
+ * employer's offer to the player for the first open position on the books
  * (the offer row and the hold on the position, written here). Taking it goes
  * through the jobs engine's own hire (`acceptJobOffer`); the job record, the
  * ledger's moment and every word said about it are the engines' own.
@@ -123,11 +123,7 @@ it(`the house talks about the player's own news (seed ${seed})`, () => {
             hourlyMinor: number;
             status: string;
           }[]
-        ).find(
-          (row) =>
-            row.status === "open" &&
-            row.placeId === core.people.get(playerId)!.placeId,
-        );
+        ).find((row) => row.status === "open");
         if (open) {
           const id = `job-offer:${open.id}:${playerId}`;
           positions.put({ ...open, offeredTo: playerId, offerId: id } as never);

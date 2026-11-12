@@ -1567,6 +1567,10 @@ function governmentNews(
   listener: Readonly<PersonState>,
 ): Subject | null {
   if (!takesStands(core, speaker.id)) return null;
+  // One of these a day from each person: the next waits for tomorrow.
+  for (const key of heardNow)
+    if (key.startsWith(`${HEARD_SUBJECT}${speaker.id}>government-news:`))
+      return null;
   const since = addDays(
     makeIsoDate(core.date),
     -GOVERNMENT_NEWS.withinDays.value,
