@@ -993,10 +993,10 @@
       }
     },
     {
-      "key": "campaign-standing.reached-none.nobody-has-heard-from-you-yet-voters-pick-the-nominees-on-primary",
+      "key": "campaign-standing.reached-none.nobody-has-heard-from-you-yet-voters-go-to-the-primary-on-primary",
       "move": "reached-none",
       "kind": "written",
-      "text": "Nobody has heard from you yet. Voters pick the nominees on {primary}.",
+      "text": "Nobody has heard from you yet. Voters go to the primary on {primary}.",
       "uses": [
         {
           "move": "reached-none",
