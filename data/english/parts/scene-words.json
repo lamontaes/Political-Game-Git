@@ -20,7 +20,19 @@
     "topic": "What a law is about, as the policy catalog names it, from the law record.",
     "begins": "The day a scene starts on, with the part of the day, as people say it ('First thing on June 7th'), from the clock.",
     "where": "The workplace, office or school the scene is set in, from the setting's organization record.",
-    "since": "The day of the record that caused the scene, told as past from the day it plays ('yesterday', 'the other day', 'on January 3rd'), from daySince; absent when the record is from the same day."
+    "since": "The day of the record that caused the scene, told as past from the day it plays ('yesterday', 'the other day', 'on January 3rd'), from daySince; absent when the record is from the same day.",
+    "about": "Whom the moment is about when they are not in the room (the one mourned, the one missing, the newcomer), as you know them, from the moment's record.",
+    "office": "The office a race, a filing, an oath or an appointment is for, as people say it, from the contest or office record.",
+    "bill": "The bill a vote, a signing, a hearing or a question is about, by its name, from the legislature's bill record.",
+    "org": "The employer or school the moment's record names (the job offered, begun or lost), from the organization record.",
+    "outlet": "The paper or station the moment's record names, from the organization record.",
+    "title": "The job's title in lower case, from the job offer's record.",
+    "party": "The party that asked, by its name, from the party's record.",
+    "offense": "The charge, from the case record.",
+    "term": "The prison term as people say it, from the sentence record.",
+    "speaker": "Who gave the speech, by first name, from the speech record.",
+    "rival": "A rival in the race by full name, from the filing or message record.",
+    "landlord": "The landlord who evicted the household, from the eviction record."
   },
   "maxWords": 10,
   "mining": {
@@ -200,39 +212,9 @@
       }
     },
     {
-      "key": "scene-words.cause-money:job-started-started.you-got-a-job",
-      "move": "cause-money:job-started-started",
-      "kind": "spoken",
-      "text": "You got a job.",
-      "uses": [
-        {
-          "move": "cause-money:job-started-started",
-          "subject": "cause",
-          "role": "money:job-started",
-          "choice": "started",
-          "stages": ["self"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "chrg": 1,
-        "nasa": 1
-      },
-      "source": {
-        "document": "Departments Of Labor, Health And Human Services, Education, And Related Agencies Appropriations For 2020",
-        "date": "2019-02-06",
-        "granule": "CHRG-116hhrg37614",
-        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg37614",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news"
-      }
-    },
-    {
-      "key": "scene-words.setting-letter-letter.a-letter-has-come-for-you",
+      "key": "scene-words.setting-letter-letter.a-letter-has-come-from-who",
       "move": "setting-letter-letter",
-      "text": "A letter has come for you.",
+      "text": "A letter has come from {who}.",
       "uses": [
         {
           "move": "setting-letter-letter",
@@ -241,18 +223,18 @@
           "choice": "letter"
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
       "kind": "spoken",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.setting-letter-letter.a-letter-is-in-your-hands",
+      "key": "scene-words.setting-letter-letter.you-open-who-s-letter",
       "move": "setting-letter-letter",
-      "text": "A letter is in your hands.",
+      "text": "You open {who}'s letter.",
       "uses": [
         {
           "move": "setting-letter-letter",
@@ -261,13 +243,13 @@
           "choice": "letter"
         }
       ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
       "kind": "spoken",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.cause-job-started-self.you-start-a-new-job-at-employer",
@@ -564,9 +546,9 @@
       }
     },
     {
-      "key": "scene-words.cause-eviction-self.your-household-is-being-evicted",
+      "key": "scene-words.cause-eviction-self.landlord-is-evicting-your-household",
       "move": "cause-eviction-self",
-      "text": "Your household is being evicted.",
+      "text": "{landlord} is evicting your household.",
       "uses": [
         {
           "move": "cause-eviction-self",
@@ -575,18 +557,18 @@
           "choice": "self"
         }
       ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.cause-eviction-self.your-household-has-to-leave-its-home",
+      "key": "scene-words.cause-eviction-self.landlord-won-the-eviction-and-your-household-has-to-move",
       "move": "cause-eviction-self",
-      "text": "Your household has to leave its home.",
+      "text": "{landlord} won the eviction, and your household has to move.",
       "uses": [
         {
           "move": "cause-eviction-self",
@@ -595,13 +577,13 @@
           "choice": "self"
         }
       ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.cause-illness-other.other-is-seriously-ill",
@@ -651,9 +633,9 @@
       }
     },
     {
-      "key": "scene-words.cause-imprisoned-self.you-have-been-sent-to-prison",
+      "key": "scene-words.cause-imprisoned-self.you-have-been-sent-to-prison-for-term",
       "move": "cause-imprisoned-self",
-      "text": "You have been sent to prison.",
+      "text": "You have been sent to prison for {term}.",
       "uses": [
         {
           "move": "cause-imprisoned-self",
@@ -662,13 +644,13 @@
           "choice": "self"
         }
       ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.cause-imprisoned-other.other-has-been-sent-to-prison",
@@ -698,9 +680,9 @@
       }
     },
     {
-      "key": "scene-words.cause-charged-self.you-have-been-charged-with-a-crime",
+      "key": "scene-words.cause-charged-self.you-have-been-charged-with-offense",
       "move": "cause-charged-self",
-      "text": "You have been charged with a crime.",
+      "text": "You have been charged with {offense}.",
       "uses": [
         {
           "move": "cause-charged-self",
@@ -709,13 +691,14 @@
           "choice": "self"
         }
       ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12",
+      "restoredFrom": "scene-words.cause-charged-self.you-have-been-charged-with-a-crime"
     },
     {
       "key": "scene-words.cause-charged-other.other-has-been-charged-with-a-crime",
@@ -745,9 +728,9 @@
       }
     },
     {
-      "key": "scene-words.cause-convicted-self.you-have-been-convicted",
+      "key": "scene-words.cause-convicted-self.you-have-been-convicted-of-offense",
       "move": "cause-convicted-self",
-      "text": "You have been convicted.",
+      "text": "You have been convicted of {offense}.",
       "uses": [
         {
           "move": "cause-convicted-self",
@@ -756,13 +739,14 @@
           "choice": "self"
         }
       ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12",
+      "restoredFrom": "scene-words.cause-convicted-self.you-have-been-convicted"
     },
     {
       "key": "scene-words.cause-convicted-other.other-has-been-convicted",
@@ -785,9 +769,9 @@
       }
     },
     {
-      "key": "scene-words.cause-acquitted-self.you-have-been-acquitted",
+      "key": "scene-words.cause-acquitted-self.you-have-been-acquitted-of-offense",
       "move": "cause-acquitted-self",
-      "text": "You have been acquitted.",
+      "text": "You have been acquitted of {offense}.",
       "uses": [
         {
           "move": "cause-acquitted-self",
@@ -796,13 +780,14 @@
           "choice": "self"
         }
       ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12",
+      "restoredFrom": "scene-words.cause-acquitted-self.you-have-been-acquitted"
     },
     {
       "key": "scene-words.cause-acquitted-other.other-has-been-acquitted",
@@ -865,26 +850,6 @@
       }
     },
     {
-      "key": "scene-words.lead-becoming-friends-alone.you-keep-running-into-the-same-faces-around-town",
-      "move": "lead-becoming-friends-alone",
-      "kind": "spoken",
-      "text": "You keep running into the same faces around town.",
-      "uses": [
-        {
-          "move": "lead-becoming-friends-alone",
-          "subject": "lead",
-          "role": "becoming-friends",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.lead-news-arrives-other.other-has-news-for-you",
       "move": "lead-news-arrives-other",
       "kind": "spoken",
@@ -905,10 +870,10 @@
       }
     },
     {
-      "key": "scene-words.lead-news-arrives-alone.news-has-reached-you",
+      "key": "scene-words.lead-news-arrives-alone.landlord-has-won-the-eviction-case-against-your-household",
       "move": "lead-news-arrives-alone",
+      "text": "{landlord} has won the eviction case against your household.",
       "kind": "spoken",
-      "text": "News has reached you.",
       "uses": [
         {
           "move": "lead-news-arrives-alone",
@@ -917,12 +882,12 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-argument-other.things-between-you-and-other-are-not-settled",
@@ -945,10 +910,10 @@
       }
     },
     {
-      "key": "scene-words.lead-celebration-alone.there-is-something-to-mark-today",
+      "key": "scene-words.lead-celebration-alone.today-you-re-celebrating-your-new-job-at-org",
       "move": "lead-celebration-alone",
+      "text": "Today you're celebrating your new job at {org}.",
       "kind": "spoken",
-      "text": "There is something to mark today.",
       "uses": [
         {
           "move": "lead-celebration-alone",
@@ -957,18 +922,18 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-funeral-alone.people-have-gathered-to-say-goodbye",
+      "key": "scene-words.lead-funeral-alone.people-have-gathered-to-say-goodbye-to-about",
       "move": "lead-funeral-alone",
+      "text": "People have gathered to say goodbye to {about}.",
       "kind": "spoken",
-      "text": "People have gathered to say goodbye.",
       "uses": [
         {
           "move": "lead-funeral-alone",
@@ -977,12 +942,32 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "scene-words.lead-funeral-alone.about-s-funeral-has-brought-people-together",
+      "move": "lead-funeral-alone",
+      "text": "{about}'s funeral has brought people together.",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "lead-funeral-alone",
+          "subject": "lead",
+          "role": "funeral",
+          "choice": "alone"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-first-meeting-other.you-and-other-are-just-meeting",
@@ -1005,10 +990,10 @@
       }
     },
     {
-      "key": "scene-words.lead-first-meeting-alone.someone-new-has-come-over-to-meet-you",
+      "key": "scene-words.lead-first-meeting-alone.someone-new-at-org-has-come-over-to-meet-you",
       "move": "lead-first-meeting-alone",
+      "text": "Someone new at {org} has come over to meet you.",
       "kind": "spoken",
-      "text": "Someone new has come over to meet you.",
       "uses": [
         {
           "move": "lead-first-meeting-alone",
@@ -1017,18 +1002,18 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-first-day-alone.its-your-first-day-and-you-are-expected",
+      "key": "scene-words.lead-first-day-alone.it-s-your-first-day-at-org-and-you-are-expected",
       "move": "lead-first-day-alone",
+      "text": "It's your first day at {org}, and you are expected.",
       "kind": "spoken",
-      "text": "It's your first day, and you are expected.",
       "uses": [
         {
           "move": "lead-first-day-alone",
@@ -1037,18 +1022,38 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-last-day-alone.its-your-last-day",
-      "move": "lead-last-day-alone",
+      "key": "scene-words.lead-first-day-alone.they-re-expecting-you-at-org-for-your-first-day",
+      "move": "lead-first-day-alone",
+      "text": "They're expecting you at {org} for your first day.",
       "kind": "spoken",
-      "text": "It's your last day.",
+      "uses": [
+        {
+          "move": "lead-first-day-alone",
+          "subject": "lead",
+          "role": "first-day",
+          "choice": "alone"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "scene-words.lead-last-day-alone.it-s-your-last-day-at-where",
+      "move": "lead-last-day-alone",
+      "text": "It's your last day at {where}.",
+      "kind": "spoken",
       "uses": [
         {
           "move": "lead-last-day-alone",
@@ -1057,12 +1062,32 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "scene-words.lead-last-day-alone.today-is-your-last-day-at-org",
+      "move": "lead-last-day-alone",
+      "text": "Today is your last day at {org}.",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "lead-last-day-alone",
+          "subject": "lead",
+          "role": "last-day",
+          "choice": "alone"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-breakup-other.you-and-other-are-no-longer-together",
@@ -1085,10 +1110,10 @@
       }
     },
     {
-      "key": "scene-words.lead-breakup-alone.your-relationship-has-ended",
+      "key": "scene-words.lead-breakup-alone.things-with-about-have-ended",
       "move": "lead-breakup-alone",
+      "text": "Things with {about} have ended.",
       "kind": "spoken",
-      "text": "Your relationship has ended.",
       "uses": [
         {
           "move": "lead-breakup-alone",
@@ -1097,12 +1122,12 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-reunion-other.you-haven-t-seen-other-in-a-long-time",
@@ -1125,30 +1150,10 @@
       }
     },
     {
-      "key": "scene-words.lead-reunion-alone.someone-you-know-has-turned-up",
-      "move": "lead-reunion-alone",
-      "kind": "spoken",
-      "text": "Someone you know has turned up.",
-      "uses": [
-        {
-          "move": "lead-reunion-alone",
-          "subject": "lead",
-          "role": "reunion",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-arrival-alone.a-new-child-has-come-into-the-household",
+      "key": "scene-words.lead-arrival-alone.about-has-moved-into-the-household",
       "move": "lead-arrival-alone",
+      "text": "{about} has moved into the household.",
       "kind": "spoken",
-      "text": "A new child has come into the household.",
       "uses": [
         {
           "move": "lead-arrival-alone",
@@ -1157,18 +1162,18 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-layoff-alone.your-job-has-ended",
+      "key": "scene-words.lead-layoff-alone.your-job-at-org-has-ended",
       "move": "lead-layoff-alone",
+      "text": "Your job at {org} has ended.",
       "kind": "spoken",
-      "text": "Your job has ended.",
       "uses": [
         {
           "move": "lead-layoff-alone",
@@ -1177,18 +1182,38 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-law-takes-effect-any.a-law-that-reaches-you-has-taken-effect",
-      "move": "lead-law-takes-effect-any",
+      "key": "scene-words.lead-layoff-alone.org-is-letting-you-go",
+      "move": "lead-layoff-alone",
+      "text": "{org} is letting you go.",
       "kind": "spoken",
-      "text": "A law that reaches you has taken effect.",
+      "uses": [
+        {
+          "move": "lead-layoff-alone",
+          "subject": "lead",
+          "role": "layoff",
+          "choice": "alone"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "scene-words.lead-law-takes-effect-any.law-is-in-effect-now-and-it-covers-you",
+      "move": "lead-law-takes-effect-any",
+      "text": "{law} is in effect now, and it covers you.",
+      "kind": "spoken",
       "uses": [
         {
           "move": "lead-law-takes-effect-any",
@@ -1197,38 +1222,38 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-polling-place-any.its-election-day-and-the-polls-are-open",
-      "move": "lead-polling-place-any",
+      "key": "scene-words.lead-law-takes-effect-any.the-law-on-topic-is-in-effect-and-it-covers-you",
+      "move": "lead-law-takes-effect-any",
+      "text": "The law on {topic} is in effect, and it covers you.",
       "kind": "spoken",
-      "text": "It's election day, and the polls are open.",
       "uses": [
         {
-          "move": "lead-polling-place-any",
+          "move": "lead-law-takes-effect-any",
           "subject": "lead",
-          "role": "polling-place",
+          "role": "law-takes-effect",
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-race-won-any.the-count-is-in-and-you-won",
+      "key": "scene-words.lead-race-won-any.the-count-is-in-for-office-and-you-won",
       "move": "lead-race-won-any",
+      "text": "The count is in for {office}, and you won.",
       "kind": "spoken",
-      "text": "The count is in, and you won.",
       "uses": [
         {
           "move": "lead-race-won-any",
@@ -1237,18 +1262,38 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-race-lost-any.the-count-is-in-and-you-lost",
-      "move": "lead-race-lost-any",
+      "key": "scene-words.lead-race-won-any.the-race-for-office-is-called-you-won",
+      "move": "lead-race-won-any",
+      "text": "The race for {office} is called. You won.",
       "kind": "spoken",
-      "text": "The count is in, and you lost.",
+      "uses": [
+        {
+          "move": "lead-race-won-any",
+          "subject": "lead",
+          "role": "race-won",
+          "choice": "any"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "scene-words.lead-race-lost-any.the-count-is-in-for-office-and-you-lost",
+      "move": "lead-race-lost-any",
+      "text": "The count is in for {office}, and you lost.",
+      "kind": "spoken",
       "uses": [
         {
           "move": "lead-race-lost-any",
@@ -1257,18 +1302,38 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-floor-vote-any.a-vote-has-been-called",
-      "move": "lead-floor-vote-any",
+      "key": "scene-words.lead-race-lost-any.the-race-for-office-is-called-you-lost",
+      "move": "lead-race-lost-any",
+      "text": "The race for {office} is called. You lost.",
       "kind": "spoken",
-      "text": "A vote has been called.",
+      "uses": [
+        {
+          "move": "lead-race-lost-any",
+          "subject": "lead",
+          "role": "race-lost",
+          "choice": "any"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.a-vote-has-been-called-on-bill",
+      "move": "lead-floor-vote-any",
+      "text": "A vote has been called on {bill}.",
+      "kind": "spoken",
       "uses": [
         {
           "move": "lead-floor-vote-any",
@@ -1277,18 +1342,18 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-bill-signed-any.the-bill-has-been-signed",
+      "key": "scene-words.lead-bill-signed-any.bill-has-been-signed-into-law",
       "move": "lead-bill-signed-any",
+      "text": "{bill} has been signed into law.",
       "kind": "spoken",
-      "text": "The bill has been signed.",
       "uses": [
         {
           "move": "lead-bill-signed-any",
@@ -1297,18 +1362,18 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-veto-any.the-bill-has-been-vetoed",
+      "key": "scene-words.lead-veto-any.bill-has-been-vetoed",
       "move": "lead-veto-any",
+      "text": "{bill} has been vetoed.",
       "kind": "spoken",
-      "text": "The bill has been vetoed.",
       "uses": [
         {
           "move": "lead-veto-any",
@@ -1317,38 +1382,18 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-appointment-any.an-appointment-has-been-made",
-      "move": "lead-appointment-any",
-      "kind": "spoken",
-      "text": "An appointment has been made.",
-      "uses": [
-        {
-          "move": "lead-appointment-any",
-          "subject": "lead",
-          "role": "appointment",
-          "choice": "any"
-        }
-      ],
+      },
       "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-recall-any.a-petition-to-recall-an-official-has-gone-around",
+      "key": "scene-words.lead-recall-any.a-petition-to-recall-about-has-gone-around",
       "move": "lead-recall-any",
+      "text": "A petition to recall {about} has gone around.",
       "kind": "spoken",
-      "text": "A petition to recall an official has gone around.",
       "uses": [
         {
           "move": "lead-recall-any",
@@ -1357,18 +1402,18 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-public-hearing-any.a-public-hearing-is-under-way",
+      "key": "scene-words.lead-public-hearing-any.the-public-hearing-on-bill-is-under-way",
       "move": "lead-public-hearing-any",
+      "text": "The public hearing on {bill} is under way.",
       "kind": "spoken",
-      "text": "A public hearing is under way.",
       "uses": [
         {
           "move": "lead-public-hearing-any",
@@ -1377,18 +1422,18 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-press-interview-any.a-reporter-is-asking-questions",
+      "key": "scene-words.lead-press-interview-any.a-reporter-is-asking-questions-about-bill",
       "move": "lead-press-interview-any",
+      "text": "A reporter is asking questions about {bill}.",
       "kind": "spoken",
-      "text": "A reporter is asking questions.",
       "uses": [
         {
           "move": "lead-press-interview-any",
@@ -1397,18 +1442,38 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-scandal-any.a-story-about-a-scandal-has-reached-you",
-      "move": "lead-scandal-any",
+      "key": "scene-words.lead-press-interview-any.a-reporter-from-outlet-is-asking-questions",
+      "move": "lead-press-interview-any",
+      "text": "A reporter from {outlet} is asking questions.",
       "kind": "spoken",
-      "text": "A story about a scandal has reached you.",
+      "uses": [
+        {
+          "move": "lead-press-interview-any",
+          "subject": "lead",
+          "role": "press-interview",
+          "choice": "any"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "scene-words.lead-scandal-any.outlet-is-running-a-story-about-you-and-a-offense-charge",
+      "move": "lead-scandal-any",
+      "text": "{outlet} is running a story about you and a {offense} charge.",
+      "kind": "spoken",
       "uses": [
         {
           "move": "lead-scandal-any",
@@ -1417,38 +1482,18 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-campaign-stop-any.a-campaign-event-is-under-way",
-      "move": "lead-campaign-stop-any",
-      "kind": "spoken",
-      "text": "A campaign event is under way.",
-      "uses": [
-        {
-          "move": "lead-campaign-stop-any",
-          "subject": "lead",
-          "role": "campaign-stop",
-          "choice": "any"
-        }
-      ],
+      },
       "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-hearing-any.the-court-is-in-session",
+      "key": "scene-words.lead-hearing-any.the-court-is-in-session-on-the-offense-charge",
       "move": "lead-hearing-any",
+      "text": "The court is in session on the {offense} charge.",
       "kind": "spoken",
-      "text": "The court is in session.",
       "uses": [
         {
           "move": "lead-hearing-any",
@@ -1457,18 +1502,18 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-verdict-any.the-verdict-has-come-in",
+      "key": "scene-words.lead-verdict-any.the-verdict-on-the-offense-charge-has-come-in",
       "move": "lead-verdict-any",
+      "text": "The verdict on the {offense} charge has come in.",
       "kind": "spoken",
-      "text": "The verdict has come in.",
       "uses": [
         {
           "move": "lead-verdict-any",
@@ -1477,12 +1522,12 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-office-scene-any.name-is-the-member-you-need-to-reach",
@@ -1525,10 +1570,10 @@
       }
     },
     {
-      "key": "scene-words.setting-letter-letter.there-s-a-letter-for-you",
+      "key": "scene-words.setting-letter-letter.there-s-a-letter-for-you-from-who",
       "move": "setting-letter-letter",
+      "text": "There's a letter for you from {who}.",
       "kind": "spoken",
-      "text": "There's a letter for you.",
       "uses": [
         {
           "move": "setting-letter-letter",
@@ -1537,12 +1582,12 @@
           "choice": "letter"
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.cause-money:job-ended-other.other-lost-the-job-at-employer",
@@ -1587,10 +1632,10 @@
       }
     },
     {
-      "key": "scene-words.cause-money:job-ended-self.you-re-out-of-work",
+      "key": "scene-words.cause-money:job-ended-self.you-ve-been-out-of-work-since-org-let-you-go",
       "move": "cause-money:job-ended-self",
+      "text": "You've been out of work since {org} let you go.",
       "kind": "spoken",
-      "text": "You're out of work.",
       "uses": [
         {
           "move": "cause-money:job-ended-self",
@@ -1600,12 +1645,12 @@
           "stages": ["self"]
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
       "tag": {
         "move": "deliver-news"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.cause-money:job-left-other.other-left-the-job-at-employer",
@@ -1755,10 +1800,10 @@
       }
     },
     {
-      "key": "scene-words.cause-feeling:event:housing.eviction-self.your-household-has-been-evicted",
+      "key": "scene-words.cause-feeling:event:housing.eviction-self.landlord-has-evicted-your-household",
       "move": "cause-feeling:event:housing.eviction-self",
+      "text": "{landlord} has evicted your household.",
       "kind": "spoken",
-      "text": "Your household has been evicted.",
       "uses": [
         {
           "move": "cause-feeling:event:housing.eviction-self",
@@ -1768,12 +1813,12 @@
           "stages": ["self"]
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
       "tag": {
         "move": "deliver-news"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.cause-feeling:event:health.serious-illness-other.other-has-been-seriously-ill",
@@ -1797,31 +1842,10 @@
       }
     },
     {
-      "key": "scene-words.cause-feeling:event:health.serious-illness-self.you-ve-been-seriously-ill",
-      "move": "cause-feeling:event:health.serious-illness-self",
-      "kind": "spoken",
-      "text": "You've been seriously ill.",
-      "uses": [
-        {
-          "move": "cause-feeling:event:health.serious-illness-self",
-          "subject": "cause",
-          "role": "feeling:event:health.serious-illness",
-          "choice": "self",
-          "stages": ["self"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deliver-news"
-      }
-    },
-    {
-      "key": "scene-words.cause-feeling:event:justice.imprisoned-self.you-ve-been-sent-to-prison",
+      "key": "scene-words.cause-feeling:event:justice.imprisoned-self.you-ve-been-sent-to-prison-for-term",
       "move": "cause-feeling:event:justice.imprisoned-self",
+      "text": "You've been sent to prison for {term}.",
       "kind": "spoken",
-      "text": "You've been sent to prison.",
       "uses": [
         {
           "move": "cause-feeling:event:justice.imprisoned-self",
@@ -1831,18 +1855,18 @@
           "stages": ["self"]
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
       "tag": {
         "move": "deliver-news"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.cause-feeling:event:justice.charged-self.you-ve-been-charged-with-a-crime",
+      "key": "scene-words.cause-feeling:event:justice.charged-self.you-ve-been-charged-with-offense",
       "move": "cause-feeling:event:justice.charged-self",
+      "text": "You've been charged with {offense}.",
       "kind": "spoken",
-      "text": "You've been charged with a crime.",
       "uses": [
         {
           "move": "cause-feeling:event:justice.charged-self",
@@ -1852,12 +1876,12 @@
           "stages": ["self"]
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
       "tag": {
         "move": "deliver-news"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.cause-feeling:event:justice.convicted-other.other-was-found-guilty",
@@ -1881,10 +1905,10 @@
       }
     },
     {
-      "key": "scene-words.cause-feeling:event:justice.convicted-self.you-were-found-guilty",
+      "key": "scene-words.cause-feeling:event:justice.convicted-self.you-were-found-guilty-of-offense",
       "move": "cause-feeling:event:justice.convicted-self",
+      "text": "You were found guilty of {offense}.",
       "kind": "spoken",
-      "text": "You were found guilty.",
       "uses": [
         {
           "move": "cause-feeling:event:justice.convicted-self",
@@ -1894,12 +1918,12 @@
           "stages": ["self"]
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
       "tag": {
         "move": "deliver-news"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.cause-feeling:event:justice.acquitted-other.other-was-found-not-guilty",
@@ -1923,10 +1947,10 @@
       }
     },
     {
-      "key": "scene-words.cause-feeling:event:justice.acquitted-self.you-were-found-not-guilty",
+      "key": "scene-words.cause-feeling:event:justice.acquitted-self.you-were-found-not-guilty-of-offense",
       "move": "cause-feeling:event:justice.acquitted-self",
+      "text": "You were found not guilty of {offense}.",
       "kind": "spoken",
-      "text": "You were found not guilty.",
       "uses": [
         {
           "move": "cause-feeling:event:justice.acquitted-self",
@@ -1936,12 +1960,12 @@
           "stages": ["self"]
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
       "tag": {
         "move": "deliver-news"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.opening-tell-tell.who-has-something-to-tell-you",
@@ -2144,46 +2168,6 @@
       }
     },
     {
-      "key": "scene-words.cause-birth-self.you-have-a-new-baby",
-      "move": "cause-birth-self",
-      "text": "You have a new baby.",
-      "uses": [
-        {
-          "move": "cause-birth-self",
-          "subject": "cause",
-          "role": "feeling:event:person-birth",
-          "choice": "self"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-17",
-      "kind": "spoken",
-      "tag": {
-        "move": "deliver-news"
-      }
-    },
-    {
-      "key": "scene-words.cause-birth-self.your-baby-has-been-born",
-      "move": "cause-birth-self",
-      "text": "Your baby has been born.",
-      "uses": [
-        {
-          "move": "cause-birth-self",
-          "subject": "cause",
-          "role": "feeling:event:person-birth",
-          "choice": "self"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-17",
-      "kind": "spoken",
-      "tag": {
-        "move": "deliver-news"
-      }
-    },
-    {
       "key": "scene-words.cause-birth-other.other-has-been-born",
       "move": "cause-birth-other",
       "text": "{other} has been born.",
@@ -2221,46 +2205,6 @@
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
-      }
-    },
-    {
-      "key": "scene-words.lead-address-alone.you-step-up-to-the-podium",
-      "move": "lead-address-alone",
-      "kind": "spoken",
-      "text": "You step up to the podium. The country is listening.",
-      "uses": [
-        {
-          "move": "lead-address-alone",
-          "subject": "lead",
-          "role": "address",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-address-alone.the-crowd-goes-quiet",
-      "move": "lead-address-alone",
-      "kind": "spoken",
-      "text": "The crowd goes quiet as you reach the microphone.",
-      "uses": [
-        {
-          "move": "lead-address-alone",
-          "subject": "lead",
-          "role": "address",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "narrate"
       }
     },
     {
@@ -2324,10 +2268,10 @@
       }
     },
     {
-      "key": "scene-words.lead-interview-invite-alone.a-reporter-is-calling",
+      "key": "scene-words.lead-interview-invite-alone.a-reporter-from-outlet-is-calling",
       "move": "lead-interview-invite-alone",
+      "text": "A reporter from {outlet} is calling.",
       "kind": "spoken",
-      "text": "A reporter is calling.",
       "uses": [
         {
           "move": "lead-interview-invite-alone",
@@ -2336,12 +2280,32 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "scene-words.lead-interview-invite-alone.outlet-is-calling-about-your-run-for-office",
+      "move": "lead-interview-invite-alone",
+      "text": "{outlet} is calling about your run for {office}.",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "lead-interview-invite-alone",
+          "subject": "lead",
+          "role": "interview-invite",
+          "choice": "alone"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-debate-invite-other.other-is-calling-about-the-debate",
@@ -2364,10 +2328,10 @@
       }
     },
     {
-      "key": "scene-words.lead-debate-invite-alone.a-call-about-the-debate",
+      "key": "scene-words.lead-debate-invite-alone.they-want-you-in-a-debate-for-office",
       "move": "lead-debate-invite-alone",
+      "text": "They want you in a debate for {office}.",
       "kind": "spoken",
-      "text": "A call about the debate.",
       "uses": [
         {
           "move": "lead-debate-invite-alone",
@@ -2376,12 +2340,12 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-volunteer-offer-other.other-has-come-by-to-offer-a-hand",
@@ -2404,10 +2368,10 @@
       }
     },
     {
-      "key": "scene-words.lead-volunteer-offer-alone.someone-has-come-by-to-offer-a-hand",
+      "key": "scene-words.lead-volunteer-offer-alone.someone-wants-to-help-with-your-run-for-office",
       "move": "lead-volunteer-offer-alone",
+      "text": "Someone wants to help with your run for {office}.",
       "kind": "spoken",
-      "text": "Someone has come by to offer a hand.",
       "uses": [
         {
           "move": "lead-volunteer-offer-alone",
@@ -2416,12 +2380,12 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-rival-word-other.other-has-come-by-with-news-from-the-race",
@@ -2444,10 +2408,10 @@
       }
     },
     {
-      "key": "scene-words.lead-rival-word-alone.someone-has-come-by-with-news-from-the-race",
+      "key": "scene-words.lead-rival-word-alone.someone-has-news-of-the-race-for-office",
       "move": "lead-rival-word-alone",
+      "text": "Someone has news of the race for {office}.",
       "kind": "spoken",
-      "text": "Someone has come by with news from the race.",
       "uses": [
         {
           "move": "lead-rival-word-alone",
@@ -2456,12 +2420,32 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "scene-words.lead-rival-word-alone.someone-has-word-of-what-rival-is-saying-in-the-race",
+      "move": "lead-rival-word-alone",
+      "text": "Someone has word of what {rival} is saying in the race.",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "lead-rival-word-alone",
+          "subject": "lead",
+          "role": "rival-word",
+          "choice": "alone"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-rival-filed-other.other-has-news-about-the-race",
@@ -2484,10 +2468,10 @@
       }
     },
     {
-      "key": "scene-words.lead-rival-filed-alone.there-s-news-about-the-race",
+      "key": "scene-words.lead-rival-filed-alone.rival-has-filed-for-office",
       "move": "lead-rival-filed-alone",
+      "text": "{rival} has filed for {office}.",
       "kind": "spoken",
-      "text": "There's news about the race.",
       "uses": [
         {
           "move": "lead-rival-filed-alone",
@@ -2496,12 +2480,32 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "scene-words.lead-rival-filed-alone.there-s-news-about-the-race-for-office",
+      "move": "lead-rival-filed-alone",
+      "text": "There's news about the race for {office}.",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "lead-rival-filed-alone",
+          "subject": "lead",
+          "role": "rival-filed",
+          "choice": "alone"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-party-recruit-other.other-has-come-by-about-the-election",
@@ -2524,10 +2528,10 @@
       }
     },
     {
-      "key": "scene-words.lead-party-recruit-alone.a-party-officer-has-come-by-to-see-you",
+      "key": "scene-words.lead-party-recruit-alone.an-officer-of-the-party-has-come-by-to-see-you",
       "move": "lead-party-recruit-alone",
+      "text": "An officer of the {party} has come by to see you.",
       "kind": "spoken",
-      "text": "A party officer has come by to see you.",
       "uses": [
         {
           "move": "lead-party-recruit-alone",
@@ -2536,12 +2540,32 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
-      "date": "2026-10-26",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "scene-words.lead-party-recruit-alone.the-party-wants-you-to-run-for-office",
+      "move": "lead-party-recruit-alone",
+      "text": "The {party} wants you to run for {office}.",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "lead-party-recruit-alone",
+          "subject": "lead",
+          "role": "party-recruit",
+          "choice": "alone"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-constituent-stop-other.other-stops-you-on-the-street",
@@ -2584,10 +2608,10 @@
       }
     },
     {
-      "key": "scene-words.lead-constituent-stop-alone.someone-stops-you-on-the-street",
+      "key": "scene-words.lead-constituent-stop-alone.someone-stops-you-on-the-street-about-law",
       "move": "lead-constituent-stop-alone",
+      "text": "Someone stops you on the street about {law}.",
       "kind": "spoken",
-      "text": "Someone stops you on the street.",
       "uses": [
         {
           "move": "lead-constituent-stop-alone",
@@ -2596,12 +2620,32 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "scene-words.lead-constituent-stop-alone.someone-stops-you-on-the-street-about-topic",
+      "move": "lead-constituent-stop-alone",
+      "text": "Someone stops you on the street about {topic}.",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "lead-constituent-stop-alone",
+          "subject": "lead",
+          "role": "constituent-stop",
+          "choice": "alone"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.cause-circumstance:story-read-home-other.other-has-been-reading-the-paper",
@@ -3254,10 +3298,10 @@
       }
     },
     {
-      "key": "scene-words.lead-speech-afterward-alone.the-candidate-who-spoke-is-coming-your-way",
+      "key": "scene-words.lead-speech-afterward-alone.speaker-whose-speech-you-heard-is-coming-your-way",
       "move": "lead-speech-afterward-alone",
+      "text": "{speaker}, whose speech you heard, is coming your way.",
       "kind": "spoken",
-      "text": "The candidate who spoke is coming your way.",
       "uses": [
         {
           "move": "lead-speech-afterward-alone",
@@ -3266,12 +3310,12 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
-      "date": "2026-10-26",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-news-arrives-other.other-has-been-waiting-for-you-to-get-home",
@@ -3346,26 +3390,6 @@
           "subject": "lead",
           "role": "hallway",
           "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-hallway-alone.the-meeting-lets-out-into-the-hallway",
-      "move": "lead-hallway-alone",
-      "kind": "spoken",
-      "text": "The meeting lets out into the hallway.",
-      "uses": [
-        {
-          "move": "lead-hallway-alone",
-          "subject": "lead",
-          "role": "hallway",
-          "choice": "alone"
         }
       ],
       "origin": "authored",
@@ -3616,10 +3640,10 @@
       }
     },
     {
-      "key": "scene-words.lead-interview-sitting-alone.the-reporter-is-ready-to-start-the-interview",
+      "key": "scene-words.lead-interview-sitting-alone.the-reporter-from-outlet-is-ready-to-start-the-interview",
       "move": "lead-interview-sitting-alone",
+      "text": "The reporter from {outlet} is ready to start the interview.",
       "kind": "spoken",
-      "text": "The reporter is ready to start the interview.",
       "uses": [
         {
           "move": "lead-interview-sitting-alone",
@@ -3628,18 +3652,18 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-interview-sitting-alone.the-reporter-has-the-questions-for-your-interview",
+      "key": "scene-words.lead-interview-sitting-alone.the-reporter-has-the-questions-about-your-run-for-office",
       "move": "lead-interview-sitting-alone",
+      "text": "The reporter has the questions about your run for {office}.",
       "kind": "spoken",
-      "text": "The reporter has the questions for your interview.",
       "uses": [
         {
           "move": "lead-interview-sitting-alone",
@@ -3648,12 +3672,12 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-job-offer-other.other-is-calling-about-the-job-you-applied-for",
@@ -3696,10 +3720,10 @@
       }
     },
     {
-      "key": "scene-words.lead-job-offer-alone.someone-is-calling-about-your-application",
+      "key": "scene-words.lead-job-offer-alone.the-call-is-about-your-application-at-org",
       "move": "lead-job-offer-alone",
+      "text": "The call is about your application at {org}.",
       "kind": "spoken",
-      "text": "Someone is calling about your application.",
       "uses": [
         {
           "move": "lead-job-offer-alone",
@@ -3708,12 +3732,12 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-29",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-manager-offer-other.other-has-come-to-talk-about-running-your-campaign",
@@ -3736,10 +3760,10 @@
       }
     },
     {
-      "key": "scene-words.lead-manager-offer-alone.someone-close-has-come-to-talk-about-running-your-campaign",
+      "key": "scene-words.lead-manager-offer-alone.someone-close-wants-to-run-your-campaign-for-office",
       "move": "lead-manager-offer-alone",
+      "text": "Someone close wants to run your campaign for {office}.",
       "kind": "spoken",
-      "text": "Someone close has come to talk about running your campaign.",
       "uses": [
         {
           "move": "lead-manager-offer-alone",
@@ -3748,12 +3772,12 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-29",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-debate-sitting-other.other-is-ready-to-open-the-debate",
@@ -3796,10 +3820,10 @@
       }
     },
     {
-      "key": "scene-words.lead-debate-sitting-alone.the-moderator-is-ready-to-open-the-debate",
+      "key": "scene-words.lead-debate-sitting-alone.the-moderator-is-ready-to-open-the-debate-for-office",
       "move": "lead-debate-sitting-alone",
+      "text": "The moderator is ready to open the debate for {office}.",
       "kind": "spoken",
-      "text": "The moderator is ready to open the debate.",
       "uses": [
         {
           "move": "lead-debate-sitting-alone",
@@ -3808,32 +3832,12 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
       "tag": {
         "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-debate-sitting-alone.the-moderator-has-the-questions-for-the-debate",
-      "move": "lead-debate-sitting-alone",
-      "kind": "spoken",
-      "text": "The moderator has the questions for the debate.",
-      "uses": [
-        {
-          "move": "lead-debate-sitting-alone",
-          "subject": "lead",
-          "role": "debate-sitting",
-          "choice": "alone"
-        }
-      ],
+      },
       "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "narrate"
-      }
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-swearing-in-other.other-is-waiting-to-swear-you-in",
@@ -3876,10 +3880,10 @@
       }
     },
     {
-      "key": "scene-words.lead-swearing-in-alone.it-is-time-to-take-the-oath",
+      "key": "scene-words.lead-swearing-in-alone.you-are-about-to-take-the-oath-for-office",
       "move": "lead-swearing-in-alone",
+      "text": "You are about to take the oath for {office}.",
       "kind": "spoken",
-      "text": "It is time to take the oath.",
       "uses": [
         {
           "move": "lead-swearing-in-alone",
@@ -3888,18 +3892,18 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Words session (Claude Code)",
-      "date": "2026-10-29",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-swearing-in-alone.you-are-about-to-be-sworn-in",
+      "key": "scene-words.lead-swearing-in-alone.you-are-about-to-be-sworn-in-for-office",
       "move": "lead-swearing-in-alone",
+      "text": "You are about to be sworn in for {office}.",
       "kind": "spoken",
-      "text": "You are about to be sworn in.",
       "uses": [
         {
           "move": "lead-swearing-in-alone",
@@ -3908,12 +3912,12 @@
           "choice": "alone"
         }
       ],
-      "origin": "authored",
-      "author": "Words session (Claude Code)",
-      "date": "2026-10-29",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-no-diploma-home-other.other-wants-to-talk-about-school",
@@ -3996,10 +4000,10 @@
       }
     },
     {
-      "key": "scene-words.lead-floor-vote-any.the-chair-calls-the-roll",
+      "key": "scene-words.lead-floor-vote-any.the-chair-calls-the-roll-on-bill",
       "move": "lead-floor-vote-any",
+      "text": "The chair calls the roll on {bill}.",
       "kind": "spoken",
-      "text": "The chair calls the roll.",
       "uses": [
         {
           "move": "lead-floor-vote-any",
@@ -4008,18 +4012,18 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-floor-vote-any.the-chair-puts-the-question-the-clerk-begins-the-roll",
+      "key": "scene-words.lead-floor-vote-any.the-chair-puts-the-question-on-bill-the-roll-begins",
       "move": "lead-floor-vote-any",
+      "text": "The chair puts the question on {bill}. The roll begins.",
       "kind": "spoken",
-      "text": "The chair puts the question. The clerk begins the roll.",
       "uses": [
         {
           "move": "lead-floor-vote-any",
@@ -4028,18 +4032,18 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-floor-vote-any.the-clerk-reads-the-bill-the-chair-calls-the-vote",
+      "key": "scene-words.lead-floor-vote-any.the-clerk-reads-bill-by-title-and-the-vote-is-called",
       "move": "lead-floor-vote-any",
+      "text": "The clerk reads {bill} by title, and the vote is called.",
       "kind": "spoken",
-      "text": "The clerk reads the bill. The chair calls the vote.",
       "uses": [
         {
           "move": "lead-floor-vote-any",
@@ -4048,18 +4052,18 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-floor-vote-any.the-chair-asks-for-the-vote",
+      "key": "scene-words.lead-floor-vote-any.the-chair-asks-for-the-vote-on-bill",
       "move": "lead-floor-vote-any",
+      "text": "The chair asks for the vote on {bill}.",
       "kind": "spoken",
-      "text": "The chair asks for the vote.",
       "uses": [
         {
           "move": "lead-floor-vote-any",
@@ -4068,18 +4072,18 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-floor-vote-any.nobody-else-seeks-the-floor-the-chair-puts-the-question",
+      "key": "scene-words.lead-floor-vote-any.nobody-else-rises-on-bill-the-chair-puts-the-question",
       "move": "lead-floor-vote-any",
+      "text": "Nobody else rises on {bill}. The chair puts the question.",
       "kind": "spoken",
-      "text": "Nobody else seeks the floor. The chair puts the question.",
       "uses": [
         {
           "move": "lead-floor-vote-any",
@@ -4088,18 +4092,18 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-floor-vote-any.the-roll-is-called-one-name-at-a-time",
+      "key": "scene-words.lead-floor-vote-any.the-roll-on-bill-is-called-one-name-at-a-time",
       "move": "lead-floor-vote-any",
+      "text": "The roll on {bill} is called, one name at a time.",
       "kind": "spoken",
-      "text": "The roll is called, one name at a time.",
       "uses": [
         {
           "move": "lead-floor-vote-any",
@@ -4108,18 +4112,18 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-floor-vote-any.the-chair-puts-the-question-to-the-body",
+      "key": "scene-words.lead-floor-vote-any.the-chair-puts-bill-to-the-body",
       "move": "lead-floor-vote-any",
+      "text": "The chair puts {bill} to the body.",
       "kind": "spoken",
-      "text": "The chair puts the question to the body.",
       "uses": [
         {
           "move": "lead-floor-vote-any",
@@ -4128,18 +4132,18 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-floor-vote-any.debate-is-closed-the-chair-calls-the-roll",
+      "key": "scene-words.lead-floor-vote-any.debate-on-bill-is-closed-the-chair-calls-the-roll",
       "move": "lead-floor-vote-any",
+      "text": "Debate on {bill} is closed. The chair calls the roll.",
       "kind": "spoken",
-      "text": "Debate is closed. The chair calls the roll.",
       "uses": [
         {
           "move": "lead-floor-vote-any",
@@ -4148,12 +4152,12 @@
           "choice": "any"
         }
       ],
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-letter-other.others-handwriting-leans-hard-right-same-as-always",
@@ -4169,69 +4173,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (Lives, night crew)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-letter-other.the-stamp-is-crooked-pressed-down-in-a-hurry",
-      "move": "lead-letter-other",
-      "kind": "spoken",
-      "text": "The stamp is crooked, pressed down in a hurry.",
-      "uses": [
-        {
-          "move": "lead-letter-other",
-          "subject": "lead",
-          "role": "letter",
-          "choice": "other"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (Lives, night crew)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-letter-other.the-envelope-smells-faintly-of-cedar-you-hold-it-close",
-      "move": "lead-letter-other",
-      "kind": "spoken",
-      "text": "The envelope smells faintly of cedar. You hold it close.",
-      "uses": [
-        {
-          "move": "lead-letter-other",
-          "subject": "lead",
-          "role": "letter",
-          "choice": "other"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (Lives, night crew)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-letter-other.a-photo-is-tucked-in-with-the-pages",
-      "move": "lead-letter-other",
-      "kind": "spoken",
-      "text": "A photo is tucked in with the pages.",
-      "uses": [
-        {
-          "move": "lead-letter-other",
-          "subject": "lead",
-          "role": "letter",
-          "choice": "other"
-        }
-      ],
-      "bearing": "curious",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (Lives, night crew)",
       "date": "2026-11-08",
@@ -4324,27 +4265,6 @@
       }
     },
     {
-      "key": "scene-words.lead-letter-other.one-line-near-the-end-is-crossed-out-and-rewritten",
-      "move": "lead-letter-other",
-      "kind": "spoken",
-      "text": "One line near the end is crossed out and rewritten.",
-      "uses": [
-        {
-          "move": "lead-letter-other",
-          "subject": "lead",
-          "role": "letter",
-          "choice": "other"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (Lives, night crew)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.lead-letter-other.other-left-room-at-the-bottom-for-your-answer",
       "move": "lead-letter-other",
       "kind": "spoken",
@@ -4366,10 +4286,10 @@
       }
     },
     {
-      "key": "scene-words.lead-gathering-missing-alone.one-chair-stays-pushed-in-nobody-sits-there",
+      "key": "scene-words.lead-gathering-missing-alone.about-s-chair-stays-pushed-in-nobody-sits-there",
       "move": "lead-gathering-missing-alone",
+      "text": "{about}'s chair stays pushed in. Nobody sits there.",
       "kind": "spoken",
-      "text": "One chair stays pushed in. Nobody sits there.",
       "uses": [
         {
           "move": "lead-gathering-missing-alone",
@@ -4379,18 +4299,18 @@
         }
       ],
       "bearing": "solemn",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (Lives, night crew)",
-      "date": "2026-11-08",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-gathering-missing-alone.you-cut-one-slice-more-than-there-are-people",
+      "key": "scene-words.lead-gathering-missing-alone.you-cut-a-slice-for-about-out-of-habit",
       "move": "lead-gathering-missing-alone",
+      "text": "You cut a slice for {about} out of habit.",
       "kind": "spoken",
-      "text": "You cut one slice more than there are people.",
       "uses": [
         {
           "move": "lead-gathering-missing-alone",
@@ -4400,18 +4320,18 @@
         }
       ],
       "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (Lives, night crew)",
-      "date": "2026-11-08",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-gathering-missing-alone.the-phone-lies-face-up-beside-the-cake",
+      "key": "scene-words.lead-gathering-missing-alone.the-phone-sits-by-the-cake-in-case-about-calls",
       "move": "lead-gathering-missing-alone",
+      "text": "The phone sits by the cake, in case {about} calls.",
       "kind": "spoken",
-      "text": "The phone lies face up beside the cake.",
       "uses": [
         {
           "move": "lead-gathering-missing-alone",
@@ -4421,12 +4341,12 @@
         }
       ],
       "bearing": "tired",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (Lives, night crew)",
-      "date": "2026-11-08",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-gathering-missing-other.a-card-signed-by-other-is-propped-against-the-cake-stand",
@@ -4492,10 +4412,10 @@
       }
     },
     {
-      "key": "scene-words.lead-gathering-missing-alone.they-sing-anyway-a-little-quieter-than-usual",
+      "key": "scene-words.lead-gathering-missing-alone.they-sing-anyway-a-little-quieter-without-about",
       "move": "lead-gathering-missing-alone",
+      "text": "They sing anyway, a little quieter without {about}.",
       "kind": "spoken",
-      "text": "They sing anyway, a little quieter than usual.",
       "uses": [
         {
           "move": "lead-gathering-missing-alone",
@@ -4505,12 +4425,12 @@
         }
       ],
       "bearing": "solemn",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (Lives, night crew)",
-      "date": "2026-11-08",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-gathering-missing-other.someone-makes-a-joke-then-waits-for-other-to-answer",
@@ -4555,10 +4475,10 @@
       }
     },
     {
-      "key": "scene-words.lead-gathering-missing-alone.you-lift-your-cup-toward-the-empty-chair",
+      "key": "scene-words.lead-gathering-missing-alone.you-lift-your-cup-toward-about-s-empty-chair",
       "move": "lead-gathering-missing-alone",
+      "text": "You lift your cup toward {about}'s empty chair.",
       "kind": "spoken",
-      "text": "You lift your cup toward the empty chair.",
       "uses": [
         {
           "move": "lead-gathering-missing-alone",
@@ -4568,12 +4488,12 @@
         }
       ],
       "bearing": "glad",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (Lives, night crew)",
-      "date": "2026-11-08",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-rescue-other.your-legs-give-out-and-the-cup-slips-other-catches-you",
@@ -4807,27 +4727,6 @@
       }
     },
     {
-      "key": "scene-words.lead-return-other.the-bag-on-the-step-still-has-its-paper-tag",
-      "move": "lead-return-other",
-      "kind": "spoken",
-      "text": "The bag on the step still has its paper tag.",
-      "uses": [
-        {
-          "move": "lead-return-other",
-          "subject": "lead",
-          "role": "return",
-          "choice": "other"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (Lives, night crew)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.lead-return-other.other-looks-at-the-coat-too-big-in-the-shoulders",
       "move": "lead-return-other",
       "kind": "spoken",
@@ -4841,27 +4740,6 @@
         }
       ],
       "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (Lives, night crew)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-return-other.the-smell-of-a-meal-kept-warm-reaches-the-door",
-      "move": "lead-return-other",
-      "kind": "spoken",
-      "text": "The smell of a meal kept warm reaches the door.",
-      "uses": [
-        {
-          "move": "lead-return-other",
-          "subject": "lead",
-          "role": "return",
-          "choice": "other"
-        }
-      ],
-      "bearing": "warm",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (Lives, night crew)",
       "date": "2026-11-08",
@@ -6096,7 +5974,9 @@
       }
     },
     {
+      "key": "scene-words.lead-job-offer-alone.they-re-calling-from-org-about-the-title-job",
       "move": "lead-job-offer-alone",
+      "text": "They're calling from {org} about the {title} job.",
       "kind": "spoken",
       "uses": [
         {
@@ -6109,11 +5989,9 @@
       "tag": {
         "move": "narrate"
       },
-      "key": "scene-words.lead-job-offer-alone.a-call-has-come-in-about-your-application",
-      "text": "A call has come in about your application.",
       "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "move": "cause-shared-other",

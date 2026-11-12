@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/country-model.ts, src/core2/modules/macro.ts, src/core2/modules/residents.ts, src/bench/metrics.ts
+
+**Notes (Nov 12).** Evidence (Nov 12): docs/design/output-numbers.md (#8926) shows two functions named `stateFigures` (src/core2/regional-model.ts:293 and src/core2/modules/world-legislating.ts:1541) giving different figures for one state, and the town's unemployment at 15% against the state's 4.6% because the state's figure never reads the town. This item covers the town-inside-state gap; the one-owner build is `metrics-state-figures-one-owner`.
