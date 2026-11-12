@@ -1019,9 +1019,11 @@ function quietDay(
   };
   const seen = lastContact(core, speaker.id, listener.id);
   // Not seeing much of someone takes some days apart: never "since
-  // yesterday".
+  // yesterday", and never someone they live with, whom they see every day
+  // whatever the last talk was (the telling's same household; lead, Nov 12).
   if (
     seen &&
+    speaker.householdId !== listener.householdId &&
     daysBetween(makeIsoDate(seen.date), makeIsoDate(core.date)) >=
       DEFAULT_DIRECTOR_DATA.parameters.directorTalkSeenLittleDays!.value
   )

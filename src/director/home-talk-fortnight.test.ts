@@ -224,6 +224,12 @@ it(`two weeks of talk at home hold the telling's rules (seed ${seed})`, () => {
         // A talk at home ends on its last line that says something.
         for (const line of theirs.filter((row) => row.kind === "farewell"))
           broken.push(`${here}: a goodbye at home: "${line.text}"`);
+        // Someone you live with never says they haven't seen you (lead, Nov
+        // 12: a father to the child he lives with, North Anson, Maine).
+        for (const line of theirs.filter((row) =>
+          /haven't seen much of you/i.test(row.text),
+        ))
+          broken.push(`${here}: not seen, said at home: "${line.text}"`);
         // A role is said once; later it is the pronoun.
         const roles = theirs
           .map((line) => line.text.match(/\bthe President\b/gi)?.length ?? 0)
