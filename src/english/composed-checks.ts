@@ -736,7 +736,9 @@ export const journalFactToldOnce: ComposedCheck = (text, sample) => {
       const named = new Map<string, number>();
       for (const sentence of line.sentences) {
         const plain = plainSentence(sentence);
-        if (sentences.has(plain))
+        // A sentence of one or two words is a piece of a name the splitter
+        // cut ("U.S. Virgin Islands"), not a sentence said twice.
+        if (plain.split(" ").length > one + one && sentences.has(plain))
           found.push(
             breakOf(
               "journal-fact-told-once",
@@ -793,7 +795,7 @@ export const journalFactToldOnce: ComposedCheck = (text, sample) => {
  * person, place, employer, amount or time, with nothing before or after it
  * in its paragraph ("I lost my job.").
  */
-export const journalEntryNotBare: ComposedCheck = (text) => {
+export const journalEntryNotBare: ComposedCheck = (text, sample) => {
   if (!JOURNAL_KINDS.includes(text.kind)) return [];
   const found: ComposedBreak[] = [];
   text.screens.forEach((screen, at) => {
@@ -801,7 +803,12 @@ export const journalEntryNotBare: ComposedCheck = (text) => {
       if (line.sentences.length !== one) continue;
       const sentence = plainQuotes(line.sentences[zero]!);
       const rest = sentence.split(" ").slice(one).join(" ");
-      if (/\d/.test(sentence) || /\b(?!I\b)[A-Z]/.test(rest)) continue;
+      // A person the world names, said by name, is something named.
+      const namesSomeone = sample.people.some((person) =>
+        wordPattern(person.given, "").test(sentence),
+      );
+      if (namesSomeone || /\d/.test(sentence) || /\b(?!I\b)[A-Z]/.test(rest))
+        continue;
       found.push(
         breakOf(
           "journal-entry-not-bare",

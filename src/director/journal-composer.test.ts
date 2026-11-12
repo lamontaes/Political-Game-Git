@@ -37,17 +37,18 @@ const CHECKS = [
   "journal-no-time-opener-chain",
 ];
 
+/** A place drawn from all 56 by a seed; the same seed builds the world, so it replays. */
+const drawn = (seed: string) => {
+  const row = drawPlace(seed, "journal-composer");
+  return { seed, key: row.key, name: row.name };
+};
 const draws = process.env.JC_SEED
-  ? [drawPlace(process.env.JC_SEED, "journal-composer")]
+  ? [drawn(process.env.JC_SEED)]
   : [
-      LABELED,
-      drawPlace(randomBytes(8).toString("hex"), "journal-composer"),
-      drawPlace(randomBytes(8).toString("hex"), "journal-composer"),
-    ].map((row) => ({
-      seed: row.seed,
-      key: "placeKey" in row ? row.placeKey : (row as { key: string }).key,
-      name: row.name,
-    }));
+      { seed: LABELED.seed, key: LABELED.placeKey, name: LABELED.name },
+      drawn(randomBytes(8).toString("hex")),
+      drawn(randomBytes(8).toString("hex")),
+    ];
 
 it.each(draws)(
   "tells a 36-year-old's life once, in a few paragraphs, the same each time ($name, seed $seed)",

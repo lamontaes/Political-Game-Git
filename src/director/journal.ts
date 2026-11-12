@@ -1337,7 +1337,9 @@ export function composeJournal(
       if (
         move &&
         from &&
-        !(placeName(person.placeId)?.text ?? "").endsWith(from)
+        !(placeName(person.placeId)?.text ?? "").endsWith(
+          from.replace(/^the /, ""),
+        )
       )
         facts["moved-from"] = { text: from, sourceRecordIds: [move.id] };
       const came = children.flatMap((entry) => {
@@ -1788,12 +1790,14 @@ export function composeJournal(
     if (moment.date >= core.startedAt && moment.beat !== "work") return "play";
     const kind = moment.causeKind;
     const young = ageAt(moment.date) < P.votingAge;
-    for (const row of JOURNAL_OUTLINE.paragraphs) {
-      if ("beat" in row && row.beat === moment.beat) return row.key;
-      if (row.kinds.some((prefix) => kind.startsWith(prefix))) return row.key;
-      if ("young" in row && row.young && young) return row.key;
-    }
-    return "family";
+    const rows = JOURNAL_OUTLINE.paragraphs;
+    return (
+      rows.find((row) => "beat" in row && row.beat === moment.beat)?.key ??
+      rows.find((row) => row.kinds.some((prefix) => kind.startsWith(prefix)))
+        ?.key ??
+      rows.find((row) => "young" in row && row.young && young)?.key ??
+      "family"
+    );
   };
   const units: Unit[] = [];
   // Each fact is told once in a life: the same kind, the same people and the
@@ -1821,9 +1825,16 @@ export function composeJournal(
       if (employer) employerIds.push(employer);
       continue;
     }
-    // A move to a place already told is the same move told twice: told once.
-    if (moment.causeKind === "moved" && facts.place) {
-      const key = `moved|${facts.place.text}`;
+    // The same move kept twice (the life list's move and the moves engine's
+    // record of one day to one place, #8234's Jaguas) is told once: by the
+    // move's own destination on the list, never by where the person lives
+    // now, which every move would share.
+    const movedTo =
+      moment.causeKind === "moved"
+        ? lifeById.get(moment.causeFactId ?? moment.causeId)?.placeId
+        : undefined;
+    if (movedTo) {
+      const key = `moved|${movedTo}|${moment.date.slice(zero, P.two * P.two)}`;
       if (toldFacts.has(key)) continue;
       toldFacts.add(key);
     }
@@ -1915,7 +1926,12 @@ export function composeJournal(
     // When they were young, the age frames it: "When I was 7, my father
     // died." Only what happened around a young person, as the row says.
     let framed = false;
-    if (ageAt(moment.date) < P.votingAge && row.framesAge) {
+    // An age of nothing ("When I was 0") is no frame: the day of the birth.
+    if (
+      ageAt(moment.date) < P.votingAge &&
+      ageAt(moment.date) > zero &&
+      row.framesAge
+    ) {
       const frame = render(
         { part: "memoir", field: "whenAge" },
         {
@@ -2045,7 +2061,8 @@ export function composeJournal(
       } else if (
         !last &&
         !unit.framed &&
-        (key === "family" || key === "work")
+        (key === "family" || key === "work") &&
+        ageAt(unit.moment.date) > zero
       ) {
         const frame = render(
           { part: "memoir", field: "whenAge" },
@@ -2114,7 +2131,12 @@ export function composeJournal(
     const foldAt =
       DEFAULT_DIRECTOR_DATA.parameters.journalWorkFoldAt?.value ??
       Number.POSITIVE_INFINITY;
-    if (employers.size <= foldAt) return null;
+    // A working life with no employer on record, told job by job, would
+    // name the same place in every sentence: it is told as one run too.
+    const placeOnly =
+      employers.size === zero &&
+      told.filter((unit) => unit.facts.place).length > P.two;
+    if (employers.size <= foldAt && !placeOnly) return null;
     const ids = told.map((unit) => unit.moment.causeId);
     const first = told[zero]!;
     const lastUnit = told.at(-one)!;
