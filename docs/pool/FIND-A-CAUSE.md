@@ -45,7 +45,7 @@ Many `Needs cause.` items are tests that were red on some draw weeks ago. Before
 
 - Change game code or tests in this pull request. It holds pool files and the release note only.
 - Build the fix, or merge anything.
-- Post on issue 7365. Your pull request is your thread.
+- Post on issue 8928. Your pull request is your thread.
 - Force-push, weaken a test, or leave a probe in a commit.
 - Name a place in a Fix as a rule. A named place is a labeled case for a test.
 - Write a line under `data/english/parts/`, or put the game's title where outsiders can see it.
