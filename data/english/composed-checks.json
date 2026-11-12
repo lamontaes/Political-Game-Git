@@ -519,5 +519,22 @@
     "Group",
     "Press"
   ],
-  "organizationNote": "A capitalized name of two words or more ending in one of these words is an organization: named once in one exchange (one screen's lines and replies), then said by the tie ('work', 'school'; said-as ownPlace)."
+  "organizationNote": "A capitalized name of two words or more ending in one of these words is an organization: named once in one exchange (one screen's lines and replies), then said by the tie ('work', 'school'; said-as ownPlace).",
+  "ownPay": "\\$(\\d[\\d,]*)(?:\\.\\d+)? an hour",
+  "ownPayNote": "Words builder, Nov 12 (reason-fits-the-side): a speaker's own hourly pay said as a reason, and the minimum-wage questions with the wage each proposes (dollars an hour, the same proposals as src/director/data/conversation-rules.json stands.reasonFits.wages). Pay at or under the proposal times payNear argues for a raise; any other own pay is no reason on either side.",
+  "payQuestions": {
+    "a higher federal minimum wage": 17,
+    "a higher minimum wage": 15,
+    "letting cities set their own minimum wage": 15
+  },
+  "payNear": 1.25,
+  "againstFrames": [
+    "\\bagainst\\b",
+    "draw the line",
+    "count me out",
+    "fight hardest",
+    "fought",
+    "don't want",
+    "say no to"
+  ]
 }

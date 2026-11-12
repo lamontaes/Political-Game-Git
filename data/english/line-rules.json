@@ -5300,6 +5300,25 @@
       }
     },
     {
+      "id": "reason-holds-for-the-side",
+      "says": "A reason from the speaker's own life is given only when their record supports the side they take: their own pay argues for a raise only at or near the proposed wage.",
+      "judges": "exchange",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "\"Where I'd draw the line is a higher federal minimum wage. At about $15 an hour, it's my own paycheck on the line.\" (she is against a raise that would pay her more)",
+          "via": "words lead, read as the owner, Nov 12"
+        }
+      ],
+      "note": "Composed check (docs/design/words-composer.md, part 5, stance): the fit is data per question and side (src/director/data/conversation-rules.json stands.reasonFits), and the talk offers a reason only where it fits. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["reason-fits-the-side"],
+        "applies": ["talk:home", "talk:town", "scene"]
+      }
+    },
+    {
       "id": "pictures-show-who-the-text-names",
       "says": "Pictures shown with a speech show the people the speech names, when it names them.",
       "judges": "set",

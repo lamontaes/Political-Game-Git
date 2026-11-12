@@ -265,6 +265,28 @@ const FIXTURES: Record<
       ]),
     ),
   },
+  "reason-fits-the-side": {
+    catches: sampleOf(
+      talk("mom", [
+        [
+          [
+            "mom",
+            "Where I'd draw the line is a higher federal minimum wage. At about $15 an hour, it's my own paycheck on the line.",
+          ],
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      talk("mom", [
+        [
+          [
+            "mom",
+            "I'm for a higher federal minimum wage. At about $15 an hour, it's my own paycheck on the line.",
+          ],
+        ],
+      ]),
+    ),
+  },
   "answer-adds-something": {
     catches: sampleOf(
       talk("dad", [
