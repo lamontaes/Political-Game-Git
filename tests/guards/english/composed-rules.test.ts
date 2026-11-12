@@ -2,6 +2,7 @@ import { readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 import {
+  baselineFailures,
   COMPOSED_CHECKS,
   checksOf,
   runComposedRules,
@@ -14,6 +15,8 @@ import {
   type ComposedText,
 } from "../../../src/english/composed-text";
 import type { LineRulesFile } from "../../../src/english/line-rules";
+import { corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import checksData from "../../../data/english/composed-checks.json";
 import baseline from "./composed-baseline.json";
 
 /**
@@ -72,7 +75,15 @@ const sampleOf = (...texts: ComposedText[]): ComposedSample => ({
   playerId: PLAYER,
   householdIds: HOUSE,
   people,
-  stateNames: ["Ohio", "Oregon", "Kansas", "Arkansas", "Washington"],
+  stateNames: [
+    "Ohio",
+    "Oregon",
+    "Kansas",
+    "Arkansas",
+    "Washington",
+    "Virginia",
+    "West Virginia",
+  ],
   townName: "Millbrook",
   texts,
 });
@@ -216,6 +227,19 @@ const FIXTURES: Record<
       text("speech:governor", [["Families in Oregon and Ohio deserve it."]], {
         ownPlaces: ["Ohio"],
       }),
+      text(
+        "speech:governor",
+        [["We can do what Washington State did for its ferries."]],
+        { ownPlaces: ["Ohio"] },
+      ),
+      text(
+        "speech:governor",
+        [["People of West Virginia, look at what Virginia built."]],
+        { ownPlaces: ["West Virginia"] },
+      ),
+      text("speech:governor", [["People of West Virginia, good evening."]], {
+        ownPlaces: ["Virginia"],
+      }),
     ),
     spares: sampleOf(
       text(
@@ -223,6 +247,12 @@ const FIXTURES: Record<
         [["Families across Ohio deserve it. Washington must help."]],
         { ownPlaces: ["Ohio"] },
       ),
+      text("speech:governor", [["People of West Virginia, good evening."]], {
+        ownPlaces: ["West Virginia"],
+      }),
+      text("speech:governor", [["Arkansas is open for business."]], {
+        ownPlaces: ["Arkansas"],
+      }),
     ),
   },
   "ask-said-once": {
@@ -265,6 +295,11 @@ const FIXTURES: Record<
     ),
   },
 };
+
+/** All 56: the 50 states, D.C. and the five territories. */
+const PLACE_COUNT = 56;
+const PLACE_SAID: Readonly<Record<string, string>> =
+  checksData.placeSaidOnlyAs.names;
 
 describe("composed rules: the registry and the rule rows", () => {
   it("every composed rule names checks that exist, and kinds that exist", () => {
@@ -345,5 +380,63 @@ describe("composed rules: each check on its fixtures", () => {
     )!;
     expect(row.read).toBe(1);
     expect(row.breaks.length).toBe(1);
+  });
+
+  it("a run that reads no texts for a rule fails the baseline, never passes it", () => {
+    const committed = {
+      "no-non-replies": { read: 45, breaks: 17, per100: 37.8 },
+      "speech-has-one-theme": { read: 7, breaks: 5, per100: 71.4 },
+    };
+    const empty = {
+      "no-non-replies": { read: 0, breaks: 0, per100: 0 },
+      "speech-has-one-theme": { read: 0, breaks: 0, per100: 0 },
+    };
+    const lost = baselineFailures(committed, empty);
+    expect(lost.length).toBe(2);
+    for (const line of lost) expect(line.startsWith("COVERAGE: ")).toBe(true);
+    expect(baselineFailures(committed, {})[0]).toContain("COVERAGE: ");
+    expect(
+      baselineFailures(committed, {
+        ...committed,
+        "no-non-replies": { read: 40, breaks: 16, per100: 40 },
+      }),
+    ).toEqual(["ROSE: no-non-replies 37.8 -> 40 breaks per 100 texts"]);
+    expect(
+      baselineFailures(committed, {
+        "no-non-replies": { read: 31, breaks: 0, per100: 0 },
+        "speech-has-one-theme": { read: 7, breaks: 2, per100: 28.6 },
+      }),
+    ).toEqual([]);
+  });
+
+  it("the committed baseline read texts for every composed rule", () => {
+    for (const [rule, row] of Object.entries(baseline.rules))
+      expect(row.read, `${rule} read no texts in the baseline`).toBeGreaterThan(
+        0,
+      );
+  });
+
+  it("the stray-place check holds for every state and territory, as the speech's own and as a stray", () => {
+    const stateNames = corePlaceStateIdentities().map((row) => row.name);
+    expect(stateNames.length).toBe(PLACE_COUNT);
+    const check = COMPOSED_CHECKS["speech-names-no-stray-place"]!;
+    for (const name of stateNames) {
+      const said = PLACE_SAID[name] ?? name;
+      const line = `People of ${said}, good evening.`;
+      const own = { ...sampleOf(), stateNames };
+      const ownText = text("speech:governor", [[line]], { ownPlaces: [name] });
+      expect(check(ownText, own), `${name} as its own speech's place`).toEqual(
+        [],
+      );
+      const other = stateNames.find(
+        (one) => !one.includes(name) && !name.includes(one),
+      )!;
+      const strayText = text("speech:governor", [[line]], {
+        ownPlaces: [other],
+      });
+      const found = check(strayText, own);
+      expect(found.length, `${name} in ${other}'s speech`).toBe(1);
+      expect(found[0]!.why).toContain(`names ${name},`);
+    }
   });
 });

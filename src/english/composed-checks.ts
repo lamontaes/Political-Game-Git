@@ -509,6 +509,10 @@ export const housemateDoesNotAskKnownFact: ComposedCheck = (text, sample) => {
 
 // ---- the speech checks ----
 
+/** A place whose bare name means something else in speech, and the spelling that means the place. */
+const PLACE_SAID_ONLY_AS: Readonly<Record<string, string>> =
+  data.placeSaidOnlyAs.names;
+
 const SPEECH_KINDS: readonly ComposedKind[] = [
   "speech:president",
   "speech:governor",
@@ -518,8 +522,9 @@ const SPEECH_KINDS: readonly ComposedKind[] = [
 
 /**
  * A speech naming a state that is not its own jurisdiction's, or a national
- * speech naming the player's town. "Washington" counts only as "Washington
- * State", since alone it is the capital.
+ * speech naming the player's town. A state whose bare name means something
+ * else in speech is matched only by the spelling the data gives for it
+ * (`placeSaidOnlyAs` in data/english/composed-checks.json).
  */
 export const speechNamesNoStrayPlace: ComposedCheck = (text, sample) => {
   if (!SPEECH_KINDS.includes(text.kind)) return [];
@@ -530,30 +535,40 @@ export const speechNamesNoStrayPlace: ComposedCheck = (text, sample) => {
       ? [sample.townName]
       : []),
   ];
+  // Every place the text could name, its own included: a name found inside a
+  // longer place's name is that longer place, whichever of the two is stray.
+  const known = [...new Set([...own, ...stray])];
   const found: ComposedBreak[] = [];
   screenTexts(text).forEach((said, at) => {
-    for (const name of stray) {
-      const pattern =
-        name === "Washington" ? /\bWashington State\b/ : wordPattern(name, "");
-      // A longer name that holds this one ("West Virginia", "Kansas City") is not this place.
-      const match = pattern.exec(said);
-      if (!match) continue;
-      const longer = stray.some(
+    const spans = known.flatMap((name) =>
+      [...said.matchAll(wordPattern(PLACE_SAID_ONLY_AS[name] ?? name))].map(
+        (match) => ({
+          name,
+          start: match.index,
+          end: match.index + match[0].length,
+        }),
+      ),
+    );
+    const named = new Set<string>();
+    for (const span of spans) {
+      if (own.has(span.name) || named.has(span.name)) continue;
+      const inside = spans.some(
         (other) =>
-          other !== name &&
-          other.includes(name) &&
-          wordPattern(other, "").test(said),
+          other.start <= span.start &&
+          other.end >= span.end &&
+          other.end - other.start > span.end - span.start,
       );
-      if (!longer && !own.has(name))
-        found.push(
-          breakOf(
-            "speech-names-no-stray-place",
-            text,
-            at,
-            `names ${name}, not this speech's own place`,
-            said,
-          ),
-        );
+      if (inside) continue;
+      named.add(span.name);
+      found.push(
+        breakOf(
+          "speech-names-no-stray-place",
+          text,
+          at,
+          `names ${span.name}, not this speech's own place`,
+          said,
+        ),
+      );
     }
   });
   return found;
@@ -727,4 +742,37 @@ export function runComposedRules(
       );
       return { rule: rule.id, read: texts.length, breaks };
     });
+}
+
+/** One rule's row in the baseline: texts read, breaks, and breaks per 100 texts. */
+export interface BaselineRow {
+  readonly read: number;
+  readonly breaks: number;
+  readonly per100: number;
+}
+
+/**
+ * Why a fresh run fails against the committed baseline, one line each: a
+ * rule whose rate rose, and a rule the baseline read texts for that now
+ * reads none or is missing. Reading nothing is lost coverage, never an
+ * improvement: a sampler that stops making a kind of text would otherwise
+ * report every rule about it at zero.
+ */
+export function baselineFailures(
+  committed: Readonly<Record<string, BaselineRow>>,
+  fresh: Readonly<Record<string, BaselineRow>>,
+): string[] {
+  const failures: string[] = [];
+  for (const [rule, was] of Object.entries(committed)) {
+    const now = fresh[rule];
+    if (was.read > 0 && (now === undefined || now.read === 0))
+      failures.push(
+        `COVERAGE: ${rule} read no texts; the baseline read ${was.read}. A rule that reads nothing has checked nothing.`,
+      );
+    else if (now !== undefined && now.per100 > was.per100)
+      failures.push(
+        `ROSE: ${rule} ${was.per100} -> ${now.per100} breaks per 100 texts`,
+      );
+  }
+  return failures;
 }
