@@ -217,6 +217,11 @@ const FIXTURES: Record<
       text("speech:governor", [["Families in Oregon and Ohio deserve it."]], {
         ownPlaces: ["Ohio"],
       }),
+      text(
+        "speech:governor",
+        [["We can do what Washington State did for its ferries."]],
+        { ownPlaces: ["Ohio"] },
+      ),
     ),
     spares: sampleOf(
       text(

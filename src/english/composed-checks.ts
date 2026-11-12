@@ -509,6 +509,10 @@ export const housemateDoesNotAskKnownFact: ComposedCheck = (text, sample) => {
 
 // ---- the speech checks ----
 
+/** A place whose bare name means something else in speech, and the spelling that means the place. */
+const PLACE_SAID_ONLY_AS: Readonly<Record<string, string>> =
+  data.placeSaidOnlyAs.names;
+
 const SPEECH_KINDS: readonly ComposedKind[] = [
   "speech:president",
   "speech:governor",
@@ -518,8 +522,9 @@ const SPEECH_KINDS: readonly ComposedKind[] = [
 
 /**
  * A speech naming a state that is not its own jurisdiction's, or a national
- * speech naming the player's town. "Washington" counts only as "Washington
- * State", since alone it is the capital.
+ * speech naming the player's town. A state whose bare name means something
+ * else in speech is matched only by the spelling the data gives for it
+ * (`placeSaidOnlyAs` in data/english/composed-checks.json).
  */
 export const speechNamesNoStrayPlace: ComposedCheck = (text, sample) => {
   if (!SPEECH_KINDS.includes(text.kind)) return [];
@@ -533,8 +538,7 @@ export const speechNamesNoStrayPlace: ComposedCheck = (text, sample) => {
   const found: ComposedBreak[] = [];
   screenTexts(text).forEach((said, at) => {
     for (const name of stray) {
-      const pattern =
-        name === "Washington" ? /\bWashington State\b/ : wordPattern(name, "");
+      const pattern = wordPattern(PLACE_SAID_ONLY_AS[name] ?? name, "");
       // A longer name that holds this one ("West Virginia", "Kansas City") is not this place.
       const match = pattern.exec(said);
       if (!match) continue;
