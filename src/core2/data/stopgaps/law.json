@@ -4,42 +4,48 @@
     "kind": "missing-data",
     "file": "src/core2/data/laws/outcome-research-gaps.json",
     "line": 7,
-    "whatItFakes": "The laws listed in outcome-research-gaps.json (each with the outcome its research would measure) move no outcome-web measure: no researched link starts from the law or from a measure an engine sets from it, so the web holds those outcomes at their base whatever the law does.",
+    "whatItFakes": "The one law left in outcome-research-gaps.json, local-minimum-wage-authority (its outcome is local minimum wage adoption), moves no outcome-web measure: no researched link starts from the law or from a measure an engine sets from it, so the web holds that outcome at its base whatever the law does.",
     "why": "data/research/outcome-web/links.json has no link from these laws or their measures; the laws' reach, engine reads and money are wired, but an outcome link needs a researched strength, shape and lag before the web can move anything.",
     "addedBy": "claude/law-wiring-audit",
     "addedAt": "2026-10-20",
-    "replacement": "A researched link per law in links.json (strength, shape, lag, source), built by the outcome-web line, after which each row leaves outcome-research-gaps.json.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A researched link per law in links.json (strength, shape, lag, source), built by the outcome-web line, after which each row leaves outcome-research-gaps.json.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10)"
   },
   {
     "id": "SG-LAW-justice-youth-firearm-harm",
     "kind": "missing-mechanic",
     "file": "src/core2/public-safety.ts",
-    "line": 1630,
+    "line": 1944,
     "whatItFakes": "The web's youth firearm death and suicide rates become an expected count of young people lost in the town each month, but no named child dies of it.",
     "why": "Counted people die only through the illness-course engine (births-counted.ts); there is no injury death for a child.",
     "addedBy": "claude/law-wiring",
     "addedAt": "2026-10-20",
-    "replacement": "PEOPLE: an injury death for full and counted young people, booked from this expected count.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: PEOPLE: an injury death for full and counted young people, booked from this expected count.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10)"
   },
   {
     "id": "SG-LAW-justice-enforcement-outcome-readers",
     "kind": "missing-mechanic",
     "file": "src/core2/public-safety.ts",
-    "line": 1191,
-    "whatItFakes": "The immigration partnership moves the web's Hispanic school enrollment, undocumented employment and U.S.-born employment, but no school or jobs engine reads those measures.",
+    "line": 1472,
+    "whatItFakes": "The immigration partnership moves the web's Hispanic school enrollment, but no school engine reads that measure when it enrolls (the school stand-in SG-SCHOOL-hispanic-enrollment says the same). The jobs engine now reads the undocumented and U.S.-born employment measures when it hires (enforcementMoves in src/core2/jobs-web.ts).",
     "why": "The detainer holds are built; the three outcomes are kept place measures that no engine consumes.",
     "addedBy": "claude/law-wiring",
     "addedAt": "2026-10-20",
-    "replacement": "WORLD and PEOPLE: school enrollment and jobs engines read the kept measures when they enroll and hire.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: WORLD and PEOPLE: school enrollment and jobs engines read the kept measures when they enroll and hire.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10)"
   },
   {
     "id": "SG-LAW-justice-named-offender-acts",
     "kind": "missing-mechanic",
     "file": "src/core2/public-safety.ts",
-    "line": 732,
+    "line": 855,
     "whatItFakes": "The named residents' share of ordinary-crime arrests is carried in an unnamed batch of cases; no named person is arrested, held or sentenced by this engine.",
     "why": "A named person is charged only through an act the engines record (corruption cases today); there is no engine that records an ordinary offense as a named person's own act.",
     "addedBy": "claude/law-wiring",
@@ -51,13 +57,15 @@
     "id": "SG-LAW-estates-counted-people",
     "kind": "estimated-behavior",
     "file": "src/core2/estates.ts",
-    "line": 413,
+    "line": 433,
     "whatItFakes": "A counted heir's relation to the person who died is read from the years between them (a parent's age younger, a child; older, a parent; nearer, the partner), so a counted sibling is taxed as a partner; and the estate is the dead person's share of their household's cash (the counts pool it in the group's account), not their own assets. A counted estate no one inherits is assessed against the state as heir, but a tax on that heir (where a statute taxes a government; none of the starting law's five does) is recorded as assessed and not collected, because the retired household's cash has left the pool.",
     "why": "The counts keep family pairs without their kind, so an inheritance tax class cannot be read from a counted record, and keep money by group, not by member.",
     "addedBy": "claude/law-wiring",
     "addedAt": "2026-10-20",
-    "replacement": "The counted store keeps each family pair's kind (partner, child, parent, sibling) and each member's own assets, read for the estate and the inheritance class.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The counted store keeps each family pair's kind (partner, child, parent, sibling) and each member's own assets, read for the estate and the inheritance class.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10)"
   },
   {
     "id": "SG-LAW-local-income-tax-authority-change",
@@ -78,10 +86,12 @@
     "line": 53,
     "whatItFakes": "A state that adopts an estate or inheritance tax by a bill that sets only a rate (it had none, so the bill has no schedule to keep) taxes the whole estate or share at that rate, with no exemption and no classes of heirs.",
     "why": "The bill catalog lets a legislature set the estate and inheritance tax amounts in any state; shapedRate keeps an existing schedule but a state without the tax has none to scale.",
-    "replacement": "An adopting bill carries a schedule (an exemption, and for an inheritance tax the classes of heirs), drafted from the states that levy the tax.",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An adopting bill carries a schedule (an exemption, and for an inheritance tax the classes of heirs), drafted from the states that levy the tax.",
     "addedBy": "claude/law-wiring-death-tax-terms",
     "addedAt": "2026-10-20",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10)"
   },
   {
     "id": "SG-LAW-government-heir-exempt-assumed",
@@ -90,10 +100,12 @@
     "line": 182,
     "whatItFakes": "A government that takes an estate no one else does is assumed exempt from the state's inheritance tax where the law row carries no researched statute term for it: a state that adopts an inheritance tax by a bill (the bill sets a rate, not the statute's exemptions), and Kentucky, whose statute exempts transfers to cities, towns and public institutions in the state for public purposes without naming the Commonwealth itself, so the Commonwealth taking an estate by escheat is our reading of it. Maryland, Nebraska, New Jersey and Pennsylvania name the state itself and are quoted in data.",
     "why": "Every state with an inheritance tax in the starting law was checked against its statute (data/research/money/death-taxes-2026.json, governmentHeir, with cite, url and quote). All five exempt a government; four name the state, and Kentucky does so only by reading public institutions to include it. A state that adopts the tax by a bill has no researched statute.",
-    "replacement": "A statute-cited governmentHeir term on every inheritance-tax row: an adopting bill carries its state's term (the engine taxes the government at the state's rate for others when the term says exempt: false), and Kentucky's Department of Revenue or a court confirms the Commonwealth is exempt as an escheat taker.",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A statute-cited governmentHeir term on every inheritance-tax row: an adopting bill carries its state's term (the engine taxes the government at the state's rate for others when the term says exempt: false), and Kentucky's Department of Revenue or a court confirms the Commonwealth is exempt as an escheat taker.",
     "addedBy": "claude/law-wiring-taxes",
     "addedAt": "2026-10-24",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10)"
   },
   {
     "id": "SG-LAW-justice-low-level-drug-possession",
@@ -114,7 +126,7 @@
     "id": "SG-LAW-held-bill-chair-reasons-unread",
     "kind": "missing-engine",
     "file": "src/core2/modules/legislature.ts",
-    "line": 3127,
+    "line": 4303,
     "whatItFakes": "A bill the committee chair holds without a hearing keeps the chair's reasons on the committee record (their position on the bill, part by part, and what their temperament adds toward a hearing), but no scene, story or later decision reads them yet.",
     "why": "The reasons are the why of a held bill for the sponsor and the player; the scene where the sponsor asks the chair, and a story that a bill died without a hearing, are not yet built to read the record.",
     "addedBy": "claude/laws-held-bill-chair-reasons",
@@ -131,7 +143,9 @@
     "why": "No engine keeps a teen's social media use or a depression condition, and no study sizes the law's effect on either. The one record that holds a teen's mood is the resting stress the person's affect returns to, which the full person (monthly) and the counted person (when a group decides) both read through restingStress, so reading the web there reaches both tiers by one rule.",
     "addedBy": "laws helper (laws-social-media-age-check-estimated-link)",
     "addedAt": "2026-10-29",
-    "replacement": "The health engine keeps an adolescent depression condition per full teen (and a count for counted teens) decided from the teen's own traits, home and use, calibrated to the NSDUH share in an episode (health.youth-major-depressive-episode), with the web's factor multiplying that rate where the health engine decides it; a teen's social media use becomes a free-time act the age check removes for the teens it reaches; resting stress then reads the condition instead of scaling the age gap.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The health engine keeps an adolescent depression condition per full teen (and a count for counted teens) decided from the teen's own traits, home and use, calibrated to the NSDUH share in an episode (health.youth-major-depressive-episode), with the web's factor multiplying that rate where the health engine decides it; a teen's social media use becomes a free-time act the age check removes for the teens it reaches; resting stress then reads the condition instead of scaling the age gap.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage (Nov 10)"
   }
 ]
