@@ -794,7 +794,7 @@ const TODAY: [string | string[], string][] = [
   ["polished", "As things stand, {today-clause}"],
   ["plain", "Right now, {today-clause}"],
   ["polished", "Today, {today-clause}"],
-  ["plain", "The fact is, {today-clause}"],
+  ["plain", "In fact, {today-clause}"],
   ["polished", "As matters stand, {today-clause}"],
   ["plain", "These days, {today-clause}"],
   ["polished", "As we meet tonight, {today-clause}"],

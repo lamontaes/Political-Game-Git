@@ -105501,55 +105501,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.today.plain-inaugural-the-fact-is-today-clause",
-      "move": "today",
-      "kind": "spoken",
-      "text": "The fact is, {today-clause}",
-      "uses": [
-        {
-          "move": "today",
-          "subject": "inaugural",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-union",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-state",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "town-address",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.today.polished-inaugural-as-matters-stand-today-clause",
       "move": "today",
       "kind": "spoken",
@@ -106363,6 +106314,55 @@
       "move": "today",
       "kind": "spoken",
       "text": "As of right now, {today-clause}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-in-fact-today-clause",
+      "move": "today",
+      "kind": "spoken",
+      "text": "In fact, {today-clause}",
       "uses": [
         {
           "move": "today",
