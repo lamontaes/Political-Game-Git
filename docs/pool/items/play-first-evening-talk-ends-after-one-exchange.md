@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/first-evening-talk-ends-early
 pr: #8893
@@ -17,6 +17,7 @@ effort: low
 root: rc4-hand-written-words
 source: found by fixer F2 on #8427; cause found by an Opus fixer, Nov 12
 branch: claude/first-evening-talk-ends-early
+merged-at: 2026-11-12T18:04:24.394Z
 ---
 
 **What.** On the first evening at home, a relative raises a point of the President's address, the player answers, the relative answers back and then says goodbye ("Go on and enjoy what's left of tonight."). The talk is one exchange in every place tried, so the owner's first talk in a new life closes on him as soon as he answers. Seen: the first evening's talk box offers a second set of replies after the relative answers the player's reply on the address.
