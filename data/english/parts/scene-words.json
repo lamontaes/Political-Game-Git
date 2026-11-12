@@ -566,9 +566,9 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.cause-eviction-self.landlord-won-the-eviction-case-and-your-household-has-to-move-out",
+      "key": "scene-words.cause-eviction-self.landlord-won-the-eviction-and-your-household-has-to-move",
       "move": "cause-eviction-self",
-      "text": "{landlord} won the eviction case, and your household has to move out.",
+      "text": "{landlord} won the eviction, and your household has to move.",
       "uses": [
         {
           "move": "cause-eviction-self",
@@ -1230,9 +1230,9 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-law-takes-effect-any.the-law-on-topic-is-in-effect-now-and-it-covers-you",
+      "key": "scene-words.lead-law-takes-effect-any.the-law-on-topic-is-in-effect-and-it-covers-you",
       "move": "lead-law-takes-effect-any",
-      "text": "The law on {topic} is in effect now, and it covers you.",
+      "text": "The law on {topic} is in effect, and it covers you.",
       "kind": "spoken",
       "uses": [
         {
@@ -2368,9 +2368,9 @@
       }
     },
     {
-      "key": "scene-words.lead-volunteer-offer-alone.someone-has-come-by-to-offer-a-hand-with-your-run-for-office",
+      "key": "scene-words.lead-volunteer-offer-alone.someone-wants-to-help-with-your-run-for-office",
       "move": "lead-volunteer-offer-alone",
-      "text": "Someone has come by to offer a hand with your run for {office}.",
+      "text": "Someone wants to help with your run for {office}.",
       "kind": "spoken",
       "uses": [
         {
@@ -2408,9 +2408,9 @@
       }
     },
     {
-      "key": "scene-words.lead-rival-word-alone.someone-has-come-by-with-news-from-the-race-for-office",
+      "key": "scene-words.lead-rival-word-alone.someone-has-news-of-the-race-for-office",
       "move": "lead-rival-word-alone",
-      "text": "Someone has come by with news from the race for {office}.",
+      "text": "Someone has news of the race for {office}.",
       "kind": "spoken",
       "uses": [
         {
@@ -2428,9 +2428,9 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-rival-word-alone.someone-has-come-by-with-word-of-what-rival-is-saying-in-the-race-for-office",
+      "key": "scene-words.lead-rival-word-alone.someone-has-word-of-what-rival-is-saying-in-the-race",
       "move": "lead-rival-word-alone",
-      "text": "Someone has come by with word of what {rival} is saying in the race for {office}.",
+      "text": "Someone has word of what {rival} is saying in the race.",
       "kind": "spoken",
       "uses": [
         {
@@ -3760,9 +3760,9 @@
       }
     },
     {
-      "key": "scene-words.lead-manager-offer-alone.someone-close-has-come-to-talk-about-running-your-campaign-for-office",
+      "key": "scene-words.lead-manager-offer-alone.someone-close-wants-to-run-your-campaign-for-office",
       "move": "lead-manager-offer-alone",
-      "text": "Someone close has come to talk about running your campaign for {office}.",
+      "text": "Someone close wants to run your campaign for {office}.",
       "kind": "spoken",
       "uses": [
         {
@@ -3880,9 +3880,9 @@
       }
     },
     {
-      "key": "scene-words.lead-swearing-in-alone.you-are-about-to-take-the-oath-of-office-for-office",
+      "key": "scene-words.lead-swearing-in-alone.you-are-about-to-take-the-oath-for-office",
       "move": "lead-swearing-in-alone",
-      "text": "You are about to take the oath of office for {office}.",
+      "text": "You are about to take the oath for {office}.",
       "kind": "spoken",
       "uses": [
         {
@@ -4020,9 +4020,9 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-floor-vote-any.the-chair-puts-the-question-on-bill-the-clerk-begins-the-roll",
+      "key": "scene-words.lead-floor-vote-any.the-chair-puts-the-question-on-bill-the-roll-begins",
       "move": "lead-floor-vote-any",
-      "text": "The chair puts the question on {bill}. The clerk begins the roll.",
+      "text": "The chair puts the question on {bill}. The roll begins.",
       "kind": "spoken",
       "uses": [
         {
@@ -4040,9 +4040,9 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-floor-vote-any.the-clerk-reads-the-title-of-bill-the-chair-calls-the-vote",
+      "key": "scene-words.lead-floor-vote-any.the-clerk-reads-bill-by-title-the-roll-begins",
       "move": "lead-floor-vote-any",
-      "text": "The clerk reads the title of {bill}. The chair calls the vote.",
+      "text": "The clerk reads {bill} by title. The roll begins.",
       "kind": "spoken",
       "uses": [
         {
@@ -4080,9 +4080,9 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-floor-vote-any.nobody-else-seeks-the-floor-on-bill-the-chair-puts-the-question",
+      "key": "scene-words.lead-floor-vote-any.nobody-else-rises-on-bill-the-chair-puts-the-question",
       "move": "lead-floor-vote-any",
-      "text": "Nobody else seeks the floor on {bill}. The chair puts the question.",
+      "text": "Nobody else rises on {bill}. The chair puts the question.",
       "kind": "spoken",
       "uses": [
         {
@@ -4328,9 +4328,9 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-gathering-missing-alone.the-phone-lies-face-up-beside-the-cake-in-case-about-calls",
+      "key": "scene-words.lead-gathering-missing-alone.the-phone-sits-by-the-cake-in-case-about-calls",
       "move": "lead-gathering-missing-alone",
-      "text": "The phone lies face up beside the cake, in case {about} calls.",
+      "text": "The phone sits by the cake, in case {about} calls.",
       "kind": "spoken",
       "uses": [
         {
