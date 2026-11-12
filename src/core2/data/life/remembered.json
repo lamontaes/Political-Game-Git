@@ -1038,6 +1038,11 @@
       "what": "released"
     },
     {
+      "kind": "person.moved-within",
+      "life": "move",
+      "what": "moved-within"
+    },
+    {
       "kind": "family.partnered",
       "life": "partner",
       "what": "partnered"
