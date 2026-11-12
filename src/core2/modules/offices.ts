@@ -1949,7 +1949,13 @@ function officesCalendarWork(
 }
 
 // Re-exported so other engine families import through this entry, not the file (families guard).
-export { CASES_MODULE_ID, casesOpenFor, handleCase } from "./constituent-cases";
+export {
+  CASES_MODULE_ID,
+  casesOpenFor,
+  handleCase,
+  openCasesOf,
+  type CaseRow,
+} from "./constituent-cases";
 export type { OfficeLevel } from "../offices-local";
 export { partySide } from "../appointments";
 export { nextMeeting } from "../office-day-calendar";

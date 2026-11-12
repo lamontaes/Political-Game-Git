@@ -58,7 +58,9 @@ for (let attempt = 0; attempt < ATTEMPTS && shown < want; attempt += 1) {
     .sort((a, b) => a.id.localeCompare(b.id))
     .find((p) => seatView(core, p.id).bodies.length > 0);
   if (!member) {
-    process.stdout.write(`PASSED OVER ${where}: no resident member of a body\n`);
+    process.stdout.write(
+      `PASSED OVER ${where}: no resident member of a body\n`,
+    );
     continue;
   }
   const me = member.id as PersonId;
@@ -81,9 +83,7 @@ for (let attempt = 0; attempt < ATTEMPTS && shown < want; attempt += 1) {
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
     entry = director.ledger.people
       .get(me)
-      ?.schedule.find((row) =>
-        row.bindings.some((b) => b.typeKey === typeKey),
-      );
+      ?.schedule.find((row) => row.bindings.some((b) => b.typeKey === typeKey));
   }
   if (!entry) {
     process.stdout.write(

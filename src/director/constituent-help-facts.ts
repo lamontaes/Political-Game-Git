@@ -14,8 +14,11 @@ import { daysBetweenText } from "../core2/kernel/dates";
 import { careNeedOf } from "../core2/modules/health";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { CASES_MODULE_ID } from "../core2/modules/offices";
-import { openCasesOf, type CaseRow } from "../core2/modules/constituent-cases";
+import {
+  CASES_MODULE_ID,
+  openCasesOf,
+  type CaseRow,
+} from "../core2/modules/offices";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
 import { countSaid, daysSaid } from "../english/count-words";
 import rules from "./data/constituent-help-facts.json" with { type: "json" };
