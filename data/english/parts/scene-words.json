@@ -231,9 +231,9 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.setting-letter-letter.who-s-letter-is-in-your-hands",
+      "key": "scene-words.setting-letter-letter.you-open-who-s-letter",
       "move": "setting-letter-letter",
-      "text": "{who}'s letter is in your hands.",
+      "text": "You open {who}'s letter.",
       "uses": [
         {
           "move": "setting-letter-letter",
@@ -565,9 +565,9 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.cause-eviction-self.your-household-has-to-leave-its-home-landlord-won-the-eviction",
+      "key": "scene-words.cause-eviction-self.landlord-won-the-eviction-case-and-your-household-has-to-move-out",
       "move": "cause-eviction-self",
-      "text": "Your household has to leave its home: {landlord} won the eviction.",
+      "text": "{landlord} won the eviction case, and your household has to move out.",
       "uses": [
         {
           "move": "cause-eviction-self",
@@ -869,49 +869,9 @@
       }
     },
     {
-      "key": "scene-words.lead-news-arrives-alone.news-has-reached-you-about-about",
+      "key": "scene-words.lead-news-arrives-alone.landlord-has-won-the-eviction-case-against-your-household",
       "move": "lead-news-arrives-alone",
-      "text": "News has reached you about {about}.",
-      "kind": "spoken",
-      "uses": [
-        {
-          "move": "lead-news-arrives-alone",
-          "subject": "lead",
-          "role": "news-arrives",
-          "choice": "alone"
-        }
-      ],
-      "tag": {
-        "move": "narrate"
-      },
-      "origin": "authored",
-      "author": "Words builder W2 (scene lines from the cause record)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "scene-words.lead-news-arrives-alone.landlord-has-sent-word-about-your-home",
-      "move": "lead-news-arrives-alone",
-      "text": "{landlord} has sent word about your home.",
-      "kind": "spoken",
-      "uses": [
-        {
-          "move": "lead-news-arrives-alone",
-          "subject": "lead",
-          "role": "news-arrives",
-          "choice": "alone"
-        }
-      ],
-      "tag": {
-        "move": "narrate"
-      },
-      "origin": "authored",
-      "author": "Words builder W2 (scene lines from the cause record)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "scene-words.lead-news-arrives-alone.news-has-come-about-org",
-      "move": "lead-news-arrives-alone",
-      "text": "News has come about {org}.",
+      "text": "{landlord} has won the eviction case against your household.",
       "kind": "spoken",
       "uses": [
         {
@@ -949,29 +909,9 @@
       }
     },
     {
-      "key": "scene-words.lead-celebration-alone.there-is-a-new-job-at-org-to-mark-today",
+      "key": "scene-words.lead-celebration-alone.today-you-re-celebrating-your-new-job-at-org",
       "move": "lead-celebration-alone",
-      "text": "There is a new job at {org} to mark today.",
-      "kind": "spoken",
-      "uses": [
-        {
-          "move": "lead-celebration-alone",
-          "subject": "lead",
-          "role": "celebration",
-          "choice": "alone"
-        }
-      ],
-      "tag": {
-        "move": "narrate"
-      },
-      "origin": "authored",
-      "author": "Words builder W2 (scene lines from the cause record)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "scene-words.lead-celebration-alone.today-the-family-celebrates-your-marriage-to-about",
-      "move": "lead-celebration-alone",
-      "text": "Today the family celebrates your marriage to {about}.",
+      "text": "Today you're celebrating your new job at {org}.",
       "kind": "spoken",
       "uses": [
         {
@@ -1209,9 +1149,9 @@
       }
     },
     {
-      "key": "scene-words.lead-arrival-alone.about-has-come-into-the-household",
+      "key": "scene-words.lead-arrival-alone.about-has-moved-into-the-household",
       "move": "lead-arrival-alone",
-      "text": "{about} has come into the household.",
+      "text": "{about} has moved into the household.",
       "kind": "spoken",
       "uses": [
         {
@@ -1269,9 +1209,9 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-law-takes-effect-any.law-has-taken-effect-and-it-reaches-you",
+      "key": "scene-words.lead-law-takes-effect-any.law-is-in-effect-now-and-it-covers-you",
       "move": "lead-law-takes-effect-any",
-      "text": "{law} has taken effect, and it reaches you.",
+      "text": "{law} is in effect now, and it covers you.",
       "kind": "spoken",
       "uses": [
         {
@@ -1289,9 +1229,9 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-law-takes-effect-any.the-law-on-topic-has-taken-effect-and-it-reaches-you",
+      "key": "scene-words.lead-law-takes-effect-any.the-law-on-topic-is-in-effect-now-and-it-covers-you",
       "move": "lead-law-takes-effect-any",
-      "text": "The law on {topic} has taken effect, and it reaches you.",
+      "text": "The law on {topic} is in effect now, and it covers you.",
       "kind": "spoken",
       "uses": [
         {
@@ -1449,26 +1389,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-appointment-any.the-appointment-to-office-has-been-made",
-      "move": "lead-appointment-any",
-      "text": "The appointment to {office} has been made.",
-      "kind": "spoken",
-      "uses": [
-        {
-          "move": "lead-appointment-any",
-          "subject": "lead",
-          "role": "appointment",
-          "choice": "any"
-        }
-      ],
-      "tag": {
-        "move": "narrate"
-      },
-      "origin": "authored",
-      "author": "Words builder W2 (scene lines from the cause record)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "scene-words.lead-recall-any.a-petition-to-recall-about-has-gone-around",
       "move": "lead-recall-any",
       "text": "A petition to recall {about} has gone around.",
@@ -1549,9 +1469,9 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-scandal-any.outlet-has-a-story-out-about-you",
+      "key": "scene-words.lead-scandal-any.outlet-is-running-a-story-about-you-and-a-offense-charge",
       "move": "lead-scandal-any",
-      "text": "{outlet} has a story out about you.",
+      "text": "{outlet} is running a story about you and a {offense} charge.",
       "kind": "spoken",
       "uses": [
         {
@@ -1711,9 +1631,9 @@
       }
     },
     {
-      "key": "scene-words.cause-money:job-ended-self.you-re-out-of-work-since-org-let-you-go",
+      "key": "scene-words.cause-money:job-ended-self.you-ve-been-out-of-work-since-org-let-you-go",
       "move": "cause-money:job-ended-self",
-      "text": "You're out of work since {org} let you go.",
+      "text": "You've been out of work since {org} let you go.",
       "kind": "spoken",
       "uses": [
         {
@@ -2407,9 +2327,9 @@
       }
     },
     {
-      "key": "scene-words.lead-debate-invite-alone.the-call-is-about-a-debate-for-office",
+      "key": "scene-words.lead-debate-invite-alone.they-want-you-in-a-debate-for-office",
       "move": "lead-debate-invite-alone",
-      "text": "The call is about a debate for {office}.",
+      "text": "They want you in a debate for {office}.",
       "kind": "spoken",
       "uses": [
         {
@@ -3337,9 +3257,9 @@
       }
     },
     {
-      "key": "scene-words.lead-speech-afterward-alone.speaker-is-the-candidate-whose-speech-you-heard",
+      "key": "scene-words.lead-speech-afterward-alone.speaker-whose-speech-you-heard-is-coming-your-way",
       "move": "lead-speech-afterward-alone",
-      "text": "{speaker} is the candidate whose speech you heard.",
+      "text": "{speaker}, whose speech you heard, is coming your way.",
       "kind": "spoken",
       "uses": [
         {
@@ -3437,26 +3357,6 @@
       "tag": {
         "move": "narrate"
       }
-    },
-    {
-      "key": "scene-words.lead-hallway-alone.the-meeting-of-office-lets-out-into-the-hallway",
-      "move": "lead-hallway-alone",
-      "text": "The meeting of {office} lets out into the hallway.",
-      "kind": "spoken",
-      "uses": [
-        {
-          "move": "lead-hallway-alone",
-          "subject": "lead",
-          "role": "hallway",
-          "choice": "alone"
-        }
-      ],
-      "tag": {
-        "move": "narrate"
-      },
-      "origin": "authored",
-      "author": "Words builder W2 (scene lines from the cause record)",
-      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-first-meeting-other.someone-wants-you-to-meet-other",
@@ -3899,26 +3799,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-debate-sitting-alone.the-moderator-has-the-questions-for-the-office-debate",
-      "move": "lead-debate-sitting-alone",
-      "text": "The moderator has the questions for the {office} debate.",
-      "kind": "spoken",
-      "uses": [
-        {
-          "move": "lead-debate-sitting-alone",
-          "subject": "lead",
-          "role": "debate-sitting",
-          "choice": "alone"
-        }
-      ],
-      "tag": {
-        "move": "narrate"
-      },
-      "origin": "authored",
-      "author": "Words builder W2 (scene lines from the cause record)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "scene-words.lead-swearing-in-other.other-is-waiting-to-swear-you-in",
       "move": "lead-swearing-in-other",
       "kind": "spoken",
@@ -3959,9 +3839,9 @@
       }
     },
     {
-      "key": "scene-words.lead-swearing-in-alone.it-is-time-to-take-the-oath-as-office",
+      "key": "scene-words.lead-swearing-in-alone.you-are-about-to-take-the-oath-of-office-for-office",
       "move": "lead-swearing-in-alone",
-      "text": "It is time to take the oath as {office}.",
+      "text": "You are about to take the oath of office for {office}.",
       "kind": "spoken",
       "uses": [
         {
@@ -3979,9 +3859,9 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-swearing-in-alone.you-are-about-to-be-sworn-in-as-office",
+      "key": "scene-words.lead-swearing-in-alone.you-are-about-to-be-sworn-in-for-office",
       "move": "lead-swearing-in-alone",
-      "text": "You are about to be sworn in as {office}.",
+      "text": "You are about to be sworn in for {office}.",
       "kind": "spoken",
       "uses": [
         {
@@ -4119,9 +3999,9 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-floor-vote-any.the-clerk-reads-bill-the-chair-calls-the-vote",
+      "key": "scene-words.lead-floor-vote-any.the-clerk-reads-the-title-of-bill-the-chair-calls-the-vote",
       "move": "lead-floor-vote-any",
-      "text": "The clerk reads {bill}. The chair calls the vote.",
+      "text": "The clerk reads the title of {bill}. The chair calls the vote.",
       "kind": "spoken",
       "uses": [
         {
