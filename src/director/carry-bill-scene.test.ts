@@ -9,6 +9,7 @@ import { billCatalog, provisionFor } from "../core2/bill-catalog";
 import { advanceCore } from "../core2/life";
 import {
   executiveOf,
+  floorDateOf,
   memberKey,
   members,
   proposalRight,
@@ -159,6 +160,20 @@ it(`an executive's ask to carry a bill is the member's carry-bill scene, with th
           result.scene.facts.find((row) => row.key === "carry-ask")?.recordIds,
           here,
         ).toContain(ask.id);
+      // A promise of time fits the calendar (Fable A, Nov 13, rule 22): a
+      // count is promised for a day before the bill's vote, from its floor
+      // date, and on the vote's own day it is "tonight".
+      const floor = floorDateOf(api, String(ask.facts!.billId ?? ""));
+      const countBy = result.scene.facts.find((row) => row.key === "count-by");
+      const tonight = result.scene.facts.find(
+        (row) => row.key === "vote-tonight",
+      );
+      if (countBy) expect(floor! > core.date, here).toBe(true);
+      if (tonight)
+        expect(floor!.slice(0, 10), here).toBe(core.date.slice(0, 10));
+      process.stdout.write(
+        `CARRY ${here} on ${core.date}: the vote ${floor ?? "not set"}; count-by ${countBy?.text ?? "none"}; tonight ${tonight ? "yes" : "no"}\n`,
+      );
       composed += 1;
       console.log(
         `CARRY ${here}: "${result.scene.talk.state.text}" (${ask.facts!.carried === "yes" ? "carried" : "turned down"})`,
