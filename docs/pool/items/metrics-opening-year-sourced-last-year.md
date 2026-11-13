@@ -33,7 +33,7 @@ source: CTO on issue #8928, Nov 13 2026 02:34Z (comment 6842106471), squaring th
 
 **Waits on.** metrics-output-numbers-registry (#8966).
 
-**Files.** src/core2/modules/world-metrics.ts, src/core2/output-numbers.ts, src/core2/data/output-numbers.json, src/core2/data/housing/housing.json (or a new prior-vintage data file beside it), src/bench/play.mjs, src/bench/data/controls.json, src/bench/metrics-registry.test.ts
+**Files.** src/core2/modules/world-metrics.ts, src/core2/output-numbers.ts (new), src/core2/data/output-numbers.json (new), src/core2/data/housing/housing.json (or a new prior-vintage data file beside it), src/bench/play.mjs, src/bench/data/controls.json, src/bench/metrics-registry.test.ts (new)
 
 **Notes.** Filed Nov 13 2026 by Account lead T7 from the CTO's answer on #8928 (comment 6842106471) to the Account lead's question (comment 6842096884). #8966 merges as built; this is the row it leaves out. Not checked: at which geography the opening reads B25077 for home values; the builder reads the opening's home-value code in housing.ts first.
 
