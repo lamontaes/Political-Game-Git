@@ -62,7 +62,12 @@ export const OPENING_SPEECH_BANK = bankJson as unknown as {
 };
 
 export type OpeningSpeechKind =
-  "state-of-the-union" | "inaugural" | "state-of-the-state" | "town-address";
+  | "state-of-the-union"
+  | "inaugural"
+  | "state-of-the-state"
+  | "town-address"
+  | "floor-speech"
+  | "campaign-speech";
 export type SpeechVoice = "polished" | "plain";
 
 /** Where the camera is while a block is spoken. */
@@ -88,7 +93,28 @@ const ACTS: Readonly<Record<string, SpeechAct>> = {
   creed: "tell",
   unity: "promise",
   "story-open": "tell",
+  // A point's context from the world's records over a span (speech-outline.ts).
+  context: "tell",
+  // What the context has meant for people, between the context and the stand.
+  meaning: "tell",
+  // How a point's question stands today, from the law in force, as the
+  // speaker's side describes it.
+  today: "tell",
+  // What the speaker believes, as a clause the planner words first by the
+  // question's family and the speaker's pole of it; then said standing
+  // first (`belief`) or as the reason after the ask (`why`).
+  "belief-words": "tell",
+  belief: "tell",
+  why: "tell",
+  // A point that opens on a question to the audience.
+  question: "tell",
+  // The sentence that ties a figure to the question it bears on.
+  tie: "tell",
   "story-says": "tell",
+  // This year's conditions in a governor's or a local head's opening: the
+  // budget's balance, and a law that took effect or a disaster.
+  "budget-condition": "tell",
+  "year-condition": "tell",
   "story-turn": "tell",
   pledge: "promise",
   people: "tell",
@@ -129,6 +155,30 @@ export function partValues(
   return value === undefined ? [] : typeof value === "string" ? [value] : value;
 }
 
+/** The roles a piece may play with no fact and no stand: the greeting and the goodbye. */
+const BARE_ROLES: readonly string[] = ["salutation", "close"];
+
+/**
+ * Whether a core piece carries something: a slot filled from the world's
+ * records, or a fact it is said only when the record holds. A core that
+ * carries neither ("This is a working speech.", "I'll keep this practical
+ * tonight.") is not a type the outline can pick (owner, Nov 12, via the
+ * words lead: four sentences that say nothing). Openers and closers lead or
+ * end a core that does.
+ */
+function carries(
+  part: OpeningPart,
+  kind: OpeningSpeechKind,
+  role: string,
+  line: "opener" | "core" | "closer",
+): boolean {
+  if (line !== "core" || BARE_ROLES.includes(role)) return true;
+  const use = part.uses.find(
+    (row) => row.subject === kind && row.role === role,
+  );
+  return /\{[^}]+\}/.test(part.text) || !!use?.requiresFacts?.length;
+}
+
 /** The line part a piece is said as: an opener, a closer, or the core. */
 function lineOf(part: OpeningPart): "opener" | "core" | "closer" {
   return part.piece?.part === "opener" || part.piece?.part === "closer"
@@ -151,6 +201,7 @@ function variantsFor(
 ): LinePartVariant[] {
   const fits = (part: OpeningPart) =>
     partHolds(part.voice, voice) &&
+    carries(part, kind, role, line) &&
     lineOf(part) === line &&
     (!topic ||
       partHolds(part.topic, topic) ||

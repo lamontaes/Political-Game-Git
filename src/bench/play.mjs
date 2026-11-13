@@ -2238,7 +2238,13 @@ async function showStory(momentId) {
     for (const beat of story.beats ?? []) new Image().src = beat.backdrop.url;
     const sayPart = (at) => {
       show("talk-skip", true);
-      setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
+      // A speaker heard on a broadcast is named, never drawn in the room
+      // (the narrator said how it was heard); one on the montage or in the
+      // room stands on the strip.
+      setWho(
+        story.beats || story.speech.inRoom ? story.speech.speakerId : null,
+        story.names[story.speech.speakerId],
+      );
       // The part's picture and cast: the desk, the town, the colonnade, the
       // officials on the strip with their office under their name, and home.
       const beat = story.beats?.[at];
@@ -2247,12 +2253,25 @@ async function showStory(momentId) {
         drawHere(beat);
       }
       talkControls({ silent: false, leave: false });
+      // Heard on a broadcast: the station over the line with its small icon
+      // (owner, Oct 14: "a small card in the conversation text style with a
+      // tiny radio/TV icon, the station, and the line").
+      const on = story.speech.heardOn;
       fillTalk({
-        lines: [talkLine({ kind: "speech", text: parts[at] })],
+        lines: [
+          talkLine({
+            kind: on ? `speech heard heard-${on.medium}` : "speech",
+            text: parts[at],
+            ...(on ? { who: on.station } : {}),
+          }),
+        ],
         replies: [],
       });
       setScales({ available: false });
       if (at + 1 < parts.length) onContinue = () => sayPart(at + 1);
+      // A floor or campaign speech is followed by its exchange: the player
+      // answers the member who rose, or the candidate who comes over.
+      else if (story.talk) onContinue = () => playExchange(story);
     };
     narrateFirst(setting, () => sayPart(0));
     return;

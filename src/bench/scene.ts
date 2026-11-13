@@ -772,6 +772,35 @@ export function faceOf(
   return bust ? { bust } : null;
 }
 
+/**
+ * Who is in the room with the player now, the same people the scene draws:
+ * the one read a talk is handed as its room (words composer, the telling).
+ */
+export function roomIds(
+  core: CoreState,
+  personId: string,
+  packet?: PlayerPacketV1,
+  /** The opening day: home after the address, by rule (owner, Oct 14, 2026). */
+  openingEvening?: number,
+): string[] {
+  const minute = packet?.at.minuteOfDay ?? openingEvening ?? 12 * 60;
+  const { place, why, targetId } = scenePlace(
+    core,
+    personId,
+    packet,
+    minute,
+    openingEvening !== undefined,
+  );
+  return presentIds(
+    core,
+    personId,
+    place,
+    why,
+    targetId,
+    openingEvening === undefined ? minute : undefined,
+  );
+}
+
 export function benchScene(
   core: CoreState,
   personId: string,
@@ -789,17 +818,7 @@ export function benchScene(
   );
   const working =
     why === "work-shift" || why === "attend-scheduled-work-date-segment";
-  const ids = [
-    personId,
-    ...presentIds(
-      core,
-      personId,
-      place,
-      why,
-      targetId,
-      openingEvening === undefined ? minute : undefined,
-    ),
-  ];
+  const ids = [personId, ...roomIds(core, personId, packet, openingEvening)];
   const backdrop = backdropFor(core, place, minute, personId);
   const { people, more } = peopleHere(
     core,

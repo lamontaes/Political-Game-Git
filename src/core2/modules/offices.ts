@@ -1951,5 +1951,6 @@ function officesCalendarWork(
 // Re-exported so other engine families import through this entry, not the file (families guard).
 export { CASES_MODULE_ID, casesOpenFor, handleCase } from "./constituent-cases";
 export type { OfficeLevel } from "../offices-local";
+/** A government's title as people say it, read through the executive family's entry. */
 export { partySide } from "../appointments";
 export { nextMeeting } from "../office-day-calendar";

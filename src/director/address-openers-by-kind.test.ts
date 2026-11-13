@@ -226,10 +226,12 @@ describe("the shared parts of an address are the kind's own", () => {
       expect(kinds.length, where).toBeGreaterThan(2);
       for (const kind of kinds) {
         // The kind's greeting, occasion, creed and the rest are said in its own pieces.
+        // At least one sentence of its own (was two before the speech
+        // outline, Nov 12, which leaves out pieces that carry nothing).
         expect(
           byKind.get(kind)!.size,
           `${where} ${speech} ${kind}`,
-        ).toBeGreaterThan(1);
+        ).toBeGreaterThan(0);
         for (const other of kinds.filter((name) => name > kind))
           for (const text of byKind.get(kind)!)
             expect(
@@ -254,9 +256,23 @@ describe("the shared parts of an address are the kind's own", () => {
 const WORLD_TEXT: Record<string, string> = {
   "vice-president": "Dana Ruiz",
   speaker: "Alan Moore",
+  // Each person's cases, as the address composer fills them from the one
+  // fact (withCases, src/director/opening-story.ts): a piece that names a
+  // person in a case requires that case by name.
+  "vice-president-object": "Dana Ruiz",
+  "vice-president-addressed": "Vice President Dana Ruiz",
+  "speaker-object": "Alan Moore",
+  "speaker-addressed": "Speaker Alan Moore",
   "home-state": "a home state",
   hardest: "finding work",
   best: "take-home pay",
+  // A governor's or a local head's place, theme, body and office (speech
+  // outline, Nov 12: the opening names the place and the theme; a local
+  // address speaks to the body the records seat).
+  "realm-name": "Riverton",
+  "theme-name": "our schools",
+  body: "the council",
+  "office-title": "mayor",
 };
 const WORLD = Object.fromEntries(
   Object.entries(WORLD_TEXT).map(([key, text]) => [
@@ -277,11 +293,23 @@ describe("the bank holds each kind's own greeting, occasion, oath, creed and uni
     for (const subject of SUBJECTS)
       for (const role of SHARED_ROLES) {
         if (!roleExists(subject, role)) continue;
+        // A greeting is a list of people and belongs to every kind (speech
+        // outline, Nov 12): it is counted with the general pieces, not here.
+        if (role === "salutation") continue;
+        // A governor's or a town's occasion carries the year's record or goes
+        // straight to the theme (owner, Nov 12, through the words lead): the
+        // 64 kind-own occasion lines that carried no record were deleted on
+        // purpose, so an occasion piece that belongs to every kind counts
+        // toward each kind here, as a greeting does. The President's
+        // occasion keeps the kind-own rule.
+        const shared =
+          role === "occasion" &&
+          !["inaugural", "state-of-the-union"].includes(subject);
         for (const kind of ADDRESS_KINDS)
           for (const voice of VOICES) {
             const own = OPENING_SPEECH_BANK.parts.filter(
               (part) =>
-                part.addressKind === kind &&
+                (part.addressKind === kind || (shared && !part.addressKind)) &&
                 partHolds(part.voice, voice) &&
                 part.uses.some(
                   (use) => use.subject === subject && use.role === role,
@@ -326,13 +354,24 @@ describe("the bank holds each kind's own greeting, occasion, oath, creed and uni
             const move = openingMove(subject, voice, role, {
               addressKind: kind,
             });
-            expect(move, `${subject} ${role} ${voice} ${kind}`).toBeTruthy();
-            for (const variant of move!.bank.parts.core!.variants) {
+            // A role whose pieces carry no fact and no stand is not offered
+            // (speech outline, Nov 12).
+            if (!move) continue;
+            // A greeting belongs to every kind (speech outline, Nov 12).
+            if (role === "salutation") continue;
+            for (const variant of move.bank.parts.core!.variants) {
               const part = OPENING_SPEECH_BANK.parts.find(
                 (row) => row.key === variant.pieceKey,
               )!;
+              // A piece that names the place and the theme from the records
+              // serves every kind that has no wording of its own left (speech
+              // outline, Nov 12).
+              if (!part.addressKind) continue;
               expect(part.addressKind, variant.key).toBe(kind);
               const other = seen.get(part.text);
+              // A greeting is its list of people (speech outline, Nov 12), and
+              // two kinds may greet the same people in the same words.
+              if (role === "salutation") continue;
               expect(
                 other === undefined || other === kind,
                 `${subject} ${role} ${voice}: ${kind} and ${other} share "${part.text}"`,
@@ -375,9 +414,12 @@ describe("the bank holds each kind's own greeting, occasion, oath, creed and uni
             expect(result.kind, `${subject} ${kind} ${voice} ${stage}`).toBe(
               "rendered",
             );
+            // The Speaker is addressed by office and name through said-as
+            // ("Speaker {name}"): "Mr." and "Madam" guessed a person's sex
+            // from nothing on record and are gone (the words lead, Nov 12).
             if (subject === "state-of-the-union")
               expect(result.kind === "rendered" && result.text).toMatch(
-                stage === "chair-male" ? /^Mr\. Speaker/ : /^Madam Speaker/,
+                /^Speaker [A-Z]/,
               );
           }
   });
@@ -419,7 +461,10 @@ describe("the bank holds each kind's own greeting, occasion, oath, creed and uni
             for (const party of parties) {
               const move = openingMove(subject, voice, role, {
                 addressKind: kind,
-              })!;
+              });
+              // A role whose pieces carry no fact and no stand is not offered
+              // (speech outline, Nov 12: "This is a working speech.").
+              if (!move) continue;
               const result = composeAddress(
                 withFacts("chair-female", {
                   ...WORLD_TEXT,

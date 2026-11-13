@@ -6,6 +6,14 @@
     "spread": [10, 50],
     "checkedAgainst": "Below this many votes a close count is said exactly (a loss by 7 is 7); above it a count is said as people round it (\"about 60\"). Local counts in the sources run from a few dozen votes to a few hundred (Jefferson City 2013, 55; Raincross 2019, 222; docs/design/scenes/from-life/household-after-the-loss.md)."
   },
+  "moneyUnits": {
+    "about": "A sum of a million dollars or more said in the unit people use (\"about $40 million\", \"about $2.3 billion\"), never the dollars written out; one decimal below ten of the unit, whole units above. Read by moneySaid in src/english/count-words.ts.",
+    "rows": [
+      { "atLeast": 1000000000, "divisor": 1000000000, "word": "billion" },
+      { "atLeast": 1000000, "divisor": 1000000, "word": "million" }
+    ],
+    "decimalBelow": 10
+  },
   "voteSteps": [
     {
       "below": 100,

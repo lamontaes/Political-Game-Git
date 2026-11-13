@@ -145,7 +145,10 @@ export interface CompositionContext {
   /**
    * Part keys this speaker used with the player before this moment, read from
    * saved records. Reading them from the record, never from memory, keeps the
-   * same moment producing the same line after Save and Continue.
+   * same moment producing the same line after Save and Continue. Oldest
+   * first: when every fitting wording has been used, the one used longest ago
+   * is said. An entry is a part key (`bank:part:variant`) or a bare piece key,
+   * which counts wherever that piece is said, under any bank.
    */
   readonly recentPartKeys?: readonly string[];
   /** Where the line is spoken. Parts limited to a register need one. */
@@ -272,7 +275,10 @@ export function composeGroundedLine(
   if (REASONED_ACTS.includes(bank.act) && !bank.parts.reason)
     return missing([`A ${bank.act} line needs a reason part.`]);
 
-  const recent = new Set(context.recentPartKeys ?? []);
+  // When each part was last said, by its place in the record (oldest first).
+  const lastSaid = new Map<string, number>();
+  for (const [at, key] of (context.recentPartKeys ?? []).entries())
+    lastSaid.set(key, at);
   const parts: ComposedPart[] = [];
   const sourceRecordIds = new Set<EntityId>();
   const reasons: string[] = [];
@@ -311,12 +317,29 @@ export function composeGroundedLine(
           context.partGrades ?? PART_GRADES,
         ),
     );
-    const isFresh = (variant: LinePartVariant) =>
-      !recent.has(`${bankKey}:${part}:${variant.key}`);
+    // A wording never said comes first; when every fitting one has been
+    // said, the one said longest ago (no dice: the record decides).
+    const saidAt = (variant: LinePartVariant) =>
+      Math.max(
+        lastSaid.get(`${bankKey}:${part}:${variant.key}`) ?? -1,
+        lastSaid.get(variant.key) ?? -1,
+      );
+    const isFresh = (variant: LinePartVariant) => saidAt(variant) < 0;
+    // The said wordings by when, oldest first, one tier each: a wording the
+    // facts cannot say fails to render and the next oldest is tried, so the
+    // one said longest ago among those that fit is the one said.
+    const byAge = (variants: readonly LinePartVariant[]) => {
+      const said = variants.filter((variant) => !isFresh(variant));
+      return [...new Set(said.map(saidAt))]
+        .sort((a, b) => a - b)
+        .map((at) => said.filter((variant) => saidAt(variant) === at));
+    };
     const tiers = [
       unheld.filter(isFresh),
+      ...byAge(unheld),
       unheld,
       conditioned.filter(isFresh),
+      ...byAge(conditioned),
       conditioned,
     ];
     // The calibration table (weights only) re-weights the pick among the
@@ -397,7 +420,7 @@ export function composeGroundedLine(
       (line, text) =>
         line === ""
           ? sentenceStart(text)
-          : `${line} ${/[.!?]["”’)]?$/.test(line) ? sentenceStart(text) : text}`,
+          : `${line} ${/[.!?]["”’)]?$/.test(line) ? sentenceStart(text) : clauseStart(text)}`,
       "",
     );
   tagEngineText(composed, { bank: bank.key });
@@ -408,6 +431,54 @@ export function composeGroundedLine(
     parts,
     sourceRecordIds: [...sourceRecordIds],
   };
+}
+
+/**
+ * The words that open a sentence with a capital only because they open it:
+ * after a lead-in joined by a comma they are said in lower case ("Because I
+ * believe ..., a bill for ... gets a veto from me"). A name, "I" and
+ * "Congress" keep their capital.
+ */
+const SENTENCE_WORDS = new Set([
+  "A",
+  "An",
+  "Any",
+  // A determiner or an indefinite pronoun opening an ask after a belief
+  // ("Because I believe ..., anybody who wants to undo it ...").
+  "Anybody",
+  "Anyone",
+  "Everybody",
+  "Everyone",
+  "Nobody",
+  "Every",
+  "Each",
+  "Our",
+  "My",
+  "Some",
+  "More",
+  "Too",
+  "The",
+  "There",
+  "That",
+  "This",
+  "It",
+  "It's",
+  "We",
+  "We'll",
+  "Let's",
+  "If",
+  "Should",
+  "Get",
+  "Send",
+  "So",
+]);
+
+/** A joined clause's first word in the case a clause after a comma takes. */
+function clauseStart(text: string): string {
+  const first = /^[^\s,]+/.exec(text)?.[0] ?? "";
+  return SENTENCE_WORDS.has(first)
+    ? first.charAt(0).toLowerCase() + text.slice(1)
+    : text;
 }
 
 /**

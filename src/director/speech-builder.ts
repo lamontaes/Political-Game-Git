@@ -8,6 +8,7 @@
  * the pieces for each stage, filled from the speaker's records, and a subject
  * with no record for its slots is never offered.
  */
+// stopgapId: SG-WORDS-player-speech-not-planned
 import { heldSinceRecord, schoolsAttended } from "../core2/past";
 import {
   speechPartsByReach,

@@ -26,6 +26,15 @@ export function votesSaid(votes: number): string {
 /** A sum of money, given in cents, as people round it. */
 export function moneySaid(minor: number): string {
   const dollars = minor / 100;
+  const unit = data.moneyUnits.rows.find((row) => dollars >= row.atLeast);
+  if (unit) {
+    const count = dollars / unit.divisor;
+    const said =
+      count < data.moneyUnits.decimalBelow
+        ? String(Math.round(count * 10) / 10)
+        : Math.round(count).toLocaleString("en-US");
+    return data.aboutMoney.replace("{count}", `${said} ${unit.word}`);
+  }
   const step = stepFor(data.moneySteps, dollars);
   return fill(
     data.aboutMoney,
