@@ -149,6 +149,9 @@ function worldWithPair(
   const tried: string[] = [];
   for (let attempt = 0; attempt < 8; attempt += 1) {
     const w = world(`${salt}:${attempt}`);
+    // Every race opens its filing on its own real day: move to the first day
+    // one is open in this place (gov-test-clock), as the petition case does.
+    advanceToFilingOpen(w.core);
     const pair = twoCandidates(w.api, w.core);
     if (!pair) {
       tried.push(`${w.where}: no two candidates for the first contest`);
