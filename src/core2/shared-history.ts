@@ -322,11 +322,24 @@ export function sharedHistory(
           kind: "schoolmate",
           recordId: mine.schoolId,
           year: Math.max(mine.from, peer.from),
-          // A run lasts until this school year at most: both runs reaching it
-          // means both are enrolled there now.
-          ...(Math.min(mine.to, peer.to) < schoolYearOf(core.date)
-            ? { ended: true }
-            : {}),
+          // A run lasts until this school year at most: each with a run there
+          // that reaches it is enrolled there now (a district holds several
+          // runs of one person, one per stage).
+          ...([mine.schoolId].every(
+            (school) =>
+              schoolSpans(core, a).some(
+                (span) =>
+                  span.schoolId === school &&
+                  span.to >= schoolYearOf(core.date),
+              ) &&
+              theirs.some(
+                (span) =>
+                  span.schoolId === school &&
+                  span.to >= schoolYearOf(core.date),
+              ),
+          )
+            ? {}
+            : { ended: true }),
         });
         break;
       }
