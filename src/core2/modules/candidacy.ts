@@ -1874,6 +1874,16 @@ export const candidacyModule: CoreModule = {
     candidacyDay(api);
     dropPastNonRunners(api);
   },
+  // A skipped day weighs and files the races whose day has come, so a race
+  // decided in skipped time has its incumbent and runners on the ballot.
+  onResultsDay: (api) => {
+    // No campaign is played in skipped time: the count reads the voters'
+    // standing views and the candidates' records, with no campaign's effect.
+    // stopgapId: SG-SPEED-results-mode-no-campaign-effect
+    api.stopgap("SG-SPEED-results-mode-no-campaign-effect");
+    candidacyDay(api);
+    dropPastNonRunners(api);
+  },
   eventKinds: ["scene.reply"],
   onEvent: (api, event) => {
     answerPartyAsk(api, event);

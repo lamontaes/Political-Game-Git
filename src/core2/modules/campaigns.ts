@@ -14,7 +14,6 @@
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
 import { lawApplied } from "../law-reach/applied";
-import { FAST_FORWARD_STRIDE, fastForward } from "../fast-forward";
 import { townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
 import {
@@ -7032,16 +7031,12 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         ? contest.filingDeadline
         : race.electionDate;
     const daysLeft = daysBetween(date, toward);
-    // stopgapId: SG-SPEED-fast-forward-campaigns (a development switch: a coarser calendar, turns less often)
     // The wait is counted in whole scheduled turns (they fall `turnDays`
     // apart), so a day nearer than one more turn never costs a skipped turn:
     // near a deadline or an election every scheduled turn works the race.
     const everyTurns = Math.max(
       1,
-      Math.round(
-        (fastForward() ? FAST_FORWARD_STRIDE : 1) *
-          (1 + daysLeft / campaignParameter("campaignRampDays")),
-      ),
+      Math.round(1 + daysLeft / campaignParameter("campaignRampDays")),
     );
     if (
       race.lastTurn &&

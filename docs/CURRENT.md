@@ -120,6 +120,8 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 
 | Old path | Now | When | Why |
 | --- | --- | --- | --- |
+| `src/core2/fast-forward.ts` | src/core2/life.ts results mode (runResultsDay); nothing else stands in its place; restore it from commit 33e38d44bc6769d37caed26d66722a9137e7b3c6 | 2026-11-12 | The fast clock, part 4: skipped time is counted from the voters in results mode and the campaign-stride switch is deleted. |
+| `scripts/speed-years/fast-forward.ts` | nothing stands in its place; restore it from commit 33e38d44bc6769d37caed26d66722a9137e7b3c6 | 2026-11-12 | The campaign-stride switch it ran with was deleted with the fast clock, part 4. |
 | `src/simulation` | `src/core2` | 2026-10-28 | The old core was deleted (pull request 6659); the new core is the engine. |
 | `src/bench/scene-check.ts` | nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d | 2026-11-11 | Removed with the painted people (owner's call 11, PR 8643): the room's people are a strip of busts; the check of painted people in a room has nothing to check. |
 | `src/bench/art-check.ts` | nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d | 2026-11-11 | Removed with the painted people (owner's call 11, PR 8643): the painted full-body people left the rooms; their art check went with them. |
