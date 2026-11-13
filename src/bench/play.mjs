@@ -806,6 +806,8 @@ function inMeeting() {
     const draw = (scene) => {
       if (!scene) return finish();
       $("meeting-adjourn").disabled = false;
+      $("meeting-adjourn").textContent =
+        (scene.seated ? words.adjourn : words.leave) ?? "";
       $("backdrop").src = scene.backdrop.url;
       drawHere(scene);
       $("card-place").textContent = scene.title;
@@ -838,10 +840,11 @@ function inMeeting() {
             );
             return b;
           });
+          // A resident in the room speaks; only the seated vote.
           return billBlock(
             item,
             scene.members ?? [],
-            item.takenUp ? [] : [speak, vote],
+            item.takenUp ? [] : scene.seated ? [speak, vote] : [speak],
             (billId) =>
               openBillPaper(
                 billId,
@@ -4100,6 +4103,12 @@ const sheets = {
           closeSheet();
           act(`/api/advance?mode=calendar&date=${day}`);
         },
+        onAttend: async ({ officeId, date: day }, attend) =>
+          (
+            await post(
+              `/api/meeting/attend?${new URLSearchParams({ officeId, date: day, attend: String(attend) })}`,
+            )
+          ).items,
       }),
       devRunPanel({ labels: controls.devRun, onDone: () => refresh() }),
       ...(devModeOn()

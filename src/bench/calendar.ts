@@ -4,10 +4,13 @@ import { bodyOf, nextSittingOf } from "../core2/modules/legislature";
 import {
   federalHolidayName,
   federalHolidays,
+  meetingToAttend,
+  OFFICE_DAY_MODULE_ID,
   officeHost,
 } from "../core2/modules/office-day";
 import { townSeats } from "../core2/modules/offices";
 import { wordArchiveStory, wordPrintedStory } from "./archive-words";
+import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import { coreAPI } from "../core2/state";
 import {
   standing,
@@ -31,6 +34,11 @@ export interface CalendarItem {
   /** A date in a race the player has filed in: theirs, so it comes first. */
   own: boolean;
   recordIds: string[];
+  /**
+   * A posted meeting the person may come to as a resident (the office-day
+   * engine's `meetingToAttend`), and whether they have marked it.
+   */
+  attend?: { officeId: string; date: string; marked: boolean };
 }
 
 /** The levels of the town's own governments. */
@@ -208,6 +216,13 @@ export function calendarItems(
     const line = screenLine("calendar", "calendar.meeting.1", {
       body: body.title,
     });
+    // Only the person the clock is held for can mark a meeting (the engine
+    // answers for the player alone).
+    const open =
+      core.modules.has(OFFICE_DAY_MODULE_ID) &&
+      snapshotExplicitControlV1(core).personId === personId
+        ? meetingToAttend(api, officeId, body.date)
+        : null;
     if (line)
       items.push({
         date: body.date,
@@ -215,6 +230,9 @@ export function calendarItems(
         line,
         own: false,
         recordIds: [officeId],
+        ...(open
+          ? { attend: { officeId, date: body.date, marked: open.marked } }
+          : {}),
       });
   }
   for (const year of [Number(from.slice(0, 4)), Number(from.slice(0, 4)) + 1])

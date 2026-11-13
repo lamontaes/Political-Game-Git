@@ -60,11 +60,14 @@ import {
 import { remarksOn } from "../core2/modules/meetings";
 import {
   adjourn,
+  attendMeeting,
   clearPrepared,
   decideDesk,
   deskWaiting,
   leaveDeskToCharacter,
+  leaveMeeting,
   meetingInProgress,
+  meetingOf,
   officeActsOf,
   officeHost,
   officeJobsOf,
@@ -179,6 +182,8 @@ export function meetingSceneView(
       return {
         ...scene,
         members: bodyMembers(core, personId, meeting.officeId, scene.place),
+        // A resident who came to speak has no vote and cannot adjourn.
+        seated: meeting.audience === undefined,
       };
     })(),
   };
@@ -209,8 +214,22 @@ export function meetingSpeak(
   speakOnItem(coreAPI(core), meetingId, billId, position === "for" ? 1 : -1);
 }
 
+/** The chair's adjournment for a member; for a resident in the room, their leaving. */
 export function meetingAdjourn(core: CoreState, meetingId: string) {
-  adjourn(coreAPI(core), meetingId);
+  const api = coreAPI(core);
+  if (meetingOf(api, meetingId)?.audience !== undefined)
+    leaveMeeting(api, meetingId);
+  else adjourn(api, meetingId);
+}
+
+/** The player marks a body's posted meeting to attend as a resident, or takes the mark back. */
+export function meetingAttend(
+  core: CoreState,
+  officeId: string,
+  date: string,
+  attend: boolean,
+) {
+  attendMeeting(coreAPI(core), officeId, date, attend);
 }
 
 /** Bills waiting on the player's desk this morning. */
@@ -241,7 +260,8 @@ export function deskDecide(core: CoreState, billId: string, how: string) {
 export function leaveHoldsToCharacter(core: CoreState, holderId?: string) {
   const api = coreAPI(core);
   const meeting = meetingInProgress(api);
-  if (meeting) {
+  if (meeting?.audience !== undefined) leaveMeeting(api, meeting.id);
+  else if (meeting) {
     for (const billId of meeting.agenda)
       takeUpItem(api, meeting.id, billId, "own");
     adjourn(api, meeting.id);

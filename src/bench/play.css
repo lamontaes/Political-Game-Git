@@ -2037,6 +2037,10 @@ body:not(.dev) .dev-only {
   gap: 10px;
   font: var(--t-ui)/1.35 var(--ui);
 }
+.calendar-entry .attend-meeting {
+  display: block;
+  margin: 6px 0 0;
+}
 .calendar-empty {
   margin: 0;
   color: var(--muted, var(--text));
