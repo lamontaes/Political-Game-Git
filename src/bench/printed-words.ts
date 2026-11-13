@@ -38,6 +38,7 @@ import {
 import { OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
 import { officialOf } from "../core2/modules/officials";
 import { commentOn, PRESS_MODULE_ID } from "../core2/modules/press";
+import { SPEECH_MODULE_ID } from "../core2/modules/speech";
 import {
   corePlaceByJurisdictionId,
   coreStateName,
@@ -965,7 +966,12 @@ type StudyRecord = {
   readonly chairId: string;
   readonly memberIds: readonly string[];
   readonly sunsetOn: string;
-  readonly report?: { readonly on: string; readonly speechId: string | null };
+  readonly startedAt: Readonly<Record<string, number>>;
+  readonly report?: {
+    readonly on: string;
+    readonly finding: number;
+    readonly speechId: string | null;
+  };
 };
 
 /**
@@ -994,9 +1000,11 @@ const studyFormed: Builder = (read, f) => {
 };
 
 /**
- * A study committee's report: which way its members now lean on the bill
- * (the finding the legislature engine recorded) and whether its chair gave
- * it to the body, which is what the members' next votes read.
+ * A study committee's report: which way its members lean on the bill, on
+ * balance (the finding the legislature engine recorded), whether that is a
+ * change from where they stood when it was formed, and whether its chair gave
+ * it to the body, which is what the members' next votes read. A finding of
+ * exactly zero leans neither way and is not printed.
  */
 const studyReported: Builder = (read, f) => {
   const study = read.row<StudyRecord>(
@@ -1004,8 +1012,24 @@ const studyReported: Builder = (read, f) => {
     "studies",
     f.studyId,
   );
-  if (!study || (f.direction !== "for" && f.direction !== "against"))
+  const finding = study?.report?.finding;
+  if (
+    !study ||
+    !finding ||
+    (f.direction !== "for" && f.direction !== "against")
+  )
     return null;
+  const started = Object.values(study.startedAt);
+  const before = started.reduce((n, t) => n + t, 0) / (started.length || 1) > 0;
+  // The chair gave the findings only when the speech on record is theirs
+  // (a member gives it when the chair has died).
+  const speech = study.report?.speechId
+    ? read.row<{ readonly speakerId: string }>(
+        SPEECH_MODULE_ID,
+        "addresses",
+        study.report.speechId,
+      )
+    : undefined;
   return story(
     "study-reported",
     {
@@ -1014,7 +1038,8 @@ const studyReported: Builder = (read, f) => {
       ...read.who(study.chairId, "name", false),
       date: read.date(),
       [`members-${f.direction}`]: read.yes(),
-      ...(study.report?.speechId ? { presented: read.yes() } : {}),
+      ...(before !== finding > 0 ? { changed: read.yes() } : {}),
+      ...(speech?.speakerId === study.chairId ? { presented: read.yes() } : {}),
     },
     ["designation"],
     study.chairId,

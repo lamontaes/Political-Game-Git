@@ -24,16 +24,16 @@ export function newsBoard({
   photoOf,
   chosenKey,
   onChoose,
+  followsAny = true,
 }) {
   let chosen = outlets.has(chosenKey) ? chosenKey : outlets.keys().next().value;
   // An empty page says why, from the record of what the player follows: they
-  // follow no paper or station, or the one open has printed nothing yet. The
-  // two read differently (Fable A, Nov 12).
-  const followsAny = [...outlets.values()].some((o) => o.why === "follows");
+  // follow no paper or station anywhere, or the one open is theirs and has
+  // printed nothing yet. The two read differently (Fable A, Nov 12).
   const emptyPage = (outlet) =>
     !followsAny
       ? labels.followsNone
-      : outlet.name && outlet.name !== labels.title
+      : outlet.why === "follows" && outlet.name
         ? labels.printedNothing.replace("{name}", outlet.name)
         : labels.nothingYet;
   let opened = null;

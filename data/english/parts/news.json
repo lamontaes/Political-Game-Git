@@ -12967,50 +12967,6 @@
       }
     },
     {
-      "key": "news.study-formed.after-designation-fell-short-the-body-sent-it-to-a-committee-of-member",
-      "move": "study-formed",
-      "kind": "written",
-      "text": "After {designation} fell short, the {body} sent it to a committee of {members}.",
-      "uses": [
-        {
-          "move": "study-formed",
-          "subject": "news",
-          "role": "study-formed",
-          "choice": "lede",
-          "requiresFacts": ["body", "members"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.study-formed.the-body-formed-a-committee-of-members-to-study-designation-after-it-f",
-      "move": "study-formed",
-      "kind": "written",
-      "text": "The {body} formed a committee of {members} to study {designation} after it fell short.",
-      "uses": [
-        {
-          "move": "study-formed",
-          "subject": "news",
-          "role": "study-formed",
-          "choice": "lede",
-          "requiresFacts": ["body", "members"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.study-formed.name-will-chair-a-committee-of-members-studying-designation",
       "move": "study-formed",
       "kind": "written",
@@ -13027,6 +12983,28 @@
       "origin": "authored",
       "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
       "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-formed.name-who-sponsored-designation-will-chair-the-committee-of-members",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "{name}, who sponsored {designation}, will chair the committee of {members} studying it.",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "news",
+          "role": "study-formed",
+          "choice": "lede",
+          "requiresFacts": ["name", "members"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-13",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -13080,7 +13058,7 @@
       "key": "news.study-reported.the-committee-studying-designation-reported-on-date-and-its-members-no",
       "move": "study-reported",
       "kind": "written",
-      "text": "The committee studying {designation} reported on {date}, and its members now lean toward the bill.",
+      "text": "The committee studying {designation} reported on {date} that its members lean toward the bill.",
       "uses": [
         {
           "move": "study-reported",
@@ -13092,7 +13070,7 @@
       ],
       "origin": "authored",
       "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
+      "date": "2026-11-13",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -13102,7 +13080,7 @@
       "key": "news.study-reported.on-date-the-committee-on-designation-reported-that-its-members-now-fav",
       "move": "study-reported",
       "kind": "written",
-      "text": "On {date}, the committee on {designation} reported that its members now favor the bill.",
+      "text": "On {date}, the committee on {designation} reported that, on balance, its members favor the bill.",
       "uses": [
         {
           "move": "study-reported",
@@ -13114,7 +13092,7 @@
       ],
       "origin": "authored",
       "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
+      "date": "2026-11-13",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -13124,7 +13102,7 @@
       "key": "news.study-reported.the-committee-studying-designation-reported-on-date-and-its-members-no-2",
       "move": "study-reported",
       "kind": "written",
-      "text": "The committee studying {designation} reported on {date}, and its members now lean against the bill.",
+      "text": "The committee studying {designation} reported on {date} that its members lean against the bill.",
       "uses": [
         {
           "move": "study-reported",
@@ -13136,7 +13114,7 @@
       ],
       "origin": "authored",
       "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
+      "date": "2026-11-13",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -13146,7 +13124,7 @@
       "key": "news.study-reported.on-date-the-committee-on-designation-reported-that-its-members-now-opp",
       "move": "study-reported",
       "kind": "written",
-      "text": "On {date}, the committee on {designation} reported that its members now oppose the bill.",
+      "text": "On {date}, the committee on {designation} reported that, on balance, its members oppose the bill.",
       "uses": [
         {
           "move": "study-reported",
@@ -13158,7 +13136,7 @@
       ],
       "origin": "authored",
       "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
+      "date": "2026-11-13",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"

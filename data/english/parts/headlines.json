@@ -8586,12 +8586,12 @@
           "subject": "headline",
           "role": "study-reported",
           "choice": "headline",
-          "requiresFacts": ["members-for"]
+          "requiresFacts": ["members-for", "changed"]
         }
       ],
       "origin": "authored",
       "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
+      "date": "2026-11-13",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -8608,12 +8608,58 @@
           "subject": "headline",
           "role": "study-reported",
           "choice": "headline",
-          "requiresFacts": ["members-against"]
+          "requiresFacts": ["members-against", "changed"]
         }
       ],
       "origin": "authored",
       "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.study-committee-on-designation-comes-out-for-the-bill",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "Study committee on {designation} comes out for the bill",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["members-for"],
+          "excludesFacts": ["changed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.study-committee-on-designation-comes-out-against-the-bill",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "Study committee on {designation} comes out against the bill",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["members-against"],
+          "excludesFacts": ["changed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "date": "2026-11-13",
       "tag": {
         "move": "headline",
         "key": "news-received"
