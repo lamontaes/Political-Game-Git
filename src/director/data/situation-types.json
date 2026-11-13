@@ -1751,7 +1751,8 @@
           "match": {
             "label": "feeling:event:justice.accused",
             "selfNamed": true,
-            "counterpart": "some"
+            "counterpart": "some",
+            "causeFacts": [{ "key": "accuserId", "is": "other" }]
           },
           "causeEngine": "justice",
           "causeRecord": "justice.accused",

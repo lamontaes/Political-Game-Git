@@ -10,6 +10,8 @@ import { billOf, memberKey, members } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { spokenDesignation } from "../english/bill-names";
+import { lawChain } from "../core2/modules/laws";
+import { wireItem } from "../core2/press-topics";
 import { purposeScene } from "./purpose-scene";
 import { expectUpToFourDifferent } from "./reply-set-check";
 
@@ -61,6 +63,33 @@ it(`a held bill is a hearing ask for the chair, from its record (seed ${seed})`,
     for (const hold of holds) {
       const bill = billOf(api, hold.facts!.billId!);
       const chair = hold.facts!.chair!;
+      // The record names the bill's sponsor: in its people and as a fact, so
+      // the sponsor meets the hold as a moment; and it is news the press wire
+      // takes up (what the desk prints of it is the desk's ranking).
+      if (core.people.has(bill.sponsorId as never)) {
+        expect(
+          hold.personIds,
+          `${where}: ${hold.id} names its sponsor ${bill.sponsorId}`,
+        ).toContain(bill.sponsorId);
+        expect(hold.facts!.sponsorId, `${where}: ${hold.id}`).toBe(
+          bill.sponsorId,
+        );
+        if (director.ledger.people.has(bill.sponsorId as never))
+          expect(
+            director.ledger.people
+              .get(bill.sponsorId as never)!
+              .schedule.some((row) => row.momentId.includes(hold.id)),
+            `${where}: ${bill.sponsorId} meets ${hold.id} as a moment`,
+          ).toBe(true);
+      }
+      expect(hold.news, `${where}: ${hold.id} is news`).toBe(true);
+      expect(
+        wireItem(api, hold, {
+          placeId: lawChain(api).townPlaceId,
+          stateKey: lawChain(api).stateKey,
+        })?.id,
+        `${where}: ${hold.id} reaches the press wire`,
+      ).toBe(hold.id);
       const sceneFor = (personId: string, typeKey: string) => {
         const entry = director.ledger.people
           .get(personId as never)
