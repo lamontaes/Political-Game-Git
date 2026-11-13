@@ -6,127 +6,241 @@ Of 22513 governments with a place record, 122 have a listed name whose letters d
 
 Names the reader now takes from the record instead of recasing, for example: Town of McIntosh, Town of O'Kean, City of DeLand, Village of McCook, City of DeKalb, Town of Prince's Lakes, City of McGregor, City of McIntosh, Town of McCool, Village of McCool Junction, LaMoure County, City of McMinnville (208 with a capital inside the word or a mark).
 
-| State | Unit | Place | Listed | Place record | Said now |
-| --- | --- | --- | --- | --- | --- |
-| AK | `gus2025:160742` | `gus2025:160742` | CITY OF SAINT PAUL | St. Paul, Alaska | City of Saint Paul |
-| AK | `gus2025:160743` | `gus2025:160743` | CITY OF SAINT GEORGE | St. George, Alaska | City of Saint George |
-| AK | `gus2025:160778` | `gus2025:160778` | CITY OF SAINT MICHAEL | St. Michael, Alaska | City of Saint Michael |
-| AK | `gus2025:160798` | `gus2025:160798` | CITY OF SAINT MARYS | St. Mary's, Alaska | City of Saint Marys |
-| AK | `gus2025:213917` | `gus2025:213917` | BOROUGH OF YAKUTAT | Yakutat City and Borough, Alaska | Yakutat Borough |
-| AK | `gus2025:219910` | `gus2025:219910` | BOROUGH OF SKAGWAY | Skagway Municipality, Alaska | Skagway Borough |
-| AL | `gus2025:122582` | `gus2025:122582` | CITY OF PHENIX | Phenix City, Alabama | City of Phenix |
-| AL | `gus2025:160686` | `gus2025:160686` | TOWN OF MT VERNON | Mount Vernon, Alabama | Town of Mt Vernon |
-| AR | `gus2025:184386` | `gus2025:184386` | CITY OF FREDONIA (BRISCOE) | Fredonia (Biscoe), Arkansas | City of Fredonia (Briscoe) |
-| CA | `gus2025:100736` | `gus2025:100736` | CITY OF REDWOOD | Redwood City, California | City of Redwood |
-| CA | `gus2025:123129` | `gus2025:123129` | CITY OF SAND | Sand City, California | City of Sand |
-| CA | `gus2025:161199` | `gus2025:161199` | CITY OF LA CANADA FLINTRIDGE | La Cañada Flintridge, California | City of La Canada Flintridge |
-| CA | `gus2025:161300` | `gus2025:161300` | CITY OF SAN BUENAVENTURA | San Buenaventura (Ventura), California | City of San Buenaventura |
-| CA | `gus2025:189639` | `gus2025:189639` | CITY OF KING | King City, California | City of King |
-| CA | `gus2025:193103` | `gus2025:193103` | CITY OF ANGELS CITY | Angels, California | City of Angels City |
-| CA | `gus2025:193111` | `gus2025:193111` | CITY OF TEMPLE | Temple City, California | City of Temple |
-| CA | `gus2025:203973` | `gus2025:203973` | CITY OF CATHEDRAL | Cathedral City, California | City of Cathedral |
-| CA | `gus2025:207600` | `gus2025:207600` | CITY OF EL PASO DE ROBLES | El Paso de Robles (Paso Robles), California | City of El Paso de Robles |
-| CO | `gus2025:101399` | `gus2025:101399` | CITY OF CENTRAL CITY | Central, Colorado | City of Central City |
-| CO | `gus2025:101437` | `gus2025:101437` | TOWN OF RAYMER | Raymer (New Raymer), Colorado | Town of Raymer |
-| CO | `gus2025:207623` | `gus2025:207623` | CITY OF CANON | Cañon City, Colorado | City of Canon |
-| CT | `gus2025:193132` | `gus2025:193132` | BOROUGH OF GROTON LONG POINT ASSOCIATION | Groton Long Point, Connecticut | Borough of Groton Long Point Association |
-| DC | `gus2025:124214` | `gus2025:124214` | CITY OF WASHINGTON DC | Washington, District of Columbia | City of Washington DC |
-| FL | `gus2025:161601` | `gus2025:161601` | CITY OF EVERGLADES CITY | Everglades, Florida | City of Everglades City |
-| FL | `gus2025:161616` | `gus2025:161616` | TOWN OF CROSS | Cross City, Florida | Town of Cross |
-| GA | `gus2025:102163` | `gus2025:102163` | COUNTY OF MACON-BIBB | Macon, Georgia | County of Macon-Bibb |
-| GA | `gus2025:161828` | `gus2025:161828` | UNIFIED GOVERNMENT OF CUSSETA-CHATTAHOOCHEE COUNTY | Cusseta, Georgia | Unified Government of Cusseta-Chattahoochee County |
-| GA | `gus2025:161868` | `gus2025:161868` | CITY OF PEACHTREE | Peachtree City, Georgia | City of Peachtree |
-| GA | `gus2025:161958` | `gus2025:161958` | UNIFIED GOVERNMENT OF GEORGETOWN AND QUITMAN COUNTY | Georgetown, Georgia | Unified Government of Georgetown and Quitman County |
-| GA | `gus2025:194679` | `gus2025:194679` | CONSOLIDATED GOVERNMENT OF AUGUSTA-RICHMOND COUNTY | Augusta, Georgia | Consolidated Government of Augusta-Richmond County |
-| GA | `gus2025:201573` | `gus2025:201573` | UNIFIED GOVERNMENT OF WEBSTER COUNTY | Webster, Georgia | Unified Government of Webster County |
-| IA | `gus2025:104394` | `gus2025:104394` | CITY OF JEWELL | Jewell Junction, Iowa | City of Jewell |
-| IA | `gus2025:164366` | `gus2025:164366` | CITY OF DECATUR CITY | Decatur, Iowa | City of Decatur City |
-| IA | `gus2025:164495` | `gus2025:164495` | CITY OF MELCHER-DALLAS | Melcher, Iowa | City of Melcher-Dallas |
-| IA | `gus2025:207994` | `gus2025:207994` | CITY OF SUMNER CITY | Sumner, Iowa | City of Sumner City |
-| ID | `gus2025:124673` | `gus2025:124673` | CITY OF MALAD | Malad City, Idaho | City of Malad |
-| ID | `gus2025:162035` | `gus2025:162035` | CITY OF BOISE | Boise City, Idaho | City of Boise |
-| ID | `gus2025:193178` | `gus2025:193178` | CITY OF FERNAN LAKE | Fernan Lake Village, Idaho | City of Fernan Lake |
-| IL | `gus2025:162273` | `gus2025:162273` | VILLAGE OF ELK GROVE | Elk Grove Village, Illinois | Village of Elk Grove |
-| IL | `gus2025:162656` | `gus2025:162656` | VILLAGE OF ALVAN | Alvan (Alvin), Illinois | Village of Alvan |
-| IN | `gus2025:163678` | `gus2025:163678` | TOWN OF WINDFALL | Windfall City, Indiana | Town of Windfall |
-| KS | `gus2025:164804` | `gus2025:164804` | CITY OF PLAINS CITY | Plains, Kansas | City of Plains City |
-| KS | `gus2025:164832` | `gus2025:164832` | CITY OF OSAGE | Osage City, Kansas | City of Osage |
-| KS | `gus2025:164873` | `gus2025:164873` | CITY OF SCOTT | Scott City, Kansas | City of Scott |
-| KS | `gus2025:211261` | `gus2025:211261` | CITY OF AXTELL CITY | Axtell, Kansas | City of Axtell City |
-| KY | `gus2025:127571` | `gus2025:127571` | CITY OF PARK | Park City, Kentucky | City of Park |
-| KY | `gus2025:165831` | `gus2025:165831` | URBAN COUNTY GOVERNMENT OF LEXINGTON-FAYETTE | Lexington, Kentucky | Urban County Government of Lexington-Fayette |
-| KY | `gus2025:165860` | `gus2025:165860` | CITY OF BEECHWOOD | Beechwood Village, Kentucky | City of Beechwood |
-| KY | `gus2025:165952` | `gus2025:165952` | CITY OF CENTRAL | Central City, Kentucky | City of Central |
-| KY | `gus2025:208173` | `gus2025:208173` | CITY OF CALVERT | Calvert City, Kentucky | City of Calvert |
-| LA | `gus2025:127857` | `gus2025:127857` | CONSOLIDATED GOVERNMENT OF TERREBONNE | Houma, Louisiana | Consolidated Government of Terrebonne |
-| LA | `gus2025:166036` | `gus2025:166036` | TOWN OF MT LEBANON | Mount Lebanon, Louisiana | Town of Mt Lebanon |
-| MA | `gus2025:185811` | `gus2025:185811` | CITY OF BARNSTABLE | Barnstable Town, Massachusetts | City of Barnstable |
-| MA | `gus2025:195851` | `gus2025:195851` | CITY OF EASTHAMPTON TOWN | Easthampton, Massachusetts | City of Easthampton Town |
-| MD | `gus2025:166384` | `gus2025:166384` | VILLAGE OF PORT TOBACCO | Port Tobacco Village, Maryland | Village of Port Tobacco |
-| MI | `gus2025:106381` | `gus2025:106381` | CITY OF CLARKSTON | Village of Clarkston, Michigan | City of Clarkston |
-| MI | `gus2025:128286` | `gus2025:128286` | CITY OF MT MORRIS | Mount Morris, Michigan | City of Mt Morris |
-| MI | `gus2025:128297` | `gus2025:128297` | CITY OF MT PLEASANT | Mount Pleasant, Michigan | City of Mt Pleasant |
-| MI | `gus2025:166803` | `gus2025:166803` | VILLAGE OF MINDEN | Minden City, Michigan | Village of Minden |
-| MI | `gus2025:185903` | `gus2025:185903` | CITY OF MT CLEMENS | Mount Clemens, Michigan | City of Mt Clemens |
-| MN | `gus2025:208510` | `gus2025:208510` | CITY OF BIRCHWOOD | Birchwood Village, Minnesota | City of Birchwood |
-| MN | `gus2025:212202` | `gus2025:212202` | CITY OF ST ANTHONY VILLAGE | St. Anthony, Minnesota | City of St. Anthony Village |
-| MO | `gus2025:107629` | `gus2025:107629` | CITY OF GILMAN | Gilman City, Missouri | City of Gilman |
-| MO | `gus2025:138841` | `gus2025:138841` | VILLAGE OF LEWIS AND CLARK | Lewis and Clark Village, Missouri | Village of Lewis and Clark |
-| MO | `gus2025:168972` | `gus2025:168972` | VILLAGE OF FOUNTAIN-N-LAKE | Fountain N' Lakes, Missouri | Village of Fountain-N-Lake |
-| MO | `gus2025:168988` | `gus2025:168988` | VILLAGE OF COBALT CITY | Cobalt, Missouri | Village of Cobalt City |
-| MO | `gus2025:169148` | `gus2025:169148` | CITY OF ST JOHNS | St. John, Missouri | City of St. Johns |
-| MO | `gus2025:169177` | `gus2025:169177` | CITY OF LAMBERT VILLAGE | Lambert, Missouri | City of Lambert Village |
-| MO | `gus2025:169206` | `gus2025:169206` | CITY OF SCHELL | Schell City, Missouri | City of Schell |
-| MO | `gus2025:204832` | `gus2025:204832` | CITY OF LAKE SAINT LOUIS | Lake St. Louis, Missouri | City of Lake Saint Louis |
-| MO | `gus2025:208645` | `gus2025:208645` | VILLAGE OF GRANTWOOD | Grantwood Village, Missouri | Village of Grantwood |
-| MO | `gus2025:223973` | `gus2025:223973` | VILLAGE OF PEACEFUL | Peaceful Village, Missouri | Village of Peaceful |
-| MT | `gus2025:169444` | `gus2025:169444` | COUNTY OF ANACONDA-DEER LODGE | Anaconda, Montana | County of Anaconda-Deer Lodge |
-| NC | `gus2025:131704` | `gus2025:131704` | TOWN OF CAJAH MOUNTAIN | Cajah's Mountain, North Carolina | Town of Cajah Mountain |
-| NC | `gus2025:171132` | `gus2025:171132` | VILLAGE OF GRANDFATHER | Grandfather Village, North Carolina | Village of Grandfather |
-| NC | `gus2025:186786` | `gus2025:186786` | CITY OF BESSEMER | Bessemer City, North Carolina | City of Bessemer |
-| ND | `gus2025:171435` | `gus2025:171435` | CITY OF CANTON CITY | Canton City (Hensel), North Dakota | City of Canton City |
-| NE | `gus2025:169631` | `gus2025:169631` | VILLAGE OF HOWARD CITY | Howard City (Boelus), Nebraska | Village of Howard City |
-| NJ | `gus2025:184036` | `gus2025:184036` | CITY OF SEA ISLE | Sea Isle City, New Jersey | City of Sea Isle |
-| NJ | `gus2025:208756` | `gus2025:208756` | CITY OF EGG HARBOR | Egg Harbor City, New Jersey | City of Egg Harbor |
-| NJ | `gus2025:208757` | `gus2025:208757` | CITY OF MARGATE | Margate City, New Jersey | City of Margate |
-| NM | `gus2025:131018` | `gus2025:131018` | COUNTY OF DONA ANA | Doña Ana County, New Mexico | Dona Ana County |
-| NM | `gus2025:170400` | `gus2025:170400` | CITY OF ESPANOLA | Española, New Mexico | City of Espanola |
-| NV | `gus2025:130691` | `gus2025:130691` | CITY OF BOULDER | Boulder City, Nevada | City of Boulder |
-| NY | `gus2025:170655` | `gus2025:170655` | VILLAGE OF BRANCH | Village of the Branch, New York | Village of Branch |
-| OH | `gus2025:110785` | `gus2025:110785` | CITY OF WEST CARROLLTON CITY | West Carrollton, Ohio | City of West Carrollton City |
-| OH | `gus2025:172413` | `gus2025:172413` | VILLAGE OF CENTERVILLE | Centerville (Thurman), Ohio | Village of Centerville |
-| OH | `gus2025:172494` | `gus2025:172494` | VILLAGE OF HARTFORD | Hartford (Croton), Ohio | Village of Hartford |
-| OH | `gus2025:172663` | `gus2025:172663` | VILLAGE OF MATAMORAS | Matamoras (New Matamoras), Ohio | Village of Matamoras |
-| OH | `gus2025:202328` | `gus2025:202328` | CITY OF GROVE | Grove City, Ohio | City of Grove |
-| OK | `gus2025:173505` | `gus2025:173505` | TOWN OF GRAND LAKE | Grand Lake Towne, Oklahoma | Town of Grand Lake |
-| OR | `gus2025:133224` | `gus2025:133224` | CITY OF DUNES | Dunes City, Oregon | City of Dunes |
-| SD | `gus2025:175099` | `gus2025:175099` | CITY OF HILL | Hill City, South Dakota | City of Hill |
-| SD | `gus2025:209492` | `gus2025:209492` | CITY OF NORTH SIOUX | North Sioux City, South Dakota | City of North Sioux |
-| TN | `gus2025:175805` | `gus2025:175805` | METROPOLITAN GOVERNMENT OF LYNCHBURG-MOORE COUNTY | Lynchburg, Tennessee | Metropolitan Government of Lynchburg-Moore County |
-| TN | `gus2025:175834` | `gus2025:175834` | METROPOLITAN GOVERNMENT OF HARTSVILLE-TROUSDALE COUNTY | Hartsville, Tennessee | Metropolitan Government of Hartsville-Trousdale County |
-| TN | `gus2025:175848` | `gus2025:175848` | CITY OF MT JULIET CITY | Mount Juliet, Tennessee | City of Mt Juliet City |
-| TX | `gus2025:113699` | `gus2025:113699` | CITY OF PECOS | Town of Pecos, Texas | City of Pecos |
-| TX | `gus2025:135179` | `gus2025:135179` | VILLAGE OF SPRING VALLEY | Spring Valley Village, Texas | Village of Spring Valley |
-| TX | `gus2025:135180` | `gus2025:135180` | VILLAGE OF TAYLOR LAKE | Taylor Lake Village, Texas | Village of Taylor Lake |
-| TX | `gus2025:135185` | `gus2025:135185` | CITY OF GUN BARREL | Gun Barrel City, Texas | City of Gun Barrel |
-| TX | `gus2025:176174` | `gus2025:176174` | VILLAGE OF PINEY POINT | Piney Point Village, Texas | Village of Piney Point |
-| TX | `gus2025:176303` | `gus2025:176303` | VILLAGE OF PANORAMA | Panorama Village, Texas | Village of Panorama |
-| TX | `gus2025:176332` | `gus2025:176332` | CITY OF GARY | Gary City, Texas | City of Gary |
-| TX | `gus2025:187665` | `gus2025:187665` | VILLAGE OF HEDWIG | Hedwig Village, Texas | Village of Hedwig |
-| TX | `gus2025:194146` | `gus2025:194146` | VILLAGE OF EDGECLIFF | Edgecliff Village, Texas | Village of Edgecliff |
-| TX | `gus2025:209584` | `gus2025:209584` | VILLAGE OF BUNKER HILL | Bunker Hill Village, Texas | Village of Bunker Hill |
-| TX | `gus2025:212116` | `gus2025:212116` | VILLAGE OF HILSHIRE | Hilshire Village, Texas | Village of Hilshire |
-| TX | `gus2025:212984` | `gus2025:212984` | VILLAGE OF HILL COUNTRY | Hill Country Village, Texas | Village of Hill Country |
-| UT | `gus2025:135818` | `gus2025:135818` | TOWN OF EMERY CITY | Emery, Utah | Town of Emery City |
-| UT | `gus2025:135843` | `gus2025:135843` | CITY OF SPANISH FORK CITY | Spanish Fork, Utah | City of Spanish Fork City |
-| UT | `gus2025:176445` | `gus2025:176445` | CITY OF BEAR RIVER | Bear River City, Utah | City of Bear River |
-| UT | `gus2025:212129` | `gus2025:212129` | CITY OF PLAIN | Plain City, Utah | City of Plain |
-| WA | `gus2025:194186` | `gus2025:194186` | TOWN OF BEAUX ARTS | Beaux Arts Village, Washington | Town of Beaux Arts |
-| WA | `gus2025:205586` | `gus2025:205586` | CITY OF ROCK ISLAND CITY | Rock Island, Washington | City of Rock Island City |
-| WI | `gus2025:136596` | `gus2025:136596` | VILLAGE OF FONTANA | Fontana-on-Geneva Lake, Wisconsin | Village of Fontana |
-| WI | `gus2025:209804` | `gus2025:209804` | VILLAGE OF MARATHON | Marathon City, Wisconsin | Village of Marathon |
-| WV | `gus2025:114925` | `gus2025:114925` | TOWN OF BATH | Bath (Berkeley Springs), West Virginia | Town of Bath |
-| WV | `gus2025:136399` | `gus2025:136399` | TOWN OF GRANT | Grant Town, West Virginia | Town of Grant |
-| WV | `gus2025:136416` | `gus2025:136416` | TOWN OF WOMELSDORF | Womelsdorf (Coalton), West Virginia | Town of Womelsdorf |
-| WV | `gus2025:177006` | `gus2025:177006` | TOWN OF HARTFORD | Hartford City, West Virginia | Town of Hartford |
-| WV | `gus2025:177045` | `gus2025:177045` | TOWN OF ADDISON | Addison (Webster Springs), West Virginia | Town of Addison |
+| State | Unit             | Place           | Listed                                                 | Place record                                | Said now                                               |
+| ----- | ---------------- | --------------- | ------------------------------------------------------ | ------------------------------------------- | ------------------------------------------------------ |
+| AK    | `gus2025:160742` | `place:0266470` | CITY OF SAINT PAUL                                     | St. Paul, Alaska                            | City of Saint Paul                                     |
+| AK    | `gus2025:160743` | `place:0265800` | CITY OF SAINT GEORGE                                   | St. George, Alaska                          | City of Saint George                                   |
+| AK    | `gus2025:160778` | `place:0266360` | CITY OF SAINT MICHAEL                                  | St. Michael, Alaska                         | City of Saint Michael                                  |
+| AK    | `gus2025:160798` | `place:0266140` | CITY OF SAINT MARYS                                    | St. Mary's, Alaska                          | City of Saint Marys                                    |
+| AK    | `gus2025:213917` | `county:02282`  | BOROUGH OF YAKUTAT                                     | Yakutat City and Borough, Alaska            | Yakutat Borough                                        |
+| AK    | `gus2025:219910` | `county:02230`  | BOROUGH OF SKAGWAY                                     | Skagway Municipality, Alaska                | Skagway Borough                                        |
+| AL    | `gus2025:122582` | `place:0159472` | CITY OF PHENIX                                         | Phenix City, Alabama                        | City of Phenix                                         |
+| AL    | `gus2025:160686` | `place:0152608` | TOWN OF MT VERNON                                      | Mount Vernon, Alabama                       | Town of Mt Vernon                                      |
+| AR    | `gus2025:184386` | `place:0525060` | CITY OF FREDONIA (BRISCOE)                             | Fredonia (Biscoe), Arkansas                 | City of Fredonia (Briscoe)                             |
+| CA    | `gus2025:100736` | `place:0660102` | CITY OF REDWOOD                                        | Redwood City, California                    | City of Redwood                                        |
+| CA    | `gus2025:123129` | `place:0665112` | CITY OF SAND                                           | Sand City, California                       | City of Sand                                           |
+| CA    | `gus2025:161199` | `place:0639003` | CITY OF LA CANADA FLINTRIDGE                           | La Cañada Flintridge, California            | City of La Canada Flintridge                           |
+| CA    | `gus2025:161300` | `place:0665042` | CITY OF SAN BUENAVENTURA                               | San Buenaventura (Ventura), California      | City of San Buenaventura                               |
+| CA    | `gus2025:189639` | `place:0638520` | CITY OF KING                                           | King City, California                       | City of King                                           |
+| CA    | `gus2025:193103` | `place:0602112` | CITY OF ANGELS CITY                                    | Angels, California                          | City of Angels City                                    |
+| CA    | `gus2025:193111` | `place:0678148` | CITY OF TEMPLE                                         | Temple City, California                     | City of Temple                                         |
+| CA    | `gus2025:203973` | `place:0612048` | CITY OF CATHEDRAL                                      | Cathedral City, California                  | City of Cathedral                                      |
+| CA    | `gus2025:207600` | `place:0622300` | CITY OF EL PASO DE ROBLES                              | El Paso de Robles (Paso Robles), California | City of El Paso de Robles                              |
+| CO    | `gus2025:101399` | `place:0812900` | CITY OF CENTRAL CITY                                   | Central, Colorado                           | City of Central City                                   |
+| CO    | `gus2025:101437` | `place:0863045` | TOWN OF RAYMER                                         | Raymer (New Raymer), Colorado               | Town of Raymer                                         |
+| CO    | `gus2025:207623` | `place:0811810` | CITY OF CANON                                          | Cañon City, Colorado                        | City of Canon                                          |
+| CT    | `gus2025:193132` | `place:0934460` | BOROUGH OF GROTON LONG POINT ASSOCIATION               | Groton Long Point, Connecticut              | Borough of Groton Long Point Association               |
+| DC    | `gus2025:124214` | `place:1150000` | CITY OF WASHINGTON DC                                  | Washington, District of Columbia            | City of Washington DC                                  |
+| FL    | `gus2025:161601` | `place:1221425` | CITY OF EVERGLADES CITY                                | Everglades, Florida                         | City of Everglades City                                |
+| FL    | `gus2025:161616` | `place:1215575` | TOWN OF CROSS                                          | Cross City, Florida                         | Town of Cross                                          |
+| GA    | `gus2025:102163` | `place:1349008` | COUNTY OF MACON-BIBB                                   | Macon, Georgia                              | County of Macon-Bibb                                   |
+| GA    | `gus2025:161828` | `place:1321017` | UNIFIED GOVERNMENT OF CUSSETA-CHATTAHOOCHEE COUNTY     | Cusseta, Georgia                            | Unified Government of Cusseta-Chattahoochee County     |
+| GA    | `gus2025:161868` | `place:1359724` | CITY OF PEACHTREE                                      | Peachtree City, Georgia                     | City of Peachtree                                      |
+| GA    | `gus2025:161958` | `place:1332528` | UNIFIED GOVERNMENT OF GEORGETOWN AND QUITMAN COUNTY    | Georgetown, Georgia                         | Unified Government of Georgetown and Quitman County    |
+| GA    | `gus2025:194679` | `place:1304204` | CONSOLIDATED GOVERNMENT OF AUGUSTA-RICHMOND COUNTY     | Augusta, Georgia                            | Consolidated Government of Augusta-Richmond County     |
+| GA    | `gus2025:201573` | `place:1381128` | UNIFIED GOVERNMENT OF WEBSTER COUNTY                   | Webster, Georgia                            | Unified Government of Webster County                   |
+| IA    | `gus2025:104394` | `place:1939675` | CITY OF JEWELL                                         | Jewell Junction, Iowa                       | City of Jewell                                         |
+| IA    | `gus2025:164366` | `place:1919315` | CITY OF DECATUR CITY                                   | Decatur, Iowa                               | City of Decatur City                                   |
+| IA    | `gus2025:164495` | `place:1950935` | CITY OF MELCHER-DALLAS                                 | Melcher, Iowa                               | City of Melcher-Dallas                                 |
+| IA    | `gus2025:207994` | `place:1976260` | CITY OF SUMNER CITY                                    | Sumner, Iowa                                | City of Sumner City                                    |
+| ID    | `gus2025:124673` | `place:1650140` | CITY OF MALAD                                          | Malad City, Idaho                           | City of Malad                                          |
+| ID    | `gus2025:162035` | `place:1608830` | CITY OF BOISE                                          | Boise City, Idaho                           | City of Boise                                          |
+| ID    | `gus2025:193178` | `place:1627550` | CITY OF FERNAN LAKE                                    | Fernan Lake Village, Idaho                  | City of Fernan Lake                                    |
+| IL    | `gus2025:162273` | `place:1723256` | VILLAGE OF ELK GROVE                                   | Elk Grove Village, Illinois                 | Village of Elk Grove                                   |
+| IL    | `gus2025:162656` | `place:1701242` | VILLAGE OF ALVAN                                       | Alvan (Alvin), Illinois                     | Village of Alvan                                       |
+| IN    | `gus2025:163678` | `place:1884806` | TOWN OF WINDFALL                                       | Windfall City, Indiana                      | Town of Windfall                                       |
+| KS    | `gus2025:164804` | `place:2056100` | CITY OF PLAINS CITY                                    | Plains, Kansas                              | City of Plains City                                    |
+| KS    | `gus2025:164832` | `place:2053200` | CITY OF OSAGE                                          | Osage City, Kansas                          | City of Osage                                          |
+| KS    | `gus2025:164873` | `place:2063600` | CITY OF SCOTT                                          | Scott City, Kansas                          | City of Scott                                          |
+| KS    | `gus2025:211261` | `place:2003600` | CITY OF AXTELL CITY                                    | Axtell, Kansas                              | City of Axtell City                                    |
+| KY    | `gus2025:127571` | `place:2159232` | CITY OF PARK                                           | Park City, Kentucky                         | City of Park                                           |
+| KY    | `gus2025:165831` | `place:2146027` | URBAN COUNTY GOVERNMENT OF LEXINGTON-FAYETTE           | Lexington, Kentucky                         | Urban County Government of Lexington-Fayette           |
+| KY    | `gus2025:165860` | `place:2105068` | CITY OF BEECHWOOD                                      | Beechwood Village, Kentucky                 | City of Beechwood                                      |
+| KY    | `gus2025:165952` | `place:2113978` | CITY OF CENTRAL                                        | Central City, Kentucky                      | City of Central                                        |
+| KY    | `gus2025:208173` | `place:2112016` | CITY OF CALVERT                                        | Calvert City, Kentucky                      | City of Calvert                                        |
+| LA    | `gus2025:127857` | `place:2236255` | CONSOLIDATED GOVERNMENT OF TERREBONNE                  | Houma, Louisiana                            | Consolidated Government of Terrebonne                  |
+| LA    | `gus2025:166036` | `place:2252740` | TOWN OF MT LEBANON                                     | Mount Lebanon, Louisiana                    | Town of Mt Lebanon                                     |
+| MA    | `gus2025:185811` | `place:2503690` | CITY OF BARNSTABLE                                     | Barnstable Town, Massachusetts              | City of Barnstable                                     |
+| MA    | `gus2025:195851` | `place:2519365` | CITY OF EASTHAMPTON TOWN                               | Easthampton, Massachusetts                  | City of Easthampton Town                               |
+| MD    | `gus2025:166384` | `place:2463225` | VILLAGE OF PORT TOBACCO                                | Port Tobacco Village, Maryland              | Village of Port Tobacco                                |
+| MI    | `gus2025:106381` | `place:2682450` | CITY OF CLARKSTON                                      | Village of Clarkston, Michigan              | City of Clarkston                                      |
+| MI    | `gus2025:128286` | `place:2655960` | CITY OF MT MORRIS                                      | Mount Morris, Michigan                      | City of Mt Morris                                      |
+| MI    | `gus2025:128297` | `place:2656020` | CITY OF MT PLEASANT                                    | Mount Pleasant, Michigan                    | City of Mt Pleasant                                    |
+| MI    | `gus2025:166803` | `place:2654560` | VILLAGE OF MINDEN                                      | Minden City, Michigan                       | Village of Minden                                      |
+| MI    | `gus2025:185903` | `place:2655820` | CITY OF MT CLEMENS                                     | Mount Clemens, Michigan                     | City of Mt Clemens                                     |
+| MN    | `gus2025:208510` | `place:2706058` | CITY OF BIRCHWOOD                                      | Birchwood Village, Minnesota                | City of Birchwood                                      |
+| MN    | `gus2025:212202` | `place:2756680` | CITY OF ST ANTHONY VILLAGE                             | St. Anthony, Minnesota                      | City of St. Anthony Village                            |
+| MO    | `gus2025:107629` | `place:2927064` | CITY OF GILMAN                                         | Gilman City, Missouri                       | City of Gilman                                         |
+| MO    | `gus2025:138841` | `place:2941834` | VILLAGE OF LEWIS AND CLARK                             | Lewis and Clark Village, Missouri           | Village of Lewis and Clark                             |
+| MO    | `gus2025:168972` | `place:2925411` | VILLAGE OF FOUNTAIN-N-LAKE                             | Fountain N' Lakes, Missouri                 | Village of Fountain-N-Lake                             |
+| MO    | `gus2025:168988` | `place:2915220` | VILLAGE OF COBALT CITY                                 | Cobalt, Missouri                            | Village of Cobalt City                                 |
+| MO    | `gus2025:169148` | `place:2964478` | CITY OF ST JOHNS                                       | St. John, Missouri                          | City of St. Johns                                      |
+| MO    | `gus2025:169177` | `place:2940448` | CITY OF LAMBERT VILLAGE                                | Lambert, Missouri                           | City of Lambert Village                                |
+| MO    | `gus2025:169206` | `place:2966134` | CITY OF SCHELL                                         | Schell City, Missouri                       | City of Schell                                         |
+| MO    | `gus2025:204832` | `place:2940043` | CITY OF LAKE SAINT LOUIS                               | Lake St. Louis, Missouri                    | City of Lake Saint Louis                               |
+| MO    | `gus2025:208645` | `place:2928630` | VILLAGE OF GRANTWOOD                                   | Grantwood Village, Missouri                 | Village of Grantwood                                   |
+| MO    | `gus2025:223973` | `place:2956620` | VILLAGE OF PEACEFUL                                    | Peaceful Village, Missouri                  | Village of Peaceful                                    |
+| MT    | `gus2025:169444` | `place:3001675` | COUNTY OF ANACONDA-DEER LODGE                          | Anaconda, Montana                           | County of Anaconda-Deer Lodge                          |
+| NC    | `gus2025:131704` | `place:3709530` | TOWN OF CAJAH MOUNTAIN                                 | Cajah's Mountain, North Carolina            | Town of Cajah Mountain                                 |
+| NC    | `gus2025:171132` | `place:3727324` | VILLAGE OF GRANDFATHER                                 | Grandfather Village, North Carolina         | Village of Grandfather                                 |
+| NC    | `gus2025:186786` | `place:3705220` | CITY OF BESSEMER                                       | Bessemer City, North Carolina               | City of Bessemer                                       |
+| ND    | `gus2025:171435` | `place:3812060` | CITY OF CANTON CITY                                    | Canton City (Hensel), North Dakota          | City of Canton City                                    |
+| NE    | `gus2025:169631` | `place:3123270` | VILLAGE OF HOWARD CITY                                 | Howard City (Boelus), Nebraska              | Village of Howard City                                 |
+| NJ    | `gus2025:184036` | `place:3466390` | CITY OF SEA ISLE                                       | Sea Isle City, New Jersey                   | City of Sea Isle                                       |
+| NJ    | `gus2025:208756` | `place:3420350` | CITY OF EGG HARBOR                                     | Egg Harbor City, New Jersey                 | City of Egg Harbor                                     |
+| NJ    | `gus2025:208757` | `place:3443890` | CITY OF MARGATE                                        | Margate City, New Jersey                    | City of Margate                                        |
+| NM    | `gus2025:131018` | `county:35013`  | COUNTY OF DONA ANA                                     | Doña Ana County, New Mexico                 | Dona Ana County                                        |
+| NM    | `gus2025:170400` | `place:3525170` | CITY OF ESPANOLA                                       | Española, New Mexico                        | City of Espanola                                       |
+| NV    | `gus2025:130691` | `place:3206500` | CITY OF BOULDER                                        | Boulder City, Nevada                        | City of Boulder                                        |
+| NY    | `gus2025:170655` | `place:3677519` | VILLAGE OF BRANCH                                      | Village of the Branch, New York             | Village of Branch                                      |
+| OH    | `gus2025:110785` | `place:3983090` | CITY OF WEST CARROLLTON CITY                           | West Carrollton, Ohio                       | City of West Carrollton City                           |
+| OH    | `gus2025:172413` | `place:3913169` | VILLAGE OF CENTERVILLE                                 | Centerville (Thurman), Ohio                 | Village of Centerville                                 |
+| OH    | `gus2025:172494` | `place:3934202` | VILLAGE OF HARTFORD                                    | Hartford (Croton), Ohio                     | Village of Hartford                                    |
+| OH    | `gus2025:172663` | `place:3948286` | VILLAGE OF MATAMORAS                                   | Matamoras (New Matamoras), Ohio             | Village of Matamoras                                   |
+| OH    | `gus2025:202328` | `place:3932592` | CITY OF GROVE                                          | Grove City, Ohio                            | City of Grove                                          |
+| OK    | `gus2025:173505` | `place:4030900` | TOWN OF GRAND LAKE                                     | Grand Lake Towne, Oklahoma                  | Town of Grand Lake                                     |
+| OR    | `gus2025:133224` | `place:4121150` | CITY OF DUNES                                          | Dunes City, Oregon                          | City of Dunes                                          |
+| SD    | `gus2025:175099` | `place:4629100` | CITY OF HILL                                           | Hill City, South Dakota                     | City of Hill                                           |
+| SD    | `gus2025:209492` | `place:4645700` | CITY OF NORTH SIOUX                                    | North Sioux City, South Dakota              | City of North Sioux                                    |
+| TN    | `gus2025:175805` | `place:4744382` | METROPOLITAN GOVERNMENT OF LYNCHBURG-MOORE COUNTY      | Lynchburg, Tennessee                        | Metropolitan Government of Lynchburg-Moore County      |
+| TN    | `gus2025:175834` | `place:4732742` | METROPOLITAN GOVERNMENT OF HARTSVILLE-TROUSDALE COUNTY | Hartsville, Tennessee                       | Metropolitan Government of Hartsville-Trousdale County |
+| TN    | `gus2025:175848` | `place:4750780` | CITY OF MT JULIET CITY                                 | Mount Juliet, Tennessee                     | City of Mt Juliet City                                 |
+| TX    | `gus2025:113699` | `place:4873493` | CITY OF PECOS                                          | Town of Pecos, Texas                        | City of Pecos                                          |
+| TX    | `gus2025:135179` | `place:4869830` | VILLAGE OF SPRING VALLEY                               | Spring Valley Village, Texas                | Village of Spring Valley                               |
+| TX    | `gus2025:135180` | `place:4871960` | VILLAGE OF TAYLOR LAKE                                 | Taylor Lake Village, Texas                  | Village of Taylor Lake                                 |
+| TX    | `gus2025:135185` | `place:4831592` | CITY OF GUN BARREL                                     | Gun Barrel City, Texas                      | City of Gun Barrel                                     |
+| TX    | `gus2025:176174` | `place:4857800` | VILLAGE OF PINEY POINT                                 | Piney Point Village, Texas                  | Village of Piney Point                                 |
+| TX    | `gus2025:176303` | `place:4855008` | VILLAGE OF PANORAMA                                    | Panorama Village, Texas                     | Village of Panorama                                    |
+| TX    | `gus2025:176332` | `place:4829108` | CITY OF GARY                                           | Gary City, Texas                            | City of Gary                                           |
+| TX    | `gus2025:187665` | `place:4833068` | VILLAGE OF HEDWIG                                      | Hedwig Village, Texas                       | Village of Hedwig                                      |
+| TX    | `gus2025:194146` | `place:4822588` | VILLAGE OF EDGECLIFF                                   | Edgecliff Village, Texas                    | Village of Edgecliff                                   |
+| TX    | `gus2025:209584` | `place:4811300` | VILLAGE OF BUNKER HILL                                 | Bunker Hill Village, Texas                  | Village of Bunker Hill                                 |
+| TX    | `gus2025:212116` | `place:4834148` | VILLAGE OF HILSHIRE                                    | Hilshire Village, Texas                     | Village of Hilshire                                    |
+| TX    | `gus2025:212984` | `place:4833968` | VILLAGE OF HILL COUNTRY                                | Hill Country Village, Texas                 | Village of Hill Country                                |
+| UT    | `gus2025:135818` | `place:4922870` | TOWN OF EMERY CITY                                     | Emery, Utah                                 | Town of Emery City                                     |
+| UT    | `gus2025:135843` | `place:4971290` | CITY OF SPANISH FORK CITY                              | Spanish Fork, Utah                          | City of Spanish Fork City                              |
+| UT    | `gus2025:176445` | `place:4903950` | CITY OF BEAR RIVER                                     | Bear River City, Utah                       | City of Bear River                                     |
+| UT    | `gus2025:212129` | `place:4960710` | CITY OF PLAIN                                          | Plain City, Utah                            | City of Plain                                          |
+| WA    | `gus2025:194186` | `place:5304895` | TOWN OF BEAUX ARTS                                     | Beaux Arts Village, Washington              | Town of Beaux Arts                                     |
+| WA    | `gus2025:205586` | `place:5359180` | CITY OF ROCK ISLAND CITY                               | Rock Island, Washington                     | City of Rock Island City                               |
+| WI    | `gus2025:136596` | `place:5526350` | VILLAGE OF FONTANA                                     | Fontana-on-Geneva Lake, Wisconsin           | Village of Fontana                                     |
+| WI    | `gus2025:209804` | `place:5549100` | VILLAGE OF MARATHON                                    | Marathon City, Wisconsin                    | Village of Marathon                                    |
+| WV    | `gus2025:114925` | `place:5404876` | TOWN OF BATH                                           | Bath (Berkeley Springs), West Virginia      | Town of Bath                                           |
+| WV    | `gus2025:136399` | `place:5432908` | TOWN OF GRANT                                          | Grant Town, West Virginia                   | Town of Grant                                          |
+| WV    | `gus2025:136416` | `place:5488324` | TOWN OF WOMELSDORF                                     | Womelsdorf (Coalton), West Virginia         | Town of Womelsdorf                                     |
+| WV    | `gus2025:177006` | `place:5435500` | TOWN OF HARTFORD                                       | Hartford City, West Virginia                | Town of Hartford                                       |
+| WV    | `gus2025:177045` | `place:5400364` | TOWN OF ADDISON                                        | Addison (Webster Springs), West Virginia    | Town of Addison                                        |
+
+## Townships
+
+16184 township governments have no place record at all (the listing gives no Census place for them), so every one keeps the listing's own words through the one display rule. Most read right that way ("Township of Liberty"). The 107 below hold a word the rule cannot capitalize correctly (Mc, Mac, De, La, O); each needs a proper name in the data.
+
+| State | Unit             | Listed                          | Said now                        |
+| ----- | ---------------- | ------------------------------- | ------------------------------- |
+| IL    | `gus2025:102982` | TOWNSHIP OF DE SOTO             | Township of De Soto             |
+| IL    | `gus2025:125108` | TOWNSHIP OF LA MOILLE           | Township of La Moille           |
+| IL    | `gus2025:125210` | TOWNSHIP OF MCCLELLAN           | Township of Mcclellan           |
+| IL    | `gus2025:162879` | TOWNSHIP OF LA CLEDE            | Township of La Clede            |
+| IL    | `gus2025:162934` | TOWNSHIP OF MCLEANSBORO         | Township of Mcleansboro         |
+| IL    | `gus2025:162941` | TOWNSHIP OF LA HARPE            | Township of La Harpe            |
+| IL    | `gus2025:163110` | TOWNSHIP OF MACOMB CITY         | Township of Macomb City         |
+| IL    | `gus2025:163182` | TOWNSHIP OF LA PRAIRIE          | Township of La Prairie          |
+| IL    | `gus2025:163276` | TOWNSHIP OF O FALLON            | Township of O Fallon            |
+| IL    | `gus2025:163335` | TOWNSHIP OF LITTLE MACKINAW     | Township of Little Mackinaw     |
+| IL    | `gus2025:163336` | TOWNSHIP OF MACKINAW            | Township of Mackinaw            |
+| IL    | `gus2025:163347` | TOWNSHIP OF MCKENDREE           | Township of Mckendree           |
+| IL    | `gus2025:189980` | TOWNSHIP OF LA SALLE            | Township of La Salle            |
+| IL    | `gus2025:189984` | TOWNSHIP OF MACOMB              | Township of Macomb              |
+| IL    | `gus2025:193236` | TOWNSHIP OF MCHENRY             | Township of Mchenry             |
+| IL    | `gus2025:204309` | TOWNSHIP OF MCKEE               | Township of Mckee               |
+| IN    | `gus2025:126232` | TOWNSHIP OF MCCLELLAN           | Township of Mcclellan           |
+| KS    | `gus2025:104992` | TOWNSHIP OF MCPHERSON           | Township of Mcpherson           |
+| KS    | `gus2025:127183` | TOWNSHIP OF LA CROSSE-BROOKDALE | Township of La Crosse-Brookdale |
+| KS    | `gus2025:164935` | TOWNSHIP OF MCADOO              | Township of Mcadoo              |
+| KS    | `gus2025:165236` | TOWNSHIP OF MCCAMISH            | Township of Mccamish            |
+| KS    | `gus2025:165296` | TOWNSHIP OF MCALLASTER          | Township of Mcallaster          |
+| KS    | `gus2025:165314` | TOWNSHIP OF MCPHERSON           | Township of Mcpherson           |
+| ME    | `gus2025:166187` | PLANTATION OF MACWAHOC          | Plantation of Macwahoc          |
+| ME    | `gus2025:185781` | TOWN OF EAST MACHIAS            | Town of East Machias            |
+| ME    | `gus2025:190419` | TOWN OF MACHIAS                 | Town of Machias                 |
+| ME    | `gus2025:208238` | TOWN OF MACHIASPORT             | Town of Machiasport             |
+| MI    | `gus2025:106461` | TOWNSHIP OF MACKINAW            | Township of Mackinaw            |
+| MI    | `gus2025:106477` | TOWNSHIP OF MCKINLEY            | Township of Mckinley            |
+| MI    | `gus2025:106545` | TOWNSHIP OF LA SALLE            | Township of La Salle            |
+| MI    | `gus2025:106562` | TOWNSHIP OF MCMILLAN            | Township of Mcmillan            |
+| MI    | `gus2025:166952` | TOWNSHIP OF BAY DE NOC          | Township of Bay de Noc          |
+| MI    | `gus2025:167022` | TOWNSHIP OF MCKINLEY            | Township of Mckinley            |
+| MI    | `gus2025:167117` | TOWNSHIP OF MCMILLAN            | Township of Mcmillan            |
+| MI    | `gus2025:167127` | TOWNSHIP OF MACOMB              | Township of Macomb              |
+| MI    | `gus2025:208349` | TOWNSHIP OF LA GRANGE           | Township of La Grange           |
+| MN    | `gus2025:107070` | TOWNSHIP OF MCCREA              | Township of Mccrea              |
+| MN    | `gus2025:107206` | TOWNSHIP OF MCCAULEYVILLE       | Township of Mccauleyville       |
+| MN    | `gus2025:128993` | TOWNSHIP OF MCDONALDSVILLE      | Township of Mcdonaldsville      |
+| MN    | `gus2025:138656` | TOWNSHIP OF LA PRAIRIE          | Township of La Prairie          |
+| MN    | `gus2025:167707` | TOWNSHIP OF MCGREGOR            | Township of Mcgregor            |
+| MN    | `gus2025:167780` | TOWNSHIP OF MCPHERSON           | Township of Mcpherson           |
+| MN    | `gus2025:167814` | TOWNSHIP OF MCKINLEY            | Township of Mckinley            |
+| MN    | `gus2025:167908` | TOWNSHIP OF LA GRAND            | Township of La Grand            |
+| MN    | `gus2025:167955` | TOWNSHIP OF MACSVILLE           | Township of Macsville           |
+| MN    | `gus2025:167964` | TOWNSHIP OF LA CRESCENT         | Township of La Crescent         |
+| MN    | `gus2025:168011` | TOWNSHIP OF LA CROSSE           | Township of La Crosse           |
+| MN    | `gus2025:186090` | TOWNSHIP OF POMME DE TERRE      | Township of Pomme de Terre      |
+| MN    | `gus2025:186101` | TOWNSHIP OF LA GARDE            | Township of La Garde            |
+| MN    | `gus2025:190556` | TOWNSHIP OF MACVILLE            | Township of Macville            |
+| MN    | `gus2025:208563` | TOWNSHIP OF MCDAVITT            | Township of Mcdavitt            |
+| ND    | `gus2025:110274` | TOWNSHIP OF MCCLELLAN           | Township of Mcclellan           |
+| ND    | `gus2025:110321` | TOWNSHIP OF DE WITT             | Township of De Witt             |
+| ND    | `gus2025:110330` | TOWNSHIP OF MCKINNON            | Township of Mckinnon            |
+| ND    | `gus2025:110387` | TOWNSHIP OF MCGAHAN             | Township of Mcgahan             |
+| ND    | `gus2025:110418` | TOWNSHIP OF LA MARS             | Township of La Mars             |
+| ND    | `gus2025:110430` | TOWNSHIP OF MCCLUSKY            | Township of Mcclusky            |
+| ND    | `gus2025:132016` | TOWNSHIP OF MCHENRY             | Township of Mchenry             |
+| ND    | `gus2025:132071` | TOWNSHIP OF MCGINNIS            | Township of Mcginnis            |
+| ND    | `gus2025:171613` | TOWNSHIP OF MCKENZIE            | Township of Mckenzie            |
+| ND    | `gus2025:171914` | TOWNSHIP OF MCALMOND            | Township of Mcalmond            |
+| ND    | `gus2025:171969` | TOWNSHIP OF DE GROAT            | Township of De Groat            |
+| ND    | `gus2025:172005` | TOWNSHIP OF MCKINNEY            | Township of Mckinney            |
+| ND    | `gus2025:172177` | TOWNSHIP OF MCKINLEY            | Township of Mckinley            |
+| NE    | `gus2025:169758` | TOWNSHIP OF MCCULLEY            | Township of Mcculley            |
+| NE    | `gus2025:169887` | TOWNSHIP OF MCCLURE             | Township of Mcclure             |
+| NY    | `gus2025:131380` | TOWN OF DE RUYTER               | Town of De Ruyter               |
+| NY    | `gus2025:131419` | TOWN OF MACOMB                  | Town of Macomb                  |
+| NY    | `gus2025:139369` | TOWN OF MCDONOUGH               | Town of Mcdonough               |
+| NY    | `gus2025:170727` | TOWN OF MACHIAS                 | Town of Machias                 |
+| NY    | `gus2025:170972` | TOWN OF DE KALB                 | Town of De Kalb                 |
+| NY    | `gus2025:171061` | TOWN OF MACEDON                 | Town of Macedon                 |
+| NY    | `gus2025:186686` | TOWN OF DE WITT                 | Town of De Witt                 |
+| OH    | `gus2025:132759` | TOWNSHIP OF MCLEAN              | Township of Mclean              |
+| OH    | `gus2025:172915` | TOWNSHIP OF MCDONALD            | Township of Mcdonald            |
+| OH    | `gus2025:173004` | TOWNSHIP OF MCKEAN              | Township of Mckean              |
+| OH    | `gus2025:173011` | TOWNSHIP OF MCARTHUR            | Township of Mcarthur            |
+| OH    | `gus2025:173024` | TOWNSHIP OF LA GRANGE           | Township of La Grange           |
+| PA    | `gus2025:112186` | TOWNSHIP OF MCKEAN              | Township of Mckean              |
+| PA    | `gus2025:112222` | TOWNSHIP OF LOWER MACUNGIE      | Township of Lower Macungie      |
+| PA    | `gus2025:133825` | TOWNSHIP OF MCHENRY             | Township of Mchenry             |
+| PA    | `gus2025:174198` | TOWNSHIP OF MCCANDLESS          | Township of Mccandless          |
+| PA    | `gus2025:174507` | TOWNSHIP OF MCCALMONT           | Township of Mccalmont           |
+| PA    | `gus2025:174522` | TOWNSHIP OF LA PLUME            | Township of La Plume            |
+| PA    | `gus2025:174590` | TOWNSHIP OF MCNETT              | Township of Mcnett              |
+| PA    | `gus2025:187329` | TOWNSHIP OF MCINTYRE            | Township of Mcintyre            |
+| PA    | `gus2025:194878` | TOWNSHIP OF O HARA              | Township of O Hara              |
+| PA    | `gus2025:202498` | TOWNSHIP OF UPPER MACUNGIE      | Township of Upper Macungie      |
+| SD    | `gus2025:113109` | TOWNSHIP OF DE SMET             | Township of De Smet             |
+| SD    | `gus2025:134635` | TOWNSHIP OF LA ROCHE            | Township of La Roche            |
+| SD    | `gus2025:175444` | TOWNSHIP OF LA VALLEY           | Township of La Valley           |
+| SD    | `gus2025:175480` | TOWNSHIP OF LA BELLE            | Township of La Belle            |
+| SD    | `gus2025:175605` | TOWNSHIP OF LA PRAIRIE          | Township of La Prairie          |
+| SD    | `gus2025:175625` | TOWNSHIP OF MCNEELY             | Township of Mcneely             |
+| SD    | `gus2025:225733` | TOWNSHIP OF MCKINLEY            | Township of Mckinley            |
+| VT    | `gus2025:202726` | TOWN OF ISLE LA MOTTE           | Town of Isle la Motte           |
+| WI    | `gus2025:115236` | TOWN OF LA GRANGE               | Town of La Grange               |
+| WI    | `gus2025:115285` | TOWN OF MCKINLEY                | Town of Mckinley                |
+| WI    | `gus2025:136721` | TOWN OF MCMILLAN                | Town of Mcmillan                |
+| WI    | `gus2025:136752` | TOWN OF MCKINLEY                | Town of Mckinley                |
+| WI    | `gus2025:177338` | TOWN OF LA FOLLETTE             | Town of La Follette             |
+| WI    | `gus2025:177767` | TOWN OF LAND O LAKES            | Town of Land O Lakes            |
+| WI    | `gus2025:177775` | TOWN OF LA GRANGE               | Town of La Grange               |
+| WI    | `gus2025:188032` | TOWN OF MACKFORD                | Town of Mackford                |
+| WI    | `gus2025:209848` | TOWN OF LA POINTE               | Town of La Pointe               |
+| WI    | `gus2025:209913` | TOWN OF LA PRAIRIE              | Town of La Prairie              |
+| WI    | `gus2025:212152` | TOWN OF LA VALLE                | Town of La Valle                |
