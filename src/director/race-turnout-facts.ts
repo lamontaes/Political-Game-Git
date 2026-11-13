@@ -53,19 +53,33 @@ export function raceTurnoutFacts(
       text: String(Math.round((P.percent * result.electorate) / eligible)),
       sourceRecordIds: [resultId],
     };
-  // The place that gave the winner the biggest share of the ballots cast there.
-  const best = places
-    .filter((place) => place.cast > P.zero)
+  // The place that gave the winner the biggest share of the ballots cast there,
+  // said only when the race was counted over more than one place: a race
+  // counted over its one district has no place to single out, and that
+  // place's name is the district's record key (P3, North Hyde Park, Vermont,
+  // Nov 13: "seat:US-VT:lower:L-2:0 gave Carlos Gibson the most").
+  const counted = places.filter((place) => place.cast > P.zero);
+  const best = (counted.length > P.one ? counted : [])
+    .slice()
     .sort(
       (a, b) =>
         (b.votes[winner] ?? P.zero) / b.cast -
           (a.votes[winner] ?? P.zero) / a.cast ||
         a.placeId.localeCompare(b.placeId),
     )[P.zero];
-  if (best && (best.votes[winner] ?? P.zero) > P.zero)
+  const said = best && placeIsSaid(best.name);
+  if (best && said && (best.votes[winner] ?? P.zero) > P.zero)
     facts["best-place"] = {
       text: best.name,
       sourceRecordIds: [resultId, `place:${contestId}:${best.placeId}`],
     };
   return facts;
+}
+
+/**
+ * A place named by a record key (a seat's "seat:US-VT:lower:L-2:0", a House
+ * district's "VT-02") has no name a person says.
+ */
+export function placeIsSaid(name: string): boolean {
+  return !/:|^[A-Z]{2}-[0-9A-Z]+$/.test(name);
 }
