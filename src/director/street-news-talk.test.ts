@@ -44,9 +44,18 @@ it(`a street scene a story caused opens on that story, and no greeting reads a t
         ageOnDate(person.birthDate, core.date) >= 18,
     )
     .sort((a, b) => a.id.localeCompare(b.id));
-  // A greeting's "when" is a talk on record, never a tie (a relationship id).
+  // A greeting's "when" is a talk on record, never a tie (a relationship
+  // id): everyone the player has a tie with, whose contact dates move.
   let greeted = 0;
-  for (const other of adults.slice(0, 150)) {
+  const tied = [...(core.relationshipsByPerson.get(player) ?? [])].flatMap(
+    (id) => {
+      const row = core.relationships.get(id)!;
+      const otherId = row.actorId === player ? row.otherId : row.actorId;
+      const other = core.people.get(otherId);
+      return other?.alive ? [other] : [];
+    },
+  );
+  for (const other of tied) {
     const talk = openConversation(core, player, other.id as PersonId, {
       director,
       look: true,
@@ -106,7 +115,7 @@ it(`a street scene a story caused opens on that story, and no greeting reads a t
     if (checked >= 5) break;
   }
   process.stdout.write(
-    `street news in ${where}: ${greeted} greetings, none from a tie; ${checked} talks opened on the story that caused them.\n`,
+    `street news in ${where}: ${greeted} greeting lines to ${tied.length} people the player has a tie with, none from a tie; ${checked} talks opened on the story that caused them.\n`,
   );
   expect(
     checked,
