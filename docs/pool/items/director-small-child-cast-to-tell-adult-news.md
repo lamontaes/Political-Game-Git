@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: opus-lr
+pr: #9037
 after:
 blocked-on:
 lead: words
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: Playtester P1, Nov 13
 claimed-at:
+merged-at: 2026-11-13T08:31:30.998Z
 ---
 
 **What.** Commack, New York (creator life, age 29, bench seed 84f2626c-06e2-4b64-95cc-ab59382b866b, main 5e68cde1). On Feb 4, 2025: "Oscar Wise has been reading who filed for town board member before you did." / "Kiara, sit down a second. Before you filed, incumbent Idris Rivas put in for town board member." People shows "Oscar Wise / Son · Age 4 / … Born in Commack, New York in 2021." A preschooler reads the filing list and briefs his mother on it.
@@ -35,3 +36,5 @@ Seen: the talk at home in which a household member tells the player news from th
 **Waits on.** Nothing.
 
 **Files.** src/director/circumstance.ts, src/director/data/circumstances.json, src/director/circumstance.test.ts
+
+**Notes.** Built by the Life records builder (opus-lr), Nov 13, to Fable A's rule 28 (07:51Z): under 13, never cast to tell news of politics, money, law or work. The floor is `directorCircumstanceNewsTellerMinAge` (13), read in `circumstancePicks` where every source's cast is checked; rows whose news a child can know say `childMayTell`. The check is `src/director/child-teller-floor.test.ts`, not circumstance.test.ts, so it runs in minutes.

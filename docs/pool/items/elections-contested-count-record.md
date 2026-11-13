@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-elections-contested-count-record
 pr: #8573
@@ -19,6 +19,7 @@ lead: laws
 claimed-at: 2026-11-11T04:39:38.658Z
 checked: fable 2026-11-10
 branch: claude/pool-elections-contested-count-record
+merged-at: 2026-11-13T07:59:08.542Z
 ---
 
 **What.** Today a close race is counted once and that is the end of it: the elections engine keeps no record of a recount, so a loser who says he will not concede yet has nothing to wait for. The owner ruled on Nov 10, 2026: "Recount by own states rules." Build the simple version. Each state's own rule is one row of data: the margin under which a recount is automatic, whether a trailing candidate may ask for one and inside what margin, and how many days it takes. When a race's count ends inside the automatic margin, a recount record opens by itself. Where the law lets a candidate ask, the trailing candidate decides, and the player is offered that choice on election night when it is his own race. The recount runs the same count again and confirms it, the result is certified when the recount ends, and the paper and the election night scene say a recount is on. Court challenges to a count are not part of this item; they are `elections-count-challenge-in-court`, after early access. Seen: election night after the player's own close race, where a recount is called or he may ask for one, the paper's story that a recount is on, and the certified result that cites it.
