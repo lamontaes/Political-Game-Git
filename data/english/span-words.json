@@ -62,5 +62,7 @@
     "70": "about seventy years",
     "75": "about seventy-five years",
     "80": "about eighty years"
-  }
+  },
+  "again": "those years",
+  "againAbout": "A span of years said again after its first mention in the same point ('In the six years since I took this office ... Over those years, that has meant'): the words lead, Nov 12, a span is said once in a point, then 'those years' or nothing. Read by spanAgain in src/english/span-words.ts."
 }

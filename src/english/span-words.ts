@@ -30,3 +30,8 @@ export function spanSaid(days: number): string {
     ? data.longer
     : ABOUT[String(nearest)]!;
 }
+
+/** A span of years said again after its first mention ("those years"). */
+export function spanAgain(): string {
+  return data.again;
+}

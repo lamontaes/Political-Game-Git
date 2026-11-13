@@ -243,6 +243,8 @@ bank.parts = bank.parts.filter((part) => {
 
 // 4. The context pieces.
 const SLOTS: Record<string, string> = {
+  "context-span-again":
+    "the context's span said again after its first mention ('those years'), from span-words.json again",
   "context-span":
     "how long a context sentence covers, as people say it ('six years'), through the span reader: the macro engine's months, or the years since the speaker took office for an area of the term read",
   "context-amount":
@@ -487,13 +489,13 @@ const MEANING: [string, string[], string, string][] = [
     "inflation",
     FEDERAL,
     "polished",
-    "Over {context-span} that adds up, and the same groceries, the same rent and the same tank of gas now cost a family far more than they did.",
+    "Over {context-span-again} that adds up, and the same groceries, the same rent and the same tank of gas now cost a family far more than they did.",
   ],
   [
     "inflation",
     FEDERAL,
     "plain",
-    "Add that up over {context-span}, and the same cart of groceries costs a whole lot more than it used to.",
+    "Add that up over {context-span-again}, and the same cart of groceries costs a whole lot more than it used to.",
   ],
   [
     "unemployment",
@@ -523,97 +525,97 @@ const MEANING: [string, string[], string, string][] = [
     "wages",
     FEDERAL,
     "polished",
-    "For a working family, each of those raises has had to stretch across {context-span} of rising bills.",
+    "For a working family, each of those raises has had to stretch across {context-span-again} of rising bills.",
   ],
   [
     "wages",
     FEDERAL,
     "plain",
-    "For working folks, every raise has had to cover {context-span} of rising bills.",
+    "For working folks, every raise has had to cover {context-span-again} of rising bills.",
   ],
   [
     "growth",
     FEDERAL,
     "polished",
-    "That growth is real, but over {context-span} too little of it has reached the kitchen table.",
+    "That growth is real, but over {context-span-again} too little of it has reached the kitchen table.",
   ],
   [
     "growth",
     FEDERAL,
     "plain",
-    "That's real growth, but over {context-span} not enough of it has made it to the kitchen table.",
+    "That's real growth, but over {context-span-again} not enough of it has made it to the kitchen table.",
   ],
   [
     "rent",
     ALL,
     "polished",
-    "Over {context-span}, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
+    "Over {context-span-again}, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
   ],
   [
     "rent",
     ALL,
     "plain",
-    "That's {context-span} of folks handing more of every check to the landlord.",
+    "{context-span-again} have meant folks handing more of every check to the landlord.",
   ],
   [
     "crime",
     ALL,
     "polished",
-    "Over {context-span}, that has meant parents worrying a little more each time their children walk out the door.",
+    "Over {context-span-again}, that has meant parents worrying a little more each time their children walk out the door.",
   ],
   [
     "crime",
     ALL,
     "plain",
-    "That's {context-span} of folks locking up a little tighter at night.",
+    "{context-span-again} have meant folks locking up a little tighter at night.",
   ],
   [
     "schools",
     ALL,
     "polished",
-    "Over {context-span}, that has meant classrooms asking less of our children than they deserve.",
+    "Over {context-span-again}, that has meant classrooms asking less of our children than they deserve.",
   ],
   [
     "schools",
     ALL,
     "plain",
-    "That's {context-span} of kids getting less out of school than they should.",
+    "{context-span-again} have meant kids getting less out of school than they should.",
   ],
   [
     "health",
     ALL,
     "polished",
-    "Over {context-span}, that has meant too many people waiting too long to see a doctor, or going without.",
+    "Over {context-span-again}, that has meant too many people waiting too long to see a doctor, or going without.",
   ],
   [
     "health",
     ALL,
     "plain",
-    "That's {context-span} of folks putting off the doctor because they couldn't get in.",
+    "{context-span-again} have meant folks putting off the doctor because they couldn't get in.",
   ],
   [
     "roads",
     ALL,
     "polished",
-    "Over {context-span}, every pothole and closed bridge has cost a family time and money.",
+    "Over {context-span-again}, every pothole and closed bridge has cost a family time and money.",
   ],
   [
     "roads",
     ALL,
     "plain",
-    "That's {context-span} of potholes, detours and repair bills.",
+    "{context-span-again} have meant potholes, detours and repair bills.",
   ],
   [
     "environment",
     ALL,
     "polished",
-    "Over {context-span}, families have paid for dirtier air and water with their health.",
+    "Over {context-span-again}, families have paid for dirtier air and water with their health.",
   ],
   [
     "environment",
     ALL,
     "plain",
-    "That's {context-span} of folks breathing air that's worse than it should be.",
+    "{context-span-again} have meant folks breathing air that's worse than it should be.",
   ],
 ];
 /** Asks that say the speaker's side in so many words, from the question's own side form: [subjects, voice, side, text]. */

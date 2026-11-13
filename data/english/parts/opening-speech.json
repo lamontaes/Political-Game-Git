@@ -79,6 +79,7 @@
     "condition-change": "how far that measure moved since the speaker took office, through the count-words reader (changeSaid), from the term read's two web rows",
     "condition-name": "a hurt address's worst condition by its area's spoken name (area-names.json)",
     "turn-to": "the speech's theme by its spoken name, where a hurt address turns from its answer to the theme",
+    "context-span-again": "the context's span said again after its first mention ('those years'), from span-words.json again",
     "context-span": "how long the context's span is, as people say it ('six years', 'about thirty years'), through the span reader (spanSaid) from the same records as context-years"
   },
   "maxWords": 40,
@@ -87366,7 +87367,7 @@
       "key": "opening-speech.meaning.polished-inflation-over-years-that-adds-up-and-the-same",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Over {context-span} that adds up, and the same groceries, the same rent and the same tank of gas now cost a family far more than they did.",
+      "text": "Over {context-span-again} that adds up, and the same groceries, the same rent and the same tank of gas now cost a family far more than they did.",
       "uses": [
         {
           "move": "meaning",
@@ -87375,7 +87376,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-inflation",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87385,7 +87386,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-inflation",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -87400,7 +87401,7 @@
       "key": "opening-speech.meaning.plain-inflation-add-that-up-over-years-and-the-same",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Add that up over {context-span}, and the same cart of groceries costs a whole lot more than it used to.",
+      "text": "Add that up over {context-span-again}, and the same cart of groceries costs a whole lot more than it used to.",
       "uses": [
         {
           "move": "meaning",
@@ -87409,7 +87410,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-inflation",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87419,7 +87420,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-inflation",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -87570,7 +87571,7 @@
       "key": "opening-speech.meaning.polished-wages-for-a-working-family-each-of-those-raises",
       "move": "meaning",
       "kind": "spoken",
-      "text": "For a working family, each of those raises has had to stretch across {context-span} of rising bills.",
+      "text": "For a working family, each of those raises has had to stretch across {context-span-again} of rising bills.",
       "uses": [
         {
           "move": "meaning",
@@ -87579,7 +87580,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-wages",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87589,7 +87590,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-wages",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -87604,7 +87605,7 @@
       "key": "opening-speech.meaning.plain-wages-for-working-folks-every-raise-has-had-to",
       "move": "meaning",
       "kind": "spoken",
-      "text": "For working folks, every raise has had to cover {context-span} of rising bills.",
+      "text": "For working folks, every raise has had to cover {context-span-again} of rising bills.",
       "uses": [
         {
           "move": "meaning",
@@ -87613,7 +87614,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-wages",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87623,7 +87624,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-wages",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -87638,7 +87639,7 @@
       "key": "opening-speech.meaning.polished-growth-that-growth-is-real-but-over-years-too",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That growth is real, but over {context-span} too little of it has reached the kitchen table.",
+      "text": "That growth is real, but over {context-span-again} too little of it has reached the kitchen table.",
       "uses": [
         {
           "move": "meaning",
@@ -87647,7 +87648,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-growth",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87657,7 +87658,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-growth",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -87672,7 +87673,7 @@
       "key": "opening-speech.meaning.plain-growth-that-s-real-growth-but-over-years-not",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's real growth, but over {context-span} not enough of it has made it to the kitchen table.",
+      "text": "That's real growth, but over {context-span-again} not enough of it has made it to the kitchen table.",
       "uses": [
         {
           "move": "meaning",
@@ -87681,7 +87682,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-growth",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87691,7 +87692,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-growth",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -87706,7 +87707,7 @@
       "key": "opening-speech.meaning.polished-rent-over-years-that-has-meant-giving-more-of",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Over {context-span}, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
+      "text": "Over {context-span-again}, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
       "uses": [
         {
           "move": "meaning",
@@ -87715,7 +87716,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-rent",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87725,7 +87726,27 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-rent",
-            "context-span"
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "state-of-the-state",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-rent",
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "town-address",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-rent",
+            "context-span-again"
           ]
         },
         {
@@ -87735,7 +87756,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-rent",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87745,7 +87766,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-rent",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -87760,7 +87781,7 @@
       "key": "opening-speech.meaning.plain-rent-that-s-years-of-folks-handing-more-of",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's {context-span} of folks handing more of every check to the landlord.",
+      "text": "{context-span-again} have meant folks handing more of every check to the landlord.",
       "uses": [
         {
           "move": "meaning",
@@ -87769,7 +87790,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-rent",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87779,7 +87800,27 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-rent",
-            "context-span"
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "state-of-the-state",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-rent",
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "town-address",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-rent",
+            "context-span-again"
           ]
         },
         {
@@ -87789,7 +87830,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-rent",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87799,7 +87840,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-rent",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -87814,7 +87855,7 @@
       "key": "opening-speech.meaning.polished-crime-over-years-that-has-meant-parents-worrying-a",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Over {context-span}, that has meant parents worrying a little more each time their children walk out the door.",
+      "text": "Over {context-span-again}, that has meant parents worrying a little more each time their children walk out the door.",
       "uses": [
         {
           "move": "meaning",
@@ -87823,7 +87864,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-crime",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87833,7 +87874,27 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-crime",
-            "context-span"
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "state-of-the-state",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-crime",
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "town-address",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-crime",
+            "context-span-again"
           ]
         },
         {
@@ -87843,7 +87904,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-crime",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87853,7 +87914,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-crime",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -87868,7 +87929,7 @@
       "key": "opening-speech.meaning.plain-crime-that-s-years-of-folks-locking-up-a",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's {context-span} of folks locking up a little tighter at night.",
+      "text": "{context-span-again} have meant folks locking up a little tighter at night.",
       "uses": [
         {
           "move": "meaning",
@@ -87877,7 +87938,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-crime",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87887,7 +87948,27 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-crime",
-            "context-span"
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "state-of-the-state",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-crime",
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "town-address",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-crime",
+            "context-span-again"
           ]
         },
         {
@@ -87897,7 +87978,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-crime",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87907,7 +87988,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-crime",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -87922,7 +88003,7 @@
       "key": "opening-speech.meaning.polished-schools-over-years-that-has-meant-classrooms-asking-less",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Over {context-span}, that has meant classrooms asking less of our children than they deserve.",
+      "text": "Over {context-span-again}, that has meant classrooms asking less of our children than they deserve.",
       "uses": [
         {
           "move": "meaning",
@@ -87931,7 +88012,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-schools",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87941,7 +88022,27 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-schools",
-            "context-span"
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "state-of-the-state",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-schools",
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "town-address",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-schools",
+            "context-span-again"
           ]
         },
         {
@@ -87951,7 +88052,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-schools",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87961,7 +88062,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-schools",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -87976,7 +88077,7 @@
       "key": "opening-speech.meaning.plain-schools-that-s-years-of-kids-getting-less-out",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's {context-span} of kids getting less out of school than they should.",
+      "text": "{context-span-again} have meant kids getting less out of school than they should.",
       "uses": [
         {
           "move": "meaning",
@@ -87985,7 +88086,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-schools",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -87995,7 +88096,27 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-schools",
-            "context-span"
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "state-of-the-state",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-schools",
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "town-address",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-schools",
+            "context-span-again"
           ]
         },
         {
@@ -88005,7 +88126,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-schools",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -88015,7 +88136,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-schools",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -88030,7 +88151,7 @@
       "key": "opening-speech.meaning.polished-health-over-years-that-has-meant-too-many-people",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Over {context-span}, that has meant too many people waiting too long to see a doctor, or going without.",
+      "text": "Over {context-span-again}, that has meant too many people waiting too long to see a doctor, or going without.",
       "uses": [
         {
           "move": "meaning",
@@ -88039,7 +88160,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-health",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -88049,7 +88170,27 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-health",
-            "context-span"
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "state-of-the-state",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-health",
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "town-address",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-health",
+            "context-span-again"
           ]
         },
         {
@@ -88059,7 +88200,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-health",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -88069,7 +88210,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-health",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -88084,7 +88225,7 @@
       "key": "opening-speech.meaning.plain-health-that-s-years-of-folks-putting-off-the",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's {context-span} of folks putting off the doctor because they couldn't get in.",
+      "text": "{context-span-again} have meant folks putting off the doctor because they couldn't get in.",
       "uses": [
         {
           "move": "meaning",
@@ -88093,7 +88234,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-health",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -88103,7 +88244,27 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-health",
-            "context-span"
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "state-of-the-state",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-health",
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "town-address",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-health",
+            "context-span-again"
           ]
         },
         {
@@ -88113,7 +88274,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-health",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -88123,7 +88284,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-health",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -88138,7 +88299,7 @@
       "key": "opening-speech.meaning.polished-roads-over-years-every-pothole-and-closed-bridge-has",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Over {context-span}, every pothole and closed bridge has cost a family time and money.",
+      "text": "Over {context-span-again}, every pothole and closed bridge has cost a family time and money.",
       "uses": [
         {
           "move": "meaning",
@@ -88147,7 +88308,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-roads",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -88157,7 +88318,27 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-roads",
-            "context-span"
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "state-of-the-state",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-roads",
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "town-address",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-roads",
+            "context-span-again"
           ]
         },
         {
@@ -88167,7 +88348,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-roads",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -88177,7 +88358,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-roads",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -88192,7 +88373,7 @@
       "key": "opening-speech.meaning.plain-roads-that-s-years-of-potholes-detours-and-repair",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's {context-span} of potholes, detours and repair bills.",
+      "text": "{context-span-again} have meant potholes, detours and repair bills.",
       "uses": [
         {
           "move": "meaning",
@@ -88201,7 +88382,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-roads",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -88211,7 +88392,27 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-roads",
-            "context-span"
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "state-of-the-state",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-roads",
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "town-address",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-roads",
+            "context-span-again"
           ]
         },
         {
@@ -88221,7 +88422,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-roads",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -88231,7 +88432,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-roads",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -88246,7 +88447,7 @@
       "key": "opening-speech.meaning.polished-environment-over-years-families-have-paid-for-dirtier-air",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Over {context-span}, families have paid for dirtier air and water with their health.",
+      "text": "Over {context-span-again}, families have paid for dirtier air and water with their health.",
       "uses": [
         {
           "move": "meaning",
@@ -88255,7 +88456,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-environment",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -88265,7 +88466,27 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-environment",
-            "context-span"
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "state-of-the-state",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-environment",
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "town-address",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-environment",
+            "context-span-again"
           ]
         },
         {
@@ -88275,7 +88496,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-environment",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -88285,7 +88506,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-environment",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -88300,7 +88521,7 @@
       "key": "opening-speech.meaning.plain-environment-that-s-years-of-folks-breathing-air-that",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's {context-span} of folks breathing air that's worse than it should be.",
+      "text": "{context-span-again} have meant folks breathing air that's worse than it should be.",
       "uses": [
         {
           "move": "meaning",
@@ -88309,7 +88530,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-environment",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -88319,7 +88540,27 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-environment",
-            "context-span"
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "state-of-the-state",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-environment",
+            "context-span-again"
+          ]
+        },
+        {
+          "move": "meaning",
+          "subject": "town-address",
+          "role": "meaning",
+          "choice": "meaning",
+          "requiresFacts": [
+            "context-environment",
+            "context-span-again"
           ]
         },
         {
@@ -88329,7 +88570,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-environment",
-            "context-span"
+            "context-span-again"
           ]
         },
         {
@@ -88339,7 +88580,7 @@
           "choice": "meaning",
           "requiresFacts": [
             "context-environment",
-            "context-span"
+            "context-span-again"
           ]
         }
       ],
@@ -119779,414 +120020,6 @@
       "origin": "authored",
       "author": "Words builder, hurt terms (Claude Code)",
       "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.meaning.polished-rent-local-in-that-has-meant-giving-more-of-every-paycheck",
-      "move": "meaning",
-      "kind": "spoken",
-      "text": "In {realm-name}, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
-      "uses": [
-        {
-          "move": "meaning",
-          "subject": "state-of-the-state",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-rent",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "meaning",
-          "subject": "town-address",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-rent",
-            "realm-name"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.meaning.plain-rent-local-in-thats-meant-folks-handing-more-of-every-check",
-      "move": "meaning",
-      "kind": "spoken",
-      "text": "In {realm-name}, that's meant folks handing more of every check to the landlord.",
-      "uses": [
-        {
-          "move": "meaning",
-          "subject": "state-of-the-state",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-rent",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "meaning",
-          "subject": "town-address",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-rent",
-            "realm-name"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.meaning.polished-crime-local-in-that-has-meant-parents-worrying-a-little-more",
-      "move": "meaning",
-      "kind": "spoken",
-      "text": "In {realm-name}, that has meant parents worrying a little more each time their children walk out the door.",
-      "uses": [
-        {
-          "move": "meaning",
-          "subject": "state-of-the-state",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-crime",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "meaning",
-          "subject": "town-address",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-crime",
-            "realm-name"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.meaning.plain-crime-local-in-thats-meant-folks-locking-up-a-little-tighter",
-      "move": "meaning",
-      "kind": "spoken",
-      "text": "In {realm-name}, that's meant folks locking up a little tighter at night.",
-      "uses": [
-        {
-          "move": "meaning",
-          "subject": "state-of-the-state",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-crime",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "meaning",
-          "subject": "town-address",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-crime",
-            "realm-name"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.meaning.polished-schools-local-in-that-has-meant-classrooms-asking-less-of-our",
-      "move": "meaning",
-      "kind": "spoken",
-      "text": "In {realm-name}, that has meant classrooms asking less of our children than they deserve.",
-      "uses": [
-        {
-          "move": "meaning",
-          "subject": "state-of-the-state",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-schools",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "meaning",
-          "subject": "town-address",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-schools",
-            "realm-name"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "topic": "schools",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.meaning.plain-schools-local-in-thats-meant-kids-getting-less-out-of-school",
-      "move": "meaning",
-      "kind": "spoken",
-      "text": "In {realm-name}, that's meant kids getting less out of school than they should.",
-      "uses": [
-        {
-          "move": "meaning",
-          "subject": "state-of-the-state",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-schools",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "meaning",
-          "subject": "town-address",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-schools",
-            "realm-name"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "topic": "schools",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.meaning.polished-health-local-in-that-has-meant-too-many-people-waiting-too",
-      "move": "meaning",
-      "kind": "spoken",
-      "text": "In {realm-name}, that has meant too many people waiting too long to see a doctor, or going without.",
-      "uses": [
-        {
-          "move": "meaning",
-          "subject": "state-of-the-state",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-health",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "meaning",
-          "subject": "town-address",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-health",
-            "realm-name"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.meaning.plain-health-local-in-thats-meant-folks-putting-off-the-doctor-because",
-      "move": "meaning",
-      "kind": "spoken",
-      "text": "In {realm-name}, that's meant folks putting off the doctor because they couldn't get in.",
-      "uses": [
-        {
-          "move": "meaning",
-          "subject": "state-of-the-state",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-health",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "meaning",
-          "subject": "town-address",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-health",
-            "realm-name"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.meaning.polished-roads-local-in-every-pothole-and-closed-bridge-has-cost-a",
-      "move": "meaning",
-      "kind": "spoken",
-      "text": "In {realm-name}, every pothole and closed bridge has cost a family time and money.",
-      "uses": [
-        {
-          "move": "meaning",
-          "subject": "state-of-the-state",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-roads",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "meaning",
-          "subject": "town-address",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-roads",
-            "realm-name"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.meaning.plain-roads-local-in-thats-meant-potholes-detours-and-repair-bills",
-      "move": "meaning",
-      "kind": "spoken",
-      "text": "In {realm-name}, that's meant potholes, detours and repair bills.",
-      "uses": [
-        {
-          "move": "meaning",
-          "subject": "state-of-the-state",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-roads",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "meaning",
-          "subject": "town-address",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-roads",
-            "realm-name"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.meaning.polished-environment-local-in-families-have-paid-for-dirtier-air-and-water",
-      "move": "meaning",
-      "kind": "spoken",
-      "text": "In {realm-name}, families have paid for dirtier air and water with their health.",
-      "uses": [
-        {
-          "move": "meaning",
-          "subject": "state-of-the-state",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-environment",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "meaning",
-          "subject": "town-address",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-environment",
-            "realm-name"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.meaning.plain-environment-local-in-thats-meant-folks-breathing-air-thats-worse-than",
-      "move": "meaning",
-      "kind": "spoken",
-      "text": "In {realm-name}, that's meant folks breathing air that's worse than it should be.",
-      "uses": [
-        {
-          "move": "meaning",
-          "subject": "state-of-the-state",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-environment",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "meaning",
-          "subject": "town-address",
-          "role": "meaning",
-          "choice": "meaning",
-          "requiresFacts": [
-            "context-environment",
-            "realm-name"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
     }
   ]
 }

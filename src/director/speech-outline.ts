@@ -92,7 +92,7 @@ import { earlierAddressPieces } from "./opening-facts";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
 import { changeSaid, moneySaid } from "../english/count-words";
-import { spanSaid } from "../english/span-words";
+import { spanAgain, spanSaid } from "../english/span-words";
 import { areaName, measureWords } from "../english/area-names";
 
 import { addDays, daysBetweenText } from "../core2/kernel/dates";
@@ -1747,6 +1747,7 @@ function contextFacts(
       ? {
           "context-years": fact(String(years), ...read.sourceRecordIds),
           "context-span": fact(spanOf(api, years), ...read.sourceRecordIds),
+          "context-span-again": fact(spanAgain(), ...read.sourceRecordIds),
           [`context-${topic}`]: fact("yes", ...read.sourceRecordIds),
         }
       : {};
@@ -1774,6 +1775,7 @@ function contextFacts(
     ? {
         "context-years": fact(String(years), ...ids),
         "context-span": fact(spanOf(api, years), ...ids),
+        "context-span-again": fact(spanAgain(), ...ids),
         "context-amount": fact(figure(of()), ...ids),
         [`context-${topic}`]: fact("yes", ...ids),
       }
