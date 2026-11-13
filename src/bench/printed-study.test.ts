@@ -12,7 +12,7 @@ import {
   members,
 } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
-import { SPEECH_MODULE_ID } from "../core2/modules/speech";
+import { SPEECH_MODULE_ID } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import { wordPrintedStory } from "./archive-words";
 import { emptyNewsLine } from "./ui/news-board.mjs";

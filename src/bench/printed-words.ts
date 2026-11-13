@@ -38,12 +38,11 @@ import {
 import { OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
 import { officialOf } from "../core2/modules/officials";
 import { commentOn, PRESS_MODULE_ID } from "../core2/modules/press";
-import { SPEECH_MODULE_ID } from "../core2/modules/speech";
 import {
   corePlaceByJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
-import { familyFactsOf } from "../core2/modules/people";
+import { familyFactsOf, SPEECH_MODULE_ID } from "../core2/modules/people";
 import { preStartHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId, PersonState } from "../core2/types";
