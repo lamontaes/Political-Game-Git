@@ -151,11 +151,18 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
   if (!loser) return { done: false, note: `${where}: no runner-up` };
   const winner = result.winnerId as PersonId;
   // A sitting official the place holds only as results (a statewide office's
-  // holder) has no campaign or room to stage a night in: passed over by name.
-  if (!core.people.has(winner))
+  // holder, Abrams, Wisconsin, seed c06b4e8f1a925d7e:3) filed nothing here
+  // and has no campaign or room to stage a night in: passed over by name.
+  const winnerFiled = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byPerson", [winner]) as unknown as FilingRow[]
+  ).some((row) => row.contestId === contest.id);
+  if (!core.people.has(winner) || !winnerFiled)
     return {
       done: false,
-      note: `${where}: ${contest.id} was won by ${winner}, not a full person`,
+      note: `${where}: ${contest.id} was won by ${winner}, who filed no candidacy here`,
     };
   const here = `${where}: ${winner}`;
   const entry = director.ledger.people
