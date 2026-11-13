@@ -2307,7 +2307,7 @@ export function composeJournal(
     /** The day the stretch ends (the next move, or the start): the years the stretch's work covers. */
     until?: IsoDate,
     /** What the stretch has named already: a place said is not said again. */
-    said?: Set<string>,
+    alreadySaid?: Set<string>,
   ): JournalWorded[] | null => {
     const employers = new Map<string, string>();
     for (const unit of told)
@@ -2344,7 +2344,7 @@ export function composeJournal(
       .slice(zero, P.two);
     const join = JOURNAL_OUTLINE.workJoin;
     const placed = lastUnit.facts.place ?? first.facts.place;
-    const where = placed && !said?.has(placed.text) ? placed : undefined;
+    const where = placed && !alreadySaid?.has(placed.text) ? placed : undefined;
     const span: Fact = {
       text: spanSaid(
         daysBetween(
