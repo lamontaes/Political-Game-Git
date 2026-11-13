@@ -33,4 +33,4 @@ source: Playtester P2, Nov 13 (Hewitt, New Jersey, seed bf6b1bd7-4b1b-4fd7-92f9-
 
 **Files.** src/bench/government.ts, src/core2/modules/voting.ts
 
-**Notes.** Whether the polling place's ballot (`contestsOn` in `src/director/polling-place.ts`) also lists every district was not checked in these lives (no districted seat was up on their election days). The builder should check it with the same reader.
+**Notes.** The polling place's ballot does list every district too. Seen Nov 13 on main 596d5127 in Polonia, Wisconsin (seed f16d7fc3-47fe-4728-bc01-a3bae3c02f07), the Portage County spring election of April 7, 2026: "15 races are on the ballot", and the ballot begins "FOR COMMISSIONER / LEAVE BLANK / FOR COMMISSIONER / VIVIAN DOMINGUEZ / LEAVE BLANK / FOR COMMISSIONER / SAM PARKER / ..." (one race per district, the first with no candidate at all). `contestsOn` in `src/director/polling-place.ts` takes every contest on the date, so the Fix's one reader must serve the ballot (and the count of who may vote in each district) as well as On my ballot.
