@@ -223,40 +223,54 @@ it("a resident marks a posted meeting, is held at its hour, speaks, leaves, and 
 }, 3_600_000);
 
 it("a mark taken back holds nobody, and a meeting whose hour has come cannot be marked", () => {
-  const place = drawPlace(seed, "resident-unmarks");
-  const where = `${place.name} (${place.key}), seed ${place.seed}`;
-  const { core, api, player } = open(place.seed, place.key);
-  let checked = 0;
-  for (let guard = 0; guard < 400 && checked < 2; guard += 1) {
-    const marked = localBodies(api).flatMap((officeId) => {
-      const next = upcomingMeeting(api, officeId);
-      return next && meetingToAttend(api, officeId, next.date)
-        ? [{ officeId, date: next.date }]
-        : [];
-    });
-    for (const { officeId, date } of marked) {
-      attendMeeting(api, officeId, date, true);
-      expect(meetingToAttend(api, officeId, date)?.marked, where).toBe(true);
-      attendMeeting(api, officeId, date, false);
-      expect(meetingToAttend(api, officeId, date)?.marked, where).toBe(false);
+  // A place with no local body that meets (a territory's village) has no
+  // meeting to mark: passed over by name, and the next is drawn.
+  const passedOver: string[] = [];
+  for (let draw = 0; draw < 6; draw += 1) {
+    const place = drawPlace(`${seed}:${draw}`, "resident-unmarks");
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    console.log(`resident-unmarks builds ${where}`);
+    const { core, api, player } = open(place.seed, place.key);
+    if (!localBodies(api).some((id) => upcomingMeeting(api, id))) {
+      passedOver.push(`${where}: no local body meets`);
+      continue;
     }
-    const dates = new Set(marked.map((m) => m.date));
-    step(player);
-    expect(
-      reasons(player.packet),
-      `${where}: no meeting stop on ${core.date}`,
-    ).not.toContain("office-day.meeting");
-    // A meeting of a day now behind the clock is closed to marking.
-    for (const { officeId, date } of marked)
-      if (date < core.date) {
-        expect(meetingToAttend(api, officeId, date), where).toBeNull();
-        expect(() => attendMeeting(api, officeId, date, true)).toThrow();
-        checked += 1;
+    let checked = 0;
+    for (let guard = 0; guard < 400 && checked < 2; guard += 1) {
+      const marked = localBodies(api).flatMap((officeId) => {
+        const next = upcomingMeeting(api, officeId);
+        return next && meetingToAttend(api, officeId, next.date)
+          ? [{ officeId, date: next.date }]
+          : [];
+      });
+      for (const { officeId, date } of marked) {
+        attendMeeting(api, officeId, date, true);
+        expect(meetingToAttend(api, officeId, date)?.marked, where).toBe(true);
+        attendMeeting(api, officeId, date, false);
+        expect(meetingToAttend(api, officeId, date)?.marked, where).toBe(false);
       }
-    void dates;
+      step(player);
+      expect(
+        reasons(player.packet),
+        `${where}: no meeting stop on ${core.date}`,
+      ).not.toContain("office-day.meeting");
+      // A meeting of a day now behind the clock is closed to marking.
+      for (const { officeId, date } of marked)
+        if (date < core.date) {
+          expect(meetingToAttend(api, officeId, date), where).toBeNull();
+          expect(() => attendMeeting(api, officeId, date, true)).toThrow();
+          checked += 1;
+        }
+    }
+    expect(checked, `${where}: meetings passed`).toBeGreaterThan(0);
+    console.log(
+      `resident-unmarks ${where}: ${checked} unmarked meetings passed`,
+    );
+    return;
   }
-  expect(checked, `${where}: meetings passed`).toBeGreaterThan(0);
-  console.log(`resident-unmarks ${where}: ${checked} unmarked meetings passed`);
+  throw new Error(
+    `no drawn place had a local body that meets; passed over: ${passedOver.join("; ")}`,
+  );
 }, 3_600_000);
 
 it("a meeting whose agenda is filed only on its own day is not offered to a resident", () => {
@@ -282,6 +296,42 @@ it("a meeting whose agenda is filed only on its own day is not offered to a resi
     for (const { officeId, date } of short) {
       expect(meetingToAttend(api, officeId, date), where).toBeNull();
       expect(() => attendMeeting(api, officeId, date, true), where).toThrow();
+    }
+    // Its members have yet to file, so it cannot be adjourned before them:
+    // it stays open, takes the filings and votes them at its close.
+    const {
+      core: seatedCore,
+      api: seatedApi,
+      player,
+    } = open(place.seed, place.key);
+    const early = short.filter((m) => m.date >= seatedCore.date);
+    expect(early.length, `${where}: a meeting still ahead`).toBeGreaterThan(0);
+    for (const { officeId, date } of early) {
+      const id = `meeting:${officeId}:${date}`;
+      while (seatedCore.date < date) step(player);
+      if (meetingOf(seatedApi, id)?.status === "adjourned") continue;
+      expect(adjourn(seatedApi, id).status, `${where}: ${id}`).not.toBe(
+        "adjourned",
+      );
+    }
+    const last = early
+      .map((m) => m.date)
+      .sort()
+      .at(-1);
+    for (
+      let guard = 0;
+      last && guard < 20 && seatedCore.date <= last;
+      guard += 1
+    )
+      step(player);
+    for (const { officeId, date } of early) {
+      const row = meetingOf(seatedApi, `meeting:${officeId}:${date}`)!;
+      expect(row.status, `${where}: ${row.id} closed`).toBe("adjourned");
+      for (const billId of row.agenda)
+        expect(
+          billOf(seatedApi, billId).status,
+          `${where}: ${billId}`,
+        ).not.toBe("drafted");
     }
     console.log(
       `short-notice ${where}: ${short.length} meetings on ${short.map((m) => m.date).join(", ")} not offered on ${core.date}`,
@@ -351,6 +401,122 @@ const endOf = (core: CoreState) =>
   new Date(Date.parse(`${core.date}T00:00:00Z`) + DAYS * 86_400_000)
     .toISOString()
     .slice(0, 10);
+
+/** Every local body's meeting on a date, the one whose hour comes first leading (then by id). */
+function meetingsOn(api: CoreAPI, date: string) {
+  return localBodies(api)
+    .flatMap((officeId) => {
+      const row = meetingOf(api, `meeting:${officeId}:${date}`);
+      return row ? [row] : [];
+    })
+    .sort((a, b) => a.startMinute - b.startMinute || a.id.localeCompare(b.id));
+}
+
+it("of two bodies meeting the same day, the earlier votes first, the later is never closed early, and one the player is at waits for them", () => {
+  // Heber Springs (below): its county board and its council meet the same days.
+  const place = SAME_DAY_PLACE;
+  const where = `${place.name} (${place.key}), seed ${place.seed}`;
+  let earlierSeen = 0;
+  let laterSeen = 0;
+  let waited = 0;
+  // Played once from a seat on each body, so the player's body is the later
+  // one in one world and the earlier one in the other.
+  for (let pick = 0; pick < 2; pick += 1) {
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const core = world.core as CoreState;
+    const api = coreAPI(core);
+    const bodies = localBodies(api).filter((id) => members(api, id).length > 1);
+    const body = bodies[pick];
+    if (!body) continue;
+    const member = members(api, body).find((t) => t.personId)?.personId;
+    if (!member) continue;
+    const player = new BenchPlayer(core, world.director);
+    player.select(member);
+    setStops(api, member, {
+      "every-meeting": true,
+      "own-bill-vote": true,
+      "deciding-vote": true,
+    });
+    const end = new Date(Date.parse(`${core.date}T00:00:00Z`) + 60 * 86_400_000)
+      .toISOString()
+      .slice(0, 10);
+    for (let guard = 0; guard < 1_000 && core.date < end; guard += 1) {
+      // The player also marks any other body's coming meeting, to watch it.
+      markAll(api);
+      step(player);
+      const meeting = stoppedAt(api, player);
+      if (!meeting) continue;
+      const mine = meetingOf(api, `meeting:${body}:${meeting.date}`);
+      if (!mine || mine.status === "adjourned" || !mine.playerPresent) {
+        // Only watching today: leave.
+        if (meeting.audience) leaveMeeting(api, meeting.id);
+        continue;
+      }
+      const sameDay = meetingsOn(api, mine.date);
+      const at = sameDay.findIndex((row) => row.id === mine.id);
+      const earlier = sameDay
+        .slice(0, at)
+        .filter((r) => r.status !== "adjourned");
+      const later = sameDay.slice(at + 1);
+      const item = mine.agenda.find(
+        (id) => billOf(api, id).status === "drafted",
+      );
+      // A meeting the player is still at, watching, waits for them: taking an
+      // item up at their own body votes nothing there.
+      const watching = earlier.filter(
+        (row) => row.playerPresent && row.audience,
+      );
+      if (item && watching.length) {
+        takeUpItem(api, mine.id, item, "own");
+        for (const row of watching) {
+          const now = meetingOf(api, row.id)!;
+          expect(now.status, `${where}: ${row.id} waits`).not.toBe("adjourned");
+          for (const id of now.agenda)
+            expect(billOf(api, id).status, `${where}: ${id}`).toBe("drafted");
+          leaveMeeting(api, row.id);
+          waited += 1;
+        }
+      } else
+        for (const row of earlier)
+          if (row.audience && row.playerPresent) leaveMeeting(api, row.id);
+      adjourn(api, mine.id);
+      // Every earlier meeting has voted; no later one was closed early.
+      for (const row of earlier) {
+        expect(
+          meetingOf(api, row.id)!.status,
+          `${where}: ${row.id} first`,
+        ).toBe("adjourned");
+        earlierSeen += 1;
+      }
+      for (const row of later) {
+        const now = meetingOf(api, row.id)!;
+        expect(now.status, `${where}: ${row.id} not early`).not.toBe(
+          "adjourned",
+        );
+        // The player marked it too: leave it, and it votes at its close.
+        if (now.playerPresent && now.audience) leaveMeeting(api, now.id);
+        laterSeen += 1;
+      }
+    }
+  }
+  console.log(
+    `same-day ${where}: ${earlierSeen} earlier meetings voted first, ${laterSeen} later meetings left to their close, ${waited} waited for the player`,
+  );
+  expect(
+    earlierSeen,
+    `${where}: an earlier meeting the same day`,
+  ).toBeGreaterThan(0);
+  expect(laterSeen, `${where}: a later meeting the same day`).toBeGreaterThan(
+    0,
+  );
+  expect(
+    waited,
+    `${where}: a meeting that waited for the player`,
+  ).toBeGreaterThan(0);
+}, 3_600_000);
 
 it("watching changes nothing: attending in silence, the same bills get the same votes", () => {
   let proved = 0;

@@ -820,6 +820,18 @@ export function adjourn(api: CoreAPI, meetingIdValue: string): MeetingRow {
     (row.playerPresent && row.audience !== undefined)
   )
     throw new Error("That meeting is not in session.");
+  // A meeting set with under a day's notice has no filings yet at its hour
+  // (its members file on the day): the chair cannot close it before them. The
+  // clock goes on, and the meeting votes at its close like any other, in the
+  // day's one order.
+  if (filingsOwed(api, row.officeId, row.date)) {
+    table(api, "meetings").put({
+      ...row,
+      playerPresent: false,
+    } as unknown as ModuleRow);
+    releaseHeld(api, row.id);
+    return meetingOf(api, row.id)!;
+  }
   const left = row.agenda.filter((id) => !row.takenUp.includes(id));
   earlierMeetingsVote(api, row);
   leavingToCharacter(api, left, () => {
