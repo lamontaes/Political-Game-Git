@@ -48,6 +48,7 @@ import {
   stayedHomeLine,
 } from "./election-night";
 import { homePapers, wordOwnResult } from "./archive-words";
+import { openingsView } from "./openings";
 import { billPaper, seatAct, seatView } from "./legislature";
 import {
   billPageView,
@@ -2151,6 +2152,14 @@ const ROUTES: readonly Route[] = [
             ?.id ?? "",
         ),
       );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/openings",
+    run: async ({ url, send }) => {
+      send(200, openingsView(requireCore(), url.searchParams.get("id") ?? ""));
       return;
     },
   },
