@@ -2914,13 +2914,15 @@ export function composeJournal(
 
   // Revised as life goes on: a schoolmate or a co-worker who now holds office
   // is remembered in the latest chapter, as the story of that person.
-  const offices = options.officeOf ?? officeHolding(core);
+  const offices = options.officeOf ?? officeBecome(core);
   {
     // The employer's and the school's records say who they were; only
     // someone they know by name is remembered.
     const mates = [...person.knownIds]
       .sort()
-      .filter((mateId) => offices(mateId))
+      // A relative is never told as someone once known (a partner is no
+      // "good friend"); only who the person knew at school or at work.
+      .filter((mateId) => !kin.has(mateId as PersonId) && offices(mateId))
       .flatMap((mateId) =>
         sharedHistory(core, personId, mateId)
           .filter(
@@ -2936,9 +2938,10 @@ export function composeJournal(
               row.kind === "schoolmate"
                 ? core.organizations.get(row.recordId)?.name
                 : undefined,
+            coworker: row.kind === "coworker",
           })),
       );
-    for (const { mateId, key, recordId, school } of mates) {
+    for (const { mateId, key, recordId, school, coworker } of mates) {
       const office = offices(mateId);
       const said = other(mateId);
       if (!office || !said) continue;
@@ -2946,6 +2949,10 @@ export function composeJournal(
         name: said,
         other: said,
         office: { ...office, text: office.text.toLowerCase() },
+        // Where they worked together, from the employer's own record.
+        ...(coworker && employerName(core, recordId, recordId)
+          ? { employer: employerName(core, recordId, recordId)! }
+          : {}),
         ...(school
           ? {
               school: {
@@ -3108,6 +3115,44 @@ function officeHolding(
           : office.title,
       sourceRecordIds: [term!.id],
     };
+  };
+}
+
+/**
+ * The office someone came to in play, from the offices engine's serving
+ * term: only a term that began after the start and that is not a second
+ * term in the same office (a re-election), so "She later became a council
+ * member" is said only when the records show she became one (playtest, Nov
+ * 13: "Astrid Ford became a committee member" of a seat held since before
+ * the start).
+ */
+function officeBecome(
+  core: Readonly<CoreState>,
+): (personId: PersonId) => Fact | undefined {
+  if (!core.modules.has(OFFICES_MODULE_ID)) return () => undefined;
+  const holding = officeHolding(core);
+  const terms = coreAPI(core as CoreState)
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms");
+  return (personId: PersonId): Fact | undefined => {
+    const fact = holding(personId);
+    if (!fact) return undefined;
+    const rows = terms.query("byPerson", [personId]) as unknown as {
+      id: string;
+      officeId: string;
+      status: string;
+      startDate?: string;
+    }[];
+    const serving = rows.find((row) => row.id === fact.sourceRecordIds[zero]);
+    if (!serving?.startDate || serving.startDate < core.startedAt)
+      return undefined;
+    const before = rows.some(
+      (row) =>
+        row.id !== serving.id &&
+        row.officeId === serving.officeId &&
+        (row.startDate ?? "") < serving.startDate!,
+    );
+    return before ? undefined : fact;
   };
 }
 

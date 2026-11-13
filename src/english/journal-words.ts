@@ -404,11 +404,12 @@ export function journalClosing(line: { text: string }): string {
 }
 
 const fitsGender = (text: string, gender: string | undefined) => {
-  const lead = /^(he|she)\b/i.exec(text)?.[one]?.toLowerCase();
+  const lead = /^(he|she|they)\b/i.exec(text)?.[one]?.toLowerCase();
   if (!lead) return true;
   return (
     (lead === "he" && gender === "male") ||
-    (lead === "she" && gender === "female")
+    (lead === "she" && gender === "female") ||
+    (lead === "they" && gender !== "male" && gender !== "female")
   );
 };
 

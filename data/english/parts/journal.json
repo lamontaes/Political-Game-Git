@@ -3717,79 +3717,10 @@
       }
     },
     {
-      "key": "journal.memoir-remember.name-was-a-good-friend",
-      "move": "memoir-remember",
-      "kind": "spoken",
-      "text": "{name} was a good friend.",
-      "uses": [
-        {
-          "move": "memoir-remember",
-          "subject": "memoir",
-          "role": "remember",
-          "choice": "remember",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "remember"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 2
-      },
-      "source": {
-        "document": "NASA oral history staffordtp-4-23-15",
-        "date": "2015-04-23",
-        "granule": "nasa-staffordtp-4-23-15",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/staffordtp-4-23-15.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-remember.name-was-a-friend-of-mine",
-      "move": "memoir-remember",
-      "kind": "spoken",
-      "text": "{name} was a friend of mine.",
-      "uses": [
-        {
-          "move": "memoir-remember",
-          "subject": "memoir",
-          "role": "remember",
-          "choice": "remember",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "remember"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 1,
-        "U.S. House oral histories": 1
-      },
-      "source": {
-        "document": "NASA oral history griffink-11-13-19",
-        "date": "2019-11-13",
-        "granule": "nasa-griffink-11-13-19",
-        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/griffink-11-13-19.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
       "key": "journal.memoir-remember.i-worked-with-name",
       "move": "memoir-remember",
       "kind": "spoken",
-      "text": "I worked with {name}.",
+      "text": "I worked with {name} at {employer}.",
       "uses": [
         {
           "move": "memoir-remember",
@@ -3815,41 +3746,6 @@
         "date": "2024-06-18",
         "granule": "nasa-jenkinsj-6-18-24",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/10/jenkinsj-6-18-24.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-remember.name-and-i-were-good-friends",
-      "move": "memoir-remember",
-      "kind": "spoken",
-      "text": "{name} and I were good friends.",
-      "uses": [
-        {
-          "move": "memoir-remember",
-          "subject": "memoir",
-          "role": "remember",
-          "choice": "remember",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "remember"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 1,
-        "U.S. House oral histories": 1
-      },
-      "source": {
-        "document": "U.S. House oral history: The Honorable Helen Delich Bentley",
-        "date": "2016-03-21",
-        "granule": "house-bentley-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/bentley-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -3891,111 +3787,6 @@
       }
     },
     {
-      "key": "journal.memoir-remember.we-worked-together",
-      "move": "memoir-remember",
-      "kind": "spoken",
-      "text": "We worked together.",
-      "uses": [
-        {
-          "move": "memoir-remember",
-          "subject": "memoir",
-          "role": "remember",
-          "choice": "remember",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "remember"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 10,
-      "bySource": {
-        "NASA oral histories": 9,
-        "U.S. House oral histories": 1
-      },
-      "source": {
-        "document": "NASA oral history tersignij-7-12-18",
-        "date": "2018-07-12",
-        "granule": "nasa-tersignij-7-12-18",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/tersignij-7-12-18.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-remember.we-were-friends",
-      "move": "memoir-remember",
-      "kind": "spoken",
-      "text": "We were close.",
-      "uses": [
-        {
-          "move": "memoir-remember",
-          "subject": "memoir",
-          "role": "remember",
-          "choice": "remember",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "remember"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "NASA oral histories": 5,
-        "U.S. House oral histories": 1
-      },
-      "source": {
-        "document": "NASA oral history hirasakip-8-2-23",
-        "date": "2023-08-02",
-        "granule": "nasa-hirasakip-8-2-23",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/hirasakip-8-2-23.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-remember.we-became-friends",
-      "move": "memoir-remember",
-      "kind": "spoken",
-      "text": "We became friends.",
-      "uses": [
-        {
-          "move": "memoir-remember",
-          "subject": "memoir",
-          "role": "remember",
-          "choice": "remember",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "remember"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "NASA oral histories": 3,
-        "U.S. House oral histories": 1
-      },
-      "source": {
-        "document": "NASA oral history newmh-2-23-22",
-        "date": "2022-02-23",
-        "granule": "nasa-newmh-2-23-22",
-        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/newmh-2-23-22.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
       "key": "journal.memoir-hard.that-was-tough",
       "move": "memoir-hard",
       "kind": "spoken",
@@ -4024,40 +3815,6 @@
         "date": "2017-08-17",
         "granule": "nasa-brekkem-8-17-17",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/02/brekkem-8-17-17.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-became.name-became-office",
-      "move": "memoir-became",
-      "kind": "spoken",
-      "text": "{name} became {office}.",
-      "uses": [
-        {
-          "move": "memoir-became",
-          "subject": "memoir",
-          "role": "became",
-          "choice": "became",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "became"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "U.S. House oral histories": 2
-      },
-      "source": {
-        "document": "U.S. House oral history: The Honorable Shelley Berkley",
-        "date": "2019-07-22",
-        "granule": "house-berkley-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/berkley-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -10437,6 +10194,58 @@
             {
               "kindPrefix": "memoir:",
               "field": "viewOwn"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-became.she-later-became-office",
+      "move": "memoir-became",
+      "kind": "spoken",
+      "text": "She later became {office}.",
+      "uses": [
+        {
+          "move": "memoir-became",
+          "subject": "memoir",
+          "role": "became",
+          "choice": "she-later-became-office",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "became"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-became.they-later-became-office",
+      "move": "memoir-became",
+      "kind": "spoken",
+      "text": "They later became {office}.",
+      "uses": [
+        {
+          "move": "memoir-became",
+          "subject": "memoir",
+          "role": "became",
+          "choice": "they-later-became-office",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "became"
             }
           ]
         }
