@@ -69,12 +69,18 @@ describe.each(["a", "b"])("arrivals by place (draw %s)", (draw) => {
       id: string;
       direction: string;
       toPlace: string;
+      fromPlace: string;
       people: number;
       reasons?: Record<string, number>;
     }[];
     const town = townPlaceOf(core)!;
     const inTown = moves.filter(
-      (m) => m.direction === "in" && m.toPlace === town,
+      // Rooms refilled from an institution's waiting list are its turnover,
+      // not newcomers to the place (`admitToRooms`).
+      (m) =>
+        m.direction === "in" &&
+        m.toPlace === town &&
+        m.fromPlace !== "waiting-list",
     );
     const arrived = inTown.reduce((sum, m) => sum + m.people, 0);
     const owedOf = (placeId: string) =>

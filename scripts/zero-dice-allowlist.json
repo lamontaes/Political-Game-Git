@@ -210,6 +210,17 @@
       "code": "side > 0 ? place.rightShare : side < 0 ? 1 - place.rightShare : 0.5;"
     },
     {
+      "file": "src/core2/modules/counted-moves.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "stableHash( `${core.seed}:arrival:${place}:${origin}|${band}:${date}:${rt.serial}`, ).slice(0, 8), 16, ); const template = shapes[unit % shapes.length]!;",
+      "class": "GENERATION",
+      "keyedBy": "world seed + place + origin and age band + date + the engine's serial",
+      "reason": "Which of the place's own households a newcomer household copies (who exists): how many arrive, where and from which origin follow from the place's due, never from the hash (pool item world-town-net-moving-negative).",
+      "replacement": null
+    },
+    {
       "file": "src/core2/nativity.ts",
       "kind": "roll",
       "build": "pool:core-zero-dice-generation-rolls",

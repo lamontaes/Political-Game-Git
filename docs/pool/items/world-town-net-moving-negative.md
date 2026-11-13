@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: account-lead-t28 (Claude Opus 5.5, cloud)
-pr: #8528
+pr: #9057
 after:
 blocked-on:
 lead: m0-m2

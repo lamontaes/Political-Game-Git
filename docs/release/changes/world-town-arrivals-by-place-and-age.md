@@ -1,5 +1,5 @@
 ---
-id: world-town-net-moving-negative
+id: world-town-arrivals-by-place-and-age
 impact: patch
 section: Fixed
 title: Your town no longer loses people to moving year after year
