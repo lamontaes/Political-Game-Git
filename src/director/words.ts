@@ -41,9 +41,13 @@ export function spoken(place: {
   withinName: string | null;
 }): string {
   const suffix = place.withinName ? `, ${place.withinName}` : "";
-  return suffix && place.displayName.endsWith(suffix)
-    ? place.displayName.slice(P.zero, -suffix.length)
-    : place.displayName;
+  // A place that takes "the" always gets it (Fable A, Nov 13, rule 21: "from
+  // the District of Columbia").
+  return stateInSentence(
+    suffix && place.displayName.endsWith(suffix)
+      ? place.displayName.slice(P.zero, -suffix.length)
+      : place.displayName,
+  );
 }
 
 /**

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { properName, spokenWhen } from "./words";
+import { properName, spokenWhen, spoken } from "./words";
 
 describe("how long ago is said", () => {
   it("never says a calendar date, whatever the gap", () => {
@@ -35,5 +35,21 @@ describe("properName", () => {
     // A whole name in capitals keeps its small words small too.
     expect(properName("COUNTY OF CARBON")).toBe("County of Carbon");
     expect(properName("TOWN OF SINCLAIR")).toBe("Town of Sinclair");
+  });
+});
+
+describe("spoken", () => {
+  // A place that takes "the" always gets it (Fable A, Nov 13, rule 21).
+  it("gives a district or a plural place its article", () => {
+    expect(
+      spoken({ displayName: "District of Columbia", withinName: null }),
+    ).toBe("the District of Columbia");
+    expect(
+      spoken({
+        displayName: "Washington, District of Columbia",
+        withinName: "District of Columbia",
+      }),
+    ).toBe("Washington");
+    expect(spoken({ displayName: "Ohio", withinName: null })).toBe("Ohio");
   });
 });
