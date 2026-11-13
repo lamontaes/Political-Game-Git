@@ -655,12 +655,17 @@ export function newsroomJobsOf(
   kind: LocalKind,
   marketAdults: number,
   outletsOfKind: number,
+  readingRatio = 1,
 ): number {
   const share = Math.max(1, outletsOfKind);
+  // A paper's newsroom follows its circulation, as its revenue does: the
+  // market's adults at its reading habit relative to the nation's.
   if (kind === "newspaper")
     return Math.max(
       pressParameter("newspaperNewsroomFloor"),
-      marketAdults / pressParameter("adultsPerNewspaperNewsroomWorker") / share,
+      (marketAdults * readingRatio) /
+        pressParameter("adultsPerNewspaperNewsroomWorker") /
+        share,
     );
   if (kind === "television")
     return Math.max(
@@ -704,6 +709,7 @@ export function outsideNewsroomYearMinor(
     outlet.kind as LocalKind,
     marketAdultsOf(api, outlet, town),
     own,
+    town.readers / town.adults / NEWS.habits.national.localNewspapers,
   );
   const pay = pressParameter("reporterAnnualPayMinor");
   // A newspaper carries the rest of its cost with each newsroom job.
