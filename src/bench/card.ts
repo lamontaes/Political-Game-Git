@@ -597,8 +597,16 @@ function lineOf(
     }
     case "health/serious-illness":
       return make("health.ill", {});
-    case "law/victim":
+    // An arrest before play is said as the arrest it is: the record holds no
+    // charge (Fable A, Nov 13: "say what the record holds").
+    case "law/arrested":
+      return make("law.arrested", {});
+    // The justice engine's accusation names its offense on the record.
     case "law/accused":
+      return typeof facts.offense === "string"
+        ? make("law.accused", { offense: facts.offense })
+        : null;
+    case "law/victim":
     case "law/charged":
     case "law/convicted":
     case "law/imprisoned":
