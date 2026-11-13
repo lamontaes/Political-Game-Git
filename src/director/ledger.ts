@@ -1526,6 +1526,7 @@ export function createDirector(
           tie: param("directorCircumstanceTieScore"),
           sociability: param("directorCircumstanceSociabilityScore"),
           traitScale: coreParam(core, "traitScale"),
+          newsTellerMinAge: param("directorCircumstanceNewsTellerMinAge"),
         },
         {
           importance: (otherId) => {
