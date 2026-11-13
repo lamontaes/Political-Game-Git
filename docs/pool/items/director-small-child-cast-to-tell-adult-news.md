@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: opus-lr
 pr: #9037
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: Playtester P1, Nov 13
 claimed-at:
+merged-at: 2026-11-13T08:31:30.998Z
 ---
 
 **What.** Commack, New York (creator life, age 29, bench seed 84f2626c-06e2-4b64-95cc-ab59382b866b, main 5e68cde1). On Feb 4, 2025: "Oscar Wise has been reading who filed for town board member before you did." / "Kiara, sit down a second. Before you filed, incumbent Idris Rivas put in for town board member." People shows "Oscar Wise / Son · Age 4 / … Born in Commack, New York in 2021." A preschooler reads the filing list and briefs his mother on it.
