@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: Account lead T40 (claude-opus-5-5)
-pr:
+pr: 9071
 after:
 blocked-on:
 lead: governing
