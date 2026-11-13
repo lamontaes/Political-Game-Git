@@ -145,18 +145,27 @@ const helpFacts: Record<string, Fact> = {
   agency: fact("the workforce office"),
   "respond-in": fact("in seven days"),
 };
+// What a bribe hands the scene (bribe-facts.ts): the price and the bill.
+const bribeFactsOf: Record<string, Fact> = {
+  ...generic,
+  amount: fact("about $400"),
+  "favor-vote": fact("yes"),
+  bill: fact("the free-fares ordinance"),
+};
 const factsOf = (family: string) =>
-  family === "donor-ask"
-    ? donorFacts
-    : family === "press-comment"
-      ? pressFacts
-      : family === "conflict-accuse"
-        ? accuseFacts
-        : family === "ask-vote"
-          ? voteFacts
-          : family === "constituent-help"
-            ? helpFacts
-            : generic;
+  family === "bribe-offer" || family === "bribe-pressed"
+    ? bribeFactsOf
+    : family === "donor-ask"
+      ? donorFacts
+      : family === "press-comment"
+        ? pressFacts
+        : family === "conflict-accuse"
+          ? accuseFacts
+          : family === "ask-vote"
+            ? voteFacts
+            : family === "constituent-help"
+              ? helpFacts
+              : generic;
 
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   if (!node) return into;
@@ -354,13 +363,15 @@ describe("a kind with several arcs", () => {
     const first = new Set<string>();
     for (let n = 0; n < 12; n += 1)
       first.add(
-        compose("bribe-offer", "plain", generic, `cause-${n}`).state.text,
+        compose("bribe-offer", "plain", bribeFactsOf, `cause-${n}`).state.text,
       );
     expect(first.size).toBeGreaterThan(1);
     // The same cause says the same words.
     expect(
-      compose("bribe-offer", "friend", generic, "cause-z").state.text,
-    ).toBe(compose("bribe-offer", "friend", generic, "cause-z").state.text);
+      compose("bribe-offer", "friend", bribeFactsOf, "cause-z").state.text,
+    ).toBe(
+      compose("bribe-offer", "friend", bribeFactsOf, "cause-z").state.text,
+    );
   });
 
   it("reads no kind's name: a kind without a row plays its one arc", () => {

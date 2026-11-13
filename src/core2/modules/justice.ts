@@ -1824,3 +1824,4 @@ export function openJustice(core: CoreState): void {
   if (!core.modules.has(JUSTICE_MODULE_ID))
     registerModule(core, JUSTICE_MODULE);
 }
+export { CORRUPTION_MODULE_ID, crimeRecord } from "./corruption";
