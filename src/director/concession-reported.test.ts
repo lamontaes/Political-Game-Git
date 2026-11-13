@@ -10,12 +10,16 @@ import type { EntityId } from "../core2/kernel/brands";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
+  ELECTIONS_MODULE_ID,
   fileCandidacy,
-  openContests,
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
+import {
+  advanceToRaceFiling,
+  racesToFileBefore,
+} from "../core2/gov-test-clock";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
@@ -29,7 +33,8 @@ import type { TreeNode } from "./scene-talk";
 // naming the winner. Drawn places and a fresh seed; place and seed in every
 // message.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const ATTEMPTS = 16;
+// A place with no race in the year costs only its build, so more are drawn.
+const ATTEMPTS = 40;
 const YEAR = 365;
 const PAPER_DAYS = 10;
 
@@ -68,13 +73,21 @@ const run = (
   const end = addDays(makeIsoDate(core.date), YEAR);
   // Residents of the town file: a filing refuses a resident of another place.
   const townId = core.people.get(core.playerId!)?.placeId;
-  for (let day = 0; !openContests(api).length && day < YEAR; day += 7)
-    advanceCore(core, addDays(makeIsoDate(core.date), 7));
+  // The races on the calendar the world was built with, read before any day
+  // is played: a place with none counted within the year is passed over at
+  // once. Each race is tried the day its filing opens, soonest first.
+  const races = racesToFileBefore(core, end);
+  if (!races.length)
+    return {
+      done: false,
+      note: `${where}: no race on the calendar counted by ${end}`,
+    };
   let contest: ContestRow | undefined;
   let filings: FilingRow[] = [];
-  for (const race of [...openContests(api)]
-    .filter((row) => addDays(makeIsoDate(row.electionDate), 2) <= end)
-    .sort((a, b) => a.id.localeCompare(b.id))) {
+  const refused: string[] = [];
+  for (const race of races) {
+    if (race.filingDeadline < core.date) continue;
+    advanceToRaceFiling(core, race);
     const clerkId = filingClerkFor(api, race.id)?.personId;
     const town = [...core.people.values()]
       .filter(
@@ -103,15 +116,26 @@ const run = (
       contest = race;
       break;
     }
+    refused.push(`${race.id} took ${filings.length}`);
   }
-  if (!contest) return { done: false, note: `${where}: fewer than two filers` };
+  if (!contest)
+    return {
+      done: false,
+      note: `${where}: no race took two filers (${refused.join(", ")})`,
+    };
   gatherSignatures(core, ...filings.map((f) => f.id));
   // The call is played the night the count comes in, as in play.
   advanceCore(core, makeIsoDate(contest.electionDate));
   for (let day = 0; day < 3 && !resultOf(api, contest.id); day += 1)
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
   const result = resultOf(api, contest.id);
-  if (!result?.winnerId) return { done: false, note: `${where}: no winner` };
+  // A count with no winner is a tie the place's law sends to a second
+  // election, or nobody on the ballot (named so a reader can tell which).
+  if (!result?.winnerId)
+    return {
+      done: false,
+      note: `${where}: ${contest.id} named no winner (totals ${JSON.stringify(result?.totals ?? null)}, tie ${JSON.stringify(coreAPI(core).moduleState(ELECTIONS_MODULE_ID).table("ties").get(`tie:${contest.id}`) ?? null)})`,
+    };
   const causeId = `election-result:${contest.id}`;
   // The runner-up on the count: the one the race's story names, the first
   // of those who missed the cut (in an at-large race the other winners were
@@ -172,7 +196,20 @@ const run = (
   ).find(
     (s) => s.kind === "press.printed" && s.facts.sourceRecordId === causeId,
   );
-  if (!story) return { done: false, note: `${here}: the race was not printed` };
+  if (!story)
+    return {
+      done: false,
+      note: `${here}: the race was not printed (stories in the window ${
+        (
+          coreAPI(core)
+            .moduleState(NEWS_MODULE_ID)
+            .table("stories")
+            .rows() as unknown as { kind: string; date: string }[]
+        ).filter(
+          (s) => s.kind === "press.printed" && s.date >= contest!.electionDate,
+        ).length
+      })`,
+    };
   const words = wordPrintedStory(core, story);
   expect(words, `${here}: ${story.id}`).toBeTruthy();
   const person = core.people.get(loser)!;

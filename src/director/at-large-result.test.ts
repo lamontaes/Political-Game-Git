@@ -10,10 +10,12 @@
  * another winner or themselves, and none plays where nobody missed it; and
  * the race reads "won" on the screens for whichever seat the count gave.
  *
- * The drawn case draws from all 56 until a race has more candidates than
- * seats, naming what it passed over (GOLDEN_PATH_SEED reproduces a run). The
- * two fixed cases are the replays that showed the fault on main (every
- * winner also "lost", another winner calling). A single seat's record keeps
+ * The drawn case draws from all 56 until a place's calendar holds an
+ * at-large race still open for filing, and files residents in it, one more
+ * than its seats, so someone misses the cut; it names what it passed over
+ * (GOLDEN_PATH_SEED reproduces a run). The two fixed cases are the replays
+ * that showed the fault on main (every winner also "lost", another winner
+ * calling). A single seat's record keeps
  * every candidate named and the runner-up as the caller.
  */
 import { randomBytes } from "node:crypto";
@@ -27,16 +29,21 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
   atLargeGroup,
+  checkEligibility,
   ELECTIONS_MODULE_ID,
+  fileCandidacy,
   type ContestRow,
 } from "../core2/modules/elections";
+import { gatherSignatures } from "../core2/campaign-petition-kit";
+import { advanceToRaceFiling } from "../core2/gov-test-clock";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { civicFill } from "./civic-roles";
 import type { Moment } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const DRAWS = 10;
+// A place with no at-large race open for filing costs only its build.
+const DRAWS = 30;
 // The window a race must be decided in: two years from the start.
 const WINDOW = "2027-01-01";
 
@@ -187,23 +194,69 @@ it(`a drawn at-large race with someone outside the cut names each candidate once
       twoLevel: true,
       placeKey: place.key,
     });
-    const races = racesIn(core).filter((group) => group.length > 1);
+    // The pooled races on the calendar the world was built with, read before
+    // any day is played; a place with none still open for filing is passed
+    // over at once.
+    const races = racesIn(core).filter(
+      (group) =>
+        group.length > 1 && group.every((c) => c.filingDeadline >= core.date),
+    );
     if (!races.length) {
-      tried.push(`${where}: no local at-large race before ${WINDOW}`);
+      tried.push(
+        `${where}: no local at-large race open for filing before ${WINDOW}`,
+      );
       continue;
     }
-    // Played to two days past each race, until one has more candidates than
-    // seats (someone missed the cut).
+    // In the race, residents file (one more than its seats, spread over the
+    // seats) on the day its filing opens, so someone is sure to miss the
+    // cut whoever else files; then the world plays to two days past the
+    // count.
     for (const race of races) {
+      if (race.some((c) => c.filingDeadline < core.date)) continue;
+      advanceToRaceFiling(core, race[0]!);
+      const api = coreAPI(core);
+      const townId = core.people.get(core.playerId!)?.placeId;
+      const running = (personId: string) =>
+        (
+          api
+            .moduleState(ELECTIONS_MODULE_ID)
+            .table("filings")
+            .query("byPerson", [personId]) as unknown as { status: string }[]
+        ).some((row) => ["petitioning", "on-ballot"].includes(row.status));
+      const filed: string[] = [];
+      for (const person of [...core.people.values()]
+        .filter(
+          (p) =>
+            p.alive &&
+            p.placeId === townId &&
+            p.id !== core.playerId &&
+            !running(p.id),
+        )
+        .sort((a, b) => a.id.localeCompare(b.id))) {
+        if (filed.length > race.length) break;
+        const seat = race[filed.length % race.length]!;
+        if (checkEligibility(api, person.id, seat.id, null).some((c) => !c.met))
+          continue;
+        const result = fileCandidacy(api, {
+          personId: person.id,
+          contestId: seat.id,
+          platform: [],
+        });
+        if (["petitioning", "on-ballot"].includes(result.status ?? ""))
+          filed.push(result.filing.id);
+      }
+      gatherSignatures(core, ...filed);
       advanceCore(core, addDays(makeIsoDate(race[0]!.electionDate), 2));
-      const field = new Set(race.flatMap((c) => filingsOf(core, c.id)));
+      const field = new Set(
+        race.flatMap((c) => filingsOf(core, c.id).map((f) => f.personId)),
+      );
       if (recordsOf(core, race).some((r) => !r)) {
         tried.push(`${where}: ${race[0]!.id} and its seats not all decided`);
         continue;
       }
       if (field.size <= race.length) {
         tried.push(
-          `${where}: ${race[0]!.id} had ${field.size} candidates for ${race.length} seats`,
+          `${where}: ${race[0]!.id} had ${field.size} candidates for ${race.length} seats (${filed.length} residents filed)`,
         );
         continue;
       }

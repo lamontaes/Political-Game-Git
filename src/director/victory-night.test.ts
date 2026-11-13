@@ -13,11 +13,14 @@ import {
   checkEligibility,
   ELECTIONS_MODULE_ID,
   fileCandidacy,
-  openContests,
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
+import {
+  advanceToRaceFiling,
+  racesToFileBefore,
+} from "../core2/gov-test-clock";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -30,7 +33,8 @@ import { purposeScene } from "./purpose-scene";
 // was skipped ("the ask that states victory-night cannot be worded").
 // Drawn places and a fresh seed; place and seed in every message.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const ATTEMPTS = 16;
+// A place with no race in the year costs only its build, so more are drawn.
+const ATTEMPTS = 40;
 const YEAR = 365;
 
 const run = (drawSeed: string): { done: boolean; note: string } => {
@@ -45,10 +49,16 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
   const end = addDays(makeIsoDate(core.date), YEAR);
   // Residents of the town file: a filing refuses a resident of another place.
   const townId = core.people.get(core.playerId!)?.placeId;
-  // The weeks pass, bounded, until a race opens that two residents can file
-  // for: each race is tried once, the week it is first open. Only residents
-  // who may run and are not already running file.
-  const tried = new Set<string>();
+  // The races on the calendar the world was built with, read before any day
+  // is played: a place with none counted within the year is passed over at
+  // once. Each race is tried the day its filing opens, soonest first. Only
+  // residents who may run and are not already running file.
+  const races = racesToFileBefore(core, end);
+  if (!races.length)
+    return {
+      done: false,
+      note: `${where}: no race on the calendar counted by ${end}`,
+    };
   let contest: ContestRow | undefined;
   let filings: FilingRow[] = [];
   const running = (personId: string) =>
@@ -58,50 +68,44 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
         .table("filings")
         .query("byPerson", [personId]) as unknown as FilingRow[]
     ).some((row) => ["petitioning", "on-ballot"].includes(row.status));
-  for (let day = 0; !contest && day < YEAR; day += 7) {
-    for (const race of [...openContests(api)]
+  for (const race of races) {
+    if (contest) break;
+    if (race.filingDeadline < core.date) continue;
+    advanceToRaceFiling(core, race);
+    const clerkId = filingClerkFor(api, race.id)?.personId;
+    const town = [...core.people.values()]
       .filter(
-        (row) =>
-          !tried.has(row.id) &&
-          addDays(makeIsoDate(row.electionDate), 2) <= end,
+        (p) =>
+          p.alive &&
+          p.placeId === townId &&
+          p.id !== core.playerId &&
+          p.id !== clerkId &&
+          !running(p.id) &&
+          !checkEligibility(api, p.id, race.id, null).some((c) => !c.met),
       )
-      .sort((a, b) => a.id.localeCompare(b.id))) {
-      tried.add(race.id);
-      const clerkId = filingClerkFor(api, race.id)?.personId;
-      const town = [...core.people.values()]
-        .filter(
-          (p) =>
-            p.alive &&
-            p.placeId === townId &&
-            p.id !== core.playerId &&
-            p.id !== clerkId &&
-            !running(p.id) &&
-            !checkEligibility(api, p.id, race.id, null).some((c) => !c.met),
-        )
-        .sort((a, b) => a.id.localeCompare(b.id))
-        .slice(0, 40);
-      filings = [];
-      for (const person of town) {
-        if (filings.length >= 3) break;
-        director.watch(core, person.id);
-        // The log keeps a private record only for the people in focus.
-        core.focusPersonIds.add(person.id);
-        const result = fileCandidacy(api, {
-          personId: person.id,
-          contestId: race.id,
-          platform: [],
-        });
-        if (["petitioning", "on-ballot"].includes(result.status ?? ""))
-          filings.push(result.filing);
-      }
-      if (filings.length >= 2) {
-        contest = race;
-        break;
-      }
+      .sort((a, b) => a.id.localeCompare(b.id))
+      .slice(0, 40);
+    filings = [];
+    for (const person of town) {
+      if (filings.length >= 3) break;
+      director.watch(core, person.id);
+      // The log keeps a private record only for the people in focus.
+      core.focusPersonIds.add(person.id);
+      const result = fileCandidacy(api, {
+        personId: person.id,
+        contestId: race.id,
+        platform: [],
+      });
+      if (["petitioning", "on-ballot"].includes(result.status ?? ""))
+        filings.push(result.filing);
     }
-    if (!contest) advanceCore(core, addDays(makeIsoDate(core.date), 7));
+    if (filings.length >= 2) {
+      contest = race;
+      break;
+    }
   }
-  if (!contest) return { done: false, note: `${where}: fewer than two filers` };
+  if (!contest)
+    return { done: false, note: `${where}: no race took two filers` };
   gatherSignatures(core, ...filings.map((f) => f.id));
   // Everyone else running for the seat is followed too: whoever wins the
   // count, a resident who filed on their own among them, has their night.
