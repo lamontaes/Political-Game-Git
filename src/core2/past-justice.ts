@@ -128,10 +128,8 @@ export function pastJusticeFor(
   for (const person of people) {
     if (!person.alive || !ownWindowOf(core, person)) continue;
     if (!wholePastOnce(core, person.id, "justice")) continue;
-    // The player is run by the same rule as everyone (owner decision open).
-    // stopgapId: SG-HIST-player-past-arrest
-    if (person.id === core.playerId)
-      stopgap("SG-HIST-player-past-arrest", core);
+    // The player is run by the same rule as everyone (owner, Nov 12, 2026,
+    // 6:33 p.m.); choosing a past through scenes comes after early access.
     const found = pastArrestOf(core, person, core.startedAt);
     if (!found) continue;
     const term = termOf(person);

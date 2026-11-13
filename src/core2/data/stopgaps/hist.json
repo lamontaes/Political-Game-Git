@@ -82,8 +82,10 @@
     "why": "One rule for every person; whether the player's own character may start with a criminal record is a call about the player's experience, which only the owner makes (AGENTS.md, 'This is a game, not a spreadsheet').",
     "addedBy": "opus-lr (Life records builder)",
     "addedAt": "2026-11-12",
-    "replacement": "The owner's answer: the player's past is run by the same rule, or the player starts without an arrest, or the new-life screen lets the player choose.",
-    "status": "open"
+    "replacement": "Decided Nov 12, 2026 (owner, 6:33 p.m., passed on by the CTO on #8928): the player's own past follows the same rule as everyone's, so it can hold an arrest, a conviction or a prison term. Choosing one's past through scenes after early access is the item core-life-record-part-16-choose-your-past-through-scenes.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-12",
+    "resolvedBy": "owner, Nov 12 (CTO on #8928)"
   },
   {
     "id": "SG-HIST-past-service-one-term",
