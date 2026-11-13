@@ -37,3 +37,5 @@ claimed-at:
 **Files.** src/bench/scene.ts, src/bench/places.ts, src/bench/home-and-work-agree.test.ts (new)
 
 **Notes.** Found by the lead, Nov 11, 09:40 UTC, while fixing the visit that did not last (a talk at a place put the player back at home). Until that fix the kitchen was shown over the workplace's clock, which is how the same parent was seen in both. Related: words-home-day-talk-reads-the-hour-and-whose-day-it-was (the talk that same parent then has).
+
+Seen again by Playtester P2 (Easton, Maryland, seed 93784901-9f10-4cdc-9ccd-9d038396f6ca, main 596d5127). On Tuesday, January 21, 2025, Travel's card read "Easton Public Schools / OPEN / Closed now" with no Who's there. On arrival at 11:35 AM, Melissa Keller, Linda Cortez, Neil Paul, Taylor Hudson and James Morales were in the room. Mann Academy was the same at 1:16 PM. "Closed now" isn't the place's hours: `src/bench/play.mjs` (line 4536) shows it whenever `presentCount` is zero, and the room's cast on arrival is drawn by another reader. The fix's one reader serves this line too.
