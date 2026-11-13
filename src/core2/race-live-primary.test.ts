@@ -101,8 +101,18 @@ it("after a primary is counted its nominee's race stays live for the general and
         expect(winner, `a nominee is left: ${note}`).toBeTruthy();
         if (!loser) {
           // A top-two or open primary advances both: both races stay live.
-          for (const f of after)
+          expect(
+            resultOf(api, contest.id),
+            `the primary is not the contest's count: ${note}`,
+          ).toBeNull();
+          for (const f of after) {
             expect(raceLive(api, f), `both advance, live: ${note}`).toBe(true);
+            core.playerId = f.personId;
+            expect(
+              campaignDayChoices(api, f.id).length,
+              `an advanced filer keeps the day's choices: ${note}`,
+            ).toBeGreaterThan(0);
+          }
           passed.push(`${note}: the primary advanced both filers`);
           continue;
         }
