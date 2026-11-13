@@ -54,7 +54,8 @@
     "who": "An office as its holder is said again (\"the governor\"), from data/english/said-as.json offices.",
     "body": "The local body that decided a measure, said as people say it (\"the county board\"), from data/english/said-as.json deciders.",
     "purpose": "What a budget line is for, from the bill catalog's budget row (data/english/bill-names.json).",
-    "amount": "A sum of money from a record, as people round it."
+    "amount": "A sum of money from a record, as people round it.",
+    "sponsor": "The person who brought the bill a story covers, by name, from the bill's sponsor record (legislature bills)."
   },
   "maxWords": 10,
   "lineWords": {
@@ -28486,7 +28487,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["about-named"]
         }
       ],
       "origin": "authored",
@@ -28508,7 +28510,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["about-named"]
         }
       ],
       "origin": "authored",
@@ -28530,7 +28533,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["about-named"]
         }
       ],
       "origin": "authored",
@@ -28574,7 +28578,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["about-named"]
         }
       ],
       "origin": "authored",
@@ -28664,7 +28669,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["about-named"]
         }
       ],
       "origin": "authored",
@@ -28708,7 +28714,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["about-named"]
         }
       ],
       "origin": "authored",
@@ -28730,7 +28737,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["about-named"]
         }
       ],
       "origin": "authored",
@@ -28752,7 +28760,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["about-named"]
         }
       ],
       "origin": "authored",
@@ -28796,7 +28805,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["about-named"]
         }
       ],
       "origin": "authored",
@@ -28886,7 +28896,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["about-named"]
         }
       ],
       "origin": "authored",
@@ -33652,6 +33663,100 @@
       "origin": "authored",
       "author": "Words builder W-D, Claude Opus 5.5 (words composer, talk: news in the teller's own words)",
       "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-back-core.sponsor-is-from-what-i-read",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "{sponsor} is, from what I read.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-who", "sponsor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.news-back-core.sponsor-brought-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "{sponsor} brought it.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-who", "sponsor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.news-back-core.the-story-didn-t-say-who",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "The story didn't say who.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-who"],
+          "excludesFacts": ["sponsor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.news-back-core.i-didn-t-see-a-name-on-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I didn't see a name on it.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-who"],
+          "excludesFacts": ["sponsor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "calm"
     },
     {
       "key": "conversation.address-point-back-agree.good-i-m-not-the-only-one-who-heard-president-that-way",

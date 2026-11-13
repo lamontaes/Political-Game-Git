@@ -202,15 +202,17 @@ it(`a close, outgoing person says where they stand and the card learns it; a str
       const top = stand;
       if (top) {
         // Named in full, or as "it" where the talk named it already (a
-        // question is named once in a talk; lead, Nov 13).
+        // question is named once in a talk), and never left as "is it."
+        // (a frame that ends on the name plays only as its first naming;
+        // lead, Nov 13).
         const at = talk.lines.indexOf(line);
         const namedBefore = talk.lines
           .slice(0, at)
           .some((row) =>
             row.text.toLowerCase().includes(top.about.toLowerCase()),
           );
-        if (namedBefore) expect(line.text, where).toMatch(/\bit\b/i);
-        else expect(line.text, where).toContain(top.about);
+        expect(line.text, where).not.toMatch(/\b(is|than) it\b/i);
+        if (!namedBefore) expect(line.text, where).toContain(top.about);
         expect(after.viewAbout, where).toBe(top.about);
       }
       told.push(

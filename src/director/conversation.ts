@@ -115,6 +115,7 @@ import {
   townFigureWords,
 } from "../english/question-names";
 import { lawInForce } from "../core2/modules/laws";
+import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import {
   asksQuestion,
   composeConversationLine,
@@ -1807,6 +1808,25 @@ function printedHeard(
  * question, or one the teller holds no view on, is not raised in talk. This
  * holds for every kind of printed story, by what it is about.
  */
+/** The sponsor of the bill a printed story covers, by name, from the bill's record; null where none is on record. */
+function storySponsor(core: Readonly<CoreState>, story: Story): Fact | null {
+  const billId = story.facts.billId;
+  if (!billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return null;
+  const bill = coreAPI(core as CoreState)
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .get(billId) as { readonly sponsorId?: string } | undefined;
+  const person = bill?.sponsorId
+    ? core.people.get(bill.sponsorId as PersonId)
+    : undefined;
+  return person
+    ? {
+        text: `${person.givenName} ${person.familyName}`,
+        sourceRecordIds: [story.id, billId, person.id],
+      }
+    : null;
+}
+
 function printedSubject(
   core: Readonly<CoreState>,
   story: Story,
@@ -1844,6 +1864,7 @@ function printedSubject(
     // own view record. None, and they have nothing of their own to say.
     const stake = newsStake(core, tellerId, { news });
     if (stake.reason !== "stance") return null;
+    const sponsor = storySponsor(core, story);
     return {
       id: `news:${story.id}`,
       kind: "news",
@@ -1854,6 +1875,9 @@ function printedSubject(
         ...stakeMarks(stake, "their-"),
         // A printed story, told by what it is about (never its headline).
         story: { text: "yes", sourceRecordIds: cited },
+        // Who brought the bill it covers, where the bill's record names a
+        // sponsor: the answer to "Who's behind it?" (lead, Nov 13).
+        ...(sponsor ? { sponsor } : {}),
         storyId: { text: "", sourceRecordIds: [story.id] },
         // The day it ran, said in passing ("yesterday", "on Monday").
         ran: {
@@ -3595,13 +3619,30 @@ function raiseSubject(
         : composedConversationBank(`${subject.kind}-say`)
           ? `${subject.kind}-say`
           : null;
+  // A question the talk already named is said again as "it" (questionOnce):
+  // a frame that puts the name after "is" or "than" plays only as its first
+  // naming ("The one I'd fight hardest is it."; lead, Nov 13).
+  const aboutText = subject.facts.about?.text.toLowerCase();
+  const named =
+    !!aboutText &&
+    conversation.lines.some((row) =>
+      row.text.toLowerCase().includes(aboutText),
+    );
   const composed =
     !said && composedRaise
       ? composedLine(
           core,
           otherId,
           composedRaise,
-          subject.facts,
+          named
+            ? {
+                ...subject.facts,
+                "about-named": {
+                  text: "yes",
+                  sourceRecordIds: subject.facts.about!.sourceRecordIds,
+                },
+              }
+            : subject.facts,
           subject.stage ?? "default",
           momentKey,
           saidParts(conversation, otherId),
@@ -3968,6 +4009,12 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "job-new-detail",
   "job-new-told",
 ]);
+
+/** The reply pieces that ask who is behind a story (conversation-rules.json askedWho). */
+const ASKED_WHO: ReadonlySet<string> = new Set(
+  (CONVERSATION_RULES as unknown as { askedWho: { pieces: string[] } }).askedWho
+    .pieces,
+);
 
 /** The kind of a subject the talk opened, by its id ("own-work:...", "them>mutual:..."). */
 function subjectKindOf(subjectId: string): string {
@@ -6387,7 +6434,10 @@ function answerNews(
     ...(theirs.reason === "none"
       ? { "their-none": { text: "yes", sourceRecordIds: [otherId] } }
       : {}),
-    [`said-${choice.move}`]: { text: "yes", sourceRecordIds: [eventId] },
+    // "Who's behind it?" is asked as a why but answered as a who (lead,
+    // Nov 13): the pieces that ask it are named in the rules (askedWho).
+    [`said-${(choice.wording?.parts ?? []).some((part) => ASKED_WHO.has(part)) ? "who" : choice.move}`]:
+      { text: "yes", sourceRecordIds: [eventId] },
     // One screen names a thing once: where the teller already said the
     // question, the answer says "it" and gives what else the story holds.
     [aboutToldBy(last.facts) ? "about-said" : "about-unsaid"]: {
