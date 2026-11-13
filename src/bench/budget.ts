@@ -1,3 +1,4 @@
+import { governmentProperName } from "../core2/government-proper-name";
 import { townGovernment } from "../core2/output-number-readers";
 import { coreAPI } from "../core2/state";
 import {
@@ -14,7 +15,6 @@ import { appointmentsIn } from "../core2/modules/executive";
 import { lineForPost } from "../core2/budgets-treasury";
 import { facePlace, holderFace } from "./government";
 import type { CoreState } from "../core2/types";
-import { properName } from "../director/words";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 
 const NAMES = lineNames.lines as Record<string, { name: string }>;
@@ -258,8 +258,9 @@ export function budgetView(core: CoreState, personId: string) {
       return {
         ...gov,
         executive: chiefOf(core, gov.id, personId),
-        // Some federal files hold names in capitals only.
-        name: properName(gov.name),
+        // The listing holds names in capitals only; the proper name is the
+        // place record's ("City of McCall"), never the capitals recased.
+        name: governmentProperName(gov.name, gov.id),
         youAreExecutive: [...executive].some((j) => gov.id.includes(j)),
         priorities: budgetPriorities(api, gov.id),
         books: booksOf(core, gov.organizationId),

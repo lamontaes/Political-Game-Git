@@ -14,6 +14,7 @@ import { budgetView } from "./budget";
 import { metricsView } from "./metrics";
 import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
+import { governmentProperName } from "../core2/government-proper-name";
 import { advanceCore } from "../core2/life";
 import { budgetsOf, governments } from "../core2/modules/budgets";
 import { engineMeasure } from "../core2/outcome-web-model";
@@ -26,7 +27,6 @@ import {
 import { restoreWorld, snapshotWorld } from "../core2/snapshot";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
-import { properName } from "../director/words";
 
 const DRAWS = 3;
 /** The game opens in January 2025; fourteen months on is the item's finish line. */
@@ -224,7 +224,7 @@ describe("Metrics reads the registry in a played world", () => {
           (view.sections.find((s) => s.key === "budget") as { name?: string })
             .name,
           where,
-        ).toBe(properName(own[0]!.name));
+        ).toBe(governmentProperName(own[0]!.name, own[0]!.id));
       if (books)
         expect(rowOf(view, "budget", "revenue")?.now, where).toBe(
           Object.values(books.revenueMinor).reduce((n, minor) => n + minor, 0),

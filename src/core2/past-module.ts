@@ -80,6 +80,7 @@ export {
   type HistoryWriter,
   type PreStartModule,
   type PreStartWindow,
+  wholePastOpened,
 } from "./pre-start";
 export {
   PAST_WORK_OUT,
@@ -96,6 +97,8 @@ export {
   residenceOn,
   type DepartureRate,
 } from "./past-moves";
+export { pastHealthFor } from "./past-health";
+export { pastPartnersFor } from "./past-partners";
 export {
   PAST_DISCHARGED,
   PAST_ENLISTED,

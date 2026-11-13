@@ -23,7 +23,9 @@
     "here": "The town or county the person lives in now, from the place records.",
     "age": "How old the person was then, from their birth record and the record's date.",
     "child": "A child's first name from their record.",
-    "kin": "Who lives with the person, each as they call them (\"your mother\", \"your daughters\"), joined with \"or\", from the household and family records."
+    "kin": "Who lives with the person, each as they call them (\"your mother\", \"your daughters\"), joined with \"or\", from the household and family records.",
+    "offense": "The offense the justice engine's record names: bribery.",
+    "parent": "Who the partner is to the people the line is told to, from the child's other-parent record, said only when the record holds it: on someone else's card \"your father\" or \"the children's mother\"; in the first person, on the player's own card, \"my children's father\" or \"my daughter's mother\"."
   },
   "maxWords": 24,
   "parts": [
@@ -469,6 +471,33 @@
       "kind": "written"
     },
     {
+      "key": "person-history.summary.work.outside",
+      "text": "Works outside {place}.",
+      "move": "summary",
+      "origin": "authored",
+      "author": "Words builder W2 (work outside the town)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.outside.you",
+      "text": "You work outside {place}.",
+      "move": "summary",
+      "origin": "authored",
+      "author": "Words builder W2 (work outside the town)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.outside.first",
+      "text": "I work outside {place}.",
+      "move": "summary",
+      "origin": "authored",
+      "author": "Words builder W2 (work outside the town)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
       "key": "person-history.summary.work.employer.you",
       "move": "summary",
       "text": "You work at {employer}.",
@@ -831,19 +860,37 @@
     {
       "key": "person-history.story.law.accused.third",
       "move": "story",
-      "text": "{who} was accused of a crime in {year}.",
+      "text": "{who} was accused of {offense} in {year}.",
       "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
+      "author": "Words builder W2 (Fable A, Nov 13: the accusation names its offense)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.arrested.third",
+      "move": "story",
+      "text": "{who} was arrested in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: an arrest before play said as an arrest)",
+      "date": "2026-11-13",
       "kind": "written"
     },
     {
       "key": "person-history.story.law.accused.they",
       "move": "story",
-      "text": "They were accused of a crime in {year}.",
+      "text": "They were accused of {offense} in {year}.",
       "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
+      "author": "Words builder W2 (Fable A, Nov 13: the accusation names its offense)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.arrested.they",
+      "move": "story",
+      "text": "They were arrested in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: an arrest before play said as an arrest)",
+      "date": "2026-11-13",
       "kind": "written"
     },
     {
@@ -1407,10 +1454,19 @@
     {
       "key": "person-history.story.law.accused.i",
       "move": "story",
-      "text": "I was accused of a crime in {year}.",
+      "text": "I was accused of {offense} in {year}.",
       "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
+      "author": "Words builder W2 (Fable A, Nov 13: the accusation names its offense)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.arrested.i",
+      "move": "story",
+      "text": "I was arrested in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: an arrest before play said as an arrest)",
+      "date": "2026-11-13",
       "kind": "written"
     },
     {
@@ -6496,6 +6552,114 @@
       "origin": "authored",
       "author": "Words builder W2 (life records lines, Nov 12)",
       "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.separated.parent.third",
+      "text": "{who} separated from {name}, {parent}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.separated.parent.they",
+      "text": "They separated from {name}, {parent}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.separated.parent.i",
+      "text": "I separated from {name}, {parent}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.parent.third",
+      "text": "{who} was widowed when {name}, {parent}, died in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.parent.they",
+      "text": "They were widowed when {name}, {parent}, died in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.parent.i",
+      "text": "I was widowed when {name}, {parent}, died in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.died.third",
+      "text": "{who} lost {their} partner, {name}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.died.they",
+      "text": "They lost their partner, {name}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.died.i",
+      "text": "I lost my partner, {name}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.died.parent.third",
+      "text": "{who} lost {name}, {parent}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.died.parent.they",
+      "text": "They lost {name}, {parent}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.died.parent.i",
+      "text": "I lost {name}, {parent}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
       "kind": "written"
     }
   ]

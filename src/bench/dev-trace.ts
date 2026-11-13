@@ -837,6 +837,20 @@ function reverseLinks(
           kind: "record",
           via: "views.stances",
         });
+    // What their past did to their view (part 14): each event by its record.
+    const view = rowsOf(core, "views", "people").find((row) => row.id === id);
+    const shifts = (view?.pastShifts ?? []) as readonly {
+      recordId: string;
+      kind: string;
+      change: number;
+    }[];
+    for (const shift of shifts)
+      out.push({
+        id: shift.recordId,
+        kind: "reason",
+        via: `views.pastShifts.${shift.kind}`,
+        value: shift.change,
+      });
   }
   return out;
 }

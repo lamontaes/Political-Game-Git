@@ -201,6 +201,7 @@ function townBudget(reads: OutputReads) {
       beforeRecordId: prior?.id ?? null,
       fiscalYear: latest.fiscalYear,
       government: gov.name,
+      governmentId: gov.id,
     };
   });
 }
@@ -275,7 +276,11 @@ const READERS: Readonly<
           budget.before?.[key],
           budget.recordId,
           budget.beforeRecordId,
-          { fiscalYear: budget.fiscalYear, government: budget.government },
+          {
+            fiscalYear: budget.fiscalYear,
+            government: budget.government,
+            governmentId: budget.governmentId,
+          },
         )
       : null;
   },

@@ -1,7 +1,7 @@
+import { governmentProperName } from "../core2/government-proper-name";
 import { outputReads, readOutputNumber } from "../core2/output-number-readers";
 import { METRICS_SECTIONS, OUTPUT_NUMBERS } from "../core2/output-numbers";
 import type { CoreState } from "../core2/types";
-import { properName } from "../director/words";
 
 /**
  * How the place is doing: this year beside last. Every row is one registered output number
@@ -23,8 +23,9 @@ export function metricsView(core: CoreState, placeId: string) {
         if (!read || (shown.absentWhenZero && !(read.now > 0))) return [];
         // The people behind a small town's count ("13 of 86 looking for work").
         const of = shown.of ? read.inputs[shown.of] : undefined;
-        const government = read.inputs.government;
-        if (typeof government === "string") name = properName(government);
+        const { government, governmentId } = read.inputs;
+        if (typeof government === "string" && typeof governmentId === "string")
+          name = governmentProperName(government, governmentId);
         return [
           {
             key: shown.key,

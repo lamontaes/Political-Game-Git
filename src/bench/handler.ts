@@ -47,7 +47,7 @@ import {
   resultMomentOf,
   stayedHomeLine,
 } from "./election-night";
-import { homePapers, wordOwnResult } from "./archive-words";
+import { followsAnyOutlet, homePapers, wordOwnResult } from "./archive-words";
 import { openingsView } from "./openings";
 import { billPaper, seatAct, seatView } from "./legislature";
 import {
@@ -2053,6 +2053,16 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/news/home",
     run: async ({ url, send }) => {
       send(200, homePapers(requireCore(), url.searchParams.get("id") ?? ""));
+    },
+  },
+  {
+    // Whether the player follows any paper or station, for News's empty page.
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/news/follows",
+    run: async ({ url, send }) => {
+      send(200, {
+        any: followsAnyOutlet(requireCore(), url.searchParams.get("id") ?? ""),
+      });
     },
   },
   {

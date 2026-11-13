@@ -101,6 +101,7 @@
 /src/core2/central-bank-*.ts @lamontaes
 /src/core2/outside-governments.ts @lamontaes
 /src/core2/government-jurisdictions.ts @lamontaes
+/src/core2/government-proper-name.ts @lamontaes
 /src/core2/gov-rules/** @lamontaes
 /src/core2/modules/president-acts.ts @lamontaes
 
