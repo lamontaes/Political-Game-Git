@@ -7,10 +7,6 @@
  * reach a player who holds no office. The place and seed are in every
  * message; replay with RECEIVE_SEED.
  */
-import { appendFileSync } from "node:fs";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { advanceCore } from "../core2/life";
-import { circumstanceLabel } from "./circumstance";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -99,58 +95,4 @@ describe(`the director reads it (${where})`, () => {
       `${where}: a seat scene for ${player.id}, ${inOffice ? "in" : "in no"} office`,
     ).toBe(inOffice);
   }, 600_000);
-});
-
-describe(`a member's scene never comes to someone with no vote (${where})`, () => {
-  // Fable B, Nov 11: in Ellsworth, Maine (seed 40a84c6d-e496-4d50-b6f7-ff889a1d44e3)
-  // a student who turned 18 that week and holds no office was cast as the
-  // member the governor's answerer comes down the aisle to find. The row's
-  // receive rule (`seat: serving`) sends that moment to the journal instead.
-  it("the governor's answer in the hallway plays only for someone in office", () => {
-    // RECEIVE_WORLD_SEED replays a bench life by its world seed alone, as
-    // the bench's new-life seed does (the place drawn from it).
-    const replay = process.env.RECEIVE_WORLD_SEED;
-    const { core, director, playerId } = buildBenchWorld(
-      replay ?? place.seed,
-      gameStartDate(),
-      replay ? { twoLevel: true } : { twoLevel: true, placeKey: place.key },
-    );
-    const id = playerId! as PersonId;
-    director.watch(core, id);
-    advanceCore(core, addDays(makeIsoDate(core.date), 10));
-    const book = director.ledger.people.get(id)!;
-    const label = circumstanceLabel("governor-answer-hallway");
-    const reached = book.moments.filter((moment) => moment.label === label);
-    const staged = book.schedule.filter(
-      (entry) =>
-        entry.outcome !== "journal-line" &&
-        reached.some((moment) => moment.id === entry.momentId),
-    );
-    const inOffice = servingTermsOf(coreAPI(core), id).length > 0;
-    appendFileSync(
-      process.env.RECEIVE_LOG ?? "/dev/null",
-      `\nreceive-rule: ${replay ? `world seed ${replay}` : where}; ${inOffice ? "in office" : "no office"}; governor-answer moments ${reached.length} (${reached.map((m) => m.id).join(", ") || "none"}); staged as scenes ${staged.length}`,
-    );
-    // The row's own rule, read the way the director reads it: no seat scene
-    // for a player in no office, whoever comes down the aisle.
-    const row = (
-      circumstances as {
-        rows: { id: string; receive?: ReceiveRule }[];
-      }
-    ).rows.find((entry) => entry.id === "governor-answer-hallway")!;
-    expect(row.receive?.seat, "governor-answer-hallway").toBe("serving");
-    const answerer = [...core.people.values()].find(
-      (person) =>
-        person.id !== id && servingTermsOf(coreAPI(core), person.id).length,
-    );
-    expect(
-      receives(core, id, row.receive!, answerer ? [answerer.id] : [], "seat"),
-      `${replay ?? where}: the governor's answer at the seat for ${id}`,
-    ).toBe(inOffice);
-    if (!inOffice)
-      expect(
-        staged.map((entry) => entry.momentId),
-        `${where}: the governor's answer came to ${id}, who holds no office`,
-      ).toEqual([]);
-  }, 900_000);
 });

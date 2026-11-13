@@ -2443,6 +2443,30 @@
     "resolvedBy": "stand-in triage T2"
   },
   {
+    "id": "SG-GOV-recount-confirms-count",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/voting.ts",
+    "line": 4128,
+    "whatItFakes": "A recount runs the same count again on the result's own parts (its named, counted and coarsely counted votes) and so always confirms the first count: no recount moves a vote or changes a winner.",
+    "why": "The game records no miscounted ballot (no machine error, no misread or lost ballot), so a second count of the same ballots has nothing to find.",
+    "addedBy": "opus-5234 (elections-contested-count-record)",
+    "addedAt": "2026-11-11",
+    "replacement": "A count that keeps its errors where they arise (a precinct's machine, ballots set aside, a misread mark), sized from the record of recounts (FairVote: the average statewide recount moved the margin by 551 votes, about 0.03 percent), so a recount finds them and can change the winner.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-recount-one-rule-per-place",
+    "kind": "estimated-rule",
+    "file": "src/core2/modules/voting.ts",
+    "line": 3964,
+    "whatItFakes": "Every race in a place, town, county, legislative or statewide, follows the place's statewide general-election recount rule (data/research/elections/recount-rules-2026.json); a state's separate margins for legislative or local races, for primaries, and who pays are not read.",
+    "why": "The rule table was read for state-level general elections (MultiState, Recounts, fetched Nov 11, 2026), the simple version the owner set on Nov 10, 2026 (\"Recount by own states rules\").",
+    "addedBy": "opus-5234 (elections-contested-count-record)",
+    "addedAt": "2026-11-11",
+    "replacement": "Each place's rule by kind of race (legislative, local, primary) from its statute, as the table's quotes already name for several states (Iowa, Michigan, Vermont, South Dakota).",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-counted-case-view-kept-on-the-case",
     "kind": "partial-model",
     "file": "src/core2/modules/constituent-cases.ts",

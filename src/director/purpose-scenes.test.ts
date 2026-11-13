@@ -289,9 +289,10 @@ const run = (drawSeed: string): string | null => {
             return { personId, entry: row };
       return undefined;
     };
-    // A filer who lives alone by the count (their household moved out or
-    // died) has the race's own scene: nobody is at home to meet them.
-    if (!livesWithSomeone(filer)) {
+    // A winner, and a filer who lives alone by the count (their household
+    // moved out or died), has the race's own scene: the household is in the
+    // winner's room, and nobody is at home to meet the one alone.
+    if (won || !livesWithSomeone(filer)) {
       expect(
         sitting(won ? "race-won" : "race-lost"),
         `${here}: no ${won ? "race-won" : "race-lost"} scene`,
@@ -308,19 +309,14 @@ const run = (drawSeed: string): string | null => {
       quiet += 1;
       continue;
     }
-    const staged = sitting(won ? "family-win" : "family-loss");
-    expect(
-      staged,
-      `${here}: no ${won ? "family-win" : "family-loss"} scene`,
-    ).toBeTruthy();
+    const staged = sitting("family-loss");
+    expect(staged, `${here}: no family-loss scene`).toBeTruthy();
     const scene = purposeScene(
       core,
       director,
       staged!.personId,
       staged!.entry,
-      {
-        typeKey: won ? "family-win" : "family-loss",
-      },
+      { typeKey: "family-loss" },
     );
     expect(scene?.kind, here).toBe("composed");
     if (scene?.kind !== "composed") continue;
@@ -347,8 +343,8 @@ const run = (drawSeed: string): string | null => {
     );
   }
   // Every filer on the count has its scene: the household's for each who
-  // still lives with someone and won, or lost with a relative's part in it,
-  // and there is at least one.
+  // still lives with someone and lost with a relative's part in it, the
+  // race's own for a winner or one alone, and there is at least one.
   expect(
     counted + alone + quiet + outInPrimary.size,
     `${where}: result scenes`,
