@@ -48,6 +48,9 @@ const START = "2026-10-20";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`world-races:${Date.now()}`).digest("hex");
+// Printed before any world builds, so a failed run can be replayed with
+// GOLDEN_PATH_SEED=<seed>.
+process.stdout.write(`world-races: seed ${seed}\n`);
 function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
