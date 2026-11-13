@@ -1533,8 +1533,12 @@ function openWorkers(
   return Math.max(0, n - h.jobs.filter((j) => j.endsAt === undefined).length);
 }
 
-/** Each place's unplaced workers per open working-age member, today. */
-function unplacedRates(
+/**
+ * Each place's unplaced workers per open working-age member, today: people
+ * over people, so each record counts for as many households as it stands for
+ * (a record of one household and a record of ninety are not one vote each).
+ */
+export function unplacedRates(
   residents: ResidentsRuntime,
   date: string,
 ): Map<PlaceId, number> {
@@ -1543,10 +1547,14 @@ function unplacedRates(
   for (const h of residents.store.liveHouseholds()) {
     // Newcomers are households: the rooms' pool is apart from theirs.
     if (h.quarters) continue;
-    workers.set(h.placeId, (workers.get(h.placeId) ?? 0) + h.unplacedWorkers);
+    const weight = residents.store.weightOf(h);
+    workers.set(
+      h.placeId,
+      (workers.get(h.placeId) ?? 0) + h.unplacedWorkers * weight,
+    );
     open.set(
       h.placeId,
-      (open.get(h.placeId) ?? 0) + openWorkers(residents, h, date),
+      (open.get(h.placeId) ?? 0) + openWorkers(residents, h, date) * weight,
     );
   }
   return new Map(

@@ -28,6 +28,6 @@ claimed-at: 2026-10-30T06:59:26.631Z
 
 **Done when.** In a drawn place (place and seed named) in the bench at 1440×900, a browser check opens Politics → Government and People and fails if any face on screen is missing 300 milliseconds after the sheet opens; it passes, the measured times are in the PR body, and a screenshot taken at that moment lands in `docs/play-first/shots`. The owner plays it: faces are there when the menu opens.
 
-**Files.** src/bench/ui/headshot.mjs, src/bench/handler.ts, src/bench/government.ts, src/bench/card.ts, src/bench/play.mjs
+**Files.** src/bench/ui/face.mjs, src/bench/handler.ts, src/bench/government.ts, src/bench/card.ts, src/bench/play.mjs
 
 **Notes.** Filed by the CTO, Oct 29. Waits on `people-pack-v4` so the speed work is done on the faces that ship. Read: OWNER-DECISIONS (Oct 29; Oct 28 sitting point 12, "no initials in circles"); searched: headshot, bust, initials, load.

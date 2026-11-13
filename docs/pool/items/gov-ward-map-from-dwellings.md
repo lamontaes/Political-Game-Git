@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 3
 size: M
-status: blocked
+status: dropped
 standard: 2
 claimed-by: claude/ward-map
 pr: #5106
@@ -44,3 +44,5 @@ Looked at Oct 19 (claude/ward-map), nothing built: a dwelling in the core holds 
 Deferred Oct 25: nothing on screen reads it yet.
 
 Oct 25 audit: blocked-on re-pointed to world-dwelling-position (world-dwelling-locations was its duplicate).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have drawn council wards from dwelling positions, which means tracking where each home sits; the wards from household order stay.

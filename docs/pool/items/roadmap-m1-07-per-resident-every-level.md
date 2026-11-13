@@ -41,4 +41,6 @@ branch: claude/pool-roadmap-m1-07-per-resident-every-level
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: ranges check realistic-not-real (OD:12/OD:558); do not tighten to real per-resident values.
 
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have extended a per-resident check to the federal level and territories; no player sees the check.
+
 Released (2026-11-11): 6-hour rewrite of the 476-line m1-07 check (federal level, county and city each, territory taxes, per-world spread); read it, not started. Continue on branch claude/pool-roadmap-m1-07-per-resident-every-level.
