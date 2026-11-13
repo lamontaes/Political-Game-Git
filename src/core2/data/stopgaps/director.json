@@ -10,5 +10,17 @@
     "addedAt": "2026-10-26",
     "replacement": "Resolved: a relative two people share is asked after as they call them, by the kin address in src/director/data/journal-rows.json (Dad, Mom, Grandma, Grandpa) or a shared sibling's first name, through the conversation bank's family lines (pool item words-family-talk-kin-address).",
     "status": "resolved"
+  },
+  {
+    "id": "SG-DIRECTOR-opening-evening-news-minute",
+    "kind": "estimated-behavior",
+    "file": "src/bench/opening.ts",
+    "line": 19,
+    "whatItFakes": "A household with no one at work on the opening day lands at home at the evening news hour, 8:30 p.m., a fixed minute; a household with work that day lands when its last shift ends, from the members' work spans.",
+    "why": "play-opening-lands-at-830-pm: the address has no airing time on its record, and a household home all day has no record of when it sat down to the news.",
+    "addedBy": "play-opening-lands-at-830-pm",
+    "addedAt": "2026-11-11",
+    "replacement": "The evening news as a broadcast record with its hour (the press engine's television outlets), which the household's evening reads.",
+    "status": "open"
   }
 ]

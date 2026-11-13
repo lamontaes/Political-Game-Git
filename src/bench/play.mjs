@@ -1526,6 +1526,7 @@ $("talk-next").addEventListener("click", async () => {
   // A story's end hands the room back to the one scene renderer, so the people in it can be
   // clicked to talk again (a story draws them without a click).
   await renderScene();
+  if (landHome()) return;
   if (!$("continue").hidden) $("continue").click();
 });
 // Skip scene ends the address at once; the room is handed back as at its last Continue.
@@ -1535,8 +1536,30 @@ $("talk-skip").addEventListener("click", async () => {
   renderTalk(undefined);
   show("talk", false);
   await renderScene();
+  if (landHome()) return;
   if (!$("continue").hidden) $("continue").click();
 });
+/**
+ * The opening's landing at home, once the address ends (played or skipped):
+ * the narrator's one line naming the day as people say it, at home (the
+ * server words it from the scene bank). True when it is shown.
+ */
+let landing = null;
+function landHome() {
+  if (!landing) return false;
+  const line = landing;
+  landing = null;
+  show("talk", true);
+  setWho(undefined, undefined);
+  narrateFirst(
+    [talkLine({ kind: "speech narration", text: line.text })],
+    () => {
+      renderTalk(undefined);
+      show("talk", false);
+    },
+  );
+  return true;
+}
 $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
@@ -6759,6 +6782,8 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     };
     show("front", false);
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
+    // The line that lands the player at home after the address.
+    landing = opening?.home?.landing ?? null;
     // Home that evening (the server's rule for the opening day), with the
     // night's news to pick up, then the first choices pointed out.
     for (const id of ["rings", "card"]) show(id, true);
@@ -6771,6 +6796,7 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     // after it opens, so it waits until the speech ends (C5; owner, Nov 7:
     // "News pop-ups wait until the scene ends").
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
+    else landHome();
     showNewsSurface(news);
   } catch (error) {
     bar.hidden = true;
