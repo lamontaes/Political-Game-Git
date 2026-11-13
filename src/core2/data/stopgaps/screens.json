@@ -50,13 +50,13 @@
   {
     "id": "SG-SCREENS-metrics-no-prior-year",
     "kind": "missing-record",
-    "file": "src/bench/metrics.ts",
-    "line": 23,
-    "whatItFakes": "The Metrics tab's town figures (people at work, people looking for work, jobs open, rental homes, empty rentals, typical rent and home value, people claiming unemployment now), and its state figures from the second year of play, show the current value only, with no 'last year' beside them. Evictions count only households that are full people (a counted household's case names no town).",
-    "why": "The jobs engine keeps no year-ago reading of its counts, the town's monthly metrics months are empty until the world has run, and the regional engine keeps only its last twelve months and each December, so after the first year there is no state row for the month a year before. Only the national months and the opening's drawn history carry a year-ago reading. The housing stock keeps only the opening's typical rent and home value, the jobs claims keep no year-ago count, and an eviction case names a household, not a town.",
+    "file": "src/core2/output-number-readers.ts",
+    "line": 112,
+    "whatItFakes": "Five of the Metrics tab's town figures (people at work, people looking for work, jobs open, rental homes, empty rentals), and its state figures from the second year of play, show the current value only, with no 'last year' beside them.",
+    "why": "The jobs engine and the housing stock keep no year-ago reading of these counts, and the regional engine keeps only its last twelve months and each December, so after the first year there is no state row for the month a year before. The town's rent, home value, eviction notices and open unemployment claims are kept by year since Nov 12 (the registry of output numbers) and no longer wait.",
     "addedBy": "Small fixes session",
     "addedAt": "2026-11-09",
-    "replacement": "The world-metrics module keeping the town's monthly numbers from the opening, and the regional engine keeping the month a year before each month it shows, so every figure has last year beside it; the Metrics screen already reads this year and last as two columns.",
+    "replacement": "Build orders metrics-town-jobs-one-rule (the town's jobs, kept monthly by one rule), metrics-people-and-homes-by-year (rentals and empty rentals by year) and metrics-state-figures-one-owner (the state's figures from the country tier, a December row a year), each writing through putOutputNumber so the figure has last year beside it.",
     "status": "open"
   },
   {
