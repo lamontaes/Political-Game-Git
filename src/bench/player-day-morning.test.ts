@@ -21,6 +21,7 @@ import type { CoreState } from "../core2/types";
 import { fileCandidacy, openContests } from "../core2/modules/elections";
 import { campaignDay } from "./campaign";
 import { applyChosenPerson } from "./creator";
+import { advanceToFilingOpen } from "../core2/gov-test-clock";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
@@ -55,6 +56,9 @@ function fileLocal(core: CoreState, adults: readonly { id: string }[]) {
     if (townSeats(api).some((s) => s.holder?.personId === candidate.id))
       continue;
     core.playerId = candidate.id;
+    // Every race opens its filing on its own real day: move to the first day
+    // one is open in this place, as a player would wait.
+    advanceToFilingOpen(core);
     for (const contest of openContests(api)) {
       if (contest.level === "federal" || contest.level === "state") continue;
       const filed = fileCandidacy(api, {

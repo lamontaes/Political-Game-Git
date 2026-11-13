@@ -48,8 +48,12 @@ import { openParties } from "./modules/parties";
 import { openPress } from "./modules/press";
 import { viewsModule } from "./modules/views";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
+import { advanceToFilingOpen } from "./gov-test-clock";
+import { addDays, makeIsoDate } from "./kernel/dates";
 
 const START = "2026-01-05";
+/** How long a place waits for a town or county race to open its filing. */
+const WAIT_DAYS = 120;
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`campaign-money:${Date.now()}`).digest("hex");
@@ -111,8 +115,17 @@ function runPlace(attempt: number): PlaceRun | null {
       (a, b) => b.knownIds.size - a.knownIds.size || a.id.localeCompare(b.id),
     );
   // A town seat first (council, mayor), then a county one.
+  // Every race opens its filing on its own real day: move to the first day
+  // a town or county race is open in this place (gov-test-clock), as a
+  // player would wait, up to WAIT_DAYS; a later one passes the place over.
+  const local = (c: { level: string; family: string }) =>
+    c.family === "municipalOffice" || c.level === "county";
+  advanceToFilingOpen(core, {
+    wanted: local,
+    by: addDays(makeIsoDate(core.date), WAIT_DAYS),
+  });
   const contests = [...openContests(api)]
-    .filter((c) => c.family === "municipalOffice" || c.level === "county")
+    .filter(local)
     .sort(
       (a, b) =>
         Number(b.family === "municipalOffice") -

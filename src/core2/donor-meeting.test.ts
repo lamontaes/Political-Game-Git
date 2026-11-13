@@ -38,6 +38,7 @@ import { openPress } from "./modules/press";
 import { viewsModule } from "./modules/views";
 import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
+import { advanceToFilingOpen } from "./gov-test-clock";
 
 const START = "2026-01-05";
 const runSeed =
@@ -67,6 +68,9 @@ function world() {
   openParties(core);
   openRecord(core);
   openPress(core);
+  // Every race opens its filing on its own real day: move to the first day
+  // one is open in this place (gov-test-clock), as a player would wait.
+  advanceToFilingOpen(core);
   const api = coreAPI(core);
   const town = (
     api

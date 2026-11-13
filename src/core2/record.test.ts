@@ -14,7 +14,7 @@ import { countedChoice } from "./electorate";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
-import { createLifeCore } from "./life";
+import { advanceCore, createLifeCore } from "./life";
 import { coreAPI, registerModule } from "./state";
 import { openOffices, townSeats } from "./modules/offices";
 import { openLaws } from "./modules/laws";
@@ -133,6 +133,10 @@ describe("M4-06 the record follows you", () => {
       // An incumbent who decides not to run leaves no record on the ballot
       // to weigh: draw again.
       if (contest) {
+        // The race opens its filing on its own real day: wait for it, as a
+        // challenger would, before anyone files.
+        if (contest.filingOpens && contest.filingOpens > core.date)
+          advanceCore(core, contest.filingOpens);
         // Who runs is candidacy's: the incumbent weighs standing again, and
         // whoever runs files when the window opens.
         weighContest(api, contest);

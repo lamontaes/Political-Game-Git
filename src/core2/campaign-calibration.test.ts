@@ -36,6 +36,7 @@ import {
 import { personStance } from "./campaign-views";
 import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { advanceToFilingOpen } from "./gov-test-clock";
 
 const START = "2026-01-05";
 const seed =
@@ -84,6 +85,9 @@ describe("campaign calibration on totals", () => {
       openCampaigns(core);
       const api = coreAPI(core);
       let filing: FilingRow | null = null;
+      // Every race opens its filing on its own real day: move to the first day
+      // one is open in this place (gov-test-clock), as a player would wait.
+      advanceToFilingOpen(core);
       for (const contest of openContests(api)) {
         const r = fileCandidacy(api, {
           personId: player.id,

@@ -12,6 +12,7 @@ import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
   ballot,
@@ -36,6 +37,7 @@ import {
   searchCorePlaces,
   corePlaceStateIdentities,
 } from "./place-lookup";
+import { advanceToFilingOpen } from "./gov-test-clock";
 
 const START = "2026-01-05";
 const seed =
@@ -68,6 +70,7 @@ describe("M2-08 parties", () => {
         minimumPeople: 300,
       }),
     );
+    openLaws(core);
     openOffices(core, seed);
     openElections(core);
     openCampaigns(core);
@@ -139,6 +142,9 @@ describe("M2-08 parties", () => {
       )
       .sort((a, b) => b.liquidMinor - a.liquidMinor);
     let primaryContest: string | null = null;
+    // Every race opens its filing on its own real day: move to the first day
+    // one is open in this place (gov-test-clock), as a player would wait.
+    advanceToFilingOpen(core);
     for (const contest of openContests(api).filter(
       (c) => c.primaryDate && c.primaryDate > START,
     )) {

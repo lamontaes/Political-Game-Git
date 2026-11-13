@@ -17,6 +17,8 @@ import { townSeats } from "../core2/modules/offices";
 import { fileCandidacy, openContests } from "../core2/modules/elections";
 import { campaignFor, giftOf } from "../core2/modules/campaigns";
 import { campaignDay, campaignView } from "./campaign";
+import { advanceToFilingOpen } from "../core2/gov-test-clock";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
@@ -25,6 +27,8 @@ const runSeed =
 // has a donor who gives and one has a donor who does not.
 const PLACES = 5;
 const MAX_PLACES = 25;
+/** How long the test waits in a place for a town or county race to open. */
+const WAIT_DAYS = 120;
 
 it("Call donors names each person reached with their gift or why not, and the raised total moves by the sum", () => {
   let gifts = 0;
@@ -53,6 +57,20 @@ it("Call donors names each person reached with their gift or why not, and the ra
       .sort(
         (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
       );
+    // Every race opens its filing on its own real day: move to the first day
+    // a town or county race is open in this place, as a player would wait,
+    // up to WAIT_DAYS; a place whose first opens later is passed over by name.
+    const local = (c: { level: string }) =>
+      c.level !== "federal" && c.level !== "state";
+    advanceToFilingOpen(core as CoreState, {
+      wanted: local,
+      by: addDays(makeIsoDate(core.date), WAIT_DAYS),
+    });
+    if (!openContests(api).some(local)) {
+      placesTried[placesTried.length - 1] +=
+        ` (no town or county race opens within ${WAIT_DAYS} days)`;
+      continue;
+    }
     let tried = 0;
     for (const candidate of adults.slice(0, 80)) {
       if (tried >= 12 || (gifts > 0 && refusals > 0)) break;
