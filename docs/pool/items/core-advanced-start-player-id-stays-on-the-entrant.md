@@ -34,3 +34,5 @@ source: Playtester P2, Nov 13 (Altoona, Kansas, seed 9d1602a6-7186-4503-bda6-d51
 **Files.** src/bench/player.ts, src/core2/modules/meetings.ts, src/core2/modules/campaigns.ts, src/core2/modules/corruption.ts, src/core2/life.ts
 
 **Notes.** It may also explain other Advanced-start reports from Nov 13: a council member's Journal saying "Matthew walked 45 doors for me" (Fruitland, Idaho), and colleagues acting toward the officeholder as if they had campaigned.
+
+Seen again by Playtester P2, Nov 13, 2026 (El Rancho, Wyoming, seed c1df9e06-0f86-4169-9951-cf0621d4d2c2, main 596d5127, Advanced start as a Platte County commissioner): the player never chose a town hall, yet the News on July 24, 2025 ran "Alicia Stanley holds a town hall / 37 people came to Alicia Stanley's town hall on July 7, 2025." The world's town-hall pass in `src/core2/modules/meetings.ts` (the loop over hosts) skips only `hostId === playerId`, so the stepped-in officeholder is decided for like anyone else.
