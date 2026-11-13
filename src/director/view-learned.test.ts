@@ -32,6 +32,7 @@ import {
   openConversation,
   say,
   subjectsBetween,
+  takesStands,
 } from "./conversation";
 import { expectUpToFourDifferent } from "./reply-set-check";
 import { kinAddress } from "../english/journal-words";
@@ -405,6 +406,13 @@ function ownViewIn(drawSeed: string, skipped: string[]): boolean {
   let checked = 0;
   const passed: string[] = [];
   for (const { id } of ranked) {
+    // Someone who takes no stand (under the youngest age the rules name, or
+    // under the voting age without following politics closely; lead, Nov
+    // 12) never says where they stand: passed over, and named.
+    if (!takesStands(core, id)) {
+      passed.push(`${id}: takes no stand`);
+      continue;
+    }
     // The room's look at whether there is anything to say teaches nothing.
     const knew = api.knows(me, viewKey(id));
     openConversation(core, me, id, { director, look: true });
