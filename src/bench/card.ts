@@ -1,4 +1,4 @@
-import { servingTermsOf } from "../core2/modules/offices";
+import { openPastTerms, servingTermsOf } from "../core2/modules/offices";
 import { officeInSentence, personWorkOf } from "../core2/person-work";
 import {
   ageInYears,
@@ -1354,6 +1354,8 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
       (row) => row.personId === id,
     )) as TermLike | undefined;
   if (!term?.identity) return null;
+  // Opened for the first time: their earlier terms of the seat are written now.
+  openPastTerms(api, term.id);
   const office = api
     .moduleState(OFFICES)
     .table("offices")

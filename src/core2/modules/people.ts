@@ -60,6 +60,11 @@ import type {
   Relationship,
 } from "../types";
 import { offer } from "./life";
+import { openPastTerms } from "./offices";
+import { coreAPI } from "../state";
+
+/** The id a seat's holder is made under: `official:` and their term's id (officials.ts seatOfficial). */
+const OFFICIAL_PREFIX = "official:";
 import { departureRateFor, livesElsewhere, withinCountyRateFor } from "./moves";
 import { pairKey } from "../kernel/ids";
 import { bookkeeping } from "../bookkeeping";
@@ -591,6 +596,11 @@ export function partneredForFilledIn(
  * records decide, nothing else).
  */
 export function openWholePast(core: CoreState, personId: PersonId): void {
+  // An official from another place: the earlier terms of their seat, kept on
+  // the offices record by the term their id names (officials.ts seatOfficial),
+  // whether or not they are a full person yet.
+  if (personId.startsWith(OFFICIAL_PREFIX))
+    openPastTerms(coreAPI(core), personId.slice(OFFICIAL_PREFIX.length));
   const person = core.people.get(personId);
   if (!person || !preStartWindowOf(core)) return;
   // A relative living elsewhere is opened the same way, one card at a time;
