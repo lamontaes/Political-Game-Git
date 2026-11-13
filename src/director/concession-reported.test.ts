@@ -141,6 +141,13 @@ const run = (
       done: false,
       note: `${where}: ${contest.id} has ${onBallot} on the ballot on the eve (the filers fell short of signatures)`,
     };
+  // Everyone else running is followed too, as victory-night does: whoever
+  // misses the cut, a resident who filed on their own among them, gets the
+  // call.
+  for (const row of ballot(api, contest.id)) {
+    director.watch(core, row.personId as PersonId);
+    core.focusPersonIds.add(row.personId as PersonId);
+  }
   // The call is played the night the count comes in, as in play.
   advanceCore(core, makeIsoDate(contest.electionDate));
   for (let day = 0; day < 3 && !resultOf(api, contest.id); day += 1)
@@ -166,8 +173,8 @@ const run = (
   const loser = Object.entries(totals)
     .filter(([id]) => outIds.includes(id) && core.people.has(id))
     .sort((x, y) => y[1] - x[1])[0]?.[0] as PersonId | undefined;
-  if (!loser || !filings.some((f) => f.personId === loser))
-    return { done: false, note: `${where}: the runner-up is not a filer here` };
+  if (!loser)
+    return { done: false, note: `${where}: no runner-up is a full person` };
   const here = `${where}: ${loser}`;
   const entry = director.ledger.people
     .get(loser)
