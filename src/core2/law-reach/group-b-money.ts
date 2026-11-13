@@ -57,6 +57,7 @@ import {
   registerLinePayments,
 } from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
+import expansionMatch from "../data/laws/medicaid-expansion-match.json" with { type: "json" };
 
 export const source = (api: CoreAPI, citation: string): Source => ({
   tag: "SOURCED",
@@ -875,10 +876,17 @@ export function payMedicaidCare(
   if (!state) return { paidBySeller, journalIds };
   const federal = governmentAt(api, "federal");
   const match = lawInForce(api, "medicaid-match");
+  // The expansion population's federal share is the statute's own, higher than
+  // the regular match (42 U.S.C. 1396d(y)(1)), for the 50 States and D.C.; a
+  // territory's capped financing keeps the regular match in force.
+  const usps = lawChain(api).stateKey.slice(3);
+  const expansionPercent = expansionMatch.territories.value.includes(usps)
+    ? (match.value ?? 0)
+    : expansionMatch.percent.value;
   const federalShare = federal
     ? Math.min(
         1,
-        Math.max(0, (match.value ?? 0) / reachParameter("percentPerWhole")),
+        Math.max(0, expansionPercent / reachParameter("percentPerWhole")),
       )
     : 0;
   const accounts = api.accounts();

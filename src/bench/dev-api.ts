@@ -134,6 +134,7 @@ export async function handleDev(
           ...(input.effectiveDate
             ? { effectiveDate: String(input.effectiveDate) }
             : {}),
+          ...(input.stateKey ? { stateKey: String(input.stateKey) } : {}),
         }),
       );
       return true;
