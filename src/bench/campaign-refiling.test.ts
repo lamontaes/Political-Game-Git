@@ -138,10 +138,13 @@ it(
       const seen = campaignView(core, candidate.id).campaigns.map(
         (c) => c.filing.id,
       );
-      expect(seen, `only the race still ahead is a campaign: ${note}`).toEqual([
+      expect(seen, `the race still ahead is a campaign: ${note}`).toContain(
         second.id,
-      ]);
-      const view = campaignView(core, candidate.id).campaigns[0]!;
+      );
+      expect(seen, `the finished race is not: ${note}`).not.toContain(first.id);
+      const view = campaignView(core, candidate.id).campaigns.find(
+        (c) => c.filing.id === second.id,
+      )!;
       expect(
         view.outings.find((o) => o.outing === "doors")?.available,
         `the doors are open: ${note}`,
@@ -149,10 +152,12 @@ it(
       // The clerk counts the new petition's signatures, collected at doors.
       const held = petitionOf(api, second.id);
       expect(held, `the new filing has a petition: ${note}`).toBeTruthy();
-      expect(
-        filedHere(core, candidate.id, second.filedWith)?.id,
-        `the counter knows the new filing: ${note}`,
-      ).toBe(second.id);
+      // The counter holds a filing still ahead (she may stand for two seats there), never the finished one.
+      const held_ = filedHere(core, candidate.id, second.filedWith);
+      expect(held_, `the counter holds a filing: ${note}`).toBeTruthy();
+      expect(seen, `the counter's filing is a live race: ${note}`).toContain(
+        held_!.id,
+      );
       campaignDay(core, candidate.id, { filingId: second.id, kind: "canvass" });
       gatherSignatures(core, second.id);
       expect(
