@@ -36,7 +36,12 @@ import {
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { takeCampaignDayChoice } from "../core2/campaign-day";
 import { campaignAct, campaignDay, campaignView } from "./campaign";
-import { FOLDED_AT_POST, findRecord, traceNode } from "./dev-trace";
+import {
+  FOLDED_AT_POST,
+  ID_PARTS_ENGINE,
+  findRecord,
+  traceNode,
+} from "./dev-trace";
 import controls from "./data/controls.json" with { type: "json" };
 
 const START = "2026-01-05";
@@ -168,7 +173,13 @@ it("mail spends what the player set on mailers and reaches the households it buy
     (r) => r.sourceRef.id === gifts[0]!.id,
   );
   expect(receipt, `the player's receipt is kept: ${where}`).toBeDefined();
-  expect(findRecord(core, gifts[0]!.id), where).toBeUndefined();
+  // No store keeps the gift's money record: dev mode answers its id only
+  // from the records the id names (the filing and the giver), as it answers
+  // any id no store keeps (dev-trace.ts `id-parts`, since #8108).
+  expect(
+    findRecord(core, gifts[0]!.id)?.engine,
+    `the gift's money record is kept nowhere: ${where}`,
+  ).toBe(ID_PARTS_ENGINE);
   const folded = traceNode(core, undefined, receipt!.id).children.find(
     (c) => c.id === gifts[0]!.id,
   );
