@@ -6,7 +6,7 @@ import {
 } from "./reference/government-units";
 import { createStableId } from "./kernel/ids";
 import { corePlaceByKey } from "./place-lookup";
-import { governmentUnitRecordedName } from "./gov-rules/government-unit-names";
+import { governmentProperName } from "./government-proper-name";
 import {
   DEFAULT_OPENING_PUBLIC_OWNER_DATA,
   openingHistoricalCountyOwnerFacts,
@@ -38,7 +38,7 @@ function projectionInput(date = at): OpeningCountyOwnerProjectionInput {
     ),
     organizationStableKey,
     worldId,
-    name: governmentUnitRecordedName(unit),
+    name: governmentProperName(unit.name, unit.id),
     classification: "service:county-government",
     placeId: governmentUnitJurisdictionId(unit),
     startedAt: date,
@@ -238,7 +238,7 @@ describe("actual observed county identity projected once at opening", () => {
         "organization",
         `${base.worldId}:${organizationStableKey}`,
       ),
-      name: governmentUnitRecordedName(unit),
+      name: governmentProperName(unit.name, unit.id),
       placeId: governmentUnitJurisdictionId(unit),
     });
     expect(result.governmentFacts).toBeUndefined();

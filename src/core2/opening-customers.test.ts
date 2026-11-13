@@ -6,7 +6,7 @@ import {
   governmentUnitJurisdictionId,
 } from "./reference/government-units";
 import { createStableId } from "./kernel/ids";
-import { governmentUnitRecordedName } from "./gov-rules/government-unit-names";
+import { governmentProperName } from "./government-proper-name";
 import { openingHistoricalCountyOwnerFacts } from "./opening-public-owner";
 import type { FinanceContractInput } from "./finance-types";
 import {
@@ -1049,7 +1049,7 @@ function historicalCountyCustomerFixture() {
     organizationId: countyId,
     organizationStableKey: stableKey,
     worldId,
-    name: governmentUnitRecordedName(unit),
+    name: governmentProperName(unit.name, unit.id),
     classification: "service:county-government",
     placeId: countyPlaceId,
     startedAt: original.startedAt,
@@ -1060,7 +1060,7 @@ function historicalCountyCustomerFixture() {
   const county: OrganizationInput = {
     ...office,
     id: countyId,
-    name: governmentUnitRecordedName(unit),
+    name: governmentProperName(unit.name, unit.id),
     classification: "service:county-government",
     placeId: countyPlaceId,
     governmentFacts: owner.governmentFacts,

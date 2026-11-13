@@ -703,7 +703,9 @@ export function employerSaid(name: string, record: EmployerRecord): string {
     !!record.governmentFacts?.governmentKind ||
     !!record.governmentFacts?.governmentKey;
   const schools = record.classification === "service:school";
-  return government && !business && !schools && !/^the\s/i.test(name)
+  // A county is said by its own name, with no "the" ("McDowell County").
+  const county = /\s(?:County|Parish|Borough)$/.test(name);
+  return government && !business && !schools && !county && !/^the\s/i.test(name)
     ? `the ${name}`
     : name;
 }

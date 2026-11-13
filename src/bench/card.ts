@@ -147,8 +147,24 @@ export function personCard(core: CoreState, personId: string) {
     },
     job: job && {
       jobId: job.id,
-      title: job.title,
-      employer: employer?.name,
+      // The market's stand-in for work out of town is no employer and no
+      // place (Fable A, Nov 13, rule 20): the job is said as work outside the
+      // town the person lives in, the way their card's summary says it.
+      ...(employer?.outsideFlow
+        ? {
+            title:
+              screenLine(
+                "person-history",
+                "person-history.summary.work.outside",
+                {
+                  place:
+                    corePlaceByJurisdictionId(person.placeId as never)
+                      ?.displayName ?? "",
+                },
+              )?.replace(/\.$/, "") ?? job.title,
+            employer: undefined,
+          }
+        : { title: job.title, employer: employer?.name }),
       wageDailyMinor: job.wageDailyMinor,
       hoursDaily: job.hoursDaily,
     },

@@ -188,10 +188,13 @@ export function composeScene(
     : (opener?.personIds.find((id) => id !== personId) ??
       moment.counterpartIds.find((id) => binding.presentIds.includes(id)));
   const meeting = talkToId ? core.people.get(talkToId) : undefined;
-  const settingOrg =
+  // The market's stand-in for work out of town is no place to be found at
+  // (Fable A, Nov 13, rule 20): the scene says "at work" without it.
+  const settingRow =
     kind === "workplace" || kind === "office" || kind === "school"
       ? core.organizations.get(binding.setting.recordId)
       : undefined;
+  const settingOrg = settingRow?.outsideFlow ? undefined : settingRow;
   const arrival = render(
     { part: "arrival", kind },
     () => {

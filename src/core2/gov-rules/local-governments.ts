@@ -5,6 +5,7 @@
  * county government is said to have none. Ported from the old engine's
  * `nationwide-world/local-governments.ts`; the world writers stay behind.
  */
+import { governmentProperName } from "../government-proper-name";
 import { placeCountyGeoids } from "../place-map";
 import {
   consolidatedMunicipalityForCounty,
@@ -23,7 +24,6 @@ import {
 import type { EntityId, IsoDate } from "../kernel/brands";
 import {
   countyEquivalentTerm,
-  governmentUnitRecordedName,
   type CountyEquivalentTerm,
 } from "./government-unit-names";
 import {
@@ -302,8 +302,9 @@ export function localGovernmentOrganization(
           kind: "authored",
           note: `Placed from ${GOVERNMENT_UNITS_META.artifactId} ${unit.id}, which speaks as of ${asOf}, after this world's ${onDate}; not backdated.`,
         },
-    // The recorded name, unchanged since worlds were first built with it.
-    name: governmentUnitRecordedName(unit),
+    // The government by its place record's proper name ("McDowell County",
+    // "City of McCall"), never the listing's capitals recased (Fable A, Nov 13).
+    name: governmentProperName(unit.name, unit.id),
     classification:
       unit.unitType === "county"
         ? "service:county-government"
