@@ -59,7 +59,8 @@
     "amount": "About how much a month a bill moved, from the price engine's record.",
     "effects": "What laws did to the person's bills, joined from their records.",
     "lean": "Which way a view moved (\"more liberal\"), from the views engine's record of what moved it.",
-    "year": "A year, from the record."
+    "year": "A year, from the record.",
+    "their": "A person's possessive pronoun (\"his\", \"her\", \"their\"), from their recorded gender."
   },
   "maxWords": 10,
   "mining": {
