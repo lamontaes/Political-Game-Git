@@ -4194,6 +4194,9 @@ const sheets = {
       newsBoard({
         outlets: ordered,
         chosenKey: newsTab,
+        followsAny: (
+          await api(`/api/news/follows?id=${encodeURIComponent(me.id)}`)
+        ).any,
         onChoose: (key) => {
           newsTab = key;
         },

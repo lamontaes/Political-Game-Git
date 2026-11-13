@@ -22,7 +22,7 @@ import {
 import { townFacts } from "../core2/modules/laws";
 import type { EntityId } from "../core2/kernel/brands";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
-import { PAST_MODULE_ID } from "../core2/past-module";
+import { PAST_MODULE_ID, residenceOn } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState, PersonId } from "../core2/types";
 import {
@@ -353,6 +353,65 @@ function historyLines(
 }
 
 /**
+ * Who a past partner is to the reader, when the record names them as the
+ * other parent of the person's children: "your father" to one of those
+ * children, "my children's father" on the player's own card, "his
+ * children's mother" to anyone else ("daughter's" or "son's" for one child).
+ * Empty
+ * when the record names no other parent.
+ */
+function parentSaid(
+  core: CoreState,
+  viewerId: string,
+  person: {
+    readonly id: string;
+    readonly looks?: Readonly<Record<string, string>>;
+  },
+  partnerId: unknown,
+): string {
+  if (typeof partnerId !== "string" || !partnerId) return "";
+  const partner =
+    core.people.get(partnerId as PersonId) ??
+    core.husks.get(partnerId as PersonId);
+  const gender = partner?.looks?.gender;
+  const role =
+    gender === "male" ? "father" : gender === "female" ? "mother" : "parent";
+  const children = [...core.people.values()].filter(
+    (child) =>
+      (child.pastFacts ?? []).some(
+        (fact) =>
+          ["family:parent", "family:other-parent"].includes(fact.kind) &&
+          fact.facts?.otherPersonId === partnerId,
+      ) &&
+      (child.pastFacts ?? []).some(
+        (fact) =>
+          ["family:parent", "family:other-parent"].includes(fact.kind) &&
+          fact.facts?.otherPersonId === person.id,
+      ),
+  );
+  if (children.some((child) => child.id === viewerId)) return `your ${role}`;
+  const only = children.length === 1 ? children[0]! : undefined;
+  const sex = only?.looks?.gender;
+  const whose = only
+    ? sex === "female"
+      ? "daughter's"
+      : sex === "male"
+        ? "son's"
+        : "child's"
+    : "children's";
+  // Their own children: "my" on the player's card, else his, her or their.
+  const own =
+    person.id === viewerId
+      ? "my"
+      : person.looks?.gender === "male"
+        ? "his"
+        : person.looks?.gender === "female"
+          ? "her"
+          : "their";
+  return `${own} ${whose} ${role}`;
+}
+
+/**
  * One life event as a line of the story: the bank's key for its kind and the
  * slots its record can fill. Null for an event the story does not tell (one
  * the bank has no piece for, or whose names its record cannot give).
@@ -421,10 +480,26 @@ function lineOf(
     }
     case "partner/engaged":
     case "partner/married":
-    case "partner/separated":
-      return partnerName
-        ? make(`partner.${event.what}`, { name: partnerName })
-        : null;
+    case "partner/separated": {
+      // An earlier partner before the start is a name on the record, never a
+      // person in the world until met.
+      const name = partnerName || String(facts.partnerName ?? "");
+      if (!name) return null;
+      // Widowed only where the record says they were married; a partner who
+      // died otherwise is lost (Fable A, Nov 13).
+      const what =
+        facts.ended === "widowed"
+          ? facts.union === "married"
+            ? "widowed"
+            : "died"
+          : event.what;
+      // The children's other parent is said as who they are to the reader.
+      const parent = parentSaid(core, viewerId, other, facts.partnerId);
+      return make(
+        parent ? `partner.${what}.parent` : `partner.${what}`,
+        parent ? { name, parent } : { name },
+      );
+    }
     case "child/born": {
       const childId = facts.childId ?? partner;
       const name = personName(childId);
@@ -597,8 +672,18 @@ function lineOf(
     }
     case "health/serious-illness":
       return make("health.ill", {});
-    case "law/victim":
+    case "health/hospital-stay":
+      return make("health.hospital", {});
+    // An arrest before play is said as the arrest it is: the record holds no
+    // charge (Fable A, Nov 13: "say what the record holds").
+    case "law/arrested":
+      return make("law.arrested", {});
+    // The justice engine's accusation names its offense on the record.
     case "law/accused":
+      return typeof facts.offense === "string"
+        ? make("law.accused", { offense: facts.offense })
+        : null;
+    case "law/victim":
     case "law/charged":
     case "law/convicted":
     case "law/imprisoned":
@@ -1546,14 +1631,30 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const homePlace = knowsHome
     ? (corePlaceByJurisdictionId(other.placeId as never)?.displayName ?? null)
     : null;
+  // Born where they lived the day they were born: someone the moves pass
+  // brought to the county was born where they came from, as the run's birth
+  // record says, never in the town they later moved to (Fable A, Nov 13:
+  // "born in Angoon" and then "moved to Angoon"). The opening's birthplace
+  // fact is the town they live in now (SG-HIST-birthplace-is-home).
   const birthplace = (other.pastFacts ?? []).find(
     (row) => row.kind === "birthplace",
   );
-  const bornIn =
-    typeof birthplace?.facts?.placeId === "string"
-      ? (corePlaceByJurisdictionId(birthplace.facts.placeId as never)
-          ?.displayName ?? null)
-      : null;
+  const bornAt = residenceOn(core, other, other.birthDate).placeId;
+  const bornId =
+    bornAt !== other.placeId
+      ? bornAt
+      : typeof birthplace?.facts?.placeId === "string"
+        ? birthplace.facts.placeId
+        : null;
+  // A place by its name; a place the world keeps only at its state's level, by the state's.
+  const bornState = bornId ? coreStateKeyOfJurisdictionId(bornId) : null;
+  const bornStateName = bornState
+    ? coreStateName(bornState.replace(/^US-/, ""))
+    : null;
+  const bornIn = bornId
+    ? (corePlaceByJurisdictionId(bornId as never)?.displayName ??
+      (bornStateName ? stateInSentence(bornStateName) : null))
+    : null;
   const run = officeRunOf(lines, servingOffices(core, otherId)[0]);
   // The office a President held before, from their record.
   const prior = (other.pastFacts ?? []).find(

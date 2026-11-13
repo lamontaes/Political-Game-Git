@@ -24,7 +24,7 @@
     "src/core2/data/elections/contingent-election.json": 3,
     "src/core2/data/elections/federal-qualifications.json": 2,
     "src/core2/data/elections/filing-fallbacks.json": 5,
-    "src/core2/data/elections/parameters.json": 10,
+    "src/core2/data/elections/parameters.json": 9,
     "src/core2/data/electorate/parameters.json": 16,
     "src/core2/data/executive/emergency.json": 2,
     "src/core2/data/health/medical-bills.json": 8,

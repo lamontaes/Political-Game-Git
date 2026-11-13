@@ -224,6 +224,17 @@ export function homePapers(
     });
 }
 
+/**
+ * Whether the player follows any outlet at all, local, state or national (the
+ * press engine's followersOf), so an empty News page can say they follow none.
+ */
+export function followsAnyOutlet(core: CoreState, personId: string): boolean {
+  const api = coreAPI(core);
+  return outletsHere(api).some((row) =>
+    followersOf(api, row.id).includes(personId),
+  );
+}
+
 type StoryFact = { text: string; sourceRecordIds: EntityId[] };
 
 /** One story worded by the English engine from its record's facts. */

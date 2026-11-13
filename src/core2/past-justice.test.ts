@@ -118,7 +118,7 @@ it(`a past can hold an arrest, a conviction and a prison term, in ${where}`, () 
     const card = JSON.stringify(
       knownCard(core, core.playerId!, person.id).history,
     );
-    if (card.includes("accused of a crime")) toldOnCard += 1;
+    if (/\barrested in \d{4}\b/.test(card)) toldOnCard += 1;
   }
   const n = adults.length;
   const expected = {
