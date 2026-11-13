@@ -20,7 +20,7 @@ clerk: Good for you. Another one for the selectboard. There's no primary for thi
   [say:2] Did Anthony Parsons say anything about me?
   [leave] I'll sleep on it, Mila.
 player: Who else is running in Shelburne?
-clerk: Hang on. Two other candidates filed before you. Anthony Parsons was first. It's all public.
+clerk: Hang on. So far it's two candidates. Anthony Parsons was first. It's all public.
   [file] I'm in. Give me the papers for the selectboard.
   [leave] I need a few days before I file with the town clerk.
 player: I'm in. Give me the papers for the selectboard.

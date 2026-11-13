@@ -117,7 +117,8 @@
     "crew": "How many people work at the employer now, full people and counted workers alike: 12.",
     "replaced": "The full name of the person whose job an opening fills.",
     "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record.",
-    "filed-at-counter": "That the player filed at the counter, in the clerk's scene there: the record of the reply that filed."
+    "filed-at-counter": "That the player filed at the counter, in the clerk's scene there: the record of the reply that filed.",
+    "filed-so-far": "How many have filed for the office so far, said before the player files (\"two candidates\"), from the elections engine's filings."
   },
   "maxWords": 70,
   "parts": [
@@ -199185,7 +199186,7 @@
       "key": "scene-talk.follow-answer.filed-filed-before-you-opponent-was-first",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{filed} filed before you. {opponent} was first.",
+      "text": "So far it's {filed-so-far}. {opponent} was first.",
       "uses": [
         {
           "subject": "scene",
@@ -199195,12 +199196,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -199215,7 +199216,7 @@
       "key": "scene-talk.follow-answer.so-far-it-s-filed-and-opponent-was-the-first-one-in",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "so far it's {filed}, and {opponent} was the first one in.",
+      "text": "so far it's {filed-so-far}, and {opponent} was the first one in.",
       "uses": [
         {
           "subject": "scene",
@@ -199225,12 +199226,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -199245,7 +199246,7 @@
       "key": "scene-talk.follow-answer.opponent-filed-first-and-there-s-filed-on-the-list-so-far",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{opponent} filed first, and there's {filed} on the list so far.",
+      "text": "{opponent} filed first, and there's {filed-so-far} on the list so far.",
       "uses": [
         {
           "subject": "scene",
@@ -199255,12 +199256,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -199275,7 +199276,7 @@
       "key": "scene-talk.follow-answer.i-ve-had-filed-in-already-starting-with-opponent",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I've had {filed} in already, starting with {opponent}.",
+      "text": "I've had {filed-so-far} in already, starting with {opponent}.",
       "uses": [
         {
           "subject": "scene",
@@ -199285,12 +199286,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -199305,7 +199306,7 @@
       "key": "scene-talk.follow-answer.there-s-filed-already-opponent-beat-everybody-to-it",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "there's {filed} already. {opponent} beat everybody to it.",
+      "text": "there's {filed-so-far} already. {opponent} beat everybody to it.",
       "uses": [
         {
           "subject": "scene",
@@ -199315,12 +199316,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -199335,7 +199336,7 @@
       "key": "scene-talk.follow-answer.you-won-t-have-it-to-yourself-opponent-filed-and-that-makes-filed-so-far",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "you won't have it to yourself. {opponent} filed, and that makes {filed} so far.",
+      "text": "you won't have it to yourself. {opponent} filed, and that makes {filed-so-far} so far.",
       "uses": [
         {
           "subject": "scene",
@@ -199345,12 +199346,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -199365,7 +199366,7 @@
       "key": "scene-talk.follow-answer.the-list-has-filed-on-it-opponent-at-the-top",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "the list has {filed} on it, {opponent} at the top.",
+      "text": "the list has {filed-so-far} on it, {opponent} at the top.",
       "uses": [
         {
           "subject": "scene",
@@ -199375,12 +199376,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -199395,7 +199396,7 @@
       "key": "scene-talk.follow-answer.opponent-has-already-filed-that-s-filed-ahead-of-you",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{opponent} has already filed. That's {filed} ahead of you.",
+      "text": "{opponent} has already filed. That's {filed-so-far} on the list.",
       "uses": [
         {
           "subject": "scene",
@@ -199405,12 +199406,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"

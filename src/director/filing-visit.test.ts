@@ -190,7 +190,9 @@ describe("the filing visit", () => {
     sayAtCounter(core, visit, ask.key);
     const filed = visit.lines.at(-1)!;
     expect(filed.speaker).toBe("clerk");
-    expect(filed.text).toMatch(/two other candidates/i);
+    // Before the player files: "two candidates", never "before you" (rule 1).
+    expect(filed.text).toMatch(/two candidates/i);
+    expect(filed.text).not.toMatch(/before you|other candidates/);
     expect(filed.text).toContain("Dana Whitfield");
     expect(filed.sourceRecordIds).toContain("filing:dana");
     // After the answer, the scene offers filing or leaving.

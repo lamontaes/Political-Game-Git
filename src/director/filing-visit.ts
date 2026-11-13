@@ -29,7 +29,7 @@ import {
   type SceneTalkStep,
 } from "../english/scene-talk-words";
 import { dayOpening } from "../english/day-words";
-import { filedSaid } from "../english/count-words";
+import { filedSaid, filedSoFarSaid } from "../english/count-words";
 import { seatSaid, type SeatRecord } from "../english/journal-words";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 
@@ -590,6 +590,11 @@ function raceFacts(
   if (filed && filed.count > zero) {
     facts.filed = {
       text: filedSaid(filed.count),
+      sourceRecordIds: [contest.id, ...filed.recordIds],
+    };
+    // Before the player files, the count is said without "other".
+    facts["filed-so-far"] = {
+      text: filedSoFarSaid(filed.count),
       sourceRecordIds: [contest.id, ...filed.recordIds],
     };
     if (filed.first)
