@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: opus-lr
 pr: #8945
@@ -17,6 +17,7 @@ effort: high
 root: design-life-record
 source: gap sheet, Nov 12, 2026 (Fable A), filed by the Life records builder opus-lr
 checked: opus-lr 2026-11-12
+merged-at: 2026-11-13T01:42:02.025Z
 ---
 
 **What.** The owner, Nov 8: "None of my history is simulated." A past never holds an arrest or a charge, though a real share of adults have one (gap sheet, Nov 12, row 4). The justice engine already writes these records in play. Seen: a person's card and the Journal, which tell the charge with a year.
