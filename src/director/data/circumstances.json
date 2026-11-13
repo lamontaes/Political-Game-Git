@@ -175,6 +175,7 @@
     },
     {
       "id": "new-housemate",
+      "childMayTell": true,
       "receive": {
         "age": "any",
         "counterpart": "any",
@@ -341,6 +342,7 @@
     },
     {
       "id": "moved-away-farewell",
+      "childMayTell": true,
       "receive": {
         "age": "any",
         "counterpart": "apart",
@@ -397,6 +399,7 @@
     },
     {
       "id": "school-last-day",
+      "childMayTell": true,
       "receive": {
         "age": "any",
         "counterpart": "apart",
@@ -416,6 +419,7 @@
     },
     {
       "id": "graduation-home",
+      "childMayTell": true,
       "receive": {
         "age": "any",
         "counterpart": "any",
@@ -438,6 +442,7 @@
     },
     {
       "id": "no-graduation-home",
+      "childMayTell": true,
       "receive": {
         "age": "any",
         "counterpart": "any",
