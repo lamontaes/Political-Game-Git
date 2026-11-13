@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-piesiq
-pr:
+pr: 9055
 after:
 blocked-on:
 lead: governing
