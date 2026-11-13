@@ -1,5 +1,5 @@
 ---
-id: gov-seated-governor-appointment-job-ends
+id: gov-replaced-post-holder-job-ends-next-day
 impact: none
 ---
 
