@@ -37,3 +37,5 @@ claimed-at:
 **Files.** src/bench/scene.ts, src/bench/places.ts, src/bench/home-and-work-agree.test.ts (new)
 
 **Notes.** Found by the lead, Nov 11, 09:40 UTC, while fixing the visit that did not last (a talk at a place put the player back at home). Until that fix the kitchen was shown over the workplace's clock, which is how the same parent was seen in both. Related: words-home-day-talk-reads-the-hour-and-whose-day-it-was (the talk that same parent then has).
+
+Seen again Nov 13 by Playtester P2 on main 596d5127, from the Travel side: Merchantville, New Jersey (seed 424b1910-330c-43ac-8e2d-5cc7275f1267), Council member Christopher Shaw, Tuesday, January 21, 2025. Travel → Parker's Market said "Who's there: Rebekah Shaw, Haris Wall" (Rebekah is his partner, a sales associate there). On arriving at 8:17 AM the strip named nobody. Travel's "Who's there" and the room it opens disagree the same way the kitchen and the workplace do, so the one reader the Fix names should serve Travel's list too.
