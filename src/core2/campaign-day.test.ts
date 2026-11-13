@@ -326,6 +326,70 @@ describe("a campaign day", () => {
     expect(rest.causeIds.length + rest.giftIds.length, where).toBe(0);
   });
 
+  it("never calls a rival in the same race for money, and a rival's list never reaches the player", () => {
+    const { core, api, filing, where } = setup({ local: true });
+    expect(
+      filing,
+      `the player could file for nothing: ${where}`,
+    ).not.toBeNull();
+    const id = filing!.id;
+    const playerId = filing!.personId;
+    // Up to two other residents file in the same contest (every seat on the
+    // ballot), each someone the player knows, so the list reaches them.
+    const rivals: FilingRow[] = [];
+    for (const p of [...core.people.values()]
+      .filter(
+        (q) =>
+          q.alive &&
+          q.id !== playerId &&
+          q.tier !== "husk" &&
+          Number(START.slice(0, 4)) - Number(q.birthDate.slice(0, 4)) >= 35,
+      )
+      .sort((a, b) => a.id.localeCompare(b.id))
+      .slice(0, 80)) {
+      const filed = fileCandidacy(api, {
+        personId: p.id,
+        contestId: filing!.contestId,
+        platform: [],
+      });
+      if (filed.status !== "refused") rivals.push(filed.filing);
+      if (rivals.length === 2) break;
+    }
+    expect(
+      rivals.length,
+      `nobody else could file in the race: ${where}`,
+    ).toBeGreaterThan(0);
+    const rivalIds = rivals.map((f) => f.personId);
+    for (const r of rivalIds) core.people.get(playerId)!.knownIds.add(r);
+    core.people.get(rivalIds[0]!)!.knownIds.add(playerId);
+    const list = reachablePeople(api, campaignFor(api, id));
+    for (const r of rivalIds)
+      expect(list, `a rival is on the player's list: ${where}`).not.toContain(
+        r,
+      );
+    expect(
+      reachablePeople(api, campaignFor(api, rivals[0]!.id)),
+      `the player is on a rival's list: ${where}`,
+    ).not.toContain(playerId);
+    let asked = 0;
+    for (let session = 0; session < 8; session += 1) {
+      const ask = campaignDayChoices(api, id).find(
+        (c) => c.kind === "raise-money",
+      )!;
+      if (!ask.available) break;
+      const got = takeCampaignDayChoice(api, id, "raise-money");
+      asked += got.asked ?? 0;
+      for (const r of rivalIds) {
+        expect(
+          got.answers?.map((a) => a.personId) ?? [],
+          `the player's own opponent was asked for money: ${where}`,
+        ).not.toContain(r);
+        expect(giftOf(api, id, r)?.totalMinor ?? 0, where).toBe(0);
+      }
+    }
+    expect(asked, `someone else was asked: ${where}`).toBeGreaterThan(0);
+  });
+
   it("goes round again once every door in town is knocked, and every knock counts", () => {
     const { api, filing, where } = setup();
     expect(

@@ -4142,7 +4142,8 @@ function postMoney(
  * Everyone a campaign can reach without canvassing a stranger, through the
  * records that link them: the candidate's family, the people they know and
  * have a relationship with, the members of their party in town, the people
- * the campaign has already reached, and its volunteers. In id order.
+ * the campaign has already reached, and its volunteers, never a rival on the
+ * same ballot. In id order.
  */
 export function reachablePeople(
   api: CoreAPI,
@@ -4168,6 +4169,9 @@ export function reachablePeople(
   ]) as unknown as ImpressionRow[])
     if (row.heardOf) ids.add(row.voterId);
   ids.delete(campaign.candidateId);
+  // Someone standing in the same race campaigns for themselves (`rivalFiling`),
+  // so no campaign's list reaches them: not to ask for money, nor to enlist.
+  for (const f of ballot(api, campaign.contestId)) ids.delete(f.personId);
   return [...ids].sort();
 }
 
