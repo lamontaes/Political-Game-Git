@@ -171,27 +171,36 @@ function helpRows(core: CoreState, placeId: string) {
 }
 
 /** The town's own government's books: what came in and what went out, this year's budget beside the year before. */
-function budgetRows(core: CoreState, personId: string): Row[] {
+function budgetRows(
+  core: CoreState,
+  personId: string,
+): { key: string; rows: Row[] } {
   const view = budgetView(core, personId);
   const town = ["city", "county"]
     .map((level) => view.governments.find((g) => g.level === level && g.latest))
     .find(Boolean);
-  if (!town?.latest) return [];
+  // Whose books they are, from the government's kind (Fable A, Nov 13, rule
+  // 24): the county's where the place has no town government of its own.
+  const key = town?.level === "county" ? "budgetCounty" : "budget";
+  if (!town?.latest) return { key, rows: [] };
   const prior = town.prior;
-  return [
-    {
-      key: "revenue",
-      unit: "money",
-      now: town.latest.revenueMinor,
-      before: prior ? prior.revenueMinor : null,
-    },
-    {
-      key: "spending",
-      unit: "money",
-      now: town.latest.spendingMinor,
-      before: prior ? prior.spendingMinor : null,
-    },
-  ];
+  return {
+    key,
+    rows: [
+      {
+        key: "revenue",
+        unit: "money",
+        now: town.latest.revenueMinor,
+        before: prior ? prior.revenueMinor : null,
+      },
+      {
+        key: "spending",
+        unit: "money",
+        now: town.latest.spendingMinor,
+        before: prior ? prior.spendingMinor : null,
+      },
+    ],
+  };
 }
 
 export function metricsView(
@@ -243,7 +252,7 @@ export function metricsView(
             { key: "housing", rows: housingRows(core, placeId) },
             { key: "evictions", rows: help.evictions },
             { key: "benefits", rows: help.benefits },
-            { key: "budget", rows: budgetRows(core, personId) },
+            budgetRows(core, personId),
           ].filter((section) => section.rows.length),
         ]
       : [],
