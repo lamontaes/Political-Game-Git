@@ -180564,7 +180564,7 @@
       "key": "scene-talk.reply-agree.vote-ask-4",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. I'm with you on {bill}.",
+      "text": "Alright. I'm with you on {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -180622,7 +180622,7 @@
       "key": "scene-talk.reply-relent.vote-ask-2",
       "move": "reply-relent",
       "kind": "spoken",
-      "text": "All right, you've got me on {bill}.",
+      "text": "Alright, you've got me on {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -181492,7 +181492,7 @@
       "key": "scene-talk.follow-accept.vote-ask-2",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I won't push you on {bill}.",
+      "text": "Alright. I won't push you on {bill}.",
       "uses": [
         {
           "subject": "scene",

@@ -112,11 +112,11 @@ add("reply", "agree", A, "core", "calm", [
     "You have my no on {bill}.",
 ], [NO])
 add("reply", "agree", A, "core", "calm", [
-    "All right. I'm with you on {bill}.",
+    "Alright. I'm with you on {bill}.",
 ])
 add("reply", "relent", A, "core", "calm", [
     "Fine. I'll be with you on {bill}.",
-    "All right, you've got me on {bill}.",
+    "Alright, you've got me on {bill}.",
 ])
 add("reply", "refuse", A, "core", "braced", [
     "I can't vote for {bill}.",
@@ -184,7 +184,7 @@ add("follow", "thank", R, "core", "calm", [
 ])
 add("follow", "accept", R, "core", "calm", [
     "Fair enough. I'll find the vote on {bill} somewhere else.",
-    "All right. I won't push you on {bill}.",
+    "Alright. I won't push you on {bill}.",
 ])
 add("follow", "press", R, "core", "braced", [
     "{bill} is one vote short. Yours.",
@@ -292,6 +292,11 @@ def main():
             for u in x["uses"]:
                 if fam(u):
                     u["requiresFacts"] = sorted(set(u.get("requiresFacts", []) + SIDED[x["text"]]))
+        # Where the ask's record names a bill, the ask is about it: a whole
+        # ask that does not say the bill is said only where none is named.
+        for u in x["uses"]:
+            if fam(u) and u["step"] == "state" and "{bill}" not in x["text"]:
+                u["excludesFacts"] = sorted(set(u.get("excludesFacts", []) + ["bill"]))
         mine = [u for u in x["uses"] if fam(u)]
         if not mine or not counted(x):
             kept.append(x)
