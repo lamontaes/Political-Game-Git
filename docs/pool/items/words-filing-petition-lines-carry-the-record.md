@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: Words builder W3
-pr: 9008
+pr: 9025
 after:
 blocked-on:
 lead: words
