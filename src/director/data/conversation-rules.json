@@ -70,6 +70,10 @@
       "kind": "eviction-where-reply",
       "stage": "default"
     },
+    "eviction-until": {
+      "kind": "eviction-until-reply",
+      "stage": "default"
+    },
     "job-new": {
       "kind": "job-new-reply",
       "stage": "default"
@@ -186,7 +190,8 @@
     },
     "eviction-reply": {
       "ask": "eviction-cause",
-      "where": "eviction-where"
+      "where": "eviction-where",
+      "until": "eviction-until"
     },
     "eviction-cause-reply": {
       "where": "eviction-where"
