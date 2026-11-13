@@ -40,12 +40,30 @@ export interface PersonWork {
   readonly offices: readonly PersonOffice[];
 }
 
-/** An office title read in running text: "council member", but "U.S. senator". */
+/**
+ * An office title read in running text: "council member", "U.S. senator".
+ * Each word is lower case, except one written in capitals ("U.S.", "DA").
+ */
 export const officeInSentence = (title: string): string =>
-  /^[A-Z][a-z]/.test(title) ? title.toLowerCase() : title;
+  title
+    .split(/(\s+)/)
+    .map((word) =>
+      /^[A-Z]{2,}[a-z]?$/.test(word.replace(/[^A-Za-z]/g, ""))
+        ? word
+        : word.toLowerCase(),
+    )
+    .join("");
 
-/** The job prefix a public seat's own job carries (`job:public:office:<seat id>:<person>`). */
-const SEAT_JOB = "job:public:office:";
+/**
+ * The job prefixes a seat's own job carries: a public seat's
+ * (`job:public:office:<seat id>:<person>`) and an elected official's
+ * (`job:office:<seat id>:<term>`, the President's, a senator's).
+ */
+const SEAT_JOBS = ["job:public:office:", "job:office:"] as const;
+const seatJobOf = (jobId: string, seatId?: string) =>
+  SEAT_JOBS.some((prefix) =>
+    jobId.startsWith(seatId ? `${prefix}${seatId}:` : prefix),
+  );
 
 export function personWorkOf(
   core: Readonly<CoreState>,
@@ -76,9 +94,7 @@ export function personWorkOf(
         | undefined;
       if (!office?.title) return [];
       const seatJob =
-        held && held.id.startsWith(`${SEAT_JOB}${term.seatId}:`)
-          ? held
-          : undefined;
+        held && seatJobOf(held.id, term.seatId) ? held : undefined;
       return [
         {
           termId: term.id,
@@ -92,7 +108,7 @@ export function personWorkOf(
       ];
     });
   // A job that is an office's own seat is told as that office.
-  const seat = held?.id.startsWith(SEAT_JOB) ?? false;
+  const seat = held ? seatJobOf(held.id) : false;
   return {
     job:
       held && !seat

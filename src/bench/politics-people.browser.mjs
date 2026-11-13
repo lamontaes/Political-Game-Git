@@ -36,7 +36,7 @@ try {
         return {
           name: row.querySelector(".member-name")?.textContent.trim(),
           letters: (face?.textContent ?? "").trim(),
-          picture: Boolean(face?.style.backgroundImage),
+          picture: Boolean(face?.querySelector(".bust-stack img")),
           initials: Boolean(row.querySelector(".people-initial")),
         };
       }),
@@ -83,17 +83,22 @@ try {
   assert.equal(card.name, name, "the card is not the person clicked");
   assert.doesNotMatch(card.text, /official:|term:|undefined|null/);
   // Their bust stands on the card (the same figure as the row's face).
-  const figure = page.locator("#person .mxbust img");
+  // A bust is a stack of pieces, shown once every piece has arrived
+  // (ui/bust.mjs drops `loading`).
+  const figure = page.locator("#person .mxbust .bust-stack");
   await figure.waitFor();
-  await figure.evaluate(
-    (img) =>
-      img.complete ||
-      new Promise((done) => {
-        img.onload = img.onerror = () => done(true);
-      }),
+  await page.waitForFunction(
+    () =>
+      !document
+        .querySelector("#person .mxbust .bust-stack")
+        ?.classList.contains("loading"),
+    undefined,
+    { timeout: 30000 },
   );
   assert.ok(
-    await figure.evaluate((img) => img.naturalHeight > 0),
+    await figure.evaluate((stack) =>
+      [...stack.querySelectorAll("img")].every((img) => img.naturalHeight > 0),
+    ),
     "the card's figure did not load",
   );
   if (process.env.SHOT_DIR)
