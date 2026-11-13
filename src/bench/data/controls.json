@@ -759,7 +759,7 @@
     "briefs": "Briefs",
     "noStoryText": "The paper ran this story as a headline only; the full account has not come in.",
     "nothingYet": "Nothing in print yet.",
-    "printedNothing": "{name} has printed nothing yet.",
+    "printedNothing": "Nothing from {name} yet.",
     "followsNone": "You don't follow a paper or a station."
   },
   "jobs": {
