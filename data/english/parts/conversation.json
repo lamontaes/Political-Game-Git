@@ -34757,6 +34757,682 @@
       "origin": "authored",
       "author": "Words builder W1 (interviews and debates say what was asked and answered)",
       "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.my-lawyer-says-not-to-talk-about-it-you",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "My lawyer says not to talk about it, {you}.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.it-goes-to-trial-trial-we-ll-know-then",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "It goes to trial {trial}. We'll know then.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-d-rather-not-go-into-it-before-the-trial-you",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I'd rather not go into it before the trial, {you}.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-did-it-you-i-won-t-pretend-i-didn-t",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I did it, {you}. I won't pretend I didn't.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-m-out-on-bail-bail-for-now",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I'm out on {bail} bail for now.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["bail"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-ll-get-through-it-you",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I'll get through it, {you}.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.thanks-i-just-have-to-get-through-the-trial-you",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Thanks. I just have to get through the trial, {you}.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "excludesFacts": ["plea", "told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-know-you-i-brought-it-on-myself",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I know, {you}. I brought it on myself.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.that-means-a-lot-you",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "That means a lot, {you}.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["promise"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-ll-need-you-there-at-the-trial-you",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I'll need you there at the trial, {you}.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["promise"],
+          "excludesFacts": ["plea", "told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-did-you-i-m-not-proud-of-it",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I did, {you}. I'm not proud of it.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["blame"],
+          "requiresFacts": ["told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.no-you-and-i-ll-say-so-in-court",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "No, {you}. And I'll say so in court.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["blame"],
+          "excludesFacts": ["plea", "told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.we-find-out-soon-enough-you",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "We find out soon enough, {you}.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-turn-myself-in-soon-you-then-i-wait",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I turn myself in soon, {you}. Then I wait.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-report-to-a-probation-officer-you-and-behave",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I report to a probation officer, {you}. And behave.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-pay-it-off-you-however-long-it-takes",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I pay it off, {you}, however long it takes.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-ll-be-okay-you",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I'll be okay, {you}.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.write-to-me-while-i-m-gone-you",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "Write to me while I'm gone, {you}?",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["told-term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.it-could-have-been-worse-you-it-s-only-money",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "It could have been worse, {you}. It's only money.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["told-fine"],
+          "excludesFacts": ["told-term", "told-probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-m-counting-on-that-you",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I'm counting on that, {you}.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["promise"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.then-i-ll-see-you-when-i-m-out-you",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "Then I'll see you when I'm out, {you}.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["promise"],
+          "requiresFacts": ["told-term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-know-you-i-won-t-argue-with-that",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I know, {you}. I won't argue with that.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["blame"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-know-it-you-i-m-the-one-paying-for-it",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I know it, {you}. I'm the one paying for it.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["blame"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.thanks-you-i-can-finally-sleep",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "Thanks, {you}. I can finally sleep.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["congratulate"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.i-can-breathe-again-you",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "I can breathe again, {you}.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["congratulate"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.now-i-put-it-behind-me-you",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "Now I put it behind me, {you}.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.back-to-my-life-you-like-it-never-happened",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "Back to my life, {you}. Like it never happened.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.lucky-or-not-you-it-s-over",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "Lucky or not, {you}, it's over.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["blame"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.the-court-didn-t-think-so-you",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "The court didn't think so, {you}.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["blame"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.it-is-you-let-s-leave-it-there",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "It is, {you}. Let's leave it there.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
     }
   ]
 }

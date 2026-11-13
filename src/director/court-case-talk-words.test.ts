@@ -4,22 +4,29 @@
  * engine's case, pretrial and sentence records (the offense, a plea or the
  * trial day, the bail; the prison term, the fine or the probation). Every
  * way the records can fall has a telling that names the offense, and a
- * conviction names the sentence it carries.
+ * conviction names the sentence it carries. Every reply the player can give
+ * is answered back (`<kind>-back`, `dayTalk.answersBack`), from what the
+ * telling left out, never the figure it said (Nov 13: in the played talks
+ * the relative said nothing after the player's reply).
  */
 import { describe, expect, it } from "vitest";
 import { composeConversationLine } from "../english/conversation-words";
 import type { PersonId } from "../core2/types";
 
 const fact = (text: string) => ({ text, sourceRecordIds: ["case:test"] });
-const say = (subject: string, facts: Record<string, ReturnType<typeof fact>>) =>
+const say = (
+  subject: string,
+  facts: Record<string, ReturnType<typeof fact>>,
+  stage = "default",
+) =>
   composeConversationLine({
     seed: "court-case-talk-words",
     subject,
     speakerId: "person_test" as PersonId,
     traits: {},
     facts,
-    stage: "default",
-    momentKey: subject,
+    stage,
+    momentKey: `${subject}:${stage}`,
   });
 const OFFENSE = { offense: fact("taking bribes") };
 
@@ -46,5 +53,46 @@ describe("a court case told through the composer", () => {
         text,
       );
     expect(say("acquittal-say", OFFENSE)!.text).toContain("taking bribes");
+  });
+
+  it("answers every reply back, without the figure the telling said", () => {
+    const told = (keys: string[]) =>
+      Object.fromEntries(keys.map((key) => [`told-${key}`, fact("ZZTOLD")]));
+    const cases: [
+      string,
+      string[],
+      Record<string, ReturnType<typeof fact>>[],
+    ][] = [
+      [
+        "charge-reply-back",
+        ["ask", "comfort", "promise", "blame"],
+        [
+          told(["offense", "plea"]),
+          { ...told(["offense", "trial"]), bail: fact("$5,000") },
+          told(["offense"]),
+        ],
+      ],
+      [
+        "conviction-reply-back",
+        ["ask", "comfort", "promise", "blame"],
+        [
+          told(["offense", "term"]),
+          told(["offense", "fine"]),
+          told(["offense", "probation"]),
+        ],
+      ],
+      [
+        "acquittal-reply-back",
+        ["congratulate", "ask", "blame", "comfort"],
+        [told(["offense"])],
+      ],
+    ];
+    for (const [subject, moves, factSets] of cases)
+      for (const move of moves)
+        for (const facts of factSets) {
+          const back = say(subject, { ...facts, you: fact("Dad") }, move);
+          expect(back, `${subject} ${move} ${Object.keys(facts)}`).toBeTruthy();
+          expect(back!.text).not.toContain("ZZTOLD");
+        }
   });
 });
