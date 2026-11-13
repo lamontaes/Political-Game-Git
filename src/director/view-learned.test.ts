@@ -420,7 +420,12 @@ function ownViewIn(drawSeed: string, skipped: string[]): boolean {
     // As in play: the first talk may be on something else (the day, the
     // address), and where they stand comes up in a later one, after its
     // cause (changed, lead, Nov 12: the news on their question is staged).
-    stageNews(core, id);
+    // A story their reading habits did not bring them within the week is no
+    // cause: passed over, and named.
+    if (!stageNews(core, id)) {
+      passed.push(`${id}: the staged story did not reach them`);
+      continue;
+    }
     let talk = openConversation(core, me, id, { director });
     let line = talk.lines.find((row) => row.kind === "own-view");
     for (let again = 0; again < 3 && !line && talk.lines.length; again += 1) {
@@ -430,7 +435,16 @@ function ownViewIn(drawSeed: string, skipped: string[]): boolean {
       line = talk.lines.find((row) => row.kind === "own-view");
     }
     if (!line || !talk.choices.length) {
-      passed.push(`${id}: ${talk.lines[0]?.kind ?? "nothing"}`);
+      passed.push(
+        `${id}: ${talk.lines.map((row) => row.kind).join(">") || "nothing"} (subjects ${subjectsBetween(
+          core,
+          id,
+          me,
+          director,
+        )
+          .map((row) => row.kind)
+          .join(",")})`,
+      );
       continue;
     }
     expectUpToFourDifferent(talk.choices, where);
