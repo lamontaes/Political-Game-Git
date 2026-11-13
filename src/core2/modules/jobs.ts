@@ -1448,10 +1448,17 @@ export function raiseUnfilledPay(
     if (position.status !== "open" || position.offeredTo) continue;
     const hours = jobById(api, position.templateJobId)?.hoursDaily ?? 0;
     if (hours <= 0) continue;
-    const since = position.raisedOn ?? position.openedAt;
+    // An opening stands unfilled for its pay only once it could be filled: from the day it came due after its industry's vacancy wait (`vacancyDays`), never while nobody could yet take it.
+    const since =
+      position.raisedOn ??
+      addDays(
+        makeIsoDate(position.openedAt),
+        Math.ceil(vacancyDays(api, position)),
+      );
     const waited =
       (Date.parse(`${c.date}T00:00:00Z`) - Date.parse(`${since}T00:00:00Z`)) /
       86_400_000;
+    if (waited <= 0) continue;
     // What the seat has cost standing empty since it was last priced.
     const lost = (waited * carriesMonthly) / monthDays;
     const paysMonthly = position.hourlyMinor * hours * monthDays;
