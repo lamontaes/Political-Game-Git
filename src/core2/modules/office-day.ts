@@ -864,6 +864,18 @@ function leavingToCharacter<T>(
   leftToCharacter.set(api.state, left);
   for (const id of billIds) left.add(id);
   try {
+    // A board with committees runs the own-vote hook once, on the eve, while
+    // the player is held, and marks it done without a vote cast. Left to the
+    // character at the meeting ("Decide for me", or the chair closing the
+    // meeting), the member's own position is cast here, where the player
+    // asked for it; a vote already chosen stands.
+    for (const id of billIds) {
+      const bill = billOf(api, id);
+      // Only where the hook has already run; else it runs in its place among
+      // the other pre-vote hooks, and the position is read after them.
+      if (bill?.status === "drafted" && bill.hooksRun?.includes("own-vote"))
+        ownVote(api, id);
+    }
     return vote();
   } finally {
     for (const id of billIds) left.delete(id);
@@ -908,14 +920,10 @@ function ownVote(api: CoreAPI, billId: string): void {
   // A local body's meeting the player is held at is where the player votes:
   // the character never casts it for them. Adjourned unchosen, the roll call
   // has them abstain (legislature.ts: the player is never voted for).
-  // Only at the meeting itself: a committee stage on the eve (a board with
-  // committees) runs this hook once and marks it done, so an abstention there
-  // would stand through the vote at the meeting too.
   const placedFor = table(api, "agendaItems").get(billId) as unknown as
     { date: string } | undefined;
   if (
     placedFor &&
-    placedFor.date <= api.state.date &&
     meetingOf(api, meetingId(bill.bodyOfficeId, placedFor.date))
       ?.playerPresent &&
     !leftToCharacter.get(api.state)?.has(billId)

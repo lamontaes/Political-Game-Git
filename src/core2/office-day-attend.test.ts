@@ -396,6 +396,18 @@ const SAME_DAY_PLACE = {
   name: "Heber Springs, Arkansas",
   seed: "fb9b371a2c260c1e5bd2ea80924b870a320f30742d81a7daca8fe7535f0c943d",
 };
+/**
+ * The place that showed a board with committees runs the own-vote hook once, on
+ * the eve, while the player is held (Nov 13, 2026): nothing is cast for the
+ * player there, and "Decide for me" at the meeting did not cast either, so the
+ * member abstained where the unheld twin voted. Kept, so the vote is proved
+ * cast at the meeting, by the player's ask, and not before.
+ */
+const COMMITTEE_PLACE = {
+  key: "7230372",
+  name: "Garrochales, Puerto Rico",
+  seed: "7dae2d52c2ce307c8b1896e42a30f4cdf5ebf9aedcd8760777c5a5eb1dd36081",
+};
 const DAYS = Number(process.env.TWIN_DAYS ?? 100);
 const endOf = (core: CoreState) =>
   new Date(Date.parse(`${core.date}T00:00:00Z`) + DAYS * 86_400_000)
@@ -585,12 +597,13 @@ it("a member the player plays decides alike at the stop and away from it: the me
   // The kept place first, and it must pass; then drawn ones until one has a seat to play.
   for (const place of named ?? [
     SAME_DAY_PLACE,
+    COMMITTEE_PLACE,
     ...twinPlaces("seated-holds"),
   ]) {
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     console.log(`seated-holds builds ${where}`);
-    const kept = place === SAME_DAY_PLACE;
-    const run = (present: boolean) => {
+    const kept = place === SAME_DAY_PLACE || place === COMMITTEE_PLACE;
+    const run = (present: boolean, silent = false) => {
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.key,
@@ -616,17 +629,62 @@ it("a member the player plays decides alike at the stop and away from it: the me
       const end = endOf(core);
       let held = 0;
       let items = 0;
+      const sat: string[] = [];
       for (let guard = 0; guard < 2_000 && core.date < end; guard += 1) {
         step(player);
         const meeting = stoppedAt(api, player);
-        if (meeting) {
+        if (meeting && silent) {
+          // A player who does nothing: the day closes the meeting on them.
+          held += 1;
+          sat.push(...meeting.agenda);
+        } else if (meeting) {
           held += 1;
           for (const id of [...meeting.agenda]) {
             if (billOf(api, id).status !== "drafted") continue;
             items += 1;
+            const chosen = () =>
+              api
+                .moduleState(LEGISLATURE_MODULE_ID)
+                .table("choices")
+                .get(`${id}|${member}`) as unknown as
+                { vote?: string } | undefined;
+            // No vote of the player's is on the record before their stop.
+            expect(
+              chosen(),
+              `${where}: ${id} voted before the stop`,
+            ).toBeUndefined();
             takeUpItem(api, meeting.id, id, "own");
+            // Asked for at the meeting, it is cast that day as their own choice.
+            expect(
+              chosen()?.vote,
+              `${where}: ${id} cast at the stop`,
+            ).toBeDefined();
+            const act = officeActsOf(api, member).find(
+              (a) => a.kind === "vote" && a.recordId === id,
+            );
+            expect(act?.how, `${where}: ${id} act`).toBe("own-choice");
+            expect(act?.date, `${where}: ${id} act day`).toBe(core.date);
           }
           adjourn(api, meeting.id);
+        }
+      }
+      if (silent) {
+        // Not an act, so no vote of theirs is cast from their views.
+        expect(sat.length, `${where}: items sat through`).toBeGreaterThan(0);
+        for (const id of sat) {
+          const chosen = api
+            .moduleState(LEGISLATURE_MODULE_ID)
+            .table("choices")
+            .get(`${id}|${member}`) as unknown as { vote?: string } | undefined;
+          expect(chosen?.vote ?? "abstain", `${where}: ${id} silent`).toBe(
+            "abstain",
+          );
+          expect(
+            officeActsOf(api, member).some(
+              (a) => a.recordId === id && a.how === "own-choice",
+            ),
+            `${where}: ${id} own-choice act for a silent player`,
+          ).toBe(false);
         }
       }
       return { bills: decided(api), held, items, date: core.date };
@@ -643,6 +701,7 @@ it("a member the player plays decides alike at the stop and away from it: the me
     expect(away.held).toBe(0);
     expect(held.date).toBe(away.date);
     expect(held.bills, where).toEqual(away.bills);
+    if (place === COMMITTEE_PLACE) run(true, true);
     if (kept) {
       expect(held.held, `${where}: meetings held`).toBeGreaterThan(0);
       continue;
