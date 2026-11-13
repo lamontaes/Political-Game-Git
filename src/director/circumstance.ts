@@ -16,6 +16,7 @@
  * it returns and the ordinary scheduler stages the situation type whose
  * cause carries the row's label.
  */
+import { receives, type ReceiveRule } from "./scheduling";
 import {
   INTEREST_GROUPS_MODULE_ID,
   meetingsOn,
@@ -48,6 +49,8 @@ const one = P.one;
 
 export interface CircumstanceRow {
   id: string;
+  /** Who may receive the row's scene (scheduling.ts `receives`); a cast that breaks it is not made. */
+  receive?: ReceiveRule;
   /** Trigger record kinds ("job" is a job record started today). */
   recordKinds: readonly string[];
   /** Facts the record must carry. */
@@ -662,6 +665,9 @@ export function circumstancePicks(
           if (id === playerId || core.people.get(id)?.alive !== true) continue;
           if (options.castDue && !options.castDue(id, row)) continue;
           if (!placedWith(row.where, core, playerId, id)) continue;
+          // The one who comes does not live with the player where the row
+          // says apart, and a seat's scene reaches only a player in office.
+          if (!receives(core, playerId, row.receive, [id], row.place)) continue;
           const importance = options.importance(id);
           const closeness = importance / (one + importance);
           const sociability =

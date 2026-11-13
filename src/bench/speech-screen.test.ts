@@ -13,6 +13,8 @@ import { buildBenchWorld } from "./world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
+import { advanceCore } from "../core2/life";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { fileCandidacy, openContests } from "../core2/modules/elections";
 import { lawChain } from "../core2/modules/laws";
 import { stancesOf } from "../core2/modules/views";
@@ -33,6 +35,13 @@ const runSeed =
 const ATTEMPTS = 4;
 /** How many of the town's best-connected adults try a speech in each place. */
 const CANDIDATES = 8;
+/**
+ * How many weeks a place's world runs, a week at a time, until a race takes
+ * one of them. Every race opens its filing on a real day (since Nov 4), so on
+ * the start day most places have none open: Scottsburg, Virginia's state races
+ * open 18 days in, its council 88 days in.
+ */
+const WEEKS = 60;
 
 /** One drawn place: why nobody came to the speech, or null once its listeners' views cite it. */
 const run = (drawSeed: string): string | null => {
@@ -72,79 +81,105 @@ const run = (drawSeed: string): string | null => {
   let filing: { id: string; personId: string } | null = null;
   let build: ReturnType<typeof speechBegin> | null = null;
   let given: ReturnType<typeof speechGive> | null = null;
-  for (const candidate of adults.slice(0, CANDIDATES)) {
-    let filed: { id: string; personId: string } | null = null;
-    for (const contest of openContests(api)) {
-      const result = fileCandidacy(api, {
-        personId: candidate.id,
-        contestId: contest.id,
-        platform: [],
+  // The world runs a week at a time until a race on the clerk's list takes
+  // one of them; a race that refuses them all does not end the wait.
+  const refused = new Map<string, string>();
+  let weeksWaited = 0;
+  let anyFiled = false;
+  for (;;) {
+    for (const candidate of adults.slice(0, CANDIDATES)) {
+      let filed: { id: string; personId: string } | null = null;
+      // The speech screen is the player's: the one who files and speaks is
+      // the player, whose listeners each hear it as a person. A speaker who
+      // is not the player is a rival, whose unwatched listeners hear it as
+      // groups of like hearers (deliverSpeech, since Nov 9), so no person's
+      // own view would cite it.
+      core.playerId = candidate.id;
+      for (const contest of openContests(api)) {
+        const result = fileCandidacy(api, {
+          personId: candidate.id,
+          contestId: contest.id,
+          platform: [],
+        });
+        if (
+          result.status !== "refused" &&
+          ["petitioning", "on-ballot"].includes(result.filing.status ?? "")
+        ) {
+          filed = result.filing;
+          break;
+        }
+        refused.set(
+          contest.id,
+          result.status === "refused"
+            ? result.unmet.map((check) => check.rule).join("+") || "refused"
+            : String(result.filing.status),
+        );
+      }
+      if (!filed) continue;
+      anyFiled = true;
+      const speakerId = filed.personId;
+
+      // Four stages, up to four parts on offer at each, the player picking by key.
+      let speech = speechBegin(core, speakerId);
+      for (const stage of SPEECH_STAGES) {
+        const view = speechView(speech);
+        expect(view.choices.length, `${stage}: ${where}`).toBeGreaterThan(0);
+        expect(view.choices.length, where).toBeLessThanOrEqual(4);
+        expect(() => speechPick(core, speech, "no-such-part"), where).toThrow();
+        // A stand at the core where one is offered, so the speech moves views.
+        const pick =
+          speech.choices.find((row) => row.stand && stage === "core") ??
+          speech.choices[0]!;
+        speech = speechPick(core, speech, pick.key);
+      }
+      expect(speech.done, where).toBe(true);
+      expect(() => speechPick(core, speech, "anything"), where).toThrow();
+      expect(
+        speech.picked.filter((row) => row.stand).length,
+        `a stand was offered: ${where}`,
+      ).toBeGreaterThan(0);
+
+      // Someone else cannot give it.
+      expect(
+        () =>
+          speechGive(core, "someone-else", speech, {
+            filingId: filed!.id,
+            venue: scenePlaces.speechPlaces[0]!,
+          }),
+        where,
+      ).toThrow();
+
+      const said = speechGive(core, speakerId, speech, {
+        filingId: filed.id,
+        venue: scenePlaces.speechPlaces[0]!,
       });
-      if (
-        result.status !== "refused" &&
-        ["petitioning", "on-ballot"].includes(result.filing.status ?? "")
-      ) {
-        filed = result.filing;
+      expect(said.text, where).toBe(
+        speech.picked.map((row) => row.text).join(" "),
+      );
+      expect(said.scene.place, where).toBe(scenePlaces.speechPlaces[0]);
+      if (said.reached) {
+        filing = filed;
+        build = speech;
+        given = said;
         break;
       }
+      const speaker = core.people.get(speakerId)!;
+      const knows = [...speaker.familyIds, ...speaker.knownIds].filter(
+        (id) => core.people.get(id)?.placeId === town,
+      ).length;
+      empty.push(`${speakerId} knows ${knows} people in town`);
     }
-    if (!filed) continue;
-    const speakerId = filed.personId;
-
-    // Four stages, up to four parts on offer at each, the player picking by key.
-    let speech = speechBegin(core, speakerId);
-    for (const stage of SPEECH_STAGES) {
-      const view = speechView(speech);
-      expect(view.choices.length, `${stage}: ${where}`).toBeGreaterThan(0);
-      expect(view.choices.length, where).toBeLessThanOrEqual(4);
-      expect(() => speechPick(core, speech, "no-such-part"), where).toThrow();
-      // A stand at the core where one is offered, so the speech moves views.
-      const pick =
-        speech.choices.find((row) => row.stand && stage === "core") ??
-        speech.choices[0]!;
-      speech = speechPick(core, speech, pick.key);
-    }
-    expect(speech.done, where).toBe(true);
-    expect(() => speechPick(core, speech, "anything"), where).toThrow();
-    expect(
-      speech.picked.filter((row) => row.stand).length,
-      `a stand was offered: ${where}`,
-    ).toBeGreaterThan(0);
-
-    // Someone else cannot give it.
-    expect(
-      () =>
-        speechGive(core, "someone-else", speech, {
-          filingId: filed!.id,
-          venue: scenePlaces.speechPlaces[0]!,
-        }),
-      where,
-    ).toThrow();
-
-    const said = speechGive(core, speakerId, speech, {
-      filingId: filed.id,
-      venue: scenePlaces.speechPlaces[0]!,
-    });
-    expect(said.text, where).toBe(
-      speech.picked.map((row) => row.text).join(" "),
-    );
-    expect(said.scene.place, where).toBe(scenePlaces.speechPlaces[0]);
-    if (said.reached) {
-      filing = filed;
-      build = speech;
-      given = said;
-      break;
-    }
-    const speaker = core.people.get(speakerId)!;
-    const knows = [...speaker.familyIds, ...speaker.knownIds].filter(
-      (id) => core.people.get(id)?.placeId === town,
-    ).length;
-    empty.push(`${speakerId} knows ${knows} people in town`);
+    if (anyFiled || weeksWaited >= WEEKS) break;
+    advanceCore(core, addDays(makeIsoDate(core.date), 7));
+    weeksWaited += 1;
   }
   if (!filing)
     return empty.length
-      ? `${where}: nobody came to ${empty.length} candidates' speeches, and none leaned to come (${empty.join("; ")})`
-      : `${where}: nobody could file`;
+      ? `${where}: nobody came to ${empty.length} candidates' speeches after ${weeksWaited} weeks (${core.date}), and none leaned to come (${empty.join("; ")})`
+      : `${where}: no race took a filing from ${Math.min(CANDIDATES, adults.length)} adults after ${weeksWaited} weeks (reached ${core.date}); refused: ${
+          [...refused].map(([id, rule]) => `${id} (${rule})`).join(", ") ||
+          "none open"
+        }`;
   const { personId, id: filingId } = filing;
   const stands = build!.picked.filter((row) => row.stand);
 
@@ -171,7 +206,7 @@ const run = (drawSeed: string): string | null => {
   )!;
   expect(view.campaign.platform.length, where).toBeGreaterThan(0);
   console.log(
-    `SPEECH ${where}: ${personId} drew ${given!.causes.length}; ${heard.length} views cite ${[...speechIds].join(", ")}`,
+    `SPEECH ${where}: waited ${weeksWaited} weeks (to ${core.date}); ${personId} drew ${given!.causes.length}; ${heard.length} views cite ${[...speechIds].join(", ")}`,
   );
   return null;
 };

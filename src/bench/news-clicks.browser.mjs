@@ -50,7 +50,7 @@ try {
     await page.waitForTimeout(500);
   }
   await page.locator('.ring[data-tab="news"]').click();
-  await page.locator("#sheet-body .news-story").waitFor();
+  await page.locator("#sheet-body .news-story").first().waitFor();
   await page.waitForTimeout(800);
   // The real front page: every headline that is a button opens its story.
   const headlines = await page.locator(".news-headline").count();
@@ -129,6 +129,54 @@ try {
   );
   if (shots)
     await page.screenshot({ path: `${shots}/story-opened-1440x900.png` });
+  // A paper with a column of long briefs (a week of meetings, a home sale,
+  // a police log): each brief takes the room its words need, and none is
+  // printed over the next (seen overprinted in two drawn places on Nov 11).
+  await page.evaluate(async () => {
+    const { newsBoard } = await import("/ui/news-board.mjs");
+    const long = (n) => ({
+      id: `b${n}`,
+      brief: true,
+      headline: `Meetings for the week of April ${n}, 2025`,
+      paragraphs: [
+        `The county board of commissioners and the city council held their regular meetings the week of April ${n}, 2025, with nothing before them, and the school board met twice.`,
+      ],
+    });
+    document.getElementById("sheet-body").replaceChildren(
+      newsBoard({
+        outlets: new Map([
+          [
+            "a",
+            {
+              name: "The Courier",
+              layout: "broadsheet",
+              stories: [
+                {
+                  id: "s1",
+                  headline: "Headline 1",
+                  paragraphs: ["It happened."],
+                },
+                ...[1, 2, 3, 4, 5, 6].map(long),
+              ],
+            },
+          ],
+        ]),
+        labels: { title: "News" },
+        date: "2025-04-11",
+        headlineOf: (item) => item.headline,
+      }),
+    );
+  });
+  // A brief whose words are taller than its row runs into the row below.
+  const over = await page.evaluate(
+    () =>
+      [...document.querySelectorAll(".news-briefs p")].filter(
+        (row) => row.scrollHeight > row.clientHeight + 1,
+      ).length,
+  );
+  if (shots)
+    await page.screenshot({ path: `${shots}/long-briefs-1440x900.png` });
+  assert.equal(over, 0, `${over} briefs are printed over the next one`);
   assert.deepEqual(errors, []);
   console.log("news clicks: pass");
 } finally {

@@ -1,6 +1,7 @@
 import RULES_BOUND from "./data/scene-talk-rules.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 import { composeSceneTalk } from "./scene-talk";
+import { wordSceneMove, type BankPart } from "../english/scene-talk-words";
 import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { heldByGrades } from "../english/english-grades";
 import { traitLean } from "../core2/choice";
@@ -340,4 +341,86 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
     expect(parted).toBeGreaterThan(0);
     // Two trees for every purpose: about 35 seconds on a busy machine.
   }, 120_000);
+});
+
+describe("a scene line joined from pieces", () => {
+  const use = (move: string) => ({
+    subject: "scene",
+    purpose: "joined-test",
+    key: "routine",
+    step: "state" as const,
+    move,
+    role: "asker" as const,
+  });
+  const joinedParts: BankPart[] = [
+    ...["Well,", "Look,", "Okay,"].map((text, n) => ({
+      key: `joined.opener.${n}`,
+      text,
+      uses: [use("tell-test")],
+      piece: { of: "tell-test", part: "opener" as const },
+    })),
+    ...[
+      "you'd be the third to file for {office}.",
+      "{office} has drawn a crowd this year.",
+    ].map((text, n) => ({
+      key: `joined.core.${n}`,
+      text,
+      uses: [use("tell-test")],
+      piece: { of: "tell-test", part: "core" as const, required: true },
+    })),
+    {
+      key: "whole.only",
+      text: "That office is open, and the papers are here.",
+      uses: [use("whole-test")],
+    },
+  ];
+  const word = (move: string, momentKey: string) =>
+    wordSceneMove({
+      move: {
+        step: "state",
+        move,
+        role: "asker",
+        purpose: "joined-test",
+        key: "routine",
+      },
+      facts: {
+        office: { text: "Village Trustee", sourceRecordIds: ["contest:test"] },
+      },
+      seed,
+      speakerId: askerId,
+      traits: {},
+      momentKey,
+      said: new Set(),
+      options: { parts: joinedParts },
+    });
+
+  it("joins the pieces of a sentence through the composer, with the record's insert", () => {
+    const texts = new Set<string>();
+    for (let n = 0; n < 12; n++) {
+      const worded = word("tell-test", `moment-${n}`);
+      expect(worded && "text" in worded).toBe(true);
+      if (!worded || !("text" in worded)) continue;
+      expect(worded.text).toContain("Village Trustee");
+      expect(worded.text).toMatch(/^(Well|Look|Okay), /);
+      expect(worded.pieceKey).toMatch(/^joined\.core\./);
+      expect(worded.pieceKeys?.length).toBe(2);
+      expect(worded.slotRecordIds).toContain("contest:test");
+      texts.add(worded.text);
+    }
+    // The same moment says the same sentence; moments vary it.
+    expect(texts.size).toBeGreaterThan(2);
+    const again = word("tell-test", "moment-0");
+    const first = word("tell-test", "moment-0");
+    expect(again && "text" in again && again.text).toBe(
+      first && "text" in first && first.text,
+    );
+  });
+
+  it("words a move whose pieces carry no piece field as one whole piece, as before", () => {
+    const worded = word("whole-test", "moment-whole");
+    expect(worded && "text" in worded && worded.text).toBe(
+      "That office is open, and the papers are here.",
+    );
+    expect(worded && "text" in worded && worded.pieceKeys).toBeUndefined();
+  });
 });

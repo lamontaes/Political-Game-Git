@@ -5,10 +5,10 @@ area: docs
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-pool-merge-does-not-flip-an-item-whose-pr-field-has-no-hash
-pr:
+pr: #8595
 after:
 blocked-on:
 lead: cto
@@ -17,7 +17,7 @@ effort: low
 root: none
 source: Fable B, Nov 10, 2026, after four critical-path items sat in review for hours with their pull requests merged
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T05:02:00.021Z
+claimed-at: 2026-11-11T10:11:34.438Z
 branch: claude/pool-pool-merge-does-not-flip-an-item-whose-pr-field-has-no-hash
 ---
 
@@ -40,3 +40,7 @@ branch: claude/pool-pool-merge-does-not-flip-an-item-whose-pr-field-has-no-hash
 **Notes (Fable B, Nov 10).** The five items were marked merged by hand, and the other bare numbers were given their `#`, in the pool-only pull request that filed this item. Six older items are also in review though their pull requests merged on Nov 3 to 9 (health-medical-debt-record and world-medical-spending-categories on 7036, play-travel-place-card-says-what-you-do on 7087, words-archive-parent-death-body-by-seed on 7131, people-press-out-of-town-staff-paid on 7135, world-opening-treasury-not-finite-crash on 7222, words-voice-note-reader on 8053). Their fields have the `#`, so this cause does not explain them; the CTO decides whether each is merged or open.
 
 **Notes.** Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:01 UTC) on branch claude/pool-pool-merge-does-not-flip-an-item-whose-pr-field-has-no-hash.
+
+Released by next (2026-11-11): no push to claude/pool-pool-merge-does-not-flip-an-item-whose-pr-field-has-no-hash since 2026-11-11 08:07 UTC, more than twice its 1-hour time box. Continue on branch claude/pool-pool-merge-does-not-flip-an-item-whose-pr-field-has-no-hash.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 10:11 UTC) on branch claude/pool-pool-merge-does-not-flip-an-item-whose-pr-field-has-no-hash.

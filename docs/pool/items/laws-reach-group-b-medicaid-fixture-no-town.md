@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc2-done-from-records
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T01:03:26.601Z
+claimed-at: 2026-11-11T07:10:19.414Z
 branch: claude/pool-laws-reach-group-b-medicaid-fixture-no-town
 ---
 
@@ -42,3 +42,11 @@ branch: claude/pool-laws-reach-group-b-medicaid-fixture-no-town
 **Notes (Fable's check, Nov 10).** How to find the cause: Read why forty drawn towns hold no employed Medicaid adult (the coverage record or the opening changed), fix at that, and never pin a place.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:03 UTC) on branch claude/pool-laws-reach-group-b-medicaid-fixture-no-town.
+
+Released by next (2026-11-11): no push to claude/pool-laws-reach-group-b-medicaid-fixture-no-town since 2026-11-11 01:03 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-laws-reach-group-b-medicaid-fixture-no-town and pull request #8414.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 07:06 UTC) on branch claude/pool-laws-reach-group-b-medicaid-fixture-no-town.
+
+Released (2026-11-11): The Medicaid test passes on the named seed (26 of 32 in the file pass); six other tests in law-reach-group-b.test.ts fail on that seed and are separate items; see the note on #8414. Continue on branch claude/pool-laws-reach-group-b-medicaid-fixture-no-town and pull request #8414.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 07:10 UTC) on branch claude/pool-laws-reach-group-b-medicaid-fixture-no-town.

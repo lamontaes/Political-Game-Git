@@ -10,6 +10,8 @@ import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { coreAPI } from "../core2/state";
+import { advanceCore } from "../core2/life";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type { CoreState } from "../core2/types";
 import { lawChain } from "../core2/modules/laws";
 import { townSeats } from "../core2/modules/offices";
@@ -35,6 +37,13 @@ const runSeed =
     .digest("hex");
 
 const PLACES = 6;
+/**
+ * How many weeks a place's world runs, a week at a time, until a local race
+ * takes a filing. Every race opens its filing on a real day (since Nov 4), so
+ * on the start day most places have none open, and a town's next local race
+ * can open more than a year in.
+ */
+const WEEKS = 104;
 
 /** The world as played, in a place drawn from all 56, and who could file there, richest first. */
 function openWorld(purpose: string) {
@@ -65,6 +74,7 @@ function fileLocal(
   core: CoreState,
   api: ReturnType<typeof coreAPI>,
   candidate: { id: string },
+  refused: Map<string, string>,
 ): FilingRow | null {
   if (townSeats(api).some((s) => s.holder?.personId === candidate.id))
     return null;
@@ -81,6 +91,12 @@ function fileLocal(
       ["petitioning", "on-ballot"].includes(filed.filing.status ?? "")
     )
       return filed.filing;
+    refused.set(
+      contest.id,
+      filed.status === "refused"
+        ? filed.unmet.map((check) => check.rule).join("+") || "refused"
+        : String(filed.filing.status),
+    );
   }
   return null;
 }
@@ -346,20 +362,37 @@ it(
       );
       let filed = 0;
       const notes: string[] = [];
-      for (const candidate of adults.slice(0, 60)) {
-        if (filed >= 5) break;
-        const filing = fileLocal(core, api, candidate);
-        if (!filing) continue;
-        filed++;
-        const { result, answered } = play(core, api, filing, where);
-        if (answered && !answeredAt) answeredAt = `${where}, ${filing.id}`;
-        notes.push(`${result}${answered ? ", answered" : ", nobody answered"}`);
-        if (result === "done") {
-          held = true;
-          break;
+      // The world runs a week at a time until a local race takes a filing;
+      // a race that refuses them all does not end the wait.
+      const refused = new Map<string, string>();
+      let weeksWaited = 0;
+      for (;;) {
+        for (const candidate of adults.slice(0, 60)) {
+          if (filed >= 5) break;
+          const filing = fileLocal(core, api, candidate, refused);
+          if (!filing) continue;
+          filed++;
+          const { result, answered } = play(core, api, filing, where);
+          if (answered && !answeredAt) answeredAt = `${where}, ${filing.id}`;
+          notes.push(
+            `${result}${answered ? ", answered" : ", nobody answered"}`,
+          );
+          if (result === "done") {
+            held = true;
+            break;
+          }
         }
+        if (filed || weeksWaited >= WEEKS) break;
+        advanceCore(core, addDays(makeIsoDate(core.date), 7));
+        weeksWaited += 1;
       }
-      tried.push(`${where} (${filed} filed; ${notes.join("; ")})`);
+      tried.push(
+        `${where} (${filed} filed after ${weeksWaited} weeks, reached ${core.date}; ${notes.join("; ")}${
+          filed
+            ? ""
+            : `; refused: ${[...refused].map(([id, rule]) => `${id} (${rule})`).join(", ") || "none open"}`
+        })`,
+      );
       if (held && answeredAt) {
         process.stdout.write(`canvass answered: ${answeredAt}\n`);
         return;
