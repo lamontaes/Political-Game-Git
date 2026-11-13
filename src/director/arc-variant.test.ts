@@ -139,6 +139,11 @@ const helpFacts: Record<string, Fact> = {
   "read-notice-served": fact("yes"),
   "read-paid-under-floor": fact("yes"),
   "read-household-illness": fact("yes"),
+  // The case on the office's books (caseFacts).
+  "problem-work": fact("yes"),
+  "money-left": fact("running low"),
+  agency: fact("the workforce office"),
+  "respond-in": fact("in seven days"),
 };
 const factsOf = (family: string) =>
   family === "donor-ask"
@@ -165,10 +170,25 @@ const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   return into;
 };
 
+/** The facts of a wage case: the problem is the pay, not a job lost. */
+const wageCase = (facts: Record<string, Fact>): Record<string, Fact> => {
+  const wage = {
+    ...facts,
+    "problem-wage": fact("yes"),
+    agency: fact("the labor standards office"),
+  };
+  delete wage["problem-work"];
+  delete wage["money-left"];
+  return wage;
+};
+
 const compose = (
   family: string,
   variant: string,
-  facts: Record<string, Fact> = factsOf(family),
+  // A wage case is the short-pay scene's: the case's own problem (caseFacts).
+  facts: Record<string, Fact> = variant === "short-pay"
+    ? wageCase(factsOf(family))
+    : factsOf(family),
   causeId = "cause-a",
 ): SceneTalk => {
   const result = composeSceneTalk(
