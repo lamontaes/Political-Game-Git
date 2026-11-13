@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: opus-lr
 pr: #9026
@@ -17,6 +17,7 @@ effort: medium
 root: design-life-record
 source: Fable A, rule 17, Nov 13, 2026, from Playtester P2's batch (Fruitland, Idaho); filed by the Life records builder opus-lr
 checked: opus-lr 2026-11-13
+merged-at: 2026-11-13T07:45:07.984Z
 ---
 
 **What.** Fable A, Nov 13, rule 17: "A life is told in order everywhere it is told." A card grouped its lines by kind, one paragraph for partners, one for school, one for work, so a life opened on a 2016 separation before 1979's schooling and ended on a 2020 hospital stay after a 1989 arrest (Playtester P2, Fruitland, Idaho). Seen: Your life and every person's card.
