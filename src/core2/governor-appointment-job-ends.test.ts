@@ -83,13 +83,19 @@ it(`replacing a state post's holder who worked today ends their job tomorrow, ne
     expect(newJob.endsAt, where).toBeUndefined();
     if (worked) {
       // Worked today: their job stays until tomorrow's calendar work.
+      const replacedOn = core.date;
       expect(core.jobs.get(firstJob)!.endsAt, `${where}: ${firstJob}`).toBe(
         undefined,
       );
-      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      advanceCore(core, addDays(makeIsoDate(core.date), 3));
       expect(core.jobs.get(firstJob)!.endsAt, `${where}: ${firstJob}`).toBe(
-        core.date,
+        addDays(makeIsoDate(replacedOn), 1),
       );
+      // Nothing records the replaced holder at work after the day they were replaced.
+      expect(
+        core.work.lastAttendanceByJob.get(firstJob)?.date,
+        `${where}: ${firstJob} attendance`,
+      ).toBe(replacedOn);
       proved += 1;
     } else {
       expect(core.jobs.get(firstJob)!.endsAt, `${where}: ${firstJob}`).toBe(
