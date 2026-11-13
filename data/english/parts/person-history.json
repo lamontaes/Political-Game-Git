@@ -23,7 +23,7 @@
     "here": "The town or county the person lives in now, from the place records.",
     "age": "How old the person was then, from their birth record and the record's date.",
     "child": "A child's first name from their record.",
-    "parent": "Who the partner is to the viewer or to the person's children, said as the viewer would (\"your father\", \"the children's mother\"), from the child's other-parent record; said only when the record holds it."
+    "parent": "Who the partner is to the people the line is told to, from the child's other-parent record, said only when the record holds it: on someone else's card \"your father\" or \"the children's mother\"; in the first person, on the player's own card, \"my children's father\" or \"my daughter's mother\"."
   },
   "maxWords": 24,
   "parts": [
