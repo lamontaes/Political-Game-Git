@@ -26,6 +26,8 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.setDefaultTimeout(120000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
+// A control that went away between the look and the press is looked for again on the next step.
+const SOON = { timeout: 5000 };
 const visible = (id) =>
   page
     .locator(`#${id}`)
@@ -34,15 +36,29 @@ const visible = (id) =>
 /** One step of play: a talk or a stop is answered, else the day goes on. True when the meeting panel is up. */
 async function step() {
   if (await visible("meeting")) return true;
-  if (await visible("talk-next")) await page.locator("#talk-next").click();
-  else if (await visible("continue")) await page.locator("#continue").click();
+  if (await visible("talk-next"))
+    await page
+      .locator("#talk-next")
+      .click(SOON)
+      .catch(() => {});
+  else if (await visible("continue"))
+    await page
+      .locator("#continue")
+      .click(SOON)
+      .catch(() => {});
   else if (await visible("talk")) {
     const reply = page.locator("#talk-choices .reply").first();
-    if (await reply.count()) await reply.click();
+    if (await reply.count()) await reply.click(SOON).catch(() => {});
     else if (await visible("talk-leave"))
-      await page.locator("#talk-leave").click();
+      await page
+        .locator("#talk-leave")
+        .click(SOON)
+        .catch(() => {});
   } else if (!(await page.locator("#day").isDisabled()))
-    await page.locator("#day").click();
+    await page
+      .locator("#day")
+      .click(SOON)
+      .catch(() => {});
   await page.waitForTimeout(900);
   return visible("meeting");
 }
@@ -131,6 +147,7 @@ try {
   } else {
     let days = 0;
     let spoke = null;
+    let spokeOn = null;
     for (let meetings = 0; meetings < 5 && !spoke; meetings += 1) {
       // Play on until the Calendar offers a posted meeting.
       let open = null;
@@ -226,6 +243,10 @@ try {
           const scene = await (await fetch("/api/meeting")).json();
           return scene.members.map((m) => m.name);
         });
+        spokeOn = await page.evaluate(async () => {
+          const scene = await (await fetch("/api/meeting")).json();
+          return scene.items[0].billId;
+        });
       }
       await page.locator("#meeting-adjourn").click();
       await page.locator("#meeting").waitFor({ state: "hidden" });
@@ -251,6 +272,20 @@ try {
     console.log(
       `Told before the next morning (${talks.size} lines): ${[...talks].join(" / ") || "nothing"}`,
     );
+    // What the body did with the item, from the bill's own paper.
+    const paper = await page.evaluate(async (billId) => {
+      const bill = await (
+        await fetch(`/api/bill?billId=${encodeURIComponent(billId)}`)
+      ).json();
+      return {
+        number: bill.spoken,
+        status: bill.decision?.status ?? null,
+        votes: bill.votes?.length ?? 0,
+      };
+    }, spokeOn);
+    console.log(
+      `The item the next day: ${paper.number}, ${paper.status}, ${paper.votes} votes on its roll call`,
+    );
     await page
       .locator('[data-tab="people"]')
       .first()
@@ -262,7 +297,10 @@ try {
       `People the next day lists ${met.length} of ${spoke.length} members: ${met.join(", ")}`,
     );
     await shot(page, "after-6-people");
-    assert.ok(met.length > 0, "no member who heard the player is on People");
+    // A body that voted the item heard its public comment, and its members met the speaker.
+    // An item it dropped unvoted (already settled by another law) had no hearing.
+    if (paper.votes > 0)
+      assert.ok(met.length > 0, "no member who heard the player is on People");
   }
   assert.deepEqual(errors, [], "page errors");
   console.log("ok");
