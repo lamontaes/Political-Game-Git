@@ -51,8 +51,21 @@ const saveHidden = (hidden) => {
   }
 };
 
+/**
+ * Whether a chosen day offers the jump to it: a later day, and no stop open. A stop waiting
+ * holds the clock, so a jump has nowhere to go (the server refuses it, as it does Week).
+ */
+export const offersJump = ({ selected, date, held }) =>
+  selected > date && !held;
+
 /** The calendar's node, for the sheet's body. */
-export function calendarScreen({ date, items: every, labels, onAdvance }) {
+export function calendarScreen({
+  date,
+  items: every,
+  labels,
+  onAdvance,
+  held = false,
+}) {
   // The kinds the player has hidden stay hidden, and the key lists the kinds
   // the calendar has (never a key for a kind with nothing to show).
   const hidden = savedHidden();
@@ -133,7 +146,7 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
         2,
         `${weekday}, ${dayWords(selected)}`,
         el("div", { className: "calendar-day-list" }, ...lines),
-        ...(selected > date
+        ...(offersJump({ selected, date, held })
           ? [
               button(
                 labels.advance,
