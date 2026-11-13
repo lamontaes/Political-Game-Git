@@ -181992,7 +181992,7 @@
       "key": "scene-talk.follow-accept.case-help-1",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. If {agency} has it, I'll wait.",
+      "text": "Alright. If {agency} has it, I'll wait.",
       "uses": [
         {
           "subject": "scene",

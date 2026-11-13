@@ -163,7 +163,7 @@ add("follow", "thank", R, "core", "anxious", [
     "Thank you. I didn't know {agency} already had it.",
 ], ["agency"], after="lie")
 add("follow", "accept", R, "core", "guarded", [
-    "All right. If {agency} has it, I'll wait.",
+    "Alright. If {agency} has it, I'll wait.",
     "Then I'll wait on {agency}.",
 ], ["agency"], after="lie")
 # Caught: only where the constituent holds the record that says otherwise.
