@@ -364,10 +364,10 @@ function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
   // The story opens as the paper's front page: its masthead and layout.
   const outlet = news.outlet ?? {
-    name: controls.news.title,
+    name: controls.news.desk,
     layout: "broadsheet",
   };
-  $("news-reader-masthead").textContent = outlet.name ?? controls.news.title;
+  $("news-reader-masthead").textContent = outlet.name ?? controls.news.desk;
   engraveMasthead($("news-reader-masthead"), outlet);
   $("news-reader-date").textContent = dateWords(today(), { weekday: true });
   $("news-reader").className = `panel paper paper-${
@@ -3623,7 +3623,9 @@ const sheets = {
           [
             {
               title: bank?.name ? `${labels.cash} · ${bank.name}` : labels.cash,
-              figure: roundedMoney(me.card.liquidMinor),
+              // The household's cash now, the same count as each month's row
+              // under it (the bank's figures are the household's).
+              figure: roundedMoney(bank?.cash?.nowMinor ?? me.card.liquidMinor),
               rows: months.map((m) => ({
                 label: shortMonth(m.date),
                 value: roundedMoney(m.cashMinor),
@@ -4147,7 +4149,7 @@ const sheets = {
     for (const story of stories) {
       const outlet = story.outlet ?? {
         id: "news",
-        name: labels.title,
+        name: labels.desk,
         layout: "broadsheet",
       };
       const key = outlet.id ?? outlet.name;
@@ -4162,7 +4164,7 @@ const sheets = {
     )
       outlets.set("news", {
         id: "news",
-        name: labels.title,
+        name: labels.desk,
         layout: "broadsheet",
         stories: [],
       });
