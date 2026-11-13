@@ -22,7 +22,7 @@ import {
   type PurposeType,
   type TreeNode,
 } from "./scene-talk";
-import { spoken, spokenDate } from "./words";
+import { spoken, spokenDate, spokenWhen } from "./words";
 import {
   wordSceneMove,
   type Fact,
@@ -62,7 +62,7 @@ export interface FilingContest {
    */
   filed?: {
     count: number;
-    first?: { name: string; recordId: string };
+    first?: { name: string; recordId: string; filedOn?: string };
     recordIds: readonly string[];
   };
   sourceIds: readonly string[];
@@ -596,6 +596,12 @@ function raceFacts(
       facts.opponent = {
         text: filed.first.name,
         sourceRecordIds: [contest.id, filed.first.recordId],
+      };
+    // When the first of them filed, from their filing's record ("last week").
+    if (filed.first?.filedOn)
+      facts.when = {
+        text: spokenWhen(filed.first.filedOn, core.date),
+        sourceRecordIds: [filed.first.recordId],
       };
   } else if (filed)
     facts["none-filed"] = { text: "yes", sourceRecordIds: [contest.id] };

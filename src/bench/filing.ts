@@ -175,6 +175,7 @@ export function openBenchFilingVisit(
             first: {
               name: `${person.givenName} ${person.familyName}`,
               recordId: first.id,
+              filedOn: first.filedOn,
             },
           }
         : {}),
