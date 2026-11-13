@@ -17,6 +17,7 @@ import {
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
   ballot,
@@ -32,6 +33,7 @@ import {
   type TieRow,
 } from "./modules/parties";
 import { countedField, holdPrimary, openVoting } from "./modules/voting";
+import { advanceToFilingOpen } from "./gov-test-clock";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??
@@ -142,6 +144,7 @@ describe(`ballot order by the law of the place (${where})`, () => {
           minimumPeople: 300,
         }),
       );
+      openLaws(core);
       openOffices(core, seed);
       openElections(core);
       openCampaigns(core);
@@ -168,6 +171,9 @@ describe(`ballot order by the law of the place (${where})`, () => {
             2026 - Number(core.people.get(id)!.birthDate.slice(0, 4)) >= 35,
         )
         .sort();
+      // Every race opens its filing on its own real day: move to the first day
+      // one is open in this place (gov-test-clock), as a player would wait.
+      advanceToFilingOpen(core);
       for (const contest of openContests(api).filter(
         (c) => c.primaryDate && c.primaryDate > "2026-01-05",
       )) {

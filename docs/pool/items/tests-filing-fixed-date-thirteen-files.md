@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 3
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/red-main-filing-fixed-date-core2
-pr:
+pr: 8976
 blocked-on:
 source: fixer of tests-door-pledge-turnout-race-open-by-draw (PR #8902), Nov 12, from the coordinator's order
 after:
@@ -46,10 +46,16 @@ Seen: no player screen; these tests guard the filing, campaign and scene paths a
 
 **Rules.** One rule, all 56 places: a test that needs a race draws, waits for the window, and names each place and seed (`drawn-place-tests`). Never pin a place or seed, never weaken or skip an assertion. No dice.
 
-**Done when.** A second session runs each of the thirteen files at a seed whose drawn place has no window open on January 5 and at a fresh seed, in a drawn place it names, and sees every file pass with the place and seed in its output.
+**Done when.** A second session runs each of the eleven files this item fixes (the thirteen above but `src/core2/campaign-money-calibration.test.ts`, whose wait moved to `tests-campaign-money-remerton-donors-not-warm`, and `src/core2/record.test.ts`, left as on main, see Notes) at a seed whose drawn place has no window open on January 5 and at a fresh seed, in a drawn place it names, and sees every file pass with the place and seed in its output, except the reds on main this item's Notes name (campaign-mail's mail share, campaign-calibration's niche speech), each its own item.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/campaign-calibration.test.ts, src/core2/record.test.ts, src/core2/donor-meeting.test.ts, src/core2/campaign-day.test.ts, src/core2/ballot-order.test.ts, src/core2/parties.test.ts, src/core2/campaign-door-balance.test.ts, src/core2/campaign-money-calibration.test.ts, src/core2/door-fill-in.test.ts, src/bench/player-day-morning.test.ts, src/bench/scene-hours.test.ts, src/bench/campaign-mail.test.ts, src/bench/donor-calls.test.ts
+**Files.** src/core2/gov-test-clock.ts, src/core2/campaign-calibration.test.ts, src/core2/donor-meeting.test.ts, src/core2/campaign-day.test.ts, src/core2/ballot-order.test.ts, src/core2/parties.test.ts, src/core2/campaign-door-balance.test.ts, src/core2/door-fill-in.test.ts, src/bench/player-day-morning.test.ts, src/bench/scene-hours.test.ts, src/bench/campaign-mail.test.ts, src/bench/donor-calls.test.ts
 
 **Notes.** Twins searched Nov 12: `tests-filing-starts-where-filing-opens` and `campaigns-test-waits-for-filing-window` (done, other files), `elections-filing-test-waits-for-filing-window` (dropped), `tests-door-pledge-turnout-race-open-by-draw` (door-pledge only, PR #8902). Not run: none of the thirteen was run; the list is from a grep and the line numbers are where each first calls `openContests` or `fileCandidacy` on main e298200245 plus the merge of 3fba4132b9.
+
+**Notes (Red desk opus-red, Nov 13).** Built on `claude/red-main-filing-fixed-date-core2`, one pull request for both areas, because the clock helper changed with them. Each file waits with `advanceToFilingOpen` before its first `openContests`. `record.test.ts` waits for its own contest's `filingOpens`. Two changes beyond the plan. (1) `advanceToFilingOpen` takes `{ wanted, by }`: `donor-calls` and `campaign-money-calibration` wait only for a town or county race and at most 120 days, and they pass a place over by name otherwise. Waiting for any race cost Brandywine, Maryland (2409325) eleven months of played days (322 s), and donor-calls timed out at f26db0f1… (726 s, against 214 s on main). (2) `parties` and `ballot-order` now open laws: once the clock moves, the stand-in filing (`fileRunners` in src/core2/modules/candidacy.ts) reads the laws chain through `contestPositions`, and both threw "Module has no registered state." Reds that are main's own and fail the same on clean main 0fe39561: `campaign-mail` (a composed donation id resolves through `findRecord`; Horn Hill, Alabama 34c05193691935ba, Modena, Utah 2c89147eae23b180), `record` "no ballot cites the rival's attack ad" (5462764, 2c89147eae23b180), and `campaign-calibration` niche speech (Nebraska 3108640, b3fdabddcededcbb). One red is new because the test now gets past filing: `campaign-money-calibration` at 2c89147eae23b180 has 32 of 32 places, and the bands pass ($142 an hour, mean $155, median $105, 881 gifts), but Remerton, Georgia (1364596) gets no gift: 290 of 294 asked answered `not-warm`. On main the same seed fails earlier (26 of 32 places with a race). That one is for the campaigns lead.
+
+**Notes (Red desk, Nov 13, after codex-1251's send-back at a090d08ae2).** `campaign-money-calibration.test.ts` is taken out of this pull request and stays as on main. Once it waits for filing, it reaches Remerton, Georgia's red (`tests-campaign-money-remerton-donors-not-warm`), which no merger will take while that file fails. Its wait goes in with that item's fix: `advanceToFilingOpen(core, { wanted: town or county race, by: 120 days })` before its first `openContests`, as `donor-calls` does here. The other twelve files are unchanged from the head the merger read.
+
+**Notes (Red desk, Nov 13, 04:30).** `src/core2/record.test.ts` is taken out too and left as on main. Waiting for its contest's `filingOpens` moves the race later, and its scenario then plays a longer stretch per draw. CI's unit job (30-second default timeout) timed out both M4-06 cases on 0101f207. Measured with `GOLDEN_PATH_SEED=<seed> npx vitest run src/core2/record.test.ts -t M4-06 --testTimeout=600000`: at 5e6f7a8b9c0d1e2f the rival-turn case fails on this branch after 290 s and passes on main; at 11aa22bb33cc44dd the broken-promise case fails on main ("no ballot cites the rival's attack ad") and passes here. The record test's filing wait needs its own item with the attack-ad red (`tests-record-rival-ad-cited-by-draw`).

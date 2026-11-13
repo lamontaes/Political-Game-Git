@@ -57,6 +57,7 @@ import {
   whyNotToday,
 } from "./campaign-day";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceToFilingOpen } from "./gov-test-clock";
 
 const START = "2026-01-05";
 const runSeed =
@@ -101,6 +102,9 @@ function setupAt(
   let filing: FilingRow | null = null;
   for (const candidate of adults.slice(0, options.local ? 30 : 5)) {
     core.playerId = candidate.id;
+    // Every race opens its filing on its own real day: move to the first day
+    // one is open in this place (gov-test-clock), as a player would wait.
+    advanceToFilingOpen(core);
     for (const contest of openContests(api)) {
       // A town or county race, where a forum is held (never state or federal).
       if (

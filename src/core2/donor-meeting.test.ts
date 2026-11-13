@@ -38,6 +38,7 @@ import { openPress } from "./modules/press";
 import { viewsModule } from "./modules/views";
 import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
+import { advanceToFilingOpen } from "./gov-test-clock";
 
 const START = "2026-01-05";
 const runSeed =
@@ -67,6 +68,9 @@ function world() {
   openParties(core);
   openRecord(core);
   openPress(core);
+  // Every race opens its filing on its own real day: move to the first day
+  // one is open in this place (gov-test-clock), as a player would wait.
+  advanceToFilingOpen(core);
   const api = coreAPI(core);
   const town = (
     api
@@ -316,5 +320,9 @@ describe("a donor meeting", () => {
     // Where no meeting raised money, every room's answers were checked
     // against the records above: a town whose people hold nothing past their
     // cushion gives nothing.
-  });
+    // The world waits for its place's first filing window before anyone
+    // files (gov-test-clock): measured 51 s at GOLDEN_PATH_SEED=
+    // a1b2c3d4e5f60718, where the window opens months after the start; the
+    // default 30 s cut it off in CI (#8976). Twice the slowest measured.
+  }, 120_000);
 });

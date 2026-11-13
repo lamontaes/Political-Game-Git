@@ -6,7 +6,7 @@
  * and runs the engine's donor meeting, in a random place drawn from all 56.
  */
 import { createHash } from "node:crypto";
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "../core2/population";
 import { createLifeCore } from "../core2/life";
@@ -38,8 +38,15 @@ import { takeCampaignDayChoice } from "../core2/campaign-day";
 import { campaignAct, campaignDay, campaignView } from "./campaign";
 import { FOLDED_AT_POST, findRecord, traceNode } from "./dev-trace";
 import controls from "./data/controls.json" with { type: "json" };
+import { advanceToFilingOpen } from "../core2/gov-test-clock";
 
 const START = "2026-01-05";
+// Each case's world waits for its place's first filing window before anyone
+// files (gov-test-clock): measured 45 s at GOLDEN_PATH_SEED=
+// b3c0f0d12130151e4ef8ae66089b47c5c01dbf5374d7d55f366922f9ee1f1061, where the
+// window opens months after the start; the default 30 s cut it off in CI
+// (#8976). About twice the slowest measured.
+vi.setConfig({ testTimeout: 100_000 });
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`campaign-mail:${Date.now()}`).digest("hex");
@@ -102,6 +109,9 @@ function world() {
         Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
     )
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  // Every race opens its filing on its own real day: move to the first day
+  // one is open in this place, as a player would wait.
+  advanceToFilingOpen(core);
   let filing: FilingRow | null = null;
   for (const candidate of residents.slice(0, 5)) {
     core.playerId = candidate.id;

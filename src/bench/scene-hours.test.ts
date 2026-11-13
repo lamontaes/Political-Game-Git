@@ -26,6 +26,7 @@ import {
 } from "../core2/modules/jobs";
 import type { CoreState } from "../core2/types";
 import directorJson from "../director/data/director.json" with { type: "json" };
+import { advanceToFilingOpen } from "../core2/gov-test-clock";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
@@ -48,6 +49,9 @@ it(
     );
     const api = coreAPI(core as CoreState);
     // A local race, so the season's scenes come.
+    // Every race opens its filing on its own real day: move to the first day
+    // one is open in this place, as a player would wait.
+    advanceToFilingOpen(core);
     for (const contest of openContests(api)) {
       if (contest.level === "federal" || contest.level === "state") continue;
       const filed = fileCandidacy(api, {

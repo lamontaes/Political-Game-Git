@@ -26,6 +26,7 @@ import {
   petitionCirculating,
 } from "./modules/elections";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { advanceToFilingOpen } from "./gov-test-clock";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ||
@@ -53,6 +54,9 @@ it("an evening of the player's doors fills in only the residents a porch scene c
       .sort((a, b) => a.id.localeCompare(b.id))[0];
     if (!adult) continue;
     let filingId: string | null = null;
+    // Every race opens its filing on its own real day: move to the first day
+    // one is open in this place (gov-test-clock), as a player would wait.
+    advanceToFilingOpen(core);
     for (const contest of openContests(api)) {
       const result = fileCandidacy(api, {
         personId: adult.id,

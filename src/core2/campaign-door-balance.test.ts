@@ -15,6 +15,7 @@ import { knockDoors, openCampaigns } from "./modules/campaigns";
 import { personLean, personStance } from "./campaign-views";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { advanceToFilingOpen } from "./gov-test-clock";
 
 // Field experiments find door-to-door persuasion near zero on average
 // (Kalla and Broockman 2018; rapportWeight cites it). A month of knocking by a
@@ -71,6 +72,9 @@ describe(`door knocking warmth balance (seed ${seed})`, () => {
           ? F | null
           : null
         : null;
+      // Every race opens its filing on its own real day: move to the first day
+      // one is open in this place (gov-test-clock), as a player would wait.
+      advanceToFilingOpen(core);
       for (const contest of openContests(api)) {
         const r = fileCandidacy(api, {
           personId: player.id,
