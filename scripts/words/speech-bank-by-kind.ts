@@ -670,7 +670,7 @@ const SIDED: [string[], string, "for" | "against", string][] = [
     ["town-address"],
     "polished",
     "for",
-    "I am for {about}, and I ask {body} to {side} this year.",
+    "I am for {about}, and I ask {body-name} to {side} this year.",
   ],
   [
     ["town-address"],
@@ -682,13 +682,13 @@ const SIDED: [string[], string, "for" | "against", string][] = [
     ["town-address"],
     "polished",
     "against",
-    "I am against {about}, and I will ask {body} to vote it down.",
+    "I am against {about}, and I will ask {body-name} to vote it down.",
   ],
   [
     ["town-address"],
     "plain",
     "against",
-    "I'm against {about}, and I'll ask {body} to vote it down.",
+    "I'm against {about}, and I'll ask {body-name} to vote it down.",
   ],
 ];
 for (const [subjects, voice, side, text] of SIDED) {
@@ -858,14 +858,8 @@ const BELIEF_FRAMES: [string, string, string, string][] = [
   ["ask", "both", "Because I believe {belief},", "belief-leads"],
   ["ask", "plain", "Because I've always thought {belief},", "belief-leads"],
   ["ask", "polished", "Because I hold that {belief},", "belief-leads"],
-  ["belief", "polished", "I believe {belief}.", "belief-stands"],
-  ["belief", "polished", "I have always believed {belief}.", "belief-stands"],
-  ["belief", "plain", "What I believe is that {belief}.", "belief-stands"],
-  ["belief", "plain", "I've always thought {belief}.", "belief-stands"],
-  ["why", "polished", "I say so because I believe {belief}.", "belief-after"],
-  ["why", "polished", "That is because I believe {belief}.", "belief-after"],
-  ["why", "plain", "Why? Because I believe {belief}.", "belief-after"],
-  ["why", "plain", "I'll tell you why. I believe {belief}.", "belief-after"],
+  // A belief is never a sentence of its own in an address: it leads into the
+  // ask it explains (the words lead's ruling, Nov 13).
 ];
 for (const [role, voice, text, shape] of BELIEF_FRAMES)
   ADD.push({
@@ -1312,9 +1306,14 @@ const LAWS: [string[], string, string, string][] = [
     ["town-address"],
     "polished",
     "against",
-    "I will ask {body} to end {law-name}.",
+    "I will ask {body-name} to end {law-name}.",
   ],
-  [["town-address"], "plain", "against", "I'll ask {body} to end {law-name}."],
+  [
+    ["town-address"],
+    "plain",
+    "against",
+    "I'll ask {body-name} to end {law-name}.",
+  ],
   // More ways to say each, so no frame is said twice in one speech (the
   // words lead, Nov 12: "I will keep X on the books, and I will veto any
   // bill that would undo it" three times in two speeches).
@@ -1425,13 +1424,13 @@ const LAWS: [string[], string, string, string][] = [
     ["town-address"],
     "polished",
     "against",
-    "I will ask {body} to repeal {law-name}.",
+    "I will ask {body-name} to repeal {law-name}.",
   ],
   [
     ["town-address"],
     "plain",
     "against",
-    "I want {law-name} gone, and I'll ask {body} to end {it}.",
+    "I want {law-name} gone, and I'll ask {body-name} to end {it}.",
   ],
 ];
 for (const [subjects, voice, side, text] of LAWS)
