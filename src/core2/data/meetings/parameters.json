@@ -25,6 +25,27 @@
       "source": "Attendance at a local official's town hall: a few dozen residents (Congressional Management Foundation 2017, 'Citizen-Centric Advocacy': in-person town halls draw dozens in most districts).",
       "spread": [15, 120]
     },
+    "townHallFreeTimeCost": {
+      "value": 1.0,
+      "role": "coefficient",
+      "tag": "TUNABLE",
+      "source": "What an evening at a town hall costs a resident in the hours their work already takes of a working week, in the units of how strongly they feel (0 to 1): a full work week costs this much. Attendance at local public meetings is a minority of adults (Einstein, Glick and Palmer 2019, 'Neighborhood Defenders'). Set so about half of a town's adults are driven enough to come before the room's seats (50 to 56% in two drawn towns, Nov 11); the researched share is far lower, so this is a first step the calibration lead can refit (6 to 10% of adults attend a political meeting in a year, ANES 2016 to 2024).",
+      "spread": [0.5, 1.5]
+    },
+    "townHallDistanceCost": {
+      "value": 0.6,
+      "role": "coefficient",
+      "tag": "TUNABLE",
+      "source": "What the trip costs a resident who lives far from the middle of town, in the same units: the cost at a distance far past the half-distance below.",
+      "spread": [0.3, 1.0]
+    },
+    "townHallHalfDistanceMiles": {
+      "value": 5,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "source": "The distance at which a resident bears half the trip's cost; the same scale as the parties' meetings (partyMeetingHalfDistanceMiles).",
+      "spread": [2, 15]
+    },
     "questionsPerTownHall": {
       "value": 4,
       "tag": "TUNABLE",

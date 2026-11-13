@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: L
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #8750
 after: words-opening-evening-talk-raises-what-the-president-said
 blocked-on:
 lead: words
@@ -19,6 +19,7 @@ source: owner, Nov 11, 2026 (docs/coordination/OWNER-DECISIONS.md, "Nov 11: ever
 checked:
 claimed-at:
 branch:
+merged-at: 2026-11-11T16:20:10.834Z
 ---
 
 **What.** Filing for office is golden path step 3. At the counter the clerk already states the race from its record ("{office}: the general is {general}, the term is {term} years."), but the talk around it is fixed: "Morning. Here to file?", "Then let's get mine in.", "Polite. Brought a pen from home. Asked who else had filed." 102 of the 173 lines under the `filing-clerk` purpose in data/english/parts/scene-talk.json have no insert, most of them the player's replies and the clerk's answers. This item also gives every scene the composing step that the other running-for-office items use. Seen: the talk box at the filing office, from the clerk's greeting to the papers taken, and the filing scene the clerk stages after it.

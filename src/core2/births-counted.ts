@@ -34,7 +34,11 @@ import stateMortality from "./data/state-mortality.json" with { type: "json" };
 import { bookkeeping } from "./bookkeeping";
 import { renewalParameter } from "./births-parameters";
 import { weighUnplanned } from "./births-unplanned";
-import { countedGroupIdOf, countedPayment } from "./counted-money";
+import {
+  countedGroupIdOf,
+  countedHouseholdCash,
+  countedPayment,
+} from "./counted-money";
 import {
   DEFAULT_HEALTH_DATA,
   severityImpulse,
@@ -101,6 +105,24 @@ const source = (date: string): Source => ({
     "Counted population flows: NCHS final natality 2024 (2023 where a 2024 cell is suppressed) by mother's age and state; SSA Actuarial Study No. 120 cohort life tables. Rates applied to counted totals; records chosen by their circumstances.",
 });
 
+/**
+ * The full, living people who list a counted relative (a husk) as family or
+ * hold a tie to them, sorted. The opening records each full person's tie to a
+ * counted relative (state.ts, with openingClosenessHours), so the grief
+ * reader and the eviction notice find it.
+ */
+export function fullRelativesOf(api: CoreAPI, huskId: string): string[] {
+  const husk = api.state.husks.get(huskId);
+  const witnesses = new Set(husk?.familyIds ?? []);
+  for (const key of api.state.relationshipsByPerson.get(huskId) ?? []) {
+    const tie = api.state.relationships.get(key);
+    if (tie) witnesses.add(tie.actorId === huskId ? tie.otherId : tie.actorId);
+  }
+  return [...witnesses]
+    .filter((id) => id !== huskId && api.state.people.get(id)?.alive)
+    .sort();
+}
+
 /** The monthly death record reaches the full people who already know its subject. */
 export function notifyCountedDeaths(
   api: CoreAPI,
@@ -111,17 +133,7 @@ export function notifyCountedDeaths(
     // somebody in or gives them an invented past or medical cause.
     const deceased = api.state.husks.get(deceasedId);
     if (!deceased) continue;
-    // The opening records each full person's tie to a counted relative
-    // (state.ts, with openingClosenessHours), so the grief reader finds it.
-    const witnesses = new Set(deceased.familyIds ?? []);
-    for (const key of api.state.relationshipsByPerson.get(deceasedId) ?? []) {
-      const tie = api.state.relationships.get(key);
-      if (tie)
-        witnesses.add(tie.actorId === deceasedId ? tie.otherId : tie.actorId);
-    }
-    const witnessIds = [...witnesses]
-      .filter((id) => id !== deceasedId && api.state.people.get(id)?.alive)
-      .sort();
+    const witnessIds = fullRelativesOf(api, deceasedId);
     if (!witnessIds.length) continue;
     const kind = DEFAULT_HEALTH_DATA.deathEventKind;
     const id = `${kind}:${deceasedId}:${api.state.date}`;
@@ -375,11 +387,12 @@ function exposureParameters(api: CoreAPI): ExposureParameters {
 function countedExposure(
   record: ResidentHouseholdRecord,
   woman: PersonInput,
+  /** One household's cash, from `countedHouseholdCash`. */
+  cash: number,
   date: string,
   p: ExposureParameters,
 ): number {
   const distance = (ageOf(woman, date) - p.ageCenter) / p.ageSpread;
-  const cash = record.people.reduce((n, row) => n + row.liquidMinor, 0);
   const costs = record.people.reduce(
     (n, row) => n + row.livingCostDailyMinor,
     0,
@@ -1044,6 +1057,7 @@ export function applyCountedFlows(
         const perReview = countedExposure(
           record,
           woman,
+          countedHouseholdCash(api, woman.householdId),
           date,
           (exposureNumbers ??= exposureParameters(api)),
         );
@@ -1076,7 +1090,9 @@ export function applyCountedFlows(
     exposed.sort((a, b) => compare(a.woman.id, b.woman.id));
     for (const { record, woman } of exposed) {
       const stands = weightOfPerson(woman);
-      const cash = record.people.reduce((n, kid) => n + kid.liquidMinor, 0);
+      // The cash she weighs the trip against is what her household can pay
+      // from: its share of its group's account, which pays the trip below.
+      const cash = countedHouseholdCash(api, woman.householdId);
       const decision = weighUnplanned(
         api,
         placeId,
@@ -1094,7 +1110,7 @@ export function applyCountedFlows(
         cash,
         date,
       );
-      store.table(unplannedTable).put({
+      const decided = {
         id: `${woman.id}:unplanned:${date}`,
         placeId,
         motherId: woman.id,
@@ -1115,7 +1131,9 @@ export function applyCountedFlows(
           ? addDays(makeIsoDate(date), p("renewalGestationDays"))
           : null,
         countsId: row.id,
-      } as unknown as ModuleRow);
+        paidMinor: 0,
+      };
+      store.table(unplannedTable).put(decided as unknown as ModuleRow);
       // Ending it pays the trip from the household's cash to the place's
       // outside account, as a full household does, for each household the
       // record stands for.
@@ -1141,6 +1159,10 @@ export function applyCountedFlows(
           // The miles a restriction added are money the households paid under
           // it, recorded on their counted group by its own id, times the
           // households the record stands for (a full household's is in renewal.ts).
+          // What one household paid, beside the cash it weighed.
+          store
+            .table(unplannedTable)
+            .put({ ...decided, paidMinor: moved } as unknown as ModuleRow);
           const group = countedGroupIdOf(api, woman.householdId);
           const lawPaid = Math.round(moved * stands * decision.lawShare);
           if (decision.lawId && group && lawPaid > 0)

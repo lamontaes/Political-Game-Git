@@ -27,11 +27,13 @@
  * each member's. The session's filings, hearings and votes are counted
  * together on its floor day.
  */
+import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import type { GovernmentLevel } from "../government-level";
 import { townLean } from "./campaigns";
 import questionScopes from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
+import federalQuestions from "../../../data/research/campaigns/federal-questions-2026.json" with { type: "json" };
 import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
 import {
   budgetsOf,
@@ -78,6 +80,9 @@ import type { LawRowInput } from "./laws";
 import { policySeriesAtLevel } from "./laws";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import agendaData from "../data/legislature/outside-agenda.json" with { type: "json" };
+import { seededUnit } from "../seeded";
+import { countryStateNow, countryStates } from "./macro";
 import type { OfficeLevel } from "./offices";
 import { partySide } from "./offices";
 import { decisionLean, termOfLean } from "./people";
@@ -200,6 +205,8 @@ export const WORLD_LEGISLATING_MODULE: CoreModule = {
       nextMeetings: {},
       /** Roll calls built on demand for another government's law, kept once seen. */
       rollCalls: {},
+      /** Each other state's pull toward each question, and its figures and members at its last session. */
+      agendas: {},
     },
   },
   onCalendarWork: (api, work) => onWork(api, work),
@@ -260,6 +267,30 @@ function townBodies(api: CoreAPI): readonly string[] {
       o.kind === "township-board",
   );
   return offices.map((o) => o.id).sort();
+}
+
+/**
+ * The federal questions Congress may file on, read from the C2 research list
+ * (data/research/campaigns/federal-questions-2026.json): a question is admitted
+ * when the list names an engine that reads its law today (`reader`), keyed by
+ * the question's own id so the powers catalog's `us-policy-positions` and the
+ * list's `us-federal-positions` forms of one question are the same. A standing
+ * answer and members' stances are still to come (part 2 of
+ * gov-congress-passes-policy-laws; SG-GOV-federal-proposal-coverage).
+ */
+const FEDERAL_ADMITTED: ReadonlySet<string> = new Set(
+  (
+    federalQuestions as unknown as {
+      questions: { question: string; reader: string | null }[];
+    }
+  ).questions
+    .filter((row) => row.reader !== null)
+    .map((row) => row.question.split(":")[1]!),
+);
+
+/** Whether Congress may file on this question: the research list admits it. */
+export function federalQuestionAdmitted(question: string): boolean {
+  return FEDERAL_ADMITTED.has(question.split(":")[1] ?? question);
 }
 
 /** A government's own answer in force on a policy question: its latest enacted row, else its recorded starting answer. */
@@ -377,6 +408,16 @@ export interface SessionBill {
  * parts their vote weighs (`legislature.ts`), plus how their traits lean
  * between filing and holding back. Read once per sitting.
  */
+/** Whether a filer is the person the player controls: they back a filing, never sponsor one they did not file. */
+function isControlled(api: CoreAPI, filer: Filer): boolean {
+  const controlled = snapshotExplicitControlV1(api.state).personId;
+  return (
+    controlled !== undefined &&
+    controlled !== null &&
+    (filer.term.personId === controlled || filer.key === controlled)
+  );
+}
+
 export interface Filer {
   readonly term: TermRow;
   readonly key: string;
@@ -509,6 +550,28 @@ export function filingReason(
     : bare;
 }
 
+/**
+ * A member's own ranked priorities: the changes they have a reason for,
+ * strongest first. Each one they carry takes the time of the next, so the
+ * k-th (from 0) is carried only while its reason outweighs k bills' worth of
+ * carrying (`memberBillCarryCost`). How far down the list a member reaches
+ * follows how strongly they feel; no threshold is shared between members, and
+ * the order the changes are listed in does not matter. Returns the positions
+ * in `reasons` the member carries.
+ */
+export function carriedRanks(
+  reasons: readonly number[],
+  carryCost: number,
+): ReadonlySet<number> {
+  const ranked = reasons
+    .map((reason, i) => ({ reason, i }))
+    .filter((r) => r.reason > 0)
+    .sort((x, y) => y.reason - x.reason || x.i - y.i);
+  return new Set(
+    ranked.filter((r, rank) => r.reason > rank * carryCost).map((r) => r.i),
+  );
+}
+
 /** A change a member files, with who backs it and where the floor leader puts it. */
 interface Filed {
   readonly question: string;
@@ -564,72 +627,94 @@ function fileChanges(
     head && memberKey(head) !== (api.state as CoreState).playerId
       ? filerOf(api, head)
       : null;
-  for (const question of input.body ? PLATFORM_QUESTIONS : []) {
+  // Every change the law in force and the body's rules leave open to file.
+  const open: { question: string; direction: number }[] = [];
+  for (const question of input.body ? PLATFORM_QUESTIONS : [])
     for (const direction of [1, -1]) {
       if (!input.needsChange(question, direction)) continue;
       if (!input.allowed(question, direction)) continue;
       if (input.barred(question, direction)) continue;
-      const law = lawStanding(api, question, direction, input.jurisdiction);
-      let sponsor: Filer | null = null;
-      let best = 0;
-      let cosponsors = 0;
-      for (const member of filers) {
-        const reason = filingReason(api, member, question, direction, law);
-        if (reason <= 0) continue;
-        cosponsors += 1;
-        if (
-          reason > best ||
-          (reason === best && sponsor && member.key < sponsor.key)
-        ) {
-          best = reason;
-          sponsor = member;
-        }
+      open.push({ question, direction });
+    }
+  const laws = open.map((c) =>
+    lawStanding(api, c.question, c.direction, input.jurisdiction),
+  );
+  const reasonsOf = (f: Filer): number[] =>
+    open.map((c, i) => filingReason(api, f, c.question, c.direction, laws[i]!));
+  const carryCost = campaignParameter("memberBillCarryCost");
+  const byMember = filers.map((member) => {
+    const reasons = reasonsOf(member);
+    return {
+      member,
+      reasons,
+      // Nothing is filed in the player's name without them: they back it, and
+      // file their own bills through the bill menu.
+      carries: isControlled(api, member)
+        ? new Set<number>()
+        : carriedRanks(reasons, carryCost),
+    };
+  });
+  let execCarries: ReadonlySet<number> | undefined;
+  open.forEach(({ question, direction }, i) => {
+    const law = laws[i]!;
+    let sponsor: Filer | null = null;
+    let best = 0;
+    let cosponsors = 0;
+    for (const { member, reasons, carries } of byMember) {
+      const reason = reasons[i]!;
+      if (reason <= 0) continue;
+      cosponsors += 1;
+      if (!carries.has(i)) continue;
+      if (
+        reason > best ||
+        (reason === best && sponsor && member.key < sponsor.key)
+      ) {
+        best = reason;
+        sponsor = member;
       }
-      if (!sponsor) {
-        if (
-          !executive ||
-          filingReason(api, executive, question, direction, law) <= 0
-        )
-          continue;
-        const request = proposeAsExecutive(api, {
-          bodyOfficeId: input.body!.id,
-          provisions: [{ kind: "policy-question", question, value: direction }],
-        });
-        const drafted = request?.billId
-          ? (api
-              .moduleState(LEGISLATURE_MODULE_ID)
-              .table("bills")
-              .get(request.billId) as unknown as BillRow)
-          : undefined;
-        if (!request || !drafted) continue;
-        filed.push({
-          question,
-          direction,
-          sponsor:
-            filers.find((f) => f.key === request.memberId) ??
-            filerOf(
-              api,
-              input.filers.find((t) => memberKey(t) === request.memberId)!,
-            ),
-          cosponsors,
-          leaderReason: leader
-            ? filingReason(api, leader, question, direction, law)
-            : 0,
-          drafted,
-        });
-        continue;
-      }
+    }
+    if (!sponsor) {
+      if (!executive) return;
+      execCarries ??= carriedRanks(reasonsOf(executive), carryCost);
+      if (!execCarries.has(i)) return;
+      const request = proposeAsExecutive(api, {
+        bodyOfficeId: input.body!.id,
+        provisions: [{ kind: "policy-question", question, value: direction }],
+      });
+      const drafted = request?.billId
+        ? (api
+            .moduleState(LEGISLATURE_MODULE_ID)
+            .table("bills")
+            .get(request.billId) as unknown as BillRow)
+        : undefined;
+      if (!request || !drafted) return;
       filed.push({
         question,
         direction,
-        sponsor,
+        sponsor:
+          filers.find((f) => f.key === request.memberId) ??
+          filerOf(
+            api,
+            input.filers.find((t) => memberKey(t) === request.memberId)!,
+          ),
         cosponsors,
         leaderReason: leader
           ? filingReason(api, leader, question, direction, law)
           : 0,
+        drafted,
       });
+      return;
     }
-  }
+    filed.push({
+      question,
+      direction,
+      sponsor,
+      cosponsors,
+      leaderReason: leader
+        ? filingReason(api, leader, question, direction, law)
+        : 0,
+    });
+  });
   if (input.lines)
     filed.push(...fileLines(api, input.jurisdiction, filers, input.barred));
   // The floor leader's calendar: the most backed first, a change weighing
@@ -763,6 +848,8 @@ function fileLines(
       let sponsor: Filer | null = null;
       for (const { at, gap } of backers) {
         const member = filers[at]!;
+        // The player backs it but never sponsors it without filing it.
+        if (isControlled(api, member)) continue;
         const reason = gap / row.base;
         if (
           reason > best ||
@@ -1230,37 +1317,45 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         (m) => majority === 0 || partySide(m.party) === majority,
       ),
     );
-  const filers = federal
-    ? [...members(api, FEDERAL_HOUSE), ...members(api, FEDERAL_SENATE)]
-    : ["legislature-lower", "legislature-upper", "legislature-unicameral"]
-        .map((kind) => chamber(api, jurisdiction, kind))
-        .flatMap((c) => c?.members ?? []);
+  // Congress files each question once in each chamber, from that chamber's own
+  // members; a state's members file together.
+  const filerGroups: (readonly TermRow[])[] = federal
+    ? [members(api, FEDERAL_HOUSE), members(api, FEDERAL_SENATE)]
+    : [
+        ["legislature-lower", "legislature-upper", "legislature-unicameral"]
+          .map((kind) => chamber(api, jurisdiction, kind))
+          .flatMap((c) => c?.members ?? []),
+      ];
   // stopgapId: SG-GOV-federal-proposal-coverage
   // Federal-only questions still need stances, opening answers and effect readers.
   if (federal) api.stopgap("SG-GOV-federal-proposal-coverage");
   const filed = lower
-    ? fileChanges(api, {
-        key: work.key,
-        jurisdiction,
-        body: lower,
-        filers,
-        leader,
-        floorDays: 0,
-        billsPerFloorDay: 0,
-        needsChange: (question, direction) =>
-          needsChange(direction, answerIn(api, jurisdiction, question, true)),
-        // A legislature answers only the questions its level may (data).
-        allowed: (question, value) =>
-          levelMayDecide(
-            api,
-            federal ? "federal" : "state",
-            question,
-            value,
-            federal ? undefined : jurisdiction,
-          ),
-        // A new session takes every bill up afresh.
-        barred: () => false,
-      })
+    ? filerGroups.flatMap((filers, group) =>
+        fileChanges(api, {
+          key: `${work.key}:${group}`,
+          jurisdiction,
+          body: lower,
+          filers,
+          leader,
+          floorDays: 0,
+          billsPerFloorDay: 0,
+          needsChange: (question, direction) =>
+            needsChange(direction, answerIn(api, jurisdiction, question, true)),
+          // A legislature answers only the questions its level may (data); Congress,
+          // only those the research list admits.
+          allowed: (question, value) =>
+            (!federal || federalQuestionAdmitted(question)) &&
+            levelMayDecide(
+              api,
+              federal ? "federal" : "state",
+              question,
+              value,
+              federal ? undefined : jurisdiction,
+            ),
+          // A new session takes every bill up afresh.
+          barred: () => false,
+        }),
+      )
     : [];
   const today = api.state.date;
   const length = Math.max(1, daysBetween(today, adjournAt));
@@ -1383,7 +1478,11 @@ function openOutsideSession(
     readonly decision: "signed" | "overridden";
   }
   const results: Result[] = [];
+  // What the session takes up: the questions what moved in the state since its
+  // last session carried onto the agenda (sessionAgenda), never every one.
+  const agenda = sessionAgenda(api, jurisdiction, keys.flat());
   for (const question of PLATFORM_QUESTIONS) {
+    if (!agenda.has(question)) continue;
     let best: Result | null = null;
     for (const direction of [1, -1]) {
       if (!needsChange(direction, answerIn(api, jurisdiction, question, true)))
@@ -1454,6 +1553,8 @@ function openOutsideSession(
         r.decision,
         String(i + 1),
         String(r.margin),
+        // What carried the question onto the agenda, kept on the law row.
+        JSON.stringify(agenda.get(r.question) ?? null),
         // The governor's key is the last record, left out when no one holds the office.
         ...(governorKey ? [governorKey] : []),
       ],
@@ -1482,6 +1583,129 @@ function openOutsideSession(
   });
 }
 
+const AGENDA = agendaData as unknown as {
+  figures: Readonly<Record<string, { fullChange: number }>>;
+  weights: {
+    byArea: Readonly<Record<string, Readonly<Record<string, number>>>>;
+  };
+  newMembers: { weight: number };
+  openingYear: { value: number };
+};
+
+/** One state's agenda: its pull toward each question, and what it stood at when its last session opened. */
+interface AgendaRow {
+  readonly id: string;
+  readonly pulls: Readonly<Record<string, number>>;
+  /** The state's figures at its last session (null before its first). */
+  readonly figures: Readonly<Record<string, number>> | null;
+  /** Its members at its last session. */
+  readonly members: readonly string[];
+}
+
+/** What moved a question onto a session's agenda: each figure's move and the new members' share. */
+interface AgendaCause {
+  readonly moved: Readonly<Record<string, number>>;
+  readonly newMembers: number;
+  readonly agendaId: string;
+  /** The state's first session in the world: the year before the opening carried it. */
+  readonly opening: boolean;
+}
+
+/** A state's figures today from the country tier: people out of work, prices, pay, and revenue against budget. */
+function stateFigures(
+  api: CoreAPI,
+  jurisdiction: string,
+): Record<string, number> | null {
+  if (!api.state.modules.has("macro")) return null;
+  const state = countryStates(api).find((row) => row.key === jurisdiction);
+  const now = state ? countryStateNow(api, state.fips) : undefined;
+  if (!state || !now) return null;
+  const months = state.ledger.revenueMonths;
+  const revenueYear = months.length
+    ? (months.reduce((a, b) => a + b, 0) / months.length) *
+      api.parameter("monthsPerYear")
+    : state.ledger.budgetYear;
+  return {
+    unemploymentPct: now.now.unemploymentPct,
+    prices: now.now.prices,
+    hourlyPay: now.now.hourlyPay,
+    budgetGap:
+      state.ledger.budgetYear > 0 ? revenueYear / state.ledger.budgetYear : 1,
+  };
+}
+
+/**
+ * What a state's session takes up: each question whose pull reaches one
+ * whole once this session's moves are added (outside-agenda.json). The pull
+ * grows by how far the state's own figures moved since its last session,
+ * weighed by the question's area, and by the share of its members who are
+ * new; the opening's place along each pull is the world's seeded line. The
+ * row is written back with the taken-up questions' pulls less one.
+ */
+function sessionAgenda(
+  api: CoreAPI,
+  jurisdiction: string,
+  members: readonly string[],
+): Map<string, AgendaCause> {
+  const table = api.moduleState(WORLD_LEGISLATING_MODULE_ID).table("agendas");
+  const id = `agenda:${jurisdiction}`;
+  const kept = table.get(id) as unknown as AgendaRow | undefined;
+  const figures = stateFigures(api, jurisdiction);
+  // How far each figure moved since the last session, against its full change.
+  const moved: Record<string, number> = {};
+  if (kept?.figures && figures)
+    for (const [key, row] of Object.entries(AGENDA.figures)) {
+      const then = kept.figures[key];
+      const now = figures[key];
+      if (then === undefined || now === undefined) continue;
+      const change =
+        key === "unemploymentPct"
+          ? now - then
+          : then !== 0
+            ? now / then - 1
+            : 0;
+      moved[key] = Math.abs(change) / row.fullChange;
+    }
+  const before = new Set(kept?.members ?? members);
+  const newMembers = members.length
+    ? members.filter((key) => !before.has(key)).length / members.length
+    : 0;
+  const pulls: Record<string, number> = {};
+  const taken = new Map<string, AgendaCause>();
+  for (const question of PLATFORM_QUESTIONS) {
+    const area = question.slice(question.indexOf(":") + 1).split(".")[0] ?? "";
+    const weights = AGENDA.weights.byArea[area] ?? {};
+    // Before its first session a pull stands at the world's seeded place along
+    // one whole and the year before the opening (openingYear).
+    let pull =
+      kept?.pulls[question] ??
+      seededUnit(api.state.seed, `outside-agenda:${jurisdiction}:${question}`) *
+        (1 + AGENDA.openingYear.value);
+    for (const [key, size] of Object.entries(moved))
+      pull += size * (weights[key] ?? 0);
+    pull += newMembers * AGENDA.newMembers.weight;
+    if (pull >= 1) {
+      taken.set(question, {
+        moved: Object.fromEntries(
+          Object.entries(moved).filter(([key]) => (weights[key] ?? 0) > 0),
+        ),
+        newMembers,
+        agendaId: id,
+        opening: !kept,
+      });
+      pull -= 1;
+    }
+    pulls[question] = pull;
+  }
+  table.put({
+    id,
+    pulls,
+    figures,
+    members: [...members],
+  } as unknown as ModuleRow);
+  return taken;
+}
+
 /** The day an outside result passes: the law row, with its counts, and nothing else. */
 function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const [
@@ -1494,6 +1718,7 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     decision,
     nth,
     margin,
+    agendaCause,
     governorKey,
   ] = work.sourceRecordIds as [
     string,
@@ -1505,8 +1730,10 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     string,
     string,
     string,
+    string,
     string | undefined,
   ];
+  const cause = JSON.parse(agendaCause ?? "null") as AgendaCause | null;
   const direction = Number(directionText);
   // The law may have changed since the session opened: then nothing passes.
   if (!needsChange(direction, answerIn(api, jurisdiction, question, true)))
@@ -1534,6 +1761,20 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       margin: Number(margin),
       ...(governorKey ? { decidedBy: governorKey } : {}),
       decision,
+      // Why this session took it up: the state's figures that moved since its
+      // last session (each against its full change) and its new members' share.
+      ...(cause
+        ? {
+            agenda: cause.agendaId,
+            moved: Object.entries(cause.moved)
+              .map(([key, size]) => `${key}:${size.toFixed(3)}`)
+              .join(","),
+            newMembers: Number(cause.newMembers.toFixed(3)),
+            ...(cause.opening
+              ? { carried: "the year before the opening" }
+              : {}),
+          }
+        : {}),
     },
   });
 }
@@ -1718,6 +1959,20 @@ function sessionBillOf(
   };
 }
 
+/**
+ * Whether the chamber's leader refused the sponsor's request to put a bill on
+ * the floor and has not since granted it. The office day that keeps the
+ * leader's answers registers it (office-day-state `askLeaderForHearing`).
+ */
+let leaderRefused: ((api: CoreAPI, billId: string) => boolean) | undefined;
+export function registerLeaderRefusalReader(
+  reader: (api: CoreAPI, billId: string) => boolean,
+): void {
+  leaderRefused = reader;
+}
+const refusedByLeader = (api: CoreAPI, billId: string): boolean =>
+  leaderRefused?.(api, billId) ?? false;
+
 /** A bill waiting on a session's floor, with the filing that brought it if any. */
 interface Queued {
   /** Empty for a filing not yet introduced. */
@@ -1734,8 +1989,14 @@ interface Queued {
 function floorQueue(api: CoreAPI, row: LegislativeSession): readonly Queued[] {
   const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
   const decided = new Set(row.bills.map((b) => b.number));
+  // A bill whose sponsor asked the chamber's leader for the floor and was
+  // refused stays off the leader's order until the answer turns
+  // (office-day-state `askLeaderForHearing`).
   const waiting = (b: BillRow | undefined): b is BillRow =>
-    !!b && b.status === "drafted" && !decided.has(b.number);
+    !!b &&
+    b.status === "drafted" &&
+    !decided.has(b.number) &&
+    !refusedByLeader(api, b.id);
   const today = api.state.date;
   return [
     ...row.filings.flatMap((filing): Queued[] => {
@@ -1957,8 +2218,22 @@ function closeSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const officeId = work.sourceRecordIds[0]!;
   const meetingDate = work.sourceRecordIds[1] ?? api.state.date;
+  // On the eve, a body nobody the player plays sits on files on the day.
+  if (meetingDate > api.state.date && !meetingHold?.(api, officeId)) {
+    api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
+      key: `${work.key}:day`,
+      date: makeIsoDate(meetingDate),
+      kind: "local-meeting",
+      source: work.source,
+      sourceRecordIds: [officeId, meetingDate],
+    });
+    return;
+  }
   scheduleMeeting(api, officeId, meetingDate);
-  const hold = meetingDate > api.state.date && !!meetingHold?.(api, officeId);
+  // Held for the player from the moment they take the seat, the meeting day
+  // itself included: a meeting still on the books takes its filings onto the
+  // agenda (and may stop the player) instead of voting them at once.
+  const hold = meetingDate >= api.state.date && !!meetingHold?.(api, officeId);
   const body: Body = { id: officeId, members: members(api, officeId) };
   // The presiding member the body elected, else the most senior.
   const presiding = presidingOfficer(api, officeId);
@@ -2087,10 +2362,12 @@ function scheduleMeeting(
     date: next.date,
     source: next.rule.source,
   } as unknown as ModuleRow);
-  // Members file the day before a meeting the player will sit in, so the
-  // bills are on its agenda when the player's stop comes; otherwise on the day.
+  // The filing is decided on the eve, whoever holds the seat by then: a body
+  // the player sits on files that day, so the bills are on the meeting's
+  // agenda while its stop can still come; any other body's filing moves on
+  // to the meeting day itself (`localMeeting`).
   const eve = addDays(makeIsoDate(next.date), -1);
-  const early = !!meetingHold?.(api, officeId) && eve > api.state.date;
+  const early = eve > api.state.date;
   api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
     key: `local-meeting:${officeId}:${next.date}`,
     date: early ? eve : next.date,

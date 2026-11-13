@@ -11,11 +11,11 @@ description: >
 
 # Red main
 
-Red main comes first (owner, Oct 15). One red, one branch, one ready PR whose line 1 is `Touches pool item: release-main-red-standing`. Fix at the root; never skip, disable, quarantine or allowlist a test, and never widen a bound without saying why in the PR body.
+Red main comes first (owner, Oct 15; `AGENTS.md` "How every session works", step 2). One red, one branch, one ready PR whose line 1 is `Touches pool item: release-main-red-standing`. A fix to a red check is a check or tooling change, so it merges ahead of other pull requests (owner, Nov 10: rules, checks and skills merge first; `merger` section 0b). Put the red's test, place and seed and your progress on that PR, where the next agent on any tool finds it. Fix at the root; never skip, disable, quarantine or allowlist a test, and never widen a bound without saying why in the PR body.
 
 ## 1. Read the verdicts first
 
-Read the newest run of Release, Deterministic validation, M0 guards and Every place nightly on main (GitHub MCP `actions_list`, branch main, event schedule). A push run on main is canceled by the next push, so the scheduled runs are the verdicts. A report that is "red on main" may already be green: check the newest run before building (Oct 29: two reds on the list were fixed by earlier merges).
+Read the newest run of Release, Deterministic validation, M0 guards and Every place nightly on main (the Actions runs for branch main; with the GitHub tools, `actions_list`, or `gh api repos/lamontaes/Political-Game-Git/actions/runs?branch=main`). A push run on main is canceled by the next push, so the scheduled runs are the verdicts. A report that is "red on main" may already be green: check the newest run before building (Oct 29: two reds on the list were fixed by earlier merges).
 
 ## 2. Name the red by test, place and seed
 
@@ -69,7 +69,9 @@ A red is not named until you have the failing test, the drawn place, the seed an
 - **Out of memory at the default heap is a trace, not a heap bump.** CI runs node's default (about 2.2 GB; check `v8.getHeapStatistics().heap_size_limit` after `unset NODE_OPTIONS`). Run the file with `env -u NODE_OPTIONS` at the seed to reproduce, then find what grows: log `heapUsed` after `gc()` (`NODE_OPTIONS=--expose-gc`) after the build and every 90 days, and print `moduleTableSizes(core)` at day 0 and day 600 (`src/core2/module-state.ts`). `law-wiring-housing` at `hr-fresh-9c2` showed 1.3 GB after the build (about 570 MB the world, the rest imports) and 2.0 GB after 700 days, from campaign door, cause and pledge rows. A population ceiling in the test left no town to play. The fix belongs to the table's owner (the fold items in the pool), not to the heap. A town's size does not predict it: a 48,000-person town ran the same file at the default heap.
 - **Never `pkill -f vitest` in the same shell.** It killed the session's shell (exit 144) on Nov 2. Wait for a run with `until [ -f <name>.done ]` and stop one with the PID it printed.
 
-- **The hourly full run (CTO, Nov 8: reds were found by accident, because a PR's checks run only the test files it changes).** About once an hour, at the first break between other pieces of work after an hour has passed (never a sleep loop or a timer), in your own checkout at the newest `origin/main`: run the full unit suite and `npm run guards`, one process, alone (`heavy-runs`). For each red post one line on #7365 that starts "Dev Tester: red on main", naming the test, the commit that broke it (bisect to it) and the owning session, and message the coordinator the same line so it reaches the owner and the owner's fix goes to the front of the desk's line. Name the main commit of each run in your PR bodies.
+- **The hourly full run (CTO, Nov 8: reds were found by accident, because a PR's checks run only the test files it changes).** About once an hour, at the first break between other pieces of work after an hour has passed (never a sleep loop or a timer), in your own checkout at the newest `origin/main`: run the full unit suite and `npm run guards`, one process, alone (`heavy-runs`). For each red post one line on #8928 that starts "Dev Tester: red on main", naming the test, the commit that broke it (bisect to it) and the owning session, and message the coordinator the same line so it reaches the owner and the owner's fix goes to the front of the desk's line. Name the main commit of each run in your PR bodies.
+
+A red from the words machine (`npm run words:rules`, `tests/guards/english`) names a line or a rule. A rule a program can judge pulls the failing line (`data/english/pulled.json`); the rewrite is the Story session's, so a red-main fixer lists the line and does not edit `data/english/parts/` (owner, Nov 10, "Split by role"). A red in a rule is fixed in the rule's test, not by weakening the rule.
 
 ## 6. Keep the record
 
@@ -83,3 +85,10 @@ A check failed 3 runs in 9 on a pull request that had just merged. The lead name
 - **A failure that happens every run on a seed is not a race.** The first theory was two redraws racing. A race fails sometimes on one seed; this failed every time on three seeds and never on others. Ask what the failing seeds share before you write a fix (here: the bill the check clicked was already open).
 - **Log before you theorize.** What found it was ten lines of logging: each draw's start and end, and the page's sections after the click. The log showed the redraws ran and the page ignored them. Add the log to a scratch copy of the check, never to the game.
 - **Say on the crew's issue when you were wrong, in the same hour,** with what you ran and what it showed. A wrong cause left standing sends the next session down it.
+
+## Lessons of Nov 11 (the afternoon: five reds by draw in one hour)
+
+- **A registration at the top of a file fails by load order.** `legislature.ts` called the corruption module's `registerBribeScope` as the file loaded. The two import each other through `people`, so when a test loaded a person's card first, the call ran before the list existed ("Cannot access 'scopes' before initialization"). Register in the module's opening function (`openLegislature`), beside the registrations already there, and make the register keep one copy.
+- **"The first" or "the last" row of a table is whoever sorts there.** A test kept the last serving legislator it found. Since other states' chambers are kept as records with no person, the last one was Wyoming's, and the engine rightly refused to act for it. A test names the case it needs (the played state's own chamber, a holder who is a person) and passes over the rest.
+- **Check the route still reads what the check sends.** A browser check asked for a world on a date in 2026. The route has opened every game on the one start date since Oct 14 and ignores the date, so the check failed wherever no filing window was open on the first day. Read the route before blaming the screen.
+- **Run the failing seed on main before you own the failure.** A changed-file test failed on a fix branch; with the same seed (`DEV_MODE_SEED`) it failed on main too. It was a separate red by draw and got its own owner.

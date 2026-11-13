@@ -7,7 +7,10 @@ import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
 import { OUTCOME_WEB_MODULE_ID } from "../core2/outcome-web-model";
 import { TERM_AREAS, TERM_MEASURES } from "../core2/term-read";
-import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
+import {
+  OPENING_SPEECH_BANK,
+  partHolds,
+} from "../english/english-opening-speech";
 import { composeOpeningStory } from "./opening-story";
 import { ADDRESS_KINDS } from "./address-kind";
 
@@ -115,8 +118,8 @@ describe("the address picks its kind and subjects from the world", () => {
           expect(
             OPENING_SPEECH_BANK.parts.some(
               (part) =>
-                part.voice === voice &&
-                part.topic === area &&
+                partHolds(part.voice, voice) &&
+                partHolds(part.topic, area) &&
                 part.uses.some(
                   (use) =>
                     use.role === "story-says" &&
@@ -135,7 +138,7 @@ describe("the address picks its kind and subjects from the world", () => {
             OPENING_SPEECH_BANK.parts.filter(
               (part) =>
                 part.addressKind === kind &&
-                part.voice === voice &&
+                partHolds(part.voice, voice) &&
                 part.uses.some((use) => use.role === role),
             ).length,
             `${kind} ${role} ${voice}`,

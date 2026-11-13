@@ -15,8 +15,8 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // 11), so on the first evening a household member had nothing on record to
 // raise and Talk ended at once. The household watches the President's address
 // with the player on the news at home; the address is the day's subject, the
-// player has four replies, and each reply moves the talk on to the other
-// person's own take with four new replies. Places are drawn in turn until the
+// player has four replies, and each reply moves the talk on to the point of
+// the address the other person raises, with four new replies. Places are drawn in turn until the
 // player lives with someone.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const ATTEMPTS = 6;
@@ -72,7 +72,7 @@ it(`a household member opens from the day, and each reply moves the talk on (see
       const next = say(core, talk, pick.key);
       const answer = next.lines[said + 1];
       expect(answer?.speakerId, `${here}: ${pick.text}`).toBe(member.id);
-      expect(answer?.kind, `${here}: ${pick.text}`).toBe("address-view");
+      expect(answer?.kind, `${here}: ${pick.text}`).toBe("address-point");
       expectUpToFourDifferent(next.choices, `${here}: ${pick.text}`);
       console.log(
         `HOUSEHOLD TALK ${here}: "${opener!.text}" / you: "${pick.text}" / "${answer!.text}" / ${next.choices.map((row) => `"${row.text}"`).join(" ")}`,

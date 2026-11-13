@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/pool-wire-law-links-to-people-part-1-partly-wired-laws
 pr: #8523
@@ -19,6 +19,7 @@ source: split from wire-law-links-to-people in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T08:05:05.798Z
 branch: claude/pool-wire-law-links-to-people-part-1-partly-wired-laws
+merged-at: 2026-11-13T01:41:15.739Z
 ---
 
 **What.** Part of wire-law-links-to-people. The law matrix grades 31 laws as partly wired: the law is in force but not every engine that should read it does. Make each one reach a named person's money or view, proven in a drawn place, or carry a specific registered stopgap that names the engine still missing. Regenerate the matrix with each change. Seen: a named person's money or view moving after one of 31 partly wired laws.

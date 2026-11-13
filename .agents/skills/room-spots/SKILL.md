@@ -9,7 +9,9 @@ description: How a room picture for Our Civic Duty is painted in the standard ca
 
 Owner, Oct 29: "5 angles per pose and have those 5 angles be able to be used throughout the game"; two standard shots per place (wide and medium) with the same eye-level camera and horizon; Firefly paints the room empty. Oct 28: "do not put people in until there are mannequins in there for every position" (positions are still required first); Nov 3: "Delete that mannequin." The green mannequin pictures are gone and seats are blobs, positions only (`art/people-rooms/mannequin-plates/README.md`). Oct 29, on couches: "They have to sit on the seat, but it has to appear behind the arm thing."
 
-The tools and the worked Oval Office are on the art branch under `art/people-rooms/standard/` (`tools/`, `PLAN.md`).
+The tools and the worked Oval Office are on the art branch under `art/people-rooms/standard/` (`tools/`, `PLAN.md`); that folder is not on main, so fetch the art branch before using them, and if it is gone say so on the item's pull request.
+
+**Busts are coming (owner, Nov 10, about 8:40 a.m.):** "I'm not necessarily worried about the staging code now because you're going to be making busts. I haven't decided how they're going to display yet." Do not file or reopen full-body staging defects (who stands where, people blocking each other) and do not paint new full-body room sets for them until he rules on how busts are shown; check `docs/coordination/OWNER-DECISIONS.md` for that ruling first. The plate rules below stay true for the rooms that already have plates (`people-pack`).
 
 ## The standard camera
 

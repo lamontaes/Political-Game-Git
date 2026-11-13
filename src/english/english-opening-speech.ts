@@ -28,12 +28,12 @@ import type {
 import type { SpeechDevice } from "./speech-registers";
 
 interface OpeningPart extends BankPart {
-  /** The speaker's manner this wording is for. */
-  voice: SpeechVoice;
+  /** The speaker's manner this wording is for; a list when it reads the same in several. */
+  voice: SpeechVoice | readonly SpeechVoice[];
   /** How the sentence lands (glad, braced, tender, calm), for the speaker's trait pulls. */
   bearing?: string;
-  /** The country's subject the sentence is about ("unemployment", "wages"). */
-  topic?: string;
+  /** The country's subject the sentence is about ("unemployment", "wages"); a list when one wording serves several. */
+  topic?: string | readonly string[];
   /** The Speaker's gender the salutation is for (`chair-male`, `chair-female`). */
   stages?: string[];
   /** The crafted device the sentence makes, earned by the speaker's addresses. */
@@ -44,16 +44,25 @@ interface OpeningPart extends BankPart {
    * kind that has no piece of its own for the role (owner, Nov 8).
    */
   addressKind?: string;
+  /**
+   * The part of a joined sentence the piece is (owner, Nov 11, call 12: "A
+   * piece the engine joins counts as composed when the sentence it makes
+   * carries an insert"): an opener said before the move's core, or the core
+   * itself, which names a slot from the world's records in every wording. A
+   * piece without one is a whole core.
+   */
+  piece?: {
+    of: string;
+    part: "opener" | "core" | "closer";
+    required?: boolean;
+  };
 }
 export const OPENING_SPEECH_BANK = bankJson as unknown as {
   parts: OpeningPart[];
 };
 
 export type OpeningSpeechKind =
-  | "state-of-the-union"
-  | "inaugural"
-  | "state-of-the-state"
-  | "town-address";
+  "state-of-the-union" | "inaugural" | "state-of-the-state" | "town-address";
 export type SpeechVoice = "polished" | "plain";
 
 /** Where the camera is while a block is spoken. */
@@ -95,35 +104,74 @@ const ACTS: Readonly<Record<string, SpeechAct>> = {
   hope: "promise",
   families: "comfort",
   close: "farewell",
+  subject: "tell",
+  change: "tell",
 };
 
-/** The pieces of one role, in one voice, for one kind of address. */
+/**
+ * Whether a piece's voice or topic is `wanted`: the piece holds one value or
+ * a list of them, since a wording that reads the same in two voices or two
+ * topics is one piece (the bank holds a text once).
+ */
+export function partHolds(
+  value: string | readonly string[] | undefined,
+  wanted: string,
+): boolean {
+  return typeof value === "string"
+    ? value === wanted
+    : !!value?.includes(wanted);
+}
+
+/** A piece's voice or topic as a list: its one value, or the list it holds. */
+export function partValues(
+  value: string | readonly string[] | undefined,
+): readonly string[] {
+  return value === undefined ? [] : typeof value === "string" ? [value] : value;
+}
+
+/** The line part a piece is said as: an opener, a closer, or the core. */
+function lineOf(part: OpeningPart): "opener" | "core" | "closer" {
+  return part.piece?.part === "opener" || part.piece?.part === "closer"
+    ? part.piece.part
+    : "core";
+}
+
+/**
+ * The pieces of one role, in one voice, for one kind of address, by the line
+ * part each is said as. An opener belongs to every topic of its role unless it
+ * names one; a core says only its own topic.
+ */
 function variantsFor(
   kind: OpeningSpeechKind,
   voice: SpeechVoice,
   role: string,
+  line: "opener" | "core" | "closer",
   topic?: string,
   addressKind?: string,
 ): LinePartVariant[] {
   const fits = (part: OpeningPart) =>
-    part.voice === voice &&
-    (!topic || part.topic === topic) &&
+    partHolds(part.voice, voice) &&
+    lineOf(part) === line &&
+    (!topic ||
+      partHolds(part.topic, topic) ||
+      (line !== "core" && !part.topic)) &&
     part.uses.some((use) => use.subject === kind && use.role === role);
-  // A kind of address that has pieces of its own for the role says only
-  // those; every other kind says the role's general pieces.
+  // A kind of address that has cores of its own for the role says only
+  // those; every other kind says the role's general cores. An opener or a
+  // closer of the kind's own is said beside the role's general ones.
   const own = addressKind
     ? admittedParts(
         OPENING_SPEECH_BANK.parts,
         (part) => fits(part) && part.addressKind === addressKind,
       )
     : [];
+  const general = () =>
+    admittedParts(
+      OPENING_SPEECH_BANK.parts,
+      (part) => fits(part) && !part.addressKind,
+    );
   return (
-    own.length
-      ? own
-      : admittedParts(
-          OPENING_SPEECH_BANK.parts,
-          (part) => fits(part) && !part.addressKind,
-        )
+    line !== "core" ? [...general(), ...own] : own.length ? own : general()
   ).map((part) => {
     const requires =
       part.uses.find((use) => use.subject === kind && use.role === role)
@@ -153,20 +201,22 @@ export function openingMove(
 ): OpeningMove | null {
   const act = ACTS[role];
   if (!act) throw new Error(`No opening role ${role}`);
-  const variants = variantsFor(
-    kind,
-    voice,
-    role,
-    options.topic,
-    options.addressKind,
-  );
+  const of = (line: "opener" | "core" | "closer") =>
+    variantsFor(kind, voice, role, line, options.topic, options.addressKind);
+  const variants = of("core");
   if (!variants.length) return null;
+  const opener = of("opener");
+  const closer = of("closer");
   const bank: ComposedLineBank = {
     key: `opening-speech.${kind}.${role}${options.topic ? `.${options.topic}` : ""}`,
     version: "words-opening-speech-v1",
     surface: "dialogue",
     act,
-    parts: { core: { variants } },
+    parts: {
+      ...(opener.length ? { opener: { variants: opener } } : {}),
+      core: { variants },
+      ...(closer.length ? { closer: { variants: closer } } : {}),
+    },
   };
   return {
     key: `${role}${options.topic ? `-${options.topic}` : ""}`,

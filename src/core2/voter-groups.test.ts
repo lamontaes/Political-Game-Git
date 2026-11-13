@@ -14,6 +14,7 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { corePlaceByKey } from "./place-lookup";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { coreAPI } from "./state";
@@ -28,7 +29,17 @@ import { statePlaces } from "./electorate-places";
 import type { CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const place = drawPlace(seed, "voter-groups");
+// A named place and seed reproduce a report's draw (the title prints both).
+const place = process.env.GOLDEN_PATH_PLACE_KEY
+  ? {
+      ...drawPlace(seed, "voter-groups"),
+      seed,
+      key: process.env.GOLDEN_PATH_PLACE_KEY,
+      name:
+        corePlaceByKey(process.env.GOLDEN_PATH_PLACE_KEY)?.displayName ??
+        process.env.GOLDEN_PATH_PLACE_KEY,
+    }
+  : drawPlace(seed, "voter-groups");
 
 /** Two typical party candidates, no one holding the seat. */
 const typical: readonly CountedFieldEntry[] = [-1, 1].map((side) => ({
