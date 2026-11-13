@@ -141,6 +141,8 @@ let newsOrder = [];
 let newsFor = null;
 // The stories whose outlet page News has shown: read (ui/news-open.mjs).
 let newsSeen = new Set();
+// The tab on screen while News stays open: a redraw keeps it (closed or left, it clears).
+let newsShowing = null;
 // The game's date is the clock's, the packet's; me.date is only the day the
 // screen loaded (P15, C10: the News kept the opening day).
 const today = () => packet?.at?.date ?? me.date;
@@ -4134,6 +4136,7 @@ const sheets = {
       newsOrder = [];
       newsTab = null;
       newsSeen = new Set();
+      newsShowing = null;
     }
     const outlets = new Map();
     // The player's own outlets have a tab from the first day, before they print.
@@ -4199,7 +4202,11 @@ const sheets = {
       for (const story of ordered.get(key)?.stories ?? [])
         newsSeen.add(story.id);
     };
-    const opening = openingTab(ordered, newsTab, newsSeen);
+    const opening =
+      newsShowing && ordered.has(newsShowing)
+        ? newsShowing
+        : openingTab(ordered, newsTab, newsSeen);
+    newsShowing = opening;
     read(opening);
     return [
       newsBoard({
@@ -4210,6 +4217,7 @@ const sheets = {
         ).any,
         onChoose: (key) => {
           newsTab = key;
+          newsShowing = key;
           read(key);
         },
         labels,
@@ -5780,6 +5788,7 @@ async function openSheet(tab) {
   await controlsReady;
   if (tab === "politics") tab = "government";
   openTab = tab;
+  if (tab !== "news") newsShowing = null;
   if (tab === "news") markNews(true);
   if (tab === "journal")
     document
@@ -5947,6 +5956,7 @@ void controlsReady.then(() => {
 });
 function closeSheet() {
   openTab = undefined;
+  newsShowing = null;
   show("tip", false);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.remove("active");
