@@ -344,7 +344,9 @@ function intake(api: CoreAPI): void {
   table(api, "cursor").put({ id: "crimes", count: rows.length });
   for (const crime of rows.slice(from))
     // The official who refused a bribe saw the offer; one who took it is a party and keeps quiet unless they fall out (the corruption engine's telling).
-    if (crime.offered && !crime.taken)
+    // An offer to the player's seat waits for the player's own answer in the bribe-offer scene
+    // (`pending`): it is not refused yet, and nobody reports it in the player's name.
+    if (crime.offered && !crime.taken && !crime.pending)
       considerReport(api, crime, crime.officialId, "witness");
 }
 
@@ -1538,6 +1540,101 @@ export function grantClemency(
 }
 
 // ---------------------------------------------------------------------------
+// A relative's case, referred by an official (constituent cases)
+
+/** An official's referral for a person in custody, brought by a relative. */
+export interface CustodyReferralRow {
+  readonly id: string;
+  readonly caseId: string;
+  readonly personId: PersonId;
+  readonly relativeId: PersonId;
+  readonly officialId: string;
+  readonly referred: string;
+  readonly status: "open" | "access-granted" | "moot";
+}
+
+/**
+ * The person serving a term in custody that a relative may bring to an
+ * official: the custody row and its sentence's end, or undefined when the
+ * person is not in custody.
+ */
+export function servingCustodyOf(
+  api: CoreAPI,
+  personId: PersonId,
+): CustodyRow | undefined {
+  if (!api.state.modules.has(JUSTICE_MODULE_ID)) return undefined;
+  return (
+    table(api, "custody").query("byPerson", [
+      personId,
+    ]) as unknown as CustodyRow[]
+  ).find((row) => row.status === "serving");
+}
+
+/**
+ * The official's call on a relative's case reaches the jail: the referral is
+ * kept now and read on the next day, when the engine checks the person is
+ * still in custody and grants the relative's visit.
+ */
+export function referCustody(
+  api: CoreAPI,
+  referral: Omit<CustodyReferralRow, "id" | "referred" | "status">,
+): CustodyReferralRow {
+  const row: CustodyReferralRow = {
+    ...referral,
+    id: `custody-referral:${referral.caseId}`,
+    referred: api.state.date,
+    status: "open",
+  };
+  table(api, "custodyReferrals").put(row as unknown as ModuleRow);
+  api.moduleCalendar(JUSTICE_MODULE_ID).schedule({
+    key: row.id,
+    date: addDays(api.state.date, 1),
+    kind: "custody-referral",
+    source: {
+      tag: "ESTIMATED",
+      citation: "an official's referral is read the next day",
+      asOf: api.state.date,
+      estimatedFrom: "constituent-cases referral",
+    },
+    sourceRecordIds: [row.id],
+  });
+  return row;
+}
+
+function readCustodyReferral(api: CoreAPI, id: string): void {
+  const row = table(api, "custodyReferrals").get(id) as unknown as
+    CustodyReferralRow | undefined;
+  if (!row || row.status !== "open") return;
+  const custody = servingCustodyOf(api, row.personId);
+  const granted = !!custody;
+  table(api, "custodyReferrals").put({
+    ...row,
+    status: granted ? "access-granted" : "moot",
+  } as unknown as ModuleRow);
+  if (!granted) return;
+  // The visit is the relative's access to the person in custody, kept on the
+  // record the official's referral earned it from.
+  api.stopgap("SG-JUSTICE-visiting-access-record-only");
+  emit(
+    api,
+    "justice.visiting-access",
+    `justice.visiting-access:${row.id}`,
+    [row.personId, row.relativeId],
+    {
+      referralId: row.id,
+      caseId: row.caseId,
+      custodyId: custody!.id,
+      officialId: row.officialId,
+    },
+    {
+      tag: "SOURCED",
+      citation: `An official's referral ${row.id}`,
+      asOf: api.state.date,
+    },
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Reads for other engines
 
 /** Whether the person is serving a prison term today. */
@@ -1633,6 +1730,7 @@ function justiceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind === "charge-decision") chargeDecision(api, id);
   else if (work.kind === "hearing") hearing(api, id);
   else if (work.kind === "release") release(api, id);
+  else if (work.kind === "custody-referral") readCustodyReferral(api, id);
   else if (work.kind === "keep-from-work") {
     const jobId = work.sourceRecordIds[1]!;
     const custody = table(api, "custody").get(id) as unknown as
@@ -1807,6 +1905,8 @@ export const JUSTICE_MODULE: CoreModule = {
       },
       fines: {},
       clemencies: { indexes: { byPerson: { fields: ["personId"] } } },
+      // A relative's case an official referred (constituent cases): read the next day.
+      custodyReferrals: { indexes: { byPerson: { fields: ["personId"] } } },
       pretrial: { indexes: { byPerson: { fields: ["personId"] } } },
     },
   },

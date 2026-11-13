@@ -10,9 +10,9 @@ import {
   stopRegionalWork,
 } from "./modules/residents";
 
-// A counted person's regional work adds their record's workers to their
-// household and the place's pay to the unplaced workers' flow; ending it
-// takes exactly that back.
+// A counted person's regional work adds one worker to their household (and
+// the pay of as many workers as the record stands for to the unplaced
+// workers' flow); ending it takes exactly that back.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const place = drawPlace(seed, "regional-work");
 

@@ -17,7 +17,8 @@ import { buildBenchWorld } from "../../src/bench/world";
 
 const seed = process.argv[2] ?? "w3-news";
 const days = Number(process.argv[3] ?? 365);
-const place = drawPlace(seed, "w3-news-year");
+// PLACE_TAG draws the place a test draws for the same seed (e.g. "printed-words").
+const place = drawPlace(seed, process.env.PLACE_TAG ?? "w3-news-year");
 setBookkeeping(false);
 const world = buildBenchWorld(place.seed, gameStartDate(), {
   twoLevel: true,

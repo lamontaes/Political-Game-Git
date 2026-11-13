@@ -62,12 +62,6 @@
       "stopgapId": "SG-EW-HEALTH-person-level"
     },
     {
-      "link": "coverage-to-medical-debt",
-      "outcome": "finance.medical-debt-in-collections",
-      "reason": "the web does not run it: it waits on health.coverage-pct; nothing in the core records its cause, health.coverage-pct",
-      "stopgapId": "SG-WEB-unread-finance-medical-debt-in-collections"
-    },
-    {
       "link": "coverage-to-depression",
       "outcome": "health.depression",
       "reason": "no measure: the web does not keep health.depression and no engine produces it; nothing in the core records its cause, health.coverage",

@@ -1104,5 +1104,17 @@
     "addedAt": "2026-11-10",
     "replacement": "Once part 3's readers set their window, old grievances fold into a per-place summary and a grievance ends when either person dies or leaves for good.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-patrol-all-police-hours",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/police-patrol.ts",
+    "line": 72,
+    "whatItFakes": "Every paid hour of the staff on the police line counts as a patrol hour: an officer's desk, court and training time and a dispatcher's shift are counted as patrol, and the hours the line cannot pay fall in proportion across the staff rather than by which shifts the department drops.",
+    "why": "The game keeps a job's paid hours, not its shifts by task, and no department schedules its officers' shifts; the row needs the hours the line pays, which part 3 reads.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "A patrol share of police-line hours by role (officers on the street against desk and dispatch), from the BJS Law Enforcement Management and Administrative Statistics survey, and a department that drops shifts when its line is cut.",
+    "status": "open"
   }
 ]

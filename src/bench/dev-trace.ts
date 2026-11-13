@@ -178,6 +178,8 @@ export const FOLDED_AT_POST =
 const MAX_ID_PARTS = 40;
 const MAX_POSTINGS = 12;
 
+const NO_ROWS: ReadonlyMap<string, unknown> = new Map();
+
 type Stores = readonly (readonly [
   engine: string,
   kind: string | undefined,
@@ -271,6 +273,12 @@ const ENGINE_STORES: Stores = [
     "core.finance.cashSources",
     "finance.source",
     (core) => core.finance.cashSources,
+  ],
+  // The residents engine's standing payments (a household's purchases, outside buyers' sales): a flow's source line says what it follows.
+  [
+    "core2-residents.flows",
+    "resident-flow",
+    (core) => residentsRuntime(core)?.flows ?? NO_ROWS,
   ],
 ];
 
@@ -829,6 +837,20 @@ function reverseLinks(
           kind: "record",
           via: "views.stances",
         });
+    // What their past did to their view (part 14): each event by its record.
+    const view = rowsOf(core, "views", "people").find((row) => row.id === id);
+    const shifts = (view?.pastShifts ?? []) as readonly {
+      recordId: string;
+      kind: string;
+      change: number;
+    }[];
+    for (const shift of shifts)
+      out.push({
+        id: shift.recordId,
+        kind: "reason",
+        via: `views.pastShifts.${shift.kind}`,
+        value: shift.change,
+      });
   }
   return out;
 }

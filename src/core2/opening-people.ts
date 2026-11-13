@@ -64,6 +64,7 @@ function buildPerson(
     throw new Error("A context person cannot be born after the current date.");
   if (!draft.jurisdictions[input.homeJurisdictionId])
     throw new Error("A context person requires an existing home jurisdiction.");
+  // stopgapId: SG-HIST-birthplace-is-home (no caller passes a birthplace yet)
   const birthplace = input.birthplaceJurisdictionId ?? input.homeJurisdictionId;
   if (!draft.jurisdictions[birthplace])
     throw new Error(

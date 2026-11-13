@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-people-residents-cadence-mechanic-part-1-private-jobs-measure
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,8 @@ effort: low
 root: design-one-model-two-tiers
 source: split from people-residents-cadence-mechanic in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T05:07:04.630Z
+claimed-at:
+branch: claude/pool-people-residents-cadence-mechanic-part-1-private-jobs-measure
 ---
 
 **What.** turnoverReport divides job changes by every open job in core.jobs and the counted books. A drawn town's open jobs are mostly full public and office posts of other governments, which the monthly worker review skips: Scranton, North Dakota (3871500, seed q1) has 1,563 of 1,630. JOLTS total private rates count private jobs only, so the measure must divide changes at finance.businesses by worker-months at businesses, full and counted. Feeds: people-residents-cadence-mechanic-part-2-counted-layoffs.
@@ -35,3 +36,5 @@ claimed-at: 2026-11-11T05:07:04.630Z
 **Waits on.** Nothing.
 
 **Files.** src/core2/turnover-check.ts, src/core2/residents-turnover-bands.test.ts
+
+**Notes.** Released by next (2026-11-13): no push to claude/pool-people-residents-cadence-mechanic-part-1-private-jobs-measure since 2026-11-11 07:45 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-people-residents-cadence-mechanic-part-1-private-jobs-measure.
