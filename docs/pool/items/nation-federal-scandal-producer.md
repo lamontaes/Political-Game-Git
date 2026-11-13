@@ -19,7 +19,7 @@ root: design-story-director
 checked: fable 2026-11-10
 ---
 
-**What.** Nothing produces a federal-level scandal: the corruption engine records bribes by the town's own people only, so the national opinion engine's pushes table has no scandal to read. Add a producer through the existing engines in three parts: an official of the President's cabinet or of Congress commits a recorded act (part 1), the press reports it (part 2), and approval is pushed by the sized effect the research gives (part 3; Iran-Contra 63 to 47 in two months, Watergate 62 to 24 over 21 months, Gallup, news.gallup.com/poll/4258).
+**What.** Nothing produces a federal-level scandal: the corruption engine records bribes by the town's own people only, so the national opinion engine's pushes table has no scandal to read. Add a producer through the existing engines in three parts: an official of the President's cabinet or of Congress commits a recorded act (part 1), the press reports it (part 2), and approval is pushed by the sized effect the research gives (part 3; Iran-Contra 63 to 47 in two months, Watergate 62 to 24 over 21 months, Gallup, news.gallup.com/poll/4258). Seen: the paper's story of a federal official's act and the President's approval number on the Metrics tab.
 
 **Cause.** Design: docs/design/story-director.md, and the Nov 8 Coordinator order to add this producer once disasters were ruled out of approval; `pushOpinion` in src/core2/modules/national-opinion.ts is the writer waiting for it.
 

@@ -296,6 +296,25 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.109.0
+
+_Released November 13, 2026._
+
+### Added
+
+- **A relative of someone in custody can bring their official a case** Residents
+  whose relative is serving a term can now bring their official a case about it.
+  If the official helps, the call reaches the jail the next day and the
+  relative's visit is granted.
+
+### Fixed
+
+- **A work requirement stops one adult's share of food aid, not the whole
+  household** When the work requirement stops a household member from drawing
+  food aid, only that person's share of the benefit drops out. The household
+  keeps drawing through the others, and a stopped payee no longer stops
+  everyone.
+
 ## PRE-ALPHA 0.108.0
 
 _Released November 12, 2026._

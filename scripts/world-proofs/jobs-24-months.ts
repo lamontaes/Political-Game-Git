@@ -2,7 +2,10 @@
  * Jobs and economy proof: a played world for 24 months in a place, printing
  * month by month the town's out-of-work count against its labor force (named
  * and counted people, counted at their weight), the open positions at the
- * town's employers, and the regional hires by record id.
+ * town's employers, the regional hires by record id, and the town's outside
+ * sales by its sellers' sector (the outside buyers' flows at the rate they pay,
+ * dollars a 30-day month, and against the opening), with the country tier's
+ * records each sector followed.
  *
  * The labor force is the people holding a job plus the seekers, so the rate
  * is the one the jobs engine's own tables show (BLS LAUS defines it as
@@ -17,6 +20,7 @@ import { coreAPI } from "../../src/core2/state";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { JOBS_MODULE_ID } from "../../src/core2/modules/jobs";
 import { residentsRuntime } from "../../src/core2/modules/residents";
+import { sectorOfKind } from "../../src/core2/business-books";
 import { drawPlace } from "../../tests/golden-path/place";
 
 const seed = process.argv[2] ?? "r7";
@@ -32,6 +36,53 @@ const table = (name: string) =>
     string,
     unknown
   >[];
+
+// The town's outside sales by sector: every live outside buyers' flow, at the rate it pays a 30-day month.
+const outsideAtStart = new Map<string, number>();
+const followed = new Map<string, string>();
+function outsideBySector(): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const flow of rt.flows.values()) {
+    if (flow.kind !== "outside-sales" || flow.endedAt) continue;
+    const book = core.finance.businesses.get(flow.payeeId);
+    const sector = (book && sectorOfKind(book.kindId)) ?? "no-sector";
+    const perMonth =
+      flow.cadence.kind === "days"
+        ? (flow.amountMinor * 30) / flow.cadence.every
+        : flow.amountMinor / flow.cadence.every;
+    out.set(sector, (out.get(sector) ?? 0) + perMonth / 100);
+    const note = flow.source.estimatedFrom?.match(/follow (.*)\.$/)?.[1];
+    if (note && !followed.has(sector))
+      followed.set(sector, `${flow.id} follows ${note}`);
+  }
+  return out;
+}
+let outsideLast = new Map<string, number>();
+let firstYearOutside = 0;
+const monthsSectorsDiffer: string[] = [];
+function outsideLine(label: string) {
+  const now = outsideBySector();
+  if (label === "start") for (const [k, v] of now) outsideAtStart.set(k, v);
+  const total = [...now.values()].reduce((a, b) => a + b, 0);
+  const month = Number(label.slice(1));
+  if (month >= 1 && month <= 12) firstYearOutside += total;
+  // A month the sectors moved apart: two sectors' change on the month differs by at least a twentieth of a point.
+  const moves = [...now]
+    .filter(([sector]) => (outsideLast.get(sector) ?? 0) > 0)
+    .map(([sector, dollars]) => (100 * dollars) / outsideLast.get(sector)!);
+  if (moves.length >= 2 && Math.max(...moves) - Math.min(...moves) >= 0.05)
+    monthsSectorsDiffer.push(label);
+  outsideLast = now;
+  const cells = [...now.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([sector, dollars]) => {
+      const was = outsideAtStart.get(sector);
+      return `${sector} $${Math.round(dollars)}${was ? ` (${((100 * dollars) / was).toFixed(2)}%)` : ""}`;
+    });
+  console.log(
+    `${label} outside sales total $${Math.round(total)}; by sector: ${cells.join(", ")}`,
+  );
+}
 
 let seen = new Map<string, string>();
 let lastDate = core.date;
@@ -111,6 +162,7 @@ function snapshot(label: string) {
   console.log(
     `${label} unemployed ${unemployed} of ${force} (${((100 * unemployed) / force).toFixed(1)}%) openPositions ${open.length} commuterJobs ${commuters}`,
   );
+  outsideLine(label);
 }
 
 console.log(`place ${placeKey} seed ${seed}`);
@@ -137,6 +189,12 @@ console.log(
     .slice(0, 3)
     .map((row) => row.id)
     .join(", ")}`,
+);
+console.log(
+  `outside sales in months 1 to 12, the 30-day rates summed: $${Math.round(firstYearOutside)}; months two sectors moved apart: ${monthsSectorsDiffer.length} of ${months} (${monthsSectorsDiffer.join(" ")})`,
+);
+console.log(
+  `outside sales followed: ${[...followed.values()].join("; ") || "no flow names the records it follows"}`,
 );
 // Hours cuts: the jobs whose hours the employers changed (core.work.hourChanges), the record that hours moved before staff.
 const hourRows = [...world.core.work.hourChanges.values()].flat();

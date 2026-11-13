@@ -27,6 +27,6 @@ claimed-at: 2026-10-30T02:54:57.853Z
 
 **Screenshot.** The Guide before and after at 1440 by 900.
 
-**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/ui/member-card.mjs, src/bench/data/controls.json, src/bench/guide-menu.browser.mjs, src/bench/politics-people.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/ui/person-card.mjs, src/bench/data/controls.json, src/bench/guide-menu.browser.mjs, src/bench/politics-people.browser.mjs
 
 **Notes.** Filed by the CTO, Oct 30 03:00, the ninth screen of the menu redesign. Read: prior-rulings/screens.md ("Glossary underlines with 'Mark as learned' MUST ship"); OWNER-DECISIONS Oct 29 22:45; searched the pool: guide screen, glossary (no twin).
