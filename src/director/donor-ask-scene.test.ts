@@ -223,9 +223,18 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (seed ${se
           (row) => row.key === "bill-later",
         );
         const said = result.scene.talk.lines.map((line) => line.text).join(" ");
-        expect(said, here).toContain(bill!.text);
+        // Said first by what it does (`bill-first`) or by its title.
+        const first = result.scene.facts.find(
+          (row) => row.key === "bill-first",
+        );
         expect(
-          [bill!.text, later?.text].some(
+          [bill!.text, first?.text].some(
+            (name) => !!name && said.includes(name),
+          ),
+          `${here}: ${said}`,
+        ).toBe(true);
+        expect(
+          [bill!.text, first?.text, later?.text].some(
             (name) => !!name && result.scene.talk.state.text.includes(name),
           ),
           `${here}: ${result.scene.talk.state.text}`,
