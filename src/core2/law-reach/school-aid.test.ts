@@ -13,7 +13,8 @@ import { buildBenchWorld } from "../../bench/world";
 import { gameStartDate } from "../game-start";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { advanceCore } from "../life";
-import { governments } from "../modules/budgets";
+import { amendBudget, budgetsOf, governments } from "../modules/budgets";
+import { setJournalTrace } from "../journal-state";
 import { treasuryMonthsOf } from "../budgets-treasury";
 import { enactLaw, lawChain } from "../modules/laws";
 import { schoolsLineAboveBase } from "../school-budget-line";
@@ -21,7 +22,11 @@ import { coreAPI } from "../state";
 import type { CoreAPI, CoreState } from "../types";
 import { appliedOn } from "./applied";
 import { rowsOf } from "./group-b-store";
-import { schoolAidNeed, schoolAidShares } from "./group-b-school-aid";
+import {
+  schoolAidNeed,
+  schoolAidPool,
+  schoolAidShares,
+} from "./group-b-school-aid";
 
 const KEY = "us-policy-positions:education.equalize-school-funding";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
@@ -106,11 +111,51 @@ describe("state school aid", () => {
       );
       expect(reached.length).toBeGreaterThan(0);
       expect(stateRise).toBeGreaterThan(0);
-      expect(stateRise).toBe(schools);
-      expect(stateRise).toBe(aid);
-      run(off, 360);
-      run(on, 360);
-      // The town's treasury received aid through the accounts, more than without the law.
+      // The state books the whole pool; the town's governments are paid their
+      // shares out of it, the rest going outside as the rest of the line does.
+      expect(schools).toBe(aid);
+      expect(stateRise).toBeGreaterThanOrEqual(schools);
+      // The cash: every state-to-town aid transfer the journal posted, in both
+      // worlds over the same year, as it left the state account and as it
+      // reached the town government's account.
+      const stateOrg = governments(b).find((g) => g.level === "state")!;
+      const aidCash = (core: CoreState, days: number) => {
+        let left = 0;
+        let arrived = 0;
+        let transfers = 0;
+        setJournalTrace((input) => {
+          const id = input.sourceRef.id;
+          if (
+            !id.includes(`treasury-aid:${stateOrg.id}:`) ||
+            !id.includes(":intergovernmental:")
+          )
+            return;
+          transfers += 1;
+          for (const post of input.postings)
+            if (post.deltaMinor < 0) left -= post.deltaMinor;
+            else arrived += post.deltaMinor;
+        });
+        try {
+          run(core, days);
+        } finally {
+          setJournalTrace(null);
+        }
+        return { left, arrived, transfers };
+      };
+      const balance = (api: CoreAPI) =>
+        api.accounts().balance(api.accounts().main(stateOrg.organizationId));
+      const stateBefore = { off: balance(a), on: balance(b) };
+      const offCash = aidCash(off, 360);
+      const onCash = aidCash(on, 360);
+      const sentMore = onCash.left - offCash.left;
+      const gotMore = onCash.arrived - offCash.arrived;
+      process.stdout.write(
+        `school aid proof: ${where}: state books ${stateRise} cents of local aid a year, of which the town governments' share is ${schools}; over the next 360 days the state account paid ${sentMore} more cents to the town governments and they received ${gotMore} more (${onCash.transfers} transfers with the law, ${offCash.transfers} without); the state account moved ${balance(b) - stateBefore.on} with the law and ${balance(a) - stateBefore.off} without\n`,
+      );
+      expect(onCash.transfers).toBeGreaterThan(0);
+      expect(sentMore).toBe(gotMore);
+      expect(gotMore).toBeGreaterThan(schools * 0.5);
+      expect(gotMore).toBeLessThan(schools * 1.6);
       const received = (api: CoreAPI) =>
         governments(api)
           .filter((g) => g.level === "city" || g.level === "county")
@@ -124,17 +169,6 @@ describe("state school aid", () => {
             0,
           );
       expect(received(b)).toBeGreaterThan(received(a));
-      process.stdout.write(
-        `school aid proof: aid received by the town's treasuries over the run: ${received(a)} without, ${received(b)} with\n`,
-      );
-      const collected = (api: CoreAPI) =>
-        treasuryMonthsOf(
-          api,
-          governments(api).find((g) => g.level === "state")!.id,
-        ).reduce((n, t) => n + t.collectedMinor, 0);
-      process.stdout.write(
-        `school aid proof: state collected ${collected(a)} without, ${collected(b)} with\n`,
-      );
       // The schools line the school engine reads is above its base only with the law.
       const above = (api: CoreAPI) =>
         schoolsLineAboveBase(api, lawChain(api).townPlaceId)?.pct ?? 0;
@@ -143,27 +177,51 @@ describe("state school aid", () => {
       process.stdout.write(
         `school aid proof: schools line above base: ${above(a)}% without, ${above(b)}% with\n`,
       );
-      // The state account paid for it.
-      const acct = (core: CoreState, api: CoreAPI) =>
-        api
-          .accounts()
-          .balance(
-            api
-              .accounts()
-              .main(
-                governments(api).find((g) => g.level === "state")!
-                  .organizationId,
-              ),
-          );
-      process.stdout.write(
-        `school aid proof: state account ${acct(off, a)} without, ${acct(on, b)} with\n`,
+      // A council that cuts its own schools line after the aid arrived cuts
+      // only that line: the aid revenue stays.
+      const lineOf = (
+        api: CoreAPI,
+        id: string,
+        side: "revenue" | "spending",
+        line: string,
+      ) => {
+        const budget = [...budgetsOf(api, id)]
+          .filter((row) => row.startsOn <= api.state.date)
+          .sort((x, y) => y.startsOn.localeCompare(x.startsOn))[0];
+        return (
+          (side === "revenue" ? budget?.revenueMinor : budget?.spendingMinor)?.[
+            line
+          ] ?? 0
+        );
+      };
+      const town = local[0]!.governmentId;
+      const revenueBefore = lineOf(b, town, "revenue", "intergovernmental");
+      const schoolsBefore = lineOf(b, town, "spending", "schools");
+      amendBudget(b, {
+        governmentId: town,
+        line: "schools",
+        deltaMinor: -1000,
+        measureId: "test:council-cut",
+      });
+      expect(lineOf(b, town, "revenue", "intergovernmental")).toBe(
+        revenueBefore,
       );
-      // A repeal ends the law's reach and takes the aid off the schools line.
+      expect(lineOf(b, town, "spending", "schools")).toBe(schoolsBefore - 1000);
+      // A repeal ends the law's reach and takes the aid off the lines. Months
+      // already paid stay paid; the months after it carry no more aid than the
+      // world that never had the law.
       const before = above(b);
       setLaw(b, 0);
-      run(on, 45);
+      const firstOff = aidCash(off, 45);
+      const firstOn = aidCash(on, 45);
       expect(appliedOn(b, KEY).filter((r) => !r.endedOn)).toHaveLength(0);
       expect(above(b)).toBeLessThan(before);
+      const laterOff = aidCash(off, 40);
+      const laterOn = aidCash(on, 40);
+      process.stdout.write(
+        `school aid proof: after the repeal, aid sent beyond the world with no law: ${firstOn.left - firstOff.left} cents in the first 45 days, ${laterOn.left - laterOff.left} in the next 40\n`,
+      );
+      expect(Math.abs(laterOn.left - laterOff.left)).toBeLessThan(200);
       return;
     }
     throw new Error(`No drawn place could show the aid:${tried}`);

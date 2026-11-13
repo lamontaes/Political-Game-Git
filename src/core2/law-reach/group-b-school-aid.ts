@@ -60,21 +60,41 @@ export function schoolAidNeed(stateKey: string, regionId?: string): number {
   return row && mean > 0 ? need(row) / mean : 1;
 }
 
+/**
+ * The pool per resident of the state, in minor units: the researched share
+ * of what the state's local governments spend on schools a resident (Census
+ * base), 0 where the state or the figure is not in the world.
+ */
+function poolPerResident(api: CoreAPI): number {
+  const local = bases.places[lawChain(api).stateKey]?.local?.spending?.schools;
+  const state = governments(api).find((g) => g.level === "state");
+  if (!local || !state?.residents) return 0;
+  return (
+    reachParameter("equalizedFundingSpendingShare") *
+    local *
+    bases.calibration.factor *
+    reachParameter("centsPerDollar")
+  );
+}
+
+/**
+ * The state's whole pool in minor units. The state's local aid line already
+ * holds all aid to every local government in the state; the played town's
+ * governments are paid their shares out of it and the rest is paid to the
+ * outside account, as the rest of that line is (budgets-treasury.ts).
+ */
+export function schoolAidPool(api: CoreAPI): number {
+  const state = governments(api).find((g) => g.level === "state");
+  return Math.round(poolPerResident(api) * (state?.residents ?? 0));
+}
+
 /** The schools aid each of the town's own governments gets, in minor units, by government id. */
 export function schoolAidShares(api: CoreAPI): Map<string, number> {
   const core = api.state as CoreState;
   const out = new Map<string, number>();
   const chain = lawChain(api);
-  const local = bases.places[chain.stateKey]?.local?.spending?.schools;
-  const state = governments(api).find((g) => g.level === "state");
-  if (!local || !state?.residents) return out;
-  // The pool per resident of the state: the researched share of what its
-  // local governments spend on schools.
-  const perResident =
-    reachParameter("equalizedFundingSpendingShare") *
-    local *
-    bases.calibration.factor *
-    reachParameter("centsPerDollar");
+  const perResident = poolPerResident(api);
+  if (!perResident) return out;
   const need = schoolAidNeed(chain.stateKey, regionOfPlace(chain.townPlaceId));
   // The town's governments carry its schools in proportion to what each
   // spends on them a resident at the Census base, so the aid reaches the
@@ -105,7 +125,7 @@ export function schoolAidShares(api: CoreAPI): Map<string, number> {
 /**
  * While the law stands, each of the town's governments gets its share as aid
  * (revenue) and as schools spending, and the state's local aid line rises by
- * the sum paid: charged equals paid. A repeal takes the current year's
+ * the whole pool, of which the town's governments are paid their shares. A repeal takes the current year's
  * amounts back. Applied once per fiscal year's budget, as every act that
  * moves budget money is (moveBudget).
  */
@@ -131,10 +151,11 @@ export function equalizeSchoolFunding(
       revenuePlan: () => ({ intergovernmental: share }),
     });
   }
+  // The state books the whole pool (never less than it pays the town).
   moveBudget(api, {
     ...input,
     level: "state",
-    plan: () => ({ localAid: total }),
+    plan: () => ({ localAid: Math.max(total, schoolAidPool(api)) }),
   });
   return total;
 }
