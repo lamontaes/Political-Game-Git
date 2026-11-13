@@ -39,6 +39,8 @@ The log has one block per thing said: the clock, who spoke, the last lines of th
 
 One bench and one walk at a time. A walk takes two to five minutes, most of it the world being built.
 
+Pictures and `lines.md` files copied into `docs/seen/` for a pull request go through prettier before the commit (`npx prettier --write docs/seen/<folder>/`): the walk writes `lines.md` unformatted, and CI's `repository` check runs prettier on every changed file (Nov 13: #8987 and #8957 failed on six and three `lines.md` files).
+
 ## What to read for
 
 The review rules in the skill `words-engine` (its lessons of Nov 11), and these, which only show in play:
