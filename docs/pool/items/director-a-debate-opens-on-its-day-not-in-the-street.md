@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: opus-lr
-pr:
+pr: #9034
 after:
 blocked-on:
 lead: words
