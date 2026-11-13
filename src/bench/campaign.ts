@@ -50,6 +50,7 @@ import {
 import { campaignParameter } from "../core2/campaign-data";
 import { backdropFor, homeOf, peopleHere } from "./scene";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
+import { personName } from "./legislature";
 import { campaignAnswer } from "../director/campaign-answer";
 import { spokenDate as dateSaid } from "../director/words";
 import { seatSaid } from "../english/journal-words";
@@ -155,6 +156,16 @@ export function campaignView(core: CoreState, personId: string) {
           endorsements: endorsementsOf(api, filing.id).filter(
             (row) => row.answer === "yes",
           ).length,
+        },
+        // The people on the campaign's own record: who runs it and helps, by name, so the board reads the one source.
+        team: {
+          staff: campaign.staffIds.map((id) => ({
+            id,
+            name: personName(core, id),
+          })),
+          volunteers: campaign.volunteerIds
+            .filter((id) => !campaign.staffIds.includes(id))
+            .map((id) => ({ id, name: personName(core, id) })),
         },
         polls: polls.slice(-3),
         petition: petitionView(api, filing.id),
