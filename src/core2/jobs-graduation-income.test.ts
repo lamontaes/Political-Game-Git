@@ -39,7 +39,7 @@ import type { CoreState } from "./types";
 
 const seed = process.env.GRADUATION_PAY_SEED ?? randomBytes(8).toString("hex");
 const DRAWS = 6;
-const LINK = "equalized-funding-to-graduation";
+const LINK = "school-spending-to-attainment";
 const SHIFT = 0.5;
 const before = setBookkeeping(false);
 afterAll(() => {
