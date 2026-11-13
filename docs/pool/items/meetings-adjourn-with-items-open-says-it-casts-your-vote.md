@@ -33,3 +33,5 @@ source: found while building gov-held-meeting-decides-as-unheld (Account lead T2
 **Waits on.** gov-held-meeting-decides-as-unheld
 
 **Files.** src/bench/play.mjs, src/bench/office.ts, data/english/parts/meeting.json (new), src/core2/office-day-attend.test.ts
+
+**Notes.** Seen on the train (Account lead T25, Nov 13, 2026; Danville, Iowa, seed 4b0fc31d-ba59-4168-8b84-d7c0e3f826b6, train c39bbb71): at the Nov 4, 2025 council meeting the player pressed Adjourn with Budget Ordinance 2025-13 open. The meeting closed with no word, and Your office then read 'NOVEMBER 4, 2025 · VOTE / no · Decided for me'.

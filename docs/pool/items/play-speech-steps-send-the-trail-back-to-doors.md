@@ -35,3 +35,5 @@ claimed-at:
 **Waits on.** Nothing.
 
 **Files.** src/bench/play.mjs
+
+**Notes.** Still seen on the train (Account lead T25, Nov 13, 2026; Danville, Iowa, seed 4b0fc31d-ba59-4168-8b84-d7c0e3f826b6, train c39bbb71): Campaign, Go out on the trail, Give a speech, then the second 'Give a speech' button lands on Travel with Knock on doors chosen. The trail's record line also stays 'Knock on doors · 54 doors · 5 reached' after 4,215 doors.
