@@ -1029,6 +1029,21 @@ function mootAtFloor(
     : null;
 }
 
+/**
+ * A bill held for a meeting comes to its vote as the floor takes any bill:
+ * moot when an act passed since its filing settled it, else voted. A held and
+ * an unheld meeting decide the same bills the same way.
+ */
+export function voteAtMeeting(api: CoreAPI, billId: string): BillRow {
+  const bill = api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .get(billId) as unknown as BillRow | undefined;
+  if (!bill || bill.status !== "drafted") return holdVote(api, billId);
+  const moot = mootAtFloor(api, bill);
+  return moot ? dieMoot(api, bill, moot) : holdVote(api, billId);
+}
+
 /** A moot bill dies unvoted, with the law row it repeats or cuts across on its record. */
 function dieMoot(
   api: CoreAPI,
@@ -2321,14 +2336,17 @@ function recentlyDefeated(
       (s.bills ?? []).some((b) => {
         // A filing held for the meeting was drafted when the session was
         // written; its vote since is read from the bill itself.
-        const status =
+        const live =
           b.status === "drafted"
-            ? (liveBills(api, officeId).get(b.number)?.status ?? b.status)
-            : b.status;
+            ? liveBills(api, officeId).get(b.number)
+            : undefined;
+        const status = live?.status ?? b.status;
         return (
           b.question === question &&
           b.change === (direction > 0 ? "enact" : "repeal") &&
           b.fate === "voted" &&
+          // Held, then found moot at the meeting: it died unvoted.
+          !live?.moot &&
           status !== "drafted" &&
           status !== "enacted" &&
           status !== "overridden" &&
