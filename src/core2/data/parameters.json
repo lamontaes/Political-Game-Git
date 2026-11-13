@@ -8471,5 +8471,17 @@
       "unit": "days",
       "citation": "A month (a canvass and recount) to a year and a month; checked against the records proof of a two-year Montpelier run."
     }
+  },
+  "traitWeightVotingAskRecount": {
+    "value": 0.2,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "No study of candidates' choice to ask for a recount was found; set at the weight of the nearest calibrated candidate choice, standing again (traitWeightVotingStandAgain, 0.2), so temperament tips only a count near the closeness share (recountAskCloseShare).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "The spread of traitWeightVotingStandAgain."
+    }
   }
 }

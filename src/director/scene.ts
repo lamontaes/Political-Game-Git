@@ -195,44 +195,50 @@ export function composeScene(
       ? core.organizations.get(binding.setting.recordId)
       : undefined;
   const settingOrg = settingRow?.outsideFlow ? undefined : settingRow;
-  const arrival = render(
-    { part: "arrival", kind },
-    () => {
-      const facts: Record<string, Fact> = {
-        begins: {
-          text: dayOpening(
-            core.date,
-            minuteOfDay ??
-              entry.stop?.at.minuteOfDay ??
-              core.data.parameters.playerDayStartMinute!.value,
-          ),
-          sourceRecordIds: [moment.id],
+  // A scene whose setting stands in for its own room opens on the day alone.
+  const dayOnly =
+    SITUATION_LIBRARY.types.find((row) => row.key === binding.typeKey)
+      ?.arrivesBy === "day";
+  const opensOn = () =>
+    dayOpening(
+      core.date,
+      minuteOfDay ??
+        entry.stop?.at.minuteOfDay ??
+        core.data.parameters.playerDayStartMinute!.value,
+    );
+  const arrival: SceneLine | null = dayOnly
+    ? { text: `${opensOn()}.`, sourceRecordIds: [moment.id] }
+    : render(
+        { part: "arrival", kind },
+        () => {
+          const facts: Record<string, Fact> = {
+            begins: { text: opensOn(), sourceRecordIds: [moment.id] },
+          };
+          // A record made on an earlier day (a call that came in the evening,
+          // played the next morning) is told as past: "yesterday".
+          const since = daySince(moment.date, core.date);
+          if (since)
+            facts.since = { text: since, sourceRecordIds: [moment.id] };
+          if (meeting)
+            facts.name = {
+              text: `${meeting.givenName} ${meeting.familyName}`,
+              sourceRecordIds: [meeting.id],
+            };
+          if (settingOrg)
+            facts.where = {
+              text: properName(settingOrg.name),
+              sourceRecordIds: [settingOrg.id],
+            };
+          return facts;
         },
-      };
-      // A record made on an earlier day (a call that came in the evening,
-      // played the next morning) is told as past: "yesterday".
-      const since = daySince(moment.date, core.date);
-      if (since) facts.since = { text: since, sourceRecordIds: [moment.id] };
-      if (meeting)
-        facts.name = {
-          text: `${meeting.givenName} ${meeting.familyName}`,
-          sourceRecordIds: [meeting.id],
-        };
-      if (settingOrg)
-        facts.where = {
-          text: properName(settingOrg.name),
-          sourceRecordIds: [settingOrg.id],
-        };
-      return facts;
-    },
-    `${moment.id}:arrival`,
-    // Someone who lives with the player does not arrive: they are home, so
-    // the day opens as it does alone and the scene's lead says who is there.
-    (facts) =>
-      facts.name && !(meeting && livesWith(core, personId, meeting.id))
-        ? "other"
-        : "alone",
-  );
+        `${moment.id}:arrival`,
+        // Someone who lives with the player does not arrive: they are home, so
+        // the day opens as it does alone and the scene's lead says who is there.
+        (facts) =>
+          facts.name && !(meeting && livesWith(core, personId, meeting.id))
+            ? "other"
+            : "alone",
+      );
   // The call or letter line is the fallback when no arrival is worded.
   const setting = arrival
     ? null

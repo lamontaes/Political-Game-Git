@@ -1,6 +1,7 @@
 import { macroMonths } from "../director/opening-story";
 import { coreAPI } from "../core2/state";
 import { regionOfPlace } from "../core2/modules/regional";
+import { townFigures } from "../core2/modules/housing";
 import {
   benefitsPanel,
   buildingPanel,
@@ -94,7 +95,12 @@ type Row = {
   before: number | null;
 };
 
-/** The town's homes: its rental stock and vacancies, and the typical rent and home value the opening priced it from. */
+/**
+ * The town's homes: its rental stock and vacancies, and the typical rent and home value
+ * today, read from the leases and homes the housing engine keeps (`townFigures`, the reader
+ * its own review uses). Where the town has no renter or no owned home on record, the
+ * opening's figure stands.
+ */
 function housingRows(core: CoreState, placeId: string): Row[] {
   const stock = buildingPanel(coreAPI(core)).stock.find(
     (row) => row.placeId === placeId,
@@ -107,15 +113,21 @@ function housingRows(core: CoreState, placeId: string): Row[] {
       }
     | undefined;
   if (!stock) return [];
+  const today = townFigures(coreAPI(core), placeId);
   // SG-SCREENS-metrics-no-prior-year: the stock keeps no year-ago reading, so these show now only.
   return [
     { key: "rentals", unit: "count", now: stock.rentalUnits, before: null },
     { key: "vacant", unit: "count", now: stock.vacantRental, before: null },
-    { key: "rent", unit: "money", now: stock.openingRentMinor, before: null },
+    {
+      key: "rent",
+      unit: "money",
+      now: today.rentMinor || stock.openingRentMinor,
+      before: null,
+    },
     {
       key: "homeValue",
       unit: "money",
-      now: stock.openingHomeValueMinor,
+      now: today.homeValueMinor || stock.openingHomeValueMinor,
       before: null,
     },
   ];
