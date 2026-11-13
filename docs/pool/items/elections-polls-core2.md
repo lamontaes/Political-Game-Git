@@ -5,14 +5,14 @@ area: elections
 kind: feature
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/pool-elections-polls-core2
+status: open
+claimed-by:
 pr: #5815
 after:
 blocked-on:
 milestone:
 source: acting CTO ruling, Oct 19; replaces the old-core poll work in PRs #5091 and #5081
-claimed-at: 2026-11-11T06:19:22.360Z
+claimed-at:
 lead: elections
 standard: 2
 model: sonnet
@@ -56,3 +56,5 @@ Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Not built: the item's own Fix is a test that a non-player campaign buys a poll in a played world, and the earlier release (six drawn places, 420 days, GOLDEN_PATH_SEED=poll-a, main 250e39494b) and the Oct 19 measurement both found no such poll, so the test cannot pass; needs a decision on why world campaigns raise too little for commissionPoll's minimum (campaigns.ts line 5322/6481), not another replay. Continue on branch claude/pool-elections-polls-core2 and pull request #5815.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:19 UTC) on branch claude/pool-elections-polls-core2.
+
+Released by next (2026-11-13): no push to claude/pool-elections-polls-core2 since 2026-11-11 06:19 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-elections-polls-core2 and pull request #5815.

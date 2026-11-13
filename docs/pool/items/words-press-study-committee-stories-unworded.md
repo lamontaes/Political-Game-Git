@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: Words builder W3 (opus-d51c)
+pr: #8982
 after:
 blocked-on:
 lead: words
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: Red desk, Nov 12 (merger sonnet-dca4 on #8928; src/bench/printed-words.test.ts red on main by draw)
+merged-at: 2026-11-13T03:54:07.085Z
 ---
 
 **What.** src/bench/printed-words.test.ts, "words every story the press prints in a year", fails on clean main 07fb90ba at GOLDEN_PATH_SEED=7873af602be48421779c5ff88b277b2eace926b8 (Tierra Amarilla, New Mexico, place 3577670): 20 printed stories are unworded, all of the kinds `study-formed` and `study-reported` (the county board's study committee on a bill it narrowly lost, formed 2025-01-21, and its reports). The test passes in draws where no body forms a study committee in the year. Seen: News lists a printed story with no headline or lede for a study committee, and nobody in the town hears what the committee found.
@@ -33,3 +34,7 @@ source: Red desk, Nov 12 (merger sonnet-dca4 on #8928; src/bench/printed-words.t
 **Waits on.** Nothing.
 
 **Files.** src/bench/printed-words.ts, data/english/parts/news.json
+
+**Notes.**
+
+- Nov 13: built on `claude/words-w3-news-study` by Words builder W3 (opus-d51c), Fable A's assignment of Nov 12 21:44Z. printed-words.test passes at the Red desk's seed; the stories as played are in `docs/seen/words-w3-news-study/lines.md`.

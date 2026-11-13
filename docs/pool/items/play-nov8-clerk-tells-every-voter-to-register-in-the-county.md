@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/pool-play-nov8-clerk-tells-every-voter-to-register-in-the-county
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc9-place-facts-one-default
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, point C11, partly fixed)
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T06:02:47.524Z
+claimed-at:
 branch: claude/pool-play-nov8-clerk-tells-every-voter-to-register-in-the-county
 ---
 
@@ -46,3 +46,5 @@ Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Not built: the fix is a new bank piece for the state-rule-registered-voter refusal in data/english/parts/scene-talk.json (Story only); the test over every clerk piece would be red until Story writes it and returns the slot key, so the fill and the test cannot land green first. Needs the Words line to send the key. Continue on branch claude/pool-play-nov8-clerk-tells-every-voter-to-register-in-the-county.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:02 UTC) on branch claude/pool-play-nov8-clerk-tells-every-voter-to-register-in-the-county.
+
+Released by next (2026-11-13): no push to claude/pool-play-nov8-clerk-tells-every-voter-to-register-in-the-county since 2026-11-11 06:02 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-play-nov8-clerk-tells-every-voter-to-register-in-the-county.

@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-words-hearing-chair-question
+claimed-by:
 pr: #8426
 after:
 blocked-on:
@@ -16,7 +16,7 @@ model: sonnet
 effort: medium
 root: design-words-machine
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T01:20:15.136Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-words-hearing-chair-question
 ---
@@ -44,3 +44,5 @@ Sent back 2026-10-20 from PR #5572 (branch claude/hearing-chair-question): six a
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-7xkkii` (2026-10-20). Cleared from the front matter and kept here.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:20 UTC) on branch claude/pool-words-hearing-chair-question.
+
+Released by next (2026-11-13): no push to claude/pool-words-hearing-chair-question since 2026-11-11 01:20 UTC, more than twice its 6-hour time box. Continue on branch claude/pool-words-hearing-chair-question and pull request #8426.

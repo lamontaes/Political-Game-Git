@@ -1,6 +1,17 @@
 {
   "entries": [
     {
+      "version": "0.109.0",
+      "releasedOn": "2026-11-13",
+      "revision": "0fe395611379de8832b65b3e0fe277e2990e0813",
+      "changeIds": [
+        "core-older-workers-full-vs-counted-gap",
+        "gov-constituent-case-family-in-custody",
+        "laws-reach-b-snap-member-stop",
+        "people-births-ready-couples-conceive-at-once-part-1-re-measure"
+      ]
+    },
+    {
       "version": "0.108.0",
       "releasedOn": "2026-11-12",
       "revision": "0c2befa7a8fd7fd1926f8f754cc1e0b67b040ff6",
