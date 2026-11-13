@@ -5,7 +5,7 @@ area: office
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #8668
 blocked-on:
@@ -44,3 +44,5 @@ Released (2026-11-11): Not reproduced: src/director/swearing-in-scene.test.ts pa
 Released (2026-11-11): Still no failing place and seed: the item names none. Candidate site confirmed in code (executive.ts line 1217 ends the replaced cabinet holder's job with no workedToday check, unlike the nominee filter at line 455), but guarding it needs a decision on what happens to the replaced holder who worked today; needs a repro first. Continue on branch claude/pool-gov-seated-governor-appointment-job-ends.
 
 Released by next (2026-11-13): no push to claude/pool-gov-seated-governor-appointment-job-ends since 2026-11-12 21:10 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-gov-seated-governor-appointment-job-ends and pull request #8668.
+
+Account lead T31 (2026-11-13): Reproduced on the train branch in 6 of 6 drawn places (for example Dandan, Northern Mariana Islands, seed 8ec0d4b3a3690ca453dd83134519812db8b04e454d7af2b5c859eda7c8835759): a seated governor who appoints a state post twice, the day after the first appointee worked, throws at executive.ts appointStatePost, where the replaced holder's job ends (endJob, line 1237 before the fix). The item's account was wrong: the seated player's own job is not the cause, and the swearing-in test no longer has a detour. Fix: the replaced holder's job ends at once, or in the next calendar work when they worked today (as reviewOfficeJobs does for office jobs); same helper at the cabinet seating's replace (seatCabinetPerson). Test: src/core2/governor-appointment-job-ends.test.ts.
