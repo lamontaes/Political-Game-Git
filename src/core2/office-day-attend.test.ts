@@ -21,6 +21,7 @@ import {
   bodyOf,
   LEGISLATURE_MODULE_ID,
   members,
+  type CommitteeRecord,
   votesOn,
   type BillRow,
 } from "./modules/legislature";
@@ -33,6 +34,7 @@ import {
   meetingInProgress,
   meetingOf,
   meetingToAttend,
+  OFFICE_DAY_MODULE_ID,
   officeActsOf,
   setStops,
   speakOnItem,
@@ -433,6 +435,17 @@ const COMMITTEE_PLACE = {
   name: "Garrochales, Puerto Rico",
   seed: "7dae2d52c2ce307c8b1896e42a30f4cdf5ebf9aedcd8760777c5a5eb1dd36081",
 };
+/**
+ * The place that showed a committee the player sits on tallies on the eve for
+ * a player away and, with the seat deferred, differently for one held (Nov 13,
+ * 2026, CI): the committee the player sits on now meets on the meeting's day
+ * on both paths. Kept, and a committee they sit on must be in it.
+ */
+const SEATED_COMMITTEE_PLACE = {
+  key: "7200358",
+  name: "Adjuntas, Puerto Rico",
+  seed: "46df10dad049f2497d21e51cb6bfb6a949ec55a83040f6eb601b9d1cf1eb2472",
+};
 const DAYS = Number(process.env.TWIN_DAYS ?? 100);
 const endOf = (core: CoreState) =>
   new Date(Date.parse(`${core.date}T00:00:00Z`) + DAYS * 86_400_000)
@@ -623,6 +636,7 @@ it("a member the player plays decides alike at the stop and away from it: the me
   for (const place of named ?? [
     SAME_DAY_PLACE,
     COMMITTEE_PLACE,
+    SEATED_COMMITTEE_PLACE,
     ...twinPlaces("seated-holds"),
   ]) {
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
@@ -683,6 +697,7 @@ it("a member the player plays decides alike at the stop and away from it: the me
             ).toBeUndefined();
           adjourn(api, meeting.id);
           for (const id of open) {
+            if (billOf(api, id).moot) continue;
             const chosen = api
               .moduleState(LEGISLATURE_MODULE_ID)
               .table("choices")
@@ -718,6 +733,8 @@ it("a member the player plays decides alike at the stop and away from it: the me
               `${where}: ${id} voted before the stop`,
             ).toBeUndefined();
             takeUpItem(api, meeting.id, id, "own");
+            // An item found moot at the floor dies unvoted: nothing to cast.
+            if (billOf(api, id).moot) continue;
             // Asked for at the meeting, it is cast that day as their own choice.
             expect(
               chosen()?.vote,
@@ -751,9 +768,31 @@ it("a member the player plays decides alike at the stop and away from it: the me
           ).toBe(false);
         }
       }
+      // A committee the player sits on meets on the meeting's day, whether they
+      // are held at it or away: no item of it is decided before that day.
+      const committees = (
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("committees")
+          .rows() as unknown as CommitteeRecord[]
+      )
+        .filter((c) => c.memberIds.includes(member))
+        .map((c) => {
+          const placed = api
+            .moduleState(OFFICE_DAY_MODULE_ID)
+            .table("agendaItems")
+            .get(c.billId) as unknown as { date: string } | undefined;
+          if (placed)
+            expect(c.date, `${where}: committee on ${c.billId}`).toBe(
+              placed.date,
+            );
+          return `${c.billId} ${c.date} ${c.yes}-${c.no} ${c.votes
+            .map((v) => `${v.memberId}:${v.vote}`)
+            .join(",")}`;
+        });
       if (mode === "adjourn")
         expect(adjourned, `${where}: items left to Adjourn`).toBeGreaterThan(0);
-      return { bills: decided(api), held, items, date: core.date };
+      return { bills: decided(api), held, items, date: core.date, committees };
     };
     const held = run(true);
     if (!held) {
@@ -767,6 +806,14 @@ it("a member the player plays decides alike at the stop and away from it: the me
     expect(away.held).toBe(0);
     expect(held.date).toBe(away.date);
     expect(held.bills, where).toEqual(away.bills);
+    expect(held.committees, `${where}: committees the player sits on`).toEqual(
+      away.committees,
+    );
+    if (place.key === SEATED_COMMITTEE_PLACE.key)
+      expect(
+        held.committees.length,
+        `${where}: a committee the player sits on`,
+      ).toBeGreaterThan(0);
     if (place.key === COMMITTEE_PLACE.key) {
       run(true, "silent");
       run(true, "adjourn");

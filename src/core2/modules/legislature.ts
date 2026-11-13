@@ -610,6 +610,33 @@ function replyPull(
  * (`askBeforeTheRoll`). A bill whose committee already met is not taken
  * again, and a body with no committee meets on the floor day as it did.
  */
+let committeeWaits: ((api: CoreAPI, bill: BillRow) => boolean) | null = null;
+/**
+ * The office day says a town body's committee waits for the meeting's day:
+ * the committee the player sits on meets inside the vote, so the player's seat
+ * votes in it (and in the floor vote) on the day, present or not.
+ */
+export function registerCommitteeWait(
+  wait: (api: CoreAPI, bill: BillRow) => boolean,
+): void {
+  committeeWaits = wait;
+}
+
+/** Whether the player holds a seat on the committee that takes the bill in its first chamber. */
+export function playerSitsOnCommittee(api: CoreAPI, bill: BillRow): boolean {
+  // The person the player controls, else the one they began as.
+  const player =
+    snapshotExplicitControlV1(api.state).personId ??
+    (api.state as CoreState).playerId;
+  const first = chambersOf(api, bill)[0];
+  if (!player || !first) return false;
+  return (
+    committeeSeats(api, bill, first)?.roster.some(
+      (t) => memberKey(t) === player,
+    ) ?? false
+  );
+}
+
 function committeesBeforeTheFloor(api: CoreAPI): void {
   const floorDate = addDays(makeIsoDate(api.state.date), 1);
   // The same agenda the sponsor's asks read (floorAgendaOn): the weekly
@@ -620,6 +647,8 @@ function committeesBeforeTheFloor(api: CoreAPI): void {
     const first = chambersOf(api, bill)[0];
     if (!first || table(api, "committees").get(`committee:${id}:${first}`))
       continue;
+    // A committee the player sits on meets on the meeting's day, inside the vote.
+    if (committeeWaits?.(api, bill)) continue;
     holdCommittee(api, id);
   }
 }
