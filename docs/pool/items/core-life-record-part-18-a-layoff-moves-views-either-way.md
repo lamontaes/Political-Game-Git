@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: opus-lr
-pr:
+pr: #8992
 after: core-life-record-part-14-a-past-that-moves-views
 blocked-on:
 lead: lives
