@@ -92,7 +92,9 @@
     "vacated": "The day the seat a new holder takes fell empty, from the vacancy record.",
     "opened": "The month and year a business opened, from its founding record, when it was open less than two years.",
     "members": "How many sit on a study committee, said in words, from the study's row.",
-    "until": "The day a study committee reports by, from the study's row."
+    "until": "The day a study committee reports by, from the study's row.",
+    "short-by": "The votes a failed bill lacked for a majority of those cast, as a number, from the vote's yeas and nays.",
+    "plural-subject": "Set when the group's name takes a plural verb (\"Friends of policing\"), from its name's form in data/english/group-names.json."
   },
   "maxWords": 14,
   "mining": {
@@ -1555,7 +1557,8 @@
           "subject": "news",
           "role": "law-took-effect",
           "choice": "lede",
-          "requiresFacts": ["effective"]
+          "requiresFacts": ["effective"],
+          "excludesFacts": ["place", "federal"]
         }
       ],
       "transcriptsUsing": 17,
@@ -1573,6 +1576,50 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.law-took-effect.places-measure-took-effect-on-date",
+      "move": "law-took-effect",
+      "kind": "written",
+      "text": "{place}'s {measure} took effect on {date}.",
+      "uses": [
+        {
+          "move": "law-took-effect",
+          "subject": "news",
+          "role": "law-took-effect",
+          "choice": "lede",
+          "requiresFacts": ["effective", "place"]
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "news.law-took-effect.the-federal-measure-took-effect-on-date",
+      "move": "law-took-effect",
+      "kind": "written",
+      "text": "The federal {measure} took effect on {date}.",
+      "uses": [
+        {
+          "move": "law-took-effect",
+          "subject": "news",
+          "role": "law-took-effect",
+          "choice": "lede",
+          "requiresFacts": ["effective", "federal"]
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13"
     },
     {
       "key": "news.law-took-effect.measure-became-law-on-date",
@@ -10687,20 +10734,19 @@
       "key": "news.vote-margin.it-fell-short-by-margin-votes",
       "move": "vote-margin",
       "kind": "written",
-      "text": "It fell short by {margin} votes.",
+      "text": "It fell short by {short-by} votes.",
       "uses": [
         {
           "move": "vote-margin",
           "subject": "news",
           "role": "vote-margin",
           "choice": "context",
-          "requiresFacts": ["margin", "failed"],
-          "excludesFacts": ["one-vote"]
+          "requiresFacts": ["short-by", "failed"]
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -11000,7 +11046,8 @@
           "move": "endorsement",
           "subject": "news",
           "role": "endorsement",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["when"]
         }
       ],
       "origin": "authored",
@@ -11012,21 +11059,67 @@
       }
     },
     {
-      "key": "news.endorsement.subject-is-backing-name-in-the-race-for-office",
+      "key": "news.endorsement.subject-endorsed-name-for-office-ahead-of-the-when-vote",
       "move": "endorsement",
       "kind": "written",
-      "text": "{subject} is backing {name} in the race for {office}.",
+      "text": "{subject} endorsed {name} for {office} ahead of the {when} vote.",
       "uses": [
         {
           "move": "endorsement",
           "subject": "news",
           "role": "endorsement",
-          "choice": "lede"
+          "choice": "lede",
+          "requiresFacts": ["when"]
         }
       ],
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-30",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.endorsement.subject-is-backing-name-in-the-when-race-for-office",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "{subject} is backing {name} in the {when} race for {office}.",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "news",
+          "role": "endorsement",
+          "choice": "lede",
+          "requiresFacts": ["when"],
+          "excludesFacts": ["plural-subject"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.endorsement.subject-are-backing-name-in-the-when-race-for-office",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "{subject} are backing {name} in the {when} race for {office}.",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "news",
+          "role": "endorsement",
+          "choice": "lede",
+          "requiresFacts": ["plural-subject", "when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -11042,7 +11135,8 @@
           "move": "endorsement",
           "subject": "news",
           "role": "endorsement",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["when"]
         }
       ],
       "origin": "authored",

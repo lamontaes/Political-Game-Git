@@ -45,7 +45,8 @@
     "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
     "district": "A seat's district, as its seat record numbers it (4, 12A), from the seat records.",
     "year": "A budget's fiscal year, from the budget record.",
-    "spending": "What a budget plans to spend in all, rounded as people say it, from the budget record."
+    "spending": "What a budget plans to spend in all, rounded as people say it, from the budget record.",
+    "plural-subject": "Set when the group's name takes a plural verb (\"Friends of policing\"), from its name's form in data/english/group-names.json."
   },
   "maxWords": 14,
   "mining": {
@@ -7783,12 +7784,35 @@
           "move": "endorsement",
           "subject": "headline",
           "role": "endorsement",
-          "choice": "headline"
+          "choice": "headline",
+          "excludesFacts": ["plural-subject"]
         }
       ],
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-30",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.endorsement.subject-endorse-name",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "{subject} endorse {name}",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "headline",
+          "role": "endorsement",
+          "choice": "headline",
+          "requiresFacts": ["plural-subject"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -7804,12 +7828,35 @@
           "move": "endorsement",
           "subject": "headline",
           "role": "endorsement",
-          "choice": "headline"
+          "choice": "headline",
+          "excludesFacts": ["plural-subject"]
         }
       ],
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-30",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.endorsement.subject-back-name-for-office",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "{subject} back {name} for {office}",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "headline",
+          "role": "endorsement",
+          "choice": "headline",
+          "requiresFacts": ["plural-subject"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "headline",
         "key": "news-received"
