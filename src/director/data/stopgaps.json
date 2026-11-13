@@ -734,11 +734,11 @@
     "file": "src/director/data/purpose-arcs.json",
     "line": 1,
     "whatItFakes": "The story-read scene's replies (agree, disagree, ask, put off) write the reply record, time together, a strain on the tie when the talk is put off or argued, the owed talk and the journal line; no engine moves the player's or the reader's view of the story's question from the talk.",
-    "why": "The views engine moves a view from a speech heard, a story read or a case made; it has no hook that reads a household talk's agree or disagree. The scene still names the story, ends on a record other engines read, and is not small talk (Nov 8, P37).",
+    "why": "The views engine moves a view from a speech heard, a story read or a case made; it has no hook that reads a household talk's agree or disagree. The scene still names the story, ends on a record other engines read, and is not small talk (Nov 8, P37). Resolved by deletion (Nov 12, 2026): the story-read scene was deleted with the scene inventory; bring-it-up (src/director/bring-it-up.ts) reads the same news.read record and writes the told record.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
     "replacement": "A views-engine hook that reads a scene.reply of typeKey story-read (move agree or disagree, cause the news.read record) and moves the reader's and the player's stance on the story's question by the tie between them.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORDS-moving-goodbye-reason-rows",
@@ -854,7 +854,7 @@
     "file": "src/director/data/situation-types.json",
     "line": 1819,
     "whatItFakes": "The visit scene's illness causes and a relative's visit to the player while the player is held have no scene of their own; a sick relative is covered by the care scene.",
-    "why": "A visit to the ill needs the health engine's diagnosis and care records worded as the ask, and a visit to the player inside leaves the player no choices to reply with while they serve a term. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
+    "why": "A visit to the ill needs the health engine's diagnosis and care records worded as the ask, and a visit to the player inside leaves the player no choices to reply with while they serve a term. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer. The visit type was then deleted with the scene inventory (Nov 12, 2026); prison-visit and care carry the visits that have purposes.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
     "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A hospital-visit purpose that reads the health engine's care need, and, for the player held, a letter or a call scene the player answers after release.",
@@ -908,11 +908,11 @@
     "file": "data/english/parts/scene-talk.json",
     "line": 1,
     "whatItFakes": "What the one who comes back wants from the player (to make up after a falling-out, to ask for a work lead, to tell news, to ask for a visit) is worded for every reunion; nothing on a record says this person wants a lead or a visit. How long they were away, where they live and what changed in their life are from records.",
-    "why": "No engine keeps what a person wants from someone they have not seen in years; the ask is the purpose itself, so its lines name only things any returning friend or relative might ask, and lines about a falling-out play only when the pair's thread kept a soured turn.",
+    "why": "No engine keeps what a person wants from someone they have not seen in years; the ask is the purpose itself, so its lines name only things any returning friend or relative might ask, and lines about a falling-out play only when the pair's thread kept a soured turn. Resolved by deletion (Nov 12, 2026): the reunion scene was deleted with the scene inventory (docs/design/scene-inventory.md); no engine records a return.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
     "replacement": "A wants record per person (work sought, a quarrel to mend, news to tell) that the reunion reads, so the ask is the one the records give.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORDS-letter-ask-unrecorded",
