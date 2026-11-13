@@ -8480,7 +8480,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "headline",
@@ -8502,7 +8502,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "headline",
@@ -8524,7 +8524,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "headline",
@@ -8546,8 +8546,120 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-formed.the-body-sends-designation-to-a-study-committee",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "The {body} sends {designation} to a study committee",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "headline",
+          "role": "study-formed",
+          "choice": "headline",
+          "requiresFacts": ["body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.study-committee-on-designation-now-favors-the-bill",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "Study committee on {designation} now favors the bill",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["members-for", "changed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.study-committee-on-designation-turns-against-the-bill",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "Study committee on {designation} turns against the bill",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["members-against", "changed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.study-committee-on-designation-comes-out-for-the-bill",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "Study committee on {designation} comes out for the bill",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["members-for"],
+          "excludesFacts": ["changed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.study-committee-on-designation-comes-out-against-the-bill",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "Study committee on {designation} comes out against the bill",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["members-against"],
+          "excludesFacts": ["changed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "headline",
         "key": "news-received"

@@ -405,8 +405,24 @@ describe("campaigns that raise and spend", () => {
     const rich = rivalDay(api, filing.id, candidate, candidate.placeId);
     expect(poor.act, `${where}: a poor rival holds no event`).not.toBe("event");
     expect(rich.act, `${where}: a rich rival holds one`).toBe("event");
+    // The turn holds it: in the town when the race is the town's own, and
+    // for a county, district or state race (most rivals here, who file for
+    // the first race open) somewhere in the race, the town being owed its
+    // share of it until that reaches a whole event (`heldInTown`, Speed,
+    // Nov 8): an event the town is part of either happens here or adds to
+    // what the town is owed, never neither.
+    const owedBefore = campaignFor(api, filing.id).townEventCredit ?? 0;
     const turn = campaignTurn(api, filing.id, electionOf(api, filing));
-    expect(turn.dayAct, where).toBe("event");
+    const owedAfter = campaignFor(api, filing.id).townEventCredit ?? 0;
+    process.stdout.write(
+      `RIVAL EVENT ${where}: ${filing.contestId} held ${turn.dayAct === "event" ? "in the town" : "elsewhere in the race"}; the town is owed ${owedAfter.toFixed(3)} of an event (was ${owedBefore.toFixed(3)})\n`,
+    );
+    if (turn.dayAct !== "event")
+      expect(
+        owedAfter,
+        `${where}: an event held elsewhere in the race adds the town's share`,
+      ).toBeGreaterThan(owedBefore);
+    expect(owedAfter, where).toBeLessThan(1);
   }, 300_000);
 
   it("an unknown rival puts more of the day into doors than a well-known one", () => {

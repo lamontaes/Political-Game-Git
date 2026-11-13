@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: merged
 claimed-by: claude/pool-play-nov8-thirteen-points-need-a-played-check
 pr: #8594
 after:
@@ -19,6 +19,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T04:51:08.605Z
 branch: claude/pool-play-nov8-thirteen-points-need-a-played-check
+merged-at: 2026-11-13T02:19:20.289Z
 ---
 
 **What.** The audit counted 13 of the 72 defects from the owner's Nov 8 playtest as ones only a running game can settle, and said to count all 13 open until each is shown fixed on screen. The audit did not list them, so the Notes below carry a fresh reading of main on Nov 10: thirteen points where the code now carries a change aimed at the point, but the point is about how something looks, moves or plays, or its cause was never traced, so reading cannot close it. The job is one sitting in the running game that looks at each of the thirteen and marks it fixed with a screenshot, or files it as its own item with what was seen. Nothing is built here; a point found still broken becomes a new item named `play-nov8-<short-name>` with the screenshot.
