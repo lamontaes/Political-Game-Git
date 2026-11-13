@@ -381,6 +381,22 @@ function composeBinding(
       sourceRecordIds: [billId ?? moment.causeId, moment.causeId],
     };
   }
+  // The asked person's own row on the bill's roll call, so a line that says
+  // how they voted is said only when the roll holds it, and one that says
+  // they were not in the vote only when it does not (Fable B's street stop,
+  // Deep River, Washington: "I voted the way I thought was right" from a
+  // commissioner who never voted). An effect is a read: the roll is read.
+  if (billId && named) {
+    const roll = votesOn(coreAPI(core as CoreState), billId);
+    const mine = roll.find((row) => row.memberId === askedId);
+    if (mine?.vote === "yes" || mine?.vote === "no")
+      facts[mine.vote === "yes" ? "voted-for" : "voted-against"] = {
+        text: "yes",
+        sourceRecordIds: [billId],
+      };
+    else if (roll.length)
+      facts["no-vote"] = { text: "yes", sourceRecordIds: [billId] };
+  }
   // A law in force (a story that it took effect): its policy by name, for
   // the lines that say what took effect.
   if (said.lawId && said.series) {
