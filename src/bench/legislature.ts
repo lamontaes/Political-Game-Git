@@ -24,6 +24,7 @@ import {
   votesOn,
   whipCount,
   type BillRow,
+  type LawCitation,
   type Provision,
 } from "../core2/modules/legislature";
 import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
@@ -354,6 +355,11 @@ export function seatAct(
   const floor = floorOf(core, bill);
   return {
     ...bill,
+    // Each refused section's barring law, as the bill paper cites a law.
+    authority: bill.authority.map((row) => ({
+      ...row,
+      ...citedAs(row.cites),
+    })),
     text,
     ...(floor.agendaDate ? { agendaDate: floor.agendaDate } : {}),
     floorDate: floor.floorDate,
@@ -681,7 +687,7 @@ export function bodyMembers(
  * its level can pass, with the amount in force today and whether the state
  * lets a town act (`billCatalog`, never the raw catalog file).
  */
-function menusFor(
+export function menusFor(
   api: ReturnType<typeof coreAPI>,
   bodyLevel: string,
   officeId: string,
@@ -728,6 +734,18 @@ function menusFor(
         allowed: row.authority.allowed,
         warning: row.authority.warning,
         reason: row.authority.reason,
+        // The law that bars it, as the bill paper cites a law.
+        ...citedAs(row.authority.cites),
       })),
   }));
+}
+
+/** A barring law's citation as people say it ("AB 54", "Ordinance 2025-3", a starting statute's own name), from its record. */
+function citedAs(cites: LawCitation | undefined): { citedAs?: string } {
+  if (!cites?.statute) return {};
+  return {
+    citedAs: cites.statuteForm
+      ? spokenDesignation(cites.statute, cites.statuteForm)
+      : cites.statute,
+  };
 }

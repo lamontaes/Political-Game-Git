@@ -541,6 +541,7 @@
     "state-gives-no-local-tax": "The state lets towns levy no such tax",
     "no-state-law": "The state's law on this is not settled"
   },
+  "authorityCites": "{reason} ({law})",
   "desk": {
     "sign": "Sign",
     "veto": "Veto",

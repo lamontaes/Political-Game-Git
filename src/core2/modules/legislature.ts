@@ -180,6 +180,40 @@ export interface Authority {
   readonly reason: AuthorityReason;
   /** The law row, question or statute the reason rests on. */
   readonly source: string;
+  /** What the barring law is cited as (its enacting bill's designation, or a starting law's recorded statute), where the reason rests on a law row that has one. */
+  readonly cites?: LawCitation;
+}
+
+/** How a law in force is cited: the designation of the bill that enacted it in play with that bill's form, or the statute a starting law's research recorded. */
+export interface LawCitation {
+  readonly statute: string | null;
+  readonly statuteForm: BillFormKind | null;
+}
+
+/**
+ * The citation of a law row: the bill, passed in play, that enacted it, with
+ * its form; or, for a law in force when the game began, the statute its
+ * research recorded (`terms.cite`). Null parts where neither is on record:
+ * a starting row's research source only calibrated it and is never said.
+ */
+export function lawCitation(
+  api: CoreAPI,
+  row: LawRowInput | null | undefined,
+): LawCitation {
+  const enactedByBill = row?.terms?.enactedByBill;
+  const enacting =
+    typeof enactedByBill === "string"
+      ? (table(api, "bills").get(enactedByBill) as unknown as
+          BillRow | undefined)
+      : undefined;
+  const recorded =
+    typeof row?.terms?.cite === "string" && row.terms.cite
+      ? row.terms.cite
+      : null;
+  return {
+    statute: enacting?.number || recorded,
+    statuteForm: enacting?.number ? enacting.form.kind : null,
+  };
 }
 
 export type AuthorityReason =
@@ -1606,6 +1640,10 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
           warning: "preempted",
           reason: "state-gives-no-local-tax",
           source: rows[0]?.id ?? "",
+          // The law that bars it, as the bill paper cites a law.
+          ...(provision.series === "income-tax" && rows[0]
+            ? { cites: lawCitation(api, rows[0]) }
+            : {}),
         };
   }
   if (provision.kind === "policy-question" && provision.question)
@@ -1931,16 +1969,7 @@ export function billSections(
     // The bill that enacted the law in force, when one on record did: an
     // order or a ballot measure has no designation a section cites. A
     // starting law cites the statute its research recorded, if any.
-    const enactedByBill = row?.terms?.enactedByBill;
-    const enacting =
-      typeof enactedByBill === "string"
-        ? (table(api, "bills").get(enactedByBill) as unknown as
-            BillRow | undefined)
-        : undefined;
-    const recorded =
-      typeof row?.terms?.cite === "string" && row.terms.cite
-        ? row.terms.cite
-        : null;
+    const cited = lawCitation(api, row);
     const before: BillSection["before"] =
       p.kind === "budget-line"
         ? {
@@ -1956,8 +1985,8 @@ export function billSections(
             unit: earlier ? earlier.unit : inForce.unit,
             shape: earlier ? earlier.shape : shapeBefore,
             lawId: row?.id ?? null,
-            statute: enacting?.number || recorded,
-            statuteForm: enacting?.number ? enacting.form.kind : null,
+            statute: cited.statute,
+            statuteForm: cited.statuteForm,
           };
     const after: BillSection["after"] = {
       value: p.kind === "budget-line" ? (before.value ?? 0) + p.value : p.value,
