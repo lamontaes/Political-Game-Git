@@ -108,3 +108,28 @@ Leave
 ```
 
 The after picture for w3-return-4 was taken before a later fix. It greets with "the State Election Commission and Coordinator of Elections". The research note reads "State Election Commission (original) and Coordinator of Elections (duplicate)", and the aside rule now stops before "and" or "or", so the greeting is "This is the State Election Commission" again (`spokenOffice`, tested in `filing-visit.test.ts`).
+
+## After Fable A's read (Nov 13, 08:51Z), at e351391a
+
+These replace the after pictures for w3-return-1 and w3-return-2.
+
+**w3-return-1, Miracle Valley, Arizona**
+
+```
+First thing on March 2nd. You're back at the Secretary of State's counter, and Jeffrey Smith waves you over.
+Jeffrey Smith: Back again? Your papers for U.S. representative in District 7 are in.
+I want to run for governor. November 3, 2026 · Held by Michael Barnett
+I want to run for state senator in District 21. November 3, 2026 · Held by Laura Li
+I want to run for state representative in District 21. Seat 1 · November 3, 2026 · Held by Shirley Singh
+I want to run for state representative in District 21. Seat 2 · November 3, 2026 · Held by Carolyn McLeod
+Leave
+```
+
+**w3-return-2, West Wareham, Massachusetts**
+
+```
+Travel card: Town clerk, West Wareham
+First visit's replies: Where do I sign for the board? | Did anybody in West Wareham beat me to it? | Did Dakota Pittman say anything about me? | Not today. I'll be back at the town clerk soon.
+A week on, Brenda Raymond: Nothing's come in yet. I need 20 signatures by September 30.
+Then I'd better get back out there before September 30.
+```
