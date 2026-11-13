@@ -95312,7 +95312,7 @@
           "step": "reply",
           "move": "petition-leave",
           "role": "asked",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due", "signed"]
         }
       ],
       "tag": {
