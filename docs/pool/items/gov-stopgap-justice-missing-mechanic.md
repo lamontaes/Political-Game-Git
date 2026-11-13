@@ -21,7 +21,7 @@ claimed-at:
 checked: fable 2026-11-10
 ---
 
-**What.** Replace SG-GOV-justice-player-choices in src/core2/modules/justice.ts. Today considerReport and the plea step (pleaOn, around line 655) decide for the player's character from their traits like anyone else's, so the player never chooses to report a bribe or to plead. Add a choices table to the justice module the way the legislature keeps its vote choices (table choices, read where the body decides): when the reporter or defendant is the controlled person (snapshotExplicitControlV1(api.state).personId or state.playerId), the engine writes an open offer with a deadline and the director shows it in the hearing or the moment of knowing; the player's pick is written as a choice row, and the engine reads that row at the decision. With no choice by the deadline, the player is not reported for and does not plead, the engine never decides for the player; every other person keeps the trait-weighed rule.
+**What.** Replace SG-GOV-justice-player-choices in src/core2/modules/justice.ts. Today considerReport and the plea step (pleaOn, around line 655) decide for the player's character from their traits like anyone else's, so the player never chooses to report a bribe or to plead. Add a choices table to the justice module the way the legislature keeps its vote choices (table choices, read where the body decides): when the reporter or defendant is the controlled person (snapshotExplicitControlV1(api.state).personId or state.playerId), the engine writes an open offer with a deadline and the director shows it in the hearing or the moment of knowing; the player's pick is written as a choice row, and the engine reads that row at the decision. With no choice by the deadline, the player is not reported for and does not plead, the engine never decides for the player; every other person keeps the trait-weighed rule. Seen: a scene that offers the player the choice to report a bribe or to plead, instead of the engine choosing for the player's character.
 
 **Cause.** Found in code: src/core2/modules/justice.ts lines 770-771 (SG-GOV-justice-player-choices, open in src/core2/data/stopgaps/gov.json): considerReport and the plea step decide for the controlled person from their traits like anyone else's.
 
@@ -35,7 +35,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing (words-justice-hearing-verdict-bank is done).
 
-**Files.** src/core2/modules/justice.ts, src/core2/player-control-state-v1.ts, src/director/hearing-scenes.test.ts, src/core2/justice-player.test.ts, src/core2/data/stopgaps/gov.json
+**Files.** src/core2/modules/justice.ts, src/core2/player-control-state-v1.ts, src/core2/justice-player.test.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** First row: The player's report and plea are decided by the character's own traits and the case's reads, like anyone else's, instead of being offered to the player.
 

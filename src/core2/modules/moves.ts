@@ -28,6 +28,7 @@
  * there is the same dated record, witnessed by their relatives in town; it
  * moves no money and fills nobody in (two-level population).
  */
+import { MOVED_AWAY_EVENT } from "../moved-away-event";
 import { worldRateFactor } from "../world-base-rates";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import {
@@ -75,7 +76,7 @@ export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
   Record<string, Parameter>
 >;
-export const MOVED_AWAY_EVENT = "person.moved-away";
+export { MOVED_AWAY_EVENT };
 const STOPGAP = "SG-P15-moves-weights";
 const ELSEWHERE_STOPGAP = "SG-LIVES-elsewhere-not-into-town";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";

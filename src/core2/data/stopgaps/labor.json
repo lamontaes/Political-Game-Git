@@ -231,6 +231,18 @@
     "resolvedBy": "stand-in triage (owner, Nov 10)"
   },
   {
+    "id": "SG-LABOR-counted-regional-past-working-age",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/residents.ts",
+    "line": 1,
+    "whatItFakes": "A counted seeker outside the counted working age (countedWorkingAgeFrom to countedWorkingAgeBelow) is not taken into regional work: startRegionalWork returns no job for them, though the jobs engine's find rate lets an older seeker (one laid off before passing the age, whose search goes on) find regional work, and a full person of that age would hold it as a commuter job.",
+    "why": "A counted household's out-of-town workers (unplacedWorkers) are its working-age members' share of the place's pool, shared and taken away by working-age members; a worker past that age would sit on the record with no working-age member to hold the work (Holyoke MA 2530840, seed 8719b9b3..., household_3b15edb3aad2767d: its last working-age member passed 65 on 2025-05-19 and one regional hire on 2025-06-01 put a worker on a record of 3.9 households with no working-age member).",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "A counted member's regional work held as a recorded job of that member (as a full person's commuter job is), so it follows the person rather than the household's working-age share, and the age bound applies to the share only.",
+    "status": "open"
+  },
+  {
     "id": "SG-LABOR-commuter-role-pool-pay",
     "kind": "assumed-data",
     "file": "src/core2/modules/residents.ts",

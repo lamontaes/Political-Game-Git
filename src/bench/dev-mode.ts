@@ -565,10 +565,23 @@ export class DevMode {
     unit?: string;
     repeal?: boolean;
     effectiveDate?: string;
+    /** Another state's law ("US-XX"), set at the state level under that state's key; the town's own state keeps its chain's level. */
+    stateKey?: string;
   }) {
     const api = this.api;
     const chain = lawChain(api);
-    const level = chain.levels.find((l) => l.level === input.level);
+    const other = input.stateKey;
+    if (other !== undefined) {
+      if (!/^US-[A-Z]{2}$/.test(other))
+        throw new Error(`Not a state key: ${other}`);
+      if (other === chain.stateKey)
+        throw new Error("The town's own state is set by its own level.");
+      if (input.level !== "state")
+        throw new Error("Another state's law is set at the state level.");
+    }
+    const level = other
+      ? { level: "state" as LawLevel, jurisdiction: other }
+      : chain.levels.find((l) => l.level === input.level);
     if (!level) throw new Error(`This place has no ${input.level} level.`);
     if (!lawSeriesCatalog(api).includes(input.series))
       throw new Error(`Unknown law series: ${input.series}`);
@@ -1260,8 +1273,8 @@ export class DevMode {
   scenes() {
     const types = SITUATION_LIBRARY.types;
     return types.map((type) => {
-      // The record kinds the type waits on that an engine writes; a type with only a producer that
-      // does not exist yet (`awaitingProducer`) or no cause record has none, and so no way in.
+      // The record kinds the type waits on that an engine writes; a type with no cause record has
+      // none, and so no way in.
       // A cause is named by a record kind the type is tagged with (`causeRecord`), or by the moment the
       // director's ledger keeps (`match`): a feeling about an event the game logs
       // (`feeling:event:<kind>`), a job started, a tie turning, a re-entry. The record kind behind an
@@ -1282,7 +1295,6 @@ export class DevMode {
           : [];
       });
       const causeRecords = [...new Set([...tagged, ...matched])];
-      const waiting = type.causes.flatMap((c) => c.awaitingProducer ?? []);
       // `death`, `illness` and `layoff` bring the cause about through an engine's own function; `wait`
       // runs the world until an engine writes the record naming the player; `moment` runs it until the
       // director's own ledger holds a moment that `causeMatches` reads as one of the type's causes.
@@ -1300,7 +1312,7 @@ export class DevMode {
         : recipe === "wait" || recipe === "moment"
           ? ("waits" as const)
           : ("plays" as const);
-      return { key: type.key, causeRecords, waiting, recipe, state };
+      return { key: type.key, causeRecords, recipe, state };
     });
   }
 

@@ -1,6 +1,7 @@
 // Advanced start: every person who holds an office the world runs (the
 // town's, its state's and the federal ones), read from the offices module's
 // serving terms, for the "play as" picker.
+import { governmentProperName } from "../core2/government-proper-name";
 import { coreAPI } from "../core2/state";
 import {
   OFFICES_MODULE_ID,
@@ -22,7 +23,13 @@ export function officeholders(core: CoreState) {
       // One row a person: the first office they hold.
       if (seen.has(personId)) return [];
       const office = offices.table("offices").get(term.officeId) as
-        { title?: string; level?: string; governmentName?: string } | undefined;
+        | {
+            title?: string;
+            level?: string;
+            governmentName?: string;
+            jurisdiction?: string;
+          }
+        | undefined;
       if (!office?.title) return [];
       // Another state's chambers and governor are held as results only: their
       // state's laws and budgets are not run in this world, so stepping in
@@ -38,7 +45,13 @@ export function officeholders(core: CoreState) {
           party: term.party,
           title: office.title,
           level: office.level ?? "local",
-          government: office.governmentName ?? "",
+          // The government by its place record's proper name ("City of McCall").
+          government: office.governmentName
+            ? governmentProperName(
+                office.governmentName,
+                office.jurisdiction ?? "",
+              )
+            : "",
         },
       ];
     })

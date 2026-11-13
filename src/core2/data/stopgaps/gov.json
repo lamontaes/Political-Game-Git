@@ -2261,18 +2261,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-petition-electorate-cap",
-    "kind": "partial-model",
-    "file": "src/core2/modules/voting.ts",
-    "line": 599,
-    "whatItFakes": "A local race's petition asks at most petitionMaxShareOfVoters (10%) of the town's voters, at least one, wherever the law's count or the estimated median would ask more: one share for every place, not each place's own percentage, minimum and maximum.",
-    "why": "The places' rows give a fixed count or a median estimate that does not scale with the town, so a town of a few dozen adults was asked for 30 signatures (Johnson, Minnesota). The rows' own formulas scale with the place's voters (Vermont 30 or 1% whichever is less; Iowa 2% minimum 10; North Dakota 10% maximum 300; North Carolina 10% maximum 200; Arizona 5% to 10%).",
-    "addedBy": "Lane 1 (elections-petition-larger-than-the-town)",
-    "addedAt": "2026-11-03",
-    "replacement": "Each place's own petition formula read into data (its percentage, base, minimum and maximum) and applied to the town's voters, so the cap is the law's own and no common share is needed.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-home-local-district",
     "kind": "missing-data",
     "file": "src/core2/modules/elections.ts",
@@ -2453,6 +2441,30 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T2"
+  },
+  {
+    "id": "SG-GOV-recount-confirms-count",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/voting.ts",
+    "line": 4128,
+    "whatItFakes": "A recount runs the same count again on the result's own parts (its named, counted and coarsely counted votes) and so always confirms the first count: no recount moves a vote or changes a winner.",
+    "why": "The game records no miscounted ballot (no machine error, no misread or lost ballot), so a second count of the same ballots has nothing to find.",
+    "addedBy": "opus-5234 (elections-contested-count-record)",
+    "addedAt": "2026-11-11",
+    "replacement": "A count that keeps its errors where they arise (a precinct's machine, ballots set aside, a misread mark), sized from the record of recounts (FairVote: the average statewide recount moved the margin by 551 votes, about 0.03 percent), so a recount finds them and can change the winner.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-recount-one-rule-per-place",
+    "kind": "estimated-rule",
+    "file": "src/core2/modules/voting.ts",
+    "line": 3964,
+    "whatItFakes": "Every race in a place, town, county, legislative or statewide, follows the place's statewide general-election recount rule (data/research/elections/recount-rules-2026.json); a state's separate margins for legislative or local races, for primaries, and who pays are not read.",
+    "why": "The rule table was read for state-level general elections (MultiState, Recounts, fetched Nov 11, 2026), the simple version the owner set on Nov 10, 2026 (\"Recount by own states rules\").",
+    "addedBy": "opus-5234 (elections-contested-count-record)",
+    "addedAt": "2026-11-11",
+    "replacement": "Each place's rule by kind of race (legislative, local, primary) from its statute, as the table's quotes already name for several states (Iowa, Michigan, Vermont, South Dakota).",
+    "status": "open"
   },
   {
     "id": "SG-GOV-counted-case-view-kept-on-the-case",

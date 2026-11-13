@@ -4018,8 +4018,7 @@
       "high": 7,
       "unit": "people known in a group of 10, before the power law's exponent",
       "citation": "Five work friends (Olivet Nazarene University, 2019) to the near-27 average contacts in a mid-size firm (Jacobs and Watts, 2021)."
-    },
-    "stopgapId": "SG-P15-encounters"
+    }
   },
   "groupKnownExponent": {
     "value": 0.4,
@@ -4031,8 +4030,7 @@
       "high": 0.5,
       "unit": "exponent",
       "citation": "Range that keeps 100 people at 18 to 45 known."
-    },
-    "stopgapId": "SG-P15-encounters"
+    }
   },
   "groupKnownCap": {
     "value": 150,
@@ -8472,6 +8470,18 @@
       "high": 400,
       "unit": "days",
       "citation": "A month (a canvass and recount) to a year and a month; checked against the records proof of a two-year Montpelier run."
+    }
+  },
+  "traitWeightVotingAskRecount": {
+    "value": 0.2,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "No study of candidates' choice to ask for a recount was found; set at the weight of the nearest calibrated candidate choice, standing again (traitWeightVotingStandAgain, 0.2), so temperament tips only a count near the closeness share (recountAskCloseShare).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "The spread of traitWeightVotingStandAgain."
     }
   }
 }

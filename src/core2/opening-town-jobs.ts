@@ -564,7 +564,9 @@ function fillTownJobs(
   const countyUnit = sourceGeoid
     ? countyGovernmentUnitsForPlace(sourceGeoid)[0]?.unit
     : undefined;
-  const countyName = countyUnit ? countyDisplayName(countyUnit.name) : null;
+  const countyName = countyUnit
+    ? countyDisplayName(countyUnit.name, countyUnit.id)
+    : null;
   const weights = writableTownWeights(town, draft.seed);
   const organizations = new Map<string, EntityId>();
   const outletsOf = new Map<string, readonly number[]>();

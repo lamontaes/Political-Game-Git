@@ -35,11 +35,15 @@
  *     is held to its own published all-funds spending per resident (the median
  *     of those that publish, where its own is not published): the state-level
  *     budget in force within 15 percent of it, and what the treasury really
- *     paid out within twice it. The federal government (one budget, no
- *     cross-section in the repo) and a territory's taxes (none recorded
+ *     paid out within twice it. A territory's taxes (none recorded
  *     separately from its spending) are listed as not applicable, with the
  *     reason; any other mandatory work left undone is listed as unchecked and
- *     fails the run.
+ *     fails the run. Every level the world has (federal, state, county, city)
+ *     also reports its own taxes and spending per resident, the federal one
+ *     beside the Treasury's FY2025 receipts and outlays over the nation's
+ *     people, and fails only when its budget at the end of the year differs
+ *     from its own opening budget by more than the world's spread
+ *     (budgetWorldLineSpreadShare);
  * Exits nonzero naming each failed clause and each unchecked one.
  */
 import { setJournalTrace } from "../journal-state";
@@ -419,6 +423,76 @@ else {
     };
   }
 }
+
+// (4b) Every level on its own: the federal government, the state, the county
+// and the city each report their taxes and spending per resident beside the
+// published figure and the world's spread. A level fails only when its budget
+// in force at the end of the year differs from its own opening budget by more
+// than the world's spread parameter, as taxes doubled would (owner, Nov 8:
+// ranges are not targets; a published figure the world leaves is a report,
+// never a failure). The county's and the city's own figures have no separate
+// published row: the Census table holds their sum, which is reported with
+// them.
+const spread = core.data.parameters.budgetWorldLineSpreadShare?.value ?? 0.06;
+const usPopulation =
+  (finances.places as unknown as Record<string, { population2023: number }>).US
+    ?.population2023 ?? 0;
+const publishedFederal =
+  usPopulation > 0
+    ? {
+        taxesPerResident: Math.round(
+          federalBudget.receiptsTotal / usPopulation,
+        ),
+        spendingPerResident: Math.round(
+          federalBudget.outlaysTotal / usPopulation,
+        ),
+      }
+    : undefined;
+const levelFigures: Record<string, unknown> = {};
+for (const gov of govs) {
+  const rows = budgetsOf(api, gov.id)
+    .filter((row) => row.startsOn <= end)
+    .sort((a, b) => a.startsOn.localeCompare(b.startsOn));
+  const opening = rows[0];
+  const closing = rows.at(-1);
+  // The federal government's residents are the nation's (the budgets leave its own at zero).
+  const residents = gov.level === "federal" ? usPopulation : gov.residents;
+  if (!opening || !closing || !(residents > 0)) {
+    unchecked.push(
+      `${gov.level} ${gov.id}: no budget in force or no residents for its per-resident taxes and spending`,
+    );
+    continue;
+  }
+  const lines = gov.level === "federal" ? undefined : TAX_LINES;
+  const figure = (row: typeof opening) => ({
+    taxes: sum(row.revenueMinor, lines) / 100 / residents,
+    spending: sum(row.spendingMinor) / 100 / residents,
+  });
+  const first = figure(opening),
+    last = figure(closing);
+  for (const what of ["taxes", "spending"] as const)
+    if (first[what] > 0 && Math.abs(last[what] / first[what] - 1) > spread)
+      fail(
+        `${gov.level} ${what} per resident: ${last[what].toFixed(0)} dollars at the end of the year against ${first[what].toFixed(0)} at its opening, more than the world's spread of ${(spread * 100).toFixed(0)} percent`,
+      );
+  levelFigures[gov.level] = {
+    government: gov.id,
+    openingTaxesPerResident: Math.round(first.taxes),
+    openingSpendingPerResident: Math.round(first.spending),
+    taxesPerResident: Math.round(last.taxes),
+    spendingPerResident: Math.round(last.spending),
+    spreadShare: spread,
+    ...(gov.level === "federal" && publishedFederal
+      ? { published: publishedFederal }
+      : {}),
+  };
+}
+perResidentFigures.everyLevel = levelFigures;
+// The federal level is now checked, no longer left out.
+const federalNote = notApplicable.findIndex((text) =>
+  text.startsWith("federal:"),
+);
+if (federalNote >= 0) notApplicable.splice(federalNote, 1);
 
 console.log(
   JSON.stringify({

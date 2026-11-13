@@ -21,7 +21,13 @@
  * writer (`keepCount`) and seated by the one term writer (`seatWinner`).
  */
 import { bookkeeping } from "../bookkeeping";
-import { ageInYears } from "../kernel/dates";
+import { addDays, ageInYears, makeIsoDate } from "../kernel/dates";
+import {
+  countMargin,
+  insideRecountMargin,
+  recountRuleFor,
+} from "../recount-rules";
+import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import contingentData from "../data/elections/contingent-election.json" with { type: "json" };
 import electorsData from "../data/elections/electoral-votes.json" with { type: "json" };
@@ -73,6 +79,7 @@ import { closenessBetween } from "../closeness";
 import {
   decisionLean,
   decisionTraitWeight,
+  leanedByKinds,
   leanedYes,
   reportOutcome,
 } from "../trait-decisions";
@@ -99,7 +106,10 @@ import {
   openPetition,
   petitionOf,
   petitionSigners,
+  petitionSignatures,
+  SCALED_PETITION_ESTIMATE,
   type ContestRow,
+  type PetitionRule,
   type FilingRow,
   atLargeGroup,
 } from "./elections";
@@ -292,6 +302,10 @@ export interface ResultRow {
   readonly electorateReasons?: readonly CandidateReasons[];
   /** Ballots the rest of the race's electorate cast. */
   readonly placesCast?: number;
+  /** The recount the count's margin opened, by the place's rule. */
+  readonly recountId?: string;
+  /** The day the result was certified, where a recount held it until then. */
+  readonly certifiedOn?: string;
 }
 
 /**
@@ -400,6 +414,8 @@ export const VOTING_MODULE: CoreModule = {
       pollingPlaces: {},
       emptyRaces: { indexes: { byContest: { fields: ["contestId"] } } },
       results: { indexes: { byContest: { fields: ["contestId"] } } },
+      /** A close count's recount, by the place's own rule (recount-rules-2026). */
+      recounts: {},
       /** Each place's votes in a contest, counted coarsely. */
       places: { indexes: { byContest: { fields: ["contestId"] } } },
       /** Each contest's returns as the night reports them, place by place. */
@@ -422,8 +438,12 @@ export const VOTING_MODULE: CoreModule = {
   onCalendarWork: votingCalendarWork,
   // A filing's petition opens the day it is filed, and the clerk's check of
   // it goes on the calendar (`openFilingPetition`).
-  eventKinds: ["candidate-filed"],
+  eventKinds: ["candidate-filed", "concession"],
   onEvent: (api, event) => {
+    if (event.kind === "concession") {
+      answerRecountOffer(api, event);
+      return;
+    }
     const filingId = event.facts?.filingId;
     if (typeof filingId === "string") openFilingPetition(api, filingId);
   },
@@ -557,7 +577,7 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
   ).petition;
   const petition = openPetition(api, filing, {
     rule,
-    needed: petitionNeededHere(api, contest, rule.count),
+    needed: petitionNeededHere(api, contest, rule),
   });
   // Where the law asks no signatures, the clerk takes the filing at the
   // counter: nothing to circulate.
@@ -578,34 +598,174 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
       asOf: api.state.date,
       ...(rule.basis === "read"
         ? {}
-        : { estimatedFrom: "SG-GOV-petition-count-estimated" }),
+        : {
+            estimatedFrom:
+              rule.basis === "scaled"
+                ? SCALED_PETITION_ESTIMATE
+                : "SG-GOV-petition-count-estimated",
+          }),
     },
     sourceRecordIds: [petition.id],
   });
 }
 
 /**
- * The signatures a petition needs in this world: the law's count where the
- * town is the district. Where the district reaches past the town, the
- * world holds no one outside it to sign, so the clerk counts the town's
- * share of the law's count by eligible voters, at least one; where the
- * district's voters are not on record (an island area's), by the town's
- * share of its people (`districtPeopleShare`).
+ * The votes cast for an office at its most recent recorded election in this
+ * world, with the result record they came from; none where no election for it
+ * has been held in the run. Read by the recall engine's signature base and by
+ * a scaled petition's "votes" base.
+ */
+export function lastVotesForOffice(
+  api: CoreAPI,
+  officeId: string,
+): { readonly votes: number; readonly recordId: string } | undefined {
+  if (!api.state.modules.has(VOTING_MODULE_ID)) return undefined;
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  let best: { votes: number; recordId: string; date: string } | undefined;
+  for (const result of api
+    .moduleState(VOTING_MODULE_ID)
+    .table("results")
+    .rows() as unknown as ResultRow[]) {
+    const contest = contests.get(result.contestId) as unknown as
+      ContestRow | undefined;
+    const votes = Object.values(result.totals).reduce((n, v) => n + v, 0);
+    if (contest?.officeId !== officeId || votes <= 0) continue;
+    if (
+      !best ||
+      result.date > best.date ||
+      (result.date === best.date && result.id < best.recordId)
+    )
+      best = { votes, recordId: result.id, date: result.date };
+  }
+  return best && { votes: best.votes, recordId: best.recordId };
+}
+
+/**
+ * The town's own residents' votes (named and counted) for one kind of office
+ * at its most recent recorded election in this world, with the result record
+ * they came from; none where no such race has been held in the run or the
+ * world seats no such office for the town. The rest of the race's electorate
+ * (`placeVotes`) is not the town's.
+ */
+export function lastTownVotesForKind(
+  api: CoreAPI,
+  officeKind: string,
+): { readonly votes: number; readonly recordId: string } | undefined {
+  if (!api.state.modules.has(VOTING_MODULE_ID)) return undefined;
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  let best: { votes: number; recordId: string; date: string } | undefined;
+  for (const result of api
+    .moduleState(VOTING_MODULE_ID)
+    .table("results")
+    .rows() as unknown as ResultRow[]) {
+    const contest = contests.get(result.contestId) as unknown as
+      ContestRow | undefined;
+    const office = contest
+      ? (offices.get(contest.officeId) as unknown as
+          { kind?: string } | undefined)
+      : undefined;
+    if (office?.kind !== officeKind) continue;
+    const votes =
+      Object.values(result.namedVotes).reduce((n, v) => n + v, 0) +
+      Object.values(result.countedVotes).reduce((n, v) => n + v, 0);
+    if (votes <= 0) continue;
+    if (
+      !best ||
+      result.date > best.date ||
+      (result.date === best.date && result.id < best.recordId)
+    )
+      best = { votes, recordId: result.id, date: result.date };
+  }
+  return best && { votes: best.votes, recordId: best.recordId };
+}
+
+/**
+ * The votes cast at the most recent recorded election of one level in this
+ * world: the most cast in any one of its contests that day, with the result
+ * record they came from. None where no election of that level has been held
+ * in the run.
+ */
+export function lastVotesAtLevel(
+  api: CoreAPI,
+  level: string,
+): { readonly votes: number; readonly recordId: string } | undefined {
+  if (!api.state.modules.has(VOTING_MODULE_ID)) return undefined;
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  const rows = (
+    api
+      .moduleState(VOTING_MODULE_ID)
+      .table("results")
+      .rows() as unknown as ResultRow[]
+  ).flatMap((result) => {
+    const contest = contests.get(result.contestId) as unknown as
+      ContestRow | undefined;
+    const votes = Object.values(result.totals).reduce((n, v) => n + v, 0);
+    return contest?.level === level && votes > 0
+      ? [{ votes, recordId: result.id, date: result.date }]
+      : [];
+  });
+  const date = rows.reduce((d, r) => (r.date > d ? r.date : d), "");
+  const top = rows
+    .filter((r) => r.date === date)
+    .sort(
+      (a, b) => b.votes - a.votes || a.recordId.localeCompare(b.recordId),
+    )[0];
+  return top && { votes: top.votes, recordId: top.recordId };
+}
+
+/**
+ * The recorded votes a scaled petition's base names, read from the voting
+ * records: this office's last election ("office"), the last election of the
+ * same level ("level"), or the town's own votes for another kind of office
+ * the law counts (governor, secretary of state, lower chamber). None before
+ * that race has been held in the run, or where the world seats no such
+ * office for the town; the caller then sizes the base from the town's people.
+ */
+export function recordedBase(
+  api: CoreAPI,
+  contest: ContestRow,
+  scale: PetitionRule["scale"] & object,
+): number | undefined {
+  if (scale.base !== "votes") return undefined;
+  if (scale.election === "office")
+    return lastVotesForOffice(api, contest.officeId)?.votes;
+  if (scale.election === "level")
+    return lastVotesAtLevel(api, contest.level)?.votes;
+  return scale.election
+    ? lastTownVotesForKind(api, scale.election)?.votes
+    : undefined;
+}
+
+/**
+ * The signatures a petition needs in this world. Where the law scales the
+ * count to the town (a municipal "scaled" rule), the town's own voters set
+ * it. Otherwise the law's count where the town is the district; where the
+ * district reaches past the town, the world holds no one outside it to sign,
+ * so the clerk counts the town's share of the law's count by eligible voters,
+ * at least one; where the district's voters are not on record (an island
+ * area's), by the town's share of its people (`districtPeopleShare`). No
+ * petition asks more signatures than the town has voters.
  */
 function petitionNeededHere(
   api: CoreAPI,
   contest: ContestRow,
-  count: number,
+  rule: PetitionRule,
 ): number {
+  const voters = electorateRoll(api).reduce((n, v) => n + v.count, 0);
+  if (rule.basis === "scaled" && rule.scale)
+    return petitionSignatures(rule.scale, {
+      eligible: voters,
+      votesCast: recordedBase(api, contest, rule.scale),
+      population: Number(api.state.placeMetadata.referencePopulation) || 0,
+    });
+  const count = rule.count;
   if (count <= 0) return 0;
   const { places } = basePlaces(api, contest);
   const total = places.reduce((n, p) => n + p.eligible, 0);
   const share =
     places.length && total > 0
-      ? Math.min(
-          1,
-          electorateRoll(api).reduce((n, v) => n + v.count, 0) / total,
-        )
+      ? Math.min(1, voters / total)
       : contest.level === "state" || contest.level === "federal"
         ? districtPeopleShare(api, contest)
         : 1;
@@ -615,31 +775,11 @@ function petitionNeededHere(
     api.stopgap("SG-GOV-petition-town-share");
     scaled = Math.max(1, Math.ceil(count * share));
   }
-  // A local race's petition never asks more than a share of the town's own
-  // voters, as the places' own laws scale it (elections-petition-larger-than-
-  // the-town): a town of a few dozen adults is not asked for thirty names.
   if (contest.level === "state" || contest.level === "federal") return scaled;
-  const voters = electorateRoll(api).reduce((n, v) => n + v.count, 0);
-  return petitionWithinElectorate(scaled, voters);
-}
-
-/**
- * A local petition's count against the town's voters: at most
- * `petitionMaxShareOfVoters` of them, and at least one signature where the
- * law asks any.
- */
-export function petitionWithinElectorate(
-  count: number,
-  voters: number,
-): number {
-  if (count <= 0 || voters <= 0) return count;
-  const cap = Math.max(
-    1,
-    Math.floor(voters * electionsParameter("petitionMaxShareOfVoters")),
-  );
-  if (count <= cap) return count;
-  // stopgapId: SG-GOV-petition-electorate-cap
-  return cap;
+  // A local petition cannot ask more names than the town has voters.
+  return voters > 0
+    ? Math.max(1, Math.min(scaled, Math.floor(voters)))
+    : scaled;
 }
 
 const islandPeople = new Map<string, number>();
@@ -716,6 +856,7 @@ function votingCalendarWork(
   if (work.kind === "primary") holdPrimary(api, work.sourceRecordIds[0]!);
   if (work.kind === "election-day") holdElection(api, work.sourceRecordIds[0]!);
   if (work.kind === "take-office") takeOffice(api, work.sourceRecordIds[0]!);
+  if (work.kind === "recount-ends") endRecount(api, work.sourceRecordIds[0]!);
   if (work.kind === "empty-term")
     resolveEmptyRace(api, work.sourceRecordIds[0]!);
   raceWork(api, work);
@@ -3359,6 +3500,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
               : null,
     winnerOf: (candidateId) => winningPersonId(api, candidateId),
     takesOffice,
+    stateKey: town(api).stateKey,
+    office: contest.title,
   });
   const tied = tiedFirst(rankTotals(result.totals));
   const { winnerId, totals } = result;
@@ -3385,15 +3528,27 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       winnerId: winnerId ?? "",
       totals: JSON.stringify(totals),
       ...mandateLean(api, winnerId),
+      // A recount the margin opened, or the player's to ask for: the
+      // election night scene and the paper read it by its id.
+      ...(result.recountId
+        ? {
+            recountId: result.recountId,
+            recount:
+              recountOf(api, contestId)?.status === "offered"
+                ? "offered"
+                : (recountOf(api, contestId)?.kind ?? ""),
+          }
+        : {}),
     },
   });
   // The presidency is won in the electoral college (`electoralCollege`);
   // this count is the town's state's popular vote.
   if (contest.officeId === "office:US:president") return result;
-  if (winnerId && takesOffice > date)
+  const seatedOn = result.takesOffice ?? takesOffice;
+  if (winnerId && seatedOn > date)
     api.moduleCalendar(VOTING_MODULE_ID).schedule({
       key: `take-office:${contestId}`,
-      date: takesOffice,
+      date: seatedOn,
       kind: "take-office",
       source: {
         tag: "SOURCED",
@@ -3879,6 +4034,10 @@ function keepCount(
     /** Who takes the seat for a winning ballot line. */
     readonly winnerOf: (candidateId: string) => string;
     readonly takesOffice: string;
+    /** The state whose recount rule the race follows. */
+    readonly stateKey: string;
+    /** The office, as the race's records name it. */
+    readonly office: string;
   },
 ): ResultRow {
   const named = input.named ?? {
@@ -3894,10 +4053,12 @@ function keepCount(
     Object.entries(wider?.votes ?? {}).map(([id, n]) => [id, Math.round(n)]),
   );
   const electorate = named.turnout + counted.turnout + (wider?.cast ?? 0);
-  const totals: Record<string, number> = {};
-  for (const id of input.candidates)
-    totals[id] =
-      (named.votes[id] ?? 0) + (counted.votes[id] ?? 0) + (placeVotes[id] ?? 0);
+  const totals = countTotals(
+    input.candidates,
+    named.votes,
+    counted.votes,
+    placeVotes,
+  );
   const winnerCandidateId = input.decide(rankTotals(totals), electorate);
   const winnerId = winnerCandidateId ? input.winnerOf(winnerCandidateId) : null;
   const result: ResultRow = {
@@ -3922,7 +4083,323 @@ function keepCount(
   };
   table(api, "results").put(result as unknown as ModuleRow);
   if (!bookkeeping()) dropOlderTownReturns(api, input.id, input.date);
-  return result;
+  const recount = openRecount(api, result, input.stateKey, input.office);
+  if (!recount) return result;
+  // A recount holds the result until it ends: the winner is seated no
+  // earlier than the day it is certified.
+  const held: ResultRow = {
+    ...result,
+    recountId: recount.id,
+    ...(result.takesOffice && recount.ends > result.takesOffice
+      ? { takesOffice: recount.ends }
+      : {}),
+  };
+  table(api, "results").put(held as unknown as ModuleRow);
+  return held;
+}
+
+/** A count's totals: each candidate's named, counted and coarsely counted votes. */
+function countTotals(
+  candidates: readonly string[],
+  named: Readonly<Record<string, number>>,
+  counted: Readonly<Record<string, number>>,
+  places: Readonly<Record<string, number>>,
+): Record<string, number> {
+  const totals: Record<string, number> = {};
+  for (const id of candidates)
+    totals[id] = (named[id] ?? 0) + (counted[id] ?? 0) + (places[id] ?? 0);
+  return totals;
+}
+
+/** A close count's recount, opened by the place's own rule. */
+export interface RecountRow {
+  readonly id: string;
+  readonly resultId: string;
+  readonly contestId: string;
+  readonly office: string;
+  readonly stateKey: string;
+  /** The count's day. */
+  readonly date: string;
+  /** Automatic by the margin, or asked for by the candidate behind. */
+  readonly kind: "automatic" | "requested";
+  /** Offered: the player may ask on election night; open until it ends; confirmed once certified; declined. */
+  readonly status: "offered" | "open" | "confirmed" | "declined";
+  readonly leaderId: string;
+  readonly trailingId: string;
+  readonly margin: number;
+  /** The votes the place's rule measures the margin against. */
+  readonly base: number;
+  /** The day the recount opened, and the day it ends and the result is certified. */
+  readonly opened: string;
+  readonly ends: string;
+  readonly days: number;
+  readonly rule: string;
+  /** The candidate who asked, and their reasons. */
+  readonly requestedBy?: string;
+  readonly reasons?: Readonly<Record<string, number>>;
+  readonly certifiedOn?: string;
+  readonly sourceIds: readonly string[];
+}
+
+/** A race's recount, if its count opened one. */
+export function recountOf(api: CoreAPI, raceId: string): RecountRow | null {
+  return (
+    (table(api, "recounts").get(`recount:${raceId}`) as unknown as
+      RecountRow | undefined) ?? null
+  );
+}
+
+/** The trait act kinds of asking for a recount, and of conceding the count. */
+const ASK_KINDS = ["confront", "distrust", "take-risk"] as const;
+const CONCEDE_KINDS = ["concede", "cooperate", "trust"] as const;
+
+/**
+ * A count's margin against the place's recount rule (owner, Nov 10, 2026:
+ * "Recount by own states rules"): inside the automatic margin a recount
+ * opens by itself; inside the margin a candidate may ask in, the candidate
+ * behind decides from their own traits and how close it was, and the player
+ * is offered the choice on election night. No roll.
+ */
+function openRecount(
+  api: CoreAPI,
+  result: ResultRow,
+  stateKey: string,
+  office: string,
+): RecountRow | null {
+  if (!result.winnerCandidateId) return null;
+  const rule = recountRuleFor(stateKey);
+  if (!rule) return null;
+  // The state's statewide rule is read for every race in it.
+  // stopgapId: SG-GOV-recount-one-rule-per-place
+  api.stopgap("SG-GOV-recount-one-rule-per-place");
+  const margin = countMargin(rankTotals(result.totals), rule);
+  if (!margin || margin.leaderId !== result.winnerCandidateId) return null;
+  const automatic = insideRecountMargin(rule.automatic, margin);
+  if (!automatic && !insideRecountMargin(rule.request, margin)) return null;
+  const date = api.state.date;
+  const row: RecountRow = {
+    id: `recount:${result.contestId}`,
+    resultId: result.id,
+    contestId: result.contestId,
+    office,
+    stateKey,
+    date,
+    kind: automatic ? "automatic" : "requested",
+    status: "open",
+    leaderId: margin.leaderId,
+    trailingId: margin.trailingId,
+    margin: margin.margin,
+    base: margin.base,
+    opened: date,
+    ends: addDays(makeIsoDate(date), rule.days),
+    days: rule.days,
+    rule: `${rule.name}'s recount rule (${rule.tag}: ${rule.source})`,
+    sourceIds: [result.id],
+  };
+  if (automatic) return startRecount(api, row);
+  // Only a person can ask: a party's line in a race the town does not vote in
+  // has no one to decide.
+  const behind = api.state.people.get(margin.trailingId);
+  if (!behind?.alive) return null;
+  if (isExplicitlyControlledPersonV1(api.state, behind.id)) {
+    const offered: RecountRow = { ...row, status: "offered" };
+    table(api, "recounts").put(offered as unknown as ModuleRow);
+    return offered;
+  }
+  // The closer the count, the stronger the case for asking: at the closeness
+  // scale it is even, and the candidate's temperament decides.
+  const closeness =
+    electionsParameter("recountAskWeight") *
+    (1 -
+      margin.margin / margin.base / electionsParameter("recountAskCloseShare"));
+  if (
+    !leanedByKinds(
+      api.state,
+      behind,
+      "voting.ask-recount",
+      ASK_KINDS,
+      CONCEDE_KINDS,
+      closeness,
+    )
+  )
+    return null;
+  return startRecount(api, {
+    ...row,
+    requestedBy: behind.id,
+    reasons: { closeness },
+  });
+}
+
+/**
+ * Where a recount is news: the town's own race in the town, a race in the
+ * town's state it does not vote in at the state, another state's at the
+ * nation (the press reads the level from the place).
+ */
+function recountPlace(api: CoreAPI, row: RecountRow): string {
+  const here = town(api);
+  if (api.moduleState(ELECTIONS_MODULE_ID).table("contests").get(row.contestId))
+    return here.townPlaceId;
+  return row.stateKey === here.stateKey
+    ? `state:${row.stateKey.slice(row.stateKey.lastIndexOf("-") + 1)}`
+    : `national:${row.stateKey}`;
+}
+
+/** A recount opens: on the record for the paper, and on the calendar for the day it ends. */
+function startRecount(api: CoreAPI, row: RecountRow): RecountRow {
+  table(api, "recounts").put(row as unknown as ModuleRow);
+  api.moduleCalendar(VOTING_MODULE_ID).schedule({
+    key: `recount-ends:${row.contestId}:${row.opened}`,
+    date: row.ends,
+    kind: "recount-ends",
+    source: { tag: "SOURCED", citation: row.rule, asOf: api.state.date },
+    sourceRecordIds: [row.id],
+  });
+  api.emit({
+    id: `recount-opened:${row.contestId}`,
+    date: api.state.date,
+    kind: "recount-opened",
+    personIds: [row.leaderId, row.trailingId].filter((id) =>
+      api.state.people.has(id),
+    ),
+    placeId: recountPlace(api, row),
+    source: { tag: "SOURCED", citation: row.rule, asOf: api.state.date },
+    publicRecord: true,
+    news: true,
+    facts: {
+      contestId: row.contestId,
+      office: row.office,
+      recountId: row.id,
+      recount: row.kind,
+      leaderId: row.leaderId,
+      trailingId: row.trailingId,
+      margin: String(row.margin),
+      ends: row.ends,
+      ...(row.requestedBy ? { requestedBy: row.requestedBy } : {}),
+    },
+  });
+  return row;
+}
+
+/**
+ * The player's answer on election night: not conceding a count inside the
+ * margin the place lets a candidate ask in is the ask (the concession call's
+ * reply, which the press puts on the record); conceding declines it.
+ */
+function answerRecountOffer(
+  api: CoreAPI,
+  event: Readonly<{ facts?: Readonly<Record<string, unknown>> }>,
+): void {
+  const facts = event.facts ?? {};
+  const row = recountOf(api, String(facts.contestId ?? ""));
+  if (row?.status !== "offered" || facts.loserId !== row.trailingId) return;
+  if (facts.conceded !== "no") {
+    table(api, "recounts").put({
+      ...row,
+      status: "declined",
+    } as unknown as ModuleRow);
+    return;
+  }
+  const opened = api.state.date;
+  const ends = addDays(makeIsoDate(opened), row.days);
+  startRecount(api, {
+    ...row,
+    status: "open",
+    opened,
+    ends,
+    requestedBy: row.trailingId,
+    sourceIds: [...row.sourceIds, String(facts.replyId ?? "")],
+  });
+  const result = table(api, "results").get(row.resultId) as unknown as
+    ResultRow | undefined;
+  if (result?.takesOffice && ends > result.takesOffice)
+    table(api, "results").put({
+      ...result,
+      takesOffice: ends,
+    } as unknown as ModuleRow);
+}
+
+/**
+ * A recount ends: the same count runs again on the result's own parts and
+ * the result is certified that day, citing the recount.
+ */
+function endRecount(api: CoreAPI, recountId: string): void {
+  const row = table(api, "recounts").get(recountId) as unknown as
+    RecountRow | undefined;
+  const result = row
+    ? (table(api, "results").get(row.resultId) as unknown as
+        ResultRow | undefined)
+    : undefined;
+  // An earlier day's entry for a recount opened again since waits for its own.
+  if (!row || row.status !== "open" || !result || row.ends > api.state.date)
+    return;
+  // The game records no miscounted ballot, so the count run again on the
+  // same ballots gives the same totals and the first count stands.
+  // stopgapId: SG-GOV-recount-confirms-count
+  api.stopgap("SG-GOV-recount-confirms-count");
+  const totals = countTotals(
+    Object.keys(result.totals),
+    result.namedVotes,
+    result.countedVotes,
+    result.placeVotes,
+  );
+  const date = api.state.date;
+  table(api, "recounts").put({
+    ...row,
+    status: "confirmed",
+    certifiedOn: date,
+  } as unknown as ModuleRow);
+  table(api, "results").put({
+    ...result,
+    totals,
+    certifiedOn: date,
+  } as unknown as ModuleRow);
+  api.emit({
+    id: `recount-certified:${row.contestId}`,
+    date,
+    kind: "recount-certified",
+    personIds: [row.leaderId, row.trailingId].filter((id) =>
+      api.state.people.has(id),
+    ),
+    placeId: recountPlace(api, row),
+    source: {
+      tag: "SOURCED",
+      citation: `The recount ${row.id} of ${result.id}`,
+      asOf: date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      contestId: row.contestId,
+      office: row.office,
+      recountId: row.id,
+      resultId: result.id,
+      winnerId: result.winnerId ?? "",
+      totals: JSON.stringify(totals),
+    },
+  });
+}
+
+/**
+ * A winner whose result a recount still holds waits for the day it ends:
+ * the seating goes back on the calendar for then. True when it waits.
+ */
+function heldByRecount(
+  api: CoreAPI,
+  raceId: string,
+  key: string,
+  kind: string,
+  sourceRecordId: string,
+): boolean {
+  const row = recountOf(api, raceId);
+  if (row?.status !== "open" || row.ends <= api.state.date) return false;
+  api.moduleCalendar(VOTING_MODULE_ID).schedule({
+    key: `${key}:after-${row.id}:${row.ends}`,
+    date: row.ends,
+    kind,
+    source: { tag: "SOURCED", citation: row.rule, asOf: api.state.date },
+    sourceRecordIds: [sourceRecordId],
+  });
+  return true;
 }
 
 /**
@@ -4065,6 +4542,16 @@ export function placesOf(
 function takeOffice(api: CoreAPI, resultId: string): void {
   const result = table(api, "results").get(resultId) as unknown as ResultRow;
   if (!result?.winnerId) return;
+  if (
+    heldByRecount(
+      api,
+      result.contestId,
+      `take-office:${result.contestId}`,
+      "take-office",
+      resultId,
+    )
+  )
+    return;
   const contest = api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
@@ -4922,6 +5409,8 @@ export function electoralCollege(
         },
         winnerOf: (id) => id,
         takesOffice: `${year + 1}-01-20`,
+        stateKey: key,
+        office: "President",
       });
       resultId = result.id;
       share = republicanShareOf(result) ?? lean;
@@ -5601,6 +6090,8 @@ function decide(
     },
     winnerOf: () => `${raceId}:${winnerParty}`,
     takesOffice: race.seatedOn,
+    stateKey,
+    office: race.office,
   });
   const row: RaceRow = {
     id: raceId,
@@ -5629,13 +6120,13 @@ function decide(
   } as unknown as ModuleRow);
   // An even split with no holder's side seats no one.
   if (!winnerParty) return;
-  // The winner is seated on the term's first day; where that day has come
-  // by the count's own day, the morning after (the calendar takes only a
-  // day not yet run).
+  // The winner is seated on the term's first day, or the day a recount ends
+  // where that is later; where that day has come by the count's own day, the
+  // morning after (the calendar takes only a day not yet run).
+  const seatedOn = result.takesOffice ?? race.seatedOn;
   api.moduleCalendar(VOTING_MODULE_ID).schedule({
     key: `seat:${row.id}`,
-    date:
-      race.seatedOn > api.state.date ? race.seatedOn : dayAfter(api.state.date),
+    date: seatedOn > api.state.date ? seatedOn : dayAfter(api.state.date),
     kind: "seat-winner",
     source: {
       tag: "SOURCED",
@@ -5656,6 +6147,8 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
       })
     | undefined;
   if (!race) return;
+  if (heldByRecount(api, raceId, `seat:${raceId}`, "seat-winner", raceId))
+    return;
   if (!race.offices) {
     table(api, "seats").put({
       id: race.seatId,

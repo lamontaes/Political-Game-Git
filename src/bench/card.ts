@@ -1,3 +1,4 @@
+import { governmentProperName } from "../core2/government-proper-name";
 import { servingTermsOf } from "../core2/modules/offices";
 import { officeInSentence, personWorkOf } from "../core2/person-work";
 import {
@@ -22,7 +23,7 @@ import {
 import { townFacts } from "../core2/modules/laws";
 import type { EntityId } from "../core2/kernel/brands";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
-import { PAST_MODULE_ID } from "../core2/past-module";
+import { PAST_MODULE_ID, residenceOn } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState, PersonId } from "../core2/types";
 import {
@@ -31,7 +32,7 @@ import {
   screenPick,
   screenWays,
 } from "../english/screen-words";
-import { framedByAge } from "../english/journal-words";
+import { articleFor, framedByAge } from "../english/journal-words";
 import controls from "./data/controls.json" with { type: "json" };
 import {
   pronounSetOfGender,
@@ -251,16 +252,43 @@ export function personCard(core: CoreState, personId: string) {
  */
 const OFFICES = "core2-offices-v1";
 
-/** An office's title, from the offices engine's table. */
-function officeTitle(core: CoreState, officeId: string): string | null {
+/** An office's record in the offices engine's table: its title and how many seats it has. */
+function officeRecord(
+  core: CoreState,
+  officeId: string,
+): { title?: string; seats?: number } | undefined {
   // A took-office event that names no office record (its office is told by its words) has no title
   // to look up, and the offices table takes no empty key.
-  if (!officeId.trim()) return null;
-  const office = coreAPI(core)
-    .moduleState(OFFICES)
-    .table("offices")
-    .get(officeId) as { title?: string } | undefined;
-  return office?.title ?? null;
+  if (!officeId.trim()) return undefined;
+  return coreAPI(core).moduleState(OFFICES).table("offices").get(officeId) as
+    { title?: string; seats?: number } | undefined;
+}
+
+/** An office's title, from the offices engine's table. */
+function officeTitle(core: CoreState, officeId: string): string | null {
+  return officeRecord(core, officeId)?.title ?? null;
+}
+
+/**
+ * An office said two ways for the card's sentences: `office`, the title for a
+ * race ("won the race for council member"), and `seat`, the seat a person
+ * holds in it, which takes "a" when the office's own record holds more than
+ * one seat ("a council member") and none when it is the only one ("mayor").
+ * An office with no record is said by its title alone.
+ */
+function officeSlots(
+  title: string,
+  seats?: number,
+): { office: string; seat: string } {
+  const office = inSentence(title);
+  const seat = (seats ?? 0) > 1 ? `${articleFor(office)} ${office}` : office;
+  return { office, seat };
+}
+
+/** An office's slots from its record, or null when the record names no office. */
+function officeSlotsOf(core: CoreState, officeId: string) {
+  const record = officeRecord(core, officeId);
+  return record?.title ? officeSlots(record.title, record.seats) : null;
 }
 
 /** The offices a person serves in now, by title. */
@@ -368,6 +396,65 @@ function historyLines(
 }
 
 /**
+ * Who a past partner is to the reader, when the record names them as the
+ * other parent of the person's children: "your father" to one of those
+ * children, "my children's father" on the player's own card, "his
+ * children's mother" to anyone else ("daughter's" or "son's" for one child).
+ * Empty
+ * when the record names no other parent.
+ */
+function parentSaid(
+  core: CoreState,
+  viewerId: string,
+  person: {
+    readonly id: string;
+    readonly looks?: Readonly<Record<string, string>>;
+  },
+  partnerId: unknown,
+): string {
+  if (typeof partnerId !== "string" || !partnerId) return "";
+  const partner =
+    core.people.get(partnerId as PersonId) ??
+    core.husks.get(partnerId as PersonId);
+  const gender = partner?.looks?.gender;
+  const role =
+    gender === "male" ? "father" : gender === "female" ? "mother" : "parent";
+  const children = [...core.people.values()].filter(
+    (child) =>
+      (child.pastFacts ?? []).some(
+        (fact) =>
+          ["family:parent", "family:other-parent"].includes(fact.kind) &&
+          fact.facts?.otherPersonId === partnerId,
+      ) &&
+      (child.pastFacts ?? []).some(
+        (fact) =>
+          ["family:parent", "family:other-parent"].includes(fact.kind) &&
+          fact.facts?.otherPersonId === person.id,
+      ),
+  );
+  if (children.some((child) => child.id === viewerId)) return `your ${role}`;
+  const only = children.length === 1 ? children[0]! : undefined;
+  const sex = only?.looks?.gender;
+  const whose = only
+    ? sex === "female"
+      ? "daughter's"
+      : sex === "male"
+        ? "son's"
+        : "child's"
+    : "children's";
+  // Their own children: "my" on the player's card, else his, her or their.
+  const own =
+    person.id === viewerId
+      ? "my"
+      : person.looks?.gender === "male"
+        ? "his"
+        : person.looks?.gender === "female"
+          ? "her"
+          : "their";
+  return `${own} ${whose} ${role}`;
+}
+
+/**
  * One life event as a line of the story: the bank's key for its kind and the
  * slots its record can fill. Null for an event the story does not tell (one
  * the bank has no piece for, or whose names its record cannot give).
@@ -435,10 +522,26 @@ function lineOf(
     }
     case "partner/engaged":
     case "partner/married":
-    case "partner/separated":
-      return partnerName
-        ? make(`partner.${event.what}`, { name: partnerName })
-        : null;
+    case "partner/separated": {
+      // An earlier partner before the start is a name on the record, never a
+      // person in the world until met.
+      const name = partnerName || String(facts.partnerName ?? "");
+      if (!name) return null;
+      // Widowed only where the record says they were married; a partner who
+      // died otherwise is lost (Fable A, Nov 13).
+      const what =
+        facts.ended === "widowed"
+          ? facts.union === "married"
+            ? "widowed"
+            : "died"
+          : event.what;
+      // The children's other parent is said as who they are to the reader.
+      const parent = parentSaid(core, viewerId, other, facts.partnerId);
+      return make(
+        parent ? `partner.${what}.parent` : `partner.${what}`,
+        parent ? { name, parent } : { name },
+      );
+    }
     case "child/born": {
       const childId = facts.childId ?? partner;
       const name = personName(childId);
@@ -611,8 +714,18 @@ function lineOf(
     }
     case "health/serious-illness":
       return make("health.ill", {});
-    case "law/victim":
+    case "health/hospital-stay":
+      return make("health.hospital", {});
+    // An arrest before play is said as the arrest it is: the record holds no
+    // charge (Fable A, Nov 13: "say what the record holds").
+    case "law/arrested":
+      return make("law.arrested", {});
+    // The justice engine's accusation names its offense on the record.
     case "law/accused":
+      return typeof facts.offense === "string"
+        ? make("law.accused", { offense: facts.offense })
+        : null;
+    case "law/victim":
     case "law/charged":
     case "law/convicted":
     case "law/imprisoned":
@@ -632,13 +745,17 @@ function lineOf(
     case "politics/won": {
       if (!facts.office) return null;
       const office = String(facts.office).replace(/-/g, " ");
-      const line = make("office.elected", { office: inSentence(office) });
-      // The term that election won, when they serve in it now: its first day.
+      const said = officeSlots(office);
+      // The term that election won, when they serve in it now: its first day,
+      // and the seat as its office record counts it.
       const term = servingTermsOf(coreAPI(core), other.id).find(
         (row) =>
           row.startDate >= event.date &&
-          inSentence(officeTitle(core, row.officeId) ?? "") ===
-            line.slots.office,
+          officeSlotsOf(core, row.officeId)?.office === said.office,
+      );
+      const line = make(
+        "office.elected",
+        (term && officeSlotsOf(core, term.officeId)) ?? said,
       );
       if (term) line.start = term.startDate;
       return line;
@@ -661,8 +778,10 @@ function lineOf(
       // The office a President held before is told under their name, not here.
       if (event.record === "career:prior-office") return null;
       const office =
-        officeTitle(core, String(facts.officeId ?? "")) ??
-        (facts.office ? String(facts.office).replace(/-/g, " ") : null);
+        officeSlotsOf(core, String(facts.officeId ?? "")) ??
+        (facts.office
+          ? officeSlots(String(facts.office).replace(/-/g, " "))
+          : null);
       if (!office) return null;
       // By how they reached it; a seat whose way in the records do not say is told as
       // taking office.
@@ -672,7 +791,7 @@ function lineOf(
           : facts.reached === "elected"
             ? "office.elected"
             : "office.entered",
-        { office: inSentence(office) },
+        office,
       );
     }
     case "politics/filed":
@@ -680,10 +799,8 @@ function lineOf(
         ? make("office.filed", { office: inSentence(String(facts.office)) })
         : null;
     case "politics/left-office": {
-      const office = officeTitle(core, String(facts.officeId ?? ""));
-      return office
-        ? make("office.left", { office: inSentence(office) })
-        : null;
+      const office = officeSlotsOf(core, String(facts.officeId ?? ""));
+      return office ? make("office.left", office) : null;
     }
     default:
       return null;
@@ -1119,6 +1236,8 @@ function noJobLine(
 /** A run of terms in one office, as a card's header and lines under the name read it. */
 interface OfficeRun {
   readonly office: string;
+  /** The office said as the seat held in it: "a council member", "mayor". */
+  readonly seat: string;
   readonly since: string;
   readonly terms: number;
   readonly wonAgain: boolean;
@@ -1135,7 +1254,12 @@ function summaryOf(
   teller: Teller,
   now: {
     readonly office?: OfficeRun | null;
-    readonly work?: { title: string | null; employer: string | null } | null;
+    readonly work?: {
+      title: string | null;
+      employer: string | null;
+      /** The town they live in, when their work is outside it. */
+      outside?: string | null;
+    } | null;
     readonly school?: string | null;
     readonly place?: string | null;
     readonly born?: { year: string; place: string | null } | null;
@@ -1154,20 +1278,23 @@ function summaryOf(
           : "office.one",
         {
           office: now.office.office,
+          seat: now.office.seat,
           year: now.office.since.slice(0, 4),
         },
       )
     : null;
   // Their job, from the same record the journal reads (`personWorkOf`): told
   // beside an office they hold too, never in place of it.
-  const work = now.work?.employer
-    ? now.work.title
-      ? line("work.title", {
-          title: inSentence(now.work.title),
-          employer: now.work.employer,
-        })
-      : line("work.employer", { employer: now.work.employer })
-    : null;
+  const work = now.work?.outside
+    ? line("work.outside", { place: now.work.outside })
+    : now.work?.employer
+      ? now.work.title
+        ? line("work.title", {
+            title: inSentence(now.work.title),
+            employer: now.work.employer,
+          })
+        : line("work.employer", { employer: now.work.employer })
+      : null;
   const role =
     office || work
       ? null
@@ -1211,6 +1338,8 @@ function officeRunOf(
   if (!terms.length) return null;
   return {
     office: said,
+    // The seat as the run's own office record counts it.
+    seat: terms[0]!.slots.seat ?? said,
     since: terms[0]!.start ?? terms[0]!.date,
     terms: new Set(terms.map((line) => line.date.slice(0, 4))).size,
     // Won again: a later term won at the polls and none given by appointment
@@ -1307,14 +1436,14 @@ function enteredOffice(
   known: ReturnType<typeof publicKnowledgeOf> | null,
 ): HistoryLine[] {
   const term = servingTermsOf(coreAPI(core), personId)[0];
-  const office = term ? officeTitle(core, term.officeId) : null;
+  const office = term ? officeSlotsOf(core, term.officeId) : null;
   const start = known?.serviceStart ?? term?.startDate;
   return start && office
     ? [
         {
           date: start,
           key: "office.entered",
-          slots: { year: start.slice(0, 4), office: inSentence(office) },
+          slots: { year: start.slice(0, 4), ...office },
           recordId: known?.serviceStart ? personId : term!.id,
         },
       ]
@@ -1334,7 +1463,7 @@ function officialLines(
     row.seatId === term.seatId;
   const lines: HistoryLine[] = [];
   for (const row of rows.filter(same)) {
-    const office = officeTitle(core, row.officeId);
+    const office = officeSlotsOf(core, row.officeId);
     if (!office) continue;
     lines.push({
       date: row.startDate,
@@ -1346,7 +1475,7 @@ function officialLines(
           : row.reached === "elected"
             ? "office.elected"
             : "office.entered",
-      slots: { year: row.startDate.slice(0, 4), office: inSentence(office) },
+      slots: { year: row.startDate.slice(0, 4), ...office },
       recordId: row.id,
     });
   }
@@ -1373,7 +1502,17 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     .moduleState(OFFICES)
     .table("offices")
     .get(term.officeId) as
-    { title?: string; governmentName?: string } | undefined;
+    | {
+        title?: string;
+        governmentName?: string;
+        jurisdiction?: string;
+        seats?: number;
+      }
+    | undefined;
+  // The government by its place record's proper name ("City of McCall").
+  const government = office?.governmentName
+    ? governmentProperName(office.governmentName, office.jurisdiction ?? "")
+    : null;
   let publicKnowledge: ReturnType<typeof publicKnowledgeOf> | null = null;
   try {
     publicKnowledge = core.modules.has(PAST_MODULE_ID)
@@ -1397,7 +1536,7 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
             key: "office.entered",
             slots: {
               year: publicKnowledge.serviceStart.slice(0, 4),
-              office: inSentence(office.title),
+              ...officeSlots(office.title, office.seats),
             },
             recordId: term.id,
           },
@@ -1429,11 +1568,9 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     relationRecordId: null,
     age: null,
     alive: true,
-    placeName: office?.governmentName ?? null,
+    placeName: government,
     school: null,
-    work: office?.title
-      ? { title: office.title, employer: office.governmentName ?? null }
-      : null,
+    work: office?.title ? { title: office.title, employer: government } : null,
     tie: null,
     known: false,
     shared: [],
@@ -1554,14 +1691,30 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const homePlace = knowsHome
     ? (corePlaceByJurisdictionId(other.placeId as never)?.displayName ?? null)
     : null;
+  // Born where they lived the day they were born: someone the moves pass
+  // brought to the county was born where they came from, as the run's birth
+  // record says, never in the town they later moved to (Fable A, Nov 13:
+  // "born in Angoon" and then "moved to Angoon"). The opening's birthplace
+  // fact is the town they live in now (SG-HIST-birthplace-is-home).
   const birthplace = (other.pastFacts ?? []).find(
     (row) => row.kind === "birthplace",
   );
-  const bornIn =
-    typeof birthplace?.facts?.placeId === "string"
-      ? (corePlaceByJurisdictionId(birthplace.facts.placeId as never)
-          ?.displayName ?? null)
-      : null;
+  const bornAt = residenceOn(core, other, other.birthDate).placeId;
+  const bornId =
+    bornAt !== other.placeId
+      ? bornAt
+      : typeof birthplace?.facts?.placeId === "string"
+        ? birthplace.facts.placeId
+        : null;
+  // A place by its name; a place the world keeps only at its state's level, by the state's.
+  const bornState = bornId ? coreStateKeyOfJurisdictionId(bornId) : null;
+  const bornStateName = bornState
+    ? coreStateName(bornState.replace(/^US-/, ""))
+    : null;
+  const bornIn = bornId
+    ? (corePlaceByJurisdictionId(bornId as never)?.displayName ??
+      (bornStateName ? stateInSentence(bornStateName) : null))
+    : null;
   const run = officeRunOf(lines, servingOffices(core, otherId)[0]);
   // The office a President held before, from their record.
   const prior = (other.pastFacts ?? []).find(
@@ -1587,10 +1740,14 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     office: run,
     // Their work, as the story already tells it of anyone.
     work: job
-      ? {
-          title: job.title,
-          employer: employerName(core, job.organizationId) ?? null,
-        }
+      ? core.organizations.get(job.organizationId)?.outsideFlow
+        ? // The market's stand-in for work out of town is no employer: they
+          // work outside the town they live in.
+          { title: null, employer: null, outside: homePlace }
+        : {
+            title: job.title,
+            employer: employerName(core, job.organizationId) ?? null,
+          }
       : null,
     school: school?.name ?? null,
     place: homePlace,

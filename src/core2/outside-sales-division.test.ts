@@ -19,6 +19,11 @@ import { coreAPI } from "./state";
 import { residentsRuntime } from "./modules/residents";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+// Every seller's outside buyers at their opening level, so only the division moves a seller.
+const AT_OPENING = () => ({
+  factor: 1,
+  followed: "the opening (this test)",
+});
 
 it("divides outside buyers' spending among a kind's sellers by service level, keeping the kind's total", () => {
   setBookkeeping(false);
@@ -57,7 +62,7 @@ it("divides outside buyers' spending among a kind's sellers by service level, ke
             (f) => f.kind === "outside-sales" && !f.endedAt && f.payeeId === id,
           )
           .reduce((n, f) => n + f.amountMinor, 0);
-      scaleOutsideSales(core, placeId, 1, level);
+      scaleOutsideSales(core, placeId, AT_OPENING, level);
       const [dear, cheap] = ids as [string, string];
       const kindTotal = () => ids.reduce((n, id) => n + amount(id), 0);
       const before = { dear: amount(dear), cheap: amount(cheap) };
@@ -71,7 +76,7 @@ it("divides outside buyers' spending among a kind's sellers by service level, ke
         ...row,
         staffing: { ...row.staffing, staff: row.staffing.target * 0.5 },
       } as never);
-      scaleOutsideSales(core, placeId, 1, level);
+      scaleOutsideSales(core, placeId, AT_OPENING, level);
       const after = { dear: amount(dear), cheap: amount(cheap) };
       expect(after.dear, `${where}: ${dear} is short of staff`).toBeLessThan(
         before.dear,
@@ -88,6 +93,9 @@ it("divides outside buyers' spending among a kind's sellers by service level, ke
         [...rt.flows.values()].filter(
           (f) => f.kind === "outside-sales" && ids.includes(f.payeeId),
         ).length,
+      );
+      process.stdout.write(
+        `outside-sales-division ${where}: ${dear} ${before.dear} -> ${after.dear}, ${cheap} ${before.cheap} -> ${after.cheap}\n`,
       );
       return;
     }

@@ -19,7 +19,7 @@ source: split from nation-president-orders-by-series in the pool redo, Nov 10, 2
 checked: fable 2026-11-10
 ---
 
-**What.** The played President has no screen over federal orders (stopgap SG-NATION-federal-axis-proxy); `presidentialOrders` in src/core2/office-day-federal-president.ts lists the orderable set but nothing lets the player choose one. Let the played President issue an order through the same `issueFederalOrder` path the unplayed one uses. src/bench is the play-first lane's, so the screen half goes to the lane with a Needs from others line. This is part 3 of nation-president-orders-by-series.
+**What.** The played President has no screen over federal orders (stopgap SG-NATION-federal-axis-proxy); `presidentialOrders` in src/core2/office-day-federal-president.ts lists the orderable set but nothing lets the player choose one. Let the played President issue an order through the same `issueFederalOrder` path the unplayed one uses. src/bench is the play-first lane's, so the screen half goes to the lane with a Needs from others line. This is part 3 of nation-president-orders-by-series. Seen: the played President's screen of orders to issue (playing as president is an owner goal, Oct 10).
 
 **Cause.** Found in code: `presidentialOrders` (line 974) in src/core2/office-day-federal-president.ts returns the orderable set but the played President's Your office has no control over it.
 
