@@ -3418,6 +3418,10 @@ function replyFacts(
                 text: spoken(place),
                 sourceRecordIds: [listener.householdId],
               },
+              // Asked back by someone from the same town: "Here too."
+              ...(subject.facts["same-town"]
+                ? { "same-town": subject.facts["same-town"] }
+                : {}),
             },
             stage: "default",
           }
