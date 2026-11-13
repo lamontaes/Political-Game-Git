@@ -247,6 +247,21 @@ export function purposeScene(
   return skipped;
 }
 
+/** A law row of the laws engine by its id: where it is law and the day it takes effect. */
+function lawRow(
+  core: Readonly<CoreState>,
+  id: string,
+): { jurisdiction?: string; effectiveDate?: string } | null {
+  if (!core.modules.has(LAWS_MODULE_ID)) return null;
+  return (
+    (coreAPI(core as CoreState)
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .get(id) as
+      { jurisdiction?: string; effectiveDate?: string } | undefined) ?? null
+  );
+}
+
 /**
  * Where a move went, as people name the place: a town or county by its
  * jurisdiction; for a move to "somewhere in the state" (basis `state`, the
@@ -404,6 +419,37 @@ function composeBinding(
         text: "yes",
         sourceRecordIds: [said.lawId, moment.causeId],
       };
+    // A law that does not reach the reader is said as what it is (Fable A,
+    // Nov 13): one enacted but not yet in force by the day it takes effect;
+    // one in force in another state by that state and the reader's own. Only
+    // a law in force where the reader lives is spoken of as lived with.
+    const row = kept ? undefined : (lawRow(core, lawRowId) ?? undefined);
+    const home = coreStateKeyOfJurisdictionId(asker.placeId);
+    if (row?.effectiveDate && row.effectiveDate > core.date)
+      facts.effective = {
+        text: spokenDate(row.effectiveDate, core.date),
+        sourceRecordIds: [lawRowId, moment.causeId],
+      };
+    else if (
+      row?.jurisdiction?.startsWith(STATE_KEY_PREFIX) &&
+      home &&
+      home !== row.jurisdiction
+    ) {
+      const there = coreStateName(
+        row.jurisdiction.slice(STATE_KEY_PREFIX.length),
+      );
+      const here = coreStateName(home.slice(STATE_KEY_PREFIX.length));
+      if (there && here) {
+        facts.lawstate = {
+          text: stateInSentence(there),
+          sourceRecordIds: [lawRowId, moment.causeId],
+        };
+        facts.homestate = {
+          text: stateInSentence(here),
+          sourceRecordIds: [asker.placeId, askerId],
+        };
+      }
+    }
   }
   // A law in force that a bill enacted (a story that it took effect): the
   // bill by its number, cited to the law and the bill.
