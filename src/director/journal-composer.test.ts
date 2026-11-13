@@ -82,7 +82,16 @@ it.each(draws)(
     expect(past.length, where).toBeLessThanOrEqual(
       past.reduce((n, line) => n + line.momentIds.length, 0),
     );
-    expect(outline.paragraphs.length, where).toBeGreaterThan(0);
+    // Stretches of life (lead, Nov 13): about three to five paragraphs for a
+    // 36-year-old, held to the outline's bounds.
+    expect(
+      past.length,
+      `${where}: ${past.length} past paragraphs: ${past.map((l) => l.text).join(" | ")}`,
+    ).toBeGreaterThanOrEqual(outline.stretches.paragraphsLeast);
+    expect(
+      past.length,
+      `${where}: ${past.length} past paragraphs: ${past.map((l) => l.text).join(" | ")}`,
+    ).toBeLessThanOrEqual(outline.stretches.paragraphsMost);
     // The composed checks read the page as the screen shows it.
     const sample: ComposedSample = {
       place: name,

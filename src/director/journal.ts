@@ -1184,11 +1184,26 @@ export function composeJournal(
 
   // How the person refers to someone: a relative by relation, anyone else by
   // name, and only someone whose name they know.
+  // The first names two or more of the person's relatives share.
+  const sameName = new Set(
+    [...kin.keys()]
+      .map((id) => core.people.get(id as PersonId)?.givenName)
+      .filter(
+        (name, at, all): name is string => !!name && all.indexOf(name) !== at,
+      ),
+  );
   const other = (id: PersonId): Fact | undefined => {
     const row = core.people.get(id);
     if (!row) return undefined;
     const relation = kin.get(id);
     if (relation) {
+      // A partner is said by name from the first mention (lead, Nov 13: "I
+      // met Nicholas in Montana", never "my partner" before the name).
+      if (
+        (words ?? JOURNAL_WORDS).metRelations?.includes(relation.relation) &&
+        row.givenName
+      )
+        return { text: row.givenName, sourceRecordIds: [relation.factId, id] };
       const text = relationPhrase(
         relation.relation,
         row.looks?.gender ?? "other",
@@ -1196,6 +1211,13 @@ export function composeJournal(
         words,
       );
       if (text) {
+        // Two people of one telling with the same first name are each said
+        // with their relation, every time ("My brother William").
+        if (sameName.has(row.givenName))
+          return {
+            text: `${text} ${row.givenName}`,
+            sourceRecordIds: [relation.factId, id],
+          };
         // Two relatives with one relation (two daughters, a father and a
         // stepfather both "my father") are each named: "my father Ray", "my
         // father Matthew" (batch 11: "My daughter was born." twice in one
@@ -2279,8 +2301,10 @@ export function composeJournal(
    */
   const tellWork = (
     told: readonly Unit[],
-    /** The thread's last part: only it says the summary of the whole run (pay over the years, time without a paycheck). */
+    /** The last stretch with work: only it says the summary of the whole working life (pay first to last, time without a paycheck). */
     lastPart = true,
+    /** The day the stretch ends (the next move, or the start): the years the stretch's work covers. */
+    until?: IsoDate,
   ): JournalWorded[] | null => {
     const employers = new Map<string, string>();
     for (const unit of told)
@@ -2321,7 +2345,11 @@ export function composeJournal(
       text: spanSaid(
         daysBetween(
           makeIsoDate(first.moment.date),
-          makeIsoDate(endedOut ? lastUnit.moment.date : core.startedAt),
+          makeIsoDate(
+            endedOut && !until
+              ? lastUnit.moment.date
+              : (until ?? core.startedAt),
+          ),
         ),
       ),
       sourceRecordIds: ids,
@@ -2686,57 +2714,111 @@ export function composeJournal(
       [past[zero]!.moment.causeId],
     );
     open(past[zero]!.moment.id, title?.text ?? "", past[zero]!.moment.date);
-    // Each outline row's records, in the order they happened; the birth
-    // leads its paragraph, since a life is told from the day it began.
-    const queues = JOURNAL_OUTLINE.paragraphs
-      .map((row) => ({
-        key: row.key,
-        units: past
-          .filter((unit) => unit.paragraph === row.key)
-          .sort(
-            (a, b) =>
-              Number(b.moment.causeKind === "person.birth") -
-              Number(a.moment.causeKind === "person.birth"),
-          ),
-      }))
-      .filter((row) => row.units.length);
-    // The Journal is told in the order things happened (lead, Nov 13): a
-    // paragraph is dated by its earliest record and paragraphs follow those
-    // dates. A paragraph carries the later records of its thread only until
-    // another thread's next record comes first; then the thread is split, and
-    // its later records are a paragraph of their own in their place.
-    const viewsTold = new Set<string>();
-    while (queues.some((row) => row.units.length)) {
-      const open = queues.filter((row) => row.units.length);
-      // The thread whose next record came first (the outline's order breaks a tie).
-      const next = open.reduce((best, row) =>
-        row.units[zero]!.moment.date < best.units[zero]!.moment.date
-          ? row
-          : best,
+    // The past is told in stretches of life (lead, Nov 13): growing up (to
+    // the first job or voting age), then each place lived, a move starting a
+    // new stretch. A stretch is one paragraph that tells work and family
+    // together in the order they happened; its work is one sentence for the
+    // whole stretch. The household as it stands at the start closes the past.
+    const now = past.filter((unit) => unit.paragraph === "now");
+    const lived = past
+      .filter((unit) => unit.paragraph !== "now")
+      .sort(
+        (a, b) =>
+          a.moment.date.localeCompare(b.moment.date) ||
+          Number(b.moment.causeKind === "person.birth") -
+            Number(a.moment.causeKind === "person.birth"),
       );
-      const others = open
-        .filter((row) => row !== next)
-        .map((row) => row.units[zero]!.moment.date)
-        .sort();
-      const until = others[zero];
-      const told: Unit[] = [];
-      while (
-        next.units.length &&
-        (!told.length ||
-          until === undefined ||
-          next.units[zero]!.moment.date <= until)
-      )
-        told.push(next.units.shift()!);
-      const views = viewsTold.has(next.key) ? [] : pastViewSentences(next.key);
-      viewsTold.add(next.key);
-      const sentences = [
-        ...((next.key === "work"
-          ? tellWork(told, next.units.length === zero)
-          : null) ?? tellParagraph(told, next.key)),
-        ...views,
-      ];
-      push(told, sentences);
+    const isWork = (unit: Unit) => unit.paragraph === "work";
+    const grown = addDays(
+      makeIsoDate(person.birthDate),
+      Math.round(P.votingAge * P.daysPerMeanYear),
+    );
+    const firstWork = lived.find(isWork)?.moment.date;
+    const grownUp =
+      firstWork && firstWork < grown ? firstWork : (grown as string);
+    const stretches: Unit[][] = [];
+    for (const unit of lived) {
+      const current = stretches.at(-one);
+      const opensStretch =
+        !current ||
+        // Growing up ends at the first job or voting age.
+        (unit.moment.date >= grownUp &&
+          current[zero]!.moment.date < grownUp &&
+          unit.paragraph !== "roots") ||
+        // A move starts a new stretch in the place moved to.
+        (unit.moment.causeKind === "moved" && unit.moment.date >= grownUp);
+      if (opensStretch) stretches.push([unit]);
+      else current!.push(unit);
     }
+    // A long stretch (about fifteen years, more than six records) may break
+    // once, at its biggest life event: the first child, else the partnership.
+    const yearDays = core.data.parameters.yearSpanDays!.value;
+    const { breakYears, breakRecords } = JOURNAL_OUTLINE.stretches;
+    for (let at = zero; at < stretches.length; at += one) {
+      const row = stretches[at]!;
+      const days = daysBetween(
+        makeIsoDate(row[zero]!.moment.date),
+        makeIsoDate(row.at(-one)!.moment.date),
+      );
+      if (days < breakYears * yearDays || row.length <= breakRecords) continue;
+      const child = row.findIndex(
+        (unit, i) => i > zero && unit.moment.causeKind === "family:child",
+      );
+      const pivot =
+        child > zero
+          ? child
+          : row.findIndex(
+              (unit, i) =>
+                i > zero && unit.moment.causeKind === "household:partners-met",
+            );
+      if (pivot <= zero) continue;
+      stretches.splice(at, one, row.slice(zero, pivot), row.slice(pivot));
+      // Never more than once: the second half is not broken again.
+      at += one;
+    }
+    const lastWork = stretches.reduce(
+      (last, row, at) => (row.some(isWork) ? at : last),
+      -one,
+    );
+    const viewsTold = new Set<string>();
+    stretches.forEach((row, at) => {
+      const until = (stretches[at + one]?.[zero]?.moment.date ??
+        core.startedAt) as IsoDate;
+      const key = row[zero]!.moment.date < grownUp ? "roots" : "family";
+      const sentences: JournalWorded[] = [];
+      let run: Unit[] = [];
+      const flush = () => {
+        if (run.length) sentences.push(...tellParagraph(run, key));
+        run = [];
+      };
+      let workTold = false;
+      for (const unit of row) {
+        if (!isWork(unit)) {
+          run.push(unit);
+          continue;
+        }
+        if (workTold) continue;
+        workTold = true;
+        flush();
+        const work = row.filter(isWork);
+        sentences.push(
+          ...(tellWork(work, at === lastWork, until) ??
+            tellParagraph(work, "work")),
+        );
+      }
+      flush();
+      for (const paragraph of ["roots", "work"])
+        if (
+          !viewsTold.has(paragraph) &&
+          ((paragraph === "roots" && key === "roots") ||
+            (paragraph === "work" && at === lastWork))
+        ) {
+          viewsTold.add(paragraph);
+          sentences.push(...pastViewSentences(paragraph));
+        }
+      push(row, sentences);
+    });
+    if (now.length) push(now, tellParagraph(now, "now"));
   }
   // Play: what the player did and what happened to them since the start,
   // one paragraph per event, a race's records together, in more detail. A
@@ -2948,19 +3030,33 @@ export function composeJournal(
     return row && phrase ? [{ phrase, given: row.givenName }] : [];
   });
   for (const { phrase, given } of kinSaid) {
-    const pattern = new RegExp(
-      `\\b${phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")} ${given}\\b`,
-      "gi",
-    );
+    // Two relatives with one first name keep their relation every time.
+    if (sameName.has(given)) continue;
+    const escaped = (text: string) =>
+      text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const full = new RegExp(`\\b${escaped(phrase)} ${escaped(given)}\\b`, "gi");
+    const bare = new RegExp(`\\b${escaped(given)}\\b`);
+    // Said once already: by relation and name, or by name alone (a partner).
     let saidOnce = false;
-    for (const line of kept.flatMap((row) => row.lines))
-      line.text = line.text.replace(pattern, (whole) => {
+    for (const line of kept.flatMap((row) => row.lines)) {
+      const firstFull = line.text.search(full);
+      const firstBare = line.text.search(bare);
+      if (
+        !saidOnce &&
+        firstBare >= zero &&
+        (firstFull < zero || firstBare < firstFull)
+      ) {
+        saidOnce = true;
+      }
+      full.lastIndex = zero;
+      line.text = line.text.replace(full, (whole) => {
         if (!saidOnce) {
           saidOnce = true;
           return whole;
         }
         return given;
       });
+    }
   }
   return kept;
 }

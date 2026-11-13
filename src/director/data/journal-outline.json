@@ -123,5 +123,12 @@
     "about": "Which way a view moved, by the sign of the views engine's lean change (-2 very liberal to +2 very conservative).",
     "left": "more liberal",
     "right": "more conservative"
+  },
+  "stretches": {
+    "about": "The past is told in stretches of life (lead, Nov 13): growing up, then each place lived. A stretch longer than breakYears with more than breakRecords records may break once, at its first child, else its partnership. Words judgment, read against the Journals of drawn 36-year-olds.",
+    "breakYears": 15,
+    "breakRecords": 6,
+    "paragraphsLeast": 2,
+    "paragraphsMost": 6
   }
 }
