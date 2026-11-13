@@ -521,6 +521,9 @@ export function pastPartnersFor(
         startedAt: past.began,
         startedAge: metAge,
         ended: past.how === "widowed" ? "widowed" : "parted",
+        // The chain is a first marriage's (partnering by the never-married
+        // share, parting by the first-marriage curve), so it was a marriage.
+        union: "married",
       },
       publicRecord: false,
       source: {
