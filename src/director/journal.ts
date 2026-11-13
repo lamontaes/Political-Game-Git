@@ -2868,7 +2868,13 @@ export function composeJournal(
     if (typeof contestId === "string") byContest.set(contestId, fresh);
   }
   let chapterKind: string | undefined;
-  for (const group of groups) {
+  for (const raw of groups) {
+    // A race is told by its certified result once (playtest, Nov 13: "We
+    // lost. ... So, I was elected"): of one contest's results, the last.
+    const results = raw.filter((unit) => unit.row.hasOwnLine);
+    const group = raw.filter(
+      (unit) => !unit.row.hasOwnLine || unit === results.at(-one),
+    );
     const turn = group.find((unit) => unit.turn);
     const titleOf = (unit: Unit) =>
       render(

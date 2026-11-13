@@ -5974,7 +5974,7 @@
       "key": "journal.recall-count.our-petition-to-recall-other-got-signatures-signatures-enough-for-a-vote",
       "move": "recall-count",
       "kind": "spoken",
-      "text": "Our petition to recall {other} got {signatures} signatures, enough for a vote.",
+      "text": "A petition to recall {other} got {signatures} signatures, enough for a vote.",
       "uses": [
         {
           "move": "recall-count",
@@ -6000,59 +6000,7 @@
       "key": "journal.recall-count.our-petition-to-recall-other-came-up-short-signatures-of-required",
       "move": "recall-count",
       "kind": "spoken",
-      "text": "Our petition to recall {other} came up short: {signatures} of {required}.",
-      "uses": [
-        {
-          "move": "recall-count",
-          "subject": "recall",
-          "role": "other",
-          "choice": "count",
-          "journal": [
-            {
-              "kindPrefix": "event:recall-outcome",
-              "field": "otherLine"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.recall-count.other-heard-us-out-we-still-got-our-vote",
-      "move": "recall-count",
-      "kind": "spoken",
-      "text": "{other} heard us out. We still got our vote.",
-      "uses": [
-        {
-          "move": "recall-count",
-          "subject": "recall",
-          "role": "other",
-          "choice": "count",
-          "journal": [
-            {
-              "kindPrefix": "event:recall-outcome",
-              "field": "otherLine"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.recall-count.other-heard-us-out-and-the-petition-fell-short",
-      "move": "recall-count",
-      "kind": "spoken",
-      "text": "{other} heard us out, and the petition fell short.",
+      "text": "A petition to recall {other} came up short: {signatures} of {required}.",
       "uses": [
         {
           "move": "recall-count",

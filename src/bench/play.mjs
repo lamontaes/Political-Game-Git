@@ -633,6 +633,8 @@ function renderPacket(value) {
 
 /** The newest line of the journal, bottom right. */
 let shownJournalLine = "";
+/** The Journal entries already shown as a toast, by id: each shows once. */
+const shownJournalIds = new Set();
 $("journal-note-close").addEventListener("click", () =>
   hideToast($("journal-note")),
 );
@@ -640,11 +642,24 @@ async function renderJournalNote() {
   const chapters = await api(
     `/api/journal?id=${encodeURIComponent(me.id)}`,
   ).catch(() => []);
-  const line = chapters.at(-1)?.lines.at(-1)?.text ?? "";
+  const newest = chapters.at(-1)?.lines.at(-1);
+  const line = newest?.text ?? "";
   $("journal-line").textContent = line;
-  // A new line is a toast: it holds, fades and goes, or goes at once on its close.
+  // A new entry is a toast once, on the day it was written (playtest, Nov
+  // 13: the same toast after each Day press four days running): an entry
+  // already shown, or one from an earlier day, is not shown again.
+  const key = newest ? `${newest.id}` : "";
+  const today = packet?.at?.date ?? "";
   if (!line) hideToast($("journal-note"));
-  else if (line !== shownJournalLine) {
+  else if (
+    key !== shownJournalLine &&
+    !shownJournalIds.has(key) &&
+    (!today ||
+      !newest.date ||
+      newest.date >= today.slice(0, 10) ||
+      !shownJournalLine)
+  ) {
+    shownJournalIds.add(key);
     showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);
     // A new line since the Journal was last open: a dot on its icon until it is read.
     if (shownJournalLine && openTab !== "journal")
@@ -652,7 +667,7 @@ async function renderJournalNote() {
         .querySelector('#rings [data-tab="journal"]')
         ?.classList.add("unread");
   }
-  shownJournalLine = line;
+  shownJournalLine = key;
 }
 async function refresh(scene = {}) {
   await Promise.all([
