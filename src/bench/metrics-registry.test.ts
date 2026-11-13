@@ -290,4 +290,50 @@ describe("Metrics reads the registry in a played world", () => {
       `No drawn place served an eviction notice: ${passedOver.join("; ")}`,
     );
   }, 900_000);
+
+  /** A drawn small town (seed fixed so the town stays a few hundred people at most). */
+  it("shows a small town's own count, and an empty figure as a zero from the engine's record", () => {
+    const seed = process.env.METRICS_SMALL_SEED ?? "7a5e19c2b3d84f60";
+    const world = buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
+    const where = `${world.place.displayName} (seed ${seed})`;
+    advanceCore(world.core, AFTER_FOURTEEN_MONTHS as never);
+    const api = coreAPI(world.core);
+    const view = metricsView(world.core, world.placeId);
+    const march = api
+      .moduleState("world-metrics")
+      .table("months")
+      .get(`metrics:${world.placeId}:2026-03-02`) as
+      Record<string, number> | undefined;
+    const people = rowOf(view, "city", "people");
+    // The town's own count: named people plus the counted ones, never a county or blended figure.
+    expect(people?.now, where).toBe(
+      march!.peopleNamed! + march!.peopleCounted!,
+    );
+    expect(people!.now, `${where}: a small town`).toBeLessThan(1000);
+    const stock = api
+      .moduleState("housing")
+      .table("stock")
+      .get(`stock:${world.placeId}`) as
+      { rentalUnits: number; vacantRental: number } | undefined;
+    const count = api
+      .moduleState("core2-homeless-count-v1")
+      .table("counts")
+      .get(world.placeId) as { homeless: number } | undefined;
+    // A figure the engine holds as zero is a zero row, never a missing one.
+    if (stock) {
+      expect(rowOf(view, "housing", "rentals")?.now, where).toBe(
+        stock.rentalUnits,
+      );
+      expect(rowOf(view, "housing", "vacant")?.now, where).toBe(
+        stock.vacantRental,
+      );
+    }
+    if (count)
+      expect(rowOf(view, "housing", "homeless")?.now, where).toBe(
+        count.homeless,
+      );
+    process.stdout.write(
+      `metrics small town: ${where}, people ${people!.now}, rentals ${stock?.rentalUnits}, homeless ${count?.homeless}\n`,
+    );
+  }, 900_000);
 });
