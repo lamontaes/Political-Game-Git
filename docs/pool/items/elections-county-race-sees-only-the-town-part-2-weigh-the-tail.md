@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Part 1 (elections-county-race-sees-only-the-town-part-1-seeded-county-tail).
 
 **Files.** src/core2/modules/candidacy.ts, src/core2/modules/voting.ts, src/core2/modules/offices.ts, src/core2/data/candidacy/parameters.json
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would let the county tail weigh county seats; no screen shows the difference, and the parent is dropped.

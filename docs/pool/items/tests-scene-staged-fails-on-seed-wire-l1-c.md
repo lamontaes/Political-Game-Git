@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T00:51:23.940Z
 branch: claude/pool-tests-scene-staged-fails-on-seed-wire-l1-c
 ---
 
-**What.** src/director/scene.test.ts 'builds each staged scene from its records, in second person, and opens a conversation' fails with 'expected 0 to be greater than 0' when GOLDEN_PATH_SEED=wire-l1-c, identically on clean main at 4732dda71c (Oct 28); its default seed scenes-a passes. The test builds its world from the seed with buildPopulation and the director module alone, so the staged-scene count depends on which past the seed draws, and on this seed no moment stages a scene. The cause is not yet traced to a record.
+**What.** src/director/scene.test.ts 'builds each staged scene from its records, in second person, and opens a conversation' fails with 'expected 0 to be greater than 0' when GOLDEN_PATH_SEED=wire-l1-c, identically on clean main at 4732dda71c (Oct 28); its default seed scenes-a passes. The test builds its world from the seed with buildPopulation and the director module alone, so the staged-scene count depends on which past the seed draws, and on this seed no moment stages a scene. The cause is not yet traced to a record. Guards: a moment stages a scene built from records in second person; scene.test stages none on one seed.
 
 **Cause.** Found in code: src/director/scene.test.ts, the test 'builds each staged scene from its records, in second person, and opens a conversation' (line 84), builds its world with buildPopulation and createLifeCore with only the director module and runs it to 2021-02-15 (45 days); on GOLDEN_PATH_SEED=wire-l1-c (Elmwood, Illinois) all 18 scheduled moments are past family and work facts with no staging type, so the staged count is 0 (item Notes, Oct 28).
 

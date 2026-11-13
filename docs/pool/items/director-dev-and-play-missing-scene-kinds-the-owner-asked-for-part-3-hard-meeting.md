@@ -19,7 +19,7 @@ source: split from director-dev-and-play-missing-scene-kinds-the-owner-asked-for
 checked: fable 2026-11-10
 ---
 
-**What.** Meetings come from bills and budgets only. There is no secretary or department head the player can call in, and no scene for a meeting where the other person disagrees. Add a hard-meeting scene for an executive and a department head, a secretary or a legislator who disagrees, whose result moves the bill or budget line it was about.
+**What.** Meetings come from bills and budgets only. There is no secretary or department head the player can call in, and no scene for a meeting where the other person disagrees. Add a hard-meeting scene for an executive and a department head, a secretary or a legislator who disagrees, whose result moves the bill or budget line it was about. Seen: a meeting where a department head or secretary disagrees with the mayor, and the budget line or bill moves.
 
 **Cause.** Found in code: `scheduleWeek` (`src/core2/modules/meetings.ts` line 238) and `standUpDrive` (line 347) keep meetings from bills and budgets only; the rulings check (docs/reports/rulings-check-2026-11-08.md) marks a contentious meeting "partly" built. Design: the owner on Nov 8, "Having a contentious meeting with a secretary or a legislator or an executive".
 

@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T05:47:05.671Z
 branch: claude/pool-core-life-record-part-2-a-talk-brings-up-a-remembered-event
 ---
 
-**What.** People now remember what happens to them, and no conversation ever uses it. A neighbor who lost a job last spring, or who was at your wedding, talks as if nothing had happened. This part lets a talk bring up a remembered event, with the event's record kept as the scene's source.
+**What.** People now remember what happens to them, and no conversation ever uses it. A neighbor who lost a job last spring, or who was at your wedding, talks as if nothing had happened. This part lets a talk bring up a remembered event, with the event's record kept as the scene's source. Seen: a neighbor in a talk brings up a job they lost or a wedding you both went to (life record, on the critical path).
 
 **Cause.** Design: docs/design/life-record.md (the scenes read the list). Searched on Nov 10 on the life record's branch claude/fable-life-gaps: no file under src/director calls `lifeOf` or `whoRemembers`. The life record's list (`lifeOf`, `rememberEvent` and `whoRemembers` in src/core2/person-life.ts) arrives on main with pull requests 8115, 8123 and 8139.
 

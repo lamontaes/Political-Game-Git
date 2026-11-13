@@ -20,7 +20,7 @@ claimed-at: 2026-11-04T16:21:08.503Z
 checked: fable 2026-11-10
 ---
 
-**What.** The owner ruled on Oct 27 at 5 PM that every campaign act is a scene: sometimes uneventful, sometimes you meet someone at the library, sometimes someone waiting outside a job. The porch scene stages every canvass at the resident's door, because the campaign engine knocks household doors and keeps no record of meeting voters anywhere else. Where a person is at the canvass hour (at work, at a public building) comes from the work schedule and place hours, which exist now. This item makes the engine reach a resident away from home, records where, and stages the scene there.
+**What.** The owner ruled on Oct 27 at 5 PM that every campaign act is a scene: sometimes uneventful, sometimes you meet someone at the library, sometimes someone waiting outside a job. The porch scene stages every canvass at the resident's door, because the campaign engine knocks household doors and keeps no record of meeting voters anywhere else. Where a person is at the canvass hour (at work, at a public building) comes from the work schedule and place hours, which exist now. This item makes the engine reach a resident away from home, records where, and stages the scene there. Seen: a canvass scene where you meet a voter at the library or outside their job instead of at the door (owner, Oct 27).
 
 **Cause.** Found in code: `src/core2/modules/campaigns.ts` line 1260, where the door walk keeps only adults at home (`athome`), so every `campaign.door` cause already means the resident was home and the director cannot honestly stage a scene at a job or the library. The item's own Nov 4 note records that Lane 3 reached this.
 

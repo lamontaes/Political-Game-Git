@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T05:38:47.289Z
 merged-at: 2026-11-12T20:17:15.879Z
 ---
 
-**What.** The election's exit poll tally (exitPoll in src/core2/modules/voting.ts holdElection) counts only named voters: the counted residents vote in their own loop and never weigh voting.exit-poll, so a town where most voters are counted reports an exit poll of a few dozen people. The rule One model, two tiers says a counted group is read by every engine with the same rule as a full person, times its count. A counted voter's engagement is its survey cell's (engagementOf) and its interest is the turnout decision's, so the same case and lean apply.
+**What.** The election's exit poll tally (exitPoll in src/core2/modules/voting.ts holdElection) counts only named voters: the counted residents vote in their own loop and never weigh voting.exit-poll, so a town where most voters are counted reports an exit poll of a few dozen people. The rule One model, two tiers says a counted group is read by every engine with the same rule as a full person, times its count. A counted voter's engagement is its survey cell's (engagementOf) and its interest is the turnout decision's, so the same case and lean apply. Seen: the exit poll on election night counts the whole electorate, not a few dozen named voters (Political Process M2-07).
 
 **Cause.** Found in code: `holdElection` in `src/core2/modules/voting.ts` builds `exitPoll` (line 2945) in the named-voter loop only and returns `exitPoll: named.exitPoll`; counted residents vote in their own loop and never weigh voting.exit-poll, while the named voters' rule is `pollsterCase` (line 2409).
 

@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/candidacy-in-play.test.ts
 
 **Notes.** Elections, Nov 9: the Coordinator asked for this item after PR #7986. No existing item covers it (searched docs/pool/items for candidacy-in-play).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would cut a test's import time from 588 seconds; no player sees test time.

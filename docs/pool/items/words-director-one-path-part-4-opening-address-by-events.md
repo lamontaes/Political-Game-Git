@@ -21,7 +21,7 @@ claimed-at:
 branch: claude/pool-words-director-one-path-part-4-opening-address-by-events
 ---
 
-**What.** Part of words-director-one-path. The opening address should differ by who the player is and what is happening in the world, as the owner approved on Oct 28; today it is assembled from a small fixed set. Build it from parts the English banks hold, chosen by records, and test two worlds against each other.
+**What.** Part of words-director-one-path. The opening address should differ by who the player is and what is happening in the world, as the owner approved on Oct 28; today it is assembled from a small fixed set. Build it from parts the English banks hold, chosen by records, and test two worlds against each other. Seen: the opening address differs by your party, traits and the world's events (owner, Oct 28).
 
 **Cause.** Design: docs/reports/words-director-plan-2026-10-28.md (owner approved Oct 28), section 3: the opening address assembled in parts by party, traits, stances and world events; src/director/opening-story.ts and src/director/data/opening-address.json hold the opening today.
 

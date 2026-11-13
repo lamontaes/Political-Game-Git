@@ -22,7 +22,7 @@ checked: fable 2026-11-10
 branch: claude/pool-scene-signing-casts-who-it-reaches
 ---
 
-**What.** The bill-signed type casts only the sponsor, the signer and the press, and makes the executive the asker. At real signings it goes the other way. The sponsor, a resident the law was written for or an advocate asks the executive for the next step (full funding next session, how it will be enforced), and the executive answers. The packet docs/design/scenes/from-life/the-signing.md draws on signings in Arizona, Wisconsin, California and elsewhere, calibration only. The records exist to cast them: a resident the law reaches (filled in from the counted adults, as the executive-order episode does) and a member who voted no.
+**What.** The bill-signed type casts only the sponsor, the signer and the press, and makes the executive the asker. At real signings it goes the other way. The sponsor, a resident the law was written for or an advocate asks the executive for the next step (full funding next session, how it will be enforced), and the executive answers. The packet docs/design/scenes/from-life/the-signing.md draws on signings in Arizona, Wisconsin, California and elsewhere, calibration only. The records exist to cast them: a resident the law reaches (filled in from the counted adults, as the executive-order episode does) and a member who voted no. Seen: at a bill signing the sponsor or a resident the law reaches asks the executive for the next step.
 
 **Cause.** Found in code: src/director/data/situation-types.json, the bill-signed type (line 2667), binds the sponsor as subject and the signer as chair and sets asker to signer, so the executive speaks first; no role is a resident the law reaches. Packet: docs/design/scenes/from-life/the-signing.md.
 

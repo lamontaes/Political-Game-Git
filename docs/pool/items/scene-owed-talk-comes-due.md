@@ -19,7 +19,7 @@ root: design-story-director
 checked: fable 2026-11-10
 ---
 
-**What.** Scenes at home end on lines such as "We'll talk more later." that nothing records, so the later never comes. When a reply defers a talk to a day (record people-owed-talk-record) and that day arrives with no time together since, the person owed should speak, naming what was promised and what is still open. The player answers in four stances: sit down now, give a new day, say it cannot be done, or turn it on them, and each closes or moves the owed record. No owed-talk situation type exists, and the packet with drafted lines is on main.
+**What.** Scenes at home end on lines such as "We'll talk more later." that nothing records, so the later never comes. When a reply defers a talk to a day (record people-owed-talk-record) and that day arrives with no time together since, the person owed should speak, naming what was promised and what is still open. The player answers in four stances: sit down now, give a new day, say it cannot be done, or turn it on them, and each closes or moves the owed record. No owed-talk situation type exists, and the packet with drafted lines is on main. Seen: a person you promised "we'll talk later" brings it up on the day, and you answer in four ways.
 
 **Cause.** Design: docs/design/scenes/from-life/owed-talk-comes-due.md under docs/design/story-director.md. src/director/data/situation-types.json holds no owed-talk type, and the owed-talk record the type reads is the open item people-owed-talk-record.
 

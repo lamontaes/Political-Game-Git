@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -41,3 +41,5 @@ checked: fable 2026-11-10
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-7xkkii` (2026-10-20). Cleared from the front matter and kept here.
 
 **Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_SEED=fs1 npx vitest run src/director/electoral-scenes.test.ts`: green, 2 tests, 69.8 seconds, not over 1,200. Fresh draw `GOLDEN_PATH_SEED=439cfcba6d4f9279` (filing at White City, Kansas): green, about 7 minutes of wall time including a build. Not slow on these runs. Proposed for the CTO: drop as fixed on main.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would speed up one slow director test; the cause is not found and no player sees test time.

@@ -19,7 +19,7 @@ lead: governing
 checked: fable 2026-11-10
 ---
 
-**What.** Interest groups form only inside a legislature's before-the-vote step for a pending bill, so in a town where no bill has come to a vote there are no resident groups to endorse a council candidate or send volunteers. Real towns have standing groups (neighborhood associations, unions, advocacy chapters) before any race. The campaign's group endorsements read interest groups, drives cause groups and party chapters through one view, and only the last two exist at the start. Seed the town's standing groups at the opening so the campaign can use them.
+**What.** Interest groups form only inside a legislature's before-the-vote step for a pending bill, so in a town where no bill has come to a vote there are no resident groups to endorse a council candidate or send volunteers. Real towns have standing groups (neighborhood associations, unions, advocacy chapters) before any race. The campaign's group endorsements read interest groups, drives cause groups and party chapters through one view, and only the last two exist at the start. Seed the town's standing groups at the opening so the campaign can use them. Feeds: campaign-like-real-races; the Campaigns screen showing a standing group endorse you or send volunteers.
 
 **Cause.** Found in code: src/core2/modules/interest-groups.ts registers `beforeVote: { name: "interest-organize", run: organize }` (line 156), and `organize` (line 208) is the only place groups form, so a town with no bill vote has none.
 

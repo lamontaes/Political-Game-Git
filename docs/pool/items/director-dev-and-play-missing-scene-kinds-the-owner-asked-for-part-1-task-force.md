@@ -19,7 +19,7 @@ source: split from director-dev-and-play-missing-scene-kinds-the-owner-asked-for
 checked: fable 2026-11-10
 ---
 
-**What.** A study committee or task force is a row in the body engine, formed when a body cannot settle a bill, and nothing stages it or forms one by an executive's order. Add a task-force scene: an executive or a body forms it, the cast is the members the world gives, the player answers with four replies, and the report it files is read by the next bill's positions and by the press. The executive's order that forms one belongs to the body engine (Legislation); until it exists the scene uses the study-referral record and a registered stopgap names the missing order.
+**What.** A study committee or task force is a row in the body engine, formed when a body cannot settle a bill, and nothing stages it or forms one by an executive's order. Add a task-force scene: an executive or a body forms it, the cast is the members the world gives, the player answers with four replies, and the report it files is read by the next bill's positions and by the press. The executive's order that forms one belongs to the body engine (Legislation); until it exists the scene uses the study-referral record and a registered stopgap names the missing order. Seen: a mayor or governor forms a task force in a scene, and its report shows up in the next bill and the paper.
 
 **Cause.** Found in code: `referToStudy` (`src/core2/modules/legislature.ts` line 4940) writes the committee row; its only reader is `studiesOf` in `src/bench/study-committees.test.ts`. Design: the Nov 8 to 9 task-force call in docs/coordination/OWNER-DECISIONS.md ("a record in the one body engine... Story writes the scenes on top").
 

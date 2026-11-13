@@ -21,7 +21,7 @@ checked: fable 2026-11-10
 branch: claude/pool-campaign-real-race-played-proof
 ---
 
-**What.** campaign-like-real-races has two halves: path-check winning a council seat in 7 of 10 drawn places, and a buildBenchWorld played-year test showing an organization endorsing and sending volunteers, a forum the player hosts, money raised by named donors and the incumbent changing their schedule after the player gains, each by record id. This item is the second half, so its PR can merge on its own while the first is measured. The test is src/core2/campaign-real-race-played.test.ts, read on the eve of the election before any fold.
+**What.** campaign-like-real-races has two halves: path-check winning a council seat in 7 of 10 drawn places, and a buildBenchWorld played-year test showing an organization endorsing and sending volunteers, a forum the player hosts, money raised by named donors and the incumbent changing their schedule after the player gains, each by record id. This item is the second half, so its PR can merge on its own while the first is measured. The test is src/core2/campaign-real-race-played.test.ts, read on the eve of the election before any fold. Feeds: campaign-like-real-races (a group's volunteers, a forum and named donors in the played race).
 
 **Cause.** Design: owner ruling Oct 29, 2026 (docs/coordination/OWNER-DECISIONS.md, Oct 29 21:40 UTC) behind campaign-like-real-races. The test src/core2/campaign-real-race-played.test.ts (new on main; it exists on branch governing/real-race-played-proof at ede6bf1934) asserts the chain by record id.
 

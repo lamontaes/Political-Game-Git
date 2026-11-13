@@ -21,7 +21,7 @@ root: design-story-director
 checked: fable 2026-11-10
 ---
 
-**What.** The polling-place type and its poll-problem lines (poll workers, the voter, neighbors in line) are on main, but the type waits on a producer named election-day, and the bench's election morning and ballot never call it. No code reads poll-problem. The packet docs/design/scenes/from-life/trouble-at-the-polling-place.md shows the real pattern: a voter is not on the list at that precinct and is offered a provisional ballot, or is sent to the right place. A poll worker who knows the voter says so.
+**What.** The polling-place type and its poll-problem lines (poll workers, the voter, neighbors in line) are on main, but the type waits on a producer named election-day, and the bench's election morning and ballot never call it. No code reads poll-problem. The packet docs/design/scenes/from-life/trouble-at-the-polling-place.md shows the real pattern: a voter is not on the list at that precinct and is offered a provisional ballot, or is sent to the right place. A poll worker who knows the voter says so. Seen: election morning: a poll worker tells a voter who is not on the list to cast a provisional ballot (election day is a scene, owner Oct 14).
 
 **Cause.** Found in code: src/director/data/situation-types.json, the polling-place type (line 2235), carries awaitingProducer election-day with purpose poll-problem; src/director/polling-place.ts stages the visit and reads pollWorkerIds (line 71) but no code produces a problem; src/core2/modules/voting.ts has no provisional-ballot outcome.
 

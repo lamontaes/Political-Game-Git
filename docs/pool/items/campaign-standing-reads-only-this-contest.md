@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T00:32:02.783Z
 merged-at: 2026-11-12T18:32:35.742Z
 ---
 
-**What.** `contestStanding` in src/core2/campaign-day.ts sums every cause row of each candidate on the ballot, from every race they ever ran, not only this contest's, so a candidate who ran before starts a new race with the old one's reach counted. The speed lead found it while folding closed races' cause rows on Oct 30. Standing should be read from this contest's own causes.
+**What.** `contestStanding` in src/core2/campaign-day.ts sums every cause row of each candidate on the ballot, from every race they ever ran, not only this contest's, so a candidate who ran before starts a new race with the old one's reach counted. The speed lead found it while folding closed races' cause rows on Oct 30. Standing should be read from this contest's own causes. Seen: a candidate who ran before no longer starts a new race with the old race's reach, which moves who wins on election night.
 
 **Cause.** Found in code: src/core2/campaign-day.ts `contestStanding` (line 559) sums every cause row of each candidate on the ballot, from every race they ever ran, not only this contest's.
 

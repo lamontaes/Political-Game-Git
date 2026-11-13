@@ -5,7 +5,7 @@ area: elections
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Parts 1 and 2 (elections-county-race-sees-only-the-town-part-1-seeded-county-tail, elections-county-race-sees-only-the-town-part-2-weigh-the-tail).
 
 **Files.** src/core2/modules/candidacy.ts, src/core2/data/candidacy/parameters.json, src/core2/county-race-county-votes.test.ts
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would refit the countywide weight once the county tail exists; the tail is dropped, so there is nothing to refit.

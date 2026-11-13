@@ -6,7 +6,7 @@ lead: elections
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 blocked-on: research access (the session's network blocks the state statute sites)
 source: Elections, from the Nov 8 playtest check (PR #7721, point C11)
 after:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Notes.** Elections, Nov 8: not guessed in code. The date rules need the statutes read; the research helper could not fetch cga.ct.gov, ecode360.com or ballotpedia.org from this session. Ask for those hosts to be allowed, then fill the table state by state.
 
 Nov 10, Fable audit: the audit of Nov 9 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, root cause 9, "Place facts are one default stretched over 56 places") names this defect again, read in the code and not measured in a played place: "No town race anywhere has a primary (`src/core2/elections-calendar.ts:410`)." Confirmed on main, Nov 10: `municipal()` (line 387) still returns `primaryDate: null` at line 410 for every town in every state, and `data/research/elections/municipal-primary-rules.json` does not exist yet. The audit gives no place, seed or count for this one; it lists it beside the town election day and the default town board as the same root cause (see `elections-town-election-day-comes-from-the-place` and `gov-town-body-default-is-one-board-for-a-whole-state`).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would add municipal primaries from each state's statutes (network research); the clerk's "no primary" line is the only difference and no ruling asks for it.

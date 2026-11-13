@@ -19,7 +19,7 @@ source: split from words-director-one-path in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Part of words-director-one-path. Ten situation types have a cause that no producer reads and four scenes the owner asked for have no type, so they never play. Each producer is a read of an event an existing engine already keeps, proven in a drawn place, and any type with no cause is deleted or given one.
+**What.** Part of words-director-one-path. Ten situation types have a cause that no producer reads and four scenes the owner asked for have no type, so they never play. Each producer is a read of an event an existing engine already keeps, proven in a drawn place, and any type with no cause is deleted or given one. Seen: ten kinds of scene and four the owner asked for that never play today start playing in a year.
 
 **Cause.** Design: docs/reports/words-director-plan-2026-10-28.md (owner approved Oct 28), the Variety paragraph: in a played year only 29 of 80 situation types fired; src/director/data/situation-types.json holds types with an awaitingProducer and the door, interview, debate and campaign team have no type.
 
