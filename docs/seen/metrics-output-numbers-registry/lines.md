@@ -26,7 +26,7 @@ Read and passed by Fable A on Nov 13, 2026 (issue #8928, comment 6841622105).
 - Eviction notices and people claiming now count both kinds of household, so the figures are larger than before. Before, only fully simulated households were counted.
 - The books' figures are the same on both sides in these three places.
 - The rows for jobs, rentals and the state show no last year on either side. They wait on later build orders.
-- A heading reads "City of Mccall". The name is written by the same function the Budgets tab already uses for its tabs on main, so the capital letter is not from this change. It is reported to Fable A, who owns that function.
+- The heading over the books is named by the same function the Budgets tab uses, so the two always say one name. An earlier after picture read "City of Mccall"; main has since fixed that name (#9000) and the picture here reads "City of McCall".
 
 ## Makena, Hawaii (seed `ea78293d-d1f2-4383-ba9e-b7a1cac0b8f8`)
 
@@ -342,63 +342,65 @@ People claiming now
 1
 ```
 
+The after pictures and lines for McCall were taken again on Nov 13 after main changed how a government is named (#9000) and that change was merged in here. The world also moved with main, so some of its figures differ from the before picture for that reason and not from this change (for example 211 of 1,796 looking for work, where the first after picture read 258 of 1,831).
+
 The lines as played, after (Wednesday, March 25, 2026, 8:30 PM):
 
 ```text
 The country
 Unemployment
-5.1 %
-Last year 3.6 % · up 1.5 since last year
+4.8 %
+Last year 3.6 % · up 1.3 since last year
 Price growth
-3.3 %
-Last year 3.3 % · no change since last year
+2.9 %
+Last year 3.3 % · down 0.4 since last year
 Average hourly pay
 $37
 Last year $35 · up $2 since last year
 30-year mortgage rate
-6.9 %
+6.8 %
 Last year 7.1 % · down 0.2 since last year
 The central bank's rate
-3.6 %
-Last year 4.1 % · down 0.5 since last year
+3.1 %
+Last year 4.1 % · down 1.0 since last year
 Homes
 Rental homes
 657
 Rentals standing empty
 44
 Typical monthly rent
-$1,220
-Last year $1,210 · up $5 since last year
+$1,200
+Last year $1,200 · up $5 since last year
 Typical home value
-$652,000
-Last year $657,000 · down $4,750 since last year
-City of Mccall
+$654,000
+Last year $657,000 · down $3,070 since last year
+City of McCall
 Coming in
 $15.4 million
 Last year $15.4 million · no change since last year
 Going out
 $13 million
-Last year $13.1 million · down $53,600 since last year
+Last year $13 million · down $66,100 since last year
 Your town
 People at work
-1,573
+1,585
 People looking for work
-258 of 1,831
+211 of 1,796
 Jobs open
-31
+26
 Evictions
 Eviction notices so far this year
 0
 Last year 2 · down 2 since last year
 Your state
 Unemployment
-4.1 %
+3.7 %
 Average hourly pay
 $34
 Jobs
-884,918
+888,899
 Help for the unemployed
 People claiming now
-43
-Last year 43 · no change since last year
+41
+Last year 44 · down 3 since last year
 ```
