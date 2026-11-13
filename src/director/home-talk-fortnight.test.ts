@@ -44,6 +44,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { officialsIn } from "../core2/modules/officials";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
+import { heldPieces } from "../english/conversation-words";
 import type { CoreState, PersonId } from "../core2/types";
 import {
   noteHeard,
@@ -152,6 +153,24 @@ for (const part of (
     if (use.subject === "address-point")
       for (const mark of use.requiresFacts ?? [])
         if (SIDE_MARKS[mark]) POINT_SIDES.set(part.key, SIDE_MARKS[mark]!);
+/** Every policy question's spoken name, longest first, for the name-once check. */
+const QUESTION_NAMES = Object.values(
+  (
+    JSON.parse(
+      readFileSync(
+        path.resolve(__dirname, "../../data/english/question-names.json"),
+        "utf8",
+      ),
+    ) as { names: Record<string, { about?: string }> }
+  ).names,
+)
+  .map((row) => row.about)
+  .filter((name): name is string => !!name)
+  .sort((a, b) => b.length - a.length);
+const QUESTION_NAME = new RegExp(
+  `(?<![\\w'])(${QUESTION_NAMES.map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})(?![\\w'])`,
+  "g",
+);
 const NON_ANSWER = /^(okay|oh, i see|alright|all right|oh, okay)\.$/i;
 const OUTSIDE =
   /\b(a works outside the town|outside market|outside buyers|treasury)\b/i;
@@ -390,6 +409,26 @@ function fortnight(draw: number): string[] {
             saidToday.set(sentence, otherId);
           }
         }
+        // How long they have held a stand is said once in a talk (lead, Nov
+        // 13: "for years" twice from Sarah, East Providence, day 9).
+        const heldTold = theirs.filter((line) =>
+          (line.wording?.parts ?? []).some((part) => heldPieces().has(part)),
+        );
+        if (heldTold.length > 1)
+          broken.push(
+            `${here}: how long they held a stand said twice: ${heldTold.map((line) => `"${line.text}"`).join(" / ")}`,
+          );
+        // A question is named in full once in a talk; while it is the only
+        // one on the table, a later mention is "it" (lead, Nov 13).
+        let onTable: string | null = null;
+        for (const line of talk.lines)
+          for (const match of line.text.matchAll(QUESTION_NAME)) {
+            if (match[1] === onTable)
+              broken.push(
+                `${here}: ${match[1]} named in full twice in one talk: "${line.text}"`,
+              );
+            onTable = match[1]!;
+          }
         const screen = [
           ...talk.lines.map((line) => line.text),
           ...talk.choices.map((row) => row.text),

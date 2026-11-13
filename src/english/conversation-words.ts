@@ -374,6 +374,27 @@ export function asksQuestion(line: { text: string }): boolean {
 
 const COMPOSED = new Map<string, ComposedLineBank | null>();
 
+/** The fact a talk carries once a speaker said how long they have held a stand ("for years"). */
+export const HELD_SAID = "held-said";
+let HELD_PIECES: ReadonlySet<string> | null = null;
+
+/**
+ * The pieces that say how long the speaker has held a stand: each is held
+ * back once the talk has said it (`excludesFacts: held-said`), and saying one
+ * is what sets that fact for the rest of the talk (lead, Nov 13: how long a
+ * person has held a stand is said once per talk).
+ */
+export function heldPieces(): ReadonlySet<string> {
+  HELD_PIECES ??= new Set(
+    admittedParts(CONVERSATION_BANK.parts)
+      .filter((piece) =>
+        piece.uses.some((use) => use.excludesFacts?.includes(HELD_SAID)),
+      )
+      .map((piece) => piece.key),
+  );
+  return HELD_PIECES;
+}
+
 /**
  * The bank a subject's composed lines are made from: its pieces in the
  * conversation bank by the part of the line each says (opener, core, reason,

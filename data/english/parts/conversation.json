@@ -28513,7 +28513,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["held-said"]
         }
       ],
       "origin": "authored",
@@ -28557,7 +28558,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["held-said"]
         }
       ],
       "origin": "authored",
@@ -28733,7 +28735,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["held-said"]
         }
       ],
       "origin": "authored",
@@ -28777,7 +28780,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["held-said"]
         }
       ],
       "origin": "authored",
@@ -33491,7 +33495,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-why", "about-said", "their-for"]
+          "requiresFacts": ["said-why", "about-said", "their-for"],
+          "excludesFacts": ["held-said"]
         }
       ],
       "origin": "authored",
@@ -33535,7 +33540,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-why", "about-said", "their-against"]
+          "requiresFacts": ["said-why", "about-said", "their-against"],
+          "excludesFacts": ["held-said"]
         }
       ],
       "origin": "authored",
@@ -37747,7 +37753,8 @@
           "subject": "government-news-say",
           "role": "closer",
           "stages": ["address", "meeting", "budget", "ordinance"],
-          "requiresFacts": ["wants-it", "about"]
+          "requiresFacts": ["wants-it", "about"],
+          "excludesFacts": ["held-said"]
         }
       ],
       "piece": {
@@ -37840,7 +37847,8 @@
           "subject": "government-news-say",
           "role": "closer",
           "stages": ["address", "meeting", "budget", "ordinance"],
-          "requiresFacts": ["wants-not", "about"]
+          "requiresFacts": ["wants-not", "about"],
+          "excludesFacts": ["held-said"]
         }
       ],
       "piece": {
@@ -37903,30 +37911,6 @@
       "move": "government-news-say-closer",
       "kind": "spoken",
       "text": "I don't know what I think about {about} yet.",
-      "uses": [
-        {
-          "move": "government-news-say-closer",
-          "subject": "government-news-say",
-          "role": "closer",
-          "stages": ["address", "meeting"],
-          "requiresFacts": ["about"],
-          "excludesFacts": ["wants-it", "wants-not"]
-        }
-      ],
-      "piece": {
-        "of": "government-news-say",
-        "part": "closer"
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Fable A (words lead)",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "conversation.government-news-say-closer.i-m-still-turning-about-over",
-      "move": "government-news-say-closer",
-      "kind": "spoken",
-      "text": "I'm still turning {about} over.",
       "uses": [
         {
           "move": "government-news-say-closer",

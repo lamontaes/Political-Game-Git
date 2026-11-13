@@ -122,6 +122,8 @@ import {
   conversationHas,
   conversationMoves,
   CONVERSATION_WORDS,
+  HELD_SAID,
+  heldPieces,
   joinedReply,
   wordConversationMove,
   type ConversationPart,
@@ -3053,12 +3055,21 @@ export function composedLine(
   momentKey: string,
   recentPartKeys: readonly string[] = [],
 ): Said | null {
+  // How long they have held a stand, said once in this talk (the parts this
+  // speaker said in it), is not said again (lead, Nov 13).
+  const held = heldPieces();
+  const heldSaid = recentPartKeys.some((key) => held.has(key));
   const line = composeConversationLine({
     seed: core.seed,
     subject,
     speakerId,
     traits: core.people.get(speakerId)?.traits ?? {},
-    facts,
+    facts: heldSaid
+      ? {
+          ...facts,
+          [HELD_SAID]: { text: "yes", sourceRecordIds: [speakerId] },
+        }
+      : facts,
     stage,
     momentKey,
     // Oldest first: what the player heard on earlier days, then today, then
@@ -3071,6 +3082,11 @@ export function composedLine(
   void afterPlain;
   return { ...said, text: sentenceStarts(shortAfterFirst(said.text, facts)) };
 }
+
+/** A question said again once the talk has named it, while it is the only one on the table (said-as questionAgain.it). */
+const QUESTION_AGAIN_WORD: string = (
+  saidAsData as unknown as { questionAgain: { it: string } }
+).questionAgain.it;
 
 /** The short forms of a question's act once the line has named it (said-as questionAgain). */
 const QUESTION_AGAIN = (
@@ -4671,6 +4687,52 @@ function laterMentions(
 ): void {
   employerOnce(conversation, from);
   presidentOnce(core, conversation, from);
+  questionOnce(conversation);
+}
+
+/**
+ * A policy question is named in full once in a talk; while it is the only
+ * question on the table, every later mention, in the same turn or a reply,
+ * is "it" (lead, Nov 13: "The council passed rent stabilization. I want it.
+ * Have for a while."). When another question is named between, the name
+ * comes back in full once. The whole talk is read each time (a mention
+ * already said as "it" has no name left to match), then each reply offered
+ * from where the talk stands.
+ */
+function questionOnce(conversation: Conversation): void {
+  const names = [
+    ...new Set(
+      [
+        ...(conversation.questions ?? [])
+          .filter((question) => !question.startsWith("="))
+          .map((question) => questionAbout(question)),
+        conversation.topicFacts?.about?.text,
+        conversation.last?.facts.about?.text,
+      ].filter((text): text is string => !!text),
+    ),
+  ].sort((a, b) => b.length - a.length);
+  if (!names.length) return;
+  const pattern = new RegExp(
+    `(?<![\\w'])(${names.map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})(?![\\w'])`,
+    "g",
+  );
+  const say = (text: string, onTable: string | null) => {
+    let table = onTable;
+    const out = text.replace(pattern, (name) => {
+      if (name === table) return QUESTION_AGAIN_WORD;
+      table = name;
+      return name;
+    });
+    return { text: out === text ? text : sentenceStarts(out), table };
+  };
+  let table: string | null = null;
+  for (const line of conversation.lines) {
+    const said = say(line.text, table);
+    line.text = said.text;
+    table = said.table;
+  }
+  for (const choice of [...conversation.choices, ...conversation.lies])
+    choice.text = say(choice.text, table).text;
 }
 
 /**
