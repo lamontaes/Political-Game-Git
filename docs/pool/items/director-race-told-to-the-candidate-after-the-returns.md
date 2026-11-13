@@ -9,7 +9,7 @@ status: open
 standard: 2
 claimed-by:
 pr:
-after: play-week-runs-past-election-night
+after:
 blocked-on:
 lead: words
 model: sonnet
