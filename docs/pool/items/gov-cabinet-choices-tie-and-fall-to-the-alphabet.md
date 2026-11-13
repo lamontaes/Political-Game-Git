@@ -46,3 +46,5 @@ So the totals tie and the alphabet decides. The ids in exact sorted order across
 **Files.** src/core2/appointments.ts, src/core2/office-day-federal-president.ts, src/core2/appointments.test.ts
 
 **Notes.** The same alphabet tie-break was seen on the national desks in `press-address-ties-break-on-the-alphabet`. The ranking is shared with every appointment that calls `nominateAndConfirm` (governors, mayors), so the builder checks those lists too.
+
+Seen for a governor too (Playtester P2, Prairie City, Oregon, seed 70457df0-607e-4349-8f0a-b255747c6765, Advanced start as Governor Paul Oliver). From January 22 to February 13, 2025 the desk offers one post a day, and every post lists the same people shifted by one: "Lisa Larson · us-house / Gregory Petersen / Barbara Kelley · us-house / Melvin Estes · us-house …". Most are other states' members of Congress, and a Prairie City public works director (Zoe May) became the state's public safety commissioner. So the shared ranking decides a governor's cabinet the same way.
