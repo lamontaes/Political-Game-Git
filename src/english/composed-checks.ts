@@ -16,6 +16,7 @@
  */
 import data from "../../data/english/composed-checks.json" with { type: "json" };
 import questionNames from "../../data/english/question-names.json" with { type: "json" };
+import { OPENING_SPEECH_BANK } from "./english-opening-speech";
 import {
   linesOf,
   plainSentence,
@@ -709,6 +710,72 @@ export const pointMadeOnce: ComposedCheck = (text) => {
   return found;
 };
 
+// ---- condition-said-once ----
+
+/**
+ * The wordings that say a condition of the world (how a measure has gone and
+ * what it has meant), from the address bank's context, meaning and
+ * story-says pieces: each a sentence pattern with its slots open, by the
+ * measure (topic) it is about.
+ */
+const CONDITION_WORDINGS: readonly { topic: string; pattern: RegExp }[] =
+  OPENING_SPEECH_BANK.parts.flatMap((part) => {
+    if (
+      !part.uses.some((use) =>
+        ["context", "meaning", "story-says"].includes(use.role),
+      )
+    )
+      return [];
+    const topics =
+      typeof part.topic === "string" ? [part.topic] : (part.topic ?? []);
+    const source = asFound(part.text)
+      .split(/\{[^}]+\}/)
+      .map(escape)
+      .join(".+?");
+    return topics.map((topic) => ({
+      topic,
+      pattern: new RegExp(`^${source}$`),
+    }));
+  });
+
+/**
+ * One paragraph of a speech that says one condition more than its fact and
+ * one sentence of what it has meant (the words lead, Nov 12: "rents have kept
+ * rising ... Over 6 years, that has meant giving more of every paycheck to the
+ * landlord ... Rent takes a larger share of every paycheck than 6 years ago"):
+ * more than `conditionMostSentences` sentences on one screen that say the same
+ * measure's condition.
+ */
+export const conditionSaidOnce: ComposedCheck = (text) => {
+  if (!SPEECH_KINDS.includes(text.kind)) return [];
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    const counts = new Map<string, string[]>();
+    for (const line of screen.lines)
+      for (const sentence of line.sentences) {
+        const said = asFound(sentence);
+        for (const topic of new Set(
+          CONDITION_WORDINGS.filter((row) => row.pattern.test(said)).map(
+            (row) => row.topic,
+          ),
+        ))
+          counts.set(topic, [...(counts.get(topic) ?? []), sentence]);
+      }
+    for (const [topic, sentences] of counts)
+      if (sentences.length > value("conditionMostSentences"))
+        found.push(
+          breakOf(
+            "condition-said-once",
+            text,
+            at,
+            `says the ${topic} condition in ${sentences.length} sentences`,
+            sentences.join(" / "),
+          ),
+        );
+  });
+  return found;
+};
+
 // ---- note-stands-alone ----
 
 const LEANING = data.leaningOpeners.map((source) => new RegExp(source, "i"));
@@ -757,6 +824,7 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "ask-said-once": askSaidOnce,
   "subject-budget": subjectBudget,
   "point-made-once": pointMadeOnce,
+  "condition-said-once": conditionSaidOnce,
   "note-stands-alone": noteStandsAlone,
 };
 

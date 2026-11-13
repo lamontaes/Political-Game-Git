@@ -289,6 +289,37 @@ const FIXTURES: Record<
       ]),
     ),
   },
+  "condition-said-once": {
+    // The words lead, Nov 12: a town head said one rent fact three times
+    // running, in its context, its meaning and the year's claim.
+    catches: sampleOf(
+      text("speech:mayor", [
+        [
+          "In the 6 years since I took this office, rents have kept rising, and too many families spend too much of each month on them.",
+          "Over 6 years, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
+          "Rent takes a larger share of every paycheck than 6 years ago, and for many families the lease is the first bill and the last worry.",
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      // Its fact and one sentence of what it has meant.
+      text("speech:mayor", [
+        [
+          "In the 6 years since I took this office, rents have kept rising, and too many families spend too much of each month on them.",
+          "Over 6 years, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
+        ],
+      ]),
+      // One sentence of it in each of two paragraphs.
+      text("speech:mayor", [
+        [
+          "In the 6 years since I took this office, rents have kept rising, and too many families spend too much of each month on them.",
+        ],
+        [
+          "Rent takes a larger share of every paycheck than 6 years ago, and for many families the lease is the first bill and the last worry.",
+        ],
+      ]),
+    ),
+  },
   "point-made-once": {
     // The lead, Nov 12: the today wording and the belief restate each other.
     catches: sampleOf(

@@ -2173,12 +2173,22 @@ export function planSpeech(
     const topic = topicOf.get(stand.question);
     const belief = plan.belief?.text ?? null;
     const cited = [`question:${stand.question}`, stand.law.id];
+    const context = topic
+      ? contextFacts(core, topic, country, speaker.serviceStart)
+      : {};
+    // A condition is said once: its fact, and at most one sentence of what it
+    // has meant (the words lead, Nov 12: a town head said "rents have kept
+    // rising", then what that meant, then "Rent takes a larger share of
+    // every paycheck"). Over the speaker's years in office that is the
+    // context and its meaning; with no span to say it over, the year's claim
+    // alone, and only by one who governed it.
     const figureMoves = topic
       ? [
-          move("context", { topic }),
-          move("meaning", { topic }),
-          // The year's claim, only by one who governed it.
-          ...(ownRecord ? [move("story-says", { topic })] : []),
+          ...(context[`context-${topic}`]
+            ? [move("context", { topic }), move("meaning", { topic })]
+            : ownRecord
+              ? [move("story-says", { topic })]
+              : []),
           move("tie"),
         ]
       : [];
@@ -2189,7 +2199,7 @@ export function planSpeech(
         ...themeFacts,
         ...(topic
           ? {
-              ...contextFacts(core, topic, country, speaker.serviceStart),
+              ...context,
               "figure-ties": fact("yes", ...cited),
             }
           : {}),

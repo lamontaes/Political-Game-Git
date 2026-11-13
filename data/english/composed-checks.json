@@ -56,6 +56,12 @@
       "spread": "2 to 3",
       "note": "A question this short (\"Why?\") carries no fact of its own, so when an address is cut into sentences to count what worlds share, it is read with the sentence after it as one thought (src/director/address-sentences.ts). The words lead's ruling of Nov 12 on local-address-versions, seed bab4ffbbf3ef6ae3, from the owner's Nov 11 call 12: \"Replies of one to three words and action names stay\"."
     },
+    "conditionMostSentences": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": "1 to 2",
+      "note": "The most sentences one paragraph of a speech may spend saying one measure's condition: its fact and one sentence of what it has meant (the words lead, Nov 12, on a town head who said the same rent fact three times running)."
+    },
     "echoLeastWords": {
       "value": 4,
       "tag": "TUNABLE",

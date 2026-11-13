@@ -5028,6 +5028,30 @@
       }
     },
     {
+      "id": "condition-said-once",
+      "says": "A paragraph of a speech says one measure's condition once: its fact, and at most one sentence of what it has meant.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "it's okay if context is given ... for 30 years we've suffered from terrible inflation, averaging out to over 12% per year ... that just establishes context in a smooth way",
+          "via": "docs/design/words-composer.md, part 3"
+        }
+      ],
+      "note": "Composed check: more than conditionMostSentences sentences on one screen of a speech that match the address bank's context, meaning or story-says wordings for one measure (the words lead, Nov 12, on a town head who said the same rent fact three times running: 'rents have kept rising', then what that meant, then 'Rent takes a larger share of every paycheck'). The outline holds it as it plans (speech-outline.ts pointDraft and crisisDraft). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["condition-said-once"],
+        "applies": [
+          "speech:president",
+          "speech:governor",
+          "speech:mayor",
+          "speech:player"
+        ]
+      }
+    },
+    {
       "id": "speech-follows-its-kinds-order",
       "says": "Each kind of speech keeps the order a real speech of that kind has; it does not open on a list of people and then single one out.",
       "judges": "set",
