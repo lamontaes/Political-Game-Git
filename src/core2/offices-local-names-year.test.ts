@@ -17,6 +17,7 @@ import { advanceCore } from "./life";
 import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
 import { townSeats } from "./modules/offices";
 import { governmentProperName } from "./government-proper-name";
+import { townAndBody } from "./offices-local";
 import { governmentUnit } from "./reference/government-units";
 import { coreAPI } from "./state";
 
@@ -48,7 +49,10 @@ it(`an uncompiled town's council is named from its state's table all year and it
       continue;
     }
     const usual = byState[unit.stateUsps]?.[kind] ?? byKind[kind]!;
-    const expected = `${governmentProperName(unit.name, unit.id).split(" ").slice(2).join(" ")} ${usual.value}`;
+    const expected = townAndBody(
+      governmentProperName(unit.name, unit.id).split(" ").slice(2).join(" "),
+      usual.value,
+    );
     advanceCore(core, addDays(gameStartDate(), 365));
     const record = townSeats(api).find(
       (s) => s.office.id === council.id,

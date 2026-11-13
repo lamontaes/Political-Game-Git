@@ -8,7 +8,11 @@ import { searchCorePlaces } from "./place-lookup";
 import bodyNames from "./data/offices/body-names.json" with { type: "json" };
 import townships from "../../data/research/local-government/township-governing-bodies.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
-import { boardBodyName, localOfficesForPlace } from "./offices-local";
+import {
+  boardBodyName,
+  localOfficesForPlace,
+  townAndBody,
+} from "./offices-local";
 import { governmentProperName } from "./government-proper-name";
 import { drawPlace } from "../../tests/golden-path/place";
 
@@ -113,7 +117,13 @@ describe("a local body is named the way people write it", () => {
         const usual = byState[state]?.[kind] ?? byKind[kind]!;
         expect(council.bodyName, `${unit.name} (${state})`).toBe(
           // The town by its place record's name (government-proper-name.test.ts).
-          `${governmentProperName(unit.name, unit.id).split(" ").slice(2).join(" ")} ${usual.value}`,
+          townAndBody(
+            governmentProperName(unit.name, unit.id)
+              .split(" ")
+              .slice(2)
+              .join(" "),
+            usual.value,
+          ),
         );
         checked += 1;
       }

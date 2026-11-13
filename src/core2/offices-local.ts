@@ -126,6 +126,18 @@ const BODY_BY_STATE = bodyNames.municipalByState as Readonly<
 >;
 
 /**
+ * A town's name and its body's, without saying a word twice where the town's
+ * name ends with the body's first word: Tawas City and "City Council" is
+ * "Tawas City Council".
+ */
+export function townAndBody(town: string, body: string): string {
+  const first = body.split(" ")[0]!;
+  return town.split(" ").at(-1) === first && body.includes(" ")
+    ? `${town}${body.slice(first.length)}`
+    : `${town} ${body}`;
+}
+
+/**
  * The council's name: as its charter names it where the town's government is
  * compiled, else the usual body of its kind of municipality in its state
  * ("VILLAGE OF EOLIA" in a state whose villages elect a board of trustees is
@@ -142,7 +154,8 @@ function municipalBodyName(unit: GovernmentUnitIdentity): string {
   // The town by its place record's own name ("McCall"), never the listing's
   // capitals recased ("Mccall").
   const proper = governmentProperName(unit.name, unit.id);
-  if (usual) return `${proper.split(" ").slice(2).join(" ")} ${usual.value}`;
+  if (usual)
+    return townAndBody(proper.split(" ").slice(2).join(" "), usual.value);
   // stopgapId: SG-GOV-municipal-body-name (a listing name that gives no kind)
   return `${proper} ${bodyNames.municipal.value}`;
 }

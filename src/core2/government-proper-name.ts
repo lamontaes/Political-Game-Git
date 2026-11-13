@@ -27,19 +27,42 @@ function placeIdOf(governmentId: string): string {
 
 /** The place record's own name for a government's id ("place:<geoid>", "county:<geoid>" or its listed unit's id). */
 function recordedName(governmentId: string): string | null {
-  const [kind, geoid] = placeIdOf(governmentId).split(":");
+  const placeId = placeIdOf(governmentId);
+  const [kind, geoid] = placeId.split(":");
   if (!geoid || (kind !== "place" && kind !== "county")) return null;
-  const place = corePlaceByKey(kind === "county" ? governmentId : geoid);
+  // A county's record is keyed "county:<geoid>"; a place's by its geoid alone.
+  const place = corePlaceByKey(kind === "county" ? placeId : geoid);
   return place?.displayName.split(",")[0]?.trim() || null;
+}
+
+/**
+ * The display rule keeps "la" and "de" small inside a name, but a name never
+ * starts small: the first word, and the first after "of", take a capital
+ * ("La Salle County", "City of La Canada Flintridge"). A word of capitals with
+ * no vowel is an abbreviation and keeps them ("Washington DC").
+ */
+function nameStarts(said: string): string {
+  const words = said.split(" ");
+  return words
+    .map((word, at) =>
+      at === 0 || words[at - 1] === "of"
+        ? word.charAt(0).toUpperCase() + word.slice(1)
+        : /^[B-DF-HJ-NP-TV-Z][b-df-hj-np-tv-z]$/.test(word)
+          ? word.toUpperCase()
+          : word,
+    )
+    .join(" ");
 }
 
 /** The listing's words said by the one display rule, and the place record's name when it is the same name. */
 function namesOf(listed: string, governmentId: string) {
   const county = placeIdOf(governmentId).startsWith("county:");
-  const said = governmentUnitDisplayName({
-    name: listed,
-    unitType: county ? "county" : "municipality",
-  });
+  const said = nameStarts(
+    governmentUnitDisplayName({
+      name: listed,
+      unitType: county ? "county" : "municipality",
+    }),
+  );
   const recorded = recordedName(governmentId);
   if (!recorded) return { said, kind: null };
   // The listing drops a name's marks ("O FALLON" for "O'Fallon"), so the two
