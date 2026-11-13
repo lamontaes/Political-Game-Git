@@ -126,6 +126,7 @@ import {
   endServingTerms,
   unfilledTerm,
   repeatSpecialElection,
+  electedWithGovernorOnTicket,
   type TermRow,
 } from "./offices";
 import {
@@ -4735,7 +4736,13 @@ function raceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       last: api.state.date,
     } as unknown as ModuleRow);
     scheduleElection(api, nextRaceYear(api, year + 1));
-    for (const race of racesIn(api, year)) decide(api, race, year);
+    // A ticket office is decided with its governor's race, counted first.
+    const races = racesIn(api, year);
+    for (const race of [
+      ...races.filter((r) => !onGovernorTicket(api, r)),
+      ...races.filter((r) => onGovernorTicket(api, r)),
+    ])
+      decide(api, race, year);
     if (year % 4 === 0)
       api.moduleCalendar(VOTING_MODULE_ID).schedule({
         key: `electors:${year}`,
@@ -5441,10 +5448,6 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
       api.stopgap("SG-GOV-outside-nonpartisan-race");
       nonpartisan = true;
     }
-    if (executive) {
-      // stopgapId: SG-GOV-outside-ticket-raced-alone (a statewide officer the law elects on the governor's ticket is raced on its own seat)
-      api.stopgap("SG-GOV-outside-ticket-raced-alone");
-    }
     races.push({
       ...seatRace(api, seat, office, year),
       ...(nonpartisan ? { nonpartisan: true } : {}),
@@ -5635,6 +5638,29 @@ function decide(
   year: number,
   special?: SpecialRace,
 ): void {
+  const governor = special ? null : ticketRace(api, race, year);
+  if (governor) {
+    keepRace(
+      api,
+      race,
+      {
+        id: `race:${race.seatId}:${year}`,
+        seatId: race.seatId,
+        office: race.office,
+        date: api.state.date,
+        incumbentParty: race.incumbentParty,
+        lean: governor.lean,
+        winnerParty: governor.winnerParty,
+        seatedOn: race.seatedOn,
+        leanSource: `the governor's race, ${governor.id}`,
+        resultId: governor.resultId,
+        votes: governor.votes,
+        cast: governor.cast,
+      },
+      {},
+    );
+    return;
+  }
   const side = sideOf(race.incumbentParty);
   // stopgapId: SG-GOV-world-race-lean
   api.stopgap("SG-GOV-world-race-lean");
@@ -5725,36 +5751,51 @@ function decide(
     winnerOf: () => `${raceId}:${winnerParty}`,
     takesOffice: race.seatedOn,
   });
-  const row: RaceRow = {
-    id: raceId,
-    seatId: race.seatId,
-    office: race.office,
-    date,
-    incumbentParty: race.incumbentParty,
-    lean,
-    winnerParty,
-    seatedOn: race.seatedOn,
-    leanSource: race.leanSource,
-    resultId: result.id,
-    votes: {
-      republican: result.totals["party:R"] ?? 0,
-      democratic: result.totals["party:D"] ?? 0,
+  keepRace(
+    api,
+    race,
+    {
+      id: raceId,
+      seatId: race.seatId,
+      office: race.office,
+      date,
+      incumbentParty: race.incumbentParty,
+      lean,
+      winnerParty,
+      seatedOn: race.seatedOn,
+      leanSource: race.leanSource,
+      resultId: result.id,
+      votes: {
+        republican: result.totals["party:R"] ?? 0,
+        democratic: result.totals["party:D"] ?? 0,
+      },
+      cast: result.placesCast ?? result.electorate,
+      ...(race.nonpartisan ? { nonpartisan: true } : {}),
     },
-    cast: result.placesCast ?? result.electorate,
-    ...(race.nonpartisan ? { nonpartisan: true } : {}),
-  };
+    special
+      ? { special, candidates: specialCandidates(api, race, parties, raceId) }
+      : {},
+  );
+}
+
+/**
+ * Keep a decided race's row and, where it names a winner, schedule the
+ * winner's seating on the term's first day (the morning after the count where
+ * that day has come by then; the calendar takes only a day not yet run).
+ */
+function keepRace(
+  api: CoreAPI,
+  race: Race,
+  row: RaceRow,
+  extra: { special?: SpecialRace; candidates?: readonly SpecialCandidate[] },
+): void {
   table(api, "races").put({
     ...row,
     offices: race.offices ?? null,
-    ...(special
-      ? { special, candidates: specialCandidates(api, race, parties, row.id) }
-      : {}),
+    ...extra,
   } as unknown as ModuleRow);
   // An even split with no holder's side seats no one.
-  if (!winnerParty) return;
-  // The winner is seated on the term's first day; where that day has come
-  // by the count's own day, the morning after (the calendar takes only a
-  // day not yet run).
+  if (!row.winnerParty) return;
   api.moduleCalendar(VOTING_MODULE_ID).schedule({
     key: `seat:${row.id}`,
     date:
@@ -5767,6 +5808,41 @@ function decide(
     },
     sourceRecordIds: [row.id],
   });
+}
+
+/**
+ * Whether the law elects this race's office on one ticket with its state's
+ * governor (a lieutenant governor in about thirty places, read from the
+ * office's research row): its race is decided with the governor's.
+ */
+function onGovernorTicket(api: CoreAPI, race: Race): boolean {
+  if (!race.offices) return false;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(race.offices.officeId) as unknown as
+    { kind: string; jurisdiction: string } | undefined;
+  return office
+    ? electedWithGovernorOnTicket(office.jurisdiction, office.kind)
+    : false;
+}
+
+/**
+ * A ticket office's race, decided with its governor's: the governor race's
+ * winning party seats the running mate the same day. Null for any other race
+ * and where the state's governor is not raced this year, so the office is
+ * counted on its own.
+ */
+function ticketRace(api: CoreAPI, race: Race, year: number): RaceRow | null {
+  if (!onGovernorTicket(api, race)) return null;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(race.offices!.officeId) as unknown as { jurisdiction: string };
+  const governor = table(api, "races").get(
+    `race:seat:${office.jurisdiction}:governor:${year}`,
+  ) as unknown as RaceRow | undefined;
+  return governor ?? null;
 }
 
 /** Seat the winner on the term's first day. */
