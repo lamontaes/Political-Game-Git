@@ -1665,7 +1665,7 @@
             },
             {
               "id": "question:us-policy-positions:government-operations.require-photo-id-to-vote",
-              "name": "require photo id to vote",
+              "name": "require photo ID to vote",
               "kind": "policy-question",
               "question": "us-policy-positions:government-operations.require-photo-id-to-vote",
               "operations": ["enact", "repeal"],
@@ -1673,7 +1673,7 @@
             },
             {
               "id": "law:local-power:require-photo-id-to-vote",
-              "name": "Local power: require photo id to vote",
+              "name": "Local power: require photo ID to vote",
               "kind": "law-amount",
               "series": "local-power:us-policy-positions:government-operations.require-photo-id-to-vote",
               "operations": ["raise", "lower"],
@@ -1854,7 +1854,7 @@
           "policies": [
             {
               "id": "question:us-federal-positions:territories-culture.statehood-for-dc",
-              "name": "statehood for dc",
+              "name": "statehood for D.C.",
               "kind": "policy-question",
               "question": "us-federal-positions:territories-culture.statehood-for-dc",
               "operations": ["enact", "repeal"],
