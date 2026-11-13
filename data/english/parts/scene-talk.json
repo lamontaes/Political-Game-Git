@@ -115116,6 +115116,56 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.name-has-your-filing-for-office-on-the-desk-when-you-come-back-to-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has your filing for {office} on the desk when you come back to the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["filed-at-counter", "name", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.back-at-the-counter-name-finds-your-papers-for-office-and-pulls-one-sheet-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Back at the counter, {name} finds your papers for {office} and pulls one sheet out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["filed-at-counter", "name", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-stamps-your-forms-and-slides-one-sheet-back-across-the-counter",
       "move": "narrate-narrate",
       "kind": "spoken",

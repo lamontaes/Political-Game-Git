@@ -120,7 +120,8 @@ it(`the clerk tells the petition's signatures and due day once, in the scene aft
     const { talk } = scene.scene;
     expect(scene.scene.purpose, where).toBe("filing-petition");
     // It reads the record of the reply that filed at the counter, so the
-    // clerk does not take the papers a second time: no narration of stamping.
+    // clerk does not take the papers a second time: the narration finds the
+    // filing on the desk, never stamps it again.
     const counterReply = `scene-reply:filing-counter:${result.filing!.id}`;
     expect(core.durableLog.has(counterReply), where).toBe(true);
     expect(
@@ -128,7 +129,9 @@ it(`the clerk tells the petition's signatures and due day once, in the scene aft
         ?.recordIds,
       where,
     ).toContain(counterReply);
-    expect(talk.narration.length, where).toBe(0);
+    expect(talk.narration.length, where).toBeGreaterThan(0);
+    for (const line of talk.narration)
+      expect(line.text, where).not.toMatch(/stamps|initials|wire tray/);
     // The statement is the petition, cited to its record.
     expect(talk.state.slotRecordIds, where).toContain(petition!.id);
     if (petition!.needed > 1) {
