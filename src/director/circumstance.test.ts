@@ -156,6 +156,9 @@ function playYear(
       ).toBe(moment.date);
       if (!row.playerNamed)
         expect(record.personIds, moment.id).not.toContain(personId);
+      // Told who filed first only after the player's own filing.
+      if (row.player === "filed-late")
+        expect(record.personIds, moment.id).toContain(personId);
     }
     const castId = moment.counterpartIds[0]!;
     expect(castId, moment.id).not.toBe(personId);
