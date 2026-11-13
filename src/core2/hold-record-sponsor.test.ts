@@ -118,7 +118,10 @@ it(`a held bill names its sponsor, reaches the wire and the committee story, and
     });
     const records = committeeRecords(api, bill.id);
     expect(records.length, where).toBe(1);
-    expect(records[0]!.heard, `${where}: ${bill.id}`).toBe(true);
+    expect(
+      records[0]!.heard,
+      `${where}: ${bill.id} hold chair ${hold!.facts!.chair}, now ${records[0]!.chairId}, record ${records[0]!.id}, hold date ${hold!.date}`,
+    ).toBe(true);
     expect(records[0]!.chairReasons.agreedReplyId, where).toBe(
       `scene-reply:${hold!.id}:bill-held-chair:0`,
     );

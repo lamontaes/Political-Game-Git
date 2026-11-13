@@ -403,6 +403,8 @@ interface ReplyRow {
   /** The vote asked for: 1 yes, -1 no. */
   readonly side: number;
   readonly date: string;
+  /** A "hearing" row: the scene reply in which the chair of the hold agreed to hear the bill (the row's id is `hearing:<bill>`). */
+  readonly replyId?: string;
 }
 
 /** The evening before a floor vote, a member's ask of another the bill needs (`askBeforeTheRoll`). */
@@ -524,7 +526,8 @@ function reopenHeldBill(
   // Only the bill that hold ended: one refiled or settled since stays as it is.
   if (!bill || bill.status !== "failed") return;
   table(api, "replies").put({
-    id: event.id,
+    id: `hearing:${bill.id}`,
+    replyId: event.id,
     scope: "hearing",
     memberId: held.chairId,
     askerId: bill.sponsorId,
@@ -4387,13 +4390,10 @@ function committeeStage(
   const castHear = table(api, "choices").get(
     `${bill.id}|${memberKey(chair)}|hear`,
   ) as unknown as { hear: boolean } | undefined;
-  // The chair's agreement, said in the sponsor's scene after an earlier hold, is a reason read here.
-  const agreed = (
-    table(api, "replies").query("byBill", [
-      memberKey(chair),
-      bill.id,
-    ]) as unknown as ReplyRow[]
-  ).find((row) => row.scope === "hearing");
+  // The agreement of the chair who held the bill, said in the sponsor's scene after the hold, is a
+  // reason read here (the seat's chair may have changed since: the agreement still stands for the bill).
+  const agreed = table(api, "replies").get(`hearing:${bill.id}`) as unknown as
+    ReplyRow | undefined;
   const heard = castHear
     ? castHear.hear
     : agreed
@@ -4502,7 +4502,7 @@ function committeeStage(
     chairReasons: {
       position: chairPosition,
       hearingTrait,
-      ...(agreed ? { agreedReplyId: agreed.id } : {}),
+      ...(agreed?.replyId ? { agreedReplyId: agreed.replyId } : {}),
     },
     votes,
     witnesses,
