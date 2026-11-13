@@ -8,8 +8,10 @@
     "why": "No record names the parent firm of a town's regional office (town-workplaces.ts builds it as a plain town workplace), so there is no payer to allocate from. Left as the old branch-or-institution route it opened with $0 and its staff were never paid (Boulevard CA 0607694, seed pp-a: organization_cd524c66abde5ef1, work-relationship_9f0d2babaf670fc8 earned 347,556, paid 0). With the professional kind it ends the year with cash 9,508,565 and that job is paid.",
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-09",
-    "replacement": "A named parent-firm allocation: the office is paid by the firm it belongs to, read from firm ownership records, once those exist (world-corporate-office-opens-unfunded).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A named parent-firm allocation: the office is paid by the firm it belongs to, read from firm ownership records, once those exist (world-corporate-office-opens-unfunded).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-JOBS-job-start-not-a-person-event",
@@ -21,6 +23,18 @@
     "addedBy": "Words builder W4",
     "addedAt": "2026-11-11",
     "replacement": "The jobs engine's hire writes one event naming the person and the employer (the event it already describes), which recordedMoments reads like a move.",
+    "status": "open"
+  },
+  {
+    "id": "SG-JOBS-opening-recorded-jobs-not-trimmed",
+    "kind": "owner-decision",
+    "file": "src/core2/opening-employment.ts",
+    "line": 376,
+    "whatItFakes": "The opening adds jobs up to each age cohort's employment target but never trims the jobs the recorded work history already holds, so a cohort whose records employ more than its target (Cedro, New Mexico, seed 6688ecf3fa1f22a83b3c21db8f19f866d6b21ebfd85a86b0623a3a7221c5c248: 16 of 16 aged 62 to 64 recorded working against an ACS target of 7) opens above the BLS band. The records win.",
+    "why": "A filled-in person must match what the records already say (AGENTS.md, two-level population), so trimming a recorded job is a design call about the player's world, not a calibration.",
+    "addedBy": "claude/pool-core-older-workers-full-vs-counted-gap",
+    "addedAt": "2026-11-11",
+    "replacement": "The owner's ruling on whether the opening trims recorded jobs above a cohort's BLS band (OWNER DECISIONS NEEDED in the pool PR for core-older-workers-full-vs-counted-gap); until then the records win in both tiers, shown in src/core2/fill-in-older-workers.test.ts.",
     "status": "open"
   }
 ]

@@ -200,7 +200,8 @@ describe("school-move-to-scores is carried by the school engine", () => {
     const open = (stopgaps as { id: string; status: string; why: string }[])
       .filter((s) => s.status === "open")
       .map((s) => s.id);
-    expect(open).toContain("SG-SCHOOL-switch-window");
+    // Dropped Nov 10 (stand-in triage), so it is no longer open.
+    expect(open).not.toContain("SG-SCHOOL-switch-window");
     const notRunning = (stopgaps as { id: string; whatItFakes: string }[]).find(
       (s) => s.id === "SG-SCHOOL-links-not-running",
     )!;
@@ -337,18 +338,19 @@ describe("the other school links stay unread, each with the engine that would re
     expect(row("SG-WEB-unread-school-college-completion-pct").status).toBe(
       "resolved",
     );
-    for (const id of [
-      "SG-SCHOOL-college-decided-at-graduation",
-      "SG-SCHOOL-college-stock-ledger",
-    ])
-      expect(row(id).status, id).toBe("open");
+    expect(row("SG-SCHOOL-college-stock-ledger").status).toBe("open");
+    // Dropped Nov 10 (stand-in triage).
+    expect(row("SG-SCHOOL-college-decided-at-graduation").status).toBe(
+      "resolved",
+    );
   });
 
   it("keeps the enforcement link on the web's ledger, its stopgap naming the school engine as the reader", () => {
     const key = "enforcement-to-hispanic-enrollment";
     expect(linkCoverage(link(key)).wired).toBe(true);
     const stop = row("SG-SCHOOL-hispanic-enrollment");
-    expect(stop.status).toBe("open");
+    // Dropped Nov 10 (stand-in triage): the estimate stays.
+    expect(stop.status).toBe("resolved");
     expect(stop.whatItFakes).toContain(key);
     expect(stop.why).toContain("schoolFor");
     expect(stop.replacement).toContain("webReach");

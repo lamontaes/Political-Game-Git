@@ -153,12 +153,12 @@
   "pastUsHouseSeats": {
     "value": 435,
     "tag": "SOURCED",
-    "citation": "Members of the U.S. House of Representatives: 2 U.S.C. § 2a (Permanent Apportionment Act of 1929, as fixed after the 1910 census)."
+    "citation": "Members of the U.S. House of Representatives: 2 U.S.C. \u00a7 2a (Permanent Apportionment Act of 1929, as fixed after the 1910 census)."
   },
   "pastUsSenateSeats": {
     "value": 100,
     "tag": "SOURCED",
-    "citation": "Members of the U.S. Senate: U.S. Const. art. I, § 3 and amend. XVII (two senators from each of the 50 states)."
+    "citation": "Members of the U.S. Senate: U.S. Const. art. I, \u00a7 3 and amend. XVII (two senators from each of the 50 states)."
   },
   "pastWinnerShareMin": {
     "value": 0.505,
@@ -240,7 +240,7 @@
   "pastPresidentialCycleYears": {
     "value": 4,
     "tag": "SOURCED",
-    "citation": "The president's term: U.S. Const. art. II, § 1; presidential elections fall every four years."
+    "citation": "The president's term: U.S. Const. art. II, \u00a7 1; presidential elections fall every four years."
   },
   "pastPresidentialElectionYear": {
     "value": 2024,
@@ -251,5 +251,77 @@
     "value": 365.25,
     "tag": "SOURCED",
     "citation": "Mean days in a Julian year (365 days plus a leap day every fourth year), for turning years into days."
+  },
+  "pastArrestShareBy18": {
+    "value": 0.159,
+    "role": "level",
+    "tag": "SOURCED",
+    "citation": "Brame, Turner, Paternoster and Bushway (2012), Cumulative prevalence of arrest from ages 8 to 23 in a national sample, Pediatrics 129(1):21-27 (NLSY97; abstract fetched Nov 12, 2026 from PubMed 22184650): \"By age 18, the in-sample cumulative arrest prevalence rate lies between 15.9% and 26.8%\". Arrests exclude minor traffic violations. The lower bound is taken.",
+    "spread": {
+      "low": 0.159,
+      "high": 0.268,
+      "unit": "share",
+      "citation": "The study's bounds at age 18."
+    }
+  },
+  "pastArrestShareBy23": {
+    "value": 0.302,
+    "role": "level",
+    "tag": "SOURCED",
+    "citation": "Brame et al. (2012), same abstract: \"the in-sample age-23 prevalence rate must lie between 30.2% and 41.4%\" (if those with missing data are at least as likely to have been arrested as the observed cases). The lower bound is taken.",
+    "spread": {
+      "low": 0.302,
+      "high": 0.414,
+      "unit": "share",
+      "citation": "The study's bounds at age 23."
+    }
+  },
+  "pastFelonyConvictionShare": {
+    "value": 0.08,
+    "role": "level",
+    "tag": "SOURCED",
+    "citation": "Shannon, Uggen, Schnittker, Thompson, Wakefield and Massoglia (2017), The Growth, Scope, and Spatial Distribution of People With Felony Records in the United States, 1948-2010, Demography 54(5) (abstract fetched Nov 12, 2026 from PubMed 28895078): \"people with felony convictions account for 8 % of all adults\". Read here as the share of those arrested by 23 who are convicted, 0.08 over pastArrestShareBy23.",
+    "spread": {
+      "low": 0.06,
+      "high": 0.1,
+      "unit": "share of all adults",
+      "citation": "A quarter either side; the study's estimate is for 2010."
+    }
+  },
+  "pastConvictionLagYears": {
+    "value": 1,
+    "role": "level",
+    "tag": "TUNABLE",
+    "citation": "The time from an arrest to its conviction, for the past's record only; felony cases commonly take months to a year to close.",
+    "spread": {
+      "low": 0.25,
+      "high": 2,
+      "unit": "years",
+      "citation": "A quarter year to two years."
+    }
+  },
+  "pastPrisonShare": {
+    "value": 0.03,
+    "role": "level",
+    "tag": "SOURCED",
+    "citation": "Shannon et al. (2017), The Growth, Scope, and Spatial Distribution of People With Felony Records in the United States, 1948-2010, Demography 54(5) (abstract fetched Nov 12, 2026 from PubMed 28895078): \"We estimate that 3 % of the total U.S. adult population ... has ever been to prison\". Read here as the share of the convicted who went to prison, 0.03 over pastFelonyConvictionShare.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.04,
+      "unit": "share of all adults",
+      "citation": "A third either side; the study's estimate is for 2010."
+    }
+  },
+  "pastPrisonTermYears": {
+    "value": 2,
+    "role": "level",
+    "tag": "TUNABLE",
+    "citation": "The time served by someone who went to prison before the start, for the past's record only.",
+    "spread": {
+      "low": 1,
+      "high": 5,
+      "unit": "years",
+      "citation": "One to five years."
+    }
   }
 }

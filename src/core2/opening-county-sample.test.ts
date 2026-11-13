@@ -112,3 +112,36 @@ it(`the county's sample is weighted to its eligible voters and its people have t
     expect(person.knownIds.size, where).toBeGreaterThanOrEqual(expected);
   }
 }, 120_000);
+
+// A county record stands for at least one real household (world-county-sample-weight-below-one):
+// where the county's eligible voters are fewer than the sample's own, the sample is cut to the
+// households that fit at a weight of one, or dropped when none do.
+it.each([
+  [
+    "Larned, Kansas",
+    "2038700",
+    "0f76ad5a90c444afa08206f08bc3e13754bc031f5951ed0b119a37caf3140b96",
+  ],
+  ["a drawn place", undefined, undefined],
+])(
+  "no county record stands for less than one household (%s)",
+  (_name, fixedKey, fixedSeed) => {
+    setBookkeeping(false);
+    const place = fixedKey
+      ? { key: fixedKey, seed: fixedSeed!, name: "Larned" }
+      : drawPlace(seed, "county-sample-weight");
+    const where = `${place.name} (${place.key}), world seed ${place.seed}`;
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const countyId = countyPlaceOfWorld(core);
+    if (!countyId) return;
+    const county = countedResidents(core).filter(
+      (row) => row.placeId === countyId,
+    );
+    for (const row of county)
+      expect(row.weight, `${where}: ${row.id}`).toBeGreaterThanOrEqual(1);
+  },
+  300_000,
+);
