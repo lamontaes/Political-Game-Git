@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/red-main-campaign-turn-event-town-share
-pr: 8985
+pr: #8985
 after:
 blocked-on:
 lead: cto
@@ -16,6 +16,7 @@ model: opus
 effort: low
 root: none
 source: Red desk, Nov 13 (merger reports of campaign-turn "rich rival" on #7365, Aneth, Utah; sampled with fresh seeds)
+merged-at: 2026-11-13T04:07:34.233Z
 ---
 
 **What.** `src/core2/campaign-turn.test.ts`, "a rich rival holds an event on a day it is offered and a poor one does not", fails on clean main at five of six fresh seeds, among them 96a4487c4d8bc8a9 (Harlan, Indiana), 713d5cab02562c08 (Springfield, West Virginia) and c4a8a37f22dc5ee2 (Devola, Ohio): "expected null to be 'event'" at its last line. The rich rival's day does choose the event (`rivalDay` gives `act: "event"`), but the campaign turn holds none in the town. Seen: a rich rival's turn holds the event it chose, in the town or elsewhere in its race.
