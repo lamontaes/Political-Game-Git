@@ -272,6 +272,8 @@ const WORLD_TEXT: Record<string, string> = {
   "realm-name": "Riverton",
   "theme-name": "our schools",
   body: "the council",
+  // The body by its recorded name, as a local speaker carries it (localSpeaker).
+  "body-name": "the Riverton City Council",
   "office-title": "mayor",
 };
 const WORLD = Object.fromEntries(
