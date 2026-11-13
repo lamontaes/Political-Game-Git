@@ -518,8 +518,12 @@
       "job-lost",
       "death-news",
       "illness-news",
-      "prison-news"
+      "prison-news",
+      "charge-reply",
+      "conviction-reply",
+      "acquittal-reply"
     ],
+    "answersBack": ["charge-reply", "conviction-reply", "acquittal-reply"],
     "toldFigures": [
       "owed",
       "behind",
@@ -529,7 +533,13 @@
       "age",
       "cause",
       "illness",
-      "term"
+      "term",
+      "offense",
+      "plea",
+      "trial",
+      "bail",
+      "probation",
+      "fine"
     ]
   },
   "stands": {

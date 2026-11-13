@@ -7,9 +7,6 @@
     ]
   },
   "sample": {
-    "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
-      "evasion-points-somewhere"
-    ],
     "conversation.greet-answer-fine.im-all-right": ["alright-in-dialogue"],
     "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start": [
       "no-filler"
