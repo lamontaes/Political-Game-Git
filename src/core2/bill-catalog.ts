@@ -68,10 +68,7 @@ const subjects = (
 export function billCatalog(
   api: CoreAPI,
   level: Level,
-  jurisdiction: string = billLevelJurisdiction(
-    api,
-    level === "county" ? "city" : level,
-  ),
+  jurisdiction: string = billLevelJurisdiction(api, level),
 ): readonly CatalogMenu[] {
   return subjects.map((subject) => ({
     id: subject.id,
@@ -137,6 +134,19 @@ export function provisionFor(input: {
     .flatMap((s) => s.topics.flatMap((t) => t.policies))
     .find((p) => p.id === input.policyId);
   if (!policy) throw new Error(`No such catalog policy: ${input.policyId}`);
+  // Any amount law can be repealed: the body's own law ends and the level
+  // holds what it held before, including nothing (owner, Nov 7).
+  if (policy.kind === "law-amount" && input.operation === "repeal")
+    return {
+      kind: "law-amount",
+      series: policy.series!,
+      value: 0,
+      repeal: true,
+      ...(policy.unit ? { unit: policy.unit } : {}),
+      ...(input.effectiveDate ? { effectiveDate: input.effectiveDate } : {}),
+      policyId: policy.id,
+      operation: input.operation,
+    };
   if (!policy.operations.includes(input.operation))
     throw new Error(`${policy.name} doesn't support ${input.operation}`);
   const dated = {

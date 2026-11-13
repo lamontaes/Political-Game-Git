@@ -4,6 +4,7 @@
  * one rule, two tiers. The caller says how a state's law on a series is read (the laws module's
  * `stateLawInForce` in play); answers are kept for the month this reader lives.
  */
+import type { TaxIndex } from "./tax-index";
 import type {
   CountryLaw,
   CountryState,
@@ -31,6 +32,8 @@ export function countryLaw(
   read: (stateKey: string, series: string) => LawInForceAnswer,
   parameter: (key: string) => number,
   asOf: string,
+  /** How far prices and pay have moved since the law's dollar year: what the law indexes moves with it. */
+  index?: TaxIndex,
 ): CountryLaw {
   const answers = new Map<string, LawInForceAnswer>();
   const law = (state: CountryState, series: string) => {
@@ -55,6 +58,7 @@ export function countryLaw(
         incomeTax: income,
         socialSecurity: law(state, "social-security-tax"),
         medicare: law(state, "medicare-tax"),
+        ...(index ? { index } : {}),
       });
       let toState = 0,
         toNation = 0;

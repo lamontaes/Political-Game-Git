@@ -137,6 +137,7 @@
   "types": [
     {
       "key": "concession-taken",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "The loser's side, after they conceded: the winner takes the call. The press's concession record (conceded yes) names the loser and the winner. The winner answers as their traits lean, gracious or gloating, and how the loser answers back is a scene reply. A sharp word strains the tie (path 6, 'a rival who may gloat').",
       "roles": [
         {
@@ -193,6 +194,7 @@
     },
     {
       "key": "departure",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "leaving",
@@ -244,6 +246,7 @@
     },
     {
       "key": "return",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "Someone is home from prison (the justice engine's release record). Either the player is the one who came home and a relative asks what happens now, or a relative or housemate who came home asks the player for a place to stay until there is work, for help finding work with a record, and to know where they stand after what the term cost. How long they were away, whether the term ended their job, whether they share the household and the child at home are said only when the records give them. What the player agrees to or promises is kept on the reply record (a promise); a talk put off strains the tie.",
       "purpose": "homecoming",
       "asker": "speaker",
@@ -305,6 +308,7 @@
     },
     {
       "key": "news-arrives",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "bearer",
@@ -538,6 +542,7 @@
     },
     {
       "key": "race-told",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "A race is counted and, the day after, someone the player knows who is tied to a candidate tells who won (the circumstance race-result-known, cast from the ties of each named in the count). The reply is a scene reply the core's relationship writer reads as time together.",
       "roles": [
         {
@@ -631,6 +636,7 @@
     },
     {
       "key": "letter",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "A relative who lives elsewhere writes to the player (kin-contact.ts's family.contact, one whole contact a month at full closeness). The letter asks for something: a visit, a call or a letter back, or to be told how the player is. Where the writer lives, what changed in their life since their last letter (a child born, a wedding, a move, new work, a serious illness), a birthday of the player's they missed at the table and their own birthday coming are said only when a record gives them. The player's reply is written back; what they agree to or promise is kept on the reply record (a promise), and a no that is pressed strains the tie.",
       "purpose": "letter-ask",
       "asker": "writer",
@@ -680,6 +686,7 @@
     },
     {
       "key": "argument",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "roles": [
         {
           "key": "side",
@@ -738,6 +745,7 @@
     },
     {
       "key": "apology",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "roles": [
         {
           "key": "apologizing",
@@ -794,6 +802,7 @@
     },
     {
       "key": "reach-out",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "roles": [
         {
           "key": "asking",
@@ -841,6 +850,7 @@
     },
     {
       "key": "becoming-friends",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "A tie that grew over time together (the relationship engine's contact tie, turned from an acquaintance to a friend). The other asks the player for something that tests the tie: to come along somewhere or to do them a favor. What the two share is said only when a record gives it: the employer both work for (the jobs engine), the school they were both at in one school year or their children share (the school engine), the party both belong to (the parties engine), the town the other lives in. What the player agrees to or promises is kept on the reply record (a promise); a no that is pressed strains the tie.",
       "purpose": "friend-ask",
       "asker": "other-friend",
@@ -888,6 +898,7 @@
     },
     {
       "key": "celebration",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "People gather to mark something that happened in the player's household: a wedding (partnerships.ts's family.married) or a new job (the job row and its employer). A relative at the celebration asks the player for something the occasion brings: a few words for everyone, a picture, a dance, a talk about an old quarrel that the tie's record kept, a hand finding work. Whose occasion it is, what it is, the guest's town, a new child and whether the guest is out of work are said only when a record gives them. The reply is written back; what the player agrees to or promises is kept on the reply record (a promise) and a no that is pressed strains the tie.",
       "purpose": "celebration-ask",
       "asker": "guests",
@@ -980,6 +991,7 @@
     },
     {
       "key": "diploma-home",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "The day after the player graduated (the school engine's graduation result, passed), someone they live with marks it at home, scored on tie and sociability (circumstance row graduation-home). They say so and ask what comes next; the reply is a scene reply the core's relationship writer reads as time together.",
       "roles": [
         {
@@ -1029,6 +1041,7 @@
     },
     {
       "key": "no-diploma-home",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "The day after the player's senior year ended without a diploma (the school engine's graduation result, not passed), someone they live with sits them down at home, scored on tie and sociability (circumstance row no-graduation-home). They say it isn't the end and ask what happened and what comes next; the reply is a scene reply the core's relationship writer reads as time together. The counterpart of diploma-home: a senior's year ends in one of the two, never neither.",
       "roles": [
         {
@@ -1083,6 +1096,7 @@
     },
     {
       "key": "gathering-missing",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "A birthday at home with the closest relative who lives elsewhere missing (kin-contact.ts's family.gathering-missed). Someone in the household asks the player to reach out to the one who was missing: to call, write, visit or make the first move. Whose birthday it was and the age they turned, who was missing and where they live, what changed in the missing relative's life lately (a child born, a wedding, a move, new work, a serious illness) and whether the player's last word with them was a quarrel are said only when a record gives them. The reply is written back; what the player agrees to or promises is kept on the reply record (a promise) and a no that is pressed strains the tie.",
       "purpose": "gathering-ask",
       "asker": "household",
@@ -1138,6 +1152,7 @@
     },
     {
       "key": "funeral",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "mourners",
@@ -1192,6 +1207,7 @@
     },
     {
       "key": "first-meeting",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "A new hire at the player's employer (the jobs engine's new job record) comes over to introduce themselves and asks the player something grounded in what the two share: how things run at the employer, the job if it is the same, the school they were both at in one year or their children share, the party both belong to, the town the newcomer drives in from. What the player agrees to or promises is kept on the reply record (a promise); a put-off that is pressed strains the tie.",
       "purpose": "introduction",
       "asker": "newcomer",
@@ -1241,6 +1257,7 @@
     },
     {
       "key": "first-day",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "newcomer",
@@ -1302,6 +1319,7 @@
     },
     {
       "key": "last-day",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "leaving",
@@ -1366,6 +1384,7 @@
     },
     {
       "key": "date",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "roles": [
         {
           "key": "partner",
@@ -1416,6 +1435,7 @@
     },
     {
       "key": "proposal",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "proposing",
@@ -1472,6 +1492,7 @@
     },
     {
       "key": "breakup",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "ending",
@@ -1537,6 +1558,7 @@
     },
     {
       "key": "reunion",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "Someone the player has not been in touch with for a long time comes back into their life: a change in the player's day that names a person whose thread with the player had faded (the director's re-entry). The one who returns asks for something from seeing the player again: to make up after a falling-out the thread kept, a lead on work, to be told about the player's life, or a visit back. How long they were apart (the thread's renewing turn), where they live now (their place) and what changed in their life since (a child born, a wedding, a move, new work, a serious illness, each from its record) are said only when a record gives them. What the player agrees to or promises is kept on the reply record (a promise); a put-off that is pressed strains the tie.",
       "purpose": "reunion-ask",
       "asker": "other",
@@ -1582,6 +1604,7 @@
     },
     {
       "key": "betrayal",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "roles": [
         {
           "key": "betrayed",
@@ -1638,6 +1661,7 @@
     },
     {
       "key": "rescue",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "A housemate got the player help when a serious illness began (rescue.ts's health.rescued, written from the health engine's onset record): the grown person in the home closest to the player called for help and stayed, and the rest of the household saw it. Afterward that person asks the player for something: a ride to the doctor, a visit to one, to stay close for a few days, a promise to say the moment they feel sick again, leave to tell the family, a word with a child who was in the room. Who got help, whether they are the player's partner, whether a child was in the room and whether other grown people saw it are said only when a record gives them; the illness itself, its kind and how bad it was are never named. The reply is written back; what the player agrees to or promises is kept on the reply record (a promise) and a no that is pressed strains the tie.",
       "purpose": "rescue-ask",
       "asker": "rescuer",
@@ -1695,6 +1719,7 @@
     },
     {
       "key": "prison-visit",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "The player visits someone they know whom the justice engine holds: a prison term handed down (justice.imprisoned) or a person held for want of bail (justice.held-before-trial). The person inside asks the visitor for something real: money on their account, a child looked after, a lawyer called, a word taken to the family. How long the sentence is, the day they get out and the bail are said only when the record gives them. What the visitor agrees to or promises is kept on the reply record (a promise); a visit that ends on a refusal pressed strains the tie.",
       "purpose": "prison-visit",
       "asker": "inside",
@@ -1756,6 +1781,7 @@
     },
     {
       "key": "prison-visit",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "The player visits someone they know whom the justice engine holds: a prison term handed down (justice.imprisoned) or a person held for want of bail (justice.held-before-trial). The person inside asks the visitor for something real: money on their account, a child looked after, a lawyer called, a word taken to the family. How long the sentence is, the day they get out and the bail are said only when the record gives them. What the visitor agrees to or promises is kept on the reply record (a promise); a visit that ends on a refusal pressed strains the tie.",
       "purpose": "prison-visit",
       "asker": "inside",
@@ -1817,6 +1843,7 @@
     },
     {
       "key": "visit",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "occasion": "visit",
       "roles": [
         {
@@ -1894,6 +1921,7 @@
     },
     {
       "key": "arrival",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "roles": [
         {
           "key": "household",
@@ -1942,6 +1970,7 @@
     },
     {
       "key": "care",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "roles": [
         {
           "key": "caregiver",
@@ -1987,6 +2016,7 @@
     },
     {
       "key": "advice",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "roles": [
         {
           "key": "adviser",
@@ -2056,6 +2086,7 @@
     },
     {
       "key": "accusation",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "roles": [
         {
           "key": "accuser",
@@ -2127,6 +2158,7 @@
     },
     {
       "key": "warning",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "roles": [
         {
           "key": "warning",
@@ -2179,6 +2211,7 @@
     },
     {
       "key": "reconciliation",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "roles": [
         {
           "key": "one",
@@ -2233,6 +2266,7 @@
     },
     {
       "key": "polling-place",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "Election day is a scene (owner, Oct 14, 2026): the player goes to their precinct's polling place, sees the poll workers and neighbors the records place there, and casts their ballot as the scene's choice, never in a menu. The visit is the director's polling-place.ts: on the eve of an election the voter's day stops at the polls, with the household members who may vote; the ballot is the elections engine's, cast through the voting engine's castBallot. The poll workers are those the voting engine's polling-place record names for the voter's precinct.",
       "roles": [
         {
@@ -2288,6 +2322,7 @@
     },
     {
       "key": "hearing",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "accused",
@@ -2351,6 +2386,7 @@
     },
     {
       "key": "verdict",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "defendant",
@@ -2438,6 +2474,7 @@
     },
     {
       "key": "race-won",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "candidate",
@@ -2506,6 +2543,7 @@
     },
     {
       "key": "race-lost",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "candidate",
@@ -2594,6 +2632,7 @@
     },
     {
       "key": "floor-vote",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "eachCause": true,
       "roles": [
         {
@@ -2665,6 +2704,7 @@
     },
     {
       "key": "bill-signed",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "occasion": "signing",
       "roles": [
         {
@@ -2738,6 +2778,7 @@
     },
     {
       "key": "veto",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "occasion": "signing",
       "roles": [
         {
@@ -2825,6 +2866,7 @@
     },
     {
       "key": "appointment",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "appointee",
@@ -2896,6 +2938,7 @@
     },
     {
       "key": "recall",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "roles": [
         {
           "key": "official",
@@ -2978,6 +3021,7 @@
     },
     {
       "key": "public-hearing",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "chair",
@@ -3035,6 +3079,7 @@
     },
     {
       "key": "testimony-heard",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "A member sat through a public hearing on a bill. A resident who spoke comes to them after it, about the bill and the side they took, while the member can still answer. The speech.heard record names the resident who spoke and the members who heard it; the meetings engine's remark names the bill and the side (remark.ts).",
       "roles": [
         {
@@ -3085,6 +3130,7 @@
     },
     {
       "key": "press-interview",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "reporter",
@@ -3226,6 +3272,7 @@
     },
     {
       "key": "scandal",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "exposed",
@@ -3289,6 +3336,7 @@
     },
     {
       "key": "law-takes-effect",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "reached",
@@ -3327,6 +3375,7 @@
     },
     {
       "key": "morning-after",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "purpose": "morning-after",
       "asker": "visitor",
       "asked": "you",
@@ -3374,6 +3423,7 @@
     },
     {
       "key": "constituent-stop",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "purpose": "law-reaches",
       "asker": "constituent",
       "asked": "you",
@@ -3447,6 +3497,7 @@
     },
     {
       "key": "hallway",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "serving" },
       "purpose": "hallway-word",
       "asker": "other",
       "asked": "you",
@@ -3536,6 +3587,7 @@
     },
     {
       "key": "address",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "occasion": "address",
       "roles": [
         {
@@ -3634,6 +3686,7 @@
     },
     {
       "key": "campaign-stop",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "volunteer",
@@ -3704,6 +3757,7 @@
     },
     {
       "key": "speech-afterward",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "A candidate's campaign speech, heard in person at a town hall or a campaign event, moved a listener (the listener's moment, on the cause channel, names the speaker); afterward the candidate comes over to ask for their support. The speech.heard record names the speaker, and the campaign act names the occasion. A debate is heard through the outlet's broadcast, so the candidate is not there to come over.",
       "roles": [
         {
@@ -3770,6 +3824,7 @@
     },
     {
       "key": "filing",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "roles": [
         {
           "key": "candidate",
@@ -3819,6 +3874,7 @@
     },
     {
       "key": "layoff",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "roles": [
         {
           "key": "worker",
@@ -3884,6 +3940,7 @@
     {
       "repeatsBy": "bill",
       "key": "vote-asked",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "purpose": "ask-vote",
       "asker": "colleague",
       "asked": "you",
@@ -3974,6 +4031,7 @@
     },
     {
       "key": "door-ask",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "The player knocks on a door on their own canvass and asks the resident for their vote (owner, Oct 8: porch scenes in a day of door knocking; Oct 27: every campaign act is a scene). The mirror of speech-afterward: the player is the candidate asking. The resident answers from where the knock left them, the campaign engine's warmth toward the player.",
       "purpose": "ask-support",
       "playerAsks": true,
@@ -4038,6 +4096,7 @@
     },
     {
       "key": "door-signature",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "While the player's petition circulates, a door on their own canvass is a signature ask (owner, Oct 28: \"some scenes where you earn people's signatures ... signatures is the game's way of introducing you to campaigning\"). The campaign engine asked the resident to sign (askToSign) and the petition record says whether they did; the scene tells that answer, never a second decision.",
       "purpose": "ask-signature",
       "playerAsks": true,
@@ -4088,6 +4147,7 @@
     },
     {
       "key": "vote-sought",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "repeatsBy": "bill",
       "purpose": "ask-vote",
       "playerAsks": true,
@@ -4143,6 +4203,7 @@
     },
     {
       "key": "vote-confirmed",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "purpose": "confirm-vote",
       "asker": "colleague",
       "asked": "you",
@@ -4209,6 +4270,7 @@
     },
     {
       "key": "bill-carry",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "purpose": "carry-bill",
       "asker": "member",
       "asked": "you",
@@ -4275,6 +4337,7 @@
     },
     {
       "key": "donor-ask",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "purpose": "donor-ask",
       "asker": "donor",
       "asked": "you",
@@ -4348,6 +4411,7 @@
     },
     {
       "key": "bribe-offer",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "eachCause": true,
       "purpose": "bribe-offer",
       "asker": "offerer",
@@ -4405,6 +4469,7 @@
     },
     {
       "key": "party-recruit",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "A party with no one filed for a partisan seat asks one of its members to run: the candidacy engine's party-asked record names the member, the chair who asks, the party and the seat. The chair comes by the member's home. Their answer is a scene reply the candidacy engine reads: a yes is the decision to run, and the filing follows.",
       "roles": [
         {
@@ -4469,6 +4534,7 @@
     },
     {
       "key": "office-hours",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "purpose": "constituent-help",
       "asker": "constituent",
       "asked": "you",
@@ -4523,6 +4589,7 @@
     },
     {
       "key": "family-filing",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "purpose": "family-filing",
       "asker": "relative",
       "asked": "you",
@@ -4570,6 +4637,7 @@
     },
     {
       "key": "family-win",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "purpose": "family-win",
       "asker": "relative",
       "asked": "you",
@@ -4622,6 +4690,7 @@
     },
     {
       "key": "family-loss",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "purpose": "family-loss",
       "asker": "relative",
       "asked": "you",
@@ -4692,6 +4761,7 @@
     },
     {
       "key": "family-absence",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "purpose": "family-absence",
       "asker": "relative",
       "asked": "you",
@@ -4739,6 +4809,7 @@
     },
     {
       "key": "rally-opponent",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "purpose": "rally-opponent",
       "asker": "opponent",
       "asked": "you",
@@ -4800,6 +4871,7 @@
     },
     {
       "key": "desk-visit",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "eachCause": true,
       "purpose": "desk-visit",
       "asker": "visitor",
@@ -4881,6 +4953,7 @@
     },
     {
       "key": "desk-bill",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "purpose": "desk-bill",
       "yieldsTo": ["desk-visit"],
       "asker": "aide",
@@ -4954,6 +5027,7 @@
     },
     {
       "key": "staff-news",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "purpose": "staff-news",
       "asker": "aide",
       "asked": "you",
@@ -5054,6 +5128,7 @@
     {
       "repeatsBy": "bill",
       "key": "section-bargain",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "purpose": "section-bargain",
       "asker": "member",
       "asked": "you",
@@ -5111,6 +5186,7 @@
     },
     {
       "key": "bill-held-chair",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "purpose": "hearing-ask",
       "asker": "sponsor",
       "asked": "you",
@@ -5164,6 +5240,7 @@
     },
     {
       "key": "bill-held-member",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "purpose": "hearing-push",
       "asker": "sponsor",
       "asked": "you",
@@ -5217,6 +5294,7 @@
     },
     {
       "key": "new-baby",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "A birth on record brings someone close to the new parent to the door.",
       "roles": [
         {
@@ -5278,6 +5356,7 @@
     },
     {
       "key": "cause-invite",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "Someone who shared a cause with a person asks them to come along (the cause-shared record names the cause and who shared it).",
       "roles": [
         {
@@ -5326,6 +5405,7 @@
     },
     {
       "key": "concession-received",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "The winner's side of the call after the count: the candidate who finished behind the player rings to say what comes next. The elections engine's result record names the winner and the totals; the runner-up on those totals is the caller. It plays on the phone, as the loser's concession-call does from the other side. How the winner answers is a scene reply: a promise to meet is a promise on record, a hold on the count strains the tie.",
       "roles": [
         {
@@ -5388,6 +5468,7 @@
     },
     {
       "key": "action-confront",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "A strike or protest in the town forms and the town's own officials are at its edge: someone in it stands up to the official about what it is over (the public-action engine's civic record names the demand and the people in it). The talk is the town hall's, since it is the same exchange: a person with a demand, an official who answers it, and a reading of how the answer sits with the person's stand.",
       "purpose": "town-hall-question",
       "asker": "protester",
@@ -5449,6 +5530,7 @@
     },
     {
       "key": "town-hall-question",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "purpose": "town-hall-question",
       "asker": "resident",
       "asked": "you",
@@ -5501,6 +5583,7 @@
     },
     {
       "key": "rally-word",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "A rally in the town forms because the term reads well in an area, and the town's own officials are at its edge: someone in it asks the official to say a few words (the public-action engine's civic record names the area and the people in it). It has no demand, so nothing is pressed; the official can speak, thank them, promise to keep it up or let the crowd have the day.",
       "purpose": "rally-word",
       "asker": "neighbor",
@@ -5549,6 +5632,7 @@
     },
     {
       "key": "lobby-remembers",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "serving" },
       "note": "A group's lobbyist made its case to the player on a bill, and the player voted the other way (the interest-group engine's lobbying meeting against the member's own vote record). Two days later the lobbyist finds them: the group remembers. How it is said, in a hint or out loud, comes from the lobbyist's own temper in the bank's bearings; nothing is rolled.",
       "purpose": "lobby-remembers",
       "asker": "lobbyist",
@@ -5597,6 +5681,7 @@
     },
     {
       "key": "bribe-pressed",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "eachCause": true,
       "note": "The person whose bribe the official turned down comes back (the corruption engine's refusal record and their own reasons to press; no roll). The pressure runs from veiled to open by their temper in the bank's bearings. The official can hold the line, say they will report it, or put the talk off; what they say strains the tie.",
       "purpose": "bribe-pressed",
@@ -5646,6 +5731,7 @@
     },
     {
       "key": "office-doubt",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "A strike or protest against the town's term, and someone who lives with the official asks the question the crowd raised: is the job worth it? (the public-action engine's civic record, the day after; the cast is the official's own household). The official can say why, say it looks worse than it is, promise time at home, or put the talk off.",
       "purpose": "office-doubt",
       "asker": "relative",
@@ -5694,6 +5780,7 @@
     },
     {
       "key": "floor-debate",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "serving" },
       "note": "The floor before the roll (the legislature's floor-debate record: the sponsor, or the member leaning furthest for the bill, and the member leaning furthest against, each recognized by the chair). The speaker addresses the chair; the player, a member of the body, can stand with them, say they disagree, ask them to yield for a question or say nothing.",
       "purpose": "floor-debate",
       "asker": "speaker",
@@ -5755,6 +5842,7 @@
     },
     {
       "key": "run-doubt",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "The player lost a race and has lost others before (the elections module's filings against the count's own records). A few days later someone who lives with them asks whether another run is worth it. The player can say why they run, say they will be fine, promise one more try or put the talk off.",
       "purpose": "run-doubt",
       "asker": "relative",
@@ -5803,6 +5891,7 @@
     },
     {
       "key": "story-read",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "Someone in the player's household (at home) or a coworker (at work) read a printed story, the news engine's read record, and brings it up with the player: which story, from the catalog's name for its topic and the paper that ran it. The player can agree, disagree, ask what it said or put the talk off. A story the catalog cannot name is not talked over (the scene is skipped rather than worded as 'something'). The ending is written on the reply record: a talk put off owes the other a talk and strains the tie.",
       "purpose": "story-read",
       "asker": "reader",
@@ -5864,6 +5953,7 @@
     },
     {
       "key": "moving-goodbye",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "Someone the player knows has moved away (the moves engine's departure record, circumstance row moved-away-farewell) and comes to say goodbye: where they are going, who goes with them, and why when the records name a reason (an eviction, a job lost or found elsewhere, family, kin who left first, a death at home). The player can comfort them, ask, promise to visit or thank them. A promise to visit is kept on its record and told in the journal; a farewell cut short strains the tie.",
       "purpose": "moving-goodbye",
       "asker": "leaving",
@@ -5912,6 +6002,7 @@
     },
     {
       "key": "interview-invite",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "An outlet covering the race asks a candidate to sit for an interview: the press engine's interview-invited record names the candidate, the reporter who asks (the outlet's reporter closest to them) and the outlet. The reporter calls. A yes is read by the press engine as sitting for it, answered from the candidate's own filed platform; a no is a refusal on the record the outlet's people may take as a snub; anything else leaves it open.",
       "roles": [
         {
@@ -5976,6 +6067,7 @@
     },
     {
       "key": "interview-sitting",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "The candidate said yes to an outlet's invitation: the press engine's interview-accepted record names the candidate, the reporter who will ask and the outlet. The sitting is played in the conversation engine, never answered for them: the reporter puts each of the interview's own questions as a line, the candidate picks how to answer each (plainly, with a further fact from their record, by turning it back on a rival, briefly, or the lie where their record allows one) or says nothing, and when the sitting ends the press engine publishes the interview with exactly those moves. A question the reporter cannot put in words is answered from the candidate's filed platform.",
       "roles": [
         {
@@ -6027,6 +6119,7 @@
     },
     {
       "key": "debate-sitting",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "occasion": "debate",
       "note": "The candidate said yes to a debate's invitation: the meetings engine's debate-accepted record names the candidate, the moderator who will ask and the outlet that hosts it. The sitting is played in the conversation engine, never answered for them: the moderator puts each of the debate's own questions as a line, the candidate picks how to answer each (plainly, with a further fact from their record, by turning it back on a rival, briefly, or the lie where their record allows one) or says nothing, and when the sitting ends the meetings engine holds the debate with exactly those moves while the other candidates answer from their own positions. A question the moderator cannot put in words is answered from the candidate's filed platform. A debate no one sits for is held on the eve of the election. Its stage is a public place until the lane maps the debate stage picture to this type.",
       "roles": [
@@ -6079,6 +6172,7 @@
     },
     {
       "key": "debate-invite",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "The race's debate on the town's widest-reaching outlet waits on the candidate: the meetings engine's debate-invited record names the candidate and the host outlet's reporter closest to them. The host calls. A yes puts the sitting on the record (debate-accepted) for the debate-sitting scene; a no lets the debate go on without them; anything else leaves it waiting until the eve of the election, when it is held without a sitting.",
       "roles": [
         {
@@ -6143,6 +6237,7 @@
     },
     {
       "key": "volunteer-offer",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "Someone who knows a candidate heard they filed (the press's story of the filing, read or passed on in talk) and offers to help: the campaigns engine's volunteer-offered record names the candidate and the one who offers, who weighed it by their liking, closeness and work hours. They come by. A yes puts them on the campaign's volunteers.",
       "roles": [
         {
@@ -6210,6 +6305,7 @@
     },
     {
       "key": "manager-offer",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "Someone close to a candidate (a partner, a relative, a best friend) heard they filed and offers to run the campaign, not only to help with it: the campaigns engine's volunteer-offered record with role manager, weighed by the same liking, closeness and work hours with closeness and family counted again (managerReason). It comes before any volunteer's offer while the campaign has nobody running it, the household included. A yes puts them on the campaign's staff, where the cast and election night read them; a no takes them off (answerOffer). The owner's election team (Oct 26) and campaign board (Oct 27: 'maybe it's your significant other or your best friend').",
       "roles": [
         {
@@ -6277,6 +6373,7 @@
     },
     {
       "key": "job-offer",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "An employer picked the player for an opening: the jobs engine's job-offered record names the applicant, the person at the employer who makes the offer (the one there longest) and the position. They call. A yes takes the job; a no turns it down and the position opens to others; anything else leaves it waiting until its deadline, when the employer withdraws it. A job offer comes through a person and a scene or not at all (owner, Oct 27): it is in scheduling.ownRecordScenes, so it stops the day; its lines are the scene-talk bank's job-offer purpose (SG-DIR-job-offer-lines, resolved Oct 28).",
       "roles": [
         {
@@ -6340,6 +6437,7 @@
     },
     {
       "key": "rival-word",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "A rival's paid message (mail, an ad) reached someone the candidate knows, and the next time they are in touch they pass it on: the campaigns engine's rival-word record names the candidate, the one who tells, the rival and what the message argued. The one who tells comes by. The candidate's reply is a scene reply, read by the core's relationship writer as time together.",
       "roles": [
         {
@@ -6403,6 +6501,7 @@
     },
     {
       "key": "rival-filed",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "Someone files against a candidate: the elections engine's rival-filed record names the candidate already on the ballot and the rival who filed, for the race. A member of the candidate's household brings the news home. The reply is a scene reply the core's relationship writer reads as time together.",
       "roles": [
         {
@@ -6479,6 +6578,7 @@
     },
     {
       "key": "budget-cut",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "purpose": "cut-argument",
       "asker": "head",
       "asked": "you",
@@ -6539,6 +6639,7 @@
     },
     {
       "key": "notice-home",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "The day the landlord serves the player's household notice to pay what it owes or leave (the housing engine's notice record, circumstance row notice-home), someone they live with brings it to them at home: what is owed and the day it is due. The reply is a scene reply; a promise to pay is kept on its record and told in the journal.",
       "roles": [
         {
@@ -6596,6 +6697,7 @@
     },
     {
       "key": "home-damaged",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "note": "The day a disaster's aid is paid to the player's household and the repair bill comes due on the home the disaster damaged (the disasters engine's home-damaged record, filled from the damaged-home row, circumstance row home-damaged), someone they live with brings it to them at home: what the home lost, the aid it was paid and the repairs still owed, as people round a sum. The reply is a scene reply; a promise to see the repairs through is kept on its record and told in the journal.",
       "roles": [
         {
@@ -6653,6 +6755,7 @@
     },
     {
       "key": "swearing-in",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "occasion": "ceremony",
       "note": "The day the offices engine seats the player (its took-office record, from a count, a special election or an appointment), someone the records name gives the oath: the clerk who took the filing or keeps the government's papers, else the holder who left the seat that day, else the body's presiding officer. The player's household and the government's other officeholders are in the room. The player's reply is the oath, a scene reply the journal tells; an office that gives an address (data/swearing-in.json: mayor, county executive, governor, president) goes on to it, and the speech engine records it as heard by the people named in the room, so the views engine moves those it persuades and each may retell it at home. No court is on record, so no judge swears anyone in (SG-WORDS-swearing-in-no-court). It stops the day: taking office is an event, not a status change (owner, Sept 22 and Oct 29).",
       "roles": [

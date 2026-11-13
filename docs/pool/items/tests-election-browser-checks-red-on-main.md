@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-tests-election-browser-checks-red-on-main
-pr:
+pr: #8815
 blocked-on:
 source: added with npm run pool -- add
 after:
