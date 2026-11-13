@@ -6,8 +6,8 @@ lead: governing
 kind: wiring
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/pool-gov-m3-04-person-card-law-effects
+status: open
+claimed-by:
 pr:
 blocked-on:
 standard: 2
@@ -17,7 +17,7 @@ root: rc10-screens-keep-own-facts
 source: governing lead Oct 29
 after:
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T06:24:05.544Z
+claimed-at:
 branch: claude/pool-gov-m3-04-person-card-law-effects
 ---
 
@@ -50,3 +50,5 @@ Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Re-claimed by my own next loop, not worked; see my earlier release note on this item (world-deposit-reserve-reads-unweighted-costs: the weighting is already applied at credit-deposits.ts ~122; what remains is a per-business proof at Census scale, and the spread it must sit inside is a number nobody has stated, so it needs that number first). Continue on branch claude/pool-gov-m3-04-person-card-law-effects.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:24 UTC) on branch claude/pool-gov-m3-04-person-card-law-effects.
+
+Released by next (2026-11-13): no push to claude/pool-gov-m3-04-person-card-law-effects since 2026-11-11 06:20 UTC, more than twice its 4-hour time box. Continue on branch claude/pool-gov-m3-04-person-card-law-effects.

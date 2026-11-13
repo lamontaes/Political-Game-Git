@@ -5,13 +5,13 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: claimed
-claimed-by: claude/pool-core-counted-deaths-opening-small-town-red
+status: open
+claimed-by:
 pr: #8804
 after:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T10:41:40.648Z
+claimed-at:
 lead: speed
 standard: 2
 model: opus
@@ -46,3 +46,5 @@ Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `cla
 Cause found (Nov 11, 2026, cause finder for Fable B): a probe built the test's Centennial world and read the counts rows and the records' weights; the heavy records of the wider place carry nearly all the expected deaths and can only die a whole record at a time.
 
 Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 10:41 UTC) on branch claude/pool-core-counted-deaths-opening-small-town-red.
+
+Released by next (2026-11-13): no push to claude/pool-core-counted-deaths-opening-small-town-red since 2026-11-11 10:47 UTC, more than twice its 4-hour time box. Continue on branch claude/pool-core-counted-deaths-opening-small-town-red and pull request #8804.

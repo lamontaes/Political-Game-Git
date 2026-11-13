@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-tests-opening-address-skip-check-red
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,6 +17,7 @@ model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-13T04:25:13.812Z
 ---
 
 **What.** src/bench/opening-address.browser.mjs failed on a fresh bench on Nov 3 in Santa Isabel, Puerto Rico (seed fecc3ab9-7f3c-4efb-9845-569e4c79325d) with "Skip scene ended the address": after Skip scene the talk box still contains "Thank you all". The file is unchanged since 36503ddd20, so either Skip scene no longer clears the address or the talk that follows now quotes the closing line. The browser check ends the opening address with Skip scene and then reads the talk box (lines 58 to 70), so the failure is in what Skip clears or in what the next talk quotes. Nobody has decided which.
