@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { causeGroupName } from "./group-names";
+import { causeGroupForm, causeGroupName } from "./group-names";
 import { allQuestions } from "./policy-names";
 
 describe("cause group names", () => {
@@ -15,5 +15,17 @@ describe("cause group names", () => {
     expect(
       causeGroupName("organization:cause-group:x:y", "no-such-topic"),
     ).toBeNull();
+  });
+  // A founded group's name keeps its capitals and its number (P2, Fruitland,
+  // Idaho, Nov 13: "The friends of policing backs Clara Evans").
+  it("knows the form a name was made from and the verb it takes", () => {
+    expect(causeGroupForm("Friends of policing")).toEqual({ plural: true });
+    expect(causeGroupForm("Neighbors Concerned About rental rules")).toEqual({
+      plural: true,
+    });
+    expect(causeGroupForm("Coalition for clean water")).toEqual({
+      plural: false,
+    });
+    expect(causeGroupForm("the Republican Party")).toBeNull();
   });
 });

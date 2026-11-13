@@ -93,7 +93,8 @@
     "opened": "The month and year a business opened, from its founding record, when it was open less than two years.",
     "members": "How many sit on a study committee, said in words, from the study's row.",
     "until": "The day a study committee reports by, from the study's row.",
-    "short-by": "The votes a failed bill lacked for a majority of those cast, as a number, from the vote's yeas and nays."
+    "short-by": "The votes a failed bill lacked for a majority of those cast, as a number, from the vote's yeas and nays.",
+    "plural-subject": "Set when the group's name takes a plural verb (\"Friends of policing\"), from its name's form in data/english/group-names.json."
   },
   "maxWords": 14,
   "mining": {
@@ -11045,7 +11046,8 @@
           "move": "endorsement",
           "subject": "news",
           "role": "endorsement",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["when"]
         }
       ],
       "origin": "authored",
@@ -11057,21 +11059,67 @@
       }
     },
     {
-      "key": "news.endorsement.subject-is-backing-name-in-the-race-for-office",
+      "key": "news.endorsement.subject-endorsed-name-for-office-ahead-of-the-when-vote",
       "move": "endorsement",
       "kind": "written",
-      "text": "{subject} is backing {name} in the race for {office}.",
+      "text": "{subject} endorsed {name} for {office} ahead of the {when} vote.",
       "uses": [
         {
           "move": "endorsement",
           "subject": "news",
           "role": "endorsement",
-          "choice": "lede"
+          "choice": "lede",
+          "requiresFacts": ["when"]
         }
       ],
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-30",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.endorsement.subject-is-backing-name-in-the-when-race-for-office",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "{subject} is backing {name} in the {when} race for {office}.",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "news",
+          "role": "endorsement",
+          "choice": "lede",
+          "requiresFacts": ["when"],
+          "excludesFacts": ["plural-subject"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.endorsement.subject-are-backing-name-in-the-when-race-for-office",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "{subject} are backing {name} in the {when} race for {office}.",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "news",
+          "role": "endorsement",
+          "choice": "lede",
+          "requiresFacts": ["plural-subject", "when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -11087,7 +11135,8 @@
           "move": "endorsement",
           "subject": "news",
           "role": "endorsement",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["when"]
         }
       ],
       "origin": "authored",

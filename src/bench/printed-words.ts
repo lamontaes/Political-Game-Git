@@ -55,7 +55,7 @@ import {
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
 import { storyTopicName } from "../english/policy-names";
-import { causeGroupName } from "../english/group-names";
+import { causeGroupForm, causeGroupName } from "../english/group-names";
 import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
 import { measureSaid, policyNames } from "./words";
@@ -1591,10 +1591,21 @@ const debate: Builder = (read, f) => {
 const endorsement: Builder = (read, f) => {
   const group = read.organization(f.organizationId);
   // A group takes its article ("the Republican Party"), and a name that is
-  // no proper name is said in lower case ("the employers' association").
+  // no proper name is said in lower case ("the employers' association"). A
+  // founded group's name is a proper name with its topic inside it: it keeps
+  // its capitals and takes the verb its number needs (P2, Fruitland, Idaho,
+  // Nov 13: "The friends of policing backs Clara Evans", rule 15).
+  const form = group ? causeGroupForm(group) : null;
   const said = group
-    ? `the ${/\b[a-z][\w']*$/.test(group) ? group.charAt(0).toLowerCase() + group.slice(1) : group}`
+    ? `the ${!form && /\b[a-z][\w']*$/.test(group) ? group.charAt(0).toLowerCase() + group.slice(1) : group}`
     : undefined;
+  // The vote the endorsement is for, from the contest's record, so the brief
+  // says something its headline does not.
+  const vote = read.row<{ electionDate?: string }>(
+    ELECTIONS_MODULE_ID,
+    "contests",
+    f.contestId,
+  )?.electionDate;
   const stance = f.stanceQuestion
     ? read.purpose(f.stanceQuestion, Number(f.stancePosition) < 0)
     : {};
@@ -1611,7 +1622,15 @@ const endorsement: Builder = (read, f) => {
     {
       ...read.who(f.candidateId, "name", false),
       ...backer,
+      ...(said && form?.plural
+        ? { "plural-subject": read.fact("yes", f.organizationId ?? "") }
+        : {}),
       ...(office ? { office: read.fact(office, f.contestId ?? "") } : {}),
+      ...(vote
+        ? {
+            when: read.fact(spokenDate(vote), f.contestId ?? ""),
+          }
+        : {}),
     },
     [
       "name",
