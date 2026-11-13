@@ -11,6 +11,8 @@ import {
   filingOfficeFor,
   openContests,
   playerContests,
+  raceAhead,
+  type FilingRow,
   type RequirementCheck,
 } from "../core2/modules/elections";
 import {
@@ -279,26 +281,28 @@ export function openBenchFilingVisit(
 }
 
 /** The player's filing at this office still gathering signatures or on the ballot, if any. */
-function filedHere(
+export function filedHere(
   core: CoreState,
   playerId: string,
   filedWith: string,
 ): { id: string; status: string } | null {
-  const filings = coreAPI(core)
+  const api = coreAPI(core);
+  const filings = api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
-    .query("byPerson", [playerId]) as unknown as {
-    id: string;
-    personId: string;
-    filedWith: string;
-    status: string;
-  }[];
+    .query("byPerson", [playerId]) as unknown as FilingRow[];
   const held =
     filings.find(
-      (row) => row.filedWith === filedWith && row.status === "petitioning",
+      (row) =>
+        row.filedWith === filedWith &&
+        row.status === "petitioning" &&
+        raceAhead(api, row),
     ) ??
     filings.find(
-      (row) => row.filedWith === filedWith && row.status === "on-ballot",
+      (row) =>
+        row.filedWith === filedWith &&
+        row.status === "on-ballot" &&
+        raceAhead(api, row),
     );
   return held ? { id: held.id, status: held.status } : null;
 }

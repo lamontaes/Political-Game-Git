@@ -1443,6 +1443,24 @@ export function standing(filing: Readonly<Pick<FilingRow, "status">>): boolean {
 }
 
 /**
+ * Whether a filing's race is still ahead: the filing was not withdrawn and
+ * its contest is decided on today or later (a petition the clerk found short
+ * stays, for the player to see it left them off). A filing keeps "on-ballot"
+ * after its race is counted, so what a person is running in now is read
+ * through this, never the status alone. A primary's loser is already "withdrawn" when the primary
+ * is counted, and a primary's winner stays here until the general.
+ */
+export function raceAhead(
+  api: CoreAPI,
+  filing: Readonly<Pick<FilingRow, "status" | "contestId">>,
+): boolean {
+  if (filing.status === "withdrawn") return false;
+  const contest = table(api, "contests").get(filing.contestId) as unknown as
+    ContestRow | undefined;
+  return !!contest && contest.electionDate >= api.state.date;
+}
+
+/**
  * Everyone standing in a contest, filed so far: on the ballot, or with a
  * petition out until the clerk checks it the morning after the deadline, so
  * after that only the names on the ballot. A candidate who has since died is
