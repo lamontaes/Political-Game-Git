@@ -211,7 +211,7 @@ const believing = strangers
   .slice(0, 2);
 // A doubter is looked for among every full adult the player does not know,
 // not only the unrelated workers: a town may hold none among those 38.
-const doubter = [...core.people.values()].find(
+const doubters = [...core.people.values()].filter(
   (row) =>
     row.alive &&
     row.tier !== "husk" &&
@@ -220,6 +220,7 @@ const doubter = [...core.people.values()].find(
     age(row.birthDate) >= 18 &&
     doubtsClaim(core, row),
 );
+const doubter = doubters[0];
 for (const row of [strangers[0]!, ...believing])
   api.meet(me.id, row.id, {
     placeId: me.placeId,
@@ -531,9 +532,23 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   });
 
   it("names another place when the player lies about where they are from, and says no calendar date", () => {
+    // The first stranger who asks where the player is from; those who open
+    // on something else are passed over and named (drawn-place-tests; fixer
+    // round 9 of #8879: in Burlington, Iowa, on 6968d532b27c14b7 the first
+    // stranger not asking about work asked about kin, which has no lie).
+    const passed: string[] = [];
     const home = strangers
       .map((row) => openConversation(core, player.id, row.id))
-      .find((talk) => !opening(talk).kind.startsWith("own-work"));
+      .find((talk) => {
+        const kind = opening(talk)?.kind ?? "nothing";
+        if (kind.startsWith("home")) return true;
+        passed.push(`${talk.otherId}: ${kind}`);
+        return false;
+      });
+    if (!home)
+      process.stdout.write(
+        `LIE-HOME none asked where the player is from; passed over ${passed.join(", ")}\n`,
+      );
     if (home) {
       expect(home.lies.length).toBeGreaterThan(0);
       for (const lie of home.lies) {
@@ -663,19 +678,39 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   });
   it("leaves no belief in a hearer whose traits lean hard toward doubt", () => {
     expect(doubter).toBeDefined();
-    api.meet(me.id, doubter!.id, {
-      placeId: me.placeId,
-      sourceId: "fixture-meeting",
-      cause: "met-in-group",
-      hours: 1,
-    });
-    const talk = openConversation(core, player.id, doubter!.id);
-    expect(talk.lies.length).toBeGreaterThan(0);
-    const key = opening(talk).kind.startsWith("own-work")
+    // The first doubter whose talk asks something the player could lie
+    // about (where they are from, their work); those whose talk opens on
+    // something with no lie are passed over and named (drawn-place-tests;
+    // fixer round 9 of #8879, Burlington, Iowa, 6968d532b27c14b7).
+    const passed: string[] = [];
+    let talk: Conversation | undefined;
+    let hearer: typeof doubter;
+    for (const row of doubters) {
+      api.meet(me.id, row.id, {
+        placeId: me.placeId,
+        sourceId: "fixture-meeting",
+        cause: "met-in-group",
+        hours: 1,
+      });
+      const opened = openConversation(core, player.id, row.id);
+      if (opened.lies.length) {
+        talk = opened;
+        hearer = row;
+        break;
+      }
+      passed.push(`${row.id}: ${opening(opened)?.kind ?? "nothing"}`);
+    }
+    expect(
+      talk,
+      `no doubter's talk offered a lie; passed over ${passed.join(", ")}`,
+    ).toBeDefined();
+    const doubtful = hearer!;
+    expect(talk!.lies.length).toBeGreaterThan(0);
+    const key = opening(talk!).kind.startsWith("own-work")
       ? `person:${player.id}:employer`
       : `person:${player.id}:place`;
-    say(core, talk, talk.lies[0]!.key);
-    expect(beliefsOf(api, doubter!.id).map((row) => row.key)).not.toContain(
+    say(core, talk!, talk!.lies[0]!.key);
+    expect(beliefsOf(api, doubtful.id).map((row) => row.key)).not.toContain(
       key,
     );
   });

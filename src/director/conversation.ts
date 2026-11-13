@@ -3542,15 +3542,21 @@ function giveBack(
 ): {
   facts: Facts;
   stage: string;
-  learned?: { personId: PersonId; key: string; value: string };
+  /** What the player learns, by the fact a line says. */
+  learned: Readonly<Record<string, { key: string; value: string }>>;
 } | null {
   const asker = core.people.get(askerId);
   const player = core.people.get(playerId);
   if (!asker || !player) return null;
   const you = calledBy(core, askerId, playerId);
+  // A fact the player already holds is not told again (a fact is told once
+  // in the house; lead, Nov 13): the give-back leaves it out.
+  const known = (own: { key: string; value: string }) =>
+    core.knowledgeByPerson.get(playerId)?.get(own.key)?.value === own.value;
   if (kind === "home-new") {
     const place = corePlaceByJurisdictionId(asker.placeId as never);
-    if (!place) return null;
+    const own = { key: `person:${askerId}:place`, value: asker.placeId };
+    if (!place || known(own)) return null;
     return {
       facts: {
         you,
@@ -3560,16 +3566,14 @@ function giveBack(
         },
       },
       stage: asker.placeId === player.placeId ? "same" : "elsewhere",
-      learned: {
-        personId: askerId,
-        key: `person:${askerId}:place`,
-        value: asker.placeId,
-      },
+      learned: { "their-home": own },
     };
   }
   if (kind === "own-work-new") {
     const held = sayJob(core, asker);
-    if (!held) return { facts: { you }, stage: "none" };
+    if (!held) return { facts: { you }, stage: "none", learned: {} };
+    const own = { key: `person:${askerId}:employer`, value: held.org.id };
+    if (known(own)) return null;
     const years = tenureYears(startedOf(core, asker), core.date);
     return {
       facts: {
@@ -3588,33 +3592,37 @@ function giveBack(
           : {}),
       },
       stage: "working",
-      learned: {
-        personId: askerId,
-        key: `person:${askerId}:employer`,
-        value: held.org.id,
-      },
+      learned: { "their-employer": own },
     };
   }
   if (kind === "asked-kin" && subject.aboutId) {
     // From the relative's own facts the subject carries (their work, where
-    // they live), less what the question itself already said ("Lives out in
-    // Ohio."), while something else is left to give.
+    // they live), less what the player already holds and what the question
+    // itself said ("Lives out in Ohio."), while something else is left.
     const kinId = subject.aboutId as PersonId;
-    const work = subject.facts.employer;
-    const home = subject.facts.place;
+    const kin = core.people.get(kinId);
+    // Said by the relative's pronoun, from their own record.
+    const gender = kin?.looks?.gender;
+    const pronoun =
+      gender === "male" ? "kin-he" : gender === "female" ? "kin-she" : null;
+    if (!kin || !pronoun) return null;
+    const employerId = jobOf(core, kin)?.org.id;
+    const ownWork = employerId
+      ? { key: `person:${kinId}:employer`, value: employerId }
+      : undefined;
+    const ownHome = { key: `person:${kinId}:place`, value: kin.placeId };
+    const work =
+      subject.facts.employer && !(ownWork && known(ownWork))
+        ? subject.facts.employer
+        : undefined;
+    const home =
+      subject.facts.place && !known(ownHome) ? subject.facts.place : undefined;
     const fresh = {
       work: work && !said.includes("employer") ? work : undefined,
       home: home && !said.includes("place") ? home : undefined,
     };
     const give = fresh.work || fresh.home ? fresh : { work, home };
     if (!give.work && !give.home) return null;
-    const kin = core.people.get(kinId);
-    // Said by the relative's pronoun, from their own record.
-    const gender = kin?.looks?.gender;
-    const pronoun =
-      gender === "male" ? "kin-he" : gender === "female" ? "kin-she" : null;
-    if (!pronoun) return null;
-    const employerId = kin ? jobOf(core, kin)?.org.id : undefined;
     return {
       facts: {
         you,
@@ -3623,26 +3631,82 @@ function giveBack(
         ...(give.home ? { "kin-home": give.home } : {}),
       },
       stage: player.knownIds.has(kinId) ? "known" : "unknown",
-      ...(give.work && employerId
-        ? {
-            learned: {
-              personId: kinId,
-              key: `person:${kinId}:employer`,
-              value: employerId,
-            },
-          }
-        : give.home && kin
-          ? {
-              learned: {
-                personId: kinId,
-                key: `person:${kinId}:place`,
-                value: kin.placeId,
-              },
-            }
-          : {}),
+      learned: {
+        ...(give.work && ownWork ? { "kin-employer": ownWork } : {}),
+        ...(give.home ? { "kin-home": ownHome } : {}),
+      },
     };
   }
   return null;
+}
+
+/**
+ * The asker's answer given back, with what the player learns of it (lead,
+ * Nov 13): composed under `<kind>-give`, the facts its words said written to
+ * the player as a told fact. False when nothing can be given.
+ */
+function sayGiveBack(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  data: ConversationData,
+  last: LastLine,
+  answeredId: string,
+  eventId: string,
+): boolean {
+  const { playerId, otherId } = conversation;
+  const asked = [...conversation.lines]
+    .reverse()
+    .find((row) => row.speakerId === otherId && row.kind === last.kind);
+  const back = giveBack(
+    core,
+    playerId,
+    otherId,
+    last.kind,
+    last.subject,
+    asked?.wording?.facts ?? [],
+  );
+  const line = back
+    ? composedLine(
+        core,
+        otherId,
+        `${last.kind}-give`,
+        back.facts,
+        back.stage,
+        `${eventId}:give`,
+        saidParts(conversation, otherId),
+      )
+    : null;
+  if (!back || !line) return false;
+  conversation.lines.push({
+    speakerId: otherId,
+    subjectId: answeredId,
+    kind: `${last.kind}-give`,
+    act: "tell",
+    ...line,
+  });
+  const told = (line.wording?.facts ?? []).flatMap((fact) =>
+    back.learned[fact] ? [back.learned[fact]!] : [],
+  );
+  if (told.length) {
+    const id = `${eventId}:give`;
+    applyCoreEvent(core as CoreState, {
+      id,
+      date: core.date,
+      kind: data.toldEvent,
+      personIds: [playerId, ...conversation.presentIds],
+      witnessIds: [otherId],
+      placeId: core.people.get(playerId)!.placeId,
+      facts: Object.fromEntries(told.map((own) => [own.key, own.value])),
+      source: {
+        tag: "SOURCED",
+        citation:
+          "Recorded conversation: what the other person said of their own.",
+        asOf: core.date,
+      },
+    });
+    conversation.recorded.push(id);
+  }
+  return true;
 }
 
 function askSubject(
@@ -6305,60 +6369,21 @@ function sayNow(
   ).find((row) => row.id === choice.raises);
   // Their own small question answered, they give their own answer back from
   // their record: the talk's last word is theirs and says something, and the
-  // player learns it (lead, Nov 13).
-  if (!raised && !doubted && !choice.lie && GIVES_BACK.includes(last.kind)) {
-    const asked = [...conversation.lines]
-      .reverse()
-      .find((row) => row.speakerId === otherId && row.kind === last.kind);
-    const back = giveBack(
-      core,
-      playerId,
-      otherId,
-      last.kind,
-      last.subject,
-      asked?.wording?.facts ?? [],
-    );
-    const line = back
-      ? composedLine(
-          core,
-          otherId,
-          `${last.kind}-give`,
-          back.facts,
-          back.stage,
-          `${eventId}:give`,
-          saidParts(conversation, otherId),
-        )
-      : null;
-    if (back && line) {
-      conversation.lines.push({
-        speakerId: otherId,
-        subjectId: choice.answers,
-        kind: `${last.kind}-give`,
-        act: "tell",
-        ...line,
-      });
-      if (back.learned) {
-        const id = `${eventId}:give`;
-        applyCoreEvent(core, {
-          id,
-          date: core.date,
-          kind: data.toldEvent,
-          personIds: [playerId, ...conversation.presentIds],
-          witnessIds: [otherId],
-          placeId: player.placeId,
-          facts: { [back.learned.key]: back.learned.value },
-          source: {
-            tag: "SOURCED",
-            citation:
-              "Recorded conversation: what the other person said of their own.",
-            asOf: core.date,
-          },
-        });
-        conversation.recorded.push(id);
-      }
-      carryOn(core, conversation, data);
-      return conversation;
-    }
+  // player learns it (lead, Nov 13). What the player's answer raised of their
+  // own is told first, as a raised answer tells it.
+  // Their own small question answered, they give their own answer back from
+  // their record: the talk's last word is theirs and says something, and the
+  // player learns it (lead, Nov 13). Where the player's answer raised
+  // something of their own, it is told and answered as a raised answer is,
+  // after the give-back.
+  const gave =
+    !doubted &&
+    !choice.lie &&
+    GIVES_BACK.includes(last.kind) &&
+    sayGiveBack(core, conversation, data, last, choice.answers, eventId);
+  if (gave && !raised) {
+    carryOn(core, conversation, data);
+    return conversation;
   }
   if (
     !raised &&
