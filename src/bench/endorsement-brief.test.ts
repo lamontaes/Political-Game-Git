@@ -87,8 +87,8 @@ it(`an endorsement brief keeps the group's name and number and does not repeat i
     process.stdout.write(`${where}: ${text}\n`);
     expect(worded?.headline, where).toBeTruthy();
     expect(body.join(""), `${where}: a body`).toBeTruthy();
-    // The name is said as it is made, capitals and all.
-    expect(text, where).toContain(name.slice(1));
+    // The name is said as its record names it, whole, with no article added.
+    expect(worded?.headline?.startsWith(name), `${where}: ${text}`).toBe(true);
     // The verb its number needs.
     if (plural)
       expect(text, where).not.toMatch(/ backs | endorses | is backing /);

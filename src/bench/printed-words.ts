@@ -1592,12 +1592,16 @@ const endorsement: Builder = (read, f) => {
   const group = read.organization(f.organizationId);
   // A group takes its article ("the Republican Party"), and a name that is
   // no proper name is said in lower case ("the employers' association"). A
-  // founded group's name is a proper name with its topic inside it: it keeps
-  // its capitals and takes the verb its number needs (P2, Fruitland, Idaho,
-  // Nov 13: "The friends of policing backs Clara Evans", rule 15).
+  // founded group's name is a proper name, cased whole: it keeps its
+  // capitals and takes the verb its number needs (P2, Fruitland, Idaho, Nov
+  // 13: "The friends of policing backs Clara Evans", rule 15).
   const form = group ? causeGroupForm(group) : null;
+  // A founded group's name is said as its record names it, with no article
+  // added ("Friends of Transportation back ..."; Fable A, Nov 13).
   const said = group
-    ? `the ${!form && /\b[a-z][\w']*$/.test(group) ? group.charAt(0).toLowerCase() + group.slice(1) : group}`
+    ? form
+      ? group
+      : `the ${/\b[a-z][\w']*$/.test(group) ? group.charAt(0).toLowerCase() + group.slice(1) : group}`
     : undefined;
   // The vote the endorsement is for, from the contest's record, so the brief
   // says something its headline does not.

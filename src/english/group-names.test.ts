@@ -10,6 +10,24 @@ describe("cause group names", () => {
     expect(name).toBeTruthy();
     expect(name).toBe(causeGroupName(key, topic));
     expect(name).not.toMatch(/[:_]/);
+    // Cased whole, like any name: every word of the topic but the small ones.
+    expect(name).toMatch(/^[A-Z]/);
+    for (const word of name!.split(" "))
+      if (
+        ![
+          "a",
+          "an",
+          "and",
+          "for",
+          "in",
+          "of",
+          "on",
+          "or",
+          "the",
+          "to",
+        ].includes(word)
+      )
+        expect(word.charAt(0), name!).toBe(word.charAt(0).toUpperCase());
   });
   it("says nothing for a topic with no name", () => {
     expect(

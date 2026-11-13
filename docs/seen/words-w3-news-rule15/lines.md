@@ -19,3 +19,10 @@ Before is main at 9ed6e438b7; after is `claude/words-w3-news-rule15`. Seeds are 
 | Rogersville, Missouri                             | The Friends of transportation endorse Roger Simpson                | The Friends of transportation endorsed Roger Simpson for President ahead of the November 7, 2028 vote.    |
 
 Before, as P2 read it in Fruitland, Idaho: "The friends of policing backs Clara Evans for Mayor. The friends of policing endorsed Clara Evans for Mayor."
+
+## After Fable A's read (Nov 13, 09:21Z)
+
+A founded group's name is cased whole from its record, with no "The" added. Gunnison, Mississippi (seed 7d3ef3dd6501ccf0ef0d), as worded:
+
+- Friends of Transportation back Amber Watts for President / Friends of Transportation are backing Amber Watts in the November 7, 2028 race for President.
+- Coalition for Transportation endorses Amber Watts / Coalition for Transportation is backing Amber Watts in the November 7, 2028 race for President.
