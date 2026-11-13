@@ -5,6 +5,7 @@
  * with other locations carries its first location's name, so chains grow
  * from local names. Read-only and pure.
  */
+import { governmentProperName } from "./government-proper-name";
 import names from "./data/business/names.json" with { type: "json" };
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import { countyGovernmentUnitsForPlace } from "./reference/government-units";
@@ -53,22 +54,16 @@ export function businessName(
 }
 
 /**
- * A county government's listed name as people say it: "COUNTY OF HUMPHREYS"
- * is "Humphreys County", "PARISH OF ORLEANS" is "Orleans Parish".
+ * A county government's listed name as people say it: "COUNTY OF DEKALB" is
+ * "DeKalb County", "PARISH OF ST JAMES" is "St. James Parish". With the
+ * government's id the name is its place record's own (`governmentProperName`);
+ * without one, the listing's words by the one display rule.
  */
-export function countyDisplayName(listed: string): string {
-  const title = (text: string) =>
-    text
-      .toLowerCase()
-      .split(" ")
-      .map((word) =>
-        word === "and" || word === "of"
-          ? word
-          : word.replace(/(^|-)([a-z])/g, (found) => found.toUpperCase()),
-      )
-      .join(" ");
-  const match = /^(.+?) OF (.+)$/.exec(listed.trim());
-  return match ? `${title(match[2]!)} ${title(match[1]!)}` : title(listed);
+export function countyDisplayName(
+  listed: string,
+  governmentId?: string,
+): string {
+  return governmentProperName(listed, governmentId ?? "", "county");
 }
 
 /** The names a business in a place is named from, for a family. */
@@ -87,6 +82,6 @@ export function businessNameContext(
     town,
     state,
     family,
-    county: unit ? countyDisplayName(unit.name) : town,
+    county: unit ? countyDisplayName(unit.name, unit.id) : town,
   };
 }

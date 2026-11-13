@@ -99,7 +99,10 @@ import {
   openPetition,
   petitionOf,
   petitionSigners,
+  petitionSignatures,
+  SCALED_PETITION_ESTIMATE,
   type ContestRow,
+  type PetitionRule,
   type FilingRow,
   atLargeGroup,
 } from "./elections";
@@ -558,7 +561,7 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
   ).petition;
   const petition = openPetition(api, filing, {
     rule,
-    needed: petitionNeededHere(api, contest, rule.count),
+    needed: petitionNeededHere(api, contest, rule),
   });
   // Where the law asks no signatures, the clerk takes the filing at the
   // counter: nothing to circulate.
@@ -579,34 +582,174 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
       asOf: api.state.date,
       ...(rule.basis === "read"
         ? {}
-        : { estimatedFrom: "SG-GOV-petition-count-estimated" }),
+        : {
+            estimatedFrom:
+              rule.basis === "scaled"
+                ? SCALED_PETITION_ESTIMATE
+                : "SG-GOV-petition-count-estimated",
+          }),
     },
     sourceRecordIds: [petition.id],
   });
 }
 
 /**
- * The signatures a petition needs in this world: the law's count where the
- * town is the district. Where the district reaches past the town, the
- * world holds no one outside it to sign, so the clerk counts the town's
- * share of the law's count by eligible voters, at least one; where the
- * district's voters are not on record (an island area's), by the town's
- * share of its people (`districtPeopleShare`).
+ * The votes cast for an office at its most recent recorded election in this
+ * world, with the result record they came from; none where no election for it
+ * has been held in the run. Read by the recall engine's signature base and by
+ * a scaled petition's "votes" base.
+ */
+export function lastVotesForOffice(
+  api: CoreAPI,
+  officeId: string,
+): { readonly votes: number; readonly recordId: string } | undefined {
+  if (!api.state.modules.has(VOTING_MODULE_ID)) return undefined;
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  let best: { votes: number; recordId: string; date: string } | undefined;
+  for (const result of api
+    .moduleState(VOTING_MODULE_ID)
+    .table("results")
+    .rows() as unknown as ResultRow[]) {
+    const contest = contests.get(result.contestId) as unknown as
+      ContestRow | undefined;
+    const votes = Object.values(result.totals).reduce((n, v) => n + v, 0);
+    if (contest?.officeId !== officeId || votes <= 0) continue;
+    if (
+      !best ||
+      result.date > best.date ||
+      (result.date === best.date && result.id < best.recordId)
+    )
+      best = { votes, recordId: result.id, date: result.date };
+  }
+  return best && { votes: best.votes, recordId: best.recordId };
+}
+
+/**
+ * The town's own residents' votes (named and counted) for one kind of office
+ * at its most recent recorded election in this world, with the result record
+ * they came from; none where no such race has been held in the run or the
+ * world seats no such office for the town. The rest of the race's electorate
+ * (`placeVotes`) is not the town's.
+ */
+export function lastTownVotesForKind(
+  api: CoreAPI,
+  officeKind: string,
+): { readonly votes: number; readonly recordId: string } | undefined {
+  if (!api.state.modules.has(VOTING_MODULE_ID)) return undefined;
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  let best: { votes: number; recordId: string; date: string } | undefined;
+  for (const result of api
+    .moduleState(VOTING_MODULE_ID)
+    .table("results")
+    .rows() as unknown as ResultRow[]) {
+    const contest = contests.get(result.contestId) as unknown as
+      ContestRow | undefined;
+    const office = contest
+      ? (offices.get(contest.officeId) as unknown as
+          { kind?: string } | undefined)
+      : undefined;
+    if (office?.kind !== officeKind) continue;
+    const votes =
+      Object.values(result.namedVotes).reduce((n, v) => n + v, 0) +
+      Object.values(result.countedVotes).reduce((n, v) => n + v, 0);
+    if (votes <= 0) continue;
+    if (
+      !best ||
+      result.date > best.date ||
+      (result.date === best.date && result.id < best.recordId)
+    )
+      best = { votes, recordId: result.id, date: result.date };
+  }
+  return best && { votes: best.votes, recordId: best.recordId };
+}
+
+/**
+ * The votes cast at the most recent recorded election of one level in this
+ * world: the most cast in any one of its contests that day, with the result
+ * record they came from. None where no election of that level has been held
+ * in the run.
+ */
+export function lastVotesAtLevel(
+  api: CoreAPI,
+  level: string,
+): { readonly votes: number; readonly recordId: string } | undefined {
+  if (!api.state.modules.has(VOTING_MODULE_ID)) return undefined;
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  const rows = (
+    api
+      .moduleState(VOTING_MODULE_ID)
+      .table("results")
+      .rows() as unknown as ResultRow[]
+  ).flatMap((result) => {
+    const contest = contests.get(result.contestId) as unknown as
+      ContestRow | undefined;
+    const votes = Object.values(result.totals).reduce((n, v) => n + v, 0);
+    return contest?.level === level && votes > 0
+      ? [{ votes, recordId: result.id, date: result.date }]
+      : [];
+  });
+  const date = rows.reduce((d, r) => (r.date > d ? r.date : d), "");
+  const top = rows
+    .filter((r) => r.date === date)
+    .sort(
+      (a, b) => b.votes - a.votes || a.recordId.localeCompare(b.recordId),
+    )[0];
+  return top && { votes: top.votes, recordId: top.recordId };
+}
+
+/**
+ * The recorded votes a scaled petition's base names, read from the voting
+ * records: this office's last election ("office"), the last election of the
+ * same level ("level"), or the town's own votes for another kind of office
+ * the law counts (governor, secretary of state, lower chamber). None before
+ * that race has been held in the run, or where the world seats no such
+ * office for the town; the caller then sizes the base from the town's people.
+ */
+export function recordedBase(
+  api: CoreAPI,
+  contest: ContestRow,
+  scale: PetitionRule["scale"] & object,
+): number | undefined {
+  if (scale.base !== "votes") return undefined;
+  if (scale.election === "office")
+    return lastVotesForOffice(api, contest.officeId)?.votes;
+  if (scale.election === "level")
+    return lastVotesAtLevel(api, contest.level)?.votes;
+  return scale.election
+    ? lastTownVotesForKind(api, scale.election)?.votes
+    : undefined;
+}
+
+/**
+ * The signatures a petition needs in this world. Where the law scales the
+ * count to the town (a municipal "scaled" rule), the town's own voters set
+ * it. Otherwise the law's count where the town is the district; where the
+ * district reaches past the town, the world holds no one outside it to sign,
+ * so the clerk counts the town's share of the law's count by eligible voters,
+ * at least one; where the district's voters are not on record (an island
+ * area's), by the town's share of its people (`districtPeopleShare`). No
+ * petition asks more signatures than the town has voters.
  */
 function petitionNeededHere(
   api: CoreAPI,
   contest: ContestRow,
-  count: number,
+  rule: PetitionRule,
 ): number {
+  const voters = electorateRoll(api).reduce((n, v) => n + v.count, 0);
+  if (rule.basis === "scaled" && rule.scale)
+    return petitionSignatures(rule.scale, {
+      eligible: voters,
+      votesCast: recordedBase(api, contest, rule.scale),
+      population: Number(api.state.placeMetadata.referencePopulation) || 0,
+    });
+  const count = rule.count;
   if (count <= 0) return 0;
   const { places } = basePlaces(api, contest);
   const total = places.reduce((n, p) => n + p.eligible, 0);
   const share =
     places.length && total > 0
-      ? Math.min(
-          1,
-          electorateRoll(api).reduce((n, v) => n + v.count, 0) / total,
-        )
+      ? Math.min(1, voters / total)
       : contest.level === "state" || contest.level === "federal"
         ? districtPeopleShare(api, contest)
         : 1;
@@ -616,31 +759,11 @@ function petitionNeededHere(
     api.stopgap("SG-GOV-petition-town-share");
     scaled = Math.max(1, Math.ceil(count * share));
   }
-  // A local race's petition never asks more than a share of the town's own
-  // voters, as the places' own laws scale it (elections-petition-larger-than-
-  // the-town): a town of a few dozen adults is not asked for thirty names.
   if (contest.level === "state" || contest.level === "federal") return scaled;
-  const voters = electorateRoll(api).reduce((n, v) => n + v.count, 0);
-  return petitionWithinElectorate(scaled, voters);
-}
-
-/**
- * A local petition's count against the town's voters: at most
- * `petitionMaxShareOfVoters` of them, and at least one signature where the
- * law asks any.
- */
-export function petitionWithinElectorate(
-  count: number,
-  voters: number,
-): number {
-  if (count <= 0 || voters <= 0) return count;
-  const cap = Math.max(
-    1,
-    Math.floor(voters * electionsParameter("petitionMaxShareOfVoters")),
-  );
-  if (count <= cap) return count;
-  // stopgapId: SG-GOV-petition-electorate-cap
-  return cap;
+  // A local petition cannot ask more names than the town has voters.
+  return voters > 0
+    ? Math.max(1, Math.min(scaled, Math.floor(voters)))
+    : scaled;
 }
 
 const islandPeople = new Map<string, number>();

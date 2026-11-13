@@ -6,7 +6,7 @@ lead: laws-effects
 kind: bug
 priority: 3
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/project-thread-jmnnjg
 pr: #8967
@@ -19,6 +19,7 @@ root: rc1-world-outside-town
 checked: fable 2026-11-10
 claimed-at: 2026-11-12T23:48:52.016Z
 branch: pool/laws-session-moves-too-many-questions
+merged-at: 2026-11-13T02:09:09.923Z
 ---
 
 **What.** With repeats and same-day reversals gone (laws-session-passes-moot-and-opposite-bills), a state session in play still changes 10 to 19 of its 58 policy questions in one sitting: 19 in Charlotte Amalie, U.S. Virgin Islands (seed 8d768ae66bd2d090), 10 in Tuskegee, Alabama and in Hilliard, Ohio, and 15 in Carol Stream, Illinois. Every member files on a question they hold strongly when the law differs from their view (`needsChange` in src/core2/modules/world-legislating.ts), and the floor passes most of them in a chamber whose majority agrees, so the count grows with the number of members, not with what a session can take up. The pace is what the player sees on Issues, Calendar and News, and a world where half the landmark law turns over each year leaves the player's own bill little room to matter. For context only, the State Policy Innovation and Diffusion database follows more than 700 policies, each adopted by 24 states on average between 1691 and 2017, at most about six adoptions a state a year; that figure is reported next to the game's count, not used as a pass line. Seen: Issues, Calendar and News: a state changing 10 to 19 of its questions in one sitting.

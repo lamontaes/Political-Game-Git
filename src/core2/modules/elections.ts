@@ -33,6 +33,7 @@ import fallbackData from "../data/elections/filing-fallbacks.json" with { type: 
 import playerOffices from "../data/offices/player-offices.json" with { type: "json" };
 import federalQualifications from "../data/elections/federal-qualifications.json" with { type: "json" };
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
+import municipalPetitionRules from "../data/elections/municipal-petition-rules.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
@@ -113,17 +114,47 @@ export interface FilingRequirements {
   readonly petition: PetitionRule;
 }
 
+/** What an estimate from a place's scaled petition rule names as its source. */
+export const SCALED_PETITION_ESTIMATE =
+  "src/core2/data/elections/municipal-petition-rules.json";
+
+/** How a place's law scales a municipal petition to the town (one row of `municipal-petition-rules.json`). */
+export interface PetitionScale {
+  readonly share?: number;
+  readonly base?: "registered" | "votes";
+  /** For a votes base, which recorded election: this office's, the same level's, or the town's votes for another kind of office (governor, secretary-of-state, legislature-lower). */
+  readonly election?:
+    | "office"
+    | "level"
+    | "governor"
+    | "secretary-of-state"
+    | "legislature-lower";
+  readonly min?: number;
+  readonly max?: number;
+  readonly orFixed?: number;
+  readonly byPopulation?: readonly {
+    readonly belowPopulation?: number;
+    readonly count: number;
+  }[];
+  readonly text: string;
+}
+
 /** The signatures a place's law asks of one side's petition for one family of offices. */
 export interface PetitionRule {
   /** Signatures of the district's voters the petition must hold. */
   readonly count: number;
   /**
+   * "scaled" where the law scales the count to the town (a share of its
+   * voters, a floor, a ceiling, or a count by the town's size:
+   * `municipal-petition-rules.json`; the town's count is `petitionSignatures`).
    * "read" where the place's row gives the count, "none-in-law" where it
    * says the law asks none (a fee or a declaration instead: no petition).
    * Otherwise the count is the read counts' median for the family and side:
    * the row gives a formula ("formula") or nothing ("unread").
    */
-  readonly basis: "read" | "formula" | "none-in-law" | "unread";
+  readonly basis: "read" | "scaled" | "formula" | "none-in-law" | "unread";
+  /** The law's scale to the town, for a "scaled" rule. */
+  readonly scale?: PetitionScale;
   /** The place's own words for the rule, where its row gives a formula. */
   readonly formula: string | null;
   readonly source: string;
@@ -348,8 +379,80 @@ export function filingRequirements(
       family,
       sideName,
       source || "data/research/elections/filing-requirements.json",
+      municipalScale(usps, family, sideName, read),
     ),
   };
+}
+
+/**
+ * The place's scale for a municipal petition, if its law gives one: the
+ * side's own row, or the party row where the research file's independent row
+ * is not an object (as `sideRow` reads it).
+ */
+function municipalScale(
+  usps: string,
+  family: OfficeFamily,
+  sideName: FilingSide,
+  read: ReadRequirements | undefined,
+): PetitionScale | undefined {
+  if (family !== "municipalOffice") return undefined;
+  const rows = (
+    municipalPetitionRules.places as unknown as Record<
+      string,
+      { party?: PetitionScale; independent?: PetitionScale } | undefined
+    >
+  )[`US-${usps}`];
+  if (sideName === "party") return rows?.party;
+  const own = read?.independent;
+  return own && typeof own === "object" ? rows?.independent : rows?.party;
+}
+
+/**
+ * The signatures a "scaled" petition asks of this town: the place's share of
+ * its voters: the votes recorded for the office at its last election in this
+ * world where the law's base is votes cast and one has been held; otherwise
+ * the town's people times the votes-cast share of the population (a
+ * presidential year's, so it overstates a local election's); a registered-
+ * voters base is the town's eligible voters times the registered share (the
+ * world keeps no rolls), held to the law's floor and
+ * ceiling, or its fixed count by town size. Never more than the town's
+ * voters, and at least one.
+ */
+export function petitionSignatures(
+  scale: PetitionScale,
+  town: {
+    readonly eligible: number;
+    readonly population: number;
+    /** The votes recorded for the office at its last election in this world, where one has been held. */
+    readonly votesCast?: number;
+  },
+): number {
+  const tier = scale.byPopulation?.find(
+    (t) =>
+      t.belowPopulation === undefined || town.population < t.belowPopulation,
+  );
+  let count: number;
+  if (tier) count = tier.count;
+  else {
+    const registered =
+      town.eligible * campaignParameter("registeredShareOfEligible");
+    const base =
+      scale.base === "votes"
+        ? (town.votesCast ??
+          (town.population > 0
+            ? Math.min(
+                registered,
+                town.population *
+                  campaignParameter("localElectorateShareOfPopulation"),
+              )
+            : registered))
+        : registered;
+    count = Math.ceil(base * (scale.share ?? 0));
+    if (scale.orFixed !== undefined) count = Math.min(count, scale.orFixed);
+    if (scale.min !== undefined) count = Math.max(count, scale.min);
+    if (scale.max !== undefined) count = Math.min(count, scale.max);
+  }
+  return Math.max(1, Math.min(count, Math.floor(town.eligible)));
 }
 
 /** A side's row as an object, the party side where the independents' is not one. */
@@ -394,7 +497,16 @@ function petitionRule(
   family: OfficeFamily,
   sideName: FilingSide,
   source: string,
+  scale?: PetitionScale,
 ): PetitionRule {
+  if (scale)
+    return {
+      count: typeof side?.signatures === "number" ? side.signatures : 0,
+      basis: "scaled",
+      formula: scale.text,
+      scale,
+      source: `${source} ; scaled to the town by the place's rule in municipal-petition-rules.json (estimate): ${scale.text}`,
+    };
   const read = side?.signatures;
   if (typeof read === "number" && read > 0)
     return { count: read, basis: "read", formula: null, source };
@@ -1504,7 +1616,12 @@ export function keepPetitionCheck(
       asOf: api.state.date,
       ...(petition.rule.basis === "read"
         ? {}
-        : { estimatedFrom: "SG-GOV-petition-count-estimated" }),
+        : {
+            estimatedFrom:
+              petition.rule.basis === "scaled"
+                ? SCALED_PETITION_ESTIMATE
+                : "SG-GOV-petition-count-estimated",
+          }),
     },
     publicRecord: true,
     news: true,
