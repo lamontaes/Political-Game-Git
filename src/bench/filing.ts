@@ -20,7 +20,6 @@ import {
   partyTie,
 } from "../core2/modules/parties";
 import { contestPositions } from "../core2/contest-positions";
-import { raceLive } from "../core2/campaign-day";
 import { seatHolder } from "../core2/modules/voting";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
@@ -37,7 +36,7 @@ import { fileForOffice } from "./government";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
-import { petitionView } from "./campaign";
+import { petitionView, raceLive } from "./campaign";
 
 /** The picture for the office that takes a contest's filings. */
 export function officePlace(filedWith: string): string {

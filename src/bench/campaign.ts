@@ -108,6 +108,9 @@ function townFirst(api: CoreAPI, outletIds: readonly string[]) {
   return outletIds.find((id) => tier.get(id) === "local") ?? outletIds[0];
 }
 
+/** Whether a filing's race is live: ahead and not yet counted (the screens' one reading of it). */
+export { raceLive };
+
 /** The player's campaigns: one for each filing on the ballot. */
 export function campaignView(core: CoreState, personId: string) {
   if (!core.modules.has(CAMPAIGNS)) return { campaigns: [], venues: [] };
