@@ -1702,12 +1702,48 @@ function holdBudgetHearing(
   );
 }
 
+let budgetVoteWaits:
+  ((api: CoreAPI, gov: GovernmentRow, fy: number) => boolean) | null = null;
+/** The legislature engine says when a body's meeting votes the year's budget instead of the calendar. */
+export function registerBudgetVoteWaits(
+  waits: (api: CoreAPI, gov: GovernmentRow, fy: number) => boolean,
+): void {
+  budgetVoteWaits = waits;
+}
+
 function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "budget-adoption") return;
   const gov = table(api, "governments").get(
     work.sourceRecordIds[0]!,
   ) as unknown as GovernmentRow;
   const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
+  // A body that meets votes its budget at its meeting that day (or already has).
+  if (budgetVoteWaits?.(api, gov, fy)) return;
+  adoptYear(api, gov, fy, work.source);
+}
+
+/**
+ * The year's budget is voted at its body's meeting on the year's first day:
+ * the same adoption the calendar runs, from the same calendar record.
+ */
+export function adoptBudgetAtMeeting(api: CoreAPI, governmentId: string): void {
+  const gov = table(api, "governments").get(governmentId) as unknown as
+    GovernmentRow | undefined;
+  if (!gov) return;
+  const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
+  const work = api
+    .moduleCalendar(BUDGETS_MODULE_ID)
+    .get(`adopt:${gov.id}:${fy}`);
+  if (!work || work.date !== api.state.date) return;
+  adoptYear(api, gov, fy, work.source);
+}
+
+function adoptYear(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  source: ModuleCalendarWork["source"],
+): void {
   // The town's council votes its own budget where the legislature engine runs.
   const enactedBefore = { ...enactedBudgetChanges(api, gov.id) };
   const voted = councilBudgetVote?.(api, gov, fy) ?? null;
@@ -1733,7 +1769,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           citation: `Budget adopted (${budget.adoptedBy.kind})`,
           asOf: api.state.date,
         }
-      : work.source,
+      : source,
     publicRecord: true,
     news: true,
     facts: {
@@ -1779,7 +1815,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     key: `adopt:${gov.id}:${fy + 1}`,
     date: `${fy + 1}-${gov.fiscalYearStart}`,
     kind: "budget-adoption",
-    source: work.source,
+    source: source,
     sourceRecordIds: [gov.id],
   });
   scheduleBudgetHearing(api, gov, fy + 1, api.state.date);

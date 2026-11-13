@@ -56,8 +56,10 @@ import {
   LEGISLATURE_MODULE_ID,
   memberKey,
   members,
+  registerBudgetMeeting,
   registerLegislatureHooks,
   registerMeetingAgendaReader,
+  voteBudgetAtMeeting,
   registerCommitteeWait,
   playerSitsOnCommittee,
   type BillRow,
@@ -247,9 +249,10 @@ registerOfficeActs(localOfficeKit(officeHost));
 
 export function openOfficeDay(core: CoreState, worldSeed: string): void {
   registerLegislatureHooks({
-    beforeVote: { name: "own-vote", run: ownVote },
+    beforeVote: { name: "own-vote", run: ownVote, castsVote: true },
     onDesk: deskArrived,
   });
+  registerBudgetMeeting({ place: placeBudgetVote, votes: votesBudgetToday });
   const providers = OFFICE_DAY_MODULE.offerProviders as Record<string, unknown>;
   const handlers = OFFICE_DAY_MODULE.effectHandlers as Record<string, unknown>;
   for (const kit of officeActKits()) {
@@ -323,6 +326,8 @@ function scheduleMeeting(api: CoreAPI, officeId: string, after: string): void {
   const notice = dayOffset(next.date, -officeDayParameter("agendaNoticeDays"));
   const calendar = api.moduleCalendar(OFFICE_DAY_MODULE_ID);
   const id = meetingId(officeId, next.date);
+  // A meeting held to vote the budget, closing, finds the next regular one already on the books.
+  if (calendar.get(id)) return;
   const work = {
     source: next.rule.source,
     sourceRecordIds: [officeId, next.date],
@@ -865,6 +870,13 @@ export function adjourn(api: CoreAPI, meetingIdValue: string): MeetingRow {
  */
 function voteItem(api: CoreAPI, billId: string): BillRow {
   const bill = billOf(api, billId);
+  // The year's budget is adopted at the meeting by the one budget vote, which
+  // reads each member's cast vote: the player's own position is cast here, by
+  // the same rule as any item, when they left it to the character or are away.
+  if (bill?.budgetFor) {
+    if (bill.status === "drafted") ownVote(api, billId);
+    return voteBudgetAtMeeting(api, billId);
+  }
   if (bill?.status === "drafted" && bill.hooksRun?.includes("own-vote"))
     ownVote(api, billId);
   return voteAtMeeting(api, billId);
@@ -975,6 +987,75 @@ function ownVote(api: CoreAPI, billId: string): void {
  */
 function holdsMemberFilings(api: CoreAPI): boolean {
   return api.state.modules.has(OFFICE_DAY_MODULE_ID);
+}
+
+/**
+ * A government's budget goes on its body's agenda for the day it is voted, the
+ * fiscal year's first day (budgets.ts), for every body alike: the regular
+ * meeting that day takes it with its other items, and a body with no regular
+ * meeting that day meets that day at its usual hour to vote it. A body with no
+ * meeting rule votes it from the budgets calendar.
+ */
+function placeBudgetVote(api: CoreAPI, billId: string, date: string): void {
+  if (!api.state.modules.has(OFFICE_DAY_MODULE_ID)) return;
+  const bill = billOf(api, billId);
+  if (!bill || date <= api.state.date) return;
+  const officeId = bill.bodyOfficeId;
+  const rule = nextMeeting(api, officeId, dayOffset(date, -1));
+  if (!rule) return;
+  table(api, "agendaItems").put({
+    id: billId,
+    officeId,
+    date,
+  } as unknown as ModuleRow);
+  const id = meetingId(officeId, date);
+  const row = meetingOf(api, id);
+  if (row) {
+    if (row.status !== "scheduled") return;
+    const placed: MeetingRow = {
+      ...row,
+      agenda: [...new Set([...row.agenda, billId])],
+    };
+    table(api, "meetings").put(placed as unknown as ModuleRow);
+    holdPlayerIfDue(api, placed);
+    return;
+  }
+  // The regular meeting that day posts its agenda on its notice day and takes the budget then.
+  if (rule.date === date) return;
+  const calendar = api.moduleCalendar(OFFICE_DAY_MODULE_ID);
+  if (calendar.get(id)) return;
+  // stopgapId: SG-OFFICE-budget-meeting-on-the-year-start
+  const held: MeetingRow = {
+    id,
+    officeId,
+    date,
+    startMinute: rule.rule.startMinute,
+    minutes: rule.rule.minutes,
+    agenda: [billId],
+    takenUp: [],
+    status: "scheduled",
+    playerPresent: false,
+    posted: true,
+    citation: rule.rule.source.citation,
+  };
+  table(api, "meetings").put(held as unknown as ModuleRow);
+  calendar.schedule({
+    source: rule.rule.source,
+    sourceRecordIds: [officeId, date],
+    key: id,
+    date,
+    kind: "meeting",
+  });
+  holdPlayerIfDue(api, held);
+}
+
+/** Whether a meeting today, still sitting, has the budget on its agenda to vote. */
+function votesBudgetToday(api: CoreAPI, billId: string): boolean {
+  const placed = table(api, "agendaItems").get(billId) as unknown as
+    { officeId: string; date: string } | undefined;
+  if (!placed || placed.date !== api.state.date) return false;
+  const row = meetingOf(api, meetingId(placed.officeId, placed.date));
+  return !!row && row.status !== "adjourned" && row.agenda.includes(billId);
 }
 
 /** Ordinances members filed for a meeting go on its agenda; with no meeting row they are voted now. */
