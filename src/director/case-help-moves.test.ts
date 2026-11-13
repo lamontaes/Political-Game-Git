@@ -119,19 +119,22 @@ const run = (drawSeed: string, decision: "help" | "decline"): string | null => {
   for (const node of nodes(talk.tree))
     for (const reply of node.replies.filter((r) => r.line.move === "lie")) {
       lies += 1;
-      // Answered in a follow, or, on the last round, in the close.
-      const follow = reply.next?.lines.find((line) => line.role === "asker");
-      const answer = follow ?? reply.next?.end?.close;
+      // The talk branches on whether the constituent knows: believed, they
+      // thank you or wait; caught, they say what they know.
+      const believed = reply.next?.branches?.find((row) => !row.knows)?.node
+        .lines[0];
       expect(
-        answer,
-        `${where}: no answer to "${reply.line.text}"`,
+        believed,
+        `${where}: no answer to "${reply.line.text}" if believed`,
       ).toBeTruthy();
-      if (follow)
-        expect(["thank", "accept", "confront"], where).toContain(follow.move);
-      if (follow && agency)
-        expect(follow.text.toLowerCase(), where).toContain(
+      expect(["thank", "accept"], where).toContain(believed!.move);
+      if (agency)
+        expect(believed!.text.toLowerCase(), where).toContain(
           agency.text.toLowerCase(),
         );
+      const caught = reply.next?.branches?.find((row) => row.knows)?.node
+        .lines[0];
+      if (caught) expect(caught.move, where).toBe("confront");
     }
   expect(lies, `${where}: no lie offered`).toBeGreaterThan(0);
   const ending = decision === "help" ? "will-call" : "cant-help";
