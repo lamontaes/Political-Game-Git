@@ -14,7 +14,14 @@ import { daysBetweenText } from "../core2/kernel/dates";
 import { careNeedOf } from "../core2/modules/health";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { CASES_MODULE_ID } from "../core2/modules/offices";
+import {
+  CASES_MODULE_ID,
+  openCasesOf,
+  type CaseRow,
+} from "../core2/modules/offices";
+import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
+import { countSaid, daysSaid } from "../english/count-words";
+import rules from "./data/constituent-help-facts.json" with { type: "json" };
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { dollars } from "../english/bill-sections";
 import { spanSaid } from "../english/span-words";
@@ -47,13 +54,95 @@ export function lastLayoff(
   );
 }
 
+/**
+ * What the constituent's case on the office's books says (constituent-cases.ts
+ * CaseRow), for the moves of the case-help set (data/english/scene-move-sets.json):
+ *
+ * - `problem-work` / `problem-wage`: the problem the case was opened for;
+ * - `agency`: the office the official refers it to by taking it up;
+ * - `respond-in`: when the office decides it if nobody does sooner ("in
+ *   seven days"), from the case's deadline;
+ * - `employer` and `since` (a job seeker's last layoff), `money-left` (how
+ *   their savings stand, in words), `pay` and `floor` (a wage complaint);
+ * - `other-cases`: the official's other open cases; `staffer`: the aide who
+ *   would take the case, where the official has staff.
+ *
+ * A fact is set only where its record is on the books.
+ */
+export function caseFacts(
+  core: Readonly<CoreState>,
+  askerId: PersonId,
+  cause: { id: string; date: string; facts: Readonly<Record<string, string>> },
+): Record<string, Fact> {
+  const facts: Record<string, Fact> = {};
+  const caseId = cause.facts.caseId;
+  if (!caseId || !core.modules.has(CASES_MODULE_ID)) return facts;
+  const api = coreAPI(core as CoreState);
+  const row = api.moduleState(CASES_MODULE_ID).table("cases").get(caseId) as
+    CaseRow | undefined;
+  if (!row) return facts;
+  const ids = [caseId];
+  const said = (text: string) => ({ text, sourceRecordIds: ids });
+  facts[
+    row.problem === "paid-under-minimum-wage" ? "problem-wage" : "problem-work"
+  ] = said("yes");
+  const agency = (rules.agencyByProblem.value as Record<string, string>)[
+    row.problem
+  ];
+  if (agency) facts.agency = said(agency);
+  facts["respond-in"] = said(
+    daysSaid(Math.max(P.one, daysBetweenText(cause.date, row.respondBy))),
+  );
+  if (row.problem === "paid-under-minimum-wage") {
+    const hourly = Number(row.facts.hourlyMinor ?? P.zero);
+    const floor = Number(row.facts.floorMinor ?? P.zero);
+    if (hourly > P.zero) facts.pay = said(dollars(hourly));
+    if (floor > P.zero) facts.floor = said(dollars(floor));
+  } else {
+    const loss = lastLayoff(core, askerId, cause.date);
+    const org = loss ? core.organizations.get(loss.organizationId) : undefined;
+    if (loss && org) {
+      facts.employer = {
+        text: properName(org.name),
+        sourceRecordIds: [loss.id, org.id],
+      };
+      facts.since = {
+        text: spanSaid(daysBetweenText(loss.date, cause.date)),
+        sourceRecordIds: [loss.id],
+      };
+    }
+    // How their savings stand, in words, from the case's severity.
+    const band = rules.moneyLeft.value.find(
+      (row_) => row.severity >= row_.atLeast,
+    );
+    if (band && row.severity > P.zero) facts["money-left"] = said(band.said);
+  }
+  const others = openCasesOf(api, row.officialId, row.id);
+  if (others > P.zero) {
+    const words = rules.otherCases.value;
+    facts["other-cases"] = said(
+      others === P.one
+        ? words.one
+        : words.more.replace("{count}", countSaid(others)),
+    );
+  }
+  if (core.modules.has(STAFF_MODULE_ID)) {
+    const aide = servingStaffOf(api, row.officialId)
+      .map((staffer) => core.people.get(staffer.personId))
+      .find((person) => person?.alive);
+    if (aide)
+      facts.staffer = { text: aide.givenName, sourceRecordIds: [aide.id] };
+  }
+  return facts;
+}
+
 export function constituentFacts(
   core: Readonly<CoreState>,
   askerId: PersonId,
   cause: { id: string; date: string; facts: Readonly<Record<string, string>> },
   variant: VariantChoice | null,
 ): Record<string, Fact> {
-  const facts: Record<string, Fact> = {};
+  const facts: Record<string, Fact> = caseFacts(core, askerId, cause);
   if (!variant) return facts;
   const api = coreAPI(core as CoreState);
   const person = core.people.get(askerId);

@@ -29,6 +29,7 @@ import { stableHash } from "../core2/kernel/ids";
 
 export type { Fact };
 import { admittedParts, directorSlots } from "./bank-parts";
+import { sentenceStarts } from "./said-as";
 import {
   follows,
   REPLY_FOLLOWS,
@@ -560,7 +561,8 @@ export function wordSceneMove(input: {
   const part = parts.find((row) => row.key === line.variantKey);
   const tag = onlyTagged && part ? taggedBy(part) : undefined;
   return {
-    text: line.text,
+    // A slot that opens a sentence after another is capitalized as one.
+    text: sentenceStarts(line.text),
     pieceKey: part?.key ?? line.variantKey ?? "",
     step: (part?.uses.find((u) => (steps as string[]).includes(u.step))?.step ??
       steps[zero]) as SceneTalkStep,
@@ -665,13 +667,17 @@ function joinedMove(
   const coreKey =
     line.parts.find((part) => part.part === "core")?.variantKey ?? "";
   const core = sentence.parts.core?.find((part) => part.key === coreKey);
+  // A slot that opens a joined sentence ("... It goes to {agency}.") is
+  // capitalized as the sentence's first word.
   // An opener that says the speaker's side has given the answer already.
   const openerKey = line.parts.find(
     (part) => part.part === "opener",
   )?.variantKey;
   const opener = sentence.parts.opener?.find((part) => part.key === openerKey);
   const stood = opener?.piece?.stand === true;
-  const text = stood ? standSaidOnce(line.text.trim()) : line.text.trim();
+  const text = sentenceStarts(
+    stood ? standSaidOnce(line.text.trim()) : line.text.trim(),
+  );
   return {
     text,
     pieceKey: coreKey,
