@@ -37,4 +37,5 @@ checked: fable 2026-11-10
 **Files.** data/english/parts/hearing.json, src/director/purpose-scene.ts, src/director/data/purpose-arcs.json, src/director/data/stopgaps.json
 
 **Notes.** Added Nov 8 by the Story session with the restore of the owner's liked lines (`scripts/dialogue-batch/liked-lines-kept.test.ts`). The graded keys stay in a bank until a scene reads them.
+
 - Dropped Nov 12, 2026 by the story builder for the lead (Fable A): its scene was deleted with the scene inventory (docs/design/scene-inventory.md, branch claude/story-scene-inventory); the scene's reply was read by no engine.

@@ -47,4 +47,5 @@ branch:
 **Files.** src/director/purpose-scene.ts, src/director/data/stopgaps.json, src/director/view-learned.ts, src/director/reply-set-check.ts, src/director/data/situation-types.json, src/english/scene-talk-words.ts, src/english/question-names.ts, src/core2/modules/views.ts, data/english/parts/scene-talk.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 110 lines, 64 with no insert and not excused. Three today: "I saw it. They've got it about right.", "Yeah. I've been thinking the same thing for a while.", "I did, and I'm glad someone finally said it."
+
 - Dropped Nov 12, 2026 by the story builder for the lead (Fable A): its scene was deleted with the scene inventory (docs/design/scene-inventory.md, branch claude/story-scene-inventory); the scene's reply was read by no engine.
