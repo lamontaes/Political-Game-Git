@@ -77,6 +77,7 @@ const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 const leanWord = (label) =>
   controls.leanWords?.[label === "not-sure" ? "notSure" : label] ?? "";
 import { newsBoard } from "./ui/news-board.mjs";
+import { openingTab } from "./ui/news-open.mjs";
 import { peopleScreen } from "./ui/people-screen.mjs";
 import { ballotPaper } from "./ui/ballot-paper.mjs";
 import { electionNight as electionNightScreen } from "./ui/election-night.mjs";
@@ -138,6 +139,8 @@ let newsTab = null;
 // whose life they are (another life starts its own).
 let newsOrder = [];
 let newsFor = null;
+// The stories whose outlet page News has shown: read (ui/news-open.mjs).
+let newsSeen = new Set();
 // The game's date is the clock's, the packet's; me.date is only the day the
 // screen loaded (P15, C10: the News kept the opening day).
 const today = () => packet?.at?.date ?? me.date;
@@ -4130,6 +4133,7 @@ const sheets = {
       newsFor = me.id;
       newsOrder = [];
       newsTab = null;
+      newsSeen = new Set();
     }
     const outlets = new Map();
     // The player's own outlets have a tab from the first day, before they print.
@@ -4162,8 +4166,7 @@ const sheets = {
     // One tab order, whatever came in last (play-nov8-news-opens-on-a-different-paper-each-time):
     // the player's own paper first (an outlet of the place they live in), then the
     // desk of stories no outlet printed (there from day one), the other papers by
-    // name, the Nation's last; News opens on the tab the player last chose, else
-    // the first.
+    // name, the Nation's last; which tab it opens on is ui/news-open.mjs.
     const rank = (outlet) =>
       outlet.home || outlet.stories.some((st) => st.outlet?.home)
         ? 0
@@ -4190,15 +4193,24 @@ const sheets = {
       ...newsOrder,
       ...[...ordered.keys()].filter((key) => !newsOrder.includes(key)),
     ];
+    // News opens on the last tab chosen if it has something new, else the
+    // followed outlet with the newest unread story, else the home paper.
+    const read = (key) => {
+      for (const story of ordered.get(key)?.stories ?? [])
+        newsSeen.add(story.id);
+    };
+    const opening = openingTab(ordered, newsTab, newsSeen);
+    read(opening);
     return [
       newsBoard({
         outlets: ordered,
-        chosenKey: newsTab,
+        chosenKey: opening,
         followsAny: (
           await api(`/api/news/follows?id=${encodeURIComponent(me.id)}`)
         ).any,
         onChoose: (key) => {
           newsTab = key;
+          read(key);
         },
         labels,
         date: today(),
