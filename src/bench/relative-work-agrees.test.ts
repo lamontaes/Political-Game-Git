@@ -15,6 +15,7 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
+import { familyFactsOf } from "../core2/modules/people";
 import { personWorkOf } from "../core2/person-work";
 import type { PersonId } from "../core2/types";
 import { composeJournal } from "../director/journal";
@@ -48,7 +49,7 @@ describe.each(["a", "b"])("a relative's work and office (case %s)", (draw) => {
         (core.households.get(core.people.get(id)!.householdId)?.memberIds ?? [])
           .filter((other) => other !== id && core.people.get(other)?.alive)
           // A relative at home: the Journal names a housemate by their tie.
-          .filter((other) => core.people.get(id)!.familyIds.has(other))
+          .filter((other) => familyFactsOf(core.people.get(id)).has(other))
           .filter((other) => personWorkOf(core, other).offices.length > 0);
       const player = (
         atHome(playerId! as PersonId).length
