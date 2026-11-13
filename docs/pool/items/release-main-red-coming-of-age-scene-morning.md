@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/red-main-coming-of-age-scene-morning
-pr:
+pr: #9035
 after:
 blocked-on:
 lead: play
