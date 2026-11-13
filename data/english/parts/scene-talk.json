@@ -115411,7 +115411,7 @@
       "key": "scene-talk.reply-confront.that-many-for-one-seat",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "{signatures}? For one seat?",
+      "text": "All {signatures}? For one seat?",
       "uses": [
         {
           "subject": "scene",
@@ -115690,7 +115690,7 @@
       "key": "scene-talk.follow-refuse.that-s-the-law-s-number-not-mine",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "{signatures} is the law's number, not mine.",
+      "text": "The law's number is {signatures}, not mine.",
       "uses": [
         {
           "subject": "scene",
