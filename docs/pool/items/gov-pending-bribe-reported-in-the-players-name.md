@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/p2-pending-bribe-not-reported
 pr: #9014
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: Playtester P2, Nov 13 (Fruitland, Idaho, seed 6c66ce96-86ed-47d7-ad37-063de2ddc0bf)
+merged-at: 2026-11-13T06:46:46.953Z
 ---
 
 **What.** On main 596d5127, in an Advanced start in Fruitland, Idaho (seed 6c66ce96-86ed-47d7-ad37-063de2ddc0bf) as Council member Bianca Guzman, two people offered her money on Saturday, February 1, 2025, during one press of Week. She never saw either offer. Complaints "by" her were filed with the prosecutor that same day (`complaint:bribe:2025-02-01:person_004995f68770ce05:person_017543b14435c24d:contract:place:1628990:highways:2025-02-01:person_017543b14435c24d`). The next morning Matthew Reynolds, who had made the offer, opened an accusation scene: "Matthew Reynolds says you offered them money, and has gone to the prosecutor about it." He was later convicted. Seen: a bribe offered to the player waits for the player's answer, and nothing is reported in their name until they answer.
