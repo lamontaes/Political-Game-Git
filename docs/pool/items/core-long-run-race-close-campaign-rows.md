@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/pool-core-long-run-race-close-campaign-rows
 pr: #8444
 after:
@@ -19,6 +19,7 @@ root: rc5-full-detail-every-day
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T01:46:25.043Z
 branch: claude/pool-core-long-run-race-close-campaign-rows
+merged-at: 2026-11-13T01:37:43.815Z
 ---
 
 **What.** The campaigns engine keeps every gift, endorsement, poll and stepped-up row of every race forever, though every reader in play reads them only while the race is open or reads the player's own race. They grow with every election in every place the world plays. The campaign row keeps raisedMinor, and the campaign-endorsed and campaign-stepped-up events carry what news reads.

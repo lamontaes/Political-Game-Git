@@ -69,7 +69,7 @@ describe("a person's history on their card", () => {
     // paragraph it is told in on the card.
     for (const line of card.history)
       expect(line.kind, `${where}: ${line.text}`).toMatch(
-        /^(born|school|moved|home|partner|child|work|business|loss|health|law|office|tie)$/,
+        /^(born|school|moved|home|partner|child|work|service|business|loss|health|law|office|tie)$/,
       );
     // Your own birth is said to you, not by your name: by the piece that
     // worded it ("You were born to him.", "In 2007, he had you.").

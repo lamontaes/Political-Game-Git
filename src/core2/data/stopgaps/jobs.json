@@ -24,5 +24,17 @@
     "addedAt": "2026-11-11",
     "replacement": "The jobs engine's hire writes one event naming the person and the employer (the event it already describes), which recordedMoments reads like a move.",
     "status": "open"
+  },
+  {
+    "id": "SG-JOBS-opening-recorded-jobs-not-trimmed",
+    "kind": "owner-decision",
+    "file": "src/core2/opening-employment.ts",
+    "line": 376,
+    "whatItFakes": "The opening adds jobs up to each age cohort's employment target but never trims the jobs the recorded work history already holds, so a cohort whose records employ more than its target (Cedro, New Mexico, seed 6688ecf3fa1f22a83b3c21db8f19f866d6b21ebfd85a86b0623a3a7221c5c248: 16 of 16 aged 62 to 64 recorded working against an ACS target of 7) opens above the BLS band. The records win.",
+    "why": "A filled-in person must match what the records already say (AGENTS.md, two-level population), so trimming a recorded job is a design call about the player's world, not a calibration.",
+    "addedBy": "claude/pool-core-older-workers-full-vs-counted-gap",
+    "addedAt": "2026-11-11",
+    "replacement": "The owner's ruling on whether the opening trims recorded jobs above a cohort's BLS band (OWNER DECISIONS NEEDED in the pool PR for core-older-workers-full-vs-counted-gap); until then the records win in both tiers, shown in src/core2/fill-in-older-workers.test.ts.",
+    "status": "open"
   }
 ]

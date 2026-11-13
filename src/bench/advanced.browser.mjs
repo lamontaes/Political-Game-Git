@@ -54,7 +54,7 @@ try {
   const name = (await choices.first().locator(".pick-name").innerText()).trim();
   await choices.first().click();
   // Choosing shows their bust and a Play as button; the button steps in.
-  await page.locator("#pick-detail .mxbust img").waitFor();
+  await page.locator("#pick-detail .mxbust .bust-stack").waitFor();
   assert.match(
     (await page.locator("#pick-play").innerText()).trim(),
     new RegExp(`^Play as ${name}$`),

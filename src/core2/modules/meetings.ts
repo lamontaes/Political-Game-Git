@@ -83,6 +83,7 @@ import { type Stance } from "../campaign-data";
 import { agreementWith, countedLean, viewOn } from "./views";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { ENCOUNTERS, meetAtMeeting } from "./people";
 
 export const MEETINGS_MODULE_ID = "core2-meetings-v1";
 
@@ -437,6 +438,22 @@ function publicComment(api: CoreAPI, billId: string): void {
   }
   const said = remarksOn(api, billId);
   if (!said.length) return;
+  // The members sit through the comment, so each speaker on the record (those
+  // who signed up, the player among them, and those moved to stand up) they
+  // did not know now knows them by name; the first tie holds the speaker's
+  // time at the podium. A speaker still in the wider population is not met
+  // (two-level population).
+  for (const seat of members(api, bill.bodyOfficeId))
+    if (seat.personId)
+      meetAtMeeting(
+        api,
+        seat.personId,
+        said.map((r) => r.personId),
+        lawChain(api).townPlaceId,
+        `public-comment:${bill.id}`,
+        ENCOUNTERS.causes.metAtPublicComment,
+        meetingParameter("publicCommentHours"),
+      );
   // Each comment is a speech to the room: the members and the others who
   // spoke hear it (the speech engine moves them and lets them retell it).
   if (api.state.modules.has(SPEECH_MODULE_ID)) {

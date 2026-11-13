@@ -43,7 +43,9 @@
     "outside": "The possessive of the state an area outside its metro areas belongs to (\"Kentucky's\", \"Texas'\"), from the regional record.",
     "candidate": "A candidate, by name, from the campaign's record.",
     "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
-    "district": "A seat's district, as its seat record numbers it (4, 12A), from the seat records."
+    "district": "A seat's district, as its seat record numbers it (4, 12A), from the seat records.",
+    "year": "A budget's fiscal year, from the budget record.",
+    "spending": "What a budget plans to spend in all, rounded as people say it, from the budget record."
   },
   "maxWords": 14,
   "mining": {
@@ -5769,28 +5771,6 @@
       }
     },
     {
-      "key": "headlines.budget-adopted.congress-passes-the-federal-budget",
-      "move": "budget-adopted",
-      "kind": "written",
-      "text": "Congress passes the federal budget",
-      "uses": [
-        {
-          "move": "budget-adopted",
-          "subject": "headline",
-          "role": "budget-adopted",
-          "choice": "headline",
-          "requiresFacts": ["federal"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "headlines.bail.name-held-until-trial",
       "move": "bail",
       "kind": "written",
@@ -6647,28 +6627,6 @@
           "subject": "headline",
           "role": "item-veto",
           "choice": "headline"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.hearing.public-hearing-held-on-the-budget",
-      "move": "hearing",
-      "kind": "written",
-      "text": "Public hearing held on the budget",
-      "uses": [
-        {
-          "move": "hearing",
-          "subject": "headline",
-          "role": "hearing",
-          "choice": "headline",
-          "requiresFacts": ["budget"]
         }
       ],
       "origin": "authored",
@@ -8318,14 +8276,394 @@
         "key": "news-received"
       }
     },
-    {"key": "headlines.cabinet-nominated.name-named-for-office", "move": "cabinet-nominated", "kind": "written", "text": "{name} named for {office}", "uses": [{"move": "cabinet-nominated", "subject": "headline", "role": "cabinet-nominated", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
-    {"key": "headlines.cabinet-nominated.name-is-the-presidents-pick-for-office", "move": "cabinet-nominated", "kind": "written", "text": "{name} is the president's pick for {office}", "uses": [{"move": "cabinet-nominated", "subject": "headline", "role": "cabinet-nominated", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
-    {"key": "headlines.cabinet-nominated.president-nominates-name-to-be-office", "move": "cabinet-nominated", "kind": "written", "text": "President nominates {name} to be {office}", "uses": [{"move": "cabinet-nominated", "subject": "headline", "role": "cabinet-nominated", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
-    {"key": "headlines.cabinet-confirmed.senate-confirms-name-as-office", "move": "cabinet-confirmed", "kind": "written", "text": "Senate confirms {name} as {office}", "uses": [{"move": "cabinet-confirmed", "subject": "headline", "role": "cabinet-confirmed", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
-    {"key": "headlines.cabinet-confirmed.name-confirmed-as-office", "move": "cabinet-confirmed", "kind": "written", "text": "{name} confirmed as {office}", "uses": [{"move": "cabinet-confirmed", "subject": "headline", "role": "cabinet-confirmed", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
-    {"key": "headlines.cabinet-confirmed.name-wins-senate-confirmation-as-office", "move": "cabinet-confirmed", "kind": "written", "text": "{name} wins Senate confirmation as {office}", "uses": [{"move": "cabinet-confirmed", "subject": "headline", "role": "cabinet-confirmed", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
-    {"key": "headlines.cabinet-rejected.senate-turns-down-name-for-office", "move": "cabinet-rejected", "kind": "written", "text": "Senate turns down {name} for {office}", "uses": [{"move": "cabinet-rejected", "subject": "headline", "role": "cabinet-rejected", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
-    {"key": "headlines.cabinet-rejected.name-turned-down-by-the-senate-for-office", "move": "cabinet-rejected", "kind": "written", "text": "{name} turned down by the Senate for {office}", "uses": [{"move": "cabinet-rejected", "subject": "headline", "role": "cabinet-rejected", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
-    {"key": "headlines.cabinet-rejected.senate-votes-down-name-for-office", "move": "cabinet-rejected", "kind": "written", "text": "Senate votes down {name} for {office}", "uses": [{"move": "cabinet-rejected", "subject": "headline", "role": "cabinet-rejected", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}}
+    {
+      "key": "headlines.cabinet-nominated.name-named-for-office",
+      "move": "cabinet-nominated",
+      "kind": "written",
+      "text": "{name} named for {office}",
+      "uses": [
+        {
+          "move": "cabinet-nominated",
+          "subject": "headline",
+          "role": "cabinet-nominated",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.cabinet-nominated.name-is-the-presidents-pick-for-office",
+      "move": "cabinet-nominated",
+      "kind": "written",
+      "text": "{name} is the president's pick for {office}",
+      "uses": [
+        {
+          "move": "cabinet-nominated",
+          "subject": "headline",
+          "role": "cabinet-nominated",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.cabinet-nominated.president-nominates-name-to-be-office",
+      "move": "cabinet-nominated",
+      "kind": "written",
+      "text": "President nominates {name} to be {office}",
+      "uses": [
+        {
+          "move": "cabinet-nominated",
+          "subject": "headline",
+          "role": "cabinet-nominated",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.cabinet-confirmed.senate-confirms-name-as-office",
+      "move": "cabinet-confirmed",
+      "kind": "written",
+      "text": "Senate confirms {name} as {office}",
+      "uses": [
+        {
+          "move": "cabinet-confirmed",
+          "subject": "headline",
+          "role": "cabinet-confirmed",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.cabinet-confirmed.name-confirmed-as-office",
+      "move": "cabinet-confirmed",
+      "kind": "written",
+      "text": "{name} confirmed as {office}",
+      "uses": [
+        {
+          "move": "cabinet-confirmed",
+          "subject": "headline",
+          "role": "cabinet-confirmed",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.cabinet-confirmed.name-wins-senate-confirmation-as-office",
+      "move": "cabinet-confirmed",
+      "kind": "written",
+      "text": "{name} wins Senate confirmation as {office}",
+      "uses": [
+        {
+          "move": "cabinet-confirmed",
+          "subject": "headline",
+          "role": "cabinet-confirmed",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.cabinet-rejected.senate-turns-down-name-for-office",
+      "move": "cabinet-rejected",
+      "kind": "written",
+      "text": "Senate turns down {name} for {office}",
+      "uses": [
+        {
+          "move": "cabinet-rejected",
+          "subject": "headline",
+          "role": "cabinet-rejected",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.cabinet-rejected.name-turned-down-by-the-senate-for-office",
+      "move": "cabinet-rejected",
+      "kind": "written",
+      "text": "{name} turned down by the Senate for {office}",
+      "uses": [
+        {
+          "move": "cabinet-rejected",
+          "subject": "headline",
+          "role": "cabinet-rejected",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.cabinet-rejected.senate-votes-down-name-for-office",
+      "move": "cabinet-rejected",
+      "kind": "written",
+      "text": "Senate votes down {name} for {office}",
+      "uses": [
+        {
+          "move": "cabinet-rejected",
+          "subject": "headline",
+          "role": "cabinet-rejected",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.budget-adopted.congress-passes-the-federal-budget-for-fiscal-year",
+      "move": "budget-adopted",
+      "kind": "written",
+      "text": "Congress passes the federal budget for fiscal {year}",
+      "uses": [
+        {
+          "move": "budget-adopted",
+          "subject": "headline",
+          "role": "budget-adopted",
+          "choice": "headline",
+          "requiresFacts": ["federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.budget-adopted.congress-passes-a-spending-federal-budget",
+      "move": "budget-adopted",
+      "kind": "written",
+      "text": "Congress passes a {spending} federal budget",
+      "uses": [
+        {
+          "move": "budget-adopted",
+          "subject": "headline",
+          "role": "budget-adopted",
+          "choice": "headline",
+          "requiresFacts": ["federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.hearing.place-holds-a-public-hearing-on-its-budget",
+      "move": "hearing",
+      "kind": "written",
+      "text": "{place} holds a public hearing on its budget",
+      "uses": [
+        {
+          "move": "hearing",
+          "subject": "headline",
+          "role": "hearing",
+          "choice": "headline",
+          "requiresFacts": ["budget"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.hearing.place-hears-from-residents-on-its-budget",
+      "move": "hearing",
+      "kind": "written",
+      "text": "{place} hears from residents on its budget",
+      "uses": [
+        {
+          "move": "hearing",
+          "subject": "headline",
+          "role": "hearing",
+          "choice": "headline",
+          "requiresFacts": ["budget"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-formed.the-body-sends-designation-to-a-study-committee",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "The {body} sends {designation} to a study committee",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "headline",
+          "role": "study-formed",
+          "choice": "headline",
+          "requiresFacts": ["body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.study-committee-on-designation-now-favors-the-bill",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "Study committee on {designation} now favors the bill",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["members-for", "changed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.study-committee-on-designation-turns-against-the-bill",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "Study committee on {designation} turns against the bill",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["members-against", "changed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.study-committee-on-designation-comes-out-for-the-bill",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "Study committee on {designation} comes out for the bill",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["members-for"],
+          "excludesFacts": ["changed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.study-committee-on-designation-comes-out-against-the-bill",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "Study committee on {designation} comes out against the bill",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["members-against"],
+          "excludesFacts": ["changed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    }
   ]
 }

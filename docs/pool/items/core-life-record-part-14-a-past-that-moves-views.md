@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: opus-lr
+pr: #8973
 after: core-life-record-part-6-the-past-holds-what-happened-between-people
 blocked-on:
 lead: lives
@@ -17,6 +17,7 @@ effort: high
 root: design-life-record
 source: gap sheet, Nov 12, 2026 (Fable A), filed by the Life records builder opus-lr
 checked: opus-lr 2026-11-12
+merged-at: 2026-11-13T02:48:41.350Z
 ---
 
 **What.** The owner, Nov 12 (relayed by the CTO on #7365, 20:13Z): the life history before the start should "include some big events in your life that shape the person you are, right? So if your dad lost his job and then he kind of went off the rails and became a super MAGA guy, that could have turned you super MAGA, or it could have turned you liberal." Today a person's opening views come only from their state, age, schooling and faith, never from anything in their past. Seen: dev mode's Trace on a person's view, and their card, which tell the past event that moved it.
@@ -34,3 +35,5 @@ checked: opus-lr 2026-11-12
 **Waits on.** Part 6 (#8670) for partnerships and hospital stays; parts 11 and 12 for service and arrests, read when they land.
 
 **Files.** src/core2/modules/views.ts, src/core2/modules/people.ts, src/core2/data/views/
+
+**Notes.** Built by the Life records builder (opus-lr), Nov 13. Two events move a view: a parent's layoff while the person was a child (toward or away from the parent by the new trait decision `views.parent-hardship`, further the more the parent follows politics), and the person's own last layoff as an adult (leftward, more for those who lean right, fading with years back at work). The sizes are TUNABLE (`SG-PEOPLE-past-views-sizes`): the papers' abstracts give directions only. A parent's layoff is read only once the parent's own past is opened, so opening a person never writes anyone else's past; opening a parent later re-reads their opened children.
