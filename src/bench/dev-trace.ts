@@ -7,9 +7,11 @@
  */
 import { coreAPI } from "../core2/state";
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
+import { CAMPAIGN_MONEY_KINDS } from "../core2/modules/campaigns";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { LEGISLATURE_MODULE_ID, votesOn } from "../core2/modules/legislature";
 import { residentsRuntime } from "../core2/modules/residents";
+import { raceById, VOTING_MODULE_ID } from "../core2/modules/voting";
 
 // The counted people's store and household, named through the residents entry
 // rather than their own file; the accounts module's id as the budgets family
@@ -114,6 +116,8 @@ export const ACCOUNT_ENGINE = "core.cashJournal.accounts";
 export const PLACE_ENGINE = "core.places";
 /** A payment the cash journal posted and no longer itemizes. */
 export const FOLDED_ENGINE = "core.cashJournal.folded";
+/** An outside race folded into its seat's newest race row (`foldOutsideRaces`). */
+export const FOLDED_RACE_ENGINE = `${VOTING_MODULE_ID}.races.past`;
 /** An id no store keeps, made by a view around the ids of records that are kept. */
 export const ID_PARTS_ENGINE = "id-parts";
 
@@ -168,6 +172,9 @@ const ENTITIES = new Set([
 const idLike = (word: string) => /[:_|]/.test(word);
 const MAX_CHILDREN = 80;
 const MAX_LEARNED = 40;
+/** What a payment's trace shows where its campaign money record was let go once posted. */
+export const FOLDED_AT_POST =
+  "The record behind this was folded once the payment posted";
 const MAX_ID_PARTS = 40;
 const MAX_POSTINGS = 12;
 
@@ -511,6 +518,16 @@ function foldedReceipt(core: CoreState, id: string): FoundRecord | undefined {
   };
 }
 
+/** A folded outside race, found by its id inside its seat's newest race row. */
+function foldedRace(core: CoreState, id: string): FoundRecord | undefined {
+  if (!id.startsWith("race:") || !core.modules.has(VOTING_MODULE_ID))
+    return undefined;
+  const race = raceById(coreAPI(core), id);
+  return race
+    ? { engine: FOLDED_RACE_ENGINE, kind: "race-folded", record: race }
+    : undefined;
+}
+
 /**
  * One lookup's memory: a trace asks about the same ids many times (a
  * payment's postings share their opening pieces), so each id is looked up once.
@@ -548,7 +565,8 @@ class Lookup {
       obligation(core, id) ??
       this.history(id) ??
       pastFact(core, id) ??
-      foldedReceipt(core, id)
+      foldedReceipt(core, id) ??
+      foldedRace(core, id)
     );
   }
 
@@ -1145,6 +1163,30 @@ export function traceNode(
           : {}),
       });
     children.push(...learnedOf(core, id));
+  }
+  // A campaign payment's source record is let go once the payment posts
+  // (campaigns' postMoney): the receipt, which is the journal entry, holds
+  // its source and postings, and the link to the record says so in words.
+  const sourceRef =
+    found?.engine === "core.cashJournal"
+      ? (found.record as { sourceRef?: { kind: string; id: string } }).sourceRef
+      : undefined;
+  if (
+    sourceRef &&
+    CAMPAIGN_MONEY_KINDS.includes(sourceRef.kind) &&
+    !findRecord(core, sourceRef.id)
+  ) {
+    const at = children.findIndex(
+      (child) => child.kind === "missing" && child.id === sourceRef.id,
+    );
+    const folded: TraceChild = {
+      id: sourceRef.id,
+      kind: "missing",
+      via: at >= 0 ? children[at]!.via : "core.cashJournal.sourceRef",
+      value: FOLDED_AT_POST,
+    };
+    if (at >= 0) children[at] = folded;
+    else children.push(folded);
   }
   const seen = new Set<string>();
   const shown = children

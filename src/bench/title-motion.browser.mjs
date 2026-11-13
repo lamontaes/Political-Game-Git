@@ -48,7 +48,16 @@ try {
   const first = await page.evaluate(
     () => document.getElementById("backdrop").src,
   );
-  await page.waitForTimeout(seconds * 1000 + 800);
+  // The rotation's clock starts when the title loads, not when this check
+  // starts sampling, and the top layer clears 3.1 s after its fade begins
+  // (play.mjs rotateTitle, "one picture, one fade"): wait for the fade
+  // itself to start, within one interval, then sample it mid-way.
+  await page.waitForFunction(
+    () => document.getElementById("backdrop-next").classList.contains("fading"),
+    null,
+    { timeout: seconds * 1000 + 10000 },
+  );
+  await page.waitForTimeout(800);
   const mid = await page.evaluate(() => {
     const next = document.getElementById("backdrop-next");
     return {
