@@ -9,7 +9,7 @@ status: open
 standard: 2
 claimed-by:
 pr:
-after:
+after: elections-at-large-count-disagrees-with-per-seat-filing-and-ballot
 blocked-on:
 lead: words
 model: opus
@@ -30,6 +30,6 @@ source: added with npm run pool -- add
 
 **Done when.** A second session plays a new life in a drawn place on main, files for a contested local seat, loses, and on the morning after hears the concession call from their own side (or none), never the winner's call; the Journal says they lost and nowhere that they were elected.
 
-**Waits on.** Nothing.
+**Waits on.** elections-at-large-count-disagrees-with-per-seat-filing-and-ballot: the count seated the player (top three of a pooled four-name race), which is likely why the winner's call played; re-check after it.
 
 **Files.** src/director/data/situation-types.json

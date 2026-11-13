@@ -9,7 +9,7 @@ status: open
 standard: 2
 claimed-by:
 pr:
-after:
+after: elections-at-large-count-disagrees-with-per-seat-filing-and-ballot
 blocked-on:
 lead: play-first
 model: sonnet
@@ -32,6 +32,6 @@ claimed-at:
 
 **Done when.** A second session plays a new life in a drawn place on main where the town elects several seats on one day, files for one, and on election night sees the count for their own contest only, with the call naming that contest's winner.
 
-**Waits on.** Nothing.
+**Waits on.** elections-at-large-count-disagrees-with-per-seat-filing-and-ballot decides whether the seats are one race or three; this screen then shows that.
 
 **Files.** src/bench/play.mjs, src/bench/server.ts
