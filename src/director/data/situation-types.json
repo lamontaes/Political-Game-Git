@@ -497,36 +497,6 @@
           "opener": "bearer",
           "setting": ["public"],
           "opening": "tell"
-        },
-        {
-          "match": {
-            "label": "circumstance:rent-news-street"
-          },
-          "causeEngine": "circumstance",
-          "causeRecord": "news.read",
-          "bind": {
-            "bearer": "counterpart",
-            "receiver": "subject",
-            "about": "counterpart"
-          },
-          "opener": "bearer",
-          "setting": ["public"],
-          "opening": "tell"
-        },
-        {
-          "match": {
-            "label": "circumstance:national-news-street"
-          },
-          "causeEngine": "circumstance",
-          "causeRecord": "news.read",
-          "bind": {
-            "bearer": "counterpart",
-            "receiver": "subject",
-            "about": "counterpart"
-          },
-          "opener": "bearer",
-          "setting": ["public"],
-          "opening": "tell"
         }
       ],
       "awaiting": [
@@ -5892,7 +5862,7 @@
     {
       "key": "story-read",
       "receive": { "age": "any", "counterpart": "any", "seat": "any" },
-      "note": "Someone in the player's household (at home) or a coworker (at work) read a printed story, the news engine's read record, and brings it up with the player: which story, from the catalog's name for its topic and the paper that ran it. The player can agree, disagree, ask what it said or put the talk off. A story the catalog cannot name is not talked over (the scene is skipped rather than worded as 'something'). The ending is written on the reply record: a talk put off owes the other a talk and strains the tie.",
+      "note": "Someone in the player's household (at home), a coworker (at work) or someone the player knows who stops them in the street read a printed story, the news engine's read record, and brings it up with the player: which story, from the catalog's name for its topic and the paper that ran it. The player can agree, disagree, ask what it said or put the talk off. A story the catalog cannot name is not talked over (the scene is skipped rather than worded as 'something'). The ending is written on the reply record: a talk put off owes the other a talk and strains the tie.",
       "purpose": "story-read",
       "asker": "reader",
       "asked": "you",
@@ -5915,7 +5885,7 @@
           "bearing": "calm"
         }
       ],
-      "setting": ["home", "workplace"],
+      "setting": ["home", "workplace", "public"],
       "timing": "at-cause",
       "causes": [
         {
@@ -5943,6 +5913,22 @@
           },
           "opener": "reader",
           "setting": ["workplace"]
+        },
+        {
+          "match": { "label": "circumstance:rent-news-street" },
+          "causeEngine": "circumstance",
+          "causeRecord": "news.read",
+          "bind": { "reader": "counterpart", "you": "subject" },
+          "opener": "reader",
+          "setting": ["public"]
+        },
+        {
+          "match": { "label": "circumstance:national-news-street" },
+          "causeEngine": "circumstance",
+          "causeRecord": "news.read",
+          "bind": { "reader": "counterpart", "you": "subject" },
+          "opener": "reader",
+          "setting": ["public"]
         }
       ],
       "tag": {

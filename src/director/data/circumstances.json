@@ -240,8 +240,8 @@
       "where": "known",
       "player": "anyone",
       "cast": "someone the player knows who read that rents in town moved, scored on tie and sociability",
-      "typeKey": "news-arrives",
-      "outcome": "conversation.told",
+      "typeKey": "story-read",
+      "outcome": "scene.reply",
       "impactParameter": "directorCircumstanceNewsImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
@@ -255,8 +255,8 @@
       "where": "known",
       "player": "anyone",
       "cast": "someone the player knows who read a national outlet's story, scored on tie and sociability",
-      "typeKey": "news-arrives",
-      "outcome": "conversation.told",
+      "typeKey": "story-read",
+      "outcome": "scene.reply",
       "impactParameter": "directorCircumstanceNewsImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },

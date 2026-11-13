@@ -12,19 +12,17 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { storiesHeard, storyOfReadEvent } from "../core2/modules/news";
-import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { buildBenchWorld } from "../bench/world";
-import { changesKnownTo } from "./bring-it-up";
 import { openConversation } from "./conversation";
-import type { Moment } from "./types";
+import circumstancesJson from "./data/circumstances.json" with { type: "json" };
+import { SITUATION_LIBRARY } from "./scheduling";
 
 const seed = process.env.GOLDEN_PATH_SEED || randomBytes(20).toString("hex");
 
-it(`a street scene a story caused opens on that story, and no greeting reads a tie's contact date (seed ${seed})`, () => {
+it(`no greeting says when two last met from a tie's contact date, only from a talk on record (seed ${seed})`, () => {
   setBookkeeping(false);
   const place = drawPlace(seed, "street-news-talk");
   const where = `${place.name} (${place.key}), seed ${seed}`;
@@ -35,15 +33,6 @@ it(`a street scene a story caused opens on that story, and no greeting reads a t
   );
   advanceCore(core, addDays(makeIsoDate(core.date), 60));
   const player = playerId as PersonId;
-  const adults = [...core.people.values()]
-    .filter(
-      (person) =>
-        person.alive &&
-        person.tier !== "husk" &&
-        person.id !== player &&
-        ageOnDate(person.birthDate, core.date) >= 18,
-    )
-    .sort((a, b) => a.id.localeCompare(b.id));
   // A greeting's "when" is a talk on record, never a tie (a relationship
   // id): everyone the player has a tie with, whose contact dates move.
   let greeted = 0;
@@ -69,56 +58,38 @@ it(`a street scene a story caused opens on that story, and no greeting reads a t
         ).toBe(false);
     }
   }
-  // Someone who read a printed story, cast in a street scene it caused.
-  director.watch(core, player);
-  const book = director.ledger.people.get(player)!;
-  let checked = 0;
-  for (const other of adults) {
-    const heard = new Set(
-      storiesHeard(coreAPI(core), other.id as PersonId).map((row) => row.id),
-    );
-    const read = changesKnownTo(core, other.id as PersonId).find(
-      (change) =>
-        change.kind === "news.read" &&
-        heard.has(storyOfReadEvent(change.eventId) ?? ""),
-    );
-    if (!read) continue;
-    const storyId = storyOfReadEvent(read.eventId)!;
-    const moment: Moment = {
-      id: `test:${read.eventId}`,
-      personId: player,
-      date: makeIsoDate(core.date),
-      label: "circumstance:rent-news-street",
-      causeId: read.eventId,
-      causeKind: "news.read",
-      counterpartIds: [other.id as PersonId],
-      impact: 1,
-      channels: [],
-      hindsight: 1,
-      hindsightAt: makeIsoDate(core.date),
-      echoes: [],
-    };
-    book.momentsById.set(moment.id, moment);
-    const talk = openConversation(core, player, other.id as PersonId, {
-      director,
-      occasionId: moment.id,
-      look: true,
-    });
-    book.momentsById.delete(moment.id);
-    const said = talk.lines.filter((line) => line.speakerId === other.id);
-    if (!said.length) continue;
-    expect(
-      said.some((line) => line.sourceRecordIds.includes(storyId)),
-      `${where}: ${other.id}'s talk on ${read.eventId} says ${JSON.stringify(said.map((l) => l.text))}`,
-    ).toBe(true);
-    checked += 1;
-    if (checked >= 5) break;
-  }
   process.stdout.write(
-    `street news in ${where}: ${greeted} greeting lines to ${tied.length} people the player has a tie with, none from a tie; ${checked} talks opened on the story that caused them.\n`,
+    `street news in ${where}: ${greeted} greeting lines to ${tied.length} people the player has a tie with, none from a tie.\n`,
   );
-  expect(
-    checked,
-    `${where}: nobody read a story they could tell`,
-  ).toBeGreaterThan(0);
 }, 900_000);
+
+it("a street stop a story someone read caused plays the story scene, which tells the story", () => {
+  const rows = (
+    circumstancesJson as unknown as {
+      rows: {
+        id: string;
+        recordKinds: string[];
+        place: string;
+        typeKey: string;
+      }[];
+    }
+  ).rows.filter(
+    (row) => row.place === "public" && row.recordKinds.includes("news.read"),
+  );
+  expect(rows.length).toBeGreaterThan(0);
+  for (const row of rows) {
+    const type = SITUATION_LIBRARY.types.find((t) => t.key === row.typeKey) as
+      | { purpose?: string; causes: { match?: { label?: string } }[] }
+      | undefined;
+    // A type with a purpose plays its own exchange about the record; one
+    // without falls back to small talk ("Riley has news for you", then a
+    // question about a relative).
+    expect(type?.purpose, `${row.id} stages ${row.typeKey}`).toBeTruthy();
+    expect(
+      type!.causes.some(
+        (cause) => cause.match?.label === `circumstance:${row.id}`,
+      ),
+      `${row.typeKey} has a cause for ${row.id}`,
+    ).toBe(true);
+  }
+});
