@@ -32,4 +32,4 @@ source: found while building gov-held-meeting-decides-as-unheld (Account lead T2
 
 **Waits on.** gov-held-meeting-decides-as-unheld
 
-**Files.** src/bench/play.mjs, src/bench/office.ts, data/english/parts/meeting.json (Words session), src/core2/office-day-attend.test.ts
+**Files.** src/bench/play.mjs, src/bench/office.ts, data/english/parts/meeting.json (new, Words session), src/core2/office-day-attend.test.ts
