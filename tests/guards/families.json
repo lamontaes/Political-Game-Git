@@ -418,11 +418,15 @@
         "src/core2/opening-tenure.ts",
         "src/core2/opening-origin.ts",
         "src/core2/opening-roles.ts",
-        "src/core2/game-start.ts"
+        "src/core2/game-start.ts",
+        "src/core2/output-numbers.ts",
+        "src/core2/output-number-readers.ts"
       ],
       "paths": [
         "src/core2/modules/world.ts",
         "src/core2/modules/world-metrics.ts",
+        "src/core2/output-numbers.ts",
+        "src/core2/output-number-readers.ts",
         "src/core2/modules/disasters.ts",
         "src/core2/life.ts",
         "src/core2/calendar.ts",
