@@ -591,25 +591,6 @@ function replyPull(
   };
 }
 
-/**
- * The evening before a floor vote in a chamber where the player sits, the
- * sponsor counts the chamber the way the whip count does (`whipCount`: a
- * chosen vote as chosen, the player undecided until they choose) and, where
- * the bill would fail, asks the members it needs for their vote: those
- * against it or undecided whom a favor from the sponsor would carry over,
- * nearest the line first, until the count would pass. Each ask is a record
- * naming the bill, the member asked and the sponsor, which the scene of the
- * ask is staged from and the member's answer cites (`keepReply`). A bill the
- * asks could not carry, or one already passing, is asked about by no one.
- */
-/**
- * The evening before a floor day, each bill the floor takes up goes before its
- * first chamber's committee on a day of its own, as a scheduled bill does
- * (`holdCommittee`): the committee hears it, marks it up and reports it or
- * holds it, and a held bill leaves the agenda before anyone is asked about it
- * (`askBeforeTheRoll`). A bill whose committee already met is not taken
- * again, and a body with no committee meets on the floor day as it did.
- */
 let committeeWaits: ((api: CoreAPI, bill: BillRow) => boolean) | null = null;
 /**
  * The office day says a town body's committee waits for the meeting's day:
@@ -637,6 +618,25 @@ export function playerSitsOnCommittee(api: CoreAPI, bill: BillRow): boolean {
   );
 }
 
+/**
+ * The evening before a floor vote in a chamber where the player sits, the
+ * sponsor counts the chamber the way the whip count does (`whipCount`: a
+ * chosen vote as chosen, the player undecided until they choose) and, where
+ * the bill would fail, asks the members it needs for their vote: those
+ * against it or undecided whom a favor from the sponsor would carry over,
+ * nearest the line first, until the count would pass. Each ask is a record
+ * naming the bill, the member asked and the sponsor, which the scene of the
+ * ask is staged from and the member's answer cites (`keepReply`). A bill the
+ * asks could not carry, or one already passing, is asked about by no one.
+ */
+/**
+ * The evening before a floor day, each bill the floor takes up goes before its
+ * first chamber's committee on a day of its own, as a scheduled bill does
+ * (`holdCommittee`): the committee hears it, marks it up and reports it or
+ * holds it, and a held bill leaves the agenda before anyone is asked about it
+ * (`askBeforeTheRoll`). A bill whose committee already met is not taken
+ * again, and a body with no committee meets on the floor day as it did.
+ */
 function committeesBeforeTheFloor(api: CoreAPI): void {
   const floorDate = addDays(makeIsoDate(api.state.date), 1);
   // The same agenda the sponsor's asks read (floorAgendaOn): the weekly
