@@ -114,8 +114,27 @@ export function billNameOf(
   },
   book: BillNameBook = billNames as BillNameBook,
 ): BillName | null {
-  // A budget bill: only spending lines, each with its amount and no direction.
   const form = book.forms[bill.form.kind];
+  // A bill that changes one budget line is named by that line, the way the
+  // bank names it (Fable A, Nov 13, rule 4: "Health and Hospitals Funding
+  // Increase"); its signed change says which way. "Budget" is the year's
+  // whole budget, a bill of several lines.
+  const only = bill.provisions.length === 1 ? bill.provisions[0] : undefined;
+  if (
+    only?.kind === "budget-line" &&
+    only.line &&
+    !only.operation &&
+    only.value !== 0
+  ) {
+    const named = billNameFor(
+      `budget:${only.line}`,
+      bill.form.kind,
+      only.value < 0,
+      book,
+    );
+    if (named) return named;
+  }
+  // A budget bill: only spending lines, each with its amount and no direction.
   if (
     form &&
     bill.provisions.length > 0 &&

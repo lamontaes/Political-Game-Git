@@ -175,6 +175,21 @@ describe("bill names", () => {
       ],
     });
     expect(budget?.title).toBe("Budget Ordinance");
+    // A bill that changes one line is named by that line, its sign the way
+    // (Fable A, Nov 13: "Budget Ordinance" is only the year's whole budget).
+    const oneLine = (value: number) =>
+      billTitleOf({
+        form: { kind: "ordinance" },
+        provisions: [
+          { kind: "budget-line", line: "healthAndHospitals", value },
+        ],
+      })?.title;
+    expect(oneLine(5000)).toBe(
+      "Health and Hospitals Funding Increase Ordinance",
+    );
+    expect(oneLine(-5000)).toBe(
+      "Health and Hospitals Funding Reduction Ordinance",
+    );
     expect(budget?.sections.map((row) => row.key)).toEqual(["police", "parks"]);
   });
 });
