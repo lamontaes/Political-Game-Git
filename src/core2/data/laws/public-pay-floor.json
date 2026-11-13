@@ -17,5 +17,10 @@
     "service:fire": "city",
     "service:school": "city",
     "service:public-school": "city"
+  },
+  "boundBy": {
+    "about": "A school district is a government of its own under its state, not a part of the town or the county: a floor enacted at the federal or state level binds its employers, and a floor enacted at the county or city level does not. The district keeps its funding level in employerLevels (the budget line that pays it); boundBy names the highest level whose floors reach it.",
+    "service:school": "state",
+    "service:public-school": "state"
   }
 }
