@@ -72,7 +72,7 @@ for (const seed of seeds.length ? seeds : ["store-a", "store-b"]) {
   await page.waitForSelector("#card:not([hidden])", { timeout: 60000 });
   await page.waitForTimeout(2500);
   await shot(`${seed}-home`);
-  const other = await page.$("#people .figure[style*='pointer']");
+  const other = await page.$("#here .busts-person.talkable");
   if (other) {
     await other.evaluate((e) => e.click());
     // The talk first; their name in it opens their card.

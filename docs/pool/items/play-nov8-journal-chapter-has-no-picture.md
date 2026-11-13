@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/pool-play-nov8-journal-chapter-has-no-picture
 pr: #8468
 after:
@@ -19,6 +19,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T02:13:41.607Z
 branch: claude/pool-play-nov8-journal-chapter-has-no-picture
+merged-at: 2026-11-11T15:02:24.618Z
 ---
 
 **What.** The owner, Nov 8, about 2:20 p.m. (v0.94.0, Manchester, Connecticut): "I go to journal. Again, it's just words. There's no illustration. There's no UI elements." The conditionally approved journal mock has a picture for the chapter and the game draws none. A journal line keeps the ids of the moments it tells, but a scene already played cannot be fetched again to get its backdrop (checked at Fort Wingate, New Mexico, seed dd6bca35-d61e-40b7-876c-008c3460e712: 1 chapter, 3 lines, 7 moment ids, none returns a scene). When the journal writes a line from a scene it should keep that scene's place on the line's record, and a chapter should show the picture of the place its lead line happened in; a chapter with no place on record shows no picture slot at all.

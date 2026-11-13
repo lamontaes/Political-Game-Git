@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-tests-campaign-calibration-door-contact-by-seed
+pr: #8751
 blocked-on:
 source: governing lead, Nov 1 (seen by the traits test round's helper on clean main)
 lead: governing
@@ -17,6 +17,9 @@ model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T07:57:52.006Z
+branch: claude/pool-tests-campaign-calibration-door-contact-by-seed
+merged-at: 2026-11-12T03:37:42.770Z
 ---
 
 **What.** src/core2/campaign-calibration.test.ts fails on clean main with GOLDEN_PATH_SEED=1d1bfd25a7a60284200718c358723856d38a8a095fbcb9186f82fe2fd0360a0b in the West Virginia place 5431732: twelve hours of the player's doors (about 180 knocked) met 0.494 of the doors knocked, against the test's ceiling of 0.45. Either that town answers its door more than the field rate allows for a real reason the records give (its households' hours at home, its age mix), or a door counts a meeting it should not (a household reached twice, or a filled-in person counted as met when no one answered). Find which by record before touching the band.
@@ -40,3 +43,5 @@ checked: fable 2026-11-10
 **Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/campaign-calibration.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=1d1bfd25a7a60284200718c358723856d38a8a095fbcb9186f82fe2fd0360a0b. Still red. First failing assertion as printed: `AssertionError: US-WV 5431732 1d1bfd25a7a60284200718c358723856d38a8a095fbcb9186f82fe2fd0360a0b contact: expected 0.49382716049382713 to be less than 0.45` at src/core2/campaign-calibration.test.ts:161.
 
 Cause found (Nov 11, 2026, cause finder for Fable B): six runs of the test with a probe that logged each town's knocks, meetings and the ages of the people met (in a working copy, undone). The West Virginia town has the oldest openers of the six and the highest rate; nothing is counted twice.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 07:57 UTC) on branch claude/pool-tests-campaign-calibration-door-contact-by-seed.

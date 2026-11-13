@@ -1,103 +1,78 @@
 ---
 name: session-start
 description: >
-  Runs the pool worker loop for Our Civic Duty: opening checks, claiming the
-  next pool item, building it to its done-when, checking the work against the
-  merger's list before the PR, opening a ready PR and taking the next. Use
-  first in every building session, cloud or local, Claude, Codex or any other
-  agent.
+  What a building session of the game checks before it starts and before
+  it marks a pull request ready: the opening reads, the red-main rule and the
+  self-check. The loop itself (taking the next item, building, handing off) is
+  docs/pool/START-A-BUILDER.md. Use first in every building session, cloud or
+  local, Claude, Codex, Muse or any other agent; not for merging (merger),
+  checking (checker) or the play-first lane (play-first).
 ---
 
-# Session start: the pool worker loop
+# Session start
 
-**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
-
-**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** An item without a time box and a measurable done-when goes back to its writer, not built. Before any owner question or `owner-decision` stopgap, read `OWNER-DECISIONS.md` whole, `DECISION-REGISTER.md`, `docs/coordination/prior-rulings/` for your area, `docs/play-first/LAW.md`, and search `docs/` for the subject; end the question with the reading line. Research first is allowed and expected. Every stopgap you register has its id as a marker in the code it fakes.
-
-Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: play first; the lane owns `src/bench`; "simulate it, don't ask"; "sessions never message each other")
-
-Copy this checklist and keep it current:
-
-```
-- [ ] Open: AGENTS.md, pool item, the channel's CTO section, rulings (LAW.md for play-first items), install, golden path
-- [ ] Red main? claim release-main-red first
-- [ ] Claim the top of Next up (or a sent-back item: use pr-fixer)
-- [ ] Copy the item's done-when lines into a scratch list
-- [ ] Build to the done-when, proven in a played world
-- [ ] Self-check: every done-when line has evidence; break-it test; merge main
-- [ ] Only the tests you wrote or changed (the checker runs the gate)
-- [ ] Ready PR from the template, done-when table filled; item set in-pr
-- [ ] Next item
-```
+**The loop is one page: `docs/pool/START-A-BUILDER.md` (owner, Nov 10).** It says how to take work (`npm run pool -- next --model <level> --agent <name>`), how to read the item, what to run, what goes on the item's pull request, how to hand off and what you never do. Follow it. This skill keeps only what that page does not say.
 
 ## Open
 
-1. Read `AGENTS.md`, `docs/pool/README.md`, the item file and its Notes, then the CTO section of the channel `docs/coordination/LEADS-2026-10-24.md` (`.agents/rules/how-we-talk.md`), then the newest rulings at the top of `docs/coordination/OWNER-DECISIONS.md`. An item with `milestone: play-first` or `lead: play-first` is the lane's: follow `play-first`, whose law is `docs/play-first/LAW.md`.
-2. In a cloud environment, set `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` in every shell. Install with `npm install` (in a cloud container, `npm ci` is fine too). On the owner's Mac, follow "Workspaces and storage" in `AGENTS.md`.
-3. Run `node --import tsx tests/golden-path/runner.mjs` before changing anything.
-4. Read the latest release run on main: `gh api 'repos/lamontaes/Political-Game-Git/actions/workflows/release.yml/runs?branch=main&per_page=1'`. If its conclusion is `failure`, claim `release-main-red` and fix it at the root on its own PR first.
+1. **Look first** (`look-first`; `.agents/rules/smart-and-look-first.md`). Before building, fixing, filing or asking, run the search. A found ruling is built and cited, never asked again. A question to the owner ends with the reading line, or it is sent back.
+2. **Read** `AGENTS.md`, the item and its pull request thread, the newest rulings at the top of `docs/coordination/OWNER-DECISIONS.md` and the CTO section of the channel `docs/coordination/LEADS-2026-10-24.md` (`.agents/rules/how-we-talk.md`). An item with `milestone: play-first` or `lead: play-first` is the lane's: follow `play-first`, whose law is `docs/play-first/LAW.md`.
+3. **Cloud container:** set `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` on every npm command and install with `npm install`. On the owner's Mac, follow "Workspaces and storage" in `AGENTS.md`.
+4. **Run the golden-path suite before you change anything:** `node --import tsx tests/golden-path/runner.mjs`.
+5. **Red main comes first (owner, Oct 15).** Read the newest release run on main (`gh api 'repos/lamontaes/Political-Game-Git/actions/workflows/release.yml/runs?branch=main&per_page=1'`, or your tool's GitHub functions). If it failed, claim `release-main-red` and fix it at the root on its own pull request (`red-main`), then return to your item.
+6. **A sent-back item is a fix, not a build:** follow `pr-fixer`. An item that says `Needs cause.` is never built (`.agents/rules/pool-item-standard.md`).
+7. **Read every function, export and field you plan to use on current `origin/main` first.** Names change daily; code written from memory of an older main is the most common unverified assumption.
 
-## Claim and build
+## While you build
 
-1. Take the top of "Next up" in `docs/pool/INDEX.md`, or your own area's top item. Claim it: `npm run pool -- claim <id> --branch <branch>`. If it's already claimed, take the next. A claim older than 60 minutes with no pushed branch and no PR may be released and taken. Say so in the item's Notes.
-   1a. An item at the standard (`standard: 2`, `.agents/rules/pool-item-standard.md`) is built from the item alone: its Cause, Fix, Done when and Files are the brief, and `model:` and `effort:` say what it was sized for. A `Needs cause.` item is never built (the claim refuses it); take the next one.
-2. An item whose Notes say "Sent back … (branch X)" is a fix, not a build: follow `pr-fixer`.
-3. An L item: split it into S or M items with their own done-when before building, and mark the L item `blocked-on` them.
-4. Copy every line of the item's **Done when** into a scratch list before writing code. Each line is a thing you will show, not a thing you will describe. Read every function, export and field you plan to use on current `origin/main` first; names change daily, and code written from memory of an older main is the most common unverified assumption.
-5. Branch from `origin/main` and build to the done-when. Prove it in a played world (`played-world-proof`), in a place drawn from all 56, naming place, seed and record ids.
-6. Register every shortcut as a stopgap. **Simulate it, don't ask** (owner, Oct 24): a mechanic real life has that the simulation needs is built from research in the background, calibrated not hardcoded; only a design call about the player's own experience is an owner question. For that, register an `owner-decision` stopgap and ask under **OWNER DECISIONS NEEDED**. Add a pool item for anything you find that isn't yours, with `lead:` set to the role that owns it, after searching for an existing one first (`grep -ril "<key words>" docs/pool/items`; add your evidence to a match's Notes instead of a twin); a `src/bench` change is the play-first lane's. When `npm run pool -- add` refuses (an area or kind outside its list, a body too short), it can leave the new item file in your tree: delete it before any other pool command or commit, or the next commit carries an invalid item to main and turns `pool --check` red for everyone (Oct 30, governing lead). Areas are `laws`, `gov`, `elections`, `office`, `world`, `core`, `people`, `director`, `words`, `play`, `art`, `release`, `docs`; there is no `tests`. `pool add` checks only the fields it is given, not the quality gate: a What under three sentences or 40 words passes `add` and turns `pool --check` red on main (Oct 30, governing lead), so run `npm run pool -- --check` after every `add` and fix the item before anything else. The check also refuses a Done when that names a PR number: put a PR dependency in `after:` or `blocked-on:`, or name the main commit it is measured against (Nov 1, CTO). `pool add` has no flag for `lead:` or `milestone:` (it ignores `--lead`) and writes `source: added with npm run pool -- add` (Oct 30 and Nov 1, governing lead). Set them by hand at once: `git checkout -B pool-lead origin/main`, add `lead: <role>`, any `milestone:` and a real `source:` line to the front matter, commit the item file alone (the Pool index workflow rewrites the index on main, Nov 3), `git push origin HEAD:main`, then check out your branch again and delete the temporary one.
+- Register every shortcut as a stopgap, and for a mechanic real life has, simulate it from research instead of asking (owner, Oct 24). A design call about the player's own experience is a question: register an `owner-decision` stopgap and write it under **OWNER DECISIONS NEEDED**.
+- Anything you find that is not yours becomes a pool item with `lead:` set, after searching `docs/pool/items` for a match (add evidence to a match instead of a twin). `npm run pool -- add` takes every standard field, `--lead` included; it can leave a half-written item file in your tree when it refuses: delete that file before any other pool command or commit, or the next commit carries an invalid item to main (Oct 30). Run `npm run pool -- --check` after every add. It also refuses a Done when that names a pull request number: put the dependency in `after:` or `blocked-on:`, or name the main commit it is measured against (Nov 1).
+- `pool add`, `claim`, `next` and `status` check out main in the working tree: commit or stash first, and never run them while a test runs in that checkout (Nov 3).
+- Builders build; checkers check (owner, Oct 29). Run only the test files you wrote or changed, one at a time, never typecheck, the guards or the gate, and never in a helper. Make those tests run every function you changed: on Nov 1 a local `const store` inside housing.ts `remove()` shadowed the module's `store()` helper and threw a ReferenceError at run time that eslint did not flag.
 
-## Self-check before the PR
+## Self-check before the pull request is marked ready
 
-Mergers send back most PRs for the same few reasons, and every model makes them, Claude included: a done-when line with no proof, a test that passes without checking anything, a release note that says less than the change does, and a conflict with main. Check your own work against that list now. The merger runs the same list (merger skill, "Morning check").
+Checkers and mergers send back most pull requests for the same few reasons, and every model makes them: a done-when line with no proof, a test that passes without checking anything, a release note that says less than the change does, and a conflict with main. Check your own work against that list. The merger runs the same list (`merger`, "Morning check").
 
-1. **Every done-when line has evidence.** Next to each line on your scratch list, write the evidence: the test name, the command and its result, the place and full seed, and the record ids. If the item says one year, the run advances 365 days, not 120 or 200. If it says a drawn place, the place comes from `drawPlace` over all 56, and a pinned seed may sit beside it only as a named repro. If it names two further places, there are two. A line you cannot fill means the item is not done; go to step 6.
-2. **Break it, then watch the test fail.** For each new or changed test, undo the key line of your change (or return early from the new code) and run the test. It must fail. Restore the change and run it again; it must pass. A test that passes both ways checks nothing. Assert the witnessed case exists (`expect(checked.length).toBeGreaterThan(0)`), and draw again with bounded retries until it does. These patterns pass on an empty world:
+1. **Every done-when line has evidence.** Next to each line write the test name, the command and its result, the place and full seed, and the record ids. One year means 365 days, not 120 or 200. A drawn place comes from `drawPlace` over all 56; a pinned seed may sit beside it only as a named repro. Two further places means two. A line you cannot fill means the item is not done; go to step 6.
+2. **Break it, then watch the test fail.** For each new or changed test, undo the key line of your change (or return early from the new code) and run the test. It must fail. Restore the change and run it again; it must pass. A test that passes both ways checks nothing. Assert the witnessed case exists (`expect(checked.length).toBeGreaterThan(0)`). These patterns pass on an empty world:
    - every assertion inside `if (found)` or `if (x.length)`;
    - `>= 0`, or a loop over a set that can be empty;
    - a `continue` that can skip every case;
    - a fixture you built by hand standing in for the generated world.
-   - **A row you marked Not done or Not shown is not a finished PR.** Before opening it, run the row (screen drawn places first for one where the count is above zero, then name the place, seed and record id), or amend the item's Done-when to the slice you built and file a bounded item for the rest. A fixture is not the played chain, and a row whose evidence the body itself contradicts ("reach 0") fails the same way (Oct 27: #6216, #6326 and #6331, each sent back for one such row).
-   - **A test that needs a witness world finds one by drawing, and says what it passed over.** Pinning one place and seed breaks when main changes the world (the household of minors alone vanished), and drawing one place breaks when that place lacks the case (a filing with no campaign event). Run the new test on 10 fresh draws before the PR: draw places, in a bounded loop, until one holds the case, name the places passed over, throw if none does, and keep a pinned place only as a named regression beside it (Oct 27: #6139 and #6322 sent back for it).
-   - **A published number a new table adds opens differently in every world.** The guard `src/core2/realistic-not-real.test.ts` draws fresh worlds and fails when two open on the same value (a wage, a HUD rent), so a table that copies one published number passes in your draw and turns main red in someone else's. Run it on 10 fresh draws before the PR, give each statistic its per-world spread and source (`estimate-not-unknown`), and merge main first, since its known copies and `parameters.json` and stopgap family rows change under every PR (Oct 28: main's guards job red at 10:21, 10:49 and 11:06 UTC on three different statistics; #6597, #6598, #6599 and #6600 each conflicted in it).
-3. **Never weaken a test to get green.** No skips, early returns, narrowed ranges, raised timeouts without a measured reason, or exemptions for the cases that fail. If an existing test fails, find out why.
+   - **A row you marked Not done or Not shown is not a finished pull request.** Run the row (drawn places first, then name the place, seed and record id), or amend the item's Done when to the slice you built and file a bounded item for the rest. A row whose evidence the body itself contradicts ("reach 0") fails the same way (Oct 27: #6216, #6326 and #6331).
+   - **A test that needs a witness world finds one by drawing, and says what it passed over.** Pinning one place and seed breaks when main changes the world; drawing one place breaks when that place lacks the case. Run the new test on 10 fresh draws before the pull request: draw places in a bounded loop until one holds the case, name the places passed over, throw if none does, and keep a pinned place only as a named regression beside it (Oct 27: #6139 and #6322).
+   - **A published number a new table adds opens differently in every world.** `src/core2/realistic-not-real.test.ts` draws fresh worlds and fails when two open on the same value (a wage, a HUD rent). Run it on 10 fresh draws, give each statistic its per-world spread and source (`estimate-not-unknown`), and merge main first, since its known copies, `parameters.json` and the stopgap family rows change under every pull request (Oct 28: main's guards job red three times on three different statistics).
+3. **Never weaken a test to get green.** No skips, early returns, narrowed ranges, raised timeouts without a measured reason, or exemptions for the cases that fail.
 4. **Claims match the diff.**
-   - **The release declaration:** if any engine reads what you changed (a price, a payment, a choice, a count), the impact is `patch` or `minor`, not `none`. "No screen shows it" doesn't make it `none`.
-   - **Check one fact:** at least one count, date or list in the title, body or release note against the data.
-   - **Research values:** reopen the page. The quote must contain the number, and the URL must be the page you read. For an election, record the deciding round, which may be a runoff, not the first round.
-5. **Rules the merger checks:**
-   - Don't touch guard allowlists or skip lists to clear a red check.
-   - A bank part carries no play flag of its own; it plays unless the owner's grades in the ledger reject it (owner, Oct 24); only the Words session and the play-first lane (with `Review: words`) edit `data/english/`, `src/english/` or `src/director/`; only the lane edits `src/bench`.
-   - No state, city or GEOID in logic.
-   - No record that nothing reads.
-6. **If a line can't be met,** don't open the PR as done. Either keep building, or file what blocks you as its own pool item, set your item `blocked-on` it with one Notes line, and open the PR only for what it really finishes, under a separate item whose done-when matches.
-7. **After a merge, compare the merged head with your branch.** A merger merges the head it checked, so a commit pushed after the checker's pass is left out (#6848 merged without its docs commit). Carry anything left out into your next PR and say so.
-8. **Merge main last.** Run `git merge origin/main` (plain merge), resolve conflicts keeping both sides' behavior, and rerun the checks on the merged result. Conflicts with main are the second most common send-back. In a shallow cloud clone (`git rev-parse --is-shallow-repository` prints `true`), first run `git fetch --shallow-since=<a day before the branch began> origin main`: without the real merge base, git reports false conflicts in files the branch never touched (Nov 3, Lane 1: `src/director/` conflicts on a branch that changed only `src/core2`). `npm run pool -- add`, `claim` and `status` check out main in the working tree, so commit or stash first, and never run them while a test runs in that checkout (Nov 3, Lane 1).
-
-## Open the PR
-
-1. Don't run the local gate, typecheck or the guards yourself, and never in a helper (owner, Oct 29: builders strictly build). Run only the test files you wrote or changed. The checker for your PR runs the gate (`checker`). Since typecheck is the checker's, make those tests run every function you changed: on Nov 1 a local `const store` inside housing.ts `remove()` shadowed the module's `store()` helper, so the call threw a ReferenceError at run time that eslint did not flag, and only a played-world replay caught it (speed lead).
-2. Add a release declaration: `npm run release:declare -- <id>`. A declaration with `impact: none` carries only `id`, `impact` and one sentence: the release check refuses a `section` or a `title` on it ("A change with no player-visible effect gets no patch note"; three pull requests went red on this on Nov 10, written by hand and by helpers told the wrong shape). `release:check --mode pr` reads committed changes only: commit the declaration before you run it, or it reports the paths as undeclared. An `impact: none` file holds `id` and `impact` and a one-line reason in its body; `release:check` refuses it without the reason (Nov 1, governing lead). `patch` or `minor` also needs `section` and `title`.
+   - **The release declaration** (`npm run release:declare -- <id>`): if any engine reads what you changed (a price, a payment, a choice, a count), the impact is `patch` or `minor`, not `none`. An `impact: none` file holds only `id`, `impact` and a one-line reason in its body; the release check refuses a `section` or a `title` on it (three pull requests went red on this on Nov 10). `patch` or `minor` also needs `section` and `title`. `release:check --mode pr` reads committed changes only: commit the declaration before you run it.
    - **A release note with `impact: none` has only `id` and `impact` in its frontmatter.** A `section` or `title` line beside `impact: none` fails `tests/release/release-workflow.test.ts` ("impact:none must not carry section or title"). On Nov 10 six pool-only pull requests carried it and each had to be pushed again.
-3. Push with plain `git push -u origin <branch>`. Open the PR **ready for review** against main, following `.github/PULL_REQUEST_TEMPLATE.md`. Line 1 is exactly `Pool item: <id>`, with no backticks; the merge flips that item to `merged` automatically, and a second session's check in the running game makes it done (`seen-in-game`), so write each Done-when line as something that session can do from the game. Fill the **Done when** table from your scratch list: one row per line of the item's done-when, each with its evidence.
-   **For every new or changed test file, the gate line also says `fresh draws: N of 10 passed` with the seeds you ran, and the test's file name.** Nobody writes it, so the test that fails on a fresh draw reaches the merger (Oct 28: #6653, #6660 and #6664 each sent back for a new test that failed on fresh seeds, after the lessons in item 2 had landed; a line in the body is checkable where a line in the middle of the loop was not).
-4. `npm run pool -- status <id> in-pr --pr <N>`. Never edit an item's status inside your feature PR. Message the checker whose number is N mod 5 (`docs/coordination/CREW.md`) the PR number; from then on the checker is the branch's one writer until it merges, so ask it before you push there again. Never wait on GitHub's CI or re-run it (owner, Oct 29): it runs on GitHub's machines by itself after every push, and the checker and merger read it.
-5. Take the next item. When a merger sends your PR back, fix it before starting anything new.
+   - **And it has its one sentence under the frontmatter.** A note that is frontmatter alone fails `npm run release:check` ("an impact:none declaration still needs a one-line reason in its body"). On Nov 11 two such notes merged (#8513, #8544) and turned the release check red on main for every checker.
+   - **Check one fact:** at least one count, date or list in the title, body or release note against the data.
+   - **Research values:** reopen the page. The quote must contain the number, and the URL must be the page you read. For an election, record the deciding round, which may be a runoff.
+5. **Rules the checker and merger apply:**
+   - Do not touch guard allowlists or skip lists to clear a red check.
+   - Only the Story session writes, changes or deletes lines under `data/english/parts/` (owner, Nov 10); a builder lists the lines it needs on the pull request. A bank part carries no play flag of its own. Only the lane edits `src/bench`.
+   - No state, city or GEOID in logic. No record that nothing reads.
+6. **If a line cannot be met,** do not mark the pull request ready as done. Keep building, or file what blocks you as its own item, set yours `blocked-on` it with one Notes line, and mark ready only what it really finishes, under a separate item whose done-when matches.
+7. **Merge main last.** `git merge origin/main` (a plain merge), resolve conflicts keeping both sides' behavior, and rerun your tests on the merged result. In a shallow clone (`git rev-parse --is-shallow-repository` prints `true`), first run `git fetch --shallow-since=<a day before the branch began> origin main`: without the real merge base, git reports false conflicts in files the branch never touched (Nov 3, Lane 1).
+
+## The pull request body
+
+Follow `.github/PULL_REQUEST_TEMPLATE.md`. Line 1 is exactly `Pool item: <id>`, with no backticks; the merge flips the item to `merged`, and a second session's check in the running game makes it `done` (`seen-in-game`), so write each Done-when line as something that session can do from the game. For every new or changed test file the gate line also says `fresh draws: N of 10 passed` with the seeds you ran and the file name (Oct 28: #6653, #6660 and #6664 each sent back for a new test that failed on fresh seeds). Never edit an item's status inside your feature pull request. Never wait on GitHub's CI or re-run it (owner, Oct 29); the checker and merger read it.
 
 ## Rules
 
-- Never force-push, rebase or amend a pushed branch. A merged PR carries no new work; open a new branch.
+- Never force-push, rebase or amend a pushed branch. A merged pull request carries no new work; open a new branch.
 - **A merged pull request's branch is finished.** Later work starts on a new branch from main with a new name; pushing to the merged branch stacks new commits on history that is already in main. On Nov 10 two follow-ups (#8254, #8370) had to be rebuilt on fresh branches. Once you post a head as ready, do not push to that branch again unless it is sent back: a new push changes the head the desk gated.
-- Workers don't message other sessions or start schedules: the PR body and the item's Notes are a worker's voice; leads and the CTO talk through the three files in `.agents/rules/how-we-talk.md`. Lead sessions may run their own helpers (`AGENTS.md`, "Helpers").
-- Treat a permission prompt as denied. Don't retry it; work around it or note it in the PR body. Never call a scheduling tool (`send_later`, `CronCreate`, a trigger), never edit anything under `.git/`, never reach outside the container: each one prompts the owner and the session sits for hours (four sessions did on Oct 29).
-- After a usage reset, resume from your own last channel block or Notes line; the CTO's message says "continue where you left off" and nothing more.
-- Before you report a PR as carrying a fix, check its head has the commits you think it has (`git log origin/<branch>`, or the PR's commits on GitHub): a commit pushed after the merge desk merged never reaches main, and #7815 merged as only its first commit (Nov 8) while its engine fix sat on the branch. A fix you did not see on main after the merge is not on main.
-- Out of usage or stopping: push what you have, set the item back to `open` with one Notes line saying where you stopped, and stop.
-
-## The prompt
-
-> Read AGENTS.md and .agents/skills/session-start/SKILL.md in lamontaes/Political-Game-Git. You are a pool worker. Run the loop in that skill: the opening checks, then claim the top open item of docs/pool/INDEX.md for your area with `node --import tsx scripts/pool/index.ts claim <id> --branch <area>/<short-name>`, build it to its Done when, run the self-check, open a ready PR with the item id on line 1, and take the next.
-> Never force-push, rebase or amend a pushed branch; never merge your own PR; never dev mode to get past something. Out of usage: push what you have, set the item back to open with one Notes line, and stop.
-> In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.
+- The item's pull request is the thread (`docs/pool/START-A-BUILDER.md`). Questions for the owner or CTO are comments on it, and a message to the CTO or a neighboring session never replaces the record (owner, Oct 29; `crew-messages`).
+- Treat a permission prompt as denied. Do not retry it; work around it or note it on the pull request. Never schedule a wake-up or recurring job, edit anything under `.git/`, or reach outside the container: each one prompts the owner and the session sits for hours (four sessions did on Oct 29).
+- Before you report a pull request as carrying a fix, check its head has the commits you think it has (`git log origin/<branch>`): a commit pushed after the merge desk merged never reaches main, and #7815 merged as only its first commit (Nov 8). A fix you did not see on main after the merge is not on main.
+- After a merge, compare the merged head with your branch; carry anything left out into your next pull request and say so (#6848).
+- Out of usage or stopping: write the handoff comment first (`docs/pool/START-A-BUILDER.md`), push what you have and stop.
 
 - **Before you take a new item, read whether the cap is on (owner, Nov 11).** While more than 150 game pull requests are open, take none: fix your send-backs, bring your open pull requests up to main, then stop and say so. A change that touches only the pool goes to the hour's bundle, not a pull request of its own. Skill `pool-notes`.
+
+## If you were started as a merger
+
+A session started with the merger's paragraph does not use this loop. It follows `docs/pool/START-A-MERGER.md`: it takes no pool item, builds nothing, and gates and merges what others built.

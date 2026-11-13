@@ -19,6 +19,6 @@ claimed-at: 2026-11-01T13:26:00.803Z
 
 **Done when.** In ten drawn places from all 56 (name the tags and seeds), the opening evening draws no housemate in work clothes while another housemate who can be drawn in everyday clothes is left without a seat, and no two people in the room share one pack person while another housemate could take the seat; a test in people-pack.test.ts checks both over every household of a played world and fails on main; a screenshot from a place that showed twins on main shows two different people.
 
-**Files.** src/bench/scene.ts, src/bench/whole-figures.ts, src/bench/people-pack.test.ts
+**Files.** src/bench/scene.ts, src/bench/whole-figures.ts
 
 **Notes.** TODO

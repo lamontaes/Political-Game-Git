@@ -159,6 +159,13 @@ export interface PopulationOptions {
    * the place shows, not only families with children.
    */
   playerAge?: number;
+  /**
+   * Households (by id) that get kin outside the home. Absent means
+   * every household, as the opening has always built it; an empty list leaves
+   * kin out, so the order of the opening can change (the entrant, the kept
+   * set and the deep past are decided before kin are added).
+   */
+  kinHouseholdIds?: ReadonlySet<string>;
 }
 
 interface CountyContext {
@@ -1561,7 +1568,9 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       : undefined,
     stateKey: place.stateJurisdictionKey ?? undefined,
     startedAt,
-    plans,
+    plans: options.kinHouseholdIds
+      ? plans.filter((plan) => options.kinHouseholdIds!.has(plan.id))
+      : plans,
     people,
     source,
   });

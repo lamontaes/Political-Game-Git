@@ -1,6 +1,6 @@
 {
   "name": "political-life-rpg",
-  "version": "0.100.0",
+  "version": "0.109.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -11,6 +11,7 @@
     "build": "node scripts/storage/cli.mjs run build -- npm run build:steps",
     "build:steps": "npm run typecheck && node scripts/clean-build.mjs && vite build && node scripts/prepare-sites-build.mjs && node scripts/stamp-client-provenance.mjs && npm run check:data-shipping -- dist test-results/data-shipping-scan.json",
     "preview": "vite preview",
+    "words:composed": "node --max-old-space-size=4096 --import tsx scripts/words/composed.ts",
     "words:grade": "node --import tsx scripts/words/after-grading.ts",
     "words:pairs": "node --import tsx scripts/words/reply-pairs.ts",
     "words:rules": "node --import tsx scripts/words/run-rules.ts",

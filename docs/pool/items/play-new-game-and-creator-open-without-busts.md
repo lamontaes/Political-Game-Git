@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** The owner's decision on how busts are shown (docs/coordination/OWNER-DECISIONS.md, Nov 10, "Staging waits for busts": "I haven't decided how they're going to display yet"). The approved front mocks (docs/mocks/2026-11-08-front, fr-new and fr-creator) show where a bust goes; build once he has said how it is drawn. Men's bust art may force a registered stopgap.
 
-**Files.** src/bench/play.html, src/bench/play.mjs, src/bench/play.css, src/bench/ui/strips.mjs, src/bench/ui/headshot.mjs
+**Files.** src/bench/play.html, src/bench/play.mjs, src/bench/play.css, src/bench/ui/strips.mjs, src/bench/ui/face.mjs
 
 **Notes.** From the audit's Pillar 6, re-checked in the game. Playtest points P3, P4, P5 and C1 of docs/coordination/playtest/2026-11-08-1.md; the check file says the front ports (the Fixer's Nov 8 PRs) "left out the busts, the creator's arrows, Play as with busts, the world settings as figures and the loading story", and that "no session owns putting busts in the game" (women's busts accepted Nov 7; the men's three-quarter heads unfinished on Nov 8). So the art may be the blocker: if the bust art for men is still not in the pack, say so in a one-line note and build with the round pack headshots the menus already crop, registered as a stopgap, never a full figure. Related: play-one-person-shows-two-faces (one face part for every screen, filed Nov 10), play-your-life-draws-a-full-body-figure (filed Nov 10). The creator's color rows now step with arrows (`src/bench/ui/look-row.mjs`, line 48), which waits on the open question "Arrows on single-value steppers" (OWNER-DECISIONS, Open, Nov 9); leave them as they are. Not verified by the audit: whether Advanced, Play as shows busts.
 

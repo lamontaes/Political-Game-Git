@@ -28,4 +28,6 @@ merged-at:
 
 **You will see.** "The council cut fire protection by $62,000 in the budget it passed. Teresa Hall wants to talk about it."
 
+**Screenshot.** The department head's scene after a budget cut, on two cut days in one drawn town, side by side.
+
 **Notes.** Not seen in the game (2026-11-11, second-session-2): Ceredo, West Virginia (drawn), seed 03f336b4a1ea, main 32a6683b: budget-cut-scene.test.ts fails at line 261: the fire chief's scene text on one cut day is identical to the text on another day, so the argument does not vary

@@ -1,0 +1,115 @@
+{
+  "id": "federal-issue-axes-2026",
+  "about": "Each question only federal law answers: its left-right direction, measured as the Republican yes share minus the Democratic yes share among members voting on the most recent recorded roll call on the nearest real bill (the House first, the Senate where the House held none since 2010), signed so that positive leans right, the same sign as issue-axes-2026.json. Where no roll call exists since 2010, a national poll party split scaled the same way, tagged ESTIMATED with the poll margin as its spread. yesShare is the elite consensus members answer to: the share of all members voting (independents included) who took the question's yes side on that roll call, or the poll's overall yes share. Independents are left out of the party shares. Measured, not authored.",
+  "sources": [
+    "Clerk of the U.S. House, roll call XML (clerk.house.gov/evs)",
+    "U.S. Senate roll call XML (senate.gov)",
+    "Gallup",
+    "Quinnipiac University (via The Hill)",
+    "Napolitan News Service",
+    "Federal Register API (Executive Order 14193)",
+    "govinfo (H.J.Res. 72, engrossed text)"
+  ],
+  "fetched": "2026-11-11",
+  "axes": {
+    "us-federal-positions:budget.pay-for-a-higher-debt-limit": {
+      "axis": 0.982,
+      "yesShare": 0.502,
+      "tag": "SOURCED",
+      "source": "House roll call 199, 26-Apr-2023, H R 2811 (On Passage), \"Limit, Save, Grow Act\": Republicans 217 yea, 4 nay; Democrats 0 yea, 211 nay. Raised the debt limit paired with spending cuts. A yea is a yes on the question. Fetched https://clerk.house.gov/evs/2023/roll199.xml."
+    },
+    "us-federal-positions:defense.grow-defense-spending": {
+      "axis": 0.45,
+      "yesShare": 0.32,
+      "tag": "ESTIMATED",
+      "spread": 0.04,
+      "source": "Gallup, telephone interviews Feb. 1-17, 2022 (no House roll call on a defense increase alone): \"the percentage of Republicans who say the U.S. spends too little on defense has nearly tripled, from 22% to 62%\"; the table gives Democrats 17% too little; all adults \"too little (32%), too much (31%) or about the right amount (34%)\"; margin of sampling error 4 points. https://news.gallup.com/poll/390812/defense-attitudes-shifted-russia-ukraine-war.aspx, fetched 2026-11-11."
+    },
+    "us-federal-positions:education.forgive-student-loans": {
+      "axis": -0.99,
+      "yesShare": 0.482,
+      "tag": "SOURCED",
+      "source": "House roll call 234, 24-May-2023, H J RES 45 (On Passage), \"Providing for congressional disapproval under chapter 8 of title 5, United States Code, of the rule submitted by the Department of Education relating to “Waiver\": Republicans 216 yea, 0 nay; Democrats 2 yea, 203 nay. Disapproved the Education Department rule \"Waivers and Modifications of Federal Student Loans\", so a yea is a no on forgiveness. Fetched https://clerk.house.gov/evs/2023/roll234.xml."
+    },
+    "us-federal-positions:energy-environment.limit-power-plant-carbon": {
+      "axis": -0.909,
+      "yesShare": 0.436,
+      "tag": "SOURCED",
+      "source": "Senate roll call 324, October 17, 2019, 12:06 PM, S.J. Res. 53 (On the Joint Resolution), \"A joint resolution providing for congressional disapproval under chapter 8 of title 5, United States Code, of the rule submitted by the Environmental Protection\": Republicans 1 yea, 50 nay; Democrats 39 yea, 3 nay; independents 1 yea, 0 nay. Would have undone the repeal of the Clean Power Plan, restoring carbon limits on existing power plants. The House held no roll call on power plant carbon limits from 2019 to 2026 (Clerk roll calls scanned). A yea is a yes on the question. Fetched https://www.senate.gov/legislative/LIS/roll_call_votes/vote1161/vote_116_1_00324.xml."
+    },
+    "us-federal-positions:foreign-affairs.increase-foreign-aid": {
+      "axis": -0.91,
+      "yesShare": 0.537,
+      "tag": "SOURCED",
+      "source": "House roll call 207, 4-Jun-2026, H R 2913 (On Passage), \"Ukraine Support Act\": Republicans 18 yea, 194 nay; Democrats 207 yea, 1 nay; independents 1 yea, 0 nay. Authorized support for Ukraine. A yea is a yes on the question. Fetched https://clerk.house.gov/evs/2026/roll207.xml."
+    },
+    "us-federal-positions:government.ban-congressional-stock-trading": {
+      "axis": 0.938,
+      "yesShare": 0.54,
+      "tag": "SOURCED",
+      "source": "House roll call 280, 22-Jul-2026, H R 7008 (On Passage), \"Stop Insider Trading Act\": Republicans 218 yea, 0 nay; Democrats 13 yea, 198 nay; independents 1 yea, 0 nay. Barred members from trading stocks; most Democrats voted no. A yea is a yes on the question. Fetched https://clerk.house.gov/evs/2026/roll280.xml."
+    },
+    "us-federal-positions:health.medicare-drug-price-negotiation": {
+      "axis": -1.0,
+      "yesShare": 0.515,
+      "tag": "SOURCED",
+      "source": "House roll call 420, 12-Aug-2022, H R 5376 (On Motion to Concur in the Senate Amendment), \"To provide for reconciliation pursuant to title II of S. Con. Res. 14\": Republicans 0 yea, 207 nay; Democrats 220 yea, 0 nay. The Inflation Reduction Act, which let Medicare negotiate drug prices (42 U.S.C. 1320f, the opening law row). A yea is a yes on the question. Fetched https://clerk.house.gov/evs/2022/roll420.xml."
+    },
+    "us-federal-positions:immigration.admit-more-immigrants": {
+      "axis": -0.848,
+      "yesShare": 0.587,
+      "tag": "SOURCED",
+      "source": "House roll call 93, 18-Mar-2021, H R 1603 (On Passage), \"Farm Workforce Modernization Act\": Republicans 30 yea, 173 nay; Democrats 217 yea, 1 nay. Widened farmworker visas and green cards: the latest House passage of a bill that admits more immigrants. A yea is a yes on the question. Fetched https://clerk.house.gov/evs/2021/roll093.xml."
+    },
+    "us-federal-positions:justice-rights.reduce-mandatory-minimums": {
+      "axis": -0.493,
+      "yesShare": 0.245,
+      "tag": "SOURCED",
+      "source": "House roll call 166, 12-Jun-2025, S 331 (On Passage), \"HALT Fentanyl Act\": Republicans 217 yea, 1 nay; Democrats 104 yea, 103 nay. Extended mandatory minimums to fentanyl-related substances, so a yea is a no on reducing them. Fetched https://clerk.house.gov/evs/2025/roll166.xml."
+    },
+    "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
+      "axis": -0.959,
+      "yesShare": 0.537,
+      "tag": "SOURCED",
+      "source": "House roll call 496, 18-Jul-2019, H R 582 (On Passage), \"Raise the Wage Act\": Republicans 3 yea, 192 nay; Democrats 228 yea, 6 nay; independents 0 yea, 1 nay. Raised the federal minimum wage in steps. A yea is a yes on the question. Fetched https://clerk.house.gov/evs/2019/roll496.xml."
+    },
+    "us-federal-positions:monetary-financial.cap-consumer-loan-interest": {
+      "axis": 0.24,
+      "yesShare": 0.61,
+      "tag": "ESTIMATED",
+      "spread": 0.031,
+      "source": "Napolitan News Service, online survey of 1,000 registered voters, January 19-20, 2026 (no roll call on a rate cap since 2010; the last, a Senate amendment in 2009, is older): \"A majority (61%) of voters favor President Trump's announcement that he would cap credit card interest rates at 10%.\" \"More Republicans (74%) than Democrats (50%) favor the idea.\" Margin of error 3.1 points. The question named the President, so the party gap carries his cue. https://napolitannews.org/posts/a-majority-favor-capping-credit-card-rates-at-10-percent, fetched 2026-11-11."
+    },
+    "us-federal-positions:social-insurance.raise-retirement-age": {
+      "axis": 0.016,
+      "yesShare": 0.179,
+      "tag": "ESTIMATED",
+      "spread": 0.023,
+      "source": "Quinnipiac University poll of U.S. adults, March 9-13, 2023, as reported by The Hill (no roll call since 2010): raising the full retirement age from 67 to 70, Republicans 18% support, 77% oppose; Democrats 17% support, 81% oppose; all respondents \"78 percent ... would oppose the move, while 17 percent ... would support it\"; margin of error 2.3 points. https://digital-release.thehill.com/homenews/administration/3926130-almost-8-in-10-would-oppose-raising-full-social-security-retirement-age-poll, fetched 2026-11-11."
+    },
+    "us-federal-positions:tax.raise-top-income-tax-rate": {
+      "axis": -0.991,
+      "yesShare": 0.495,
+      "tag": "SOURCED",
+      "source": "House roll call 190, 3-Jul-2025, H R 1 (On Motion to Concur in the Senate Amendment), \"One Big Beautiful Bill Act\": Republicans 218 yea, 2 nay; Democrats 0 yea, 212 nay. Kept the top individual rate at 37 percent instead of letting it return to 39.6 percent, so a yea is a no on raising it. Fetched https://clerk.house.gov/evs/2025/roll190.xml."
+    },
+    "us-federal-positions:territories-culture.statehood-for-dc": {
+      "axis": -1.0,
+      "yesShare": 0.509,
+      "tag": "SOURCED",
+      "source": "House roll call 132, 22-Apr-2021, H R 51 (On Passage), \"Washington, D.C. Admission Act\": Republicans 0 yea, 208 nay; Democrats 216 yea, 0 nay. Admitted the District as a state. A yea is a yes on the question. Fetched https://clerk.house.gov/evs/2021/roll132.xml."
+    },
+    "us-federal-positions:trade.raise-tariffs": {
+      "axis": 0.968,
+      "yesShare": 0.491,
+      "tag": "SOURCED",
+      "source": "House roll call 65, 11-Feb-2026, H J RES 72 (On Passage), \"Relating to a national emergency by the President on February 1, 2025\": Republicans 6 yea, 210 nay; Democrats 213 yea, 1 nay. Ended the national emergency of Executive Order 14193, \"Imposing Duties To Address the Flow of Illicit Drugs Across Our Northern Border\" (Federal Register API, fetched), the ground for the duties on Canada, so a yea is a no on tariffs. Fetched https://clerk.house.gov/evs/2026/roll065.xml."
+    },
+    "us-federal-positions:transport-water.expand-passenger-rail": {
+      "axis": -0.912,
+      "yesShare": 0.525,
+      "tag": "SOURCED",
+      "source": "House roll call 369, 5-Nov-2021, H R 3684 (On Motion to Concur in the Senate Amendment), \"INVEST in America Act\": Republicans 13 yea, 200 nay; Democrats 215 yea, 6 nay. The infrastructure law, with new passenger rail money. A yea is a yes on the question. Fetched https://clerk.house.gov/evs/2021/roll369.xml."
+    }
+  }
+}

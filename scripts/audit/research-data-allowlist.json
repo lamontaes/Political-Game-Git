@@ -22,10 +22,6 @@
       "reason": "Raw poll evidence (YouGov Daily Question, September 16, 2022, with crossbreaks): the figures the policy-support row for ban-the-box in public hiring uses are copied from it with their citation; the game does not read the file."
     },
     {
-      "file": "data/research/campaigns/federal-questions-2026.json",
-      "reason": "Raw research result for the federal questions (law in force, latest Senate floor vote, town reader and 60-vote verdict each; plan unit C2 of gov-congress-passes-policy-laws); unit C3 copies the chosen questions' rows into the game's own stance and law data, and the game never reads this file."
-    },
-    {
       "file": "data/research/core-figures/P0-4/absence-2025.json",
       "reason": "Provenance record for the CPS 2025 absence table (url, hash, retrieval date) with no rows; evidence of what was fetched, not game data."
     },

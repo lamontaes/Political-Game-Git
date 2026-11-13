@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-played-game-saves-and-continues-part-1-bench-saves-life
-pr:
+pr: #8742
 after:
 blocked-on:
 lead: play-first

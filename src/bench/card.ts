@@ -1,5 +1,11 @@
 import { servingTermsOf } from "../core2/modules/offices";
-import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
+import { officeInSentence, personWorkOf } from "../core2/person-work";
+import {
+  ageInYears,
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../core2/kernel/dates";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness } from "../core2/closeness";
@@ -8,6 +14,7 @@ import {
   countedMoves,
   familyFactsOf,
   lifeOf,
+  livesElsewhere,
   openWholePast,
   MOVED_AWAY_EVENT,
   type LifeEvent,
@@ -18,18 +25,28 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState, PersonId } from "../core2/types";
-import { screenLine } from "../english/screen-words";
+import {
+  partText,
+  screenLine,
+  screenPick,
+  screenWays,
+} from "../english/screen-words";
+import { framedByAge } from "../english/journal-words";
+import controls from "./data/controls.json" with { type: "json" };
 import {
   pronounSetOfGender,
   pronounWords,
   type PronounWords,
 } from "../english/pronoun-words";
 import { joinList } from "../english/bill-names";
+import { monthWords } from "../english/plain-words.mjs";
 import { spanSaid } from "../english/span-words";
 import {
   corePlaceByJurisdictionId,
+  coreStateKeyOfJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
+import { stateInSentence } from "../director/words";
 import { relationWord, schoolsOf } from "./words";
 import { faceOf, scenePlace } from "./scene";
 import {
@@ -39,7 +56,8 @@ import {
   PEOPLE_MIND_VERSION,
 } from "../core2/people-trait-definitions";
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
-import { viewKey } from "../director/view-learned";
+import { viewKey, viewQuestionKey } from "../director/view-learned";
+import { questionAbout } from "../english/question-names";
 import { preStartHistory, sharedHistory } from "../core2/past";
 
 // Engineering page size for the card's closest people, not a model value.
@@ -73,36 +91,39 @@ export function personCard(core: CoreState, personId: string) {
     ...(kind === "friend" ? ["friends"] : []),
     ...(kind === "politics" ? ["politics"] : []),
   ];
-  const ties = [...(core.relationshipsByPerson.get(personId) ?? [])]
+  // Everyone this person knows, closest first: one entry per relationship
+  // record (a meeting writes one). The People screen lists them all; the
+  // card's own page shows the closest few, with faces and why each changed.
+  const known = [...(core.relationshipsByPerson.get(personId) ?? [])]
     .map((id) => core.relationships.get(id))
     .filter((row) => row !== undefined)
     .map((row) => {
       const otherId = row.actorId === personId ? row.otherId : row.actorId;
+      const relation = relationWord(core, otherId, relationOf(otherId));
       return {
+        row,
         personId: otherId,
         name: name(otherId),
         kind: row.kind,
-        relation: relationWord(core, otherId, relationOf(otherId)),
-        groups: groupsOf(
-          otherId,
-          row.kind,
-          relationWord(core, otherId, relationOf(otherId)),
-        ),
+        relation,
+        groups: groupsOf(otherId, row.kind, relation),
         level: currentCloseness(core, row),
-        lastContactDate: row.lastContactDate,
-        recordId: row.id,
-        face: faceOf(core, otherId, place),
-        // Why the tie last changed, from its own record.
-        latestChange: row.latestChange && {
-          date: row.latestChange.date,
-          cause: row.latestChange.reason?.cause ?? row.latestChange.cause,
-          before: row.latestChange.before.level,
-          after: row.latestChange.after.level,
-        },
       };
     })
-    .sort((a, b) => b.level - a.level)
-    .slice(0, CLOSEST);
+    .sort((a, b) => b.level - a.level);
+  const ties = known.slice(0, CLOSEST).map(({ row, ...tie }) => ({
+    ...tie,
+    lastContactDate: row.lastContactDate,
+    recordId: row.id,
+    face: faceOf(core, tie.personId, place),
+    // Why the tie last changed, from its own record.
+    latestChange: row.latestChange && {
+      date: row.latestChange.date,
+      cause: row.latestChange.reason?.cause ?? row.latestChange.cause,
+      before: row.latestChange.before.level,
+      after: row.latestChange.after.level,
+    },
+  }));
   return {
     id: person.id,
     name: name(person.id),
@@ -169,17 +190,22 @@ export function personCard(core: CoreState, personId: string) {
         },
       ];
     }),
-    // What they're like, in plain sentences from their strongest leanings
-    // (owner, Oct 27), never the traits' names.
-    sketch: personSketch(person.traits),
-    // The same leanings in the You screen's own voice, each with its label and
-    // how strong it runs (shown only on the player's own screen).
-    traitLines: sketchRows(person.traits, "-first", {}, PEOPLE_TRAITS.length),
+    // The leanings on the You screen, each with its label and how strong it
+    // runs (shown only on the player's own screen).
+    traitLines: leanings(person.traits),
     // Where they place themselves politically, as the views engine's label.
     view: core.modules.has(VIEWS_MODULE_ID)
       ? (viewOf(coreAPI(core), personId)?.label ?? null)
       : null,
     ties,
+    known: known.map((tie) => ({
+      personId: tie.personId,
+      name: tie.name,
+      kind: tie.kind,
+      relation: tie.relation,
+      groups: tie.groups,
+      level: tie.level,
+    })),
     schools: schoolsOf(core, personId),
     // The school they are at now: the latest one, while they are of school
     // age (under voting age), the same rule the cards of others use.
@@ -212,6 +238,9 @@ const OFFICES = "core2-offices-v1";
 
 /** An office's title, from the offices engine's table. */
 function officeTitle(core: CoreState, officeId: string): string | null {
+  // A took-office event that names no office record (its office is told by its words) has no title
+  // to look up, and the offices table takes no empty key.
+  if (!officeId.trim()) return null;
   const office = coreAPI(core)
     .moduleState(OFFICES)
     .table("offices")
@@ -240,11 +269,14 @@ function historyLines(
   other: NonNullable<ReturnType<CoreState["people"]["get"]>>,
 ) {
   const lines: HistoryLine[] = [];
+  // A person met or opened for the first time has their whole past written now,
+  // before their schools are read: read first, the school they attend stands
+  // on a record the written past replaces (Holt, Minnesota, seed
+  // f602ba0f9501e66f: "school.started:<person>:2007", a year no record holds).
+  openWholePast(core, other.id);
   const schools = new Map(
     schoolsOf(core, other.id).map((school) => [school.recordId, school]),
   );
-  // A person met or opened for the first time has their whole past written now.
-  openWholePast(core, other.id);
   const life = lifeOf(core, other.id);
   const firstSchool = life.find(
     (event) => event.life === "school" && event.what === "started",
@@ -255,7 +287,9 @@ function historyLines(
     .map((event) => event.date)
     .sort()[0];
   // The first school start in each place they lived before this one, where the
-  // school is not one the town names.
+  // school is not one the town names; for a relative living elsewhere, in the
+  // place they live now as well.
+  const far = livesElsewhere(core, other);
   const awayFirst = new Set<string>();
   const awayPlaces = new Set<string>();
   for (const event of life)
@@ -264,7 +298,7 @@ function historyLines(
       event.what === "started" &&
       !schools.has(event.id) &&
       event.placeId &&
-      event.placeId !== other.placeId &&
+      (far || event.placeId !== other.placeId) &&
       !awayPlaces.has(event.placeId)
     ) {
       awayPlaces.add(event.placeId);
@@ -280,6 +314,7 @@ function historyLines(
       firstSchool?.id,
       firstChild,
       awayFirst,
+      far,
     );
     if (line) lines.push(line);
   }
@@ -331,6 +366,8 @@ function lineOf(
   firstSchoolId: string | undefined,
   firstChildDate: string | undefined,
   awayFirst: ReadonlySet<string>,
+  /** The person lives elsewhere: their own place is told by name, like any other. */
+  far: boolean,
 ): HistoryLine | null {
   const facts = event.facts ?? {};
   const year = event.date.slice(0, 4);
@@ -340,10 +377,15 @@ function lineOf(
   };
   const orgName = (id: unknown) =>
     core.organizations.get(String(id ?? ""))?.name ?? "";
-  const placeName = (id: unknown) =>
-    typeof id === "string" && corePlaceByJurisdictionId(id as never)
-      ? corePlaceByJurisdictionId(id as never)!.displayName
-      : "";
+  // A place by its name; a person kept at their state's level, by the state's.
+  const placeName = (id: unknown) => {
+    if (typeof id !== "string") return "";
+    const place = corePlaceByJurisdictionId(id as never);
+    if (place) return place.displayName;
+    const state = coreStateKeyOfJurisdictionId(id);
+    const name = state ? coreStateName(state.replace(/^US-/, "")) : null;
+    return name ? stateInSentence(name) : "";
+  };
   // The other person of a tie, said "you" when it is the viewer.
   const partner = event.withIds[0];
   const partnerName = partner === viewerId ? "you" : personName(partner);
@@ -364,9 +406,8 @@ function lineOf(
       if (!partnerName) return null;
       const home =
         event.what === "partnered" ? "partner.home" : "partner.moved-in";
-      const line = make(partner === viewerId ? `${home}-you` : home, {
-        name: partnerName,
-      });
+      // The viewer is the partner's `{name}`, said "you": one key for both.
+      const line = make(home, { name: partnerName });
       // A partner the person was made with has only the year the partnership began (its
       // day is the world's opening day), so it is told before the children, never after
       // them by that day: it sorts no later than the first child.
@@ -388,7 +429,13 @@ function lineOf(
       const childId = facts.childId ?? partner;
       const name = personName(childId);
       if (!name) return null;
-      return make(childId === viewerId ? "child.you" : "child.born", { name });
+      // A child is born by their first name, inside the family's own story
+      // (lead, Nov 11: "Jeremiah was born in 1996.").
+      const child = core.people.get(String(childId ?? ""))?.givenName ?? name;
+      return make(childId === viewerId ? "child.you" : "child.born", {
+        name,
+        child,
+      });
     }
     case "loss/died": {
       // A parent's death, from the fact (a name and a relation); a death in play, from the
@@ -407,6 +454,10 @@ function lineOf(
         ? make("loss.parent", { relation, name })
         : make("loss.died", { name });
     }
+    case "death/died":
+      // The person's own death, last in their story; the sentence waits for Story's pieces
+      // (a line with no piece is not told).
+      return make("death.died", { cause: String(facts.causeOfDeath ?? "") });
     case "school/started": {
       const school = schools.get(event.id);
       if (school)
@@ -418,12 +469,27 @@ function lineOf(
       // sentence for the years there; where the place is not known, the
       // stage lines below.
       const away = placeName(event.placeId);
-      if (away && event.placeId !== other.placeId)
-        return awayFirst.has(event.id)
-          ? make("school.elsewhere", { place: away })
-          : null;
+      if (away && awayFirst.has(event.id))
+        return make("school.elsewhere", { place: away });
+      if (away && event.placeId !== other.placeId) return null;
       // Each stage of school after the first is its own line (the first is
       // the line that names the school).
+      // A stage whose school has a record of its own is told with its name,
+      // when that is not the school the story has named already.
+      const stageSchool = orgName(facts.schoolId);
+      const namedAlready = [...schools.values()].some(
+        (row) => row.name === stageSchool,
+      );
+      if (
+        facts.stage &&
+        event.id !== firstSchoolId &&
+        stageSchool &&
+        !namedAlready
+      )
+        return make("school.joined", {
+          school: stageSchool,
+          stage: String(facts.stage),
+        });
       return facts.stage && event.id !== firstSchoolId
         ? make("school.stage", { stage: facts.stage })
         : null;
@@ -436,19 +502,32 @@ function lineOf(
         ? make("school.finished", { school })
         : null;
     }
+    // College before the start (the school pass's records): the fall it
+    // began, and its end, a bachelor's or the years without one.
+    case "school/college-started":
+      return make("school.college", {});
+    case "school/college-ended":
+      return make(facts.degree ? "school.degree" : "school.college-left", {});
+    // Service before the start: the day they enlisted and the day they left.
+    case "service/enlisted":
+    case "service/discharged":
+      return make(`service.${event.what}`, {});
     case "work/job-started": {
       const employer = orgName(facts.organizationId);
       if (!employer) {
         // A new job a relative took far away, in play: the record keeps no employer.
         if (event.from === "played" && facts.how) return make("work.found", {});
+        // Work still held on day one by someone living elsewhere: when it began.
+        if (!facts.endedAt) return far ? make("work.found", {}) : null;
         // Work where the town keeps no employer (another place, before they came here):
         // told by the place and the length, never by a name.
-        if (!facts.endedAt) return null;
         const days = daysBetween(
           makeIsoDate(String(facts.startedAt ?? event.date)),
           makeIsoDate(String(facts.endedAt)),
         );
         const away = placeName(event.placeId);
+        // "Before coming here" is never said of someone who lives elsewhere.
+        if (!away && far) return null;
         return make(
           away ? "work.elsewhere" : "work.elsewhere-plain",
           away
@@ -470,7 +549,18 @@ function lineOf(
       const how = facts.ended;
       if (how === "moved") return null;
       const employer = orgName(facts.organizationId);
-      if (!how) return make("work.out", {});
+      // How long they were out, when the record holds both ends.
+      if (!how)
+        return facts.startedAt && facts.endedAt
+          ? make("work.out-for", {
+              span: spanSaid(
+                daysBetween(
+                  makeIsoDate(String(facts.startedAt)),
+                  makeIsoDate(String(facts.endedAt)),
+                ),
+              ),
+            })
+          : make("work.out", {});
       if (how === "retired" && !employer) return make("work.retired-plain", {});
       return employer && ["quit", "retired", "closed"].includes(how)
         ? make(`work.${how}`, { employer })
@@ -482,10 +572,25 @@ function lineOf(
         ? make("work.job-lost", { employer })
         : make("work.job-lost-plain", {});
     }
-    case "move/moved-in":
-      return make("moved.in", {});
+    case "move/moved-in": {
+      // Someone living elsewhere moved to where they live, not to the county.
+      if (far) {
+        const place = placeName(facts.toPlaceId);
+        return place
+          ? make("moved.away-to", { place })
+          : make("moved.away", {});
+      }
+      // Where they came to: the town they live in now.
+      const here = placeName(other.placeId);
+      return here ? make("moved.in", { here }) : null;
+    }
     case "move/moved-home":
       return make("moved.home", {});
+    // A move to another home in the same county before the start.
+    case "move/moved-within": {
+      const place = placeName(facts.toPlaceId);
+      return place ? make("moved.within", { place }) : null;
+    }
     case "move/moved-away": {
       const place = placeName(facts.toPlaceId);
       return place ? make("moved.away-to", { place }) : make("moved.away", {});
@@ -582,9 +687,29 @@ interface HistoryLine {
   start?: string;
 }
 
-/** Office titles read in running text: "council member", but "U.S. senator". */
-const inSentence = (title: string) =>
-  /^[A-Z][a-z]/.test(title) ? title.toLowerCase() : title;
+/** Office titles read in running text: the one wording the journal shares. */
+const inSentence = officeInSentence;
+
+/**
+ * One of a kind's wordings for a record, by the English engine's own stable
+ * pick for that record (the same record reads the same each time the card
+ * opens), passing over any the story has used and any whose slots the record
+ * cannot fill.
+ */
+function pickWay(
+  ways: readonly string[],
+  used: ReadonlySet<string>,
+  recordId: string,
+  slots: Readonly<Record<string, string>>,
+  part = "",
+): { key: string; text: string } | null {
+  return screenPick(
+    "person-history",
+    ways.filter((key) => !used.has(key)),
+    slots,
+    { momentKey: `${recordId}${part}`, sourceIds: [recordId] },
+  );
+}
 
 /** Who a card's story is about, and the form its sentences take. */
 interface Teller {
@@ -594,6 +719,8 @@ interface Teller {
   readonly name: string;
   /** Their recorded pronouns, for the third-person form. */
   readonly words: PronounWords | null;
+  /** Their birth date, for the age a sentence opens on ("At 14, ..."). */
+  readonly born?: string;
 }
 
 /** The teller for one person's card, as the viewer reads it. */
@@ -602,10 +729,13 @@ function tellerOf(
   personId: string,
   name: string,
   pronouns: string | undefined,
+  born?: string,
 ): Teller {
-  if (viewerId === personId) return { form: "you", name, words: null };
+  const birth = born ? { born } : {};
+  if (viewerId === personId)
+    return { form: "you", name, words: null, ...birth };
   const words = pronounWords(pronouns);
-  return { form: words ? "third" : "they", name, words };
+  return { form: words ? "third" : "they", name, words, ...birth };
 }
 
 /**
@@ -722,6 +852,18 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
   const voice = teller.form === "you" ? "i" : teller.form;
   const said = new Set<string>();
   let named = false;
+  // Each kind has several wordings; a story never uses one twice, and a kind
+  // told before is told the second time as a second time ("again").
+  const used = new Set<string>();
+  const kinds = new Set<string>();
+  // A screen tells the story in paragraphs by kind (`lifeGroups`), so the
+  // line before is the one before in the same paragraph.
+  const groupOf = (kind: string) =>
+    controls.lifeGroups.findIndex((kinds) => kinds.includes(kind));
+  const before = new Map<
+    number,
+    { year: string; when: string | undefined; framed: boolean }
+  >();
   return folded.flatMap((line) => {
     // The same record twice (a move the person's own facts and the moves
     // engine both keep, a school started twice) is said once.
@@ -741,19 +883,94 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
     // they form when their record holds none.
     const first = teller.form !== "you" && !named;
     const form = first ? "third" : voice;
-    const text = screenLine(
-      "person-history",
-      `person-history.story.${again}.${form}`,
-      {
-        ...line.slots,
-        ...(line.again?.length ? { years: joinList(line.again, "and") } : {}),
-        who: first ? teller.name : (teller.words?.subject ?? ""),
-        whom: first ? teller.name : (teller.words?.object ?? ""),
-        their: teller.words?.possessive ?? (first ? "their" : ""),
-      },
-    );
-    if (!text) return [];
-    if (first) named = true;
+    const slots = {
+      ...line.slots,
+      ...(line.again?.length ? { years: joinList(line.again, "and") } : {}),
+      who: first ? teller.name : (teller.words?.subject ?? ""),
+      whom: first ? teller.name : (teller.words?.object ?? ""),
+      their: teller.words?.possessive ?? (first ? "their" : ""),
+    };
+    // A kind said the same in every form (a child born, by name) keeps one
+    // set of wordings under `.any`.
+    const waysOf = (kind: string) => {
+      const own = screenWays(
+        "person-history",
+        `person-history.story.${kind}.${form}`,
+      );
+      return own.length
+        ? own
+        : screenWays("person-history", `person-history.story.${kind}.any`);
+    };
+    const second = kinds.has(again) ? waysOf(`${again}-second`) : [];
+    const ways = second.length ? second : waysOf(again);
+    const wording = pickWay(ways, used, line.recordId, slots);
+    if (!wording) return [];
+    used.add(wording.key);
+    kinds.add(again);
+    let text = wording.text;
+    // A sentence that says no time of its own opens on one: the year, the
+    // same year as the line before, or their age then.
+    const year = line.date.slice(0, 4);
+    const group = groupOf(line.key.split(".")[0]!);
+    const last = before.get(group);
+    const lastYear = last?.year;
+    const lastWhen = last?.when;
+    let framed = false;
+    let whenKey: string | undefined;
+    // Not after a line that opened on a time, unless a year or more went by,
+    // and never on a sentence that says how long ("worked for seven years").
+    const gap = lastYear ? Number(year) - Number(lastYear) : Infinity;
+    const frame =
+      !/\{(?:years?|span)\}/.test(partText("person-history", wording.key)) &&
+      (!last?.framed || gap > 1);
+    if (frame) {
+      // Their age then, for what a person does at an age (school, a move,
+      // work); a partner or a child is told by the year.
+      const aged = ["school", "moved", "work"].includes(again.split(".")[0]!);
+      const age =
+        aged && teller.born && line.date > teller.born
+          ? ageInYears(teller.born, line.date)
+          : undefined;
+      const whens = (
+        year === lastYear
+          ? ["person-history.when.same-year"]
+          : [
+              "person-history.when.year",
+              // Only after the first sentence: "Then in 2008, ...".
+              ...(lastYear !== undefined
+                ? [
+                    "person-history.when.then-year",
+                    "person-history.when.later-year",
+                  ]
+                : []),
+              ...(age !== undefined && age > 0
+                ? ["person-history.when.age", "person-history.when.age-years"]
+                : []),
+            ]
+      ).filter((key) => key !== lastWhen);
+      const when = pickWay(
+        whens,
+        new Set(),
+        line.recordId,
+        { year, age: String(age ?? "") },
+        ":when",
+      );
+      if (when) {
+        // The engine's one joiner: the opening's stop becomes a comma and
+        // the sentence goes on in lower case, unless it opens on a name.
+        text = framedByAge(
+          { text: when.text, sourceRecordIds: [line.recordId] },
+          { text, sourceRecordIds: [line.recordId] },
+          first ? { name: { text: teller.name } } : {},
+        ).text;
+        whenKey = when.key;
+        framed = true;
+      }
+    }
+    before.set(group, { year, when: whenKey ?? lastWhen, framed });
+    // The story names them in the first sentence that says who it is about.
+    if (first && partText("person-history", wording.key).includes("{who}"))
+      named = true;
     // The kind of record (born, school, work, office...) picks the
     // group a screen tells it in: the key's first part.
     return [
@@ -764,6 +981,8 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
         recordId: line.recordId,
         // Every record the sentence tells: a run's later terms too.
         records: [line.recordId, ...(line.later ?? [])],
+        // The bank piece that worded it, so a story can be checked for variety.
+        piece: wording.key,
       },
     ];
   });
@@ -840,11 +1059,45 @@ function noJobLine(
       ? { text, recordIds: [household!.id, earner.id, job.id, employer.id] }
       : null;
   }
-  const text = screenLine(
-    "person-history",
-    "person-history.summary.no-work.none.you",
-    {},
+  // Nobody at home earns: said by who lives there, as the player calls them
+  // ("your mother", "your brother"), from the household and family records.
+  const kin = (household?.memberIds ?? [])
+    .filter((id) => id !== person.id && core.people.get(id)?.alive)
+    .map((id) => relationWord(core, id, relationOf(id)))
+    .filter((word): word is string => !!word);
+  // Each relation once, in the plural where there are more than one ("your
+  // daughters"), in the order the household lists them.
+  const said = [...new Set(kin)].map((word) =>
+    kin.filter((other) => other === word).length > 1
+      ? `your ${word.endsWith("child") ? `${word}ren` : `${word}s`}`
+      : `your ${word}`,
   );
+  const others = (household?.memberIds ?? []).filter(
+    (id) => id !== person.id && core.people.get(id)?.alive,
+  ).length;
+  // When their last job ended, from the job records: the fact a line about
+  // living alone with no job is about. No job on record, no line.
+  const lastJobEnded = [...core.jobs.values()]
+    .filter((job) => job.personId === person.id && job.endsAt)
+    .map((job) => job.endsAt!)
+    .sort()
+    .at(-1);
+  const text =
+    others && kin.length === others
+      ? screenLine(
+          "person-history",
+          "person-history.summary.no-work.none.you",
+          {
+            kin: joinList(said, "or"),
+          },
+        )
+      : !others && lastJobEnded
+        ? screenLine(
+            "person-history",
+            "person-history.summary.no-work.alone.you",
+            { month: monthWords(lastJobEnded) },
+          )
+        : null;
   return text ? { text, recordIds: household ? [household.id] : [] } : null;
 }
 
@@ -872,14 +1125,14 @@ function summaryOf(
     readonly place?: string | null;
     readonly born?: { year: string; place: string | null } | null;
     /** The office held before this one, from a President's record: its kind and state. */
-    readonly before?: { kind: string; state: string } | null;
+    readonly before?: { kind: string; state: string; year: string } | null;
   },
 ): string[] {
   const you =
     teller.form === "you" ? ".you" : teller.form === "first" ? ".first" : "";
   const line = (key: string, slots: Record<string, string>) =>
     screenLine("person-history", `person-history.summary.${key}${you}`, slots);
-  const role = now.office
+  const office = now.office
     ? line(
         now.office.terms > 1 && now.office.wonAgain
           ? "office.run"
@@ -889,13 +1142,20 @@ function summaryOf(
           year: now.office.since.slice(0, 4),
         },
       )
-    : now.work?.employer
-      ? now.work.title
-        ? line("work.title", {
-            title: inSentence(now.work.title),
-            employer: now.work.employer,
-          })
-        : line("work.employer", { employer: now.work.employer })
+    : null;
+  // Their job, from the same record the journal reads (`personWorkOf`): told
+  // beside an office they hold too, never in place of it.
+  const work = now.work?.employer
+    ? now.work.title
+      ? line("work.title", {
+          title: inSentence(now.work.title),
+          employer: now.work.employer,
+        })
+      : line("work.employer", { employer: now.work.employer })
+    : null;
+  const role =
+    office || work
+      ? null
       : now.school
         ? line("school", { school: now.school })
         : now.place
@@ -906,10 +1166,16 @@ function summaryOf(
       ? line("born.place", { place: now.born.place, year: now.born.year })
       : line("born.year", { year: now.born.year })
     : null;
+  // The office before, told as what they were when the election was won.
   const before = now.before
-    ? line(`before.${now.before.kind}`, { state: now.before.state })
+    ? line(`before.${now.before.kind}`, {
+        state: now.before.state,
+        year: now.before.year,
+      })
     : null;
-  return [role, before, born].filter((text): text is string => !!text);
+  return [office, work, role, before, born].filter(
+    (text): text is string => !!text,
+  );
 }
 
 /**
@@ -970,44 +1236,22 @@ function colleaguesOf(core: CoreState, personId: string) {
     .slice(0, CLOSEST);
 }
 
-// Engineering bands for the sketch: a lean under the first is not said; one
-// past the second takes the strong line. Display wording only, never a choice.
+// Engineering band for the leanings: a lean under it is not said; one past
+// the second is said as strong. Display wording only, never a choice.
 const SKETCH_SAID = 0.15;
 const SKETCH_STRONG = 0.5;
-const SKETCH_SENTENCES = 3;
 
 /**
- * Up to three sentences of what a person is like, strongest leaning first:
- * to the player in the second person, or of someone else in the third, with
- * the pronouns their record carries.
+ * The leanings a person is said to have, strongest first, each by the pole's
+ * own label and how strong it runs. No sentence goes beside the label: one
+ * that only said the label again in other words was deleted (Fable A on
+ * #7365, Nov 12, under the owner's Nov 11 ruling that every line comes from
+ * the world's records). A line comes back only where a record shows the
+ * leaning.
  */
-function personSketch(
+function leanings(
   traits: Readonly<Record<string, number>>,
-  pronouns?: string,
-): string {
-  const third = pronouns === undefined ? null : pronounWords(pronouns);
-  const voice = pronouns === undefined ? "" : third ? "-third" : "-they";
-  const said = sketchRows(traits, voice, third ?? {}).map((row) => row.line);
-  return said.length
-    ? said.join(" ")
-    : (screenLine(
-        "person-sketch",
-        `person-sketch.balanced.1${voice}`,
-        third ?? {},
-      ) ?? "");
-}
-
-/**
- * The leanings a person is said to have, strongest first, each as the pole's
- * own label, how strong it runs and its sentence in the given voice ("" the
- * player's second person, "-first" the You screen's own voice).
- */
-function sketchRows(
-  traits: Readonly<Record<string, number>>,
-  voice: string,
-  facts: Readonly<Record<string, string | number>>,
-  limit = SKETCH_SENTENCES,
-): { label: string; strength: "strong" | "mild"; line: string }[] {
+): { label: string; strength: "strong" | "mild" }[] {
   return PEOPLE_TRAITS.flatMap((trait) => {
     const value = traits[`${PEOPLE_MIND_VERSION}:${trait}`];
     if (value === undefined || Math.abs(value) < SKETCH_SAID) return [];
@@ -1015,18 +1259,10 @@ function sketchRows(
     const side = value < 0 ? shape.low : shape.high;
     const strength: "strong" | "mild" =
       Math.abs(value) >= SKETCH_STRONG ? "strong" : "mild";
-    const line = screenLine(
-      "person-sketch",
-      `person-sketch.${side.key}.${strength}${voice}`,
-      facts,
-    );
-    return line
-      ? [{ label: side.label, strength, line, weight: Math.abs(value) }]
-      : [];
+    return [{ label: side.label, strength, weight: Math.abs(value) }];
   })
     .sort((a, b) => b.weight - a.weight)
-    .slice(0, limit)
-    .map(({ label, strength, line }) => ({ label, strength, line }));
+    .map(({ label, strength }) => ({ label, strength }));
 }
 
 interface TermLike {
@@ -1180,7 +1416,6 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     alive: true,
     placeName: office?.governmentName ?? null,
     school: null,
-    sketch: null,
     work: office?.title
       ? { title: office.title, employer: office.governmentName ?? null }
       : null,
@@ -1255,7 +1490,8 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const shared = sharedHistory(core, viewerId, otherId);
   const housemate = shared.some((row) => row.kind === "household");
   const coworker = shared.some((row) => row.kind === "coworker");
-  const job = other.jobId ? core.jobs.get(other.jobId) : undefined;
+  // What they do: one reader for the card, the journal and Travel.
+  const job = personWorkOf(core, otherId).job;
   const tie = tieBetween(core, viewerId, otherId);
   const publicKnowledge = core.modules.has(PAST_MODULE_ID)
     ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)
@@ -1290,6 +1526,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     otherId,
     name,
     other.looks?.pronouns ?? pronounSetOfGender(other.looks?.gender),
+    other.birthDate,
   );
   // Where they live, when the viewer knows it: their own life, family,
   // housemates and coworkers, or anyone living in the viewer's town.
@@ -1315,10 +1552,16 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const prior = (other.pastFacts ?? []).find(
     (row) => row.kind === "career:prior-office",
   )?.facts;
+  // The year they won the office they hold now, from the same record.
+  const elected = (other.pastFacts ?? []).find(
+    (row) => row.kind === "campaign:elected",
+  )?.facts?.year;
   const priorOffice =
     run && typeof prior?.office === "string"
       ? {
           kind: prior.office,
+          // Only the lines that name the year need it; the others say "before that".
+          year: typeof elected === "string" ? elected : "",
           state:
             typeof prior.stateKey === "string"
               ? (coreStateName(prior.stateKey.replace(/^US-/, "")) ?? "")
@@ -1366,22 +1609,12 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         : null,
     // The school a child or teen is at now, from the school their past records.
     school,
-    // What they are like, said of them, to someone who knows them: family,
-    // a housemate or anyone the player has a tie with.
-    sketch:
-      family || housemate || tie
-        ? personSketch(other.traits, other.looks?.pronouns ?? "they-them")
-        : null,
-    // The same leanings one by one, each by the pole's own label and no strength: how the
-    // viewer sees them (the approved person card), only for someone the viewer knows.
+    // Their leanings, each by the pole's own label and no strength: how the
+    // viewer sees them (the approved person card), only for someone the
+    // viewer knows: family, a housemate or anyone the player has a tie with.
     traitLines:
       family || housemate || tie
-        ? sketchRows(
-            other.traits,
-            teller.words ? "-third" : "-they",
-            teller.words ?? {},
-            PEOPLE_TRAITS.length,
-          ).map(({ label, line }) => ({ label, line }))
+        ? leanings(other.traits).map(({ label }) => ({ label }))
         : [],
     // Where they place themselves politically, as the views engine's label, once the viewer has
     // learned it: an official's or candidate's public stance is learned by everyone; anyone
@@ -1395,7 +1628,13 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         learned && core.modules.has(VIEWS_MODULE_ID)
           ? (viewOf(coreAPI(core), otherId as PersonId)?.label ?? null)
           : null;
-      return { view: label, viewUnknown: !label };
+      // The question they care most about, once a talk has told it: worded
+      // by the English engine's question names, from the key the talk wrote.
+      const question = label
+        ? coreAPI(core).knows(viewerId, viewQuestionKey(otherId))?.value
+        : undefined;
+      const about = question ? questionAbout(String(question)) : null;
+      return { view: label, viewUnknown: !label, viewAbout: about };
     })(),
     // Their pronouns as words, for the headings on their card (she, her, Her); null for they.
     pronouns: teller.words,

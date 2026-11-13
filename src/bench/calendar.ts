@@ -1,7 +1,11 @@
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { CLOSENESS, familyFactsOf } from "../core2/modules/people";
 import { bodyOf, nextSittingOf } from "../core2/modules/legislature";
-import { federalHolidays, officeHost } from "../core2/modules/office-day";
+import {
+  federalHolidayName,
+  federalHolidays,
+  officeHost,
+} from "../core2/modules/office-day";
 import { townSeats } from "../core2/modules/offices";
 import { wordArchiveStory, wordPrintedStory } from "./archive-words";
 import { coreAPI } from "../core2/state";
@@ -215,7 +219,11 @@ export function calendarItems(
   }
   for (const year of [Number(from.slice(0, 4)), Number(from.slice(0, 4)) + 1])
     for (const [date, id] of federalHolidays(year)) {
-      const line = screenLine("calendar", `calendar.holiday.${id}`, {});
+      // The holiday's name is the federal calendar's record; the line says it.
+      const name = federalHolidayName(id);
+      const line = name
+        ? screenLine("calendar", "calendar.holiday.name", { holiday: name })
+        : null;
       if (inWindow(date) && line)
         items.push({
           date,

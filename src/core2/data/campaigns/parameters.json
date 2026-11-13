@@ -123,7 +123,7 @@
     "doorPledgeWeight": {
       "value": 2,
       "tag": "TUNABLE",
-      "source": "How much a voter's own \"yes\" at a campaign's door holds at the ballot, in appeal units: near-binding (owner, Oct 29), so larger than the other reasons a local voter weighs together (party side and tie, standing, the incumbent lean, recognition, warmth and closeness each run about -1 to 1), and undone only as far as something heavy they learned since (pledgeDoubt in voting.ts). Checked against how often voters a canvass identifies as supporters vote as they said.",
+      "source": "How much a voter's own \"yes\" at a campaign's door holds at the ballot, in appeal units: near-binding (owner, Oct 29), the margin a held yes keeps its candidate ahead by over the best rival, whatever the other reasons (party side and tie, standing, the incumbent lean, recognition, warmth and closeness) sum to for that rival (liftHeldPledges in electorate.ts lifts the pledged total to that margin in proportion to how far the yes holds), and undone only as far as something heavy they learned since (pledgeDoubt in voting.ts). Checked against how often voters a canvass identifies as supporters vote as they said.",
       "spread": [1, 3]
     },
     "speechWeight": {
@@ -457,6 +457,13 @@
       "tag": "TUNABLE",
       "source": "How many bills a legislative chamber's floor takes up in one floor day (each bill reached is debated and voted on; the rest die at adjournment). Checked against official session totals: Kentucky 2024, 212 bills became law in 60 legislative days (3.5 a day, each passing both chambers); Florida 2024, 313 bills passed both chambers in a 60-day session (about 5 a day); the floor also takes up bills that fail (data/research/lawmaking-throughput/throughput-evidence.json).",
       "spread": [3, 12]
+    },
+    "memberBillCarryCost": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "What carrying one more policy-question bill takes from a legislator's reason for the next, in the units of their filing reasons (their own stand plus their constituents' and neighbor states' pull): a member ranks the changes they favor and carries the k-th only while its reason beats k times this, so a member who feels strongly reaches further down their list than one who leans mildly. No study reports a legislator's carrying capacity in these units; checked by reading how many bills each sponsoring member carries and how many distinct questions a session files, reported beside the State Policy Innovation and Diffusion count (Boehmke et al. 2020: more than 700 policies, 24 states on average each, 1691 to 2017) and never fitted to it.",
+      "spread": [0.1, 0.6]
     },
     "legislativeDaysPerWeek": {
       "value": 4,

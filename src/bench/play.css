@@ -4,7 +4,7 @@
    .name / .heading (Cinzel), .speech / .prose (Andada Pro), .label / .role / .when
    (Fira Sans), .replies / .reply (numbered lines), .action (a button: .primary is Continue,
    plain is Back; one size for all; the brass corner mark shows only while .active or
-   pressed), .tabs / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
+   pressed), .tab-rail / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
    .glyph (thin close X, return arrow), .row (a gold label and its value), .lie-scales.
    The chevron rule: a mark appears only on a static button while it is activated; never in
    radial menus, items, cards, tabs or rows. Nothing inside a menu scrolls: long screens page.
@@ -238,46 +238,226 @@ ol {
     animation: none;
   }
 }
-#people .figure {
-  position: absolute;
-  overflow: hidden;
+/* ---- The strip of busts (ui/bust-strip.mjs; owner, Nov 11, 2026) ----
+   A room is its painting alone. The people in it stand as busts in a band of
+   soft glass with their names on it: its ends fade into the room and a light
+   runs along its top. --bust is one bust's side; the talk box sets it larger. */
+.bust-strip {
+  --bust: 140px;
+  position: relative;
+  pointer-events: none;
 }
-#people .figure img {
+.bust-strip .busts-glass {
   position: absolute;
   left: 0;
-  top: 0;
-  width: 100%;
-  transition: filter 0.25s ease;
-}
-/* People you can approach glow softly white on hover. */
-#people .figure.talkable {
-  cursor: pointer;
-}
-#people .figure.talkable:hover img {
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.75))
-    drop-shadow(0 0 14px rgba(255, 255, 255, 0.3));
-}
-/* The painting's own furniture in front of a person, through the spot's mask. */
-#people .occluder {
-  position: absolute;
-  pointer-events: none;
-  background-repeat: no-repeat;
-  mask-size: 100% 100%;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-}
-/* A soft contact shadow on the floor at a person's feet (placed by the scene). */
-#people .shadow {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(
-    closest-side,
-    rgb(0 0 0 / 34%),
-    rgb(0 0 0 / 20%) 55%,
+  right: 0;
+  bottom: 0;
+  height: calc(var(--bust) * 0.24 + 34px);
+  background: linear-gradient(rgba(40, 37, 33, 0.8), rgba(24, 22, 20, 0.88));
+  box-shadow: 0 -10px 22px rgba(0, 0, 0, 0.28);
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 9%,
+    black 91%,
     transparent
   );
-  pointer-events: none;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 9%,
+    black 91%,
+    transparent
+  );
+}
+/* The light along the top, gone before the ends. */
+.bust-strip .busts-glass::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 12%,
+    rgba(236, 200, 128, 0.5) 38%,
+    rgba(236, 200, 128, 0.5) 62%,
+    transparent 88%
+  );
+}
+.bust-strip .busts-label {
+  position: absolute;
+  left: 11%;
+  bottom: 9px;
+  font: var(--group-font);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.bust-strip .busts-row {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: calc(var(--bust) * 0.16);
+  padding: 0 var(--gutter);
+}
+.bust-strip .busts-person {
+  --mine: var(--bust);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: none;
+  pointer-events: auto;
+}
+/* The bust, cut soft at the shoulders where it meets the glass. */
+.bust-strip .busts-face {
+  position: relative;
+  width: calc(var(--mine) * 0.72);
+  height: calc(var(--mine) * 0.74);
+  mask-image: linear-gradient(black 72%, transparent);
+  -webkit-mask-image: linear-gradient(black 72%, transparent);
+  transition: filter 0.2s ease;
+}
+.bust-strip .busts-face .bust-stack {
+  width: var(--mine);
+  top: 0;
+  left: calc(var(--mine) * (0.36 - var(--head-middle, 0.5)));
+}
+.bust-strip .busts-name {
+  font: 600 var(--t-label) var(--ui);
+  color: var(--brass-hi);
+  padding-bottom: 8px;
+  margin-top: -4px;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+/* The office a scene names someone by, under their name; the glass is a line taller for it. */
+.bust-strip .busts-role {
+  font: 500 var(--t-label) var(--ui);
+  color: var(--muted);
+  padding-bottom: 8px;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+.bust-strip .busts-person:has(.busts-role) .busts-name {
+  padding-bottom: 0;
+}
+.bust-strip:has(.busts-role) .busts-glass {
+  height: calc(var(--bust) * 0.24 + 52px);
+}
+.bust-strip .busts-more {
+  font: 400 var(--t-ui) var(--ui);
+  color: var(--muted);
+  padding: 0 0 9px 8px;
+  white-space: nowrap;
+}
+/* Someone with something to say glows softly when pointed at. */
+.bust-strip .busts-person.talkable {
+  cursor: pointer;
+}
+.bust-strip .busts-person.talkable:hover .busts-face,
+.bust-strip .busts-person.talkable:focus-visible .busts-face {
+  filter: drop-shadow(0 0 10px rgba(236, 200, 128, 0.55));
+}
+.bust-strip .busts-person.talkable:focus-visible {
+  outline: none;
+}
+.bust-strip .busts-person.talkable:hover .busts-name,
+.bust-strip .busts-person.talkable:focus-visible .busts-name {
+  color: var(--text-strong);
+}
+/* In a talk, whoever speaks is lit and a little larger; the rest stand back. */
+.bust-strip .busts-person.speaking {
+  --mine: calc(var(--bust) * 1.16);
+}
+.bust-strip .busts-person.speaking .busts-face {
+  filter: drop-shadow(0 0 10px rgba(236, 200, 128, 0.4));
+}
+.bust-strip .busts-person.speaking .busts-name {
+  font-size: var(--t-ui);
+}
+.bust-strip .busts-person.quiet .busts-face {
+  filter: brightness(0.72) saturate(0.85);
+}
+.bust-strip .busts-person.quiet .busts-name {
+  color: var(--muted);
+}
+/* Who is here: along the foot of the room, clear of the player card. */
+#here {
+  position: absolute;
+  left: 472px;
+  right: 40px;
+  bottom: 26px;
+}
+/* A talk, a menu or the front screens take the foot of the room. */
+#game:has(#talk:not([hidden])) #here,
+#game.sheet-open #here,
+#game:has(#front:not([hidden])) #here {
+  display: none;
+}
+/* A panel at the side of the room (the meeting, the desk, the ballot, election
+   day, the returns) never covers the people: they stand in the room it leaves,
+   smaller, and nobody is cut in half (owner, Nov 11: "it's being covered up by
+   the menu"). A bill read there takes the whole frame, and the foot with it. */
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here {
+  right: calc(
+    var(--gutter) + min(560px, calc(var(--vw) - 2 * var(--gutter))) + 16px
+  );
+}
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .bust-strip {
+  --bust: 96px;
+}
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .busts-row {
+  padding: 0 8px;
+}
+/* The band is too narrow there for its label beside the names. */
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .busts-label {
+  display: none;
+}
+/* Three stand in the room the panel leaves; the rest are the faces on it. */
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .busts-person
+  ~ .busts-person
+  ~ .busts-person
+  ~ .busts-person {
+  display: none;
+}
+#game:has(:is(#meeting, #desk) .bill-board) #here {
+  display: none;
+}
+/* A person's card takes the room: the talk it was opened from waits under it
+   out of sight, and comes back when the card closes. Its lower edge used to
+   show under the card (owner, Nov 11: nothing is left half covered). */
+#game:has(#person:not([hidden])) #talk,
+#game:has(#person:not([hidden])) #here {
+  visibility: hidden;
+}
+/* On the talk box the strip joins its top edge, and the busts follow how many
+   stand there (the owner's sizes: one, two, and three or four). */
+#talk-strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+}
+#talk-strip .bust-strip[data-count="1"] {
+  --bust: 200px;
+}
+#talk-strip .bust-strip[data-count="2"] {
+  --bust: 180px;
+}
+#talk-strip .bust-strip {
+  --bust: 150px;
 }
 #stage.cut {
   animation: cut 0.6s ease-out;
@@ -351,7 +531,7 @@ ol {
 #front-main #front-continue .continue-text b {
   display: block;
 }
-/* A bust holds the person's round headshot (ui/headshot.mjs), filling it. */
+/* A bust holds the person's round headshot (ui/face.mjs), filling it. */
 .bust {
   flex: none;
   width: 62px;
@@ -477,7 +657,6 @@ select:focus-visible {
    and something to delineate that that's the one that's selected"): a recessed bar with
    a brass edge; a tab at rest is plain type in it, and the chosen one is a raised glass
    plate, lit, with a gold bar where it meets what it shows. */
-.tabs,
 .tab-rail {
   display: flex;
   flex-wrap: wrap;
@@ -495,7 +674,6 @@ select:focus-visible {
     inset 0 -1px 0 rgba(255, 240, 199, 0.05),
     0 1px 0 rgba(255, 255, 255, 0.05);
 }
-.tabs:empty,
 .tab-rail:empty {
   display: none;
 }
@@ -965,12 +1143,18 @@ input[type="range"]::-moz-range-thumb {
 }
 #cr-character .date-row {
   margin: 0;
-  grid-template-columns: 5fr 3fr 6fr;
+  grid-template-columns: minmax(0, 6.2fr) minmax(0, 2.9fr) minmax(0, 7.9fr);
   gap: 6px;
 }
+/* Room at the right for the dropdown's mark, so a long month ("November")
+   and "1982 (age 42)" are never drawn under it. */
 #cr-character .date-row select {
-  padding-inline: 6px;
+  padding: 5px 18px 5px 7px;
   font-size: var(--t-label);
+  background-position:
+    calc(100% - 11px) 55%,
+    calc(100% - 5px) 55%,
+    0 0;
 }
 #cr-character .group.row > :not(.label):not(.date-row):not(.choices) {
   grid-column: 1 / -1;
@@ -985,6 +1169,61 @@ input[type="range"]::-moz-range-thumb {
 #cr-character .choices .action {
   white-space: nowrap;
   padding: 6px 6px;
+}
+/* How I look's two tabs of clothes (owner, Nov 12: "two tabs, everyday and formal"),
+   on the owner's menu look: the open tab a lit brass fill, the other raised glass in
+   soft light; no rail, no ring, no bar under the open one. */
+#cr-rows .look-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  margin: 4px 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+/* With the tabs the look has one more line: its rows sit closer so the creator still fits
+   the screen without scrolling. */
+#cr-rows .look-row {
+  padding: 0;
+}
+#cr-rows {
+  display: grid;
+  gap: 1px;
+}
+#cr-rows .look-tabs .tab {
+  min-height: 26px;
+  padding: 0 12px;
+  text-align: center;
+  color: var(--text-2);
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    linear-gradient(rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+    var(--raised);
+  border: 0;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 10px rgba(255, 255, 255, 0.04);
+}
+#cr-rows .look-tabs .tab.on,
+#cr-rows .look-tabs .tab.on:hover {
+  color: var(--iron);
+  text-shadow: none;
+  background: linear-gradient(
+    var(--brass-hi),
+    var(--gold) 55%,
+    var(--brass-lo)
+  );
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 248, 225, 0.6),
+    0 0 14px rgba(214, 189, 132, 0.35);
+}
+#cr-rows .look-tabs .tab.on::after {
+  content: none;
 }
 /* A picked button is a lit brass fill: no corner mark on any control (owner, Nov 5). */
 .action[aria-pressed="true"] {
@@ -1483,6 +1722,10 @@ body:not(.dev) .dev-only {
 }
 #journal-note:has(#journal-line:empty) {
   display: none;
+}
+/* With people in the room, the note sits above their strip, never on a face. */
+#game:has(#here .bust-strip) #journal-note {
+  bottom: calc(26px + 140px + 28px);
 }
 
 /* ---- Menus: the rail on the left, the open screen beside it ---- */
@@ -2200,6 +2443,14 @@ body:not(.dev) .dev-only {
   color: var(--text-2);
   font: var(--t-label) var(--ui);
 }
+.meeting-remarks small {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--gold);
+  font: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
 .meeting-acts {
   display: flex;
   flex-wrap: wrap;
@@ -2429,7 +2680,7 @@ body:not(.dev) .dev-only {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
-/* A round headshot: the person's bust, placed inside the frame by ui/headshot.mjs. */
+/* A round headshot: the person's bust, placed inside the frame by ui/face.mjs. */
 .headshot {
   box-sizing: border-box;
   display: block;
@@ -2461,43 +2712,39 @@ body:not(.dev) .dev-only {
   max-width: none;
   user-select: none;
 }
-/* People: the roster of everyone you know at the left, grouped, and the selected person's
-   card beside it (owner, Nov 7: the person card, "perfect"; the mock's pl-people). */
-#sheet-body:has(.people-screen) {
-  max-width: none;
-}
-/* The list and the card each keep to the panel's height and scroll inside
-   themselves; the screen never runs past the panel's foot (a menu never
-   scrolls as a page). */
-#sheet-body:has(.people-screen) {
+/* People on the one roster (owner, Nov 7: the person card, "perfect"; the mock's
+   pl-people): the roster at the left and the chosen person's card beside it, the
+   width of the panel; each keeps to the panel's height and scrolls inside itself
+   (a menu never scrolls as a page). */
+#sheet-body:has(.roster-screen.people) {
   display: flex;
   overflow: hidden;
 }
-.people-screen {
+.roster-screen.people {
   flex: 1;
+  width: auto;
   min-height: 0;
-  display: grid;
-  grid-template-columns: 270px 1fr;
+  grid-template-columns: 270px minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
   gap: 22px;
 }
-.people-roster,
-.people-pane {
+.roster-screen.people > .roster,
+.roster-screen.people > .roster-page {
   min-height: 0;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
-.people-roster {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-family: var(--ui);
+.roster-screen.people > .roster {
+  align-content: start;
+  max-height: none;
+  margin: 0;
 }
-.people-pane .strip-screen {
+.roster-screen.people > .roster-page .strip-screen {
   grid-template-columns: 1fr;
 }
-.people-pane .strip-screen:has(.mxbust) {
+.roster-screen.people > .roster-page .strip-screen:has(.mxbust) {
   grid-template-columns: 300px 1fr;
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
@@ -2758,6 +3005,67 @@ details.entry[open] {
 #sheet-body:has(.bill-board) {
   max-width: none;
 }
+/* The bill page keeps to the panel's height: its three columns each scroll
+   inside themselves, so the vote and the staff never fall off the foot of the
+   sheet (a menu never scrolls as a page). A bill stands straight in the sheet
+   (from Your office) or in a list's page (Bills). */
+#sheet-body:has(.bill-board) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#sheet-body > .bill-board,
+.roster-page > .bill-board {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+#sheet-body .bill-board > .board-cols {
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+}
+#sheet-body .bill-board > .board-cols > .mx3col {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+/* Bills: the list is narrow and the bill's page takes the rest of the sheet. */
+#sheet-body:has(.roster-screen.bills) {
+  max-width: none;
+}
+.roster-screen.bills {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  grid-template-columns: 250px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+}
+.roster-screen.bills > .roster-page {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.roster-screen.bills > .roster {
+  align-self: start;
+}
+/* What stands over and under the columns keeps its own height and width. */
+#sheet-body:has(> .bill-board) > :not(.bill-board),
+#sheet-body .bill-board > .bill-band {
+  flex: none;
+}
+#sheet-body:has(> .bill-board) > button {
+  align-self: flex-start;
+}
+/* The bill's number in its column: one step down from a page title, so
+   "Ordinance 2025-1" stays on one line. */
+.bill-doc h2.heading {
+  font-size: var(--t-h2);
+}
 
 /* Compare: the clause the law in force holds struck, the bill's inserted. */
 .bill-clause {
@@ -2769,6 +3077,13 @@ details.entry[open] {
   white-space: normal;
   text-align: right;
   overflow-wrap: anywhere;
+}
+.bill-clause[role="button"] {
+  cursor: pointer;
+}
+.bill-clause[role="button"]:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 2px;
 }
 .bill-clause s {
   color: var(--muted);
@@ -3292,12 +3607,6 @@ details.entry[open] {
   color: var(--text-strong);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
 }
-.chamber-line {
-  font: 400 var(--t-label)/1.3 var(--ui);
-  color: var(--text);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
-}
-
 /* The party split: one bar, each party's share in its color. */
 .party-none {
   --party: #6f6c66;
@@ -3457,6 +3766,20 @@ details.entry[open] {
 .draft-entry .number-box {
   width: 140px;
 }
+/* The amount is a field the player types in: it shows its box at rest, as
+   the creator's fields do. */
+.draft-entry .number-box {
+  border-color: rgba(242, 237, 228, 0.28);
+  background-color: rgba(8, 8, 9, 0.45);
+}
+.draft-entry .draft-unit {
+  font: 600 var(--t-read) var(--ui);
+  color: var(--cream);
+}
+/* A subject this body may not write a bill about: listed, and dimmed. */
+.draft-card .pick[data-blocked]:not([aria-pressed="true"]) {
+  opacity: 0.55;
+}
 .draft-note {
   margin: 0 0 12px;
   color: var(--text-2);
@@ -3606,7 +3929,9 @@ details.entry[open] {
   align-items: start;
   font-family: var(--ui);
 }
-.patch-detail {
+/* Patch notes and the journal run long: their page scrolls inside its own box, never the sheet. */
+.roster-screen.patch-notes .roster-page,
+.roster-screen.journal .roster-page {
   max-height: calc(100vh - 250px);
   overflow-y: auto;
   scrollbar-width: thin;
@@ -3826,18 +4151,13 @@ details.entry[open] {
   align-items: center;
   margin-bottom: 12px;
 }
-.guide-body {
-  display: grid;
-  grid-template-columns: 290px minmax(0, 1fr);
-  gap: 26px;
-  align-items: start;
+.roster-screen.guide {
+  width: auto;
 }
-.guide-article.strip-screen {
+.roster-screen.guide > .roster-page.strip-screen {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: auto;
-  min-width: 0;
 }
 #sheet-body .guide-term {
   margin: 0;
@@ -4680,6 +5000,47 @@ select.release-pick {
   margin: 8px 0;
 }
 /* The country in 20 years: a wide table in a narrow panel, so its first column and its figures stay on one line. */
+/* Dev mode's Watch: its own tab of the Calendar's sheet. Its sections stand
+   side by side and each table scrolls inside its own box, so every header and
+   cell can be read (it used to be squeezed under the calendar). */
+.dev-watch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 22px;
+  align-items: start;
+}
+.dev-watch > :last-child {
+  grid-column: 1 / -1;
+}
+.dev-watch .scroll {
+  max-height: 230px;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+  margin-bottom: 8px;
+}
+.dev-watch table {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 var(--t-ui) var(--ui);
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--cream);
+}
+.dev-watch th {
+  position: sticky;
+  top: 0;
+  padding: 4px 12px 4px 0;
+  text-align: left;
+  font: 600 var(--t-label) var(--ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--iron);
+}
+.dev-watch td {
+  padding: 3px 12px 3px 0;
+  vertical-align: top;
+}
 .dev-outlook-table table {
   width: 100%;
   font-size: 0.85em;
@@ -4895,9 +5256,11 @@ select.release-pick {
   font: 500 var(--t-ui) var(--ui);
   color: var(--gold2, #e6cd93);
 }
+/* The side column is wide enough for a date and a name on one row
+   ("November 2, 2021 ... Holly Robles"), which wrapped to four lines. */
 .roster-cols {
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
   gap: 18px;
   align-items: start;
 }
@@ -5113,7 +5476,7 @@ select.release-pick {
   width: auto;
 }
 
-.guide-article .sec {
+.roster-screen.guide .sec {
   width: 100%;
 }
 
@@ -5270,4 +5633,32 @@ body.color-blind .meeting-member.vote-abstain {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+
+/* The journal chapter's picture: the place its lines happened in (no caption).
+   No line box: its sides and lower edge fade into the panel, as the bust does. */
+.journal-picture {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  margin-bottom: 12px;
+  -webkit-mask-image:
+    linear-gradient(180deg, black 62%, transparent 100%),
+    linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(180deg, black 62%, transparent 100%),
+    linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  mask-composite: intersect;
+}
+
+/* Government in Dev mode: Bills and Bribe sit in the main column under the members; the chamber picture gives them its room. */
+.dev-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.split-main:has(.dev-panels) .chamber {
+  display: none;
 }

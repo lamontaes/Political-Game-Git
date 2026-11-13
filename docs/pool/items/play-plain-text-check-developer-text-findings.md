@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-play-plain-text-check-developer-text-findings
+claimed-by:
 pr:
 after: 
 blocked-on:
@@ -16,7 +16,8 @@ model: sonnet
 effort: low
 root: rc2-done-from-records
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T03:58:22.422Z
+claimed-at:
+branch: claude/pool-play-plain-text-check-developer-text-findings
 ---
 
 **What.** With the filing counter no longer stopping it, src/bench/plain-text.browser.mjs runs to its end in Erin, Tennessee (seed 0a9662a1-9a9e-4061-a9a1-b3015a791d9a) and fails on its own assertion: developer text on the player's screens. Some of what it flags is a real defect and some looks like the check's own false positives, so each flagged string has to be judged and either fixed on the screen or the check's pattern corrected for what it should not flag. Seen: the News line for the state campaign contribution limit. Seen: the News line for the state campaign contribution limit.
@@ -34,3 +35,5 @@ claimed-at: 2026-11-11T03:58:22.422Z
 **Waits on.** Nothing
 
 **Files.** src/bench/plain-text.browser.mjs, src/english, data/english
+
+**Notes.** Released by next (2026-11-11): no push to claude/pool-play-plain-text-check-developer-text-findings since 2026-11-11 03:58 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-play-plain-text-check-developer-text-findings.

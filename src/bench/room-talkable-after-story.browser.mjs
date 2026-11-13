@@ -49,12 +49,15 @@ try {
       await next.click();
     }
     await page.waitForTimeout(2500);
-    const talkable = await page.locator("#people .talkable").count();
+    const talkable = await page.locator("#here .busts-person.talkable").count();
     console.log(
       `${place} (seed ${seed}): ${talkable} talkable after the story`,
     );
     assert.ok(talkable > 0, `${place}, seed ${seed}: nobody can be clicked`);
-    await page.locator("#people .talkable").first().click({ timeout: 15000 });
+    await page
+      .locator("#here .busts-person.talkable")
+      .first()
+      .click({ timeout: 15000 });
     await page.locator("#talk").waitFor({ state: "visible" });
     if (shots) await page.screenshot({ path: `${shots}/talk-${run + 1}.png` });
     await page.close();

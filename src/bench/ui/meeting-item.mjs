@@ -4,7 +4,7 @@
 // "the UI is terrible"; the members, the tally and the result on the panel). Every word
 // is a control name or a record's own: the status word, the counts, the member names.
 import { el } from "./dom.mjs";
-import { headshot } from "./headshot.mjs";
+import { face as drawFace } from "./face.mjs";
 
 const KINDS = ["yes", "no", "abstain"];
 
@@ -23,9 +23,7 @@ function memberStrip(members, votes, words) {
     { className: "meeting-members" },
     ...members.map((member) => {
       const vote = cast.get(member.key);
-      const face = member.face
-        ? headshot(member.face)
-        : el("span", { className: "headshot" });
+      const face = drawFace(member.face);
       face.classList.add("meeting-face");
       const cell = el(
         "span",
@@ -40,6 +38,28 @@ function memberStrip(members, votes, words) {
       return cell;
     }),
   );
+}
+
+/**
+ * Who spoke on the item, apart from the vote: one line for those who spoke for it and one
+ * for those against, each under its own label, so nobody reads a speaker as a vote.
+ */
+function spokeLines(remarks, words) {
+  return [
+    [words.spokeFor, remarks.filter((r) => r.position > 0)],
+    [words.spokeAgainst, remarks.filter((r) => r.position <= 0)],
+  ]
+    .filter(([, spoke]) => spoke.length)
+    .map(([label, spoke]) =>
+      el(
+        "p",
+        { className: "meeting-remarks" },
+        el("small", {
+          textContent: `${label ?? ""} · ${spoke.length.toLocaleString("en-US")}`,
+        }),
+        el("span", { textContent: spoke.map((r) => r.name).join(", ") }),
+      ),
+    );
 }
 
 /**
@@ -74,17 +94,7 @@ export function meetingItem({ item, members = [], words, floor, rows = [] }) {
           }),
         )
       : "",
-    item.remarks.length
-      ? el("p", {
-          className: "meeting-remarks",
-          textContent: item.remarks
-            .map(
-              (r) =>
-                `${r.name} · ${r.position > 0 ? (words.for ?? "") : (words.against ?? "")}`,
-            )
-            .join(" · "),
-        })
-      : "",
+    ...spokeLines(item.remarks, words),
     ...rows
       .filter((row) => row.length)
       .map((row) => el("div", { className: "meeting-acts" }, ...row)),

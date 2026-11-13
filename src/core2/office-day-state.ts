@@ -98,7 +98,10 @@ import {
   ownCaseDecision,
 } from "./modules/constituent-cases";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/speech";
-import { registerBillIntroduced } from "./modules/world-legislating";
+import {
+  registerBillIntroduced,
+  registerLeaderRefusalReader,
+} from "./modules/world-legislating";
 import { followersOf, outletsHere } from "./modules/press";
 import type { ModuleRow } from "./module-data";
 import type {
@@ -790,10 +793,15 @@ export function actOn(
       if (chosen.hold && api.state.modules.has(CASES_MODULE_ID))
         for (const row of casesFor(api, entry.holderId)) {
           if (row.status !== "open") continue;
-          const decision =
-            chosen.cases?.[row.id] ??
-            ownCaseDecision(api, entry.holderId, row).decision;
-          const done = handleCase(api, row.id, decision);
+          const own = chosen.cases?.[row.id]
+            ? null
+            : ownCaseDecision(api, entry.holderId, row);
+          const done = handleCase(
+            api,
+            row.id,
+            chosen.cases?.[row.id] ?? own!.decision,
+            own?.duty ?? null,
+          );
           if (done) recordIds.push(done.id);
         }
       break;
@@ -1074,6 +1082,7 @@ function stateOfTheState(
       topic: stance.question,
       desiredChange: stance.position > 0 ? "enact" : "repeal",
       audienceIds,
+      occasion: { recordId: entry.id, kind: "state-of-the-state" },
     });
     ids.push(id);
   }
@@ -1594,8 +1603,8 @@ export function seatCoveringTown(
  * "custom start as a sitting officeholder"): the serving holder's term ends
  * and the player serves out the rest of it, as a winner takes office; the
  * officials and pay engines read the took-office event. A legislator takes
- * the town's own seat in the chamber.
- * stopgapId: SG-STATE-dev-seat-player
+ * the town's own seat in the chamber. The seat is put through the offices
+ * engine's own term writer (`seatTerm`), as a winner's is.
  */
 export function seatPlayerInStateOffice(
   api: CoreAPI,
@@ -1606,7 +1615,6 @@ export function seatPlayerInStateOffice(
     readonly chamberKind?: string;
   },
 ): StateOffice {
-  api.stopgap("SG-STATE-dev-seat-player");
   const person = api.state.people.get(input.personId);
   if (!person?.alive) throw new Error(`No living person ${input.personId}.`);
   const offices = api.moduleState(OFFICES_MODULE_ID);
@@ -1646,7 +1654,7 @@ export function seatPlayerInStateOffice(
         tag: "ESTIMATED",
         citation: "Dev mode custom start as a sitting officeholder",
         asOf: date,
-        estimatedFrom: "SG-STATE-dev-seat-player",
+        estimatedFrom: "Dev mode custom start as a sitting officeholder",
       },
       news: false,
       facts: { office: office.id, seatId: seat.id, winnerId: person.id },
@@ -1705,7 +1713,7 @@ registerBillIntroduced((api, billId) => {
     !api.state.people.get(leaderId)
   )
     return;
-  askLeaderForHearing(api, bill.sponsorId, billId);
+  askLeaderForHearing(api, bill.sponsorId, billId, { schedule: false });
 });
 
 /** A member's request to the floor leader to schedule their bill, and the leader's answer with the reasons. */
@@ -1742,6 +1750,7 @@ export function askLeaderForHearing(
   api: CoreAPI,
   memberId: string,
   billId: string,
+  options?: { readonly schedule?: boolean },
 ): LeaderRequestRow {
   const id = `leader-request:${billId}`;
   const existing = table(api, "leaderRequests").get(id) as unknown as
@@ -1797,9 +1806,10 @@ export function askLeaderForHearing(
     bare,
   );
   const granted = bare + traits > 0;
-  const already = api
-    .moduleCalendar(LEGISLATURE_MODULE_ID)
-    .get(`meeting:${billId}`);
+  const schedule = options?.schedule ?? true;
+  const already = schedule
+    ? api.moduleCalendar(LEGISLATURE_MODULE_ID).get(`meeting:${billId}`)
+    : undefined;
   const row: LeaderRequestRow = {
     id,
     memberId,
@@ -1807,7 +1817,11 @@ export function askLeaderForHearing(
     leaderId,
     date: api.state.date,
     granted,
-    scheduledFor: granted ? (already?.date ?? scheduleVote(api, billId)) : null,
+    scheduledFor: granted
+      ? schedule
+        ? (already?.date ?? scheduleVote(api, billId))
+        : null
+      : null,
     reasons: { ...reasons, ...(accepted ? { offer: offered } : {}), traits },
     ...(accepted
       ? {
@@ -1822,6 +1836,17 @@ export function askLeaderForHearing(
   table(api, "leaderRequests").put(row as unknown as ModuleRow);
   return row;
 }
+
+// The leader's refused answer keeps the bill off the floor's own order.
+registerLeaderRefusalReader(
+  (api, billId) =>
+    api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) &&
+    (
+      table(api, "leaderRequests").get(
+        `leader-request:${billId}`,
+      ) as unknown as LeaderRequestRow | undefined
+    )?.granted === false,
+);
 
 /**
  * The member has just offered a deal on a bill whose request the leader

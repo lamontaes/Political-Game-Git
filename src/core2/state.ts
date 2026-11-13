@@ -91,6 +91,7 @@ import {
   closeBusinessByChoice,
   closeEmployer,
   finishFinanceDay,
+  moveRecipientIncomeHome,
 } from "./finance-state";
 import {
   preflightModuleNotifications,
@@ -1699,25 +1700,42 @@ export function coreAPI(core: CoreState): CoreAPI {
       const movers = ids.map((id) => core.people.get(id));
       const first = movers[0];
       const household = first && core.households.get(first.householdId);
-      if (
-        !household ||
-        new Set(ids).size !== ids.length ||
-        movers.some(
-          (row) =>
-            !row?.alive ||
-            row.householdId !== household.id ||
-            !household.memberIds.includes(row.id) ||
-            // A person with a job does not move to another place; coming back
-            // from the counts to the place they are counted in
-            // (`fillInPerson`) keeps the job.
-            (row.jobId !== undefined &&
-              row.placeId.replace(COUNTED_PLACE_PREFIX, "") !== input.placeId &&
-              core.jobs.get(row.jobId)?.endsAt === undefined),
-        )
-      )
+      // Every condition is kept; each fails under its own message, naming who and which household
+      // and the move's source (which says who moved them), so a stop says which one fired.
+      const whoms = `${ids.join(", ")} (household ${first?.householdId ?? "none"}; ${input.source.citation})`;
+      if (!household)
         throw new Error(
-          "Invalid relocation: one living household, no job held.",
+          `Invalid relocation: the household is missing: ${whoms}.`,
         );
+      if (new Set(ids).size !== ids.length)
+        throw new Error(
+          `Invalid relocation: a person is listed twice: ${whoms}.`,
+        );
+      for (const row of movers) {
+        const id = row?.id ?? "unknown";
+        if (!row?.alive)
+          throw new Error(
+            `Invalid relocation: ${id} is dead or missing: ${whoms}.`,
+          );
+        if (
+          row.householdId !== household.id ||
+          !household.memberIds.includes(row.id)
+        )
+          throw new Error(
+            `Invalid relocation: ${id} is not a member of household ${household.id}: ${whoms}.`,
+          );
+        // A person with a job does not move to another place; coming back
+        // from the counts to the place they are counted in
+        // (`fillInPerson`) keeps the job.
+        if (
+          row.jobId !== undefined &&
+          row.placeId.replace(COUNTED_PLACE_PREFIX, "") !== input.placeId &&
+          core.jobs.get(row.jobId)?.endsAt === undefined
+        )
+          throw new Error(
+            `Invalid relocation: ${id} holds the live job ${row.jobId} outside ${input.placeId}: ${whoms}.`,
+          );
+      }
       makeIsoDate(input.source.asOf);
       // A household moves whole when every member moves, or, under its own
       // id, every living member (a member who has died stays listed with it).
@@ -1762,6 +1780,9 @@ export function coreAPI(core: CoreState): CoreAPI {
         actor.householdId = input.householdId;
         index(core.peopleByPlace, actor.placeId, actor.id);
         if (actor.countyId) index(core.peopleByPlace, actor.countyId, actor.id);
+        // A recorded income award (a pension, Social Security) is paid into
+        // the household where its person lives now, from its next due date.
+        moveRecipientIncomeHome(core, actor.id, input.householdId);
       }
     },
     changeHouseholdV1(input) {
@@ -1835,8 +1856,10 @@ export function coreAPI(core: CoreState): CoreAPI {
           memberIds: from.memberIds.filter((id) => !leaving.includes(id)),
         });
       }
-      for (const mover of movers as PersonState[])
+      for (const mover of movers as PersonState[]) {
         mover.householdId = input.householdId;
+        moveRecipientIncomeHome(core, mover.id, input.householdId);
+      }
     },
     setPartnersV1(input) {
       const [a, b] = [...input.personIds].sort() as [string, string];
@@ -2174,6 +2197,22 @@ export function coreAPI(core: CoreState): CoreAPI {
  * record (trace audit item 2): who or what came in, why, and where. In the
  * town's own places it is a public record; elsewhere a plain one.
  */
+/**
+ * The record behind each entry that is about to be admitted: a producer names
+ * it (the birth, the founding, the move) just before it admits the person or
+ * the organization, and the entry record keeps it as a fact Trace opens.
+ */
+const entryCauses = new WeakMap<CoreState, Map<string, string>>();
+export function noteEntryCause(
+  core: CoreState,
+  entryId: string,
+  causeId: string,
+): void {
+  let causes = entryCauses.get(core);
+  if (!causes) entryCauses.set(core, (causes = new Map()));
+  causes.set(entryId, causeId);
+}
+
 function recordEntry(
   core: CoreState,
   entry: {
@@ -2187,6 +2226,8 @@ function recordEntry(
   if (core.date <= core.startedAt) return;
   const id = `${entry.kind}.recorded:${entry.id}:${core.date}`;
   if (core.eventIds.has(id)) return;
+  const causeId = entryCauses.get(core)?.get(entry.id);
+  entryCauses.get(core)?.delete(entry.id);
   coreAPI(core).emit({
     id,
     date: core.date,
@@ -2199,7 +2240,11 @@ function recordEntry(
       citation: `Entered the world: ${entry.reason}`,
     },
     publicRecord: core.visiblePlaceIds.has(entry.placeId),
-    facts: { recordId: entry.id, reason: entry.reason },
+    facts: {
+      recordId: entry.id,
+      reason: entry.reason,
+      ...(causeId ? { causeId } : {}),
+    },
   });
 }
 

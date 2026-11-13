@@ -362,6 +362,54 @@
       "now": "src/core2",
       "when": "2026-10-28",
       "why": "The old core was deleted (pull request 6659); the new core is the engine."
+    },
+    {
+      "old": "src/bench/scene-check.ts",
+      "now": "nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d",
+      "when": "2026-11-11",
+      "why": "Removed with the painted people (owner's call 11, PR 8643): the room's people are a strip of busts; the check of painted people in a room has nothing to check."
+    },
+    {
+      "old": "src/bench/art-check.ts",
+      "now": "nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d",
+      "when": "2026-11-11",
+      "why": "Removed with the painted people (owner's call 11, PR 8643): the painted full-body people left the rooms; their art check went with them."
+    },
+    {
+      "old": "src/bench/people-pack.test.ts",
+      "now": "nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d",
+      "when": "2026-11-11",
+      "why": "Removed with the painted people (owner's call 11, PR 8643): the people pack's room figures are not drawn any more; the bust tests cover faces."
+    },
+    {
+      "old": "src/director/scene-occasions.test.ts",
+      "now": "nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d",
+      "when": "2026-11-11",
+      "why": "Removed with the painted people (owner's call 11, PR 8643): it tested where painted people stood in a room."
+    },
+    {
+      "old": "src/bench/framing.browser.mjs",
+      "now": "nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d",
+      "when": "2026-11-11",
+      "why": "Removed with the painted people (owner's call 11, PR 8643): it checked how painted people were framed in a room."
+    },
+    {
+      "old": "src/bench/ui/headshot.mjs",
+      "now": "src/bench/ui/face.mjs (the one face part) and src/bench/ui/person-card.mjs (the one person card)",
+      "when": "2026-11-11",
+      "why": "One face part and one person card (play-one-person-shows-two-faces; Fable audit, Nov 9: \"six ways to draw a person card and three ways to draw a face\")."
+    },
+    {
+      "old": "src/bench/ui/member-card.mjs",
+      "now": "src/bench/ui/face.mjs (the one face part) and src/bench/ui/person-card.mjs (the one person card)",
+      "when": "2026-11-11",
+      "why": "One face part and one person card (play-one-person-shows-two-faces; Fable audit, Nov 9: \"six ways to draw a person card and three ways to draw a face\")."
+    },
+    {
+      "old": "data/english/parts/person-sketch.json",
+      "now": "nothing stands in its place: the person card shows each leaning by its label (and its strength on the You screen); restore it from commit 354fa017bdc126990eaec3a30367173e519bcfc2",
+      "when": "2026-11-12",
+      "why": "Every line in it only said a trait's label again in other words, with no fact from the world's records (owner, Nov 11: every line through the English engine; Fable A on #7365, Nov 12: a line that only restates the trait's name beside it is deleted)."
     }
   ]
 }

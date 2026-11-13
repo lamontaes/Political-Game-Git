@@ -2,7 +2,9 @@
   "schema": "english-parts/1",
   "register": "hearing",
   "description": "Hearing-room lines the owner graded good that no scene reads yet: a witness's yes, and thanks to a chair by title. Restored Nov 8, 2026 from the hearing bank deleted in 881e7c4f. Registered stopgap SG-WORDS-hearing-no-reader.",
-  "slots": {},
+  "slots": {
+    "chair": "How a witness addresses the chair, from the chair's person record and the body's rules (\"Mr. Chairman\", \"Madam Chair\")."
+  },
   "maxWords": 12,
   "parts": [
     {
@@ -17,7 +19,9 @@
         "granule": "CHRG-119hhrg58904",
         "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
       },
-      "tag": { "move": "answer" },
+      "tag": {
+        "move": "answer"
+      },
       "restoredOn": "2026-11-08",
       "restoredFrom": "bank:hearing.answer.yes-thank-you"
     },
@@ -43,7 +47,7 @@
       "key": "hearing.thanks.thank-you-mr-chairman",
       "move": "thanks",
       "kind": "spoken",
-      "text": "Thank you, Mr. Chairman.",
+      "text": "Thank you, {chair}.",
       "hearingsUsing": 28,
       "source": {
         "document": "Congressional hearing transcript",
@@ -55,7 +59,9 @@
         "move": "thank"
       },
       "restoredOn": "2026-11-08",
-      "restoredFrom": "bank:hearing.thanks.thank-you-mr-chairman"
+      "restoredFrom": "bank:hearing.thanks.thank-you-mr-chairman",
+      "rewrittenOn": "2026-11-12",
+      "rewrittenBy": "Words builder W3 (opus-d51c): the chair is said from the chair's own record, so \"Mr. Chairman\" is said only to a chairman"
     }
   ]
 }

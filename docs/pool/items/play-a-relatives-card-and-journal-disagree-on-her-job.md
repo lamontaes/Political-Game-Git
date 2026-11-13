@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-a-relatives-card-and-journal-disagree-on-her-job
 pr: #8746
