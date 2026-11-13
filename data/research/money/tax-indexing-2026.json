@@ -1,0 +1,79 @@
+{
+  "id": "tax-indexing-2026",
+  "about": "Which tax amounts the law moves with prices or wages each year: federal income tax brackets and the standard deduction (to prices), the Social Security wage base (to the national average wage), and each state whose brackets or standard deduction or exemptions are adjusted for inflation every year. Read by scripts/research/build-starting-law.py, which writes terms.indexed on each income-tax and social-security-tax row; read in play by src/core2/tax-withholding.ts through src/core2/tax-index.ts. The dollar figures in the starting law are 2026's, so 2026 is the dollar year.",
+  "asOf": "2026-01-01",
+  "dollarYear": 2026,
+  "federal": {
+    "incomeTax": {
+      "brackets": "prices",
+      "standardDeduction": "prices",
+      "source": "26 U.S.C. 1(f): the bracket amounts are adjusted each year by the cost-of-living adjustment (chained CPI-U); 26 U.S.C. 63(c)(4): the standard deduction is adjusted the same way."
+    },
+    "socialSecurityTax": {
+      "wageBase": "wages",
+      "source": "42 U.S.C. 430(b): the contribution and benefit base is raised each year in step with the national average wage index (SSA, Automatic Determinations)."
+    },
+    "medicareTax": {
+      "note": "The added 0.9 percent Medicare tax starts at $200,000 for a single filer, a fixed amount the statute does not index (26 U.S.C. 3101(b)(2)), so it is left as written."
+    }
+  },
+  "states": {
+    "source": {
+      "title": "State Individual Income Tax Rates and Brackets, 2026",
+      "publisher": "Tax Foundation",
+      "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "retrieved": "2026-11-11 (fetched from the cloud session)",
+      "footnotes": {
+        "j": "Bracket levels adjusted for inflation each year.",
+        "bb": "Bracket levels adjusted for inflation each year. Inflation-adjusted bracket levels for 2026 are shown.",
+        "d": "Standard deduction and/or personal exemption is adjusted annually for inflation.",
+        "n": "Standard deduction and/or personal exemption adjusted annually for inflation.",
+        "u": "Federal deductions are indexed for inflation."
+      }
+    },
+    "bracketsIndexed": [
+      "US-AR",
+      "US-CA",
+      "US-ID",
+      "US-MA",
+      "US-ND",
+      "US-VT",
+      "US-ME",
+      "US-MN",
+      "US-MO",
+      "US-MT",
+      "US-NE",
+      "US-OH",
+      "US-OR",
+      "US-RI",
+      "US-SC",
+      "US-WI"
+    ],
+    "bracketsIndexedFootnotes": "j: Arkansas, California, Idaho, Massachusetts, North Dakota, Vermont; bb: Maine, Minnesota, Missouri, Montana, Nebraska, Ohio, Oregon, Rhode Island, South Carolina, Wisconsin.",
+    "standardDeductionIndexed": [
+      "US-AR",
+      "US-IL",
+      "US-KY",
+      "US-LA",
+      "US-MI",
+      "US-MN",
+      "US-NE",
+      "US-OR",
+      "US-RI",
+      "US-SC",
+      "US-WI",
+      "US-CA",
+      "US-VT",
+      "US-AZ",
+      "US-ID",
+      "US-ME",
+      "US-MO",
+      "US-MT",
+      "US-NM",
+      "US-ND",
+      "US-DC"
+    ],
+    "standardDeductionIndexedFootnotes": "d: Arkansas, Illinois, Kentucky, Louisiana, Michigan, Minnesota, Nebraska, Oregon, Rhode Island, South Carolina, Wisconsin; n: California, Vermont; u (the federal deduction, itself indexed): Arizona, Idaho, Maine, Missouri, Montana, New Mexico, North Dakota, South Carolina, District of Columbia. Footnote ll (only the dependent exemption, Maine and Utah) is not a single filer's standard deduction and is left out.",
+    "note": "A state on neither list keeps its dollar amounts until a law changes them. Territories with their own income tax are not on the Tax Foundation table and are left unindexed. The game opens on the 2025 rows (start_phases in the builder); they carry the same terms with 2025 as their dollar year, from this 2026 table (no state started or stopped indexing between the two years on the Tax Foundation tables' notes)."
+  }
+}

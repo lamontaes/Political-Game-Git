@@ -885,7 +885,8 @@
       "from": "health.coverage-pct",
       "evidence": "researched",
       "range": [-0.06, -0.04],
-      "notes": "Unsupported: counted through the expansion link until coverage is tracked. The Medicaid expansion link is the reduced form the study measured, so this per-point link stays off to avoid counting the same debt twice (CTO ruling 8)."
+      "notes": "Carried by the coverage engine's bills, not run by the web: the web has no place coverage percentage to scale, and the bills price each member by their own coverage. The Medicaid expansion link is the reduced form the study measured and the web does not run this one, so the same debt is not counted twice (CTO ruling 8).",
+      "carriedBy": "the coverage engine's monthly bills (plans and billMembers in src/core2/medical-bills.ts, run on the 1st by src/core2/modules/coverage.ts), which price each full and counted member by their own coverage record (an employer plan, Medicaid or Medicare, or none) at the share of their care MEPS finds each pays out of pocket, so a covered member's smaller bill leaves the household less unpaid past 120 days and less placed for collection (collectionsShare): coverage moves the medical debt in collections household by household, not by a place percentage. The web does not run the link, so the two never both count"
     },
     {
       "key": "coverage-to-depression",
@@ -5776,6 +5777,7 @@
       "key": "fare-free-transit-to-ridership",
       "status": "built",
       "unsupportedReason": null,
+      "readsNothing": "Under a fare-free law the transit fare is zero, so the price engine multiplies the web's ridership factor into a zero fare and the added riders move no money; no other engine reads transit.ridership (stopgap SG-WEB-fare-free-riders-unread).",
       "from": "law:us-policy-positions:transportation-infrastructure.fare-free-transit",
       "to": "transit.ridership",
       "strength": "strong",

@@ -73,6 +73,7 @@ import { COVERAGE_MODULE_ID } from "./modules/coverage";
 import { medicalDebtOf } from "./modules/credit";
 import { healthReport } from "./modules/health";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
+import expansionMatch from "./data/laws/medicaid-expansion-match.json" with { type: "json" };
 import { WEB_LINKS } from "./outcome-web-model";
 import type { LawRowInput } from "./laws-starting";
 import { coreAPI } from "./state";
@@ -301,8 +302,15 @@ function play(
     // weight) over the households that pay it, and the federal leg is that
     // sum at the match in force, paid in full.
     const match = lawInForce(api, "medicaid-match");
+    // The expansion's federal share is the statute's (42 U.S.C. 1396d(y)(1)) for
+    // the 50 States and D.C.; a territory keeps the regular match in force.
+    const expansionPercent = expansionMatch.territories.value.includes(
+      lawChain(api).stateKey.slice(3),
+    )
+      ? (match.value ?? 0)
+      : expansionMatch.percent.value;
     const share = governmentAt(api, "federal")
-      ? Math.min(1, Math.max(0, (match.value ?? 0) / 100))
+      ? Math.min(1, Math.max(0, expansionPercent / 100))
       : 0;
     const owedBySeller = new Map<string, { minor: number; rows: string[] }>();
     for (const row of thisMonth) {
@@ -338,7 +346,7 @@ function play(
       ).toBe(owed.minor);
       expect(
         federal,
-        `${at}: the federal leg at the match ${match.value} (${match.governing?.id})`,
+        `${at}: the federal leg at ${expansionPercent} percent (the regular match is ${match.value}, ${match.governing?.id})`,
       ).toBe(Math.round(owed.minor * share));
       if (owed.minor > 0)
         care.set(`${sellerId}|${billed}`, {

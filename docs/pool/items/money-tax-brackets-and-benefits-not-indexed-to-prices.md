@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-money-tax-brackets-and-benefits-not-indexed-to-prices
 pr: #8694
@@ -19,6 +19,7 @@ root: rc5-full-detail-every-day
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T06:19:05.479Z
 branch: claude/pool-money-tax-brackets-and-benefits-not-indexed-to-prices
+merged-at: 2026-11-12T21:51:21.479Z
 ---
 
 **What.** The paycheck rule (withholdingFor in src/core2/tax-withholding.ts) reads each schedule's brackets, standard deduction and wage base as fixed dollar amounts from the law row in force. Pay rises with prices year after year and the amounts never move. Measured in the country tier's forty-year run on Nov 10 (scratch harness, the central bank's own view, no law changed): average hourly pay went from about 35 dollars to about 155, and the federal ledger, balanced on day one, ended about 74 trillion dollars in surplus, which is tax taken by brackets that stood still. Real federal brackets, the standard deduction and the wage base are indexed each year by statute, and most states index theirs. The same rule taxes a town paycheck, so a long played game has the same drift. Seen: the federal budget and the paycheck over decades, where every worker drifts into the top bracket and the ledger piles up a surplus of about 74 trillion dollars.

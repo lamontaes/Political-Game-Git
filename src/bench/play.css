@@ -531,7 +531,7 @@ ol {
 #front-main #front-continue .continue-text b {
   display: block;
 }
-/* A bust holds the person's round headshot (ui/headshot.mjs), filling it. */
+/* A bust holds the person's round headshot (ui/face.mjs), filling it. */
 .bust {
   flex: none;
   width: 62px;
@@ -1169,6 +1169,61 @@ input[type="range"]::-moz-range-thumb {
 #cr-character .choices .action {
   white-space: nowrap;
   padding: 6px 6px;
+}
+/* How I look's two tabs of clothes (owner, Nov 12: "two tabs, everyday and formal"),
+   on the owner's menu look: the open tab a lit brass fill, the other raised glass in
+   soft light; no rail, no ring, no bar under the open one. */
+#cr-rows .look-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  margin: 4px 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+/* With the tabs the look has one more line: its rows sit closer so the creator still fits
+   the screen without scrolling. */
+#cr-rows .look-row {
+  padding: 0;
+}
+#cr-rows {
+  display: grid;
+  gap: 1px;
+}
+#cr-rows .look-tabs .tab {
+  min-height: 26px;
+  padding: 0 12px;
+  text-align: center;
+  color: var(--text-2);
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    linear-gradient(rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+    var(--raised);
+  border: 0;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 10px rgba(255, 255, 255, 0.04);
+}
+#cr-rows .look-tabs .tab.on,
+#cr-rows .look-tabs .tab.on:hover {
+  color: var(--iron);
+  text-shadow: none;
+  background: linear-gradient(
+    var(--brass-hi),
+    var(--gold) 55%,
+    var(--brass-lo)
+  );
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 248, 225, 0.6),
+    0 0 14px rgba(214, 189, 132, 0.35);
+}
+#cr-rows .look-tabs .tab.on::after {
+  content: none;
 }
 /* A picked button is a lit brass fill: no corner mark on any control (owner, Nov 5). */
 .action[aria-pressed="true"] {
@@ -2625,7 +2680,7 @@ body:not(.dev) .dev-only {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
-/* A round headshot: the person's bust, placed inside the frame by ui/headshot.mjs. */
+/* A round headshot: the person's bust, placed inside the frame by ui/face.mjs. */
 .headshot {
   box-sizing: border-box;
   display: block;
