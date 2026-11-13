@@ -7103,7 +7103,23 @@ export function closeRace(api: CoreAPI, contestId: string): void {
     for (const row of pledges.query("byCandidate", [
       candidateId,
     ]) as unknown as PledgeRow[])
-      if (row.contestId === contestId) pledges.remove(row.id);
+      if (row.contestId === contestId) pledges.remove(row.id); // The race's gifts, endorsements, polls and stepped-up readings have no
+  // reader once it is decided: the campaign row keeps what was raised, and the
+  // endorsed and stepped-up events carry what news reads (governing lead,
+  // Nov 1). A contest the player filed in keeps every row (returned above).
+  const gifts = table(api, "gifts");
+  for (const filing of filings)
+    for (const row of gifts.query("byCampaign", [filing.id]))
+      gifts.remove(row.id);
+  const endorsements = table(api, "endorsements");
+  for (const row of endorsements.query("byContest", [contestId]))
+    endorsements.remove(row.id);
+  const polls = table(api, "polls");
+  for (const row of polls.query("byContest", [contestId])) polls.remove(row.id);
+  const stepped = table(api, "steppedUp");
+  for (const filing of filings)
+    for (const row of stepped.query("byFiling", [filing.id]))
+      stepped.remove(row.id);
 }
 
 /**

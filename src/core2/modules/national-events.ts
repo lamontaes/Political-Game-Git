@@ -24,6 +24,7 @@
  * building codes and budgets in force (stopgap
  * SG-NATION-disaster-damage-from-causes).
  */
+import { NATIONAL_DISASTER } from "../national-disaster-event";
 import declarations from "../data/disasters/declarations.json" with { type: "json" };
 import assistance from "../data/disasters/assistance.json" with { type: "json" };
 import households from "../data/disasters/households.json" with { type: "json" };
@@ -41,7 +42,7 @@ import {
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 
 export const NATIONAL_EVENTS_MODULE_ID = "national-events";
-export const NATIONAL_DISASTER = "national.disaster";
+export { NATIONAL_DISASTER };
 const RUN_KIND = "national-events";
 const DUE_KIND = "national-event-due";
 /** The first year of FEMA's record the history is read from. */

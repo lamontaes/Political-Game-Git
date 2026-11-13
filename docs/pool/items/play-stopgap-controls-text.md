@@ -4,8 +4,8 @@ title: "Stopgaps in controls (text): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/pool-play-stopgap-controls-text
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -16,7 +16,7 @@ effort: low
 root: none
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/data/controls.json, kind text"
-claimed-at: 2026-11-11T06:05:51.130Z
+claimed-at:
 size: S
 checked: fable 2026-11-10
 branch: claude/pool-play-stopgap-controls-text
@@ -43,3 +43,5 @@ branch: claude/pool-play-stopgap-controls-text
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:05 UTC) on branch claude/pool-play-stopgap-controls-text.
+
+Released by next (2026-11-13): no push to claude/pool-play-stopgap-controls-text since 2026-11-11 06:05 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-play-stopgap-controls-text.

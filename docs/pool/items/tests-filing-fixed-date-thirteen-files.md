@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 3
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/red-main-filing-fixed-date-core2
 pr:
 blocked-on:
 source: fixer of tests-door-pledge-turnout-race-open-by-draw (PR #8902), Nov 12, from the coordinator's order
@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: none
 checked: fable 2026-11-12
+claimed-at: 2026-11-13T01:19:11.304Z
 ---
 
 **What.** Thirteen test files build a world in a drawn place, read `openContests` on the start date and file for what is open, without moving the clock to the day a window opens. Each is a red by draw waiting for a seed whose drawn place has no window open on that day; `src/core2/door-pledge.test.ts` was the first (eleven of twelve places, seed f26db0f13c6bffec4a68430111c0bdb5), and race-told-scene was another on Nov 12. The files and the line where each files:

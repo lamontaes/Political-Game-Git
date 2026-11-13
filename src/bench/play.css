@@ -531,7 +531,7 @@ ol {
 #front-main #front-continue .continue-text b {
   display: block;
 }
-/* A bust holds the person's round headshot (ui/headshot.mjs), filling it. */
+/* A bust holds the person's round headshot (ui/face.mjs), filling it. */
 .bust {
   flex: none;
   width: 62px;
@@ -2701,7 +2701,7 @@ body:not(.dev) .dev-only {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
-/* A round headshot: the person's bust, placed inside the frame by ui/headshot.mjs. */
+/* A round headshot: the person's bust, placed inside the frame by ui/face.mjs. */
 .headshot {
   box-sizing: border-box;
   display: block;

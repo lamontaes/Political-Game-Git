@@ -758,7 +758,10 @@
     "nation": "Nation",
     "briefs": "Briefs",
     "noStoryText": "The paper ran this story as a headline only; the full account has not come in.",
-    "nothingYet": "Nothing in print yet."
+    "nothingYet": "Nothing in print yet.",
+    "desk": "Around town",
+    "printedNothing": "Nothing from {name} yet.",
+    "followsNone": "You don't follow a paper or a station."
   },
   "jobs": {
     "work": "Work",
@@ -767,7 +770,10 @@
     "hours": "Hours",
     "daily": "per day",
     "noJob": "No current job",
-    "workAndSchool": "Work and school"
+    "workAndSchool": "Work and school",
+    "openings": "Open in town",
+    "hourly": "per hour",
+    "noOpenings": "Nothing is open in town right now."
   },
   "politics": {
     "seats": "Seats",
