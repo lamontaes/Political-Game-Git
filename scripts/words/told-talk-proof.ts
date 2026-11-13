@@ -3,7 +3,7 @@
  * played worlds (Words builder W1, Nov 12, 2026). Development tooling;
  * nothing here words anything, and shipped play never imports it.
  *
- *   node --import tsx scripts/words/told-talk-proof.ts --kind eviction|job-lost --seed <seed> [--days 365] [--draws 3] [--talks 2]
+ *   node --import tsx scripts/words/told-talk-proof.ts --kind eviction|job-lost|death-news|illness-news|prison-news --seed <seed> [--days 365] [--draws 3] [--talks 2]
  *
  * Each draw takes a place from all 56 by the seed and plays the bench's world
  * (`buildBenchWorld`, two-level) day by day, the player's household watched
@@ -32,6 +32,12 @@ const option = (name: string, fallback: string) => {
   return at >= 0 ? (process.argv[at + 1] ?? fallback) : fallback;
 };
 const kind = option("kind", "eviction");
+/** The ledger label of each kind of a relative's news the house tells the player. */
+const NEWS_LABELS: Readonly<Record<string, string>> = {
+  "death-news": "feeling:event:life.death",
+  "illness-news": "feeling:event:health.serious-illness",
+  "prison-news": "feeling:event:justice.imprisoned",
+};
 const seed = option("seed", "told-talk");
 const days = Number(option("days", "365"));
 const draws = Number(option("draws", "1"));
@@ -103,6 +109,33 @@ for (let draw = 0; draw < draws; draw += 1) {
             about: `case ${row.id}, removed ${row.removedAt}, owed ${row.owedAtRemovalMinor} cents, status ${status?.status ?? "none"}`,
           });
       }
+    } else if (NEWS_LABELS[kind]) {
+      // A relative's news is told to the player by an adult they live with.
+      const moment = director.ledger.people
+        .get(playerId)
+        ?.moments.find(
+          (row) =>
+            row.label === NEWS_LABELS[kind] &&
+            row.date === core.date &&
+            !told.has(row.causeId),
+        );
+      const teller = moment
+        ? (core.households.get(player.householdId)?.memberIds ?? []).find(
+            (id) =>
+              id !== playerId &&
+              core.people.get(id)?.alive &&
+              ageOnDate(
+                makeIsoDate(core.people.get(id)!.birthDate),
+                makeIsoDate(core.date),
+              ) >= 18,
+          )
+        : undefined;
+      if (moment) told.add(moment.causeId);
+      if (moment && teller)
+        tellers.push({
+          id: teller,
+          about: `${kind}, ${moment.causeId} (about ${nameOf(core, moment.counterpartIds[0] ?? "")})`,
+        });
     } else
       for (const id of watched) {
         const moment = director.ledger.people

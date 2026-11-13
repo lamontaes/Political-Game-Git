@@ -63,6 +63,7 @@ import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
+import { JUSTICE_MODULE_ID, bribeRoleOf } from "../core2/modules/justice";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { sharedHistory } from "../core2/shared-history";
 import {
@@ -149,7 +150,9 @@ import {
   lateSaid,
   moneySaid,
   monthsOfRentDays,
+  termSaid,
 } from "../english/count-words";
+import { RELATIVE_NEWS_WORDS } from "../english/relative-news-words";
 import type { FinanceContractInput } from "../core2/modules/finance";
 import { SCHOOL_MODULE_ID, schoolDayOf } from "../core2/modules/people";
 import { SAID_AS_DATA as saidAsData } from "../english/said-as";
@@ -813,6 +816,81 @@ function lastEndedJob(core: Readonly<CoreState>, personId: PersonId) {
       best = { jobId: match[one]!, at: row.learnedAt };
   }
   return best ? core.jobs.get(best.jobId) : undefined;
+}
+
+/**
+ * What a relative's news is, from the record it cites (words composer, the
+ * talk's own subject: `<kind>-say`, answered back under `<kind>-back`): when
+ * it happened; for a death, their age and a cause people say plainly to
+ * family (the health engine's cause of death, through
+ * data/english/relative-news-words.json), with `young` below the age people
+ * call too soon; for an illness, its common name (the health engine's
+ * condition); for a prison term, its length (the justice engine's custody
+ * record) and the offense.
+ */
+function relativeNewsFacts(
+  core: Readonly<CoreState>,
+  kind: string,
+  moment: Moment,
+  about: Readonly<PersonState>,
+): Facts {
+  const event = core.durableLog.get(moment.causeId as never) as
+    { id: string; facts?: Readonly<Record<string, string>> } | undefined;
+  const cites = [moment.causeId];
+  const fact = (text: string): Fact => ({ text, sourceRecordIds: cites });
+  const facts: Facts = { when: fact(spokenWhen(moment.date, core.date)) };
+  const recorded = (key: string) =>
+    event?.facts?.[`event:${event.id}:${key}`] ?? event?.facts?.[key];
+  if (kind === "death-news") {
+    const age = ageOnDate(
+      makeIsoDate(about.birthDate),
+      makeIsoDate(moment.date),
+    );
+    facts.age = { text: String(age), sourceRecordIds: [about.id, ...cites] };
+    if (age < RELATIVE_NEWS.youngBelowAge.value) facts.young = fact("yes");
+    const cause = RELATIVE_NEWS.deathCauses[recorded("causeOfDeath") ?? ""];
+    if (cause) facts.cause = fact(cause);
+  } else if (kind === "illness-news") {
+    const illness = RELATIVE_NEWS.illnesses[recorded("condition") ?? ""];
+    if (illness) facts.illness = fact(illness);
+  } else if (kind === "prison-news") {
+    const months = Number(recorded("custodyMonths"));
+    if (months > zero) facts.term = fact(termSaid(months));
+    const sentence = recorded("sentenceId");
+    const caseId = sentence
+      ? (
+          coreAPI(core as CoreState)
+            .moduleState(JUSTICE_MODULE_ID)
+            .table("sentences")
+            .get(sentence) as { caseId?: string } | undefined
+        )?.caseId
+      : undefined;
+    const offense = caseId ? offenseSaid(core, caseId, about.id) : undefined;
+    if (offense) facts.offense = { ...offense, sourceRecordIds: cites };
+  }
+  return facts;
+}
+
+const RELATIVE_NEWS = RELATIVE_NEWS_WORDS;
+
+/**
+ * What a bribery case was for, as the defendant's side of it says it: taking
+ * bribes when they are the official who took one, paying or offering a bribe
+ * when they are the one who offered (the corruption engine's crime record:
+ * its offerer, its official and whether it was taken). A case's first crime
+ * decides; none when the case or its crime is not on record.
+ */
+function offenseSaid(
+  core: Readonly<CoreState>,
+  caseId: string,
+  personId: PersonId,
+): Fact | undefined {
+  if (!core.modules.has(JUSTICE_MODULE_ID)) return undefined;
+  const role = bribeRoleOf(coreAPI(core as CoreState), caseId, personId);
+  const text = role
+    ? RELATIVE_NEWS.offenses[`bribe-${role === "took" ? "taken" : role}`]
+    : undefined;
+  return text ? { text, sourceRecordIds: [caseId] } : undefined;
 }
 
 /** The news a household member tells of a relative, by the label of the listener's moment. */
@@ -2163,6 +2241,7 @@ export function subjectsBetween(
           sourceRecordIds: [row.factId, moment.causeId],
         },
         name: { text: about.givenName, sourceRecordIds: [row.factId] },
+        ...relativeNewsFacts(core, kind, moment, about),
       },
     });
   }

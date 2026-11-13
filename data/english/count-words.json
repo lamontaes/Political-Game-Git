@@ -155,5 +155,12 @@
       "1": "tomorrow",
       "more": "in {count} days"
     }
+  },
+  "term": {
+    "about": "A prison term or other length of months as people say it in talk (\"eight months\", \"three years\"): whole years when the months make whole years, else months. Read by termSaid in src/english/count-words.ts.",
+    "month": "a month",
+    "months": "{count} months",
+    "year": "a year",
+    "years": "{count} years"
   }
 }
