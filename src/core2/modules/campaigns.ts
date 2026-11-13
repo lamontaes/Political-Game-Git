@@ -3987,7 +3987,8 @@ function recordGift(
     !api.state.people.has(campaign.candidateId)
   )
     return;
-  const bill = donorsBill(api, campaign, donor);
+  const held = donorsBill(api, campaign, donor);
+  const bill = held?.bill;
   // The share of what others have given: the candidate's own money is theirs.
   const outside =
     campaign.raisedMinor -
@@ -4013,27 +4014,36 @@ function recordGift(
       totalMinor: String(totalMinor),
       raisedMinor: String(campaign.raisedMinor),
       share: String(amountMinor / outside),
-      ...(bill ? { billId: bill.id, number: bill.number } : {}),
+      // The side the donor wants on it: their view of the bill's question
+      // against the way the bill points.
+      ...(bill
+        ? {
+            billId: bill.id,
+            number: bill.number,
+            billSide: held!.side > 0 ? "for" : "against",
+          }
+        : {}),
     },
   });
 }
 
 /**
  * The bill pending before the body a campaign's seat sits on that the donor
- * holds the strongest view on, either way; none where nothing is pending.
+ * holds the strongest view on, either way, and the side that view takes on
+ * the bill (1 for it, -1 against); none where nothing is pending.
  */
 function donorsBill(
   api: CoreAPI,
   campaign: CampaignRow,
   donor: Readonly<PersonState>,
-): BillRow | undefined {
+): { bill: BillRow; side: number } | undefined {
   if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
   const contest = elections(api, "contests").get(
     campaign.contestId,
   ) as unknown as ContestRow | undefined;
   if (!contest) return undefined;
   const lean = personLean(api.state.people, donor, townRow(api).lean);
-  let best: { bill: BillRow; strength: number } | undefined;
+  let best: { bill: BillRow; strength: number; side: number } | undefined;
   for (const row of api
     .moduleState(LEGISLATURE_MODULE_ID)
     .table("bills")
@@ -4045,18 +4055,21 @@ function donorsBill(
       ? provisionStance(api, row.provisions[0])
       : null;
     if (!stance) continue;
-    const strength = Math.abs(
-      viewOn(api, donor.id as PersonId, stance.question, lean),
-    );
+    const view = viewOn(api, donor.id as PersonId, stance.question, lean);
+    const strength = Math.abs(view);
     if (
       strength > 0 &&
       (!best ||
         strength > best.strength ||
         (strength === best.strength && row.id < best.bill.id))
     )
-      best = { bill: row, strength };
+      best = {
+        bill: row,
+        strength,
+        side: Math.sign(view * stance.position),
+      };
   }
-  return best?.bill;
+  return best ? { bill: best.bill, side: best.side } : undefined;
 }
 
 function postMoney(

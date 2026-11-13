@@ -95,6 +95,7 @@ import { birthFacts } from "./birth-facts";
 import { constituentFacts } from "./constituent-help-facts";
 import constituentWords from "./data/constituent-help-facts.json" with { type: "json" };
 import { bribeFacts } from "./bribe-facts";
+import { donorFacts } from "./donor-ask-facts";
 import {
   measureOnce,
   outletOnceWords,
@@ -978,18 +979,14 @@ function composeBinding(
         sourceRecordIds: [said.debateId, moment.causeId],
       };
   }
-  // A donor's gift to the campaign (campaigns.ts recordGift): what they gave,
-  // and the lines about a gift need it.
-  if (record?.kind === "campaign-gift") {
-    const gift = {
-      text: dollars(Number(said.amountMinor)),
-      sourceRecordIds: [moment.causeId],
-    };
-    facts.money = gift;
-    facts.gift = gift;
-    // The bill the donor holds the strongest view on, when one is pending.
-    if (said.billId && facts.bill) facts["donor-bill"] = facts.bill;
-  }
+  // A donor's gift to the campaign (campaigns.ts recordGift): what they gave
+  // and in all, the bill they hold the strongest view on and the side they
+  // want (the donor move set, ./donor-ask-facts).
+  if (record?.kind === "campaign-gift")
+    Object.assign(
+      facts,
+      donorFacts(core, askedId, { id: moment.causeId, facts: said }),
+    );
   // How the two stand, so a line can fit the tie: the asked person's known
   // people (`acquainted`, else `stranger`), and family (`kin`).
   if (asked.familyIds.has(askerId))

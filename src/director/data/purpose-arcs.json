@@ -337,6 +337,7 @@
       "state": "request",
       "replies": ["agree", "offer", "decline", "deflect", "lie"],
       "follow": {
+        "press": ["answer"],
         "offer": ["accept"],
         "decline": ["threaten", "accept"],
         "apologize": ["accept"]

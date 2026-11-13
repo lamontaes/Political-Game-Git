@@ -91,6 +91,9 @@ const donorFacts: Record<string, Fact> = {
   gift: fact("$2,500"),
   bill: fact("Bill 14"),
   "donor-bill": fact("Bill 14"),
+  // The side the donor wants and what the bill is about (donor-ask-facts.ts).
+  "want-against": fact("yes"),
+  about: fact("free fares on public transit"),
 };
 // What a reporter's call hands the scene (purpose-scene.ts, press-interview):
 // the bill, the outlet, and the facts the variant's reads add to the scene

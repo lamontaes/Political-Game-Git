@@ -211,12 +211,33 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (seed ${se
       expect(result.scene.askerId, here).toBe(donorId);
       const money = result.scene.facts.find((row) => row.key === "money");
       expect(money?.recordIds, here).toContain(gift.id);
-      // A donor with a bill pending asks about it, by its own record.
+      // A donor with a bill pending asks about it, by its own record, and
+      // for the side the gift's record says they want (donor-ask-facts.ts).
       if (gift.facts!.billId) {
         const bill = result.scene.facts.find((row) => row.key === "bill");
         expect(bill?.recordIds, here).toContain(gift.id);
+        expect(bill?.recordIds, here).toContain(String(gift.facts!.billId));
         expect(result.scene.talk.state.text, here).toContain(bill!.text);
+        const side = String(gift.facts!.billSide ?? "");
+        expect(["for", "against"], here).toContain(side);
+        const want = result.scene.facts.find(
+          (row) => row.key === `want-${side}`,
+        );
+        expect(want?.recordIds, here).toEqual([gift.id, gift.facts!.billId]);
+        expect(
+          result.scene.facts.some(
+            (row) => row.key === `want-${side === "for" ? "against" : "for"}`,
+          ),
+          here,
+        ).toBe(false);
       }
+      // Said as moves about the gift's records: no stock line of the
+      // purpose's own plays (the donor move set, scene-move-sets.json).
+      for (const line of result.scene.talk.lines)
+        expect(line.text, `${here}: ${line.text}`).not.toMatch(/[{}]/);
+      console.log(
+        `DONOR ASK SCENE ${here}:\n${result.scene.talk.lines.map((line) => `  ${line.speaker}: ${line.text}`).join("\n")}\n  offered: ${result.scene.talk.tree.replies.map((reply) => reply.line.text).join(" | ")}`,
+      );
       console.log(
         `DONOR ASK ${here}: ${money!.text}${gift.facts!.number ? ` (${gift.facts!.number})` : ""}; "${result.scene.talk.state.text}"`,
       );

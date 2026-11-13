@@ -12,6 +12,10 @@
     "bribe": {
       "about": "A bribe offered to the official and the pressing after a refusal (corruption.ts: corruption.bribe-offered, corruption.bribe-pressed): the subject is the favor bought ({bill} and {about} for a vote, {contract} for a contract), the price is {amount}, and where the offerer lobbied the member on the bill the group ({group}), the side it wants ({vote-wanted}) and what the bill costs its members ({cost}). The ending is read by corruption.ts: taken, the money moves; refused, the offer is settled; said you would report, the press learns of it.",
       "purposes": ["bribe-offer", "bribe-pressed"]
+    },
+    "donor": {
+      "about": "A donor who just gave to the player's campaign asks for something back (campaigns.ts recordGift, the campaign-gift record): the gift is {gift} ({given} in all, where they gave before), the subject is the bill before the seat's body the donor holds the strongest view on ({bill}, {about}) and the side they want on it (want-for, want-against, the record's billSide). The player hears them out, hands it to staff, puts them off or says the gift buys no position.",
+      "purposes": ["donor-ask"]
     }
   }
 }
