@@ -25,6 +25,7 @@ import {
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
+  bodyOf,
 } from "../core2/modules/legislature";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import {
@@ -482,6 +483,16 @@ class Reader {
     return this.table(LEGISLATURE_MODULE_ID, "bills")?.get(id) as unknown as
       BillRow | undefined;
   }
+  /**
+   * The body a bill is before, by the body's own record ("Mutual Village
+   * Council", "Ohio House of Representatives"): what a committee's, a veto's
+   * or an override's next step names.
+   */
+  billBody(id: string | undefined): Facts {
+    const bill = this.bill(id);
+    const body = this.body(bill?.bodyOfficeId);
+    return body && bill ? { body: this.fact(body, bill.bodyOfficeId) } : {};
+  }
   /** A bill's name ("Fair Wage Act"), its purpose and its designation ("HB 2"). */
   billFacts(id: string | undefined, number?: string): Facts {
     const bill = this.bill(id);
@@ -537,7 +548,10 @@ class Reader {
     const office = this.table(OFFICES_MODULE_ID, "offices")?.get(
       officeId,
     ) as unknown as { bodyName?: string; jurisdiction?: string } | undefined;
-    const name = office?.bodyName ?? null;
+    // A chamber with no office row of its own (Congress) is named by its
+    // body's record, as the legislature engine reads it.
+    const name =
+      office?.bodyName ?? bodyOf(this.api, officeId)?.bodyName ?? null;
     if (!name) return null;
     // A state's chamber is named with its state ("Connecticut House of Representatives"): the
     // record's body name alone ("House of Representatives") does not say which one voted.
@@ -861,6 +875,20 @@ const rollCall: Builder = (read, f) => {
 };
 
 /** A committee's vote on a bill, or its holding the bill without one. */
+/**
+ * The chamber a committee sits in, from the committee's own record (a state
+ * or federal bill's chamber, or the town's body): where the bill goes next.
+ */
+const committeeBody = (read: Reader): Facts => {
+  const row = read.row<{ chamber?: string }>(
+    LEGISLATURE_MODULE_ID,
+    "committees",
+    read.sourceId,
+  );
+  const body = read.body(row?.chamber);
+  return body && row?.chamber ? { body: read.fact(body, row.chamber) } : {};
+};
+
 const committee: Builder = (read, f) => {
   const yes = num(f.yes) ?? 0;
   const no = num(f.no) ?? 0;
@@ -869,6 +897,7 @@ const committee: Builder = (read, f) => {
     "committee",
     {
       ...read.billFacts(f.billId, f.number),
+      ...committeeBody(read),
       ...(f.committee ? { committee: read.fact(spaced(f.committee)) } : {}),
       ...(held
         ? { held: read.yes() }
@@ -893,6 +922,7 @@ const billFailed: Builder = (read, f) => {
     "committee",
     {
       ...read.billFacts(f.billId, f.number),
+      ...committeeBody(read),
       ...(yes !== undefined && no !== undefined
         ? { count: read.fact(`${yes} to ${no}`) }
         : {}),
@@ -948,6 +978,7 @@ const signed: Builder = (read, f) => {
     {
       ...read.who(f.executiveId),
       ...read.billFacts(f.billId, f.number),
+      ...read.billBody(f.billId),
       date: read.date(),
       // A veto fails the bill; a signature passes it into law.
       [vetoed ? "vetoed" : "signed"]: read.yes(),
@@ -1702,6 +1733,10 @@ const tookOffice: Builder = (read, f) => {
         : vacancy?.cause === "moved away"
           ? { moved: read.fact("yes", vacancy.id) }
           : {}),
+      // The day the seat fell empty, from the vacancy's own row.
+      ...(vacancy?.since
+        ? { vacated: read.fact(spokenDate(vacancy.since), vacancy.id) }
+        : {}),
       ...(f.office ? { office: read.fact(f.office, f.seatId ?? "") } : {}),
       ...(state && f.office
         ? {
@@ -1756,7 +1791,14 @@ const vacancy: Builder = (read, f) => {
       ...(method === "successor" && successor
         ? { successor: read.fact(successor, row?.id ?? "") }
         : {}),
-      ...(method === "remains-vacant" ? { empty: read.yes() } : {}),
+      ...(method === "remains-vacant"
+        ? {
+            empty: read.yes(),
+            ...(row?.since
+              ? { since: read.fact(spokenDate(row.since), row.id) }
+              : {}),
+          }
+        : {}),
       ...(election
         ? { when: read.fact(spokenDate(election), row?.id ?? "") }
         : {}),
@@ -2124,6 +2166,8 @@ function businessExtras(
       ? yearsBetween(founded, read.happened || read.story.date)
       : 0;
     if (years >= 2) extras.years = read.fact(count(years), id);
+    // A business open less than two years: the month it opened.
+    else if (founded) extras.opened = read.fact(monthYear(founded), id);
     // Why it closed, as the business's books recorded it, and who owned it.
     const why = closingWhy(
       read.core.finance.businesses.get(id)?.closingReasonKey,

@@ -22,9 +22,10 @@ import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import { printStory, type Story } from "./modules/news";
 import { LEGISLATURE_MODULE_ID } from "./modules/legislature";
-import { OFFICES_MODULE_ID } from "./modules/offices";
+import { OFFICES_MODULE_ID, servingTermsOf } from "./modules/offices";
 import { isPublicFigure } from "./past-public";
 import { reachedBy } from "./law-reach/host";
+import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
 import {
   stancesOf,
   viewOf,
@@ -584,17 +585,21 @@ function isBudgetBill(api: CoreAPI, item: WireItem): boolean {
  * Whether a named official serves in a federal or state office (a president, a
  * governor): public figures by their office, though they are not full people.
  */
-function holdsHighOffice(api: CoreAPI, id: string): boolean {
+export function holdsHighOffice(api: CoreAPI, id: string): boolean {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
   const offices = api.moduleState(OFFICES_MODULE_ID);
-  const term = offices
+  // The id names the term the official was first seated on, which a re-election or a move to
+  // another seat ends: the terms the person serves now (`servingTermsOf`) are what they hold.
+  const minted = offices
     .table("terms")
     .get(id.slice("official:".length)) as unknown as
-    { status?: string; officeId: string } | undefined;
-  if (term?.status !== "serving") return false;
-  const office = offices.table("offices").get(term.officeId) as unknown as
-    { level?: string } | undefined;
-  return office?.level === "federal" || office?.level === "state";
+    { personId: string } | undefined;
+  if (!minted) return false;
+  return servingTermsOf(api, minted.personId).some((term) => {
+    const office = offices.table("offices").get(term.officeId) as unknown as
+      { level?: string } | undefined;
+    return office?.level === "federal" || office?.level === "state";
+  });
 }
 
 /** Whether the person serves a term in a local (not a state or federal) office. */
@@ -615,6 +620,26 @@ function servesLocally(api: CoreAPI, personId: string): boolean {
     return level !== undefined && level !== "federal" && level !== "state";
   });
 }
+
+/**
+ * Between two items of equal score, the one more people saw happen leads
+ * (the witnesses its record names), then the earlier, and only then the id:
+ * never the alphabet alone (the President's inaugural address lost every
+ * national desk to a cabinet nomination on its id, Arrowhead Springs,
+ * Wyoming, seed da5c1844fcee4270). Returns the rule that decided.
+ */
+export function tieRule(
+  a: WireItem,
+  b: WireItem,
+): { readonly order: number; readonly rule: "witnesses" | "date" | "id" } {
+  const witnesses = (b.witnessCount ?? 0) - (a.witnessCount ?? 0);
+  if (witnesses) return { order: witnesses, rule: "witnesses" };
+  const date = a.date.localeCompare(b.date);
+  if (date) return { order: date, rule: "date" };
+  return { order: a.id.localeCompare(b.id), rule: "id" };
+}
+
+const tieOrder = (a: WireItem, b: WireItem): number => tieRule(a, b).order;
 
 /**
  * One week at an outlet: each reporter, in turn, weighs the fresh items its
@@ -682,6 +707,17 @@ export function runDesk(
   // follower where they hold no record for it, since a law in force binds the
   // town) and the counted followers, who are read by the same rule as a
   // full follower.
+  // The jurisdictions whose law binds the town: the nation, its state, its
+  // county, its township and the town itself (the laws engine's chain).
+  const chainJurisdictions = api.state.modules.has(LAWS_MODULE_ID)
+    ? new Set(lawChain(api).levels.map((level) => level.jurisdiction))
+    : null;
+  const bindsTown = (lawId: string): boolean => {
+    if (!chainJurisdictions) return true;
+    const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
+      { jurisdiction?: string } | undefined;
+    return !row?.jurisdiction || chainJurisdictions.has(row.jurisdiction);
+  };
   const involved = (item: WireItem): number => {
     // A charge against, or an exposure of, someone serving in a local office
     // is the town's business: it involves every follower, named or counted,
@@ -730,6 +766,11 @@ export function runDesk(
       : item.facts?.series;
     if ((item.kind !== "law-took-effect" && !lineChange) || !lawId || !key)
       return 0;
+    // Another state's or town's law binds no one here: it involves none of
+    // the outlet's followers (Hawaii's cannabis law outranked the
+    // President's inaugural address on every national desk in Arrowhead
+    // Springs, Wyoming, seed da5c1844fcee4270).
+    if (item.kind === "law-took-effect" && !bindsTown(String(lawId))) return 0;
     const reached = new Set(reachedBy(api, key, lawId).map((r) => r.personId));
     const named = reached.size
       ? followers.filter((id) => reached.has(id)).length
@@ -786,7 +827,7 @@ export function runDesk(
               p("storyDriveWeight") * drive),
         };
       })
-      .sort((a, b) => b.score - a.score || a.item.id.localeCompare(b.item.id));
+      .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item));
     const count = Math.min(
       p(
         outlet.tier === "national"
@@ -859,7 +900,7 @@ export function runDesk(
             p("storyPeopleWeight") * row.people +
             p("storyRenownWeight") * row.renown),
       }))
-      .sort((a, b) => b.score - a.score || a.item.id.localeCompare(b.item.id));
+      .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item));
     const space = Math.min(p("briefsPerOutletWeek"), column.length);
     for (let rank = 0; rank < space; rank += 1) {
       const row = column[rank]!;

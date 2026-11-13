@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-tests-campaign-outside-donors-no-poll
 pr: #8749

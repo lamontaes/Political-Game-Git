@@ -22,5 +22,17 @@
     "addedAt": "2026-11-11",
     "replacement": "The Bureau of Prisons' yearly cost per person held (its published per-capita cost of incarceration), paid from the federal Treasury each month on the stock the federal courts engine keeps, so a law that shortens sentences lowers what the Treasury pays as the stock falls.",
     "status": "open"
+  },
+  {
+    "id": "SG-JUSTICE-visiting-access-record-only",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/justice.ts",
+    "line": 1615,
+    "whatItFakes": "An official's referral for a relative of someone in custody earns a visiting-access record the next day, but no other engine reads it yet: a visit does not change the relative's tie to the person in custody, the person's conduct or their release.",
+    "why": "The justice engine keeps custody as a term served, with no model of visits; what a visit changes is a design call the item gov-constituent-case-family-in-custody did not settle.",
+    "addedBy": "sonnet-95c2",
+    "addedAt": "2026-11-11",
+    "replacement": "A reader of `justice.visiting-access` (relationship contact, conduct and release timing) in the engines that own them.",
+    "status": "open"
   }
 ]

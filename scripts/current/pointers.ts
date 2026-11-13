@@ -39,7 +39,9 @@ const TOPS = [...new Set(tracked.map((file) => file.split("/")[0]!))].filter(
   (top) => folders.has(top),
 );
 const TOP = TOPS.map((top) => top.replace(/\./g, "\\.")).join("|");
-const BACKTICKED = /`([^`\s]+)`( \(new\))?/g;
+const BACKTICKED = /`([^`\s]+)`( \(new\)| \(removed\))?/g;
+/** The mark after a path that is known to be gone: its row on the replaced list says where it went. */
+export const REMOVED_MARK = " (removed)";
 const BARE = new RegExp(
   `(?<![\\w./-])((?:${TOP})/[\\w@./-]+\\.[a-z]{2,5})(?![\\w/-])`,
   "g",
@@ -68,22 +70,29 @@ export function pathsNamed(text: string, code: boolean): string[] {
     : text;
   const out = new Set<string>();
   for (const m of read.matchAll(BACKTICKED)) {
-    if (m[2]) continue;
     const p = asPath(m[1]!);
-    if (p) out.add(p);
+    if (!p) continue;
+    // " (new)" is a file an item will create. " (removed)" is a path the
+    // replaced list covers: a reader is told it is gone and where to look.
+    if (m[2] === " (new)") continue;
+    if (m[2] === REMOVED_MARK && replacedNow(p) !== null) continue;
+    out.add(p);
   }
   if (code)
     for (const m of read.matchAll(BARE)) {
       const p = asPath(m[1]!);
-      if (p) out.add(p);
+      if (!p) continue;
+      const marked = read.startsWith(REMOVED_MARK, m.index + m[0].length);
+      if (marked && replacedNow(p) !== null) continue;
+      out.add(p);
     }
   return [...out];
 }
 
 const isRecord = (file: string): boolean =>
   data.records.some((r) => (r.endsWith("/") ? file.startsWith(r) : file === r));
-const CODE = /\.(ts|tsx|mjs|js|cjs)$/;
-const scanned = tracked.filter(
+export const CODE = /\.(ts|tsx|mjs|js|cjs)$/;
+export const scanned = tracked.filter(
   (file) =>
     !isRecord(file) &&
     (file.endsWith(".md") ||
@@ -99,9 +108,13 @@ export function areaOf(file: string): string {
     : parts[0]!;
 }
 
-const replacedNow = (p: string): string | null =>
-  data.replaced.find((row) => p === row.old || p.startsWith(`${row.old}/`))
-    ?.now ?? null;
+/** What stands in a replaced path's place, or null when the path is not on the replaced list. */
+export function replacedNow(p: string): string | null {
+  return (
+    data.replaced.find((row) => p === row.old || p.startsWith(`${row.old}/`))
+      ?.now ?? null
+  );
+}
 
 /** For each area, the pointers that name nothing in the repository. */
 export function deadPointers(): Record<string, string[]> {

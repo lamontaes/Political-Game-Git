@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-tests-election-browser-checks-red-on-main
+pr: #8815
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,6 +17,7 @@ model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T08:33:53.747Z
 ---
 
 **What.** Both election browser checks fail on clean main (Oct 28, 18:00 UTC) before they reach the ballot. src/bench/polling.browser.mjs with BENCH_SEED=poll-25-a times out clicking the party sheet's Join Republican button, which is found but never visible. src/bench/election-day.browser.mjs with EDAY_SEED=1793207574936 (Livermore Falls, Maine, race contest:seat:gus2025:105833:board:0:2026-11-03) times out waiting for the election-morning panel after the calendar skip and twelve Day clicks. The unit test src/bench/election-day.test.ts reaches the same morning through the bench player, so the break is in the screens or the checks' drive, not the voting engine.

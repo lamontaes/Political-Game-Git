@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/words-w4-work
+pr: #8767
 after: words-opening-evening-talk-raises-what-the-president-said
 blocked-on:
 lead: words
@@ -18,7 +18,8 @@ root: rc4-hand-written-words
 source: owner, Nov 11, 2026 (docs/coordination/OWNER-DECISIONS.md, "Nov 11: every line goes through the English engine"); planned for Fable B from a read of main at 5ef67361
 checked:
 claimed-at:
-branch:
+branch: claude/words-w4-work
+merged-at: 2026-11-11T13:57:42.997Z
 ---
 
 **What.** Meeting people, the talk most often turns to work. The raise already names the employer ("I work at {employer}."), but the questions and answers around it are fixed: "What do you do?", "Have you been there long?", "Is it busy there?", "Let's not talk shop. Maybe another time." 23 of the 90 lines under the bank's four work subjects (`own-work`, `other-work`, `heard-work`, `shared-work`) have no insert, and some ask what no record answers ("Is it busy?"). Seen: a first meeting away from home, when either person names where they work, and the player's replies to it.
@@ -48,3 +49,5 @@ branch:
 **Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, src/director/conversation.test.ts, src/english/conversation-words.ts, src/core2/shared-history.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 90 distinct lines across the four subjects, 23 with no insert and not excused (own-work 39 and 8, other-work 42 and 14, heard-work 21 and 3, shared-work 17 and 1). Three today: "What do you do?", "Have you been there long?", "Let's not talk shop. Maybe another time." Work is not talked about between relatives (`familyTalk.dropped`), so this is heard away from home.
+
+- 2026-11-11, Words builder W4: built on claude/words-w4-work. In the conversation-test worlds nobody has a start-date record for their current job (`heldSinceRecord` finds none), so "how long" is offered only where the bench's played worlds have one; the test checks that an offered "how long" is answered with the years.

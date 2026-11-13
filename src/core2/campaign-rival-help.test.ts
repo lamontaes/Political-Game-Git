@@ -73,6 +73,10 @@ import {
   rivalFiling,
   VOLUNTEER_OFFERED_EVENT,
   volunteerReason,
+  volunteerShifts,
+  volunteerLapseReason,
+  VOLUNTEER_JOINED_EVENT,
+  VOLUNTEER_LAPSED_EVENT,
   whoComes,
   type CampaignRow,
   type EndorsementRow,
@@ -675,6 +679,57 @@ describe("a candidate never helps a rival in their own race", () => {
     });
   });
 
+  it(
+    "a volunteer who joins writes a record naming the ask, and one whose reasons have weakened writes a lapse naming the cause",
+    () => {
+      const { core, api, where, first, helper, askFor } = findRace();
+      // The log keeps what happens outside the player's circle only for an observer.
+      core.observer = true;
+      const fa = first.filing;
+      expect(
+        askToVolunteer(api, fa.id, helper.id, askFor(first.person.id)),
+        `${where}: ${helper.id} asked for ${fa.id}`,
+      ).toBe(true);
+      const joined = api.state.durableLog.get(
+        `${VOLUNTEER_JOINED_EVENT}:${fa.id}:${helper.id}` as never,
+      );
+      expect(joined, `${where}: no join record for ${helper.id}`).toBeDefined();
+      expect(joined!.facts.causeId, where).toBe(first.person.id);
+      expect(joined!.facts.how, where).toBe("group-ask");
+      // Someone whose reasons are already weak, enlisted at home: the evening's
+      // weighing writes one lapse naming the cause that weakened them.
+      const campaign = campaignFor(api, fa.id);
+      const weak = [...api.state.people.values()].find(
+        (p) =>
+          p.alive &&
+          p.id !== api.state.playerId &&
+          p.id !== first.person.id &&
+          !campaign.volunteerIds.includes(p.id) &&
+          volunteerLapseReason(api, campaign, p) !== null &&
+          enlistVolunteer(api, fa.id, p.id),
+      );
+      expect(
+        weak,
+        `${where}: nobody with weak reasons to enlist`,
+      ).toBeDefined();
+      volunteerShifts(api, fa.id);
+      const lapsed = api.state.durableLog.get(
+        `${VOLUNTEER_LAPSED_EVENT}:${fa.id}:${weak!.id}` as never,
+      );
+      expect(lapsed, `${where}: no lapse record for ${weak!.id}`).toBeDefined();
+      expect(["work-hours", "cooled", "distant"], where).toContain(
+        lapsed!.facts.reason,
+      );
+      expect(lapsed!.facts.joinedId, where).toBe(
+        `${VOLUNTEER_JOINED_EVENT}:${fa.id}:${weak!.id}`,
+      );
+      expect(
+        api.state.durableLog.get(String(lapsed!.facts.joinedId) as never),
+      ).toBeDefined();
+    },
+    TWIN_TIMEOUT,
+  );
+
   it("a volunteer who then files in the same race leaves the campaign that day, kept with the filing, and does not come to its events", () => {
     const { core, api, where, first, helper, askFor } = findRace();
     const fa = first.filing;
@@ -940,6 +995,125 @@ describe("a candidate never helps a rival in their own race", () => {
         speaker,
         `no draw had a group whose speaker could file:\n${tried.join("\n")}`,
       ).not.toBe(null);
+    },
+    TWIN_TIMEOUT,
+  );
+
+  it(
+    "a person who endorsed a candidate and then files in that race no longer endorses them from the filing day, kept with the filing",
+    () => {
+      const tried: string[] = [];
+      for (let salt = 0; salt < GROUP_DRAWS; salt += 1) {
+        const drawn = rivalRace(salt);
+        if ("why" in drawn) {
+          tried.push(`${drawn.where}: ${drawn.why}`);
+          continue;
+        }
+        const { core, api, where, first, helper, manager } = drawn;
+        const fa = first.filing;
+        const who = [helper, manager].find((p) =>
+          askForEndorsement(api, fa.id, p.id),
+        );
+        if (!who) {
+          tried.push(`${where}: nobody not running endorsed ${fa.id}`);
+          continue;
+        }
+        const row = () =>
+          endorsementsOf(api, fa.id).find(
+            (r) => r.speakerId === who.id && r.organizationId === null,
+          )!;
+        expect(row().answer, `${where}: ${who.id} endorsed ${fa.id}`).toBe(
+          "yes",
+        );
+        const filed = file(api, who.id, fa.contestId, -1);
+        expect(filed, `${where}: ${who.id} files in ${fa.contestId}`).not.toBe(
+          null,
+        );
+        // The yes is ended the day they file, naming the filing.
+        expect(
+          {
+            answer: row().answer,
+            endedOn: row().endedOn,
+            endedByFilingId: row().endedByFilingId,
+          },
+          `${where}: ${row().id} after ${filed!.id}`,
+        ).toEqual({
+          answer: "withdrawn",
+          endedOn: core.date,
+          endedByFilingId: filed!.id,
+        });
+        expect(
+          endorsementsOf(api, fa.id).filter((r) => r.answer === "yes"),
+          `${where}: ${who.id} still endorses ${fa.id} with ${filed!.id} standing`,
+        ).not.toContainEqual(expect.objectContaining({ speakerId: who.id }));
+        expect(
+          askForEndorsement(api, fa.id, who.id),
+          `${where}: ${who.id} asked again to endorse ${fa.id}`,
+        ).toBe(false);
+        console.log(
+          `${where}: ${who.id} endorsed ${fa.id}, then filed ${filed!.id}`,
+        );
+        return;
+      }
+      throw new Error(
+        `no draw had a person endorse, then file:\n${tried.join("\n")}`,
+      );
+    },
+    TWIN_TIMEOUT,
+  );
+
+  it(
+    "a group whose speaker files in the race withdraws its backing of the candidate it had backed, kept with the filing",
+    () => {
+      const tried: string[] = [];
+      for (let salt = 0; salt < GROUP_DRAWS; salt += 1) {
+        const control = groupedRace(salt);
+        if ("why" in control) {
+          tried.push(`${control.where}: ${control.why}`);
+          continue;
+        }
+        const { group, side, a } = control;
+        campaignTurnPasses(control.core);
+        if (!groupBacking(control.api, a.filing.id, group.organizationId)) {
+          tried.push(`${control.where}: ${group.organizationId} backed nobody`);
+          continue;
+        }
+        if (!control.couldFile.has(group.speakerId!)) {
+          tried.push(`${control.where}: its speaker could not file`);
+          continue;
+        }
+        const label = `${control.where}: ${group.organizationId} (speaker ${group.speakerId}) backed ${a.filing.id}`;
+        const runs = file(
+          control.api,
+          group.speakerId!,
+          a.filing.contestId,
+          -side.position,
+          side.question,
+        );
+        if (!runs) {
+          tried.push(`${label}: the clerk refused its speaker's filing`);
+          continue;
+        }
+        expect(
+          groupBacking(control.api, a.filing.id, group.organizationId),
+          `${label}: still backs ${a.filing.id} with its speaker's ${runs.id} standing`,
+        ).toBe(null);
+        const ended = endorsementsOf(control.api, a.filing.id).find(
+          (r) =>
+            r.organizationId === group.organizationId &&
+            r.answer === "withdrawn",
+        );
+        expect(ended, `${label}: no withdrawn backing kept`).toBeDefined();
+        expect(
+          [ended!.endedOn, ended!.endedByFilingId],
+          `${label}: ${ended!.id}`,
+        ).toEqual([control.core.date, runs.id]);
+        console.log(`${label}, then its speaker filed ${runs.id}`);
+        return;
+      }
+      throw new Error(
+        `no draw had a group back a candidate whose speaker could then file:\n${tried.join("\n")}`,
+      );
     },
     TWIN_TIMEOUT,
   );

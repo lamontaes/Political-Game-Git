@@ -44,11 +44,11 @@ To look at the system as it was: `git worktree add ../full-body 843df6be9b` (use
 - In `src/bench/people-pack.ts`: `figureUrl`, `figureAtPath`, `drawAhead`, `drawAheadOn`, `drawAheadNow`, `packFigure`.
 - In `src/bench/ui/room.mjs`: `roomPeople`, `shadowsOf`, `occluderOf`. In `play.mjs`: `drawPeople` and its 13 call sites. `#people` and the `.figure`, `.talkable`, `.occluder` and `.shadow` styles.
 - The routes `/art/people/`, `/art/people-rooms/fronts/` and `/art/backdrops/occluders/` in `src/bench/handler.ts`.
-- The hand-run scripts `src/bench/scene-check.ts`, `src/bench/art-check.ts` and `scripts/people/`.
+- The hand-run scripts `src/bench/scene-check.ts` (removed), `src/bench/art-check.ts` (removed) and `scripts/people/`.
 - Tests that only check figures in rooms: `people-pack.test.ts`, `occluders.test.ts`, `stage-reasons.test.ts`, `director/scene-occasions.test.ts`, the figure cases in `montage.test.ts`, `campaign-mail.test.ts`, `director/opening-story.test.ts` and `government.test.ts`, and the browser checks `framing`, `opening-montage`, `talk-clickable` and `room-talkable-after-story`.
 - The five stopgaps above are closed as "set aside with the system".
 
-**Moved to `art/archive/full-body/` with a README (nothing in the game reads it):**
+**Moved to `art/archive/full-body/` (new) with a README (nothing in the game reads it):**
 
 - `art/people-engine/v4`
 - `art/people-rooms`
@@ -81,7 +81,7 @@ Busts lean on the pack today, so the pack cannot move until two things are cut:
 | 2    | The who's-here view and the talk row of busts are built, and `drawPeople` and `#people` are deleted in the same pull request                        | Rooms are the painting; people are busts; a click on a bust opens a talk | The owner's answers to calls 8 and 9 |
 | 3    | The server side goes: `stagePeople`, plates, fronts, routes, the tests and scripts above; the five stopgaps close; the open plate items are dropped | Nothing                                                                  | Step 2                               |
 | 4    | The creator shows a bust and offers what a bust can show                                                                                            | The creator's two full-length pictures become one bust                   | See below                            |
-| 5    | The three art folders move to `art/archive/full-body/`; the `people-pack` and `room-spots` skills say they are set aside                            | Nothing; the download is about 154 MB smaller                            | Steps 3 and 4                        |
+| 5    | The three art folders move to `art/archive/full-body/` (new); the `people-pack` and `room-spots` skills say they are set aside                      | Nothing; the download is about 154 MB smaller                            | Steps 3 and 4                        |
 
 ## Two things the removal changes that the owner has not seen yet
 
@@ -91,7 +91,7 @@ Busts lean on the pack today, so the pack cannot move until two things are cut:
 ## When full bodies come back
 
 - Start from the commit above, not from memory. The plates, spots and the fitting code were measured against the paintings and took most of October.
-- The art is in `art/archive/full-body/`; the paintings they were measured against are still in `art/backdrops`.
+- The art is in `art/archive/full-body/` (new); the paintings they were measured against are still in `art/backdrops`.
 - The `people-pack` and `room-spots` skills keep their methods and their traps.
 - The owner's standing rulings on full bodies still apply: one figure per named person, people drawn only on a plate's spots, and the Nov 10 note that staging defects are not filed while busts are the system.
 
