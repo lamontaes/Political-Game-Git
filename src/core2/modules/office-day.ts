@@ -540,7 +540,8 @@ export function leaveMeeting(api: CoreAPI, meetingIdValue: string): void {
     how: "did",
     recordId: row.id,
     position: null,
-    detail: "",
+    // How many items were before the body when they came.
+    detail: String(row.agenda.length),
   });
   releaseHeld(api, row.id);
 }

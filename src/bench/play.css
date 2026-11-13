@@ -2393,6 +2393,10 @@ body:not(.dev) .dev-only {
   margin: 0 0 12px;
   font-size: var(--t-h2);
 }
+/* A line above the agenda (a refusal, or a resident's one line). */
+#meeting-items > .meeting-note {
+  margin: 0 0 12px;
+}
 .meeting-item + .meeting-item {
   margin-top: 16px;
   padding-top: 14px;

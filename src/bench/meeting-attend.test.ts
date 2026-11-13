@@ -81,7 +81,10 @@ it("the Calendar offers a posted meeting, the panel lets a resident speak and le
         expect(marked?.attend?.plan, `${where}: the plan`).toMatch(
           /\d (a|p)\.m\./,
         );
-        expect(item.attend.plan, `${where}: no plan before the mark`).toBeNull();
+        expect(
+          item.attend.plan,
+          `${where}: no plan before the mark`,
+        ).toBeNull();
         meetingAttend(core, item.attend.officeId, item.attend.date, false);
         expect(
           offered().find(
@@ -103,11 +106,15 @@ it("the Calendar offers a posted meeting, the panel lets a resident speak and le
       // One line under the title for a resident: an empty agenda, or, only at
       // the first meeting they come to, what they can do here.
       const items = scene.items.length;
-      if (!items || emptyRooms === 0)
-        expect(scene.note, `${where}: the resident's line`).toMatch(
-          items ? /speak for or against/ : /\S/,
-        );
-      else expect(scene.note, `${where}: said once`).toBeNull();
+      // (This is the first meeting with an item that this resident has come to.)
+      expect(scene.note, `${where}: the resident's line`).toMatch(
+        items ? /speak for or against/ : /\S/,
+      );
+      // The body by its own name, as the Calendar says it.
+      expect(
+        offered().some((entry) => entry.line.includes(scene.title)),
+        `${where}: the panel names the body "${scene.title}"`,
+      ).toBe(true);
       // In the room, not at the table.
       expect(scene.seated, `${where}: not seated`).toBe(false);
       expect(

@@ -50,6 +50,7 @@ import { billOf as legislatureBillOf } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import {
   billOf,
+  bodyOf,
   learnedStakesOf,
   LEGISLATURE_MODULE_ID,
   memberKey,
@@ -164,7 +165,7 @@ export function floorDecide(core: CoreState, billId: string, how: string) {
 /**
  * The one line a resident in the room reads under the meeting's title, in the English
  * engine's words: that nothing is on the agenda, or, the first time they come to any
- * meeting (no meeting attended is on their record yet), what they can do here.
+ * meeting with an item before it (none such is on their record yet), what they can do here.
  */
 function residentNote(
   core: CoreState,
@@ -182,8 +183,11 @@ function residentNote(
       body,
       date: dateWords(meeting.date, { year: false }),
     });
+  // Said once: not again after a meeting they came to that had an item before it.
   if (
-    officeActsOf(coreAPI(core), personId).some((act) => act.kind === "attend")
+    officeActsOf(coreAPI(core), personId).some(
+      (act) => act.kind === "attend" && act.detail !== "0",
+    )
   )
     return null;
   return items === 1
@@ -212,6 +216,8 @@ export function meetingSceneView(
     ...(() => {
       // A resident who came to speak is in the room and not at the table.
       const watching = meeting.audience !== undefined;
+      const named = bodyOf(api, meeting.officeId);
+      const bodyName = named?.bodyName ?? named?.kind ?? "";
       const scene = bodyScene(
         core,
         personId,
@@ -232,9 +238,10 @@ export function meetingSceneView(
         ),
         // A resident has no vote and cannot adjourn.
         seated: !watching,
-        note: watching
-          ? residentNote(core, personId, meeting, scene.title)
-          : null,
+        // A resident reads the body by its own name, as the Calendar says it
+        // (the seat's title names one member, not the body).
+        ...(watching ? { title: bodyName } : {}),
+        note: watching ? residentNote(core, personId, meeting, bodyName) : null,
       };
     })(),
   };
