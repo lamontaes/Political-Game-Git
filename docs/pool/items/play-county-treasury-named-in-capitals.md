@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/p2-county-treasury-name
-pr:
+pr: #9003
 after:
 blocked-on:
 lead: play-first
