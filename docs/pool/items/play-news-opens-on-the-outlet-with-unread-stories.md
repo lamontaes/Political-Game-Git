@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: Words builder W3
-pr: 8995
+pr: #8995
 after: words-press-study-committee-stories-unworded
 blocked-on:
 lead: words
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: Merger codex-1251 on #8928, Nov 12 23:24Z (printed-news red by draw, NEWS_SEED=484cc751bef6ccc5); Fable A, Nov 13 02:50Z (the rule)
+merged-at: 2026-11-13T04:07:24.330Z
 ---
 
 **What.** In Arial, South Carolina (NEWS_SEED=484cc751bef6ccc5) and Lakeville, Connecticut (w3-open-fresh-1), News opens on the home paper, which has printed nothing, while a station or network the player follows has stories they heard and have not read. The player sees an empty page and has to find the news tab by tab; `src/bench/printed-news.browser.mjs` fails "News lists no story" on main in both. Seen: the News sheet's first page, on a new life's June 1, 2025.
