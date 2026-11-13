@@ -256,6 +256,13 @@ describe("the shared parts of an address are the kind's own", () => {
 const WORLD_TEXT: Record<string, string> = {
   "vice-president": "Dana Ruiz",
   speaker: "Alan Moore",
+  // Each person's cases, as the address composer fills them from the one
+  // fact (withCases, src/director/opening-story.ts): a piece that names a
+  // person in a case requires that case by name.
+  "vice-president-object": "Dana Ruiz",
+  "vice-president-addressed": "Vice President Dana Ruiz",
+  "speaker-object": "Alan Moore",
+  "speaker-addressed": "Speaker Alan Moore",
   "home-state": "a home state",
   hardest: "finding work",
   best: "take-home pay",
