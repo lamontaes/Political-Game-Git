@@ -77,7 +77,6 @@ export interface SituationCause {
      */
     causeNames?: "subject";
   };
-  awaitingProducer?: string;
   causeEngine?: string;
   /** The record kind (or kinds, comma-joined) the cause reads, for the scene web. */
   causeRecord?: string;
@@ -160,7 +159,6 @@ export interface SituationType {
   setting: readonly string[];
   timing: string;
   causes: readonly SituationCause[];
-  awaiting?: readonly string[];
   /**
    * A scene that never stops the player's day: it waits its turn by the life's
    * pace however strongly it was felt (an invitation to a cause meeting).

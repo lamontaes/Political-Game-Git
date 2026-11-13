@@ -83,7 +83,6 @@ import {
 import type { Fact } from "../english/scene-talk-words";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
-import { reunionFacts } from "./reunion-facts";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
 import { gatheringFacts } from "./gathering-facts";
@@ -565,8 +564,7 @@ function composeBinding(
   // A story someone in the household read (news.ts, `news.read`): what it was
   // about, as the catalog names it, and the paper that ran it. The lines name
   // the story; a story the catalog cannot name has no scene (the scene is
-  // skipped, never worded as "something"). stopgapId:
-  // SG-WORDS-story-read-talk-moves-nothing (the talk moves no view).
+  // skipped, never worded as "something").
   const storyId =
     record?.kind === NEWS_READ ? storyOfReadEvent(record.id) : null;
   const about =
@@ -643,23 +641,12 @@ function composeBinding(
     meetingFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
   ))
     facts[key] = fact;
-  // Someone who has come back after a long time apart (the director's thread
-  // for the pair), and a letter from a relative elsewhere (kin-contact.ts's
-  // `family.contact`): how long, where they live, what changed in their life
-  // and what the tie records, each cited. stopgapId:
-  // SG-WORDS-reunion-ask-unrecorded, SG-WORDS-letter-ask-unrecorded
+  // A letter from a relative elsewhere (kin-contact.ts's `family.contact`):
+  // how long, where they live, what changed in their life and what the tie
+  // records, each cited. stopgapId: SG-WORDS-letter-ask-unrecorded
   const placeNamed = (placeId: string) => destinationSaid(placeId, "");
-  for (const [key, fact] of Object.entries({
-    ...reunionFacts(
-      core,
-      director,
-      binding.typeKey,
-      moment.date,
-      askerId,
-      askedId,
-      placeNamed,
-    ),
-    ...letterFacts(
+  for (const [key, fact] of Object.entries(
+    letterFacts(
       core,
       binding.typeKey,
       moment.causeId,
@@ -667,7 +654,7 @@ function composeBinding(
       askedId,
       placeNamed,
     ),
-  }))
+  ))
     facts[key] = fact;
   // A celebration (a wedding, a new job) and a family gathering with a
   // relative missing (`family.gathering-missed`): what is celebrated and whose
@@ -1870,14 +1857,6 @@ export function replyInScene(
         ? "no"
         : undefined
     : undefined;
-  // A meeting set or a matter put off owes the other a talk: who, about
-  // what and by when, for the people engine's owed-talk record to read
-  // (agreements/2-3.md).
-  const owed =
-    !!ending &&
-    (rulesFile.owedTalk.keeps.includes(ending.keeps) ||
-      rulesFile.owedTalk.endings.includes(ending.id));
-  const owedWith = scene.playerAsks ? scene.askedId : scene.askerId;
   applyCoreEvent(core, {
     id,
     date: core.date,
@@ -1899,16 +1878,6 @@ export function replyInScene(
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
       ...(conceded ? { conceded } : {}),
-      ...(owed
-        ? {
-            owedWith,
-            owedTopic: stakeKind ?? scene.typeKey,
-            owedDueOn: addDays(
-              makeIsoDate(core.date),
-              rulesFile.owedTalk.dueDays.value,
-            ),
-          }
-        : {}),
     },
     source: {
       tag: "SOURCED",

@@ -410,6 +410,114 @@
       "now": "nothing stands in its place: the person card shows each leaning by its label (and its strength on the You screen); restore it from commit 354fa017bdc126990eaec3a30367173e519bcfc2",
       "when": "2026-11-12",
       "why": "Every line in it only said a trait's label again in other words, with no fact from the world's records (owner, Nov 11: every line through the English engine; Fable A on #7365, Nov 12: a line that only restates the trait's name beside it is deleted)."
+    },
+    {
+      "old": "src/director/concession-night.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played concession-received and concession-taken, deleted by the scene inventory; the loser’s call stays in concession-reported.test.ts."
+    },
+    {
+      "old": "src/director/concession-received.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played concession-received, deleted by the scene inventory (nothing read its reply)."
+    },
+    {
+      "old": "src/director/desk-scene.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played desk-bill, deleted by the scene inventory: the desk screen is where the executive signs or vetoes."
+    },
+    {
+      "old": "src/director/ending-screens.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It checked the opens field on purpose endings, which no screen read; the field was deleted with the scene inventory."
+    },
+    {
+      "old": "src/director/government-scenes.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played floor-vote, bill-signed and veto, deleted by the scene inventory."
+    },
+    {
+      "old": "src/director/hallway-scene.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played hallway, deleted by the scene inventory (its causes are vote-asked’s, press-interview’s and lobby-remembers’)."
+    },
+    {
+      "old": "src/director/hearing-scenes.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played public-hearing, deleted by the scene inventory (town-hall-question is the same exchange)."
+    },
+    {
+      "old": "src/director/law-reached-scenes.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played law-takes-effect, deleted by the scene inventory (constituent-stop plays the same purpose)."
+    },
+    {
+      "old": "src/director/own-bill-failed-scene.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played staff-news, deleted by the scene inventory."
+    },
+    {
+      "old": "src/director/primary-challenge.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played rival-filed, deleted by the scene inventory."
+    },
+    {
+      "old": "src/director/race-told-scene.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played race-told, deleted by the scene inventory (supersedes the red-main fix in PR 8899)."
+    },
+    {
+      "old": "src/director/reunion-facts.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "The reunion scene’s facts; reunion was deleted by the scene inventory (its cause was the director’s own echo, and no engine records a return)."
+    },
+    {
+      "old": "src/director/rival-filed-late.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played rival-filed’s late-filer cause, deleted by the scene inventory."
+    },
+    {
+      "old": "src/director/run-doubt-scene.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played run-doubt, deleted by the scene inventory (family-loss is the scene candidacy.ts reads)."
+    },
+    {
+      "old": "src/director/staff-bad-news.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played staff-news, deleted by the scene inventory."
+    },
+    {
+      "old": "src/director/staff-news-scene.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played staff-news, deleted by the scene inventory."
+    },
+    {
+      "old": "src/director/story-read-scene.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played story-read, deleted by the scene inventory (bring-it-up reads the same news.read record)."
+    },
+    {
+      "old": "src/director/testimony-heard.test.ts",
+      "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
+      "when": "2026-11-12",
+      "why": "It played testimony-heard, deleted by the scene inventory (town-hall-question’s arc)."
     }
   ]
 }
