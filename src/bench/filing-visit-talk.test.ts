@@ -91,21 +91,34 @@ it(`a first visit asks for the papers, the player says only what they chose, and
           )
           .map((row) => row.contestId),
       );
-    const findPair = () =>
-      grown
-        .map((person) => ({
-          person,
-          contest: playerContests(api).find(
-            (row) =>
-              row.level !== "federal" &&
-              row.level !== "state" &&
-              !filedIn(person.id).has(row.id) &&
-              checkEligibility(api, person.id, row.id).every(
-                (check) => check.met,
-              ),
-          ),
-        }))
-        .find((row) => row.contest);
+    // The races are the resident's own (their district's), read with them
+    // as the player, as the counter reads them (Groom, Texas, seed
+    // 8b7056d0cf1a2f624d37: a race from the first player's list was not on
+    // the resident's).
+    const findPair = () => {
+      const first = core.playerId;
+      for (const person of grown) {
+        if (
+          !playerContests(api).some((row) =>
+            checkEligibility(api, person.id, row.id).every((c) => c.met),
+          )
+        )
+          continue;
+        core.playerId = person.id as PersonId;
+        const contest = playerContests(api).find(
+          (row) =>
+            row.level !== "federal" &&
+            row.level !== "state" &&
+            !filedIn(person.id).has(row.id) &&
+            checkEligibility(api, person.id, row.id).every(
+              (check) => check.met,
+            ),
+        );
+        core.playerId = first;
+        if (contest) return { person, contest };
+      }
+      return undefined;
+    };
     // Filing opens on the place's own days: the weeks go by until a local
     // race is open to a grown resident (at most two years), read from the
     // calendar's records, never skipped.
