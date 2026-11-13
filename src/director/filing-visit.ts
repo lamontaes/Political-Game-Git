@@ -190,13 +190,15 @@ export function openFilingVisit(
  * gloss, never said aloud (P1, Richburg, South Carolina, Nov 13, rule 8).
  */
 export function spokenOffice(note: string): string {
-  const first = note
-    // An aside inside the name ("County (local) board of elections") is
-    // dropped, not where the name ends.
+  // An aside inside the name ("County (local) board of elections") is
+  // dropped, not where the name ends.
+  const parts = note
     .replace(/\s*\([^)]*\)(?=\s+(?!and\b|or\b)[a-z])/g, "")
-    .split(/\s*[;(]|\s+\/\s+|,\s/)
-    [P.zero]!.replace(/\s+(?:of|in) the candidate's\b.*$/i, "")
-    .trim();
+    .split(/\s*[;(]|\s+\/\s+|,\s/);
+  const first = parts[P.zero]!.replace(
+    /\s+(?:of|in) the candidate's\b.*$/i,
+    "",
+  ).trim();
   return first || note.trim();
 }
 
