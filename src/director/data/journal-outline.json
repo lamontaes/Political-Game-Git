@@ -118,5 +118,10 @@
     "beverage-container": "grocery bill",
     "vehicle-repair": "car repair bills",
     "cannabis": "cannabis costs"
+  },
+  "leanWords": {
+    "about": "Which way a view moved, by the sign of the views engine's lean change (-2 very liberal to +2 very conservative).",
+    "left": "more liberal",
+    "right": "more conservative"
   }
 }

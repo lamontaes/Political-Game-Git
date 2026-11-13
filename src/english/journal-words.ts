@@ -351,6 +351,10 @@ export type MemoirField =
   | "effectUp"
   | "effectDown"
   | "viewFor"
+  | "viewParentLost"
+  | "viewParentToward"
+  | "viewParentAway"
+  | "viewOwn"
   | "viewAgainst";
 
 /**

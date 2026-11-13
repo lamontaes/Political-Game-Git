@@ -57,7 +57,9 @@
     "out_span": "How long a person was out of work in all, summed from the work records.",
     "bill": "The bill a law moved, from the price rule's good (\"electric bill\").",
     "amount": "About how much a month a bill moved, from the price engine's record.",
-    "effects": "What laws did to the person's bills, joined from their records."
+    "effects": "What laws did to the person's bills, joined from their records.",
+    "lean": "Which way a view moved (\"more liberal\"), from the views engine's record of what moved it.",
+    "year": "A year, from the record."
   },
   "maxWords": 10,
   "mining": {
@@ -10233,6 +10235,214 @@
       "origin": "authored",
       "author": "Words session (journal composer, words composer unit 6)",
       "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-parent-lost.when-i-was-age-named-lost-their-job-at-e",
+      "move": "memoir-view-parent-lost",
+      "kind": "spoken",
+      "text": "When I was {age}, {named} lost {their} job at {employer}.",
+      "uses": [
+        {
+          "move": "memoir-view-parent-lost",
+          "subject": "memoir",
+          "role": "viewParentLost",
+          "choice": "when-i-was-age-named-lost-their-job-at-e",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewParentLost"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-parent-lost.when-i-was-age-named-lost-their-job",
+      "move": "memoir-view-parent-lost",
+      "kind": "spoken",
+      "text": "When I was {age}, {named} lost {their} job.",
+      "uses": [
+        {
+          "move": "memoir-view-parent-lost",
+          "subject": "memoir",
+          "role": "viewParentLost",
+          "choice": "when-i-was-age-named-lost-their-job",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewParentLost"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-parent-toward.i-took-their-side-of-politics-and-grew-l",
+      "move": "memoir-view-parent-toward",
+      "kind": "spoken",
+      "text": "I took {their} side of politics and grew {lean}.",
+      "uses": [
+        {
+          "move": "memoir-view-parent-toward",
+          "subject": "memoir",
+          "role": "viewParentToward",
+          "choice": "i-took-their-side-of-politics-and-grew-l",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewParentToward"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-parent-toward.after-that-i-saw-politics-their-way-and-",
+      "move": "memoir-view-parent-toward",
+      "kind": "spoken",
+      "text": "After that I saw politics {their} way and grew {lean}.",
+      "uses": [
+        {
+          "move": "memoir-view-parent-toward",
+          "subject": "memoir",
+          "role": "viewParentToward",
+          "choice": "after-that-i-saw-politics-their-way-and-",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewParentToward"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-parent-away.i-turned-against-their-politics-and-grew",
+      "move": "memoir-view-parent-away",
+      "kind": "spoken",
+      "text": "I turned against {their} politics and grew {lean}.",
+      "uses": [
+        {
+          "move": "memoir-view-parent-away",
+          "subject": "memoir",
+          "role": "viewParentAway",
+          "choice": "i-turned-against-their-politics-and-grew",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewParentAway"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-parent-away.i-went-the-other-way-from-their-politics",
+      "move": "memoir-view-parent-away",
+      "kind": "spoken",
+      "text": "I went the other way from {their} politics, {lean}.",
+      "uses": [
+        {
+          "move": "memoir-view-parent-away",
+          "subject": "memoir",
+          "role": "viewParentAway",
+          "choice": "i-went-the-other-way-from-their-politics",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewParentAway"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-own.losing-my-job-at-employer-in-year-turned",
+      "move": "memoir-view-own",
+      "kind": "spoken",
+      "text": "Losing my job at {employer} in {year} turned me {lean}.",
+      "uses": [
+        {
+          "move": "memoir-view-own",
+          "subject": "memoir",
+          "role": "viewOwn",
+          "choice": "losing-my-job-at-employer-in-year-turned",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewOwn"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-own.after-employer-let-me-go-in-year-i-grew-",
+      "move": "memoir-view-own",
+      "kind": "spoken",
+      "text": "After {employer} let me go in {year}, I grew {lean}.",
+      "uses": [
+        {
+          "move": "memoir-view-own",
+          "subject": "memoir",
+          "role": "viewOwn",
+          "choice": "after-employer-let-me-go-in-year-i-grew-",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewOwn"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
       "tag": {
         "move": "tell"
       }

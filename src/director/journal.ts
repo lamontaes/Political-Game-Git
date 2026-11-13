@@ -38,7 +38,7 @@ import {
 } from "../english/bill-names";
 import { topicInSentence } from "../english/policy-names";
 import { questionAbout, questionTo } from "../english/question-names";
-import { VIEWS_MODULE_ID, stancesOf } from "../core2/modules/views";
+import { VIEWS_MODULE_ID, stancesOf, viewOf } from "../core2/modules/views";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import {
   addDays,
@@ -2559,6 +2559,118 @@ export function composeJournal(
     if (lastDate > chapter.through) chapter.through = lastDate;
   };
 
+  /**
+   * What the person lived through before the start that moved their views,
+   * from the views engine's own record of it (owner, Nov 12: "big events in
+   * your life that shape the person you are"; the view's `pastShifts`, life
+   * record part 14, #8973): a parent's job lost while they were a child, in
+   * the roots paragraph, and their own last layoff as a grown-up, in the
+   * work paragraph, each with which way it moved them. A view with no such
+   * record (main before #8973 lands) tells nothing.
+   */
+  const pastViewSentences = (paragraph: string): JournalWorded[] => {
+    if (!core.modules.has(VIEWS_MODULE_ID)) return [];
+    const view = viewOf(coreAPI(core as CoreState), personId) as {
+      id: string;
+      pastShifts?: readonly {
+        recordId: string;
+        kind: string;
+        parentId?: string;
+        change: number;
+      }[];
+    } | null;
+    const out: JournalWorded[] = [];
+    for (const shift of view?.pastShifts ?? []) {
+      const parentCase = shift.kind === "parent-job-lost";
+      if ((paragraph === "roots") !== parentCase) continue;
+      if (!parentCase && paragraph !== "work") continue;
+      const whose = (parentCase ? shift.parentId : personId) as PersonId;
+      const spell = whose
+        ? pastWorkOf(core as CoreState, whose).find(
+            (row) => row.id === shift.recordId,
+          )
+        : undefined;
+      const ended = spell?.facts.endedAt ? String(spell.facts.endedAt) : null;
+      if (!spell || !ended || shift.change === zero) continue;
+      const ids = [shift.recordId, view!.id];
+      const lean: Fact = {
+        text: JOURNAL_OUTLINE.leanWords[shift.change < zero ? "left" : "right"],
+        sourceRecordIds: ids,
+      };
+      const employer = spell.facts.organizationId
+        ? employerName(core, String(spell.facts.organizationId), spell.id)
+        : undefined;
+      if (parentCase) {
+        const parent = core.people.get(whose);
+        const relation = kin.get(whose);
+        const phrase =
+          parent && relation
+            ? relationPhrase(
+                relation.relation,
+                parent.looks?.gender ?? "other",
+                "journal",
+                words,
+              )
+            : undefined;
+        if (!parent || !phrase) continue;
+        const facts: Facts = {
+          age: {
+            text: String(ageAt(makeIsoDate(ended))),
+            sourceRecordIds: [spell.id, person.id],
+          },
+          named: {
+            text: `${phrase} ${parent.givenName}`,
+            sourceRecordIds: [relation!.factId, whose],
+          },
+          their: {
+            text: possessivePronoun(parent.looks?.gender ?? "other", words),
+            sourceRecordIds: [relation!.factId],
+          },
+          ...(employer ? { employer } : {}),
+        };
+        const lost = render(
+          { part: "memoir", field: "viewParentLost" },
+          facts,
+          `${shift.recordId}:view-lost`,
+          ids,
+        );
+        const moved = render(
+          {
+            part: "memoir",
+            // Toward the parent's view, or away from it, as the record keeps
+            // it (`follow`, from the person's traits).
+            field:
+              (shift.follow ?? zero) >= zero
+                ? "viewParentToward"
+                : "viewParentAway",
+          },
+          { ...facts, lean },
+          `${shift.recordId}:view-moved`,
+          ids,
+        );
+        if (lost && moved) out.push(lost, moved);
+        continue;
+      }
+      const own = employer
+        ? render(
+            { part: "memoir", field: "viewOwn" },
+            {
+              employer,
+              year: {
+                text: ended.slice(zero, P.two * P.two),
+                sourceRecordIds: [spell.id],
+              },
+              lean,
+            },
+            `${shift.recordId}:view-own`,
+            ids,
+          )
+        : null;
+      if (own) out.push(own);
+    }
+    return out;
+  };
+
   // The past: a few short paragraphs under the first chapter.
   const past = units.filter((unit) => unit.paragraph !== "play");
   if (past.length) {
@@ -2580,9 +2692,11 @@ export function composeJournal(
             Number(a.moment.causeKind === "person.birth"),
         );
       if (!told.length) continue;
-      const sentences =
-        (row.key === "work" ? tellWork(told) : null) ??
-        tellParagraph(told, row.key);
+      const sentences = [
+        ...((row.key === "work" ? tellWork(told) : null) ??
+          tellParagraph(told, row.key)),
+        ...pastViewSentences(row.key),
+      ];
       push(told, sentences);
     }
   }
