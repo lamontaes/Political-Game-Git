@@ -40,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** First row: A state prosecutor's office where the offices data has neither a county prosecutor covering the town nor an elected attorney general.
 
 Sent back 2026-10-21 from PR #5317 (branch claude/pool-appointed-ag): The opening-only appointed-AG test and PR body lack the required one-year played-world justice-case consumption proof, by record id.; finish on that branch, merge main into it first.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have replaced the justice prosecutor stand-in; courts come after early access and the stand-in changes nothing a player sees.

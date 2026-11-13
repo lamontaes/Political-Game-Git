@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** scripts/research/export-public-budget-bases.py, data/research/money/public-budget-bases.json, data/research/money/puerto-rico-municipal-budget-fy2025.json, src/core2/modules/budgets.ts, src/core2/pr-municipio-budget.test.ts, src/core2/territory-local-budgets.test.ts (new)
 
 **Notes.** Found by the Screens ten-place sweep (H. Rivera Colón PR, Toa Alta Municipio, $0 in and out), fixed for Puerto Rico in #7955; the Coordinator asked for this follow-up for the other territories on Nov 9.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have given four island areas local budget rows; the estimated budgets already show.
