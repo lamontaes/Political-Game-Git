@@ -66,12 +66,14 @@
     },
     "recountAskCloseShare": {
       "value": 0.005,
+      "role": "level",
       "tag": "TUNABLE",
       "source": "The margin, as a share of the votes the place's rule measures it against, at which the case for a trailing candidate asking for a recount is even; closer, it pulls toward asking, wider, away, and the candidate's temperament decides near it. Set at the most common automatic trigger, 0.5 percent (\"most commonly 0.5 percent\", MultiState, Recounts, fetched Nov 11, 2026), where states judge a count close enough to check. Checked against FairVote's count of 36 statewide recounts in 6,929 statewide general elections from 2000 to 2023 (13 requested), cited on the same page.",
       "spread": [0.001, 0.02]
     },
     "recountAskWeight": {
       "value": 1,
+      "role": "coefficient",
       "tag": "TUNABLE",
       "source": "How much the closeness of a count weighs in a trailing candidate's choice to ask for a recount against their temperament (voting.ask-recount): at a tied count, one unit toward asking. Checked so that a candidate inside a tenth of the closeness share asks whatever their traits, and one at twice it does not.",
       "spread": [0.5, 2]

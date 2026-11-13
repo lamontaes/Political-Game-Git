@@ -60,6 +60,7 @@
         "src/core2/modules/campaigns.ts",
         "src/core2/modules/candidacy.ts",
         "src/core2/modules/filing-clerk.ts",
+        "src/core2/recount-rules.ts",
         "src/core2/modules/ballot-measures.ts",
         "src/core2/modules/recalls.ts",
         "src/core2/modules/parties.ts",
