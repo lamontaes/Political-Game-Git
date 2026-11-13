@@ -5,9 +5,9 @@ area: director
 kind: cleanup
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: Words builder W3
 pr:
 after: words-director-one-path-part-1a-scene-ending-opens-filing
 blocked-on:
@@ -17,8 +17,8 @@ effort: high
 root: design-story-director
 source: split from words-director-one-path in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at:
-branch: claude/pool-words-director-one-path-part-1-filing-scene-situation-type
+claimed-at: 2026-11-13T07:00:00.000Z
+branch: claude/words-w3-counter-main
 ---
 
 **What.** Part of words-director-one-path. The talk before filing at the counter (which office, the race, the dates, the duty and the rules that stop a filing) is still a hand-ordered sequence in src/director/filing-visit.ts (stopgap SG-WORDS-filing-counter-prompts). The scene engine's own `filing-clerk` arc, with its replies, follows and endings, never plays. Make the counter talk that arc, played in the talk box, ending in the counter form, and delete the visit's sequence. The talk after filing is already the scheduled `filing` scene (purpose `filing-petition`) and stays. Seen: at the filing office the player answers the clerk (asks, pushes back or says "Not today" and leaves), hears about a rival who already filed, and the form opens only when the talk ends in filing.
@@ -42,3 +42,5 @@ branch: claude/pool-words-director-one-path-part-1-filing-scene-situation-type
 Released (2026-11-11): Cause no longer matches main: the after-filing talk is already the filing scene; the pre-filing counter is SG-WORDS-filing-counter-prompts, kept by the CTO's Nov 1 ruling (see the item's PR). Continue on branch claude/pool-words-director-one-path-part-1-filing-scene-situation-type.
 
 Nov 11 (cause finder for Fable B): the earlier "needs a new design" was three concrete gaps. First, the visit picks its own moves. Second, the `filing-clerk` arc's statement has pieces only for a rival or an incumbent, so `composeSceneTalk` skips a first visit in three of three drawn towns (probe undone). Third, no bench code reads an ending's `opens`. The third is split out as part 1a, which this part waits on. The visit already uses the one word maker (`wordSceneMove`), so no second word engine exists. The duplicate is only the move order.
+
+Nov 13 (Words builder W3): built on `claude/words-w3-counter-main` under Fable A's rulings on #8928 (04:19Z, 05:03Z). The three gaps above are closed: the visit no longer picks its moves (the talk after the race is named is `composeSceneTalk` on the `filing-clerk` arc); the arc's statement is the race told, through the arc's new `stateMoves` (tell-running, tell-race, tell-duty, tell-deadline), so a first visit composes; and each reply is a `scene.reply` record. Per Fable A's 05:03Z ruling the race pick and a rule refusal stay the counter screen's own steps, so `openFilingVisit` and `pickContest` remain as those steps; the Done when's "git grep finds nothing" line is replaced by that ruling, and Fable A is asked to confirm. "Not today" (the leave reply) closes the counter with no filing record; the form is the counter's own, opened by the reply that files.

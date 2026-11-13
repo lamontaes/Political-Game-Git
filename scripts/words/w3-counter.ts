@@ -24,7 +24,10 @@ import { buildBenchWorld } from "../../src/bench/world";
 const seed = process.argv[2] ?? "w3-counter";
 setBookkeeping(false);
 for (let attempt = 0; attempt < 6; attempt += 1) {
-  const place = drawPlace(seed, `${process.env.PLACE_TAG ?? "w3-counter"}:${attempt}`);
+  const place = drawPlace(
+    seed,
+    `${process.env.PLACE_TAG ?? "w3-counter"}:${attempt}`,
+  );
   const where = `${place.name} (${place.key}), seed ${seed}, draw ${attempt}`;
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -64,7 +67,11 @@ for (let attempt = 0; attempt < 6; attempt += 1) {
   counter = chooseAtCounter(core, counter, `pick:${contest.id}`);
   show("picked");
   for (let n = 0; n < 4; n += 1) {
-    const say = counter.visit.choices.find((row) => row.key.startsWith("say:"));
+    // SAY=confront asks about the rival first; otherwise the first reply that is not filing or leaving.
+    const says = counter.visit.choices.filter((row) =>
+      row.key.startsWith("say:"),
+    );
+    const say = says.find((row) => row.move === process.env.SAY) ?? says[0];
     if (!say) break;
     counter = chooseAtCounter(core, counter, say.key);
     show(`said ${say.key}`);

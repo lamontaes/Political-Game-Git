@@ -24,6 +24,7 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
   sayAtCounter,
   counterNarration,
+  spokenOffice,
   filedAtCounter,
   openFilingVisit,
   pickContest,
@@ -263,11 +264,16 @@ export function openBenchFilingVisit(
     // A first visit asks for the papers; a filing here still gathering
     // signatures brings the petition back, and one already on the ballot
     // comes back with nothing to bring, each by its record.
+    // The clerk's office is named one way, from the place's filing record
+    // (Fable A, Nov 13, rule 8: "Town clerk" in a town, never "City Clerk"
+    // beside it); the clerk's own title only where that record names a choice.
     intro: clerkRow
       ? counterNarration(
           core,
           visit,
-          clerkRow,
+          / or /i.test(spokenOffice(filedWith))
+            ? clerkRow
+            : { ...clerkRow, title: spokenOffice(filedWith) },
           filedHere(core, playerId, filedWith),
           minuteOfDay,
         )

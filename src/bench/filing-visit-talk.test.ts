@@ -200,9 +200,13 @@ it(`a first visit asks for the papers, the player says only what they chose, and
     const back = openBenchFilingVisit(core, me, filedWith, 10 * 60);
     const told = back.intro.map((line) => line.text).join(" ");
     process.stdout.write(`${where} return (${filing!.status}): ${told}\n`);
-    expect(told, where).toMatch(
-      filing!.status === "petitioning" ? /petition/ : /ballot|nothing left/,
-    );
+    // Once the name is on the ballot there is nothing left to file, and a
+    // scene with nothing to say is not played (Fable A, Nov 13, rule 19).
+    if (filing!.status !== "petitioning") {
+      expect(back.intro, where).toEqual([]);
+      return;
+    }
+    expect(told, where).toMatch(/petition/);
     expect(told, where).not.toMatch(
       /ask (?:about|for the papers)|pick up the papers/,
     );
