@@ -38,6 +38,9 @@ import reachA from "../core2/data/laws/reach-group-a.json" with { type: "json" }
 import reachB from "../core2/data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreAPI, CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
+import { spokenDesignation } from "../english/bill-names";
+import { governmentProperName } from "../core2/government-proper-name";
+import { governmentUnit } from "../core2/reference/government-units";
 import { billPaper, personName } from "./legislature";
 import { townSeats } from "../core2/modules/offices";
 import { deskWaiting } from "../core2/modules/office-day";
@@ -519,6 +522,38 @@ export function callAmendmentVote(
   return billStage(core, row.billId, asId);
 }
 
+/** How many local bodies (a council, a county board) the bills come from. */
+function localBodies(api: CoreAPI, bills: readonly BillRow[]): number {
+  return new Set(
+    bills
+      .filter((bill) =>
+        governmentUnit(bodyOf(api, bill.bodyOfficeId)?.jurisdiction ?? ""),
+      )
+      .map((bill) => bill.bodyOfficeId),
+  ).size;
+}
+
+/**
+ * A local bill's number said with its body: "City Council Ordinance 2025-6",
+ * "County Ordinance 2025-6". The body is said by the government's proper name
+ * (the county's own word, "County" or "Parish"; a town's body without the
+ * town's name). Null for a bill of no listed government.
+ */
+function withBody(api: CoreAPI, bill: BillRow): string | null {
+  const body = bodyOf(api, bill.bodyOfficeId);
+  const unit = body ? governmentUnit(body.jurisdiction) : null;
+  if (!body || !unit) return null;
+  const proper = governmentProperName(body.governmentName, body.jurisdiction);
+  const town = proper.split(" ").slice(2).join(" ");
+  const word =
+    unit.unitType === "county"
+      ? proper.split(" ").at(-1)!
+      : body.bodyName && town && body.bodyName.startsWith(`${town} `)
+        ? body.bodyName.slice(town.length + 1)
+        : (body.bodyName ?? proper);
+  return `${word} ${spokenDesignation(bill.number, bill.form.kind)}`;
+}
+
 /**
  * Bills before the state's chambers and Congress, for following from home: where each is,
  * how the player's own members (the state and federal officials who hold the seats that
@@ -549,41 +584,43 @@ export function followedBills(core: CoreState, asId?: string) {
     .moduleState(LEGISLATURE)
     .table("bills")
     .rows() as unknown as BillRow[];
-  return (
-    rows
-      // The state's and Congress's bills, and the bills of the place's own council and county board:
-      // a bill is followed when its body is a legislature or its law reaches the player's place.
-      .filter(
-        (bill) =>
-          higher(bill.bodyOfficeId) ||
-          reachesTown(api, billJurisdiction(api, bill)),
-      )
-      .sort(
-        (a, b) =>
-          b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
-      )
-      .map((bill) => {
-        const stage = billStage(core, bill.id, asId);
-        return {
-          id: bill.id,
-          number: bill.number,
-          title: billPaper(core, bill.id).title,
-          sponsor: stage.sponsor,
-          stage: stage.stage,
-          status: stage.status,
-          floor: stage.floor.map((c) => ({
-            chamberTitle: c.chamberTitle,
-            result: c.result,
-          })),
-          mine: [...stage.floor, ...stage.override].flatMap((c) =>
-            [...c.yes, ...c.no, ...c.other]
-              .filter((v) => mine.has(v.memberId))
-              .map((v) => ({ ...v, chamberTitle: c.chamberTitle })),
-          ),
-          reachesYou: reachesTown(api, billJurisdiction(api, bill)),
-        };
-      })
+  // The state's and Congress's bills, and the bills of the place's own council and county board:
+  // a bill is followed when its body is a legislature or its law reaches the player's place.
+  const followed = rows.filter(
+    (bill) =>
+      higher(bill.bodyOfficeId) ||
+      reachesTown(api, billJurisdiction(api, bill)),
   );
+  const mixed = localBodies(api, followed) > 1;
+  return followed
+    .sort(
+      (a, b) =>
+        b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
+    )
+    .map((bill) => {
+      const stage = billStage(core, bill.id, asId);
+      return {
+        id: bill.id,
+        // Two local bodies number their bills alike ("Ordinance 2025-6"), so
+        // a list that holds both says each with its body (Fable A, Nov 13,
+        // rule 23); a list of one body keeps the plain number.
+        number: mixed ? (withBody(api, bill) ?? bill.number) : bill.number,
+        title: billPaper(core, bill.id).title,
+        sponsor: stage.sponsor,
+        stage: stage.stage,
+        status: stage.status,
+        floor: stage.floor.map((c) => ({
+          chamberTitle: c.chamberTitle,
+          result: c.result,
+        })),
+        mine: [...stage.floor, ...stage.override].flatMap((c) =>
+          [...c.yes, ...c.no, ...c.other]
+            .filter((v) => mine.has(v.memberId))
+            .map((v) => ({ ...v, chamberTitle: c.chamberTitle })),
+        ),
+        reachesYou: reachesTown(api, billJurisdiction(api, bill)),
+      };
+    });
 }
 
 /**
