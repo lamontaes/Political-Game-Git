@@ -1006,6 +1006,11 @@ function placeFiled(
 }
 registerMeetingHold(holdsMemberFilings, placeFiled);
 registerCommitteeWait((api, bill) => {
+  // Only the player's own body can wait: one indexed read of the player's
+  // seats answers false for every other body before any agenda is read.
+  const player = playerOf(api);
+  if (!player || !officeHost.officesOf(api, player).includes(bill.bodyOfficeId))
+    return false;
   const placed = table(api, "agendaItems").get(bill.id) as unknown as
     { date: string } | undefined;
   return (
