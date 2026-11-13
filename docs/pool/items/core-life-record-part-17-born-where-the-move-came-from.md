@@ -2,7 +2,7 @@
 id: core-life-record-part-17-born-where-the-move-came-from
 title: "The life record, part 17: a person brought to the county is born where their move came from, never in the town they moved to"
 area: people
-kind: fix
+kind: bug
 priority: 1
 size: S
 status: in-pr
