@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/pool-core-life-record-part-6-the-past-holds-what-happened-between-people
-pr: #8670
+pr: #8957
 after:
 blocked-on:
 lead: lives
@@ -37,4 +37,4 @@ branch: claude/pool-core-life-record-part-6-the-past-holds-what-happened-between
 
 **Files.** src/core2/person-life.ts (new), src/core2/past-work.ts, src/core2/modules/partnerships.ts, src/core2/modules/health.ts
 
-**Notes.** Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:03 UTC) on branch claude/pool-core-life-record-part-6-the-past-holds-what-happened-between-people.
+**Notes.** Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:03 UTC) on branch claude/pool-core-life-record-part-6-the-past-holds-what-happened-between-people. Nov 13, Life records builder opus-lr: carried to main by #8957, which holds this branch's commits with the other-parent change, merged with main and gated together; #8670 closes as contained when #8957 merges. The words bar's cards for this item are in `docs/seen/life-record-partners-and-stays/` (Fable A read and passed them at 03:22Z). Set this item to merged with `npm run pool -- status core-life-record-part-6-the-past-holds-what-happened-between-people merged --pr 8957` once #8957 merges, since line 1 of #8957 names part 15.

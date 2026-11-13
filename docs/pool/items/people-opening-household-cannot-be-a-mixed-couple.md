@@ -5,8 +5,8 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/pool-people-opening-household-cannot-be-a-mixed-couple
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: high
 root: rc3-thin-life-record
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T02:41:21.901Z
+claimed-at:
 branch: claude/pool-people-opening-household-cannot-be-a-mixed-couple
 ---
 
@@ -44,3 +44,5 @@ Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier 
 Released (2026-11-11): Cause confirmed in src/core2/opening-origin.ts (withOrigins gives a household one origin draw, childOrigin picks one parent's). The Fix needs a sourced rate of couples across origins by place (a researched table with fetched pages and spread), per-adult draws, child looks from both parents, and a family-event record explaining a differing surname: more than a bounded pass, and the rate must be researched first (skill researcher). Split into research, per-adult origin and couple formation, child looks, surname record. Continue on branch claude/pool-people-opening-household-cannot-be-a-mixed-couple.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:41 UTC) on branch claude/pool-people-opening-household-cannot-be-a-mixed-couple.
+
+Released by next (2026-11-13): no push to claude/pool-people-opening-household-cannot-be-a-mixed-couple since 2026-11-11 02:40 UTC, more than twice its 8-hour time box. Continue on branch claude/pool-people-opening-household-cannot-be-a-mixed-couple.
