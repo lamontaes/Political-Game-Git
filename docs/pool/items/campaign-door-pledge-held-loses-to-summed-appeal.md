@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/project-thread-pnra81
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -16,7 +16,8 @@ model: sonnet
 effort: medium
 root: none
 source: Gate desk 2, Nov 11, 2026 (10:50 UTC on the crew's issue and on #8580), cause written in by the cause finder for Fable B
-claimed-at: 2026-11-13T04:39:34.537Z
+claimed-at:
+branch: claude/project-thread-pnra81
 ---
 
 **What.** src/core2/door-pledge.test.ts, "a door yes is near-binding", fails by draw on clean main (3dc5bfe1d9): Gate desk 2 saw 2 of 3 runs red. The failure it read: ballot:contest:seat:US-ID:governor:2026-11-03:person_8c34db6fdff0809e "broke a held pledge". The voter's yes at the door to the test's candidate held in full on election day (the ballot's pledge part equals the whole pledge weight), yet the ballot's choice is official:nominee:Republican:contest:seat:US-ID:governor:2026-11-03. The owner ruled on Oct 29 that a yes at the door is near-binding, so the game is wrong here, not the test. Seen: a resident who told the player "yes" at the door votes for the other party's nominee with nothing learned since to undo it, which the race's results in dev mode show by ballot.
@@ -42,3 +43,5 @@ claimed-at: 2026-11-13T04:39:34.537Z
 **Files.** src/core2/modules/voting.ts, src/core2/electorate.ts, src/core2/data/campaigns/parameters.json, src/core2/door-pledge.test.ts
 
 **Notes.** Not run here: the cause is from the code and Gate desk 2's failing ballot, read-only on the game, inside a 45-minute box. A builder should first print the failing ballot's `appeal` (the test's message holds it as JSON) to confirm that the nominee's total minus the candidate's, without the pledge, exceeds 2. Related, separate: campaign-door-pledge-held-read-at-ballot (#8525) fixes a drift in `pledgeDoubt` after election day, which is a different cause of this test going red.
+
+Released (2026-11-13): the fix described here (liftHeldPledges in electorate.ts, used by voting.ts appealFor) is already on main; needs a close-out, not a build. Continue on branch claude/project-thread-pnra81.
