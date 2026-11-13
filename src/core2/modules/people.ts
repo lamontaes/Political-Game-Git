@@ -16,8 +16,6 @@
  * Part 4: after a death, relatives grieve (grief.ts); grief pulls toward rest
  * and family and holds back organizing as it fades.
  */
-import { pastHealthFor } from "../past-health";
-import { pastPartnersFor } from "../past-partners";
 import { REMEMBERED_RECORD_KINDS, rememberEvent } from "../person-life";
 import {
   addDays,
@@ -51,6 +49,12 @@ import {
   type HistoryWriter,
   type PreStartModule,
   type PreStartWindow,
+  pastHealthFor,
+  pastJusticeFor,
+  pastPartnersFor,
+  pastServiceFor,
+  prisonTermOf,
+  wholePastOpened,
 } from "../past-module";
 import type {
   ActOffer,
@@ -61,7 +65,9 @@ import type {
   Relationship,
 } from "../types";
 import { offer } from "./life";
-import { departureRateFor, livesElsewhere } from "./moves";
+import { departureRateFor, livesElsewhere, withinCountyRateFor } from "./moves";
+import { coreAPI } from "../state";
+import { pastViewShifts, setPastViewShifts } from "./views";
 import { pairKey } from "../kernel/ids";
 import { bookkeeping } from "../bookkeeping";
 import { registerWorldMapPart } from "../snapshot";
@@ -173,7 +179,12 @@ export {
 } from "../closeness";
 // The vote record's id and rows, the key people of the opening and the school
 // measure's id and rows, for readers outside the family.
-export { RECORD_MODULE_ID, votesOf, type VoteRecordRow } from "./record";
+export {
+  RECORD_MODULE_ID,
+  promisesOf,
+  votesOf,
+  type VoteRecordRow,
+} from "./record";
 export { keyPeopleOf } from "../opening-key-people";
 // The town's moves, for the screens that count them: counted households'
 // move records and a named resident's moved-away event.
@@ -189,7 +200,7 @@ export { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../school-measures";
 export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";
 export { SPEECH_MODULE_ID, addressesGivenBy, deliverSpeech } from "./speech";
-export { ENCOUNTERS, meetInTalk } from "../encounters";
+export { ENCOUNTERS, meetAtMeeting, meetInTalk } from "../encounters";
 // Disputes between two people from layoffs and evictions, for the world that opens them.
 export { openGrievance } from "./grievance";
 // A household's month of income (its open jobs and income awards), for
@@ -242,6 +253,15 @@ function shareHomeTime(api: CoreAPI): void {
         const family = a.familyIds.has(b.id);
         // Housemates who are not family start where living together settles.
         if (opening) {
+          // People who live together know each other's names: the household's
+          // own record is where they learned them.
+          if (!family)
+            api.meet(a.id, b.id, {
+              placeId: a.placeId,
+              sourceId: `household:${household.id}:opening`,
+              hours: p("zero"),
+              cause: ENCOUNTERS.causes.openingHome,
+            });
           if (!family && !core.relationships.has(pairKey(a.id, b.id)))
             api.relationship(
               a.id,
@@ -341,7 +361,7 @@ function peopleHistory(
     date >= window.from && date <= window.through;
   // Who came to the county and when, first: births, schools, the working
   // life and partnerships are placed by where people lived.
-  pastMovesHistory(api, window, history, departureRateFor);
+  pastMovesHistory(api, window, history, departureRateFor, withinCountyRateFor);
   for (const person of api.state.people.values()) {
     if (person.tier === "husk") continue;
     if (inside(person.birthDate)) {
@@ -583,11 +603,63 @@ export function openWholePast(core: CoreState, personId: PersonId): void {
   // A relative living elsewhere is opened the same way, one card at a time;
   // the inactive tier's other people (the counts, the central bank) are not.
   if (person.tier === "husk" && !livesElsewhere(core, person)) return;
-  pastMovesFor(core, [person], departureRateFor, PEOPLE_MODULE_ID);
+  writePast(core, person);
+  // What their past did to their view (part 14), and what this past does to
+  // the views of their children already opened: a parent's layoff is read
+  // once the parent's own past is written, whichever is opened first.
+  const api = coreAPI(core);
+  pastViewsOf(api, person);
+  for (const childId of relativesOf(person, "family:child")) {
+    const child = core.people.get(childId as PersonId);
+    if (child && wholePastOpened(core, child.id, PAST_PASSES))
+      pastViewsOf(api, child);
+  }
+}
+
+/** The passes every opened past runs (`wholePastOnce`). */
+const PAST_PASSES = ["work"] as const;
+
+/** A person's view moved by their own past and their opened parents' (part 14). */
+function pastViewsOf(api: CoreAPI, person: PersonState): void {
+  const parents = parentIdsOf(person).flatMap((id) => {
+    const parent = api.state.people.get(id as PersonId);
+    return parent && wholePastOpened(api.state, parent.id, PAST_PASSES)
+      ? [parent]
+      : [];
+  });
+  // stopgapId: SG-PEOPLE-past-views-two-events
+  // stopgapId: SG-PEOPLE-past-views-full-people-only
+  api.stopgap("SG-PEOPLE-past-views-two-events");
+  api.stopgap("SG-PEOPLE-past-views-full-people-only");
+  setPastViewShifts(api, person.id, pastViewShifts(api, person, parents));
+}
+
+/** The relatives a person's records name by one family fact. */
+function relativesOf(person: Readonly<PersonState>, kind: string): string[] {
+  return (person.pastFacts ?? []).flatMap((fact) =>
+    fact.kind === kind && fact.facts?.otherPersonId
+      ? [fact.facts.otherPersonId]
+      : [],
+  );
+}
+
+/** The passes that write a person's past, each once (moves first: the others place each year where they lived). */
+function writePast(core: CoreState, person: PersonState): void {
+  pastMovesFor(
+    core,
+    [person],
+    departureRateFor,
+    PEOPLE_MODULE_ID,
+    withinCountyRateFor,
+  );
   schoolHistoryFor(core, [person]);
   pastWorkFor(core, [person], PEOPLE_MODULE_ID);
   pastPartnersFor(core, [person], PEOPLE_MODULE_ID);
   pastHealthFor(core, [person], PEOPLE_MODULE_ID);
+  pastServiceFor(core, [person], PEOPLE_MODULE_ID);
+  pastJusticeFor(core, [person], PEOPLE_MODULE_ID, (one) =>
+    prisonTermOf(core, one),
+  );
 }
 
 /**

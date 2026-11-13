@@ -23,6 +23,8 @@
     "here": "The town or county the person lives in now, from the place records.",
     "age": "How old the person was then, from their birth record and the record's date.",
     "child": "A child's first name from their record.",
+    "kin": "Who lives with the person, each as they call them (\"your mother\", \"your daughters\"), joined with \"or\", from the household and family records.",
+    "offense": "The offense the justice engine's record names: bribery.",
     "parent": "Who the partner is to the people the line is told to, from the child's other-parent record, said only when the record holds it: on someone else's card \"your father\" or \"the children's mother\"; in the first person, on the player's own card, \"my children's father\" or \"my daughter's mother\"."
   },
   "maxWords": 24,
@@ -166,24 +168,6 @@
       "key": "person-history.story.partner.home.they",
       "move": "story",
       "text": "They made a home with {name}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.partner.home-you.third",
-      "move": "story",
-      "text": "{who} made a home with you.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.partner.home-you.they",
-      "move": "story",
-      "text": "They made a home with you.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -426,10 +410,10 @@
     {
       "key": "person-history.summary.before.vice-president",
       "move": "summary",
-      "text": "Was vice president before that.",
+      "text": "Was vice president before winning in {year}.",
       "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
+      "author": "Words builder W2 (person-history inserts)",
+      "date": "2026-11-12",
       "kind": "written"
     },
     {
@@ -453,10 +437,10 @@
     {
       "key": "person-history.summary.before.cabinet",
       "move": "summary",
-      "text": "Served in the cabinet before that.",
+      "text": "Served in the cabinet before the {year} election.",
       "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
+      "author": "Words builder W2 (person-history inserts)",
+      "date": "2026-11-12",
       "kind": "written"
     },
     {
@@ -487,6 +471,33 @@
       "kind": "written"
     },
     {
+      "key": "person-history.summary.work.outside",
+      "text": "Works outside {place}.",
+      "move": "summary",
+      "origin": "authored",
+      "author": "Words builder W2 (work outside the town)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.outside.you",
+      "text": "You work outside {place}.",
+      "move": "summary",
+      "origin": "authored",
+      "author": "Words builder W2 (work outside the town)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.outside.first",
+      "text": "I work outside {place}.",
+      "move": "summary",
+      "origin": "authored",
+      "author": "Words builder W2 (work outside the town)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
       "key": "person-history.summary.work.employer.you",
       "move": "summary",
       "text": "You work at {employer}.",
@@ -507,10 +518,19 @@
     {
       "key": "person-history.summary.no-work.none.you",
       "move": "summary",
-      "text": "You have no job, and nobody in your household draws a wage.",
+      "text": "Nobody at home has a job, not you and not {kin}.",
       "origin": "authored",
-      "author": "Lane 4, Screens (play-who-you-are-says-why-no-job)",
-      "date": "2026-11-04",
+      "author": "Words builder W2 (person-history inserts)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.no-work.alone.you",
+      "move": "summary",
+      "text": "You live alone, and you have been out of work since {month}.",
+      "origin": "authored",
+      "author": "Words builder W2 (person-history inserts)",
+      "date": "2026-11-12",
       "kind": "written"
     },
     {
@@ -730,24 +750,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.partner.moved-in-you.third",
-      "move": "story",
-      "text": "{who} moved in with you in {year}.",
-      "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.partner.moved-in-you.they",
-      "move": "story",
-      "text": "They moved in with you in {year}.",
-      "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.partner.engaged.third",
       "move": "story",
       "text": "{who} got engaged to {name} in {year}.",
@@ -858,19 +860,37 @@
     {
       "key": "person-history.story.law.accused.third",
       "move": "story",
-      "text": "{who} was accused of a crime in {year}.",
+      "text": "{who} was accused of {offense} in {year}.",
       "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
+      "author": "Words builder W2 (Fable A, Nov 13: the accusation names its offense)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.arrested.third",
+      "move": "story",
+      "text": "{who} was arrested in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: an arrest before play said as an arrest)",
+      "date": "2026-11-13",
       "kind": "written"
     },
     {
       "key": "person-history.story.law.accused.they",
       "move": "story",
-      "text": "They were accused of a crime in {year}.",
+      "text": "They were accused of {offense} in {year}.",
       "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
+      "author": "Words builder W2 (Fable A, Nov 13: the accusation names its offense)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.arrested.they",
+      "move": "story",
+      "text": "They were arrested in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: an arrest before play said as an arrest)",
+      "date": "2026-11-13",
       "kind": "written"
     },
     {
@@ -1434,10 +1454,19 @@
     {
       "key": "person-history.story.law.accused.i",
       "move": "story",
-      "text": "I was accused of a crime in {year}.",
+      "text": "I was accused of {offense} in {year}.",
       "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
+      "author": "Words builder W2 (Fable A, Nov 13: the accusation names its offense)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.arrested.i",
+      "move": "story",
+      "text": "I was arrested in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: an arrest before play said as an arrest)",
+      "date": "2026-11-13",
       "kind": "written"
     },
     {

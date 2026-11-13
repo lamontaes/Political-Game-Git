@@ -24,16 +24,16 @@ import {
   type GenderIdentityKey,
 } from "./gov-rules/person-identity";
 import { birthCohortGivenName } from "./gov-rules/given-name-cohorts";
-import { drawCanonicalNamedIdentity } from "./person-names";
-import { ssa2023AnnualProbability } from "./health-mortality-table";
 import {
+  drawCanonicalNamedIdentity,
   maritalShares,
   partnerAgeFor,
   partneringPerYear,
   partnershipGeo,
   separatingPerYear,
+  ssa2023AnnualProbability,
   type Sex,
-} from "./opening-partnership";
+} from "./modules/partnerships";
 import { ownPastKind } from "./own-past-kinds";
 import {
   grainDate,

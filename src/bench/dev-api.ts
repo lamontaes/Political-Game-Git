@@ -134,6 +134,7 @@ export async function handleDev(
           ...(input.effectiveDate
             ? { effectiveDate: String(input.effectiveDate) }
             : {}),
+          ...(input.stateKey ? { stateKey: String(input.stateKey) } : {}),
         }),
       );
       return true;
@@ -247,6 +248,7 @@ export async function handleDev(
           series: input.series === undefined ? undefined : String(input.series),
           value: input.value === undefined ? undefined : Number(input.value),
           unit: input.unit === undefined ? undefined : String(input.unit),
+          repeal: input.repeal === true,
           billId: input.billId === undefined ? undefined : String(input.billId),
           schedule: input.schedule === true,
         }),

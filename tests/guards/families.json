@@ -144,7 +144,8 @@
       "entry": [
         "src/core2/modules/budgets.ts",
         "src/core2/modules/finance.ts",
-        "src/core2/budgets-treasury.ts"
+        "src/core2/budgets-treasury.ts",
+        "src/core2/tax-index.ts"
       ],
       "paths": [
         "src/core2/modules/budgets.ts",
@@ -175,13 +176,15 @@
         "src/core2/modules/outcome-web.ts",
         "src/core2/law-reach/applied.ts",
         "src/core2/modules/federal-courts.ts",
-        "src/core2/laws-in-force.ts"
+        "src/core2/laws-in-force.ts",
+        "src/core2/modules/police-patrol.ts"
       ],
       "paths": [
         "src/core2/modules/laws.ts",
         "src/core2/modules/justice.ts",
         "src/core2/modules/public-safety.ts",
         "src/core2/modules/crime.ts",
+        "src/core2/modules/police-patrol.ts",
         "src/core2/modules/corruption.ts",
         "src/core2/modules/outcome-web.ts",
         "src/core2/modules/prices-web-gaps.ts",
@@ -284,17 +287,20 @@
         "src/core2/hearer-groups.ts",
         "src/core2/household-cost.ts",
         "src/core2/housing-status-event.ts",
+        "src/core2/moved-away-event.ts",
         "src/core2/husk-promoters.ts",
         "src/core2/closeness.ts",
         "src/core2/trait-decisions.ts",
         "src/core2/modules/moves.ts",
-        "src/core2/person-work.ts"
+        "src/core2/person-work.ts",
+        "src/core2/home-distance.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
         "src/core2/modules/residents.ts",
         "src/core2/modules/life.ts",
         "src/core2/modules/moves.ts",
+        "src/core2/moved-away-event.ts",
         "src/core2/modules/counted-moves.ts",
         "src/core2/returned-members-move.ts",
         "src/core2/modules/counted-demotion.ts",
@@ -405,6 +411,7 @@
         "src/core2/place-lookup.ts",
         "src/core2/player-control-state-v1.ts",
         "src/core2/modules/national-events.ts",
+        "src/core2/national-disaster-event.ts",
         "src/core2/opening-county-sample.ts",
         "src/core2/opening-tenure.ts",
         "src/core2/opening-origin.ts",
@@ -427,6 +434,7 @@
         "src/core2/opening-*.ts",
         "src/core2/fast-forward.ts",
         "src/core2/modules/national-events.ts",
+        "src/core2/national-disaster-event.ts",
         "src/core2/modules/climate.ts"
       ]
     },

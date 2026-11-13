@@ -10,6 +10,7 @@
     "politics",
     "business",
     "home",
+    "service",
     "school",
     "work",
     "move"
@@ -998,9 +999,59 @@
       "what": "started"
     },
     {
+      "kind": "school.finished",
+      "life": "school",
+      "what": "finished"
+    },
+    {
+      "kind": "school.college-started",
+      "life": "school",
+      "what": "college-started"
+    },
+    {
+      "kind": "school.college-ended",
+      "life": "school",
+      "what": "college-ended"
+    },
+    {
+      "kind": "military.enlisted",
+      "life": "service",
+      "what": "enlisted"
+    },
+    {
+      "kind": "military.discharged",
+      "life": "service",
+      "what": "discharged"
+    },
+    {
       "kind": "person.moved-in",
       "life": "move",
       "what": "moved-in"
+    },
+    {
+      "kind": "justice.arrested-before",
+      "life": "law",
+      "what": "arrested"
+    },
+    {
+      "kind": "justice.convicted-before",
+      "life": "law",
+      "what": "convicted"
+    },
+    {
+      "kind": "justice.imprisoned-before",
+      "life": "law",
+      "what": "imprisoned"
+    },
+    {
+      "kind": "justice.released-before",
+      "life": "law",
+      "what": "released"
+    },
+    {
+      "kind": "person.moved-within",
+      "life": "move",
+      "what": "moved-within"
     },
     {
       "kind": "family.partnered",

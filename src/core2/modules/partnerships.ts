@@ -54,6 +54,7 @@ import {
 } from "../gov-rules/person-identity";
 import { birthCohortGivenName } from "../gov-rules/given-name-cohorts";
 import { livesElsewhere } from "./moves";
+import { takeCoarsePerson } from "./counted-moves";
 import { reviewMentorship } from "./mentorship";
 import { rescueOnset } from "./rescue";
 import { quarrelOverMoney } from "./quarrel";
@@ -64,6 +65,20 @@ import {
   scheduleBirthdays,
 } from "./kin-contact";
 import { declareSnapshotCovered } from "../snapshot";
+
+// The partnership chain, for the past family's run of earlier partnerships
+// before the start (src/core2/past-partners.ts): one chain, read through
+// this entry.
+export {
+  maritalShares,
+  partnerAgeFor,
+  partneringPerYear,
+  partnershipGeo,
+  separatingPerYear,
+  type Sex,
+} from "../opening-partnership";
+export { drawCanonicalNamedIdentity } from "../person-names";
+export { ssa2023AnnualProbability } from "../health-mortality-table";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -187,6 +202,10 @@ function meetPartner(
     api.parameter("votingAge"),
   );
   if (partnerAge === undefined) return undefined;
+  // They are one of the people the state's counts already hold, so the state
+  // gives up one in their band and the total is unchanged.
+  if (livesElsewhere(core, person))
+    takeCoarsePerson(api, person.placeId, partnerAge);
   const id = createStableId("person", `${core.seed}:${key}`) as PersonId;
   const year = Number(core.date.slice(0, 4)) - partnerAge;
   const birthDate = makeIsoDate(`${year}${core.date.slice(4, 10)}` as IsoDate);

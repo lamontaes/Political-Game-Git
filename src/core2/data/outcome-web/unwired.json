@@ -62,12 +62,6 @@
       "stopgapId": "SG-EW-HEALTH-person-level"
     },
     {
-      "link": "coverage-to-medical-debt",
-      "outcome": "finance.medical-debt-in-collections",
-      "reason": "the web does not run it: it waits on health.coverage-pct; nothing in the core records its cause, health.coverage-pct",
-      "stopgapId": "SG-WEB-unread-finance-medical-debt-in-collections"
-    },
-    {
       "link": "coverage-to-depression",
       "outcome": "health.depression",
       "reason": "no measure: the web does not keep health.depression and no engine produces it; nothing in the core records its cause, health.coverage",
@@ -264,6 +258,12 @@
       "outcome": "health.child-asthma-pct",
       "reason": "engine doesn't read the factor: health.child-asthma-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-EW-HEALTH-condition-record"
+    },
+    {
+      "link": "fare-free-transit-to-ridership",
+      "outcome": "transit.ridership",
+      "reason": "Under a fare-free law the transit fare is zero, so the price engine multiplies the web's ridership factor into a zero fare and the added riders move no money; no other engine reads transit.ridership (stopgap SG-WEB-fare-free-riders-unread).",
+      "stopgapId": "SG-WEB-fare-free-riders-unread"
     },
     {
       "link": "farm-payments-cut-to-land-values",

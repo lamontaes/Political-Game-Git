@@ -7,8 +7,8 @@ priority: 1
 size: S
 status: open
 standard: 2
-claimed-by:
-pr: #5875
+claimed-by: claude/pool-roadmap-m1-flip-proven-three
+pr: "#8718"
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:

@@ -565,10 +565,23 @@ export class DevMode {
     unit?: string;
     repeal?: boolean;
     effectiveDate?: string;
+    /** Another state's law ("US-XX"), set at the state level under that state's key; the town's own state keeps its chain's level. */
+    stateKey?: string;
   }) {
     const api = this.api;
     const chain = lawChain(api);
-    const level = chain.levels.find((l) => l.level === input.level);
+    const other = input.stateKey;
+    if (other !== undefined) {
+      if (!/^US-[A-Z]{2}$/.test(other))
+        throw new Error(`Not a state key: ${other}`);
+      if (other === chain.stateKey)
+        throw new Error("The town's own state is set by its own level.");
+      if (input.level !== "state")
+        throw new Error("Another state's law is set at the state level.");
+    }
+    const level = other
+      ? { level: "state" as LawLevel, jurisdiction: other }
+      : chain.levels.find((l) => l.level === input.level);
     if (!level) throw new Error(`This place has no ${input.level} level.`);
     if (!lawSeriesCatalog(api).includes(input.series))
       throw new Error(`Unknown law series: ${input.series}`);
@@ -985,6 +998,8 @@ export class DevMode {
     series?: string;
     value?: number;
     unit?: string;
+    /** Repeal the body's own law on an amount series: its level holds what it held before, including nothing. */
+    repeal?: boolean;
     billId?: string;
     /** Put the bill on the body's next sitting, as its sponsor's calendar would (a floor day the member is held for). */
     schedule?: boolean;
@@ -1028,6 +1043,7 @@ export class DevMode {
               kind: "law-amount",
               series,
               value,
+              ...(input.repeal ? { repeal: true } : {}),
               ...(input.unit ? { unit: input.unit } : {}),
             },
       ];
@@ -1290,7 +1306,14 @@ export class DevMode {
           : type.causes.some((c) => c.match)
             ? "moment"
             : null);
-      return { key: type.key, causeRecords, waiting, recipe };
+      // What dev mode can do for it: bring it about now (an engine's own function), run the world
+      // until its cause record comes, or nothing (no engine writes its cause yet).
+      const state = !recipe
+        ? ("none" as const)
+        : recipe === "wait" || recipe === "moment"
+          ? ("waits" as const)
+          : ("plays" as const);
+      return { key: type.key, causeRecords, waiting, recipe, state };
     });
   }
 

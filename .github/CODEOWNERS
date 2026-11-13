@@ -128,6 +128,7 @@
 /src/core2/modules/justice.ts @lamontaes
 /src/core2/modules/public-safety.ts @lamontaes
 /src/core2/modules/crime.ts @lamontaes
+/src/core2/modules/police-patrol.ts @lamontaes
 /src/core2/modules/corruption.ts @lamontaes
 /src/core2/modules/outcome-web.ts @lamontaes
 /src/core2/modules/prices-web-gaps.ts @lamontaes
@@ -201,6 +202,7 @@
 /src/core2/modules/residents.ts @lamontaes
 /src/core2/modules/life.ts @lamontaes
 /src/core2/modules/moves.ts @lamontaes
+/src/core2/moved-away-event.ts @lamontaes
 /src/core2/modules/counted-moves.ts @lamontaes
 /src/core2/returned-members-move.ts @lamontaes
 /src/core2/modules/counted-demotion.ts @lamontaes
@@ -310,6 +312,7 @@
 /src/core2/opening-*.ts @lamontaes
 /src/core2/fast-forward.ts @lamontaes
 /src/core2/modules/national-events.ts @lamontaes
+/src/core2/national-disaster-event.ts @lamontaes
 /src/core2/modules/climate.ts @lamontaes
 
 # News and the press (news)

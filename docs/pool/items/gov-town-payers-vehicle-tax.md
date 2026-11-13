@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr: #5103
@@ -49,3 +49,5 @@ Folded in Oct 25 from gov-vehicle-tax-rate. Its done when: In a played world in 
 Folded in Oct 25 from gov-vehicle-tax-payment. Its done when: In a played world in a drawn place over one year, each payment is a journal record from a named household to a named treasury, every installment's outside amount plus the town's credit equals the installment, and every dollar balances. A test in src/core2 draws a random place from all 56 with a named seed and proves it in buildBenchWorld over a one-year run, naming the record ids.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have given every household vehicles and taxed them; the outside group already pays that tax, so no player sees the difference.
