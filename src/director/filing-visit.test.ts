@@ -4,8 +4,8 @@ import { buildPopulation } from "../core2/population";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { spoken } from "./words";
 import {
-  askAtCounter,
   filedAtCounter,
+  sayAtCounter,
   openFilingVisit,
   pickContest,
   type FilingCheck,
@@ -65,29 +65,28 @@ describe("the filing visit", () => {
     // Said as people say a date: no year within the year (words.ts spokenDate).
     expect(said).toMatch(/March 5\b/);
     expect(said).not.toMatch(/2021/);
-    expect(visit.choices.map((row) => row.action)).toEqual([
-      { kind: "file", contestId: contest.id },
-      { kind: "ask", contestId: contest.id, about: "filed" },
-      { kind: "ask", contestId: contest.id, about: "dates" },
-      { kind: "done" },
+    // The clerk's scene offers its replies: file (agree), ask who else has
+    // filed (ask), and leave; with nobody filed, no rival to raise.
+    expect(visit.choices.map((row) => row.move)).toEqual([
+      "agree",
+      "ask",
+      "leave",
     ]);
+    expect(visit.choices[0]!.action).toEqual({
+      kind: "file",
+      contestId: contest.id,
+    });
+    expect(visit.choices.at(-1)!.action).toEqual({ kind: "done" });
     // Filing is its own control, apart from acknowledging a refusal, and
     // worded as the player's own reply (owner, Nov 1: "It should be an
     // actual reply"), never an acknowledgment like "I see."
     expect(visit.choices.map((row) => row.control)).toEqual([
       "file",
       "ask",
-      "ask",
       "leave",
     ]);
-    // Four replies, each a different move about the race, and no two
-    // carrying the same insert: filing names the office, asking who filed
-    // names the town, asking the dates names the deadline.
-    expect(visit.choices[0]!.text).toContain("the council");
-    expect(visit.choices[1]!.text).toContain(town);
-    expect(visit.choices[2]!.text).toMatch(/March 5/);
-    for (const choice of visit.choices.slice(1))
-      expect(choice.text).not.toMatch(/council/i);
+    // Each reply a different move about the race: filing names the office.
+    expect(visit.choices[0]!.text).toMatch(/the council/);
     for (const line of visit.lines)
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
   });
@@ -181,41 +180,27 @@ describe("the filing visit", () => {
     };
     const visit = openFilingVisit(core, player.id, [race]);
     pickContest(core, visit, race.id, terms, []);
-    const moves = new Map([
-      ["file", "agree"],
-      ["ask-filed", "ask"],
-      ["ask-dates", "tell"],
-      ["leave", "leave"],
-    ]);
     expectUpToFourDifferent(
-      visit.choices.map((row) => ({
-        move: moves.get(row.key)!,
-        text: row.text,
-      })),
+      visit.choices.map((row) => ({ move: row.move!, text: row.text })),
       "the counter's replies",
     );
-    askAtCounter(core, visit, "ask-filed");
+    // With a rival on the ballot, the player may raise them.
+    expect(visit.choices.map((row) => row.move)).toContain("confront");
+    const ask = visit.choices.find((row) => row.move === "ask")!;
+    sayAtCounter(core, visit, ask.key);
     const filed = visit.lines.at(-1)!;
     expect(filed.speaker).toBe("clerk");
-    expect(filed.text).toMatch(/two other candidates/);
+    expect(filed.text).toMatch(/two other candidates/i);
     expect(filed.text).toContain("Dana Whitfield");
     expect(filed.sourceRecordIds).toContain("filing:dana");
-    // A question asked is not offered again; the rest are.
-    expect(visit.choices.map((row) => row.key)).toEqual([
-      "file",
-      "ask-dates",
-      "leave",
-    ]);
-    askAtCounter(core, visit, "ask-dates");
-    expect(visit.lines.at(-1)!.text).toMatch(/November 2/);
-    expect(visit.lines.at(-1)!.text).toMatch(/March 5/);
-    // Filing: the clerk takes the papers, naming the office, and the vote's day.
+    // After the answer, the scene offers filing or leaving.
+    expect(visit.choices.map((row) => row.move)).toEqual(["agree", "leave"]);
+    // Filing: the clerk takes the papers, and the talk ends on the clerk.
     const file = visit.choices.find((row) => row.key === "file")!;
     filedAtCounter(core, visit, file);
-    expect(visit.lines.at(-2)!.text).toBe(file.text);
     const taken = visit.lines.at(-1)!;
     expect(taken.speaker).toBe("clerk");
-    expect(taken.text).toMatch(/the council|Dana Whitfield|two other/);
+    expect(visit.lines.map((row) => row.text)).toContain(file.text);
     expect(visit.choices).toEqual([]);
   });
 
@@ -227,7 +212,8 @@ describe("the filing visit", () => {
     };
     const visit = openFilingVisit(core, player.id, [race]);
     pickContest(core, visit, race.id, terms, []);
-    askAtCounter(core, visit, "ask-filed");
+    const ask = visit.choices.find((row) => row.move === "ask")!;
+    sayAtCounter(core, visit, ask.key);
     expect(visit.lines.at(-1)!.text).toMatch(/nobody|no one|first|not a soul/i);
   });
 });

@@ -330,6 +330,12 @@ export interface SceneTalkOptions {
   includeHeld?: boolean;
   /** The "no" verdicts of the reply rule to read instead of the file's (tests). */
   replyFollows?: ReplyFollowsTable;
+  /**
+   * The screen has already told the setting (the filing counter narrates the
+   * clerk and the office as the player walks in): the scene says no
+   * narration of its own and is not skipped for want of one.
+   */
+  setupTold?: boolean;
 }
 
 export type SceneTalkResult =
@@ -1017,21 +1023,23 @@ export function composeSceneTalk(
 
   // The setup: the narrator's paragraph for this purpose and key, with no
   // traits, so it reads the same for every profile.
-  const narrate = render(
-    { step: "narrate", move: "narrate", role: "narrator", ...base },
-    cast.askerId,
-    {},
-    "narrate",
-    none,
-  );
-  if (!narrate)
+  const narrate = options.setupTold
+    ? null
+    : render(
+        { step: "narrate", move: "narrate", role: "narrator", ...base },
+        cast.askerId,
+        {},
+        "narrate",
+        none,
+      );
+  if (!narrate && !options.setupTold)
     return {
       kind: "skipped",
       reason: unusedGap
         ? `piece gap: no unused narration for ${purpose}`
         : `no narration for ${purpose} can be worded from the records given`,
     };
-  let said = addParts(none, narrate);
+  let said = narrate ? addParts(none, narrate) : none;
   // The open's move: a purpose may open on a detail ("react") instead of a greeting.
   const openMove =
     sceneMovesWritten({

@@ -115,6 +115,8 @@ export interface FilingVisit {
      * acknowledge a refusal.
      */
     control: "pick" | "file" | "ask" | "leave" | "acknowledge";
+    /** The move the reply makes in the clerk's scene (agree, ask, confront, leave). */
+    move?: string;
     action: FilingAction;
     sourceRecordIds: readonly string[];
   }[];
@@ -297,17 +299,20 @@ const FILING_CLERK: PurposeType = {
  */
 function clerkScene(core: Readonly<CoreState>, visit: FilingVisit) {
   const picked = visit.picked;
-  if (!picked || !visit.clerkId) return null;
+  if (!picked) return null;
   const result = composeSceneTalk(
     core,
     undefined,
     {
-      askerId: visit.clerkId,
+      askerId: visit.clerkId ?? visit.playerId,
       askedId: visit.playerId,
       causeId: picked.contestId,
     },
     FILING_CLERK,
     picked.facts,
+    {},
+    // The counter narrates the clerk and the office as the player walks in.
+    { setupTold: true },
   );
   return result.kind === "composed" ? result.talk : null;
 }
@@ -335,6 +340,7 @@ function offerReplies(visit: FilingVisit, node: TreeNode): void {
     const move = reply.line.move;
     const base = {
       text: reply.line.text,
+      move,
       sourceRecordIds: reply.line.slotRecordIds,
     };
     if (move === "agree")
