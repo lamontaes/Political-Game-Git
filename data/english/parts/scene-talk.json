@@ -44,7 +44,7 @@
     "cushion": "How long the household's savings carry its living costs, in months as people say them, from the household's money records.",
     "remaining": "How long the race has left to run, in months as people say them, from the filing's election date.",
     "child": "The youngest child at home, by name, from the household record.",
-    "law": "A law in force, by its policy's name, from the law record.",
+    "law": "A law, by its policy's name, from the law record.",
     "cost": "What a law in force costs a household each month, from the price record it moved.",
     "chair": "The committee's chair, by name, from the committee's hold record.",
     "percent": "How much of the line that cut was, in whole percent, from the adopted budget on record.",
@@ -116,7 +116,12 @@
     "hours": "An opening's hours a week, from the job it was modeled on: 40.",
     "crew": "How many people work at the employer now, full people and counted workers alike: 12.",
     "replaced": "The full name of the person whose job an opening fills.",
-    "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record."
+    "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record.",
+    "lawstate": "The state whose law it is, when it is not the reader's own, from the law record.",
+    "homestate": "The reader's own state, from their place record.",
+    "effective": "The day a law enacted but not yet in force takes effect, as people say it (\"January 1, 2026\"), from the law record.",
+    "about": "What a law not yet in force changes, by what it is (\"the Social Security payroll tax\"), from the law record's policy name.",
+    "ended": "The day a law stopped being in force, as people say it, from the law record's end date."
   },
   "maxWords": 70,
   "parts": [
@@ -79596,6 +79601,231 @@
       }
     },
     {
+      "key": "scene-talk.state-tell.nothing-about-about-changes-before-effective",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Nothing about {about} changes before {effective}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["effective", "about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.about-stays-as-it-is-until-effective",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{about} stays as it is until {effective}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["effective", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.the-change-to-about-comes-on-effective",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The change to {about} comes on {effective}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["effective", "about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.it-isn-t-the-law-any-more-it-ended-on-ended",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It isn't the law any more. It ended on {ended}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.that-one-ended-on-ended",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "That one ended on {ended}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.it-was-the-law-until-ended",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It was the law until {ended}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.that-s-a-law-in-lawstate-it-doesn-t-apply-in-homestate",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "That's a law in {lawstate}. It doesn't apply in {homestate}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["lawstate", "homestate"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.that-changes-things-in-lawstate-not-in-homestate",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "That changes things in {lawstate}, not in {homestate}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["lawstate", "homestate"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.lawstate-did-that-not-homestate",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{lawstate} did that, not {homestate}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["lawstate", "homestate"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "scene-talk.reply-tell.i-voted-the-way-i-thought-was-right-for-place-here-s-why",
       "move": "reply-tell",
       "kind": "spoken",
@@ -79607,7 +79837,8 @@
           "key": "news-received",
           "step": "reply",
           "move": "tell",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["lawstate"]
         }
       ],
       "bearing": "calm",
@@ -79631,7 +79862,8 @@
           "key": "news-received",
           "step": "reply",
           "move": "tell",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["lawstate"]
         }
       ],
       "bearing": "contrite",
@@ -79655,7 +79887,8 @@
           "key": "news-received",
           "step": "reply",
           "move": "promise",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["effective", "ended", "lawstate"]
         }
       ],
       "bearing": "calm",
@@ -79679,7 +79912,8 @@
           "key": "news-received",
           "step": "reply",
           "move": "promise",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["ended", "lawstate"]
         }
       ],
       "bearing": "tender",
@@ -79753,7 +79987,8 @@
           "key": "news-received",
           "step": "follow",
           "move": "disagree",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["lawstate"]
         }
       ],
       "bearing": "hurt",
