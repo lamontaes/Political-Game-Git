@@ -32,3 +32,5 @@ source: Playtester P2, Nov 13 (Bartley, West Virginia, seed c9b435a2-2d6a-498e-b
 **Waits on.** Nothing.
 
 **Files.** src/bench/office.ts, src/bench/play.mjs, src/core2/modules/offices.ts (read only), src/core2/office-day-pay.ts (read only)
+
+Seen again by Playtester P2, Nov 13, 2026 (Chalan Laulau, Northern Mariana Islands, seed fe27aa8b-db0e-4fc8-aff9-fc871d441c15, main 596d5127, Advanced start as President Steven McCoy): Your office shows only the tab row for the President too, whose seat has no `PAY_ROWS` row. The fix's serving-terms list covers it; the check should include a federal seat.
