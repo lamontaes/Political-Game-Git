@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-5acrpm
-pr:
+pr: #9059
 after: metrics-output-numbers-registry
 blocked-on:
 lead: people
