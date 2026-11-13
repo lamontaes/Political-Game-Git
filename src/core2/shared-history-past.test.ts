@@ -15,6 +15,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { schoolSpans } from "./past-school";
 import { sharedHistory } from "./shared-history";
+import schoolDays from "./data/school-days.json" with { type: "json" };
 
 const base = process.env.SHARED_PAST_SEED ?? randomBytes(8).toString("hex");
 /** The most people read for pairs: enough for a town's school, small enough to read quickly. */
@@ -40,6 +41,12 @@ for (const salt of ["a", "b"]) {
       const withSchool = people.filter((p) => schoolSpans(core, p.id).length);
       let schoolPairs = 0;
       let coworkerPairs = 0;
+      let ended = 0;
+      const today = core.date;
+      const thisSchoolYear =
+        today.slice(5) >= schoolDays.schoolYear.firstDay
+          ? Number(today.slice(0, 4))
+          : Number(today.slice(0, 4)) - 1;
       let example = "";
       for (let i = 0; i < people.length; i += 1)
         for (let j = i + 1; j < people.length; j += 1) {
@@ -48,6 +55,20 @@ for (const salt of ["a", "b"]) {
             expect(row.recordId, `${where}: a row's record`).toBeTruthy();
             if (row.kind === "schoolmate") {
               schoolPairs += 1;
+              // School that has ended is past (Fable A, Nov 13): two people
+              // whose runs there do not both reach this school year are not
+              // at school together now.
+              const now = (id: string) =>
+                schoolSpans(core, id).some(
+                  (span) =>
+                    span.schoolId === row.recordId && span.to >= thisSchoolYear,
+                );
+              const both = now(people[i]!.id) && now(people[j]!.id);
+              if (!both) ended += 1;
+              expect(
+                row.ended === true,
+                `${where}: ${people[i]!.id} and ${people[j]!.id} at ${row.recordId}, both enrolled now: ${both}`,
+              ).toBe(!both);
               if (!example)
                 example = `${people[i]!.id} and ${people[j]!.id} at ${row.recordId} in ${row.year}`;
             }
@@ -55,7 +76,7 @@ for (const salt of ["a", "b"]) {
           }
         }
       console.log(
-        `shared-history-past: ${where}; ${people.length} full people, ${withSchool.length} with school years; ${schoolPairs} schoolmate pairs, ${coworkerPairs} coworker pairs; first ${example || "none"}`,
+        `shared-history-past: ${where}; ${people.length} full people, ${withSchool.length} with school years; ${schoolPairs} schoolmate pairs (${ended} ended), ${coworkerPairs} coworker pairs; first ${example || "none"}`,
       );
       if (withSchool.length >= 2)
         expect(schoolPairs, `${where}: schoolmate pairs`).toBeGreaterThan(0);

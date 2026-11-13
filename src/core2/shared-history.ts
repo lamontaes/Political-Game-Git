@@ -5,6 +5,7 @@
  * made for individually instead of linking everything together"). It writes
  * nothing; each kind names the record it comes from.
  */
+import schoolDays from "./data/school-days.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
 import { schoolSpans } from "./past-school";
 import { PAST_WORK_SPELL } from "./past-work";
@@ -45,6 +46,14 @@ export interface SharedHistory {
   endedOn?: IsoDate;
   /** Schoolmates: the school year they shared (its first calendar year). */
   year?: number;
+  /** Schoolmates: the school they shared is behind them, so they are not both enrolled there this school year. */
+  ended?: boolean;
+}
+
+/** The school year a date falls in, by its first calendar year (the year a September 1 start began). */
+function schoolYearOf(date: string): number {
+  const year = Number(date.slice(0, 4));
+  return date.slice(5) >= schoolDays.schoolYear.firstDay ? year : year - 1;
 }
 
 /** The school engine's attended row: the school a person last attended, and its year. */
@@ -293,6 +302,8 @@ export function sharedHistory(
       kind: "schoolmate",
       recordId: schoolA.schoolId,
       year: schoolA.year,
+      // Both attended it this school year: they are at school together now.
+      ...(schoolA.year < schoolYearOf(core.date) ? { ended: true } : {}),
     });
   // The school years before the start: two people share a school when their
   // runs at it overlap. A school the school engine's own rows already named is
@@ -311,6 +322,11 @@ export function sharedHistory(
           kind: "schoolmate",
           recordId: mine.schoolId,
           year: Math.max(mine.from, peer.from),
+          // A run lasts until this school year at most: both runs reaching it
+          // means both are enrolled there now.
+          ...(Math.min(mine.to, peer.to) < schoolYearOf(core.date)
+            ? { ended: true }
+            : {}),
         });
         break;
       }
