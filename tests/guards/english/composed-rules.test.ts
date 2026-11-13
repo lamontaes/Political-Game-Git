@@ -433,6 +433,67 @@ const FIXTURES: Record<
       ]),
     ),
   },
+  // The Journal as #8234 played it (Jaguas, Puerto Rico, seed aabbccdd11223344).
+  "journal-fact-told-once": {
+    catches: sampleOf(
+      text("journal:page", [
+        [
+          "When I was 20, I moved to Jaguas, Puerto Rico.",
+          "Eight years on, I moved to Jaguas, Puerto Rico. I was 28 that year.",
+        ],
+      ]),
+      text("journal:page", [
+        [
+          "McKenzie's Kitchen let me go. McKenzie's Kitchen had been my job for two years.",
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      text("journal:page", [
+        [
+          "When I was 20, I moved to Jaguas, Puerto Rico. Owen Rivers came too.",
+          "McKenzie's Kitchen let me go. I had worked there two years.",
+        ],
+      ]),
+    ),
+  },
+  "journal-entry-not-bare": {
+    catches: sampleOf(text("journal:page", [["I lost my job."]])),
+    spares: sampleOf(
+      text("journal:page", [
+        ["I lost my job at Colon Supply Company."],
+        ["I was let go twice in those years. It paid about $15 an hour."],
+      ]),
+    ),
+  },
+  "journal-names-no-feeling": {
+    catches: sampleOf(
+      text("journal:page", [["My daughter Jane was born. That made me glad."]]),
+    ),
+    spares: sampleOf(
+      text("journal:page", [
+        ["My daughter Jane was born. Jane was our first."],
+      ]),
+    ),
+  },
+  "journal-no-time-opener-chain": {
+    catches: sampleOf(
+      text("journal:page", [
+        [
+          "Eight years on, I lost my job.",
+          "Eight years on, my partner Ayanna works as a machinist.",
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      text("journal:page", [
+        [
+          "When I was 20, I moved to Jaguas, Puerto Rico.",
+          "Over fifteen years, I held jobs with seven employers. Two years later, I was let go.",
+        ],
+      ]),
+    ),
+  },
 };
 
 /** All 56: the 50 states, D.C. and the five territories. */

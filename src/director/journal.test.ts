@@ -9,7 +9,7 @@ import { buildPopulation } from "../core2/population";
 import { sharedHistory } from "../core2/shared-history";
 import type { CoreState, PersonId } from "../core2/types";
 import { composeJournal, composeLookBack } from "./journal";
-import { JOURNAL_WORDS } from "../english/journal-words";
+import { JOURNAL_WORDS, seatSaid } from "../english/journal-words";
 import { createDirector, type Director } from "./ledger";
 import type { Moment } from "./types";
 
@@ -342,9 +342,10 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     ).toBe(true);
     expect(
       text.some((line) =>
-        /^(?:[^.]*, )?(?:[Ss]o )?[Ii] filed to run for City Council, Seat 2[.,]/.test(
-          line,
-        ),
+        // The seat as the one seat reader says it (words composer, Nov 12).
+        new RegExp(
+          `^(?:[^.]*, )?[Ii] filed to run for ${seatSaid({ title: "City Council, Seat 2" }).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}[.,]`,
+        ).test(line),
       ),
     ).toBe(true);
   });
@@ -522,14 +523,19 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         chapter.lines.some((line) => line.sourceRecordIds.includes(recordId)),
       );
     const mine = under("election-result:contest:fixture-mine");
-    expect(mine?.title).toBe("Fixture Seat A");
+    // The chapter is titled by the seat as the one seat reader says it.
+    const seatTitle = (title: string) => {
+      const said = seatSaid({ title });
+      return said.charAt(0).toUpperCase() + said.slice(1);
+    };
+    expect(mine?.title).toBe(seatTitle("Fixture Seat A"));
     // A relative's race is a line in the chapter the player is living, never
     // a chapter titled after someone else (lane 3, path 9).
     const kin = under("election-result:contest:fixture-kin");
-    if (kin) expect(kin.title).toBe("Fixture Seat A");
-    expect(journal.some((chapter) => chapter.title === "Fixture Seat B")).toBe(
-      false,
-    );
+    if (kin) expect(kin.title).toBe(seatTitle("Fixture Seat A"));
+    expect(
+      journal.some((chapter) => chapter.title === seatTitle("Fixture Seat B")),
+    ).toBe(false);
   });
 
   it("tells the player's own race when nobody ran against them", () => {
@@ -573,10 +579,14 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     for (const line of births)
       expect(line.text).toMatch(/\b(son|daughter|child|[A-Z][a-z]+)\b/);
     // "My daughter Jane was born." or, for a second child, "Jane was born."
-    for (const line of births.filter((row) => / was born\./.test(row.text)))
-      expect(line.plain ?? line.text).toMatch(
-        /^(My \w+ )?[A-Z][a-z]+ was born\./,
-      );
+    // An entry is a paragraph now: each sentence that tells a birth.
+    for (const line of births)
+      for (const sentence of line.text
+        .split(/(?<=\.)\s+/)
+        .filter((row) => / was born\./.test(row)))
+        expect(sentence).toMatch(
+          /^(When I was [^,]+, )?([Mm]y \w+ )?[A-Z][a-z]+ was born\./,
+        );
     for (const line of lines) {
       expect(line.text).not.toMatch(/Little did I know\.?$/);
       // A turning point needs a later chapter of another kind in the record.

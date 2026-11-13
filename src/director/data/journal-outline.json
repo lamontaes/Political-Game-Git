@@ -1,0 +1,127 @@
+{
+  "version": "journal-outline-v1",
+  "about": "The outline of a life as the Journal tells it (words composer, unit 6; docs/design/words-composer.md, part 3: 'A Journal paragraph and a news story have one'). Read by the one telling planner in src/director/journal.ts. The past is told in a few short paragraphs, one per stretch kind, in this order; what the player did in play is told after it, one paragraph per event or per race, in more detail. A record goes to the first paragraph whose `kinds` prefix its cause kind (or whose `beat` it carries), else to `family`. `young: true` takes every record from before the person came of voting age. A paragraph's sentences are the bank's (data/english/parts/journal.json); this file holds no sentence. A year in which nothing on record changed has no sentence: every sentence is a record.",
+  "paragraphs": [
+    {
+      "key": "roots",
+      "young": true,
+      "beat": "roots",
+      "kinds": [
+        "person.birth",
+        "household:raised-by",
+        "household:parent-apart",
+        "household:sibling",
+        "household:parents-met",
+        "household:school-started",
+        "school",
+        "event:school.finished",
+        "life:came-of-age"
+      ]
+    },
+    {
+      "key": "family",
+      "kinds": ["family:child", "household:partners-met"]
+    },
+    {
+      "key": "work",
+      "kinds": ["job-", "work:"]
+    },
+    {
+      "key": "now",
+      "beat": "work",
+      "kinds": ["household:livelihood"]
+    }
+  ],
+  "sayOnce": [
+    "employer",
+    "last-employer",
+    "lost-employer",
+    "next",
+    "place",
+    "moved-from",
+    "wage"
+  ],
+  "numberWords": [
+    "no",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve"
+  ],
+  "workWords": {
+    "about": "The kind of work an employer's record says it does (the last part of its classification, the same kinds the business names are drawn for: src/core2/data/business/names.json), as a person says what they worked in. A kind not here is not said; the run is then told by its place.",
+    "restaurant": "kitchens",
+    "food-service": "kitchens",
+    "retail": "stores",
+    "wholesale": "supply houses",
+    "construction": "construction",
+    "manufacturing": "factories",
+    "trucking": "trucking",
+    "farm": "farm work",
+    "agriculture": "farm work",
+    "quarry": "a quarry",
+    "utility": "the utility",
+    "information": "phone and cable work",
+    "bank": "banking",
+    "insurance": "insurance",
+    "realty": "real estate",
+    "professional": "offices",
+    "regional-office": "offices",
+    "building-services": "cleaning",
+    "hospital": "the hospital",
+    "clinic": "clinics",
+    "care": "care homes",
+    "care-home": "care homes",
+    "recreation": "a gym",
+    "inn": "motels",
+    "repair": "garages",
+    "personal-care": "salons",
+    "public-school": "the schools",
+    "private-school": "the schools"
+  },
+  "workJoin": {
+    "about": "How the folded working life's pieces join into one sentence: the run, then how it went, then where it ended.",
+    "between": ", ",
+    "beforeLast": ", and ",
+    "end": ".",
+    "kindsAnd": " and ",
+    "onlyLast": " and "
+  },
+  "merge": [
+    {
+      "kindPrefix": "event:law.effect-learned",
+      "field": "effectsLearned",
+      "clauses": {
+        "up": "effectUp",
+        "down": "effectDown"
+      },
+      "facts": ["topic", "law"],
+      "alone": true,
+      "about": "What laws the person learned were behind what they pay did to them, told by the bill that moved and about how much a month (the price engine's own record: the rule's good and the moved amount), several on one day as one sentence."
+    }
+  ],
+  "goodBills": {
+    "about": "The bill a price rule's good shows up on, as a person says it (src/core2/data/prices/goods.json keys).",
+    "electricity": "electric bill",
+    "fuel": "gas bill",
+    "transit-fare": "bus fare",
+    "vehicle-miles": "driving costs",
+    "broadband": "internet bill",
+    "beverage-container": "grocery bill",
+    "vehicle-repair": "car repair bills",
+    "cannabis": "cannabis costs"
+  },
+  "leanWords": {
+    "about": "Which way a view moved, by the sign of the views engine's lean change (-2 very liberal to +2 very conservative).",
+    "left": "more liberal",
+    "right": "more conservative"
+  }
+}

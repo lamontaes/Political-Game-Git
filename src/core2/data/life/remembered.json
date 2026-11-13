@@ -984,6 +984,11 @@
   ],
   "history": [
     {
+      "kind": "person.birth",
+      "life": "born",
+      "what": "born"
+    },
+    {
       "kind": "person.work-spell",
       "life": "work",
       "what": "job-started"

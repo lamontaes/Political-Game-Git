@@ -3,16 +3,33 @@ import {
   coreStateKeyOfPlaceholderId,
   coreStateName,
 } from "../core2/place-lookup";
-import { familyFactsOf, FAMILY_PARTNERED } from "../core2/modules/people";
+import {
+  familyFactsOf,
+  FAMILY_PARTNERED,
+  lifeOf,
+  type LifeEvent,
+} from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
+import journalLife from "./data/journal-life.json" with { type: "json" };
+import JOURNAL_OUTLINE from "./data/journal-outline.json" with { type: "json" };
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { PLACE_PRICES_MODULE_ID } from "../core2/business-module-id";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../core2/modules/elections";
 import { personWorkOf } from "../core2/person-work";
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
 } from "../core2/modules/legislature";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import {
+  MEETINGS_MODULE_ID,
+  type TownHallRow,
+} from "../core2/modules/meetings";
+import { PRESS_MODULE_ID, type InterviewRow } from "../core2/modules/press";
 import type { LawRowInput } from "../core2/laws-starting";
 import {
   billNumberAndTitle,
@@ -20,6 +37,8 @@ import {
   billTitleSaid,
 } from "../english/bill-names";
 import { topicInSentence } from "../english/policy-names";
+import { questionAbout, questionTo } from "../english/question-names";
+import { VIEWS_MODULE_ID, stancesOf, viewOf } from "../core2/modules/views";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import {
   addDays,
@@ -31,10 +50,9 @@ import {
   billNumberName,
   framedByAge,
   journalBackdrop,
-  journalClosing,
+  JOURNAL_WORDS,
   journalEntry,
   journalRows,
-  metRelation,
   possessivePronoun,
   relationPhrase,
   saysOffice,
@@ -45,6 +63,7 @@ import {
   type Fact,
   type JournalMove,
   type JournalWords,
+  type JournalWorded,
   type MemoirField,
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
@@ -55,7 +74,6 @@ import { graduationResults, schoolResult } from "./school";
 import {
   PAST_WORK_OUT,
   PAST_WORK_SPELL,
-  PERSON_MOVED_IN,
   SCHOOL_STARTED,
   heldSinceRecord,
   pastWorkOf,
@@ -67,8 +85,7 @@ import { pastParameter } from "../core2/past-module";
 import { moneySaid } from "../english/count-words";
 
 import { spanSaid } from "../english/span-words";
-import type { Moment } from "./types";
-import { tieSide } from "./purpose-scene";
+import type { Moment, PersonLedger } from "./types";
 import {
   OFFICE_DAY_MODULE_ID,
   type OfficeActRow,
@@ -76,45 +93,29 @@ import {
 
 /** The school year's end, as the director keeps its moment. */
 const SCHOOL_FINISHED = "event:school.finished";
-/** The id prefix of the past-work engine's records (src/core2/past-work.ts). */
-const PAST_WORK_PREFIX = "past-work:";
 /** The facts that say when, not what: two tellings differing only in these are one. */
 /** The facts that say how old the person was, which an age frame has already said. */
 const AGE_FACTS = new Set(["age", "age-then"]);
 const TIME_FACTS = new Set(["age", "span", "when", "held"]);
-/** How many other wordings a repeated sentence may try before it is not told. */
-const rewordings = P.two * P.two * P.two;
 const zero = P.zero;
 const one = P.one;
+
+/** The events of a life the Journal tells as its rows, by the event's pair (src/director/data/journal-life.json). */
+const LIFE_PAIRS = journalLife.pairs as readonly {
+  life: string;
+  what: string;
+  record?: string;
+  kind: string;
+}[];
 
 export interface JournalLine {
   id: string;
   date: IsoDate;
   text: string;
   momentIds: readonly string[];
+  /** The kind of each moment the line tells (its row's cause kind), in the order told. */
+  kinds?: readonly string[];
   sourceRecordIds: readonly string[];
-  /** The earlier entries this one revises, when a later record changed what they meant. */
-  revises?: readonly string[];
-  /** How this line follows the one told before it; the first line has none. */
-  link?: JournalLink;
-  /** The line as the event tells it, before the words joining it to the line before ("Because of that, ..."). */
-  plain?: string;
-}
-
-/**
- * Why one line follows another (director-journal-one-story): its records
- * name the earlier line's records or share a fact with them (the same
- * contest, the same bill), the person's mood moved the same way, or only
- * time passed. The joining words read it; it decides nothing.
- */
-export interface JournalLink {
-  by: "cause" | "feeling" | "time";
-  /** The line it follows. */
-  earlierId: string;
-  /** The records that join them: the shared record or fact's records, or the two lines' own. */
-  recordIds: readonly string[];
-  /** Days from the earlier line. */
-  days: number;
 }
 
 export interface JournalChapter {
@@ -263,6 +264,13 @@ function employerName(
     : undefined;
 }
 
+/** A list whose items may hold "and" themselves: a comma before the last "and". */
+function listOfParts(items: readonly string[]): string {
+  return items.some((item) => / and /.test(item)) && items.length > one
+    ? `${items.slice(zero, -one).join(", ")}, and ${items.at(-one)}`
+    : listOf(items);
+}
+
 function listOf(items: readonly string[]): string {
   return items.length < P.two + one
     ? items.join(" and ")
@@ -305,16 +313,15 @@ export function placeLabel(placeId: string | undefined): string | null {
 }
 
 /**
- * The household's own story, read from the records the engines ran for the
- * years before the start (owner, Oct 28, 2026: "simulate to the birth
- * year"): the day the person and their partner set up home and the day their
- * parents did (`family.partnered`, the people engine), where the family came
- * from (the place of their recorded birth), a parent's new job they were old
- * enough to remember (the working-life run), the first school they attended
- * (the school engine's run), what the household's earners do now (their
- * jobs' records), and each parent and sibling the family records name. Each
- * moment cites its record's id; the place is named from the place records,
- * and a person only the writer knows by name is skipped.
+ * The household's roots, the part of a life the list has no pair for (gaps of
+ * docs/design/journal-on-the-life-list.md): the day their parents set up home,
+ * a parent's new job they were old enough to remember, what the household's
+ * earners do now, and each parent and sibling the family records name.
+ * stopgapId: SG-DIRECTOR-journal-life-gaps (the list carries no parent, sibling,
+ * parents' partnership or parent's work event; they stay on the family facts
+ * and the working-life run until it does). Each moment cites its record's id;
+ * the place is named from the place records, and a person only the writer knows
+ * by name is skipped.
  */
 function householdMoments(
   core: Readonly<CoreState>,
@@ -387,33 +394,6 @@ function householdMoments(
       beat: "roots",
     });
   }
-  // Their own birth, where the run's record puts their family that day: the
-  // story starts there (owner, Oct 27: "written like a story from birth").
-  for (const row of history("person.birth", person.id)) {
-    const actFacts = placeOf(row.placeId, row.id);
-    if (actFacts.place)
-      moments.push({
-        ...base(row.id, row.date),
-        causeKind: "person.birth",
-        counterpartIds: [],
-        selfNamed: true,
-        actFacts,
-        beat: "roots",
-      });
-  }
-  // The day they and their partner set up home, where their records put
-  // them then.
-  for (const row of history(FAMILY_PARTNERED, person.id)) {
-    const otherId = row.personIds?.find((id) => id !== person.id);
-    const actFacts = placeOf(row.placeId, row.id);
-    if (otherId && actFacts.place)
-      moments.push({
-        ...base(row.id, row.date),
-        causeKind: "household:partners-met",
-        counterpartIds: [otherId],
-        actFacts,
-      });
-  }
   // The day their parents set up home, told to their child.
   const parents = [...parentIds].filter((id): id is string => !!id);
   const parentsMet = parents.length
@@ -432,15 +412,6 @@ function householdMoments(
         beat: "roots",
       });
   }
-  // The day they came to the county, from the moves engine's run before the
-  // start (told as their own move, to where they live now).
-  for (const row of history(PERSON_MOVED_IN, person.id))
-    moments.push({
-      ...base(row.id, row.date),
-      causeKind: "moved",
-      counterpartIds: [],
-      selfNamed: true,
-    });
   // The working-life run's spells the person was old enough to remember and
   // still a child at home for: a relative's start or move is told inside the
   // one sentence about that relative's work (lead, Nov 11: "one sentence per
@@ -452,27 +423,6 @@ function householdMoments(
     ),
   );
   const grown = addDays(bornOn, Math.round(P.votingAge * P.daysPerMeanYear));
-  // The first school they attended, and the high school when it was another
-  // school, told by the school's own record ("When I was 5, I started at
-  // ..."); a school with no record of its own goes unnamed and untold.
-  const schools = schoolsAttended(core, person.id).filter((row) => row.name);
-  const first = schools.find((row) => row.stage === "elementary");
-  const high = schools.find(
-    (row) => row.stage === "high" && row.schoolId !== first?.schoolId,
-  );
-  for (const school of [first, high])
-    if (school && school.date < core.startedAt)
-      moments.push({
-        ...base(school.recordId, school.date),
-        causeKind: `household:school-started:${school.stage}`,
-        counterpartIds: [],
-        actFacts: {
-          school: {
-            text: properName(school.name!),
-            sourceRecordIds: [school.recordId, school.schoolId],
-          },
-        },
-      });
   // What each earner in the household does for work now: the job they held
   // on day one and each office they serve in, from the one reader the card
   // and Travel tell it from (`personWorkOf`), so the journal never says a
@@ -629,18 +579,206 @@ function householdMoments(
 }
 
 /**
- * The working life before the start, from the pre-start run's own records
- * (`src/core2/past-work.ts`): the first job after school, each job lost and
- * the time out of work after it, each move to another employer, and the
- * reason on record someone stopped. The job held on day one is told by the
- * line that leads into it.
+ * A person's life as the Journal tells it, read from the one list the person
+ * card and the You screen read (`lifeOf`; docs/design/journal-on-the-life-list.md):
+ * where they were born, the day they and their partner set up home, the day
+ * they came to the county, the first school and the high school, the working
+ * life before the start (the first job after school, each job lost and the
+ * time out of work after it, each move to another employer, the reason on
+ * record someone stopped), and every event of the table (src/director/data/journal-life.json)
+ * the list holds, in play or before: a job lost, a child born, a move, a death in
+ * the family, an illness, a home, a business, a race. The job held on day one is
+ * told by the line that leads into it. Each moment cites the id of the event it
+ * stands on. The director's moment for the same record, when it has one, lends
+ * the entry its weight; the entry exists because the list holds the event.
  */
-function pastWorkMoments(
+function lifeMoments(
   core: Readonly<CoreState>,
   person: PersonState,
+  book: PersonLedger,
+  life: readonly LifeEvent[],
+): {
+  moments: JournalMoment[];
+  /** The director's moments the list now tells, as `<kind>|<event id>`. */
+  told: Set<string>;
+  /** The days of a move the list tells; the director's own `moved` moment of the day is not told as well. */
+  movedDays: Set<string>;
+} {
+  const told = new Set<string>();
+  const movedDays = new Set<string>();
+  const base = (id: string, date: string) => ({
+    id,
+    date: date as IsoDate,
+    causeId: id,
+    causeFactId: id,
+    hindsight: zero,
+    impact: zero,
+    echoes: [] as Moment["echoes"],
+  });
+  const moments: JournalMoment[] = [];
+  const place = (placeId: string | undefined, recordId: string): Facts => {
+    const text = placeLabel(placeId);
+    return text ? { place: { text, sourceRecordIds: [recordId] } } : {};
+  };
+  // Where they were born, where the run's record puts their family that day:
+  // the story starts there (owner, Oct 27: "written like a story from birth").
+  for (const event of life) {
+    if (event.life !== "born" || event.from !== "past") continue;
+    const actFacts = place(event.placeId, event.id);
+    if (actFacts.place)
+      moments.push({
+        ...base(event.id, event.date),
+        causeKind: "person.birth",
+        counterpartIds: [],
+        selfNamed: true,
+        actFacts,
+        beat: "roots",
+      });
+  }
+  // The day they and their partner set up home, where their records put them then.
+  for (const event of life) {
+    if (event.life !== "partner" || event.what !== "partnered") continue;
+    if (event.from !== "past") continue;
+    const otherId = event.withIds[zero];
+    const actFacts = place(event.placeId, event.id);
+    if (otherId && actFacts.place)
+      moments.push({
+        ...base(event.id, event.date),
+        causeKind: "household:partners-met",
+        counterpartIds: [otherId],
+        actFacts,
+      });
+  }
+  // The day they came to the county, from the moves engine's run before the
+  // start (told as their own move, to where they live now).
+  for (const event of life)
+    if (
+      event.life === "move" &&
+      event.what === "moved-in" &&
+      event.from === "past"
+    )
+      moments.push({
+        ...base(event.id, event.date),
+        causeKind: "moved",
+        counterpartIds: [],
+        selfNamed: true,
+      });
+  // The first school they attended, and the high school when it was another
+  // school, told by the school's own record ("When I was 5, I started at
+  // ..."); a school with no record of its own goes unnamed and untold.
+  const schools = life
+    .filter(
+      (event) =>
+        event.life === "school" &&
+        event.what === "started" &&
+        event.from === "past" &&
+        core.organizations.get(String(event.facts?.schoolId))?.name,
+    )
+    .map((event) => ({
+      event,
+      schoolId: String(event.facts?.schoolId),
+      stage: String(event.facts?.stage),
+      name: core.organizations.get(String(event.facts?.schoolId))!.name,
+    }));
+  const first = schools.find((row) => row.stage === "elementary");
+  const high = schools.find(
+    (row) => row.stage === "high" && row.schoolId !== first?.schoolId,
+  );
+  for (const school of [first, high])
+    if (school && school.event.date < core.startedAt)
+      moments.push({
+        ...base(school.event.id, school.event.date),
+        causeKind: `household:school-started:${school.stage}`,
+        counterpartIds: [],
+        actFacts: {
+          school: {
+            text: properName(school.name),
+            sourceRecordIds: [school.event.id, school.schoolId],
+          },
+        },
+      });
+  moments.push(...workMoments(core, life));
+  // The rest of the table: the director's moment for the same record lends its weight.
+  const weighed = new Map(
+    book.moments.map((moment) => [
+      `${moment.causeKind}|${moment.causeFactId ?? moment.causeId}`,
+      moment,
+    ]),
+  );
+  // A move the household made is the director's `moved` moment on its day (the household changed).
+  const movedOn = new Map(
+    book.moments
+      .filter((moment) => moment.causeKind === "moved")
+      .map((moment) => [moment.date, moment]),
+  );
+  for (const [event, pair] of LIFE_PAIRS.flatMap((row) =>
+    life
+      .filter(
+        (event) =>
+          row.life === event.life &&
+          row.what === event.what &&
+          (row.record === undefined || row.record === event.record),
+      )
+      .map((event) => [event, row] as const),
+  )) {
+    const kept =
+      pair.kind === "moved"
+        ? movedOn.get(event.date)
+        : weighed.get(`${pair.kind}|${event.id}`);
+    told.add(`${pair.kind}|${event.id}`);
+    if (pair.kind === "moved") movedDays.add(event.date);
+    // A built fact is cited through the person who holds it, as the director cites it.
+    const own = event.from === "built";
+    moments.push({
+      id:
+        kept?.id ?? `${person.id}:${event.date}:life:${event.id}:${pair.kind}`,
+      date: event.date,
+      causeId: own ? person.id : event.id,
+      ...(own ? { causeFactId: event.id } : {}),
+      causeKind: pair.kind,
+      counterpartIds: kept?.counterpartIds ?? event.withIds,
+      ...((
+        kept
+          ? kept.selfNamed
+          : core.durableLog.get(event.id)?.personIds.includes(person.id)
+      )
+        ? { selfNamed: true as const }
+        : {}),
+      hindsight: kept?.hindsight ?? zero,
+      impact: kept?.impact ?? zero,
+      echoes: kept?.echoes ?? [],
+    });
+  }
+  return { moments, told, movedDays };
+}
+
+/**
+ * The working life before the start and the jobs lost, from the list's work
+ * events: the first job after school, each job lost and the time out of work
+ * after it, each move to another employer and the reason on record someone
+ * stopped. The job held on day one is told by the line that leads into it.
+ */
+function workMoments(
+  core: Readonly<CoreState>,
+  life: readonly LifeEvent[],
 ): JournalMoment[] {
-  const records = pastWorkOf(core as CoreState, person.id);
-  const employer = (row: (typeof records)[number] | undefined) => {
+  type Row = Pick<LifeEvent, "id" | "placeId"> & {
+    kind: string;
+    facts: Readonly<Record<string, string>>;
+  };
+  const records: Row[] = life
+    .filter(
+      (event) =>
+        event.life === "work" &&
+        (event.record === PAST_WORK_SPELL || event.record === PAST_WORK_OUT),
+    )
+    .map((event) => ({
+      id: event.id,
+      kind: event.record,
+      ...(event.placeId ? { placeId: event.placeId } : {}),
+      facts: event.facts ?? {},
+    }));
+  const employer = (row: Row | undefined) => {
     return row?.facts.organizationId
       ? employerName(core, String(row.facts.organizationId), row.id)
       : undefined;
@@ -656,7 +794,7 @@ function pastWorkMoments(
       .map((row) => [String(row.facts.causeRecordId), row]),
   );
   // What a job paid an hour, as people round it, from the spell's own record.
-  const paid = (row: (typeof records)[number]): Facts =>
+  const paid = (row: Row): Facts =>
     Number(row.facts.hourlyMinor) > zero
       ? {
           wage: {
@@ -667,10 +805,7 @@ function pastWorkMoments(
       : {};
   // How the pay compares with the job before, said only when the two round
   // to different sums: the old pay is named as the one it rose from or fell to.
-  const against = (
-    now: (typeof records)[number],
-    before: (typeof records)[number] | undefined,
-  ): Facts => {
+  const against = (now: Row, before: Row | undefined): Facts => {
     if (!before) return {};
     const was = moneySaid(Number(before.facts.hourlyMinor));
     if (was === moneySaid(Number(now.facts.hourlyMinor))) return {};
@@ -681,7 +816,7 @@ function pastWorkMoments(
     return { [key]: { text: was, sourceRecordIds: [before.id] } };
   };
   // How long a job lasted, from the dates on its own record.
-  const held = (row: (typeof records)[number]): Facts =>
+  const held = (row: Row): Facts =>
     row.facts.endedAt
       ? {
           held: {
@@ -696,7 +831,7 @@ function pastWorkMoments(
         }
       : {};
   const moment = (
-    row: (typeof records)[number],
+    row: Row,
     date: string,
     causeKind: string,
     actFacts: Facts,
@@ -786,10 +921,8 @@ function pastWorkMoments(
         }),
       );
     } else if (facts.end === "child-born") {
-      const child = (person.pastFacts ?? []).find(
-        (fact) => fact.id === facts.causeRecordId,
-      );
-      const childId = child?.facts?.otherPersonId as PersonId | undefined;
+      const childId = life.find((event) => event.id === facts.causeRecordId)
+        ?.withIds[zero];
       moments.push(
         moment(row, ended, "job-ended:child", own, childId ? [childId] : []),
       );
@@ -840,6 +973,16 @@ function comingOfAgeMoments(
       causeFactId: person.id,
       causeKind: "life:came-of-age",
       counterpartIds: [],
+      ...(placeLabel(person.placeId)
+        ? {
+            actFacts: {
+              place: {
+                text: placeLabel(person.placeId)!,
+                sourceRecordIds: [person.id],
+              },
+            },
+          }
+        : {}),
       hindsight: zero,
       impact: zero,
       echoes: [],
@@ -915,11 +1058,71 @@ function officeActMoments(
         echoes: [],
         ...(actFacts ? { actFacts } : {}),
       });
-      if (act.kind === "town-hall") return [moment("act:town-hall")];
-      if (act.kind === "interview")
-        return act.detail.startsWith("declined")
-          ? []
-          : [moment("act:interview")];
+      // The office they held it in and the town, from the offices engine's
+      // serving term and the person's own place record.
+      const officeHeld = officeHolding(core)(personId);
+      const town = placeLabel(core.people.get(personId)?.placeId);
+      const where: Facts = {
+        ...(officeHeld
+          ? { office: { ...officeHeld, text: officeHeld.text.toLowerCase() } }
+          : {}),
+        ...(town ? { place: { text: town, sourceRecordIds: [personId] } } : {}),
+      };
+      // A town hall is told by who came and what they asked, from its own
+      // row; an interview by the outlet it was given to, through the
+      // outlet's organization (from W3's claude/words-w3-journal, Nov 12). A
+      // count of one is not told as a number ("1 people").
+      if (act.kind === "town-hall") {
+        const hall = core.modules.has(MEETINGS_MODULE_ID)
+          ? (api
+              .moduleState(MEETINGS_MODULE_ID)
+              .table("townHalls")
+              .get(act.recordId) as unknown as TownHallRow | undefined)
+          : undefined;
+        const counted = (n: number) =>
+          n > one ? { text: String(n), sourceRecordIds: [act.recordId] } : null;
+        const came = counted(hall?.attendeeIds.length ?? zero);
+        const asked = counted(hall?.questions.length ?? zero);
+        return [
+          moment("act:town-hall", {
+            ...where,
+            ...(came ? { attendees: came } : {}),
+            ...(asked ? { questions: asked } : {}),
+          }),
+        ];
+      }
+      if (act.kind === "interview") {
+        if (act.detail.startsWith("declined")) return [];
+        const row = core.modules.has(PRESS_MODULE_ID)
+          ? (api
+              .moduleState(PRESS_MODULE_ID)
+              .table("interviews")
+              .get(act.recordId) as unknown as InterviewRow | undefined)
+          : undefined;
+        const outletRow = row
+          ? (api
+              .moduleState(PRESS_MODULE_ID)
+              .table("outlets")
+              .get(row.outletId) as unknown as
+              { organizationId?: string } | undefined)
+          : undefined;
+        const outlet = outletRow?.organizationId
+          ? core.organizations.get(outletRow.organizationId as never)?.name
+          : undefined;
+        return [
+          moment("act:interview", {
+            ...where,
+            ...(outlet
+              ? {
+                  outlet: {
+                    text: properName(outlet),
+                    sourceRecordIds: [act.recordId, row!.outletId],
+                  },
+                }
+              : {}),
+          }),
+        ];
+      }
       if (act.kind !== "vote" || !["yes", "no"].includes(act.detail)) return [];
       // The legislature's own record of the vote is told already: one line
       // a vote (the journal printed every vote twice, Oct 29).
@@ -968,7 +1171,16 @@ export function composeJournal(
     moment.counterpartIds.find((id) => person.knownIds.has(id)) ??
     moment.counterpartIds[zero];
 
-  const factsById = new Map((person.pastFacts ?? []).map((f) => [f.id, f]));
+  // The person's life, read once: the one list the card and the You screen read.
+  const life = lifeOf(core, personId);
+  const lifeById = new Map(life.map((event) => [event.id, event]));
+  // The children the person was made with, by the day each was born.
+  const children = life.filter(
+    (event) =>
+      event.life === "child" &&
+      event.what === "born" &&
+      event.record === "family:child",
+  );
 
   // How the person refers to someone: a relative by relation, anyone else by
   // name, and only someone whose name they know.
@@ -1029,13 +1241,19 @@ export function composeJournal(
 
   // The run's work records before the start: each names its own employer.
   const pastWorkIds = new Set(
-    pastWorkOf(core as CoreState, personId).map((row) => row.id),
+    life
+      .filter(
+        (event) =>
+          event.life === "work" &&
+          (event.record === PAST_WORK_SPELL || event.record === PAST_WORK_OUT),
+      )
+      .map((event) => event.id),
   );
   /** The recorded facts a moment can be told with. */
   const factsFor = (moment: JournalMoment): Facts | null => {
     const facts: Facts = { ...moment.actFacts };
     const fact = moment.causeFactId
-      ? factsById.get(moment.causeFactId)
+      ? lifeById.get(moment.causeFactId)
       : undefined;
     // A school the person started, named from the school's own record.
     if (moment.causeKind === SCHOOL_STARTED && !facts.school) {
@@ -1097,6 +1315,17 @@ export function composeJournal(
       const place = placeName(person.placeId);
       if (place) facts.place = place;
     }
+    // A lost job with no employer on record is told by where the person
+    // lived: "I lost my job in Sunbury, North Carolina." (W3, Nov 12: four
+    // losses in Delphos, Iowa were untold once "I lost my job." went).
+    if (
+      moment.causeKind.startsWith("job-ended") &&
+      !facts.employer &&
+      !facts.place
+    ) {
+      const place = placeName(person.placeId);
+      if (place) facts.place = place;
+    }
     // How old they were on the day, from the birth record they stand on.
     const ageThen = (born: string, recordId: string): Fact => ({
       text: String(ageOnDate(makeIsoDate(born), makeIsoDate(moment.date))),
@@ -1106,23 +1335,22 @@ export function composeJournal(
     // before it, who came with them (the moves engine holds a mover back for
     // children at home).
     if (moment.causeKind === "moved") {
-      const move = preStartHistory(core as CoreState, {
-        kind: PERSON_MOVED_IN,
-        personId,
-      }).find((entry) => entry.id === moment.causeId);
-      const from = placeLabel(String(move?.facts.fromPlaceId ?? ""));
+      const move = lifeById.get(moment.causeId);
+      const from = placeLabel(String(move?.facts?.fromPlaceId ?? ""));
       // Only a place that is not the one they moved to (a county and its
       // seat are one answer).
       if (
         move &&
         from &&
-        !(placeName(person.placeId)?.text ?? "").endsWith(from)
+        !(placeName(person.placeId)?.text ?? "").endsWith(
+          from.replace(/^the /, ""),
+        )
       )
         facts["moved-from"] = { text: from, sourceRecordIds: [move.id] };
-      const children = (person.pastFacts ?? []).flatMap((entry) => {
+      const came = children.flatMap((entry) => {
         const child =
-          entry.kind === "family:child" && entry.date < moment.date
-            ? core.people.get(entry.facts?.otherPersonId as PersonId)
+          entry.date < moment.date
+            ? core.people.get(entry.withIds[zero] as PersonId)
             : undefined;
         const relation = child ? kin.get(child.id) : undefined;
         const phrase =
@@ -1146,30 +1374,25 @@ export function composeJournal(
             ]
           : [];
       });
-      if (children.length)
+      if (came.length)
         facts["moved-with"] = {
           text:
-            new Set(children.map((child) => child.phrase)).size === one
-              ? `${children[zero]!.phrase}${children.length > one ? "s" : ""} ${listOf(children.map((child) => child.name))}`
-              : listOf(children.map((child) => child.text)),
-          sourceRecordIds: children.flatMap((child) => [child.fact, child.id]),
+            new Set(came.map((child) => child.phrase)).size === one
+              ? `${came[zero]!.phrase}${came.length > one ? "s" : ""} ${listOf(came.map((child) => child.name))}`
+              : listOf(came.map((child) => child.text)),
+          sourceRecordIds: came.flatMap((child) => [child.fact, child.id]),
         };
       facts["age-then"] = ageThen(person.birthDate, person.id);
     }
     // A child born to them: how old they were, and whether the first.
     if (moment.causeKind === "family:child") {
       facts["age-then"] = ageThen(person.birthDate, person.id);
-      const earlier = (person.pastFacts ?? []).some(
-        (entry) => entry.kind === "family:child" && entry.date < moment.date,
-      );
+      const earlier = children.some((entry) => entry.date < moment.date);
       if (!earlier)
         facts.firstborn = {
           text:
-            core.people.get(
-              (person.pastFacts ?? []).find(
-                (entry) => entry.id === moment.causeFactId,
-              )?.facts?.otherPersonId as PersonId,
-            )?.givenName ?? "yes",
+            core.people.get(fact?.withIds[zero] as PersonId)?.givenName ??
+            "yes",
           sourceRecordIds: [moment.causeFactId ?? moment.causeId],
         };
     }
@@ -1293,13 +1516,79 @@ export function composeJournal(
             : [moment.causeId, ...(law?.recordIds ?? [])],
       };
     }
+    // A filing names its seat as people say it, through the one seat reader
+    // (`seatSaid`): the body for a seat on a body, the district for a
+    // districted seat, the office in lower case otherwise, at every level.
+    if (moment.causeKind.startsWith("event:candidate-filed") && facts.office) {
+      const contestId = logged?.facts?.contestId;
+      const contest =
+        typeof contestId === "string" && core.modules.has(ELECTIONS_MODULE_ID)
+          ? (coreAPI(core as CoreState)
+              .moduleState(ELECTIONS_MODULE_ID)
+              .table("contests")
+              .get(contestId) as unknown as ContestRow | undefined)
+          : undefined;
+      const office =
+        contest && core.modules.has(OFFICES_MODULE_ID)
+          ? (coreAPI(core as CoreState)
+              .moduleState(OFFICES_MODULE_ID)
+              .table("offices")
+              .get(contest.officeId) as unknown as
+              | { title?: string; seats?: number; bodyName?: string | null }
+              | undefined)
+          : undefined;
+      facts.office = {
+        text: seatSaid({
+          title: contest?.title ?? facts.office.text,
+          ...(office?.seats !== undefined ? { seats: office.seats } : {}),
+          ...(office?.bodyName ? { bodyName: office.bodyName } : {}),
+          ...(contest?.district ? { district: contest.district } : {}),
+        }),
+        sourceRecordIds: [
+          ...facts.office.sourceRecordIds,
+          ...(contest ? [contest.id] : []),
+        ],
+      };
+    }
+    // A law learned of is told by what it did to the person: the bill the
+    // price engine's rule moved and about how much a month, from the
+    // learned record's own facts. A record with no amount is not told
+    // (what the Journal still needs: Social Security and estate records).
+    if (moment.causeKind === "event:law.effect-learned") {
+      const moved = Number(logged?.facts?.movedMinor);
+      const ruleId = logged?.facts?.priceRuleId;
+      // The price engine's rule the record cites, read by the prices
+      // family's id entry (no part of the engine is loaded): its good.
+      const rule =
+        typeof ruleId === "string" && core.modules.has(PLACE_PRICES_MODULE_ID)
+          ? (coreAPI(core as CoreState)
+              .moduleState(PLACE_PRICES_MODULE_ID)
+              .table("rules")
+              .get(ruleId) as unknown as { good?: string } | undefined)
+          : undefined;
+      const bill = rule?.good
+        ? (JOURNAL_OUTLINE.goodBills as Record<string, string>)[rule.good]
+        : undefined;
+      if (!bill || !Number.isFinite(moved) || moved === zero) return null;
+      facts.bill = {
+        text: bill,
+        sourceRecordIds: [moment.causeId, ruleId as string],
+      };
+      facts.amount = {
+        text: moneySaid(Math.abs(moved)),
+        sourceRecordIds: [moment.causeId],
+      };
+      // Paying more is the bill going up (the record keeps refund less pay).
+      facts.direction = {
+        text: moved < zero ? "up" : "down",
+        sourceRecordIds: [moment.causeId],
+      };
+    }
     const hasOwnLine = Boolean(row?.hasOwnLine);
     const toldWithoutOther = Boolean(row?.toldWithoutOther);
     const otherId =
       subjectOf(moment) ??
-      (moment.causeKind === "family:child"
-        ? fact?.facts?.otherPersonId
-        : undefined);
+      (moment.causeKind === "family:child" ? fact?.withIds[zero] : undefined);
     if (otherId) {
       const said = other(otherId);
       // One's own race is told without a rival the person never knew by
@@ -1443,11 +1732,27 @@ export function composeJournal(
         at = index;
     return at < zero ? rows.length : at;
   };
+  // What the list holds is told from the list (lifeMoments); the director's moment
+  // for the same record only lends its weight. A moment of the director's that the
+  // list does not hold (a relative's move, a stranger's death) is told as before.
+  const fromList = lifeMoments(core, person, book, life);
   const moments: JournalMoment[] = [
     // A race is the person's own when its record names them as a candidate,
     // whoever else the moment is with (Storrs, Connecticut, replay
     // storrs-1: a father who walked doors was told as the one who lost).
-    ...book.moments.map((moment) =>
+    ...[
+      ...book.moments.filter(
+        (moment) =>
+          !(
+            fromList.told.has(
+              `${moment.causeKind}|${moment.causeFactId ?? moment.causeId}`,
+            ) ||
+            (moment.causeKind === "moved" &&
+              fromList.movedDays.has(moment.date))
+          ),
+      ),
+      ...fromList.moments,
+    ].map((moment) =>
       !moment.selfNamed &&
       rows.some(
         (row) => row.hasOwnLine && moment.causeKind.startsWith(row.kindPrefix),
@@ -1470,7 +1775,6 @@ export function composeJournal(
     ),
     ...sceneEndingMoments(core, book, personId),
     ...householdMoments(core, person),
-    ...pastWorkMoments(core, person),
     ...comingOfAgeMoments(core, person),
     ...schoolFinishedMoments(core, person),
   ]
@@ -1494,52 +1798,24 @@ export function composeJournal(
         moment.counterpartIds.some((id) => kin.has(id))));
   const ageAt = (date: IsoDate) =>
     ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date));
-  const interrupt =
-    DEFAULT_DIRECTOR_DATA.parameters.directorInterruptImpact!.value;
   const monthSpan =
     core.data.parameters.yearSpanDays!.value / (P.two * P.two * P.two);
 
+  // ---- The telling (words composer, unit 6) ----
+  // The Journal tells a life, not a ledger: the records of a stretch of life
+  // are told once, as one paragraph, in the order the outline gives
+  // (src/director/data/journal-outline.json): where they came from and grew
+  // up, the family they made and the moves, the working life, the household
+  // now; then what the player did in play, one paragraph per event or race.
   const chapters: JournalChapter[] = [];
   // Where life happened (a school, a job): never a chapter or an entry, only
   // where the person knew someone who matters later.
   const employerIds: string[] = [];
   let chapter: (typeof chapters)[number] | undefined;
-  // The chapter a race's turn opened, by contest record id: the race's result
-  // is told there, never under whatever chapter another person's race (a
-  // relative's, on the same day) opened last.
-  const chapterOfContest = new Map<string, (typeof chapters)[number]>();
-  let chapterKind: string | undefined;
-  const toldOnce = new Set<string>();
-  const beatEntries = new Map<string, JournalLine>();
-  // What each beat has told already, by its facts: the same parent going to
-  // the same employer is told once.
-  const beatTold = new Map<string, Set<string>>();
-  // Each told line's facts, and the lines an age frame already opens, for
-  // the words that join a line to the one before it.
-  const lineFacts = new Map<string, Facts>();
-  const framed = new Set<string>();
-  // Every moment of the person's so far, told or not, and those a later
-  // entry has already revised.
-  const momentsById = new Map(moments.map((moment) => [moment.id, moment]));
-  const revisedAlready = new Set<string>();
-  // How each closing line (a hard time, a look-back) ends, its last two
-  // words, so none is said twice in one journal.
-  const closedWith = new Set<string>();
   const open = (key: string, title: string, date: IsoDate) => {
-    chapter = {
-      key,
-      title,
-      from: date,
-      through: date,
-      lines: [],
-    };
+    chapter = { key, title, from: date, through: date, lines: [] };
     chapters.push(chapter);
   };
-  const stories = moments.filter(
-    (moment) => rowOf(moment)?.entry !== "setting",
-  );
-  let wonBefore = false;
-  let lostBefore = false;
   // The events that name the person among their own people (a household
   // move), by kind and date, with how many people each names.
   const selfNamed = (moment: JournalMoment) =>
@@ -1572,6 +1848,38 @@ export function composeJournal(
     }),
   );
 
+  /** One record as the telling holds it: its core sentence and the facts that may follow. */
+  interface Unit {
+    moment: JournalMoment;
+    row: NonNullable<ReturnType<typeof rowOf>>;
+    facts: Facts;
+    event: JournalWorded;
+    /** The age already said by the sentence's own frame ("When I was 7, ..."). */
+    framed: boolean;
+    paragraph: string;
+    turn: boolean;
+    /** The record's line again from fewer facts, when the paragraph said some already. */
+    retell?: (given: Facts, key?: string) => JournalWorded | null;
+  }
+  const paragraphOf = (moment: JournalMoment): string => {
+    if (moment.date >= core.startedAt && moment.beat !== "work") return "play";
+    const kind = moment.causeKind;
+    const young = ageAt(moment.date) < P.votingAge;
+    const rows = JOURNAL_OUTLINE.paragraphs;
+    return (
+      rows.find((row) => "beat" in row && row.beat === moment.beat)?.key ??
+      rows.find((row) => row.kinds.some((prefix) => kind.startsWith(prefix)))
+        ?.key ??
+      rows.find((row) => "young" in row && row.young && young)?.key ??
+      "family"
+    );
+  };
+  const units: Unit[] = [];
+  // Each fact is told once in a life: the same kind, the same people and the
+  // same facts, whenever it happened (#8234: "I moved to Jaguas" twice).
+  const toldFacts = new Set<string>();
+  let wonBefore = false;
+  let lostBefore = false;
   for (const moment of moments) {
     const row = rowOf(moment);
     if (!row) continue;
@@ -1583,90 +1891,44 @@ export function composeJournal(
     if (!facts) continue;
     const once = row.oncePer ? facts[row.oncePer]?.text : undefined;
     if (once !== undefined) {
-      if (toldOnce.has(`${row.kindPrefix}|${once}`)) continue;
-      toldOnce.add(`${row.kindPrefix}|${once}`);
+      if (toldFacts.has(`${row.kindPrefix}|${once}`)) continue;
+      toldFacts.add(`${row.kindPrefix}|${once}`);
     }
     const sourceIds = [moment.causeId];
-    // A setting is where life happened, not something that happened: it
-    // neither opens a chapter nor titles one.
     if (row.entry === "setting") {
       const employer = facts.employer?.sourceRecordIds.at(-one);
       if (employer) employerIds.push(employer);
       continue;
     }
-    // A turn opens a chapter titled by its record (a race, a child), unless
-    // the chapter began with the same kind of turn.
-    // A turn of the same kind about someone else opens its own chapter: a
-    // daughter's birth is never told under "My son".
-    // Whose moment opens a chapter, by the row: another person's oath or race
-    // is a line in the chapter one is living, and a stranger's birth or death
-    // is no chapter of this life (lane 3, path 9: no chapter titled after
-    // someone else).
-    // A turn is titled by its record ("My son", "Ordinance 2025-4"); a title
-    // that would be a bare person's name (a relative whose relation has no
-    // word to say them by) is no chapter of this life: it is told inside the
-    // chapter being lived (lane 3, path 9: no chapter titled after someone
-    // else).
-    const titledByName = (): boolean => {
-      const text = render(
-        { part: "title", kindPrefix: row.kindPrefix },
-        facts,
-        `${moment.id}:title`,
-        sourceIds,
-      )?.text;
-      return (
-        !!text &&
-        moment.counterpartIds.some((other) => {
-          const row = core.people.get(other);
-          return (
-            !!row &&
-            (text === row.givenName ||
-              text === `${row.givenName} ${row.familyName}`)
-          );
-        })
-      );
-    };
-    const turn = turnOf(row, moment) && !titledByName();
-    const ownTitle =
-      turn && chapterKind === row.kindPrefix
-        ? render(
-            { part: "title", kindPrefix: row.kindPrefix },
-            facts,
-            `${moment.id}:title`,
-            sourceIds,
-          )
-        : null;
+    // The same move kept twice (the life list's move and the moves engine's
+    // record of one day to one place, #8234's Jaguas) is told once: by the
+    // move's own destination on the list, never by where the person lives
+    // now, which every move would share.
+    // A move is told by where the person lives now (the record's own
+    // destination is not read yet), so two moves before the start read the
+    // same: the first is told, never the same sentence twice (#8234's
+    // Jaguas; Washington, D.C., seed dd487c96b0e937fb). A move in play is
+    // always told.
+    // stopgapId: SG-DIRECTOR-journal-life-gaps (a move's destination is not
+    // on the life list's event; the Journal tells one past move per place).
     if (
-      !chapter ||
-      (turn && chapterKind !== row.kindPrefix) ||
-      (ownTitle && ownTitle.text !== chapter.title)
+      moment.causeKind === "moved" &&
+      facts.place &&
+      moment.date < core.startedAt
     ) {
-      chapterKind = turn ? row.kindPrefix : undefined;
-      const place = placeName(person.placeId);
-      const title =
-        ownTitle ??
-        render(
-          { part: "title", kindPrefix: row.kindPrefix },
-          facts,
-          `${moment.id}:title`,
-          sourceIds,
-        ) ??
-        render(
-          { part: "first-title" },
-          place ? { ...facts, place } : facts,
-          `${moment.id}:title`,
-          sourceIds,
-        );
-      open(moment.id, title?.text ?? "", moment.date);
+      const key = `moved|${facts.place.text}`;
+      if (toldFacts.has(key)) continue;
+      toldFacts.add(key);
     }
-    const contestId = core.durableLog.get(moment.causeId)?.facts?.contestId;
-    if (typeof contestId === "string" && turn)
-      chapterOfContest.set(contestId, chapter!);
-    const told =
-      (typeof contestId === "string" && !turn
-        ? chapterOfContest.get(contestId)
-        : undefined) ?? chapter!;
-    // The scene: the event itself, worded for whose it was.
+    const sign = [
+      moment.causeKind,
+      moment.counterpartIds.join(","),
+      ...Object.entries(facts)
+        .filter(([key]) => !TIME_FACTS.has(key))
+        .map(([key, fact]) => `${key}=${fact.text}`)
+        .sort(),
+    ].join("|");
+    if (toldFacts.has(sign)) continue;
     const own =
       !!selfCount ||
       !!moment.selfNamed ||
@@ -1682,8 +1944,6 @@ export function composeJournal(
           ? ownEvents.get(`${row.sameDay}|${moment.date}`)
           : undefined) ??
         one) > one;
-    const age = ageAt(moment.date);
-    const young = age < P.votingAge;
     let event: ReturnType<typeof render> = null;
     if (row.hasOwnLine && own) {
       const won = facts.winner?.text === personId;
@@ -1723,278 +1983,832 @@ export function composeJournal(
           moment.id,
           sourceIds,
         );
-    else {
-      const wordLine = (key: string) =>
-        render(
-          {
-            part: "line",
-            kindPrefix: row.kindPrefix,
-            whose: own ? "own" : "other",
-            together,
-            named: !!facts.other,
-          },
-          facts,
-          key,
-          sourceIds,
-          // Someone else's race is told by the record's result for them; a
-          // line worded by an event fact (a vote's yes or no) by that fact.
-          !own && row.hasOwnLine
-            ? facts.winner?.text === subjectOf(moment)
-              ? "won"
-              : "lost"
-            : stageOf(row, moment, facts),
-        );
-      event = wordLine(moment.id);
-      // Two tellings in one entry never read the same: a sentence the beat
-      // has said already takes another wording.
-      const said = moment.beat
-        ? beatEntries.get(moment.beat)?.text.toLowerCase()
-        : undefined;
-      for (
-        let again = one;
-        event &&
-        said?.includes(event.text.toLowerCase()) &&
-        again <= rewordings;
-        again += one
-      )
-        event = wordLine(`${moment.id}:again:${again}`);
-      if (event && said?.includes(event.text.toLowerCase())) event = null;
-    }
+    // The record's own line, worded from the facts given: a paragraph that
+    // has already named a fact asks for it again without that fact.
+    const lineOf = (given: Facts, key: string) =>
+      render(
+        {
+          part: "line",
+          kindPrefix: row.kindPrefix,
+          whose: own ? "own" : "other",
+          together,
+          named: !!given.other,
+        },
+        given,
+        key,
+        sourceIds,
+        // Someone else's race is told by the record's result for them; a
+        // line worded by an event fact (a vote's yes or no) by that fact.
+        !own && row.hasOwnLine
+          ? given.winner?.text === subjectOf(moment)
+            ? "won"
+            : "lost"
+          : stageOf(row, moment, given),
+      );
+    const plainLine =
+      !(row.hasOwnLine && own) &&
+      !(row.kindPrefix === "event:candidate-filed" && own);
+    if (plainLine) event = lineOf(facts, moment.id);
     if (!event) continue;
-    // The same thing is told once in a beat: the same kind, the same people
-    // and the same facts, whenever it happened.
-    if (moment.beat) {
-      const told = beatTold.get(moment.beat) ?? new Set<string>();
-      beatTold.set(moment.beat, told);
-      const sign = [
-        moment.causeKind,
-        moment.counterpartIds.join(","),
-        ...Object.entries(facts)
-          .filter(([key]) => !TIME_FACTS.has(key))
-          .map(([key, fact]) => `${key}=${fact.text}`)
-          .sort(),
-      ].join("|");
-      if (told.has(sign)) continue;
-      told.add(sign);
-    }
-    const parts = [event];
-    // When they were young, the age frames it: "When I was 7, my father died."
-    // Only what happened around a young person (a death, a move, an
-    // illness), as the row says; never a race or their own child's birth.
-    if (young && row.framesAge) {
+    toldFacts.add(sign);
+    // When they were young, the age frames it: "When I was 7, my father
+    // died." Only what happened around a young person, as the row says.
+    let framed = false;
+    // An age of nothing ("When I was 0") is no frame: the day of the birth.
+    if (
+      ageAt(moment.date) < P.votingAge &&
+      ageAt(moment.date) > zero &&
+      row.framesAge
+    ) {
       const frame = render(
         { part: "memoir", field: "whenAge" },
         {
           ...facts,
-          age: { text: String(age), sourceRecordIds: [person.id] },
+          age: {
+            text: String(ageAt(moment.date)),
+            sourceRecordIds: [person.id],
+          },
         },
         `${moment.id}:age`,
         sourceIds,
       );
-      // A mined opening clause leads into the event.
       if (frame) {
-        parts[zero] = framedByAge(frame, event, facts);
-        framed.add(moment.id);
+        event = framedByAge(frame, event, facts);
+        framed = true;
       }
     }
-    // A death in the family or a lost job is a hard time.
-    if (
-      (moment.causeKind === "event:life.death" &&
-        !!facts.other &&
-        kin.has(subjectOf(moment)!)) ||
-      ((moment.causeKind === "job-ended" ||
-        moment.causeKind === "job-ended:let-go") &&
-        own)
-    ) {
-      // A lost job names the employer it was lost at; a
-      // death is told by the lines that follow it (the age, the illness).
-      const lostJob =
-        moment.causeKind === "job-ended" ||
-        moment.causeKind === "job-ended:let-go";
-      const hard = render(
-        { part: "memoir", field: "hard", closedWith },
-        lostJob && facts.employer
-          ? { ...facts, "lost-employer": facts.employer }
-          : facts,
-        `${moment.id}:hard`,
-        sourceIds,
-      );
-      if (hard) {
-        closedWith.add(journalClosing(hard));
-        parts.push(hard);
+    units.push({
+      moment,
+      row,
+      facts,
+      event,
+      framed: framed || !!row.ownTime,
+      paragraph: paragraphOf(moment),
+      turn: turnOf(row, moment),
+      ...(plainLine
+        ? {
+            retell: (given: Facts, key?: string) =>
+              lineOf(given, key ?? `${moment.id}:again`),
+          }
+        : {}),
+    });
+  }
+
+  // What moved the person's views, from the views engine's own record of
+  // each stance's causes (owner, Nov 12: "big events in your life that shape
+  // the person you are"): the event, and which way it moved them. Told only
+  // where a stance cites the event; a view nothing records the cause of is
+  // not told.
+  const movedViews = new Map<
+    string,
+    { topic: string; side: string; id: string; size: number }
+  >();
+  if (core.modules.has(VIEWS_MODULE_ID))
+    for (const stance of stancesOf(coreAPI(core as CoreState), personId))
+      for (const cause of stance.causes) {
+        const size = Math.abs(cause.total ?? cause.change);
+        const was = movedViews.get(cause.eventId);
+        if (!was || size > was.size)
+          movedViews.set(cause.eventId, {
+            topic: stance.topic,
+            side: stance.desiredChange,
+            id: stance.id,
+            size,
+          });
       }
-    }
-    // The event told as a small story: each field the row names follows it,
-    // when the record gives the facts that field's sentences name.
-    // A field may name alternatives ("a|b|c"): the first that the facts let
-    // be worded is told, so one sentence that names two facts is not followed
-    // by two that name the same person again.
-    // A moment the age framed has said the age: what follows is told
-    // without it, so the age is said once ("When I was 15 years old, we moved
-    // back to Highland, Kansas." and never "I was 15 that year." after it;
-    // Highland, Kansas, seed aa73e37ebdc41b538771fe51249d8514cb45eea4).
-    const followFacts = framed.has(moment.id)
-      ? Object.fromEntries(
-          Object.entries(facts).filter(([key]) => !AGE_FACTS.has(key)),
-        )
-      : facts;
-    for (const named of row.follow ?? []) {
-      for (const field of named.split("|")) {
-        const told = render(
-          { part: "memoir", field: field as MemoirField },
-          followFacts,
-          `${moment.id}:${field}`,
-          sourceIds,
-        );
-        if (!told) continue;
-        parts.push(told);
-        break;
-      }
-    }
-    // Looking back: a moment whose weight grew with the people in it, when
-    // life went on after it.
-    // The consequence is on record: a later story involves the same person.
-    const later = stories.some(
-      (row) =>
-        row.date > moment.date &&
-        row.counterpartIds.some((id) => moment.counterpartIds.includes(id)),
+  const viewMovedBy = (unit: Unit): JournalWorded | null => {
+    const moved =
+      movedViews.get(unit.moment.causeId) ??
+      (unit.moment.causeFactId
+        ? movedViews.get(unit.moment.causeFactId)
+        : undefined);
+    if (!moved) return null;
+    const enact = moved.side === "enact";
+    const text = enact ? questionTo(moved.topic) : questionAbout(moved.topic);
+    if (!text) return null;
+    return render(
+      { part: "memoir", field: enact ? "viewFor" : "viewAgainst" },
+      {
+        [enact ? "to" : "about"]: {
+          text,
+          sourceRecordIds: [moved.id, unit.moment.causeId],
+        },
+      },
+      `${unit.moment.id}:view`,
+      [moved.id, unit.moment.causeId],
     );
-    // "That was a turning point" only when the record shows one: a later
-    // chapter of another kind opened in this life.
-    const turned =
-      turn &&
-      stories.some((story) => {
-        const next = rowOf(story);
-        return (
-          story.date > moment.date &&
-          !!next &&
-          turnOf(next, story) &&
-          next.kindPrefix !== row.kindPrefix
+  };
+
+  // The facts a sentence names once in a paragraph (an employer, a place, a
+  // wage): a sentence after it that would say it again is told without it.
+  const sayOnce = new Set<string>(JOURNAL_OUTLINE.sayOnce);
+  /**
+   * One paragraph from its records, in order: each record's sentence, the
+   * facts its row lets follow it when they say something not yet said, and
+   * the time between two records where a month or more went by (never two
+   * time openings in a row). The first sentence of a grown-up stretch opens
+   * on the age it began at.
+   */
+  // Whether a partner is on record for the person, so "we" and "our" have
+  // someone behind them.
+  const partnered =
+    [...kin.values()].some((fact) =>
+      ["partner", "former-partner"].includes(fact.relation),
+    ) || life.some((event) => event.life === "partner");
+  const WE = /\b(?:we|our|us)\b/i;
+  const tellParagraph = (
+    told: readonly Unit[],
+    key: string,
+  ): JournalWorded[] => {
+    const said = new Set<string>();
+    const sentences: JournalWorded[] = [];
+    const remember = (text: string, facts: Facts) => {
+      for (const [name, fact] of Object.entries(facts))
+        if (sayOnce.has(name) && text.includes(fact.text)) said.add(fact.text);
+    };
+    let last: Unit | undefined;
+    let lastTimed = false;
+    for (const unit of told) {
+      const ids = [unit.moment.causeId];
+      let event = unit.event;
+      // A fact this paragraph has named already (an employer, a place) is
+      // not named again when the record's line can be said without it.
+      const repeated = Object.entries(unit.facts).filter(
+        ([name, fact]) => sayOnce.has(name) && said.has(fact.text),
+      );
+      if (repeated.length && unit.retell && !unit.framed) {
+        const fewer = Object.fromEntries(
+          Object.entries(unit.facts).filter(
+            ([name]) => !repeated.some(([gone]) => gone === name),
+          ),
         );
-      });
-    // Revised by what came after, as a memoir with hindsight: a moment that
-    // weighed little then, told or not ("an uneventful high school chapter
-    // gains 'except for one person' twenty years on"), and since grown by the
-    // same person coming back, is looked back on in the entry that echoes it.
-    // Only when the record shows it: the earlier moment's weight then, against
-    // its weight now. Time has passed since: an eighth of a year at least,
-    // never the same season's moments revising each other.
-    const changed = moment.echoes
-      .filter((link) => link.earlierKind === "moment")
-      .map((link) => momentsById.get(link.earlierId))
-      .filter(
-        (earlier): earlier is JournalMoment =>
-          !!earlier &&
-          !revisedAlready.has(earlier.id) &&
-          earlier.impact < interrupt &&
-          earlier.hindsight >= interrupt &&
-          daysBetween(makeIsoDate(earlier.date), makeIsoDate(moment.date)) >=
-            monthSpan &&
-          earlier.counterpartIds.includes(subjectOf(moment)!),
-      )
-      .sort((a, b) => b.hindsight - a.hindsight || a.id.localeCompare(b.id))[
-      zero
-    ];
-    // A look-back that names someone ("Susan mattered more than I knew",
-    // "Susan would come back into my life") is about a person met, never a
-    // relative one was born to or raised: "My mother took office. Susan
-    // mattered more than I knew." named a mother as a stranger.
-    const counterpart = subjectOf(moment);
-    const relation = counterpart ? kin.get(counterpart)?.relation : undefined;
-    const looked =
-      relation && !metRelation(relation, words)
-        ? Object.fromEntries(
-            Object.entries(facts).filter(([key]) => key !== "name"),
-          )
-        : facts;
-    const revision =
-      changed && looked.name
-        ? render(
-            { part: "memoir", field: "revise" },
-            looked,
-            `${moment.id}:revise`,
-            [changed.causeId, moment.causeId],
-          )
-        : null;
-    if (changed && revision) {
-      revisedAlready.add(changed.id);
-      parts.push(revision);
+        // The employer first: a place may be said again where the line
+        // has no other way to say where.
+        const fewerButPlace = Object.fromEntries(
+          Object.entries(unit.facts).filter(
+            ([name]) =>
+              name === "place" || !repeated.some(([gone]) => gone === name),
+          ),
+        );
+        const again = unit.retell(fewerButPlace) ?? unit.retell(fewer);
+        if (again) event = again;
+      }
+      // No "we" or "our" without a partner on record to stand behind it
+      // (lead, Nov 12: "our" has nobody behind it): the record's line is
+      // asked again in other words.
+      const child = unit.moment.causeKind === "family:child";
+      if (child && !partnered && WE.test(event.text) && unit.retell)
+        for (let again = one; again <= P.two * P.two * P.two; again += one) {
+          const other = unit.retell(
+            unit.facts,
+            `${unit.moment.id}:alone:${again}`,
+          );
+          if (other && !WE.test(other.text)) {
+            event = other;
+            break;
+          }
+        }
+      let timed = false;
+      let aged = unit.framed;
+      let heldSaid = false;
+      // A record that carries the person's age then says it in its own
+      // sentence ("When I was 15, my son Xavier was born."), never as a
+      // sentence after it.
+      if (unit.facts["age-then"] && !unit.framed && key !== "roots") {
+        const frame = render(
+          { part: "memoir", field: "whenAge" },
+          { age: unit.facts["age-then"] },
+          `${unit.moment.id}:age`,
+          ids,
+        );
+        if (frame) {
+          event = framedByAge(frame, event, unit.facts);
+          aged = true;
+        }
+      } else if (last && !unit.framed && key !== "roots") {
+        const days = daysBetween(
+          makeIsoDate(last.moment.date),
+          makeIsoDate(unit.moment.date),
+        );
+        if (!lastTimed && days >= monthSpan) {
+          const frame = render(
+            { part: "memoir", field: "joinLater" },
+            {
+              span: {
+                text: spanSaid(days),
+                sourceRecordIds: [last.moment.causeId, unit.moment.causeId],
+              },
+            },
+            `${unit.moment.id}:join`,
+            ids,
+          );
+          if (frame) {
+            event = framedByAge(frame, event, unit.facts);
+            timed = true;
+            // The time just said is how long the job before lasted: it is
+            // not said again as "I had been there ...".
+            if (unit.facts.held?.text === spanSaid(days)) heldSaid = true;
+          }
+        }
+      } else if (
+        !aged &&
+        !last &&
+        !unit.framed &&
+        (key === "family" || key === "work") &&
+        ageAt(unit.moment.date) > zero
+      ) {
+        const frame = render(
+          { part: "memoir", field: "whenAge" },
+          {
+            age: {
+              text: String(ageAt(unit.moment.date)),
+              sourceRecordIds: [person.id],
+            },
+          },
+          `${unit.moment.id}:age`,
+          ids,
+        );
+        if (frame) {
+          event = framedByAge(frame, event, unit.facts);
+          aged = true;
+        }
+      }
+      sentences.push(event);
+      remember(event.text, unit.facts);
+      // The event told as a small story: each field the row names follows
+      // it when its facts say something this paragraph has not said yet.
+      const followFacts = Object.fromEntries(
+        Object.entries(unit.facts).filter(
+          ([name, fact]) =>
+            !(sayOnce.has(name) && said.has(fact.text)) &&
+            !(aged && AGE_FACTS.has(name)) &&
+            !(heldSaid && name === "held"),
+        ),
+      );
+      for (const named of unit.row.follow ?? []) {
+        for (const field of named.split("|")) {
+          const follow = render(
+            { part: "memoir", field: field as MemoirField },
+            followFacts,
+            `${unit.moment.id}:${field}`,
+            ids,
+          );
+          if (!follow || (child && !partnered && WE.test(follow.text)))
+            continue;
+          sentences.push(follow);
+          remember(follow.text, followFacts);
+          break;
+        }
+      }
+      const view = viewMovedBy(unit);
+      if (view) sentences.push(view);
+      last = unit;
+      lastTimed = timed;
     }
-    if (!revision && later && moment.hindsight >= interrupt) {
-      // A look-back is said once: no two end the same way ("at the time").
-      const hook = render(
+    return sentences;
+  };
+
+  /**
+   * A working life is told as a run, whatever its length (lead, Nov 12:
+   * "nothing flips at a count"): one sentence of what kind of work it was and
+   * where, how it went (let go, from the records) and where it stands (still
+   * there, or the last place they worked); then, where the records hold
+   * them, how the pay moved from the first job to the last, and how long they
+   * went without a paycheck in all. One job is one sentence about that job.
+   * The pieces are `journal.work-run`'s, joined by the outline's join words.
+   */
+  const tellWork = (told: readonly Unit[]): JournalWorded[] | null => {
+    const employers = new Map<string, string>();
+    for (const unit of told)
+      for (const fact of [unit.facts.employer, unit.facts.next])
+        if (fact)
+          employers.set(fact.text, String(fact.sourceRecordIds.at(-one)));
+    const ids = told.map((unit) => unit.moment.causeId);
+    const first = told[zero]!;
+    const lastUnit = told.at(-one)!;
+    // Where it stands: still at the last job, or the last place worked
+    // when the run ends on a job that ended with none after it.
+    const endedOut =
+      lastUnit.moment.causeKind.startsWith("job-ended") && !lastUnit.facts.next;
+    const ended = lastUnit.facts.next ?? lastUnit.facts.employer;
+    const lostIds = told
+      .filter((unit) => unit.moment.causeKind === "job-ended:let-go")
+      .map((unit) => unit.moment.causeId);
+    // The kinds of work, from each employer's record, the most held first.
+    const workWords = JOURNAL_OUTLINE.workWords as Record<string, string>;
+    const kinds = new Map<string, { n: number; ids: string[] }>();
+    for (const orgId of employers.values()) {
+      const kind = (core.organizations.get(orgId)?.classification ?? "")
+        .split(":")
+        .at(-one);
+      const word = kind ? workWords[kind] : undefined;
+      if (!word) continue;
+      const row = kinds.get(word) ?? { n: zero, ids: [] };
+      row.n += one;
+      row.ids.push(orgId);
+      kinds.set(word, row);
+    }
+    const said = [...kinds]
+      .sort(([a, x], [b, y]) => y.n - x.n || a.localeCompare(b))
+      .slice(zero, P.two);
+    const join = JOURNAL_OUTLINE.workJoin;
+    const where = lastUnit.facts.place ?? first.facts.place;
+    const span: Fact = {
+      text: spanSaid(
+        daysBetween(
+          makeIsoDate(first.moment.date),
+          makeIsoDate(endedOut ? lastUnit.moment.date : core.startedAt),
+        ),
+      ),
+      sourceRecordIds: ids,
+    };
+    // One job: that job and how long.
+    if (employers.size === one && ended) {
+      const one_ = render(
+        { part: "memoir", field: endedOut ? "workOneLeft" : "workOne" },
+        { employer: ended, span },
+        `${first.moment.id}:work-one`,
+        ids,
+      );
+      if (one_) return [one_, ...workAfter(told, ids)];
+    }
+    const facts: Facts = {
+      span,
+      ...(said.length
+        ? {
+            work: {
+              text: said.map(([word]) => word).join(join.kindsAnd),
+              sourceRecordIds: said.flatMap(([, row]) => row.ids),
+            },
+          }
+        : {}),
+      ...(where ? { place: where } : {}),
+    };
+    const run = render(
+      { part: "memoir", field: "workRun" },
+      facts,
+      `${first.moment.id}:work-run`,
+      ids,
+    );
+    if (!run) return null;
+    const times = (words ?? JOURNAL_WORDS).countWords;
+    const lost = lostIds.length
+      ? render(
+          { part: "memoir", field: "workLost" },
+          {
+            times: {
+              text: times[lostIds.length] ?? (words ?? JOURNAL_WORDS).manyTimes,
+              sourceRecordIds: lostIds,
+            },
+          },
+          `${first.moment.id}:work-lost`,
+          ids,
+        )
+      : null;
+    const end = ended
+      ? render(
+          { part: "memoir", field: endedOut ? "workLeft" : "workEnd" },
+          { employer: ended },
+          `${first.moment.id}:work-end`,
+          ids,
+        )
+      : null;
+    const lower = (part: JournalWorded) =>
+      part.text.charAt(zero).toLowerCase() + part.text.slice(one);
+    const tail = [lost, end].filter((part): part is JournalWorded => !!part);
+    const text =
+      run.text +
+      tail
+        .map(
+          (part, at) =>
+            (at === tail.length - one ? join.beforeLast : join.between) +
+            lower(part),
+        )
+        .join("") +
+      join.end;
+    return [
+      {
+        text:
+          tail.length === one
+            ? text.replace(join.beforeLast, join.onlyLast)
+            : text,
+        sourceRecordIds: [
+          ...new Set([run, ...tail].flatMap((part) => part.sourceRecordIds)),
+        ],
+      },
+      ...workAfter(told, ids),
+    ];
+  };
+  /** How the pay moved from the first job to the last, and the time without a paycheck, from the records. */
+  const workAfter = (
+    told: readonly Unit[],
+    ids: readonly string[],
+  ): JournalWorded[] => {
+    const out: JournalWorded[] = [];
+    // The pay of the first job and of the last, from the run's own spell
+    // records in the order they began (the job held at the start is one).
+    const wages = life
+      .filter(
+        (event) =>
+          event.life === "work" &&
+          event.record === PAST_WORK_SPELL &&
+          Number(event.facts?.hourlyMinor) > zero,
+      )
+      .sort((a, b) =>
+        String(a.facts?.startedAt).localeCompare(String(b.facts?.startedAt)),
+      )
+      .map((event) => ({
+        minor: Number(event.facts!.hourlyMinor),
+        id: event.id,
+      }));
+    const from = wages[zero];
+    const to = wages.at(-one);
+    if (from && to && moneySaid(from.minor) !== moneySaid(to.minor)) {
+      const pay = render(
         {
           part: "memoir",
-          field: "hook",
-          closedWith,
-          lookBack: {
-            memorableOnly: row.lookBack === "memorable",
-            young,
-            turned,
+          field: to.minor > from.minor ? "workPayUp" : "workPayDown",
+        },
+        {
+          "wage-from": {
+            text: moneySaid(from.minor),
+            sourceRecordIds: [from.id],
+          },
+          "wage-to": { text: moneySaid(to.minor), sourceRecordIds: [to.id] },
+        },
+        `${told[zero]!.moment.id}:work-pay`,
+        [...ids],
+      );
+      if (pay) out.push(pay);
+    }
+    // Every time out of work the run's records hold, summed.
+    const outs = life.filter(
+      (event) =>
+        event.life === "work" &&
+        event.record === PAST_WORK_OUT &&
+        event.facts?.endedAt &&
+        event.facts?.startedAt,
+    );
+    const days = outs.reduce(
+      (sum, event) =>
+        sum +
+        daysBetween(
+          makeIsoDate(String(event.facts!.startedAt)),
+          makeIsoDate(String(event.facts!.endedAt)),
+        ),
+      zero,
+    );
+    if (outs.length && days > zero) {
+      const without = render(
+        { part: "memoir", field: "workOut" },
+        {
+          "out-span": {
+            text: spanSaid(days),
+            sourceRecordIds: outs.map((event) => event.id),
           },
         },
-        looked,
-        `${moment.id}:hook`,
-        sourceIds,
+        `${told[zero]!.moment.id}:work-out`,
+        [...ids],
       );
-      if (hook) {
-        closedWith.add(journalClosing(hook));
-        parts.push(hook);
-      }
+      if (without) out.push(without);
     }
-    // Another's turn in public life (their filing, their oath, a race they
-    // won) is told as what it meant to the person, from their tie: a friend's
-    // is the friendship, a rival's is doubt; anyone else's is only the line.
-    const governing = row.turnFor === "self" || row.hasOwnLine;
-    const theirWin =
-      !row.hasOwnLine || facts.winner?.text === subjectOf(moment);
-    if (!own && governing && theirWin && parts.length === one && counterpart) {
-      const side = tieSide(core, personId, counterpart);
-      const meant = side
+    return out;
+  };
+
+  /**
+   * Records of one kind that came together, told as one sentence: the facts
+   * that differ between them are said as one list ("the rules on
+   * transportation and the local income tax rate"), by the outline's merge
+   * row and its memoir field.
+   */
+  const mergeOf = (told: readonly Unit[]): JournalWorded[] | null => {
+    const row = JOURNAL_OUTLINE.merge.find(
+      (entry) => entry.kindPrefix === told[zero]?.row.kindPrefix,
+    );
+    if (!row || (told.length < P.two && !row.alone)) return null;
+    // Records named the same way (a law by its bill's name, or by what it is
+    // about) are one sentence each: the first of the row's facts each holds.
+    const byFact = new Map<string, Unit[]>();
+    for (const unit of told) {
+      const key = row.facts.find((name) => unit.facts[name]) ?? "";
+      byFact.set(key, [...(byFact.get(key) ?? []), unit]);
+    }
+    const out: JournalWorded[] = [];
+    for (const [key, units] of byFact) {
+      if (!key) continue;
+      const said = units.map((unit) => unit.facts[key]!);
+      const facts: Facts = {
+        [key]: {
+          text: listOfParts([...new Set(said.map((fact) => fact.text))]),
+          sourceRecordIds: said.flatMap((fact) => fact.sourceRecordIds),
+        },
+      };
+      // Each record's own clause (what it did), the clauses as one list.
+      const clauses = units.flatMap((unit) => {
+        const field =
+          row.clauses[unit.facts.direction?.text as keyof typeof row.clauses];
+        const clause = field
+          ? render(
+              { part: "memoir", field: field as MemoirField },
+              unit.facts,
+              `${unit.moment.id}:clause`,
+              [unit.moment.causeId],
+            )
+          : null;
+        return clause
+          ? [
+              {
+                ...clause,
+                text:
+                  clause.text.charAt(zero).toLowerCase() +
+                  clause.text.slice(one),
+              },
+            ]
+          : [];
+      });
+      if (!clauses.length) continue;
+      facts.effects = {
+        text: listOf(clauses.map((clause) => clause.text)),
+        sourceRecordIds: clauses.flatMap((clause) => clause.sourceRecordIds),
+      };
+      const line = render(
+        { part: "memoir", field: row.field as MemoirField },
+        facts,
+        `${units[zero]!.moment.id}:merged`,
+        units.map((unit) => unit.moment.causeId),
+      );
+      if (line) out.push(line);
+    }
+    return out.length ? out : null;
+  };
+
+  const entryOf = (told: readonly Unit[], sentences: JournalWorded[]) => ({
+    id: told[zero]!.moment.id,
+    date: told[zero]!.moment.date,
+    text: journalEntry(sentences),
+    momentIds: told.map((unit) => unit.moment.id),
+    kinds: told.map((unit) => unit.moment.causeKind),
+    sourceRecordIds: [
+      ...new Set(sentences.flatMap((part) => part.sourceRecordIds)),
+    ],
+  });
+  const push = (told: readonly Unit[], sentences: JournalWorded[]) => {
+    if (!told.length || !sentences.length || !chapter) return;
+    chapter.lines.push(entryOf(told, sentences));
+    const lastDate = told.at(-one)!.moment.date;
+    if (lastDate > chapter.through) chapter.through = lastDate;
+  };
+
+  /**
+   * What the person lived through before the start that moved their views,
+   * from the views engine's own record of it (owner, Nov 12: "big events in
+   * your life that shape the person you are"; the view's `pastShifts`, life
+   * record part 14, #8973): a parent's job lost while they were a child, in
+   * the roots paragraph, and their own last layoff as a grown-up, in the
+   * work paragraph, each with which way it moved them. A view with no such
+   * record (main before #8973 lands) tells nothing.
+   */
+  const pastViewSentences = (paragraph: string): JournalWorded[] => {
+    if (!core.modules.has(VIEWS_MODULE_ID)) return [];
+    const view = viewOf(coreAPI(core as CoreState), personId) as {
+      id: string;
+      pastShifts?: readonly {
+        recordId: string;
+        kind: string;
+        parentId?: string;
+        change: number;
+      }[];
+    } | null;
+    const out: JournalWorded[] = [];
+    for (const shift of view?.pastShifts ?? []) {
+      const parentCase = shift.kind === "parent-job-lost";
+      if ((paragraph === "roots") !== parentCase) continue;
+      if (!parentCase && paragraph !== "work") continue;
+      const whose = (parentCase ? shift.parentId : personId) as PersonId;
+      const spell = whose
+        ? pastWorkOf(core as CoreState, whose).find(
+            (row) => row.id === shift.recordId,
+          )
+        : undefined;
+      const ended = spell?.facts.endedAt ? String(spell.facts.endedAt) : null;
+      if (!spell || !ended || shift.change === zero) continue;
+      const ids = [shift.recordId, view!.id];
+      const lean: Fact = {
+        text: JOURNAL_OUTLINE.leanWords[shift.change < zero ? "left" : "right"],
+        sourceRecordIds: ids,
+      };
+      const employer = spell.facts.organizationId
+        ? employerName(core, String(spell.facts.organizationId), spell.id)
+        : undefined;
+      if (parentCase) {
+        const parent = core.people.get(whose);
+        const relation = kin.get(whose);
+        const phrase =
+          parent && relation
+            ? relationPhrase(
+                relation.relation,
+                parent.looks?.gender ?? "other",
+                "journal",
+                words,
+              )
+            : undefined;
+        if (!parent || !phrase) continue;
+        const facts: Facts = {
+          age: {
+            text: String(ageAt(makeIsoDate(ended))),
+            sourceRecordIds: [spell.id, person.id],
+          },
+          named: {
+            text: `${phrase} ${parent.givenName}`,
+            sourceRecordIds: [relation!.factId, whose],
+          },
+          their: {
+            text: possessivePronoun(parent.looks?.gender ?? "other", words),
+            sourceRecordIds: [relation!.factId],
+          },
+          ...(employer ? { employer } : {}),
+        };
+        const lost = render(
+          { part: "memoir", field: "viewParentLost" },
+          facts,
+          `${shift.recordId}:view-lost`,
+          ids,
+        );
+        const moved = render(
+          {
+            part: "memoir",
+            // Toward the parent's view, or away from it, as the record keeps
+            // it (`follow`, from the person's traits).
+            field:
+              (shift.follow ?? zero) >= zero
+                ? "viewParentToward"
+                : "viewParentAway",
+          },
+          { ...facts, lean },
+          `${shift.recordId}:view-moved`,
+          ids,
+        );
+        if (lost && moved) out.push(lost, moved);
+        continue;
+      }
+      const own = employer
         ? render(
+            { part: "memoir", field: "viewOwn" },
             {
-              part: "memoir",
-              field: side.side === "friend" ? "meantFriend" : "meantRival",
+              employer,
+              year: {
+                text: ended.slice(zero, P.two * P.two),
+                sourceRecordIds: [spell.id],
+              },
+              lean,
             },
-            {},
-            `${moment.id}:meant`,
-            [side.tieId, moment.causeId],
+            `${shift.recordId}:view-own`,
+            ids,
           )
         : null;
-      if (meant) parts.push(meant);
+      if (own) out.push(own);
     }
-    lineFacts.set(moment.id, facts);
-    // A line that says its own time ("Today I turned eighteen.") opens on
-    // no other.
-    if (row.ownTime) framed.add(moment.id);
-    // The note on the family's work is one sentence per person, each standing
-    // on its own: it never opens on the time since the line before.
-    if (moment.beat === "work") framed.add(moment.id);
-    const entry = {
-      id: moment.id,
-      date: moment.date,
-      text: journalEntry(parts),
-      momentIds: [moment.id],
-      sourceRecordIds: [
-        ...new Set(parts.flatMap((part) => part.sourceRecordIds)),
-      ],
-      ...(changed && revision ? { revises: [changed.id] } : {}),
-    };
-    // A beat of the household's story (where the family came from, who
-    // raised the person, what they did for a living) is one memoir entry, its
-    // sentences told in the order the records give them.
-    const joined = moment.beat ? beatEntries.get(moment.beat) : undefined;
-    if (joined) {
-      joined.text = `${joined.text} ${entry.text}`;
-      joined.momentIds = [...joined.momentIds, moment.id];
-      joined.sourceRecordIds = [
-        ...new Set([...joined.sourceRecordIds, ...entry.sourceRecordIds]),
+    return out;
+  };
+
+  // The past: a few short paragraphs under the first chapter.
+  const past = units.filter((unit) => unit.paragraph !== "play");
+  if (past.length) {
+    const place = placeName(person.placeId);
+    const title = render(
+      { part: "first-title" },
+      place ? { place } : {},
+      `${past[zero]!.moment.id}:title`,
+      [past[zero]!.moment.causeId],
+    );
+    open(past[zero]!.moment.id, title?.text ?? "", past[zero]!.moment.date);
+    // Each outline row's records, in the order they happened; the birth
+    // leads its paragraph, since a life is told from the day it began.
+    const queues = JOURNAL_OUTLINE.paragraphs
+      .map((row) => ({
+        key: row.key,
+        units: past
+          .filter((unit) => unit.paragraph === row.key)
+          .sort(
+            (a, b) =>
+              Number(b.moment.causeKind === "person.birth") -
+              Number(a.moment.causeKind === "person.birth"),
+          ),
+      }))
+      .filter((row) => row.units.length);
+    // The Journal is told in the order things happened (lead, Nov 13): a
+    // paragraph is dated by its earliest record and paragraphs follow those
+    // dates. A paragraph carries the later records of its thread only until
+    // another thread's next record comes first; then the thread is split, and
+    // its later records are a paragraph of their own in their place.
+    const viewsTold = new Set<string>();
+    while (queues.some((row) => row.units.length)) {
+      const open = queues.filter((row) => row.units.length);
+      // The thread whose next record came first (the outline's order breaks a tie).
+      const next = open.reduce((best, row) =>
+        row.units[zero]!.moment.date < best.units[zero]!.moment.date
+          ? row
+          : best,
+      );
+      const others = open
+        .filter((row) => row !== next)
+        .map((row) => row.units[zero]!.moment.date)
+        .sort();
+      const until = others[zero];
+      const told: Unit[] = [];
+      while (
+        next.units.length &&
+        (!told.length ||
+          until === undefined ||
+          next.units[zero]!.moment.date <= until)
+      )
+        told.push(next.units.shift()!);
+      const views = viewsTold.has(next.key) ? [] : pastViewSentences(next.key);
+      viewsTold.add(next.key);
+      const sentences = [
+        ...((next.key === "work" ? tellWork(told) : null) ??
+          tellParagraph(told, next.key)),
+        ...views,
       ];
-    } else {
-      told.lines.push(entry);
-      if (moment.beat) beatEntries.set(moment.beat, entry);
+      push(told, sentences);
     }
-    if (moment.date > told.through) told.through = moment.date;
+  }
+  // Play: what the player did and what happened to them since the start,
+  // one paragraph per event, a race's records together, in more detail. A
+  // turn (a race, a child) opens a chapter titled by its record.
+  const played = units.filter((unit) => unit.paragraph === "play");
+  const groups: Unit[][] = [];
+  const byContest = new Map<string, Unit[]>();
+  for (const unit of played) {
+    // A race's records go together, and so do records of one kind the
+    // outline merges that came on one day (three laws learned at once).
+    const merged = JOURNAL_OUTLINE.merge.find(
+      (row) => row.kindPrefix === unit.row.kindPrefix,
+    );
+    const contestId = merged
+      ? `${merged.kindPrefix}|${unit.moment.date}`
+      : core.durableLog.get(unit.moment.causeId)?.facts?.contestId;
+    const group =
+      typeof contestId === "string" ? byContest.get(contestId) : undefined;
+    if (group) {
+      group.push(unit);
+      continue;
+    }
+    const fresh = [unit];
+    groups.push(fresh);
+    if (typeof contestId === "string") byContest.set(contestId, fresh);
+  }
+  let chapterKind: string | undefined;
+  for (const group of groups) {
+    const turn = group.find((unit) => unit.turn);
+    const titleOf = (unit: Unit) =>
+      render(
+        { part: "title", kindPrefix: unit.row.kindPrefix },
+        unit.facts,
+        `${unit.moment.id}:title`,
+        [unit.moment.causeId],
+      );
+    // A title that would be a bare person's name is no chapter of this life.
+    const title = turn ? titleOf(turn) : null;
+    const byName =
+      !!title &&
+      turn!.moment.counterpartIds.some((other) => {
+        const row = core.people.get(other);
+        return (
+          !!row &&
+          (title.text === row.givenName ||
+            title.text === `${row.givenName} ${row.familyName}`)
+        );
+      });
+    if (
+      !chapter ||
+      (turn &&
+        title &&
+        !byName &&
+        (chapterKind !== turn.row.kindPrefix || title.text !== chapter.title))
+    ) {
+      chapterKind = turn?.row.kindPrefix;
+      const place = placeName(person.placeId);
+      const opening =
+        (title && !byName ? title : null) ??
+        render(
+          { part: "first-title" },
+          place ? { place } : {},
+          `${group[zero]!.moment.id}:title`,
+          [group[zero]!.moment.causeId],
+        );
+      open(
+        group[zero]!.moment.id,
+        opening?.text ?? "",
+        group[zero]!.moment.date,
+      );
+    }
+    const merged = JOURNAL_OUTLINE.merge.some(
+      (row) => row.kindPrefix === group[zero]?.row.kindPrefix,
+    );
+    // A merged kind is told only as its merged sentence.
+    const told = mergeOf(group) ?? (merged ? [] : tellParagraph(group, "play"));
+    push(group, told);
   }
 
   // Revised as life goes on: a schoolmate or a co-worker who now holds office
@@ -2114,140 +2928,36 @@ export function composeJournal(
     home.lines.sort((a, b) => a.date.localeCompare(b.date));
   }
   const kept = chapters.filter((row) => row.lines.length > zero);
-  linkLines(core, book.momentsById, kept);
-  // A line its records say came of the one before opens on that ("Because
-  // of that, ..."); one after a month or more, on the time that passed
-  // ("Three months later, ..."). Feeling and a short wait need no words.
-  for (const line of kept.flatMap((chapter) => chapter.lines)) {
-    const link = line.link;
-    const facts = lineFacts.get(line.id);
-    if (!link || !facts || framed.has(line.id)) continue;
-    const span = spanSaid(link.days);
-    const later = link.by === "time" && span !== spanSaid(zero);
-    if (link.by !== "cause" && !later) continue;
-    const frame = render(
-      {
-        part: "memoir",
-        field: link.by === "cause" ? "joinCause" : "joinLater",
-      },
-      later ? { span: { text: span, sourceRecordIds: link.recordIds } } : {},
-      `${line.id}:join`,
-      link.recordIds,
+  // Said-as: a relative is said by relation and first name the first time
+  // the Journal names them ("my father Daniel"), then by first name.
+  const kinSaid = [...kin].flatMap(([id, fact]) => {
+    const row = core.people.get(id as PersonId);
+    const phrase = row
+      ? relationPhrase(
+          fact.relation,
+          row.looks?.gender ?? "other",
+          "journal",
+          words,
+        )
+      : undefined;
+    return row && phrase ? [{ phrase, given: row.givenName }] : [];
+  });
+  for (const { phrase, given } of kinSaid) {
+    const pattern = new RegExp(
+      `\\b${phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")} ${given}\\b`,
+      "gi",
     );
-    if (!frame) continue;
-    const joined = framedByAge(frame, line, facts);
-    line.plain = line.text;
-    line.text = joined.text;
-    line.sourceRecordIds = joined.sourceRecordIds;
+    let saidOnce = false;
+    for (const line of kept.flatMap((row) => row.lines))
+      line.text = line.text.replace(pattern, (whole) => {
+        if (!saidOnce) {
+          saidOnce = true;
+          return whole;
+        }
+        return given;
+      });
   }
   return kept;
-}
-
-/** The names a record carries: its own id, its people and its facts' ids. */
-function namesOf(core: Readonly<CoreState>, recordId: string): Set<string> {
-  const record = core.durableLog.get(recordId as never);
-  const names = new Set<string>([recordId]);
-  for (const value of Object.values(record?.facts ?? {}))
-    if (typeof value === "string" && value.includes(":")) names.add(value);
-  return names;
-}
-
-/** The person's mood in a moment, by the sign of its channels' sum. */
-function moodOf(moment: Moment | undefined): number {
-  const sum = (moment?.channels ?? []).reduce(
-    (total, row) => total + row.contribution,
-    zero,
-  );
-  return Math.sign(sum);
-}
-
-/**
- * Links each line to the line told before it, across chapters, by cause,
- * feeling or time (see JournalLink).
- */
-function linkLines(
-  core: Readonly<CoreState>,
-  moments: ReadonlyMap<string, Moment>,
-  chapters: JournalChapter[],
-): void {
-  let before: JournalLine | undefined;
-  for (const line of chapters.flatMap((chapter) => chapter.lines)) {
-    if (before) {
-      const earlier = before;
-      const days = daysBetween(
-        makeIsoDate(earlier.date),
-        makeIsoDate(line.date),
-      );
-      // A person or a place both lines name (the player, their town) is
-      // who and where, never a cause.
-      const theirs = new Map<string, string>();
-      for (const id of earlier.sourceRecordIds)
-        for (const name of namesOf(core, id))
-          if (
-            !core.people.has(name as never) &&
-            !corePlaceByJurisdictionId(name as never) &&
-            !core.households.has(name)
-          )
-            theirs.set(name, id);
-      // Two lines of a working life (both told from the past-work records)
-      // are one life, never one causing the other: a hire does not cause the
-      // layoff from that job, and a layoff does not cause the next hire. They
-      // are joined by the time between them.
-      const work = (ids: readonly string[]) =>
-        ids.some((id) => id.startsWith(PAST_WORK_PREFIX));
-      const working =
-        work(line.sourceRecordIds) && work(earlier.sourceRecordIds);
-      // A record the line before already cites as its own reason ("when my
-      // daughter was born, I left ...") is the same event told twice, never
-      // its effect: the later telling joins by time.
-      const toldBefore = (name: string) =>
-        line.sourceRecordIds.includes(name) &&
-        earlier.sourceRecordIds.includes(name);
-      const shared = working
-        ? []
-        : line.sourceRecordIds.flatMap((id) =>
-            [...namesOf(core, id)]
-              .filter((name) => theirs.has(name) && !toldBefore(name))
-              .flatMap((name) => [theirs.get(name)!, id]),
-          );
-      const echoed = line.momentIds.some((id) =>
-        moments
-          .get(id)
-          ?.echoes.some((echo) => earlier.momentIds.includes(echo.earlierId)),
-      );
-      const mood = moodOf(moments.get(line.momentIds[zero] ?? ""));
-      const felt =
-        mood !== zero &&
-        mood === moodOf(moments.get(earlier.momentIds[zero] ?? ""));
-      line.link =
-        shared.length || echoed
-          ? {
-              by: "cause",
-              earlierId: earlier.id,
-              recordIds: shared.length
-                ? [...new Set(shared)]
-                : [
-                    ...new Set([
-                      ...earlier.sourceRecordIds.slice(zero, one),
-                      ...line.sourceRecordIds.slice(zero, one),
-                    ]),
-                  ],
-              days,
-            }
-          : {
-              by: felt ? "feeling" : "time",
-              earlierId: earlier.id,
-              recordIds: [
-                ...new Set([
-                  ...earlier.sourceRecordIds.slice(zero, one),
-                  ...line.sourceRecordIds.slice(zero, one),
-                ]),
-              ],
-              days,
-            };
-    }
-    before = line;
-  }
 }
 
 /**

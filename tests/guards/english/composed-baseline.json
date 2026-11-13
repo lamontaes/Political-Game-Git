@@ -3,76 +3,86 @@
   "days": 14,
   "draws": [
     {
-      "seed": "a9c85de3-e7fa-4418-8499-569a5c5e6e10",
-      "placeKey": "0686174",
-      "place": "Wofford Heights, California"
-    },
-    {
-      "seed": "9fee231e-a47b-42a9-ad67-7a6e2198f987",
-      "placeKey": "4779500",
-      "place": "Westpoint, Tennessee"
-    },
-    {
-      "seed": "ebeca320-d6d5-4455-8be7-456cfce2ba1f",
-      "placeKey": "4622260",
-      "place": "Fort Pierre, South Dakota"
+      "seed": "9215bff1-c71a-4651-aec6-ef12613ed5d7",
+      "placeKey": "4717420",
+      "place": "Cottontown, Tennessee"
     }
   ],
   "rules": {
+    "journal-names-no-feeling": {
+      "read": 3,
+      "breaks": 0,
+      "per100": 0
+    },
+    "journal-entry-has-story-around-it": {
+      "read": 3,
+      "breaks": 0,
+      "per100": 0
+    },
+    "journal-fact-told-once": {
+      "read": 3,
+      "breaks": 1,
+      "per100": 33.3
+    },
+    "journal-no-time-opener-chain": {
+      "read": 3,
+      "breaks": 0,
+      "per100": 0
+    },
     "address-is-national-not-about-the-player": {
-      "read": 6,
+      "read": 2,
       "breaks": 0,
       "per100": 0
     },
     "speech-has-one-theme": {
-      "read": 6,
-      "breaks": 0,
-      "per100": 0
+      "read": 2,
+      "breaks": 1,
+      "per100": 50
     },
     "asks-differ-by-world": {
-      "read": 6,
+      "read": 2,
       "breaks": 0,
       "per100": 0
     },
     "person-said-by-role-pronoun-or-relationship": {
-      "read": 45,
-      "breaks": 16,
-      "per100": 35.6
+      "read": 16,
+      "breaks": 3,
+      "per100": 18.8
     },
     "one-idea-to-a-sentence": {
-      "read": 45,
+      "read": 16,
       "breaks": 0,
       "per100": 0
     },
     "no-reply-asks-what-the-listener-cannot-know": {
-      "read": 12,
+      "read": 5,
       "breaks": 0,
       "per100": 0
     },
     "two-speakers-make-different-points": {
-      "read": 12,
+      "read": 5,
       "breaks": 0,
       "per100": 0
     },
     "line-fits-the-hour": {
-      "read": 17,
+      "read": 7,
       "breaks": 0,
       "per100": 0
     },
     "no-non-replies": {
-      "read": 12,
+      "read": 5,
       "breaks": 0,
       "per100": 0
     },
     "reason-holds-for-the-side": {
-      "read": 10,
+      "read": 5,
       "breaks": 0,
       "per100": 0
     },
     "note-stands-alone": {
-      "read": 12,
-      "breaks": 1,
-      "per100": 8.3
+      "read": 4,
+      "breaks": 0,
+      "per100": 0
     }
   }
 }

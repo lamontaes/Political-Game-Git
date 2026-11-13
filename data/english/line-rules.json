@@ -4089,10 +4089,12 @@
           "via": "people.md"
         }
       ],
-      "note": "Stays judged: a test would need a list of feeling words his notes do not name, and whether a line narrates a feeling or shows it is a reading.",
-      "status": "awaiting-test",
+      "note": "Composed check (words composer, unit 6): a Journal sentence that holds a word from the feelings list in data/english/composed-checks.json (journalFeelings). The list is the check's reading aid, not a ruling; a hit is a break to read. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
       "test": {
-        "kind": "judged"
+        "kind": "composed",
+        "check": ["journal-names-no-feeling"],
+        "applies": ["journal:page", "journal:note"]
       }
     },
     {
@@ -4369,10 +4371,12 @@
           "via": "2026-10-27-1.md"
         }
       ],
-      "note": "Stays judged: it judges the journal as a whole memoir, the entries around a line, which no single piece holds.",
-      "status": "awaiting-test",
+      "note": "Composed check (words composer, unit 6): a Journal entry of one sentence that names no person, place, employer, amount or time is a lone event. Whether the story around it holds is still read by the owner. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
       "test": {
-        "kind": "judged"
+        "kind": "composed",
+        "check": ["journal-entry-not-bare"],
+        "applies": ["journal:page", "journal:note"]
       }
     },
     {
@@ -4400,6 +4404,49 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      }
+    },
+    {
+      "id": "journal-fact-told-once",
+      "says": "The Journal tells each fact once: the same move or job never appears twice, and an employer or a place is named once in a paragraph.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "Because as of now, the journal is just a declaration of, I did this, I worked here, I did this, I worked here, this person was born, I went to school here...",
+          "via": "Fable A words brief, owner to the lead"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "See, these journal entries are still not being told as stories. They're just statements.",
+          "via": "line-rules.json journal-work-line-tells-a-story-in-ten-words"
+        }
+      ],
+      "note": "Composed check (words composer, unit 6): the same sentence twice, a move to the same place twice, or one proper name of two words or more (not a person) twice in one paragraph. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["journal-fact-told-once"],
+        "applies": ["journal:page", "journal:note"]
+      }
+    },
+    {
+      "id": "journal-no-time-opener-chain",
+      "says": "Two Journal entries in a row never both open on how much time passed: time is never the only link between two paragraphs.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "Because as of now, the journal is just a declaration of, I did this, I worked here, I did this, I worked here, this person was born, I went to school here...",
+          "via": "Fable A words brief, owner to the lead"
+        }
+      ],
+      "note": "Composed check (words composer, unit 6): consecutive entries that each open on a span and 'later' or 'on' (#8234's 'Eight years on, ...' on every line). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["journal-no-time-opener-chain"],
+        "applies": ["journal:page", "journal:note"]
       }
     },
     {

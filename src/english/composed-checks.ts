@@ -706,6 +706,168 @@ export const noteStandsAlone: ComposedCheck = (text) => {
   return found;
 };
 
+// ---- the Journal's own checks (words composer, unit 6) ----
+
+const JOURNAL_KINDS: readonly ComposedKind[] = ["journal:page", "journal:note"];
+const FEELING = new RegExp(
+  `(?<![\\w'])(?:${data.journalFeelings.map(escape).join("|")})(?![\\w'])`,
+  "i",
+);
+const MOVED_TO = new RegExp(data.journalMoveVerbs, "g");
+const TIME_OPENER = new RegExp(data.journalTimeOpener, "i");
+const PROPER_RUN = new RegExp(data.journalProperRun, "g");
+
+/**
+ * A fact told twice in one Journal: the same sentence twice, a move to the
+ * same place twice (#8234, Jaguas: "I moved to Jaguas, Puerto Rico" at 20 and
+ * at 28), or one employer or place named twice in one paragraph (a stretch
+ * names it once, then says "there").
+ */
+export const journalFactToldOnce: ComposedCheck = (text, sample) => {
+  if (!JOURNAL_KINDS.includes(text.kind)) return [];
+  const found: ComposedBreak[] = [];
+  const people = new Set(
+    sample.people.flatMap((person) => [person.full, person.given]),
+  );
+  const sentences = new Set<string>();
+  const moves = new Set<string>();
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines) {
+      const named = new Map<string, number>();
+      for (const sentence of line.sentences) {
+        const plain = plainSentence(sentence);
+        // A sentence of one or two words is a piece of a name the splitter
+        // cut ("U.S. Virgin Islands"), not a sentence said twice.
+        if (plain.split(" ").length > one + one && sentences.has(plain))
+          found.push(
+            breakOf(
+              "journal-fact-told-once",
+              text,
+              at,
+              "the same sentence twice",
+              sentence,
+            ),
+          );
+        sentences.add(plain);
+        for (const match of plainQuotes(sentence).matchAll(MOVED_TO)) {
+          const place = match[1]!;
+          if (moves.has(place))
+            found.push(
+              breakOf(
+                "journal-fact-told-once",
+                text,
+                at,
+                `a move to ${place} told twice`,
+                sentence,
+              ),
+            );
+          moves.add(place);
+        }
+        // Proper names of two words or more that are not a person: an
+        // employer, a school or a place, by the words that spell it.
+        const runs = new Set(
+          [...plainQuotes(sentence).matchAll(PROPER_RUN)]
+            .map((match) =>
+              match[0].replace(/^(?:When|After|Over|As|In|My|The|I) /, ""),
+            )
+            .filter((run) => run.includes(" ") && !people.has(run)),
+        );
+        for (const run of runs) named.set(run, (named.get(run) ?? zero) + one);
+      }
+      for (const [run, count] of named)
+        if (count > one)
+          found.push(
+            breakOf(
+              "journal-fact-told-once",
+              text,
+              at,
+              `"${run}" named ${count} times in one paragraph`,
+              line.text,
+            ),
+          );
+    }
+  });
+  return found;
+};
+
+/**
+ * A Journal entry that is a bare declaration: one sentence that names no
+ * person, place, employer, amount or time, with nothing before or after it
+ * in its paragraph ("I lost my job.").
+ */
+export const journalEntryNotBare: ComposedCheck = (text, sample) => {
+  if (!JOURNAL_KINDS.includes(text.kind)) return [];
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines) {
+      if (line.sentences.length !== one) continue;
+      const sentence = plainQuotes(line.sentences[zero]!);
+      const rest = sentence.split(" ").slice(one).join(" ");
+      // A person the world names, said by name, is something named.
+      const namesSomeone = sample.people.some((person) =>
+        wordPattern(person.given, "").test(sentence),
+      );
+      if (namesSomeone || /\d/.test(sentence) || /\b(?!I\b)[A-Z]/.test(rest))
+        continue;
+      found.push(
+        breakOf(
+          "journal-entry-not-bare",
+          text,
+          at,
+          "a one-sentence entry that names nothing",
+          sentence,
+        ),
+      );
+    }
+  });
+  return found;
+};
+
+/** A Journal sentence that names a feeling (owner's standing ruling, Sept 6). */
+export const journalNamesNoFeeling: ComposedCheck = (text) => {
+  if (!JOURNAL_KINDS.includes(text.kind)) return [];
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      for (const sentence of line.sentences)
+        if (FEELING.test(plainQuotes(sentence)))
+          found.push(
+            breakOf(
+              "journal-names-no-feeling",
+              text,
+              at,
+              "names a feeling",
+              sentence,
+            ),
+          );
+  });
+  return found;
+};
+
+/** Two Journal entries in a row that both open on how much time passed ("Eight years on, ..."). */
+export const journalNoTimeOpenerChain: ComposedCheck = (text) => {
+  if (!JOURNAL_KINDS.includes(text.kind)) return [];
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    let before = false;
+    for (const line of screen.lines) {
+      const opens = TIME_OPENER.test(plainQuotes(line.text));
+      if (opens && before)
+        found.push(
+          breakOf(
+            "journal-no-time-opener-chain",
+            text,
+            at,
+            "two entries in a row open on the time between them",
+            line.text,
+          ),
+        );
+      before = opens;
+    }
+  });
+  return found;
+};
+
 // ---- act-named ----
 
 const STAND_IN = new RegExp(data.actStandIn, "i");
@@ -950,6 +1112,10 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "ask-said-once": askSaidOnce,
   "subject-budget": subjectBudget,
   "note-stands-alone": noteStandsAlone,
+  "journal-fact-told-once": journalFactToldOnce,
+  "journal-entry-not-bare": journalEntryNotBare,
+  "journal-names-no-feeling": journalNamesNoFeeling,
+  "journal-no-time-opener-chain": journalNoTimeOpenerChain,
   "act-named": actNamed,
   "concession-names-what-it-concedes": concessionNamesWhat,
   "answer-adds-something": answerAddsSomething,

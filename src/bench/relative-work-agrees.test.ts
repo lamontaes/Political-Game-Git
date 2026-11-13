@@ -5,8 +5,9 @@
  * told with both on their card and in the journal, each line on its own
  * record (the term, the job), and Travel lists the job's employer as a
  * family workplace: all three read `personWorkOf`. Places are drawn from all
- * 56 until one has a household member in office (up to eight per case);
- * each place passed over is named. Replay with RELATIVE_WORK_SEED.
+ * 56; in each, the case is looked for (a full person who lives with someone
+ * serving in an office), and a place with none is named as passed over.
+ * Replay with RELATIVE_WORK_SEED.
  */
 import { randomBytes } from "node:crypto";
 import { appendFileSync } from "node:fs";
@@ -14,6 +15,7 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
+import { familyFactsOf } from "../core2/modules/people";
 import { personWorkOf } from "../core2/person-work";
 import type { PersonId } from "../core2/types";
 import { composeJournal } from "../director/journal";
@@ -37,16 +39,30 @@ describe.each(["a", "b"])("a relative's work and office (case %s)", (draw) => {
         gameStartDate(),
         { twoLevel: true, placeKey: place.key },
       );
-      const player = playerId! as PersonId;
-      const members = (
-        core.households.get(core.people.get(player)!.householdId)?.memberIds ??
-        []
-      ).filter((id) => id !== player && core.people.get(id)?.alive);
-      const serving = members.filter(
-        (id) => personWorkOf(core, id).offices.length > 0,
-      );
-      if (!serving.length) {
-        passed.push(`${where}: nobody at home serves in an office`);
+      // The case is found, not hoped for (skill drawn-place-tests): the
+      // drawn player when someone at home serves in an office, else a
+      // full person who lives with a seat holder, read from the offices
+      // engine's serving terms through `personWorkOf`. The Journal, the card
+      // and Travel are read from that person's side, as they would be for a
+      // player in that household.
+      const atHome = (id: PersonId) =>
+        (core.households.get(core.people.get(id)!.householdId)?.memberIds ?? [])
+          .filter((other) => other !== id && core.people.get(other)?.alive)
+          // A relative at home: the Journal names a housemate by their tie.
+          .filter((other) => familyFactsOf(core.people.get(id)).has(other))
+          .filter((other) => personWorkOf(core, other).offices.length > 0);
+      const player = (
+        atHome(playerId! as PersonId).length
+          ? playerId
+          : [...core.people.values()]
+              .filter((person) => person.alive && person.tier !== "husk")
+              .map((person) => person.id as PersonId)
+              .sort()
+              .find((id) => atHome(id).length > 0)
+      ) as PersonId | undefined;
+      const serving = player ? atHome(player) : [];
+      if (!player || !serving.length) {
+        passed.push(`${where}: nobody in town lives with a seat holder`);
         continue;
       }
       // The player's journal, as play has it once the player is chosen.
@@ -65,10 +81,12 @@ describe.each(["a", "b"])("a relative's work and office (case %s)", (draw) => {
           `${where}: ${id}'s card does not name ${office.title} (${office.termId})`,
         ).toMatch(/office|commission|council|board|since|serv/i);
         // The journal tells the office on its term's record.
-        const officeLine = lines.find((line) =>
-          line.momentIds.some((m) =>
-            m.startsWith(`${office.termId}:livelihood`),
-          ),
+        // The household-now paragraph tells each earner in one sentence
+        // (lead, Nov 11), on the term's record (moment `livelihood:<order>:<person>:<termId>`).
+        const officeLine = lines.find(
+          (line) =>
+            line.momentIds.some((m) => m.endsWith(`:${office.termId}`)) ||
+            line.sourceRecordIds.includes(office.termId),
         );
         expect(
           officeLine,
@@ -93,16 +111,16 @@ describe.each(["a", "b"])("a relative's work and office (case %s)", (draw) => {
             ),
             `${where}: ${id}'s card does not name ${employer} beside the office: ${card.summary.join(" | ")}`,
           ).toBe(true);
-          // And in the journal, on the job's record.
-          const jobLine = lines.find((line) =>
-            line.momentIds.some(
-              (m) => m.includes(":livelihood:") && !m.startsWith(office.termId),
-            ),
-          );
+          // And in the journal, in the same sentence as the office (one
+          // sentence per person; #8772, #8808), naming the employer.
+          const first = (employer ?? "").toLowerCase().split(" ")[0]!;
+          const sentence = officeLine!.text
+            .split(/(?<=\.)\s+/)
+            .find((text) => text.includes(core.people.get(id)!.givenName));
           expect(
-            jobLine,
-            `${where}: the journal tells no job for ${id}`,
-          ).toBeDefined();
+            !!first && !!sentence?.toLowerCase().includes(first),
+            `${where}: the journal's sentence for ${id} names no ${employer}: "${sentence}"`,
+          ).toBe(true);
           // Travel lists the job's employer as a family workplace, where it is pictured.
           const listed = townPlaces(core, player).find(
             (row) => row.organizationId === work.job!.organizationId,

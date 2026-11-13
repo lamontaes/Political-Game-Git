@@ -44,7 +44,23 @@
     "after_illness": "What the death record's topic says the person had been, in plain words.",
     "school_for": "How long the person had been at a school, from the school's attendance record.",
     "body": "The body a relative's seat belongs to, as the reader says it: the Nelson City Council.",
-    "workplace": "Where a relative who holds an office also works, as the reader says it: Michael's Market."
+    "workplace": "Where a relative who holds an office also works, as the reader says it: Michael's Market.",
+    "count": "How many, counted from the records (employers in a working life).",
+    "work": "The kinds of work a working life was in, from its employers' records (\"kitchens and stores\").",
+    "to": "What a person wants done on a question, as a verb phrase after 'to' (question-names.json `to`), from the views engine's stance record.",
+    "about": "A question as a noun phrase (question-names.json `about`), from the views engine's stance record.",
+    "attendees": "How many came to a town hall, from its row.",
+    "questions": "How many questions were asked at a town hall, from its row.",
+    "outlet": "A news outlet, from its organization's record.",
+    "wage_from": "The hourly pay of the first job in a run, from its pay record.",
+    "wage_to": "The hourly pay of the last job in a run, from its pay record.",
+    "out_span": "How long a person was out of work in all, summed from the work records.",
+    "bill": "The bill a law moved, from the price rule's good (\"electric bill\").",
+    "amount": "About how much a month a bill moved, from the price engine's record.",
+    "effects": "What laws did to the person's bills, joined from their records.",
+    "lean": "Which way a view moved (\"more liberal\"), from the views engine's record of what moved it.",
+    "year": "A year, from the record.",
+    "their": "A person's possessive pronoun (\"his\", \"her\", \"their\"), from their recorded gender."
   },
   "maxWords": 10,
   "mining": {
@@ -494,104 +510,6 @@
       }
     },
     {
-      "key": "journal.work-line-started.i-went-to-work",
-      "move": "work-line-started",
-      "kind": "spoken",
-      "text": "I went to work.",
-      "uses": [
-        {
-          "move": "work-line-started",
-          "subject": "work",
-          "role": "line",
-          "choice": "started",
-          "journal": [
-            {
-              "kindPrefix": "work:opening",
-              "field": "line"
-            },
-            {
-              "kindPrefix": "job-started",
-              "field": "line"
-            }
-          ]
-        },
-        {
-          "move": "day-line-routine",
-          "subject": "day",
-          "role": "line",
-          "choice": "routine",
-          "journal": [
-            {
-              "kindPrefix": "day:",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 15,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "briefing": 1,
-        "dcpd": 2,
-        "hearings": 1,
-        "house": 2,
-        "nasa": 3,
-        "nps": 3,
-        "wpa": 2
-      },
-      "source": {
-        "document": "Remarks at a Campaign Reception in New York City",
-        "date": "2024-02-07",
-        "granule": "DCPD-202400087",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400087/html/DCPD-202400087.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "journal.work-line-started.i-got-a-job",
-      "move": "work-line-started",
-      "kind": "spoken",
-      "text": "I got a job.",
-      "uses": [
-        {
-          "move": "work-line-started",
-          "subject": "work",
-          "role": "line",
-          "choice": "started",
-          "journal": [
-            {
-              "kindPrefix": "work:opening",
-              "field": "line"
-            },
-            {
-              "kindPrefix": "job-started",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "nps": 3
-      },
-      "source": {
-        "document": "NPS History Collection oral history: bielenberg warren oct 22 2015",
-        "date": "2015-10-22",
-        "granule": "npgallery-c37bf8ab",
-        "url": "https://npgallery.nps.gov/AssetDetail/c37bf8ab-dac6-4c47-9fb5-ede3de0238c1",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "journal.work-line-started.i-was-hired-by-employer",
       "move": "work-line-started",
       "kind": "spoken",
@@ -721,47 +639,6 @@
       "date": "2026-11-01",
       "tag": {
         "move": "tell"
-      }
-    },
-    {
-      "key": "journal.work-line-lost.i-lost-my-job",
-      "move": "work-line-lost",
-      "kind": "spoken",
-      "text": "I lost my job.",
-      "uses": [
-        {
-          "move": "work-line-lost",
-          "subject": "work",
-          "role": "line",
-          "choice": "lost",
-          "journal": [
-            {
-              "kindPrefix": "job-ended",
-              "field": "line"
-            },
-            {
-              "kindPrefix": "job-ended:let-go",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "dcpd": 1,
-        "hearings": 2,
-        "nasa": 1
-      },
-      "source": {
-        "document": "Remarks on Signing an Executive Order on Manufacturing Promotion Efforts in Auburn, Maine",
-        "date": "2023-07-28",
-        "granule": "DCPD-202300667",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300667/html/DCPD-202300667.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "loss"
       }
     },
     {
@@ -1148,41 +1025,6 @@
       "tag": {
         "move": "tell",
         "key": "departure"
-      }
-    },
-    {
-      "key": "journal.money-line-short.i-didnt-get-paid",
-      "move": "money-line-short",
-      "kind": "spoken",
-      "text": "I didn't get paid.",
-      "uses": [
-        {
-          "move": "money-line-short",
-          "subject": "money",
-          "role": "line",
-          "choice": "short",
-          "journal": [
-            {
-              "kindPrefix": "unpaid-wages",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "hearings": 1,
-        "nasa2": 1
-      },
-      "source": {
-        "document": "PHASING OUT SUBMINIMUM WAGES: SUPPORTING THE TRANSITION TO COMPETITIVE INTEGRATED EMPLOYMENT FOR WORKERS WITH DISABILITIES",
-        "date": "2021-07-21",
-        "granule": "CHRG-117jhrg45176",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117jhrg45176/html/CHRG-117jhrg45176.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
       }
     },
     {
@@ -1668,53 +1510,6 @@
       }
     },
     {
-      "key": "journal.office-line-filed.i-filed-to-run-for-office-the-election-is-election",
-      "move": "office-line-filed",
-      "kind": "spoken",
-      "text": "I filed to run for {office}. The election is {election}.",
-      "uses": [
-        {
-          "move": "office-line-filed",
-          "subject": "office",
-          "role": "line",
-          "choice": "filed",
-          "journal": [
-            {
-              "kindPrefix": "event:candidate-filed",
-              "field": "line"
-            }
-          ]
-        },
-        {
-          "move": "memoir-decided",
-          "subject": "memoir",
-          "role": "decided",
-          "choice": "decided",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "decided"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "hearings": 1,
-        "house": 1
-      },
-      "source": {
-        "document": "TAX REFORM: ENSURING THAT MAIN STREET ISN'T LEFT BEHIND",
-        "date": "2015-04-15",
-        "granule": "CHRG-114hhrg94158",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-114hhrg94158/html/CHRG-114hhrg94158.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.office-line-filed.i-filed-to-run-for-office",
       "move": "office-line-filed",
       "kind": "spoken",
@@ -1763,76 +1558,6 @@
       "author": "Lane 3, words and scenes (play-stop-19-turning-eighteen-and-journal-silent-b)",
       "date": "2026-11-04",
       "origin": "authored"
-    },
-    {
-      "key": "journal.office-line-filed.i-ran-for-office-2",
-      "move": "office-line-filed",
-      "kind": "spoken",
-      "text": "I filed to run for office.",
-      "uses": [
-        {
-          "move": "office-line-filed",
-          "subject": "office",
-          "role": "line",
-          "choice": "filed",
-          "journal": [
-            {
-              "kindPrefix": "event:candidate-filed",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 2,
-        "house": 1
-      },
-      "source": {
-        "document": "Remarks on Signing a Proclamation on National Angel Family Day",
-        "date": "2026-02-23",
-        "granule": "DCPD-202600133",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600133/html/DCPD-202600133.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.office-line-filed.i-decided-to-run",
-      "move": "office-line-filed",
-      "kind": "spoken",
-      "text": "I decided to run.",
-      "uses": [
-        {
-          "move": "office-line-filed",
-          "subject": "office",
-          "role": "line",
-          "choice": "filed",
-          "journal": [
-            {
-              "kindPrefix": "event:candidate-filed",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 1,
-        "house": 1
-      },
-      "source": {
-        "document": "dcpd of 2025-09-18",
-        "date": "2025-09-18",
-        "granule": "DCPD-202500925",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500925/html/DCPD-202500925.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
     },
     {
       "key": "journal.office-line-won.i-won",
@@ -1915,42 +1640,6 @@
         "date": "2025-10-23",
         "granule": "CHRG-119shrg62164",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62164/html/CHRG-119shrg62164.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "journal.office-line-won.i-won-the-election",
-      "move": "office-line-won",
-      "kind": "spoken",
-      "text": "I won the election.",
-      "uses": [
-        {
-          "move": "office-line-won",
-          "subject": "office",
-          "role": "line",
-          "choice": "won",
-          "journal": [
-            {
-              "kindPrefix": "event:election",
-              "field": "ownLine"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "dcpd": 4,
-        "house": 1
-      },
-      "source": {
-        "document": "Remarks on Signing a Proclamation To Restore United States Commercial Fishing in the Pacific and an Exchange With Reporters",
-        "date": "2026-06-11",
-        "granule": "DCPD-202600392",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600392/html/DCPD-202600392.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -2274,41 +1963,6 @@
       }
     },
     {
-      "key": "journal.day-line-routine.i-went-to-the-doctor",
-      "move": "day-line-routine",
-      "kind": "spoken",
-      "text": "I went to the doctor.",
-      "uses": [
-        {
-          "move": "day-line-routine",
-          "subject": "day",
-          "role": "line",
-          "choice": "routine",
-          "journal": [
-            {
-              "kindPrefix": "day:",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 1
-      },
-      "source": {
-        "document": "Administration of Donald J. Trump, 2019 Remarks on Signing an Executive Order Protecting and Improving Medicare for Our Nation's Seniors in the Villages, Florida October 3, 2019 The President. Well, t",
-        "date": "2019-10-03",
-        "granule": "DCPD-201900691",
-        "url": "https://www.govinfo.gov/app/details/DCPD-201900691",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.day-line-routine.we-had-dinner",
       "move": "day-line-routine",
       "kind": "spoken",
@@ -2604,40 +2258,6 @@
       }
     },
     {
-      "key": "journal.day-line-routine.it-was-a-long-day",
-      "move": "day-line-routine",
-      "kind": "spoken",
-      "text": "It was a long day.",
-      "uses": [
-        {
-          "move": "day-line-routine",
-          "subject": "day",
-          "role": "line",
-          "choice": "routine",
-          "journal": [
-            {
-              "kindPrefix": "day:",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "nasa": 2
-      },
-      "source": {
-        "document": "NASA oral history interview with Edward L. Shade",
-        "date": "2018-08-22",
-        "granule": "shadeel-8-22-18",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/shadeel-8-22-18.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.day-line-routine.nothing-happened",
       "move": "day-line-routine",
       "kind": "spoken",
@@ -2743,41 +2363,6 @@
         "date": "2025-07-03",
         "granule": "DCPD-202500744",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500744",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.day-line-routine.it-was-very-cold",
-      "move": "day-line-routine",
-      "kind": "spoken",
-      "text": "It was very cold.",
-      "uses": [
-        {
-          "move": "day-line-routine",
-          "subject": "day",
-          "role": "line",
-          "choice": "routine",
-          "journal": [
-            {
-              "kindPrefix": "day:",
-              "field": "line"
-            }
-          ],
-          "requiresFacts": ["weather-cold"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "nasa": 2
-      },
-      "source": {
-        "document": "NASA oral history interview with Mark S. Geyer",
-        "date": "2021-05-26",
-        "granule": "geyerms-5-26-21",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-5-26-21.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -3478,37 +3063,6 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.it-was-very-close",
-      "move": "election-line-own-result",
-      "kind": "spoken",
-      "text": "It was very close.",
-      "uses": [
-        {
-          "move": "election-line-own-result",
-          "subject": "election",
-          "role": "line",
-          "choice": "own-result",
-          "journal": []
-        }
-      ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "house": 1,
-        "nasa": 2,
-        "senate": 3
-      },
-      "source": {
-        "document": "NASA oral history interview with Mark S. Geyer",
-        "date": "2019-06-20",
-        "granule": "geyerm-6-20-19",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerm-6-20-19.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.office-line-filing.i-went-to-filing-office",
       "move": "office-line-filing",
       "kind": "spoken",
@@ -3649,76 +3203,6 @@
         "date": "2018-02-06",
         "granule": "CHRG-115hhrg28970",
         "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg28970",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.office-line-took-office.i-voted-for-it",
-      "move": "office-line-took-office",
-      "kind": "spoken",
-      "text": "I voted for it.",
-      "uses": [
-        {
-          "move": "office-line-took-office",
-          "subject": "office",
-          "role": "line",
-          "choice": "took-office",
-          "journal": [
-            {
-              "kindPrefix": "act:vote-yes",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "chrg": 5,
-        "senate": 1
-      },
-      "source": {
-        "document": "Examining Cbo'S Updated 2024-2034 Budget And Economic Outlook",
-        "date": "2024-07-09",
-        "granule": "CHRG-118shrg56441",
-        "url": "https://www.govinfo.gov/app/details/CHRG-118shrg56441",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.office-line-took-office.i-voted-against-it",
-      "move": "office-line-took-office",
-      "kind": "spoken",
-      "text": "I voted against it.",
-      "uses": [
-        {
-          "move": "office-line-took-office",
-          "subject": "office",
-          "role": "line",
-          "choice": "took-office",
-          "journal": [
-            {
-              "kindPrefix": "act:vote-no",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "chrg": 3,
-        "dcpd": 2
-      },
-      "source": {
-        "document": "American Innovation And The Future Of Digital Assets: From Blueprint To A Functional Framework--Day 1",
-        "date": "2025-06-04",
-        "granule": "CHRG-119hhrg60986",
-        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60986",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -3934,180 +3418,6 @@
       }
     },
     {
-      "key": "journal.office-line-town-hall.i-held-a-town-hall",
-      "move": "office-line-town-hall",
-      "kind": "spoken",
-      "text": "I held a town hall.",
-      "uses": [
-        {
-          "move": "office-line-town-hall",
-          "subject": "office",
-          "role": "line",
-          "choice": "i-held-a-town-hall",
-          "journal": [
-            {
-              "kindPrefix": "act:town-hall",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item people-officeholder-journal)",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.office-line-town-hall.i-hosted-a-town-hall",
-      "move": "office-line-town-hall",
-      "kind": "spoken",
-      "text": "I hosted a town hall.",
-      "uses": [
-        {
-          "move": "office-line-town-hall",
-          "subject": "office",
-          "role": "line",
-          "choice": "i-hosted-a-town-hall",
-          "journal": [
-            {
-              "kindPrefix": "act:town-hall",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item people-officeholder-journal)",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.office-line-interview.i-gave-an-interview",
-      "move": "office-line-interview",
-      "kind": "spoken",
-      "text": "I gave an interview.",
-      "uses": [
-        {
-          "move": "office-line-interview",
-          "subject": "office",
-          "role": "line",
-          "choice": "i-gave-an-interview",
-          "journal": [
-            {
-              "kindPrefix": "act:interview",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item people-officeholder-journal)",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.office-line-interview.i-sat-down-with-a-reporter",
-      "move": "office-line-interview",
-      "kind": "spoken",
-      "text": "I sat down with a reporter.",
-      "uses": [
-        {
-          "move": "office-line-interview",
-          "subject": "office",
-          "role": "line",
-          "choice": "i-sat-down-with-a-reporter",
-          "journal": [
-            {
-              "kindPrefix": "act:interview",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item people-officeholder-journal)",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.campaign-line-campaigned.i-gave-a-speech",
-      "move": "campaign-line-campaigned",
-      "kind": "spoken",
-      "text": "I gave a speech.",
-      "uses": [
-        {
-          "move": "campaign-line-campaigned",
-          "subject": "campaign",
-          "role": "line",
-          "choice": "campaigned",
-          "journal": [
-            {
-              "kindPrefix": "event:campaign",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 1,
-        "nasa": 1
-      },
-      "source": {
-        "document": "Administration of Donald J. Trump, 2018 Remarks at a Roundtable Discussion on Tax Reform in Las Vegas, Nevada June 23, 2018 The President. Please sit down. Audience member. Give that man a hand ! Audi",
-        "date": "2018-06-23",
-        "granule": "DCPD-201800451",
-        "url": "https://www.govinfo.gov/app/details/DCPD-201800451",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.campaign-line-campaigned.i-made-a-speech",
-      "move": "campaign-line-campaigned",
-      "kind": "spoken",
-      "text": "I made a speech.",
-      "uses": [
-        {
-          "move": "campaign-line-campaigned",
-          "subject": "campaign",
-          "role": "line",
-          "choice": "campaigned",
-          "journal": [
-            {
-              "kindPrefix": "event:campaign",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "dcpd": 5
-      },
-      "source": {
-        "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
-        "date": "2026-07-23",
-        "granule": "DCPD-202600487",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202600487",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.memoir-when-age.when-i-was-age",
       "move": "memoir-when-age",
       "kind": "spoken",
@@ -4180,60 +3490,6 @@
       }
     },
     {
-      "key": "journal.memoir-join-cause.because-of-that",
-      "move": "memoir-join-cause",
-      "kind": "spoken",
-      "text": "Because of that.",
-      "uses": [
-        {
-          "move": "memoir-join-cause",
-          "subject": "memoir",
-          "role": "joinCause",
-          "choice": "join-cause",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "joinCause"
-            }
-          ],
-          "clause": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (director-journal-one-story)",
-      "date": "2026-11-04",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-join-cause.so",
-      "move": "memoir-join-cause",
-      "kind": "spoken",
-      "text": "So.",
-      "uses": [
-        {
-          "move": "memoir-join-cause",
-          "subject": "memoir",
-          "role": "joinCause",
-          "choice": "join-cause",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "joinCause"
-            }
-          ],
-          "clause": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (director-journal-one-story)",
-      "date": "2026-11-04",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.memoir-join-later.span-later",
       "move": "memoir-join-later",
       "kind": "spoken",
@@ -4278,110 +3534,6 @@
             }
           ],
           "clause": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (director-journal-one-story)",
-      "date": "2026-11-04",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-meant-friend.that-made-me-glad",
-      "move": "memoir-meant-friend",
-      "kind": "spoken",
-      "text": "We got along well.",
-      "uses": [
-        {
-          "move": "memoir-meant-friend",
-          "subject": "memoir",
-          "role": "meantFriend",
-          "choice": "meant-friend",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "meantFriend"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (director-journal-one-story)",
-      "date": "2026-11-04",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-meant-friend.i-was-happy-about-that",
-      "move": "memoir-meant-friend",
-      "kind": "spoken",
-      "text": "We were on good terms.",
-      "uses": [
-        {
-          "move": "memoir-meant-friend",
-          "subject": "memoir",
-          "role": "meantFriend",
-          "choice": "meant-friend",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "meantFriend"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (director-journal-one-story)",
-      "date": "2026-11-04",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-meant-rival.we-never-did-see-eye-to-eye",
-      "move": "memoir-meant-rival",
-      "kind": "spoken",
-      "text": "We never did see eye to eye.",
-      "uses": [
-        {
-          "move": "memoir-meant-rival",
-          "subject": "memoir",
-          "role": "meantRival",
-          "choice": "meant-rival",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "meantRival"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (director-journal-one-story)",
-      "date": "2026-11-04",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-meant-rival.i-had-my-doubts-about-that",
-      "move": "memoir-meant-rival",
-      "kind": "spoken",
-      "text": "I had my doubts about that.",
-      "uses": [
-        {
-          "move": "memoir-meant-rival",
-          "subject": "memoir",
-          "role": "meantRival",
-          "choice": "meant-rival",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "meantRival"
-            }
-          ]
         }
       ],
       "origin": "authored",
@@ -4562,609 +3714,6 @@
       },
       "tag": {
         "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-young.when-i-was-young",
-      "move": "memoir-young",
-      "kind": "spoken",
-      "text": "When I was young.",
-      "uses": [
-        {
-          "move": "memoir-young",
-          "subject": "memoir",
-          "role": "young",
-          "choice": "young",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "young"
-            }
-          ],
-          "clause": true
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "NASA oral histories": 3,
-        "U.S. House oral histories": 1
-      },
-      "source": {
-        "document": "NASA oral history bartelsa-6-30-23",
-        "date": "2023-06-30",
-        "granule": "nasa-bartelsa-6-30-23",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/04/bartelsa-6-30-23.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-young.when-i-was-a-kid",
-      "move": "memoir-young",
-      "kind": "spoken",
-      "text": "When I was a kid.",
-      "uses": [
-        {
-          "move": "memoir-young",
-          "subject": "memoir",
-          "role": "young",
-          "choice": "young",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "young"
-            }
-          ],
-          "clause": true
-        }
-      ],
-      "transcriptsUsing": 12,
-      "bySource": {
-        "NASA oral histories": 10,
-        "U.S. House oral histories": 2
-      },
-      "source": {
-        "document": "NASA oral history lawrencedj-1-12-24",
-        "date": "2024-01-12",
-        "granule": "nasa-lawrencedj-1-12-24",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/07/lawrencedj-1-12-24.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-young.when-i-was-a-child",
-      "move": "memoir-young",
-      "kind": "spoken",
-      "text": "When I was a child.",
-      "uses": [
-        {
-          "move": "memoir-young",
-          "subject": "memoir",
-          "role": "young",
-          "choice": "young",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "young"
-            }
-          ],
-          "clause": true
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 1,
-        "U.S. House oral histories": 1
-      },
-      "source": {
-        "document": "U.S. House oral history: Jennice Fuentes",
-        "date": "2018-12-20",
-        "granule": "house-fuentes-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/fuentes-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-young.when-i-was-growing-up",
-      "move": "memoir-young",
-      "kind": "spoken",
-      "text": "When I was growing up.",
-      "uses": [
-        {
-          "move": "memoir-young",
-          "subject": "memoir",
-          "role": "young",
-          "choice": "young",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "young"
-            }
-          ],
-          "clause": true
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "NASA oral histories": 4,
-        "U.S. House oral histories": 1
-      },
-      "source": {
-        "document": "U.S. House oral history: The Honorable Patricia Scott Schroeder",
-        "date": "2015-06-03",
-        "granule": "house-schroeder-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/schroeder-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-young.as-a-child",
-      "move": "memoir-young",
-      "kind": "spoken",
-      "text": "As a child.",
-      "uses": [
-        {
-          "move": "memoir-young",
-          "subject": "memoir",
-          "role": "young",
-          "choice": "young",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "young"
-            }
-          ],
-          "clause": true
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "NASA oral histories": 1,
-        "U.S. House oral histories": 1,
-        "U.S. Senate oral histories": 1
-      },
-      "source": {
-        "document": "NASA oral history koosrh-8-22-23",
-        "date": "2023-08-22",
-        "granule": "nasa-koosrh-8-22-23",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-22-23.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-young.when-i-was-younger",
-      "move": "memoir-young",
-      "kind": "spoken",
-      "text": "When I was younger.",
-      "uses": [
-        {
-          "move": "memoir-young",
-          "subject": "memoir",
-          "role": "young",
-          "choice": "young",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "young"
-            }
-          ],
-          "clause": true
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 1,
-        "U.S. House oral histories": 1
-      },
-      "source": {
-        "document": "NASA oral history koosrh-8-24-23",
-        "date": "2023-08-24",
-        "granule": "nasa-koosrh-8-24-23",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-24-23.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-young.when-i-was-in-high-school",
-      "move": "memoir-young",
-      "kind": "spoken",
-      "text": "When I was in high school.",
-      "uses": [
-        {
-          "move": "memoir-young",
-          "subject": "memoir",
-          "role": "young",
-          "choice": "young",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "young"
-            }
-          ],
-          "clause": true
-        }
-      ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "NASA oral histories": 4,
-        "U.S. House oral histories": 2
-      },
-      "source": {
-        "document": "U.S. House oral history: The Honorable Barbara Bailey Kennelly",
-        "date": "2015-09-09",
-        "granule": "house-kennelly-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/kennelly-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-young.when-i-was-a-little-kid",
-      "move": "memoir-young",
-      "kind": "spoken",
-      "text": "When I was a little kid.",
-      "uses": [
-        {
-          "move": "memoir-young",
-          "subject": "memoir",
-          "role": "young",
-          "choice": "young",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "young"
-            }
-          ],
-          "clause": true
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 2
-      },
-      "source": {
-        "document": "NASA oral history saltzmanej-2-17-15",
-        "date": "2015-02-17",
-        "granule": "nasa-saltzmanej-2-17-15",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/saltzmanej-2-17-15.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-young.when-i-was-a-senior-in-high-school",
-      "move": "memoir-young",
-      "kind": "spoken",
-      "text": "When I was a senior in high school.",
-      "uses": [
-        {
-          "move": "memoir-young",
-          "subject": "memoir",
-          "role": "young",
-          "choice": "young",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "young"
-            }
-          ],
-          "clause": true
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "NASA oral histories": 4
-      },
-      "source": {
-        "document": "NASA oral history lousmagk-7-10-19",
-        "date": "2019-07-10",
-        "granule": "nasa-lousmagk-7-10-19",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lousmagk-7-10-19.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-young.when-i-was-a-junior-in-high-school",
-      "move": "memoir-young",
-      "kind": "spoken",
-      "text": "When I was a junior in high school.",
-      "uses": [
-        {
-          "move": "memoir-young",
-          "subject": "memoir",
-          "role": "young",
-          "choice": "young",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "young"
-            }
-          ],
-          "clause": true
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 2
-      },
-      "source": {
-        "document": "NASA oral history weisskopfga-10-24-19",
-        "date": "2019-10-24",
-        "granule": "nasa-weisskopfga-10-24-19",
-        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/weisskopfga-10-24-19.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-young.when-i-was-in-college",
-      "move": "memoir-young",
-      "kind": "spoken",
-      "text": "When I was in college.",
-      "uses": [
-        {
-          "move": "memoir-young",
-          "subject": "memoir",
-          "role": "young",
-          "choice": "young",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "young"
-            }
-          ],
-          "clause": true
-        }
-      ],
-      "transcriptsUsing": 10,
-      "bySource": {
-        "NASA oral histories": 7,
-        "U.S. House oral histories": 3
-      },
-      "source": {
-        "document": "NASA oral history boruckiwj-3-20-24",
-        "date": "2024-03-20",
-        "granule": "nasa-boruckiwj-3-20-24",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/09/boruckiwj-3-20-24.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.i-didnt-know-it-at-the-time",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I didn't know it at the time.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "NASA oral histories": 4,
-        "U.S. House oral histories": 3
-      },
-      "source": {
-        "document": "U.S. House oral history: The Honorable Tony Coelho",
-        "date": "2024-07-22",
-        "granule": "house-coelho-transcript",
-        "url": "https://history.house.gov/Oral-History/Transcripts/coelho-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.ill-never-forget-it",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I'll never forget it.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 11,
-      "bySource": {
-        "NASA oral histories": 6,
-        "U.S. House oral histories": 3,
-        "U.S. Senate oral histories": 2
-      },
-      "source": {
-        "document": "U.S. House oral history: Brenda Countz",
-        "date": "2024-03-29",
-        "granule": "house-countz-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/countz-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.ill-never-forget-that",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I'll never forget that.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 12,
-      "bySource": {
-        "NASA oral histories": 8,
-        "U.S. House oral histories": 4
-      },
-      "source": {
-        "document": "U.S. House oral history: The Honorable Michael F. Doyle",
-        "date": "2022-06-14",
-        "granule": "house-doyle-transcript",
-        "url": "https://history.house.gov/Oral-History/Transcripts/Doyle-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.i-didnt-realize-it-at-the-time",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I didn't realize it at the time.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "NASA oral histories": 4
-      },
-      "source": {
-        "document": "NASA oral history curleyh-n-2-17-15",
-        "date": "2015-02-17",
-        "granule": "nasa-curleyh-n-2-17-15",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/curleyh-n-2-17-15.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.i-didnt-know-that-at-the-time",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I didn't know that at the time.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "NASA oral histories": 3,
-        "U.S. House oral histories": 2
-      },
-      "source": {
-        "document": "U.S. House oral history: The Honorable Michael F. Doyle",
-        "date": "2022-06-14",
-        "granule": "house-doyle-transcript",
-        "url": "https://history.house.gov/Oral-History/Transcripts/Doyle-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.i-didnt-know-at-the-time",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I didn't know at the time.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 2
-      },
-      "source": {
-        "document": "NASA oral history hillps-3-24-15",
-        "date": "2015-03-24",
-        "granule": "nasa-hillps-3-24-15",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/hillps-3-24-15.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
       }
     },
     {
@@ -5447,41 +3996,6 @@
       }
     },
     {
-      "key": "journal.memoir-decided.so-i-filed-for-office-with-the-election-set-for-election",
-      "move": "memoir-decided",
-      "kind": "spoken",
-      "text": "So I filed for {office}, with the election set for {election}.",
-      "uses": [
-        {
-          "move": "memoir-decided",
-          "subject": "memoir",
-          "role": "decided",
-          "choice": "decided",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "decided"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 1,
-        "U.S. House oral histories": 1
-      },
-      "source": {
-        "document": "U.S. House oral history: The Honorable Sue W. Kelly",
-        "date": "2016-06-23",
-        "granule": "house-kellys-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/kellys-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.memoir-hard.that-was-tough",
       "move": "memoir-hard",
       "kind": "spoken",
@@ -5586,58 +4100,6 @@
       }
     },
     {
-      "key": "journal.memoir-hook.little-did-i-know-what-other-would-do",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "Little did I know what {other} would do next.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-journal-subjects)",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.moved-other-away.relation-moved-away",
-      "move": "moved-other-away",
-      "kind": "spoken",
-      "text": "{relation} moved away.",
-      "uses": [
-        {
-          "move": "moved-other-away",
-          "subject": "moved",
-          "role": "other",
-          "choice": "away",
-          "journal": [
-            {
-              "kindPrefix": "event:person.moved-away",
-              "field": "otherLine"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-journal-household-move-line)",
-      "date": "2026-10-16",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.family-line-born.named-was-born",
       "move": "family-line-born",
       "kind": "spoken",
@@ -5735,188 +4197,6 @@
       }
     },
     {
-      "key": "journal.memoir-hook.that-wasn-t-the-last-i-d-see-of-name",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "That wasn't the last I'd see of {name}.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ],
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.i-would-see-a-lot-more-of-name-after-that",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I would see a lot more of {name} after that.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ],
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.name-would-come-back-into-my-life",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "{name} would come back into my life.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ],
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-revise.i-did-not-know-then-what-name-would-mean-to-me",
-      "move": "memoir-revise",
-      "kind": "spoken",
-      "text": "I did not know then what {name} would mean to me.",
-      "uses": [
-        {
-          "move": "memoir-revise",
-          "subject": "memoir",
-          "role": "revise",
-          "choice": "revise",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "revise"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-main-line)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-revise.i-thought-little-of-name-then",
-      "move": "memoir-revise",
-      "kind": "spoken",
-      "text": "I thought little of {name} then.",
-      "uses": [
-        {
-          "move": "memoir-revise",
-          "subject": "memoir",
-          "role": "revise",
-          "choice": "revise",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "revise"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-main-line)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-revise.name-mattered-more-than-i-knew",
-      "move": "memoir-revise",
-      "kind": "spoken",
-      "text": "{name} mattered more than I knew.",
-      "uses": [
-        {
-          "move": "memoir-revise",
-          "subject": "memoir",
-          "role": "revise",
-          "choice": "revise",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "revise"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-main-line)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-revise.it-began-with-name-though-i-did-not-see-it-then",
-      "move": "memoir-revise",
-      "kind": "spoken",
-      "text": "It began with {name}, though I did not see it then.",
-      "uses": [
-        {
-          "move": "memoir-revise",
-          "subject": "memoir",
-          "role": "revise",
-          "choice": "revise",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "revise"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-main-line)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
       "key": "journal.home-line-met.i-met-other-in-place",
       "move": "home-line-met",
       "kind": "spoken",
@@ -5995,84 +4275,6 @@
       }
     },
     {
-      "key": "journal.home-line-parents-met-hometown.my-parents-met-in-their-hometown",
-      "move": "home-line-parents-met-hometown",
-      "kind": "spoken",
-      "text": "My parents met in their hometown.",
-      "uses": [
-        {
-          "move": "home-line-parents-met-hometown",
-          "subject": "home",
-          "role": "parents-met-hometown",
-          "choice": "parents-met-hometown",
-          "journal": [
-            {
-              "kindPrefix": "household:parents-met:hometown",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item play-first-10-journal-from-day-one)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-parents-met-hometown.my-parents-met-where-they-both-grew-up",
-      "move": "home-line-parents-met-hometown",
-      "kind": "spoken",
-      "text": "My parents met where they both grew up.",
-      "uses": [
-        {
-          "move": "home-line-parents-met-hometown",
-          "subject": "home",
-          "role": "parents-met-hometown",
-          "choice": "parents-met-hometown",
-          "journal": [
-            {
-              "kindPrefix": "household:parents-met:hometown",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item play-first-10-journal-from-day-one)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-parents-met-hometown.my-parents-knew-each-other-from-home",
-      "move": "home-line-parents-met-hometown",
-      "kind": "spoken",
-      "text": "My parents knew each other from home.",
-      "uses": [
-        {
-          "move": "home-line-parents-met-hometown",
-          "subject": "home",
-          "role": "parents-met-hometown",
-          "choice": "parents-met-hometown",
-          "journal": [
-            {
-              "kindPrefix": "household:parents-met:hometown",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item play-first-10-journal-from-day-one)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.home-line-parents-met.my-parents-met-in-place",
       "move": "home-line-parents-met",
       "kind": "spoken",
@@ -6138,84 +4340,6 @@
           "journal": [
             {
               "kindPrefix": "household:parents-met:where-they-lived",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item play-first-10-journal-from-day-one)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-parents-met-school.my-parents-met-in-school",
-      "move": "home-line-parents-met-school",
-      "kind": "spoken",
-      "text": "My parents met in school.",
-      "uses": [
-        {
-          "move": "home-line-parents-met-school",
-          "subject": "home",
-          "role": "parents-met-school",
-          "choice": "parents-met-school",
-          "journal": [
-            {
-              "kindPrefix": "household:parents-met:school",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item play-first-10-journal-from-day-one)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-parents-met-school.my-parents-met-at-school",
-      "move": "home-line-parents-met-school",
-      "kind": "spoken",
-      "text": "My parents met at school.",
-      "uses": [
-        {
-          "move": "home-line-parents-met-school",
-          "subject": "home",
-          "role": "parents-met-school",
-          "choice": "parents-met-school",
-          "journal": [
-            {
-              "kindPrefix": "household:parents-met:school",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item play-first-10-journal-from-day-one)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-parents-met-school.my-parents-knew-each-other-from-school",
-      "move": "home-line-parents-met-school",
-      "kind": "spoken",
-      "text": "My parents knew each other from school.",
-      "uses": [
-        {
-          "move": "home-line-parents-met-school",
-          "subject": "home",
-          "role": "parents-met-school",
-          "choice": "parents-met-school",
-          "journal": [
-            {
-              "kindPrefix": "household:parents-met:school",
               "field": "line"
             }
           ]
@@ -6519,32 +4643,6 @@
       "move": "home-line-sibling-born",
       "kind": "spoken",
       "text": "{named} was born after me.",
-      "uses": [
-        {
-          "move": "home-line-sibling-born",
-          "subject": "home",
-          "role": "sibling-born",
-          "choice": "sibling-born",
-          "journal": [
-            {
-              "kindPrefix": "household:sibling-born",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item play-first-10-journal-from-day-one)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-sibling-born.named-joined-the-family",
-      "move": "home-line-sibling-born",
-      "kind": "spoken",
-      "text": "{named} joined the family.",
       "uses": [
         {
           "move": "home-line-sibling-born",
@@ -7061,114 +5159,10 @@
       }
     },
     {
-      "key": "journal.self-line-came-of-age.today-i-turned-eighteen",
-      "move": "self-line-came-of-age",
-      "kind": "spoken",
-      "text": "Today I turned eighteen.",
-      "uses": [
-        {
-          "move": "self-line-came-of-age",
-          "subject": "life",
-          "role": "came-of-age",
-          "choice": "came-of-age",
-          "journal": [
-            {
-              "kindPrefix": "life:came-of-age",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.self-line-school-finished.i-graduated-from-high-school",
-      "move": "self-line-school-finished",
-      "kind": "spoken",
-      "text": "I graduated from high school.",
-      "uses": [
-        {
-          "move": "self-line-school-finished",
-          "subject": "life",
-          "role": "school-finished",
-          "choice": "school-finished",
-          "journal": [
-            {
-              "kindPrefix": "event:school.finished",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.self-line-school-finished.i-finished-high-school-at-school",
       "move": "self-line-school-finished",
       "kind": "spoken",
       "text": "I finished high school at {school}.",
-      "uses": [
-        {
-          "move": "self-line-school-finished",
-          "subject": "life",
-          "role": "school-finished",
-          "choice": "school-finished",
-          "journal": [
-            {
-              "kindPrefix": "event:school.finished",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.self-line-school-finished.i-got-my-diploma",
-      "move": "self-line-school-finished",
-      "kind": "spoken",
-      "text": "I got my diploma.",
-      "uses": [
-        {
-          "move": "self-line-school-finished",
-          "subject": "life",
-          "role": "school-finished",
-          "choice": "school-finished",
-          "journal": [
-            {
-              "kindPrefix": "event:school.finished",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.self-line-school-finished.my-senior-year-ended-without-a-diploma",
-      "move": "self-line-school-finished",
-      "kind": "spoken",
-      "text": "My senior year ended without a diploma.",
       "uses": [
         {
           "move": "self-line-school-finished",
@@ -7259,6 +5253,18 @@
               "field": "line"
             }
           ]
+        },
+        {
+          "move": "work-line-lost",
+          "subject": "work",
+          "role": "line",
+          "choice": "employer-let-me-go",
+          "journal": [
+            {
+              "kindPrefix": "job-ended",
+              "field": "line"
+            }
+          ]
         }
       ],
       "origin": "authored",
@@ -7321,32 +5327,6 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
-    },
-    {
-      "key": "journal.work-line-again.i-found-work-again",
-      "move": "work-line-again",
-      "kind": "spoken",
-      "text": "I found work again.",
-      "uses": [
-        {
-          "move": "work-line-again",
-          "subject": "work",
-          "role": "line",
-          "choice": "again",
-          "journal": [
-            {
-              "kindPrefix": "job-started:again",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "tell"
       }
     },
     {
@@ -7458,32 +5438,6 @@
       "move": "work-line-moved-on",
       "kind": "spoken",
       "text": "I left for a job at {next}.",
-      "uses": [
-        {
-          "move": "work-line-moved-on",
-          "subject": "work",
-          "role": "line",
-          "choice": "on",
-          "journal": [
-            {
-              "kindPrefix": "job-ended:moved-on",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.work-line-moved-on.i-moved-on-to-another-job",
-      "move": "work-line-moved-on",
-      "kind": "spoken",
-      "text": "I moved on to another job.",
       "uses": [
         {
           "move": "work-line-moved-on",
@@ -10860,6 +8814,1636 @@
       "origin": "authored",
       "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
       "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.as-office-i-held-a-town-hall-in-place",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "As {office}, I held a town hall in {place}.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "as-office-i-held-a-town-hall-in-place",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.i-held-a-town-hall-in-place-as-office",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "I held a town hall in {place} as {office}.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-held-a-town-hall-in-place-as-office",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.i-held-a-town-hall-in-place",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "I held a town hall in {place}.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-held-a-town-hall-in-place",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.as-office-i-sat-down-with-a-reporter",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "As {office}, I sat down with a reporter.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "as-office-i-sat-down-with-a-reporter",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-gave-a-reporter-an-interview-as-office",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I gave a reporter an interview as {office}.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-gave-a-reporter-an-interview-as-office",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-lost.i-lost-my-job-at-employer",
+      "move": "work-line-lost",
+      "kind": "spoken",
+      "text": "I lost my job at {employer}.",
+      "uses": [
+        {
+          "move": "work-line-lost",
+          "subject": "work",
+          "role": "line",
+          "choice": "i-lost-my-job-at-employer",
+          "journal": [
+            {
+              "kindPrefix": "job-ended",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-lost.my-job-at-employer-ended",
+      "move": "work-line-lost",
+      "kind": "spoken",
+      "text": "My job at {employer} ended.",
+      "uses": [
+        {
+          "move": "work-line-lost",
+          "subject": "work",
+          "role": "line",
+          "choice": "my-job-at-employer-ended",
+          "journal": [
+            {
+              "kindPrefix": "job-ended",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-came-of-age.i-turned-eighteen-and-could-vote-in-plac",
+      "move": "self-line-came-of-age",
+      "kind": "spoken",
+      "text": "I turned eighteen and could vote in {place}.",
+      "uses": [
+        {
+          "move": "self-line-came-of-age",
+          "subject": "self",
+          "role": "line",
+          "choice": "i-turned-eighteen-and-could-vote-in-plac",
+          "journal": [
+            {
+              "kindPrefix": "life:came-of-age",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-run.i-worked-in-work-around-place-for-span",
+      "move": "memoir-work-run",
+      "kind": "spoken",
+      "text": "I worked in {work} around {place} for {span}",
+      "uses": [
+        {
+          "move": "memoir-work-run",
+          "subject": "memoir",
+          "role": "workRun",
+          "choice": "i-worked-in-work-around-place-for-span",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workRun"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-run.for-span-i-worked-in-work-around-place",
+      "move": "memoir-work-run",
+      "kind": "spoken",
+      "text": "For {span}, I worked in {work} around {place}",
+      "uses": [
+        {
+          "move": "memoir-work-run",
+          "subject": "memoir",
+          "role": "workRun",
+          "choice": "for-span-i-worked-in-work-around-place",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workRun"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-run.i-spent-span-working-in-work-around-plac",
+      "move": "memoir-work-run",
+      "kind": "spoken",
+      "text": "I spent {span} working in {work} around {place}",
+      "uses": [
+        {
+          "move": "memoir-work-run",
+          "subject": "memoir",
+          "role": "workRun",
+          "choice": "i-spent-span-working-in-work-around-plac",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workRun"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-run.i-worked-in-work-for-span",
+      "move": "memoir-work-run",
+      "kind": "spoken",
+      "text": "I worked in {work} for {span}",
+      "uses": [
+        {
+          "move": "memoir-work-run",
+          "subject": "memoir",
+          "role": "workRun",
+          "choice": "i-worked-in-work-for-span",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workRun"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-run.for-span-i-worked-around-place",
+      "move": "memoir-work-run",
+      "kind": "spoken",
+      "text": "For {span}, I worked around {place}",
+      "uses": [
+        {
+          "move": "memoir-work-run",
+          "subject": "memoir",
+          "role": "workRun",
+          "choice": "for-span-i-worked-around-place",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workRun"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-lost.was-let-go-times",
+      "move": "memoir-work-lost",
+      "kind": "spoken",
+      "text": "was let go {times}",
+      "uses": [
+        {
+          "move": "memoir-work-lost",
+          "subject": "memoir",
+          "role": "workLost",
+          "choice": "was-let-go-times",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workLost"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "turn",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-lost.lost-a-job-times-along-the-way",
+      "move": "memoir-work-lost",
+      "kind": "spoken",
+      "text": "lost a job {times} along the way",
+      "uses": [
+        {
+          "move": "memoir-work-lost",
+          "subject": "memoir",
+          "role": "workLost",
+          "choice": "lost-a-job-times-along-the-way",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workLost"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "turn",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-end.ended-up-at-employer",
+      "move": "memoir-work-end",
+      "kind": "spoken",
+      "text": "ended up at {employer}",
+      "uses": [
+        {
+          "move": "memoir-work-end",
+          "subject": "memoir",
+          "role": "workEnd",
+          "choice": "ended-up-at-employer",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workEnd"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "close",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-end.finished-at-employer",
+      "move": "memoir-work-end",
+      "kind": "spoken",
+      "text": "finished at {employer}",
+      "uses": [
+        {
+          "move": "memoir-work-end",
+          "subject": "memoir",
+          "role": "workEnd",
+          "choice": "finished-at-employer",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workEnd"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "close",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-end.landed-at-employer",
+      "move": "memoir-work-end",
+      "kind": "spoken",
+      "text": "landed at {employer}",
+      "uses": [
+        {
+          "move": "memoir-work-end",
+          "subject": "memoir",
+          "role": "workEnd",
+          "choice": "landed-at-employer",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workEnd"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.work-run",
+        "part": "close",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.family-line-moved-away.named-moved-away",
+      "move": "family-line-moved-away",
+      "kind": "spoken",
+      "text": "{named} moved away.",
+      "uses": [
+        {
+          "move": "family-line-moved-away",
+          "subject": "family",
+          "role": "otherLine",
+          "choice": "named-moved-away",
+          "journal": [
+            {
+              "kindPrefix": "event:person.moved-away",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-for.after-that-i-wanted-to-to",
+      "move": "memoir-view-for",
+      "kind": "spoken",
+      "text": "After that, I wanted to {to}.",
+      "uses": [
+        {
+          "move": "memoir-view-for",
+          "subject": "memoir",
+          "role": "viewFor",
+          "choice": "after-that-i-wanted-to-to",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-for.that-was-when-i-came-to-want-to-to",
+      "move": "memoir-view-for",
+      "kind": "spoken",
+      "text": "That was when I came to want to {to}.",
+      "uses": [
+        {
+          "move": "memoir-view-for",
+          "subject": "memoir",
+          "role": "viewFor",
+          "choice": "that-was-when-i-came-to-want-to-to",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-for.from-then-on-i-wanted-to-to",
+      "move": "memoir-view-for",
+      "kind": "spoken",
+      "text": "From then on, I wanted to {to}.",
+      "uses": [
+        {
+          "move": "memoir-view-for",
+          "subject": "memoir",
+          "role": "viewFor",
+          "choice": "from-then-on-i-wanted-to-to",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-against.after-that-i-was-against-about",
+      "move": "memoir-view-against",
+      "kind": "spoken",
+      "text": "After that, I was against {about}.",
+      "uses": [
+        {
+          "move": "memoir-view-against",
+          "subject": "memoir",
+          "role": "viewAgainst",
+          "choice": "after-that-i-was-against-about",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewAgainst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-against.that-was-what-turned-me-against-about",
+      "move": "memoir-view-against",
+      "kind": "spoken",
+      "text": "That was what turned me against {about}.",
+      "uses": [
+        {
+          "move": "memoir-view-against",
+          "subject": "memoir",
+          "role": "viewAgainst",
+          "choice": "that-was-what-turned-me-against-about",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewAgainst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-against.from-then-on-i-was-against-about",
+      "move": "memoir-view-against",
+      "kind": "spoken",
+      "text": "From then on, I was against {about}.",
+      "uses": [
+        {
+          "move": "memoir-view-against",
+          "subject": "memoir",
+          "role": "viewAgainst",
+          "choice": "from-then-on-i-was-against-about",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewAgainst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.my-town-hall-drew-attendees-people",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "My town hall drew {attendees} people.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "my-town-hall-drew-attendees-people",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "W3 words builder (claude/words-w3-journal, db2c83d08d), carried by the journal composer",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.my-town-hall-drew-attendees-people-who-a",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "My town hall drew {attendees} people, who asked me {questions} questions.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "my-town-hall-drew-attendees-people-who-a",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "W3 words builder (claude/words-w3-journal, db2c83d08d), carried by the journal composer",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-gave-an-interview-to-outlet",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I gave an interview to {outlet}.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-gave-an-interview-to-outlet",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "W3 words builder (claude/words-w3-journal, db2c83d08d), carried by the journal composer",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-sat-down-with-a-reporter-from-outlet",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I sat down with a reporter from {outlet}.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-sat-down-with-a-reporter-from-outlet",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "W3 words builder (claude/words-w3-journal, db2c83d08d), carried by the journal composer",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-lost.i-lost-my-job-in-place",
+      "move": "work-line-lost",
+      "kind": "spoken",
+      "text": "I lost my job in {place}.",
+      "uses": [
+        {
+          "move": "work-line-lost",
+          "subject": "work",
+          "role": "line",
+          "choice": "i-lost-my-job-in-place",
+          "journal": [
+            {
+              "kindPrefix": "job-ended",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-ended:let-go",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "W3 words builder (claude/words-w3-journal, db2c83d08d), carried by the journal composer",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-moved-on.i-left-my-job-in-place-for-another-one",
+      "move": "work-line-moved-on",
+      "kind": "spoken",
+      "text": "I left my job in {place} for another one.",
+      "uses": [
+        {
+          "move": "work-line-moved-on",
+          "subject": "work",
+          "role": "line",
+          "choice": "left-in-place",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:moved-on",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-left.last-worked-at-employer",
+      "move": "memoir-work-left",
+      "kind": "spoken",
+      "text": "last worked at {employer}",
+      "uses": [
+        {
+          "move": "memoir-work-left",
+          "subject": "memoir",
+          "role": "workLeft",
+          "choice": "last-worked-at-employer",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workLeft"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      },
+      "piece": {
+        "of": "journal.work-run",
+        "part": "close",
+        "required": false
+      }
+    },
+    {
+      "key": "journal.memoir-work-left.was-last-at-employer",
+      "move": "memoir-work-left",
+      "kind": "spoken",
+      "text": "was last at {employer}",
+      "uses": [
+        {
+          "move": "memoir-work-left",
+          "subject": "memoir",
+          "role": "workLeft",
+          "choice": "was-last-at-employer",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workLeft"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      },
+      "piece": {
+        "of": "journal.work-run",
+        "part": "close",
+        "required": false
+      }
+    },
+    {
+      "key": "journal.memoir-work-one.i-have-worked-at-employer-for-span",
+      "move": "memoir-work-one",
+      "kind": "spoken",
+      "text": "I have worked at {employer} for {span}.",
+      "uses": [
+        {
+          "move": "memoir-work-one",
+          "subject": "memoir",
+          "role": "workOne",
+          "choice": "i-have-worked-at-employer-for-span",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workOne"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-one.i-ve-been-at-employer-for-span-now",
+      "move": "memoir-work-one",
+      "kind": "spoken",
+      "text": "I've been at {employer} for {span} now.",
+      "uses": [
+        {
+          "move": "memoir-work-one",
+          "subject": "memoir",
+          "role": "workOne",
+          "choice": "i-ve-been-at-employer-for-span-now",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workOne"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-one-left.i-worked-at-employer-for-span",
+      "move": "memoir-work-one-left",
+      "kind": "spoken",
+      "text": "I worked at {employer} for {span}.",
+      "uses": [
+        {
+          "move": "memoir-work-one-left",
+          "subject": "memoir",
+          "role": "workOneLeft",
+          "choice": "i-worked-at-employer-for-span",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workOneLeft"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-one-left.i-spent-span-at-employer",
+      "move": "memoir-work-one-left",
+      "kind": "spoken",
+      "text": "I spent {span} at {employer}.",
+      "uses": [
+        {
+          "move": "memoir-work-one-left",
+          "subject": "memoir",
+          "role": "workOneLeft",
+          "choice": "i-spent-span-at-employer",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workOneLeft"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-pay-up.my-pay-went-from-wage-from-to-wage-to-an",
+      "move": "memoir-work-pay-up",
+      "kind": "spoken",
+      "text": "My pay went from {wage_from} to {wage_to} an hour.",
+      "uses": [
+        {
+          "move": "memoir-work-pay-up",
+          "subject": "memoir",
+          "role": "workPayUp",
+          "choice": "my-pay-went-from-wage-from-to-wage-to-an",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workPayUp"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-pay-up.the-pay-climbed-from-wage-from-to-wage-t",
+      "move": "memoir-work-pay-up",
+      "kind": "spoken",
+      "text": "The pay climbed from {wage_from} to {wage_to} an hour.",
+      "uses": [
+        {
+          "move": "memoir-work-pay-up",
+          "subject": "memoir",
+          "role": "workPayUp",
+          "choice": "the-pay-climbed-from-wage-from-to-wage-t",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workPayUp"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-pay-down.my-pay-went-from-wage-from-down-to-wage-",
+      "move": "memoir-work-pay-down",
+      "kind": "spoken",
+      "text": "My pay went from {wage_from} down to {wage_to} an hour.",
+      "uses": [
+        {
+          "move": "memoir-work-pay-down",
+          "subject": "memoir",
+          "role": "workPayDown",
+          "choice": "my-pay-went-from-wage-from-down-to-wage-",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workPayDown"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-pay-down.the-pay-fell-from-wage-from-to-wage-to-a",
+      "move": "memoir-work-pay-down",
+      "kind": "spoken",
+      "text": "The pay fell from {wage_from} to {wage_to} an hour.",
+      "uses": [
+        {
+          "move": "memoir-work-pay-down",
+          "subject": "memoir",
+          "role": "workPayDown",
+          "choice": "the-pay-fell-from-wage-from-to-wage-to-a",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workPayDown"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-out.in-all-i-went-out-span-without-a-paychec",
+      "move": "memoir-work-out",
+      "kind": "spoken",
+      "text": "In all, I went {out_span} without a paycheck.",
+      "uses": [
+        {
+          "move": "memoir-work-out",
+          "subject": "memoir",
+          "role": "workOut",
+          "choice": "in-all-i-went-out-span-without-a-paychec",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workOut"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-out.i-spent-out-span-out-of-work-in-all",
+      "move": "memoir-work-out",
+      "kind": "spoken",
+      "text": "I spent {out_span} out of work in all.",
+      "uses": [
+        {
+          "move": "memoir-work-out",
+          "subject": "memoir",
+          "role": "workOut",
+          "choice": "i-spent-out-span-out-of-work-in-all",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workOut"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-filed.i-filed-to-run-for-office-with-the-elect",
+      "move": "office-line-filed",
+      "kind": "spoken",
+      "text": "I filed to run for {office}, with the election on {election}.",
+      "uses": [
+        {
+          "move": "office-line-filed",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-filed-to-run-for-office-with-the-elect",
+          "journal": [
+            {
+              "kindPrefix": "event:candidate-filed",
+              "field": "line"
+            }
+          ]
+        },
+        {
+          "move": "memoir-decided",
+          "subject": "memoir",
+          "role": "decided",
+          "choice": "i-filed-to-run-for-office-with-the-elect",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "decided"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-effect-up.my-bill-went-up-about-amount-a-month",
+      "move": "memoir-effect-up",
+      "kind": "spoken",
+      "text": "my {bill} went up {amount} a month",
+      "uses": [
+        {
+          "move": "memoir-effect-up",
+          "subject": "memoir",
+          "role": "effectUp",
+          "choice": "my-bill-went-up-about-amount-a-month",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectUp"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      },
+      "piece": {
+        "of": "journal.effects-learned",
+        "part": "clause",
+        "required": true
+      }
+    },
+    {
+      "key": "journal.memoir-effect-up.my-bill-rose-about-amount-a-month",
+      "move": "memoir-effect-up",
+      "kind": "spoken",
+      "text": "my {bill} rose {amount} a month",
+      "uses": [
+        {
+          "move": "memoir-effect-up",
+          "subject": "memoir",
+          "role": "effectUp",
+          "choice": "my-bill-rose-about-amount-a-month",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectUp"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      },
+      "piece": {
+        "of": "journal.effects-learned",
+        "part": "clause",
+        "required": true
+      }
+    },
+    {
+      "key": "journal.memoir-effect-down.my-bill-came-down-about-amount-a-month",
+      "move": "memoir-effect-down",
+      "kind": "spoken",
+      "text": "my {bill} came down {amount} a month",
+      "uses": [
+        {
+          "move": "memoir-effect-down",
+          "subject": "memoir",
+          "role": "effectDown",
+          "choice": "my-bill-came-down-about-amount-a-month",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectDown"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      },
+      "piece": {
+        "of": "journal.effects-learned",
+        "part": "clause",
+        "required": true
+      }
+    },
+    {
+      "key": "journal.memoir-effect-down.my-bill-fell-about-amount-a-month",
+      "move": "memoir-effect-down",
+      "kind": "spoken",
+      "text": "my {bill} fell {amount} a month",
+      "uses": [
+        {
+          "move": "memoir-effect-down",
+          "subject": "memoir",
+          "role": "effectDown",
+          "choice": "my-bill-fell-about-amount-a-month",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectDown"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      },
+      "piece": {
+        "of": "journal.effects-learned",
+        "part": "clause",
+        "required": true
+      }
+    },
+    {
+      "key": "journal.memoir-effects-learned.after-the-rules-on-topic-changed-effects",
+      "move": "memoir-effects-learned",
+      "kind": "spoken",
+      "text": "After the rules on {topic} changed, {effects}.",
+      "uses": [
+        {
+          "move": "memoir-effects-learned",
+          "subject": "memoir",
+          "role": "effectsLearned",
+          "choice": "after-the-rules-on-topic-changed-effects",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectsLearned"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-effects-learned.once-the-rules-on-topic-took-hold-effect",
+      "move": "memoir-effects-learned",
+      "kind": "spoken",
+      "text": "Once the rules on {topic} took hold, {effects}.",
+      "uses": [
+        {
+          "move": "memoir-effects-learned",
+          "subject": "memoir",
+          "role": "effectsLearned",
+          "choice": "once-the-rules-on-topic-took-hold-effect",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectsLearned"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-effects-learned.after-law-took-effect-effects",
+      "move": "memoir-effects-learned",
+      "kind": "spoken",
+      "text": "After {law} took effect, {effects}.",
+      "uses": [
+        {
+          "move": "memoir-effects-learned",
+          "subject": "memoir",
+          "role": "effectsLearned",
+          "choice": "after-law-took-effect-effects",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "effectsLearned"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-parent-lost.when-i-was-age-named-lost-their-job-at-e",
+      "move": "memoir-view-parent-lost",
+      "kind": "spoken",
+      "text": "When I was {age}, {named} lost {their} job at {employer}.",
+      "uses": [
+        {
+          "move": "memoir-view-parent-lost",
+          "subject": "memoir",
+          "role": "viewParentLost",
+          "choice": "when-i-was-age-named-lost-their-job-at-e",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewParentLost"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-parent-lost.when-i-was-age-named-lost-their-job",
+      "move": "memoir-view-parent-lost",
+      "kind": "spoken",
+      "text": "When I was {age}, {named} lost {their} job.",
+      "uses": [
+        {
+          "move": "memoir-view-parent-lost",
+          "subject": "memoir",
+          "role": "viewParentLost",
+          "choice": "when-i-was-age-named-lost-their-job",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewParentLost"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-parent-toward.i-took-their-side-of-politics-and-grew-l",
+      "move": "memoir-view-parent-toward",
+      "kind": "spoken",
+      "text": "I took {their} side of politics and grew {lean}.",
+      "uses": [
+        {
+          "move": "memoir-view-parent-toward",
+          "subject": "memoir",
+          "role": "viewParentToward",
+          "choice": "i-took-their-side-of-politics-and-grew-l",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewParentToward"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-parent-toward.after-that-i-saw-politics-their-way-and-",
+      "move": "memoir-view-parent-toward",
+      "kind": "spoken",
+      "text": "After that I saw politics {their} way and grew {lean}.",
+      "uses": [
+        {
+          "move": "memoir-view-parent-toward",
+          "subject": "memoir",
+          "role": "viewParentToward",
+          "choice": "after-that-i-saw-politics-their-way-and-",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewParentToward"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-parent-away.i-turned-against-their-politics-and-grew",
+      "move": "memoir-view-parent-away",
+      "kind": "spoken",
+      "text": "I turned against {their} politics and grew {lean}.",
+      "uses": [
+        {
+          "move": "memoir-view-parent-away",
+          "subject": "memoir",
+          "role": "viewParentAway",
+          "choice": "i-turned-against-their-politics-and-grew",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewParentAway"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-parent-away.i-went-the-other-way-from-their-politics",
+      "move": "memoir-view-parent-away",
+      "kind": "spoken",
+      "text": "I went the other way from {their} politics, {lean}.",
+      "uses": [
+        {
+          "move": "memoir-view-parent-away",
+          "subject": "memoir",
+          "role": "viewParentAway",
+          "choice": "i-went-the-other-way-from-their-politics",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewParentAway"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-own.losing-my-job-at-employer-in-year-turned",
+      "move": "memoir-view-own",
+      "kind": "spoken",
+      "text": "Losing my job at {employer} in {year} turned me {lean}.",
+      "uses": [
+        {
+          "move": "memoir-view-own",
+          "subject": "memoir",
+          "role": "viewOwn",
+          "choice": "losing-my-job-at-employer-in-year-turned",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewOwn"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-view-own.after-employer-let-me-go-in-year-i-grew-",
+      "move": "memoir-view-own",
+      "kind": "spoken",
+      "text": "After {employer} let me go in {year}, I grew {lean}.",
+      "uses": [
+        {
+          "move": "memoir-view-own",
+          "subject": "memoir",
+          "role": "viewOwn",
+          "choice": "after-employer-let-me-go-in-year-i-grew-",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "viewOwn"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
       "tag": {
         "move": "tell"
       }

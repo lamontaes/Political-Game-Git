@@ -1051,6 +1051,18 @@
     "status": "open"
   },
   {
+    "id": "SG-DIRECTOR-journal-life-gaps",
+    "kind": "missing-data",
+    "file": "src/director/journal.ts",
+    "line": 1,
+    "whatItFakes": "The Journal tells four things of a life from the family facts and the school engine's rows because the shared life list (lifeOf) has no pair for them: who raised the person and their brothers and sisters, the day their parents set up home, a parent's new job they remember, and a school year's end (a graduation result is a table row, not an event on a list).",
+    "why": "The list's table (src/core2/data/life/remembered.json) holds no parent, sibling, parents' partnership or parent's work pair, and no engine writes a school year's end as a remembered event.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "A parent and a sibling pair on the built facts, the parents' own records on their lists, and a school-finished event written when the school engine writes its result; the Journal then reads them from lifeOf and these readers are deleted.",
+    "status": "open"
+  },
+  {
     "id": "SG-STORY-constituent-help-rent-and-care-have-no-case",
     "kind": "missing-producer",
     "file": "src/core2/modules/constituent-cases.ts",

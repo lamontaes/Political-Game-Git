@@ -337,7 +337,25 @@ export type MemoirField =
   | "deathAge"
   | "deathIllness"
   | "schoolFor"
-  | "schoolAge";
+  | "schoolAge"
+  | "workRun"
+  | "workEnd"
+  | "workLost"
+  | "workLeft"
+  | "workOne"
+  | "workOneLeft"
+  | "workPayUp"
+  | "workPayDown"
+  | "workOut"
+  | "effectsLearned"
+  | "effectUp"
+  | "effectDown"
+  | "viewFor"
+  | "viewParentLost"
+  | "viewParentToward"
+  | "viewParentAway"
+  | "viewOwn"
+  | "viewAgainst";
 
 /**
  * A line of the journal: the event worded for whose it was (`line`, with
