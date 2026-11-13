@@ -15,12 +15,12 @@
     "id": "SG-PEOPLE-press-bureau-shortfall",
     "kind": "owner-decision",
     "file": "src/core2/press-money.ts",
-    "line": 370,
-    "whatItFakes": "Where a town's readers and advertisers pay an outlet less than its people in the town cost, the town's outside customers pay it the rest each press week, in advance, as the outlet's audience elsewhere. The acting CTO ruled on Oct 25 (OWNER-DECISIONS.md, 'Press outlet shortfall') that an outlet short of money cuts staff or closes by its own books and this top-up is removed; the removal is not built.",
-    "why": "Most towns' papers and stations are bureaus of an outlet that serves a wider area; the game models only the town's own payers, and no ruling says what happens when they fall short.",
+    "line": 389,
+    "whatItFakes": "Where a town's readers and advertisers pay a television or radio station less than its people in the town cost, the town's outside customers pay it the rest each press week, in advance, as the station's audience elsewhere. Newspapers no longer get it: a paper is paid by its county's adults beyond the town at the national revenue per reader, carries a cost sized from its own newsroom jobs and circulation, and closes by its owner's choice as any business. The acting CTO ruled on Oct 25 (OWNER-DECISIONS.md, 'Press outlet shortfall') that an outlet short of money cuts staff or closes by its own books and the top-up is removed; the removal is built for newspapers only.",
+    "why": "A station's cost is its town bureau's pay alone and its revenue is the town's readers and advertisers alone; neither is calibrated to the market the station serves, so taking the top-up away would close stations with no market reason (in four drawn places every station closed in its first months). Held for television and radio until their whole-cost and revenue model.",
     "addedBy": "claude/press-outlet-revenue",
     "addedAt": "2026-10-24",
-    "replacement": "The owner's ruling on an outlet whose town pays less than its people cost (docs/coordination/OWNER-DECISIONS.md).",
+    "replacement": "The whole-cost and revenue model for television and radio stations: each station given its market's cost and revenue from sourced figures, as newspapers now have, and this top-up deleted.",
     "status": "open"
   },
   {

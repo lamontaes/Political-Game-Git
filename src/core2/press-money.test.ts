@@ -276,7 +276,7 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
     ).toBe("resolved");
     const year = months.map(
       (m) =>
-        `${m.month}: readers ${m.readers.toFixed(1)}, subscriptions ${subs(m)} (${m.subscriberPayments} full payments), ads ${m.adsMinor} (${m.adPayments})`,
+        `${m.month}: readers ${m.readers.toFixed(1)}, subscriptions ${subs(m)} (${m.subscriberPayments} full payments), ads ${m.adsMinor} (${m.adPayments}), wider audience ${m.shortfallMinor}`,
     );
     process.stdout.write(
       `PRESS MONEY ${where}: ${paper.organizationId}\n  ${year.join("\n  ")}\n  ${home} paid in ${receipt!.id} (${receipt!.sourceRef.id}: ${own.beforeMinor - own.afterMinor} from ${payerId}, ${to.afterMinor - to.beforeMinor} to the paper)\n  ad ${ad.id}: ${ad.advertiserId} paid ${ad.amountMinor} in ${ad.transferId} in ${adReceipt.id} (its cash ${buyer.beforeMinor} to ${buyer.afterMinor}; the paper's ${seller.beforeMinor} to ${seller.afterMinor})\n`,

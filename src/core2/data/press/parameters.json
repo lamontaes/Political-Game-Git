@@ -127,66 +127,6 @@
       "source": "Newsroom jobs the smallest paper keeps whatever its market: its editor and one reporter, the staff the game already seeds (Medill State of Local News 2024 puts the average surviving paper at about 5 journalists; the small weekly's floor of two is the game's own estimate, not a published figure).",
       "spread": [1, 3]
     },
-    "adultsPerTvNewsWorker": {
-      "value": 9400,
-      "tag": "SOURCED",
-      "source": "U.S. adults per full-time local TV news worker, 2023: 262,083,034 U.S. adults on July 1, 2023 (U.S. Census Bureau, Estimates of the Voting-Age Population for 2023, Federal Register, Mar 29, 2024, 2024-06666) over the 27,880 full-time local TV news employees of the Q4 2023 survey (RTDNA/Newhouse School at Syracuse University, May 2024). A market's newsroom jobs follow its adults at this rate, shared among its stations.",
-      "spread": [8000, 11000]
-    },
-    "tvNewsroomFloor": {
-      "value": 23.5,
-      "tag": "SOURCED",
-      "source": "Average full-time staff of a local TV station newsroom in the smallest markets (ranks 151 and below): 23.5 (RTDNA/Newhouse School at Syracuse University, 2024 TV news staffing survey of Q4 2023, 1,387 responding stations; all stations 47.5 on average, 40 median). It is an average used as the floor, not a published minimum; RTDNA publishes no lower figure.",
-      "spread": [21.5, 31]
-    },
-    "radioNewsStaffSmall": {
-      "value": 1.6,
-      "tag": "SOURCED",
-      "source": "Average full-time radio news staff of a station in a small market, under 50,000 potential listeners (RTDNA/Newhouse School, 2024 Radio News Staffing Report, 2023 survey). The market's adults stand for potential listeners; this anchor sits at 25,000 adults, half the band's upper edge, which is the game's choice.",
-      "spread": [1, 2]
-    },
-    "radioNewsStaffMedium": {
-      "value": 2.8,
-      "tag": "SOURCED",
-      "source": "Average full-time radio news staff, medium market of 50,000 to 250,000 potential listeners (RTDNA/Newhouse School 2024 Radio News Staffing Report, 2023 survey); anchored at 111,803 adults, the geometric middle of the band.",
-      "spread": [1, 4]
-    },
-    "radioNewsStaffLarge": {
-      "value": 3.9,
-      "tag": "SOURCED",
-      "source": "Average full-time radio news staff, large market of 250,000 to 1 million potential listeners (RTDNA/Newhouse School 2024 Radio News Staffing Report, 2023 survey); anchored at 500,000 adults, the geometric middle of the band.",
-      "spread": [3, 5]
-    },
-    "radioNewsStaffMajor": {
-      "value": 10.9,
-      "tag": "SOURCED",
-      "source": "Average full-time radio news staff, major market of 1 million or more potential listeners (RTDNA/Newhouse School 2024 Radio News Staffing Report, 2023 survey); anchored at 2 million adults, twice the band's lower edge, which is the game's choice.",
-      "spread": [6, 15]
-    },
-    "radioListenersAnchorSmall": {
-      "value": 25000,
-      "tag": "ESTIMATED",
-      "source": "The market size, in adults, at which a radio station's news staff takes the published average of its band (RTDNA/Newhouse School 2024 Radio News Staffing Report bands: under 50,000, 50,000 to 250,000, 250,000 to 1 million, 1 million and over potential listeners). Between anchors the staff slides in the logarithm of adults. The anchors are the game's choice within each band.",
-      "spread": [10000, 50000]
-    },
-    "radioListenersAnchorMedium": {
-      "value": 111803,
-      "tag": "ESTIMATED",
-      "source": "The market size, in adults, at which a radio station's news staff takes the published average of its band (RTDNA/Newhouse School 2024 Radio News Staffing Report bands: under 50,000, 50,000 to 250,000, 250,000 to 1 million, 1 million and over potential listeners). Between anchors the staff slides in the logarithm of adults. The anchors are the game's choice within each band.",
-      "spread": [50000, 250000]
-    },
-    "radioListenersAnchorLarge": {
-      "value": 500000,
-      "tag": "ESTIMATED",
-      "source": "The market size, in adults, at which a radio station's news staff takes the published average of its band (RTDNA/Newhouse School 2024 Radio News Staffing Report bands: under 50,000, 50,000 to 250,000, 250,000 to 1 million, 1 million and over potential listeners). Between anchors the staff slides in the logarithm of adults. The anchors are the game's choice within each band.",
-      "spread": [250000, 1000000]
-    },
-    "radioListenersAnchorMajor": {
-      "value": 2000000,
-      "tag": "ESTIMATED",
-      "source": "The market size, in adults, at which a radio station's news staff takes the published average of its band (RTDNA/Newhouse School 2024 Radio News Staffing Report bands: under 50,000, 50,000 to 250,000, 250,000 to 1 million, 1 million and over potential listeners). Between anchors the staff slides in the logarithm of adults. The anchors are the game's choice within each band.",
-      "spread": [1000000, 4000000]
-    },
     "reportersPerNewspaper": {
       "value": 1,
       "tag": "ESTIMATED",

@@ -30,16 +30,12 @@ import news from "../../data/research/press/local-news-2026.json" with { type: "
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
-it("every state and territory has a market population for each kind, or the draw fails loudly", () => {
+it("every state and territory has a newspaper market population, or the draw fails loudly", () => {
   const states = Object.keys((news as { places: object }).places);
   expect(states).toHaveLength(56);
   for (const state of states)
-    for (const kind of ["newspaper", "radio", "television"] as const)
-      expect(
-        marketPeople(state, undefined, kind),
-        `${state} ${kind}`,
-      ).toBeGreaterThan(0);
-  expect(() => marketPeople("US-ZZ", undefined, "newspaper")).toThrow();
+    expect(marketPeople(state, undefined), state).toBeGreaterThan(0);
+  expect(() => marketPeople("US-ZZ", undefined)).toThrow();
 });
 
 it("a paper whose market is staffed at the national rate earns about the national margin, and a floor paper needs a market of about 12,600 adults", () => {
@@ -64,19 +60,14 @@ it("a paper whose market is staffed at the national rate earns about the nationa
   expect(breakEvenAdults).toBeLessThan(13_500);
 });
 
-it("newsroom jobs follow the market's adults above a floor, and slide for radio", () => {
-  const small = newsroomJobsOf("newspaper", 5_000, 1);
-  const large = newsroomJobsOf("newspaper", 600_000, 1);
+it("newsroom jobs follow the market's adults and reading above a floor", () => {
+  const small = newsroomJobsOf(5_000, 1);
+  const large = newsroomJobsOf(600_000, 1);
   expect(small).toBeGreaterThanOrEqual(2);
   expect(large).toBeGreaterThan(small);
-  expect(newsroomJobsOf("newspaper", 600_000, 3)).toBeLessThan(large);
-  expect(newsroomJobsOf("television", 10_000, 1)).toBeGreaterThanOrEqual(23.5);
-  let last = 0;
-  for (const adults of [10_000, 60_000, 200_000, 700_000, 3_000_000]) {
-    const jobs = newsroomJobsOf("radio", adults, 1);
-    expect(jobs).toBeGreaterThan(last);
-    last = jobs;
-  }
+  expect(newsroomJobsOf(600_000, 3)).toBeLessThan(large);
+  // A market that reads half as much keeps half the newsroom.
+  expect(newsroomJobsOf(600_000, 1, 0.5)).toBeCloseTo(large / 2, 6);
 });
 
 it(`the market beyond the town pays an outlet by readers, not by its cost (seed ${seed})`, () => {
@@ -91,6 +82,11 @@ it(`the market beyond the town pays an outlet by readers, not by its cost (seed 
     const core = world as CoreState;
     const api = coreAPI(core);
     const outlets = outletsHere(api).filter((o) => o.tier === "local");
+    // Stations have no whole-cost model yet: no market readers, no outside cost.
+    for (const o of outlets.filter((x) => x.kind !== "newspaper")) {
+      expect(marketReadersOf(api, o), where).toBe(0);
+      expect(outsideNewsroomYearMinor(api, o, 0), where).toBe(0);
+    }
     const wider = outlets.filter((o) => marketReadersOf(api, o) > 0);
     if (!wider.length) {
       tried.push(`${where}: no outlet reaches beyond the town`);

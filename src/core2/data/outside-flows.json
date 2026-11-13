@@ -81,6 +81,12 @@
     },
     {
       "kind": "accounts.transfer",
+      "idPrefix": "press-wider-audience",
+      "matchedBy": "goods-and-services",
+      "what": "Readers and advertisers outside the town paying a town outlet for the part of its news staff the town's own readers and advertisers do not pay for (SG-PEOPLE-press-bureau-shortfall)."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "outside-costs",
       "matchedBy": "goods-and-services",
       "what": "A town business paying outside suppliers for what it uses."
