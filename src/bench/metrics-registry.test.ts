@@ -198,6 +198,40 @@ describe("Metrics reads the registry in a played world", () => {
         { now: number; of?: number } | undefined;
       const employed = rowOf(view, "city", "employed");
       expect(seekers?.of, where).toBe(employed!.now + seekers!.now);
+      // People and homes (build order metrics-people-and-homes-by-year): each is the town's monthly
+      // row with December's beside it, the named and counted people behind the count add up to it,
+      // and the housing engine's own stock and the homeless count's record are what the row holds.
+      const homes = api
+        .moduleState("housing")
+        .table("stock")
+        .get(`stock:${placeId}`) as
+        { rentalUnits: number; vacantRental: number } | undefined;
+      for (const [section, key, field] of [
+        ["city", "people", "people"],
+        ["city", "households", "households"],
+        ["housing", "rentals", "rentalUnits"],
+        ["housing", "vacant", "vacantRentals"],
+        ["housing", "homeless", "peopleWithoutHome"],
+      ] as const) {
+        const row = rowOf(view, section, key);
+        if (typeof march![field] !== "number") {
+          expect(row, `${where}: ${key} with no record`).toBeUndefined();
+          continue;
+        }
+        expect(row?.now, `${where}: ${key}`).toBe(march![field]);
+        if (typeof december![field] === "number")
+          expect(row?.before, `${where}: ${key} last year`).toBe(
+            december![field],
+          );
+      }
+      expect(march!.people, where).toBe(
+        march!.peopleNamed! + march!.peopleCounted!,
+      );
+      expect(march!.rentalUnits, where).toBe(homes?.rentalUnits);
+      expect(
+        api.moduleState("core2-homeless-count-v1").table("counts").get(placeId),
+        where,
+      ).toMatchObject({ homeless: march!.peopleWithoutHome });
       // No row shows a last year that no record holds.
       for (const section of view.sections)
         for (const row of section.rows)
@@ -240,7 +274,15 @@ describe("Metrics reads the registry in a played world", () => {
       expect(noticesKept(loaded), where).toEqual(noticesCounted(loaded));
 
       process.stdout.write(
-        `metrics registry: ${where}, notices ${JSON.stringify(counted)}; passed over: ${passedOver.join("; ") || "none"}\n`,
+        `metrics registry: ${where}, people and homes now/last year ${JSON.stringify(
+          ["people", "households", "rentals", "vacant", "homeless"].map(
+            (key) => [
+              key,
+              (rowOf(view, "city", key) ?? rowOf(view, "housing", key))?.now,
+              (rowOf(view, "city", key) ?? rowOf(view, "housing", key))?.before,
+            ],
+          ),
+        )}, notices ${JSON.stringify(counted)}; passed over: ${passedOver.join("; ") || "none"}\n`,
       );
       return;
     }

@@ -29,6 +29,38 @@ function rows(api: CoreAPI, moduleId: string, table: string) {
     : [];
 }
 
+/**
+ * The people and homes each place holds today, from the residents engine's
+ * own records in one pass: named people from the place index (the dead stay
+ * in it, so the living are counted), households that still have a living
+ * member, and the counted tier by weight (a record stands for as many
+ * households as its weight says). A group-quarters room is people but no
+ * household.
+ */
+function peopleAndHomes(c: CoreState, rt: ReturnType<typeof residentsRuntime>) {
+  const out = new Map<
+    string,
+    { named: number; counted: number; households: number }
+  >();
+  const at = (placeId: string) => {
+    let row = out.get(placeId);
+    if (!row) out.set(placeId, (row = { named: 0, counted: 0, households: 0 }));
+    return row;
+  };
+  for (const [placeId, ids] of c.peopleByPlace)
+    for (const id of ids) if (c.people.get(id)?.alive) at(placeId).named += 1;
+  for (const home of c.households.values())
+    if (home.memberIds.some((id) => c.people.get(id)?.alive))
+      at(home.placeId).households += 1;
+  if (rt)
+    for (const h of rt.store.liveHouseholds()) {
+      const row = at(h.placeId);
+      row.counted += rt.store.weightedCount(h);
+      if (!h.quarters) row.households += rt.store.weightOf(h);
+    }
+  return out;
+}
+
 /** The town's economic numbers today, one entry per place with businesses. */
 export function townMetrics(api: CoreAPI) {
   const c = api.state as CoreState;
@@ -198,6 +230,13 @@ export function townMetrics(api: CoreAPI) {
       );
     }
   const poverty = povertyByPlace(c);
+  const people = peopleAndHomes(c, rt);
+  const stock = c.modules.has(HOUSING_MODULE_ID)
+    ? api.moduleState(HOUSING_MODULE_ID).table("stock")
+    : undefined;
+  const homeless = c.modules.has("core2-homeless-count-v1")
+    ? api.moduleState("core2-homeless-count-v1").table("counts")
+    : undefined;
   const housing = c.modules.has(HOUSING_MODULE_ID)
     ? townFiguresByPlace(api, new Set(places.keys()))
     : undefined;
@@ -207,6 +246,10 @@ export function townMetrics(api: CoreAPI) {
       const income = median([...row.earnings.values()]);
       const homes = housing?.get(placeId);
       const rent = homes?.rentMinor ?? median(row.rents);
+      const here = people.get(placeId);
+      const homesHeld = stock?.get(`stock:${placeId}`) as
+        { rentalUnits: number; vacantRental: number } | undefined;
+      const noHome = homeless?.get(placeId) as { homeless: number } | undefined;
       return {
         placeId,
         date: c.date,
@@ -240,6 +283,24 @@ export function townMetrics(api: CoreAPI) {
             ? (rent * api.parameter("macroMonthsPerYear")) / income
             : 0,
         evictionOrdersLastMonth: row.evictionOrders,
+        // People and homes (build order metrics-people-and-homes-by-year):
+        // named and counted people by tier, households, the housing stock's
+        // rentals and the homeless count's latest figure.
+        ...(here
+          ? {
+              people: here.named + here.counted,
+              peopleNamed: here.named,
+              peopleCounted: here.counted,
+              households: here.households,
+            }
+          : {}),
+        ...(homesHeld
+          ? {
+              rentalUnits: homesHeld.rentalUnits,
+              vacantRentals: homesHeld.vacantRental,
+            }
+          : {}),
+        ...(noHome ? { peopleWithoutHome: noHome.homeless } : {}),
         ...(hasJobs
           ? { unemploymentClaimsOpen: claimsOpen.get(placeId) ?? 0 }
           : {}),
