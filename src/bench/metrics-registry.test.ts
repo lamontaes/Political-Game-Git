@@ -188,7 +188,7 @@ describe("Metrics reads the registry in a played world", () => {
         .table("years")
         .get(yearRowId(placeId, 2025)) as OutputYearRow | undefined;
       expect(last?.closedAt, where).toBe("2026-01-02");
-      const evictions = rowOf(view, "evictions", "evictions");
+      const evictions = rowOf(view, "evictions", "evictionNotices");
       expect(evictions?.before, where).toBe(last?.evictionNotices ?? 0);
       expect(rowOf(view, "benefits", "claims")?.now, where).toBe(
         march!.unemploymentClaimsOpen,

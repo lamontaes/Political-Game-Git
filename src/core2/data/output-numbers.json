@@ -2,8 +2,8 @@
   "about": "The one registry of output numbers (docs/design/output-numbers.md): every figure a screen shows or the outcome web reads from an engine, with the engine that owns it, its unit, level, denominator in words, cadence (on change, monthly or yearly, never daily), source, how its months fold into a year (the December value, the year's sum or the year's mean) and the named inputs kept beside it. `kept` names where world-metrics keeps it (a field of its monthly row, folded into the place's year row, or a field of the year row an owner writes through putOutputNumber); `reader` names the owning engine's own record where that engine keeps the dated rows itself (src/core2/output-number-readers.ts). `web` holds what the outcome web needs to read the figure as a cause (the list that was outcome-web.json's engineMeasures); `metrics` says where the Metrics screen shows it, and `waitsOn` the build order that gives the figure its one writer and its year rows.",
   "sections": [
     "nation",
-    "state",
     "city",
+    "state",
     "housing",
     "evictions",
     "benefits",
@@ -836,7 +836,7 @@
       },
       "metrics": {
         "section": "evictions",
-        "key": "evictions",
+        "key": "evictionNotices",
         "unit": "count"
       }
     },
