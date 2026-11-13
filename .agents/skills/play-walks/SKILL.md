@@ -39,6 +39,8 @@ The log has one block per thing said: the clock, who spoke, the last lines of th
 
 One bench and one walk at a time. A walk takes two to five minutes, most of it the world being built.
 
+Pictures and `lines.md` files copied into `docs/seen/` for a pull request go through prettier before the commit (`npx prettier --write docs/seen/<folder>/`): the walk writes `lines.md` unformatted, and CI's `repository` check runs prettier on every changed file (Nov 13: #8987 and #8957 failed on six and three `lines.md` files).
+
 ## What to read for
 
 The review rules in the skill `words-engine` (its lessons of Nov 11), and these, which only show in play:
@@ -70,3 +72,4 @@ The review rules in the skill `words-engine` (its lessons of Nov 11), and these,
 - **Do not turn a walk into a test by adding asserts.** When a walk finds a rule worth holding, the rule goes into a test or a guard in the area that owns it, and the walk stays a walk.
 - **A walk works a panel through and leaves it (Nov 11).** The official's walk pressed the first button of the meeting panel each time, which was Read the bill, then Back to the meeting, five hundred times, and wrote five hundred pictures. It now reads the first bill once, votes each item, adjourns, and stops with a line if it presses one control six times at a stop. It takes a new picture only when the panel's words change. Replay a life with `BENCH_SEED` to take before and after pictures of the same meeting.
 - **A new control name needs the bench restarted (Nov 11).** The page's control names are read when the server starts. A label added to `src/bench/data/controls.json` shows as an empty space until the bench is restarted; page files and styles need only a new life.
+- **A slow press is the script until the server says otherwise (Nov 13).** Playtester P3 reported a seven-minute week that was its own wait loop: the loop polled 600 times every 0.7 seconds and had no exit for the meeting panel, so every meeting day "took" 420 seconds after the game had stopped. Before reporting a slow press, give every wait loop an exit for each panel that can stop the clock, and read the bench server's CPU time (`/proc/<pid>/stat`, fields 14 and 15, in hundredths of a second) before and after the press; a press that used a few seconds of CPU was not slow.

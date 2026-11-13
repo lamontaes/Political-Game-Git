@@ -198,6 +198,9 @@ export function wireItem(
       // every member who voted; it is not a story of its own.
       return null;
     case "budget-line-changed":
+      // A revenue line a measure moved (a town's aid) is not an official's
+      // cut or raise of spending: the spending side tells that story.
+      if (facts.side === "revenue") return null;
       return {
         ...base,
         topic: `budget-line:${facts.line ?? ""}`,
@@ -235,6 +238,8 @@ export function wireItem(
         ending: false,
       };
     }
+    // A bill a committee held without a hearing is, like one that failed, about what it would have changed.
+    case "bill-held-in-committee":
     case "bill-failed": {
       // A bill that failed is about what it would have changed, so a reader
       // can bring it up by name; the roll call's story argues the side, so

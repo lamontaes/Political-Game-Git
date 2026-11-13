@@ -66,6 +66,7 @@ import {
   type SeatInput,
   type VacancyRule,
 } from "../offices-state";
+import stateOfficesResearch from "../../../data/research/offices/state-offices.json" with { type: "json" };
 import { worldSeatParty } from "./elections";
 // A screen reads which district a town votes in through this entry.
 // Another state's offices as plain definitions (titles, seats), for a view
@@ -389,11 +390,17 @@ function termEnd(
       ? // Asked from the year before: a spring election's filing can close
         // in the winter before its year.
         electionInYear({ ...where, year, onDate: `${year - 1}-07-01` })
-      : staggeredSeatElection({ ...where, onDate: date, index: seat.index });
+      : // A board elected all at once has every seat on the first cycle.
+        staggeredSeatElection({
+          ...where,
+          onDate: date,
+          index: office.staggered === false ? 0 : seat.index,
+        });
   if (election) return termStartAfter(office, election.electionDate);
   const starts = office.termStarts ?? "01-01";
   if (year !== undefined) return `${year + 1}-${starts}`;
-  const offset = seat.index % Math.max(1, office.termYears);
+  const offset =
+    office.staggered === false ? 0 : seat.index % Math.max(1, office.termYears);
   return `${Number(date.slice(0, 4)) + offset + 1}-${starts}`;
 }
 
@@ -1954,3 +1961,34 @@ export type { OfficeLevel } from "../offices-local";
 /** A government's title as people say it, read through the executive family's entry. */
 export { partySide } from "../appointments";
 export { nextMeeting } from "../office-day-calendar";
+
+const ticketPlaces = (
+  stateOfficesResearch as unknown as {
+    places: Record<
+      string,
+      | {
+          executives?: {
+            key: string;
+            electedWithGovernorOnTicket?: boolean;
+          }[];
+        }
+      | undefined
+    >;
+  }
+).places;
+
+/**
+ * Whether the law elects a state's office of this kind on one ticket with its
+ * governor (a lieutenant governor in about thirty places), read from the
+ * office's research row. The one reader: the offices, elections and voting
+ * engines all ask here.
+ */
+export function electedWithGovernorOnTicket(
+  stateKey: string,
+  kind: string,
+): boolean {
+  return (
+    ticketPlaces[stateKey]?.executives?.find((e) => e.key === kind)
+      ?.electedWithGovernorOnTicket === true
+  );
+}

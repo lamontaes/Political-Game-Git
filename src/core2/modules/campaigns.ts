@@ -125,6 +125,7 @@ import {
 } from "./press";
 import { newsKey } from "./news";
 import {
+  atLargeGroup,
   ballot,
   ELECTIONS_MODULE_ID,
   petitionCirculating,
@@ -4144,7 +4145,8 @@ function postMoney(
  * Everyone a campaign can reach without canvassing a stranger, through the
  * records that link them: the candidate's family, the people they know and
  * have a relationship with, the members of their party in town, the people
- * the campaign has already reached, and its volunteers. In id order.
+ * the campaign has already reached, and its volunteers, never a rival on the
+ * same ballot. In id order.
  */
 export function reachablePeople(
   api: CoreAPI,
@@ -4170,6 +4172,25 @@ export function reachablePeople(
   ]) as unknown as ImpressionRow[])
     if (row.heardOf) ids.add(row.voterId);
   ids.delete(campaign.candidateId);
+  // Someone standing in the same race campaigns for themselves
+  // (`rivalFiling`), so no campaign's list reaches them, nor the people they
+  // live with, who back their run: not to ask for money, nor to enlist. The
+  // race is the contest and, for at-large seats up the same day (one race the
+  // voting engine counts together), its sibling seats; only standing filings
+  // count, and other offices on the same day's ballot are other races.
+  const contest = elections(api, "contests").get(campaign.contestId) as
+    ContestRow | undefined;
+  for (const seat of contest
+    ? atLargeGroup(api, contest)
+    : [{ id: campaign.contestId }])
+    for (const f of ballot(api, seat.id)) {
+      if (f.personId === campaign.candidateId) continue;
+      ids.delete(f.personId);
+      const home = api.state.people.get(f.personId)?.householdId;
+      if (home && home !== candidate?.householdId)
+        for (const member of api.state.households.get(home)?.memberIds ?? [])
+          ids.delete(member);
+    }
   return [...ids].sort();
 }
 

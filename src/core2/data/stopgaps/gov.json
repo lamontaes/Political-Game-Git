@@ -1182,11 +1182,11 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/public-pay-floor.json",
     "line": 3,
-    "whatItFakes": "The public pay floor treats public schools as city employers when deciding which floor binds them; school districts are not their own level of government.",
+    "whatItFakes": "A school district is bound by the federal and state public pay floors only (boundBy in public-pay-floor.json), but no law level exists for a district, so a district cannot enact a floor of its own, and its funding level in employerLevels is still the city's (whose floor binds an employer, boundBy, differs from who funds it, employerLevels). A public post filled by the government (an aide, a department head) is paid at the floor in force the day it is filled, and a jobs-engine opening at the floor in force the day it is posted.",
     "why": "The CTO ruled (October 14, 2026) that a public-salary base is a standing law at each level and asked dev mode's PR to add the data row and the smallest read hook, for the GOV wiring session to own after merge.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
-    "replacement": "School districts get their own level in the employer-to-level map (data/laws/public-pay-floor.json) and the floor reads it at hire and at the review.",
+    "replacement": "School districts as their own level of government in the law chain, so a floor enacted at the district binds only the district.",
     "status": "open"
   },
   {
@@ -1799,18 +1799,6 @@
     "resolvedBy": "stand-in triage T2"
   },
   {
-    "id": "SG-GOV-first-race-no-local-office",
-    "kind": "missing-data",
-    "file": "src/core2/modules/elections.ts",
-    "line": 844,
-    "whatItFakes": "A home the government-units listing ties to no local government (a place outside any organized borough, or a place the place-to-county relation misses) has no local office, so the player's first race there is the state's own lawmaking body instead of the place's council or its equivalent. A census place inside a consolidated city-county and a municipio are now matched.",
-    "why": "The owner's Oct 29 ruling gives every place a first local race under whatever name its lawmaking body has; 244 of the 32,350 state localities have no local office in the data (src/core2/player-first-race.test.ts prints the ones it draws) because placeLocalGovernmentUnits finds no government unit serving them. The District of Columbia is not one: its council and mayor sit at the state level. The island areas' villages are their territories' own case.",
-    "addedBy": "governing/player-first-local-race",
-    "addedAt": "2026-10-29",
-    "replacement": "Each such home matched to the government that serves it (the borough, or the state where no borough is organized; the consolidated city-county or city-parish; the county the relation misses), so localOfficesForPlace seats its council or equivalent and the rule admits it.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-committee-day-hooks",
     "kind": "owner-decision",
     "file": "src/core2/modules/legislature.ts",
@@ -2029,13 +2017,13 @@
   {
     "id": "SG-GOV-outside-ticket-raced-alone",
     "kind": "assumed-data",
-    "file": "src/core2/modules/voting.ts",
-    "line": 5039,
-    "whatItFakes": "Another place's statewide officer whom the law elects on one ticket with the governor (a lieutenant governor in about thirty places, data/research/offices/state-offices.json electedWithGovernorOnTicket) is raced on its own seat, the same as every other statewide officer, so the count can seat a lieutenant governor of a different party from the governor elected the same night.",
-    "why": "The world races count one seat at a time; nothing joins a ticket office's race to its governor's. The town's own contests run each office separately too.",
+    "file": "src/core2/modules/elections.ts",
+    "line": 572,
+    "whatItFakes": "In the town's own state, a statewide officer whom the law elects on one ticket with the governor (a lieutenant governor in about thirty places) has a contest of its own, with its own candidates and its own count by the named voters, so the town can seat a lieutenant governor of a different party from the governor elected the same night. Other places' tickets are decided with their governor's race (voting.ts, ticketRace).",
+    "why": "The town's contests run each office separately: candidacy files each office's runners alone, and no running mate is chosen with a governor candidate.",
     "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 review fixes)",
     "addedAt": "2026-10-30",
-    "replacement": "A ticket office's race decided with its governor's: the governor race's winning party seats the running mate the same day, read from the office's research row.",
+    "replacement": "A running mate chosen with each governor candidate and filed on the same ticket, so the ticket office's ballot carries the governor candidate's running mate and one vote counts both.",
     "status": "open"
   },
   {
@@ -2441,6 +2429,30 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T2"
+  },
+  {
+    "id": "SG-GOV-recount-confirms-count",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/voting.ts",
+    "line": 4128,
+    "whatItFakes": "A recount runs the same count again on the result's own parts (its named, counted and coarsely counted votes) and so always confirms the first count: no recount moves a vote or changes a winner.",
+    "why": "The game records no miscounted ballot (no machine error, no misread or lost ballot), so a second count of the same ballots has nothing to find.",
+    "addedBy": "opus-5234 (elections-contested-count-record)",
+    "addedAt": "2026-11-11",
+    "replacement": "A count that keeps its errors where they arise (a precinct's machine, ballots set aside, a misread mark), sized from the record of recounts (FairVote: the average statewide recount moved the margin by 551 votes, about 0.03 percent), so a recount finds them and can change the winner.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-recount-one-rule-per-place",
+    "kind": "estimated-rule",
+    "file": "src/core2/modules/voting.ts",
+    "line": 3964,
+    "whatItFakes": "Every race in a place, town, county, legislative or statewide, follows the place's statewide general-election recount rule (data/research/elections/recount-rules-2026.json); a state's separate margins for legislative or local races, for primaries, and who pays are not read.",
+    "why": "The rule table was read for state-level general elections (MultiState, Recounts, fetched Nov 11, 2026), the simple version the owner set on Nov 10, 2026 (\"Recount by own states rules\").",
+    "addedBy": "opus-5234 (elections-contested-count-record)",
+    "addedAt": "2026-11-11",
+    "replacement": "Each place's rule by kind of race (legislative, local, primary) from its statute, as the table's quotes already name for several states (Iowa, Michigan, Vermont, South Dakota).",
+    "status": "open"
   },
   {
     "id": "SG-GOV-counted-case-view-kept-on-the-case",

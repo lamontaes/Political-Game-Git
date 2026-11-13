@@ -33,7 +33,7 @@ import {
   questionName,
   questionTopic,
 } from "../english/policy-names";
-import { properName, spoken } from "./words";
+import { numberWord, properName, spoken } from "./words";
 
 export type SpeechStage = "opener" | "core" | "closer";
 /** Opener, two parts at the core, closer. */
@@ -137,21 +137,6 @@ const usedIds = (
   ];
   return ids.length ? ids : [speakerId];
 };
-
-const NUMBER_WORDS = [
-  "no",
-  "one",
-  "two",
-  "three",
-  "four",
-  "five",
-  "six",
-  "seven",
-  "eight",
-  "nine",
-  "ten",
-];
-const numberWord = (count: number) => NUMBER_WORDS[count] ?? String(count);
 
 /**
  * The speaker's stands, strongest first: their current view on each policy

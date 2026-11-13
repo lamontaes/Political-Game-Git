@@ -60,6 +60,7 @@
         "src/core2/modules/campaigns.ts",
         "src/core2/modules/candidacy.ts",
         "src/core2/modules/filing-clerk.ts",
+        "src/core2/recount-rules.ts",
         "src/core2/modules/ballot-measures.ts",
         "src/core2/modules/recalls.ts",
         "src/core2/modules/parties.ts",
@@ -418,11 +419,15 @@
         "src/core2/opening-tenure.ts",
         "src/core2/opening-origin.ts",
         "src/core2/opening-roles.ts",
-        "src/core2/game-start.ts"
+        "src/core2/game-start.ts",
+        "src/core2/output-numbers.ts",
+        "src/core2/output-number-readers.ts"
       ],
       "paths": [
         "src/core2/modules/world.ts",
         "src/core2/modules/world-metrics.ts",
+        "src/core2/output-numbers.ts",
+        "src/core2/output-number-readers.ts",
         "src/core2/modules/disasters.ts",
         "src/core2/life.ts",
         "src/core2/calendar.ts",
@@ -431,6 +436,7 @@
         "src/core2/place-map.ts",
         "src/core2/place-lookup.ts",
         "src/core2/coarse-place.ts",
+        "src/core2/community-events-table.ts",
         "src/core2/world-settings.ts",
         "src/core2/player-*.ts",
         "src/core2/opening-*.ts",
