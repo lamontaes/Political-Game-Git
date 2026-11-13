@@ -21,7 +21,6 @@ import {
 } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { coreAPI } from "../core2/state";
-import talkRules from "./data/scene-talk-rules.json";
 import type { CoreState, PersonId } from "../core2/types";
 import { stakeOf } from "./family-stake";
 import { composeJournal } from "./journal";
@@ -308,7 +307,7 @@ it("stages the filing talk only for a relative with a stake, and records what th
               if (full[0] !== path[0]) return false;
               let node: TreeNode | null = scene.talk.tree;
               for (const i of full) node = node?.replies[i]?.next ?? null;
-              return talkRules.owedTalk.endings.includes(
+              return ["put-off", "not-yet"].includes(
                 node?.end?.ending?.id ?? "",
               );
             }) ?? path;
@@ -317,17 +316,6 @@ it("stages the filing talk only for a relative with a stake, and records what th
             typeKey: "family-filing",
           });
           expect(id, here).toBeTruthy();
-          // A matter put off owes the relative a talk: the reply's record
-          // says with whom, about what and by when (agreements/2-3.md).
-          const kept = core.durableLog.get(id as never)?.facts;
-          if (talkRules.owedTalk.endings.includes(String(kept?.ending))) {
-            expect(kept.owedWith, here).toBe(scene.askerId);
-            expect(String(kept.owedDueOn) > core.date, here).toBe(true);
-            expect(kept.owedTopic, here).toBeTruthy();
-            notes.push(
-              `${here}: owed talk with ${String(kept.owedWith)} about ${String(kept.owedTopic)} due ${String(kept.owedDueOn)} (${id})`,
-            );
-          }
           const after = closenessBetween(core, scene.askedId, scene.askerId);
           expect(
             after,

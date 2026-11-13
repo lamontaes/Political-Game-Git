@@ -30,10 +30,10 @@ claimed-at: 2026-11-11T06:00:24.863Z
 
 **Rules.** One rule, all 56 places: a county body's catalog and its authority come from the county column of the powers catalog, never from a city's. Placeholders: the city fallback is replaced, not layered. Wire to the world: a county bill drafted from the catalog is enacted and read by an engine in a played world.
 
-**Done when.** A second session plays a world (`buildBenchWorld`) in a drawn place with a county board (Black Sands, Hawaii, key 1502832, and one more place, seeds named), opens the county board's bill screen, and sees county-level entries with county authority. A county bill drafted from it passes and is read by another engine, named by record id, and `src/director/government-scenes.test.ts` sets aside no county board for lack of a catalog.
+**Done when.** A second session plays a world (`buildBenchWorld`) in a drawn place with a county board (Black Sands, Hawaii, key 1502832, and one more place, seeds named), opens the county board's bill screen, and sees county-level entries with county authority. A county bill drafted from it passes and is read by another engine, named by record id, and `src/director/government-scenes.test.ts` (removed) sets aside no county board for lack of a catalog.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/data/legislature/bill-catalog.json, src/core2/bill-catalog.ts, src/bench/legislature.ts, src/core2/policy-authority.ts, src/director/government-scenes.test.ts
+**Files.** src/core2/data/legislature/bill-catalog.json, src/core2/bill-catalog.ts, src/bench/legislature.ts, src/core2/policy-authority.ts
 
 **Notes.** Measured Oct 26 in Black Sands, Hawaii (key 1502832, world seed 1dbcd755...a2b4): county 0 catalog entries; city 1 allowed, 52 level-lacks-power, 5 state-preempts; state 58 allowed.

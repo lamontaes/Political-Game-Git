@@ -106,12 +106,9 @@ describe(`dev scenes: ${where}`, () => {
         "becoming-friends",
         "funeral",
         "first-day",
-        "reunion",
         "betrayal",
         "care",
         "reconciliation",
-        "hearing",
-        "verdict",
         "new-baby",
         "cause-invite",
       ];

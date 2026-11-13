@@ -35,7 +35,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing (words-justice-hearing-verdict-bank is done).
 
-**Files.** src/core2/modules/justice.ts, src/core2/player-control-state-v1.ts, src/director/hearing-scenes.test.ts, src/core2/justice-player.test.ts, src/core2/data/stopgaps/gov.json
+**Files.** src/core2/modules/justice.ts, src/core2/player-control-state-v1.ts, src/core2/justice-player.test.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** First row: The player's report and plea are decided by the character's own traits and the case's reads, like anyone else's, instead of being offered to the player.
 
