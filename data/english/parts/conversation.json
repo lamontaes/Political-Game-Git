@@ -20424,7 +20424,8 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20445,7 +20446,8 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20466,7 +20468,8 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20487,7 +20490,8 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20508,7 +20512,8 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20529,7 +20534,8 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20550,7 +20556,8 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20571,7 +20578,8 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20592,7 +20600,8 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20613,7 +20622,8 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20634,7 +20644,8 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20655,7 +20666,8 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20676,7 +20688,8 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20697,7 +20710,8 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20719,7 +20733,8 @@
           "move": "address-point-opener",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["policy-point"]
+          "requiresFacts": ["policy-point"],
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20741,7 +20756,8 @@
           "move": "address-point-opener",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["policy-point"]
+          "requiresFacts": ["policy-point"],
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20763,7 +20779,8 @@
           "move": "address-point-opener",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["policy-point"]
+          "requiresFacts": ["policy-point"],
+          "excludesFacts": ["point-heard"]
         }
       ],
       "piece": {
@@ -20774,6 +20791,72 @@
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
       "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-opener.you-ve-heard-about-about-already",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "You've heard about {about} already.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["about", "point-heard"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.address-point-opener.i-know-you-ve-heard-about-about",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "I know you've heard about {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["about", "point-heard"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.address-point-opener.about-about-since-it-s-going-around-the-house",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "About {about}, since it's going around the house.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["about", "point-heard"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
     },
     {
       "key": "conversation.address-point-core-with.it-s-time-decider-tried-to-to",
@@ -38793,7 +38876,7 @@
           "role": "closer",
           "stages": ["budget", "ordinance"],
           "requiresFacts": ["body"],
-          "excludesFacts": ["wants-it", "wants-not"]
+          "excludesFacts": ["decided", "wants-it", "wants-not"]
         }
       ],
       "piece": {
@@ -38817,7 +38900,7 @@
           "role": "closer",
           "stages": ["budget", "ordinance"],
           "requiresFacts": ["body"],
-          "excludesFacts": ["wants-it", "wants-not"]
+          "excludesFacts": ["decided", "wants-it", "wants-not"]
         }
       ],
       "piece": {
@@ -38841,7 +38924,7 @@
           "role": "closer",
           "stages": ["budget", "ordinance"],
           "requiresFacts": ["body"],
-          "excludesFacts": ["wants-it", "wants-not"]
+          "excludesFacts": ["decided", "wants-it", "wants-not"]
         }
       ],
       "piece": {
@@ -38864,7 +38947,79 @@
           "subject": "government-news-say",
           "role": "closer",
           "stages": ["budget", "ordinance"],
-          "requiresFacts": ["body"],
+          "requiresFacts": ["body", "decided"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-say-closer.i-don-t-know-yet-whether-body-got-it-right",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "I don't know yet whether {body} got it right.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["budget", "ordinance"],
+          "requiresFacts": ["body", "decided"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-say-closer.i-can-t-tell-yet-if-body-called-it-right",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "I can't tell yet if {body} called it right.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["budget", "ordinance"],
+          "requiresFacts": ["body", "decided"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-say-closer.ask-me-in-a-year-whether-body-was-right",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "Ask me in a year whether {body} was right.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["budget", "ordinance"],
+          "requiresFacts": ["body", "decided"],
           "excludesFacts": ["wants-it", "wants-not"]
         }
       ],

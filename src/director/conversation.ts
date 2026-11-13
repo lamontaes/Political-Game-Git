@@ -1635,6 +1635,9 @@ function governmentNews(
       const purpose = budgetPurposeSaid(facts.line ?? "", delta < zero);
       if (!purpose || !delta) continue;
       stage = "budget";
+      // A line carried in the budget is decided: said as done, never as
+      // what the body should do (lead, Nov 13).
+      out.decided = fact("yes");
       out.body = fact(body);
       out.purpose = fact(purpose);
       out.amount = fact(moneySaid(Math.abs(delta)));
@@ -1653,6 +1656,8 @@ function governmentNews(
       if (!body || !about || !GOVERNMENT_NEWS.levels.includes(facts.level!))
         continue;
       stage = "ordinance";
+      // An ordinance passed is decided (lead, Nov 13).
+      out.decided = fact("yes");
       out.body = fact(body);
     } else continue;
     // How they know it: the record that names them (the story read, the
@@ -2918,6 +2923,11 @@ function pointSubject(
   const mark = (key: string, ids: readonly string[]) => {
     if (ids.length) facts[key] = { text: "yes", sourceRecordIds: [...ids] };
   };
+  // A point the listener already heard today (from anyone in the house) is
+  // not told again as news: the speaker says it was heard, then gives their
+  // own stand (lead, Nov 13: Kagman, Northern Mariana Islands).
+  if (heardNow.has(`${HEARD_QUESTION}${pick.point.question}`))
+    mark("point-heard", [eventId]);
   // What the President would do, and the President's side, for a policy
   // point; a year point is something the address said happened. Their own
   // stand, which the words follow.
