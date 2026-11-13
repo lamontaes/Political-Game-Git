@@ -8,7 +8,7 @@
     "max": "ceiling on the count, where the law sets one",
     "orFixed": "the count when the law says the fixed number or the share, whichever is less",
     "byPopulation": "fixed counts by the town's population: the first tier whose belowPopulation exceeds the town's applies; the tier without belowPopulation is for larger towns",
-    "election": "for a votes base, which recorded election it is: \"office\" (votes for the office being sought at its last election), \"level\" (the most votes cast in any one contest at the last election of the same level, the municipal election), or \"elsewhere\" (another office's votes in the town, such as governor, secretary of state or Assembly; the world keeps no town count of a state office's votes, so it is sized from the town's people times the votes-cast share)"
+    "election": "for a votes base, which recorded election it is: \"office\" (votes for the office being sought at its last election), \"level\" (the most votes cast in any one contest at the last election of the same level, the municipal election), or the kind of another office whose votes in the town the law counts (\"governor\", \"secretary-of-state\", \"legislature-lower\"): the town's own residents' votes (named and counted) at that office's last recorded election, which the town's world records for the offices that cover it. Before that race has been held in the run, or where the world seats no such office for the town, the base is sized from the town's people times the votes-cast share."
   },
   "places": {
     "US-AZ": {
@@ -64,7 +64,7 @@
         "share": 0.02,
         "base": "votes",
         "text": "2% of the last secretary of state vote in the city",
-        "election": "elsewhere"
+        "election": "secretary-of-state"
       }
     },
     "US-MA": {
@@ -74,7 +74,7 @@
         "min": 20,
         "max": 50,
         "text": "town offices: 1% of votes for governor in the town, minimum 20, maximum 50",
-        "election": "elsewhere"
+        "election": "governor"
       }
     },
     "US-MP": {
@@ -114,13 +114,13 @@
         "base": "votes",
         "orFixed": 50,
         "text": "50 party voters, or 5% of the party's last Assembly vote, whichever is less (N.J.S.A. 19:23-8)",
-        "election": "elsewhere"
+        "election": "legislature-lower"
       },
       "independent": {
         "share": 0.01,
         "base": "votes",
         "text": "1% of votes cast for the General Assembly in the town",
-        "election": "elsewhere"
+        "election": "legislature-lower"
       }
     },
     "US-NY": {
@@ -135,7 +135,7 @@
         "base": "votes",
         "max": 500,
         "text": "5% of the last gubernatorial vote, capped (the cap is the party row's 500)",
-        "election": "elsewhere"
+        "election": "governor"
       }
     },
     "US-OH": {

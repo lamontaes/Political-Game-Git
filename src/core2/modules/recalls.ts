@@ -33,12 +33,7 @@ import { lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { LEGISLATURE_MODULE_ID, votesOn, type BillRow } from "./legislature";
 import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
-import {
-  VOTING_MODULE_ID,
-  lastVotesAtLevel,
-  lastVotesForOffice,
-  turnoutOn,
-} from "./voting";
+import { lastVotesAtLevel, lastVotesForOffice, turnoutOn } from "./voting";
 import { countedResidents } from "../electorate";
 import { NEWS_MODULE_ID, storiesHeard, type Story } from "./news";
 import { citizenShareOf } from "../electorate-places";

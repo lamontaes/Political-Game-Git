@@ -6,6 +6,7 @@ import {
   petitionSignatures,
   type ContestRow,
 } from "./modules/elections";
+import { OFFICES_MODULE_ID } from "./modules/offices";
 import { VOTING_MODULE_ID, recordedBase } from "./modules/voting";
 import type { CoreAPI } from "./types";
 import { corePlaceStateIdentities, searchCorePlaces } from "./place-lookup";
@@ -136,22 +137,24 @@ describe("a local petition fits the town", () => {
     expect(petitionSignatures(georgia.scale!, town)).toBe(368);
   });
 
-  it("a votes base names its election: this office's, the level's, or another office's that the town does not record", () => {
+  it("a votes base names its election: this office's, the level's, or another kind of office's", () => {
     const election = (usps: string, side: "party" | "independent") =>
       filingRequirements(`US-${usps}`, "municipalOffice", side).petition.scale!
         .election;
     expect(election("IA", "party")).toBe("office");
     expect(election("SD", "party")).toBe("level");
     // Massachusetts' base is the governor's vote in the town, not the council's.
-    expect(election("MA", "party")).toBe("elsewhere");
-    expect(election("IN", "independent")).toBe("elsewhere");
-    expect(election("NJ", "independent")).toBe("elsewhere");
-    expect(election("NY", "independent")).toBe("elsewhere");
+    expect(election("MA", "party")).toBe("governor");
+    expect(election("IN", "independent")).toBe("secretary-of-state");
+    expect(election("NJ", "independent")).toBe("legislature-lower");
+    expect(election("NY", "independent")).toBe("governor");
     expect(election("PA", "independent")).toBe("level");
   });
 
   it("a rule reads the election it names, not whichever one the town recorded", () => {
-    // The town recorded 1,000 votes for its council seat and 10,000 for governor.
+    // The town recorded 1,000 votes for its council seat; its own residents
+    // cast 3,000 for governor (2,000 named, 1,000 counted) and the rest of
+    // the state cast 900,000 more, which are not the town's.
     const contests = new Map<string, unknown>([
       [
         "c:council",
@@ -162,51 +165,72 @@ describe("a local petition fits the town", () => {
         { id: "c:governor", officeId: "office:governor", level: "state" },
       ],
     ]);
-    const results = [
-      {
-        id: "r:council",
-        contestId: "c:council",
-        date: "2026-11-03",
-        totals: { a: 600, b: 400 },
-      },
-      {
-        id: "r:governor",
-        contestId: "c:governor",
-        date: "2026-11-03",
-        totals: { a: 6_000, b: 4_000 },
-      },
-    ];
-    const tables: Record<string, Record<string, unknown>> = {
-      [ELECTIONS_MODULE_ID]: {
-        contests: { get: (id: string) => contests.get(id) },
-      },
-      [VOTING_MODULE_ID]: { results: { rows: () => results } },
+    const offices = new Map<string, unknown>([
+      ["office:council", { id: "office:council", kind: "council" }],
+      ["office:governor", { id: "office:governor", kind: "governor" }],
+    ]);
+    const result = (
+      id: string,
+      contestId: string,
+      named: number,
+      counted: number,
+      places = 0,
+    ) => ({
+      id,
+      contestId,
+      date: "2026-11-03",
+      namedVotes: { a: named },
+      countedVotes: { a: counted },
+      placeVotes: { elsewhere: places },
+      totals: { a: named + counted + places },
+    });
+    const withResults = (rows: readonly unknown[]) => {
+      const tables: Record<string, Record<string, unknown>> = {
+        [ELECTIONS_MODULE_ID]: {
+          contests: { get: (id: string) => contests.get(id) },
+        },
+        [OFFICES_MODULE_ID]: {
+          offices: { get: (id: string) => offices.get(id) },
+        },
+        [VOTING_MODULE_ID]: { results: { rows: () => rows } },
+      };
+      return {
+        state: { modules: new Set([VOTING_MODULE_ID]) },
+        moduleState: (id: string) => ({
+          table: (name: string) => tables[id]![name],
+        }),
+      } as unknown as CoreAPI;
     };
-    const api = {
-      state: { modules: new Set([VOTING_MODULE_ID]) },
-      moduleState: (id: string) => ({
-        table: (name: string) => tables[id]![name],
-      }),
-    } as unknown as CoreAPI;
+    const api = withResults([
+      result("r:council", "c:council", 600, 400),
+      result("r:governor", "c:governor", 2_000, 1_000, 900_000),
+    ]);
     const council = contests.get("c:council") as ContestRow;
     const scaleOf = (usps: string, side: "party" | "independent") =>
       filingRequirements(`US-${usps}`, "municipalOffice", side).petition.scale!;
     // Iowa: the votes for the office sought. Pennsylvania's independents and
-    // South Dakota: the last municipal election's most votes, not the governor's.
+    // South Dakota: the last municipal election's most votes.
     expect(recordedBase(api, council, scaleOf("IA", "party"))).toBe(1_000);
     expect(recordedBase(api, council, scaleOf("PA", "independent"))).toBe(
       1_000,
     );
     expect(recordedBase(api, council, scaleOf("SD", "party"))).toBe(1_000);
-    // Massachusetts asks 1% of the governor's vote in the town: the council's
-    // 1,000 is not its base, and the town keeps no governor count, so none.
-    expect(recordedBase(api, council, scaleOf("MA", "party"))).toBeUndefined();
+    // Massachusetts: 1% of the governor's vote in the town. The town's 3,000,
+    // not the council's 1,000 and not the state's 900,000 more.
     const ma = scaleOf("MA", "party");
     const town = { eligible: 20_000, population: 30_000 };
-    // Estimated from the town's people (30,000 × 0.46 = 13,800): 1% is 138,
-    // held to the law's ceiling of 50 — never the 20 the council's 1,000 gave.
-    expect(petitionSignatures(ma, town)).toBe(50);
+    const governor = recordedBase(api, council, ma);
+    expect(governor).toBe(3_000);
+    expect(petitionSignatures(ma, { ...town, votesCast: governor })).toBe(30);
+    // With the council's votes as the base it would be 20 (the floor).
     expect(petitionSignatures(ma, { ...town, votesCast: 1_000 })).toBe(20);
+    // No governor race held yet: nothing recorded, so the estimate stands
+    // (30,000 people × 0.46 = 13,800; 1% is 138, held to the ceiling of 50).
+    const early = withResults([result("r:council", "c:council", 600, 400)]);
+    expect(recordedBase(early, council, ma)).toBeUndefined();
+    expect(petitionSignatures(ma, town)).toBe(50);
+    // The merger's inputs: 10,000 recorded governor votes in town → 50.
+    expect(petitionSignatures(ma, { ...town, votesCast: 10_000 })).toBe(50);
   });
 
   it("a count by town size follows the town's people (Ohio 10 in a village, 50 in a city)", () => {

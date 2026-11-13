@@ -624,6 +624,46 @@ export function lastVotesForOffice(
 }
 
 /**
+ * The town's own residents' votes (named and counted) for one kind of office
+ * at its most recent recorded election in this world, with the result record
+ * they came from; none where no such race has been held in the run or the
+ * world seats no such office for the town. The rest of the race's electorate
+ * (`placeVotes`) is not the town's.
+ */
+export function lastTownVotesForKind(
+  api: CoreAPI,
+  officeKind: string,
+): { readonly votes: number; readonly recordId: string } | undefined {
+  if (!api.state.modules.has(VOTING_MODULE_ID)) return undefined;
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  let best: { votes: number; recordId: string; date: string } | undefined;
+  for (const result of api
+    .moduleState(VOTING_MODULE_ID)
+    .table("results")
+    .rows() as unknown as ResultRow[]) {
+    const contest = contests.get(result.contestId) as unknown as
+      ContestRow | undefined;
+    const office = contest
+      ? (offices.get(contest.officeId) as unknown as
+          { kind?: string } | undefined)
+      : undefined;
+    if (office?.kind !== officeKind) continue;
+    const votes =
+      Object.values(result.namedVotes).reduce((n, v) => n + v, 0) +
+      Object.values(result.countedVotes).reduce((n, v) => n + v, 0);
+    if (votes <= 0) continue;
+    if (
+      !best ||
+      result.date > best.date ||
+      (result.date === best.date && result.id < best.recordId)
+    )
+      best = { votes, recordId: result.id, date: result.date };
+  }
+  return best && { votes: best.votes, recordId: best.recordId };
+}
+
+/**
  * The votes cast at the most recent recorded election of one level in this
  * world: the most cast in any one of its contests that day, with the result
  * record they came from. None where no election of that level has been held
@@ -659,11 +699,11 @@ export function lastVotesAtLevel(
 
 /**
  * The recorded votes a scaled petition's base names, read from the voting
- * records: this office's last election ("office"), or the last election of
- * the same level ("level"). A base that names another office's votes in the
- * town ("elsewhere": governor, secretary of state, Assembly) has no town
- * record in this world, and neither has a base before any election was held;
- * the caller then sizes it from the town's people.
+ * records: this office's last election ("office"), the last election of the
+ * same level ("level"), or the town's own votes for another kind of office
+ * the law counts (governor, secretary of state, lower chamber). None before
+ * that race has been held in the run, or where the world seats no such
+ * office for the town; the caller then sizes the base from the town's people.
  */
 export function recordedBase(
   api: CoreAPI,
@@ -675,7 +715,9 @@ export function recordedBase(
     return lastVotesForOffice(api, contest.officeId)?.votes;
   if (scale.election === "level")
     return lastVotesAtLevel(api, contest.level)?.votes;
-  return undefined;
+  return scale.election
+    ? lastTownVotesForKind(api, scale.election)?.votes
+    : undefined;
 }
 
 /**
