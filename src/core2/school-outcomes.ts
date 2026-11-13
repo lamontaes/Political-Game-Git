@@ -899,8 +899,6 @@ export function recordSchoolSpending(
     lines.push(budget.id);
   }
   if (!perResident) return null;
-  // stopgapId: SG-SCHOOL-equalized-funding-budget (no handler moves the schools line for the equalized-funding law)
-  api.stopgap(data.stopgaps.equalizedFunding);
   const row: SchoolMeasureRow = {
     id: `${placeId}:${measure}:${startYear}`,
     placeId,

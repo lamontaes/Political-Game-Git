@@ -1029,6 +1029,21 @@ function mootAtFloor(
     : null;
 }
 
+/**
+ * A bill held for a meeting comes to its vote as the floor takes any bill:
+ * moot when an act passed since its filing settled it, else voted. A held and
+ * an unheld meeting decide the same bills the same way.
+ */
+export function voteAtMeeting(api: CoreAPI, billId: string): BillRow {
+  const bill = api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .get(billId) as unknown as BillRow | undefined;
+  if (!bill || bill.status !== "drafted") return holdVote(api, billId);
+  const moot = mootAtFloor(api, bill);
+  return moot ? dieMoot(api, bill, moot) : holdVote(api, billId);
+}
+
 /** A moot bill dies unvoted, with the law row it repeats or cuts across on its record. */
 function dieMoot(
   api: CoreAPI,
@@ -2218,7 +2233,8 @@ function closeSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const officeId = work.sourceRecordIds[0]!;
   const meetingDate = work.sourceRecordIds[1] ?? api.state.date;
-  // On the eve, a body nobody the player plays sits on files on the day.
+  // On the eve, a world with no agenda to keep the filings on (no office-day
+  // module) files on the day.
   if (meetingDate > api.state.date && !meetingHold?.(api, officeId)) {
     api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
       key: `${work.key}:day`,
@@ -2230,9 +2246,9 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     return;
   }
   scheduleMeeting(api, officeId, meetingDate);
-  // Held for the player from the moment they take the seat, the meeting day
-  // itself included: a meeting still on the books takes its filings onto the
-  // agenda (and may stop the player) instead of voting them at once.
+  // Filed the day before, or on the day for a meeting with under a day's
+  // notice: a meeting still on the books takes its filings onto the agenda
+  // (and may stop the player) and votes them when it meets.
   const hold = meetingDate >= api.state.date && !!meetingHold?.(api, officeId);
   const body: Body = { id: officeId, members: members(api, officeId) };
   // The presiding member the body elected, else the most senior.
@@ -2321,14 +2337,17 @@ function recentlyDefeated(
       (s.bills ?? []).some((b) => {
         // A filing held for the meeting was drafted when the session was
         // written; its vote since is read from the bill itself.
-        const status =
+        const live =
           b.status === "drafted"
-            ? (liveBills(api, officeId).get(b.number)?.status ?? b.status)
-            : b.status;
+            ? liveBills(api, officeId).get(b.number)
+            : undefined;
+        const status = live?.status ?? b.status;
         return (
           b.question === question &&
           b.change === (direction > 0 ? "enact" : "repeal") &&
           b.fate === "voted" &&
+          // Held, then found moot at the meeting: it died unvoted.
+          !live?.moot &&
           status !== "drafted" &&
           status !== "enacted" &&
           status !== "overridden" &&
@@ -2357,17 +2376,18 @@ function scheduleMeeting(
     meetings.remove(officeId);
     return;
   }
+  const eve = addDays(makeIsoDate(next.date), -1);
+  const early = eve > api.state.date;
   meetings.put({
     id: officeId,
     date: next.date,
+    filesOn: early ? eve : next.date,
     source: next.rule.source,
   } as unknown as ModuleRow);
   // The filing is decided on the eve, whoever holds the seat by then: a body
   // the player sits on files that day, so the bills are on the meeting's
   // agenda while its stop can still come; any other body's filing moves on
   // to the meeting day itself (`localMeeting`).
-  const eve = addDays(makeIsoDate(next.date), -1);
-  const early = eve > api.state.date;
   api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
     key: `local-meeting:${officeId}:${next.date}`,
     date: early ? eve : next.date,
@@ -2375,6 +2395,43 @@ function scheduleMeeting(
     source: next.rule.source,
     sourceRecordIds: [officeId, next.date],
   });
+}
+
+/**
+ * Whether a body's meeting on a date still waits for its members' filings
+ * (they move the body on to its next meeting when they are in).
+ */
+export function filingsOwed(
+  api: CoreAPI,
+  officeId: string,
+  meetingDate: string,
+): boolean {
+  const next = api
+    .moduleState(WORLD_LEGISLATING_MODULE_ID)
+    .table("nextMeetings")
+    .get(officeId) as unknown as { date: string } | undefined;
+  return next?.date === meetingDate;
+}
+
+/**
+ * Whether a body's coming meeting has its agenda filed the day before. Only a
+ * meeting set with under a day's notice (the first after a world begins,
+ * when it falls on the next day) files on its own day.
+ */
+export function filesAhead(
+  api: CoreAPI,
+  officeId: string,
+  meetingDate: string,
+): boolean {
+  const next = api
+    .moduleState(WORLD_LEGISLATING_MODULE_ID)
+    .table("nextMeetings")
+    .get(officeId) as unknown as { date: string; filesOn?: string } | undefined;
+  return (
+    next?.date === meetingDate &&
+    next.filesOn !== undefined &&
+    next.filesOn < meetingDate
+  );
 }
 
 /** One sitting's record: its floor time and every bill it took up. */
