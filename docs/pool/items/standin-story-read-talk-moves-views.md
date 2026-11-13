@@ -32,6 +32,6 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/views.ts, src/director/purpose-scene.ts, src/director/data/stopgaps.json, src/director/story-read-scene.test.ts
+**Files.** src/core2/modules/views.ts, src/director/purpose-scene.ts, src/director/data/stopgaps.json
 
-**Notes.** Stand-in triage Nov 10 (chunk 2).
+**Notes.** Stand-in triage Nov 10 (chunk 2). Red desk, Nov 13: src/director/story-read-scene.test.ts was deleted with the talk-only scenes in #8922 (c87a517a), so Files no longer names it; whoever builds this reads first whether the story-read scene still exists.
