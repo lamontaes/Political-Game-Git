@@ -636,6 +636,8 @@ function renderPacket(value) {
 let shownJournalLine = "";
 /** The Journal entries already shown as a toast, by id: each shows once. */
 const shownJournalIds = new Set();
+/** The day the clock stood at the last time the Journal note was read. */
+let journalNoteDay = "";
 $("journal-note-close").addEventListener("click", () =>
   hideToast($("journal-note")),
 );
@@ -650,15 +652,16 @@ async function renderJournalNote() {
   // 13: the same toast after each Day press four days running): an entry
   // already shown, or one from an earlier day, is not shown again.
   const key = newest ? `${newest.id}` : "";
-  const today = packet?.at?.date ?? "";
+  // Written since the last look: on or after the day the clock stood at then
+  // (a Day press moves the clock past the day the entry was written).
+  const today = String(packet?.at?.date ?? "").slice(0, 10);
+  const since = journalNoteDay || today;
+  journalNoteDay = today;
   if (!line) hideToast($("journal-note"));
   else if (
     key !== shownJournalLine &&
     !shownJournalIds.has(key) &&
-    (!today ||
-      !newest.date ||
-      newest.date >= today.slice(0, 10) ||
-      !shownJournalLine)
+    (!since || !newest.date || newest.date >= since || !shownJournalLine)
   ) {
     shownJournalIds.add(key);
     showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);

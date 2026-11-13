@@ -124,6 +124,7 @@ const resumeStops = async () => {
 // id, only on the day it was written or the first time.
 const toastSeen = new Set<string>();
 let firstToast = true;
+let noteDay = "";
 const toastAfterPress = async (press: number) => {
   const shown = ((await ask(
     "GET",
@@ -131,10 +132,12 @@ const toastAfterPress = async (press: number) => {
   )) ?? []) as Json[];
   const newest = shown.at(-1)?.lines?.at(-1) as Json | undefined;
   const today = String(benchWorld().player?.packet?.at?.date ?? "");
+  const since = noteDay || today.slice(0, 10);
+  noteDay = today.slice(0, 10);
   if (
     newest &&
     !toastSeen.has(String(newest.id)) &&
-    (firstToast || !today || String(newest.date) >= today.slice(0, 10))
+    (firstToast || !since || String(newest.date) >= since)
   ) {
     toastSeen.add(String(newest.id));
     console.log(
