@@ -33711,10 +33711,10 @@
       "bearing": "calm"
     },
     {
-      "key": "conversation.news-back-core.the-story-didn-t-say-who",
+      "key": "conversation.news-back-core.the-story-didn-t-say-who-you",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "The story didn't say who.",
+      "text": "The story didn't say who, {you}.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -33735,10 +33735,10 @@
       "bearing": "calm"
     },
     {
-      "key": "conversation.news-back-core.i-didn-t-see-a-name-on-it",
+      "key": "conversation.news-back-core.i-didn-t-see-a-name-on-it-you",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "I didn't see a name on it.",
+      "text": "I didn't see a name on it, {you}.",
       "piece": {
         "of": "news-back",
         "part": "core",
