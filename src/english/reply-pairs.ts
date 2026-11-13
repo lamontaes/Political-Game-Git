@@ -268,10 +268,21 @@ export function replyPairs(
                 }
                 let chosen = [...fits];
                 if (!options.everyFit) {
-                  const following = chosen.filter(([part]) =>
-                    follows(part.key, before.part.key, verdicts),
-                  );
-                  if (following.length) chosen = following;
+                  const fol = ([part]: [BankPart, number]) =>
+                    follows(part.key, before.part.key, verdicts);
+                  const following = chosen.filter(fol);
+                  // The picker sorts whole lines and joined pieces apart
+                  // (wordSceneMove: each kind keeps what follows, else all of
+                  // its own kind), so the verdicts thin each kind on its own.
+                  const ofKind = (piece: boolean) => {
+                    const kind = chosen.filter(
+                      ([part]) => !!part.piece === piece,
+                    );
+                    const fit = kind.filter(fol);
+                    return fit.length ? fit : kind;
+                  };
+                  if (following.length)
+                    chosen = [...ofKind(false), ...ofKind(true)];
                   else if (chosen.length && options.onSilenced)
                     options.onSilenced({
                       before: before.part.key,
