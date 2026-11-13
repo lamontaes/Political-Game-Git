@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/p1-travel-trail-tile-picture
-pr:
+pr: 9021
 after:
 blocked-on:
 lead: play-first
