@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/red-main-one-face-child-card
-pr: 8978
+pr: #8978
 after:
 blocked-on:
 lead: cto
@@ -16,6 +16,7 @@ model: opus
 effort: low
 root: none
 source: Red desk, Nov 13 (merger codex-4629 and the CTO on #8928, comments 6840749313 and 6840774568)
+merged-at: 2026-11-13T04:38:20.222Z
 ---
 
 **What.** `node src/bench/one-face.browser.mjs` times out at People on clean main 0fe39561 in Wewoka, Oklahoma (4080550, life seed ee686ad3-4e3b-47ea-85d3-b0b141ec14b3): People opens on the player's four-year-old daughter, whose card rightly shows no portrait, and the check waits for one without condition, so none of its later assertions run. A merge desk running the browser checks of a screens pull request sees it whenever the household's first card is a child's. Seen: the check reaches its face assertions in every drawn life.
