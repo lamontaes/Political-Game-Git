@@ -1054,6 +1054,8 @@ const budgetLine: Builder = (read, f) => {
   // A line the names table lacks is said by its own key ("transit").
   const name = lineName(f.line ?? "") ?? (f.line ? spaced(f.line) : undefined);
   if (delta === undefined || !name || delta === 0) return null;
+  // Revenue is not spending cut or added by an official.
+  if (f.side === "revenue") return null;
   const place = read.place(f.level === "state" ? f.governmentId : undefined);
   return story(
     "budget-line",

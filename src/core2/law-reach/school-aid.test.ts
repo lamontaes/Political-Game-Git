@@ -19,6 +19,7 @@ import {
   budgetsOf,
   governments,
 } from "../modules/budgets";
+import { budgetView } from "../../bench/budget";
 import { setJournalTrace } from "../journal-state";
 import { treasuryMonthsOf } from "../budgets-treasury";
 import { enactLaw, lawChain } from "../modules/laws";
@@ -51,13 +52,17 @@ function setLaw(api: CoreAPI, value: 0 | 1): void {
 }
 
 /** A place with a state, a town government and a schools line to move, redrawn until it has them. */
+const viewers = new WeakMap<CoreState, string>();
+
 function draw(index: number) {
   const drawn = drawPlace(seed, `school-aid:${index}`);
   const make = (law: boolean) => {
-    const core = buildBenchWorld(drawn.seed, gameStartDate(), {
+    const world = buildBenchWorld(drawn.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: drawn.key,
-    }).core;
+    });
+    const core = world.core;
+    viewers.set(core, world.playerId!);
     run(core, 1);
     if (law) setLaw(coreAPI(core), 1);
     return core;
@@ -249,6 +254,50 @@ describe("state school aid", () => {
       process.stdout.write(
         `school aid proof: second budget year: state localAid move ${secondState?.moves.localAid} (first ${firstYear.state}); town aid move ${secondAid} (first ${aid}); state localAid line ${lineNow(b, stateOrg.id, "spending", "localAid")} with, ${lineNow(a, stateOrg.id, "spending", "localAid")} without; town intergovernmental ${lineNow(b, t, "revenue", "intergovernmental")} with, ${lineNow(a, t, "revenue", "intergovernmental")} without; town schools ${lineNow(b, t, "spending", "schools")} with, ${lineNow(a, t, "spending", "schools")} without; state account ${balance(b)} with, ${balance(a)} without\n`,
       );
+      // The Budgets screen's own reader (budgetView) shows it: the state's
+      // "Aid to other governments" line is higher and the town's screen shows
+      // the aid as revenue and the schools line higher, each against the
+      // same world without the law.
+      const screen = (core: CoreState, governmentId: string) =>
+        budgetView(core, viewers.get(core)!).governments.find(
+          (g) => g.id === governmentId,
+        )?.latest;
+      const rowOf = (
+        view: ReturnType<typeof screen>,
+        side: "revenue" | "spending",
+        line: string,
+      ) =>
+        (view?.[side] as { line: string; minor: number }[] | undefined)?.find(
+          (r) => r.line === line,
+        )?.minor ?? 0;
+      const stateScreen = {
+        on: rowOf(screen(on, stateOrg.id), "spending", "localAid"),
+        off: rowOf(screen(off, stateOrg.id), "spending", "localAid"),
+      };
+      const townScreen = {
+        aidOn: rowOf(screen(on, t), "revenue", "intergovernmental"),
+        aidOff: rowOf(screen(off, t), "revenue", "intergovernmental"),
+        schoolsOn: rowOf(screen(on, t), "spending", "schools"),
+        schoolsOff: rowOf(screen(off, t), "spending", "schools"),
+      };
+      process.stdout.write(
+        `school aid proof: Budgets screen reader: state Aid to other governments ${stateScreen.on} with, ${stateScreen.off} without; town Aid from other governments ${townScreen.aidOn} with, ${townScreen.aidOff} without; town Schools ${townScreen.schoolsOn} with, ${townScreen.schoolsOff} without\n`,
+      );
+      expect(stateScreen.on).toBeGreaterThan(stateScreen.off);
+      expect(townScreen.aidOn).toBeGreaterThan(townScreen.aidOff);
+      expect(townScreen.schoolsOn).toBeGreaterThan(townScreen.schoolsOff);
+      // A revenue move is not an official's cut or raise: no story, topic or
+      // record of an executive's change is made of it.
+      const revenueRecords = [
+        ...(on.logByKind.get("budget-line-changed") ?? []),
+      ]
+        .map((id) => on.durableLog.get(id)!)
+        .filter((r) => r.facts?.side === "revenue");
+      expect(revenueRecords.length).toBeGreaterThan(0);
+      for (const r of revenueRecords) {
+        expect(r.personIds).toEqual([]);
+        expect(r.facts?.executiveId).toBeUndefined();
+      }
       // What the state's treasury did with the line: what fell due, what went
       // to the town (aid), what went outside, and what it fell short.
       const localAidLine = (api: CoreAPI) =>

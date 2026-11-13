@@ -198,6 +198,9 @@ export function wireItem(
       // every member who voted; it is not a story of its own.
       return null;
     case "budget-line-changed":
+      // A revenue line a measure moved (a town's aid) is not an official's
+      // cut or raise of spending: the spending side tells that story.
+      if (facts.side === "revenue") return null;
       return {
         ...base,
         topic: `budget-line:${facts.line ?? ""}`,

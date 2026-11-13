@@ -420,6 +420,7 @@ export function civicFill(
       const line = cut?.facts?.line;
       if (
         cut?.kind !== "budget-line-changed" ||
+        cut.facts?.side === "revenue" ||
         !line ||
         line === "administration" ||
         cut.facts?.level !== "city" ||
