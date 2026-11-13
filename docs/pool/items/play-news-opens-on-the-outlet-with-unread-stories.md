@@ -18,7 +18,7 @@ root: none
 source: Merger codex-1251 on #8928, Nov 12 23:24Z (printed-news red by draw, NEWS_SEED=484cc751bef6ccc5); Fable A, Nov 13 02:50Z (the rule)
 ---
 
-**What.** In Arial, South Carolina (NEWS_SEED=484cc751bef6ccc5) and Lakeville, Connecticut (w3-open-fresh-1), News opens on the home paper, which has printed nothing, while a station or network the player follows has stories they heard and have not read. The player sees an empty page and has to find the news tab by tab; `src/bench/printed-news.browser.mjs` fails "News lists no story" on main in both.
+**What.** In Arial, South Carolina (NEWS_SEED=484cc751bef6ccc5) and Lakeville, Connecticut (w3-open-fresh-1), News opens on the home paper, which has printed nothing, while a station or network the player follows has stories they heard and have not read. The player sees an empty page and has to find the news tab by tab; `src/bench/printed-news.browser.mjs` fails "News lists no story" on main in both. Seen: the News sheet's first page, on a new life's June 1, 2025.
 
 **Cause.** Found in code: `news` in src/bench/play.mjs opened on `newsTab` (the last tab chosen) or else the first tab, which is the home paper by rank, whether it had anything or not. Nothing on the screen knew what the player had read. And the open sheet redraws on the day's refresh, so a rule that marks a page read when shown would move the page under the player.
 
@@ -26,9 +26,9 @@ source: Merger codex-1251 on #8928, Nov 12 23:24Z (printed-news red by draw, NEW
 
 **Time box.** 2 hours
 
-**Rules.** Read-only screens create no facts: what has been read is the screen's memory, not a record.
+**Rules.** Replace, never layer: the old rule (open on the last tab chosen, else the first) is replaced by `openingTab`, not kept beside it. One rule, all 56 places: the rule reads only the tabs and what the screen has shown, never a place. Read-only screens create no facts: what has been read is the screen's memory, not a record.
 
-**Done when.** In the running game, News in Arial, South Carolina (NEWS_SEED=484cc751bef6ccc5) and at a fresh seed opens on an outlet with a story the player has not read when the home paper is empty, and `printed-news.browser.mjs` passes at both; Lake Minchumina, Alaska (b6d227a6f3bb7531) still opens on KRBC-TV.
+**Done when.** A second session, in the running game on main, opens News in Arial, South Carolina (NEWS_SEED=484cc751bef6ccc5) and in a drawn place at a fresh seed: when the home paper is empty, News opens on an outlet with a story the player has not read, and `printed-news.browser.mjs` passes at both; Lake Minchumina, Alaska (b6d227a6f3bb7531) still opens on KRBC-TV.
 
 **Waits on.** #8982 (the empty-page lines; this branch is stacked on it).
 
