@@ -63,7 +63,7 @@ import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
-import { JUSTICE_MODULE_ID } from "../core2/modules/justice";
+import { JUSTICE_MODULE_ID, bribeRoleOf } from "../core2/modules/justice";
 import { dollars } from "../english/bill-sections";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { sharedHistory } from "../core2/shared-history";
@@ -858,13 +858,42 @@ function relativeNewsFacts(
   } else if (kind === "prison-news") {
     const months = Number(recorded("custodyMonths"));
     if (months > zero) facts.term = fact(termSaid(months));
-    const offense = RELATIVE_NEWS.offenses.bribery;
-    if (offense) facts.offense = fact(offense);
+    const sentence = recorded("sentenceId");
+    const caseId = sentence
+      ? (
+          coreAPI(core as CoreState)
+            .moduleState(JUSTICE_MODULE_ID)
+            .table("sentences")
+            .get(sentence) as { caseId?: string } | undefined
+        )?.caseId
+      : undefined;
+    const offense = caseId ? offenseSaid(core, caseId, about.id) : undefined;
+    if (offense) facts.offense = { ...offense, sourceRecordIds: cites };
   }
   return facts;
 }
 
 const RELATIVE_NEWS = RELATIVE_NEWS_WORDS;
+
+/**
+ * What a bribery case was for, as the defendant's side of it says it: taking
+ * bribes when they are the official who took one, paying or offering a bribe
+ * when they are the one who offered (the corruption engine's crime record:
+ * its offerer, its official and whether it was taken). A case's first crime
+ * decides; none when the case or its crime is not on record.
+ */
+function offenseSaid(
+  core: Readonly<CoreState>,
+  caseId: string,
+  personId: PersonId,
+): Fact | undefined {
+  if (!core.modules.has(JUSTICE_MODULE_ID)) return undefined;
+  const role = bribeRoleOf(coreAPI(core as CoreState), caseId, personId);
+  const text = role
+    ? RELATIVE_NEWS.offenses[`bribe-${role === "took" ? "taken" : role}`]
+    : undefined;
+  return text ? { text, sourceRecordIds: [caseId] } : undefined;
+}
 
 /** The news a household member tells of a relative, by the label of the listener's moment. */
 const NEWS_KINDS: Readonly<Record<string, string>> = {
@@ -1172,6 +1201,7 @@ function caseFacts(
   const row = api.table("cases").get(caseId) as
     | {
         id: string;
+        defendantId: PersonId;
         plea?: boolean;
         trialDate?: string | null;
         sentenceId?: string | null;
@@ -1184,8 +1214,9 @@ function caseFacts(
     sourceRecordIds: [...ids],
   });
   const facts: Facts = {};
-  const offense = RELATIVE_NEWS.offenses.bribery;
-  if (offense) facts.offense = fact(offense);
+  // The defendant's side of it: taking bribes, paying or offering one.
+  const offense = offenseSaid(core, row.id, row.defendantId);
+  if (offense) facts.offense = { ...offense, sourceRecordIds: cites };
   if (row.plea) facts.plea = fact("yes");
   else if (row.trialDate && row.trialDate > core.date)
     facts.trial = fact(spokenDate(row.trialDate, core.date));
