@@ -24,6 +24,7 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
   sayAtCounter,
   counterNarration,
+  petitionAtCounter,
   spokenOffice,
   filedAtCounter,
   openFilingVisit,
@@ -113,6 +114,13 @@ function overlayFor(
   };
 }
 
+/** Nothing at this counter for the player: no race to file for and no petition out. */
+export class NothingAtCounter extends Error {
+  constructor() {
+    super("Nothing to file at this office.");
+  }
+}
+
 /** The player walks into the office that takes filings for these contests. */
 export function openBenchFilingVisit(
   core: CoreState,
@@ -121,8 +129,26 @@ export function openBenchFilingVisit(
   minuteOfDay: number,
 ): BenchFilingVisit {
   const api = coreAPI(core);
+  // A race the player has already filed in is not offered again (P1,
+  // Commack, New York: the clerk offered the race the player was in).
+  const mine = new Set(
+    (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byPerson", [playerId]) as unknown as {
+        contestId: string;
+        status: string;
+      }[]
+    )
+      .filter(
+        (row) => row.status === "petitioning" || row.status === "on-ballot",
+      )
+      .map((row) => row.contestId),
+  );
   const open = playerContests(api).filter(
-    (row) => filingOfficeFor(api, row.id).filedWith === filedWith,
+    (row) =>
+      !mine.has(row.id) && filingOfficeFor(api, row.id).filedWith === filedWith,
   );
   // A contest's title is its office, with its district where it has one. Races of the
   // same office are told apart in the choice menu by their seat, election day and
@@ -228,17 +254,31 @@ export function openBenchFilingVisit(
       ];
     }),
   );
-  if (!contests.length) throw new Error("No open contest files there.");
+  // With no race left to file for here, the visit is about the player's own
+  // filing: while its petition gathers signatures the clerk says where it
+  // stands; with nothing left to do there is no scene (Fable A, Nov 13,
+  // rule 19).
+  const here = contests.length ? null : filedHere(core, playerId, filedWith);
+  const petition =
+    here?.status === "petitioning" ? petitionView(api, here.id) : null;
+  if (!contests.length && !(here && petition)) throw new NothingAtCounter();
   // The clerk the contest's filing office records name (none for a state or federal counter).
-  const clerkRow = filingClerkFor(api, contests[0]!.id);
+  const clerkRow = filingClerkFor(api, contests[0]?.id ?? here!.contestId);
   const clerk = clerkRow?.personId;
-  const visit = openFilingVisit(
-    core,
-    playerId,
-    contests,
-    clerk ?? undefined,
-    filedWith,
-  );
+  const visit =
+    here && petition
+      ? petitionAtCounter(core, playerId, clerk ?? undefined, here.id, {
+          needed: petition.needed,
+          signed: petition.signed,
+          due: petition.due,
+        })
+      : openFilingVisit(
+          core,
+          playerId,
+          contests,
+          clerk ?? undefined,
+          filedWith,
+        );
   const place = officePlace(filedWith);
   const player = core.people.get(playerId)!;
   const cast: { id: string; name: string; reason: StageReason }[] = [
@@ -267,17 +307,21 @@ export function openBenchFilingVisit(
     // The clerk's office is named one way, from the place's filing record
     // (Fable A, Nov 13, rule 8: "Town clerk" in a town, never "City Clerk"
     // beside it); the clerk's own title only where that record names a choice.
-    intro: clerkRow
-      ? counterNarration(
-          core,
-          visit,
-          / or /i.test(spokenOffice(filedWith))
-            ? clerkRow
-            : { ...clerkRow, title: spokenOffice(filedWith) },
-          filedHere(core, playerId, filedWith),
-          minuteOfDay,
-        )
-      : [],
+    // A petition with no signature on it yet is not "taken back" to the
+    // clerk: the clerk's own line says where it stands, and no narration
+    // claims a handover (Thompson Springs, Utah, seed w3-filing-4).
+    intro:
+      clerkRow && !(petition && petition.signed === 0)
+        ? counterNarration(
+            core,
+            visit,
+            / or /i.test(spokenOffice(filedWith))
+              ? clerkRow
+              : { ...clerkRow, title: spokenOffice(filedWith) },
+            filedHere(core, playerId, filedWith),
+            minuteOfDay,
+          )
+        : [],
     backdrop,
     people: peopleHere(core, backdrop.file, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
@@ -290,7 +334,7 @@ function filedHere(
   core: CoreState,
   playerId: string,
   filedWith: string,
-): { id: string; status: string } | null {
+): { id: string; status: string; contestId: string } | null {
   const filings = coreAPI(core)
     .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
@@ -299,6 +343,7 @@ function filedHere(
     personId: string;
     filedWith: string;
     status: string;
+    contestId: string;
   }[];
   const held =
     filings.find(
@@ -307,7 +352,9 @@ function filedHere(
     filings.find(
       (row) => row.filedWith === filedWith && row.status === "on-ballot",
     );
-  return held ? { id: held.id, status: held.status } : null;
+  return held
+    ? { id: held.id, status: held.status, contestId: held.contestId }
+    : null;
 }
 
 /** The player's choice at the counter: name an office, file, or leave. */

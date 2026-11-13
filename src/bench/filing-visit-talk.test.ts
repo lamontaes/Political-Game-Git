@@ -26,7 +26,11 @@ import { expectUpToFourDifferent } from "../director/reply-set-check";
 import { seatSaid } from "../english/journal-words";
 import type { PersonId } from "../core2/types";
 import controls from "./data/controls.json" with { type: "json" };
-import { chooseAtCounter, openBenchFilingVisit } from "./filing";
+import {
+  NothingAtCounter,
+  chooseAtCounter,
+  openBenchFilingVisit,
+} from "./filing";
 import { buildBenchWorld } from "./world";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
@@ -197,23 +201,35 @@ it(`a first visit asks for the papers, the player says only what they chose, and
     // with nothing to bring once the name is on the ballot (a race with no
     // petition, as in Laramie, Wyoming at seed 7d9f1b3a5c0e2468), never as a
     // first visit; told from the filing's record.
-    const back = openBenchFilingVisit(core, me, filedWith, 10 * 60);
-    const told = back.intro.map((line) => line.text).join(" ");
-    process.stdout.write(`${where} return (${filing!.status}): ${told}\n`);
-    // Once the name is on the ballot there is nothing left to file, and a
-    // scene with nothing to say is not played (Fable A, Nov 13, rule 19).
-    if (filing!.status !== "petitioning") {
-      expect(back.intro, where).toEqual([]);
-      return;
+    // Back at the counter (P1, Commack, New York): the race already filed in
+    // is never offered again; with only the petition left, the clerk says
+    // where it stands and the player can only leave; with nothing left, no
+    // scene (rule 19).
+    let back: ReturnType<typeof openBenchFilingVisit> | null = null;
+    try {
+      back = openBenchFilingVisit(core, me, filedWith, 10 * 60);
+    } catch (error) {
+      expect(error, where).toBeInstanceOf(NothingAtCounter);
+      expect(filing!.status, where).not.toBe("petitioning");
     }
-    expect(told, where).toMatch(/petition/);
-    expect(told, where).not.toMatch(
-      /ask (?:about|for the papers)|pick up the papers/,
-    );
-    expect(
-      back.intro.some((line) => line.sourceRecordIds.includes(filing!.id)),
-      where,
-    ).toBe(true);
+    if (back) {
+      expect(
+        back.visit.choices.some((row) => row.key === pick),
+        `${where}: the filed race is offered again`,
+      ).toBe(false);
+      if (!back.visit.contests.length) {
+        const status = back.visit.lines.at(-1)!;
+        process.stdout.write(
+          `${where} back with the petition: ${status.text}\n`,
+        );
+        expect(status.speaker, where).toBe("clerk");
+        expect(status.sourceRecordIds, where).toContain(filing!.id);
+        expect(
+          back.visit.choices.map((row) => row.control),
+          where,
+        ).toEqual(["leave"]);
+      }
+    }
     return;
   }
   expect.fail(`no filing in ${tried.join("; ")}`);

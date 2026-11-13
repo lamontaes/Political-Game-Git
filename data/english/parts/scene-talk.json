@@ -118,7 +118,9 @@
     "replaced": "The full name of the person whose job an opening fills.",
     "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record.",
     "filed-at-counter": "That the player filed at the counter, in the clerk's scene there: the record of the reply that filed.",
-    "filed-so-far": "How many have filed for the office so far, said before the player files (\"two candidates\"), from the elections engine's filings."
+    "filed-so-far": "How many have filed for the office so far, said before the player files (\"two candidates\"), from the elections engine's filings.",
+    "signed": "How many signatures a petition holds so far, from the petition record.",
+    "none-signed": "That a petition holds no signatures yet, from the petition record."
   },
   "maxWords": 70,
   "parts": [
@@ -123979,6 +123981,198 @@
       },
       "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
       "date": "2026-11-01"
+    },
+    {
+      "key": "scene-talk.state-petition-status.youve-got-signed-of-the-signatures-signatures-so-far-theyre-due-due",
+      "move": "state-petition-status",
+      "kind": "spoken",
+      "text": "You've got {signed} of the {signatures} signatures so far. They're due {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "petition-status",
+          "role": "asker",
+          "requiresFacts": ["signed", "signatures", "due"]
+        }
+      ],
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      },
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "origin": "authored"
+    },
+    {
+      "key": "scene-talk.state-petition-status.so-far-i-count-signed-of-signatures-bring-the-rest-by-due",
+      "move": "state-petition-status",
+      "kind": "spoken",
+      "text": "So far I count {signed} of {signatures}. Bring the rest by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "petition-status",
+          "role": "asker",
+          "requiresFacts": ["signed", "signatures", "due"]
+        }
+      ],
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      },
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "origin": "authored"
+    },
+    {
+      "key": "scene-talk.state-petition-status.thats-signed-toward-signatures-you-have-until-due",
+      "move": "state-petition-status",
+      "kind": "spoken",
+      "text": "That's {signed} toward {signatures}. You have until {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "petition-status",
+          "role": "asker",
+          "requiresFacts": ["signed", "signatures", "due"]
+        }
+      ],
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      },
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "origin": "authored"
+    },
+    {
+      "key": "scene-talk.state-petition-status.i-dont-have-any-of-your-signatures-signatures-yet-theyre-due-due",
+      "move": "state-petition-status",
+      "kind": "spoken",
+      "text": "I don't have any of your {signatures} signatures yet. They're due {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "petition-status",
+          "role": "asker",
+          "requiresFacts": ["none-signed", "signatures", "due"]
+        }
+      ],
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      },
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "origin": "authored"
+    },
+    {
+      "key": "scene-talk.state-petition-status.nothings-come-in-yet-i-need-signatures-signatures-by-due",
+      "move": "state-petition-status",
+      "kind": "spoken",
+      "text": "Nothing's come in yet. I need {signatures} signatures by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "petition-status",
+          "role": "asker",
+          "requiresFacts": ["none-signed", "signatures", "due"]
+        }
+      ],
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      },
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "origin": "authored"
+    },
+    {
+      "key": "scene-talk.reply-petition-leave.ill-have-the-rest-by-due",
+      "move": "reply-petition-leave",
+      "kind": "spoken",
+      "text": "I'll have the rest by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "petition-leave",
+          "role": "asked",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      },
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "origin": "authored"
+    },
+    {
+      "key": "scene-talk.reply-petition-leave.ill-be-back-with-them-before-due",
+      "move": "reply-petition-leave",
+      "kind": "spoken",
+      "text": "I'll be back with them before {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "petition-leave",
+          "role": "asked",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      },
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "origin": "authored"
+    },
+    {
+      "key": "scene-talk.reply-petition-leave.then-id-better-get-back-out-there-before-due",
+      "move": "reply-petition-leave",
+      "kind": "spoken",
+      "text": "Then I'd better get back out there before {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "petition-leave",
+          "role": "asked",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      },
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "origin": "authored"
     },
     {
       "key": "scene-talk.state-rule-minimum-age.you-have-to-be-at-least-required",
