@@ -8,13 +8,7 @@
  * carry a fact (Nov 11, call 12: "Replies of one to three words and action
  * names stay"). Every other sentence is cut exactly as before.
  */
-import checks from "../../data/english/composed-checks.json" with { type: "json" };
-
-const SHORT = (
-  checks as unknown as {
-    parameters: { shortQuestionMostWords: { value: number } };
-  }
-).parameters.shortQuestionMostWords.value;
+import { SHORT_QUESTION_MOST_WORDS as SHORT } from "../english/composed-checks";
 
 export function addressSentences(text: string): string[] {
   const cut = text

@@ -36,7 +36,7 @@ import {
 } from "./speech-outline";
 import { contestPositions } from "../core2/modules/campaigns";
 import { presidingOfficer } from "../core2/modules/legislature";
-import { governmentTitleName } from "../core2/modules/offices";
+import { governmentProperName } from "../core2/government-proper-name";
 import { officeWords } from "../english/said-as";
 import { markWordsStopgap } from "./stopgaps";
 import { recordAddressResponse } from "./address-response";
@@ -127,7 +127,9 @@ function bodySaid(office: TownSeat["office"]): string | null {
 function realmSaid(core: CoreState, office: TownSeat["office"]): string | null {
   return office.level === "city"
     ? ((core.placeMetadata.placeName ?? "").split(",")[P.zero]?.trim() ?? null)
-    : realmOfForm(governmentTitleName(office.governmentName));
+    : realmOfForm(
+        governmentProperName(office.governmentName, office.jurisdiction),
+      );
 }
 
 /** "County of Maui" said as "Maui County", for the forms `realmForms` lists; a town, city or village by its name alone. */

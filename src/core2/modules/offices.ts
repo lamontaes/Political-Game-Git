@@ -1952,6 +1952,5 @@ function officesCalendarWork(
 export { CASES_MODULE_ID, casesOpenFor, handleCase } from "./constituent-cases";
 export type { OfficeLevel } from "../offices-local";
 /** A government's title as people say it, read through the executive family's entry. */
-export { governmentTitleName } from "../offices-local";
 export { partySide } from "../appointments";
 export { nextMeeting } from "../office-day-calendar";

@@ -26,6 +26,13 @@ import {
   type NamedPerson,
 } from "./composed-text";
 
+/** The most words a question may have and still be read with the sentence after it as one thought. */
+export const SHORT_QUESTION_MOST_WORDS = (
+  data as unknown as {
+    parameters: { shortQuestionMostWords: { value: number } };
+  }
+).parameters.shortQuestionMostWords.value;
+
 /** One break: which check, in which text and screen, why, and the words. */
 export interface ComposedBreak {
   readonly check: string;
