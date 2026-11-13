@@ -21,7 +21,10 @@ import {
 import { localChiefExecutiveRules } from "./gov-rules/local-chief-executive-rules";
 import { countyElectedRowOffices } from "./gov-rules/county-row-offices";
 import { councilElectionMethod } from "./gov-rules/council-election-method";
-import { boardGoverningBodyRules } from "./gov-rules/township-governing-body-rules";
+import {
+  boardGoverningBodyRules,
+  townshipBoardTerm,
+} from "./gov-rules/township-governing-body-rules";
 import type { GovernmentUnitIdentity } from "./reference/government-units";
 import { countyDisplayName } from "./business-names";
 import { governmentProperName } from "./government-proper-name";
@@ -62,6 +65,11 @@ export interface OfficeInput {
   readonly title: string;
   readonly seats: number;
   readonly termYears: number | null;
+  /**
+   * False where the law elects every seat of the body at once (a "vote for
+   * N" board); absent or true where the seats take turns over the term.
+   */
+  readonly staggered?: boolean;
   /** The next regular election for a single-seat office, where read. */
   readonly nextElectionYear?: number;
   /** An office created after the opening exists from this day: no one holds it before (its first election fills it). */
@@ -223,8 +231,14 @@ function boardOffices(
   const offices: OfficeInput[] = [];
   const board = boardGoverningBodyRules(unit);
   const schedule = scheduleByState.get(unit.stateUsps);
+  // A county's term from its state's schedule; a town's or township's from
+  // its state's statute (`townshipBoardTerm`), with whether its seats take
+  // turns. Without a term every seat would come up at every election.
+  const townTerm = level === "township" ? townshipBoardTerm(unit) : null;
   const termYears =
-    level === "county" ? (schedule?.body?.termYears ?? null) : null;
+    level === "county"
+      ? (schedule?.body?.termYears ?? null)
+      : (townTerm?.years ?? null);
   if (board) {
     offices.push({
       id: `office:${unit.id}:board`,
@@ -236,11 +250,14 @@ function boardOffices(
       title: board.memberTitle,
       seats: board.seats,
       termYears,
+      ...(townTerm && !townTerm.staggered ? { staggered: false } : {}),
       elected: true,
       districted: level === "county",
       coversTown: true,
-      source: `${board.citation} ${board.url}`.trim(),
-      estimate: board.basis === "estimated",
+      source: [board.citation, board.url, townTerm?.citation, townTerm?.url]
+        .filter(Boolean)
+        .join(" "),
+      estimate: board.basis === "estimated" || townTerm?.basis === "estimated",
     });
     if (board.executive.kind === "elected" && board.executive.title)
       offices.push({

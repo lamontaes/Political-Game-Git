@@ -11,6 +11,7 @@ import {
   filingOfficeFor,
   openContests,
   playerContests,
+  type FilingRow,
   type RequirementCheck,
 } from "../core2/modules/elections";
 import {
@@ -38,7 +39,7 @@ import { fileForOffice } from "./government";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
-import { petitionView } from "./campaign";
+import { petitionView, raceLive } from "./campaign";
 
 /** The picture for the office that takes a contest's filings. */
 export function officePlace(filedWith: string): string {
@@ -371,21 +372,16 @@ export function openBenchFilingVisit(
 }
 
 /** The player's filing at this office still gathering signatures or on the ballot, if any. */
-function filedHere(
+export function filedHere(
   core: CoreState,
   playerId: string,
   filedWith: string,
 ): { id: string; status: string; contestId: string } | null {
-  const filings = coreAPI(core)
+  const api = coreAPI(core);
+  const filings = api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
-    .query("byPerson", [playerId]) as unknown as {
-    id: string;
-    personId: string;
-    filedWith: string;
-    status: string;
-    contestId: string;
-  }[];
+    .query("byPerson", [playerId]) as unknown as FilingRow[];
   // The filing the player made at this counter comes first: a filing in
   // their name they did not make here (a running mate's place on a ticket,
   // Miracle Valley, Arizona, seed w3-return-1) is not what they came back
@@ -393,7 +389,8 @@ function filedHere(
   const here = filings.filter(
     (row) =>
       row.filedWith === filedWith &&
-      (row.status === "petitioning" || row.status === "on-ballot"),
+      (row.status === "petitioning" || row.status === "on-ballot") &&
+      raceLive(api, row),
   );
   const made = (row: { id: string }) =>
     core.durableLog.has(counterFilingReplyId(row.id));
