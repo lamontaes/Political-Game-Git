@@ -99,3 +99,20 @@ export function spokenWhenRow(
     SPOKEN_WHEN.rows[SPOKEN_WHEN.rows.length - P.one]!
   );
 }
+
+const NUMBER_WORDS = [
+  "no",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
+  "ten",
+];
+/** A count as people say it in a sentence: "nine" up to ten, the figure above. */
+export const numberWord = (count: number): string =>
+  NUMBER_WORDS[count] ?? String(count);

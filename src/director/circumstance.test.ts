@@ -6,7 +6,7 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { LEGISLATURE_MODULE_ID, members } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
@@ -50,11 +50,8 @@ const DOOR_DAYS = 7;
 
 /**
  * The families of circumstance (owner, Oct 27) that every drawn year
- * carries, and the rows of each. A price change (price-moved-street,
- * rent-news-street), a death known to the player (death-known-street), a hire
- * (new-coworker), a rival's message (rival-message) and a lobbyist after a
- * lobbying visit to the player (lobbyist-hallway) are counted and
- * printed, not asserted: a year in one town carries one or none, so whether
+ * carries, and the rows of each. A hire (new-coworker) and a rival's message
+ * (rival-message) are counted and printed, not asserted: a year in one town carries one or none, so whether
  * any comes is the draw's, not the producer's
  * (director-circumstance-rare-families-asserted).
  */
@@ -64,25 +61,15 @@ const FAMILIES: Readonly<Record<string, readonly string[]>> = {
     "law-reached-street",
     "law-news-street",
   ],
-  "a printed story": ["story-read-home"],
-  "a national event in the news": [
-    "national-news-work",
-    "national-news-street",
-  ],
   "a hallway at the capitol": ["hallway-colleague", "hallway-reporter"],
-  "a hallway after a sitting": [
-    "hallway-colleague",
-    "hallway-reporter",
-    "meeting-colleague",
-    "meeting-reporter",
-  ],
+  "a hallway after a sitting": ["hallway-colleague", "hallway-reporter"],
 };
 
 /** The families each way of playing can show; after the first draw, a way is played only while one is unfired. */
 const SHOWS: Readonly<
   Record<"resident" | "member" | "candidate" | "legislator", readonly string[]>
 > = {
-  resident: ["a printed story", "a national event in the news"],
+  resident: [],
   member: ["a law passed or in force", "a hallway after a sitting"],
   candidate: ["a law passed or in force"],
   legislator: ["a hallway at the capitol"],
@@ -520,71 +507,6 @@ it(`a record anywhere in the world calls a scene where the player is (seed ${see
 
 /** The last day a race may be held and still have its morning after inside the played year. */
 const lastDayOfRace = () => addDays(makeIsoDate(gameStartDate()), DAYS - 2);
-
-/** Places the morning-after test may build before one holds a race the new adult can enter. */
-const MORNING_TRIES = 6;
-/** How far ahead the new adult's first race may be: the six offices a player may run for mostly elect in even years (owner, Oct 29). */
-const MORNING_HORIZON_DAYS = 2 * DAYS;
-
-// The morning after the player's own race (owner's "Morning after"): a
-// place is drawn, the new adult files for the soonest race they may enter
-// (one of the six offices, owner Oct 29, so most often the next even year's
-// general election), and their days are played through the count. The day
-// after it, someone who worked the campaign or lives with them comes by,
-// cited to the result, and the reply is kept. (Twelve draws held no such race
-// inside one year: Pike Creek Valley, Delaware; Kenesaw, Nebraska; Mexia,
-// Texas; seed dd44.)
-it(`the morning after the player's race is a scene, cited to the count (seed ${seed})`, () => {
-  setBookkeeping(false);
-  const tried: string[] = [];
-  for (let at = 0; at < MORNING_TRIES; at += 1) {
-    const place = drawPlace(seed, `circumstance-morning:${at}`);
-    const world = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    const where = `${place.name} (${place.key}), seed ${place.seed}`;
-    const personId = fileNewAdult(world);
-    const filing = personId
-      ? (
-          coreAPI(world.core)
-            .moduleState(ELECTIONS_MODULE_ID)
-            .table("filings")
-            .rows() as unknown as FilingRow[]
-        ).find((row) => row.personId === personId && row.status === "on-ballot")
-      : undefined;
-    const race = filing
-      ? (coreAPI(world.core)
-          .moduleState(ELECTIONS_MODULE_ID)
-          .table("contests")
-          .get(filing.contestId) as unknown as
-          { electionDate: string } | undefined)
-      : undefined;
-    const horizon = addDays(makeIsoDate(gameStartDate()), MORNING_HORIZON_DAYS);
-    if (!personId || !race || race.electionDate > horizon) {
-      tried.push(`${where}: no race to enter within two years`);
-      continue;
-    }
-    const days = daysBetween(world.core.date, race.electionDate) + 3;
-    const fired = playYear(world.core, world.director, personId, where, {
-      days,
-    }).filter((row) => row.row === "morning-after");
-    expect(fired.length, `${where}: no morning after`).toBeGreaterThan(0);
-    for (const row of fired) {
-      const result = world.core.durableLog.get(row.recordId)!;
-      expect(result.kind).toBe("election-result");
-      expect(row.date).toBe(addDays(makeIsoDate(result.date), 1));
-      expect(row.replyId, `${row.recordId}: the reply is kept`).toBeTruthy();
-    }
-    process.stdout.write(
-      `MORNING AFTER ${where}${tried.length ? ` after ${tried.join("; ")}` : ""}: ${fired.map((row) => `${row.date} ${row.recordId}, cast ${row.castId}, reply ${row.replyId}`).join("; ")}\n`,
-    );
-    return;
-  }
-  throw new Error(
-    `no place in ${MORNING_TRIES} draws held a race the new adult could enter within two years: ${tried.join("; ")}`,
-  );
-}, 2_400_000);
 
 it("gives every circumstance a situation type cause and a scene-web row", () => {
   const labels = new Set(

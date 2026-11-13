@@ -238,6 +238,8 @@ export function wireItem(
         ending: false,
       };
     }
+    // A bill a committee held without a hearing is, like one that failed, about what it would have changed.
+    case "bill-held-in-committee":
     case "bill-failed": {
       // A bill that failed is about what it would have changed, so a reader
       // can bring it up by name; the roll call's story argues the side, so
