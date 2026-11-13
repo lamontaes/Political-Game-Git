@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: opus-lr
+pr: #8973
 after: core-life-record-part-6-the-past-holds-what-happened-between-people
 blocked-on:
 lead: lives
@@ -34,3 +34,5 @@ checked: opus-lr 2026-11-12
 **Waits on.** Part 6 (#8670) for partnerships and hospital stays; parts 11 and 12 for service and arrests, read when they land.
 
 **Files.** src/core2/modules/views.ts, src/core2/modules/people.ts, src/core2/data/views/
+
+**Notes.** Built by the Life records builder (opus-lr), Nov 13. Two events move a view: a parent's layoff while the person was a child (toward or away from the parent by the new trait decision `views.parent-hardship`, further the more the parent follows politics), and the person's own last layoff as an adult (leftward, more for those who lean right, fading with years back at work). The sizes are TUNABLE (`SG-PEOPLE-past-views-sizes`): the papers' abstracts give directions only. A parent's layoff is read only once the parent's own past is opened, so opening a person never writes anyone else's past; opening a parent later re-reads their opened children.
