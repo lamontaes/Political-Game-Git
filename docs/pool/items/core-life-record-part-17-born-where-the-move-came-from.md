@@ -19,7 +19,7 @@ source: Fable A's read of #8957's cards, Nov 13, 2026, filed by the Life records
 checked: opus-lr 2026-11-13
 ---
 
-**What.** A card can say "I was born in Angoon, Alaska in 2007." and then "In 2008, I moved to Angoon, Alaska." (Fable A, Nov 13, Angoon AK seed lrcard03; the same in Cayuse OR seed lrcard01 and Diamondville WY seed lrcard04). The owner, Nov 8: "None of my history is simulated." Seen: a person's card, whose birthplace and moves agree.
+**What.** The owner, Nov 8: "None of my history is simulated." A card can say "I was born in Angoon, Alaska in 2007." and then "In 2008, I moved to Angoon, Alaska." (Fable A, Nov 13, Angoon AK seed lrcard03; the same in Cayuse OR seed lrcard01 and Diamondville WY seed lrcard04). Seen: a person's card, whose birthplace and moves agree.
 
 **Cause.** Found in code: `src/core2/opening-people.ts` line 67 gives every person the birthplace fact `input.birthplaceJurisdictionId ?? input.homeJurisdictionId`, and no caller passes a birthplace, so it always names the town they live in now (0 of 476 residents born elsewhere in Portsmouth NH, Selma NC and Woodlawn KY, seeds lrborn01 to 03). The moves pass (`originOf`, `src/core2/past-moves.ts` line 50) brings a person to the county when a living parent lives elsewhere, and the run's birth record places their birth there (`residenceOn`); the card (`src/bench/card.ts`) read the opening's fact instead. Every moved-in resident in those towns was told as born in the town it then says they moved to (2 of 2 and 5 of 5).
 
