@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: opus-lr
 pr: #9034
@@ -17,6 +17,7 @@ effort: medium
 root: design-life-record
 source: Fable A, rule 13, Nov 13, 2026, from Playtester P3's item 8 (North Hyde Park, Vermont); filed by the Life records builder opus-lr
 checked: opus-lr 2026-11-13
+merged-at: 2026-11-13T08:16:41.005Z
 ---
 
 **What.** Fable A, Nov 13, rule 13: "a debate opens in the room it is held in, never from a street stop." Playtester P3, North Hyde Park, Vermont (seed a6b481a5-c6c9-432b-8cca-c0463c518da8), February 25: "First thing on February 25th, out and about, you stop to talk with Kevin Garcia." and the moderator's welcome to the North Hyde Park Register debate came after it. Seen: the opening narration of the debate the player sits for.
