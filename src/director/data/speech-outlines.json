@@ -225,6 +225,12 @@
       "tag": "TUNABLE",
       "spread": "30 to 100",
       "note": "A law's age is said as context only up to this many years, past which the starting law's date is a stand-in, not a record a speaker would cite."
+    },
+    "traits": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": "0.25 to 1",
+      "note": "The speaker's recorded traits toward a theme's subjects (subjectPull), 0 to 1 against their strongest pull: after their own signature issues, before the world, so two Presidents of one party with no cause in reach still differ."
     }
   },
   "topicsBySubject": {

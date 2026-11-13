@@ -130,6 +130,7 @@ const OUTLINES = outlineData as unknown as {
     | "actable"
     | "stance"
     | "condition"
+    | "traits"
     | "contextYearsMin"
     | "lawYearsMax",
     Weight
@@ -926,10 +927,27 @@ export function themeOf(
   country: Country,
   national: boolean,
   least: number,
+  person?: PersonState,
 ): string | null {
   const w = OUTLINES.theme;
-  const scored = Object.keys(OUTLINES.themes)
-    .filter((key) => key !== "about")
+  const themes = Object.keys(OUTLINES.themes).filter((key) => key !== "about");
+  // How hard the speaker's recorded traits pull toward a theme: the
+  // strongest pull of its subjects (speech-outlines.json `subjectPull`),
+  // over the strongest pull of any theme, from 0 to 1 (from the speeches
+  // branch, words-speech-outline: two Presidents with no cause in reach
+  // still differ, so no question leads every address).
+  const pullOf = (theme: string) =>
+    Math.max(
+      P.zero,
+      ...subjectsOf(theme).map((subject) => {
+        const facets = OUTLINES.subjectPull[subject];
+        return person && Array.isArray(facets)
+          ? traitSum(person, facets)
+          : P.zero;
+      }),
+    );
+  const strongest = Math.max(P.zero, ...themes.map(pullOf));
+  const scored = themes
     .map((theme) => {
       const under = themeStands(official, stands, theme);
       const condition = national
@@ -963,7 +981,10 @@ export function themeOf(
               P.zero,
               ...under.map((stand) => distinct(official, stand)),
             ) +
-          w.condition.value * condition,
+          w.condition.value * condition +
+          (strongest > P.zero
+            ? (w.traits.value * pullOf(theme)) / strongest
+            : P.zero),
       };
     })
     .filter((row) => row.enough && row.score > P.zero)
@@ -1110,7 +1131,14 @@ export function planSpeech(
   // Every question the speaker's level may answer and holds a view on: an
   // open one is an ask, one the law in force answers is a law to defend or
   // repeal. The theme is the one with enough of them to make its points.
-  const theme = themeOf(official, stands, country, federal, row.leastPoints);
+  const theme = themeOf(
+    official,
+    stands,
+    country,
+    federal,
+    row.leastPoints,
+    person,
+  );
   const pointStands = theme
     ? themeStands(official, stands, theme, person).slice(P.zero, row.points)
     : [];
