@@ -37,3 +37,5 @@ checked:
 **Files.** src/core2/residents-economy.ts, src/core2/modules/business.ts, src/core2/market-entry.test.ts
 
 **Notes.** Filed by hand on the Account lead T30 branch. The seed is the hash of "a:1" and "founding-sweep" through drawPlace in scripts/core2-year/place.ts.
+
+A kind with no incumbent in the place has no market, so a town can never gain its first business of a kind (business.ts marketRoom); whether that is realistic is an open design question, not part of this item.
