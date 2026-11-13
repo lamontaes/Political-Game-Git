@@ -3535,9 +3535,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   // One race, one result every reader agrees on: those the count put inside
   // the race's seats, and those who missed the cut (`outIds`, on every seat's
   // record). A seat of an at-large race names its own winner, the names tied
-  // across the last seat where it is that seat, and, on the race's first
-  // seat only, those who missed the cut: each candidate is named once, so
-  // nobody is both elected and beaten by one count.
+  // across the last seat where it is that seat, and those who missed the cut
+  // and filed for that seat (their campaign is that seat's): each candidate
+  // is named once, so nobody is both elected and beaten by one count.
   // A tie across the last seat that this count settled (a lot, a vote of
   // the body) leaves the other tied names out; one still to be settled (a
   // second election) keeps them in the race.
@@ -3550,10 +3550,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     ...(winnerCandidateId ? [winnerCandidateId] : []),
   ]);
   const person = (id: string) => winningPersonId(api, id);
-  const out = filings
-    .map((f) => f.personId)
-    .filter((id) => !inside.has(id))
-    .map(person)
+  const missed = filings.filter((f) => !inside.has(f.personId));
+  const out = missed
+    .map((f) => person(f.personId))
     .filter((id) => api.state.people.has(id))
     .sort();
   const undecided = !winnerCandidateId || settledTie;
@@ -3571,7 +3570,11 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     personIds: [
       ...new Set([
         ...naming,
-        ...(seats > 1 && counting.id === contestId ? out : []),
+        ...(seats > 1
+          ? missed
+              .filter((f) => f.contestId === contestId)
+              .map((f) => person(f.personId))
+          : []),
       ]),
     ].filter((id) => api.state.people.has(id)),
     placeId: townPlaceId,

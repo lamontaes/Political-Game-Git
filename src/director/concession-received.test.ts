@@ -131,6 +131,16 @@ const run = (drawSeed: string): string | null => {
   const ranked = Object.entries(totals).sort(
     (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
   );
+  // Everyone who ran was seated (an at-large race of as many names as
+  // seats): nobody missed the cut, so nobody calls.
+  if (
+    !ranked.some(
+      ([id]) =>
+        id !== winner &&
+        JSON.parse(String(record?.facts?.outIds ?? "[]")).includes(id),
+    )
+  )
+    return `${where}: ${contest.id}, nobody missed the cut`;
 
   const entryOf = (personId: PersonId) =>
     director.ledger.people
@@ -146,7 +156,11 @@ const run = (drawSeed: string): string | null => {
   expect(binding, `${where}: no concession-received binding`).toBeTruthy();
   const callerId = binding!.roles.find((row) => row.role === "loser")
     ?.personIds[0];
-  const runnerUp = ranked.find(([id]) => id !== winner)![0];
+  // The caller is the first of those who missed the cut (`outIds`): in an
+  // at-large race the other winners were seated too and never call.
+  const outIds = JSON.parse(String(record?.facts?.outIds ?? "[]")) as string[];
+  const beaten = ranked.filter(([id]) => outIds.includes(id));
+  const runnerUp = beaten[0]![0];
   expect(callerId, where).toBe(runnerUp);
   expect(binding!.setting?.kind ?? "phone", where).toBe("phone");
 
@@ -166,7 +180,7 @@ const run = (drawSeed: string): string | null => {
   // A tie at the top (decided by lot) leaves nobody ahead, so no lead is
   // said (Nashville, Ohio, run seed 62c54aceac792551: 1 to 1).
   const lead = scene.facts.find((row) => row.key === "lead");
-  const margin = ranked[0]![1] - ranked[1]![1];
+  const margin = (totals[winner] ?? 0) - beaten[0]![1];
   if (margin === 0) {
     expect(lead, `${where}: a tie`).toBeUndefined();
     // A tie with a winner was settled by a drawing or by a body's vote (a

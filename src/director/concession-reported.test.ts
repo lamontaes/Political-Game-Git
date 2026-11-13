@@ -115,12 +115,17 @@ const run = (
   const result = resultOf(api, contest.id);
   if (!result?.winnerId) return { done: false, note: `${where}: no winner` };
   const causeId = `election-result:${contest.id}`;
-  // The runner-up on the count: the one the race's story names.
-  const totals = JSON.parse(
-    String(core.durableLog.get(causeId as EntityId)?.facts?.totals ?? "{}"),
-  ) as Record<string, number>;
+  // The runner-up on the count: the one the race's story names, the first
+  // of those who missed the cut (in an at-large race the other winners were
+  // seated too and concede nothing).
+  const facts = core.durableLog.get(causeId as EntityId)?.facts;
+  const totals = JSON.parse(String(facts?.totals ?? "{}")) as Record<
+    string,
+    number
+  >;
+  const outIds = JSON.parse(String(facts?.outIds ?? "[]")) as string[];
   const loser = Object.entries(totals)
-    .filter(([id]) => id !== result.winnerId && core.people.has(id))
+    .filter(([id]) => outIds.includes(id) && core.people.has(id))
     .sort((x, y) => y[1] - x[1])[0]?.[0] as PersonId | undefined;
   if (!loser || !filings.some((f) => f.personId === loser))
     return { done: false, note: `${where}: the runner-up is not a filer here` };

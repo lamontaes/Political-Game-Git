@@ -132,8 +132,13 @@ it(`the loser's call and the winner's side both fire from one count (seed ${seed
     const totals = JSON.parse(
       String(core.durableLog.get(causeId as EntityId)?.facts?.totals ?? "{}"),
     ) as Record<string, number>;
+    // The runner-up: the first of those who missed the cut (in an at-large
+    // race the other winners were seated too and lost nothing).
+    const outIds = JSON.parse(
+      String(core.durableLog.get(causeId as EntityId)?.facts?.outIds ?? "[]"),
+    ) as string[];
     const loser = Object.entries(totals)
-      .filter(([id]) => id !== winner && core.people.has(id as PersonId))
+      .filter(([id]) => outIds.includes(id) && core.people.has(id as PersonId))
       .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0] as
       PersonId | undefined;
     const entryOf = (personId: PersonId, typeKey: string) =>
@@ -158,6 +163,13 @@ it(`the loser's call and the winner's side both fire from one count (seed ${seed
     const call = purposeScene(core, director, loser, callEntry, {
       typeKey: "race-lost",
     });
+    // The loser's side is asked by the people who worked their campaign: a
+    // filer nobody volunteered for has no one to ask, and the place is passed
+    // over by name (Central Falls, Rhode Island, run seed 895d11aee1c0c343).
+    if (call?.kind === "skipped" && call.reason === "no supporters on record") {
+      tried.push(`${where}: ${loser} had no supporters on record`);
+      continue;
+    }
     expect(call?.kind, `${where}: ${JSON.stringify(call)}`).toBe("composed");
     if (call?.kind !== "composed") return;
     expect(call.scene.cause.id, where).toBe(causeId);
