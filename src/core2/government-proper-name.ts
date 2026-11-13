@@ -55,8 +55,9 @@ function nameStarts(said: string): string {
 }
 
 /** The listing's words said by the one display rule, and the place record's name when it is the same name. */
-function namesOf(listed: string, governmentId: string) {
-  const county = placeIdOf(governmentId).startsWith("county:");
+function namesOf(listed: string, governmentId: string, kind?: "county") {
+  const county =
+    kind === "county" || placeIdOf(governmentId).startsWith("county:");
   const said = nameStarts(
     governmentUnitDisplayName({
       name: listed,
@@ -83,8 +84,9 @@ function namesOf(listed: string, governmentId: string) {
 export function governmentProperName(
   listed: string,
   governmentId: string,
+  unitType?: "county",
 ): string {
-  const { said, kind } = namesOf(listed, governmentId);
+  const { said, kind } = namesOf(listed, governmentId, unitType);
   const recorded = recordedName(governmentId);
   // A name already written in ordinary capitals ("Idaho") is kept as written.
   if (kind === null || !recorded)

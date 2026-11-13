@@ -6,7 +6,6 @@
  * from local names. Read-only and pure.
  */
 import { governmentProperName } from "./government-proper-name";
-import { governmentUnitDisplayName } from "./gov-rules/government-unit-names";
 import names from "./data/business/names.json" with { type: "json" };
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import { countyGovernmentUnitsForPlace } from "./reference/government-units";
@@ -64,9 +63,7 @@ export function countyDisplayName(
   listed: string,
   governmentId?: string,
 ): string {
-  return governmentId
-    ? governmentProperName(listed, governmentId)
-    : governmentUnitDisplayName({ name: listed, unitType: "county" });
+  return governmentProperName(listed, governmentId ?? "", "county");
 }
 
 /** The names a business in a place is named from, for a family. */
