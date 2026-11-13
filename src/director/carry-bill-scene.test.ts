@@ -171,8 +171,8 @@ it(`an executive's ask to carry a bill is the member's carry-bill scene, with th
       if (countBy) expect(floor! > core.date, here).toBe(true);
       if (tonight)
         expect(floor!.slice(0, 10), here).toBe(core.date.slice(0, 10));
-      console.log(
-        `CARRY ${here}: the vote ${floor ?? "not set"}; count-by ${countBy?.text ?? "none"}; tonight ${tonight ? "yes" : "no"}`,
+      process.stdout.write(
+        `CARRY ${here} on ${core.date}: the vote ${floor ?? "not set"}; count-by ${countBy?.text ?? "none"}; tonight ${tonight ? "yes" : "no"}\n`,
       );
       composed += 1;
       console.log(
