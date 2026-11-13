@@ -202,6 +202,14 @@ function fortnight(draw: number): string[] {
         (id) => day === 0 || !isOnShift(core, id, minute),
       );
       for (const otherId of room) {
+        // The question each subject on record names, read before the talk
+        // (a stand said in it is learned, and its subject is gone after).
+        const questionOf = new Map(
+          subjectsBetween(core, otherId as PersonId, playerId, director, {
+            presentIds: room as PersonId[],
+            minuteOfDay: minute,
+          }).map((row) => [row.id, row.news?.question ?? row.point?.question]),
+        );
         const talk: Conversation = openConversation(
           core,
           playerId,
@@ -317,9 +325,31 @@ function fortnight(draw: number): string[] {
         for (const text of offered)
           if (NON_ANSWER.test(text.trim()))
             broken.push(`${here}: a non-reply offered: "${text}"`);
-        // Two people in one house never name the same question on one day.
+        // Two people in one house never tell news on the same question on
+        // one day (a fact is told once in the house a day). A stand is the
+        // speaker's own: two of the house agreeing or disagreeing on the same
+        // question is the scene, not a repeat (lead's ruling, Nov 13, fixer
+        // round 5 of #8879), so a question named only by a stand (where they
+        // stand, their point of the address) is not counted.
+        const questionsBy = (kinds: readonly string[]) =>
+          new Set(
+            theirs
+              .filter((line) => kinds.includes(line.kind))
+              .map((line) =>
+                questionOf.get(line.subjectId.replace(/^[^>]*>/, "")),
+              )
+              .filter((row): row is string => !!row),
+          );
+        const standQuestions = questionsBy(["own-view", "address-point"]);
+        const newsQuestions = questionsBy([
+          "news",
+          "government-news",
+          "brought-up",
+        ]);
         for (const question of talk.questions ?? []) {
           if (question.startsWith("=")) continue;
+          if (standQuestions.has(question) && !newsQuestions.has(question))
+            continue;
           const by = questionsToday.get(question);
           if (by && by !== otherId)
             broken.push(`${here}: the question ${question} named twice today`);

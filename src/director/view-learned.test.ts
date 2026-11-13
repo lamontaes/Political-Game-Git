@@ -33,6 +33,7 @@ import {
   say,
   subjectsBetween,
   takesStands,
+  type Conversation,
 } from "./conversation";
 import { expectUpToFourDifferent } from "./reply-set-check";
 import { kinAddress } from "../english/journal-words";
@@ -426,17 +427,30 @@ function ownViewIn(drawSeed: string, skipped: string[]): boolean {
       passed.push(`${id}: the staged story did not reach them`);
       continue;
     }
+    // Where they stand may come up on any turn, after its news: it is
+    // looked for after each line the player says, with its replies still
+    // on offer (a stand said on a turn and then passed by was a stand said;
+    // fixer round 5 of #8879, Worthing, South Dakota).
+    const ownView = (talk: Conversation) =>
+      talk.lines.find((row) => row.kind === "own-view");
+    const heard: string[] = [];
     let talk = openConversation(core, me, id, { director });
-    let line = talk.lines.find((row) => row.kind === "own-view");
+    let line = ownView(talk);
     for (let again = 0; again < 3 && !line && talk.lines.length; again += 1) {
-      for (let turn = 0; turn < 6 && talk.choices.length; turn += 1)
+      for (let turn = 0; turn < 6 && talk.choices.length && !line; turn += 1) {
         say(core, talk, talk.choices[talk.choices.length - 1]!.key);
+        line = ownView(talk);
+      }
+      heard.push(talk.lines.map((row) => row.kind).join(">"));
+      if (line) break;
       talk = openConversation(core, me, id, { director });
-      line = talk.lines.find((row) => row.kind === "own-view");
+      line = ownView(talk);
     }
+    if (talk.lines.length)
+      heard.push(talk.lines.map((row) => row.kind).join(">"));
     if (!line || !talk.choices.length) {
       passed.push(
-        `${id}: ${talk.lines.map((row) => row.kind).join(">") || "nothing"} (subjects ${subjectsBetween(
+        `${id}: ${heard.filter(Boolean).join(" | ") || "nothing"} (subjects ${subjectsBetween(
           core,
           id,
           me,

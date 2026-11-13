@@ -2420,11 +2420,13 @@ export function subjectsBetween(
         ? addressPointFor(
             core,
             speakerId,
-            // A point someone in the house made today is behind them: each
-            // person makes their own (owner, Nov 12: "basically saying the
-            // same thing"), and with every point made, they raise none (a
-            // question is named once a day in the house).
-            addressPoints(opening).filter(
+            // A point someone in the house made today comes after one nobody
+            // made (owner, Nov 12: "basically saying the same thing"), but a
+            // point is the speaker's own stand on it: with every point made,
+            // they still make theirs (lead, Nov 13: two people in one house
+            // agreeing or disagreeing on the same question is the scene).
+            fresher(
+              addressPoints(opening),
               (row) => !heardNow.has(`${HEARD_QUESTION}${row.question}`),
             ),
             listenerId,
@@ -2446,12 +2448,11 @@ export function subjectsBetween(
   // Where the speaker stands politically, from the views engine's record of
   // their lean, said only as far as their tie to the listener and their
   // temperament allow (`./view-learned`). Once said, the listener knows it.
-  // A question someone in the house named today is not the one they stand
-  // on (owner, Nov 12: "basically saying the same thing").
+  // A stand is the speaker's own, given once: a question a housemate named
+  // today is still theirs to stand on (lead, Nov 13: a fact is told once in
+  // the house a day, a stand is not blocked by another's).
   const stand = takesStands(core, speakerId)
-    ? viewSubjectOf(core, speakerId, listenerId, (question) =>
-        heardNow.has(`${HEARD_QUESTION}${question}`),
-      )
+    ? viewSubjectOf(core, speakerId, listenerId)
     : null;
   if (stand) {
     // The question they care most about, the side they are on and why, from
@@ -3791,16 +3792,15 @@ function otherRaises(
       order.includes(row.kind) &&
       data.otherRaises[row.kind] &&
       // Where they stand comes up only on the question the news just told
-      // was about (its cause, in the same talk), and only once a day in the
-      // house.
+      // was about (its cause, in the same talk). A housemate's stand on the
+      // same question today does not hold theirs back (lead, Nov 13).
       !(
         row.kind === "own-view" &&
         // Only as far as their tie and temperament allow (the views
         // engine's willingness): a stranger keeps where they stand.
         (!(row.weight ?? zero) ||
           !row.news?.question ||
-          !(conversation.questions ?? []).includes(row.news.question) ||
-          heardNow.has(`${HEARD_QUESTION}${row.news.question}`))
+          !(conversation.questions ?? []).includes(row.news.question))
       ) &&
       !conversation.used.includes(`${otherId}>${row.id}`) &&
       !conversation.used.includes(row.id) &&
@@ -4416,6 +4416,12 @@ function openConversationNow(
  * (owner, Nov 12: "basically saying the same thing").
  */
 const HEARD_PREFIX = "talk:heard:";
+/** The rows that pass, or all of them when none does. */
+function fresher<T>(rows: readonly T[], keep: (row: T) => boolean): T[] {
+  const kept = rows.filter(keep);
+  return kept.length ? kept : [...rows];
+}
+
 /** A town or state figure told today. */
 const HEARD_FIGURE = "figure:";
 /** A policy question named today, by anyone in the house. */
