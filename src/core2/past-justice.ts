@@ -28,7 +28,7 @@ import { stopgap } from "./stopgaps";
 import type { HistoryRecord } from "./pre-start";
 import type { CoreState, IsoDate, PersonState } from "./types";
 
-/** An arrest before the start, told as being accused of a crime. */
+/** An arrest before the start, told as the arrest it is: the record holds no charge. */
 export const PAST_ARRESTED = ownPastKind("justice.arrested-before");
 /** A felony conviction before the start. */
 export const PAST_CONVICTED = ownPastKind("justice.convicted-before");
