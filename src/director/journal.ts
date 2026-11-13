@@ -2277,7 +2277,11 @@ export function composeJournal(
    * went without a paycheck in all. One job is one sentence about that job.
    * The pieces are `journal.work-run`'s, joined by the outline's join words.
    */
-  const tellWork = (told: readonly Unit[]): JournalWorded[] | null => {
+  const tellWork = (
+    told: readonly Unit[],
+    /** The thread's last part: only it says the summary of the whole run (pay over the years, time without a paycheck). */
+    lastPart = true,
+  ): JournalWorded[] | null => {
     const employers = new Map<string, string>();
     for (const unit of told)
       for (const fact of [unit.facts.employer, unit.facts.next])
@@ -2330,7 +2334,7 @@ export function composeJournal(
         `${first.moment.id}:work-one`,
         ids,
       );
-      if (one_) return [one_, ...workAfter(told, ids)];
+      if (one_) return [one_, ...(lastPart ? workAfter(told, ids) : [])];
     }
     const facts: Facts = {
       span,
@@ -2396,7 +2400,7 @@ export function composeJournal(
           ...new Set([run, ...tail].flatMap((part) => part.sourceRecordIds)),
         ],
       },
-      ...workAfter(told, ids),
+      ...(lastPart ? workAfter(told, ids) : []),
     ];
   };
   /** How the pay moved from the first job to the last, and the time without a paycheck, from the records. */
@@ -2726,8 +2730,9 @@ export function composeJournal(
       const views = viewsTold.has(next.key) ? [] : pastViewSentences(next.key);
       viewsTold.add(next.key);
       const sentences = [
-        ...((next.key === "work" ? tellWork(told) : null) ??
-          tellParagraph(told, next.key)),
+        ...((next.key === "work"
+          ? tellWork(told, next.units.length === zero)
+          : null) ?? tellParagraph(told, next.key)),
         ...views,
       ];
       push(told, sentences);
