@@ -1120,7 +1120,12 @@ function summaryOf(
   teller: Teller,
   now: {
     readonly office?: OfficeRun | null;
-    readonly work?: { title: string | null; employer: string | null } | null;
+    readonly work?: {
+      title: string | null;
+      employer: string | null;
+      /** The town they live in, when their work is outside it. */
+      outside?: string | null;
+    } | null;
     readonly school?: string | null;
     readonly place?: string | null;
     readonly born?: { year: string; place: string | null } | null;
@@ -1145,14 +1150,16 @@ function summaryOf(
     : null;
   // Their job, from the same record the journal reads (`personWorkOf`): told
   // beside an office they hold too, never in place of it.
-  const work = now.work?.employer
-    ? now.work.title
-      ? line("work.title", {
-          title: inSentence(now.work.title),
-          employer: now.work.employer,
-        })
-      : line("work.employer", { employer: now.work.employer })
-    : null;
+  const work = now.work?.outside
+    ? line("work.outside", { place: now.work.outside })
+    : now.work?.employer
+      ? now.work.title
+        ? line("work.title", {
+            title: inSentence(now.work.title),
+            employer: now.work.employer,
+          })
+        : line("work.employer", { employer: now.work.employer })
+      : null;
   const role =
     office || work
       ? null
@@ -1572,10 +1579,14 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     office: run,
     // Their work, as the story already tells it of anyone.
     work: job
-      ? {
-          title: job.title,
-          employer: core.organizations.get(job.organizationId)?.name ?? null,
-        }
+      ? core.organizations.get(job.organizationId)?.outsideFlow
+        ? // The market's stand-in for work out of town is no employer: they
+          // work outside the town they live in.
+          { title: null, employer: null, outside: homePlace }
+        : {
+            title: job.title,
+            employer: core.organizations.get(job.organizationId)?.name ?? null,
+          }
       : null,
     school: school?.name ?? null,
     place: homePlace,
