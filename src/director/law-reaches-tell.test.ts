@@ -93,6 +93,38 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
   const saidAway = tell(away);
   const text = saidAway && "text" in saidAway ? saidAway.text : "";
   expect(text, where).toContain(away.lawstate!.text);
+  // Another state's law not yet in force is still another state's: said by
+  // the states, never by a date that would sound as if it will reach them.
+  const awayLater = lawReachFacts(
+    { jurisdiction: elsewhere, effectiveDate: "2099-01-01" },
+    home,
+    core.date,
+    cite,
+  );
+  expect(Object.keys(awayLater).sort(), where).toEqual([
+    "homestate",
+    "lawstate",
+  ]);
+  // No reply that would say the law reaches them is offered for it.
+  for (let at = 0; at < 12; at += 1) {
+    const reply = wordSceneMove({
+      move: {
+        step: "reply",
+        move: "promise",
+        role: "asked",
+        purpose: "law-reaches",
+        key: "news-received",
+      } as never,
+      facts: away,
+      seed: `${where}:${at}`,
+      speakerId: playerId!,
+      traits: {},
+      momentKey: "law-reaches-tell",
+      said: new Set(),
+    });
+    const said = reply && "text" in reply ? reply.text : "";
+    expect(said, where).not.toMatch(/doing to you|means for you/);
+  }
   // A law in force where the reader lives gives none of these facts.
   expect(lawReachFacts(ownState!, home, core.date, cite), where).toEqual({});
   console.log(

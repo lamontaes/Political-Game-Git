@@ -6,10 +6,12 @@ The red on main this answers (Red desk, Nov 13, `circumstance.test.ts`, seed `93
 
 The tell as worded from the laws engine's own rows in three drawn places (`src/director/law-reaches-tell.test.ts`):
 
-| Place (seed)                      | Not yet in force                                                                               | Another state's law                                           |
-| --------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| Ashaway, Rhode Island (`w2lr1`)   | The Social Security payroll tax rate doesn't start until January 1, 2026.                      | Delaware did that, not Rhode Island.                          |
-| Claypool Hill, Virginia (`w2lr2`) | The Social Security payroll tax rate doesn't start until January 1, 2026.                      | Delaware did that, not Virginia.                              |
-| Nu'uuli, American Samoa (`w2lr3`) | Nothing changes before January 1, 2026, but I read about the Social Security payroll tax rate. | That's a law in Delaware. It doesn't apply in American Samoa. |
+| Place (seed)                      | Not yet in force                                                          | Another state's law                                           |
+| --------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| Ashaway, Rhode Island (`w2lr1`)   | The Social Security payroll tax rate doesn't start until January 1, 2026. | Delaware did that, not Rhode Island.                          |
+| Claypool Hill, Virginia (`w2lr2`) | The Social Security payroll tax rate doesn't start until January 1, 2026. | Delaware did that, not Virginia.                              |
+| Nu'uuli, American Samoa (`w2lr3`) | The Social Security payroll tax rate takes effect on January 1, 2026.     | That's a law in Delaware. It doesn't apply in American Samoa. |
+
+Another state's law is said by the states even when it is not yet in force, so no date makes it sound as if it will reach the reader. For a law that does not reach the reader, no reply says it does ("Tell me what it's doing to you", "I'll look into what it means for you") and none says the player voted on another state's law ("I voted the way I thought was right for {place}"): those lines exclude the facts.
 
 The played case is `circumstance.test.ts` at seed 93ab4181. On this machine one run of the whole file passed 100 minutes without finishing (the merger saw the same), so the played check is CI's unit job.

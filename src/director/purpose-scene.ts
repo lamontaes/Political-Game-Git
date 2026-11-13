@@ -265,6 +265,20 @@ export function lawReachFacts(
   cite: { law: string[]; home: string[] },
 ): Record<string, Fact> {
   if (!row) return {};
+  // Another state's law does not reach the reader, in force or not: said by
+  // that state and the reader's own, never by a date that would sound as if
+  // it will.
+  const there = row.jurisdiction?.startsWith(STATE_KEY_PREFIX)
+    ? coreStateName(row.jurisdiction.slice(STATE_KEY_PREFIX.length))
+    : null;
+  const here = homeStateKey
+    ? coreStateName(homeStateKey.slice(STATE_KEY_PREFIX.length))
+    : null;
+  if (there && here && row.jurisdiction !== homeStateKey)
+    return {
+      lawstate: { text: stateInSentence(there), sourceRecordIds: cite.law },
+      homestate: { text: stateInSentence(here), sourceRecordIds: cite.home },
+    };
   if (row.effectiveDate && row.effectiveDate > today)
     return {
       effective: {
@@ -272,20 +286,7 @@ export function lawReachFacts(
         sourceRecordIds: cite.law,
       },
     };
-  if (
-    !row.jurisdiction?.startsWith(STATE_KEY_PREFIX) ||
-    !homeStateKey ||
-    homeStateKey === row.jurisdiction
-  )
-    return {};
-  const there = coreStateName(row.jurisdiction.slice(STATE_KEY_PREFIX.length));
-  const here = coreStateName(homeStateKey.slice(STATE_KEY_PREFIX.length));
-  return there && here
-    ? {
-        lawstate: { text: stateInSentence(there), sourceRecordIds: cite.law },
-        homestate: { text: stateInSentence(here), sourceRecordIds: cite.home },
-      }
-    : {};
+  return {};
 }
 
 /** The state a person lives in (`US-IL`), from their place's record or, for someone placed only at their state's level, the state's own id. */

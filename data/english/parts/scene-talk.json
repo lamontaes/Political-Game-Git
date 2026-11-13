@@ -79649,10 +79649,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.nothing-changes-before-effective-but-i-read-about-law",
+      "key": "scene-talk.state-tell.law-changes-nothing-before-effective",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "Nothing changes before {effective}, but I read about {law}.",
+      "text": "{law} changes nothing before {effective}.",
       "uses": [
         {
           "subject": "scene",
@@ -79699,10 +79699,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.it-s-a-lawstate-law-so-it-changes-nothing-here",
+      "key": "scene-talk.state-tell.that-changes-things-in-lawstate-not-in-homestate",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "It's a {lawstate} law, so it changes nothing here.",
+      "text": "That changes things in {lawstate}, not in {homestate}.",
       "uses": [
         {
           "subject": "scene",
@@ -79711,7 +79711,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["lawstate"]
+          "requiresFacts": ["lawstate", "homestate"]
         }
       ],
       "bearing": "guarded",
@@ -79760,7 +79760,8 @@
           "key": "news-received",
           "step": "reply",
           "move": "tell",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["lawstate"]
         }
       ],
       "bearing": "calm",
@@ -79784,7 +79785,8 @@
           "key": "news-received",
           "step": "reply",
           "move": "tell",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["lawstate"]
         }
       ],
       "bearing": "contrite",
@@ -79808,7 +79810,8 @@
           "key": "news-received",
           "step": "reply",
           "move": "promise",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["effective", "lawstate"]
         }
       ],
       "bearing": "calm",
@@ -79832,7 +79835,8 @@
           "key": "news-received",
           "step": "reply",
           "move": "promise",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["lawstate"]
         }
       ],
       "bearing": "tender",
@@ -79906,7 +79910,8 @@
           "key": "news-received",
           "step": "follow",
           "move": "disagree",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["lawstate"]
         }
       ],
       "bearing": "hurt",
