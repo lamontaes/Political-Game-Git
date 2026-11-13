@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-follows-the-line-before",
   "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line (A) was just said by one person and the second (B) is the other person's reply. Words in {braces} stand for a name, a place or a number. Each pair also names its scene: what the whole conversation is about (for example \"conflict accuse\", \"floor switch\", \"family loss\"). Earlier lines of the scene are not shown. B may refer to the scene's own subject (the bill, the vote, the firm, the loss) even when A does not repeat it; that alone is never a reason to say B does not follow.\n\nFor each pair, do this in order:\n1. Say to yourself what A does: asks something (what?), offers something (what?), states something (what?), agrees to something, thanks, refuses, or says it is leaving.\n2. Find what B reacts to. B's main point is the thing it answers, agrees with, thanks for, pushes back on, promises, or asks about. Look for that thing in A.\n3. B FOLLOWS when that thing is in A: a real person could say B right after hearing A, and a listener would know what B is responding to. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to A.\n4. B does NOT follow when any of these is true:\n   - B answers a question A did not ask, or acts as if A had told a story, made a case, made an offer, given a plan or apologized when A did not;\n   - A asked a direct question or made a direct request and B neither answers it, refuses it, nor visibly dodges it;\n   - B agrees or disagrees with, or thanks A for, something A did not say;\n   - B leans on \"it\", \"that\", \"them\", \"the third\" or the like and A gives nothing it could mean;\n   - A already did the thing B asks for (A gave the plan and B asks what the plan is; A said yes and B treats it as a no; A has not told the story yet and B asks whether that is all of it);\n   - B's tone answers a different situation (A agrees warmly and B shrugs it off as if overruled).\n5. Do not judge whether either line is well written, only whether B follows A. Do not give B the benefit of an imagined earlier conversation: only A was said. If a listener would have to guess what B refers to, it does not follow.\n\nExamples that do NOT follow:\n- A: \"Give me a minute. I'll explain how it happened.\" B: \"And that's everything?\" (A has not explained anything yet.)\n- A: \"I'll call the landlord tomorrow and set up a payment by Friday.\" B: \"Sorry isn't enough. What's your plan?\" (A just gave the plan and did not say sorry.)\n- A: \"Count me in. I'll tell them tonight.\" B: \"Have it your way.\" (B answers a refusal, and A agreed.)\n- A: \"We open at nine on Saturdays.\" B: \"I never said that about your brother.\" (Nothing in A is about a brother or a claim.)\nExamples that DO follow:\n- A: \"Would you sign my petition?\" B: \"I don't really follow local politics.\" (A dodge a listener understands.)\n- A: \"You can't avoid me forever.\" B: \"I've said all I'm going to say.\"\n- A: \"I need your vote on this.\" B: \"What's in it for my district?\"",
-  "judged": 3423,
+  "judged": 3532,
   "no": {
     "005r70dinlx": {
       "keys": [
@@ -39,13 +39,6 @@
       ],
       "why": "A only says you're welcome; B refers to Friday with nothing to mean it."
     },
-    "04qttiyvz5v": {
-      "keys": [
-        "scene-talk.reply-leave.i-can-t-decide-this-right-now",
-        "scene-talk.close-accept.best-of-luck-to-you"
-      ],
-      "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
-    },
     "07nhc2mdyc8": {
       "keys": [
         "scene-talk.reply-request.would-you-take-child-on-the-nights-i-m-at-the-meetings-i-ll-take-the-weekends",
@@ -59,6 +52,13 @@
         "scene-talk.follow-press.taken.sorry-doesn-t-tell-me-who-else-was-involved-first"
       ],
       "why": "A did not apologize; B says sorry doesn't tell who was involved."
+    },
+    "08g5mhzj529": {
+      "keys": [
+        "scene-talk.reply-decline.not-now-okay",
+        "scene-talk.follow-press.i-ll-hold-you-to-that-which-is-it-summer-school-or-the-test"
+      ],
+      "why": "A refuses to talk, so B's 'I'll hold you to that' holds A to a promise A never made."
     },
     "08rqe3gbsml": {
       "keys": [
@@ -80,6 +80,13 @@
         "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything"
       ],
       "why": "Agrees and apologizes though A accused nothing and only said the prosecutor has the account."
+    },
+    "09x41l83utf": {
+      "keys": [
+        "scene-talk.state-comfort.im-not-angry-i-want-to-know-what-happened",
+        "scene-talk.reply-promise.i-ll-get-my-diploma-this-year-so-i-can-look-for-real-work"
+      ],
+      "why": "A asks directly what happened at school, and B makes a promise about finishing without answering, refusing or visibly dodging that question."
     },
     "09zfiao27u0": {
       "keys": [
@@ -144,13 +151,6 @@
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
-    "0fzpe4an0w1": {
-      "keys": [
-        "scene-talk.reply-leave.let-me-call-you-back",
-        "scene-talk.close-accept.okay-i-hope-something-good-comes-your-way"
-      ],
-      "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
-    },
     "0gi5qgw614k": {
       "keys": [
         "scene-talk.follow-press.what-would-change-it",
@@ -178,6 +178,13 @@
         "scene-talk.follow-ask.taken.who-else-knew-first"
       ],
       "why": "'Who else knew?' has no link to A's rule-and-vote reason."
+    },
+    "0hte04q2t1z": {
+      "keys": [
+        "scene-talk.follow-press.good-then-let-s-write-down-when-so-it-doesn-t-slide-again",
+        "scene-talk.reply-promise.i-m-going-to-finish-school-i-don-t-want-this-following-me"
+      ],
+      "why": "A asks to write down when, and B restates the intent to finish without giving a time, refusing or visibly dodging."
     },
     "0i8e0laa1yw": {
       "keys": [
@@ -249,13 +256,6 @@
       ],
       "why": "A's 'I will' gives B's 'We're voting' nothing to answer."
     },
-    "0o2wzkbdm3l": {
-      "keys": [
-        "scene-talk.reply-leave.i-can-t-decide-this-right-now",
-        "scene-talk.close-accept.okay-i-hope-something-good-comes-your-way"
-      ],
-      "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
-    },
     "0ob72df98dw": {
       "keys": [
         "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
@@ -276,6 +276,13 @@
         "scene-talk.reply-agree.you-re-right-i-ll-get-it-done"
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
+    "0pkv7mkjmq8": {
+      "keys": [
+        "scene-talk.follow-press.i-ll-hold-you-to-that-which-is-it-summer-school-or-the-test",
+        "scene-talk.reply-promise.i-ll-get-my-diploma-this-year-so-i-can-look-for-real-work"
+      ],
+      "why": "A asks summer school or the test, and B answers 'this year' without choosing, refusing or visibly dodging the choice."
     },
     "0pv0hl3ta0e": {
       "keys": [
@@ -396,6 +403,13 @@
       ],
       "why": "A already gave the plan; B asks what they will do differently."
     },
+    "0zbremw5zlo": {
+      "keys": [
+        "scene-talk.reply-decline.i-dont-want-to-talk-about-it",
+        "scene-talk.follow-press.i-ll-hold-you-to-that-which-is-it-summer-school-or-the-test"
+      ],
+      "why": "A refuses to talk, so B's 'I'll hold you to that' holds A to a promise A never made."
+    },
     "0ziyadppdnx": {
       "keys": [
         "scene-talk.follow-press.then-tell-us-who-on-the-council-would-listen",
@@ -424,6 +438,13 @@
       ],
       "why": "The reply disagrees with something the line before never claimed."
     },
+    "1166tct8hsb": {
+      "keys": [
+        "scene-talk.reply-promise.ill-finish-summer-school-or-the-equivalency-test",
+        "scene-talk.follow-press.we-have-to-talk-about-your-diploma-without-it-most-jobs-won-t-look-at-you"
+      ],
+      "why": "A has just promised to finish, so B's 'We have to talk about your diploma' presses as if A had not already given the plan."
+    },
     "11rgn4pordv": {
       "keys": [
         "scene-talk.reply-bargain.then-make-it-worth-something-what-s-on-the-table",
@@ -438,6 +459,13 @@
       ],
       "why": "A never said B brings up the past; B answers a claim not made."
     },
+    "13pyqa79zm8": {
+      "keys": [
+        "scene-talk.reply-promise.i-m-going-to-finish-school-i-don-t-want-this-following-me",
+        "scene-talk.follow-press.we-have-to-talk-about-your-diploma-without-it-most-jobs-won-t-look-at-you"
+      ],
+      "why": "A has just promised to finish, so B's 'We have to talk about your diploma' presses as if A had not already given the plan."
+    },
     "142jeqe18nd": {
       "keys": [
         "scene-talk.follow-press.is-there-something-i-can-fix-i-d-like-to-understand",
@@ -451,6 +479,13 @@
         "scene-talk.follow-ask.then-why-vote-at-all"
       ],
       "why": "A offers to tell how it went; B asks why vote at all."
+    },
+    "15e7a8k7ys3": {
+      "keys": [
+        "scene-talk.reply-decline.even-listening-says-something-from-someone-in-my-seat",
+        "scene-talk.follow-accept.okay-thanks-for-hearing-me-out-on-cause"
+      ],
+      "why": "A says that even listening is too much for someone in their seat, and B thanks them for hearing it out, the very thing A just said it will not do."
     },
     "15tak2w8b5h": {
       "keys": [
@@ -500,13 +535,6 @@
         "scene-talk.follow-press.sorry-doesn-t-cost-anything-in-a-parking-lot-say-it-inside"
       ],
       "why": "A agreed to apologize in public; B treats it as a parking-lot apology."
-    },
-    "1be12c5o9mw": {
-      "keys": [
-        "scene-talk.reply-leave.let-me-call-you-back",
-        "scene-talk.close-accept.best-of-luck-to-you"
-      ],
-      "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
     },
     "1c61qwtv5v6": {
       "keys": [
@@ -599,12 +627,33 @@
       ],
       "why": "The reply accepts phone calls, but the line before only said how long a talk lasts."
     },
+    "1i5gtes81xd": {
+      "keys": [
+        "scene-talk.follow-press.good-then-let-s-write-down-when-so-it-doesn-t-slide-again",
+        "scene-talk.reply-promise.ill-finish-summer-school-or-the-equivalency-test"
+      ],
+      "why": "A asks to write down when, and B repeats the two routes without giving a time, refusing or visibly dodging."
+    },
+    "1i62m7qh1pv": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-get-my-diploma-this-year-so-i-can-look-for-real-work",
+        "scene-talk.follow-press.we-have-to-talk-about-your-diploma-without-it-most-jobs-won-t-look-at-you"
+      ],
+      "why": "A has just promised to finish, so B's 'We have to talk about your diploma' presses as if A had not already given the plan."
+    },
     "1iqfvz8ehzw": {
       "keys": [
         "scene-talk.follow-answer.exactly-what-i-told-you-wait-and-work",
         "scene-talk.reply-thank.funerals-all-right-i-own-a-black-suit"
       ],
       "why": "Funerals appear nowhere in A"
+    },
+    "1iwwtan0hty": {
+      "keys": [
+        "scene-talk.state-comfort.im-not-angry-i-want-to-know-what-happened",
+        "scene-talk.reply-promise.i-m-going-to-finish-school-i-don-t-want-this-following-me"
+      ],
+      "why": "A asks directly what happened at school, and B makes a promise about finishing without answering, refusing or visibly dodging that question."
     },
     "1j6lk0hhuag": {
       "keys": [
@@ -619,6 +668,13 @@
         "scene-talk.close-accept.then-we-ll-each-answer-for-our-own-vote"
       ],
       "why": "Nothing in A about voting or answering for votes."
+    },
+    "1l9qfvv3vnl": {
+      "keys": [
+        "scene-talk.reply-decline.i-dont-want-to-talk-about-it",
+        "scene-talk.follow-press.good-then-let-s-write-down-when-so-it-doesn-t-slide-again"
+      ],
+      "why": "A refuses to talk, so B's 'Good. Then let's write down when' answers a promise A never made."
     },
     "1lwsh0goh9f": {
       "keys": [
@@ -704,6 +760,13 @@
       ],
       "why": "A only says \"I will\"; stepping out is unprompted"
     },
+    "1s3c4oyuq9k": {
+      "keys": [
+        "scene-talk.reply-leave.i-m-sorry-i-can-t-get-into-this-right-now",
+        "scene-talk.close-thank.i-m-glad-i-asked-you-about-story"
+      ],
+      "why": "A refuses to get into the story right now, and B's 'I'm glad I asked you' answers as if the talk had gone well, a tone that fits a different situation."
+    },
     "1sf94tox9vo": {
       "keys": [
         "scene-talk.follow-press.is-there-something-i-can-fix-i-d-like-to-understand",
@@ -774,6 +837,13 @@
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
+    "1x45fiotz9y": {
+      "keys": [
+        "scene-talk.reply-promise.i-m-going-to-finish-school-i-don-t-want-this-following-me",
+        "scene-talk.follow-press.you-can-t-just-leave-it-every-year-you-wait-makes-it-harder-to-go-back"
+      ],
+      "why": "A has just promised to finish, so B's 'You can't just leave it' treats A as putting it off when A said the opposite."
+    },
     "1xc0e6ufwrn": {
       "keys": [
         "scene-talk.reply-agree.i-m-with-you-tell-me-when",
@@ -788,19 +858,19 @@
       ],
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     },
+    "1z39hey75kg": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-get-my-diploma-this-year-so-i-can-look-for-real-work",
+        "scene-talk.follow-press.you-can-t-just-leave-it-every-year-you-wait-makes-it-harder-to-go-back"
+      ],
+      "why": "A has just promised to finish, so B's 'You can't just leave it' treats A as putting it off when A said the opposite."
+    },
     "1zr7pc4slpb": {
       "keys": [
         "scene-talk.follow-press.so-why-isn-t-anyone-doing-anything-about-story-we-re-the-ones-who-live-with-it",
         "scene-talk.reply-disagree.i-read-it-twice-i-still-don-t-buy-it"
       ],
       "why": "A asked why nobody acts; B answers about having read a piece and disagreeing, which A did not raise."
-    },
-    "20nlb7s0urv": {
-      "keys": [
-        "scene-talk.reply-leave.let-me-call-you-back",
-        "scene-talk.close-accept.i-understand-take-care-of-yourself"
-      ],
-      "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
     },
     "20uy4ulhzpe": {
       "keys": [
@@ -879,6 +949,20 @@
       ],
       "why": "The reply picks a job from a list the line before never gave."
     },
+    "2753r22gxtt": {
+      "keys": [
+        "scene-talk.reply-promise.ill-finish-summer-school-or-the-equivalency-test",
+        "scene-talk.follow-press.you-can-t-just-leave-it-every-year-you-wait-makes-it-harder-to-go-back"
+      ],
+      "why": "A has just promised to finish, so B's 'You can't just leave it' treats A as putting it off when A said the opposite."
+    },
+    "28g5oqw64yc": {
+      "keys": [
+        "scene-talk.reply-decline.not-now-okay",
+        "scene-talk.follow-press.good-then-let-s-write-down-when-so-it-doesn-t-slide-again"
+      ],
+      "why": "A refuses to talk, so B's 'Good. Then let's write down when' answers a promise A never made."
+    },
     "28hkgoc5y65": {
       "keys": [
         "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
@@ -886,19 +970,19 @@
       ],
       "why": "A asks how it won't recur and says sorry helped; B just apologizes first time."
     },
-    "29e6o7o0wgc": {
-      "keys": [
-        "scene-talk.reply-leave.i-can-t-decide-this-right-now",
-        "scene-talk.close-accept.i-understand-take-care-of-yourself"
-      ],
-      "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
-    },
     "29kwxhoqov6": {
       "keys": [
         "scene-talk.follow-press.hearsay.that-s-not-enough-first-someone-told-me-otherwise",
         "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor"
       ],
       "why": "A never mentions a prosecutor or going to one."
+    },
+    "29r9yy5vx97": {
+      "keys": [
+        "scene-talk.follow-press.i-ll-hold-you-to-that-which-is-it-summer-school-or-the-test",
+        "scene-talk.reply-promise.ill-finish-summer-school-or-the-equivalency-test"
+      ],
+      "why": "A asks which of the two it is, and B names both again, so the direct question goes unanswered and undodged."
     },
     "2agljwb7pq2": {
       "keys": [
@@ -985,5 +1069,5 @@
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     }
   },
-  "yesHash": "0e5yde3grek"
+  "yesHash": "13hnpsdzhp5"
 }
