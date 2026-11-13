@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: opus-lr
-pr:
+pr: #8973
 after: core-life-record-part-6-the-past-holds-what-happened-between-people
 blocked-on:
 lead: lives
