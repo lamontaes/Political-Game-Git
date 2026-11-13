@@ -44,6 +44,7 @@ import {
   strongestQuestion,
   viewKey,
   viewRecordId,
+  viewSubjectOf,
   viewTopicWeight,
   viewWillingness,
 } from "./view-learned";
@@ -144,6 +145,10 @@ it(`a close, outgoing person says where they stand and the card learns it; a str
         "You don't know where they stand yet.",
       );
       expect(api.knows(me, viewKey(id)), where).toBeUndefined();
+      // The question their stand is on, read before they say it: the
+      // strongest one their own life gives a reason for, else their
+      // strongest (words composer, Nov 12; the own-view test below).
+      const stand = viewSubjectOf(core, id, me)?.strongest;
       // Changed (lead, Nov 12): the stand's cause is staged first.
       stageNews(core, id);
       const talk = openConversation(core, me, id, { director });
@@ -190,8 +195,11 @@ it(`a close, outgoing person says where they stand and the card learns it; a str
       const after = knownCard(core, me, id);
       expect(after.viewUnknown, where).toBe(false);
       expect(after.view, where).toBeTruthy();
-      // They named the question they care most about, and the card names it.
-      const top = strongestQuestion(api, id);
+      // They named the question their stand is on, and the card names it
+      // (Monomoscoy Island, Massachusetts, fixer round 5 of #8879: a price
+      // on carbon was their strongest, the minimum wage the one their job
+      // gives them a reason for, and the one they said).
+      const top = stand;
       if (top) {
         expect(line.text, where).toContain(top.about);
         expect(after.viewAbout, where).toBe(top.about);
