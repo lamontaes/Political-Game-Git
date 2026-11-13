@@ -68,6 +68,11 @@
       "read": 12,
       "breaks": 1,
       "per100": 8.3
+    },
+    "condition-said-once": {
+      "read": 9,
+      "breaks": 0,
+      "per100": 0
     }
   }
 }

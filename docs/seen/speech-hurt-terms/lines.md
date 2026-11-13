@@ -1,6 +1,6 @@
 # A hurt address answers its own bad news: six addresses as played
 
-Each address is composed by `composeLocalAddress` in the place drawn from the seed, in a bad term: the outcome web's rows for the town written as the local-address test writes them (schools down 15 percent, crime up 20 percent, rents up 30 percent over the term). Before is the parent branch (#8878, 6cbb1e6b7b); after is this branch. The probe is the test's own fixture; each paragraph below is one Continue as the player reads it. Nothing drawn changes, so there are no pictures.
+Each address is composed by `composeLocalAddress` in the place drawn from the seed, in a bad term: the outcome web's rows for the town written as the local-address test writes them (schools down 15 percent, crime up 20 percent, rents up 30 percent over the term). Before is the parent branch as it was (#8878, 6cbb1e6b7b); after is this branch with the parent's head 5387762cf8 merged in, where a condition is also said once in its paragraph. Each paragraph below is one Continue as the player reads it. Nothing drawn changes, so there are no pictures.
 
 ## Leonidas, Minnesota (2736530): governor, seed 3e3eadd3c195b50d
 
@@ -46,7 +46,7 @@ Address kind: crisis. Theme: housing. Worst condition: crime. Answer: {"question
 >
 > In the 6 years since I took this office, crime has risen, and people have felt less safe in their own neighborhoods. Over 6 years, that has meant parents worrying a little more each time their children walk out the door. I believe justice means the same treatment for the rich and the poor. Today, a complaint against an officer stays inside the department. I will ask the council to give civilians oversight of the police, and I will not let it rest.
 >
-> There is other work before us as well, and it is the cost of a place to live. As we meet tonight, a landlord can raise the rent as much as they like when the lease runs out. In the 6 years since I took this office, rents have kept rising, and too many families spend too much of each month on them. Over 6 years, that has meant giving more of every paycheck to the landlord and keeping less for everything else. Rent takes a larger share of every paycheck than 6 years ago, and for many families the lease is the first bill and the last worry. No one should have to live through 6 more years of that. Because I believe a family shouldn't lose its home because the rent jumped, I am for rent stabilization, and I ask the council to limit how much rents can rise this year.
+> There is other work before us as well, and it is the cost of a place to live. As we meet tonight, a landlord can raise the rent as much as they like when the lease runs out. In the 6 years since I took this office, rents have kept rising, and too many families spend too much of each month on them. Over 6 years, that has meant giving more of every paycheck to the landlord and keeping less for everything else. No one should have to live through 6 more years of that. Because I believe a family shouldn't lose its home because the rent jumped, I am for rent stabilization, and I ask the council to limit how much rents can rise this year.
 >
 > Should we go on like this, when new apartments rent at prices most working families can't touch? Because I hold that everybody deserves a safe place to live that they can afford, I will ask the council to require affordable units in new buildings, and I will not let it rest.
 >
@@ -154,4 +154,4 @@ Address kind: combative. Theme: justice. Worst condition: crime. Answer: {"quest
 >
 > Why fix what works, when a complaint goes up the chain of command, to people who know the work? Because I've always thought we back the folks who keep our streets safe, I'm against civilian oversight of the police, and I'll ask the board to vote it down.
 >
-> So let's give the police department more to work with, and then our officers are covering more calls than there are officers to answer them. Thanks, Berwick.
+> So let's give the police department more to work with, on top of about $342,000 a year, and then our officers are covering more calls than there are officers to answer them. Thanks, Berwick.
