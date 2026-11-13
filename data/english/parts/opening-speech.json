@@ -118957,17 +118957,6 @@
             "theme-short",
             "realm-name"
           ]
-        },
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": [
-            "first-side",
-            "theme-short",
-            "realm-name"
-          ]
         }
       ],
       "voice": "polished",
@@ -118985,17 +118974,6 @@
         {
           "move": "close",
           "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": [
-            "first-side",
-            "theme-short",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "close",
-          "subject": "town-address",
           "role": "close",
           "choice": "close",
           "requiresFacts": [
@@ -119868,6 +119846,56 @@
       "origin": "authored",
       "author": "Words builder, hurt terms (Claude Code)",
       "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-twn-on-theme-short-i-ask-body-name",
+      "move": "close",
+      "kind": "spoken",
+      "text": "On {theme-short}, I ask {body-name} to {first-side}. Thank you, and good night, {realm-name}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side",
+            "theme-short",
+            "realm-name",
+            "body-name"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "opening-speech.close.plain-twn-on-theme-short-im-asking-body-name",
+      "move": "close",
+      "kind": "spoken",
+      "text": "On {theme-short}, I'm asking {body-name} to {first-side}. Thanks, {realm-name}, and good night.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side",
+            "theme-short",
+            "realm-name",
+            "body-name"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
+      "date": "2026-11-13"
     }
   ]
 }
