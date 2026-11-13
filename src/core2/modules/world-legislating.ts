@@ -2376,17 +2376,18 @@ function scheduleMeeting(
     meetings.remove(officeId);
     return;
   }
+  const eve = addDays(makeIsoDate(next.date), -1);
+  const early = eve > api.state.date;
   meetings.put({
     id: officeId,
     date: next.date,
+    filesOn: early ? eve : next.date,
     source: next.rule.source,
   } as unknown as ModuleRow);
   // The filing is decided on the eve, whoever holds the seat by then: a body
   // the player sits on files that day, so the bills are on the meeting's
   // agenda while its stop can still come; any other body's filing moves on
   // to the meeting day itself (`localMeeting`).
-  const eve = addDays(makeIsoDate(next.date), -1);
-  const early = eve > api.state.date;
   api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
     key: `local-meeting:${officeId}:${next.date}`,
     date: early ? eve : next.date,
@@ -2394,6 +2395,27 @@ function scheduleMeeting(
     source: next.rule.source,
     sourceRecordIds: [officeId, next.date],
   });
+}
+
+/**
+ * Whether a body's coming meeting has its agenda filed the day before. Only a
+ * meeting set with under a day's notice (the first after a world begins,
+ * when it falls on the next day) files on its own day.
+ */
+export function filesAhead(
+  api: CoreAPI,
+  officeId: string,
+  meetingDate: string,
+): boolean {
+  const next = api
+    .moduleState(WORLD_LEGISLATING_MODULE_ID)
+    .table("nextMeetings")
+    .get(officeId) as unknown as { date: string; filesOn?: string } | undefined;
+  return (
+    next?.date === meetingDate &&
+    next.filesOn !== undefined &&
+    next.filesOn < meetingDate
+  );
 }
 
 /** One sitting's record: its floor time and every bill it took up. */

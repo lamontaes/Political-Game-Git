@@ -5,10 +5,10 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/project-thread-3t5gn4
+pr: 9022
 after:
 blocked-on:
 lead: governing

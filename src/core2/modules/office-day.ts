@@ -61,7 +61,11 @@ import {
   type BillRow,
   type DeskAction,
 } from "./legislature";
-import { registerMeetingHold, voteAtMeeting } from "./world-legislating";
+import {
+  filesAhead,
+  registerMeetingHold,
+  voteAtMeeting,
+} from "./world-legislating";
 import {
   nextMeeting as nextOnRule,
   bodyPopulation,
@@ -133,6 +137,8 @@ export interface MeetingRow {
    * held at its hour like a member, to speak at public comment and not to vote.
    */
   readonly audience?: string;
+  /** The members' filings for this meeting are on its agenda (an empty agenda is posted too). */
+  readonly posted?: boolean;
   readonly citation: string;
 }
 
@@ -480,7 +486,10 @@ export function meetingToAttend(
     row.status !== "scheduled" ||
     snapshotExplicitControlV1(api.state).personId !== player ||
     members(api, officeId).some(sits(player)) ||
-    hourReached(api, row, player)
+    hourReached(api, row, player) ||
+    // A meeting whose agenda is filed only on its own day has nothing to show
+    // a resident at its hour: it is not offered.
+    !(row.posted || filesAhead(api, officeId, date))
   )
     return null;
   return {
@@ -913,6 +922,7 @@ function placeFiled(
     } as unknown as ModuleRow);
   const placed: MeetingRow = {
     ...row,
+    posted: true,
     // In filing order, as an unheld meeting takes them.
     agenda: [...new Set([...row.agenda, ...billIds])],
   };

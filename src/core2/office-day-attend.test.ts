@@ -25,6 +25,7 @@ import {
   type BillRow,
 } from "./modules/legislature";
 import { remarksOn } from "./modules/meetings";
+import { filesAhead } from "./modules/world-legislating";
 import {
   adjourn,
   attendMeeting,
@@ -256,6 +257,40 @@ it("a mark taken back holds nobody, and a meeting whose hour has come cannot be 
   }
   expect(checked, `${where}: meetings passed`).toBeGreaterThan(0);
   console.log(`resident-unmarks ${where}: ${checked} unmarked meetings passed`);
+}, 3_600_000);
+
+it("a meeting whose agenda is filed only on its own day is not offered to a resident", () => {
+  // The first meeting after a world begins, when it falls on the next day,
+  // has under a day's notice: its members file on the day, after the hour a
+  // resident would be in the room. Places are drawn until one has such a meeting.
+  const passedOver: string[] = [];
+  for (let draw = 0; draw < 6; draw += 1) {
+    const place = drawPlace(`${seed}:${draw}`, "short-notice");
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    console.log(`short-notice builds ${where}`);
+    const { core, api } = open(place.seed, place.key);
+    const short = localBodies(api).flatMap((officeId) => {
+      const next = upcomingMeeting(api, officeId);
+      return next && !filesAhead(api, officeId, next.date)
+        ? [{ officeId, date: next.date }]
+        : [];
+    });
+    if (!short.length) {
+      passedOver.push(where);
+      continue;
+    }
+    for (const { officeId, date } of short) {
+      expect(meetingToAttend(api, officeId, date), where).toBeNull();
+      expect(() => attendMeeting(api, officeId, date, true), where).toThrow();
+    }
+    console.log(
+      `short-notice ${where}: ${short.length} meetings on ${short.map((m) => m.date).join(", ")} not offered on ${core.date}`,
+    );
+    return;
+  }
+  throw new Error(
+    `no drawn place had a meeting with under a day's notice; passed over: ${passedOver.join("; ")}`,
+  );
 }, 3_600_000);
 
 /** Every bill of the town's own bodies that was decided, with each member's vote. */
