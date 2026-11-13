@@ -5,11 +5,11 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
-after: elections-at-large-count-disagrees-with-per-seat-filing-and-ballot
+claimed-by: claude/project-thread-79vfwq
+pr: #9050
+after:
 blocked-on:
 lead: words
 model: opus
@@ -33,3 +33,5 @@ source: added with npm run pool -- add
 **Waits on.** elections-at-large-count-disagrees-with-per-seat-filing-and-ballot: the count seated the player (top three of a pooled four-name race), which is likely why the winner's call played; re-check after it.
 
 **Files.** src/director/data/situation-types.json
+
+**Notes (Account lead T20, Nov 13).** Cause traced: in a vote-for-N race `holdElection` (src/core2/modules/voting.ts) wrote one election-result per seat and every one named the whole field, so each winner was remembered "elected" once and "lost" on every other seat's record, and the director's `opponent` role (civic-roles.ts) cast the top finisher other than the subject, another winner, as the caller. Replayed on main 48296b91: Dandridge TN (4719380, world seed 619f499e…8237), 3 council seats, each winner elected 1 and lost 2; Newport East RI (4450140, world seed t20:4450140), 5 board seats, elected 1 and lost 4. The single-seat match was right; the record was wrong. Fix on branch claude/project-thread-79vfwq: each seat's record names only its winner (those who missed the cut once, on the race's first seat's), every record carries `outIds`, `race` and `seats`, and the caller, the winner's "lead", the paper's opponent and the results screen read who missed the cut.

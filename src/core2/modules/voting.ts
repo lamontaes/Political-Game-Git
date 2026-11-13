@@ -3051,6 +3051,62 @@ export function winningPersonId(api: CoreAPI, candidateId: string): string {
 }
 
 /**
+ * Who an at-large race's count put inside its seats: the top finishers, as
+ * many as there are seats with a candidate ranked, each above the next, and
+ * the names tied across the last seat (the place's tie law decides those).
+ * Everyone else on the ballot missed the cut. With one seat, the cut is the
+ * first finisher, or the names tied for first.
+ */
+function atLargeCut(
+  ranked: readonly (readonly [string, number])[],
+  seats: number,
+): { top: string[]; straddled: string[] } {
+  const live = ranked.filter(([, votes]) => votes > 0);
+  const top: string[] = [];
+  let straddled: string[] = [];
+  for (const [n, [id, votes]] of live.entries()) {
+    if (top.length >= seats) break;
+    // A tie straddling the last seat decides none of the tied by the count.
+    const next = live[n + 1];
+    if (top.length === seats - 1 && next && next[1] === votes) {
+      straddled = live.filter(([, v]) => v === votes).map(([tied]) => tied);
+      break;
+    }
+    top.push(id);
+  }
+  return { top, straddled };
+}
+
+/**
+ * The candidate a race's winner beat: the first finisher among those who
+ * missed the cut, by the result record's `outIds` and `totals` (in an
+ * at-large race the other winners are not beaten, they were seated too). A
+ * record kept before `outIds` reads everyone but the winner. Ties go by id.
+ */
+export function beatenRunnerUp(
+  facts: Readonly<Record<string, unknown>> | undefined,
+  winnerId: string,
+): { id: string; votes: number } | null {
+  const totals = parseTally(facts?.totals);
+  const out = facts?.outIds
+    ? (JSON.parse(String(facts.outIds)) as string[])
+    : Object.keys(totals).filter((id) => id !== winnerId);
+  const best = out
+    .filter((id) => id !== winnerId)
+    .map((id) => ({ id, votes: totals[id] ?? 0 }))
+    .sort((a, b) => b.votes - a.votes || a.id.localeCompare(b.id))[0];
+  return best ?? null;
+}
+
+function parseTally(raw: unknown): Record<string, number> {
+  try {
+    return JSON.parse(String(raw ?? "{}")) as Record<string, number>;
+  } catch {
+    return {};
+  }
+}
+
+/**
  * The winner an at-large race gives one of its seats: the top finishers, as
  * many as there are seats with a candidate ranked, each above the next; a
  * holder among them keeps their own seat, and the rest take the other seats
@@ -3065,22 +3121,8 @@ function atLargeWinner(
   ranked: readonly (readonly [string, number])[],
   electorate?: number,
 ): string | null {
-  const live = ranked.filter(([, votes]) => votes > 0);
   const seats = group.length;
-  const top: string[] = [];
-  // The names tied across the last seat, when a tie straddles it.
-  let straddled: string[] = [];
-  for (const [n, [id, votes]] of live.entries()) {
-    if (top.length >= seats) break;
-    // A tie straddling the last seat decides none of the tied by the count:
-    // the place's tie law decides it below, as for a single seat.
-    const next = live[n + 1];
-    if (top.length === seats - 1 && next && next[1] === votes) {
-      straddled = live.filter(([, v]) => v === votes).map(([tied]) => tied);
-      break;
-    }
-    top.push(id);
-  }
+  const { top, straddled } = atLargeCut(ranked, seats);
   const assigned = new Map<string, string>();
   const placed = new Set<string>();
   for (const row of group) {
@@ -3511,13 +3553,51 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   // mailed a ballot, who registered at the polls, and what the election's
   // administration cost the government that ran it.
   applyElectionLaws(api, "vote", electorateRoll(api), contestId);
+  // One race, one result every reader agrees on: those the count put inside
+  // the race's seats, and those who missed the cut (`outIds`, on every seat's
+  // record). A seat of an at-large race names its own winner, the names tied
+  // across the last seat where it is that seat, and those who missed the cut
+  // and filed for that seat (their campaign is that seat's): each candidate
+  // is named once, so nobody is both elected and beaten by one count.
+  // A tie across the last seat that this count settled (a lot, a vote of
+  // the body) leaves the other tied names out; one still to be settled (a
+  // second election) keeps them in the race.
+  const cut = atLargeCut(rankTotals(totals), seats);
+  const settledTie =
+    !!winnerCandidateId && cut.straddled.includes(winnerCandidateId);
+  const inside = new Set([
+    ...cut.top,
+    ...(settledTie ? [] : cut.straddled),
+    ...(winnerCandidateId ? [winnerCandidateId] : []),
+  ]);
+  const person = (id: string) => winningPersonId(api, id);
+  const missed = filings.filter((f) => !inside.has(f.personId));
+  const out = missed
+    .map((f) => person(f.personId))
+    .filter((id) => api.state.people.has(id))
+    .sort();
+  const undecided = !winnerCandidateId || settledTie;
+  const naming =
+    seats > 1
+      ? [
+          ...(winnerCandidateId ? [winnerCandidateId] : []),
+          ...(undecided ? cut.straddled : []),
+        ].map(person)
+      : filings.map((f) => person(f.personId));
   api.emit({
     id: `election-result:${contestId}`,
     date,
     kind: "election-result",
-    personIds: filings
-      .map((f) => winningPersonId(api, f.personId))
-      .filter((id) => api.state.people.has(id)),
+    personIds: [
+      ...new Set([
+        ...naming,
+        ...(seats > 1
+          ? missed
+              .filter((f) => f.contestId === contestId)
+              .map((f) => person(f.personId))
+          : []),
+      ]),
+    ].filter((id) => api.state.people.has(id)),
     placeId: townPlaceId,
     source: { tag: "SOURCED", citation: `Count of ${contestId}`, asOf: date },
     publicRecord: true,
@@ -3528,6 +3608,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       office: contest.title,
       winnerId: winnerId ?? "",
       totals: JSON.stringify(totals),
+      outIds: JSON.stringify(out),
+      // An at-large race: the race (its first seat's contest) and its seats.
+      ...(seats > 1 ? { race: counting.id, seats: String(seats) } : {}),
       ...mandateLean(api, winnerId),
       // A recount the margin opened, or the player's to ask for: the
       // election night scene and the paper read it by its id.
