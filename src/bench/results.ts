@@ -94,6 +94,13 @@ export function electionResults(core: CoreState, playerId: string) {
     const name = (id: string) => candidateName(api, id);
     const ballot = ballotOf(api, contest.id, playerId);
     const ran = playerId in result.totals;
+    // One race, one result: at large, the player won if the count seated
+    // them in any of the race's seats.
+    const won =
+      ran &&
+      atLargeGroup(api, contest).some(
+        (seat) => resultOf(api, seat.id)?.winnerId === playerId,
+      );
     out.push({
       contestId: contest.id,
       title: raceTitle(contest.title, contest.district),
@@ -101,7 +108,7 @@ export function electionResults(core: CoreState, playerId: string) {
       /** The seat's district, for wording the places counted in it. */
       district: contest.district ?? null,
       /** The player ran in it, and whether they won. */
-      mine: ran ? { won: result.winnerId === playerId } : null,
+      mine: ran ? { won } : null,
       candidates: Object.entries(result.totals)
         .map(([id, votes]) => ({
           id,

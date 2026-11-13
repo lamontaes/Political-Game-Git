@@ -20,7 +20,7 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
-import { ownRace } from "../bench/results";
+import { electionResults, ownRace } from "../bench/results";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -155,8 +155,20 @@ function checkRace(
           [],
         );
     }
-    // The race reads won on the screens whichever seat they filed for.
+    // The race reads won on the screens whichever seat they filed for, on
+    // election night as on the results screen; and with more than one name
+    // in the race, no seat of it is told as unopposed.
     expect(ownRace(core, id)?.won, `${who} own race`).toBe(seated);
+    for (const row of electionResults(core, id).filter((r) =>
+      race.some((c) => c.id === r.contestId),
+    )) {
+      expect(row.mine?.won, `${who} on election night, ${row.contestId}`).toBe(
+        seated,
+      );
+      expect(row.unopposed, `${row.contestId} told as unopposed`).toBe(
+        ranked.length === 1,
+      );
+    }
     lines.push(
       `${id} ${votes} ${seated ? "seated" : "out"} elected ${elected} lost ${lost}${callers.length ? ` caller ${callers[0]} (${totals[callers[0]!] ?? 0})` : ""}`,
     );
