@@ -64,7 +64,8 @@
     "yes": "Votes for, from the roll call.",
     "no": "Votes against, from the roll call.",
     "remove": "Votes to remove, from the recall vote's record.",
-    "keep": "Votes to keep, from the recall vote's record."
+    "keep": "Votes to keep, from the recall vote's record.",
+    "when": "When the acts were done, said as a season and its year, from the acts' dates."
   },
   "maxWords": 10,
   "mining": {
@@ -5510,7 +5511,7 @@
       "key": "journal.scene-line-favor-owed.i-owe-other-a-favor-now",
       "move": "scene-line-favor-owed",
       "kind": "spoken",
-      "text": "I owe {other} a favor now.",
+      "text": "I owed {other} a favor.",
       "uses": [
         {
           "move": "scene-line-favor-owed",
@@ -5536,7 +5537,7 @@
       "key": "journal.scene-line-favor-owed.other-came-through-for-me-i-won-t-forget-it",
       "move": "scene-line-favor-owed",
       "kind": "spoken",
-      "text": "{other} came through for me. I won't forget it.",
+      "text": "{other} came through for me.",
       "uses": [
         {
           "move": "scene-line-favor-owed",
@@ -6784,7 +6785,7 @@
       "key": "journal.office-line-petition.my-petition-came-back-with-valid-good-signatures-against-needed",
       "move": "office-line-petition",
       "kind": "spoken",
-      "text": "My petition came back with {valid} good signatures, against {needed}.",
+      "text": "My petition came back with {valid} good signatures of the {needed} I needed.",
       "uses": [
         {
           "move": "office-line-petition",
@@ -11249,6 +11250,554 @@
       ],
       "origin": "authored",
       "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run-when.the-winter-of-year",
+      "move": "memoir-act-run-when",
+      "kind": "spoken",
+      "text": "the winter of {year}",
+      "uses": [
+        {
+          "move": "memoir-act-run-when",
+          "subject": "office",
+          "role": "seasonWinter",
+          "choice": "the-winter-of-year",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "seasonWinter"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "when",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run-when.the-spring-of-year",
+      "move": "memoir-act-run-when",
+      "kind": "spoken",
+      "text": "the spring of {year}",
+      "uses": [
+        {
+          "move": "memoir-act-run-when",
+          "subject": "office",
+          "role": "seasonSpring",
+          "choice": "the-spring-of-year",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "seasonSpring"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "when",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run-when.the-summer-of-year",
+      "move": "memoir-act-run-when",
+      "kind": "spoken",
+      "text": "the summer of {year}",
+      "uses": [
+        {
+          "move": "memoir-act-run-when",
+          "subject": "office",
+          "role": "seasonSummer",
+          "choice": "the-summer-of-year",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "seasonSummer"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "when",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run-when.the-fall-of-year",
+      "move": "memoir-act-run-when",
+      "kind": "spoken",
+      "text": "the fall of {year}",
+      "uses": [
+        {
+          "move": "memoir-act-run-when",
+          "subject": "office",
+          "role": "seasonFall",
+          "choice": "the-fall-of-year",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "seasonFall"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "when",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run.in-when-i-cast-count-votes-on-the-body",
+      "move": "memoir-act-run",
+      "kind": "spoken",
+      "text": "In {when}, I cast {count} votes on the {body}.",
+      "uses": [
+        {
+          "move": "memoir-act-run",
+          "subject": "office",
+          "role": "actRunVote",
+          "choice": "in-when-i-cast-count-votes-on-the-body",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "actRunVote"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "run",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run.i-voted-count-times-on-the-body-in-when",
+      "move": "memoir-act-run",
+      "kind": "spoken",
+      "text": "I voted {count} times on the {body} in {when}.",
+      "uses": [
+        {
+          "move": "memoir-act-run",
+          "subject": "office",
+          "role": "actRunVote",
+          "choice": "i-voted-count-times-on-the-body-in-when",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "actRunVote"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "run",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run.in-when-i-cast-count-votes-on-the-body-m",
+      "move": "memoir-act-run",
+      "kind": "spoken",
+      "text": "In {when}, I cast {count} votes on the {body}, most on {topic}.",
+      "uses": [
+        {
+          "move": "memoir-act-run",
+          "subject": "office",
+          "role": "actRunVoteMost",
+          "choice": "in-when-i-cast-count-votes-on-the-body-m",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "actRunVoteMost"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "run",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run.i-voted-count-times-on-the-body-in-when",
+      "move": "memoir-act-run",
+      "kind": "spoken",
+      "text": "I voted {count} times on the {body} in {when}, mostly on {topic}.",
+      "uses": [
+        {
+          "move": "memoir-act-run",
+          "subject": "office",
+          "role": "actRunVoteMost",
+          "choice": "i-voted-count-times-on-the-body-in-when",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "actRunVoteMost"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "run",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run.in-when-i-cast-count-votes-on-the-body-a",
+      "move": "memoir-act-run",
+      "kind": "spoken",
+      "text": "In {when}, I cast {count} votes on the {body}, all on {topic}.",
+      "uses": [
+        {
+          "move": "memoir-act-run",
+          "subject": "office",
+          "role": "actRunVoteAll",
+          "choice": "in-when-i-cast-count-votes-on-the-body-a",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "actRunVoteAll"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "run",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run.i-voted-count-times-on-topic-in-when",
+      "move": "memoir-act-run",
+      "kind": "spoken",
+      "text": "I voted {count} times on {topic} in {when}.",
+      "uses": [
+        {
+          "move": "memoir-act-run",
+          "subject": "office",
+          "role": "actRunVoteAll",
+          "choice": "i-voted-count-times-on-topic-in-when",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "actRunVoteAll"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "run",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run.in-when-i-held-count-town-halls-in-place",
+      "move": "memoir-act-run",
+      "kind": "spoken",
+      "text": "In {when}, I held {count} town halls in {place}.",
+      "uses": [
+        {
+          "move": "memoir-act-run",
+          "subject": "office",
+          "role": "actRunTownHall",
+          "choice": "in-when-i-held-count-town-halls-in-place",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "actRunTownHall"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "run",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run.i-held-count-town-halls-in-place-in-when",
+      "move": "memoir-act-run",
+      "kind": "spoken",
+      "text": "I held {count} town halls in {place} in {when}.",
+      "uses": [
+        {
+          "move": "memoir-act-run",
+          "subject": "office",
+          "role": "actRunTownHall",
+          "choice": "i-held-count-town-halls-in-place-in-when",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "actRunTownHall"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "run",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run.in-when-i-gave-count-interviews",
+      "move": "memoir-act-run",
+      "kind": "spoken",
+      "text": "In {when}, I gave {count} interviews.",
+      "uses": [
+        {
+          "move": "memoir-act-run",
+          "subject": "office",
+          "role": "actRunInterview",
+          "choice": "in-when-i-gave-count-interviews",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "actRunInterview"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "run",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run.i-sat-down-with-reporters-count-times-in",
+      "move": "memoir-act-run",
+      "kind": "spoken",
+      "text": "I sat down with reporters {count} times in {when}.",
+      "uses": [
+        {
+          "move": "memoir-act-run",
+          "subject": "office",
+          "role": "actRunInterview",
+          "choice": "i-sat-down-with-reporters-count-times-in",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "actRunInterview"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "run",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run.in-when-i-gave-count-interviews-most-to",
+      "move": "memoir-act-run",
+      "kind": "spoken",
+      "text": "In {when}, I gave {count} interviews, most to {outlet}.",
+      "uses": [
+        {
+          "move": "memoir-act-run",
+          "subject": "office",
+          "role": "actRunInterviewMost",
+          "choice": "in-when-i-gave-count-interviews-most-to",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "actRunInterviewMost"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "run",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-act-run.i-gave-count-interviews-in-when-most-to",
+      "move": "memoir-act-run",
+      "kind": "spoken",
+      "text": "I gave {count} interviews in {when}, most to {outlet}.",
+      "uses": [
+        {
+          "move": "memoir-act-run",
+          "subject": "office",
+          "role": "actRunInterviewMost",
+          "choice": "i-gave-count-interviews-in-when-most-to",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "actRunInterviewMost"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.act-run",
+        "part": "run",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-went-back.i-went-back-to-employer",
+      "move": "work-line-went-back",
+      "kind": "spoken",
+      "text": "I went back to {employer}.",
+      "uses": [
+        {
+          "move": "work-line-went-back",
+          "subject": "work",
+          "role": "line",
+          "choice": "back",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:went-back",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-went-back.employer-took-me-back",
+      "move": "work-line-went-back",
+      "kind": "spoken",
+      "text": "{employer} took me back.",
+      "uses": [
+        {
+          "move": "work-line-went-back",
+          "subject": "work",
+          "role": "line",
+          "choice": "back",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:went-back",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
       "date": "2026-11-13",
       "tag": {
         "move": "tell"

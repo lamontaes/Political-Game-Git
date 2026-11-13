@@ -13,6 +13,7 @@ import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import journalLife from "./data/journal-life.json" with { type: "json" };
 import JOURNAL_OUTLINE from "./data/journal-outline.json" with { type: "json" };
+import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { governmentProperName } from "../core2/government-proper-name";
 import { PLACE_PRICES_MODULE_ID } from "../core2/business-module-id";
@@ -926,6 +927,20 @@ function workMoments(
       );
     else if (facts.end === "moved-on") {
       const next = spells.find((_, i) => i > at);
+      // Taken on again by the same employer is going back, never a move
+      // from a place to itself (playtest, Nov 13: "I went from Santana's
+      // Kitchen to Santana's Kitchen").
+      if (next && where && next.facts.organizationId === facts.organizationId) {
+        moments.push(
+          moment(
+            next,
+            String(next.facts.startedAt ?? ended),
+            "job-ended:went-back",
+            own,
+          ),
+        );
+        return moments;
+      }
       const nextAt = employer(next);
       moments.push(
         moment(row, ended, "job-ended:moved-on", {
@@ -1041,6 +1056,102 @@ function sceneEndingMoments(
         },
       ];
     }),
+  );
+}
+
+/** The office acts told as a season's run, by the kind of act. */
+const ACT_RUNS: Readonly<Record<string, string>> = {
+  "act:vote-yes": "vote",
+  "act:vote-no": "vote",
+  "act:town-hall": "town-hall",
+  "act:interview": "interview",
+};
+/**
+ * The season a day falls in, with the year it is said with: December runs
+ * with the January and February after it, as the winter of their year.
+ */
+const SEASONS = [
+  "seasonWinter",
+  "seasonWinter",
+  "seasonSpring",
+  "seasonSpring",
+  "seasonSpring",
+  "seasonSummer",
+  "seasonSummer",
+  "seasonSummer",
+  "seasonFall",
+  "seasonFall",
+  "seasonFall",
+  "seasonWinter",
+] as const;
+function seasonOf(date: string): {
+  key: string;
+  field: (typeof SEASONS)[number];
+  year: number;
+} {
+  const [yearSaid, monthSaid] = date.split("-");
+  const month = Number(monthSaid) - one;
+  const year =
+    Number(yearSaid) +
+    (SEASONS[month] === "seasonWinter" && month > P.two ? one : zero);
+  const field = SEASONS[month] ?? "seasonWinter";
+  return { key: `${year}:${field}`, field, year };
+}
+
+/**
+ * What a bill is about, as the bill paper's catalog names the topic its
+ * sections were drafted under ("budgets and appropriations", "transportation"):
+ * the topic most of its sections fall under, by the policy, series, question
+ * or budget line each section names. Undefined when no section names one.
+ */
+const CATALOG_TOPICS = (() => {
+  const byKey = new Map<string, string>();
+  const subjects = (
+    billCatalogData as unknown as {
+      subjects: {
+        topics: {
+          name: string;
+          policies: {
+            id: string;
+            series?: string;
+            question?: string;
+            line?: string;
+          }[];
+        }[];
+      }[];
+    }
+  ).subjects;
+  for (const subject of subjects)
+    for (const topic of subject.topics)
+      for (const policy of topic.policies)
+        for (const key of [
+          `policy:${policy.id}`,
+          policy.series ? `series:${policy.series}` : "",
+          policy.question ? `question:${policy.question}` : "",
+          policy.line ? `line:${policy.line}` : "",
+        ])
+          if (key && !byKey.has(key)) byKey.set(key, topic.name);
+  return byKey;
+})();
+function billTopic(bill: BillRow): string | undefined {
+  const counts = new Map<string, number>();
+  for (const section of bill.provisions) {
+    const name = [
+      section.policyId ? `policy:${section.policyId}` : "",
+      section.series ? `series:${section.series}` : "",
+      section.question ? `question:${section.question}` : "",
+      section.line ? `line:${section.line}` : "",
+    ]
+      .map((key) => (key ? CATALOG_TOPICS.get(key) : undefined))
+      .find(Boolean);
+    if (name) counts.set(name, (counts.get(name) ?? zero) + one);
+  }
+  const top = [...counts].sort((a, b) => b[1] - a[1])[zero]?.[zero];
+  // Said inside a sentence: a capitalized word is lowered, an initialism
+  // ("K-12") is kept.
+  return top?.replace(
+    /\b([A-Z])([a-z])/g,
+    (_, a: string, b: string) => a.toLowerCase() + b,
   );
 }
 
@@ -1178,6 +1289,8 @@ function officeActMoments(
           n > one ? { text: String(n), sourceRecordIds: [act.recordId] } : null;
         const came = counted(hall?.attendeeIds.length ?? zero);
         const asked = counted(hall?.questions.length ?? zero);
+        // An act with no who or what on record is not told.
+        if (!where.place && !came) return [];
         return [
           moment("act:town-hall", {
             ...where,
@@ -1204,6 +1317,7 @@ function officeActMoments(
         const outlet = outletRow?.organizationId
           ? core.organizations.get(outletRow.organizationId as never)?.name
           : undefined;
+        if (!outlet) return [];
         return [
           moment("act:interview", {
             ...where,
@@ -1224,12 +1338,36 @@ function officeActMoments(
       if (told.has(act.recordId)) return [];
       const bill = bills.get(act.recordId) as unknown as BillRow | undefined;
       if (!bill) return [];
+      // What it was about and the body it was cast in, for a season's votes
+      // told as one sentence (playtest, Nov 13: fourteen acts read as a
+      // ledger).
+      const topic = billTopic(bill);
+      const bodyName = core.modules.has(OFFICES_MODULE_ID)
+        ? (
+            api
+              .moduleState(OFFICES_MODULE_ID)
+              .table("offices")
+              .get(bill.bodyOfficeId) as unknown as
+              { bodyName?: string } | undefined
+          )?.bodyName
+        : undefined;
       return [
         moment(`act:vote-${act.detail}`, {
           law: {
             text: billNumberName(bill.form.kind, bill.number, words),
             sourceRecordIds: [bill.id],
           },
+          ...(topic
+            ? { topic: { text: topic, sourceRecordIds: [bill.id] } }
+            : {}),
+          ...(bodyName
+            ? {
+                body: {
+                  text: properName(bodyName),
+                  sourceRecordIds: [bill.id, bill.bodyOfficeId],
+                },
+              }
+            : {}),
         }),
       ];
     });
@@ -1613,6 +1751,10 @@ export function composeJournal(
             : spec.format === "lawName"
               ? law?.text
               : logged?.facts?.[spec.fact];
+      // A count the record needs to be told at all (the signatures a
+      // petition needed): none means the thing does not exist for this record.
+      if ("needed" in spec && spec.needed && !(Number(value) > zero))
+        return null;
       // A fact the row marks optional leaves its lines out when the record
       // lacks it; any other missing fact leaves the moment untold.
       if (value === undefined) {
@@ -2252,6 +2394,10 @@ export function composeJournal(
     };
     let last: Unit | undefined;
     let lastTimed = false;
+    // Where the last record's own sentence stands: "a month later" counts
+    // from the sentence just before it, so it is said only when that is the
+    // last record's own line (rule 11: "later" needs its antecedent).
+    let lastAt = -one;
     for (const unit of told) {
       const ids = [unit.moment.causeId];
       let event = unit.event;
@@ -2314,7 +2460,11 @@ export function composeJournal(
           makeIsoDate(last.moment.date),
           makeIsoDate(unit.moment.date),
         );
-        if (!lastTimed && days >= monthSpan) {
+        if (
+          !lastTimed &&
+          days >= monthSpan &&
+          lastAt === sentences.length - one
+        ) {
           const frame = render(
             { part: "memoir", field: "joinLater" },
             {
@@ -2358,6 +2508,7 @@ export function composeJournal(
         }
       }
       sentences.push(event);
+      lastAt = sentences.length - one;
       remember(event.text, unit.facts);
       // The event told as a small story: each field the row names follows
       // it when its facts say something this paragraph has not said yet.
@@ -2734,6 +2885,74 @@ export function composeJournal(
   };
 
   /**
+   * A season's acts of one kind told as one sentence, with their count and
+   * what most of them were about (a bill's topic, an interview's outlet),
+   * read from the acts' own records: "In the spring of 2026, I cast 9 votes
+   * on the Town Council, most on budgets and appropriations." One act is
+   * told on its own.
+   */
+  const actRun = (group: readonly Unit[]): JournalWorded[] | null => {
+    const first = group[zero];
+    const run = first ? ACT_RUNS[first.row.kindPrefix] : undefined;
+    if (!first || !run || group.length < P.two) return null;
+    const ids = group.map((unit) => unit.moment.causeId);
+    const season = seasonOf(first.moment.date);
+    const when = render(
+      { part: "memoir", field: season.field },
+      { year: { text: String(season.year), sourceRecordIds: ids } },
+      `${first.moment.id}:when`,
+      ids,
+    );
+    if (!when) return null;
+    const name = run === "vote" ? "topic" : run === "interview" ? "outlet" : "";
+    const tally = new Map<string, Unit[]>();
+    for (const unit of group) {
+      const text = name ? unit.facts[name]?.text : undefined;
+      if (text) tally.set(text, [...(tally.get(text) ?? []), unit]);
+    }
+    const [topText, topUnits] =
+      [...tally].sort((a, b) => b[one].length - a[one].length)[zero] ?? [];
+    const most =
+      topText && topUnits && topUnits.length * P.two > group.length
+        ? {
+            text: topText,
+            sourceRecordIds: topUnits.map((unit) => unit.moment.causeId),
+          }
+        : undefined;
+    const all = !!most && topUnits!.length === group.length;
+    const field: MemoirField =
+      run === "vote"
+        ? all
+          ? "actRunVoteAll"
+          : most
+            ? "actRunVoteMost"
+            : "actRunVote"
+        : run === "interview"
+          ? most
+            ? "actRunInterviewMost"
+            : "actRunInterview"
+          : "actRunTownHall";
+    const facts: Facts = {
+      // Said inside the sentence, so not capitalized as a line of its own.
+      when: {
+        text: when.text.charAt(zero).toLowerCase() + when.text.slice(one),
+        sourceRecordIds: when.sourceRecordIds,
+      },
+      count: { text: String(group.length), sourceRecordIds: ids },
+      ...(most ? { [name]: most } : {}),
+      ...(first.facts.body ? { body: first.facts.body } : {}),
+      ...(first.facts.place ? { place: first.facts.place } : {}),
+    };
+    const line = render(
+      { part: "memoir", field },
+      facts,
+      `${first.moment.id}:run`,
+      ids,
+    );
+    return line ? [line] : null;
+  };
+
+  /**
    * A recall that went to a vote tells its result in the same paragraph when
    * the recalls engine's record of the vote is on file (lead, Nov 13, rule
    * 25): kept or removed, with the counts.
@@ -3056,9 +3275,14 @@ export function composeJournal(
     const merged = JOURNAL_OUTLINE.merge.find(
       (row) => row.kindPrefix === unit.row.kindPrefix,
     );
-    const contestId = merged
-      ? `${merged.kindPrefix}|${unit.moment.date}`
-      : core.durableLog.get(unit.moment.causeId)?.facts?.contestId;
+    // Acts of one kind in one season (and one body) are one paragraph,
+    // told as one sentence (playtest, Nov 13: a ledger of fourteen acts).
+    const run = ACT_RUNS[unit.row.kindPrefix];
+    const contestId = run
+      ? `act-run|${run}|${seasonOf(unit.moment.date).key}|${unit.facts.body?.text ?? ""}`
+      : merged
+        ? `${merged.kindPrefix}|${unit.moment.date}`
+        : core.durableLog.get(unit.moment.causeId)?.facts?.contestId;
     const group =
       typeof contestId === "string" ? byContest.get(contestId) : undefined;
     if (group) {
@@ -3125,7 +3349,9 @@ export function composeJournal(
     );
     // A merged kind is told only as its merged sentence.
     const told = [
-      ...(mergeOf(group) ?? (merged ? [] : tellParagraph(group, "play"))),
+      ...(actRun(group) ??
+        mergeOf(group) ??
+        (merged ? [] : tellParagraph(group, "play"))),
       ...group.flatMap(speakAfter),
       ...group.flatMap(recallAfter),
     ];

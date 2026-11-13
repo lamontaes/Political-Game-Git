@@ -143,6 +143,11 @@
       "follow": ["movedHeld", "movedPay"]
     },
     {
+      "kindPrefix": "job-ended:went-back",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "job-ended:child",
       "turn": false,
       "entry": "story"
@@ -508,7 +513,7 @@
       "eventFacts": {
         "office": { "fact": "office", "format": "text" },
         "valid": { "fact": "valid", "format": "count" },
-        "needed": { "fact": "needed", "format": "count" }
+        "needed": { "fact": "needed", "format": "count", "needed": true }
       }
     },
     {

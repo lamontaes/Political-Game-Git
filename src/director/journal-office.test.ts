@@ -7,6 +7,7 @@ import { advanceCore } from "../core2/life";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
 import { draftBill } from "../core2/modules/legislature";
+import { billCatalog, provisionFor } from "../core2/bill-catalog";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
@@ -204,5 +205,80 @@ describe("the officeholder's journal", () => {
       where,
     ).toBeUndefined();
     expect(told("office-act:vote:other"), where).toBeUndefined();
+
+    // A season's votes in one body are one sentence with their count and
+    // what most were about, never a ledger of "I voted for ..." lines
+    // (playtest, Nov 13, Inarajan, Guam).
+    // Bills drafted from the bill paper's catalog, so each has a topic.
+    const level =
+      (body as { level?: string }).level === "county" ? "county" : "city";
+    const policies = billCatalog(api, level)
+      .flatMap((subject) => subject.topics.flatMap((topic) => topic.policies))
+      .filter((row) => row.kind === "policy-question" && row.authority.allowed);
+    expect(policies.length, `${where}: no policy to draft`).toBeGreaterThan(0);
+    const more = [1, 2, 3].map((n) => {
+      const next = draftBill(api, {
+        bodyOfficeId: body.id,
+        sponsorId: playerId,
+        provisions: [
+          provisionFor({ policyId: policies[0]!.id, operation: "enact" }),
+        ],
+      });
+      return act("vote", next.id, n === 2 ? "no" : "yes");
+    });
+    const after = composeJournal(core, director, playerId).flatMap(
+      (chapter) => chapter.lines,
+    );
+    const run = after.filter((line) =>
+      [voteId, ...more].some((id) => line.sourceRecordIds.includes(id)),
+    );
+    expect(
+      run.map((line) => line.text),
+      `${where}: ${after.map((line) => line.text).join(" | ")}`,
+    ).toHaveLength(1);
+    // Three of the four were on one topic: "most on" it.
+    expect(run[0]!.text, where).toMatch(/\bmost(?:ly)? on \w/);
+    expect(run[0]!.text, where).toMatch(
+      /\b(?:cast 4 votes|voted 4 times)\b.*\b(?:winter|spring|summer|fall) of \d{4}\b|\b(?:winter|spring|summer|fall) of \d{4}, I cast 4 votes\b/,
+    );
+    expect(
+      after.some((line) => /\bI voted (for|against)\b/.test(line.text)),
+      where,
+    ).toBe(false);
+    process.stdout.write(`JOURNAL VOTE RUN ${where}: "${run[0]!.text}"\n`);
+
+    // A race that needs no petition tells no petition; one that needs
+    // signatures tells the count once.
+    for (const [id, needed] of [
+      ["petition-checked:fixture:none", 0],
+      ["petition-checked:fixture:some", 3],
+    ] as const)
+      applyCoreEvent(core, {
+        id,
+        date: core.date,
+        kind: "petition-checked",
+        personIds: [playerId],
+        placeId: core.people.get(playerId)!.placeId,
+        source: {
+          tag: "SOURCED",
+          citation: "Fixture shaped like the clerk's petition count.",
+          asOf: core.date,
+        },
+        publicRecord: true,
+        news: false,
+        facts: { office: "City Council, Seat 2", valid: 4, needed },
+      });
+    const petitions = composeJournal(core, director, playerId)
+      .flatMap((chapter) => chapter.lines)
+      .filter((line) => /signatures/.test(line.text));
+    expect(
+      petitions.some((line) =>
+        line.sourceRecordIds.includes("petition-checked:fixture:none"),
+      ),
+      where,
+    ).toBe(false);
+    process.stdout.write(
+      `JOURNAL PETITION ${where}: ${petitions.map((line) => line.text).join(" | ") || "(none told)"}\n`,
+    );
   }, 600_000);
 });

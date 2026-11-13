@@ -34,12 +34,21 @@ export interface JournalWordRow {
   /**
    * Facts read from the causing event's own record. A "drop" is how far one
    * of the record's counts (`fact`) fell to another (`less`), told only where
-   * it fell, citing the records a third fact names (`cites`).
+   * it fell, citing the records a third fact names (`cites`). A count marked
+   * `needed` leaves the moment untold when it is 0 or absent: a thing that
+   * does not exist for this record is not told (a race that needs no
+   * petition).
    */
   eventFacts?: Readonly<
     Record<
       string,
-      { fact: string; format: string; less?: string; cites?: string }
+      {
+        fact: string;
+        format: string;
+        less?: string;
+        cites?: string;
+        needed?: boolean;
+      }
     >
   >;
   /** An event fact that names the stage a line is worded in (a vote, "yes" or "no"). */
@@ -360,6 +369,16 @@ export type MemoirField =
   | "recallRemoved"
   | "recallKeptMe"
   | "recallRemovedMe"
+  | "seasonWinter"
+  | "seasonSpring"
+  | "seasonSummer"
+  | "seasonFall"
+  | "actRunVote"
+  | "actRunVoteMost"
+  | "actRunVoteAll"
+  | "actRunTownHall"
+  | "actRunInterview"
+  | "actRunInterviewMost"
   | "effectDown"
   | "viewFor"
   | "viewParentLost"
