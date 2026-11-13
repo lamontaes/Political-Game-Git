@@ -15,12 +15,14 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import {
+  ELECTIONS_MODULE_ID,
   checkEligibility,
   filingOfficeFor,
   playerContests,
 } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { spokenOffice } from "../director/filing-visit";
 import { spoken } from "../director/words";
 import { expectUpToFourDifferent } from "../director/reply-set-check";
 import { seatSaid } from "../english/journal-words";
@@ -70,6 +72,25 @@ it(`a first visit asks for the papers, the player says only what they chose, and
           row.alive && row.placeId === town && row.birthDate < "1990-01-01",
       )
       .sort((a, b) => a.id.localeCompare(b.id));
+    // A resident already running in a race is not offered it at the counter
+    // (P1, Commack, New York), so the visit starts with one they have not
+    // filed for (seed 8b7056d0cf1a2f624d37 drew a resident already running).
+    const filedIn = (id: string) =>
+      new Set(
+        (
+          api
+            .moduleState(ELECTIONS_MODULE_ID)
+            .table("filings")
+            .query("byPerson", [id]) as unknown as {
+            contestId: string;
+            status: string;
+          }[]
+        )
+          .filter(
+            (row) => row.status === "petitioning" || row.status === "on-ballot",
+          )
+          .map((row) => row.contestId),
+      );
     const findPair = () =>
       grown
         .map((person) => ({
@@ -78,6 +99,7 @@ it(`a first visit asks for the papers, the player says only what they chose, and
             (row) =>
               row.level !== "federal" &&
               row.level !== "state" &&
+              !filedIn(person.id).has(row.id) &&
               checkEligibility(api, person.id, row.id).every(
                 (check) => check.met,
               ),
@@ -112,9 +134,7 @@ it(`a first visit asks for the papers, the player says only what they chose, and
     process.stdout.write(`${where} greeting: ${greeting}\n`);
     expect(
       greeting.includes(townName) ||
-        greeting
-          .toLowerCase()
-          .includes(filedWith.toLowerCase().split(/[;(,]/)[0]!.trim()),
+        greeting.toLowerCase().includes(spokenOffice(filedWith).toLowerCase()),
       `${where}: ${greeting}`,
     ).toBe(true);
     // The first visit: no folder of forms, no petition yet.

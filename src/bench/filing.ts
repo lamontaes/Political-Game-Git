@@ -318,7 +318,11 @@ export function openBenchFilingVisit(
             / or /i.test(spokenOffice(filedWith))
               ? clerkRow
               : { ...clerkRow, title: spokenOffice(filedWith) },
-            filedHere(core, playerId, filedWith),
+            // The player's own filing is the visit's business only when no
+            // race is left here to file for; with races left, the visit is
+            // for one of them, never "back with your petition" (Miracle
+            // Valley, Arizona, seed w3-return-1).
+            here,
             minuteOfDay,
           )
         : [],
