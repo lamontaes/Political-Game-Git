@@ -39,18 +39,18 @@ import { deathWebFactor } from "./health-web";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { healthDeathWebOf } from "./modules/health";
-import { enactLaw, lawChain, LAWS_MODULE_ID } from "./modules/laws";
-import {
-  lawValue,
-  OUTCOME_WEB_MODULE_ID,
-  type WebMonth,
-} from "./modules/outcome-web";
+import { enactLaw, lawChain, LAWS_MODULE_ID, yesLevels } from "./modules/laws";
+import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { countedHouseholdsByPlace } from "./modules/residents";
 import { CALIBRATED_AT, moderatorScale, WEB_LINKS } from "./outcome-web-model";
 import { webReach } from "./outcome-web-reach";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
+
+/** The law on a question for the town on a date, by the laws engine's one lookup: 1 when a level says yes. */
+const lawSaysYes = (api: CoreAPI, series: string, date: string) =>
+  yesLevels(api, series, date).length ? 1 : 0;
 
 const seed = process.env.HEALTH_PLAYED_SEED || randomBytes(8).toString("hex");
 /**
@@ -168,7 +168,7 @@ function play(drawSeed: string, change = true) {
   const api = coreAPI(core);
   const town = lawChain(api).townPlaceId;
   const atBase = Object.fromEntries(
-    LAWS.map((series) => [series, lawValue(api, series, CALIBRATED_AT, true)]),
+    LAWS.map((series) => [series, lawSaysYes(api, series, CALIBRATED_AT)]),
   ) as Record<string, number>;
   const changeTo = Object.fromEntries(
     LAWS.map((series) => [series, atBase[series] === 1 ? 0 : 1]),
@@ -307,15 +307,15 @@ function expectation(api: CoreAPI, atBase: Readonly<Record<string, number>>) {
     // Before the calibration date a law stands as it did then.
     const back = monthsAfter(date, -row.lagMonths);
     const lagged = back < CALIBRATED_AT ? CALIBRATED_AT : back;
-    const then = lawValue(api, series, lagged);
-    const now = lawValue(api, series, date);
+    const then = lawSaysYes(api, series, lagged);
+    const now = lawSaysYes(api, series, date);
     const moderator = row.moderator;
     const known = !moderator || isLaw(moderator.measure);
     const scale =
       moderator && known
         ? moderatorScale(
             moderator,
-            lawValue(api, moderator.measure.replace(/^law:/, ""), lagged),
+            lawSaysYes(api, moderator.measure.replace(/^law:/, ""), lagged),
           )
         : 1;
     const moves =

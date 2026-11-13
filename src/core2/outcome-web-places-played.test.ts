@@ -27,17 +27,17 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { enactLaw, lawChain, LAWS_MODULE_ID } from "./modules/laws";
-import {
-  lawValue,
-  OUTCOME_WEB_MODULE_ID,
-  type WebMonth,
-} from "./modules/outcome-web";
+import { enactLaw, lawChain, LAWS_MODULE_ID, yesLevels } from "./modules/laws";
+import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { CALIBRATED_AT, moderatorScale, WEB_LINKS } from "./outcome-web-model";
 import { webFactorFor } from "./outcome-web-reach";
 import WEB_SETTINGS from "./data/outcome-web/outcome-web.json";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
+
+/** The law on a question for the town on a date, by the laws engine's one lookup: 1 when a level says yes. */
+const lawSaysYes = (api: CoreAPI, series: string, date: string) =>
+  yesLevels(api, series, date).length ? 1 : 0;
 
 const seed = process.env.PLACES_PLAYED_SEED || randomBytes(8).toString("hex");
 /** To April 10, 2027: the 24-month link runs in February 2027, ridership in March, and the price engine reads it on April 3. */
@@ -83,8 +83,8 @@ function held(
     const back = monthsAfter(month.date, -row.lagMonths);
     const lagged = back < CALIBRATED_AT ? CALIBRATED_AT : back;
     return (
-      lawValue(api, series, lagged) !== base &&
-      lawValue(api, series, month.date) !== base
+      lawSaysYes(api, series, lagged) !== base &&
+      lawSaysYes(api, series, month.date) !== base
     );
   });
 }
@@ -153,7 +153,7 @@ function play(drawSeed: string) {
   const api = coreAPI(core);
   const town = lawChain(api).townPlaceId;
   const atBase = Object.fromEntries(
-    LAWS.map((series) => [series, lawValue(api, series, CALIBRATED_AT, true)]),
+    LAWS.map((series) => [series, lawSaysYes(api, series, CALIBRATED_AT)]),
   ) as Record<string, number>;
   const effective = addDays(makeIsoDate(core.date), 1);
   for (const series of LAWS)
@@ -236,7 +236,7 @@ describe(`transit and road laws reach people's money on the web's own lags in a 
         draw += 1
       ) {
         tried.push(
-          `${run.place.name}, ${run.place.state} (${run.drawSeed}): ${LAWS.map((series) => `${series} ${run.atBase[series]} at the base, ${lawValue(coreAPI(run.core), series, run.rows.at(-1)!.date)} at the end`).join("; ")}`,
+          `${run.place.name}, ${run.place.state} (${run.drawSeed}): ${LAWS.map((series) => `${series} ${run.atBase[series]} at the base, ${lawSaysYes(coreAPI(run.core), series, run.rows.at(-1)!.date)} at the end`).join("; ")}`,
         );
         run = play(`${seed}-${draw}`);
       }
@@ -253,15 +253,15 @@ describe(`transit and road laws reach people's money on the web's own lags in a 
         const base = atBase[series]!;
         const back = monthsAfter(date, -row.lagMonths);
         const lagged = back < CALIBRATED_AT ? CALIBRATED_AT : back;
-        const then = lawValue(api, series, lagged);
-        const now = lawValue(api, series, date);
+        const then = lawSaysYes(api, series, lagged);
+        const now = lawSaysYes(api, series, date);
         const moderator = row.moderator;
         const known = !moderator || isLaw(moderator.measure);
         const scale =
           moderator && known
             ? moderatorScale(
                 moderator,
-                lawValue(api, moderator.measure.replace(/^law:/, ""), lagged),
+                lawSaysYes(api, moderator.measure.replace(/^law:/, ""), lagged),
               )
             : 1;
         const moves =

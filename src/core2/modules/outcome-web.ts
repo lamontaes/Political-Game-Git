@@ -38,13 +38,12 @@ import {
   type WebLink,
 } from "../outcome-web-model";
 import type { ModuleRow } from "../module-data";
-import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
+import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { schoolMeasure } from "../school-measures";
 import { propertyTaxRateInForce } from "../housing-property-tax";
 import { schoolsLineAboveBase } from "../school-budget-line";
-import { inTownChain } from "../laws-in-force";
-import { lawChain, lawInForce, LAWS_MODULE_ID } from "./laws";
+import { lawInForce, LAWS_MODULE_ID, yesLevels } from "./laws";
 import {
   budgetLineAddedPct,
   defenseBoostPct,
@@ -184,53 +183,13 @@ function placesOf(api: CoreAPI): string[] {
 }
 
 /**
- * The law on a policy question for the town on a date: 1 when any level's
- * latest row in force says yes, else 0. Rows are OPUS-GOV's laws module's
- * (the real law of every level, from the start date's records); where that
- * module is not open, the law-took-effect events this module recorded.
- * `realOnly` reads only the real starting law: the research's base levels
- * already include the law each place really had, so only a change from it
- * moves an outcome, and no recorded law counts as "not yes".
+ * The law on a policy question for the town on a date: 1 when a level of its
+ * chain has a row in force that says yes and is not set aside, else 0. The
+ * laws engine's one lookup answers it (`yesLevels`, `lawInForce`), so the web
+ * reads the same law every other engine reads on the same day.
  */
-export function lawValue(
-  api: CoreAPI,
-  series: string,
-  date: string,
-  realOnly = false,
-): number {
-  const laws = SETTINGS.lawsModule;
-  const open = (api.state as CoreState).modules.has(laws.moduleId);
-  if (realOnly && !open) return 0;
-  const rows = (open
-    ? api
-        .moduleState(laws.moduleId)
-        .table(laws.table)
-        .query(laws.index, [series])
-    : store(api)
-        .table("laws")
-        .query("bySeries", [series])) as unknown as readonly {
-    jurisdiction: string;
-    value: unknown;
-    effectiveDate: string;
-  }[];
-  const latest = new Map<string, { value: unknown; effectiveDate: string }>();
-  // The town's law is its own chain's: a law another state's legislature
-  // passed is that state's, not the town's.
-  const chain = open ? lawChain(api) : null;
-  for (const row of rows) {
-    if (row.effectiveDate > date) continue;
-    if (
-      chain &&
-      row.jurisdiction !== "US" &&
-      !inTownChain(chain, row.jurisdiction)
-    )
-      continue;
-    const held = latest.get(row.jurisdiction);
-    if (!held || row.effectiveDate >= held.effectiveDate)
-      latest.set(row.jurisdiction, row);
-  }
-  return [...latest.values()].some((row) => Number(row.value) === 1) ? 1 : 0;
-}
+const lawSaysYes = (api: CoreAPI, series: string, date: string): number =>
+  yesLevels(api, series, date).length ? 1 : 0;
 
 /** Engine records outside the economy's monthly rows, read by name: the engine's own table. */
 const ENGINE_READERS: Readonly<
@@ -438,7 +397,7 @@ function causeAt(r: Reading, measure: string, index: number): number | null {
     // before it reads the law as it stood then, not as absent: a place that
     // repeals a law it began with feels the repeal a lag later.
     const date = dateMonthsBefore(r.api.state.date, r.index - index);
-    return lawValue(
+    return lawSaysYes(
       r.api,
       measure.slice(LAW_PREFIX.length),
       date < CALIBRATED_AT ? CALIBRATED_AT : date,
@@ -488,12 +447,7 @@ function causeAt(r: Reading, measure: string, index: number): number | null {
 /** The level a cause is measured from: the law at calibration, the research's baseline, or the opening. */
 function baselineOf(r: Reading, measure: string): number | undefined {
   if (isLaw(measure))
-    return lawValue(
-      r.api,
-      measure.slice(LAW_PREFIX.length),
-      CALIBRATED_AT,
-      true,
-    );
+    return lawSaysYes(r.api, measure.slice(LAW_PREFIX.length), CALIBRATED_AT);
   const reader = engineMeasure(measure)?.baselineReader;
   const opened = webState(r.api)?.openedAt;
   const lawLevel =
@@ -602,7 +556,7 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
       values: { ...bases },
     });
   for (const measure of LAW_CAUSES)
-    r.values[measure] = lawValue(api, measure.slice(LAW_PREFIX.length), date);
+    r.values[measure] = lawSaysYes(api, measure.slice(LAW_PREFIX.length), date);
   const effects: Record<string, number> = {};
   for (const outcome of KEPT_OUTCOMES) {
     const base = baseOf(outcome, state.stateKey, api.state.seed).value;
@@ -698,21 +652,6 @@ function schedule(api: CoreAPI): void {
   });
 }
 
-/** Record a law-took-effect event (the laws module's own rows win where it is open). */
-function recordLaw(api: CoreAPI, event: Readonly<CoreEventInput>): void {
-  const facts = event.facts ?? {};
-  if (!facts.series) return;
-  store(api)
-    .table("laws")
-    .put({
-      id: facts.lawId || event.id,
-      series: facts.series,
-      jurisdiction: facts.jurisdiction ?? event.placeId,
-      value: Number(facts.value),
-      effectiveDate: event.date,
-    });
-}
-
 export const OUTCOME_WEB_MODULE: CoreModule = {
   id: OUTCOME_WEB_MODULE_ID,
   state: {
@@ -721,7 +660,6 @@ export const OUTCOME_WEB_MODULE: CoreModule = {
       state: {},
       baselines: {},
       months: { indexes: { byPlace: { fields: ["placeId"] } } },
-      laws: { indexes: { bySeries: { fields: ["series"] } } },
     },
   },
   eventKinds: [SETTINGS.lawsModule.eventKind],
@@ -730,7 +668,6 @@ export const OUTCOME_WEB_MODULE: CoreModule = {
     // the town's laws, so it neither records it nor rewrites the month for it
     // (the rewrite would overwrite what the month's other readers laid on it).
     if (String(event.placeId).startsWith("national:")) return;
-    recordLaw(api, event);
     // A law moves the record the day it takes effect, not at month's end.
     run(api);
   },

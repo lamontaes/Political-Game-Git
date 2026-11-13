@@ -793,6 +793,8 @@ export function lawInForceToday(
 export function yesLevels(
   api: CoreAPI,
   key: string,
+  /** The day read (today by default): the outcome web reads a law as it stood a lag ago. */
+  date: string = api.state.date,
 ): readonly {
   level: string;
   jurisdiction: string;
@@ -800,7 +802,7 @@ export function yesLevels(
   row: LawRowInput;
 }[] {
   if (!api.state.modules.has(LAWS_MODULE_ID)) return [];
-  return lawInForce(api, key).levels.flatMap((l) =>
+  return lawInForce(api, key, date).levels.flatMap((l) =>
     l.row?.value === 1 && !l.setAside
       ? [
           {

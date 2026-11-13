@@ -6,7 +6,7 @@
  * the law row in force for that jurisdiction on the day, so a bill that
  * changes the exemption or the rate changes what the next estate pays.
  */
-import { LAWS_MODULE_ID } from "./modules/laws";
+import { LAWS_MODULE_ID, lawInForce, stateLawInForce } from "./modules/laws";
 import type { LawRowInput } from "./laws-starting";
 import type { CoreAPI } from "./types";
 
@@ -54,29 +54,28 @@ function flatSchedule(api: CoreAPI, rate: number): Schedule {
   return { exemption: 0, minRate: rate };
 }
 
-/** The row in force for a jurisdiction and series on a date: the latest that has begun and not ended. */
-function rowInForce(
+/**
+ * The row in force at one level for a death tax, by the laws engine's one
+ * lookup: the nation's (`US`) or the decedent's state's, read through that
+ * state's chain (`stateLawInForce`, the town's own chain when it is the
+ * town's state), with the level's end dates, act order and set-asides.
+ */
+function rowInForceAt(
   api: CoreAPI,
+  stateKey: string | null,
   jurisdiction: string,
   series: string,
 ): LawRowInput | null {
   if (!api.state.modules.has(LAWS_MODULE_ID)) return null;
-  const date = api.state.date;
-  const rows = api
-    .moduleState(LAWS_MODULE_ID)
-    .table("laws")
-    .query("bySeries", [jurisdiction, series]) as unknown as LawRowInput[];
-  return (
-    rows
-      .filter(
-        (r) => r.effectiveDate <= date && (!r.endDate || r.endDate > date),
-      )
-      .sort(
-        (a, b) =>
-          b.effectiveDate.localeCompare(a.effectiveDate) ||
-          b.id.localeCompare(a.id),
-      )[0] ?? null
+  const answer = stateKey
+    ? stateLawInForce(api, stateKey, series)
+    : lawInForce(api, series);
+  const level = answer.levels.find(
+    (l) =>
+      l.jurisdiction === jurisdiction &&
+      (jurisdiction === "US" ? l.level === "federal" : l.level === "state"),
   );
+  return level?.row && !level.setAside ? level.row : null;
 }
 
 /**
@@ -117,7 +116,7 @@ export function assessEstateTaxes(
 ): readonly DeathTax[] {
   const out: DeathTax[] = [];
   for (const jurisdiction of ["US", ...(stateKey ? [stateKey] : [])]) {
-    const row = rowInForce(api, jurisdiction, "estate-tax");
+    const row = rowInForceAt(api, stateKey, jurisdiction, "estate-tax");
     if (!row || row.value === null || row.value === undefined) continue;
     const schedule = row.terms as unknown as Schedule | undefined;
     out.push({
@@ -159,7 +158,7 @@ export function assessInheritanceTax(
   shareMinor: number,
 ): DeathTax | null {
   if (!stateKey) return null;
-  const row = rowInForce(api, stateKey, "inheritance-tax");
+  const row = rowInForceAt(api, stateKey, stateKey, "inheritance-tax");
   if (!row || row.value === null || row.value === undefined) return null;
   const terms = row.terms as unknown as
     | {
