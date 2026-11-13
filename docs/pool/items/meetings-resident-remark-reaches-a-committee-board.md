@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: Account lead T41
+pr: claude/project-thread-1d9gdt
 after: gov-held-meeting-decides-as-unheld
 blocked-on:
 lead: governing
