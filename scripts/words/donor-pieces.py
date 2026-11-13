@@ -330,6 +330,8 @@ LIKED_AFTER = {
     "Done. My people will call yours.": "bargain",
 }
 SIDED = {}
+# The permitting is no record the gift or the bill holds.
+RETIRED = {"The permitting on {bill} is killing my business. I'm just telling you what I'm hearing."}
 
 
 SLOTS = {
@@ -381,6 +383,17 @@ def main():
             for u in x["uses"]:
                 if fam(u):
                     u["requiresFacts"] = sorted(set(u.get("requiresFacts", []) + SIDED[x["text"]]))
+        # Where the gift's record names a bill, the ask is about it: a whole
+        # ask that does not say the bill is said only where none is named.
+        for u in x["uses"]:
+            if fam(u) and u["step"] == "state" and "{bill}" not in x["text"]:
+                u["excludesFacts"] = sorted(set(u.get("excludesFacts", []) + ["bill"]))
+        # A whole line that claims what no record holds.
+        if x["text"] in RETIRED and any(fam(u) for u in x["uses"]):
+            x["uses"] = [u for u in x["uses"] if not fam(u)]
+            if not x["uses"]:
+                deleted += 1
+                continue
         mine = [u for u in x["uses"] if fam(u)]
         if not mine or not counted(x):
             kept.append(x)

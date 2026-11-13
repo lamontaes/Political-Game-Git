@@ -18335,30 +18335,6 @@
       }
     },
     {
-      "key": "scene-talk.state-request.the-permitting-on-bill-is-killing-my-business-i-m-just-telling-you-wha",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "The permitting on {bill} is killing my business. I'm just telling you what I'm hearing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-thank.grab-a-sandwich-before-you-go-there-s-a-tray-in-the-back",
       "move": "reply-thank",
       "kind": "spoken",
@@ -128364,7 +128340,8 @@
           "role": "asker",
           "purpose": "donor-ask.small",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -128560,7 +128537,8 @@
           "role": "asker",
           "purpose": "donor-ask.large",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -128788,7 +128766,8 @@
           "role": "asker",
           "purpose": "donor-ask.friend",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["bill"]
         }
       ],
       "bearing": "warm",
@@ -128958,7 +128937,8 @@
           "role": "asker",
           "purpose": "donor-ask.again",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["bill"]
         }
       ],
       "bearing": "braced",
