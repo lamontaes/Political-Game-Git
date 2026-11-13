@@ -6,11 +6,13 @@ The red on main this answers (Red desk, Nov 13, `circumstance.test.ts`, seed `93
 
 The tell as worded from the laws engine's own rows in three drawn places (`src/director/law-reaches-tell.test.ts`):
 
-| Place (seed)                      | Not yet in force                                                          | Another state's law                                           |
-| --------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| Ashaway, Rhode Island (`w2lr1`)   | The Social Security payroll tax rate doesn't start until January 1, 2026. | Delaware did that, not Rhode Island.                          |
-| Claypool Hill, Virginia (`w2lr2`) | The Social Security payroll tax rate doesn't start until January 1, 2026. | Delaware did that, not Virginia.                              |
-| Nu'uuli, American Samoa (`w2lr3`) | The Social Security payroll tax rate takes effect on January 1, 2026.     | That's a law in Delaware. It doesn't apply in American Samoa. |
+| Place (seed)                      | Not yet in force                                                        | Another state's law                                           | No longer in force                                    |
+| --------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------- | ----------------------------------------------------- |
+| Ashaway, Rhode Island (`w2lr1`)   | The Social Security payroll tax stays as it is until January 1, 2026.   | Delaware did that, not Rhode Island.                          | It isn't the law any more. It ended on July 24, 2007. |
+| Claypool Hill, Virginia (`w2lr2`) | The Social Security payroll tax stays as it is until January 1, 2026.   | Delaware did that, not Virginia.                              |                                                       |
+| Nu'uuli, American Samoa (`w2lr3`) | The change to the Social Security payroll tax comes on January 1, 2026. | That's a law in Delaware. It doesn't apply in American Samoa. | That one ended on July 24, 2007.                      |
+
+The ended row in both is `law:US:federal:minimum-wage:general:2000-01-01`, the federal minimum wage replaced in 2007. Fable A, 09:05Z: a law not yet in force is said by what changes ("the Social Security payroll tax"), never its number's label acting; "struck down" is said only when a court's record ended it. No engine writes such a record yet, so only the plain "ended" lines are reachable.
 
 Another state's law is said by the states even when it is not yet in force, so no date makes it sound as if it will reach the reader. For a law that does not reach the reader, no reply says it does ("Tell me what it's doing to you", "I'll look into what it means for you") and none says the player voted on another state's law ("I voted the way I thought was right for {place}"): those lines exclude the facts.
 
