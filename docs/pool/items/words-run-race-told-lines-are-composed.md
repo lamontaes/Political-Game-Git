@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -44,6 +44,8 @@ branch:
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/purpose-scene.ts, src/director/race-turnout-facts.ts, src/director/race-told-scene.test.ts, src/director/reply-set-check.ts, src/director/journal.ts, src/director/data/purpose-arcs.json, src/english/scene-talk-words.ts, src/core2/modules/views.ts, data/english/parts/scene-talk.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/purpose-scene.ts, src/director/race-turnout-facts.ts, src/director/reply-set-check.ts, src/director/journal.ts, src/director/data/purpose-arcs.json, src/english/scene-talk-words.ts, src/core2/modules/views.ts, data/english/parts/scene-talk.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 101 lines, 53 with no insert and not excused. Three today: "How did it happen?", "What did the count look like?", "Does anyone know why it went that way?" words-race-told-same-lines-opposite-speakers (PR #8446, in a pull request) changes the same lines for the teller's tie; build on it once it merges, or merge it in first.
+
+- Dropped Nov 12, 2026 by the story builder for the lead (Fable A): its scene was deleted with the scene inventory (docs/design/scene-inventory.md, branch claude/story-scene-inventory); the scene's reply was read by no engine.

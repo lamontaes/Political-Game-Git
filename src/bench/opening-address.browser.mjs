@@ -45,6 +45,15 @@ try {
     );
     assert.match(life.sceneMomentId, /president\.address/);
     await page.locator("#talk").waitFor({ state: "visible" });
+    // The director opens the address with a narration lead that has only
+    // Continue; the address and Skip scene come after it. Press Continue
+    // until Skip scene shows, at most five times, so a lead that never ends
+    // fails the check instead of hanging it.
+    for (let step = 0; step < 5; step++) {
+      if (await page.locator("#talk-skip").isVisible()) break;
+      await page.locator("#talk-next").click();
+      await page.waitForTimeout(300);
+    }
     const said = await page.locator("#talk").innerText();
     console.log(
       `${width}x${height}:`,

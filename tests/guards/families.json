@@ -60,6 +60,7 @@
         "src/core2/modules/campaigns.ts",
         "src/core2/modules/candidacy.ts",
         "src/core2/modules/filing-clerk.ts",
+        "src/core2/recount-rules.ts",
         "src/core2/modules/ballot-measures.ts",
         "src/core2/modules/recalls.ts",
         "src/core2/modules/parties.ts",
@@ -114,7 +115,8 @@
         "src/core2/modules/office-day.ts",
         "src/core2/modules/president-acts.ts",
         "src/core2/modules/staff.ts",
-        "src/core2/government-jurisdictions.ts"
+        "src/core2/government-jurisdictions.ts",
+        "src/core2/government-proper-name.ts"
       ],
       "paths": [
         "src/core2/modules/executive.ts",
@@ -134,6 +136,7 @@
         "src/core2/central-bank-*.ts",
         "src/core2/outside-governments.ts",
         "src/core2/government-jurisdictions.ts",
+        "src/core2/government-proper-name.ts",
         "src/core2/gov-rules/**",
         "src/core2/modules/president-acts.ts"
       ]

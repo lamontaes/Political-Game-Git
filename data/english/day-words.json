@@ -67,6 +67,11 @@
       "said": "on {date}"
     }
   ],
+  "sinceOtherYear": {
+    "about": "A record's day in another year than the day a scene plays, told with its year (Fable A, Nov 13, rule 3: 'A date in another year is said with its year or as \"last February\". A bare month and day always means this year.'; Playtester P2, Hewitt NJ: 'stops you in the street about what happened on February 20th' on January 31st, a February a year gone). lastYear is the calendar year before the scene's; earlier is any year before that. Read by daySince in src/english/day-words.ts in place of the since row that names the date.",
+    "lastYear": "last {month}",
+    "earlier": "in {month} {year}"
+  },
   "sinceAbout": "A record's own day told as past from the day a scene plays (pool item words-day-end-scene-opens-next-midnight): 'yesterday', 'the other day', 'on January 3rd'; never a weekday, since a scene's opening names no weekday (owner, Oct 26: \"it shouldn't say ... it's Tuesday in November\"; src/director/scene.test.ts). Read by daySince in src/english/day-words.ts; the scene passes it to its lines as the fact since, which a sentence may use.",
   "weekdays": [
     "Sunday",
