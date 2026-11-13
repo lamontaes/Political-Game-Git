@@ -515,6 +515,20 @@ function lastContact(
   return best;
 }
 
+/** The last talk the player had with a person, from what that person remembers talking over with them: its date and its record. */
+function lastTalk(
+  core: Readonly<CoreState>,
+  listenerId: PersonId,
+  playerId: PersonId,
+): { date: IsoDate; tieId: string } | null {
+  const prefix = talkedKeyPrefix(playerId);
+  let best: { date: IsoDate; tieId: string } | null = null;
+  for (const [key, fact] of core.knowledgeByPerson.get(listenerId) ?? [])
+    if (key.startsWith(prefix) && (!best || fact.learnedAt > best.date))
+      best = { date: fact.learnedAt, tieId: fact.sourceId };
+  return best;
+}
+
 /** How far back a recorded event still makes something to talk about. */
 const recentDays = () =>
   DEFAULT_DIRECTOR_DATA.parameters.directorTalkRecentDays!.value;
@@ -4025,9 +4039,12 @@ function greetingLine(
       }
     : {};
   const facts: Facts = { ...name };
-  // When they last met, said in passing, from the tie's own contact date;
-  // never a meeting earlier today.
-  const seen = lastContact(core, otherId, playerId);
+  // When they last met, said in passing, from the last talk between the two
+  // on record (what the listener remembers talking over with the player);
+  // never a meeting earlier today. A tie's contact date moves for more than
+  // a meeting (a fact told, a vote heard of), so it is not read here (Fable
+  // A, Nov 13: "Last time was last week" only from a meeting on record).
+  const seen = lastTalk(core, otherId, playerId);
   if (
     seen &&
     daysBetween(makeIsoDate(seen.date), makeIsoDate(core.date)) >= one
