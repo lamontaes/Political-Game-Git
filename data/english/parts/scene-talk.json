@@ -189172,6 +189172,186 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.case-help-10",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll wait to hear from {agency}, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "lie",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-11",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I didn't know {agency} already had it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "lie",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.case-help-1",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. If {agency} has it, I'll wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "lie",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "accept",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.follow-accept",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.case-help-2",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll wait on {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "lie",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "accept",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.follow-accept",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.case-help-1",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I asked {agency} myself. They have nothing from your office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "after": "lie",
+          "requiresFacts": ["agency", "knows-truth"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "confront",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-confront",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.case-help-2",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "{agency} told me they never heard from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "after": "lie",
+          "requiresFacts": ["agency", "knows-truth"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "confront",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-confront",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
       "key": "scene-talk.follow-press.case-help-1",
       "move": "follow-press",
       "kind": "spoken",
@@ -189525,7 +189705,7 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.case-help-1",
+      "key": "scene-talk.follow-accept.case-help-3",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "Then I'll take it to {agency} myself.",
@@ -189555,7 +189735,7 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.case-help-2",
+      "key": "scene-talk.follow-accept.case-help-4",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "Fine. I'll take it to {agency} without you.",
@@ -189585,7 +189765,7 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.case-help-3",
+      "key": "scene-talk.follow-accept.case-help-5",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "I'll go to {agency} on my own, then.",
