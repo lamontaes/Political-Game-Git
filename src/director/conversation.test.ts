@@ -31,8 +31,14 @@ import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { REGISTER_CARDS } from "../english/speech-registers";
 import { kinAddress, relationPhrase } from "../english/journal-words";
 import type { PersonId } from "../core2/types";
+import rulesData from "./data/conversation-rules.json" with { type: "json" };
 import { expectUpToFourDifferent } from "./reply-set-check";
 import { properName } from "./words";
+
+/** The small questions whose asker gives their own answer back (conversation-rules.json givesBack). */
+const GIVES_BACK: readonly string[] = (
+  rulesData as unknown as { givesBack: { kinds: string[] } }
+).givesBack.kinds;
 
 // M4-02, conversations (audit 1, Oct 12; the count is up to four since Nov 10,
 // "So just up to 4"): one to four distinct choices every turn, each answering the last line from real records; talking is
@@ -987,6 +993,13 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         while (next < talk.lines.length && talk.lines[next]!.kind === "ack")
           next += 1;
         expect(talk.lines[next]?.kind, asked.text).not.toBe("farewell");
+        // A small question of theirs is answered back from their own record
+        // (lead, Nov 13: the asker gives their own answer after the player's).
+        if (GIVES_BACK.includes(asked.kind))
+          expect(talk.lines[next], asked.text).toMatchObject({
+            speakerId: talk.otherId,
+            kind: `${asked.kind}-give`,
+          });
       });
     }
     expect(talks).toBe(talkers.length);

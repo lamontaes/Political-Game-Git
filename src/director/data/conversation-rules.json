@@ -728,5 +728,9 @@
     "pieces": [
       "conversation.news-answer-why.who-s-behind-it-i-d-want-to-know-before-my-place-tries-it"
     ]
+  },
+  "givesBack": {
+    "about": "Lead, Nov 13, 2026 (conversation.test, Jackson Center: every talk away from home ended on the player's answer): a person who asks the player a small question gives their own answer back after the player's, from their own record, and that closes the talk with something said; a question with nothing to give back is not asked. The asked kinds; their give-back lines are composed under `<kind>-give`.",
+    "kinds": ["home-new", "own-work-new", "asked-kin"]
   }
 }

@@ -55,7 +55,12 @@
     "body": "The local body that decided a measure, said as people say it (\"the county board\"), from data/english/said-as.json deciders.",
     "purpose": "What a budget line is for, from the bill catalog's budget row (data/english/bill-names.json).",
     "amount": "A sum of money from a record, as people round it.",
-    "sponsor": "The person who brought the bill a story covers, by name, from the bill's sponsor record (legislature bills)."
+    "sponsor": "The person who brought the bill a story covers, by name, from the bill's sponsor record (legislature bills).",
+    "their_home": "Where the person speaking lives, as a resident says it, from their household record.",
+    "their_employer": "The speaker's own employer, from their job record.",
+    "their_years": "How long the speaker has held their job, in whole years with the word (\"seven years\"), from the job's start record.",
+    "kin_employer": "Where the speaker's relative works, from the relative's job record.",
+    "kin_home": "Where the speaker's relative lives, from the relative's household record."
   },
   "maxWords": 10,
   "lineWords": {
@@ -35120,6 +35125,460 @@
       "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
       "date": "2026-11-12",
       "bearing": "braced"
+    },
+    {
+      "key": "conversation.home-new-give-core.i-m-from-their-home-myself",
+      "move": "home-new-give-core",
+      "kind": "spoken",
+      "text": "I'm from {their_home} myself.",
+      "piece": {
+        "of": "home-new-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "home-new-give-core",
+          "subject": "home-new-give",
+          "role": "core",
+          "stages": ["elsewhere"],
+          "requiresFacts": ["their_home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.home-new-give-core.their-home-for-me",
+      "move": "home-new-give-core",
+      "kind": "spoken",
+      "text": "{their_home} for me.",
+      "piece": {
+        "of": "home-new-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "home-new-give-core",
+          "subject": "home-new-give",
+          "role": "core",
+          "stages": ["elsewhere"],
+          "requiresFacts": ["their_home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.home-new-give-core.i-live-over-in-their-home",
+      "move": "home-new-give-core",
+      "kind": "spoken",
+      "text": "I live over in {their_home}.",
+      "piece": {
+        "of": "home-new-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "home-new-give-core",
+          "subject": "home-new-give",
+          "role": "core",
+          "stages": ["elsewhere"],
+          "requiresFacts": ["their_home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.home-new-give-core.same-as-me-then-their-home",
+      "move": "home-new-give-core",
+      "kind": "spoken",
+      "text": "Same as me, then. {their_home}.",
+      "piece": {
+        "of": "home-new-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "home-new-give-core",
+          "subject": "home-new-give",
+          "role": "core",
+          "stages": ["same"],
+          "requiresFacts": ["their_home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.home-new-give-core.then-we-re-neighbors-in-their-home",
+      "move": "home-new-give-core",
+      "kind": "spoken",
+      "text": "Then we're neighbors in {their_home}.",
+      "piece": {
+        "of": "home-new-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "home-new-give-core",
+          "subject": "home-new-give",
+          "role": "core",
+          "stages": ["same"],
+          "requiresFacts": ["their_home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.home-new-give-core.their-home-too-i-thought-i-knew-the-face",
+      "move": "home-new-give-core",
+      "kind": "spoken",
+      "text": "{their_home} too. I thought I knew the face.",
+      "piece": {
+        "of": "home-new-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "home-new-give-core",
+          "subject": "home-new-give",
+          "role": "core",
+          "stages": ["same"],
+          "requiresFacts": ["their_home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.own-work-new-give-core.i-m-at-their-employer-myself",
+      "move": "own-work-new-give-core",
+      "kind": "spoken",
+      "text": "I'm at {their_employer} myself.",
+      "piece": {
+        "of": "own-work-new-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-work-new-give-core",
+          "subject": "own-work-new-give",
+          "role": "core",
+          "stages": ["working"],
+          "requiresFacts": ["their_employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.own-work-new-give-core.i-work-at-their-employer",
+      "move": "own-work-new-give-core",
+      "kind": "spoken",
+      "text": "I work at {their_employer}.",
+      "piece": {
+        "of": "own-work-new-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-work-new-give-core",
+          "subject": "own-work-new-give",
+          "role": "core",
+          "stages": ["working"],
+          "requiresFacts": ["their_employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.own-work-new-give-core.their-employer-for-me-their-years-now",
+      "move": "own-work-new-give-core",
+      "kind": "spoken",
+      "text": "{their_employer} for me, {their_years} now.",
+      "piece": {
+        "of": "own-work-new-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-work-new-give-core",
+          "subject": "own-work-new-give",
+          "role": "core",
+          "stages": ["working"],
+          "requiresFacts": ["their_employer", "their_years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.own-work-new-give-core.i-m-between-jobs-right-now-you",
+      "move": "own-work-new-give-core",
+      "kind": "spoken",
+      "text": "I'm between jobs right now, {you}.",
+      "piece": {
+        "of": "own-work-new-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-work-new-give-core",
+          "subject": "own-work-new-give",
+          "role": "core",
+          "stages": ["none"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.own-work-new-give-core.nothing-steady-for-me-at-the-moment-you",
+      "move": "own-work-new-give-core",
+      "kind": "spoken",
+      "text": "Nothing steady for me at the moment, {you}.",
+      "piece": {
+        "of": "own-work-new-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-work-new-give-core",
+          "subject": "own-work-new-give",
+          "role": "core",
+          "stages": ["none"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.he-s-at-kin-employer-these-days",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "He's at {kin_employer} these days.",
+      "piece": {
+        "of": "asked-kin-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["kin_employer", "kin-he"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.he-lives-over-in-kin-home",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "He lives over in {kin_home}.",
+      "piece": {
+        "of": "asked-kin-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["kin_home", "kin-he"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.he-s-at-kin-employer-you-d-know-him-if-you-saw-him",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "He's at {kin_employer}. You'd know him if you saw him.",
+      "piece": {
+        "of": "asked-kin-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["unknown"],
+          "requiresFacts": ["kin_employer", "kin-he"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.he-lives-in-kin-home",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "He lives in {kin_home}.",
+      "piece": {
+        "of": "asked-kin-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["unknown"],
+          "requiresFacts": ["kin_home", "kin-he"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.she-s-at-kin-employer-these-days",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "She's at {kin_employer} these days.",
+      "piece": {
+        "of": "asked-kin-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["kin_employer", "kin-she"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.she-lives-over-in-kin-home",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "She lives over in {kin_home}.",
+      "piece": {
+        "of": "asked-kin-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["kin_home", "kin-she"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.she-s-at-kin-employer-you-d-know-her-if-you-saw-her",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "She's at {kin_employer}. You'd know her if you saw her.",
+      "piece": {
+        "of": "asked-kin-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["unknown"],
+          "requiresFacts": ["kin_employer", "kin-she"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.she-lives-in-kin-home",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "She lives in {kin_home}.",
+      "piece": {
+        "of": "asked-kin-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["unknown"],
+          "requiresFacts": ["kin_home", "kin-she"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13",
+      "bearing": "warm"
     },
     {
       "key": "conversation.own-view-take-core.good-i-ll-say-as-much-at-employer-you",

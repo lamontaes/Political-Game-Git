@@ -3517,6 +3517,134 @@ function askedKind(
 }
 
 /** The other person asks about one of the player's subjects. */
+/** The small questions whose asker gives their own answer back after the player's (conversation-rules.json givesBack). */
+const GIVES_BACK: readonly string[] = (
+  CONVERSATION_RULES as unknown as { givesBack: { kinds: string[] } }
+).givesBack.kinds;
+
+/**
+ * What the asker of a small question gives back after the player's answer,
+ * from their own record (lead, Nov 13: "a person who asks the player a small
+ * question gives their own answer back"): where they are from, where they
+ * work (or that they have no work), where a relative they asked about works
+ * or lives. The facts and the stage of the `<kind>-give` cell, and the fact
+ * the player learns of them; null when their record holds nothing to give,
+ * and then the question is not asked.
+ */
+function giveBack(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  askerId: PersonId,
+  kind: string,
+  subject: Subject,
+  /** The facts the question itself already said. */
+  said: readonly string[] = [],
+): {
+  facts: Facts;
+  stage: string;
+  learned?: { personId: PersonId; key: string; value: string };
+} | null {
+  const asker = core.people.get(askerId);
+  const player = core.people.get(playerId);
+  if (!asker || !player) return null;
+  const you = calledBy(core, askerId, playerId);
+  if (kind === "home-new") {
+    const place = corePlaceByJurisdictionId(asker.placeId as never);
+    if (!place) return null;
+    return {
+      facts: {
+        you,
+        "their-home": {
+          text: spoken(place),
+          sourceRecordIds: [asker.householdId],
+        },
+      },
+      stage: asker.placeId === player.placeId ? "same" : "elsewhere",
+      learned: {
+        personId: askerId,
+        key: `person:${askerId}:place`,
+        value: asker.placeId,
+      },
+    };
+  }
+  if (kind === "own-work-new") {
+    const held = sayJob(core, asker);
+    if (!held) return { facts: { you }, stage: "none" };
+    const years = tenureYears(startedOf(core, asker), core.date);
+    return {
+      facts: {
+        you,
+        "their-employer": {
+          text: held.employer,
+          sourceRecordIds: [held.job.id, held.org.id],
+        },
+        ...(years
+          ? {
+              "their-years": {
+                text: `${years.text} years`,
+                sourceRecordIds: years.sourceRecordIds,
+              },
+            }
+          : {}),
+      },
+      stage: "working",
+      learned: {
+        personId: askerId,
+        key: `person:${askerId}:employer`,
+        value: held.org.id,
+      },
+    };
+  }
+  if (kind === "asked-kin" && subject.aboutId) {
+    // From the relative's own facts the subject carries (their work, where
+    // they live), less what the question itself already said ("Lives out in
+    // Ohio."), while something else is left to give.
+    const kinId = subject.aboutId as PersonId;
+    const work = subject.facts.employer;
+    const home = subject.facts.place;
+    const fresh = {
+      work: work && !said.includes("employer") ? work : undefined,
+      home: home && !said.includes("place") ? home : undefined,
+    };
+    const give = fresh.work || fresh.home ? fresh : { work, home };
+    if (!give.work && !give.home) return null;
+    const kin = core.people.get(kinId);
+    // Said by the relative's pronoun, from their own record.
+    const gender = kin?.looks?.gender;
+    const pronoun =
+      gender === "male" ? "kin-he" : gender === "female" ? "kin-she" : null;
+    if (!pronoun) return null;
+    const employerId = kin ? jobOf(core, kin)?.org.id : undefined;
+    return {
+      facts: {
+        you,
+        [pronoun]: { text: "yes", sourceRecordIds: [kinId] },
+        ...(give.work ? { "kin-employer": give.work } : {}),
+        ...(give.home ? { "kin-home": give.home } : {}),
+      },
+      stage: player.knownIds.has(kinId) ? "known" : "unknown",
+      ...(give.work && employerId
+        ? {
+            learned: {
+              personId: kinId,
+              key: `person:${kinId}:employer`,
+              value: employerId,
+            },
+          }
+        : give.home && kin
+          ? {
+              learned: {
+                personId: kinId,
+                key: `person:${kinId}:place`,
+                value: kin.placeId,
+              },
+            }
+          : {}),
+    };
+  }
+  return null;
+}
+
 function askSubject(
   core: Readonly<CoreState>,
   conversation: Conversation,
@@ -3534,6 +3662,15 @@ function askSubject(
     return false;
   }
   const kind = askedKind(core, data, otherId, playerId, subject);
+  // A small question is asked only when the asker has their own answer to
+  // give back (lead, Nov 13).
+  if (
+    GIVES_BACK.includes(kind) &&
+    !giveBack(core, playerId, otherId, kind, subject)
+  ) {
+    conversation.used.push(subject.id);
+    return false;
+  }
   const momentKey = `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:ask`;
   // A question the engine composes, where the subject has one (news: "What
   // do you make of {topic} closing?"), else a wording of the bank's.
@@ -3607,6 +3744,14 @@ function raiseSubject(
   conversation.used.push(`${otherId}>${subject.id}`);
   const then = data.otherRaises[subject.kind];
   if (!then) return false;
+  // A small question is asked only when the asker has their own answer to
+  // give back (lead, Nov 13): a relative with neither work nor a home on
+  // record is not asked about.
+  if (
+    GIVES_BACK.includes(then.kind) &&
+    !giveBack(core, playerId, otherId, then.kind, subject)
+  )
+    return false;
   const momentKey = `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`;
   // A subject whose raise the engine composes: the address's point, or one
   // with a `<kind>-say` sentence in the bank (where they stand).
@@ -6158,6 +6303,63 @@ function sayNow(
     conversation.director,
     conversation,
   ).find((row) => row.id === choice.raises);
+  // Their own small question answered, they give their own answer back from
+  // their record: the talk's last word is theirs and says something, and the
+  // player learns it (lead, Nov 13).
+  if (!raised && !doubted && !choice.lie && GIVES_BACK.includes(last.kind)) {
+    const asked = [...conversation.lines]
+      .reverse()
+      .find((row) => row.speakerId === otherId && row.kind === last.kind);
+    const back = giveBack(
+      core,
+      playerId,
+      otherId,
+      last.kind,
+      last.subject,
+      asked?.wording?.facts ?? [],
+    );
+    const line = back
+      ? composedLine(
+          core,
+          otherId,
+          `${last.kind}-give`,
+          back.facts,
+          back.stage,
+          `${eventId}:give`,
+          saidParts(conversation, otherId),
+        )
+      : null;
+    if (back && line) {
+      conversation.lines.push({
+        speakerId: otherId,
+        subjectId: choice.answers,
+        kind: `${last.kind}-give`,
+        act: "tell",
+        ...line,
+      });
+      if (back.learned) {
+        const id = `${eventId}:give`;
+        applyCoreEvent(core, {
+          id,
+          date: core.date,
+          kind: data.toldEvent,
+          personIds: [playerId, ...conversation.presentIds],
+          witnessIds: [otherId],
+          placeId: player.placeId,
+          facts: { [back.learned.key]: back.learned.value },
+          source: {
+            tag: "SOURCED",
+            citation:
+              "Recorded conversation: what the other person said of their own.",
+            asOf: core.date,
+          },
+        });
+        conversation.recorded.push(id);
+      }
+      carryOn(core, conversation, data);
+      return conversation;
+    }
+  }
   if (
     !raised &&
     NEWS_SUBJECTS.has(subjectKindOf(conversation.topics[zero] ?? ""))
@@ -6199,38 +6401,11 @@ function sayNow(
     // "I see.") of an answer that asked nothing is a non-reply (owner, Nov
     // 12: "a useless interaction"); the talk carries on from its records
     // instead. Taking up a request ("Sit with me a minute?" "Sure.") stays.
-    const bare =
+    const take =
       answered?.move === "accept" &&
-      replyMoveOf(last.kind, choice.move) !== "request";
-    const take = bare ? null : answered;
-    // But the other person always has the last word away from home: where
-    // nothing carries on, the taking-in closes the talk, not the player's
-    // answer (conversation.test, Jackson Center, Ohio: "Where are you from?"
-    // "I'm from Jackson Center." and nothing after). At home a talk ends on
-    // its last line that says something (owner, Nov 12).
-    const housemate =
-      core.people.get(otherId)?.householdId ===
-      core.people.get(playerId)?.householdId;
-    if (bare && answered && !doubted && !housemate) {
-      const before = conversation.lines.length;
-      carryOn(core, conversation, data);
-      if (conversation.lines.length === before && !conversation.choices.length)
-        conversation.lines.push({
-          speakerId: otherId,
-          subjectId: choice.answers,
-          kind: "ack",
-          act: "tell",
-          text: answered.text,
-          sourceRecordIds: [eventId],
-          wording: {
-            bank: "scene-talk",
-            parts: [answered.pieceKey],
-            stage: "default",
-            facts: [],
-          },
-        });
-      return conversation;
-    }
+      replyMoveOf(last.kind, choice.move) !== "request"
+        ? null
+        : answered;
     if (take)
       conversation.lines.push({
         speakerId: otherId,
