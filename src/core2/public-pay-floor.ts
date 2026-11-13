@@ -43,7 +43,19 @@ export const PUBLIC_EMPLOYER_CLASSES: readonly string[] =
   Object.keys(EMPLOYER_LEVELS);
 const ORDER: readonly LawLevelName[] = ["federal", "state", "county", "city"];
 
-/** The level of government a public employer class belongs to, if it is one. */
+/**
+ * The highest level of government whose public-employee laws (a pay floor,
+ * bargaining) reach a public employer class: its own level, except a school
+ * district, a government of its own that only state and federal laws reach.
+ * `publicEmployerLevel` below is where it is funded from.
+ */
+export function publicEmployerBoundLevel(
+  classification: string,
+): LawLevelName | undefined {
+  return BOUND_BY[classification] ?? EMPLOYER_LEVELS[classification];
+}
+
+/** The level of government a public employer class belongs to (who funds it), if it is one. */
 export function publicEmployerLevel(
   classification: string,
 ): LawLevelName | undefined {
