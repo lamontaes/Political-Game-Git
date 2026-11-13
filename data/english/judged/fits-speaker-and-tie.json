@@ -1,0 +1,8 @@
+{
+  "schema": "english-judged/2",
+  "rule": "fits-speaker-and-tie",
+  "rubric": "A line fits its speaker's role, age and relationship to the listener, and a speaker is recognizable without the name attached.",
+  "judged": 150,
+  "no": {},
+  "yesHash": "06ozg1seg22"
+}
