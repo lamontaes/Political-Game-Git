@@ -20,7 +20,13 @@ import { enactLaw, lawChain, yesLevels } from "./modules/laws";
 import { reachTable } from "./law-reach/group-a-records";
 import { jobsAt } from "./law-reach/group-b-money";
 import { lineForPost } from "./budgets-treasury";
-import { governments } from "./modules/budgets";
+import {
+  budgetsOf,
+  fiscalYearOf,
+  governments,
+  putBudget,
+} from "./modules/budgets";
+import { runReachCalendar } from "./law-reach/reach-workers";
 import bargaining from "./data/laws/public-bargaining.json" with { type: "json" };
 import type { CoreAPI, CoreState } from "./types";
 
@@ -287,4 +293,95 @@ describe("who a public-bargaining law reaches", () => {
     expect(bargainingCovers(state, "service:municipal-government")).toBe(true);
     expect(bargainingCovers([], "service:school")).toBe(false);
   });
+});
+
+describe("a city bargaining law and the school district in the same town", () => {
+  // One pinned town, built once: Oklahoma's starting law bars its places from
+  // this rule, so the state's grant is enacted, then the law at the city alone.
+  const PLACE = "4020550";
+  const SCHOOLS = ["service:school", "service:public-school"];
+  it(`settles the town's police and fire units and leaves the school district's staff alone (place ${PLACE})`, () => {
+    const world = buildBenchWorld("bargaining-city-law", gameStartDate(), {
+      twoLevel: true,
+      placeKey: PLACE,
+    });
+    const core: CoreState = world.core;
+    const api = coreAPI(core);
+    const enact = (
+      level: string,
+      series: string,
+      value: 0 | 1,
+      tag: string,
+    ) => {
+      const row = lawChain(api).levels.find((l) => l.level === level)!;
+      enactLaw(api, {
+        jurisdiction: row.jurisdiction,
+        level: level as GovernmentLevel,
+        series,
+        value,
+        effectiveDate: addDays(makeIsoDate(api.state.date), 1),
+        measureId: `test:city-bargaining:${tag}`,
+        citation: `Test measure ${tag}`,
+      });
+    };
+    enact("state", `local-power:${KEY}`, 1, "grant");
+    enact("city", KEY, 1, "city");
+    for (const l of yesLevels(api, KEY))
+      if (l.level !== "city") enact(l.level, KEY, 0, `off:${l.level}`);
+    advanceCore(core, addDays(makeIsoDate(core.date), 3));
+    expect(yesLevels(api, KEY).map((l) => l.level)).toEqual(["city"]);
+    // The world opens with one budget year; a contract follows the growth of
+    // a line over the year before, so the town's year before is the same
+    // budget five percent lower in every line (the budget row the engine
+    // reads, written the way the budget engine writes it).
+    const town = governments(api).find((g) => g.level === "city")!;
+    const fy = fiscalYearOf(core.date, town.fiscalYearStart);
+    const current = budgetsOf(api, town.id).find((b) => b.fiscalYear === fy)!;
+    putBudget(api, {
+      ...current,
+      id: `${current.id}:year-before`,
+      fiscalYear: fy - 1,
+      spendingMinor: Object.fromEntries(
+        Object.entries(current.spendingMinor).map(([line, minor]) => [
+          line,
+          Math.round(minor * 0.95),
+        ]),
+      ),
+    });
+    const classes = Object.keys(UNITS);
+    const pay = () =>
+      new Map(
+        jobsAt(api, classes).map((j) => [j.id, j.hourlyMinor ?? 0] as const),
+      );
+    const before = pay();
+    const t0 = Date.now();
+    runReachCalendar(api, {
+      kind: bargaining.contractKind,
+      sourceRecordIds: [town.id],
+    } as never);
+    const settled = contracts(api);
+    const own = settled.filter(
+      (c) => !SCHOOLS.includes(String(c.facts.classification)),
+    );
+    // (a) the town's own employers settled, and their jobs were raised.
+    expect(own.length, `town units settled (${PLACE})`).toBeGreaterThan(0);
+    expect(own.some((c) => Number(c.facts.raised) > 0)).toBe(true);
+    // (b) the district's units did not, and no school job's pay moved, though
+    // the town's budget line that pays the district grew five percent.
+    const after = pay();
+    const schoolJobs = jobsAt(api, SCHOOLS).filter(
+      (j) => (j.hourlyMinor ?? 0) > 0,
+    );
+    expect(schoolJobs.length).toBeGreaterThan(0);
+    for (const job of schoolJobs)
+      expect(after.get(job.id), `school job ${job.id}`).toBe(
+        before.get(job.id),
+      );
+    expect(
+      settled.filter((c) => SCHOOLS.includes(String(c.facts.classification))),
+    ).toHaveLength(0);
+    process.stdout.write(
+      `BARGAINING CITY LAW ${PLACE}: ${own.map((c) => `${c.facts.line} ${c.facts.raised} of ${c.facts.jobs} jobs raised ${c.facts.raisePct}%`).join(", ")}; ${schoolJobs.length} school jobs kept their pay; contract step ${Date.now() - t0} ms\n`,
+    );
+  }, 300_000);
 });
