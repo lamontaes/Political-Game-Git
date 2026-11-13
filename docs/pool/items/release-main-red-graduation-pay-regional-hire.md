@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/red-main-graduation-regional-hire
-pr:
+pr: #9041
 after:
 blocked-on:
 lead: jobs
