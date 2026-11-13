@@ -123,6 +123,7 @@ import { closenessBetween } from "../core2/closeness";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
+import { counterFilingReplyId } from "./filing-visit";
 import {
   numberWord,
   properName,
@@ -1681,6 +1682,17 @@ function petitionFacts(
   const walk = {
     ...walkThroughFacts(core, petition),
     ...voteDay(core, petition),
+    // A filing made at the counter was taken there, in the clerk's scene:
+    // the record of the reply that filed is read so the clerk does not take
+    // the papers a second time (the narration of stamping them is left out).
+    ...(core.durableLog.has(counterFilingReplyId(petition.filingId))
+      ? {
+          "filed-at-counter": {
+            text: "yes",
+            sourceRecordIds: [counterFilingReplyId(petition.filingId)],
+          },
+        }
+      : {}),
   };
   if (petition.needed <= P.zero) return { "no-petition": fact("yes"), ...walk };
   const due = fact(spokenDate(petition.due, core.date));

@@ -22,8 +22,9 @@ import { contestPositions } from "../core2/contest-positions";
 import { seatHolder } from "../core2/modules/voting";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
-  askAtCounter,
+  sayAtCounter,
   counterNarration,
+  spokenOffice,
   filedAtCounter,
   openFilingVisit,
   pickContest,
@@ -175,6 +176,7 @@ export function openBenchFilingVisit(
             first: {
               name: `${person.givenName} ${person.familyName}`,
               recordId: first.id,
+              filedOn: first.filedOn,
             },
           }
         : {}),
@@ -262,11 +264,16 @@ export function openBenchFilingVisit(
     // A first visit asks for the papers; a filing here still gathering
     // signatures brings the petition back, and one already on the ballot
     // comes back with nothing to bring, each by its record.
+    // The clerk's office is named one way, from the place's filing record
+    // (Fable A, Nov 13, rule 8: "Town clerk" in a town, never "City Clerk"
+    // beside it); the clerk's own title only where that record names a choice.
     intro: clerkRow
       ? counterNarration(
           core,
           visit,
-          clerkRow,
+          / or /i.test(spokenOffice(filedWith))
+            ? clerkRow
+            : { ...clerkRow, title: spokenOffice(filedWith) },
           filedHere(core, playerId, filedWith),
           minuteOfDay,
         )
@@ -329,8 +336,8 @@ export function chooseAtCounter(
       overlay: overlayFor(core, state.visit.playerId, action.contestId),
     };
   }
-  if (action.kind === "ask")
-    return { ...state, visit: askAtCounter(core, state.visit, key) };
+  if (action.kind === "say")
+    return { ...state, visit: sayAtCounter(core, state.visit, key) };
   if (action.kind === "file") {
     const result = fileForOffice(
       core,
@@ -357,7 +364,12 @@ export function chooseAtCounter(
           ],
           choices: [],
         }
-      : filedAtCounter(core, state.visit, choice);
+      : filedAtCounter(
+          core,
+          state.visit,
+          choice,
+          (result as { filing?: { id: string } }).filing?.id,
+        );
     const made = (result as { filing?: { id: string } }).filing;
     return {
       ...state,
