@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 3
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/red-main-filing-fixed-date-core2
-pr:
+pr: 8976
 blocked-on:
 source: fixer of tests-door-pledge-turnout-race-open-by-draw (PR #8902), Nov 12, from the coordinator's order
 after:
