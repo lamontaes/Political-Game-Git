@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-u3592e
-pr:
+pr: #9073
 blocked-on:
 source: Account lead T39, Nov 13 (train red from #9062's CI, /mnt/project-files/open-prs/train-reds-from-9062-ci.md)
 after:
