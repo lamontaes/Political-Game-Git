@@ -125,10 +125,12 @@ try {
   await page.keyboard.press("Escape");
   // People opens on a card of someone at home; a child's card draws the bust
   // frame with no portrait in it (ui/face.mjs `columnBust`), so the card is
-  // ready when its frame is, with or without a face.
+  // ready when a frame shows, with or without a face (a child's empty frame
+  // has no size, so it never counts as shown; the first frame shown is the
+  // ready signal, and the faces are read after).
   ms.people = await timed(
     () => page.locator('#rings [data-tab="people"]').click(),
-    "#sheet .mxglow",
+    "#sheet .mxglow:visible",
   );
   await page.waitForTimeout(800);
   await shot("people");

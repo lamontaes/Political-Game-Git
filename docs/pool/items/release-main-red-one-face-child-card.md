@@ -22,7 +22,7 @@ source: Red desk, Nov 13 (merger codex-4629 and the CTO on #8928, comments 68407
 
 **Cause.** Found in code: `columnBust` in src/bench/ui/face.mjs draws a person with no face record (a child) as the empty `.mxglow` frame with no `.mxbust` inside, and src/bench/one-face.browser.mjs waited for `#sheet .mxbust .bust-stack` after opening People, which a child's card never has.
 
-**Fix.** Check only: People is ready when the card's bust frame (`#sheet .mxglow`) shows, with a face or without; every assertion is unchanged, and the household cards are still read one by one. The check also takes `SEED`, which replays a life's seed through the new-life request, so a place a run names can be played again.
+**Fix.** Check only: People is ready when a bust frame in the sheet shows (`#sheet .mxglow:visible`; a child's empty frame has no size and never counts as shown); every assertion is unchanged, and the household cards are still read one by one. The check also takes `SEED`, which replays a life's seed through the new-life request, so a place a run names can be played again.
 
 **Time box.** 0.5 hours
 
@@ -33,3 +33,5 @@ source: Red desk, Nov 13 (merger codex-4629 and the CTO on #8928, comments 68407
 **Waits on.** Nothing.
 
 **Files.** src/bench/one-face.browser.mjs
+
+**Notes (Red desk, Nov 13).** Sent back by codex-1251 at 41898e07: on main 587dd0be the first `#sheet .mxglow` is the child's empty frame, which Playwright counts as hidden, so the wait never ended (122 tries). The wait is now for a visible frame. Wewoka with SEED=ee686ad3-4e3b-47ea-85d3-b0b141ec14b3 fails with the old selector and passes with the new one on the merged result. The fresh draws Kingsland, Georgia (8f82b02f-4a08-43ec-bd93-402c412904c3) and Lane, South Dakota (fa1d19ae-5429-4034-b8b4-2adbb5b615b2) pass.
