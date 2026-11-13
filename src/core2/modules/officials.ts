@@ -1848,3 +1848,7 @@ function temperamentOf(
     ).get(personId) ?? {}
   );
 }
+
+/** A seat-holder's own stance and the President's record facts, read through the executive family's entry. */
+export { ownStance } from "../officials-roster";
+export { PRESIDENT_FACT } from "../officials-president";

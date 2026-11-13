@@ -18,6 +18,7 @@
 import { P } from "../core2/parameters";
 import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import tagsFile from "../../data/english/scene-talk-tags.json" with { type: "json" };
+import moveSetsFile from "../../data/english/scene-move-sets.json" with { type: "json" };
 import { conversationPacket, renderLine, type Fact } from "./bank-line";
 import {
   composeJoinedLine,
@@ -60,6 +61,11 @@ export interface PartUse {
   move: string;
   role: SceneTalkRole;
   purpose?: string;
+  /**
+   * A shared move set (data/english/scene-move-sets.json) in place of one
+   * purpose: the piece serves every purpose the set lists.
+   */
+  set?: string;
   key?: string;
   after?: string;
   outcome?: "resolved" | "refused" | "open";
@@ -78,7 +84,13 @@ export interface BankPart {
    * joined piece says so"): `of` names the sentence, `part` which part of it
    * this is, and `required` whether every such sentence has that part.
    */
-  piece?: { of: string; part: LinePart; required?: boolean };
+  piece?: {
+    of: string;
+    part: LinePart;
+    required?: boolean;
+    /** An opener that itself says the speaker's side: the core's yes or no is not said again. */
+    stand?: boolean;
+  };
 }
 
 const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
@@ -183,11 +195,51 @@ const taggedBy = (part: BankPart) =>
 /** Where a scene is said: the part of a move that decides which pieces serve it at all. */
 export type SceneSpot = Pick<SceneMove, "purpose" | "family" | "key">;
 
+/** The purposes each shared move set serves (data/english/scene-move-sets.json). */
+const MOVE_SETS = new Map(
+  Object.entries(
+    (
+      moveSetsFile as unknown as {
+        sets: Record<string, { purposes: string[] }>;
+      }
+    ).sets,
+  ).map(([name, row]) => [name, new Set(row.purposes)]),
+);
+
+/** Whether a use's purpose, or the shared move set it names, is this purpose (or its family). */
+export function usesPurpose(
+  u: Pick<PartUse, "purpose" | "set">,
+  purpose: string,
+  family?: string,
+): boolean {
+  if (u.set) {
+    const serves = MOVE_SETS.get(u.set);
+    return (
+      !!serves && (serves.has(purpose) || (!!family && serves.has(family)))
+    );
+  }
+  return u.purpose === purpose || (!!family && u.purpose === family);
+}
+
 /** Whether a use serves this purpose and situation key (a fallback "*" serves only a scene with no purpose of its own). */
 export function usesSpot(u: PartUse, use: SceneSpot): boolean {
-  if (u.purpose && u.purpose !== use.purpose && u.purpose !== use.family)
+  if ((u.purpose || u.set) && !usesPurpose(u, use.purpose, use.family))
     return false;
   return !(u.key && u.key !== use.key);
+}
+
+/**
+ * A use may answer a step's move ("follow-ask": whatever the asker asked as a
+ * follow-up, never the opening statement): it fits when the line answered is
+ * a piece written for that step and move.
+ */
+const STEP_MOVE = /^(?:open|state|reply|follow|continue|close)-[a-z-]+$/;
+function answersStep(after: string, answered: string | undefined): boolean {
+  return (
+    STEP_MOVE.test(after) &&
+    !!answered &&
+    answered.startsWith(`scene-talk.${after}.`)
+  );
 }
 
 /**
@@ -205,7 +257,12 @@ export function useFit(
   if (!steps.includes(u.step) || u.move !== use.move) return -one;
   if (u.role !== use.role) return -one;
   if (!usesSpot(u, use)) return -one;
-  if (u.after && u.after !== use.after && u.after !== use.afterPiece)
+  if (
+    u.after &&
+    u.after !== use.after &&
+    u.after !== use.afterPiece &&
+    !answersStep(u.after, use.afterPiece)
+  )
     return -one;
   if (u.outcome && u.outcome !== use.outcome) return -one;
   if (u.requiresFacts?.some((name) => !facts[name])) return -one;
@@ -214,6 +271,9 @@ export function useFit(
     // A piece written for a variant beats the family's, whatever facts either needs.
     (use.family && u.purpose === use.purpose ? sixteen : zero) +
     (u.purpose && u.purpose !== "*" ? four : zero) +
+    // A shared move set names the purposes it serves, so a piece of it fits
+    // as closely as one written for the purpose's own situation key.
+    (u.set ? four + two : zero) +
     (u.key ? two : zero) +
     (u.after ? (u.after === use.afterPiece ? four + four : one) : zero) +
     // A piece that needs a fact the record holds says more than one that does not.
@@ -237,11 +297,23 @@ export function fitting(
   return scoredFits(
     use,
     facts,
-    (part) => !part.piece && keep(part),
+    (part) => wholeLine(part) && keep(part),
     parts,
     verdicts,
+    true,
   ).parts;
 }
+
+/**
+ * A shared move set's piece (a liked line carried as a set's opener) is
+ * still a whole line for the purposes that name it directly: "People say a
+ * lot of things." opens the on-record set's deflection and is still said
+ * whole to a colleague's confrontation over a vote. Any other piece is never
+ * said whole.
+ */
+const carriedWhole = (part: BankPart) =>
+  !!part.piece && part.uses.some((u) => u.set) && part.uses.some((u) => !u.set);
+const wholeLine = (part: BankPart) => !part.piece || carriedWhole(part);
 
 /** The closest-fitting pieces and how closely they fit (-1 when none do). */
 function scoredFits(
@@ -250,13 +322,16 @@ function scoredFits(
   keep: (part: BankPart) => boolean,
   parts: readonly BankPart[],
   verdicts: ReplyFollowsTable,
+  whole = false,
 ): { parts: BankPart[]; specific: number } {
   const steps = Array.isArray(use.step) ? use.step : [use.step];
   const fits = parts.filter(keep).flatMap((part) => {
     // A piece may carry one use for each purpose it serves: take the best fit.
+    // Said whole, a carried piece answers only to its own purposes' uses.
     let specific = -one;
     for (const u of part.uses)
-      specific = Math.max(specific, useFit(u, use, steps, facts));
+      if (!(whole && part.piece && u.set))
+        specific = Math.max(specific, useFit(u, use, steps, facts));
     return specific < zero ? [] : [{ part, specific }];
   });
   const answered = use.afterPiece;
@@ -376,9 +451,10 @@ export function wordSceneMove(input: {
   const whole = scoredFits(
     use,
     facts,
-    (part) => !part.piece && keepPart(part),
+    (part) => wholeLine(part) && keepPart(part),
     pool,
     verdicts,
+    true,
   );
   const every = whole.parts;
   // Sentences joined from pieces fit as closely as their core; one that fits
@@ -531,6 +607,23 @@ function unsaidSentence(
   return [{ ...row, parts }];
 }
 
+/**
+ * A turn says its stand once (lead's rule, Nov 12): a bare yes or no ("Yes.",
+ * "Still no.", "Even then.") answers a question only as the turn's first
+ * words. After an opener that itself says the speaker's side (`piece.stand`),
+ * which has given the answer already ("I'd tell them I listened, and I still disagree."), the
+ * core's answer word is not said again, and the core goes on from its next
+ * word. An opener that is no answer ("Plainly?") keeps the core's yes or no.
+ */
+const ANSWER_WORD =
+  /([.!?]\s+)(?:Yes|No|Still no|Still yes|Even then|Every time|It's still (?:yes|no))\.\s+(\S)/g;
+export function standSaidOnce(text: string): string {
+  return text.replace(
+    ANSWER_WORD,
+    (_all, stop: string, next: string) => `${stop}${next.toUpperCase()}`,
+  );
+}
+
 /** Word one joined sentence in the speaker's voice, or null when its facts cannot carry it. */
 function joinedMove(
   input: Parameters<typeof wordSceneMove>[0],
@@ -572,7 +665,13 @@ function joinedMove(
   const coreKey =
     line.parts.find((part) => part.part === "core")?.variantKey ?? "";
   const core = sentence.parts.core?.find((part) => part.key === coreKey);
-  const text = line.text.trim();
+  // An opener that says the speaker's side has given the answer already.
+  const openerKey = line.parts.find(
+    (part) => part.part === "opener",
+  )?.variantKey;
+  const opener = sentence.parts.opener?.find((part) => part.key === openerKey);
+  const stood = opener?.piece?.stand === true;
+  const text = stood ? standSaidOnce(line.text.trim()) : line.text.trim();
   return {
     text,
     pieceKey: coreKey,
@@ -620,8 +719,7 @@ export function sceneMovesWritten(filter: {
             u.step === filter.step &&
             (filter.role === undefined || u.role === filter.role) &&
             (filter.purpose === undefined ||
-              u.purpose === filter.purpose ||
-              (filter.family !== undefined && u.purpose === filter.family)) &&
+              usesPurpose(u, filter.purpose, filter.family)) &&
             (filter.after === undefined || u.after === filter.after),
         )
         .map((u) => u.move),
@@ -641,11 +739,7 @@ export function pieceAnswers(
 ): number {
   let tier = zero;
   for (const u of PART_BY_KEY.get(pieceKey)?.uses ?? []) {
-    if (
-      u.subject !== "scene" ||
-      (u.purpose !== purpose && (!family || u.purpose !== family)) ||
-      !u.after
-    )
+    if (u.subject !== "scene" || !usesPurpose(u, purpose, family) || !u.after)
       continue;
     if (u.after === answered.pieceKey) tier = two;
     else if (u.after === answered.move) tier = Math.max(tier, one);

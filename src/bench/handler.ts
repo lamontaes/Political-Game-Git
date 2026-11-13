@@ -96,6 +96,7 @@ import {
   backdropPath,
   benchScene,
   faceOf,
+  roomIds,
   scenePlace,
 } from "./scene";
 import { occluderPath } from "./occluders";
@@ -127,6 +128,8 @@ import { pollingScene } from "./polling";
 import { officeCases, decideCase } from "./office-cases";
 import {
   meetOverTalk,
+  noteHeard,
+  noteSceneHeard,
   openConversation,
   say,
   sayNothing,
@@ -603,6 +606,16 @@ const ROUTES: readonly Route[] = [
               OPENING_EVENING_MINUTE,
             )
           : clockMinute;
+      // The room is handed to the talk (the telling): who else is here hears
+      // it, and nobody is asked after while they stand there.
+      const openingDay =
+        state.director?.ledger.opening?.date === requireCore().date;
+      const room = roomIds(
+        requireCore(),
+        state.player.personId,
+        state.player.packet,
+        openingDay ? minuteOfDay : undefined,
+      );
       state.conversation = openConversation(
         requireCore(),
         state.player.personId,
@@ -610,6 +623,7 @@ const ROUTES: readonly Route[] = [
         state.director
           ? {
               director: state.director,
+              presentIds: room,
               ...(occasionId ? { occasionId } : {}),
               ...(minuteOfDay !== undefined ? { minuteOfDay } : {}),
               // The place the player came to, so a goodbye knows it is said
@@ -631,6 +645,9 @@ const ROUTES: readonly Route[] = [
       // The player talked with them: the two have met (the encounters
       // engine's meeting, through the director's one entry for it).
       meetOverTalk(requireCore(), state.conversation);
+      // What they said is heard today by the player (the telling's "said
+      // today"): the next housemate says something else.
+      noteHeard(requireCore(), state.conversation);
       send(200, talkView(state.conversation));
       return;
     },
@@ -1739,6 +1756,13 @@ const ROUTES: readonly Route[] = [
     run: async ({ url, send }) => {
       if (!state.player?.personId || !state.director)
         throw new Error("Choose a resident first.");
+      // The scene's story is heard for the day: talk does not tell it again.
+      noteSceneHeard(
+        requireCore(),
+        state.director,
+        state.player.personId,
+        url.searchParams.get("momentId") ?? "",
+      );
       send(
         200,
         storyReply(

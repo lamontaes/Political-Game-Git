@@ -117,6 +117,34 @@
     "job-new-detail": {
       "kind": "job-new-detail-reply",
       "stage": "default"
+    },
+    "work-day": {
+      "kind": "work-day",
+      "stage": "default"
+    },
+    "rent-due": {
+      "kind": "rent-due",
+      "stage": "default"
+    },
+    "work-done": {
+      "kind": "work-done",
+      "stage": "default"
+    },
+    "school-missed": {
+      "kind": "school-missed",
+      "stage": "default"
+    },
+    "news-touch": {
+      "kind": "news-touch",
+      "stage": "default"
+    },
+    "player-news": {
+      "kind": "player-news",
+      "stage": "default"
+    },
+    "government-news": {
+      "kind": "government-news",
+      "stage": "default"
     }
   },
   "follows": {
@@ -140,7 +168,7 @@
     "kin": ["family"],
     "family": ["kin"],
     "mutual": ["family"],
-    "news": ["address"],
+    "news": ["own-view", "address"],
     "address": ["news"],
     "address-point": ["news", "own-view"],
     "job-lost": ["job-hope"],
@@ -154,7 +182,7 @@
   },
   "answersTo": {
     "about": "The reply choices that answer a question, by the move of the bank piece that asked it (owner, Nov 1: questions get answers; Oct 29: a question is answered before anything else). A choice not listed is not offered after that question. Moves and choices only; no sentence.",
-    "news-ask-core": ["for", "against", "worked-there", "opinion"]
+    "news-ask-core": ["for", "against", "why"]
   },
   "answeredBy": {
     "about": "Owner, Nov 11, 2026 (work talk names the employer, the job and how long): a question raised as a subject is answered by this fact of the other person's record. A reply that asks it is not offered when the line before already said it. Subject kinds and fact names only; no sentence.",
@@ -264,11 +292,45 @@
       "tell": "answer",
       "refuse": "refuse",
       "deflect": "deflect"
+    },
+    "work-day": {
+      "plan": "answer",
+      "wish": "answer",
+      "ask": "request",
+      "glad": "answer"
+    },
+    "rent-due": {
+      "ask": "request",
+      "help": "answer"
+    },
+    "work-done": {
+      "ask": "request",
+      "rest": "answer"
+    },
+    "school-missed": {
+      "ask": "request",
+      "today": "request",
+      "push": "answer"
+    },
+    "news-touch": {
+      "ask": "request",
+      "glad": "answer"
+    },
+    "player-news": {
+      "thanks": "answer",
+      "tell": "answer",
+      "ask": "request"
+    },
+    "government-news": {
+      "for": "agree",
+      "against": "disagree"
     }
   },
   "addressPoint": {
     "about": "Owner, Nov 11, 2026: the relative raises a real thing the President said in the address and where they stand on it from their own life. Which of the address's points a hearer raises reads these lists: a point on work or pay (by the bill catalog's subject) for someone who lost a job this year or is looking for one, a point on prices, rent or housing (the catalog's subjects, and the questions about prices by name) for someone money is hard for. `back` is the subject the hearer's answer to the player's reply is composed under. Names only; no sentence.",
-    "work": { "subjects": ["labor"] },
+    "work": {
+      "subjects": ["labor"]
+    },
     "money": {
       "subjects": ["housing"],
       "questions": [
@@ -281,19 +343,58 @@
     "back": "address-point-back",
     "claims": {
       "about": "What each claim about the country's year is about and which way it says things went. A hearer stands on a year point by whether their own life bears it out: a claim that work got worse is borne out by a job lost or looked for, or the town's unemployment above the country's; a claim that money got worse by hardship, an eviction, or the town's rent above the burden line; a claim that things got better by the opposite. By claim fact; no sentence.",
-      "prices-high": { "area": "money", "says": "worse" },
-      "prices-up": { "area": "money", "says": "worse" },
-      "inflation-up": { "area": "money", "says": "worse" },
-      "inflation-down": { "area": "money", "says": "better" },
-      "wages-up": { "area": "money", "says": "better" },
-      "wages-ahead-of-prices": { "area": "money", "says": "better" },
-      "wages-behind-prices": { "area": "money", "says": "worse" },
-      "mortgage-up": { "area": "money", "says": "worse" },
-      "mortgage-down": { "area": "money", "says": "better" },
-      "unemployment-up": { "area": "work", "says": "worse" },
-      "unemployment-down": { "area": "work", "says": "better" },
-      "jobs-up": { "area": "work", "says": "better" },
-      "growth-up": { "area": "work", "says": "better" }
+      "prices-high": {
+        "area": "money",
+        "says": "worse"
+      },
+      "prices-up": {
+        "area": "money",
+        "says": "worse"
+      },
+      "inflation-up": {
+        "area": "money",
+        "says": "worse"
+      },
+      "inflation-down": {
+        "area": "money",
+        "says": "better"
+      },
+      "wages-up": {
+        "area": "money",
+        "says": "better"
+      },
+      "wages-ahead-of-prices": {
+        "area": "money",
+        "says": "better"
+      },
+      "wages-behind-prices": {
+        "area": "money",
+        "says": "worse"
+      },
+      "mortgage-up": {
+        "area": "money",
+        "says": "worse"
+      },
+      "mortgage-down": {
+        "area": "money",
+        "says": "better"
+      },
+      "unemployment-up": {
+        "area": "work",
+        "says": "worse"
+      },
+      "unemployment-down": {
+        "area": "work",
+        "says": "better"
+      },
+      "jobs-up": {
+        "area": "work",
+        "says": "better"
+      },
+      "growth-up": {
+        "area": "work",
+        "says": "better"
+      }
     }
   },
   "greetAndPart": {
@@ -346,5 +447,280 @@
       "cause:event:election-result",
       "cause:event:candidate-filed"
     ]
+  },
+  "smallTalk": {
+    "about": "Words composer, unit 2 (owner, Nov 12: the 7:00 a.m. work talk every morning for four weeks). Small talk (the day itself, with nothing but the clock behind it) ranks below every subject with a record, and once raised with a person it is not raised with them again for this many days.",
+    "againAfterDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "spread": [5, 7],
+      "checkedAgainst": "A week, the owner's words (\"not raised again with the same person that week\", words skill, Nov 11)."
+    }
+  },
+  "dayTalk": {
+    "about": "Words composer, talk on ordinary days (owner, Nov 12: \"the game says nothing at home, and what it says is the same sentence from everyone\"). Subjects of a person's own day, each from its engine's record (the work-spans engine's shift: the day ahead or a day off for work-day, the shift just worked for work-done): told to someone they live with, answered by the player's reply, and answered back in composed words under `<kind>-back` by the reply's move, so no talk ends on the player's line. Once told to a person, a day subject waits this many days before it is told to them again; the day's own facts (when the shift starts, how long it ran) are new each day. The rent coming due (rent-due) is told by a payer on the household's lease in the days before it is due, once for each due date, and answered from the household's cash against it. A school day missed (school-missed) is read the next morning from the school engine's closed day: a school day with no attendance row; a day they went is the usual day and no news. A morning shift is told only when it differs from the job's usual day (its hours by unusualShiftMinutes); a usual day or a day off is no news. A story in the paper that names the speaker's own employer or someone they know (news-touch) is told once, by the story's own record.",
+    "kinds": [
+      "work-day",
+      "work-done",
+      "school-missed",
+      "rent-due",
+      "news-touch",
+      "player-news",
+      "government-news"
+    ],
+    "againAfterDays": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "spread": [2, 4],
+      "checkedAgainst": "Lead's brief, Nov 12: no subject repeats inside three days for the same pair; a housemate tells a work day about twice a week, not every morning (the owner's complaint, Nov 12, of the same 7:00 a.m. work talk every morning)."
+    },
+    "comesBack": ["work-day", "work-done", "school-missed"],
+    "rentDaysBefore": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "spread": [3, 7],
+      "checkedAgainst": "Rent is talked about in the week it is due; a household pays on the first and mentions it in the days before (Census Household Pulse Survey asks whether rent was paid on time for the month; the talk is the days before that)."
+    },
+    "rentCoveredMonths": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": [1, 3],
+      "checkedAgainst": "Cash of two months' rent or more is spoken of as covered; one month to two as tight; under one month as short (Federal Reserve SHED 2023: 37% of adults could not cover a $400 emergency from cash, the scale at which a month's rent is tight)."
+    },
+    "unusualShiftMinutes": {
+      "value": 60,
+      "tag": "TUNABLE",
+      "spread": [30, 120],
+      "checkedAgainst": "Owner via the coordinator, Nov 12: a morning schedule line is filler; a shift is news when it runs longer or shorter than the job's usual work day (usualWeekDays). An hour either way is the smallest change people remark on (BLS American Time Use Survey: workers' daily hours vary by under an hour on most workdays)."
+    },
+    "usualWeekDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "spread": [7, 14],
+      "checkedAgainst": "A job's usual day is the length its work days most often run over the coming week, the cycle most schedules repeat on (BLS: most workers keep a weekly schedule)."
+    },
+    "figures": ["wage"],
+    "figureAgainDays": {
+      "value": 28,
+      "tag": "TUNABLE",
+      "spread": [14, 56],
+      "checkedAgainst": "Lead, Nov 12 (Brett states his hourly wage in three of four talks): a person's own pay, rent or hours figure is said to the same listener once, then not again for this many days (four weeks) unless it changed. A month is about how often a household's money comes up again (a rent or pay cycle; BLS: most workers are paid weekly or biweekly, rent monthly)."
+    }
+  },
+  "stands": {
+    "about": "Owner, Nov 12, via the coordinator: children do not take stands on the President's address. A person younger than this takes no stand in talk: no point of an address, no stand of their own, no policy story told with a side; a child talks about school, friends and home.",
+    "minAge": {
+      "value": 16,
+      "tag": "TUNABLE",
+      "spread": [14, 18],
+      "checkedAgainst": "Pew Research Center (2022, teens and politics): most teens under 15 report little interest in national politics; civics instruction on federal policy is concentrated in high school (grades 9 to 12, ages 14 to 18). Sixteen is the middle of that spread."
+    },
+    "minEngagement": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "spread": [0.4, 0.8],
+      "checkedAgainst": "Lead, Nov 12 (sixteen-year-olds: the age gate against the person's engagement, not age alone): a person under the voting age takes a stand only when they follow politics this closely (the views engine's engagement, 0 to 1). Pew Research Center (2022): a minority of teens follow politics closely; the bar keeps most of them out and lets the engaged speak."
+    },
+    "reasonFits": {
+      "about": "Lead, Nov 12 (\"At about $15 an hour, it's my own paycheck on the line\" from someone against a raise that would pay her more): a reason from the speaker's own life is offered only when the record supports the side taken, by question and side. `pay-near`: their hourly pay is at or under the proposed wage times payNear. `payroll`: they hold a job whose title names someone who sets pay (payrollTitles). `worker`: they hold a job and do not set pay. `hardship`: the trait engine's hardship stress is past zero. A side not listed has no reason from their life; they say the principle. Question ids and fit names only.",
+      "payNear": {
+        "value": 1.25,
+        "tag": "TUNABLE",
+        "spread": [1.1, 1.5],
+        "checkedAgainst": "Economic Policy Institute (2023, Raise the Wage Act analysis): a raise reaches workers paid somewhat above the new floor through spillover, up to about a quarter above it."
+      },
+      "payrollTitles": [
+        "owner",
+        "manager",
+        "proprietor",
+        "supervisor",
+        "director",
+        "president"
+      ],
+      "wages": {
+        "about": "The proposed wage each question would set, in cents an hour (the job record's minor units).",
+        "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
+          "value": 1700,
+          "tag": "ESTIMATED",
+          "source": "Raise the Wage Act of 2023 (S. 2488, 118th Congress): $17 an hour by 2028",
+          "spread": [1500, 1700]
+        },
+        "us-policy-positions:labor-workforce.raise-minimum-wage": {
+          "value": 1500,
+          "tag": "ESTIMATED",
+          "source": "State minimum wage proposals of 2023-2024 (NCSL state minimum wage tracker): $15 the most common target",
+          "spread": [1200, 2000]
+        },
+        "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+          "value": 1500,
+          "tag": "ESTIMATED",
+          "source": "City minimum wages in force in 2024 (UC Berkeley Labor Center inventory): most near $15",
+          "spread": [1200, 2000]
+        }
+      },
+      "questions": {
+        "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
+          "for": "pay-near",
+          "against": "payroll"
+        },
+        "us-policy-positions:labor-workforce.raise-minimum-wage": {
+          "for": "pay-near",
+          "against": "payroll"
+        },
+        "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+          "for": "pay-near",
+          "against": "payroll"
+        },
+        "us-policy-positions:labor-workforce.paid-family-leave": {
+          "for": "worker",
+          "against": "payroll"
+        },
+        "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
+          "for": "worker",
+          "against": "payroll"
+        },
+        "us-policy-positions:labor-workforce.right-to-work": {
+          "against": "worker",
+          "for": "payroll"
+        },
+        "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
+          "for": "hardship"
+        },
+        "us-federal-positions:health.medicare-drug-price-negotiation": {
+          "for": "hardship"
+        },
+        "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
+          "for": "hardship"
+        },
+        "us-federal-positions:monetary-financial.cap-consumer-loan-interest": {
+          "for": "hardship"
+        },
+        "us-federal-positions:trade.raise-tariffs": {
+          "against": "hardship"
+        },
+        "us-policy-positions:housing-land-use.rent-stabilization": {
+          "for": "hardship"
+        },
+        "us-federal-positions:housing.vouchers-for-every-eligible-family": {
+          "for": "hardship"
+        }
+      }
+    }
+  },
+  "playerNews": {
+    "about": "Words composer (lead, Nov 12: the people at home talk most about the person in front of them). A housemate brings up the player's own recorded news from the player's ledger moment, by the moment's cause kind: they know it because they live with the player (the household) or read it (a printed story naming the player). Each is said with the housemate's own stance on it, from their tie to the player and their traits (no dice). A moment a scene already played is heard (noteSceneHeard) and not brought up again. Names, marks and numbers only; no sentence.",
+    "causes": {
+      "job-started": "job-got",
+      "job-changed": "job-changed",
+      "job-ended": "job-lost",
+      "job-left": "job-left",
+      "event:candidate-filed": "filed",
+      "event:election-result": "result",
+      "event:primary-result": "result",
+      "event:press-story": "in-paper"
+    },
+    "civic": ["filed", "result", "in-paper"],
+    "withinDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "spread": [3, 14],
+      "checkedAgainst": "News of one's own household is talked over in the days after it happens and then is old (a week, the talk's own small-talk wait, smallTalk.againAfterDays)."
+    },
+    "stances": {
+      "about": "The stance a housemate takes on the player's news, by their tie to the player (the relation the player's family record names; anyone else at home is `other`) and by whether the news is good, a loss, or civic (a race, a vote, a bill): `riskLow` is said by someone whose risk trait is under riskBelow (they worry), `riskHigh` by the rest. A civic stance gives way to `other-side` when the speaker's lean and the player's party lean differ by sides (otherSideLean).",
+      "parent": {
+        "good": {
+          "riskLow": "proud",
+          "riskHigh": "proud"
+        },
+        "loss": {
+          "riskLow": "worry",
+          "riskHigh": "steady"
+        },
+        "civic": {
+          "riskLow": "worry",
+          "riskHigh": "proud"
+        }
+      },
+      "partner": {
+        "good": {
+          "riskLow": "glad",
+          "riskHigh": "glad"
+        },
+        "loss": {
+          "riskLow": "worry",
+          "riskHigh": "steady"
+        },
+        "civic": {
+          "riskLow": "worry",
+          "riskHigh": "glad"
+        }
+      },
+      "sibling": {
+        "good": {
+          "riskLow": "glad",
+          "riskHigh": "tease"
+        },
+        "loss": {
+          "riskLow": "steady",
+          "riskHigh": "steady"
+        },
+        "civic": {
+          "riskLow": "tease",
+          "riskHigh": "tease"
+        }
+      },
+      "child": {
+        "good": {
+          "riskLow": "glad",
+          "riskHigh": "glad"
+        },
+        "loss": {
+          "riskLow": "worry",
+          "riskHigh": "steady"
+        },
+        "civic": {
+          "riskLow": "glad",
+          "riskHigh": "proud"
+        }
+      },
+      "other": {
+        "good": {
+          "riskLow": "glad",
+          "riskHigh": "glad"
+        },
+        "loss": {
+          "riskLow": "steady",
+          "riskHigh": "steady"
+        },
+        "civic": {
+          "riskLow": "glad",
+          "riskHigh": "glad"
+        }
+      }
+    },
+    "losses": ["job-lost", "lost"],
+    "riskBelow": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "spread": [0.3, 0.5],
+      "checkedAgainst": "The trait engine's risk trait runs 0 to 1 with its middle at 0.5; the lower part of the scale is the cautious end that worries over a run for office or a lost job (people-mind-v1:risk)."
+    },
+    "otherSideLean": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": [0.5, 2],
+      "checkedAgainst": "The views engine's lean runs from very liberal to very conservative in whole steps; a step apart across the middle is the other side (views.ts labels)."
+    }
+  },
+  "governmentNews": {
+    "about": "Words composer (owner's golden path: \"the town visibly changes, people bring it up\"; lead, Nov 12). What a government did, brought up at home by a housemate with a source on record for it: an address they heard (any level's head of government, by the office that gave it, said by role), a local budget line or ordinance that carried, from the story they read (their news.read record), or a town hall they attended (its record names them). With the question it was about, their own side on it from the views engine, said as a stand; with no side of theirs, two beats. Told once by the house; someone too young for stands does not raise it. Whom it reached is not read yet (stopgap SG-DIRECTOR-town-change-reach-unread). Names and numbers only; no sentence.",
+    "levels": ["county", "local", "town", "city", "state"],
+    "withinDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "spread": [3, 14],
+      "checkedAgainst": "What government did is talked over in the week after the paper has it or the address is given (the same window as the player's own news, playerNews.withinDays)."
+    }
   }
 }

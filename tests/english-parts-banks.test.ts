@@ -308,8 +308,6 @@ const EVENING_AHEAD = new Set([
   "scene-talk.close-thank.thank-you-it-goes-to-the-clerk-tonight",
   "scene-talk.reply-offer.leave-your-number-with-my-office-tonight-i-ll-call-you-this-week",
   "scene-talk.follow-press.then-send-another-one-tonight",
-  "scene-talk.reply-deflect.read-it-tonight-call-me-tomorrow-with-a-better-question",
-  "scene-talk.close-warn.it-s-running-tonight-with-or-without-you",
   "scene-talk.follow-accept.sign-here-i-ll-get-it-to-the-clerk-tonight",
   "scene-talk.reply-agree.then-i-ll-sign-it-tonight",
   "scene-talk.reply-stall.give-me-tonight",

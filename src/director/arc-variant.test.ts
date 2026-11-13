@@ -102,6 +102,12 @@ const pressFacts: Record<string, Fact> = {
   "vote-held": fact("Bill 14"),
   "read-town-against": fact("yes"),
   "read-scandal": fact("yes"),
+  // The member's own vote on it, as the facts module reads it from the roll
+  // (press-comment-facts.ts): a reporter calls after the vote.
+  "own-vote": fact("yes"),
+  "stand-against": fact("yes"),
+  about: fact("free fares on public transit"),
+  "next-dead": fact("yes"),
 };
 // What an accusation hands the plain arc's lines (a bill the accuser names).
 const accuseFacts: Record<string, Fact> = { ...generic, bill: fact("Bill 14") };

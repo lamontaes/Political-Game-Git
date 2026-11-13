@@ -1,0 +1,74 @@
+{
+  "schema": "director-press-comment-facts/1",
+  "note": "What a member answering for a bill says of it (src/director/press-comment-facts.ts, the on-record move set). Which parts of a member's position on a bill (legislature.ts MemberPosition, the reasons the floor cast their vote from) a member says out loud as their reason, the fact each becomes, and where a bill goes next by its status. Words only choose among records; nothing here is a number the world runs on.",
+  "saidReasons": {
+    "value": ["views", "constituents", "deal", "party", "consistency"],
+    "tag": "TUNABLE",
+    "spread": "Which reasons are said: a member names their own views, the town, a section they won, their party or their last vote on the question; a lobby's push, a bribe, ambition and temperament move votes but are not what a member tells a reporter. Order breaks a tie.",
+    "checkedAgainst": "Fenno, Home Style (1978), on how members explain votes to constituents: policy belief, constituency wishes and party are the explanations offered; the press-comment arcs' own reasons on main before Nov 12."
+  },
+  "reasonFacts": {
+    "value": {
+      "views": "views",
+      "constituents": "town",
+      "deal": "deal",
+      "party": "party",
+      "consistency": "record"
+    },
+    "tag": "TUNABLE",
+    "spread": "Names only; one fact per said reason.",
+    "checkedAgainst": "The pieces of the on-record set that require each fact."
+  },
+  "laterByForm": {
+    "value": {
+      "ordinance": "the ordinance",
+      "default": "the bill"
+    },
+    "tag": "TUNABLE",
+    "spread": "Words only: how a measure is said after its name, by its form (BillRow.form.kind).",
+    "checkedAgainst": "data/english/bill-names.json forms; the coordinator's note of Nov 12 (\"after that 'it', 'the ordinance'\")."
+  },
+  "firstByForm": {
+    "value": {
+      "ordinance": "the {said} ordinance",
+      "default": "the {said} bill"
+    },
+    "tag": "TUNABLE",
+    "spread": "Words only: how a measure's first spoken mention in a scene says what it does, by its form; {said} is the bill-name book's said form (data/english/bill-names.json `said` / `repealSaid`).",
+    "checkedAgainst": "The words lead, Nov 12: \"A measure is said by what it does on first mention in a scene ('the free-fares ordinance'), then 'the ordinance' or 'it'\"."
+  },
+  "nextByStatus": {
+    "value": {
+      "drafted": "vote",
+      "passed": "desk",
+      "awaiting-signature": "desk",
+      "signed": "law",
+      "enacted": "law",
+      "overridden": "law",
+      "vetoed": "override",
+      "failed": "dead"
+    },
+    "tag": "TUNABLE",
+    "spread": "Names only; one fact per stage a bill can be in after a call.",
+    "checkedAgainst": "BillRow.status in src/core2/modules/legislature.ts."
+  },
+  "outletWords": {
+    "value": {
+      "newspaper": {
+        "first": "the {name}",
+        "after": "the paper"
+      },
+      "radio": {
+        "first": "{name}",
+        "after": "the station"
+      },
+      "television": {
+        "first": "{name}",
+        "after": "the station"
+      }
+    },
+    "tag": "TUNABLE",
+    "spread": "Words only: an outlet named once in a scene, by its kind (press.ts OutletKind), then said by what it is.",
+    "checkedAgainst": "The words lead, Nov 12: \"A paper is named once in a scene.\""
+  }
+}

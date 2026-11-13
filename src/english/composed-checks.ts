@@ -15,9 +15,13 @@
  * Every number and word list is in data/english/composed-checks.json.
  */
 import data from "../../data/english/composed-checks.json" with { type: "json" };
+
+/** The composed checks' word lists, for readers outside the English engine. */
+export const COMPOSED_CHECKS_DATA = data;
 import {
   linesOf,
   plainSentence,
+  sentencesOf,
   type ComposedKind,
   type ComposedLine,
   type ComposedSample,
@@ -418,6 +422,26 @@ export const noNonReply: ComposedCheck = (text, sample) => {
       last = { line, screen: at };
     }
   });
+  // The talk ends on the player's line: nobody answered it (pre-grade of
+  // #8879, Nov 12: "She didn't say anything back").
+  if (playerSaid)
+    found.push(
+      breakOf(
+        "no-non-reply",
+        text,
+        text.screens.length - one,
+        "the talk ends on the player's line, unanswered",
+        text.screens.at(-one)?.lines.at(-one)?.text ?? "",
+      ),
+    );
+  // A reply offered that only acknowledges ("Wow.", "Really?", "I know.").
+  text.screens.forEach((screen, at) => {
+    for (const reply of screen.offered)
+      if (onlyAcknowledges(reply))
+        found.push(
+          breakOf("no-non-reply", text, at, "a bare reply is offered", reply),
+        );
+  });
   const close = last?.line.sentences.at(-one);
   if (last && close && CHECK_IN.some((pattern) => pattern.test(close)))
     found.push(
@@ -683,6 +707,425 @@ export const noteStandsAlone: ComposedCheck = (text) => {
   return found;
 };
 
+// ---- act-named ----
+
+const STAND_IN = new RegExp(data.actStandIn, "i");
+
+/**
+ * A stance whose act is a pronoun ("The last thing we need is to do that.")
+ * with no act named before it in the same text (pre-grade of #8879, Nov 12:
+ * "Do what? 'Do that'?").
+ */
+export const actNamed: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      for (const sentence of line.sentences)
+        if (STAND_IN.test(plainQuotes(sentence)))
+          found.push(
+            breakOf(
+              "act-named",
+              text,
+              at,
+              'the act is said as "do that"',
+              sentence,
+            ),
+          );
+  });
+  return found;
+};
+
+// ---- concession-names-what-it-concedes ----
+
+const CONCESSION = new RegExp(data.concession, "i");
+const CONCESSION_BEFORE = new RegExp(data.concessionBefore, "i");
+
+/**
+ * A sentence that concedes ("I'd vote to do it even so.") with nothing
+ * contrary said before it in the same line: the frame names what it
+ * concedes or it is not said (words composer, Nov 12).
+ */
+export const concessionNamesWhat: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      line.sentences.forEach((sentence, index) => {
+        if (!CONCESSION.test(plainQuotes(sentence).trim())) return;
+        const before = line.sentences.slice(zero, index).join(" ");
+        const own = plainQuotes(sentence).replace(CONCESSION, "");
+        if (CONCESSION_BEFORE.test(before) || CONCESSION_BEFORE.test(own))
+          return;
+        found.push(
+          breakOf(
+            "concession-names-what-it-concedes",
+            text,
+            at,
+            "a concession with nothing before it to concede",
+            sentence,
+          ),
+        );
+      });
+  });
+  return found;
+};
+
+// ---- answer-adds-something ----
+
+const AGREEMENT_ONLY = data.agreementOnly.map(
+  (pattern) => new RegExp(pattern, "i"),
+);
+
+/**
+ * An answer that only says the two agree or differ ("Glad you see it like I
+ * do.") and nothing else: what the speaker expects, who they will tell or
+ * what they will do is never left out (words composer, Nov 12).
+ */
+export const answerAddsSomething: ComposedCheck = (text, sample) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines) {
+      if (line.speakerId === sample.playerId || !line.sentences.length)
+        continue;
+      const said = plainQuotes(line.text).trim();
+      if (!AGREEMENT_ONLY.some((pattern) => pattern.test(said))) continue;
+      const rest = line.sentences.filter(
+        (sentence) =>
+          !AGREEMENT_ONLY.some((pattern) =>
+            pattern.test(plainQuotes(sentence).trim()),
+          ) && !/^good\.?$/i.test(plainQuotes(sentence).trim()),
+      );
+      if (rest.length) continue;
+      found.push(
+        breakOf(
+          "answer-adds-something",
+          text,
+          at,
+          "an answer that only says they agree or differ",
+          said,
+        ),
+      );
+    }
+  });
+  return found;
+};
+
+// ---- vote-month-on-calendar ----
+
+const VOTE_MONTH = new RegExp(data.voteMonth, "g");
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+const DAYS_IN_YEAR = 366;
+
+/**
+ * A line that names the month a vote comes ("come November") when the
+ * world's election calendar holds no election in that month within the year
+ * after the line is said (owner via the coordinator, Nov 12). A sample with
+ * no calendar is read as holding none.
+ */
+export const voteMonthOnCalendar: ComposedCheck = (text, sample) => {
+  const found: ComposedBreak[] = [];
+  const said = Date.parse(`${text.date}T00:00:00Z`);
+  const held = new Set(
+    (sample.electionDates ?? [])
+      .filter((date) => {
+        const at = Date.parse(`${date}T00:00:00Z`);
+        return at >= said && at - said <= DAYS_IN_YEAR * DAY_MS;
+      })
+      .map((date) => MONTHS[Number(date.slice(5, 7)) - one]),
+  );
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      for (const match of plainQuotes(line.text).matchAll(VOTE_MONTH))
+        if (!held.has(match[one]!))
+          found.push(
+            breakOf(
+              "vote-month-on-calendar",
+              text,
+              at,
+              `names ${match[one]} with no election on the calendar then`,
+              line.text,
+            ),
+          );
+  });
+  return found;
+};
+
+// ---- organization-named-once ----
+
+const ORGANIZATION = new RegExp(
+  `\\b(?:[A-Z][\\w'&.]*\\s+(?:and\\s+|of\\s+)?)+(?:${data.organizationWords.join("|")})\\b`,
+  "g",
+);
+
+/**
+ * An organization named more than once in one spoken exchange (one screen's
+ * lines and the replies it offers): after the first naming it is said by the tie,
+ * "work" or "school" (said-as ownPlace; owner via the coordinator, Nov 12).
+ */
+export const organizationNamedOnce: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  // Said aloud only: a printed story names its subject as print does.
+  if (!text.kind.startsWith("talk") && text.kind !== "scene") return found;
+  // The exchange is the whole talk: its lines on every screen and the
+  // replies offered there.
+  const said = screenTexts(text).join(" ");
+  const counts = new Map<string, number>();
+  for (const match of plainQuotes(said).matchAll(ORGANIZATION))
+    counts.set(match[zero], (counts.get(match[zero]) ?? zero) + one);
+  for (const [name, count] of counts)
+    if (count > one)
+      found.push(
+        breakOf(
+          "organization-named-once",
+          text,
+          zero,
+          `${name} named ${count} times in one exchange`,
+          said,
+        ),
+      );
+  return found;
+};
+
+// ---- measure-number-not-spoken ----
+
+const MEASURE_NUMBER = new RegExp(data.measureNumber, "g");
+
+/**
+ * A measure's number said aloud ("Ordinance 2025-1"): people say a bill by
+ * what it does; the number is for the bill paper. Read in what a person says
+ * and the replies offered, never in narration or print.
+ */
+export const measureNumberNotSpoken: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    const spoken = [
+      ...screen.lines.filter((line) => line.speakerId).map((line) => line.text),
+      ...screen.offered,
+    ];
+    for (const said of spoken)
+      for (const match of plainQuotes(said).matchAll(MEASURE_NUMBER))
+        found.push(
+          breakOf(
+            "measure-number-not-spoken",
+            text,
+            at,
+            `a measure said by its number (${match[zero]})`,
+            said,
+          ),
+        );
+  });
+  return found;
+};
+
+// ---- offered-replies-differ, no-sentence-twice-in-a-line ----
+
+const sameWords = (text: string): string =>
+  plainSentence(plainQuotes(text)).toLowerCase();
+
+/**
+ * Two replies offered on one screen that say the same thing: the same words,
+ * or the same first sentence (scene standard: a reply the player is offered
+ * is a real choice, and two offered replies never mean the same thing).
+ */
+export const offeredRepliesDiffer: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    const seen = new Map<string, string>();
+    for (const reply of screen.offered) {
+      const first = sameWords(reply.split(/(?<=[.?!])\s+/)[zero] ?? reply);
+      const twin = seen.get(first);
+      if (twin !== undefined)
+        found.push(
+          breakOf(
+            "offered-replies-differ",
+            text,
+            at,
+            "two offered replies open with the same sentence",
+            `${twin} / ${reply}`,
+          ),
+        );
+      else seen.set(first, reply);
+    }
+  });
+  return found;
+};
+
+/**
+ * One speaker's line that says the same sentence twice in a row ("Thanks.
+ * Thanks. ..."), the mark of two joined pieces that each carry it.
+ */
+export const noSentenceTwiceInALine: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      line.sentences.forEach((sentence, k) => {
+        if (
+          k > zero &&
+          sameWords(sentence) === sameWords(line.sentences[k - one]!)
+        )
+          found.push(
+            breakOf(
+              "no-sentence-twice-in-a-line",
+              text,
+              at,
+              "the same sentence twice in a row",
+              line.text,
+            ),
+          );
+      });
+  });
+  return found;
+};
+
+// ---- reason-fits-the-side ----
+
+const OWN_PAY = new RegExp(data.ownPay, "i");
+const AGAINST = data.againstFrames.map((frame) => new RegExp(frame, "i"));
+const PAY_QUESTIONS = Object.entries(
+  data.payQuestions as Readonly<Record<string, number>>,
+);
+
+/**
+ * A stand on a minimum-wage question whose reason is the speaker's own pay
+ * when that pay does not argue for the side taken (lead, Nov 12: "At about
+ * $15 an hour, it's my own paycheck on the line" from someone against the
+ * raise that would pay her more; "Because I make about $40 an hour" from
+ * someone it would not touch). Own pay is a reason only for a raise, and only
+ * at or under the proposal times payNear.
+ */
+export const reasonFitsTheSide: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  const said = screenTexts(text).join(" ");
+  const plain = plainQuotes(said);
+  const question = PAY_QUESTIONS.find(([about]) => plain.includes(about));
+  const pay = OWN_PAY.exec(plain);
+  if (!question || !pay) return found;
+  const against = AGAINST.some((frame) => frame.test(plain));
+  const dollars = Number(pay[one]!.replace(/,/g, ""));
+  if (!against && dollars <= question[one] * data.payNear) return found;
+  found.push(
+    breakOf(
+      "reason-fits-the-side",
+      text,
+      zero,
+      `own pay of ${pay[zero]} given as the reason ${against ? "against" : "for"} ${question[zero]}`,
+      said,
+    ),
+  );
+  return found;
+};
+
+// ---- answer-is-the-kind-asked, reason-promise-kept ----
+
+interface AnswerKind {
+  readonly kind: string;
+  readonly asks: RegExp;
+  readonly answers: RegExp;
+}
+const ANSWER_KINDS: readonly AnswerKind[] = data.answerKinds.kinds.map(
+  (row) => ({
+    kind: row.kind,
+    asks: new RegExp(row.asks, "i"),
+    answers: new RegExp(row.answers, "i"),
+  }),
+);
+const DECLINES = new RegExp(data.answerKinds.declines, "i");
+const REASON_PROMISE = new RegExp(data.answerKinds.reasonPromise, "i");
+const FIRST_SENTENCES = 2;
+
+/** What a line asks for, by its last sentence: a reason, a condition, yes or no; null when it asks nothing. */
+export function questionKind(line: string): string | null {
+  const last = sentencesOf(plainQuotes(line)).at(-one);
+  if (!last?.endsWith("?")) return null;
+  return ANSWER_KINDS.find((row) => row.asks.test(last))?.kind ?? null;
+}
+
+/**
+ * Whether a reply that takes a question on gives the kind of answer it asks
+ * for: one of its first two sentences (a short opener may come first) opens
+ * the way that kind of answer opens. A reply that declines is a move of its
+ * own and is not read here.
+ */
+export function answerFitsQuestion(question: string, reply: string): boolean {
+  const kind = questionKind(question);
+  const row = ANSWER_KINDS.find((one_) => one_.kind === kind);
+  if (!row) return true;
+  const opening = sentencesOf(plainQuotes(reply)).slice(zero, FIRST_SENTENCES);
+  if (row.kind === "condition") return row.answers.test(opening.join(" "));
+  return opening.some((sentence) => row.answers.test(sentence));
+}
+
+/** Whether a reply declines the question (refuses, stalls, turns it, walks off). */
+export const declines = (reply: string): boolean =>
+  sentencesOf(plainQuotes(reply))
+    .slice(zero, FIRST_SENTENCES)
+    .some((sentence) => DECLINES.test(sentence));
+
+/**
+ * A reply offered under a question that takes it on but is not the kind of
+ * answer it asks for (words lead, Nov 12: "An answer is the kind the question
+ * calls for (a reason, a condition, a fact, yes or no)"): "Would you vote
+ * against it again tomorrow?" answered "I've heard that one."
+ */
+export const answerIsTheKindAsked: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    const asked = [...screen.lines]
+      .reverse()
+      .find((line) => line.speakerId && questionKind(line.text));
+    if (!asked) return;
+    for (const reply of screen.offered)
+      if (!declines(reply) && !answerFitsQuestion(asked.text, reply))
+        found.push(
+          breakOf(
+            "answer-is-the-kind-asked",
+            text,
+            at,
+            `a ${questionKind(asked.text)} question answered with something else`,
+            `${asked.text} / ${reply}`,
+          ),
+        );
+  });
+  return found;
+};
+
+/** A line that promises a reason and ends without one ("I'll say why to anyone who asks."). */
+export const reasonPromiseKept: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    const said = [
+      ...screen.lines.filter((line) => line.speakerId).map((line) => line.text),
+      ...screen.offered,
+    ];
+    for (const line of said) {
+      const sentences = sentencesOf(plainQuotes(line));
+      if (REASON_PROMISE.test(sentences.at(-one) ?? ""))
+        found.push(
+          breakOf(
+            "reason-promise-kept",
+            text,
+            at,
+            "a reason promised and not given",
+            line,
+          ),
+        );
+    }
+  });
+  return found;
+};
+
 /** Every composed check by its name: the names a rule row's `check` may hold. */
 export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "full-name-once-per-screen": fullNameOncePerScreen,
@@ -698,6 +1141,17 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "ask-said-once": askSaidOnce,
   "subject-budget": subjectBudget,
   "note-stands-alone": noteStandsAlone,
+  "act-named": actNamed,
+  "concession-names-what-it-concedes": concessionNamesWhat,
+  "answer-adds-something": answerAddsSomething,
+  "vote-month-on-calendar": voteMonthOnCalendar,
+  "organization-named-once": organizationNamedOnce,
+  "offered-replies-differ": offeredRepliesDiffer,
+  "no-sentence-twice-in-a-line": noSentenceTwiceInALine,
+  "measure-number-not-spoken": measureNumberNotSpoken,
+  "answer-is-the-kind-asked": answerIsTheKindAsked,
+  "reason-promise-kept": reasonPromiseKept,
+  "reason-fits-the-side": reasonFitsTheSide,
 };
 
 /** A composed rule's checks, as a list. */
@@ -769,9 +1223,16 @@ export function baselineFailures(
       failures.push(
         `COVERAGE: ${rule} read no texts; the baseline read ${was.read}. A rule that reads nothing has checked nothing.`,
       );
-    else if (now !== undefined && now.per100 > was.per100)
+    // A rate rises only with its count where fewer texts were read (lead,
+    // Nov 12): fewer texts can neither fake a rise (the same breaks over a
+    // smaller count) nor hide one (more breaks in fewer texts is a rise).
+    else if (
+      now !== undefined &&
+      now.per100 > was.per100 &&
+      (now.read >= was.read || now.breaks > was.breaks)
+    )
       failures.push(
-        `ROSE: ${rule} ${was.per100} -> ${now.per100} breaks per 100 texts`,
+        `ROSE: ${rule} ${was.per100} -> ${now.per100} breaks per 100 texts (${was.breaks} -> ${now.breaks} breaks in ${was.read} -> ${now.read} texts)`,
       );
   }
   return failures;

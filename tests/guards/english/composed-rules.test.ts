@@ -124,6 +124,28 @@ const FIXTURES: Record<
       ]),
     ),
   },
+  "act-named": {
+    catches: sampleOf(
+      talk("dad", [
+        [
+          [
+            "dad",
+            "The mayor brought up the bridge toll. The last thing we need is to do that.",
+          ],
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      talk("dad", [
+        [
+          [
+            "dad",
+            "The mayor brought up the bridge toll. The last thing we need is to raise it.",
+          ],
+        ],
+      ]),
+    ),
+  },
   "no-comma-splice": {
     catches: sampleOf(
       text("narration", [["The kettle is on, it will boil soon."]]),
@@ -175,6 +197,226 @@ const FIXTURES: Record<
       talk("dad", [[["dad", "I drive the long way to dodge that toll."]]]),
     ),
   },
+  "vote-month-on-calendar": {
+    catches: sampleOf(
+      talk("dad", [
+        [["dad", "The mayor wants a bridge toll. I'm for it."]],
+        [
+          [PLAYER, "I'm not."],
+          ["dad", "We'll see who's right come November, Dana."],
+        ],
+      ]),
+    ),
+    spares: {
+      ...sampleOf(
+        talk("dad", [
+          [["dad", "The mayor wants a bridge toll. I'm for it."]],
+          [
+            [PLAYER, "I'm not."],
+            ["dad", "We'll see who's right come November, Dana."],
+          ],
+        ]),
+      ),
+      electionDates: ["2025-11-04"],
+    },
+  },
+  "offered-replies-differ": {
+    catches: sampleOf({
+      ...text("scene", [[["rep", "Where are you on the ordinance?"]]]),
+      screens: [
+        {
+          lines: [composedLine("Where are you on the ordinance?", "rep")],
+          offered: [
+            "I voted for it. The town asked me to.",
+            "I voted for it. I'd do it again.",
+          ],
+        },
+      ],
+    }),
+    spares: sampleOf({
+      ...text("scene", [[["rep", "Where are you on the ordinance?"]]]),
+      screens: [
+        {
+          lines: [composedLine("Where are you on the ordinance?", "rep")],
+          offered: [
+            "I voted for it. The town asked me to.",
+            "Ask me once it's signed.",
+          ],
+        },
+      ],
+    }),
+  },
+  "no-sentence-twice-in-a-line": {
+    catches: sampleOf(
+      text("scene", [
+        [["rep", "Thanks. Thanks. Your yes goes in as you said it."]],
+      ]),
+    ),
+    spares: sampleOf(
+      text("scene", [[["rep", "Thanks. Your yes goes in as you said it."]]]),
+    ),
+  },
+  "answer-is-the-kind-asked": {
+    catches: sampleOf({
+      ...text("scene", [
+        [["rep", "Would you vote against it again tomorrow?"]],
+      ]),
+      screens: [
+        {
+          lines: [
+            composedLine("Would you vote against it again tomorrow?", "rep"),
+          ],
+          offered: [
+            "I've heard that one. I'm a no on the free-fares ordinance.",
+            "Not today.",
+          ],
+        },
+      ],
+    }),
+    spares: sampleOf({
+      ...text("scene", [
+        [["rep", "Would you vote against it again tomorrow?"]],
+      ]),
+      screens: [
+        {
+          lines: [
+            composedLine("Would you vote against it again tomorrow?", "rep"),
+          ],
+          offered: [
+            "Every time. The free-fares ordinance doesn't get my vote.",
+            "Not today.",
+          ],
+        },
+      ],
+    }),
+  },
+  "reason-promise-kept": {
+    catches: sampleOf(
+      text("scene", [
+        [
+          [
+            "member",
+            "I said no to the free-fares ordinance, and I'll say why to anyone who asks.",
+          ],
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      text("scene", [
+        [
+          [
+            "member",
+            "I said no to the free-fares ordinance, and I'll tell you why. I've never been sold on free fares.",
+          ],
+        ],
+      ]),
+    ),
+  },
+  "measure-number-not-spoken": {
+    catches: sampleOf(
+      text("scene", [[["rep", "You voted against Ordinance 2025-1. Why?"]]]),
+    ),
+    spares: sampleOf(
+      text("scene", [
+        [
+          [
+            "rep",
+            "You voted against the Free Fares for Riders Ordinance. Why?",
+          ],
+        ],
+      ]),
+    ),
+  },
+  "organization-named-once": {
+    catches: sampleOf(
+      talk("dad", [
+        [["dad", "I'm off from Millbrook Supply Company today."]],
+        [
+          [
+            PLAYER,
+            "What will you do with a day off from Millbrook Supply Company?",
+          ],
+          ["dad", "Sleep, mostly."],
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      talk("dad", [
+        [["dad", "I'm off from Millbrook Supply Company today."]],
+        [
+          [PLAYER, "What will you do with a day off from work?"],
+          ["dad", "Sleep, mostly. Work wears me out."],
+        ],
+      ]),
+    ),
+  },
+  "concession-names-what-it-concedes": {
+    catches: sampleOf(
+      talk("dad", [
+        [
+          [
+            "dad",
+            "The mayor brought up the bridge toll. I'd vote for the toll even so.",
+          ],
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      talk("dad", [
+        [
+          [
+            "dad",
+            "The mayor is against the bridge toll. I'd vote for it even so.",
+          ],
+        ],
+      ]),
+    ),
+  },
+  "reason-fits-the-side": {
+    catches: sampleOf(
+      talk("mom", [
+        [
+          [
+            "mom",
+            "Where I'd draw the line is a higher federal minimum wage. At about $15 an hour, it's my own paycheck on the line.",
+          ],
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      talk("mom", [
+        [
+          [
+            "mom",
+            "I'm for a higher federal minimum wage. At about $15 an hour, it's my own paycheck on the line.",
+          ],
+        ],
+      ]),
+    ),
+  },
+  "answer-adds-something": {
+    catches: sampleOf(
+      talk("dad", [
+        [["dad", "The mayor wants a bridge toll. I'm for it."]],
+        [
+          [PLAYER, "Same as you, Dad."],
+          ["dad", "Glad you see it like I do, Dana."],
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      talk("dad", [
+        [["dad", "The mayor wants a bridge toll. I'm for it."]],
+        [
+          [PLAYER, "Same as you, Dad."],
+          [
+            "dad",
+            "Now it's up to the council. I'll be watching how they vote.",
+          ],
+        ],
+      ]),
+    ),
+  },
   "no-non-reply": {
     catches: sampleOf(
       talk("sis", [
@@ -190,6 +432,10 @@ const FIXTURES: Record<
           [PLAYER, "Too close."],
           ["sis", "Mm. Let's pick this up after supper."],
         ],
+      ]),
+      talk("sis", [
+        [["sis", "The bridge vote was close."]],
+        [[PLAYER, "Too close, if you ask me."]],
       ]),
     ),
     spares: sampleOf(
@@ -395,12 +641,32 @@ describe("composed rules: each check on its fixtures", () => {
     expect(lost.length).toBe(2);
     for (const line of lost) expect(line.startsWith("COVERAGE: ")).toBe(true);
     expect(baselineFailures(committed, {})[0]).toContain("COVERAGE: ");
+    // Fewer texts and fewer breaks: the rate rose only through the
+    // denominator, which is no rise.
     expect(
       baselineFailures(committed, {
         ...committed,
         "no-non-replies": { read: 40, breaks: 16, per100: 40 },
       }),
-    ).toEqual(["ROSE: no-non-replies 37.8 -> 40 breaks per 100 texts"]);
+    ).toEqual([]);
+    // Fewer texts and more breaks: a rise, whatever the count of texts.
+    expect(
+      baselineFailures(committed, {
+        ...committed,
+        "no-non-replies": { read: 40, breaks: 18, per100: 45 },
+      }),
+    ).toEqual([
+      "ROSE: no-non-replies 37.8 -> 45 breaks per 100 texts (17 -> 18 breaks in 45 -> 40 texts)",
+    ]);
+    // As many texts or more: the rate decides.
+    expect(
+      baselineFailures(committed, {
+        ...committed,
+        "no-non-replies": { read: 50, breaks: 20, per100: 40 },
+      }),
+    ).toEqual([
+      "ROSE: no-non-replies 37.8 -> 40 breaks per 100 texts (17 -> 20 breaks in 45 -> 50 texts)",
+    ]);
     expect(
       baselineFailures(committed, {
         "no-non-replies": { read: 31, breaks: 0, per100: 0 },

@@ -1281,7 +1281,7 @@ export {
 } from "./corruption";
 
 // Re-exported so other engine families import through this entry, not the file (families guard).
-export { policyAuthority } from "../policy-authority";
+export { policyAuthority, type PolicyLevel } from "../policy-authority";
 export { stateActEffectiveDate } from "../state-effective-date";
 export { policySeriesAtLevel } from "../policy-answers";
 export type { LawRowInput } from "../laws-starting";

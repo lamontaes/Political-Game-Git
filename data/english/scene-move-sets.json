@@ -1,0 +1,9 @@
+{
+  "about": "The shared move sets of the scene-talk bank (words composer, unit 4; docs/design/words-composer.md). A scene step is a move said about the scene's records, not a stock sentence per scene: a piece whose use names a `set` instead of a `purpose` serves every purpose listed here under that set, as closely as a piece written for the purpose itself. A purpose keeps a piece of its own only for what is particular to it. src/english/scene-talk-words.ts reads this file; the records each slot is filled from are bound by the purpose's facts in src/director.",
+  "sets": {
+    "on-record": {
+      "about": "Answering for a bill or a vote to someone who will repeat it: the subject is the bill ({bill}, {about}), the stand is the member's own vote or sponsorship, the reason is the part of the member's position on the bill that weighed most, what comes next is the bill's stage, and the listener prints what is said ({outlet}).",
+      "purposes": ["press-comment"]
+    }
+  }
+}

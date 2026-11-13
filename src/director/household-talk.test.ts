@@ -6,7 +6,12 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type { IsoDate, PersonId } from "../core2/types";
-import { openConversation, say, subjectsBetween } from "./conversation";
+import {
+  noteHeard,
+  openConversation,
+  say,
+  subjectsBetween,
+} from "./conversation";
 import { OPENING_ADDRESS_EVENT } from "./opening-story";
 import { expectUpToFourDifferent } from "./reply-set-check";
 
@@ -58,24 +63,35 @@ it(`a household member opens from the day, and each reply moves the talk on (see
       const talk = openConversation(core, player.id, member.id as PersonId, {
         director,
       });
-      // The opener is theirs, about the day's address, and asks the player.
+      // The opener is theirs: their own point of the address they watched
+      // together, never "Did you see the speech?" (owner, Nov 12: "settle in
+      // to listen to the president's address"; what a household did together
+      // each of them knows).
       const [opener] = talk.lines;
       expect(opener?.speakerId, here).toBe(member.id);
-      expect(opener?.kind, here).toBe("address");
-      expect(opener?.act, here).toBe("ask");
+      expect(opener?.kind, here).toBe("address-point");
       // Up to four replies, each a different move (owner, Nov 10).
       expectUpToFourDifferent(talk.choices, here);
-      // Each reply moves the talk: they answer with their own take, and four
-      // new replies follow. Members take the replies in turn.
+      // Each reply is answered: they take it up in their own words.
+      // Members take the replies in turn.
       const pick = talk.choices[index % talk.choices.length]!;
       const said = talk.lines.length;
       const next = say(core, talk, pick.key);
       const answer = next.lines[said + 1];
-      expect(answer?.speakerId, `${here}: ${pick.text}`).toBe(member.id);
-      expect(answer?.kind, `${here}: ${pick.text}`).toBe("address-point");
-      expectUpToFourDifferent(next.choices, `${here}: ${pick.text}`);
+      // A question is answered from their records; agreeing or disagreeing
+      // ends the talk on the player's reply (owner, Nov 12: an answer that
+      // says nothing about the point "makes no sense").
+      if (pick.move === "agree" || pick.move === "disagree")
+        expect(answer, `${here}: ${pick.text}`).toBeUndefined();
+      else {
+        expect(answer?.speakerId, `${here}: ${pick.text}`).toBe(member.id);
+        expect(answer?.kind, `${here}: ${pick.text}`).toBe(
+          "address-point-back",
+        );
+      }
+      noteHeard(core, next);
       console.log(
-        `HOUSEHOLD TALK ${here}: "${opener!.text}" / you: "${pick.text}" / "${answer!.text}" / ${next.choices.map((row) => `"${row.text}"`).join(" ")}`,
+        `HOUSEHOLD TALK ${here}: "${opener!.text}" / you: "${pick.text}" / "${answer?.text ?? "(ends on the reply)"}" / ${next.choices.map((row) => `"${row.text}"`).join(" ")}`,
       );
     });
     // A month on, the address is no longer the day's news: nobody opens on
