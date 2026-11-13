@@ -231,21 +231,23 @@ export function saidOffice(
   }[],
 ): string | null {
   const office = spokenOffice(note);
-  const choice = /^(\w+) or (\w+) (.+)$/i.exec(office);
+  const choice = /^(?<one>\w+) or (?<other>\w+) (?<rest>.+)$/i.exec(
+    office,
+  )?.groups;
   if (!choice) return / or /i.test(office) ? null : office;
   const kind = races
     .map(
       (race) =>
-        /\b(Town|City|Village|Borough) of\b/.exec(
+        /\b(?<kind>Town|City|Village|Borough) of\b/.exec(
           `${race.seat?.bodyName ?? ""} ${race.title}`,
-        )?.[1],
+        )?.groups?.kind,
     )
     .find((word) => word !== undefined);
   if (!kind) return null;
-  const word = [choice[1]!, choice[2]!].find(
+  const word = [choice.one!, choice.other!].find(
     (option) => option.toLowerCase() === kind.toLowerCase(),
   );
-  return word ? `${kind} ${choice[3]!}` : null;
+  return word ? `${kind} ${choice.rest!}` : null;
 }
 
 /**
