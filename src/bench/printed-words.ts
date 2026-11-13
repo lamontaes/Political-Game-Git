@@ -1009,11 +1009,25 @@ const hearing: Builder = (read, f) => {
 /** A government's public hearing on its budget bill, and how many spoke. */
 const budgetHearing: Builder = (read, f) => {
   const speakers = num(f.speakers) ?? 0;
+  // Whose budget it is, said as the budget's own story says it.
+  const government = f.governmentId
+    ? read.row<{ name: string }>(
+        BUDGETS_MODULE_ID,
+        "governments",
+        f.governmentId,
+      )
+    : undefined;
+  const place =
+    f.governmentId === "US"
+      ? null
+      : (read.place(f.governmentId) ??
+        (government ? governmentWords(government.name) : null));
   return story(
     "hearing",
     {
       ...read.billFacts(f.billId, f.number),
       budget: read.yes(),
+      ...(place ? { place: read.fact(place, f.governmentId ?? "") } : {}),
       ...(speakers ? { number: read.fact(count(speakers)) } : {}),
     },
     ["designation"],

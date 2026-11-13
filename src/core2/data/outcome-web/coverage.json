@@ -187,7 +187,8 @@
       "waitingOn": ["health.coverage", "health.catastrophic-medical-bills"]
     },
     "coverage-to-medical-debt": {
-      "waitingOn": ["health.coverage-pct"]
+      "waitingOn": [],
+      "carriedBy": "the coverage engine's monthly bills (plans and billMembers in src/core2/medical-bills.ts, run on the 1st by src/core2/modules/coverage.ts), which price each full and counted member by their own coverage record (an employer plan, Medicaid or Medicare, or none) at the share of their care MEPS finds each pays out of pocket, so a covered member's smaller bill leaves the household less unpaid past 120 days and less placed for collection (collectionsShare): coverage moves the medical debt in collections household by household, not by a place percentage. The web does not run the link, so the two never both count"
     },
     "coverage-to-depression": {
       "waitingOn": ["health.coverage", "health.depression"]
@@ -735,10 +736,6 @@
       "links": 1
     },
     "health.catastrophic-medical-bills": {
-      "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
-    "health.coverage-pct": {
       "owner": "OPUS-PEOPLE",
       "links": 1
     },

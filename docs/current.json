@@ -394,6 +394,18 @@
       "why": "Removed with the painted people (owner's call 11, PR 8643): it checked how painted people were framed in a room."
     },
     {
+      "old": "src/bench/ui/headshot.mjs",
+      "now": "src/bench/ui/face.mjs (the one face part) and src/bench/ui/person-card.mjs (the one person card)",
+      "when": "2026-11-11",
+      "why": "One face part and one person card (play-one-person-shows-two-faces; Fable audit, Nov 9: \"six ways to draw a person card and three ways to draw a face\")."
+    },
+    {
+      "old": "src/bench/ui/member-card.mjs",
+      "now": "src/bench/ui/face.mjs (the one face part) and src/bench/ui/person-card.mjs (the one person card)",
+      "when": "2026-11-11",
+      "why": "One face part and one person card (play-one-person-shows-two-faces; Fable audit, Nov 9: \"six ways to draw a person card and three ways to draw a face\")."
+    },
+    {
       "old": "data/english/parts/person-sketch.json",
       "now": "nothing stands in its place: the person card shows each leaning by its label (and its strength on the You screen); restore it from commit 354fa017bdc126990eaec3a30367173e519bcfc2",
       "when": "2026-11-12",
