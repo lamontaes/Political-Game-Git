@@ -688,7 +688,7 @@
     "upcoming": "Coming up",
     "advance": "Go to this day",
     "attend": "Attend",
-    "attending": "Attending",
+    "attending": "Not going",
     "nothing": "Nothing is on this day.",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     "key": "What the calendar shows",

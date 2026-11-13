@@ -75,7 +75,11 @@ import {
   speakOnItem,
   takeUpItem,
   upcomingMeeting,
+  type MeetingRow,
 } from "../core2/modules/office-day";
+import { dateWords } from "../english/plain-words.mjs";
+import { screenPick, screenWays } from "../english/screen-words";
+import { count } from "./printed-words";
 import { bodyMembers, bodyScene, personName } from "./legislature";
 import {
   headCandidates,
@@ -157,6 +161,36 @@ export function floorDecide(core: CoreState, billId: string, how: string) {
   voteOnFloor(api, person, billId, how);
 }
 
+/**
+ * The one line a resident in the room reads under the meeting's title, in the English
+ * engine's words: that nothing is on the agenda, or, the first time they come to any
+ * meeting (no meeting attended is on their record yet), what they can do here.
+ */
+function residentNote(
+  core: CoreState,
+  personId: string,
+  meeting: MeetingRow,
+  body: string,
+): string | null {
+  const request = { momentKey: meeting.id, sourceIds: [meeting.id] };
+  const pick = (key: string, facts: Record<string, string>) =>
+    screenPick("meeting", screenWays("meeting", key), facts, request)?.text ??
+    null;
+  const items = meeting.agenda.length;
+  if (!items)
+    return pick("meeting.empty-agenda.1", {
+      body,
+      date: dateWords(meeting.date, { year: false }),
+    });
+  if (
+    officeActsOf(coreAPI(core), personId).some((act) => act.kind === "attend")
+  )
+    return null;
+  return items === 1
+    ? pick("meeting.resident-can-speak-one.1", { body })
+    : pick("meeting.resident-can-speak.1", { body, count: count(items) });
+}
+
 /** The meeting holding the player's clock: the room, the agenda, and what was taken up. */
 export function meetingSceneView(
   core: CoreState,
@@ -176,14 +210,31 @@ export function meetingSceneView(
       takenUp: meeting.takenUp.includes(billId),
     })),
     ...(() => {
-      const scene = bodyScene(core, personId, meeting.officeId, minute);
+      // A resident who came to speak is in the room and not at the table.
+      const watching = meeting.audience !== undefined;
+      const scene = bodyScene(
+        core,
+        personId,
+        meeting.officeId,
+        minute,
+        watching,
+      );
       // The members, with their faces, for the panel's tally (the chamber's own
       // figures are drawn where the room has a mannequin plate for them).
       return {
         ...scene,
-        members: bodyMembers(core, personId, meeting.officeId, scene.place),
-        // A resident who came to speak has no vote and cannot adjourn.
-        seated: meeting.audience === undefined,
+        members: bodyMembers(
+          core,
+          personId,
+          meeting.officeId,
+          scene.place,
+          watching,
+        ),
+        // A resident has no vote and cannot adjourn.
+        seated: !watching,
+        note: watching
+          ? residentNote(core, personId, meeting, scene.title)
+          : null,
       };
     })(),
   };

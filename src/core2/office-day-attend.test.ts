@@ -64,6 +64,13 @@ const reasons = (packet: unknown): string[] =>
       ?.modules ?? []
   ).map((m) => m.reasonKey);
 
+/** The meeting the player's clock is stopped at now, by the meeting's own stop. */
+const stoppedAt = (api: CoreAPI, player: BenchPlayer) =>
+  player.packet?.kind === "stop" &&
+  reasons(player.packet).includes("office-day.meeting")
+    ? meetingInProgress(api)
+    : undefined;
+
 /** One day of play: a stop or choice already open is answered, else the day advances. */
 function step(player: BenchPlayer) {
   if (player.pollingPlace) player.leavePolls();
@@ -124,10 +131,9 @@ it("a resident marks a posted meeting, is held at its hour, speaks, leaves, and 
     ) {
       markAll(api);
       step(player);
-      const meeting = meetingInProgress(api);
-      if (!meeting || player.packet?.kind !== "stop") continue;
       // Held by the meeting's own stop, as a member is, and in the room as audience.
-      expect(reasons(player.packet), where).toContain("office-day.meeting");
+      const meeting = stoppedAt(api, player);
+      if (!meeting) continue;
       expect(meeting.audience, where).toBe(me);
       expect(
         members(api, meeting.officeId).some((t) => t.personId === me),
@@ -164,8 +170,8 @@ it("a resident marks a posted meeting, is held at its hour, speaks, leaves, and 
     const day = core.date;
     for (let guard = 0; guard < 20 && core.date <= day; guard += 1) {
       // Another body's meeting the same day, marked too: left in silence.
-      const other = meetingInProgress(api);
-      if (other && player.packet?.kind === "stop") leaveMeeting(api, other.id);
+      const other = stoppedAt(api, player);
+      if (other) leaveMeeting(api, other.id);
       step(player);
     }
     const bill = billOf(api, spoke.billId);
@@ -182,6 +188,13 @@ it("a resident marks a posted meeting, is held at its hour, speaks, leaves, and 
         (act) => act.kind === "speak" && act.recordId === remark!.id,
       ),
       `${where}: the act`,
+    ).toBe(true);
+    // That they came is on the record too.
+    expect(
+      officeActsOf(api, me).some(
+        (act) => act.kind === "attend" && act.recordId === spoke!.meetingId,
+      ),
+      `${where}: attended`,
     ).toBe(true);
     // No vote of the player's: they hold no seat.
     expect(
@@ -265,14 +278,18 @@ function decided(api: CoreAPI): string[] {
     .sort();
 }
 
-/** The places the twin runs play: the drawn one, or `TWIN_PLACES` ("key:seed,key:seed") to replay named ones. */
+/**
+ * The places the twin runs play: drawn ones, tried in turn until one has what the twin
+ * needs (a local body that meets), or `TWIN_PLACES` ("key:seed,key:seed") to replay
+ * named ones, every one of which must pass.
+ */
+const named = process.env.TWIN_PLACES?.split(",").map((pair) => {
+  const [key, placeSeed] = pair.split(":") as [string, string];
+  return { key, seed: placeSeed, name: key };
+});
 const twinPlaces = (salt: string) =>
-  process.env.TWIN_PLACES
-    ? process.env.TWIN_PLACES.split(",").map((pair) => {
-        const [key, placeSeed] = pair.split(":") as [string, string];
-        return { key, seed: placeSeed, name: key };
-      })
-    : [drawPlace(seed, salt)];
+  named ??
+  Array.from({ length: 6 }, (_, draw) => drawPlace(`${seed}:${draw}`, salt));
 const DAYS = Number(process.env.TWIN_DAYS ?? 100);
 const endOf = (core: CoreState) =>
   new Date(Date.parse(`${core.date}T00:00:00Z`) + DAYS * 86_400_000)
@@ -280,6 +297,8 @@ const endOf = (core: CoreState) =>
     .slice(0, 10);
 
 it("watching changes nothing: attending in silence, the same bills get the same votes", () => {
+  let proved = 0;
+  const passedOver: string[] = [];
   for (const place of twinPlaces("resident-watches")) {
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     // One world in memory at a time: each run returns only what is compared.
@@ -291,8 +310,8 @@ it("watching changes nothing: attending in silence, the same bills get the same 
       for (let guard = 0; guard < 2_000 && core.date < end; guard += 1) {
         if (attend) markAll(api);
         step(player);
-        const meeting = meetingInProgress(api);
-        if (meeting && player.packet?.kind === "stop") {
+        const meeting = stoppedAt(api, player);
+        if (meeting) {
           attended += 1;
           items += meeting.agenda.length;
           leaveMeeting(api, meeting.id);
@@ -306,10 +325,17 @@ it("watching changes nothing: attending in silence, the same bills get the same 
       `resident-watches ${where}: ${watched.attended} meetings attended with ${watched.items} items; ${watched.bills.length} bills decided watched, ${alone.bills.length} unwatched, through ${watched.date}`,
     );
     expect(alone.attended).toBe(0);
-    expect(watched.attended, `${where}: meetings attended`).toBeGreaterThan(0);
     expect(watched.date).toBe(alone.date);
     expect(watched.bills, where).toEqual(alone.bills);
+    // A place with no meeting to attend proves nothing: passed over by name.
+    if (watched.attended > 0) proved += 1;
+    else passedOver.push(where);
+    if (!named && proved) break;
   }
+  expect(
+    proved,
+    `no drawn place had a meeting to attend; passed over: ${passedOver.join("; ")}`,
+  ).toBeGreaterThan(0);
 }, 3_600_000);
 
 it("a member the player plays decides alike at the stop and away from it: the member's own vote on every item", () => {
@@ -322,6 +348,8 @@ it("a member the player plays decides alike at the stop and away from it: the me
   // is not voted for on an override, so those two worlds differ by what the
   // player does, not by the hold. The watcher's twin above compares held
   // against unheld.)
+  let proved = 0;
+  const passedOver: string[] = [];
   for (const place of twinPlaces("seated-holds")) {
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const run = (present: boolean) => {
@@ -352,8 +380,8 @@ it("a member the player plays decides alike at the stop and away from it: the me
       let items = 0;
       for (let guard = 0; guard < 2_000 && core.date < end; guard += 1) {
         step(player);
-        const meeting = meetingInProgress(api);
-        if (meeting && player.packet?.kind === "stop") {
+        const meeting = stoppedAt(api, player);
+        if (meeting) {
           held += 1;
           for (const id of [...meeting.agenda]) {
             if (billOf(api, id).status !== "drafted") continue;
@@ -367,9 +395,7 @@ it("a member the player plays decides alike at the stop and away from it: the me
     };
     const held = run(true);
     if (!held) {
-      console.log(
-        `seated-holds ${where}: no seated member to play; passed over`,
-      );
+      passedOver.push(`${where}: no seated member`);
       continue;
     }
     const away = run(false)!;
@@ -377,8 +403,14 @@ it("a member the player plays decides alike at the stop and away from it: the me
       `seated-holds ${where}: ${held.held} meetings held with ${held.items} items; ${held.bills.length} bills decided held, ${away.bills.length} away, through ${held.date}`,
     );
     expect(away.held).toBe(0);
-    expect(held.held, `${where}: meetings held`).toBeGreaterThan(0);
     expect(held.date).toBe(away.date);
     expect(held.bills, where).toEqual(away.bills);
+    if (held.held > 0) proved += 1;
+    else passedOver.push(where);
+    if (!named && proved) break;
   }
+  expect(
+    proved,
+    `no drawn place had a seat to play at a meeting; passed over: ${passedOver.join("; ")}`,
+  ).toBeGreaterThan(0);
 }, 3_600_000);

@@ -471,7 +471,7 @@ export function meetingToAttend(
   api: CoreAPI,
   officeId: string,
   date: string,
-): { id: string; marked: boolean } | null {
+): { id: string; marked: boolean; startMinute: number } | null {
   const player = playerOf(api);
   const row = meetingOf(api, meetingId(officeId, date));
   if (
@@ -483,7 +483,11 @@ export function meetingToAttend(
     hourReached(api, row, player)
   )
     return null;
-  return { id: row.id, marked: row.audience === player };
+  return {
+    id: row.id,
+    marked: row.audience === player,
+    startMinute: row.startMinute,
+  };
 }
 
 /** The meeting with nobody of the player's in its audience, and its hold on them gone. */
@@ -529,6 +533,15 @@ export function leaveMeeting(api: CoreAPI, meetingIdValue: string): void {
   if (!row || row.audience === undefined || !row.playerPresent)
     throw new Error("That meeting is not in session.");
   table(api, "meetings").put(withoutAudience(row) as unknown as ModuleRow);
+  // That they came is on the record with what they said there.
+  keepAct(api, {
+    personId: row.audience,
+    kind: "attend",
+    how: "did",
+    recordId: row.id,
+    position: null,
+    detail: "",
+  });
   releaseHeld(api, row.id);
 }
 

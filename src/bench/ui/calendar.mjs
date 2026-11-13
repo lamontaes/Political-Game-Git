@@ -149,6 +149,13 @@ export function calendarScreen({
                     "div",
                     { className: "what" },
                     el("span", { textContent: item.line }),
+                    // Once marked, the plan in the record's words.
+                    item.attend.plan
+                      ? el("span", {
+                          className: "attend-plan",
+                          textContent: item.attend.plan,
+                        })
+                      : "",
                     attendButton(item),
                   )
                 : el("span", { className: "what", textContent: item.line }),

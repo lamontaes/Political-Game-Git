@@ -77,6 +77,11 @@ it("the Calendar offers a posted meeting, the panel lets a resident speak and le
           (other) => other.recordIds[0] === item.attend!.officeId,
         );
         expect(marked?.attend?.marked, `${where}: marked`).toBe(true);
+        // The plan is said in words, with the hour as people say it.
+        expect(marked?.attend?.plan, `${where}: the plan`).toMatch(
+          /\d (a|p)\.m\./,
+        );
+        expect(item.attend.plan, `${where}: no plan before the mark`).toBeNull();
         meetingAttend(core, item.attend.officeId, item.attend.date, false);
         expect(
           offered().find(
@@ -88,8 +93,21 @@ it("the Calendar offers a posted meeting, the panel lets a resident speak and le
       }
       step(player);
       const minute = player.packet?.at.minuteOfDay ?? 18 * 60;
-      const scene = meetingSceneView(core, me, minute);
-      if (!scene || player.packet?.kind !== "stop") continue;
+      const stopped =
+        player.packet?.kind === "stop" &&
+        (
+          player.packet as { stop?: { modules?: { reasonKey: string }[] } }
+        ).stop?.modules?.some((m) => m.reasonKey === "office-day.meeting");
+      const scene = stopped ? meetingSceneView(core, me, minute) : null;
+      if (!scene) continue;
+      // One line under the title for a resident: an empty agenda, or, only at
+      // the first meeting they come to, what they can do here.
+      const items = scene.items.length;
+      if (!items || emptyRooms === 0)
+        expect(scene.note, `${where}: the resident's line`).toMatch(
+          items ? /speak for or against/ : /\S/,
+        );
+      else expect(scene.note, `${where}: said once`).toBeNull();
       // In the room, not at the table.
       expect(scene.seated, `${where}: not seated`).toBe(false);
       expect(

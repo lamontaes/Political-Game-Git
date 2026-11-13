@@ -17,7 +17,7 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
-import { screenLine } from "../english/screen-words";
+import { screenLine, screenPick, screenWays } from "../english/screen-words";
 import type { CoreState, LogRecord } from "../core2/types";
 import { freshSince, storiesHeard } from "../core2/modules/news";
 
@@ -38,8 +38,21 @@ export interface CalendarItem {
    * A posted meeting the person may come to as a resident (the office-day
    * engine's `meetingToAttend`), and whether they have marked it.
    */
-  attend?: { officeId: string; date: string; marked: boolean };
+  attend?: {
+    officeId: string;
+    date: string;
+    marked: boolean;
+    /** Once marked: the plan in the English engine's words, one wording per meeting. */
+    plan: string | null;
+  };
 }
+
+/** A meeting's hour as people say it: "7 p.m.", "6:30 p.m.", from its record's start minute. */
+const spokenHour = (minuteOfDay: number) => {
+  const hour = Math.floor(minuteOfDay / 60);
+  const minute = minuteOfDay % 60;
+  return `${hour % 12 || 12}${minute ? `:${String(minute).padStart(2, "0")}` : ""} ${hour < 12 ? "a.m." : "p.m."}`;
+};
 
 /** The levels of the town's own governments. */
 const LOCAL_LEVELS: readonly string[] = ["city", "township", "county"];
@@ -231,7 +244,21 @@ export function calendarItems(
         own: false,
         recordIds: [officeId],
         ...(open
-          ? { attend: { officeId, date: body.date, marked: open.marked } }
+          ? {
+              attend: {
+                officeId,
+                date: body.date,
+                marked: open.marked,
+                plan: open.marked
+                  ? (screenPick(
+                      "calendar",
+                      screenWays("calendar", "calendar.meeting-plan.1"),
+                      { body: body.title, time: spokenHour(open.startMinute) },
+                      { momentKey: open.id, sourceIds: [open.id] },
+                    )?.text ?? null)
+                  : null,
+              },
+            }
           : {}),
       });
   }
