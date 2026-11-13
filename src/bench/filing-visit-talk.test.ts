@@ -135,18 +135,10 @@ it(`a first visit asks for the papers, the player says only what they chose, and
     expect(answer.text.split(/(?<=[.?!]) /).length, where).toBeGreaterThan(1);
     if (contest.body && /^municipalOffice/.test(contest.kind ?? ""))
       expect(answer.text, where).toContain(contest.body.name);
-    // Up to four replies, each a different move about the race.
-    const moveOf: Record<string, string> = {
-      file: "agree",
-      "ask-filed": "ask",
-      "ask-dates": "tell",
-      leave: "leave",
-    };
+    // Up to four replies, each a different move about the race: the clerk's
+    // scene offers file (agree), ask, a rival (confront) and leave.
     expectUpToFourDifferent(
-      state.visit.choices.map((row) => ({
-        move: moveOf[row.key] ?? row.key,
-        text: row.text,
-      })),
+      state.visit.choices.map((row) => ({ move: row.move!, text: row.text })),
       where,
     );
     // Filing names the office; no other reply names it again (one screen
@@ -168,7 +160,9 @@ it(`a first visit asks for the papers, the player says only what they chose, and
         /\((?:District|[^)]*election)[^)]*\)|(?:run|file|sign) for (?:the )?[A-Za-z ]*\bmember\b|give [a-z ]*member/i,
       );
     // Who else has filed, from the filings: named when there is someone.
-    state = chooseAtCounter(core, state, "ask-filed");
+    const asking = state.visit.choices.find((row) => row.move === "ask");
+    expect(asking, `${where}: a way to ask who filed`).toBeTruthy();
+    state = chooseAtCounter(core, state, asking!.key);
     for (const row of state.visit.choices) offered.add(shown(row));
     const whoFiled = state.visit.lines.at(-1)!;
     process.stdout.write(
@@ -178,8 +172,9 @@ it(`a first visit asks for the papers, the player says only what they chose, and
     if (contest.filed?.first)
       expect(whoFiled.text, where).toContain(contest.filed.first.name);
     else expect(whoFiled.text, where).toMatch(/nobody|first|not a soul/i);
+    // A question asked is not offered again.
     expect(
-      state.visit.choices.some((row) => row.key === "ask-filed"),
+      state.visit.choices.some((row) => row.move === "ask"),
       where,
     ).toBe(false);
     const file = state.visit.choices.find((row) => row.control === "file");

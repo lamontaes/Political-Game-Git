@@ -236,6 +236,17 @@ export function pickContest(
       sourceRecordIds: ids,
     },
   };
+  visit.choices = [];
+  visit.picked = { contestId, facts, path: [] };
+  // The clerk tells the candidate about the race before the paperwork
+  // (owner, Oct 28 sitting, 32: "you're running for Trustee ... the primary
+  // is this date and the general is this date ... here is what a trustee
+  // does, here is the term"), from the contest's records, as one answer in
+  // connected sentences, never a list of facts (owner, Nov 1: "it shouldn't
+  // read as a list. That's not how normal people talk."): the statement of
+  // the clerk's scene, and its replies are the player's choices.
+  const talk = clerkScene(core, visit);
+  if (talk) visit.lines.push(clerkSaid(talk.state));
   // Each rule that stops the filing, in the clerk's words, from its record.
   const unmet = checks.filter((row) => !row.met);
   for (const check of unmet) {
@@ -251,8 +262,6 @@ export function pickContest(
     });
     if (line) visit.lines.push({ speaker: "clerk", ...line });
   }
-  visit.choices = [];
-  visit.picked = { contestId, facts, path: [] };
   // A rule stops the filing: the player takes the refusal, in their own
   // words; the transcript shows only the line they chose.
   if (unmet.length) {
@@ -267,16 +276,7 @@ export function pickContest(
       });
     return visit;
   }
-  // The clerk tells the candidate about the race before the paperwork
-  // (owner, Oct 28 sitting, 32: "you're running for Trustee ... the primary
-  // is this date and the general is this date ... here is what a trustee
-  // does, here is the term"), from the contest's records, as one answer in
-  // connected sentences, never a list of facts (owner, Nov 1: "it shouldn't
-  // read as a list. That's not how normal people talk."): the statement of
-  // the clerk's scene, and its replies are the player's choices.
-  const talk = clerkScene(core, visit);
   if (talk) {
-    visit.lines.push(clerkSaid(talk.state));
     for (const line of talk.tree.lines) visit.lines.push(clerkSaid(line));
     offerReplies(visit, talk.tree);
   }
