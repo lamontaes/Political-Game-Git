@@ -99,7 +99,13 @@ it("after a primary is counted its nominee's race stays live for the general and
         const loser = after.find((f) => f.status === "withdrawn");
         const note = `${where}; contest ${contest.id}`;
         expect(winner, `a nominee is left: ${note}`).toBeTruthy();
-        expect(loser, `a loser is out: ${note}`).toBeTruthy();
+        if (!loser) {
+          // A top-two or open primary advances both: both races stay live.
+          for (const f of after)
+            expect(raceLive(api, f), `both advance, live: ${note}`).toBe(true);
+          passed.push(`${note}: the primary advanced both filers`);
+          continue;
+        }
         expect(
           resultOf(api, contest.id),
           `the primary is not the contest's count: ${note}`,
