@@ -56,6 +56,17 @@ describe("Metrics change from last year comes from the shown figures", () => {
     });
   });
 
+  it("counts shown exactly give an exact change (3,214 against 3,213)", () => {
+    const r = row("count", 3214, 3213);
+    expect(metricsFigure(r, r.now, "%")).toBe("3,214");
+    expect(metricsFigure(r, r.before!, "%")).toBe("3,213");
+    expect(metricsChange(r)).toEqual({ direction: "up", size: "1" });
+    expect(metricsChange(row("count", 3213, 3214))).toEqual({
+      direction: "down",
+      size: "1",
+    });
+  });
+
   it("no last year, no change", () => {
     expect(metricsChange(row("money", 1, null))).toEqual({
       direction: null,
