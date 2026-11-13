@@ -58,7 +58,7 @@ import { storyTopicName } from "../english/policy-names";
 import { causeGroupName } from "../english/group-names";
 import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
-import { policyNames } from "./words";
+import { measureSaid, policyNames } from "./words";
 import { placeLabel } from "../director/journal";
 import { stateInSentence } from "../director/words";
 
@@ -205,7 +205,10 @@ const appointerWords = (appointedBy: string | undefined) => {
  * without its article, else the key read as words.
  */
 const measureName = (series: string) =>
-  storyTopicName(series)?.replace(/^the /i, "") ?? spaced(series);
+  // A label kept as "what: for whom" ("State campaign contribution limit:
+  // governor") is said as a phrase ("campaign contribution limit for
+  // governor"); whose law it is the sentence says (Fable A, Nov 13, rule 15).
+  measureSaid(storyTopicName(series)?.replace(/^the /i, "") ?? spaced(series));
 /** A record key read as words: "finance-director" and "financeDirector" are "finance director". */
 const spaced = (key: string) =>
   key
@@ -3352,6 +3355,10 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       POLICIES[f.question ?? ""]?.purpose ?? ISSUES[f.question ?? ""];
     if (yes === undefined || no === undefined || !body || !measure) return null;
     const margin = Math.abs(yes - no);
+    // A bill that failed fell short by the votes it lacked for a majority of
+    // those cast (the engine passes a bill when its yeas outnumber its nays),
+    // never by the margin (Fable A, Nov 13, rule 15: 61 to 89 is 15 short).
+    const shortBy = Math.floor((yes + no) / 2) + 1 - yes;
     return story(
       "vote-or-law",
       {
@@ -3365,6 +3372,9 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
           : margin > 1
             ? { margin: read.fact(count(margin)) }
             : {}),
+        ...(f.passed !== "true" && shortBy > 1
+          ? { "short-by": read.fact(count(shortBy)) }
+          : {}),
       },
       ["body", "measure"],
     );

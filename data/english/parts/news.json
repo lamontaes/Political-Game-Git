@@ -92,7 +92,8 @@
     "vacated": "The day the seat a new holder takes fell empty, from the vacancy record.",
     "opened": "The month and year a business opened, from its founding record, when it was open less than two years.",
     "members": "How many sit on a study committee, said in words, from the study's row.",
-    "until": "The day a study committee reports by, from the study's row."
+    "until": "The day a study committee reports by, from the study's row.",
+    "short-by": "The votes a failed bill lacked for a majority of those cast, as a number, from the vote's yeas and nays."
   },
   "maxWords": 14,
   "mining": {
@@ -1555,7 +1556,8 @@
           "subject": "news",
           "role": "law-took-effect",
           "choice": "lede",
-          "requiresFacts": ["effective"]
+          "requiresFacts": ["effective"],
+          "excludesFacts": ["place", "federal"]
         }
       ],
       "transcriptsUsing": 17,
@@ -1573,6 +1575,50 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.law-took-effect.places-measure-took-effect-on-date",
+      "move": "law-took-effect",
+      "kind": "written",
+      "text": "{place}'s {measure} took effect on {date}.",
+      "uses": [
+        {
+          "move": "law-took-effect",
+          "subject": "news",
+          "role": "law-took-effect",
+          "choice": "lede",
+          "requiresFacts": ["effective", "place"]
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "news.law-took-effect.the-federal-measure-took-effect-on-date",
+      "move": "law-took-effect",
+      "kind": "written",
+      "text": "The federal {measure} took effect on {date}.",
+      "uses": [
+        {
+          "move": "law-took-effect",
+          "subject": "news",
+          "role": "law-took-effect",
+          "choice": "lede",
+          "requiresFacts": ["effective", "federal"]
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13"
     },
     {
       "key": "news.law-took-effect.measure-became-law-on-date",
@@ -10687,20 +10733,19 @@
       "key": "news.vote-margin.it-fell-short-by-margin-votes",
       "move": "vote-margin",
       "kind": "written",
-      "text": "It fell short by {margin} votes.",
+      "text": "It fell short by {short-by} votes.",
       "uses": [
         {
           "move": "vote-margin",
           "subject": "news",
           "role": "vote-margin",
           "choice": "context",
-          "requiresFacts": ["margin", "failed"],
-          "excludesFacts": ["one-vote"]
+          "requiresFacts": ["short-by", "failed"]
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
