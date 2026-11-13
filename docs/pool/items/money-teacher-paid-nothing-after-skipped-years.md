@@ -46,3 +46,5 @@ The finder reads `/api/dev/person` and the employer's books for one month before
 **Files.** src/core2/modules/finance.ts, src/core2/life.ts, src/bench/dev-api.ts
 
 **Notes.** The same life never held a council election in six years: each March the player's seat read "No one has filed / Last time January 31, 2021", and it held over. That is added to `elections-local-races-too-uncontested`.
+
+A second case (Playtester P2, Millville, New Jersey, seed 47dea119-87db-4b1f-b3e6-9d5843f7a2e5, seven run-years to January 2032, council member Brittany Ellis, a commuter living with three others). Money reads "Jul / $0 / Aug / $0 / Your household's last month · $0 / Purchases / $0.00 paid · $5,069.36 left unpaid" beside "Savings · Millville Community Bank / $545,000". Cash is back to $7,201 today (`/api/dev/person?id=person_01bcb0327c7d7c4f`). In skipped time the household let its purchases go unpaid instead of drawing on half a million in savings. The finder checks both lives with one look at how a household covers a short month in results mode; `core-results-catch-up-reuses-a-savings-draw-id` is the employer side of the same draw.
