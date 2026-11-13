@@ -63,8 +63,10 @@ function openingBoard(placeKey: string, worldSeed: string, where: string) {
     ).filter((c) => !c.special);
   const terms = () =>
     (
-      api.moduleState(OFFICES_MODULE_ID).table("terms").rows() as unknown as
-        TermRow[]
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .rows() as unknown as TermRow[]
     ).filter((t) => t.officeId === office.id && !t.id.includes(":past:"));
   return { core, api, office, contests, terms };
 }
@@ -92,15 +94,15 @@ it("the playtest's board elects one seat a year, each won by the top of its own 
   for (const term of terms()) {
     const own = contests().find((c) => c.seatId === term.seatId)!;
     expect(own, `${where}: ${term.id}`).toBeTruthy();
-    expect(term.endDate! > own.electionDate, `${where}: ${term.id}`).toBe(
-      true,
-    );
+    expect(term.endDate! > own.electionDate, `${where}: ${term.id}`).toBe(true);
     expect(years(own.electionDate, term.endDate!), where).toBeLessThan(1);
   }
   advanceCore(core, makeIsoDate("2027-04-30"));
   const results = (
-    api.moduleState(VOTING_MODULE_ID).table("results").rows() as unknown as
-      ResultRow[]
+    api
+      .moduleState(VOTING_MODULE_ID)
+      .table("results")
+      .rows() as unknown as ResultRow[]
   ).filter((r) => r.contestId.includes(`${office.id.slice(7)}:`));
   const decided = results.map((r) => r.contestId.slice(-10).slice(0, 4));
   // Exactly one seat decided each March of 2025, 2026 and 2027.
@@ -129,7 +131,10 @@ it("the playtest's board elects one seat a year, each won by the top of its own 
         t.personId === term.personId &&
         t.seatId !== term.seatId,
     );
-    expect(twice.map((t) => t.id), `${where}: ${term.id}`).toEqual([]);
+    expect(
+      twice.map((t) => t.id),
+      `${where}: ${term.id}`,
+    ).toEqual([]);
   }
   process.stdout.write(
     `TOWN BOARD ${where}: ${results.map((r) => `${r.contestId} won by ${r.winnerId} (${JSON.stringify(r.totals)})`).join("; ")}\n`,
@@ -143,15 +148,17 @@ it(`a drawn board whose seats take turns is not all up on one day (seed ${seed})
     return !!board && board.seats > 1 && board.staggered !== false;
   });
   const where = `${place.name} (${place.key}), run seed ${seed}, world seed ${place.seed}`;
-  const { office, contests, terms } = openingBoard(place.key, place.seed, where);
+  const { office, contests, terms } = openingBoard(
+    place.key,
+    place.seed,
+    where,
+  );
   const days = new Set(contests().map((c) => c.electionDate));
   expect(days.size, `${where}: ${[...days].join(", ")}`).toBeGreaterThan(1);
   for (const term of terms()) {
     const own = contests().find((c) => c.seatId === term.seatId);
     if (!own) continue;
-    expect(term.endDate! > own.electionDate, `${where}: ${term.id}`).toBe(
-      true,
-    );
+    expect(term.endDate! > own.electionDate, `${where}: ${term.id}`).toBe(true);
     expect(years(own.electionDate, term.endDate!), where).toBeLessThan(1);
   }
   process.stdout.write(
