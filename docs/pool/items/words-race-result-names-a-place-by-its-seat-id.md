@@ -20,7 +20,7 @@ checked:
 claimed-at:
 ---
 
-**What.** On Nov 5, 2026, the losing candidate Pamela Barrett tells the player the State Representative result: 'Carlos Gibson took 53 percent, and seat:US-VT:lower:L-2:0 gave Carlos Gibson the most.' A record id is said aloud as if it were a place. Seen: the race-told talk on the street, two days after the general election.
+**What.** On Nov 5, 2026, the losing candidate Pamela Barrett tells the player the State Representative result: 'Carlos Gibson took 53 percent, and seat:US-VT:lower:L-2:0 gave Carlos Gibson the most.' A record id is said aloud as if it were a place. The same line can play after any district race for a state legislature. Seen: the race-told talk on the street, two days after the general election.
 
 **Cause.** Found in code: legislativePlace in src/core2/electorate-places.ts (line 473) passes the seat key itself (`seatKey`) to makePlace as the place's name. The voting engine keeps that name on the race's place rows (recordPlaces in src/core2/modules/voting.ts, line 4125). raceTurnoutFacts in src/director/race-turnout-facts.ts (line 57) then puts the name of the place that gave the winner the biggest share into `best-place`. The scene-talk piece '{winner} took {vote_share} percent, and {best_place} gave {winner} the most.' (data/english/parts/scene-talk.json, line 189210) says it. Measured: North Hyde Park, Vermont, seed a6b481a5-c6c9-432b-8cca-c0463c518da8, main 9ebc7c89 (Playtester P3, Nov 13, 2026).
 
