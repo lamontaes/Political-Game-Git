@@ -46,5 +46,17 @@
     "addedAt": "2026-11-01",
     "replacement": "The CTO's rule (OWNER-DECISIONS Nov 1 20:00): counted readers are weighed by the same press.letter rule, times their count, from their view on the story's question and their temperament, and the writer a printed letter names is filled in, seeded, when it prints.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-moved-away-awaits-pieces",
+    "kind": "missing-data",
+    "file": "src/bench/printed-words.ts",
+    "line": 2773,
+    "whatItFakes": "A household's move away is printed by the town's outlets (the press's moves step) but News shows no story for it until the news bank has pieces for the moved-away move; the builder's facts (name, place, destination, date) are ready for them.",
+    "why": "play-town-moves-news-line: the news pieces are Story's to write (Nov 10 split of words work).",
+    "addedBy": "play-town-moves-news-line",
+    "addedAt": "2026-11-11",
+    "replacement": "Headline and lede pieces for the move moved-away in data/english/parts/news.json, with slots name, place, destination and date; then this stopgap is cleared.",
+    "status": "open"
   }
 ]

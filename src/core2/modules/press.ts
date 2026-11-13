@@ -14,6 +14,7 @@
  * decide for themselves, with a recorded cause, and the story is a public
  * record the news carries.
  */
+import { MOVED_AWAY_EVENT } from "./moves";
 import news from "../../../data/research/press/local-news-2026.json" with { type: "json" };
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import rows from "../data/press/parameters.json" with { type: "json" };
@@ -3049,6 +3050,51 @@ export const RETIREMENT = "person.retired";
 /** The jobs engine's reason for a worker who leaves work for good. */
 const RETIRED = "retired";
 
+/** The moves engine's record of a household leaving the town for another place. */
+const ELSEWHERE_FACT = "moves:elsewhere";
+
+/**
+ * The week's moves away, for the briefs column (play-town-moves-news-line):
+ * each household that left the town for another place this week, from the
+ * moves engine's own record of the move (person.moved-away, placed at the
+ * town it left), naming the first of them and where they went. A move
+ * between two places outside the town is not the town's news.
+ */
+function movesAway(api: CoreAPI): void {
+  const c = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  const since = addDays(
+    makeIsoDate(api.state.date),
+    -api.parameter("daysPerWeek"),
+  );
+  for (const id of c.logByKind.get(MOVED_AWAY_EVENT) ?? []) {
+    const record = c.durableLog.get(id);
+    if (!record || record.placeId !== town) continue;
+    if (record.date <= since || record.date > api.state.date) continue;
+    if (record.facts?.[ELSEWHERE_FACT]) continue;
+    const going = record.personIds.filter((pid) => c.people.has(pid));
+    const first = going[0];
+    if (!first) continue;
+    const wireId = `moved-away:${record.id}`;
+    if (table(api, "wire").get(wireId)) continue;
+    table(api, "wire").put({
+      id: wireId,
+      kind: MOVED_AWAY_EVENT,
+      date: record.date,
+      level: "town",
+      topic: `person:${first}`,
+      desiredChange: MOVED_AWAY_EVENT,
+      ending: false,
+      subjectIds: going,
+      facts: {
+        recordId: record.id,
+        personId: first,
+        ...(record.topic ? { destinationId: record.topic } : {}),
+      },
+    } as unknown as ModuleRow);
+  }
+}
+
 /** A reader's letter to the editor, as the press prints it. */
 export const LETTER = "press.letter";
 /** The trait engine's decision to write to the paper or keep quiet. */
@@ -3587,6 +3633,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   schoolResults(api);
   policeLog(api);
   milestones(api);
+  movesAway(api);
   letters(api);
   // The week's stories: each reporter files from the fresh wire.
   const wire = freshWire(api);

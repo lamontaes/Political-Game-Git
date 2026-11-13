@@ -2914,6 +2914,37 @@ const milestoneBirthday: Builder = (read, f) => {
 };
 
 /**
+ * A household that moved away this week, from the press's moves step: the
+ * first of them by name, the town they left and the place they went, from
+ * the moves engine's own record of the move.
+ */
+// stopgapId: SG-WORDS-moved-away-awaits-pieces
+const movedAway: Builder = (read, f) => {
+  const to = f.destinationId
+    ? corePlaceByJurisdictionId(f.destinationId as EntityId)
+    : undefined;
+  const town = read.place();
+  return story(
+    "moved-away",
+    {
+      ...read.who(f.personId, "name", false),
+      date: read.date(),
+      ...(town ? { place: read.fact(town, f.recordId ?? "") } : {}),
+      ...(to
+        ? {
+            destination: read.fact(
+              to.displayName,
+              f.destinationId ?? "",
+              f.recordId ?? "",
+            ),
+          }
+        : {}),
+    },
+    ["name"],
+  );
+};
+
+/**
  * A resident's retirement, from the press's week of milestones: who, from
  * which employer and after how many years, from the jobs engine's record of
  * their leaving and their work record. Work for the outside account is not
@@ -3478,6 +3509,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   birthday: milestoneBirthday,
   anniversary,
   retirement,
+  "moved-away": movedAway,
   letter,
   profile,
   interview,

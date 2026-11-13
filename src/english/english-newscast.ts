@@ -302,6 +302,12 @@ export const STORY_KINDS = {
     lede: ["retirement"],
     brief: true,
   },
+  // A household that left the town this week, from the press's moves step.
+  "moved-away": {
+    headline: ["moved-away"],
+    lede: ["moved-away"],
+    brief: true,
+  },
   // A reader's letter to the editor, from the press's weekly letters step.
   letter: { headline: ["letter"], lede: ["letter"], brief: true },
   anniversary: {
