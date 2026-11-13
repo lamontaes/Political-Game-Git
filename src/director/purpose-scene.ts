@@ -124,7 +124,13 @@ import { closenessBetween } from "../core2/closeness";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
-import { properName, spoken, spokenDate, stateInSentence } from "./words";
+import {
+  numberWord,
+  properName,
+  spoken,
+  spokenDate,
+  stateInSentence,
+} from "./words";
 import { giveInauguralAddress, inauguralStand } from "./inaugural-address";
 import {
   ADDRESS_KEEPS,
@@ -1064,24 +1070,28 @@ function composeBinding(
         {
           row,
           name,
+          // The incumbent is said as one; a party is never said before
+          // every name (Fable A, Nov 13, rule 2).
           text:
-            incumbent?.personId === row.personId
-              ? `incumbent ${name}`
-              : row.party && row.party !== "party"
-                ? `${row.party} candidate ${name}`
-                : name,
+            incumbent?.personId === row.personId ? `incumbent ${name}` : name,
         },
       ];
     });
     if (said_.length) {
       const cited = [moment.causeId, ...said_.map((row) => row.row.id)];
+      // A list names three, then counts (Fable A, Nov 13, rule 2): up to
+      // three by name; more, the first two and how many others.
+      const named =
+        said_.length > P.two + P.one
+          ? [
+              ...said_.slice(P.zero, P.two).map((row) => row.text),
+              `${numberWord(said_.length - P.two)} others`,
+            ]
+          : said_.map((row) => row.text);
       const list =
-        said_.length === P.one
-          ? said_[P.zero]!.text
-          : `${said_
-              .slice(P.zero, -P.one)
-              .map((row) => row.text)
-              .join(", ")} and ${said_.at(-P.one)!.text}`;
+        named.length === P.one
+          ? named[P.zero]!
+          : `${named.slice(P.zero, -P.one).join(", ")} and ${named.at(-P.one)!}`;
       facts["already-filed"] = {
         text: String(said_.length),
         sourceRecordIds: cited,
@@ -1681,7 +1691,10 @@ function petitionFacts(
       : null;
   if (!petition) return {};
   const fact = (text: string) => ({ text, sourceRecordIds: [petition.id] });
-  const walk = walkThroughFacts(core, petition);
+  const walk = {
+    ...walkThroughFacts(core, petition),
+    ...voteDay(core, petition),
+  };
   if (petition.needed <= P.zero) return { "no-petition": fact("yes"), ...walk };
   const due = fact(spokenDate(petition.due, core.date));
   return petition.needed === P.one
@@ -1691,6 +1704,38 @@ function petitionFacts(
         due,
         ...walk,
       };
+}
+
+/**
+ * The race's next vote, its primary when one is still ahead, else the
+ * election, said as a day, from the contest the filing is in: what the clerk
+ * names when the candidate asks when they will know, or what comes next.
+ */
+function voteDay(
+  core: Readonly<CoreState>,
+  petition: { filingId: string },
+): Record<string, Fact> {
+  const api = coreAPI(core as CoreState);
+  const elections = api.moduleState(ELECTIONS_MODULE_ID);
+  const filing = elections
+    .table("filings")
+    .get(petition.filingId) as unknown as { contestId: string } | undefined;
+  const contest = filing
+    ? (elections.table("contests").get(filing.contestId) as unknown as
+        | { id: string; primaryDate: string | null; electionDate: string }
+        | undefined)
+    : undefined;
+  if (!contest) return {};
+  const day =
+    contest.primaryDate && contest.primaryDate >= core.date
+      ? contest.primaryDate
+      : contest.electionDate;
+  return {
+    "vote-day": {
+      text: spokenDate(day, core.date),
+      sourceRecordIds: [contest.id],
+    },
+  };
 }
 
 /**
