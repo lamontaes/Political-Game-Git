@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-pnra81
 pr:
 after:
 blocked-on:
@@ -16,7 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: Gate desk 2, Nov 11, 2026 (10:50 UTC on the crew's issue and on #8580), cause written in by the cause finder for Fable B
-claimed-at:
+claimed-at: 2026-11-13T04:42:50.386Z
 branch: claude/project-thread-pnra81
 ---
 
