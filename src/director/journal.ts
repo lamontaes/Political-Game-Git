@@ -2486,52 +2486,60 @@ export function composeJournal(
       (entry) => entry.kindPrefix === told[zero]?.row.kindPrefix,
     );
     if (!row || (told.length < P.two && !row.alone)) return null;
-    const facts: Facts = {};
-    for (const key of row.facts) {
-      const said = told.flatMap((unit) =>
-        unit.facts[key] ? [unit.facts[key]!] : [],
-      );
-      // A fact one record lacks is not listed: the list would leave it out.
-      if (said.length !== told.length) continue;
-      facts[key] = {
-        text: listOfParts([...new Set(said.map((fact) => fact.text))]),
-        sourceRecordIds: said.flatMap((fact) => fact.sourceRecordIds),
-      };
+    // Records named the same way (a law by its bill's name, or by what it is
+    // about) are one sentence each: the first of the row's facts each holds.
+    const byFact = new Map<string, Unit[]>();
+    for (const unit of told) {
+      const key = row.facts.find((name) => unit.facts[name]) ?? "";
+      byFact.set(key, [...(byFact.get(key) ?? []), unit]);
     }
-    // Each record's own clause (what it did), the clauses as one list.
-    const clauses = told.flatMap((unit) => {
-      const field =
-        row.clauses[unit.facts.direction?.text as keyof typeof row.clauses];
-      const clause = field
-        ? render(
-            { part: "memoir", field: field as MemoirField },
-            unit.facts,
-            `${unit.moment.id}:clause`,
-            [unit.moment.causeId],
-          )
-        : null;
-      return clause
-        ? [
-            {
-              ...clause,
-              text:
-                clause.text.charAt(zero).toLowerCase() + clause.text.slice(one),
-            },
-          ]
-        : [];
-    });
-    if (!clauses.length) return null;
-    facts.effects = {
-      text: listOf(clauses.map((clause) => clause.text)),
-      sourceRecordIds: clauses.flatMap((clause) => clause.sourceRecordIds),
-    };
-    const line = render(
-      { part: "memoir", field: row.field as MemoirField },
-      facts,
-      `${told[zero]!.moment.id}:merged`,
-      told.map((unit) => unit.moment.causeId),
-    );
-    return line ? [line] : null;
+    const out: JournalWorded[] = [];
+    for (const [key, units] of byFact) {
+      if (!key) continue;
+      const said = units.map((unit) => unit.facts[key]!);
+      const facts: Facts = {
+        [key]: {
+          text: listOfParts([...new Set(said.map((fact) => fact.text))]),
+          sourceRecordIds: said.flatMap((fact) => fact.sourceRecordIds),
+        },
+      };
+      // Each record's own clause (what it did), the clauses as one list.
+      const clauses = units.flatMap((unit) => {
+        const field =
+          row.clauses[unit.facts.direction?.text as keyof typeof row.clauses];
+        const clause = field
+          ? render(
+              { part: "memoir", field: field as MemoirField },
+              unit.facts,
+              `${unit.moment.id}:clause`,
+              [unit.moment.causeId],
+            )
+          : null;
+        return clause
+          ? [
+              {
+                ...clause,
+                text:
+                  clause.text.charAt(zero).toLowerCase() +
+                  clause.text.slice(one),
+              },
+            ]
+          : [];
+      });
+      if (!clauses.length) continue;
+      facts.effects = {
+        text: listOf(clauses.map((clause) => clause.text)),
+        sourceRecordIds: clauses.flatMap((clause) => clause.sourceRecordIds),
+      };
+      const line = render(
+        { part: "memoir", field: row.field as MemoirField },
+        facts,
+        `${units[zero]!.moment.id}:merged`,
+        units.map((unit) => unit.moment.causeId),
+      );
+      if (line) out.push(line);
+    }
+    return out.length ? out : null;
   };
 
   const entryOf = (told: readonly Unit[], sentences: JournalWorded[]) => ({
