@@ -5,7 +5,7 @@ area: office
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #8668
 blocked-on:
@@ -23,7 +23,7 @@ branch: claude/pool-gov-seated-governor-appointment-job-ends
 
 **What.** After the player is seated as governor through seatWinner, appointGovernor can throw that a job ends before its day's work, apparently because the seated player's job record ends on the day they are appointed. The words session's swearing-in test steps around it and names it (New Pekin IN). A governor the player wins must be seated without stopping the day.
 
-**Cause.** Found in code: src/director/swearing-in-scene.test.ts (line 153) catches the throw; the rule is in src/core2/job-lifecycle.ts (line 100, 'a job ends before its day's work', raised at line 129) and appointGovernor is at src/core2/office-day-state.ts line 1662.
+**Cause.** Reproduced (2026-11-13) in 6 of 6 drawn places, for example Dandan, Northern Mariana Islands, seed 8ec0d4b3a3690ca453dd83134519812db8b04e454d7af2b5c859eda7c8835759 (the place this item named, New Pekin IN, is not in the place lookup). The seated player's own job is not involved: appointStatePost (src/core2/modules/executive.ts) ended the replaced holder's job with api.endJob on the day it replaced them; a holder who already worked that day (the player's day runs before the calendar's) makes endRecordedJob (src/core2/job-lifecycle.ts line 129) throw 'A job ends before its day's work'.
 
 **Fix.** Make the appointee's old job end and the office job start on the same day through one path that respects the day-order rule in job-lifecycle.ts, then remove the swearing-in test's EngineGap detour.
 
@@ -44,3 +44,5 @@ Released (2026-11-11): Not reproduced: src/director/swearing-in-scene.test.ts pa
 Released (2026-11-11): Still no failing place and seed: the item names none. Candidate site confirmed in code (executive.ts line 1217 ends the replaced cabinet holder's job with no workedToday check, unlike the nominee filter at line 455), but guarding it needs a decision on what happens to the replaced holder who worked today; needs a repro first. Continue on branch claude/pool-gov-seated-governor-appointment-job-ends.
 
 Released by next (2026-11-13): no push to claude/pool-gov-seated-governor-appointment-job-ends since 2026-11-12 21:10 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-gov-seated-governor-appointment-job-ends and pull request #8668.
+
+Account lead T31 (2026-11-13): Reproduced on the train branch in 6 of 6 drawn places (for example Dandan, Northern Mariana Islands, seed 8ec0d4b3a3690ca453dd83134519812db8b04e454d7af2b5c859eda7c8835759): a seated governor who appoints a state post twice, the day after the first appointee worked, throws at executive.ts appointStatePost, where the replaced holder's job ends (endJob, line 1237 before the fix). The item's account was wrong: the seated player's own job is not the cause, and the swearing-in test no longer has a detour. Fix: the replaced holder's job ends at once, or in the next calendar work when they worked today (as reviewOfficeJobs does for office jobs); same helper at the cabinet seating's replace (seatCabinetPerson). Test: src/core2/governor-appointment-job-ends.test.ts.
