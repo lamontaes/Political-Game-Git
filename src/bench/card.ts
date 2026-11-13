@@ -32,7 +32,11 @@ import {
   screenPick,
   screenWays,
 } from "../english/screen-words";
-import { framedByAge } from "../english/journal-words";
+import {
+  employerSaid,
+  framedByAge,
+  withArticle,
+} from "../english/journal-words";
 import controls from "./data/controls.json" with { type: "json" };
 import {
   pronounSetOfGender,
@@ -47,7 +51,7 @@ import {
   coreStateKeyOfJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
-import { stateInSentence } from "../director/words";
+import { properName, stateInSentence } from "../director/words";
 import { relationWord, schoolsOf } from "./words";
 import { faceOf, scenePlace } from "./scene";
 import {
@@ -263,6 +267,12 @@ function officeTitle(core: CoreState, officeId: string): string | null {
     .table("offices")
     .get(officeId) as { title?: string } | undefined;
   return office?.title ?? null;
+}
+
+/** An employer's name as people say it, from its record (`employerSaid`); null for none. */
+function employerOf(core: CoreState, organizationId: string): string | null {
+  const org = core.organizations.get(organizationId);
+  return org ? employerSaid(properName(org.name), org) : null;
 }
 
 /** The offices a person serves in now, by title. */
@@ -1257,7 +1267,8 @@ function summaryOf(
     : now.work?.employer
       ? now.work.title
         ? line("work.title", {
-            title: inSentence(now.work.title),
+            // One person's job, with its article: "an aide", "a carpenter".
+            title: withArticle(now.work.title),
             employer: now.work.employer,
           })
         : line("work.employer", { employer: now.work.employer })
@@ -1706,7 +1717,9 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
           { title: null, employer: null, outside: homePlace }
         : {
             title: job.title,
-            employer: core.organizations.get(job.organizationId)?.name ?? null,
+            // The employer as people say it: a government's treasury is the
+            // government ("the Town of Smithtown"), never its ledger's name.
+            employer: employerOf(core, job.organizationId),
           }
       : null,
     school: school?.name ?? null,
