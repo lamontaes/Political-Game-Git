@@ -43,4 +43,4 @@ merged-at: 2026-11-13T07:32:52.949Z
 
 **Waits on.** #8910 (the move sets this branch is stacked on) and #8922.
 
-**Files.** data/english/parts/scene-talk.json, src/director/purpose-scene.ts, src/director/words.ts, src/director/speech-builder.ts, src/director/rival-filed-late.test.ts
+**Files.** data/english/parts/scene-talk.json, src/director/purpose-scene.ts, src/director/words.ts, src/director/speech-builder.ts
