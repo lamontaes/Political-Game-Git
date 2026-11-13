@@ -17525,30 +17525,6 @@
       }
     },
     {
-      "key": "scene-talk.state-request.the-permitting-on-bill-is-killing-my-business-i-m-just-telling-you-wha",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "The permitting on {bill} is killing my business. I'm just telling you what I'm hearing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-thank.grab-a-sandwich-before-you-go-there-s-a-tray-in-the-back",
       "move": "reply-thank",
       "kind": "spoken",
@@ -127484,7 +127460,8 @@
           "role": "asker",
           "purpose": "donor-ask.small",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -127680,7 +127657,8 @@
           "role": "asker",
           "purpose": "donor-ask.large",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -127908,7 +127886,8 @@
           "role": "asker",
           "purpose": "donor-ask.friend",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["bill"]
         }
       ],
       "bearing": "warm",
@@ -128078,7 +128057,8 @@
           "role": "asker",
           "purpose": "donor-ask.again",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["bill"]
         }
       ],
       "bearing": "braced",
@@ -170588,2442 +170568,6 @@
       }
     },
     {
-      "key": "scene-talk.state-request.case-help-1",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I've been out of work a while, and my savings are {money-left}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-work", "money-left"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "request",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-request.case-help-2",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I need a job. What I saved is {money-left}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-work", "money-left"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "request",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-request.case-help-3",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Nobody's hiring me, and my savings are {money-left}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-work", "money-left"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "request",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-request.case-help-4",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{employer} let me go {since} ago, and my savings are {money-left}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-work", "money-left", "employer", "since"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "request",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-request.case-help-5",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I worked at {employer} until {since} ago. Nobody's called back, and my savings are {money-left}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-work", "money-left", "employer", "since"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "request",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-request.case-help-6",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Since {employer} laid me off {since} ago, I've lived on savings. They're {money-left}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-work", "money-left", "employer", "since"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "request",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-request.case-help-7",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "My job pays {pay} an hour, and the minimum wage is {floor}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-wage", "pay", "floor"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "request",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-request.case-help-8",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I'm paid {pay} an hour. The floor is {floor}, and my boss knows it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-wage", "pay", "floor"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "request",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-request.case-help-9",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "The law says {floor} an hour. My check says {pay}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-wage", "pay", "floor"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "request",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.case-help-1",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll send your case to {agency} today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "promise",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.case-help-2",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll call {agency} about it before the day is out.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "promise",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.case-help-3",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "This goes from my office to {agency} today, with my name on it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "promise",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.case-help-1",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "{staffer} on my staff will take your case to {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "requiresFacts": ["staffer", "agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "offer",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.case-help-2",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Sit down with {staffer}. My office files it with {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "requiresFacts": ["staffer", "agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "offer",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.case-help-3",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "{staffer} handles cases like yours. It goes to {agency} from here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "requiresFacts": ["staffer", "agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "offer",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.case-help-4",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Leave your details at the desk. My office files it with {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "offer",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.case-help-5",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Give the desk your number, and my office will take it to {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "offer",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.case-help-6",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Write it all down for the desk. It goes to {agency} from my office.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "offer",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.case-help-1",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "My office has {other-cases} open, and I can't take yours on.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["other-cases"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "decline",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.case-help-2",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I've got {other-cases} ahead of yours. I can't take it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["other-cases"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "decline",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.case-help-3",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Not this one. I've got {other-cases} on my desk already.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["other-cases"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "decline",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.case-help-4",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "You'll have to go to {agency} yourself. My office can't carry it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "decline",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.case-help-5",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "{agency} takes these directly. I'm not taking it on.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "decline",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.case-help-6",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I can't take this one. {agency} is where it goes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "decline",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.case-help-1",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "How long since {employer} let you go?",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["problem-work", "employer", "since"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "ask",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.case-help-2",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "When did {employer} let you go?",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["problem-work", "employer", "since"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "ask",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.case-help-3",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "How long were you out before you came here, after {employer}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["problem-work", "employer", "since"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "ask",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.case-help-4",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Does every check say {pay} an hour?",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["problem-wage", "pay", "floor"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "ask",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.case-help-5",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Is {pay} what they've paid you all along?",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["problem-wage", "pay", "floor"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "ask",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.case-help-6",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Has it been {pay} on every check?",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["problem-wage", "pay", "floor"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "ask",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.case-help-1",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "{since}. And my savings are {money-left}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "ask",
-          "requiresFacts": ["problem-work", "employer", "since", "money-left"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "answer",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.case-help-2",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "{since} now, and nobody's called back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "ask",
-          "requiresFacts": ["problem-work", "employer", "since", "money-left"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "answer",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.case-help-3",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It's been {since}, and what I saved is {money-left}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "ask",
-          "requiresFacts": ["problem-work", "employer", "since", "money-left"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "answer",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.case-help-4",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Yes. {pay} an hour, every check, when the law says {floor}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "ask",
-          "requiresFacts": ["problem-wage", "pay", "floor"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "answer",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.case-help-5",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Every check. {pay}, never {floor}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "ask",
-          "requiresFacts": ["problem-wage", "pay", "floor"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "answer",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.case-help-6",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Yes, all along. {pay} an hour against a floor of {floor}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "ask",
-          "requiresFacts": ["problem-wage", "pay", "floor"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "answer",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.case-help-1",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I already called {agency} about your case.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "lie",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-lie",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.case-help-2",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "{agency} has your case already. I sent it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "lie",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-lie",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.case-help-3",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I talked to {agency} about this last week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "lie",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-lie",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.case-help-1",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "You're right. I'll call {agency} while you're sitting here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "apologize",
-        "key": "case-help"
-      },
-      "bearing": "contrite",
-      "piece": {
-        "of": "case-help.reply-apologize",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.case-help-2",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "That's fair. I'll put it to {agency} myself, today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "apologize",
-        "key": "case-help"
-      },
-      "bearing": "contrite",
-      "piece": {
-        "of": "case-help.reply-apologize",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.case-help-3",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "I'm sorry. {agency} gets your case from me before you leave.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "apologize",
-        "key": "case-help"
-      },
-      "bearing": "contrite",
-      "piece": {
-        "of": "case-help.reply-apologize",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.case-help-1",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I have people waiting. My office will decide your case {respond-in}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "requiresFacts": ["respond-in"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "leave",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-leave",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.case-help-2",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I have to take the next person. You'll hear from my office {respond-in}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "requiresFacts": ["respond-in"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "leave",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-leave",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.case-help-3",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Leave it with the desk. You'll have an answer {respond-in}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "requiresFacts": ["respond-in"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "leave",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-leave",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.case-help-1",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. I'll watch for word from {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "promise",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.case-help-2",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you for taking it to {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "promise",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.case-help-3",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "{agency}, then. Thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "promise",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.case-help-4",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. I'll wait for {staffer}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "offer",
-          "requiresFacts": ["staffer", "agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.case-help-5",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thanks. I'll sit down with {staffer} now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "offer",
-          "requiresFacts": ["staffer", "agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.case-help-6",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. {staffer} it is.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "offer",
-          "requiresFacts": ["staffer", "agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.case-help-7",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. I'll leave everything for {agency} at the desk.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "offer",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.case-help-8",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thanks. The desk will have my number for {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "offer",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.case-help-9",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. I'll write it all down for {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "offer",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.case-help-10",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. I'll wait to hear from {agency}, then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "lie",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.case-help-11",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. I didn't know {agency} already had it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "lie",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.case-help-1",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "All right. If {agency} has it, I'll wait.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "after": "lie",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "accept",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.follow-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.case-help-2",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then I'll wait on {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "after": "lie",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "accept",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.follow-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.case-help-1",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "I asked {agency} myself. They have nothing from your office.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "after": "lie",
-          "requiresFacts": ["agency", "knows-truth"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "confront",
-        "key": "case-help"
-      },
-      "bearing": "braced",
-      "piece": {
-        "of": "case-help.follow-confront",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.case-help-2",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "{agency} told me they never heard from you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "after": "lie",
-          "requiresFacts": ["agency", "knows-truth"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "confront",
-        "key": "case-help"
-      },
-      "bearing": "braced",
-      "piece": {
-        "of": "case-help.follow-confront",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.case-help-1",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "People have promised me a call from {agency} before.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "press",
-        "key": "case-help"
-      },
-      "bearing": "braced",
-      "piece": {
-        "of": "case-help.follow-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.case-help-2",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I'll believe it when {agency} calls me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "press",
-        "key": "case-help"
-      },
-      "bearing": "braced",
-      "piece": {
-        "of": "case-help.follow-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.case-help-3",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I've been sent to {agency} before, and nothing came of it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "press",
-        "key": "case-help"
-      },
-      "bearing": "braced",
-      "piece": {
-        "of": "case-help.follow-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.case-help-4",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "My savings are {money-left}. I can't wait long on {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["problem-work", "money-left", "agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "press",
-        "key": "case-help"
-      },
-      "bearing": "braced",
-      "piece": {
-        "of": "case-help.follow-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.case-help-5",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "What I saved is {money-left}. Waiting on {agency} costs me every week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["problem-work", "money-left", "agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "press",
-        "key": "case-help"
-      },
-      "bearing": "braced",
-      "piece": {
-        "of": "case-help.follow-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.case-help-6",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Every week at {pay} costs me. I can't wait long on {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["problem-wage", "pay", "agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "press",
-        "key": "case-help"
-      },
-      "bearing": "braced",
-      "piece": {
-        "of": "case-help.follow-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.case-help-7",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I'm still at {pay} an hour while {agency} takes its time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["problem-wage", "pay", "agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "press",
-        "key": "case-help"
-      },
-      "bearing": "braced",
-      "piece": {
-        "of": "case-help.follow-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.case-help-1",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "If you won't take it, will {agency} even see me?",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "after": "decline",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "plea",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-plea",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.case-help-2",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Then I go to {agency} alone? They don't know my name.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "after": "decline",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "plea",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-plea",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.case-help-3",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Please. {agency} won't listen to me without your office.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "after": "decline",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "plea",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-plea",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.case-help-4",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "My savings are {money-left}. Please.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "after": "decline",
-          "requiresFacts": ["problem-work", "money-left"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "plea",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-plea",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.case-help-5",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "What I saved is {money-left}. Please take it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "after": "decline",
-          "requiresFacts": ["problem-work", "money-left"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "plea",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-plea",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.case-help-3",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then I'll take it to {agency} myself.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "after": "decline",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "accept",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.follow-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.case-help-4",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Fine. I'll take it to {agency} without you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "after": "decline",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "accept",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.follow-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.case-help-5",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I'll go to {agency} on my own, then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "after": "decline",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "accept",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.follow-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.case-help-1",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'll be back {respond-in} if I haven't heard.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "requiresFacts": ["respond-in"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "promise",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.close-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.case-help-2",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "If nobody calls, I'm back here {respond-in}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "requiresFacts": ["respond-in"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "promise",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.close-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.case-help-1",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you. I'll tell my neighbors {agency} has it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.close-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.case-help-2",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thanks. I'll be waiting on {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.close-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.case-help-1",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "If {agency} never calls, I'll remember who said they would.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "warn",
-        "key": "case-help"
-      },
-      "bearing": "braced",
-      "piece": {
-        "of": "case-help.close-warn",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.case-help-2",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "I'll know by {agency} whether you meant it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "warn",
-        "key": "case-help"
-      },
-      "bearing": "braced",
-      "piece": {
-        "of": "case-help.close-warn",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.case-help-1",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "I'll go to {agency} myself, then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "accept",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.close-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-press.case-help-1",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "I'll be checking with {agency}. And with you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "press",
-        "key": "case-help"
-      },
-      "bearing": "braced",
-      "piece": {
-        "of": "case-help.close-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "scene-talk.state-request.bribe-1",
       "move": "state-request",
       "kind": "spoken",
@@ -176606,6 +174150,2442 @@
       }
     },
     {
+      "key": "scene-talk.state-request.case-help-1",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've been out of work a while, and my savings are {money-left}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-work", "money-left"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-2",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I need a job. What I saved is {money-left}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-work", "money-left"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-3",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody's hiring me, and my savings are {money-left}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-work", "money-left"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-4",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{employer} let me go {since} ago, and my savings are {money-left}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-work", "money-left", "employer", "since"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-5",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I worked at {employer} until {since} ago. Nobody's called back, and my savings are {money-left}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-work", "money-left", "employer", "since"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-6",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Since {employer} laid me off {since} ago, I've lived on savings. They're {money-left}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-work", "money-left", "employer", "since"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-7",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My job pays {pay} an hour, and the minimum wage is {floor}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-wage", "pay", "floor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-8",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm paid {pay} an hour. The floor is {floor}, and my boss knows it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-wage", "pay", "floor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-9",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The law says {floor} an hour. My check says {pay}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-wage", "pay", "floor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-1",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll send your case to {agency} today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-2",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll call {agency} about it before the day is out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-3",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "This goes from my office to {agency} today, with my name on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.case-help-1",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "{staffer} on my staff will take your case to {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "requiresFacts": ["staffer", "agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "offer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-offer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.case-help-2",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Sit down with {staffer}. My office files it with {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "requiresFacts": ["staffer", "agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "offer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-offer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.case-help-3",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "{staffer} handles cases like yours. It goes to {agency} from here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "requiresFacts": ["staffer", "agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "offer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-offer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.case-help-4",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Leave your details at the desk. My office files it with {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "offer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-offer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.case-help-5",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Give the desk your number, and my office will take it to {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "offer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-offer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.case-help-6",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Write it all down for the desk. It goes to {agency} from my office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "offer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-offer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.case-help-1",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "My office has {other-cases} open, and I can't take yours on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["other-cases"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "decline",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.case-help-2",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I've got {other-cases} ahead of yours. I can't take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["other-cases"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "decline",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.case-help-3",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not this one. I've got {other-cases} on my desk already.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["other-cases"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "decline",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.case-help-4",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "You'll have to go to {agency} yourself. My office can't carry it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "decline",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.case-help-5",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "{agency} takes these directly. I'm not taking it on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "decline",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.case-help-6",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't take this one. {agency} is where it goes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "decline",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.case-help-1",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How long since {employer} let you go?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["problem-work", "employer", "since"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "ask",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.case-help-2",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "When did {employer} let you go?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["problem-work", "employer", "since"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "ask",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.case-help-3",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How long were you out before you came here, after {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["problem-work", "employer", "since"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "ask",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.case-help-4",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Does every check say {pay} an hour?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["problem-wage", "pay", "floor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "ask",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.case-help-5",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is {pay} what they've paid you all along?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["problem-wage", "pay", "floor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "ask",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.case-help-6",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Has it been {pay} on every check?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["problem-wage", "pay", "floor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "ask",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-1",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{since}. And my savings are {money-left}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["problem-work", "employer", "since", "money-left"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-2",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{since} now, and nobody's called back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["problem-work", "employer", "since", "money-left"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-3",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It's been {since}, and what I saved is {money-left}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["problem-work", "employer", "since", "money-left"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-4",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Yes. {pay} an hour, every check, when the law says {floor}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["problem-wage", "pay", "floor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-5",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Every check. {pay}, never {floor}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["problem-wage", "pay", "floor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-6",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Yes, all along. {pay} an hour against a floor of {floor}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["problem-wage", "pay", "floor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.case-help-1",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I already called {agency} about your case.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "lie",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-lie",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.case-help-2",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "{agency} has your case already. I sent it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "lie",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-lie",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.case-help-3",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I talked to {agency} about this last week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "lie",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-lie",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.case-help-1",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right. I'll call {agency} while you're sitting here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "apologize",
+        "key": "case-help"
+      },
+      "bearing": "contrite",
+      "piece": {
+        "of": "case-help.reply-apologize",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.case-help-2",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "That's fair. I'll put it to {agency} myself, today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "apologize",
+        "key": "case-help"
+      },
+      "bearing": "contrite",
+      "piece": {
+        "of": "case-help.reply-apologize",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.case-help-3",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. {agency} gets your case from me before you leave.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "apologize",
+        "key": "case-help"
+      },
+      "bearing": "contrite",
+      "piece": {
+        "of": "case-help.reply-apologize",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.case-help-1",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have people waiting. My office will decide your case {respond-in}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["respond-in"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "leave",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-leave",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.case-help-2",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to take the next person. You'll hear from my office {respond-in}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["respond-in"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "leave",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-leave",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.case-help-3",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Leave it with the desk. You'll have an answer {respond-in}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["respond-in"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "leave",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-leave",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-1",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll watch for word from {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-2",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for taking it to {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-3",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "{agency}, then. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-4",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll wait for {staffer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "offer",
+          "requiresFacts": ["staffer", "agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-5",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll sit down with {staffer} now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "offer",
+          "requiresFacts": ["staffer", "agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-6",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. {staffer} it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "offer",
+          "requiresFacts": ["staffer", "agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-7",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll leave everything for {agency} at the desk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "offer",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-8",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. The desk will have my number for {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "offer",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-9",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll write it all down for {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "offer",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-10",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll wait to hear from {agency}, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "lie",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-11",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I didn't know {agency} already had it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "lie",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.case-help-1",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. If {agency} has it, I'll wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "lie",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "accept",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.follow-accept",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.case-help-2",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll wait on {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "lie",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "accept",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.follow-accept",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.case-help-1",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I asked {agency} myself. They have nothing from your office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "after": "lie",
+          "requiresFacts": ["agency", "knows-truth"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "confront",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-confront",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.case-help-2",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "{agency} told me they never heard from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "after": "lie",
+          "requiresFacts": ["agency", "knows-truth"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "confront",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-confront",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.case-help-1",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "People have promised me a call from {agency} before.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "press",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.case-help-2",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'll believe it when {agency} calls me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "press",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.case-help-3",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I've been sent to {agency} before, and nothing came of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "press",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.case-help-4",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "My savings are {money-left}. I can't wait long on {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-work", "money-left", "agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "press",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.case-help-5",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "What I saved is {money-left}. Waiting on {agency} costs me every week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-work", "money-left", "agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "press",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.case-help-6",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Every week at {pay} costs me. I can't wait long on {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-wage", "pay", "agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "press",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.case-help-7",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'm still at {pay} an hour while {agency} takes its time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-wage", "pay", "agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "press",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.case-help-1",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "If you won't take it, will {agency} even see me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "plea",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-plea",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.case-help-2",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Then I go to {agency} alone? They don't know my name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "plea",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-plea",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.case-help-3",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. {agency} won't listen to me without your office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "plea",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-plea",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.case-help-4",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "My savings are {money-left}. Please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["problem-work", "money-left"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "plea",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-plea",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.case-help-5",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "What I saved is {money-left}. Please take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["problem-work", "money-left"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "plea",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-plea",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.case-help-3",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll take it to {agency} myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "accept",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.follow-accept",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.case-help-4",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. I'll take it to {agency} without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "accept",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.follow-accept",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.case-help-5",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll go to {agency} on my own, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "accept",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.follow-accept",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.case-help-1",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll be back {respond-in} if I haven't heard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "requiresFacts": ["respond-in"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.close-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.case-help-2",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "If nobody calls, I'm back here {respond-in}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "requiresFacts": ["respond-in"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.close-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.case-help-1",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll tell my neighbors {agency} has it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.close-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.case-help-2",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll be waiting on {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.close-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.case-help-1",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "If {agency} never calls, I'll remember who said they would.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "warn",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.close-warn",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.case-help-2",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll know by {agency} whether you meant it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "warn",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.close-warn",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.case-help-1",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'll go to {agency} myself, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "accept",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.close-accept",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.close-press.case-help-1",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll be checking with {agency}. And with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "press",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.close-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
       "key": "scene-talk.open-greet.donor-1",
       "move": "open-greet",
       "kind": "spoken",
@@ -176613,10 +176593,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "open",
           "move": "greet",
           "role": "asker",
+          "set": "donor",
           "key": "favor-asked",
           "requiresFacts": ["bill"]
         }
@@ -176643,10 +176623,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "open",
           "move": "greet",
           "role": "asker",
+          "set": "donor",
           "key": "favor-asked",
           "requiresFacts": ["bill"]
         }
@@ -176673,10 +176653,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "open",
           "move": "greet",
           "role": "asker",
+          "set": "donor",
           "key": "favor-asked"
         }
       ],
@@ -176702,10 +176682,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "open",
           "move": "greet",
           "role": "asker",
+          "set": "donor",
           "key": "favor-asked"
         }
       ],
@@ -176731,10 +176711,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "want-for"]
         }
       ],
@@ -176760,10 +176740,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "want-for"]
         }
       ],
@@ -176789,10 +176769,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "want-for"]
         }
       ],
@@ -176818,10 +176798,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "want-against"]
         }
       ],
@@ -176847,10 +176827,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "want-against"]
         }
       ],
@@ -176876,10 +176856,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "want-against"]
         }
       ],
@@ -176905,10 +176885,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -176934,10 +176914,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -176963,10 +176943,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
-          "role": "asker"
+          "role": "asker",
+          "set": "donor"
         }
       ],
       "origin": "authored",
@@ -176991,10 +176971,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
-          "role": "asker"
+          "role": "asker",
+          "set": "donor"
         }
       ],
       "origin": "authored",
@@ -177019,10 +176999,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "employer", "want-for"]
         }
       ],
@@ -177047,10 +177027,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "employer", "want-against"]
         }
       ],
@@ -177075,10 +177055,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "employer", "want-for", "work"]
         }
       ],
@@ -177103,10 +177083,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "employer", "want-against", "work"]
         }
       ],
@@ -177131,10 +177111,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
-          "role": "asker"
+          "role": "asker",
+          "set": "donor"
         }
       ],
       "origin": "authored",
@@ -177158,10 +177138,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
-          "role": "asker"
+          "role": "asker",
+          "set": "donor"
         }
       ],
       "origin": "authored",
@@ -177185,10 +177165,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["given"]
         }
       ],
@@ -177213,10 +177193,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["read-close"]
         }
       ],
@@ -177241,10 +177221,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["read-close"]
         }
       ],
@@ -177269,10 +177249,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["read-put-off-before"]
         }
       ],
@@ -177297,10 +177277,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "state",
           "move": "request",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["read-put-off-before"]
         }
       ],
@@ -177325,10 +177305,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "agree",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177354,10 +177334,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "agree",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177383,10 +177363,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "agree",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177412,10 +177392,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "agree",
-          "role": "asked"
+          "role": "asked",
+          "set": "donor"
         }
       ],
       "origin": "authored",
@@ -177436,14 +177416,14 @@
       "key": "scene-talk.reply-relent.donor-1",
       "move": "reply-relent",
       "kind": "spoken",
-      "text": "All right. I'll look at {bill} again.",
+      "text": "Alright. I'll look at {bill} again.",
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "relent",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177469,10 +177449,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "relent",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177498,10 +177478,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "offer",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177527,10 +177507,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "offer",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177556,10 +177536,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "decline",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177585,10 +177565,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "decline",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177614,10 +177594,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "decline",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177643,10 +177623,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "decline",
-          "role": "asked"
+          "role": "asked",
+          "set": "donor"
         }
       ],
       "origin": "authored",
@@ -177671,10 +177651,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "refuse",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177700,10 +177680,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "refuse",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177729,10 +177709,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "refuse",
-          "role": "asked"
+          "role": "asked",
+          "set": "donor"
         }
       ],
       "origin": "authored",
@@ -177757,10 +177737,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "bargain",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177786,10 +177766,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "bargain",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177815,10 +177795,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "deflect",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177844,10 +177824,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "deflect",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177873,10 +177853,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "deflect",
-          "role": "asked"
+          "role": "asked",
+          "set": "donor"
         }
       ],
       "origin": "authored",
@@ -177901,10 +177881,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "stall",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177930,10 +177910,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "stall",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177959,10 +177939,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "apologize",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -177988,10 +177968,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "apologize",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178017,10 +177997,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "lie",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178046,10 +178026,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "lie",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178075,10 +178055,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "leave",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178104,10 +178084,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "leave",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178133,10 +178113,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "leave",
-          "role": "asked"
+          "role": "asked",
+          "set": "donor"
         }
       ],
       "origin": "authored",
@@ -178161,10 +178141,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "answer",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178190,10 +178170,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "answer",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178219,10 +178199,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "confront",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178248,10 +178228,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "confront",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178277,10 +178257,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "confess",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178306,10 +178286,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "thank",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178335,10 +178315,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "thank",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178364,10 +178344,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "thank",
-          "role": "asker"
+          "role": "asker",
+          "set": "donor"
         }
       ],
       "origin": "authored",
@@ -178392,10 +178372,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "accept",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178417,14 +178397,14 @@
       "key": "scene-talk.follow-accept.donor-2",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll call your office about {bill}.",
+      "text": "Alright. I'll call your office about {bill}.",
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "accept",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178450,10 +178430,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "accept",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178479,10 +178459,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "accept",
-          "role": "asker"
+          "role": "asker",
+          "set": "donor"
         }
       ],
       "origin": "authored",
@@ -178507,10 +178487,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "plea",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178536,10 +178516,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "plea",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178565,10 +178545,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "press",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178594,10 +178574,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "press",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178623,10 +178603,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "press",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178652,10 +178632,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "threaten",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "want-for"]
         }
       ],
@@ -178681,10 +178661,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "threaten",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "want-against"]
         }
       ],
@@ -178710,10 +178690,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "threaten",
-          "role": "asker"
+          "role": "asker",
+          "set": "donor"
         }
       ],
       "origin": "authored",
@@ -178738,10 +178718,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "confront",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "read-put-off-before"]
         }
       ],
@@ -178767,10 +178747,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "ask",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178796,10 +178776,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "refuse",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178825,10 +178805,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "bargain",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178854,10 +178834,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "confront",
-          "role": "asker"
+          "role": "asker",
+          "set": "donor"
         }
       ],
       "origin": "authored",
@@ -178882,10 +178862,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "confront",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178911,10 +178891,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "deflect",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178940,10 +178920,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "deflect",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178969,10 +178949,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "accept",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -178994,14 +178974,14 @@
       "key": "scene-talk.reply-accept.donor-2",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. I'll read up on {bill}.",
+      "text": "Alright. I'll read up on {bill}.",
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "accept",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179027,10 +179007,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "press",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179056,10 +179036,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "press",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179081,14 +179061,14 @@
       "key": "scene-talk.follow-promise.donor-1",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll send it tonight. {bill} is worth your time.",
+      "text": "I'll send it over today. {bill} is worth your time.",
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "promise",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179114,10 +179094,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "promise",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["about"]
         }
       ],
@@ -179143,10 +179123,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "answer",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "want-for"]
         }
       ],
@@ -179172,10 +179152,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "answer",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill", "want-against"]
         }
       ],
@@ -179201,10 +179181,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "answer",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179230,10 +179210,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "answer",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179259,10 +179239,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "press",
           "role": "asker",
+          "set": "donor",
           "after": "press",
           "requiresFacts": ["bill"]
         }
@@ -179289,10 +179269,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "press",
           "role": "asker",
+          "set": "donor",
           "after": "press",
           "requiresFacts": ["bill"]
         }
@@ -179319,10 +179299,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "thank",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179348,10 +179328,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "request",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179377,10 +179357,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "disagree",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179406,10 +179386,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "disagree",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["about"]
         }
       ],
@@ -179435,10 +179415,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "promise",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179464,10 +179444,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "ask",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179493,10 +179473,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "reply",
           "move": "ask",
           "role": "asked",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179522,10 +179502,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "answer",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["about"]
         }
       ],
@@ -179551,10 +179531,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "follow",
           "move": "answer",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["about"]
         }
       ],
@@ -179573,6 +179553,209 @@
       }
     },
     {
+      "key": "scene-talk.state-request.donor-22",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm asking about {bill} a second time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask.again",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 7, donor move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "donor"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "donor.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.donor-23",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "This is the second time I've come to you about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask.again",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 7, donor move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "donor"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "donor.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.donor-6",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I waited once on {bill}. I'm not waiting again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "donor-ask.again",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 7, donor move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "press",
+        "key": "donor"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "donor.follow-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.donor-5",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Twice now on {bill}. I'll stop asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask.again",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 7, donor move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "accept",
+        "key": "donor"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "donor.follow-accept",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.donor-4",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. It took two tries, but thank you, on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "donor-ask.again",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 7, donor move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "thank",
+        "key": "donor"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "donor.follow-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.donor-4",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Two asks on {bill}, and nothing. My next check goes elsewhere.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "donor-ask.again",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 7, donor move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "threaten",
+        "key": "donor"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "donor.follow-threaten",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.donor-1",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I won't ask a third time about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "donor-ask.again",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 7, donor move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "warn",
+        "key": "donor"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "donor.close-warn",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
       "key": "scene-talk.close-thank.donor-1",
       "move": "close-thank",
       "kind": "spoken",
@@ -179580,10 +179763,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "close",
           "move": "thank",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179609,10 +179792,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "close",
           "move": "promise",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179638,10 +179821,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "close",
           "move": "accept",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179660,17 +179843,17 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.donor-1",
+      "key": "scene-talk.close-warn.donor-2",
       "move": "close-warn",
       "kind": "spoken",
       "text": "I'll remember this when {bill} comes up.",
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "close",
           "move": "warn",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179689,17 +179872,17 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.donor-2",
+      "key": "scene-talk.close-warn.donor-3",
       "move": "close-warn",
       "kind": "spoken",
       "text": "Think about {bill}. I'll call again.",
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "close",
           "move": "warn",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179725,10 +179908,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "close",
           "move": "press",
           "role": "asker",
+          "set": "donor",
           "requiresFacts": ["bill"]
         }
       ],
@@ -179747,17 +179930,17 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.donor-3",
+      "key": "scene-talk.close-warn.donor-4",
       "move": "close-warn",
       "kind": "spoken",
       "text": "I'll remember where {gift} went.",
       "uses": [
         {
           "subject": "scene",
-          "set": "donor",
           "step": "close",
           "move": "warn",
-          "role": "asker"
+          "role": "asker",
+          "set": "donor"
         }
       ],
       "origin": "authored",

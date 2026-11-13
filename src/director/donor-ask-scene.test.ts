@@ -217,7 +217,19 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (seed ${se
         const bill = result.scene.facts.find((row) => row.key === "bill");
         expect(bill?.recordIds, here).toContain(gift.id);
         expect(bill?.recordIds, here).toContain(String(gift.facts!.billId));
-        expect(result.scene.talk.state.text, here).toContain(bill!.text);
+        // Said whole the first time in the talk, then by its kind (said-as
+        // nameOnceThen): the ask says it either way.
+        const later = result.scene.facts.find(
+          (row) => row.key === "bill-later",
+        );
+        const said = result.scene.talk.lines.map((line) => line.text).join(" ");
+        expect(said, here).toContain(bill!.text);
+        expect(
+          [bill!.text, later?.text].some(
+            (name) => !!name && result.scene.talk.state.text.includes(name),
+          ),
+          `${here}: ${result.scene.talk.state.text}`,
+        ).toBe(true);
         const side = String(gift.facts!.billSide ?? "");
         expect(["for", "against"], here).toContain(side);
         const want = result.scene.facts.find(
