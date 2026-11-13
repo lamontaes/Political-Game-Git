@@ -362,9 +362,12 @@ function playerHolds(
     }
     case "filed-late": {
       // The player's own filing in a contest where others filed before them:
-      // someone is already on its ballot to be told of.
+      // someone is already on its ballot to be told of. Another person's
+      // filing never calls it: a player who has not filed is not told who
+      // filed "before you did" (playtest, Nov 13).
       const contestId = record.facts.contestId;
       if (!contestId || !core.modules.has(ELECTIONS_MODULE_ID)) return false;
+      if (!record.personIds.includes(playerId)) return false;
       return ballot(coreAPI(core as CoreState), contestId).some(
         (filing) => filing.personId !== playerId,
       );
