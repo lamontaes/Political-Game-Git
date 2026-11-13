@@ -121239,7 +121239,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["first-filing", "signatures"]
+          "requiresFacts": ["first-filing", "signatures"],
+          "excludesFacts": ["outlet"]
         }
       ],
       "bearing": "calm",
@@ -121289,7 +121290,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["first-filing", "one-signature", "due"]
+          "requiresFacts": ["first-filing", "one-signature", "due"],
+          "excludesFacts": ["outlet"]
         }
       ],
       "bearing": "calm",
@@ -121339,7 +121341,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["first-filing", "no-petition", "place"]
+          "requiresFacts": ["first-filing", "no-petition", "place"],
+          "excludesFacts": ["outlet"]
         }
       ],
       "bearing": "calm",
