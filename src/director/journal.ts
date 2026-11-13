@@ -2350,9 +2350,9 @@ export function composeJournal(
         daysBetween(
           makeIsoDate(first.moment.date),
           makeIsoDate(
-            endedOut && !until
-              ? lastUnit.moment.date
-              : (until ?? core.startedAt),
+            // A run that ended (the last job lost or left, none after it)
+            // lasts to that record's day; else to the stretch's end.
+            endedOut ? lastUnit.moment.date : (until ?? core.startedAt),
           ),
         ),
       ),
