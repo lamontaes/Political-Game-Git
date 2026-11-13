@@ -499,6 +499,32 @@ export function sameGovernment(
   );
 }
 
+/**
+ * The government whose treasury pays an employer's staff: the treasury itself
+ * employs a post it hired; an opening employer of the same government (the
+ * county's offices, the town's police department) is paid from that treasury.
+ */
+export function employerGovernment(
+  api: CoreAPI,
+  organizationId: string,
+): GovernmentRow | undefined {
+  const employer = api.state.organizations.get(organizationId);
+  return governments(api).find(
+    (g) =>
+      g.organizationId === organizationId ||
+      (employer !== undefined &&
+        sameGovernment(
+          employer,
+          api.state.organizations.get(g.organizationId)!,
+        )),
+  );
+}
+
+/** The share of a spending line that is wages (the rest buys goods and services, makes benefit payments or pays interest), in this world's payee mix. */
+export function lineWageShare(api: CoreAPI, line: string): number {
+  return payeeShares(api, line).workers ?? 0;
+}
+
 /** A payday from a treasury: the pay is that line's money spent in town. */
 export function notePublicPay(
   api: CoreAPI,
@@ -512,17 +538,7 @@ export function notePublicPay(
 ): void {
   if (input.paidMinor <= 0) return;
   const employer = api.state.organizations.get(input.organizationId);
-  // The treasury itself employs a post it hired; an opening employer of the
-  // same government (the county's offices) is paid from that treasury.
-  const gov = governments(api).find(
-    (g) =>
-      g.organizationId === input.organizationId ||
-      (employer !== undefined &&
-        sameGovernment(
-          employer,
-          api.state.organizations.get(g.organizationId)!,
-        )),
-  );
+  const gov = employerGovernment(api, input.organizationId);
   if (!gov) return;
   noteLinePaid(
     api,
@@ -749,9 +765,8 @@ export function publicPayRoom(
       committed += job.wageDailyMinor * treasuryParameter("daysPerYear");
   // Only the part of a line that is wages can pay a post: the rest buys
   // goods and services, makes benefit payments or pays interest.
-  const wages = payeeShares(api, line).workers;
   return Math.round(
-    (budget.spendingMinor[line] ?? 0) * (wages ?? 0) - committed,
+    (budget.spendingMinor[line] ?? 0) * lineWageShare(api, line) - committed,
   );
 }
 
