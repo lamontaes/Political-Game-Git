@@ -14,7 +14,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { schoolSpans } from "./past-school";
-import { sharedHistory } from "./shared-history";
+import { inSummerBreak, sharedHistory } from "./shared-history";
 import { ageOn } from "./counted-groups";
 
 /** An age past every school stage: no one this old is enrolled in a K-12 school. */
@@ -86,3 +86,13 @@ for (const salt of ["a", "b"]) {
     }
   }, 900_000);
 }
+
+// A graduate's school is over once the year's last day has passed, and only
+// until the next year begins: a senior in the fall is still enrolled.
+it("knows the summer break by the school year's last and first days", () => {
+  expect(inSummerBreak("2025-07-01")).toBe(true);
+  expect(inSummerBreak("2025-08-31")).toBe(true);
+  expect(inSummerBreak("2025-10-15")).toBe(false);
+  expect(inSummerBreak("2025-03-01")).toBe(false);
+  expect(inSummerBreak("2025-06-10")).toBe(false);
+});
