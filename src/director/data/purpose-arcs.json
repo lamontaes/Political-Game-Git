@@ -22,25 +22,33 @@
         "refuse": ["press"],
         "promise": ["thank"]
       },
-      "again": { "press": ["accept", "refuse", "promise"] },
+      "again": {
+        "press": ["accept", "refuse", "promise"]
+      },
       "endings": [
         {
           "id": "words-had",
           "label": "Words on the phone",
           "keeps": "relationship-strained",
-          "when": { "anyReply": ["warn", "refuse"] }
+          "when": {
+            "anyReply": ["warn", "refuse"]
+          }
         },
         {
           "id": "parted-well",
           "label": "You wished them well",
           "keeps": "none",
-          "when": { "reply": ["thank", "congratulate"] }
+          "when": {
+            "reply": ["thank", "congratulate"]
+          }
         },
         {
           "id": "hung-up",
           "label": "You kept it short",
           "keeps": "none",
-          "when": { "reply": ["leave"] }
+          "when": {
+            "reply": ["leave"]
+          }
         },
         {
           "id": "left-there",
@@ -82,10 +90,22 @@
         "relent": ["relent", "agree"],
         "thanks": "thank",
         "again": [
-          { "move": "plea", "carries": "favor" },
-          { "move": "bargain", "carries": "favor" },
-          { "move": "press", "carries": "lean" },
-          { "move": "accept", "carries": "none" }
+          {
+            "move": "plea",
+            "carries": "favor"
+          },
+          {
+            "move": "bargain",
+            "carries": "favor"
+          },
+          {
+            "move": "press",
+            "carries": "lean"
+          },
+          {
+            "move": "accept",
+            "carries": "none"
+          }
         ]
       },
       "replies": ["agree", "refuse", "bargain", "stall", "lie"],
@@ -151,7 +171,9 @@
           "label": "You said you'd look at it",
           "keeps": "promise",
           "firmness": "vague",
-          "when": { "reply": ["stall"] }
+          "when": {
+            "reply": ["stall"]
+          }
         },
         {
           "id": "undecided",
@@ -234,7 +256,9 @@
           "label": "You said you'd look at it",
           "keeps": "promise",
           "firmness": "vague",
-          "when": { "reply": ["stall"] }
+          "when": {
+            "reply": ["stall"]
+          }
         },
         {
           "id": "undecided",
@@ -767,13 +791,17 @@
           "id": "showing-off",
           "label": "Showing off",
           "keeps": "none",
-          "when": { "reply": ["boast"] }
+          "when": {
+            "reply": ["boast"]
+          }
         },
         {
           "id": "resting",
           "label": "Resting",
           "keeps": "none",
-          "when": { "reply": ["leave"] }
+          "when": {
+            "reply": ["leave"]
+          }
         },
         {
           "id": "left-there",
@@ -2997,34 +3025,24 @@
     },
     "filing-clerk": {
       "state": "tell",
-      "replies": ["ask", "tell", "confront", "leave"],
+      "stateMoves": ["tell-running", "tell-race", "tell-duty", "tell-deadline"],
+      "replies": ["agree", "ask", "confront", "leave"],
       "follow": {
-        "ask": ["answer"],
-        "tell": ["accept"],
-        "confront": ["refuse"],
         "agree": ["accept"],
-        "boast": ["accept"]
+        "ask": ["answer"],
+        "confront": ["answer"]
       },
       "again": {
-        "answer": ["agree", "boast", "leave"],
-        "refuse": ["agree", "leave"]
+        "answer": ["agree", "leave"]
       },
       "endings": [
-        {
-          "id": "cold-feet",
-          "label": "Not today",
-          "keeps": "none",
-          "when": {
-            "reply": ["leave"]
-          }
-        },
         {
           "id": "sized-up",
           "opens": "filing",
           "label": "You filed, and sized up the race",
           "keeps": "none",
           "when": {
-            "anyReply": ["ask"],
+            "anyReply": ["ask", "confront"],
             "asker": ["accept"]
           }
         },
@@ -3032,9 +3050,17 @@
           "id": "filed",
           "opens": "filing",
           "label": "You filed",
-          "keeps": "promise",
+          "keeps": "none",
           "when": {
             "asker": ["accept"]
+          }
+        },
+        {
+          "id": "cold-feet",
+          "label": "Not today",
+          "keeps": "none",
+          "when": {
+            "reply": ["leave"]
           }
         },
         {
@@ -3062,13 +3088,17 @@
           "id": "next-steps",
           "label": "You know what comes next",
           "keeps": "none",
-          "when": { "reply": ["agree"] }
+          "when": {
+            "reply": ["agree"]
+          }
         },
         {
           "id": "asked-what-it-takes",
           "label": "You asked what it takes",
           "keeps": "none",
-          "when": { "anyReply": ["ask"] }
+          "when": {
+            "anyReply": ["ask"]
+          }
         },
         {
           "id": "left-there",
@@ -3622,8 +3652,14 @@
         "relent": ["agree"],
         "thanks": "thank",
         "again": [
-          { "move": "press", "carries": "lean" },
-          { "move": "accept", "carries": "none" }
+          {
+            "move": "press",
+            "carries": "lean"
+          },
+          {
+            "move": "accept",
+            "carries": "none"
+          }
         ]
       },
       "replies": ["ask", "agree", "decline", "deflect"],
@@ -3642,13 +3678,17 @@
           "id": "signed",
           "label": "Signed your petition",
           "keeps": "none",
-          "when": { "reply": ["agree"] }
+          "when": {
+            "reply": ["agree"]
+          }
         },
         {
           "id": "no-signature",
           "label": "Would not sign",
           "keeps": "none",
-          "when": { "reply": ["decline"] }
+          "when": {
+            "reply": ["decline"]
+          }
         },
         {
           "id": "left-there",
@@ -3668,8 +3708,14 @@
         "relent": ["agree"],
         "thanks": "thank",
         "again": [
-          { "move": "press", "carries": "lean" },
-          { "move": "accept", "carries": "none" }
+          {
+            "move": "press",
+            "carries": "lean"
+          },
+          {
+            "move": "accept",
+            "carries": "none"
+          }
         ]
       },
       "replies": ["ask", "agree", "decline", "deflect"],
@@ -3905,37 +3951,49 @@
           "id": "gave-ground",
           "label": "You gave some ground",
           "keeps": "promise",
-          "when": { "anyReply": ["relent"] }
+          "when": {
+            "anyReply": ["relent"]
+          }
         },
         {
           "id": "met-after",
           "label": "You'll talk after",
           "keeps": "meeting-set",
-          "when": { "anyReply": ["offer"] }
+          "when": {
+            "anyReply": ["offer"]
+          }
         },
         {
           "id": "stood-by",
           "label": "You stood by your answer",
           "keeps": "none",
-          "when": { "reply": ["answer"] }
+          "when": {
+            "reply": ["answer"]
+          }
         },
         {
           "id": "caught",
           "label": "Caught in a lie",
           "keeps": "trust-lost",
-          "when": { "caught": true }
+          "when": {
+            "caught": true
+          }
         },
         {
           "id": "false-comfort",
           "label": "A comfort you didn't mean",
           "keeps": "promise",
-          "when": { "believed": true }
+          "when": {
+            "believed": true
+          }
         },
         {
           "id": "brushed-off",
           "label": "Brushed off",
           "keeps": "relationship-strained",
-          "when": { "reply": ["deflect", "leave"] }
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
         },
         {
           "id": "left-there",
