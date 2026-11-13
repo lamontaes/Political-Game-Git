@@ -185,10 +185,18 @@ export function openFilingVisit(
  * without its asides. The note reads "Town clerk (party endorsements by town
  * committee/caucus; petitions certified by registrars of voters)" or "State
  * party chair (party candidates); Secretary of State (independents)"; a
- * person names the office.
+ * person names the office. Whose county or town it is ("of the candidate's
+ * home county", "in the candidate's city or town") is the research note's
+ * gloss, never said aloud (P1, Richburg, South Carolina, Nov 13, rule 8).
  */
 export function spokenOffice(note: string): string {
-  const first = note.split(/\s*[;(]|\s+\/\s+|,\s/)[P.zero]!.trim();
+  const first = note
+    // An aside inside the name ("County (local) board of elections") is
+    // dropped, not where the name ends.
+    .replace(/\s*\([^)]*\)(?=\s+[a-z])/g, "")
+    .split(/\s*[;(]|\s+\/\s+|,\s/)
+    [P.zero]!.replace(/\s+(?:of|in) the candidate's\b.*$/i, "")
+    .trim();
   return first || note.trim();
 }
 

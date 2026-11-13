@@ -8,8 +8,10 @@ import {
   sayAtCounter,
   openFilingVisit,
   pickContest,
+  spokenOffice,
   type FilingCheck,
 } from "./filing-visit";
+import { readFileSync } from "node:fs";
 import { expectUpToFourDifferent } from "./reply-set-check";
 
 // Golden path step 3: the clerk at the filing office speaks from GOV's
@@ -218,4 +220,26 @@ describe("the filing visit", () => {
     sayAtCounter(core, visit, ask.key);
     expect(visit.lines.at(-1)!.text).toMatch(/nobody|no one|first|not a soul/i);
   });
+});
+
+// Every filing office in the research is said the way people say it: the
+// note's gloss on whose county or town it is stays unsaid (P1, Richburg,
+// South Carolina, seed a8ad5c79-cb5b-4616-b711-61b16eca1a9d, Nov 13: "You've
+// found the County board of voter registration and elections of the
+// candidate's home county for Richburg").
+it("names every filing office without the research note's glosses", () => {
+  const notes = new Set(
+    [
+      ...readFileSync(
+        "data/research/elections/filing-requirements.json",
+        "utf8",
+      ).matchAll(/"filedWith": "([^"]+)"/g),
+    ].map((match) => match[1]!),
+  );
+  expect(notes.size).toBeGreaterThan(20);
+  for (const note of notes) {
+    const said = spokenOffice(note);
+    expect(said, note).not.toMatch(/candidate|[;()]/i);
+    expect(said.split(" ").length, note).toBeGreaterThan(1);
+  }
 });
