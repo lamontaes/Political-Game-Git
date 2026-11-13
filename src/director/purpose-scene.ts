@@ -16,6 +16,7 @@ import {
   LEGISLATURE_MODULE_ID,
   billOf,
   favorWorth,
+  floorDateOf,
   memberPosition,
   votesOn,
 } from "../core2/modules/legislature";
@@ -26,6 +27,7 @@ import {
 } from "../core2/modules/meetings";
 import { viewOn } from "../core2/modules/views";
 import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
+import { dayAhead } from "../english/day-words";
 import { P } from "../core2/parameters";
 import { dayParts, sceneMinute } from "./day-part";
 import {
@@ -380,6 +382,20 @@ function composeBinding(
       text: spokenDesignation(number, named?.form.kind ?? ""),
       sourceRecordIds: [billId ?? moment.causeId, moment.causeId],
     };
+  }
+  // When the bill comes to a vote, from its own record, so a promise of
+  // time fits the calendar: on the day of the vote it is "tonight"; before
+  // it, a count is promised for the day before the vote, never a day after
+  // it (Fable A, Nov 13, rule 22; P3: "I'll have a real count by Friday" on
+  // the morning of the vote).
+  const floor =
+    billId && named ? floorDateOf(coreAPI(core as CoreState), billId) : null;
+  if (floor && daysBetweenText(core.date, floor) === P.zero)
+    facts["vote-tonight"] = { text: "yes", sourceRecordIds: [billId!] };
+  else if (floor) {
+    const countBy = dayAhead(addDays(makeIsoDate(floor), -P.one), core.date);
+    if (countBy)
+      facts["count-by"] = { text: countBy, sourceRecordIds: [billId!] };
   }
   // A law in force (a story that it took effect): its policy by name, for
   // the lines that say what took effect.

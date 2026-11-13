@@ -116,7 +116,9 @@
     "hours": "An opening's hours a week, from the job it was modeled on: 40.",
     "crew": "How many people work at the employer now, full people and counted workers alike: 12.",
     "replaced": "The full name of the person whose job an opening fills.",
-    "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record."
+    "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record.",
+    "count-by": "The day before a bill's vote, said from the scene's day (\"Thursday\", \"June 7th\"), from the bill's floor date (floorDateOf).",
+    "vote-tonight": "Set when the bill's vote is on the scene's own day, from its floor date."
   },
   "maxWords": 70,
   "parts": [
@@ -19262,10 +19264,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.short-i-ll-have-a-real-count-by-friday",
+      "key": "scene-talk.follow-answer.short-ill-have-a-real-count-by-count-by",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Short. I'll have a real count by Friday.",
+      "text": "Short. I'll have a real count by {count-by}.",
       "uses": [
         {
           "subject": "scene",
@@ -19274,13 +19276,67 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked",
-          "after": "scene-talk.reply-ask.where-are-we-now"
+          "after": "scene-talk.reply-ask.where-are-we-now",
+          "requiresFacts": ["count-by"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.short-well-know-tonight-when-bill-comes-up",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Short. We'll know tonight when {bill} comes up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.where-are-we-now",
+          "requiresFacts": ["bill", "vote-tonight"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.short-im-still-counting-heads-on-bill",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Short. I'm still counting heads on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.where-are-we-now",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["count-by", "vote-tonight"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "favor-asked"
