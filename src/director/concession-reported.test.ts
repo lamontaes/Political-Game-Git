@@ -10,6 +10,7 @@ import type { EntityId } from "../core2/kernel/brands";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
+  ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
   type ContestRow,
@@ -29,7 +30,14 @@ import type { TreeNode } from "./scene-talk";
 // naming the winner. Drawn places and a fresh seed; place and seed in every
 // message.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+/** Places tried that hold a race decided inside the year. */
 const ATTEMPTS = 16;
+/**
+ * Places drawn at most: one with no race decided inside its first year (most
+ * places' first count is November 2026) is passed over by name before any
+ * day is played.
+ */
+const DRAWS = 64;
 const YEAR = 365;
 const PAPER_DAYS = 10;
 /** Hours of time together that warm a tie past neutral (cooled by three times as many). */
@@ -58,7 +66,7 @@ function pathTo(
 const run = (
   drawSeed: string,
   move: "agree" | "refuse",
-): { done: boolean; note: string } => {
+): { done: boolean; raced: boolean; note: string } => {
   const place = drawPlace(drawSeed, "concession-reported");
   const where = `${place.name} (${place.key}), seed ${drawSeed}`;
   setBookkeeping(false);
@@ -68,14 +76,34 @@ const run = (
   });
   const api = coreAPI(core);
   const end = addDays(makeIsoDate(core.date), YEAR);
+  const decidedInYear = (row: ContestRow) =>
+    addDays(makeIsoDate(row.electionDate), 2) <= end;
+  // The races on the calendar are known from the first day: a place with
+  // none counted inside the year is passed over unplayed, and in one with a
+  // race the clock moves to the first day such a race opens for filing.
+  const today = core.date;
+  const opens = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .rows() as unknown as ContestRow[]
+  )
+    .filter((row) => row.filingDeadline >= today && decidedInYear(row))
+    .map((row) => row.filingOpens ?? today)
+    .sort()[0];
+  if (!opens)
+    return {
+      done: false,
+      raced: false,
+      note: `${where}: no race decided within the year`,
+    };
+  if (opens > today) advanceCore(core, makeIsoDate(opens));
   // Residents of the town file: a filing refuses a resident of another place.
   const townId = core.people.get(core.playerId!)?.placeId;
-  for (let day = 0; !openContests(api).length && day < YEAR; day += 7)
-    advanceCore(core, addDays(makeIsoDate(core.date), 7));
   let contest: ContestRow | undefined;
   let filings: FilingRow[] = [];
   for (const race of [...openContests(api)]
-    .filter((row) => addDays(makeIsoDate(row.electionDate), 2) <= end)
+    .filter(decidedInYear)
     .sort((a, b) => a.id.localeCompare(b.id))) {
     const clerkId = filingClerkFor(api, race.id)?.personId;
     const town = [...core.people.values()]
@@ -106,14 +134,20 @@ const run = (
       break;
     }
   }
-  if (!contest) return { done: false, note: `${where}: fewer than two filers` };
+  if (!contest)
+    return {
+      done: false,
+      raced: true,
+      note: `${where}: fewer than two filers`,
+    };
   gatherSignatures(core, ...filings.map((f) => f.id));
   // The call is played the night the count comes in, as in play.
   advanceCore(core, makeIsoDate(contest.electionDate));
   for (let day = 0; day < 3 && !resultOf(api, contest.id); day += 1)
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
   const result = resultOf(api, contest.id);
-  if (!result?.winnerId) return { done: false, note: `${where}: no winner` };
+  if (!result?.winnerId)
+    return { done: false, raced: true, note: `${where}: no winner` };
   const causeId = `election-result:${contest.id}`;
   // The runner-up on the count: the one the race's story names.
   const totals = JSON.parse(
@@ -123,7 +157,11 @@ const run = (
     .filter(([id]) => id !== result.winnerId && core.people.has(id))
     .sort((x, y) => y[1] - x[1])[0]?.[0] as PersonId | undefined;
   if (!loser || !filings.some((f) => f.personId === loser))
-    return { done: false, note: `${where}: the runner-up is not a filer here` };
+    return {
+      done: false,
+      raced: true,
+      note: `${where}: the runner-up is not a filer here`,
+    };
   const here = `${where}: ${loser}`;
   const entry = director.ledger.people
     .get(loser)
@@ -132,21 +170,28 @@ const run = (
         row.momentId.includes(causeId) &&
         row.bindings.some((binding) => binding.typeKey === "race-lost"),
     );
-  if (!entry) return { done: false, note: `${here}: no concession call` };
+  if (!entry)
+    return { done: false, raced: true, note: `${here}: no concession call` };
   const scene = purposeScene(core, director, loser, entry, {
     typeKey: "race-lost",
   });
   expect(scene?.kind, here).toBe("composed");
-  if (scene?.kind !== "composed") return { done: false, note: here };
+  if (scene?.kind !== "composed")
+    return { done: false, raced: true, note: here };
   const path = pathTo(scene.scene.talk.tree, move);
-  if (!path) return { done: false, note: `${here}: no ${move} path` };
+  if (!path)
+    return { done: false, raced: true, note: `${here}: no ${move} path` };
   core.playerId = loser;
   const replyId = replyInScene(core, director, loser, entry, path, {
     typeKey: "race-lost",
   });
   const conceded = core.durableLog.get(replyId as EntityId)?.facts?.conceded;
   if (!conceded)
-    return { done: false, note: `${here}: the ${move} path ended elsewhere` };
+    return {
+      done: false,
+      raced: true,
+      note: `${here}: the ${move} path ended elsewhere`,
+    };
   expect(conceded, `${here}: ${move}`).toBe(move === "agree" ? "yes" : "no");
   const id = `concession:${contest.id}:${loser}:${conceded}`;
   const record = core.durableLog.get(id as EntityId);
@@ -173,7 +218,8 @@ const run = (
       typeKey: "concession-taken",
     });
     expect(heard?.kind, here).toBe("composed");
-    if (heard?.kind !== "composed") return { done: false, note: here };
+    if (heard?.kind !== "composed")
+      return { done: false, raced: true, note: here };
     expect(heard.scene.askerId, here).toBe(result.winnerId);
     // A friend and a rival say different things: the same call, the tie
     // between them warmed and then cooled through the closeness engine,
@@ -242,7 +288,12 @@ const run = (
   ).find(
     (s) => s.kind === "press.printed" && s.facts.sourceRecordId === causeId,
   );
-  if (!story) return { done: false, note: `${here}: the race was not printed` };
+  if (!story)
+    return {
+      done: false,
+      raced: true,
+      note: `${here}: the race was not printed`,
+    };
   const words = wordPrintedStory(core, story);
   expect(words, `${here}: ${story.id}`).toBeTruthy();
   const person = core.people.get(loser)!;
@@ -263,6 +314,7 @@ const run = (
   expect(words!.sourceRecordIds, here).toContain(id);
   return {
     done: true,
+    raced: true,
     note: `${here} (${move}): ${id}, printed in ${story.id}: ${words!.headline} / ${told}${call}`,
   };
 };
@@ -272,8 +324,14 @@ it(`a concession, and a refusal, on the call after the count are told in the rac
   const shown: string[] = [];
   for (const move of ["agree", "refuse"] as const) {
     let done = false;
-    for (let attempt = 0; attempt < ATTEMPTS && !done; attempt += 1) {
+    let raced = 0;
+    for (
+      let attempt = 0;
+      attempt < DRAWS && raced < ATTEMPTS && !done;
+      attempt += 1
+    ) {
       const out = run(`${seed}:${move}:${attempt}`, move);
+      if (out.raced) raced += 1;
       if (out.done) shown.push(out.note);
       else {
         skipped.push(out.note);
