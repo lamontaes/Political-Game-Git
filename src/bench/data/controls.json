@@ -1072,6 +1072,7 @@
     "short": "short",
     "ahead": "ahead",
     "savings": "Savings",
+    "savingsEstimated": "{amount} (estimate)",
     "lastYear": "Last year",
     "whoWrote": "Who wrote it",
     "adoptedBy": "Adopted by",
