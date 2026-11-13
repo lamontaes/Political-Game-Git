@@ -1778,7 +1778,7 @@
       "key": "opening-speech.ask.polished-twn-i-will-ask-the-council-to-to-and-i-will-not-let",
       "move": "ask",
       "kind": "spoken",
-      "text": "I will ask {body} to {to}, and I will not let it rest.",
+      "text": "I will ask {body-name} to {to}, and I will not let it rest.",
       "uses": [
         {
           "move": "ask",
@@ -1789,7 +1789,7 @@
             "to",
             "stance-for",
             "law-not-in-force",
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -1803,7 +1803,7 @@
       "key": "opening-speech.ask.plain-twn-im-asking-the-council-to-to-and-i-wont-let-it-rest",
       "move": "ask",
       "kind": "spoken",
-      "text": "I'm asking {body} to {to}, and I won't let it rest.",
+      "text": "I'm asking {body-name} to {to}, and I won't let it rest.",
       "uses": [
         {
           "move": "ask",
@@ -1814,7 +1814,7 @@
             "to",
             "stance-for",
             "law-not-in-force",
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -87303,7 +87303,7 @@
       "key": "opening-speech.ask.polished-against-town-address-i-am-against-and-i-will-ask-the",
       "move": "ask",
       "kind": "spoken",
-      "text": "I am against {about}, and I will ask {body} to vote it down.",
+      "text": "I am against {about}, and I will ask {body-name} to vote it down.",
       "uses": [
         {
           "move": "ask",
@@ -87315,7 +87315,7 @@
             "law-not-in-force",
             "about",
             "about-one",
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -87334,7 +87334,7 @@
       "key": "opening-speech.ask.plain-against-town-address-i-m-against-and-i-ll-ask-the",
       "move": "ask",
       "kind": "spoken",
-      "text": "I'm against {about}, and I'll ask {body} to vote it down.",
+      "text": "I'm against {about}, and I'll ask {body-name} to vote it down.",
       "uses": [
         {
           "move": "ask",
@@ -87346,7 +87346,7 @@
             "law-not-in-force",
             "about",
             "about-one",
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -88719,7 +88719,7 @@
       "key": "opening-speech.ask.polished-for-town-address-i-am-for-and-i-ask-the-council",
       "move": "ask",
       "kind": "spoken",
-      "text": "I am for {about}, and I ask {body} to {side} this year.",
+      "text": "I am for {about}, and I ask {body-name} to {side} this year.",
       "uses": [
         {
           "move": "ask",
@@ -88731,7 +88731,7 @@
             "law-not-in-force",
             "about",
             "side",
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -102774,396 +102774,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.belief.polished-inaugural-i-believe-belief-belief-stands",
-      "move": "belief",
-      "kind": "spoken",
-      "text": "I believe {belief}.",
-      "uses": [
-        {
-          "move": "belief",
-          "subject": "inaugural",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "state-of-the-union",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "state-of-the-state",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "town-address",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "floor-speech",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "campaign-speech",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12",
-      "piece": {
-        "of": "opening-belief",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "opening-speech.belief.polished-inaugural-i-have-always-believed-belief-belief-stands",
-      "move": "belief",
-      "kind": "spoken",
-      "text": "I have always believed {belief}.",
-      "uses": [
-        {
-          "move": "belief",
-          "subject": "inaugural",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "state-of-the-union",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "state-of-the-state",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "town-address",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "floor-speech",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "campaign-speech",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12",
-      "piece": {
-        "of": "opening-belief",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "opening-speech.belief.plain-inaugural-i-ve-always-thought-belief-belief-stands",
-      "move": "belief",
-      "kind": "spoken",
-      "text": "I've always thought {belief}.",
-      "uses": [
-        {
-          "move": "belief",
-          "subject": "inaugural",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "state-of-the-union",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "state-of-the-state",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "town-address",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "floor-speech",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "campaign-speech",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12",
-      "piece": {
-        "of": "opening-belief",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "opening-speech.why.polished-inaugural-i-say-so-because-i-believe-belief-belief-after",
-      "move": "why",
-      "kind": "spoken",
-      "text": "I say so because I believe {belief}.",
-      "uses": [
-        {
-          "move": "why",
-          "subject": "inaugural",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "state-of-the-union",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "state-of-the-state",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "town-address",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "floor-speech",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "campaign-speech",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12",
-      "piece": {
-        "of": "opening-belief",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "opening-speech.why.plain-inaugural-why-because-i-believe-belief-belief-after",
-      "move": "why",
-      "kind": "spoken",
-      "text": "Why? Because I believe {belief}.",
-      "uses": [
-        {
-          "move": "why",
-          "subject": "inaugural",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "state-of-the-union",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "state-of-the-state",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "town-address",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "floor-speech",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "campaign-speech",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12",
-      "piece": {
-        "of": "opening-belief",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "opening-speech.ask.polished-ina-sta-all-core-i-oppose-about-and-i-will-use-the-veto-many",
       "move": "ask",
       "kind": "spoken",
@@ -103803,7 +103413,7 @@
       "key": "opening-speech.ask.polished-against-town-address-i-am-against-and-i-will-ask-the-many",
       "move": "ask",
       "kind": "spoken",
-      "text": "I am against {about}, and I will ask {body} to vote them down.",
+      "text": "I am against {about}, and I will ask {body-name} to vote them down.",
       "uses": [
         {
           "move": "ask",
@@ -103815,7 +103425,7 @@
             "law-not-in-force",
             "about",
             "about-many",
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -103834,7 +103444,7 @@
       "key": "opening-speech.ask.plain-against-town-address-i-m-against-and-i-ll-ask-the-many",
       "move": "ask",
       "kind": "spoken",
-      "text": "I'm against {about}, and I'll ask {body} to vote them down.",
+      "text": "I'm against {about}, and I'll ask {body-name} to vote them down.",
       "uses": [
         {
           "move": "ask",
@@ -103846,7 +103456,7 @@
             "law-not-in-force",
             "about",
             "about-many",
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -106218,240 +105828,6 @@
       ],
       "voice": "polished",
       "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.belief.plain-inaugural-what-i-believe-is-that-belief-belief-stands",
-      "move": "belief",
-      "kind": "spoken",
-      "text": "What I believe is that {belief}.",
-      "uses": [
-        {
-          "move": "belief",
-          "subject": "inaugural",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "state-of-the-union",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "state-of-the-state",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "town-address",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "floor-speech",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        },
-        {
-          "move": "belief",
-          "subject": "campaign-speech",
-          "role": "belief",
-          "choice": "belief",
-          "requiresFacts": [
-            "belief",
-            "belief-stands"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-belief",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.why.polished-inaugural-that-is-because-i-believe-belief-belief-after",
-      "move": "why",
-      "kind": "spoken",
-      "text": "That is because I believe {belief}.",
-      "uses": [
-        {
-          "move": "why",
-          "subject": "inaugural",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "state-of-the-union",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "state-of-the-state",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "town-address",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "floor-speech",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "campaign-speech",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-belief",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.why.plain-inaugural-i-ll-tell-you-why-i-believe-belief-belief-after",
-      "move": "why",
-      "kind": "spoken",
-      "text": "I'll tell you why. I believe {belief}.",
-      "uses": [
-        {
-          "move": "why",
-          "subject": "inaugural",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "state-of-the-union",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "state-of-the-state",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "town-address",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "floor-speech",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        },
-        {
-          "move": "why",
-          "subject": "campaign-speech",
-          "role": "why",
-          "choice": "why",
-          "requiresFacts": [
-            "belief",
-            "belief-after"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-belief",
-        "part": "core",
-        "required": true
-      },
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
       "date": "2026-11-12"
@@ -115617,7 +114993,7 @@
       "key": "opening-speech.ask.polished-town-address-i-will-defend-before-stance-for-law-in-force-about",
       "move": "ask",
       "kind": "spoken",
-      "text": "I will defend {law-name} before {body}.",
+      "text": "I will defend {law-name} before {body-name}.",
       "uses": [
         {
           "move": "ask",
@@ -115627,7 +115003,7 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "body",
+            "body-name",
             "law-name"
           ]
         }
@@ -115647,7 +115023,7 @@
       "key": "opening-speech.ask.polished-town-address-i-will-ask-to-end-stance-against-law-in-force-about",
       "move": "ask",
       "kind": "spoken",
-      "text": "I will ask {body} to end {law-name}.",
+      "text": "I will ask {body-name} to end {law-name}.",
       "uses": [
         {
           "move": "ask",
@@ -115657,7 +115033,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "body",
+            "body-name",
             "law-name"
           ]
         }
@@ -115677,7 +115053,7 @@
       "key": "opening-speech.ask.plain-town-address-i-ll-ask-to-end-stance-against-law-in-force-about",
       "move": "ask",
       "kind": "spoken",
-      "text": "I'll ask {body} to end {law-name}.",
+      "text": "I'll ask {body-name} to end {law-name}.",
       "uses": [
         {
           "move": "ask",
@@ -115687,7 +115063,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "body",
+            "body-name",
             "law-name"
           ]
         }
@@ -115767,7 +115143,7 @@
       "key": "opening-speech.ask.polished-town-address-i-will-ask-to-repeal-stance-against-law-in-force-about",
       "move": "ask",
       "kind": "spoken",
-      "text": "I will ask {body} to repeal {law-name}.",
+      "text": "I will ask {body-name} to repeal {law-name}.",
       "uses": [
         {
           "move": "ask",
@@ -115777,7 +115153,7 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "body",
+            "body-name",
             "law-name"
           ]
         }
@@ -115797,7 +115173,7 @@
       "key": "opening-speech.ask.plain-town-address-i-want-gone-and-i-ll-ask-to-stance-against-law-in-force-about-about-one",
       "move": "ask",
       "kind": "spoken",
-      "text": "I want {law-name} gone, and I'll ask {body} to end it.",
+      "text": "I want {law-name} gone, and I'll ask {body-name} to end it.",
       "uses": [
         {
           "move": "ask",
@@ -115808,7 +115184,7 @@
             "stance-against",
             "law-in-force",
             "about-one",
-            "body",
+            "body-name",
             "law-name"
           ]
         }
@@ -115828,7 +115204,7 @@
       "key": "opening-speech.ask.plain-town-address-i-want-gone-and-i-ll-ask-to-stance-against-law-in-force-about-about-many",
       "move": "ask",
       "kind": "spoken",
-      "text": "I want {law-name} gone, and I'll ask {body} to end them.",
+      "text": "I want {law-name} gone, and I'll ask {body-name} to end them.",
       "uses": [
         {
           "move": "ask",
@@ -115839,7 +115215,7 @@
             "stance-against",
             "law-in-force",
             "about-many",
-            "body",
+            "body-name",
             "law-name"
           ]
         }

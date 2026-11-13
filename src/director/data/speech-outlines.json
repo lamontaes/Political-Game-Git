@@ -387,7 +387,7 @@
     ]
   },
   "pointShapes": {
-    "about": "The shapes a speech's point may take (owner, Nov 8: \"almost all of them feel the exact same\"; the words lead, Nov 12: \"A point has several shapes\"). Each lists its moves in order; `figure` stands for the figure's sentences (context, what it has meant, the speaker's own record, and the sentence that ties it to the question), said only where the question's row lets the speaker's side use a measure. `belief` says where the belief goes: leading into the ask (`belief-leads`), first as its own sentence (`belief-stands`), or after the ask as its reason (`belief-after`). A speech's points take the shapes in the order the speaker's traits pull hardest (`pull`, the summed facets), one shape per point, so no two points of a speech share one; ties go by the shape's name. No roll. The figure's tie names no question (\"After 4 years of that, folks don't need one more thing to pay for.\"), so the ask after it names the question once. The question-first shape asks the audience about how things stand (\"Is it fair that ...?\"), so it names no question and says no separate today sentence.",
+    "about": "The shapes a speech's point may take (owner, Nov 8: \"almost all of them feel the exact same\"; the words lead, Nov 12: \"A point has several shapes\"). Each lists its moves in order; `figure` stands for the figure's sentences (context, what it has meant, the speaker's own record, and the sentence that ties it to the question), said only where the question's row lets the speaker's side use a measure. `belief` says where the belief goes: always leading into the ask it explains (`belief-leads`), in one sentence. A belief is never a sentence of its own in an address (the words lead's ruling, Nov 13: two speakers may hold the same principle, and no two give the same speech line), so the shapes differ by order: the ask may come first, last or between the figure and how things stand. A speech's points take the shapes in the order the speaker's traits pull hardest (`pull`, the summed facets), one shape per point, so no two points of a speech share one; ties go by the shape's name. No roll. The figure's tie names no question (\"After 4 years of that, folks don't need one more thing to pay for.\"), so the ask after it names the question once. The question-first shape asks the audience about how things stand (\"Is it fair that ...?\"), so it names no question and says no separate today sentence.",
     "shapes": {
       "context-first": {
         "moves": ["today", "figure", "ask"],
@@ -400,8 +400,8 @@
         ]
       },
       "belief-first": {
-        "moves": ["belief", "today", "figure", "ask"],
-        "belief": "belief-stands",
+        "moves": ["ask", "today", "figure"],
+        "belief": "belief-leads",
         "pull": [
           "personality-v1:facet-sincere",
           "personality-v1:facet-duty-bound",
@@ -420,8 +420,8 @@
         ]
       },
       "ask-first": {
-        "moves": ["ask", "why", "today", "figure"],
-        "belief": "belief-after",
+        "moves": ["figure", "ask", "today"],
+        "belief": "belief-leads",
         "pull": [
           "personality-v1:facet-blunt",
           "personality-v1:facet-assertive",
