@@ -6,9 +6,12 @@
 // its outlet's page has been shown (`seen`, story ids). An outlet is one the
 // player follows when the press record says so (`why`), or when it printed a
 // story they heard: they hear what they follow (press.ts followersOf). The
-// desk of stories no outlet printed and the Nation's page are not outlets.
+// desk of stories no outlet printed counts like one when it has something the
+// player has not read (Fable A, Nov 13: North Hyde Park, Vermont, where every
+// story was on the desk and News opened on an empty paper); the Nation's page
+// is not an outlet.
 
-const NOT_OUTLETS = new Set(["news", "nation"]);
+const NOT_OUTLETS = new Set(["nation"]);
 
 /** The key of the tab News opens on, from the tabs in order (`outlets`). */
 export function openingTab(outlets, lastChosen, seen) {

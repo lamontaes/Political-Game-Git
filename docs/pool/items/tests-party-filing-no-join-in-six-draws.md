@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-tests-party-filing-no-join-in-six-draws
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
-claimed-at: 2026-11-13T04:38:42.566Z
+claimed-at:
 branch: claude/pool-tests-party-filing-no-join-in-six-draws
 ---
 
@@ -44,3 +44,5 @@ branch: claude/pool-tests-party-filing-no-join-in-six-draws
 Cause finder (Nov 11, 2026, for Fable B): read the one writer of a joined tie in a played world and when it runs; the test's one-year window ends before most states' statewide filing closes, so the result depends on the draw.
 
 Claimed by next for agent-4bff (tier mid) (2026-11-13 04:38 UTC) on branch claude/pool-tests-party-filing-no-join-in-six-draws.
+
+Released (2026-11-13): claimed by mistake by Account lead T18 while claiming another item; no work was done. Continue on branch claude/pool-tests-party-filing-no-join-in-six-draws.
