@@ -96,6 +96,7 @@ import { constituentFacts } from "./constituent-help-facts";
 import constituentWords from "./data/constituent-help-facts.json" with { type: "json" };
 import { bribeFacts } from "./bribe-facts";
 import { donorFacts } from "./donor-ask-facts";
+import { askVoteFacts } from "./ask-vote-facts";
 import {
   measureOnce,
   outletOnceWords,
@@ -1400,6 +1401,17 @@ function composeBinding(
         },
         variant,
       ),
+    );
+  // A colleague's ask for a vote, or the player's: the bill's records, the
+  // vote wanted, the roll's day (the vote-ask move set, ./ask-vote-facts).
+  if (type.purpose === "ask-vote")
+    Object.assign(
+      facts,
+      askVoteFacts(core, askerId, {
+        id: moment.causeId,
+        date: record?.date ?? moment.date,
+        facts: said,
+      }),
     );
   // A bribe offered or pressed: the offer's own records (bribe-facts.ts).
   if (type.purpose === "bribe-offer" || type.purpose === "bribe-pressed")

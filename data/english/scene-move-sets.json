@@ -16,6 +16,10 @@
     "donor": {
       "about": "A donor who just gave to the player's campaign asks for something back (campaigns.ts recordGift, the campaign-gift record): the gift is {gift} ({given} in all, where they gave before), the subject is the bill before the seat's body the donor holds the strongest view on ({bill}, {about}) and the side they want on it (want-for, want-against, the record's billSide). The player hears them out, hands it to staff, puts them off or says the gift buys no position.",
       "purposes": ["donor-ask"]
+    },
+    "vote-ask": {
+      "about": "A member asks another for their vote on a bill, or the player asks a colleague (legislature.ts: the sponsor's count the evening before the roll, vote-ahead; a section added, bill-amendment; a committee hearing): the subject is the bill ({bill}, {about}) and the section just added ({section-about}), the vote wanted (want-yes, want-no), whether the asker brought it (asker-sponsor) and whether the roll is tomorrow (vote-tomorrow). The ending is read by legislature.ts keepReply: a yes given is the member's vote, a refusal a strain.",
+      "purposes": ["ask-vote"]
     }
   }
 }

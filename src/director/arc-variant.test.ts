@@ -125,6 +125,9 @@ const voteFacts: Record<string, Fact> = {
   "read-favor-given": fact("yes"),
   "read-town-for-bill": fact("yes"),
   "read-close": fact("yes"),
+  // The vote wanted and what the bill is about (ask-vote-facts.ts).
+  "want-yes": fact("yes"),
+  about: fact("free fares on public transit"),
 };
 // What an office-hours visit hands the scene (constituent-help-facts.ts): the
 // employer lost and how long ago, the rent owed and its day, the pay and the
