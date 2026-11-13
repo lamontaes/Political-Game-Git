@@ -1783,6 +1783,22 @@
           "actKinds": ["change", "withdraw"]
         }
       ]
+    },
+    {
+      "id": "views.parent-hardship",
+      "site": "src/core2/modules/views.ts",
+      "owner": "lives lead",
+      "route": "formula",
+      "options": [
+        {
+          "id": "turn-away",
+          "actKinds": ["distrust", "change", "confront"]
+        },
+        {
+          "id": "follow",
+          "actKinds": ["trust", "keep-same", "follow-rules"]
+        }
+      ]
     }
   ],
   "outside": [

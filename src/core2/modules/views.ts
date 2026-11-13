@@ -23,7 +23,7 @@
 import { isDemoted } from "../counted-groups";
 import { stableHash, pairKey } from "../kernel/ids";
 import { livedQuestion } from "../outcome-news";
-import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
+import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import {
   personStance,
@@ -50,6 +50,7 @@ import { keepsWhy } from "../why-kept";
 import { placeStateKey } from "../place-map";
 import { registerStanceListener, stanceMoved } from "../stance-listeners";
 import { VIEWS_KEYS, type CellKey } from "../views-keys";
+import { PAST_WORK_SPELL, pastWorkOf } from "../past-module";
 
 export const VIEWS_DATA = viewsJson as {
   version: string;
@@ -111,6 +112,28 @@ export interface PersonView {
    */
   faithFromAverage?: number;
   collegeFromAverage?: number;
+  /** What the person lived through before the start that moved their lean, each with its record (part 14). */
+  pastShifts?: readonly PastShift[];
+  /** The lean before those shifts, so a shift read again (a parent opened later) replaces the last. */
+  leanBeforePast?: number;
+}
+
+/**
+ * A move of a person's opening lean by an event in their own past (the
+ * owner, Nov 12: a father's lost job "could have turned you super MAGA, or
+ * it could have turned you liberal"), by the record that holds the event.
+ */
+export interface PastShift {
+  /** The record of the event: a work spell that ended in a layoff. */
+  recordId: string;
+  /** A parent's job lost while the person was a child, or their own as an adult. */
+  kind: "parent-job-lost" | "own-job-lost";
+  /** How far it moved the lean, on the views scale (negative is more liberal). */
+  change: number;
+  /** The parent whose view the person moved toward or away from. */
+  parentId?: string;
+  /** Toward the parent's view (positive) or away from it (negative), from the person's traits. */
+  follow?: number;
 }
 
 const FAITH_IMPORTANCE: Readonly<Record<string, string>> = {
@@ -426,6 +449,176 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   };
   table.put(view as unknown as { id: string });
   return view;
+}
+
+/** A view moved by what its person lived through before the start: the shifts replace any read before. */
+function withPastShifts(
+  view: PersonView,
+  shifts: readonly PastShift[],
+): PersonView {
+  if (!shifts.length && !view.pastShifts) return view;
+  const base = view.leanBeforePast ?? view.lean;
+  const lean = Math.min(
+    v("leanMax"),
+    Math.max(
+      v("leanMin"),
+      shifts.reduce((sum, row) => sum + row.change, base),
+    ),
+  );
+  return {
+    ...view,
+    lean,
+    label:
+      view.label === "not-sure"
+        ? view.label
+        : VIEWS_DATA.labels[Math.round(lean) - v("leanMin")]!,
+    leanBeforePast: base,
+    pastShifts: shifts,
+  };
+}
+
+/** A person's opening lean and how closely they follow politics, full or not (a parent elsewhere or no longer living). */
+function leanAndEngagement(
+  api: CoreAPI,
+  person: PersonState,
+): { lean: number; engagement: number } {
+  const held = api.state.people.has(person.id) ? viewOf(api, person.id) : null;
+  if (held) return held;
+  const { lean, cell } = openingLean(
+    person,
+    api.state.startedAt,
+    api.state.seed,
+  );
+  return {
+    lean,
+    engagement: engagementFrom(
+      api.state.seed,
+      person.id,
+      cell.engagement ?? VIEWS_KEYS.national.engagement!,
+    ),
+  };
+}
+
+/** The layoffs among a person's work spells before the start, oldest first, with the day each ended and the day they next started work. */
+function layoffsOf(api: CoreAPI, personId: PersonId) {
+  const spells = pastWorkOf(api.state, personId)
+    .filter((row) => row.kind === PAST_WORK_SPELL)
+    .sort((a, b) =>
+      String(a.facts.startedAt).localeCompare(String(b.facts.startedAt)),
+    );
+  return spells.flatMap((row, index) =>
+    row.facts.end === "let-go" && typeof row.facts.endedAt === "string"
+      ? [
+          {
+            recordId: row.id,
+            endedAt: row.facts.endedAt,
+            nextWork: spells[index + 1]?.facts.startedAt as string | undefined,
+          },
+        ]
+      : [],
+  );
+}
+
+/**
+ * How what a person lived through before the start moved their view (part
+ * 14; the owner, Nov 12, either way). Two events are read, each from its
+ * work-spell record:
+ * - A parent laid off while the person was a child. The person moves toward
+ *   that parent's view, or away from it, by their own traits (the shared
+ *   decision `views.parent-hardship`); further the more the parent follows
+ *   politics, since children take on their parents' views more "if the
+ *   family is highly politicized" (Jennings, Stoker and Bowers 2009).
+ * - Their own layoff as an adult, which moved them toward more support for
+ *   welfare spending, "appreciably larger among Republicans", and "short
+ *   lived, dissipating as individuals' employment situations improved"
+ *   (Margalit 2013): leftward, more for those who lean right, fading with
+ *   the years back at work.
+ * Each shift keeps its record, so the view's why names the event.
+ */
+export function pastViewShifts(
+  api: CoreAPI,
+  person: PersonState,
+  parents: readonly PersonState[],
+): PastShift[] {
+  const start = api.state.startedAt;
+  const born = makeIsoDate(person.birthDate);
+  const grown = v("pastFormativeAge");
+  const { lean } = openingLean(person, start, api.state.seed);
+  const shifts: PastShift[] = [];
+  for (const parent of parents) {
+    const lost = layoffsOf(api, parent.id).find((row) => {
+      const age = ageOnDate(born, makeIsoDate(row.endedAt));
+      return (
+        row.endedAt >= person.birthDate && age < grown && row.endedAt < start
+      );
+    });
+    if (!lost) continue;
+    const theirs = leanAndEngagement(api, parent);
+    const follow = decisionLean(
+      api.state,
+      person,
+      "views.parent-hardship",
+      "follow",
+      "turn-away",
+    );
+    // stopgapId: SG-PEOPLE-past-views-sizes
+    api.stopgap("SG-PEOPLE-past-views-sizes");
+    shifts.push({
+      recordId: lost.recordId,
+      kind: "parent-job-lost",
+      change:
+        v("pastParentHardshipPull") *
+        theirs.engagement *
+        follow *
+        (theirs.lean - lean),
+      parentId: parent.id,
+      follow,
+    });
+  }
+  const own = layoffsOf(api, person.id)
+    .filter(
+      (row) =>
+        row.endedAt < start &&
+        ageOnDate(born, makeIsoDate(row.endedAt)) >= grown,
+    )
+    .at(-1);
+  if (own) {
+    const backAt = own.nextWork && own.nextWork < start ? own.nextWork : start;
+    const years =
+      daysBetween(makeIsoDate(backAt), makeIsoDate(start)) /
+      api.parameter("daysPerMeanYear");
+    api.stopgap("SG-PEOPLE-past-views-sizes");
+    shifts.push({
+      recordId: own.recordId,
+      kind: "own-job-lost",
+      change:
+        -v("pastOwnLayoffShift") *
+        Math.exp(-years / v("pastOwnLayoffFadeYears")) *
+        (v("one") +
+          (v("pastOwnLayoffRightBoost") * Math.max(v("zero"), lean)) /
+            v("leanMax")),
+    });
+  }
+  return shifts;
+}
+
+/**
+ * Writes what a person's past did to their view, forming it if nothing has
+ * read it yet (a view forms from the same records whenever it is first
+ * read). Read again when a parent's past is opened later, the new shifts
+ * replace the old.
+ */
+export function setPastViewShifts(
+  api: CoreAPI,
+  personId: PersonId,
+  shifts: readonly PastShift[],
+): void {
+  const held = viewOf(api, personId);
+  if (!held) return;
+  if (JSON.stringify(held.pastShifts ?? []) === JSON.stringify(shifts)) return;
+  viewsTable(api).put(
+    withPastShifts(held, shifts) as unknown as { id: string },
+  );
 }
 
 /** Which way a wanted change points on a policy question: +1 for, -1 against. */
