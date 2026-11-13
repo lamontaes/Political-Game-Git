@@ -3641,7 +3641,9 @@ const sheets = {
           [
             {
               title: bank?.name ? `${labels.cash} · ${bank.name}` : labels.cash,
-              figure: roundedMoney(me.card.liquidMinor),
+              // The household's cash now, the same count as each month's row
+              // under it (the bank's figures are the household's).
+              figure: roundedMoney(bank?.cash?.nowMinor ?? me.card.liquidMinor),
               rows: months.map((m) => ({
                 label: shortMonth(m.date),
                 value: roundedMoney(m.cashMinor),

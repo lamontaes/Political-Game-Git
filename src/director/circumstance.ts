@@ -103,8 +103,6 @@ export interface CircumstanceRow {
   /** The cast rule, as the scene web reads it. */
   cast: string;
   typeKey: string;
-  /** The record kind the scene writes back. */
-  outcome: string;
   impactParameter: string;
   everyParameter: string;
 }

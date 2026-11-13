@@ -12,6 +12,14 @@ import { describe, expect, it } from "vitest";
  * `src/director/data/stopgaps.json`) and a pool item for the scene that will
  * read it.
  *
+ * The one way a liked line leaves the banks is with its scene: on Nov 12,
+ * 2026 the owner gave the story lead the whole story ("change and delete
+ * whatever you need to"), and the scene inventory deleted the scenes no
+ * engine stands behind. A liked line of a deleted scene is listed, key and
+ * text, in `docs/design/scene-inventory.json` (`likedLinesRetired`), which the
+ * design page prints under "Lines the owner graded good, deleted with their
+ * scenes"; it must be in no bank, and every other liked line stays.
+ *
  * Where to find an old piece: `git show <deleting commit>^:<path>` (a shallow
  * clone may need `git fetch origin main --deepen=2000` first).
  */
@@ -45,6 +53,7 @@ for (const name of readdirSync("data/english/grades"))
   ).grades)
     if (row.restoredFrom) moved.set(row.restoredFrom, row.parts);
 
+<<<<<<< HEAD
 /**
  * Liked lines the words lead deleted under the owner's authority of Nov 12,
  * 2026 ("You don't need to constantly build on everything"), each with why.
@@ -60,6 +69,21 @@ const DELETED_BY_LEAD: Readonly<Record<string, string>> = {
 const liked = Object.entries(ledger.parts)
   .filter(([key, counts]) => counts.good > 0 && !DELETED_BY_LEAD[key])
   .map(([key]) => key);
+=======
+/** Liked lines that left the banks with their scene (the scene inventory, Nov 12, 2026). */
+const retired =
+  (
+    JSON.parse(readFileSync("docs/design/scene-inventory.json", "utf8")) as {
+      likedLinesRetired?: { scene: string; key: string; text: string }[];
+    }
+  ).likedLinesRetired ?? [];
+const retiredKeys = new Set(retired.map((row) => row.key));
+
+const liked = Object.entries(ledger.parts)
+  .filter(([, counts]) => counts.good > 0)
+  .map(([key]) => key)
+  .filter((key) => !retiredKeys.has(key));
+>>>>>>> origin/main
 
 describe("a line the owner graded good stays in the banks", () => {
   it("is a piece in a bank, or a grade moved onto a live piece in a bank", () => {
@@ -74,9 +98,22 @@ describe("a line the owner graded good stays in the banks", () => {
     expect(gone, "graded good, and in no bank").toEqual([]);
   });
 
+  it("retires a liked line only with its scene, kept with its text on the inventory, and in no bank", () => {
+    for (const row of retired) {
+      expect(ledger.parts[row.key]?.good, row.key).toBeGreaterThan(0);
+      expect(row.scene, row.key).toBeTruthy();
+      expect(row.text, row.key).toBeTruthy();
+      expect(bankKeys.has(row.key), `${row.key} is still in a bank`).toBe(
+        false,
+      );
+    }
+  });
+
   it("restores a piece only from a key the ledger counts good", () => {
     for (const key of restoredFrom) expect(liked, key).toContain(key);
     for (const [key, live] of moved) {
+      // A liked line restored onto a scene that was later deleted left with it.
+      if (retiredKeys.has(key)) continue;
       expect(liked, key).toContain(key);
       for (const piece of live) expect(bankKeys.has(piece), piece).toBe(true);
     }
