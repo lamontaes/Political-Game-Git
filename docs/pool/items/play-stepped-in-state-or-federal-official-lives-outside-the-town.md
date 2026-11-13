@@ -53,3 +53,5 @@ The second keeps "playing as a governor or President" open from any drawn place.
 **Files.** src/bench/handler.ts, src/bench/officeholders.ts, src/bench/play.mjs, src/bench/player.ts, src/bench/play-as-lives-in-town.browser.mjs (new)
 
 **Notes.** Found by Playtester P2 playing a year as President. The cabinet desk and the budget request both worked (fifteen posts nominated or left open on January 22, the request sent on February 3, and H.R. 6 failed in the House). The rest of the year had two scenes, both of new House members greeting the President as a coworker (`play-office-jobs-show-the-raw-office-kind`).
+
+Seen again in a state (Playtester P2, same day, main 596d5127): Prairie City, Oregon (seed 70457df0-607e-4349-8f0a-b255747c6765), stepping in as Governor Paul Oliver. The card reads "Prairie City, Oregon", but `/api/dev/person` answers `placeId: "US-OR"`, the Journal reads "Nothing is written here yet." and Your office is blank.
