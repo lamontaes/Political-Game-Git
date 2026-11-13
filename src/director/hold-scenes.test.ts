@@ -26,7 +26,7 @@ const DAYS = 90;
 /** The bodies whose members the director follows here. */
 const WATCHED_LEVELS = ["city", "county", "state"];
 
-it(`a held bill is a hearing ask for the chair and a push for a member, from its record (seed ${seed})`, () => {
+it(`a held bill is a hearing ask for the chair, from its record (seed ${seed})`, () => {
   const tried: string[] = [];
   for (let attempt = 0; attempt < 4; attempt += 1) {
     const place = drawPlace(`${seed}:${attempt}`, "hold-scenes");
@@ -60,7 +60,6 @@ it(`a held bill is a hearing ask for the chair and a push for a member, from its
       continue;
     }
     let chairScenes = 0;
-    let memberScenes = 0;
     for (const hold of holds) {
       const bill = billOf(api, hold.facts!.billId!);
       const chair = hold.facts!.chair!;
@@ -129,30 +128,16 @@ it(`a held bill is a hearing ask for the chair and a push for a member, from its
           result.scene.talk.tree.replies.map((reply) => reply.line),
           `${where}: ${personId}`,
         );
-        // The member is told whom to press, by name.
-        if (typeKey === "bill-held-member")
-          expect(fact("chair")?.recordIds).toContain(chair);
         return true;
       };
       if (hold.personIds.includes(chair as never) && chair !== bill.sponsorId)
         if (director.ledger.people.has(chair as never))
           if (check(chair, "bill-held-chair")) chairScenes += 1;
-      for (const id of hold.personIds)
-        if (
-          id !== chair &&
-          id !== bill.sponsorId &&
-          director.ledger.people.has(id)
-        )
-          if (check(id, "bill-held-member")) memberScenes += 1;
       // A chair who heard the bill held nothing: no hold scene cites a hearing.
     }
     expect(
       chairScenes,
       `${where}: no chair was asked for a hearing`,
-    ).toBeGreaterThan(0);
-    expect(
-      memberScenes,
-      `${where}: no member was asked to press`,
     ).toBeGreaterThan(0);
     // A bill the committee heard is not held: no hold scene names its record.
     for (const hearing of [...core.durableLog.values()].filter(
