@@ -132,7 +132,13 @@ import { closenessBetween } from "../core2/closeness";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
-import { properName, spoken, spokenDate, stateInSentence } from "./words";
+import {
+  numberWord,
+  properName,
+  spoken,
+  spokenDate,
+  stateInSentence,
+} from "./words";
 import { giveInauguralAddress, inauguralStand } from "./inaugural-address";
 import {
   ADDRESS_KEEPS,
@@ -1082,24 +1088,28 @@ function composeBinding(
         {
           row,
           name,
+          // The incumbent is said as one; a party is never said before
+          // every name (Fable A, Nov 13, rule 2).
           text:
-            incumbent?.personId === row.personId
-              ? `incumbent ${name}`
-              : row.party && row.party !== "party"
-                ? `${row.party} candidate ${name}`
-                : name,
+            incumbent?.personId === row.personId ? `incumbent ${name}` : name,
         },
       ];
     });
     if (said_.length) {
       const cited = [moment.causeId, ...said_.map((row) => row.row.id)];
+      // A list names three, then counts (Fable A, Nov 13, rule 2): up to
+      // three by name; more, the first two and how many others.
+      const named =
+        said_.length > P.two + P.one
+          ? [
+              ...said_.slice(P.zero, P.two).map((row) => row.text),
+              `${numberWord(said_.length - P.two)} others`,
+            ]
+          : said_.map((row) => row.text);
       const list =
-        said_.length === P.one
-          ? said_[P.zero]!.text
-          : `${said_
-              .slice(P.zero, -P.one)
-              .map((row) => row.text)
-              .join(", ")} and ${said_.at(-P.one)!.text}`;
+        named.length === P.one
+          ? named[P.zero]!
+          : `${named.slice(P.zero, -P.one).join(", ")} and ${named.at(-P.one)!}`;
       facts["already-filed"] = {
         text: String(said_.length),
         sourceRecordIds: cited,
