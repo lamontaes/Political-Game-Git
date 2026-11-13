@@ -9,7 +9,7 @@ status: open
 standard: 2
 claimed-by:
 pr:
-after:
+after: elections-at-large-count-disagrees-with-per-seat-filing-and-ballot
 blocked-on:
 lead: words
 model: opus
@@ -18,7 +18,7 @@ root: rc6-scenes-repeat
 source: added with npm run pool -- add
 ---
 
-**What.** On the morning after the count the player who lost got the call meant for a winner: the winner rang and said the player's own total back ('58 votes. That's what it came to. You earned it.'), offered to stand beside them at the first meeting and congratulated them. The Journal then wrote both outcomes: 'We lost. / So, I was elected to Selectboard member. / Because of that, I didn't win.' This is the end of the golden path's race. Seen: the morning after a lost race, the phone call and the Journal's lines about the result. Seen: the morning after a lost race, the phone call and the Journal's lines about the result.
+**What.** On the morning after the count the player who lost got the call meant for a winner: the winner rang and said the player's own total back ('58 votes. That's what it came to. You earned it.'), offered to stand beside them at the first meeting and congratulated them. The Journal then wrote both outcomes: 'We lost. / So, I was elected to Selectboard member. / Because of that, I didn't win.' This is the end of the golden path's race. Seen: the morning after a lost race, the phone call and the Journal's lines about the result.
 
 **Cause.** Measured: North Hyde Park, Vermont, seed a6b481a5-c6c9-432b-8cca-c0463c518da8, main 9ebc7c89 (Playtester P3, Nov 13). Mar 4, 2025 count Stephen Pugh 116, Sofia Nash 58; on Mar 5 at 8:00 AM the situation type concession-received (src/director/data/situation-types.json, key concession-received) played with Stephen Pugh as its loser role, although its cause match requires the election-result's winnerId to be the subject. The Journal line 'So, I was elected to Selectboard member' comes from the same moment. Not yet traced: whether the match is not applied, or the result record the player's moment reads names the wrong winner (the returns also counted three seats as one race, see play-election-night-counts-three-seats-as-one-race).
 
@@ -30,6 +30,6 @@ source: added with npm run pool -- add
 
 **Done when.** A second session plays a new life in a drawn place on main, files for a contested local seat, loses, and on the morning after hears the concession call from their own side (or none), never the winner's call; the Journal says they lost and nowhere that they were elected.
 
-**Waits on.** Nothing.
+**Waits on.** elections-at-large-count-disagrees-with-per-seat-filing-and-ballot: the count seated the player (top three of a pooled four-name race), which is likely why the winner's call played; re-check after it.
 
 **Files.** src/director/data/situation-types.json
