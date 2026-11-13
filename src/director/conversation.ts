@@ -2489,8 +2489,10 @@ export function subjectsBetween(
                 sourceRecordIds: reason.recordIds,
               },
               // The reason itself, as the fit the rules found: what the job
-              // pays an hour against the proposal, or that they make payroll.
-              ...(reason.fit === "pay-near"
+              // pays an hour (against the proposal, or for a worker whose job
+              // does not set pay: their own paycheck, from the job record; a
+              // stance cites its source), or that they make payroll.
+              ...(reason.fit === "pay-near" || reason.fit === "worker"
                 ? hourlyFact(core, reason.recordIds[zero])
                 : {}),
               ...(reason.fit === "payroll"
