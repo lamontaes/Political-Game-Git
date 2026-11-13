@@ -1031,7 +1031,7 @@
     {
       "kind": "justice.arrested-before",
       "life": "law",
-      "what": "accused"
+      "what": "arrested"
     },
     {
       "kind": "justice.convicted-before",
