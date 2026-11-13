@@ -1,6 +1,6 @@
 ---
 id: laws-budget-cut-to-nothing-passes-unanimously
-title: 'A town council passes a cut of its Highways line from $1.7 million to $2, 5 to 0: a member''s stance on a budget change stops growing at a 10% change'
+title: "A town council passes a cut of its Highways line from $1.7 million to $2, 5 to 0: a member's stance on a budget change stops growing at a 10% change"
 area: laws
 kind: bug
 priority: 2
