@@ -15,9 +15,7 @@
       "family": "infrastructure",
       "inForceAtOpening": false,
       "change": "place:2745772 transportation 0 -> 10000000 by law-wiring-3d0937ae",
-      "lawIds": [
-        "law-wiring-3d0937ae"
-      ],
+      "lawIds": ["law-wiring-3d0937ae"],
       "openingReach": {
         "fullPeople": 0,
         "countedGroups": 0,
@@ -75,10 +73,7 @@
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1654",
             "treatment": 6139537583,
             "control": 6141370916,
-            "ids": [
-              "journal:2025-02-01:1433",
-              "journal:2025-02-01:1434"
-            ]
+            "ids": ["journal:2025-02-01:1433", "journal:2025-02-01:1434"]
           },
           {
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1404",
@@ -267,9 +262,7 @@
       "family": "healthcare",
       "inForceAtOpening": false,
       "change": "place:2745772 medicare 0 -> 10000000 by law-wiring-ef0c4cf9",
-      "lawIds": [
-        "law-wiring-ef0c4cf9"
-      ],
+      "lawIds": ["law-wiring-ef0c4cf9"],
       "openingReach": {
         "fullPeople": 0,
         "countedGroups": 0,
@@ -292,9 +285,7 @@
         "other": 0,
         "open": 1,
         "ended": 0,
-        "sample": [
-          "applied|budget-line:medicare|jurisdiction_16b3bfd4091db759"
-        ]
+        "sample": ["applied|budget-line:medicare|jurisdiction_16b3bfd4091db759"]
       },
       "reachAtEnd": {
         "fullPeople": 0,
@@ -306,17 +297,13 @@
         "other": 0,
         "open": 1,
         "ended": 0,
-        "sample": [
-          "applied|budget-line:medicare|jurisdiction_16b3bfd4091db759"
-        ]
+        "sample": ["applied|budget-line:medicare|jurisdiction_16b3bfd4091db759"]
       },
       "inPlay": [],
       "applied": {
         "rows": 1,
         "withAmount": 1,
-        "sample": [
-          "applied|budget-line:medicare|jurisdiction_16b3bfd4091db759"
-        ]
+        "sample": ["applied|budget-line:medicare|jurisdiction_16b3bfd4091db759"]
       },
       "readers": {},
       "openingRow": null,
@@ -327,10 +314,7 @@
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1654",
             "treatment": 6139537583,
             "control": 6141370916,
-            "ids": [
-              "journal:2025-02-01:1432",
-              "journal:2025-02-01:1433"
-            ]
+            "ids": ["journal:2025-02-01:1432", "journal:2025-02-01:1433"]
           },
           {
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1404",
@@ -373,10 +357,7 @@
             "moved": 10000000,
             "treatment": 833333,
             "control": 0,
-            "ids": [
-              "journal:2025-02-01:1430",
-              "journal:2025-02-01:1431"
-            ]
+            "ids": ["journal:2025-02-01:1430", "journal:2025-02-01:1431"]
           }
         ],
         "own": {
@@ -518,9 +499,7 @@
       "family": "healthcare",
       "inForceAtOpening": false,
       "change": "place:2745772 health 0 -> 10000000 by law-wiring-da7d48f9",
-      "lawIds": [
-        "law-wiring-da7d48f9"
-      ],
+      "lawIds": ["law-wiring-da7d48f9"],
       "openingReach": {
         "fullPeople": 0,
         "countedGroups": 0,
@@ -543,9 +522,7 @@
         "other": 0,
         "open": 1,
         "ended": 0,
-        "sample": [
-          "applied|budget-line:health|jurisdiction_16b3bfd4091db759"
-        ]
+        "sample": ["applied|budget-line:health|jurisdiction_16b3bfd4091db759"]
       },
       "reachAtEnd": {
         "fullPeople": 0,
@@ -557,17 +534,13 @@
         "other": 0,
         "open": 1,
         "ended": 0,
-        "sample": [
-          "applied|budget-line:health|jurisdiction_16b3bfd4091db759"
-        ]
+        "sample": ["applied|budget-line:health|jurisdiction_16b3bfd4091db759"]
       },
       "inPlay": [],
       "applied": {
         "rows": 1,
         "withAmount": 1,
-        "sample": [
-          "applied|budget-line:health|jurisdiction_16b3bfd4091db759"
-        ]
+        "sample": ["applied|budget-line:health|jurisdiction_16b3bfd4091db759"]
       },
       "readers": {},
       "openingRow": null,
@@ -578,10 +551,7 @@
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1654",
             "treatment": 6139537583,
             "control": 6141370916,
-            "ids": [
-              "journal:2025-02-01:1433",
-              "journal:2025-02-01:1434"
-            ]
+            "ids": ["journal:2025-02-01:1433", "journal:2025-02-01:1434"]
           },
           {
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1404",
@@ -1043,9 +1013,7 @@
       "family": "education",
       "inForceAtOpening": false,
       "change": "place:2745772 education 0 -> 10000000 by law-wiring-9a12adfe",
-      "lawIds": [
-        "law-wiring-9a12adfe"
-      ],
+      "lawIds": ["law-wiring-9a12adfe"],
       "openingReach": {
         "fullPeople": 0,
         "countedGroups": 0,
@@ -1103,10 +1071,7 @@
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1654",
             "treatment": 6139537583,
             "control": 6141370916,
-            "ids": [
-              "journal:2025-02-01:1433",
-              "journal:2025-02-01:1434"
-            ]
+            "ids": ["journal:2025-02-01:1433", "journal:2025-02-01:1434"]
           },
           {
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1404",
@@ -1295,9 +1260,7 @@
       "family": "assistance",
       "inForceAtOpening": false,
       "change": "place:2745772 incomeSecurity 0 -> 10000000 by law-wiring-0f392aa2",
-      "lawIds": [
-        "law-wiring-0f392aa2"
-      ],
+      "lawIds": ["law-wiring-0f392aa2"],
       "openingReach": {
         "fullPeople": 0,
         "countedGroups": 0,
@@ -1355,10 +1318,7 @@
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1654",
             "treatment": 6139537583,
             "control": 6141370916,
-            "ids": [
-              "journal:2025-02-01:1433",
-              "journal:2025-02-01:1434"
-            ]
+            "ids": ["journal:2025-02-01:1433", "journal:2025-02-01:1434"]
           },
           {
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1404",
@@ -2266,9 +2226,7 @@
       "family": "assistance",
       "inForceAtOpening": false,
       "change": "place:2745772 socialSecurity 0 -> 10000000 by law-wiring-47206d50",
-      "lawIds": [
-        "law-wiring-47206d50"
-      ],
+      "lawIds": ["law-wiring-47206d50"],
       "openingReach": {
         "fullPeople": 0,
         "countedGroups": 0,
@@ -2326,10 +2284,7 @@
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1654",
             "treatment": 6139537583,
             "control": 6141370916,
-            "ids": [
-              "journal:2025-02-01:1431",
-              "journal:2025-02-01:1432"
-            ]
+            "ids": ["journal:2025-02-01:1431", "journal:2025-02-01:1432"]
           },
           {
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1404",
@@ -2347,19 +2302,13 @@
           {
             "token": "budget-line:socialSecurity",
             "gross": 12408045243919,
-            "ids": [
-              "journal:2025-02-01:1083",
-              "journal:2025-02-01:1430"
-            ],
+            "ids": ["journal:2025-02-01:1083", "journal:2025-02-01:1430"],
             "control": 12408044410586
           },
           {
             "token": "law-wiring-47206d50",
             "gross": 1666666,
-            "ids": [
-              "journal:2025-02-01:1430",
-              "journal:2025-02-01:1430"
-            ]
+            "ids": ["journal:2025-02-01:1430", "journal:2025-02-01:1430"]
           }
         ],
         "controlCited": [],
@@ -2370,9 +2319,7 @@
             "moved": 10000000,
             "treatment": 833333,
             "control": 0,
-            "ids": [
-              "journal:2025-02-01:1430"
-            ]
+            "ids": ["journal:2025-02-01:1430"]
           }
         ],
         "own": {
@@ -2683,9 +2630,7 @@
       "family": "housing",
       "inForceAtOpening": false,
       "change": "place:2745772 communityAndRegionalDevelopment 0 -> 10000000 by law-wiring-978899e0",
-      "lawIds": [
-        "law-wiring-978899e0"
-      ],
+      "lawIds": ["law-wiring-978899e0"],
       "openingReach": {
         "fullPeople": 0,
         "countedGroups": 0,
@@ -2743,10 +2688,7 @@
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1654",
             "treatment": 6139537583,
             "control": 6141370916,
-            "ids": [
-              "journal:2025-02-01:1433",
-              "journal:2025-02-01:1434"
-            ]
+            "ids": ["journal:2025-02-01:1433", "journal:2025-02-01:1434"]
           },
           {
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1404",
@@ -3071,9 +3013,7 @@
       "family": "agriculture",
       "inForceAtOpening": false,
       "change": "place:2745772 agriculture 0 -> 10000000 by law-wiring-bd747f33",
-      "lawIds": [
-        "law-wiring-bd747f33"
-      ],
+      "lawIds": ["law-wiring-bd747f33"],
       "openingReach": {
         "fullPeople": 0,
         "countedGroups": 0,
@@ -3131,10 +3071,7 @@
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1654",
             "treatment": 6139537583,
             "control": 6141370916,
-            "ids": [
-              "journal:2025-02-01:1433",
-              "journal:2025-02-01:1434"
-            ]
+            "ids": ["journal:2025-02-01:1433", "journal:2025-02-01:1434"]
           },
           {
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1404",
@@ -3323,9 +3260,7 @@
       "family": "defense-veterans",
       "inForceAtOpening": false,
       "change": "place:2745772 nationalDefense 0 -> 10000000 by law-wiring-0a08fddd",
-      "lawIds": [
-        "law-wiring-0a08fddd"
-      ],
+      "lawIds": ["law-wiring-0a08fddd"],
       "openingReach": {
         "fullPeople": 0,
         "countedGroups": 0,
@@ -3383,10 +3318,7 @@
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1654",
             "treatment": 6139537583,
             "control": 6141370916,
-            "ids": [
-              "journal:2025-02-01:1432",
-              "journal:2025-02-01:1433"
-            ]
+            "ids": ["journal:2025-02-01:1432", "journal:2025-02-01:1433"]
           },
           {
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1404",
@@ -3429,10 +3361,7 @@
             "moved": 10000000,
             "treatment": 833333,
             "control": 0,
-            "ids": [
-              "journal:2025-02-01:1430",
-              "journal:2025-02-01:1431"
-            ]
+            "ids": ["journal:2025-02-01:1430", "journal:2025-02-01:1431"]
           }
         ],
         "own": {
@@ -3574,9 +3503,7 @@
       "family": "defense-veterans",
       "inForceAtOpening": false,
       "change": "place:2745772 veterans 0 -> 10000000 by law-wiring-8285a4e0",
-      "lawIds": [
-        "law-wiring-8285a4e0"
-      ],
+      "lawIds": ["law-wiring-8285a4e0"],
       "openingReach": {
         "fullPeople": 0,
         "countedGroups": 0,
@@ -3599,9 +3526,7 @@
         "other": 0,
         "open": 1,
         "ended": 0,
-        "sample": [
-          "applied|budget-line:veterans|jurisdiction_16b3bfd4091db759"
-        ]
+        "sample": ["applied|budget-line:veterans|jurisdiction_16b3bfd4091db759"]
       },
       "reachAtEnd": {
         "fullPeople": 0,
@@ -3613,17 +3538,13 @@
         "other": 0,
         "open": 1,
         "ended": 0,
-        "sample": [
-          "applied|budget-line:veterans|jurisdiction_16b3bfd4091db759"
-        ]
+        "sample": ["applied|budget-line:veterans|jurisdiction_16b3bfd4091db759"]
       },
       "inPlay": [],
       "applied": {
         "rows": 1,
         "withAmount": 1,
-        "sample": [
-          "applied|budget-line:veterans|jurisdiction_16b3bfd4091db759"
-        ]
+        "sample": ["applied|budget-line:veterans|jurisdiction_16b3bfd4091db759"]
       },
       "readers": {},
       "openingRow": null,
@@ -3634,10 +3555,7 @@
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1654",
             "treatment": 6139537583,
             "control": 6141370916,
-            "ids": [
-              "journal:2025-02-01:1433",
-              "journal:2025-02-01:1434"
-            ]
+            "ids": ["journal:2025-02-01:1433", "journal:2025-02-01:1434"]
           },
           {
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1404",
@@ -3826,9 +3744,7 @@
       "family": "foreign-trade",
       "inForceAtOpening": false,
       "change": "place:2745772 internationalAffairs 0 -> 10000000 by law-wiring-66ac72d7",
-      "lawIds": [
-        "law-wiring-66ac72d7"
-      ],
+      "lawIds": ["law-wiring-66ac72d7"],
       "openingReach": {
         "fullPeople": 0,
         "countedGroups": 0,
@@ -3886,10 +3802,7 @@
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1654",
             "treatment": 6139537583,
             "control": 6141370916,
-            "ids": [
-              "journal:2025-02-01:1432",
-              "journal:2025-02-01:1433"
-            ]
+            "ids": ["journal:2025-02-01:1432", "journal:2025-02-01:1433"]
           },
           {
             "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1404",
@@ -3932,10 +3845,7 @@
             "moved": 10000000,
             "treatment": 833333,
             "control": 0,
-            "ids": [
-              "journal:2025-02-01:1430",
-              "journal:2025-02-01:1431"
-            ]
+            "ids": ["journal:2025-02-01:1430", "journal:2025-02-01:1431"]
           }
         ],
         "own": {

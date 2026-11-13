@@ -948,10 +948,7 @@
             "kind": "accounts.transfer @ src/core2/public-safety.ts:488",
             "treatment": 455521,
             "control": 455520,
-            "ids": [
-              "journal:2025-02-06:9177",
-              "journal:2025-02-06:9178"
-            ]
+            "ids": ["journal:2025-02-06:9177", "journal:2025-02-06:9178"]
           }
         ],
         "diffKinds": 2,
