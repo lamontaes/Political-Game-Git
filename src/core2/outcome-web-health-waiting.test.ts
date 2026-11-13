@@ -18,7 +18,7 @@ const WAITING = {
   /** The outcome is no engine's record: a child's asthma, Part D spending, a birth weight. */
   "SG-EW-HEALTH-condition-record": [
     "gas-hookup-ban-to-child-asthma",
-    "drug-negotiation-to-out-of-pocket",
+    // drug-negotiation-to-out-of-pocket is read by the medical bills now (medical-bills.ts), so it no longer waits.
     "water-violations-to-infant-health",
   ],
   /** No researched size the game can apply (a link about zero is graded not applicable and is not listed). */
@@ -82,7 +82,8 @@ describe("health links that wait, and why", () => {
         const row = (
           stopgaps as { id: string; status?: string; whatItFakes?: string }[]
         ).find((one) => one.id === stopgapId)!;
-        expect(row.status, stopgapId).toBe("open");
+        // Open, or dropped by the Nov 10 stand-in triage (the estimate stays).
+        expect(["open", "resolved"], stopgapId).toContain(row.status);
         expect(row.whatItFakes, stopgapId).toContain(`(${key})`);
         const web = link(key);
         if (stopgapId === "SG-EW-HEALTH-unsized-links")

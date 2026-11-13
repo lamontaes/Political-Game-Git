@@ -296,6 +296,195 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.108.0
+
+_Released November 12, 2026._
+
+### Added
+
+- **People have moved house before the game began, inside their county too** A
+  person's past now holds the moves to another home in their county, at the
+  rates real people of their age in their state move, so most adults have moved
+  once or several times before the game began, not only the few who came from
+  another county. The card tells them once their line is written.
+
+- **Some people served in the military before the game began** A person's past
+  can now hold military service: the day they enlisted, after their schooling
+  ended, and the day they were discharged, in the share real veterans make of
+  people their age and sex in their state. Their first civilian job starts after
+  it. The card tells it once its lines are written.
+
+- **A relative who moved away has their school years in town and the year they
+  left** A brother, sister or grown child who grew up in your household and now
+  lives elsewhere no longer reads as only a birth year: their card names the
+  town's schools they went to and when they moved away, the same every time.
+
+- **A person's past now holds the end of high school and college years**
+  People's pasts now say when they finished high school and, for those who went
+  on, when they started college and when it ended, with a bachelor's or without
+  one, on the same school calendar every child shares. A first job before the
+  game began never starts before school ended. The card tells them once their
+  lines are written.
+
+- **Everyday and Formal tabs in How I look** New game's How I look has two tabs,
+  Everyday and Formal. Everyday lets you pick the top you wear away from work
+  and its color; Formal holds the shirt, tie and jacket. The portrait beside the
+  form changes clothes as you switch tabs, and the top you pick is the one you
+  wear in everyday scenes.
+
+### Improved
+
+- **People who went to school or worked together before the game now know it**
+  Two people who went to the same school in the same years, or worked for the
+  same employer at overlapping times before the game starts, are now on record
+  as schoolmates or coworkers, so a talk can bring up the school or the old job.
+
+- **People who bring up a change in town no longer add "I have no idea" when
+  they don't know who caused it** When someone tells you a business closed or a
+  law changed and has nobody to name for it, they now say only what happened,
+  instead of adding "I don't know who did it." or "I have no idea." And a blame
+  they never said aloud no longer passes to you.
+
+- **The paper names the council or legislature a bill goes back to, and when a
+  seat fell empty** A story about a veto, a failed override or a committee vote
+  now names the body that acts next ("The Powderly City Council can still
+  override the veto with enough votes."), instead of the same sentence in every
+  town. A new officeholder's story says the day the seat fell empty; a seat left
+  open says since when; a vote won or lost by one says "just one vote"; and a
+  business that closed within two years of opening says the month it opened.
+
+### Fixed
+
+- **A household that can't pay for the trip no longer ends a pregnancy for
+  free** Where a restriction lengthens the trip to a provider, households in the
+  wider population now weigh the trip against the money they can actually spend.
+  Each one that makes the trip pays for all of it, and that payment shows in the
+  law's reach on the bill card. A household that can't pay for the trip doesn't
+  make it.
+
+- **A county board's bill menu shows the county's own budget and laws** When you
+  sit on a county board, the bill menu now reads the county's own laws and
+  budget lines, not the town's.
+
+- **Towns newer than the 2020 Census lists have a congressman and state
+  legislators** About five hundred towns, most in Indiana, Pennsylvania and
+  Virginia, had no U.S. representative or state legislators, because the Census
+  district lists predate them, so there was no legislative race to file for.
+  Each now sits in the districts most of its county's other towns are in, marked
+  as an estimate.
+
+- **A member's recorded vote says whether the bill passed or failed** A member's
+  recorded vote now says whether the bill passed or failed: the legislature
+  writes the roll's outcome on each member's row when the tally closes, so a
+  record screen shows a side and a result.
+
+- **Repealing a law returns the body to exactly the law it had before, including
+  none** Repealing an amount law (a tax rate, a wage floor, a limit) now ends
+  the law the body passed instead of writing a zero in its place, so a level
+  that had no law of its own before is silent again and the next level's law
+  governs as it did, and a level that had one is back to that same law.
+
+- **Prisons, nursing homes and dormitories no longer count as poor households**
+  A town's poverty rate and the reach of income-tested programs no longer count
+  the rooms of a prison, nursing home or dormitory as poor households.
+
+- **A law aimed at an age group now reaches people when they turn that age and
+  stops when they age out.** A law that covers, say, teens from 13 to 17 used to
+  cover only the people who were that age the day it took effect. Now a person
+  gains it on the birthday they turn 13 and loses it on the birthday they turn 18.
+
+- **A relative who lives somewhere else now has schooling and a working life on
+  their card.** Opening the card of a parent, sibling or other relative who
+  lives outside your town used to tell only that they had children. Their card
+  now tells where they went to school, how long they worked and where, when they
+  moved away, and whether they are working now, written the first time you open
+  them and the same every time.
+
+- **Tax brackets and the Social Security wage base now rise with prices and pay,
+  as the law has them do.** Over a long game, pay rose with prices but the tax
+  brackets, the standard deduction and the Social Security wage base never
+  moved, so every worker slowly drifted into the top bracket and the federal
+  government piled up a surplus. Now, each January, the federal brackets and
+  standard deduction rise with prices and the Social Security wage base rises
+  with average pay. The 16 states whose law indexes their brackets do the same,
+  and so do the states that index their standard deduction. Other states keep
+  their dollar amounts until a law changes them. Nothing changes in the first
+  two years of play.
+
+- **Other states keep changing their laws year after year, each for a reason.**
+  Other states' legislatures used to change hundreds of laws in the first year
+  and then almost none. Now each state takes up what moved there since its last
+  session: people out of work, prices, pay, a budget that came in short or over,
+  or members newly elected. A few dozen to a hundred or more laws change across
+  the country every year, and each change records what moved in that state
+  before it.
+
+- **News opens on your own paper every time** News no longer opens on whichever
+  outlet printed the newest story. It opens on the outlet you follow, or else
+  your town's paper of record, which has its tab from the first day. The tabs
+  keep the same order while you play, and the tab you last chose stays in front
+  when you close and reopen News.
+
+- **A race's standing no longer shifts when old campaign contacts are filed
+  away** How many voters a candidate has reached and won over in a race now
+  reads the same after the game summarizes that race's older doors, ads and
+  speeches, counting only what happened in that campaign.
+
+- **Skipping ahead no longer stops when a short-handed employer has to dip into
+  its savings for two paydays in the same month.** When you skip time, a month's
+  paydays are all settled together on the first of the next month. An employer
+  short of cash on two of those paydays now draws its savings once for each, and
+  the skipped month finishes.
+
+- **A raised property tax moves rent after its twelve months, not at once** On
+  the Metrics tab, a property tax raised in the first month no longer moves rent
+  right away. Rent responds after the link's twelve-month lag.
+
+- **A disaster's repairs and aid now stay in the town it damaged, wherever you
+  live.** When you move away from the town you started in and a disaster hits
+  it, the aid and the repair bills now go to that town's own households and
+  builders. Before, the town you had moved to paid for repairs to homes in the
+  old one, and the old town's builders got nothing.
+
+### Changed
+
+- **Territory delegate races count the votes they really cast** Puerto Rico,
+  Guam, the Virgin Islands and the Northern Marianas now count a delegate race
+  sized by its 2024 votes cast, like any other district, instead of a race with
+  no voters.
+
+- **In states with no elected attorney general, the governor's appointed
+  attorney general now prosecutes.** Where a state has neither an elected county
+  prosecutor nor an elected attorney general, complaints now go to the person
+  the governor appointed as attorney general, not to an empty office.
+
+- **Private-school enrollment in your starting town now accounts for the share
+  of children your state homeschools.** A town's private-school places are now
+  counted out of children who are in school, not all school-age children, using
+  each state's Census homeschool share. The world records the share it used.
+
+- **A person card shows each leaning by its label** A person card shows each
+  leaning by its label (and its strength on your own card) without a sentence
+  that only said the label again. A President's earlier office names the
+  election year, and a jobless player's line says who is at home.
+
+- **A scene's opening says what its own record holds** A scene's opening says
+  what its own record holds: the employer and the job when someone calls about
+  an application, the school on a last day, the office of a race or an oath, the
+  bill under vote, the charge in court. Lines that said nothing particular are
+  gone.
+
+- **Telling a candidate "you've got my vote" after their speech now counts as
+  your word in the race.** When a candidate comes over after a speech you heard
+  in person and you say yes, that is now kept as your word to them, as a yes at
+  your door is, and the ballot reads it. Before, the reply was only a
+  conversation.
+
+- **Who owes a mortgage in your starting town, and how long ago they bought, now
+  follows your county.** A retirement county and a new suburb no longer open
+  with the same mortgages. Each town's owners now owe a mortgage, and bought
+  their homes, in the shares the Census records for its own county.
+
 ## PRE-ALPHA 0.107.0
 
 _Released November 12, 2026._

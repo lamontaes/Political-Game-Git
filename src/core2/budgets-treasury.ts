@@ -89,12 +89,56 @@ const DEBT = debtData as unknown as {
 export interface DebtRow {
   readonly id: string;
   readonly name: string;
-  readonly balanceMinor: number;
-  readonly borrowedMinor: number;
+  /** What the holder is owed, as whole units of `DEBT_SPLIT` and a remainder (exact past 2^53 minor units; read it with `debtBalanceMinor`). */
+  readonly balanceWhole: number;
+  readonly balanceRest: number;
+  /** What the holder has lent in all, in the same split (read it with `debtBorrowedMinor`). */
+  readonly borrowedWhole: number;
+  readonly borrowedRest: number;
   /** Principal repaid. Maturing debt is rolled over, so none is repaid here. */
   readonly repaidMinor: number;
   readonly interestPaidMinor: number;
 }
+
+/**
+ * A federal debt sum is kept as whole units of this size plus a remainder, both safe integers, so
+ * it stays exact however long a save runs (the plain sum passes 2^53 minor units in a long save).
+ * A power of two well inside the safe range; a storage split, not a game number.
+ */
+export const DEBT_SPLIT = 2 ** 50;
+/** The sum a split holds, as a number (exact while it is a safe integer, rounded after). */
+function debtMinor(whole: number, rest: number): number {
+  return whole * DEBT_SPLIT + rest;
+}
+/** The exact sum a split holds. */
+function debtExact(whole: number, rest: number): bigint {
+  return BigInt(whole) * BigInt(DEBT_SPLIT) + BigInt(rest);
+}
+/** A split plus one safe amount, exactly. */
+function addDebt(
+  whole: number,
+  rest: number,
+  amount: number,
+): { whole: number; rest: number } {
+  const total = BigInt(rest) + BigInt(amount);
+  const unit = BigInt(DEBT_SPLIT);
+  return {
+    whole: whole + Number(total / unit),
+    rest: Number(total % unit),
+  };
+}
+/** A holder's balance and lifetime lending as numbers, for shares and limits (rounded once past 2^53). */
+export const debtBalanceMinor = (h: DebtRow) =>
+  debtMinor(h.balanceWhole, h.balanceRest);
+export const debtBorrowedMinor = (h: DebtRow) =>
+  debtMinor(h.borrowedWhole, h.borrowedRest);
+/** The same, exact. */
+export const debtBalanceExact = (h: DebtRow) =>
+  debtExact(h.balanceWhole, h.balanceRest);
+export const debtBorrowedExact = (h: DebtRow) =>
+  debtExact(h.borrowedWhole, h.borrowedRest);
+const balanceOf = debtBalanceMinor;
+const borrowedOf = debtBorrowedMinor;
 
 /** Split a total by weights so the parts add up to it exactly (largest remainder). */
 function splitBy(total: number, weights: readonly number[]): number[] {
@@ -159,8 +203,12 @@ export function federalDebtOf(api: CoreAPI): DebtRow[] {
       rows.put({
         id: h.id,
         name: h.name,
-        balanceMinor: opening[i]!,
-        borrowedMinor: 0,
+        ...(() => {
+          const balance = addDebt(0, 0, opening[i]!);
+          return { balanceWhole: balance.whole, balanceRest: balance.rest };
+        })(),
+        borrowedWhole: 0,
+        borrowedRest: 0,
         repaidMinor: 0,
         interestPaidMinor: 0,
       } as unknown as ModuleRow),
@@ -961,7 +1009,7 @@ function debtLimitMinor(holders: readonly DebtRow[]): number {
   const lastDate = Object.keys(budget.totalPublicDebt).sort().pop()!;
   const room = budget.debtLimit - budget.totalPublicDebt[lastDate]!;
   const opening = holders.reduce(
-    (n, h) => n + h.balanceMinor - h.borrowedMinor + h.repaidMinor,
+    (n, h) => n + balanceOf(h) - borrowedOf(h) + h.repaidMinor,
     0,
   );
   const factor = held > 0 ? opening / (held * 100) : 1;
@@ -1003,7 +1051,7 @@ function borrowFederal(
     : null;
   if (limitLaw?.value === 1) {
     api.stopgap("SG-LAWS-debt-limit-binding");
-    const owed = holders.reduce((n, h) => n + h.balanceMinor, 0);
+    const owed = holders.reduce((n, h) => n + balanceOf(h), 0);
     amountMinor = Math.max(
       0,
       Math.min(wantedMinor, debtLimitMinor(holders) - owed),
@@ -1025,7 +1073,7 @@ function borrowFederal(
     if (wanted[i]! <= 0) return;
     const paid = accounts.transfer({
       // What the holder has lent so far keeps each borrowing's id its own.
-      id: `federal-borrowing:${holder.id}:${gov.id}:${date}:${holder.borrowedMinor}`,
+      id: `federal-borrowing:${holder.id}:${gov.id}:${date}:${debtBorrowedExact(holder)}`,
       from: accounts.main(outside),
       to: accounts.main(gov.organizationId),
       amountMinor: wanted[i]!,
@@ -1038,10 +1086,14 @@ function borrowFederal(
       },
     }).paidMinor;
     lent[holder.id] = paid;
+    const balance = addDebt(holder.balanceWhole, holder.balanceRest, paid);
+    const borrowed = addDebt(holder.borrowedWhole, holder.borrowedRest, paid);
     table(api, "federalDebt").put({
       ...holder,
-      balanceMinor: holder.balanceMinor + paid,
-      borrowedMinor: holder.borrowedMinor + paid,
+      balanceWhole: balance.whole,
+      balanceRest: balance.rest,
+      borrowedWhole: borrowed.whole,
+      borrowedRest: borrowed.rest,
     } as unknown as ModuleRow);
   });
   return lent;
@@ -1514,10 +1566,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       if (gov.level === "federal" && line === DEBT.interestLine) {
         // Net interest is paid to the groups that hold the debt, by what each holds.
         const holders = federalDebtOf(api);
-        const owed = splitBy(
-          p.outside,
-          holders.map((h) => h.balanceMinor),
-        );
+        const owed = splitBy(p.outside, holders.map(balanceOf));
         holders.forEach((holder, i) => {
           const paid = pay(
             `treasury-interest:${holder.id}:${gov.id}:${date}`,
