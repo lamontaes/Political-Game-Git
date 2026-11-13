@@ -1,11 +1,17 @@
 /* global fetch */
 // Dev mode's Scenes panel, on the Calendar beside Run until: every situation type the director
-// stages, with the cause it waits on. A type whose cause the game can bring about is forced through
-// that code (today a death a person in your circle will hear of); the rest are listed as having no
-// game code to attach to. Control names and record data only.
+// stages, under what dev mode can do for it (bring it about now, run the world until its cause
+// record comes, or nothing yet). Control names and record data only.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { select, statusLine } from "./fields.mjs";
+
+/** One state's row of kind buttons, named by its state for the checks. */
+function stateRow(state, buttons) {
+  const row = el("div", { className: "acts" }, ...buttons);
+  row.dataset.state = state;
+  return row;
+}
 
 async function send(path, input) {
   const response = await fetch(`/api/dev/${path}`, {
@@ -28,30 +34,48 @@ let lastType = "";
  */
 export async function devScenePanel({ labels, wordOf, onDone }) {
   const scenes = await send("scenes");
-  // The ones brought about directly first, then those that run the world until they happen, then the rest.
-  const rank = (row) => ({ death: 0, layoff: 1, wait: 2 })[row.recipe] ?? 3;
-  // Only a scene the game can bring about is offered, by its name alone: a kind nothing can
-  // start stays off, and no line explains the rest (owner, Nov 8, 2:15 a.m.: no subtexts).
-  const offered = [...scenes]
-    .filter((row) => row.recipe)
-    .sort((a, b) => rank(a) - rank(b));
+  // Every kind, under the one of three headings that says what dev mode can do for it (the
+  // engines' own records decide it, `scenes()`): bring it about now, run the world until its
+  // cause record comes, or nothing yet. No line under any button (owner, Nov 8, 2:15 a.m.: no
+  // subtexts); a kind nothing can start is listed and cannot be picked.
+  const STATES = ["plays", "waits", "none"];
+  const startable = scenes.filter((row) => row.state !== "none");
   let chosen =
-    offered.find((row) => row.key === lastType)?.key ?? offered[0]?.key;
-  // One button per scene, the chosen one lit (mock fr-dev-scene).
-  const buttons = offered.map((row) => {
-    const b = makeButton({ className: "action small", textContent: row.key });
-    b.dataset.scene = row.key;
-    b.setAttribute("aria-pressed", String(row.key === chosen));
-    b.addEventListener("click", () => {
-      chosen = row.key;
-      for (const other of buttons)
-        other.setAttribute(
-          "aria-pressed",
-          String(other.dataset.scene === chosen),
-        );
+    startable.find((row) => row.key === lastType)?.key ?? startable[0]?.key;
+  const buttons = [];
+  const groups = STATES.map((state) => {
+    const rows = scenes
+      .filter((row) => row.state === state)
+      .sort((a, b) => a.key.localeCompare(b.key));
+    const own = rows.map((row) => {
+      const b = makeButton({
+        className: "action small",
+        textContent: row.key,
+      });
+      b.dataset.scene = row.key;
+      b.dataset.state = state;
+      b.disabled = state === "none";
+      b.setAttribute("aria-pressed", String(row.key === chosen));
+      b.addEventListener("click", () => {
+        chosen = row.key;
+        for (const other of buttons)
+          other.setAttribute(
+            "aria-pressed",
+            String(other.dataset.scene === chosen),
+          );
+      });
+      buttons.push(b);
+      return b;
     });
-    return b;
-  });
+    return rows.length
+      ? [
+          el("h4", {
+            textContent: `${labels.states[state]} (${rows.length})`,
+          }),
+          stateRow(state, own),
+        ]
+      : [];
+  }).flat();
   // Who the scene is for, who is mourned (a death scene) and where it is set, from the director's own
   // records (GET /api/dev/scene-cast); each starts on "any", which leaves the choice to the director.
   const pick = { forId: "", mournedId: "", where: "" };
@@ -139,9 +163,13 @@ export async function devScenePanel({ labels, wordOf, onDone }) {
         ...(pick.mournedId ? { mournedId: pick.mournedId } : {}),
         ...(pick.where ? { where: pick.where } : {}),
       });
-      lastResult = [labels.begun, out.personId, ...out.causeRecords].join(
-        " · ",
-      );
+      // A run that waited says which record came and when, or that it never came in the days run.
+      const record = out.causeRecords[0] ?? "";
+      lastResult = out.ran
+        ? (out.ran.reason === "cap" ? labels.neverCame : labels.came)
+            .replace("{record}", record)
+            .replace("{days}", String(out.ran.days))
+        : [labels.begun, out.personId, ...out.causeRecords].join(" · ");
       result.textContent = lastResult;
       await onDone();
     } catch (error) {
@@ -155,7 +183,7 @@ export async function devScenePanel({ labels, wordOf, onDone }) {
     "section",
     { className: "dev-only dev-scene" },
     el("h3", { textContent: labels.title }),
-    el("div", { className: "acts" }, ...buttons),
+    ...groups,
     pickers,
     el("div", { className: "acts" }, make),
     result,
