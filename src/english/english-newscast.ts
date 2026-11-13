@@ -152,6 +152,18 @@ export const STORY_KINDS = {
     lede: ["signed"],
     context: ["bill-purpose", "signed-next"],
   },
+  // A study committee a body formed on a bill that narrowly failed, and its
+  // report: what the members now think of the bill, and who gave it to the body.
+  "study-formed": {
+    headline: ["study-formed"],
+    lede: ["study-formed"],
+    context: ["bill-purpose", "study-next"],
+  },
+  "study-reported": {
+    headline: ["study-reported"],
+    lede: ["study-reported"],
+    context: ["study-chair"],
+  },
   hearing: {
     headline: ["hearing"],
     lede: ["hearing"],

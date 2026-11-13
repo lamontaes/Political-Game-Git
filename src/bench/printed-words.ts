@@ -959,6 +959,68 @@ const memberVote: Builder = (read, f) => {
   );
 };
 
+/** A study committee's row, as the legislature engine keeps it. */
+type StudyRecord = {
+  readonly id: string;
+  readonly chairId: string;
+  readonly memberIds: readonly string[];
+  readonly sunsetOn: string;
+  readonly report?: { readonly on: string; readonly speechId: string | null };
+};
+
+/**
+ * A study committee a body formed on a bill that fell short: who chairs it,
+ * how many sit on it and when it reports, from the study's own row.
+ */
+const studyFormed: Builder = (read, f) => {
+  const study = read.row<StudyRecord>(
+    LEGISLATURE_MODULE_ID,
+    "studies",
+    f.studyId,
+  );
+  if (!study) return null;
+  return story(
+    "study-formed",
+    {
+      ...read.billFacts(f.billId, f.number),
+      ...read.billBody(f.billId),
+      ...read.who(study.chairId, "name", false),
+      members: read.fact(count(study.memberIds.length), study.id),
+      until: read.fact(spokenDate(study.sunsetOn), study.id),
+    },
+    ["designation", "members"],
+    study.chairId,
+  );
+};
+
+/**
+ * A study committee's report: which way its members now lean on the bill
+ * (the finding the legislature engine recorded) and whether its chair gave
+ * it to the body, which is what the members' next votes read.
+ */
+const studyReported: Builder = (read, f) => {
+  const study = read.row<StudyRecord>(
+    LEGISLATURE_MODULE_ID,
+    "studies",
+    f.studyId,
+  );
+  if (!study || (f.direction !== "for" && f.direction !== "against"))
+    return null;
+  return story(
+    "study-reported",
+    {
+      ...read.billFacts(f.billId, f.number),
+      ...read.billBody(f.billId),
+      ...read.who(study.chairId, "name", false),
+      date: read.date(),
+      [`members-${f.direction}`]: read.yes(),
+      ...(study.report?.speechId ? { presented: read.yes() } : {}),
+    },
+    ["designation"],
+    study.chairId,
+  );
+};
+
 /** Lawmakers' vote to override a veto. */
 const override: Builder = (read, f) =>
   story(
@@ -3362,6 +3424,8 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "bill-vote": rollCall,
   "committee-hearing": committee,
   "bill-held-in-committee": committee,
+  "study-formed": studyFormed,
+  "study-reported": studyReported,
   committee,
   "veto-override": override,
   "bill-amendment": amendment,
