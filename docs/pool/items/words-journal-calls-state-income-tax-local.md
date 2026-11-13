@@ -35,3 +35,5 @@ claimed-at:
 **Waits on.** Words for the level subjects from the Words session.
 
 **Files.** src/director/journal.ts, src/english/policy-names.ts, data/english/bill-sections.json
+
+**Notes.** Iowa case (Account lead T25, Nov 13, 2026; Danville, Iowa, seed 4b0fc31d-ba59-4168-8b84-d7c0e3f826b6, train c39bbb71): Danville has no city income tax, and the Journal said 'I learned the law on the local income tax rate changed my costs' (May 10 and Aug 12, 2025) and 'That law on the local income tax rate is behind what I pay now' every week in November 2025.

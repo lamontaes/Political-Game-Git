@@ -35,3 +35,5 @@ claimed-at:
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/campaigns.ts
+
+**Notes.** Iowa evidence (Account lead T25, Nov 13, 2026; Danville, Iowa, seed 4b0fc31d-ba59-4168-8b84-d7c0e3f826b6, train c39bbb71): Danville has about 400 homes; Campaign showed 1,724 doors knocked by Sep 7 and 4,215 by Oct 30, 2025, with 236 voters reached. Petitions held 358, 299, 285 and 156 signatures for council and 273 for mayor where 10 were needed, about 1,370 signatures in a town of about 700 adults.

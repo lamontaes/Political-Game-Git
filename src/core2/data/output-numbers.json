@@ -902,6 +902,54 @@
         "key": "spending",
         "unit": "money"
       }
+    },
+    "school.spending-per-student": {
+      "id": "school.spending-per-student",
+      "owner": "core2-school-days-v1",
+      "unit": "dollars-a-year",
+      "level": "place",
+      "denominator": "students aged 5 to 17 in the town on September 1",
+      "cadence": "yearly",
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "The schools lines of the town's city and county budgets in force (Census school finance base, 2024 Annual Survey of School System Finances, plus the town's own amendments) per resident, times the town's residents, over the town's students aged 5 to 17 on September 1, named and counted, from the school engine's own yearly record."
+      },
+      "fold": "december",
+      "traceInputs": [
+        "students",
+        "residents",
+        "schoolsPerResident",
+        "measureId",
+        "budgetIds"
+      ],
+      "kept": {
+        "table": "years",
+        "field": "schoolSpendingPerStudent"
+      }
+    },
+    "school.students": {
+      "id": "school.students",
+      "owner": "core2-school-days-v1",
+      "unit": "people",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The school engine's count of the town's residents aged 5 to 17 on September 1: full people plus counted weights."
+      },
+      "fold": "december",
+      "traceInputs": [
+        "students",
+        "residents",
+        "schoolsPerResident",
+        "measureId",
+        "budgetIds"
+      ],
+      "kept": {
+        "table": "years",
+        "field": "schoolStudents"
+      }
     }
   }
 }
