@@ -486,8 +486,8 @@ function joinedStatement(
     text: said.map((line) => line.text).join(" "),
     parts: said.flatMap((line) => line.parts),
     slotRecordIds: [...new Set(said.flatMap((line) => line.slotRecordIds))],
-    asks: said.at(-1)!.asks,
-    invites: said.at(-1)!.invites,
+    asks: said.at(-one)!.asks,
+    invites: said.at(-one)!.invites,
   };
 }
 
