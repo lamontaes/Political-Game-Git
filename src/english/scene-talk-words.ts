@@ -18,7 +18,13 @@
 import { P } from "../core2/parameters";
 import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import tagsFile from "../../data/english/scene-talk-tags.json" with { type: "json" };
-import { renderLine, type Fact } from "./bank-line";
+import { conversationPacket, renderLine, type Fact } from "./bank-line";
+import {
+  composeJoinedLine,
+  LINE_PARTS,
+  type LinePart,
+} from "./english-composition";
+import { stableHash } from "../core2/kernel/ids";
 
 export type { Fact };
 import { admittedParts, directorSlots } from "./bank-parts";
@@ -67,6 +73,12 @@ export interface BankPart {
   text: string;
   bearing?: string;
   uses: PartUse[];
+  /**
+   * A piece of a sentence the engine joins (the `words-engine` skill, "How a
+   * joined piece says so"): `of` names the sentence, `part` which part of it
+   * this is, and `required` whether every such sentence has that part.
+   */
+  piece?: { of: string; part: LinePart; required?: boolean };
 }
 
 const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
@@ -130,12 +142,16 @@ export interface SceneWordingOptions {
   includeHeld?: boolean;
   /** The "no" verdicts the picker reads instead of the file's (the tests pass a fixture). */
   replyFollows?: ReplyFollowsTable;
+  /** The pieces the picker reads instead of the bank's (the tests pass a fixture). */
+  parts?: readonly BankPart[];
 }
 
 /** A worded turn: its text, the piece it came from and what the piece carries. */
 export interface WordedMove {
   text: string;
   pieceKey: string;
+  /** Every piece a joined sentence was made of, in order; absent for a whole piece. */
+  pieceKeys?: readonly string[];
   /** The step the piece was written for (a "continue" may fall back to "follow"). */
   step: SceneTalkStep;
   bearing?: string;
@@ -218,6 +234,23 @@ export function fitting(
   parts: readonly BankPart[] = SHIPPED,
   verdicts: ReplyFollowsTable = REPLY_FOLLOWS,
 ): BankPart[] {
+  return scoredFits(
+    use,
+    facts,
+    (part) => !part.piece && keep(part),
+    parts,
+    verdicts,
+  ).parts;
+}
+
+/** The closest-fitting pieces and how closely they fit (-1 when none do). */
+function scoredFits(
+  use: SceneMove,
+  facts: Readonly<Record<string, Fact>>,
+  keep: (part: BankPart) => boolean,
+  parts: readonly BankPart[],
+  verdicts: ReplyFollowsTable,
+): { parts: BankPart[]; specific: number } {
   const steps = Array.isArray(use.step) ? use.step : [use.step];
   const fits = parts.filter(keep).flatMap((part) => {
     // A piece may carry one use for each purpose it serves: take the best fit.
@@ -231,8 +264,74 @@ export function fitting(
     ? fits.filter((row) => follows(row.part.key, answered, verdicts))
     : fits;
   const rows = following.length ? following : fits;
-  const best = Math.max(zero, ...rows.map((row) => row.specific));
-  return rows.filter((row) => row.specific === best).map((row) => row.part);
+  if (!rows.length) return { parts: [], specific: -one };
+  const best = Math.max(...rows.map((row) => row.specific));
+  return {
+    parts: rows.filter((row) => row.specific === best).map((row) => row.part),
+    specific: best,
+  };
+}
+
+/** A sentence the engine can join for a move: its pieces by part, and how closely its core fits. */
+export interface JoinedSentence {
+  of: string;
+  specific: number;
+  parts: Partial<Record<LinePart, BankPart[]>>;
+  required: ReadonlySet<LinePart>;
+}
+
+/**
+ * The sentences joined from pieces that fit a move, most specific first. A
+ * sentence fits when every part it requires has a piece that fits; within a
+ * part the closest-fitting pieces serve, and the sentence fits as closely as
+ * its core.
+ */
+export function joinedFitting(
+  use: SceneMove,
+  facts: Readonly<Record<string, Fact>>,
+  keep: (part: BankPart) => boolean = () => true,
+  parts: readonly BankPart[] = SHIPPED,
+  verdicts: ReplyFollowsTable = REPLY_FOLLOWS,
+): JoinedSentence[] {
+  const bySentence = new Map<string, BankPart[]>();
+  for (const part of parts)
+    if (part.piece && keep(part))
+      bySentence.set(part.piece.of, [
+        ...(bySentence.get(part.piece.of) ?? []),
+        part,
+      ]);
+  const out: JoinedSentence[] = [];
+  for (const [of, pieces] of bySentence) {
+    const required = new Set<LinePart>(
+      pieces.filter((p) => p.piece!.required).map((p) => p.piece!.part),
+    );
+    required.add("core");
+    const sentence: JoinedSentence = {
+      of,
+      specific: -one,
+      parts: {},
+      required,
+    };
+    let fits = true;
+    for (const name of LINE_PARTS) {
+      const fit = scoredFits(
+        use,
+        facts,
+        (p) => p.piece!.part === name,
+        pieces,
+        verdicts,
+      );
+      if (!fit.parts.length) {
+        if (required.has(name)) fits = false;
+        continue;
+      }
+      sentence.parts[name] = fit.parts;
+      if (name === "core") sentence.specific = fit.specific;
+    }
+    if (fits) out.push(sentence);
+  }
+  const best = Math.max(-one, ...out.map((row) => row.specific));
+  return out.filter((row) => row.specific === best);
 }
 
 /**
@@ -268,18 +367,59 @@ export function wordSceneMove(input: {
       (step) => step === "narrate" || step === "open" || step === "state",
     );
   // Tagged pieces are only ever the extra option.
-  const every = fitting(
+  const keepPart = (part: BankPart) =>
+    !!taggedBy(part) === onlyTagged &&
+    !(options.freshOnly && options.shown?.has(part.key)) &&
+    !(strictSetup && (options.usage!.get(part.key) ?? zero) > zero);
+  const pool = options.parts ?? (options.includeHeld ? PARTS : SHIPPED);
+  const verdicts = options.replyFollows ?? REPLY_FOLLOWS;
+  const whole = scoredFits(
     use,
     facts,
-    (part) =>
-      !!taggedBy(part) === onlyTagged &&
-      !(options.freshOnly && options.shown?.has(part.key)) &&
-      !(strictSetup && (options.usage!.get(part.key) ?? zero) > zero),
-    options.includeHeld ? PARTS : SHIPPED,
-    options.replyFollows,
+    (part) => !part.piece && keepPart(part),
+    pool,
+    verdicts,
   );
-  if (!every.length && strictSetup)
+  const every = whole.parts;
+  // Sentences joined from pieces fit as closely as their core; one that fits
+  // more closely than every whole piece is said instead, and at an equal fit
+  // the two kinds share the pick.
+  const joined = joinedFitting(use, facts, keepPart, pool, verdicts).filter(
+    (row) => !every.length || row.specific >= whole.specific,
+  );
+  if (!every.length && !joined.length && strictSetup)
     return { unused: `${use.purpose}/${steps[zero]}/${use.move}` };
+  const named = [...input.said].some((key) => VOCATIVE_KEYS.has(key));
+  if (joined.length) {
+    const unsaid = joined.flatMap((row) =>
+      unsaidSentence(row, input.said, named, options),
+    );
+    // Every sentence said on this branch already: one is said again rather
+    // than leave the spot silent.
+    const sentences = unsaid.length
+      ? unsaid
+      : joined.flatMap((row) => unsaidSentence(row, new Set(), named, options));
+    const wholeShare =
+      every.length && joined[zero]!.specific === whole.specific
+        ? every.length
+        : zero;
+    const order = sentences.length
+      ? Number(
+          BigInt(
+            `0x${stableHash(`${input.seed}:${input.momentKey}:${use.purpose}:${use.move}:joined`)}`,
+          ) % BigInt(sentences.length + wholeShare),
+        )
+      : wholeShare;
+    // The sentence the stable pick lands on first, then the rest, so a
+    // sentence whose facts cannot all be worded gives way to the next.
+    for (let at = zero; at < sentences.length; at++) {
+      const pick = (order + at) % (sentences.length + wholeShare);
+      if (pick >= sentences.length) break;
+      const worded = joinedMove(input, steps, sentences[pick]!, named);
+      if (worded) return worded;
+    }
+    if (!wholeShare) return null;
+  }
   // A variant's own pieces come first; once they have all been said on this
   // branch, the family's pieces serve again (the variant writes what makes it
   // differ, and the family's lines carry the rest of the exchange).
@@ -292,7 +432,7 @@ export function wordSceneMove(input: {
             !!taggedBy(part) === onlyTagged &&
             !(options.freshOnly && options.shown?.has(part.key)) &&
             !(strictSetup && (options.usage!.get(part.key) ?? zero) > zero),
-          options.includeHeld ? PARTS : SHIPPED,
+          pool,
           options.replyFollows,
         ).filter((part) => !input.said.has(part.key))
       : [];
@@ -302,7 +442,6 @@ export function wordSceneMove(input: {
     : every.filter((part) => !input.said.has(part.key));
   let parts = fresh.length ? fresh : every;
   if (!parts.length) return null;
-  const named = [...input.said].some((key) => VOCATIVE_KEYS.has(key));
   if (named) {
     const plain = parts.filter((part) => !VOCATIVE_KEYS.has(part.key));
     if (plain.length) parts = plain;
@@ -357,20 +496,107 @@ export function wordSceneMove(input: {
   };
 }
 
+/**
+ * A joined sentence as it may be said on this branch: within each part, the
+ * pieces not already said while another remains, not naming the other person
+ * again once a line has, and not seen on an earlier page. A sentence whose
+ * every core was said is not said again; nothing, when a required part has
+ * nothing left.
+ */
+function unsaidSentence(
+  row: JoinedSentence,
+  said: ReadonlySet<string>,
+  named: boolean,
+  options: SceneWordingOptions,
+): JoinedSentence[] {
+  const parts: Partial<Record<LinePart, BankPart[]>> = {};
+  for (const name of LINE_PARTS) {
+    let pieces = row.parts[name];
+    if (!pieces?.length) continue;
+    const fresh = pieces.filter((part) => !said.has(part.key));
+    if (name === "core" && !fresh.length) return [];
+    if (fresh.length) pieces = fresh;
+    if (named) {
+      const plain = pieces.filter((part) => !VOCATIVE_KEYS.has(part.key));
+      if (plain.length) pieces = plain;
+    }
+    const unseen = pieces.filter((part) => !options.shown?.has(part.key));
+    if (unseen.length || options.freshOnly) pieces = unseen;
+    if (!pieces.length) {
+      if (row.required.has(name)) return [];
+      continue;
+    }
+    parts[name] = pieces;
+  }
+  return [{ ...row, parts }];
+}
+
+/** Word one joined sentence in the speaker's voice, or null when its facts cannot carry it. */
+function joinedMove(
+  input: Parameters<typeof wordSceneMove>[0],
+  steps: readonly SceneTalkStep[],
+  sentence: JoinedSentence,
+  named: boolean,
+): WordedMove | null {
+  const facts = Object.fromEntries(
+    Object.entries(input.facts).filter(([, fact]) => fact.text !== ""),
+  );
+  const packet = conversationPacket({
+    worldSeed: input.seed,
+    surface: "dialogue",
+    holderId: input.speakerId,
+    bankVersion: "scene-talk-v1",
+    stage: "default",
+    facts,
+    momentKey: `${input.momentKey}/${sentence.of}`,
+    fallbackSourceId: input.speakerId,
+    voice: { traits: input.traits, register: "scene-talk" },
+  });
+  const line = composeJoinedLine(packet, {
+    key: `scene-talk.${sentence.of}`,
+    version: "scene-talk-v1",
+    move: input.move.move,
+    pieces: LINE_PARTS.flatMap((name) =>
+      (sentence.parts[name] ?? []).map((part) => ({
+        key: part.key,
+        text: named
+          ? directorSlots(part.text).replace(TAIL_NAME, "")
+          : directorSlots(part.text),
+        part: name,
+        ...(sentence.required.has(name) ? { required: true } : {}),
+        ...(part.bearing ? { bearing: part.bearing } : {}),
+      })),
+    ),
+  });
+  if (!line) return null;
+  const coreKey =
+    line.parts.find((part) => part.part === "core")?.variantKey ?? "";
+  const core = sentence.parts.core?.find((part) => part.key === coreKey);
+  const text = line.text.trim();
+  return {
+    text,
+    pieceKey: coreKey,
+    pieceKeys: line.parts.map((part) => part.variantKey),
+    step: (core?.uses.find((u) => (steps as string[]).includes(u.step))?.step ??
+      steps[zero]) as SceneTalkStep,
+    ...(core?.bearing ? { bearing: core.bearing } : {}),
+    asks: /\?$/.test(text),
+    invites: INVITES.test(text),
+    slotRecordIds: [...line.sourceRecordIds],
+  };
+}
+
 /** Whether any piece can word a move from these facts (a close the asker could say). */
 export function sceneMoveFits(
   use: SceneMove,
   facts: Readonly<Record<string, Fact>>,
   options: Pick<SceneWordingOptions, "includeHeld" | "replyFollows"> = {},
 ): boolean {
+  const parts = options.includeHeld ? PARTS : SHIPPED;
   return (
-    fitting(
-      use,
-      facts,
-      undefined,
-      options.includeHeld ? PARTS : SHIPPED,
-      options.replyFollows,
-    ).length > zero
+    fitting(use, facts, undefined, parts, options.replyFollows).length > zero ||
+    joinedFitting(use, facts, undefined, parts, options.replyFollows).length >
+      zero
   );
 }
 

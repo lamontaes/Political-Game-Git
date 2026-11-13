@@ -101,6 +101,7 @@ export function worldGoods(seed: string): {
       ...g.fuel,
       ceAnnualMinor: Math.round(g.fuel.ceAnnualMinor * level("fuel")),
     },
+    // stopgapId: SG-WEB-fare-free-riders-unread (a fare-free law's added riders pay a zero fare and nothing else reads them)
     "transit-fare": {
       ...g["transit-fare"],
       tripsPerHouseholdYear:
@@ -942,6 +943,37 @@ const PRICE_LAW_QUESTIONS: ReadonlySet<string> = new Set(
   Object.values(PRICE_LAWS),
 );
 
+/**
+ * The price change an energy-pricing statute makes, as a share of what the
+ * good costs: the one rule the monthly settlement charges (`readPriceLaws`
+ * puts it in the rules table) and the year cost of a business reads
+ * (`businessEnergyCostYear`), so the two cannot drift apart. Null for a
+ * statute that sets no energy price.
+ */
+export function energyPriceRule(
+  api: CoreAPI,
+  question: string,
+): { good: Good; kind: "share"; value: number } | null {
+  const p = lawParameters.parameters;
+  if (question === PRICE_LAWS.cleanElectricity)
+    return {
+      good: "electricity",
+      kind: "share",
+      value: p.cleanElectricityPriceShare.value,
+    };
+  if (question === PRICE_LAWS.carbonPrice)
+    return {
+      good: "fuel",
+      kind: "share",
+      value:
+        (p.carbonPricePerTonDollars.value *
+          p.householdTonsPerYear.value *
+          p.centsPerDollar.value) /
+        worldGoods(api.state.seed).goods.fuel.ceAnnualMinor,
+    };
+  return null;
+}
+
 /** Read statutes where the existing price engine is about to charge use. */
 function readPriceLaws(api: CoreAPI): void {
   if (!api.state.modules.has(LAWS_MODULE_ID)) return;
@@ -1013,11 +1045,7 @@ function readPriceLaws(api: CoreAPI): void {
   // policy sizes, not metered utility bills or a delivered explanation yet.
   sync(
     PRICE_LAWS.cleanElectricity,
-    {
-      good: "electricity",
-      kind: "share",
-      value: p.cleanElectricityPriceShare.value,
-    },
+    energyPriceRule(api, PRICE_LAWS.cleanElectricity)!,
     "SG-GOV-REACH-B-energy-price",
   );
   // Retail electric choice cuts residential electricity prices in the years
@@ -1043,15 +1071,7 @@ function readPriceLaws(api: CoreAPI): void {
   );
   sync(
     PRICE_LAWS.carbonPrice,
-    {
-      good: "fuel",
-      kind: "share",
-      value:
-        (p.carbonPricePerTonDollars.value *
-          p.householdTonsPerYear.value *
-          p.centsPerDollar.value) /
-        worldGoods(api.state.seed).goods.fuel.ceAnnualMinor,
-    },
+    energyPriceRule(api, PRICE_LAWS.carbonPrice)!,
     "SG-GOV-REACH-B-energy-price",
     true,
   );
@@ -1125,22 +1145,7 @@ export function businessEnergyCostYear(
   question: string,
   annualOtherCostsMinor: number,
 ): number | null {
-  const p = lawParameters.parameters;
-  const rule: Record<string, { good: Good; value: number }> = {
-    "us-policy-positions:environment-energy.clean-electricity-standard": {
-      good: "electricity",
-      value: p.cleanElectricityPriceShare.value,
-    },
-    "us-policy-positions:environment-energy.price-carbon": {
-      good: "fuel",
-      value:
-        (p.carbonPricePerTonDollars.value *
-          p.householdTonsPerYear.value *
-          p.centsPerDollar.value) /
-        worldGoods(api.state.seed).goods.fuel.ceAnnualMinor,
-    },
-  };
-  const row = rule[question];
+  const row = energyPriceRule(api, question);
   if (!row) return null;
   const share = api.parameter(
     row.good === "electricity"

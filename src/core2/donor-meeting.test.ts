@@ -12,6 +12,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { setJournalTrace } from "./journal-state";
 import type { CoreState } from "./types";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
@@ -24,7 +25,7 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import {
-  CAMPAIGNS_MODULE_ID,
+  CAMPAIGN_MONEY_KINDS,
   campaignFor,
   contributionLimit,
   donorMeetingInvitees,
@@ -84,6 +85,29 @@ function world() {
     )
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
   return { core, api, residents, where };
+}
+
+interface CampaignPayment {
+  readonly kind: string;
+  readonly id: string;
+  readonly postings: readonly {
+    readonly accountId: string;
+    readonly deltaMinor: number;
+  }[];
+}
+
+/** The campaign payments the journal posts while `act` runs: each one's source and postings. */
+function campaignPayments<T>(act: () => T): [T, CampaignPayment[]] {
+  const payments: CampaignPayment[] = [];
+  setJournalTrace((input) => {
+    if (CAMPAIGN_MONEY_KINDS.includes(input.sourceRef.kind))
+      payments.push({ ...input.sourceRef, postings: input.postings });
+  });
+  try {
+    return [act(), payments];
+  } finally {
+    setJournalTrace(null);
+  }
 }
 
 function file(
@@ -167,17 +191,11 @@ describe("a donor meeting", () => {
         donorMeetingInvitees(api, campaignFor(api, id), hostId),
       );
       const before = campaignFor(api, id);
-      const donations = () =>
-        (
-          api
-            .moduleState(CAMPAIGNS_MODULE_ID)
-            .table("money")
-            .rows() as unknown as { kind: string }[]
-        ).filter((r) => r.kind === "campaigns:donation").length;
-      const donationsBefore = donations();
 
       const keptBefore = new Set(core.durableLog.keys());
-      const day = takeCampaignDayChoice(api, id, "donor-meeting");
+      const [day, payments] = campaignPayments(() =>
+        takeCampaignDayChoice(api, id, "donor-meeting"),
+      );
       const meeting = day.donorMeeting;
       expect(meeting, where).not.toBeNull();
       expect(meeting!.hostId, where).toBe(hostId);
@@ -259,7 +277,19 @@ describe("a donor meeting", () => {
         expect(event?.facts?.donorId, where).toBe(gift.personId);
         expect(event?.facts?.amountMinor, where).toBe(String(gift.givenMinor));
       }
-      expect(donations() - donationsBefore, where).toBe(givers.length);
+      // One entry on the cash journal a giver, each what they gave, into
+      // the committee's cash.
+      const donations = payments.filter((r) => r.kind === "campaigns:donation");
+      expect(donations.length, where).toBe(givers.length);
+      expect(
+        donations.map(
+          (r) =>
+            r.postings.find(
+              (p) => p.accountId === `cash:${after.organizationId}:residual`,
+            )?.deltaMinor,
+        ),
+        `donations into the committee's cash: ${where}`,
+      ).toEqual(givers.map((a) => a.givenMinor));
 
       // The meeting itself is a record a scene can read.
       const record = core.durableLog.get(meeting!.id);
