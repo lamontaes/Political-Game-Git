@@ -12,6 +12,7 @@ import { personLean } from "../core2/campaign-views";
 import { appointmentsIn } from "../core2/modules/executive";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
 import { meetingsOn } from "../core2/modules/interest-groups";
+import { OFFICES_MODULE_ID, servingTermsOf } from "../core2/modules/offices";
 import {
   LEGISLATURE_MODULE_ID,
   billOf,
@@ -35,7 +36,11 @@ import {
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { billNameFor, spokenDesignation } from "../english/bill-names";
+import {
+  billNameFor,
+  billTitleOf,
+  spokenDesignation,
+} from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { questionAbout } from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
@@ -55,7 +60,7 @@ import {
 } from "../core2/modules/news";
 import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
-import { withArticle } from "../english/journal-words";
+import { addressedAs, withArticle } from "../english/journal-words";
 import {
   JOBS_MODULE_ID,
   JOB_OFFERED_EVENT,
@@ -354,6 +359,23 @@ function composeBinding(
   const town = corePlaceByJurisdictionId(asked.placeId as never);
   if (town)
     facts.place = { text: spoken(town), sourceRecordIds: [asked.placeId] };
+  // An official is hailed by office and family name, from the term they
+  // serve ("Commissioner McGee"; Fable B's street stop, Deep River,
+  // Washington); an office with no such form is hailed by first name.
+  const term = core.modules.has(OFFICES_MODULE_ID)
+    ? servingTermsOf(coreAPI(core as CoreState), askedId)[P.zero]
+    : undefined;
+  const office = term
+    ? (coreAPI(core as CoreState)
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .get(term.officeId) as unknown as { title?: string } | undefined)
+    : undefined;
+  const hailed = office?.title
+    ? addressedAs(office.title, asked.familyName)
+    : null;
+  if (hailed)
+    facts.addressed = { text: hailed, sourceRecordIds: [term!.id, askedId] };
   // What the cause record is about (a shared cause, a speech), as the bill
   // catalog names its topic.
   const cause = record?.topic ? topicInSentence(record.topic) : null;
@@ -381,6 +403,16 @@ function composeBinding(
       sourceRecordIds: [billId ?? moment.causeId, moment.causeId],
     };
   }
+  // A resident who stops an official says the measure by its name, never
+  // its number (Fable B's street stop, Deep River, Washington: "I read about
+  // Ordinance 2025-1." of the county's budget).
+  const titled =
+    type.purpose === "law-reaches" && named ? billTitleOf(named) : null;
+  if (titled)
+    facts.bill = {
+      text: `the ${titled.title}`,
+      sourceRecordIds: [billId!, moment.causeId],
+    };
   // The asked person's own row on the bill's roll call, so a line that says
   // how they voted is said only when the roll holds it, and one that says
   // they were not in the vote only when it does not (Fable B's street stop,

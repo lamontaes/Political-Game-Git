@@ -128,6 +128,7 @@ const RULES = rulesFile as unknown as {
   terminalFollow: string[];
   tree: { maxReplies: { value: number }; maxNodes: { value: number } };
   bluntGreeting: { value: number };
+  repeatClauseMinLength: { value: number };
 };
 export type Outcome = "resolved" | "refused" | "open";
 
@@ -1006,7 +1007,7 @@ export function composeSceneTalk(
     openMove === "greet" &&
     (askerTraits["people-mind-v1:sociability"] ?? zero) <=
       -RULES.bluntGreeting.value;
-  const open = blunt
+  let open = blunt
     ? null
     : render(
         { step: "open", move: openMove, role: "asker", ...base },
@@ -1083,13 +1084,51 @@ export function composeSceneTalk(
       } else gap("follow", "answer", `${openAuto.move} (after the open)`);
     } else gap("auto", openAuto.move, "open");
   }
-  const statement = render(
+  // No clause twice in one box (Fable B's street stop, Deep River,
+  // Washington: "I read about Ordinance 2025-1." then "I keep reading about
+  // Ordinance 2025-1."): a statement that says again a fact the open already
+  // said is set aside for a spare; with no spare, the open gives way.
+  const told = (line: SceneTalkLine | null) =>
+    line
+      ? Object.values(facts)
+          .map((fact) => fact.text)
+          .filter(
+            (text) =>
+              text.length > RULES.repeatClauseMinLength.value &&
+              line.text.includes(text),
+          )
+      : [];
+  const repeats = (line: SceneTalkLine | null) =>
+    !!line && told(open).some((text) => line.text.includes(text));
+  let statement = render(
     { step: "state", move: arc.state, role: "asker", ...base },
     cast.askerId,
     askerTraits,
     "state",
     said,
   );
+  if (open && repeats(statement)) {
+    const spare = render(
+      { step: "state", move: arc.state, role: "asker", ...base },
+      cast.askerId,
+      askerTraits,
+      "state:spare",
+      addParts(said, statement!),
+    );
+    if (spare && !repeats(spare)) statement = spare;
+    else {
+      open = null;
+      intro.length = zero;
+      said = addParts(none, narrate);
+      statement = render(
+        { step: "state", move: arc.state, role: "asker", ...base },
+        cast.askerId,
+        askerTraits,
+        "state",
+        said,
+      );
+    }
+  }
   if (!statement)
     return {
       kind: "skipped",

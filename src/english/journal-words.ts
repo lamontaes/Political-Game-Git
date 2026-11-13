@@ -707,3 +707,16 @@ export function employerSaid(name: string, record: EmployerRecord): string {
     ? `the ${name}`
     : name;
 }
+
+/**
+ * How a resident hails an official by office and family name ("Commissioner
+ * McGee"), from the office's title and the forms in
+ * `data/english/seat-words.json`; null for an office with no form there, which
+ * is hailed by first name instead.
+ */
+export function addressedAs(title: string, familyName: string): string | null {
+  const row = (
+    seatWords as unknown as { address: { match: string; said: string }[] }
+  ).address.find((form) => new RegExp(form.match, "i").test(title.trim()));
+  return row ? `${row.said} ${familyName}` : null;
+}

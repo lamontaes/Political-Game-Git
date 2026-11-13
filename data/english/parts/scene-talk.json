@@ -116,7 +116,11 @@
     "hours": "An opening's hours a week, from the job it was modeled on: 40.",
     "crew": "How many people work at the employer now, full people and counted workers alike: 12.",
     "replaced": "The full name of the person whose job an opening fills.",
-    "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record."
+    "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record.",
+    "addressed": "An official hailed by office and family name (\"Commissioner McGee\"), from the term they serve and data/english/seat-words.json's address forms.",
+    "voted-for": "The asked member's own row on the bill's roll call says yes.",
+    "voted-against": "The asked member's own row on the bill's roll call says no.",
+    "no-vote": "The bill's roll call holds no row for the asked member."
   },
   "maxWords": 70,
   "parts": [
@@ -23593,87 +23597,6 @@
       "tag": {
         "move": "thank",
         "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.this-isn-t-the-place",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "This isn't the place.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "law-reaches",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.at-least-you-said-it-to-my-face",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "At least you said it to my face.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "law-reaches",
-          "key": "news-received"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "after": "confess"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-m-sorry-i-have-to-go",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'm sorry. I have to go.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "law-reaches",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "news-received"
       }
     },
     {
@@ -79324,6 +79247,903 @@
       }
     },
     {
+      "key": "scene-talk.open-greet.addressed-do-you-have-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{addressed}. Do you have a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["addressed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.addressed-can-i-have-a-word",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{addressed}? Can I have a word?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["addressed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.excuse-me-addressed-have-you-got-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Excuse me, {addressed}. Have you got a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["addressed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-do-you-have-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}? Do you have a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["first"],
+          "excludesFacts": ["addressed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.youre-first-arent-you-can-i-have-a-word",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You're {first}, aren't you? Can I have a word?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["first"],
+          "excludesFacts": ["addressed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.excuse-me-first-have-you-got-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Excuse me, {first}. Have you got a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["first"],
+          "excludesFacts": ["addressed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-voted-for-bill-because-i-thought-it-was-right-for-place-heres-why",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I voted for {bill} because I thought it was right for {place}. Here's why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["voted-for", "bill", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-voted-for-bill-and-it-was-a-hard-vote-ill-tell-you-what-i-weighed",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I voted for {bill}, and it was a hard vote. I'll tell you what I weighed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["voted-for", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-voted-against-bill-because-i-didnt-think-it-was-right-for-place-heres-why",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I voted against {bill} because I didn't think it was right for {place}. Here's why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["voted-against", "bill", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-voted-against-bill-and-it-wasnt-an-easy-no-ill-tell-you-what-i-weighed",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I voted against {bill}, and it wasn't an easy no. I'll tell you what I weighed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["voted-against", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-wasnt-in-that-vote-tell-me-what-you-read-about-bill",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I wasn't in that vote. Tell me what you read about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["no-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-didnt-get-a-vote-on-bill-but-i-want-to-hear-what-its-doing-to-you",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I didn't get a vote on {bill}, but I want to hear what it's doing to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["no-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-didnt-vote-on-law-but-tell-me-what-its-doing-to-you",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I didn't vote on {law}, but tell me what it's doing to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["law"],
+          "excludesFacts": ["bill", "voted-for", "voted-against", "no-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.this-isnt-the-place-to-talk-about-bill",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "This isn't the place to talk about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.bill-deserves-more-than-a-street-corner-come-to-the-next-meeting",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "{bill} deserves more than a street corner. Come to the next meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.this-isnt-the-place-to-talk-about-law",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "This isn't the place to talk about {law}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"],
+          "excludesFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.im-sorry-i-have-to-go-but-ill-think-about-what-you-said-about-bill",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm sorry, I have to go. But I'll think about what you said about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.im-sorry-i-have-to-go-call-my-office-about-law",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm sorry, I have to go. Call my office about {law}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"],
+          "excludesFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.ill-look-into-bill-and-call-you-this-week",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll look into {bill} and call you this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.tell-me-what-bill-is-doing-to-you-and-ill-take-it-back-to-the-others",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Tell me what {bill} is doing to you, and I'll take it back to the others.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.give-me-your-number-ill-look-into-what-bill-means-for-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Give me your number. I'll look into what {bill} means for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.tell-me-what-law-is-doing-to-you-and-ill-take-it-back-to-the-others",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Tell me what {law} is doing to you, and I'll take it back to the others.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["law"],
+          "excludesFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-wasnt-the-only-vote-for-bill",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I wasn't the only vote for {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "requiresFacts": ["voted-for", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.take-bill-up-with-the-ones-who-voted-for-it",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "Take {bill} up with the ones who voted for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "requiresFacts": ["voted-against", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.i-hear-your-reasons-bill-still-lands-on-us",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "I hear your reasons. {bill} still lands on us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-doesnt-help-us-here-in-place",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That doesn't help us here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.your-reasons-dont-pay-our-bills-in-place",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Your reasons don't pay our bills in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-where-first-youre-the-one-we-elected",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then where, {first}? You're the one we elected.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.if-not-here-when-bill-is-already-on-us",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "If not here, when? {bill} is already on us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-cant-walk-away-from-bill-on-a-street-corner",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You can't walk away from {bill} on a street corner.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-call-me-ill-be-waiting-to-hear-about-bill",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then call me. I'll be waiting to hear about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-people-in-place-will-want-to-know-what-you-find",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. People in {place} will want to know what you find.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.at-least-you-said-it-to-my-face-first",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "At least you said it to my face, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-now-i-know-why-bill-went-the-way-it-did",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. Now I know why {bill} went the way it did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thats-more-than-the-paper-told-me-about-bill",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's more than the paper told me about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.ill-remember-bill-at-the-next-election",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll remember {bill} at the next election.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "warn",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.people-in-place-will-remember-this-at-the-next-election",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "People in {place} will remember this at the next election.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "warn",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-recognizes-you-on-the-street",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -79368,105 +80188,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "narrate",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.you-voted-for-bill",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "You voted for {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "requiresFacts": ["voted-for"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.you-voted-against-bill",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "You voted against {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "requiresFacts": ["voted-against"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.you-re-first-aren-t-you-i-want-a-word-about-law",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "You're {first}, aren't you? I want a word about {law}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "requiresFacts": ["law"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-read-about-bill",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I read about {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "open",
-          "move": "greet",
-          "role": "asker"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
         "key": "news-received"
       }
     },
@@ -79596,176 +80317,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-voted-the-way-i-thought-was-right-for-place-here-s-why",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I voted the way I thought was right for {place}. Here's why.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.it-was-a-hard-vote-i-ll-tell-you-what-i-weighed",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "It was a hard vote. I'll tell you what I weighed.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.tell-me-what-it-s-doing-to-you-and-i-ll-take-it-back-to-the-others",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Tell me what it's doing to you, and I'll take it back to the others.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.give-me-your-number-i-ll-look-into-what-it-means-for-you",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Give me your number. I'll look into what it means for you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-blame.i-wasn-t-the-only-vote-on-it",
-      "move": "reply-blame",
-      "kind": "spoken",
-      "text": "I wasn't the only vote on it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "requiresFacts": ["voted-for"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "blame",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-blame.take-it-up-with-the-ones-who-voted-for-it",
-      "move": "reply-blame",
-      "kind": "spoken",
-      "text": "Take it up with the ones who voted for it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "requiresFacts": ["voted-against"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "blame",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-disagree.that-doesn-t-help-us",
-      "move": "follow-disagree",
-      "kind": "spoken",
-      "text": "That doesn't help us.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "follow",
-          "move": "disagree",
-          "role": "asker"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "disagree",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.follow-thank.i-ll-hold-you-to-that-first",
       "move": "follow-thank",
       "kind": "spoken",
@@ -79787,106 +80338,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "thank",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.then-where-you-re-the-one-we-elected",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Then where? You're the one we elected.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "press",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.you-re-right-let-me-see-what-i-can-do",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "You're right. Let me see what I can do.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "after": "disagree"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-call-you-this-week",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll call you this week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.i-ll-remember-this-at-the-next-election",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "I'll remember this at the next election.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "after": "leave",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "warn",
         "key": "news-received"
       }
     },

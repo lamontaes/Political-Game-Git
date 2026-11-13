@@ -207,6 +207,39 @@ function playYear(
       expect(purpose?.kind, `${moment.id}: ${JSON.stringify(purpose)}`).toBe(
         "composed",
       );
+    // The street stop (Fable B, Deep River, Washington): the resident hails
+    // the official without the measure, says the measure once and by its
+    // name, and no reply claims a vote the roll does not hold.
+    if (
+      purpose?.kind === "composed" &&
+      ["vote-read-street", "law-reached-street", "law-news-street"].includes(
+        row.id,
+      )
+    ) {
+      const talk = purpose.scene.talk;
+      const box = [talk.open, talk.state].filter(Boolean).map((l) => l!.text);
+      const facts = new Map(
+        purpose.scene.facts.map((fact) => [fact.key, fact.text]),
+      );
+      process.stdout.write(
+        `STREET ${where} ${row.id}: ${box.join(" / ")} / choices: ${talk.tree.replies.map((reply) => reply.line.text).join(" | ")}\n`,
+      );
+      for (const value of facts.values())
+        if (value.length > 3)
+          expect(
+            box.filter((text) => text.includes(value)).length,
+            `${moment.id}: "${value}" twice in one box: ${box.join(" / ")}`,
+          ).toBeLessThan(2);
+      expect(box.join(" "), moment.id).not.toMatch(
+        /\b(?:Ordinance|Resolution|Act|Bill) \d/,
+      );
+      for (const reply of talk.tree.replies)
+        if (/\bI voted\b/.test(reply.line.text))
+          expect(
+            facts.has("voted-for") || facts.has("voted-against"),
+            `${moment.id}: "${reply.line.text}" with no vote on the roll`,
+          ).toBe(true);
+    }
     let replyId: string | undefined;
     if (purpose?.kind === "composed") {
       replyId =

@@ -186,5 +186,12 @@
         "fact": "why-loss"
       }
     ]
+  },
+  "repeatClauseMinLength": {
+    "about": "A statement says again what the open just said when it carries a fact's words longer than this many characters that the open carried too (a bill's name or number, a place); then a spare statement is said, or the open gives way, so one box never holds the same clause twice (Fable A, Nov 13; Fable B's street stop, Deep River, Washington).",
+    "value": 3,
+    "tag": "TUNABLE",
+    "spread": [2, 6],
+    "checkedAgainst": "Short fact words (\"yes\", a count) repeat by chance; a bill's designation or a town's name is longer than three characters in every place drawn."
   }
 }

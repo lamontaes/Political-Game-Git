@@ -1,6 +1,48 @@
 {
-  "about": "How a seat is said inside a sentence (Fable B's ruling, Nov 11, on #8750): a seat on a body by the body (\"run for the Mutual Village Council\", then \"the council\"), a single office by its title in lower case (\"run for mayor\"), a district's seat with its district. Read by seatSaid in src/english/journal-words.ts.",
+  "about": "How a seat is said inside a sentence (Fable B's ruling, Nov 11, on #8750): a seat on a body by the body (\"run for the Mutual Village Council\", then \"the council\"), a single office by its title in lower case (\"run for mayor\"), a district's seat with its district. Read by seatSaid in src/english/journal-words.ts. `address` is how a resident hails an official by office and family name (\"Commissioner McGee\"; Fable B's street stop, Nov 11), matched on the office's title; an office with no form here is hailed by first name.",
   "body": "the {body}",
   "district": "{office} in District {n}",
-  "districtAgain": "the seat"
+  "districtAgain": "the seat",
+  "address": [
+    {
+      "match": "commissioner$",
+      "said": "Commissioner"
+    },
+    {
+      "match": "^mayor$",
+      "said": "Mayor"
+    },
+    {
+      "match": "senator$",
+      "said": "Senator"
+    },
+    {
+      "match": "representative$",
+      "said": "Representative"
+    },
+    {
+      "match": "^(city |town |county )?council ?member$",
+      "said": "Councilmember"
+    },
+    {
+      "match": "supervisor$",
+      "said": "Supervisor"
+    },
+    {
+      "match": "governor$",
+      "said": "Governor"
+    },
+    {
+      "match": "alder(man|woman|person)?$",
+      "said": "Alder"
+    },
+    {
+      "match": "assembly ?member$",
+      "said": "Assemblymember"
+    },
+    {
+      "match": "delegate$",
+      "said": "Delegate"
+    }
+  ]
 }
