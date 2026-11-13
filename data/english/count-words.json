@@ -155,5 +155,10 @@
       "1": "tomorrow",
       "more": "in {count} days"
     }
+  },
+  "term": {
+    "about": "A term of office in years as people say it in a speech (\"four years\"), from the term record's length: the number in words up to twelve. Words composer, an address's occasion (lead, Nov 13).",
+    "year": "one year",
+    "years": "{count} years"
   }
 }

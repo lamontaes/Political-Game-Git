@@ -2489,8 +2489,10 @@ export function subjectsBetween(
                 sourceRecordIds: reason.recordIds,
               },
               // The reason itself, as the fit the rules found: what the job
-              // pays an hour against the proposal, or that they make payroll.
-              ...(reason.fit === "pay-near"
+              // pays an hour (against the proposal, or for a worker whose job
+              // does not set pay: their own paycheck, from the job record; a
+              // stance cites its source), or that they make payroll.
+              ...(reason.fit === "pay-near" || reason.fit === "worker"
                 ? hourlyFact(core, reason.recordIds[zero])
                 : {}),
               ...(reason.fit === "payroll"
@@ -3022,7 +3024,11 @@ function pointSubject(
   )
     mark("why-first", said);
   return {
-    id: `${POINT}:${eventId}`,
+    // Each hearer's point is their own (their stand, their reason), so its
+    // id names them: one housemate telling theirs does not silence the next
+    // ("what the player heard from someone in the house today is not told
+    // again" holds for that person's point, not the address itself).
+    id: `${POINT}:${eventId}:${speaker.id}`,
     kind: POINT,
     aboutId: eventId,
     stage: pick.stand,
@@ -3857,7 +3863,10 @@ const STANDS = (
  * views engine's engagement; lead, Nov 12: a sixteen-year-old's stand is
  * gated by their engagement, not by age alone).
  */
-function takesStands(core: Readonly<CoreState>, personId: PersonId): boolean {
+export function takesStands(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+): boolean {
   const person = core.people.get(personId);
   if (!person) return false;
   const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));
