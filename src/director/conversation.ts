@@ -2386,6 +2386,16 @@ export function subjectsBetween(
       kind: "home",
       facts: {
         place: { text: spoken(place), sourceRecordIds: [speaker.householdId] },
+        // The town they both live in is not said as if it were elsewhere
+        // (W1's strict review, Nov 13: "I live in Hazen." to a Hazen girl).
+        ...(core.people.get(listenerId)?.placeId === speaker.placeId
+          ? {
+              "same-town": {
+                text: "yes",
+                sourceRecordIds: [speaker.householdId],
+              },
+            }
+          : {}),
       },
       own: { key: `person:${speakerId}:place`, value: speaker.placeId },
     });
