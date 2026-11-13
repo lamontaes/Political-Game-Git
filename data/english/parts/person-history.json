@@ -25,7 +25,9 @@
     "child": "A child's first name from their record.",
     "kin": "Who lives with the person, each as they call them (\"your mother\", \"your daughters\"), joined with \"or\", from the household and family records.",
     "offense": "The offense the justice engine's record names: bribery.",
-    "parent": "Who the partner is to the people the line is told to, from the child's other-parent record, said only when the record holds it: on someone else's card \"your father\" or \"the children's mother\"; in the first person, on the player's own card, \"my children's father\" or \"my daughter's mother\"."
+    "parent": "Who the partner is to the people the line is told to, from the child's other-parent record, said only when the record holds it: on someone else's card \"your father\" or \"the children's mother\"; in the first person, on the player's own card, \"my children's father\" or \"my daughter's mother\".",
+    "pronoun": "The person's own pronoun from their record, in lower case (he, she).",
+    "given": "A person's given name from their record."
   },
   "maxWords": 24,
   "parts": [
@@ -369,6 +371,24 @@
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.view.untold",
+      "move": "summary",
+      "text": "{given} has never told you where {pronoun} stands.",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13, rule 18: being close is not the same as knowing)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.view.untold.they",
+      "move": "summary",
+      "text": "{given} has never told you where they stand.",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13, rule 18: being close is not the same as knowing)",
+      "date": "2026-11-13",
       "kind": "written"
     },
     {

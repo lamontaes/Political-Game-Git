@@ -1750,7 +1750,26 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         ? coreAPI(core).knows(viewerId, viewQuestionKey(otherId))?.value
         : undefined;
       const about = question ? questionAbout(String(question)) : null;
-      return { view: label, viewUnknown: !label, viewAbout: about };
+      // Being close is not the same as knowing (Fable A, Nov 13, rule 18):
+      // family and housemates whose stand is not on record have never told
+      // the viewer where they stand.
+      const pronoun = teller.words?.subject.toLowerCase();
+      const untold =
+        !label && (family || housemate)
+          ? screenLine(
+              "person-history",
+              pronoun
+                ? "person-history.summary.view.untold"
+                : "person-history.summary.view.untold.they",
+              { given: other.givenName, pronoun: pronoun ?? "" },
+            )
+          : null;
+      return {
+        view: label,
+        viewUnknown: !label,
+        viewUntold: untold,
+        viewAbout: about,
+      };
     })(),
     // Their pronouns as words, for the headings on their card (she, her, Her); null for they.
     pronouns: teller.words,
