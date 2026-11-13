@@ -63,6 +63,7 @@ import {
 } from "./legislature";
 import {
   filesAhead,
+  filingsOwed,
   registerMeetingHold,
   voteAtMeeting,
 } from "./world-legislating";
@@ -630,9 +631,40 @@ function closeMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   scheduleMeeting(api, officeId, date);
   const row = meetingOf(api, meetingId(officeId, date));
   if (!row || row.status === "adjourned") return;
+  earlierMeetingsVote(api, row);
+  voteLeft(api, row);
+}
+
+/** Every item the meeting has not taken up is voted, each member their own position, and it adjourns. */
+function voteLeft(api: CoreAPI, row: MeetingRow): void {
   const left = row.agenda.filter((id) => !row.takenUp.includes(id));
   for (const billId of left) voteAtMeeting(api, billId);
   finish(api, { ...row, takenUp: [...row.takenUp, ...left] });
+}
+
+/** Of two meetings the same day, the one whose hour comes first (then by id). */
+const meetsFirst = (a: MeetingRow, b: MeetingRow) =>
+  a.startMinute - b.startMinute || a.id.localeCompare(b.id);
+
+/**
+ * Before a body votes at its meeting, every other body's meeting of the same
+ * day whose hour comes first has voted. A law one body passes that day stands
+ * when the next weighs its own, in the same order whether the player's clock
+ * is held at one of the meetings or at none. A meeting the player is still at
+ * waits for them, and one whose members have yet to file waits for its filing.
+ */
+function earlierMeetingsVote(api: CoreAPI, row: MeetingRow): void {
+  const earlier = (table(api, "meetings").rows() as unknown as MeetingRow[])
+    .filter(
+      (other) =>
+        other.date === row.date &&
+        other.status !== "adjourned" &&
+        !other.playerPresent &&
+        meetsFirst(other, row) < 0 &&
+        !filingsOwed(api, other.officeId, other.date),
+    )
+    .sort(meetsFirst);
+  for (const other of earlier) voteLeft(api, meetingOf(api, other.id)!);
 }
 
 function finish(api: CoreAPI, row: MeetingRow): void {
@@ -719,6 +751,7 @@ export function takeUpItem(
   if (!row.agenda.includes(billId) || row.takenUp.includes(billId))
     throw new Error("That item is not waiting on this agenda.");
   const player = playerOf(api)!;
+  earlierMeetingsVote(api, row);
   if (vote !== "own") {
     castMemberVote(api, billId, player, vote);
     keepAct(api, {
@@ -788,6 +821,7 @@ export function adjourn(api: CoreAPI, meetingIdValue: string): MeetingRow {
   )
     throw new Error("That meeting is not in session.");
   const left = row.agenda.filter((id) => !row.takenUp.includes(id));
+  earlierMeetingsVote(api, row);
   leavingToCharacter(api, left, () => {
     for (const billId of left) voteAtMeeting(api, billId);
   });

@@ -2398,6 +2398,22 @@ function scheduleMeeting(
 }
 
 /**
+ * Whether a body's meeting on a date still waits for its members' filings
+ * (they move the body on to its next meeting when they are in).
+ */
+export function filingsOwed(
+  api: CoreAPI,
+  officeId: string,
+  meetingDate: string,
+): boolean {
+  const next = api
+    .moduleState(WORLD_LEGISLATING_MODULE_ID)
+    .table("nextMeetings")
+    .get(officeId) as unknown as { date: string } | undefined;
+  return next?.date === meetingDate;
+}
+
+/**
  * Whether a body's coming meeting has its agenda filed the day before. Only a
  * meeting set with under a day's notice (the first after a world begins,
  * when it falls on the next day) files on its own day.

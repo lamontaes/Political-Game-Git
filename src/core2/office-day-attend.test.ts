@@ -335,6 +335,17 @@ const SPLIT_PLACE = {
   name: "Elizabethtown, Indiana",
   seed: "fcad6dc9215fc941ce39501ad985fc28419c852d4dab6e3dd5220a7b1d462a7a",
 };
+/**
+ * The place that showed two bodies meeting the same day must vote in one
+ * order (Nov 13, 2026): its county board passed a law on the day its council
+ * met, and the council weighed that law only when the player was away from
+ * their seat. Kept, so the order is proved where it mattered.
+ */
+const SAME_DAY_PLACE = {
+  key: "0531090",
+  name: "Heber Springs, Arkansas",
+  seed: "fb9b371a2c260c1e5bd2ea80924b870a320f30742d81a7daca8fe7535f0c943d",
+};
 const DAYS = Number(process.env.TWIN_DAYS ?? 100);
 const endOf = (core: CoreState) =>
   new Date(Date.parse(`${core.date}T00:00:00Z`) + DAYS * 86_400_000)
@@ -405,8 +416,14 @@ it("a member the player plays decides alike at the stop and away from it: the me
   // against unheld.)
   let proved = 0;
   const passedOver: string[] = [];
-  for (const place of twinPlaces("seated-holds")) {
+  // The kept place first, and it must pass; then drawn ones until one has a seat to play.
+  for (const place of named ?? [
+    SAME_DAY_PLACE,
+    ...twinPlaces("seated-holds"),
+  ]) {
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    console.log(`seated-holds builds ${where}`);
+    const kept = place === SAME_DAY_PLACE;
     const run = (present: boolean) => {
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
@@ -460,6 +477,10 @@ it("a member the player plays decides alike at the stop and away from it: the me
     expect(away.held).toBe(0);
     expect(held.date).toBe(away.date);
     expect(held.bills, where).toEqual(away.bills);
+    if (kept) {
+      expect(held.held, `${where}: meetings held`).toBeGreaterThan(0);
+      continue;
+    }
     if (held.held > 0) proved += 1;
     else passedOver.push(where);
     if (!named && proved) break;
