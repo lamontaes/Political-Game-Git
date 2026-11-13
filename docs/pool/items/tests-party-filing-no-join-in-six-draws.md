@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-tests-party-filing-no-join-in-six-draws
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,6 +17,8 @@ model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-13T04:38:42.566Z
+branch: claude/pool-tests-party-filing-no-join-in-six-draws
 ---
 
 **What.** src/core2/party-filing.test.ts fails on clean main with GOLDEN_PATH_SEED=pet-run-1 after its six draws, because in none of the played years did anyone join a party as an act. The places it passed over were Monomoscoy Island, Massachusetts; Deepstep, Georgia; Carter, Oklahoma; McCalla, Alabama; Lehr, North Dakota; and Bethany, Oregon. Before the vacant-seat special race fix, the same seed stopped earlier with "No national party on side 0", which hid this red. The join act may have become rarer since the test was written on Oct 27, or the test's window may be too short.
@@ -40,3 +42,5 @@ checked: fable 2026-11-10
 **Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/party-filing.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=pet-run-1: 2 of 2 passed (green on the item's own seed). Fresh draw GOLDEN_PATH_SEED=sweep-fresh-17136: red. Assertion as printed: `Error: no drawn place had a join as an act: Cayey, Puerto Rico (7215494), seed 240270723f333236f6d7047c08902fe007b8a33ba9eef7a689f4dfafd01eb92f: nobody joined a party as an act; Oak Ridge, Louisiana (2257205); Mooresville, Indiana (1850976); ...` at src/core2/party-filing.test.ts:171. Still red by draw.
 
 Cause finder (Nov 11, 2026, for Fable B): read the one writer of a joined tie in a played world and when it runs; the test's one-year window ends before most states' statewide filing closes, so the result depends on the draw.
+
+Claimed by next for agent-4bff (tier mid) (2026-11-13 04:38 UTC) on branch claude/pool-tests-party-filing-no-join-in-six-draws.

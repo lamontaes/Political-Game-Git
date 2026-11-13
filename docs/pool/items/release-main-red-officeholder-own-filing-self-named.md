@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/red-main-officeholder-own-filing-self-named
-pr: 8990
+pr: #8990
 after:
 blocked-on:
 lead: words
@@ -16,6 +16,7 @@ model: opus
 effort: low
 root: none
 source: Red desk, Nov 13 (Fable A on #8928, comment 6842448463)
+merged-at: 2026-11-13T04:19:39.387Z
 ---
 
 **What.** `src/director/officeholder-scenes.test.ts`, "a filing, an introduced bill or an appointment learned of through a tie is not cast as one's own", fails on every run on clean main 8ce733c3: "filing: expected false to be true" at line 107. It has failed since Nov 1, and it sits in the changed-tests list of anything that touches the director's scene files. Seen: a person's own filing stages the filing scene, and one learned of through a tie does not.
