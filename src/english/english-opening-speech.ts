@@ -111,6 +111,8 @@ const ACTS: Readonly<Record<string, SpeechAct>> = {
   // The sentence that ties a figure to the question it bears on.
   tie: "tell",
   "story-says": "tell",
+  // A hurt address's turn from its answer to the theme (speech-outline.ts).
+  turn: "tell",
   // This year's conditions in a governor's or a local head's opening: the
   // budget's balance, and a law that took effect or a disaster.
   "budget-condition": "tell",

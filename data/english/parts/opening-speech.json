@@ -77,7 +77,8 @@
     "speaker-addressed": "the Speaker of the House spoken to, with title and name",
     "body-name": "the body a local speaker addresses, by the name its record gives it, said as to its face ('the Groton Select Board'), from the office record",
     "condition-measure": "a hurt address's worst condition: the area's measure that moved furthest the wrong way, in its measure words (area-names.json), from the term read",
-    "condition-change": "how far that measure moved since the speaker took office, through the count-words reader (changeSaid), from the term read's two web rows"
+    "condition-change": "how far that measure moved since the speaker took office, through the count-words reader (changeSaid), from the term read's two web rows",
+    "turn-to": "the speech's theme by its spoken name, where a hurt address turns from its answer to the theme"
   },
   "maxWords": 40,
   "mining": {
@@ -119730,6 +119731,140 @@
       ],
       "bearing": "braced",
       "topic": "environment",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.turn.polished-there-is-other-work-before-us-as-well-and-it",
+      "move": "turn",
+      "kind": "spoken",
+      "text": "There is other work before us as well, and it is {turn-to}.",
+      "uses": [
+        {
+          "move": "turn",
+          "subject": "inaugural",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-union",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-state",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "floor-speech",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "campaign-speech",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.turn.plain-theres-other-work-on-the-table-too-and-its",
+      "move": "turn",
+      "kind": "spoken",
+      "text": "There's other work on the table, too, and it's {turn-to}.",
+      "uses": [
+        {
+          "move": "turn",
+          "subject": "inaugural",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-union",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-state",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "floor-speech",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        },
+        {
+          "move": "turn",
+          "subject": "campaign-speech",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": [
+            "turn-to"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
       "origin": "authored",
       "author": "Words builder, hurt terms (Claude Code)",
       "date": "2026-11-12"
