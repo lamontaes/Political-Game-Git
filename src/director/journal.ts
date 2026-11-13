@@ -752,11 +752,11 @@ function lifeMoments(
       ...(own ? { causeFactId: event.id } : {}),
       causeKind: pair.kind,
       counterpartIds: kept?.counterpartIds ?? event.withIds,
-      ...((
-        kept
-          ? kept.selfNamed
-          : core.durableLog.get(event.id)?.personIds.includes(person.id)
-      )
+      // The person's own when the record names them, whatever moment of the
+      // director's lent its weight (a rival's filing moment shares the
+      // filing's record; North Hyde Park, Vermont: the player's filing lost).
+      ...(kept?.selfNamed ||
+      core.durableLog.get(event.id)?.personIds.includes(person.id)
         ? { selfNamed: true as const }
         : {}),
       hindsight: kept?.hindsight ?? zero,
@@ -1559,7 +1559,13 @@ export function composeJournal(
     const row = rows.find((entry) =>
       moment.causeKind.startsWith(entry.kindPrefix),
     );
-    const logged = core.durableLog.get(moment.causeId);
+    // The record itself, or, once the log has folded it away (a filing after
+    // its race is counted), the life list's copy of its facts.
+    const logged =
+      core.durableLog.get(moment.causeId) ??
+      (lifeById.get(moment.causeId) as
+        | { facts?: Readonly<Record<string, string>>; topic?: string }
+        | undefined);
     for (const [key, spec] of Object.entries(row?.eventFacts ?? {})) {
       // How far a count fell ("before" an official's answer to the count
       // after it), told only where it fell, citing the records that moved it.

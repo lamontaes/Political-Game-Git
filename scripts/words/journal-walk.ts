@@ -165,6 +165,17 @@ for (let d = 0; d < (args.includes("--count") ? 400 : days); d += 1) {
     if (afterCount >= 0 && d > afterCount) break;
   }
 }
+if (args.includes("--kinds")) {
+  const w = benchWorld();
+  for (const m of w.director!.ledger.people.get(me)?.moments ?? [])
+    if (/filed|petition|election/.test(m.causeKind))
+      console.log(
+        `moment ${m.date} ${m.causeKind} ${m.causeId} logged=${!!w.core!.durableLog.get(m.causeId as never)}`,
+      );
+  const { lifeOf } = await import("../../src/core2/modules/people");
+  for (const e of lifeOf(w.core!, me as never))
+    if (e.life === "politics") console.log(`life ${e.date} ${e.what} ${e.id}`);
+}
 const chapters = ((await ask(
   "GET",
   `/api/journal?id=${encodeURIComponent(me)}`,
@@ -172,7 +183,12 @@ const chapters = ((await ask(
 console.log("\n=== Journal ===");
 for (const chapter of chapters) {
   console.log(`\n## ${chapter.title}`);
-  for (const line of chapter.lines) console.log(`- ${line.text}`);
+  for (const line of chapter.lines)
+    console.log(
+      args.includes("--kinds")
+        ? `- ${line.date} ${JSON.stringify(line.kinds)} ${line.text}`
+        : `- ${line.text}`,
+    );
 }
 const story = (c: Json) =>
   (c.history ?? []).map((row: Json) => row.text ?? row).join(" ");

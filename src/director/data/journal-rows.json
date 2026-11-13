@@ -345,6 +345,7 @@
     },
     {
       "kindPrefix": "event:candidate-filed",
+      "toldWithoutOther": true,
       "turn": true,
       "turnFor": "self",
       "eventFacts": {
