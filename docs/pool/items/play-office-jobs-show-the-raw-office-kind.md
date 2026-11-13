@@ -47,3 +47,5 @@ The dropped item `play-talk-who-legislator-raw-office-kind` saw the same raw kin
 **Files.** src/bench/card.ts, src/bench/office.ts, src/core2/modules/official-pay.ts, src/core2/person-work.ts
 
 **Notes.** Labels (the Hours row) need Fable A's review (Review: words).
+
+The same record reaches the director (Playtester P2, same life, November 21, 2025 and January 15, 2026): the new-coworker scene casts every newly seated member of Congress as the President's coworker, because both jobs are paid by the organization named "US". It reads "First thing on November 21st, you get to Us, and Rachel Puckett comes over. Rachel Puckett has just started as an us-house at Us and has come over to say hello." and "I just started as an us-house at Us. What's the part of the job nobody warns you about?" The fix's reader serves the scene's job and workplace slots too. Whether a member of Congress counts as the President's coworker is the director's question (`words-engine`).
