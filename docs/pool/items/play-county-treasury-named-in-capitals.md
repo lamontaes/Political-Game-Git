@@ -28,7 +28,7 @@ source: Playtester P2, Nov 13 (Hewitt, New Jersey, seed bf6b1bd7-4b1b-4fd7-92f9-
 
 **Rules.** player-screen-text: no raw record text on a screen. One rule, all 56 places: the name comes from the listing in every place.
 
-**Done when.** `src/core2/treasury-names.test.ts` passes on two drawn places, and in the running game on main an Advanced start as a county officeholder in a drawn place shows the county in ordinary capitals on "You".
+**Done when.** `src/core2/treasury-names.test.ts` passes on two drawn places, and a second session sees, in the running game on main, that an Advanced start as a county officeholder in a drawn place shows the county in ordinary capitals on "You".
 
 **Waits on.** Nothing.
 
