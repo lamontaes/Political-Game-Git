@@ -5,10 +5,10 @@ area: director
 kind: cleanup
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: Words builder W3
-pr:
+pr: 9029
 after: words-director-one-path-part-1a-scene-ending-opens-filing
 blocked-on:
 lead: words
