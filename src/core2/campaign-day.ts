@@ -45,7 +45,7 @@ import {
   raceAhead,
   type FilingRow,
 } from "./modules/elections";
-import { resultOf } from "./modules/voting";
+import { VOTING_MODULE_ID, resultOf } from "./modules/voting";
 import {
   answerInterview,
   interviewsFor,
@@ -281,7 +281,13 @@ export function raceLive(
   api: CoreAPI,
   filing: Readonly<Pick<FilingRow, "status" | "contestId">>,
 ): boolean {
-  return raceAhead(api, filing) && !resultOf(api, filing.contestId);
+  // A world without the voting module has no counts to read.
+  return (
+    raceAhead(api, filing) &&
+    !(
+      api.state.modules.has(VOTING_MODULE_ID) && resultOf(api, filing.contestId)
+    )
+  );
 }
 
 function contextOf(api: CoreAPI, filingId: string, world = false) {
