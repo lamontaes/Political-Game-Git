@@ -15,6 +15,10 @@
     "bribe-paid": "paying a bribe",
     "bribe-offered": "offering a bribe"
   },
+  "officials": {
+    "onBody": "someone on the {body}",
+    "sole": "the {office}"
+  },
   "youngBelowAge": {
     "value": 60,
     "tag": "TUNABLE",

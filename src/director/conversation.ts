@@ -135,7 +135,8 @@ import {
   type SubjectBank,
   type Wording,
 } from "../english/conversation-words";
-import { kinAddress, relationPhrase } from "../english/journal-words";
+import { jobSaid, kinAddress, relationPhrase } from "../english/journal-words";
+import { OFFICES_MODULE_ID, servingTermsOf } from "../core2/modules/offices";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { answerInTalk } from "./scene-talk";
 import {
@@ -1189,6 +1190,32 @@ function jobLost(
   };
 }
 
+/** An official as someone outside government says them: "someone on the Starr County Board of Commissioners", "the mayor". */
+function officialSaid(
+  core: Readonly<CoreState>,
+  personId: string,
+): { text: string; ids: string[] } | undefined {
+  if (!core.modules.has(OFFICES_MODULE_ID)) return undefined;
+  const api = coreAPI(core as CoreState);
+  const term = servingTermsOf(api, personId)[zero];
+  if (!term) return undefined;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(term.officeId) as
+    { title?: string; seats?: number; bodyName?: string } | undefined;
+  if (!office?.title) return undefined;
+  const body = office.bodyName?.trim().replace(/^the\s+/i, "");
+  const text =
+    (office.seats ?? one) > one && body
+      ? RELATIVE_NEWS.officials.onBody.replace("{body}", properName(body))
+      : RELATIVE_NEWS.officials.sole.replace(
+          "{office}",
+          jobSaid(office.title.replace(/\s*\([^)]*\)/g, "").trim()),
+        );
+  return { text, ids: [term.id, term.officeId] };
+}
+
 /**
  * What a court case is, from the justice engine's records (words composer):
  * the offense as people say it, the trial day or a guilty plea, held before
@@ -1222,9 +1249,12 @@ function caseFacts(
   const offense = offenseSaid(core, row.id, row.defendantId);
   if (offense) facts.offense = { ...offense, sourceRecordIds: cites };
   // Whom they offered it to, when the official turned it down and reported it.
+  // Said by the office, not a name the listener has never heard (W1's
+  // strict review, Nov 13: "who's Kathryn Hansen?").
   const refusedBy = bribeRefusedBy(coreAPI(core as CoreState), row.id);
-  if (refusedBy && refusedBy !== row.defendantId && core.people.has(refusedBy))
-    facts.official = fact(fullName(core, refusedBy), [row.id, refusedBy]);
+  const official = refusedBy ? officialSaid(core, refusedBy) : undefined;
+  if (official && refusedBy !== row.defendantId)
+    facts.official = fact(official.text, [row.id, ...official.ids]);
   if (row.plea) facts.plea = fact("yes");
   else if (row.trialDate && row.trialDate > core.date)
     facts.trial = fact(spokenDate(row.trialDate, core.date));
@@ -1247,6 +1277,8 @@ function caseFacts(
     : undefined;
   if (sentence) {
     const ids = [sentence.id, ...cites];
+    // Convicted at a trial they fought: they had said they didn't do it.
+    if (!row.plea) facts.contested = fact("yes", ids);
     if ((sentence.custodyMonths ?? zero) > zero)
       facts.term = fact(termSaid(sentence.custodyMonths!), ids);
     if ((sentence.probationMonths ?? zero) > zero)
