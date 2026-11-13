@@ -35,3 +35,5 @@ claimed-at:
 **Waits on.** Nothing.
 
 **Files.** src/bench/campaign.ts, src/bench/play.mjs
+
+**Notes.** This was seen under the yearly-board bug: the race came a year after the first because all three seats were elected every year, which #9023 fixes. The cause does not depend on it, since any second filing by a player with a decided first one opens the old trail. After #9023 it shows at the player's next regular race instead. (Playtester P3, Nov 13.)
