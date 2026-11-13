@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: Words builder W3
-pr:
+pr: 9013
 after: play-news-opens-on-the-outlet-with-unread-stories
 blocked-on:
 lead: words
