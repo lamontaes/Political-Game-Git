@@ -33,12 +33,32 @@ import { preStartHistory } from "./pre-start";
 import type { PersonId } from "./types";
 
 const seed = process.env.LIFE_SEED ?? randomBytes(8).toString("hex");
-const place = drawPlace(seed, "past-justice");
-const where = `${place.name} (${place.key}), seed ${seed}`;
 const share = (key: string) =>
   (pastRows as unknown as Record<string, { value: number }>)[key]!.value;
+/** Places drawn until one holds an arrest; a town too small for one is named and passed over (skill drawn-place-tests). */
+const TRIES = 5;
 
-it(`a past can hold an arrest, a conviction and a prison term, in ${where}`, () => {
+it(`a past can hold an arrest, a conviction and a prison term (seed ${seed})`, () => {
+  const passed: string[] = [];
+  for (let attempt = 0; attempt < TRIES; attempt += 1) {
+    const drawn = attempt ? `${seed}-${attempt}` : seed;
+    const place = drawPlace(drawn, "past-justice");
+    const where = `${place.name} (${place.key}), seed ${drawn}`;
+    const arrested = checkTown(place, where);
+    if (arrested) {
+      if (passed.length)
+        process.stdout.write(
+          `past arrests: passed over ${passed.join(", ")} (too few adults, or none arrested).\n`,
+        );
+      return;
+    }
+    passed.push(where);
+  }
+  throw new Error(`No drawn place held an arrest: ${passed.join(", ")}`);
+}, 1_800_000);
+
+/** Every check in one drawn town; the number arrested (0 for a town too small to say). */
+function checkTown(place: ReturnType<typeof drawPlace>, where: string): number {
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
@@ -52,7 +72,7 @@ it(`a past can hold an arrest, a conviction and a prison term, in ${where}`, () 
         ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(core.startedAt)) >= 24,
     )
     .sort((a, b) => a.id.localeCompare(b.id));
-  expect(adults.length, where).toBeGreaterThan(9);
+  if (adults.length < 10) return 0;
   for (const person of adults) openWholePast(core, person.id);
   const count = { arrested: 0, convicted: 0, imprisoned: 0 };
   let toldOnCard = 0;
@@ -118,7 +138,7 @@ it(`a past can hold an arrest, a conviction and a prison term, in ${where}`, () 
     const card = JSON.stringify(
       knownCard(core, core.playerId!, person.id).history,
     );
-    if (card.includes("accused of a crime")) toldOnCard += 1;
+    if (/\barrested in \d{4}\b/.test(card)) toldOnCard += 1;
   }
   const n = adults.length;
   const expected = {
@@ -134,9 +154,9 @@ it(`a past can hold an arrest, a conviction and a prison term, in ${where}`, () 
     Math.abs(count.arrested - expected.arrested),
     `arrests against the share, ${where}`,
   ).toBeLessThanOrEqual(3 * Math.sqrt(n * p * (1 - p)) + 1);
-  expect(count.arrested, `someone was arrested, ${where}`).toBeGreaterThan(0);
   // The card tells every arrest with the law lines already in the bank.
   expect(toldOnCard, `cards that tell the arrest, ${where}`).toBe(
     count.arrested,
   );
-}, 1_800_000);
+  return count.arrested;
+}

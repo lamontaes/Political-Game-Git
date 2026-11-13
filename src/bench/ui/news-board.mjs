@@ -16,6 +16,19 @@ const told = (story) =>
     ? [story.lede]
     : []);
 
+/**
+ * What an empty News page says, from the record of what the player follows:
+ * they follow no paper or station anywhere; the outlet open is one they
+ * follow and it has nothing yet; or it is one they do not follow. The three
+ * read differently (Fable A, Nov 12).
+ */
+export function emptyNewsLine(outlet, followsAny, labels) {
+  if (!followsAny) return labels.followsNone;
+  return outlet.why === "follows" && outlet.name
+    ? labels.printedNothing.replace("{name}", outlet.name)
+    : labels.nothingYet;
+}
+
 export function newsBoard({
   outlets,
   labels,
@@ -24,6 +37,7 @@ export function newsBoard({
   photoOf,
   chosenKey,
   onChoose,
+  followsAny = true,
 }) {
   let chosen = outlets.has(chosenKey) ? chosenKey : outlets.keys().next().value;
   let opened = null;
@@ -123,7 +137,7 @@ export function newsBoard({
               : [
                   el("p", {
                     className: "intro",
-                    textContent: labels.nothingYet,
+                    textContent: emptyNewsLine(outlet, followsAny, labels),
                   }),
                 ],
           withText.map((story) => storyNode(story, "side")),

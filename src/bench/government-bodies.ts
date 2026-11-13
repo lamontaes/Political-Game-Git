@@ -9,6 +9,7 @@
  * the filing deadline and election day for its seats). Record data only: the
  * screen words every label, and nothing here writes a record.
  */
+import { governmentProperName } from "../core2/government-proper-name";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
@@ -37,7 +38,6 @@ import { backdropFile, faceOf } from "./scene";
 import { capitolPlaceFor } from "./backdrop-places";
 import { calendarItems } from "./calendar";
 import { facePlace, holderFace, homeStateOf } from "./government";
-import { properName } from "../director/words";
 import { policyNames } from "./words";
 
 const LOCAL_LEVELS = new Set(["city", "township", "county"]);
@@ -77,6 +77,8 @@ type Office = {
   readonly title: string;
   readonly level: string;
   readonly governmentName: string;
+  /** The government's id: a listed unit's ("gus2025:...") or a state's. */
+  readonly jurisdiction: string;
   readonly bodyName?: string;
   readonly seats: number;
 };
@@ -382,7 +384,10 @@ export function governmentBodies(
       // A local body by its own name ("Latimer Board of Aldermen"); a state
       // chamber or an office by its title, its government named apart.
       name: office.bodyName ?? office.title,
-      government: properName(office.governmentName),
+      government: governmentProperName(
+        office.governmentName,
+        office.jurisdiction,
+      ),
       level: office.level,
       seats: seats.length,
       vacant: seats.filter((row) => !row.holder).length,

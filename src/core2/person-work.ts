@@ -9,6 +9,7 @@
  * thing, told as the office; a part-time office beside an ordinary job is
  * two, and both are told.
  */
+import { governmentProperName } from "./government-proper-name";
 import { OFFICES_MODULE_ID, servingTermsOf } from "./modules/offices";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
@@ -23,7 +24,7 @@ export interface PersonOffice {
   readonly termId: string;
   readonly officeId: string;
   readonly title: string;
-  /** The government the office belongs to, as the offices table names it. */
+  /** The government the office belongs to, by its place record's proper name ("City of McCall"). */
   readonly governmentName: string | null;
   /** The body the seat belongs to ("Nelson City Council"), when it is one of several seats. */
   readonly bodyName: string | null;
@@ -115,6 +116,7 @@ export function personWorkOf(
         | {
             title?: string;
             governmentName?: string;
+            jurisdiction?: string;
             bodyName?: string;
             seats?: number;
           }
@@ -127,7 +129,12 @@ export function personWorkOf(
           termId: term.id,
           officeId: term.officeId,
           title: office.title,
-          governmentName: office.governmentName ?? null,
+          governmentName: office.governmentName
+            ? governmentProperName(
+                office.governmentName,
+                office.jurisdiction ?? "",
+              )
+            : null,
           bodyName: (office.seats ?? 1) > 1 ? (office.bodyName ?? null) : null,
           seats: office.seats ?? 1,
           organizationId: seatJob?.organizationId ?? null,
