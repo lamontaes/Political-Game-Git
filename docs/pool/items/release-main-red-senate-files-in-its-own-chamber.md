@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/red-main-m0-13-filer-member
-pr:
+pr: #9047
 after:
 blocked-on:
 lead: gov
