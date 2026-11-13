@@ -53,7 +53,13 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
   // is played: a place with none counted within the year is passed over at
   // once. Each race is tried the day its filing opens, soonest first. Only
   // residents who may run and are not already running file.
-  const races = racesToFileBefore(core, end);
+  // The town's own races first (a resident's first race is a local one;
+  // a statewide race is won by an official the place holds only as results).
+  const local = (race: ContestRow) =>
+    ["city", "township", "county", "school"].includes(race.level);
+  const races = racesToFileBefore(core, end).sort(
+    (a, b) => Number(local(b)) - Number(local(a)),
+  );
   if (!races.length)
     return {
       done: false,
@@ -110,6 +116,15 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
   // Everyone else running for the seat is followed too: whoever wins the
   // count, a resident who filed on their own among them, has their night.
   advanceCore(core, addDays(makeIsoDate(contest.electionDate), -1));
+  // A filer short of signatures at the deadline is off the ballot; with
+  // fewer than two on it there is no count to lose (Hillsview, South
+  // Dakota, seed de4ef0f8ff6efdfb:agree:13).
+  const onBallot = ballot(api, contest.id).length;
+  if (onBallot < 2)
+    return {
+      done: false,
+      note: `${where}: ${contest.id} has ${onBallot} on the ballot on the eve (the filers fell short of signatures)`,
+    };
   for (const row of ballot(api, contest.id)) {
     director.watch(core, row.personId as PersonId);
     core.focusPersonIds.add(row.personId as PersonId);
@@ -135,6 +150,13 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
     .sort((x, y) => y[1] - x[1])[0]?.[0] as PersonId | undefined;
   if (!loser) return { done: false, note: `${where}: no runner-up` };
   const winner = result.winnerId as PersonId;
+  // A sitting official the place holds only as results (a statewide office's
+  // holder) has no campaign or room to stage a night in: passed over by name.
+  if (!core.people.has(winner))
+    return {
+      done: false,
+      note: `${where}: ${contest.id} was won by ${winner}, not a full person`,
+    };
   const here = `${where}: ${winner}`;
   const entry = director.ledger.people
     .get(winner)
