@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: Words builder W3
-pr: 9013
+pr: #9013
 after: play-news-opens-on-the-outlet-with-unread-stories
 blocked-on:
 lead: words
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: Playtester P3, Nov 13 05:06Z on #8928 (North Hyde Park, Vermont, seed a6b481a5-c6c9-432b-8cca-c0463c518da8); Fable A, 05:19Z
+merged-at: 2026-11-13T05:40:34.954Z
 ---
 
 **What.** In North Hyde Park, Vermont, News opens on "North Hyde Park Register ... Nothing from North Hyde Park Register yet." while every story the player can read (the Vermont House vote, the minimum wage, the federal food aid law, fifteen briefs) is on the last tab, which is named "News" inside News. The player sees an empty page and a tab whose name says nothing. Seen: the News sheet's first page, January 20, 2025.
