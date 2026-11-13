@@ -2185,8 +2185,10 @@ bank.slots["body"] ??=
 bank.slots["office-title"] ??=
   "the local office the speaker holds or seeks, as people say it, from the office row's title or the presiding post";
 const LOCAL_WORDS: readonly [RegExp, string, string | null][] = [
-  [/^Council members, /, "Members of {body}, ", "body"],
-  [/^Council, neighbors\.$/, "Members of {body}, neighbors.", "body"],
+  // A greeting says the body by its recorded name (body-name: "the Groton
+  // Select Board"), never the bare "the board".
+  [/^Council members, /, "Members of {body-name}, ", "body-name"],
+  [/^Council, neighbors\.$/, "Members of {body-name}, neighbors.", "body-name"],
   [/\bthe council\b/g, "{body}", "body"],
   [
     /\bas long as I am mayor\b/,
@@ -2269,8 +2271,8 @@ const LOCAL_PIECES: {
     subject: "floor-speech",
     role: "salutation",
     voice: "polished",
-    text: "{presiding}, members of {body}.",
-    needs: ["presiding", "body"],
+    text: "{presiding}, members of {body-name}.",
+    needs: ["presiding", "body-name"],
   },
   {
     subject: "floor-speech",
@@ -2283,8 +2285,8 @@ const LOCAL_PIECES: {
     subject: "floor-speech",
     role: "salutation",
     voice: BOTH,
-    text: "Members of {body}.",
-    needs: ["body"],
+    text: "Members of {body-name}.",
+    needs: ["body-name"],
   },
   // Floor asks: the members' vote on the measure before them.
   ...(

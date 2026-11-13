@@ -74,7 +74,10 @@
     "first-after": "how the first ask's question will stand once the ask passes, in the speaker's side's words, where it changes the law",
     "first-reason": "the first ask's own reason on the speaker's side, where the belief has not said it",
     "theme-short": "the theme said short for a close (speech-outlines.json themeShort)",
-    "speaker-addressed": "the Speaker of the House spoken to, with title and name"
+    "speaker-addressed": "the Speaker of the House spoken to, with title and name",
+    "body-name": "the body a local speaker addresses, by the name its record gives it, said as to its face ('the Groton Select Board'), from the office record",
+    "condition-measure": "a hurt address's worst condition: the area's measure that moved furthest the wrong way, in its measure words (area-names.json), from the term read",
+    "condition-change": "how far that measure moved since the speaker took office, through the count-words reader (changeSaid), from the term read's two web rows"
   },
   "maxWords": 40,
   "mining": {
@@ -107,7 +110,7 @@
       "key": "opening-speech.salutation.polished-twn-crisis-members-of-the-council-my-fellow-citizens-i-will",
       "move": "salutation",
       "kind": "spoken",
-      "text": "Members of {body}, my fellow citizens.",
+      "text": "Members of {body-name}, my fellow citizens.",
       "uses": [
         {
           "move": "salutation",
@@ -115,7 +118,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -129,7 +132,7 @@
       "key": "opening-speech.salutation.polished-twn-crisis-members-of-the-council-and-neighbors-i-have-hard",
       "move": "salutation",
       "kind": "spoken",
-      "text": "Members of {body}, and neighbors.",
+      "text": "Members of {body-name}, and neighbors.",
       "uses": [
         {
           "move": "salutation",
@@ -137,7 +140,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -151,7 +154,7 @@
       "key": "opening-speech.salutation.polished-twn-crisis-council-members-and-my-fellow-residents-tonight-is-not",
       "move": "salutation",
       "kind": "spoken",
-      "text": "Members of {body}, and my fellow residents.",
+      "text": "Members of {body-name}, and my fellow residents.",
       "uses": [
         {
           "move": "salutation",
@@ -159,7 +162,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -173,7 +176,7 @@
       "key": "opening-speech.salutation.plain-twn-crisis-members-of-the-council-and-everybody-who-came-out",
       "move": "salutation",
       "kind": "spoken",
-      "text": "Members of {body}, and everybody who came out.",
+      "text": "Members of {body-name}, and everybody who came out.",
       "uses": [
         {
           "move": "salutation",
@@ -181,7 +184,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -195,7 +198,7 @@
       "key": "opening-speech.salutation.plain-twn-crisis-council-neighbors-i-ve-got-some-hard-things-to",
       "move": "salutation",
       "kind": "spoken",
-      "text": "Members of {body}, neighbors.",
+      "text": "Members of {body-name}, neighbors.",
       "uses": [
         {
           "move": "salutation",
@@ -203,7 +206,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -1560,7 +1563,7 @@
       "key": "opening-speech.salutation.polished-twn-members-of-the-council-and-my-fellow-citizens-thank-you-for-being",
       "move": "salutation",
       "kind": "spoken",
-      "text": "Members of {body}, and my fellow citizens.",
+      "text": "Members of {body-name}, and my fellow citizens.",
       "uses": [
         {
           "move": "salutation",
@@ -1568,7 +1571,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -115855,7 +115858,7 @@
       "key": "opening-speech.salutation.polished-floor-speech-members-of-presiding-body",
       "move": "salutation",
       "kind": "spoken",
-      "text": "{presiding}, members of {body}.",
+      "text": "{presiding}, members of {body-name}.",
       "uses": [
         {
           "move": "salutation",
@@ -115864,7 +115867,7 @@
           "choice": "salutation",
           "requiresFacts": [
             "presiding",
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -115900,7 +115903,7 @@
       "key": "opening-speech.salutation.both-floor-speech-members-of-body",
       "move": "salutation",
       "kind": "spoken",
-      "text": "Members of {body}.",
+      "text": "Members of {body-name}.",
       "uses": [
         {
           "move": "salutation",
@@ -115908,7 +115911,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "body"
+            "body-name"
           ]
         }
       ],
@@ -118755,7 +118758,7 @@
       "key": "opening-speech.salutation.polished-twn-members-of-body-and-the-people-of-realm",
       "move": "salutation",
       "kind": "spoken",
-      "text": "Members of {body}, and the people of {realm-name}.",
+      "text": "Members of {body-name}, and the people of {realm-name}.",
       "uses": [
         {
           "move": "salutation",
@@ -118763,7 +118766,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "body",
+            "body-name",
             "realm-name"
           ]
         }
@@ -118778,7 +118781,7 @@
       "key": "opening-speech.salutation.plain-twn-members-of-body-and-everybody-in-realm",
       "move": "salutation",
       "kind": "spoken",
-      "text": "Members of {body}, and everybody in {realm-name} who came out tonight.",
+      "text": "Members of {body-name}, and everybody in {realm-name} who came out tonight.",
       "uses": [
         {
           "move": "salutation",
@@ -118786,7 +118789,7 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": [
-            "body",
+            "body-name",
             "realm-name"
           ]
         }
@@ -119231,6 +119234,504 @@
       },
       "origin": "authored",
       "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.story-says.both-rent-since-i-took-this-office-we-have-seen-rise-and",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Since I took this office, we have seen {condition-measure} rise {condition-change}, and that weighs on the families who rent here.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "rent-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "rent-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "rent-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "rent-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "floor-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "rent-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "campaign-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "rent-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        }
+      ],
+      "voice": [
+        "polished",
+        "plain"
+      ],
+      "bearing": "braced",
+      "topic": "rent",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.story-says.both-crime-since-i-took-this-office-we-have-seen-rise-and",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Since I took this office, we have seen {condition-measure} rise {condition-change}, and no one here should have to get used to that.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "crime-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "crime-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "crime-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "crime-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "floor-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "crime-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "campaign-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "crime-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        }
+      ],
+      "voice": [
+        "polished",
+        "plain"
+      ],
+      "bearing": "braced",
+      "topic": "crime",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.story-says.both-schools-since-i-took-this-office-we-have-seen-fall-and",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Since I took this office, we have seen {condition-measure} fall {condition-change}, and our children deserve better than that.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "schools-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "schools-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "schools-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "schools-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "floor-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "schools-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "campaign-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "schools-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        }
+      ],
+      "voice": [
+        "polished",
+        "plain"
+      ],
+      "bearing": "braced",
+      "topic": "schools",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.story-says.both-health-since-i-took-this-office-we-have-seen-rise-and",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Since I took this office, we have seen {condition-measure} rise {condition-change}, and no family here should have to accept that.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "health-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "health-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "health-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "health-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "floor-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "health-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "campaign-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "health-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        }
+      ],
+      "voice": [
+        "polished",
+        "plain"
+      ],
+      "bearing": "braced",
+      "topic": "health",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.story-says.both-roads-since-i-took-this-office-we-have-seen-rise-and",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Since I took this office, we have seen {condition-measure} rise {condition-change}, and the people who drive here deserve safer roads than that.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "roads-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "roads-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "roads-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "roads-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "floor-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "roads-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "campaign-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "roads-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        }
+      ],
+      "voice": [
+        "polished",
+        "plain"
+      ],
+      "bearing": "braced",
+      "topic": "roads",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.story-says.both-environment-since-i-took-this-office-we-have-seen-rise-and",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Since I took this office, we have seen {condition-measure} rise {condition-change}, and our families deserve cleaner air and water than that.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "environment-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "environment-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "environment-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "environment-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "floor-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "environment-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "campaign-speech",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "environment-worse",
+            "condition-measure",
+            "condition-change"
+          ]
+        }
+      ],
+      "voice": [
+        "polished",
+        "plain"
+      ],
+      "bearing": "braced",
+      "topic": "environment",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code)",
       "date": "2026-11-12"
     }
   ]

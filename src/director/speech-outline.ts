@@ -87,7 +87,8 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { earlierAddressPieces } from "./opening-facts";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
-import { moneySaid } from "../english/count-words";
+import { changeSaid, moneySaid } from "../english/count-words";
+import { measureWords } from "../english/area-names";
 import { addDays, daysBetweenText } from "../core2/kernel/dates";
 import type { IsoDate } from "../core2/kernel/brands";
 import {
@@ -874,6 +875,8 @@ export interface OutlineSpeaker {
     readonly realmName: string | null;
     /** The body they speak to or sit on, as people say it ("the council", "the board"). */
     readonly body: string | null;
+    /** The body by its recorded name, said as to its face ("the Groton Select Board"), for a greeting; null where the record names none. */
+    readonly bodyName?: string | null;
     /** The office the speaker holds or seeks, as people say it ("mayor", "county executive"). */
     readonly officeTitle: string | null;
   };
@@ -1123,6 +1126,32 @@ function worstCondition(country: Country): string | null {
           wrongBy(country, b) - wrongBy(country, a) || a.localeCompare(b),
       )[P.zero] ?? null
   );
+}
+
+/**
+ * The figure a hurt address says its worst condition with when the speaker
+ * has held office too short a time to say it over years: of the area's
+ * measures that moved the wrong way, the one that moved furthest, named in
+ * the area's measure words and said through the count-words reader (by how
+ * far it moved, or a share by where it stood and where it stands). Empty
+ * where the area holds no such measure.
+ */
+function conditionFigure(country: Country, topic: string): Facts {
+  const read = country.areas.find((row) => row.area === topic);
+  const worst = [...(read?.measures ?? [])]
+    .filter((row) => row.slide < P.zero && measureWords(row.measure))
+    .sort((a, b) => a.slide - b.slide || a.measure.localeCompare(b.measure))[
+    P.zero
+  ];
+  if (!read || !worst) return {};
+  const words = measureWords(worst.measure)!;
+  const change = changeSaid(worst.from, worst.to, words.share);
+  return change
+    ? {
+        "condition-measure": fact(words.said, ...read.sourceRecordIds),
+        "condition-change": fact(change, ...read.sourceRecordIds),
+      }
+    : {};
 }
 
 /** The levels of government the bill catalog says may answer each question. */
@@ -1759,7 +1788,19 @@ export function planSpeech(
   // term by how far it slid and a measure of the year by how far it moved
   // against its scale. Such an address opens its body on it; with none to
   // say, the address takes neither kind.
-  const crisisTopic = worstCondition(country);
+  const worst = worstCondition(country);
+  // A condition the address can say: over the speaker's years in office, or
+  // by its own figure. A hurt address that could not say what went wrong
+  // would compose the same text in a bad term as in a good one (Supreme,
+  // Louisiana, seed f60661c6f1578a5f).
+  const crisisTopic =
+    worst &&
+    (contextFacts(core, worst, country, speaker.serviceStart)[
+      `context-${worst}`
+    ] ||
+      Object.keys(conditionFigure(country, worst)).length)
+      ? worst
+      : null;
   // A speaker in their first year takes no lap for a record they did not make.
   const addressKind = chooseAddressKind(person, situation, [
     ...(firstYear || !row.ownRecord ? (["victory"] as const) : []),
@@ -1971,7 +2012,12 @@ export function planSpeech(
     return {
       key: `crisis-${topic}`,
       level: "country",
-      facts: { ...badFacts(country, topic), ...context },
+      facts: {
+        ...badFacts(country, topic),
+        ...context,
+        // Too short a time in office to say it over years: its figure.
+        ...(told ? {} : conditionFigure(country, topic)),
+      },
       moves: told
         ? [told, move("meaning", { topic })]
         : [move("story-says", { topic })],
@@ -2266,6 +2312,10 @@ export function planSpeech(
           ? { "realm-name": fact(realm, speaker.jurisdiction ?? person.id) }
           : {}),
         ...(local?.body ? { body: fact(local.body, local.officeId) } : {}),
+        // A greeting says the body by the name its record gives it.
+        ...(local?.bodyName
+          ? { "body-name": fact(local.bodyName, local.officeId) }
+          : {}),
         // What the body passes, as it names it: a legislature's bills, a
         // town's or a county's ordinances (the one form rule, by the office
         // kind on the record; line rule body-named-as-place-names-it).

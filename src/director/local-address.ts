@@ -132,6 +132,31 @@ function realmSaid(core: CoreState, office: TownSeat["office"]): string | null {
       );
 }
 
+/**
+ * A local body by the name its record gives it, as people say it to the
+ * body's face ("the Groton Select Board", "the East Hempfield Board of
+ * Supervisors", "the DeSoto County Board of Commissioners"): where the
+ * recorded name opens with its government's listed name ("Town of Groton
+ * Select Board"), that part is said as the place is. Null where the record
+ * names no body.
+ */
+function bodyNameSaid(
+  core: CoreState,
+  office: TownSeat["office"],
+): string | null {
+  const name = office.bodyName?.trim();
+  if (!name) return null;
+  const listed = governmentProperName(
+    office.governmentName,
+    office.jurisdiction,
+  );
+  const opens = name
+    .toLocaleLowerCase("en-US")
+    .startsWith(`${listed.toLocaleLowerCase("en-US")} `);
+  const place = opens ? realmSaid(core, office) : null;
+  return `the ${place ? `${place} ${name.slice(listed.length + P.one)}` : name}`;
+}
+
 /** "County of Maui" said as "Maui County", for the forms `realmForms` lists; a town, city or village by its name alone. */
 function realmOfForm(listed: string): string {
   const [, form, name] = /^(\w+) of (.+)$/.exec(listed) ?? [];
@@ -159,6 +184,7 @@ export function localSpeaker(
     questions: contestPositions(coreAPI(core), { officeId: office.id }),
     realmName: realmSaid(core, office),
     body: bodySaid(body),
+    bodyName: bodyNameSaid(core, body),
     officeTitle,
   };
 }
