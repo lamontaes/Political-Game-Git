@@ -15,18 +15,24 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import {
+  ELECTIONS_MODULE_ID,
   checkEligibility,
   filingOfficeFor,
   playerContests,
 } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { spokenOffice } from "../director/filing-visit";
 import { spoken } from "../director/words";
 import { expectUpToFourDifferent } from "../director/reply-set-check";
 import { seatSaid } from "../english/journal-words";
 import type { PersonId } from "../core2/types";
 import controls from "./data/controls.json" with { type: "json" };
-import { chooseAtCounter, openBenchFilingVisit } from "./filing";
+import {
+  NothingAtCounter,
+  chooseAtCounter,
+  openBenchFilingVisit,
+} from "./filing";
 import { buildBenchWorld } from "./world";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
@@ -66,20 +72,53 @@ it(`a first visit asks for the papers, the player says only what they chose, and
           row.alive && row.placeId === town && row.birthDate < "1990-01-01",
       )
       .sort((a, b) => a.id.localeCompare(b.id));
-    const findPair = () =>
-      grown
-        .map((person) => ({
-          person,
-          contest: playerContests(api).find(
-            (row) =>
-              row.level !== "federal" &&
-              row.level !== "state" &&
-              checkEligibility(api, person.id, row.id).every(
-                (check) => check.met,
-              ),
-          ),
-        }))
-        .find((row) => row.contest);
+    // A resident already running in a race is not offered it at the counter
+    // (P1, Commack, New York), so the visit starts with one they have not
+    // filed for (seed 8b7056d0cf1a2f624d37 drew a resident already running).
+    const filedIn = (id: string) =>
+      new Set(
+        (
+          api
+            .moduleState(ELECTIONS_MODULE_ID)
+            .table("filings")
+            .query("byPerson", [id]) as unknown as {
+            contestId: string;
+            status: string;
+          }[]
+        )
+          .filter(
+            (row) => row.status === "petitioning" || row.status === "on-ballot",
+          )
+          .map((row) => row.contestId),
+      );
+    // The races are the resident's own (their district's), read with them
+    // as the player, as the counter reads them (Groom, Texas, seed
+    // 8b7056d0cf1a2f624d37: a race from the first player's list was not on
+    // the resident's).
+    const findPair = () => {
+      const first = core.playerId;
+      for (const person of grown) {
+        if (
+          !playerContests(api).some((row) =>
+            checkEligibility(api, person.id, row.id).every((c) => c.met),
+          )
+        )
+          continue;
+        core.playerId = person.id as PersonId;
+        const contest = playerContests(api).find(
+          (row) =>
+            row.level !== "federal" &&
+            row.level !== "state" &&
+            !filedIn(person.id).has(row.id) &&
+            checkEligibility(api, person.id, row.id).every(
+              (check) => check.met,
+            ),
+        );
+        core.playerId = first;
+        if (contest) return { person, contest };
+      }
+      return undefined;
+    };
     // Filing opens on the place's own days: the weeks go by until a local
     // race is open to a grown resident (at most two years), read from the
     // calendar's records, never skipped.
@@ -108,9 +147,7 @@ it(`a first visit asks for the papers, the player says only what they chose, and
     process.stdout.write(`${where} greeting: ${greeting}\n`);
     expect(
       greeting.includes(townName) ||
-        greeting
-          .toLowerCase()
-          .includes(filedWith.toLowerCase().split(/[;(,]/)[0]!.trim()),
+        greeting.toLowerCase().includes(spokenOffice(filedWith).toLowerCase()),
       `${where}: ${greeting}`,
     ).toBe(true);
     // The first visit: no folder of forms, no petition yet.
@@ -197,23 +234,35 @@ it(`a first visit asks for the papers, the player says only what they chose, and
     // with nothing to bring once the name is on the ballot (a race with no
     // petition, as in Laramie, Wyoming at seed 7d9f1b3a5c0e2468), never as a
     // first visit; told from the filing's record.
-    const back = openBenchFilingVisit(core, me, filedWith, 10 * 60);
-    const told = back.intro.map((line) => line.text).join(" ");
-    process.stdout.write(`${where} return (${filing!.status}): ${told}\n`);
-    // Once the name is on the ballot there is nothing left to file, and a
-    // scene with nothing to say is not played (Fable A, Nov 13, rule 19).
-    if (filing!.status !== "petitioning") {
-      expect(back.intro, where).toEqual([]);
-      return;
+    // Back at the counter (P1, Commack, New York): the race already filed in
+    // is never offered again; with only the petition left, the clerk says
+    // where it stands and the player can only leave; with nothing left, no
+    // scene (rule 19).
+    let back: ReturnType<typeof openBenchFilingVisit> | null = null;
+    try {
+      back = openBenchFilingVisit(core, me, filedWith, 10 * 60);
+    } catch (error) {
+      expect(error, where).toBeInstanceOf(NothingAtCounter);
+      expect(filing!.status, where).not.toBe("petitioning");
     }
-    expect(told, where).toMatch(/petition/);
-    expect(told, where).not.toMatch(
-      /ask (?:about|for the papers)|pick up the papers/,
-    );
-    expect(
-      back.intro.some((line) => line.sourceRecordIds.includes(filing!.id)),
-      where,
-    ).toBe(true);
+    if (back) {
+      expect(
+        back.visit.choices.some((row) => row.key === pick),
+        `${where}: the filed race is offered again`,
+      ).toBe(false);
+      if (!back.visit.contests.length) {
+        const status = back.visit.lines.at(-1)!;
+        process.stdout.write(
+          `${where} back with the petition: ${status.text}\n`,
+        );
+        expect(status.speaker, where).toBe("clerk");
+        expect(status.sourceRecordIds, where).toContain(filing!.id);
+        expect(
+          back.visit.choices.map((row) => row.control),
+          where,
+        ).toEqual(["leave"]);
+      }
+    }
     return;
   }
   expect.fail(`no filing in ${tried.join("; ")}`);

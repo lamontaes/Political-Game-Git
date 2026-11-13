@@ -129,6 +129,12 @@ export function openFilingVisit(
   clerkId?: PersonId,
   /** The office that takes these filings, as its record names it. */
   filedWith?: string,
+  /**
+   * The player's own filing at this counter, when they are back for another
+   * race: the clerk who took it does not introduce themself again and opens
+   * from it (Fable A, Nov 13: "Back again? Your papers for {office} are in.").
+   */
+  back?: { filingId: string; seat: SeatRecord },
 ): FilingVisit {
   const visit: FilingVisit = {
     playerId,
@@ -139,20 +145,29 @@ export function openFilingVisit(
   };
   // The clerk greets the player by the town and the office they are in, and
   // says who they are where the records name the clerk.
-  const greet = visitLine(core, visit, "clerk", "greet-counter", {
-    ...placeFact(core, playerId),
-    // An office the record names only as a choice ("City or town clerk")
-    // is no name a clerk says of their own office; the town is said instead.
-    ...(filedWith && !/ or /i.test(spokenOffice(filedWith))
-      ? {
-          where: {
-            text: titleInSentence(spokenOffice(filedWith)),
-            sourceRecordIds: contests.map((row) => row.id),
-          },
-        }
-      : {}),
-    ...clerkFact(core, clerkId),
-  });
+  const greet = back
+    ? visitLine(core, visit, "clerk", "greet-back", {
+        "filed-office": {
+          text: seatSaid(back.seat),
+          sourceRecordIds: [back.filingId],
+        },
+        ...clerkFact(core, clerkId),
+      })
+    : visitLine(core, visit, "clerk", "greet-counter", {
+        ...placeFact(core, playerId),
+        // An office the record names only as a choice ("City or town clerk") is
+        // said as the place's own kind; where the records do not settle it, the
+        // town is said instead.
+        ...(filedWith && saidOffice(filedWith, contests)
+          ? {
+              where: {
+                text: titleInSentence(saidOffice(filedWith, contests)!),
+                sourceRecordIds: contests.map((row) => row.id),
+              },
+            }
+          : {}),
+        ...clerkFact(core, clerkId),
+      });
   if (greet) visit.lines.push({ speaker: "clerk", ...greet });
   for (const contest of contests) {
     const line = visitLine(
@@ -185,11 +200,54 @@ export function openFilingVisit(
  * without its asides. The note reads "Town clerk (party endorsements by town
  * committee/caucus; petitions certified by registrars of voters)" or "State
  * party chair (party candidates); Secretary of State (independents)"; a
- * person names the office.
+ * person names the office. Whose county or town it is ("of the candidate's
+ * home county", "in the candidate's city or town") is the research note's
+ * gloss, never said aloud (P1, Richburg, South Carolina, Nov 13, rule 8).
  */
 export function spokenOffice(note: string): string {
-  const first = note.split(/\s*[;(]|\s+\/\s+|,\s/)[P.zero]!.trim();
+  // An aside inside the name ("County (local) board of elections") is
+  // dropped, not where the name ends.
+  const parts = note
+    .replace(/\s*\([^)]*\)(?=\s+(?!and\b|or\b)[a-z])/g, "")
+    .split(/\s*[;(]|\s+\/\s+|,\s/);
+  const first = parts[P.zero]!.replace(
+    /\s+(?:of|in) the candidate's\b.*$/i,
+    "",
+  ).trim();
   return first || note.trim();
+}
+
+/**
+ * The filing office as the place says it. A research note that names a choice
+ * ("City or town clerk") is settled by the kind of place the races here are
+ * for, read from their own names ("Town of Wareham Select Board": the town
+ * clerk; Fable A, Nov 13, rule 8). Null when the records do not settle it.
+ */
+export function saidOffice(
+  note: string,
+  races: readonly {
+    title: string;
+    seat?: { bodyName?: string | null } | null;
+  }[],
+): string | null {
+  const office = spokenOffice(note);
+  const choice = /^(?<one>\w+) or (?<other>\w+) (?<rest>.+)$/i.exec(
+    office,
+  )?.groups;
+  if (!choice) return / or /i.test(office) ? null : office;
+  const kind = races
+    .map(
+      (race) =>
+        /\b(?<kind>Town|City|Village|Borough) of\b/.exec(
+          `${race.seat?.bodyName ?? ""} ${race.title}`,
+        )?.groups?.kind,
+    )
+    .find((word) => word !== undefined);
+  if (!kind) return null;
+  const word = [choice.one!, choice.other!].find(
+    (option) => option.toLowerCase() === kind.toLowerCase(),
+  );
+  return word ? `${kind} ${choice.rest!}` : null;
 }
 
 /**
@@ -231,10 +289,14 @@ export function pickContest(
       text: spokenDate(contest.filingDeadline, core.date),
       sourceRecordIds: ids,
     },
-    where: {
-      text: titleInSentence(spokenOffice(terms.filedWith)),
-      sourceRecordIds: ids,
-    },
+    ...(saidOffice(terms.filedWith, visit.contests)
+      ? {
+          where: {
+            text: titleInSentence(saidOffice(terms.filedWith, visit.contests)!),
+            sourceRecordIds: ids,
+          },
+        }
+      : {}),
   };
   visit.choices = [];
   visit.picked = { contestId, facts, path: [] };
@@ -431,6 +493,60 @@ function recordReply(
       asOf: core.date,
     },
   });
+}
+
+/**
+ * A filed player back at the counter while the petition gathers signatures:
+ * the clerk says where it stands, from the petition's record (signed so far,
+ * how many it needs, the day it is due), and the player can only leave; the
+ * race they are in is not offered again (P1, Commack, New York; Fable A,
+ * Nov 13 07:05Z).
+ */
+export function petitionAtCounter(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  clerkId: PersonId | undefined,
+  filingId: string,
+  petition: { needed: number; signed: number; due: string },
+): FilingVisit {
+  const visit: FilingVisit = {
+    playerId,
+    ...(clerkId ? { clerkId } : {}),
+    contests: [],
+    lines: [],
+    choices: [],
+  };
+  const fact = (text: string) => ({ text, sourceRecordIds: [filingId] });
+  const facts: Record<string, Fact> = {
+    signatures: fact(petition.needed.toLocaleString("en-US")),
+    due: fact(spokenDate(petition.due, core.date)),
+    ...(petition.signed > zero
+      ? { signed: fact(petition.signed.toLocaleString("en-US")) }
+      : { "none-signed": fact("yes") }),
+    ...clerkFact(core, clerkId),
+  };
+  const status = visitLine(core, visit, "clerk", "petition-status", facts);
+  if (status) visit.lines.push({ speaker: "clerk", ...status });
+  const leave = visitLine(
+    core,
+    visit,
+    "player",
+    "petition-leave",
+    facts,
+    undefined,
+    new Set(),
+    "reply",
+  );
+  if (leave)
+    visit.choices.push({
+      key: "leave",
+      text: leave.text,
+      control: "leave",
+      move: "leave",
+      action: { kind: "done" },
+      sourceRecordIds: leave.sourceRecordIds,
+    });
+  return visit;
 }
 
 /** The player says a reply in the clerk's scene that is not filing or leaving. */
@@ -648,7 +764,13 @@ export function counterNarration(
       : {}),
     ...(filing
       ? {
-          [filing.status === "petitioning" ? "returning" : "on-ballot"]: {
+          // Back for another race while the first is filed: a return,
+          // not the petition's handover.
+          [visit.contests.length
+            ? "back-again"
+            : filing.status === "petitioning"
+              ? "returning"
+              : "on-ballot"]: {
             text: "yes",
             sourceRecordIds: [filing.id],
           },
