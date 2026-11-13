@@ -29,7 +29,7 @@ checked: opus-lr 2026-11-13
 
 **Rules.** No new words: the same lines, in a different order.
 
-**Done when.** A test gives the card a life whose kinds alternate and checks the paragraphs keep its order. Three cards, each in a drawn place, tell their story by year, shown before and after.
+**Done when.** A test gives the card a life whose kinds alternate and checks the paragraphs keep its order. Three cards, each in a drawn place, tell their story by year, shown before and after. A second session, on main, opens Your life and three cards in a drawn place and sees each story run by year.
 
 **Waits on.** Nothing.
 
