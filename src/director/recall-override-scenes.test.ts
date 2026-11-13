@@ -56,8 +56,7 @@ it(`the press and the director read recall results and veto overrides (seed ${se
     for (const [personId, book] of director.ledger.people)
       for (const row of book.schedule) {
         for (const binding of row.bindings) {
-          if (binding.typeKey !== "veto" && binding.typeKey !== "recall")
-            continue;
+          if (binding.typeKey !== "recall") continue;
           const moment = book.momentsById.get(row.momentId)!;
           if (!events.some((e) => e.id === moment.causeId)) continue;
           expect(

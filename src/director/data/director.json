@@ -431,6 +431,19 @@
         "citation": "Cast weight of the person's recorded sociability, from -1 to 1 of the trait scale: the talkative bring it up."
       }
     },
+    "directorCircumstanceNewsTellerMinAge": {
+      "value": 13,
+      "tag": "TUNABLE",
+      "citation": "Fable A, Nov 13, 2026, rule 28: a child under 13 is never cast to tell news of politics, money, law or work, and never opens with an adult's line; from 13 to 17 they may tell what they heard at school or at home; adults as now. Playtester P1, Commack NY: a 4-year-old son cast to tell his mother who filed for town board.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 10,
+        "high": 16,
+        "unit": "years",
+        "citation": "Youngest age, on the person's birth record, at which a circumstance may cast someone to tell news of politics, money, law or work; a row whose news a child can know (their school year, a newcomer at home, a goodbye) is not held to it."
+      }
+    },
     "directorTieSharedHome": {
       "value": 0.3,
       "tag": "TUNABLE",

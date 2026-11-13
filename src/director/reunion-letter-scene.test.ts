@@ -11,37 +11,23 @@ import {
   FAMILY_CONTACT,
   FAMILY_GATHERING_MISSED,
 } from "../core2/modules/kin-contact";
-import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { spanSaid } from "../english/span-words";
 import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
-import { composeJournal } from "./journal";
 import { letterFacts } from "./letter-facts";
-import { newsSince } from "./life-news";
 import { destinationSaid, purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 import { expectUpToFourDifferent } from "./reply-set-check";
 
-// A reunion and a letter each ask for something (owner, Nov 9: a purpose for
-// every scene kind that lacks one). The facts come from records the world
-// keeps: how long two people were apart (the director's thread for the pair),
-// where they live (the person's place), what changed in their life (births in
-// the household, weddings, moves, work, illness) and, for a letter, the
-// `family.contact` record that wrote it, a birthday missed at the reader's
-// table and the writer's own birthday.
-//
-// A reunion needs a pair that has been out of touch for years and a history
-// the director weighs; the opening starts every tie fresh, so the reunion's
-// cause is HAND-STAGED: a tie's last contact is set three years back before
-// the director watches, its thread is given the grown tie two years of
-// history would have built, and the player is then in touch once more
-// (`api.relationship`, the core's own writer). Everything after is the
-// director's: it renews the thread, stages the scene, `purposeScene` words it
-// and `replyInScene` writes the reply back. The letters are NOT staged: they
-// are the kin-contact engine's own `family.contact` records in a played year.
+// A letter asks for something (owner, Nov 9: a purpose for every scene kind
+// that lacks one). The facts come from records the world keeps: where the
+// writer lives, what changed in their life (births in the household,
+// weddings, moves, work, illness), the `family.contact` record that wrote it,
+// a birthday missed at the reader's table and the writer's own birthday. The
+// letters are NOT staged: they are the kin-contact engine's own
+// `family.contact` records in a played year. (The reunion scene was deleted
+// with the scene inventory, docs/design/scene-inventory.md: its cause was the
+// director's own re-entry echo, not an engine record.)
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
-const ATTEMPTS = 2;
-const STAGED_DAYS_APART = 1100;
 
 /** Every path of a tree: the replies chosen, the node it reaches. */
 const paths = (node: TreeNode, prefix: number[] = []): number[][] =>
@@ -69,221 +55,6 @@ const log = (note: string) => {
     writeFileSync(process.env.SCENE_LOG, `${note}\n`, { flag: "a" });
   process.stdout.write(`${note}\n`);
 };
-
-it(`someone out of touch for years comes back and asks for something (seed ${seed})`, () => {
-  setBookkeeping(false);
-  const tried: string[] = [];
-  let done = 0;
-  try {
-    for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
-      const place = drawPlace(seed, `reunion:${attempt}`);
-      const where = `${place.name} (${place.key}), seed ${place.seed}`;
-      const { core, director, playerId } = buildBenchWorld(
-        place.seed,
-        gameStartDate(),
-        { twoLevel: true, placeKey: place.key },
-      );
-      const id = playerId as PersonId;
-      const player = core.people.get(id)!;
-      const api = coreAPI(core);
-      const apart = addDays(makeIsoDate(core.date), -STAGED_DAYS_APART);
-      // Even attempts: a relative who lives elsewhere (the one with the most
-      // news in the records); odd: a person in town the player has no tie to.
-      const candidates = (
-        attempt % 2 === 0
-          ? [...player.familyIds]
-              .map((rel) => core.people.get(rel as PersonId)!)
-              .filter(
-                (row) => row?.alive && row.householdId !== player.householdId,
-              )
-          : [...core.people.values()].filter(
-              (row) =>
-                row.alive &&
-                row.tier !== "husk" &&
-                row.id.startsWith("person_") &&
-                row.id !== id &&
-                row.householdId !== player.householdId &&
-                !player.familyIds.has(row.id),
-            )
-      ).sort(
-        (a, b) =>
-          Object.keys(newsSince(core, b.id, apart, player.householdId)).length -
-            Object.keys(newsSince(core, a.id, apart, player.householdId))
-              .length || a.id.localeCompare(b.id),
-      );
-      const other = candidates[0];
-      if (!other) {
-        tried.push(`${where}: no one to bring back`);
-        continue;
-      }
-      const hasTie = [...(core.relationshipsByPerson.get(id) ?? [])].some(
-        (rid) =>
-          core.relationships.get(rid)?.actorId === other.id ||
-          core.relationships.get(rid)?.otherId === other.id,
-      );
-      if (!hasTie)
-        api.meet(id, other.id, {
-          placeId: player.placeId,
-          sourceId: "fixture-reunion",
-          cause: "met-in-group",
-          hours: 1,
-        });
-      // HAND-STAGED: the tie's last contact was three years ago.
-      const tieId = [...(core.relationshipsByPerson.get(id) ?? [])].find(
-        (rid) =>
-          core.relationships.get(rid)?.actorId === other.id ||
-          core.relationships.get(rid)?.otherId === other.id,
-      )!;
-      (
-        core.relationships.get(tieId) as { lastContactDate: string }
-      ).lastContactDate = apart;
-      director.watch(core, id);
-      const book = director.ledger.people.get(id)!;
-      // HAND-STAGED: the grown tie of two years' history.
-      const thread = book.threads.get(other.id)!;
-      thread.tie = 1;
-      thread.turns.push({
-        date: apart,
-        turn: "grew",
-        causeId: tieId,
-        closeness: thread.closeness,
-      });
-      api.relationship(id, other.id, "contact", 6);
-      advanceCore(core, addDays(makeIsoDate(core.date), 2));
-      const entry = book.schedule.find((row) =>
-        row.bindings.some(
-          (bound) =>
-            bound.typeKey === "reunion" &&
-            bound.roles.some((r) => r.personIds.includes(other.id)),
-        ),
-      );
-      if (!entry) {
-        tried.push(
-          `${where}: no reunion staged (${book.schedule
-            .map((row) => row.bindings.map((b) => b.typeKey).join("+") || "-")
-            .slice(-6)
-            .join(",")})`,
-        );
-        continue;
-      }
-      const moment = book.momentsById.get(entry.momentId)!;
-      const result = purposeScene(core, director, id, entry, {
-        typeKey: "reunion",
-      });
-      expect(result?.kind, `${where}: ${JSON.stringify(result)}`).toBe(
-        "composed",
-      );
-      if (result?.kind !== "composed") return;
-      const { scene } = result;
-      expect(scene.purpose, where).toBe("reunion-ask");
-      expect(scene.askerId, where).toBe(other.id);
-      expect(scene.askedId, where).toBe(id);
-      const fact = (key: string) => scene.facts.find((row) => row.key === key);
-      // How long: from the thread's renewing turn, cited to the pair.
-      const renewed = book.threads
-        .get(other.id)!
-        .turns.find((turn) => turn.turn === "renewed")!;
-      expect(renewed.since, where).toBe(apart);
-      expect(fact("away")?.text, where).toBe(
-        spanSaid(daysBetweenText(apart, moment.date)),
-      );
-      expect(fact("away")?.recordIds, where).toContain(other.id);
-      // Where they live: said only where it is not the player's place.
-      const there =
-        other.placeId === player.placeId
-          ? null
-          : destinationSaid(other.placeId, "");
-      expect(fact("hometown")?.text ?? null, where).toBe(there);
-      // What changed: every fact the records give, and no other.
-      const news = newsSince(
-        core,
-        other.id,
-        apart,
-        player.householdId,
-        moment.date,
-      );
-      for (const [key, expected] of Object.entries(news)) {
-        expect(fact(key)?.text, `${where}: ${key}`).toBe(expected.text);
-        expect(fact(key)?.recordIds, `${where}: ${key}`).toEqual(
-          expected.sourceRecordIds,
-        );
-      }
-      for (const key of [
-        "new-child",
-        "married",
-        "moved",
-        "new-employer",
-        "ill",
-      ])
-        expect(!!fact(key), `${where}: ${key}`).toBe(key in news);
-      // No fall-out is claimed: the thread kept no soured turn before the last contact.
-      expect(!!fact("fell-out"), where).toBe(false);
-      const said = scene.talk.lines.map((row) => row.text).join(" | ");
-      const narration = scene.talk.narration.map((row) => row.text).join(" ");
-      const root = scene.talk.tree.replies.map((reply) => reply.line);
-      expectUpToFourDifferent(root, where);
-      for (const row of root)
-        expect(["agree", "promise", "ask", "deflect"], where).toContain(
-          row.move,
-        );
-      expect(scene.talk.depth, where).toBeGreaterThan(1);
-      expect(
-        scene.talk.gaps.filter((gap) => gap.includes("/ending/")),
-        where,
-      ).toEqual([]);
-      for (const row of scene.talk.lines)
-        expect(row.text, where).not.toMatch(SLOP);
-      // The player's name is said at most once a line; another person in the
-      // scene may share it (a new child named for the player's own first name).
-      const sharedName = scene.facts.some(
-        (fact) => fact.key !== "first" && fact.text === player.givenName,
-      );
-      if (!sharedName)
-        for (const row of scene.talk.lines)
-          expect(
-            (row.text.match(new RegExp(player.givenName, "g")) ?? []).length,
-            `${where}: ${row.text}`,
-          ).toBeLessThanOrEqual(1);
-      // A promise settles it and is written on the reply by id.
-      const settled = endsKeeping(scene.talk.tree, "promise")[0];
-      expect(settled, `${where}: no path keeps a promise`).toBeTruthy();
-      const replyId = replyInScene(core, director, id, entry, settled!.full, {
-        typeKey: "reunion",
-      });
-      const reply = core.durableLog.get(replyId!);
-      expect(reply?.facts?.typeKey, where).toBe("reunion");
-      expect(reply?.facts?.causeId, where).toBe(moment.causeId);
-      expect(reply?.facts?.ending, where).toBe("said-yes-to-old-tie");
-      expect(reply?.facts?.keeps, where).toBe("promise");
-      expect(reply?.personIds, where).toContain(other.id);
-      // A put-off that is pressed strains the tie. Whether it is pressed is the
-      // other's own answer, led by their traits (no dice).
-      const sour = endsKeeping(scene.talk.tree, "relationship-strained")[0];
-      const sourId = sour
-        ? replyInScene(core, director, id, entry, sour.full, {
-            typeKey: "reunion",
-          })
-        : null;
-      if (sourId)
-        expect(core.durableLog.get(sourId)?.facts?.ending, where).toBe(
-          "put-off-old-tie",
-        );
-      const told = composeJournal(core, director, id)
-        .flatMap((chapter) => chapter.lines)
-        .find((line) => line.momentIds.includes(replyId!));
-      log(
-        `REUNION (hand-staged tie, ${other.tier === "husk" ? "a relative elsewhere" : "a person in town"}) ${where}: ${core.date}, cause ${moment.causeId}, ${id} with ${other.id}; facts ${scene.facts.map((row) => row.key).join(",")}; reply ${replyId} ending ${reply?.facts?.ending}; strained ${sourId ?? "(takes a put-off in stride)"}; journal "${told?.text ?? "(other unnamed)"}"\n  ${narration} | ${said}`,
-      );
-      done += 1;
-    }
-    expect(
-      done,
-      `no reunion played: ${tried.join("; ")} (seed ${seed})`,
-    ).toBeGreaterThan(0);
-  } finally {
-    setBookkeeping(true);
-  }
-}, 3_600_000);
 
 it(`a relative's letter asks for something, from the kin-contact record that wrote it (seed ${seed})`, () => {
   setBookkeeping(false);
@@ -481,8 +252,8 @@ it(`a letter's facts come from the world's own records in drawn places (seed ${s
   }
 }, 3_600_000);
 
-it("every line of the two purposes carries its own facts, with no name said twice and no stray words", () => {
-  const purposes = new Set(["reunion-ask", "letter-ask"]);
+it("every line of the letter's purpose carries its own facts, with no name said twice and no stray words", () => {
+  const purposes = new Set(["letter-ask"]);
   const parts = (
     sceneBank as unknown as {
       parts: {

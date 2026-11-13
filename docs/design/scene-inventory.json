@@ -1,0 +1,3968 @@
+{
+  "judgedAgainst": "origin/main e19720ac58 (Nov 12, 2026), merged into this branch",
+  "beforeDeletion": {
+    "KEEP": {
+      "rows": 53,
+      "lines": 4410,
+      "counted": 3140
+    },
+    "WIRE": {
+      "rows": 28,
+      "lines": 2039,
+      "counted": 1591
+    },
+    "NEEDED-LATER": {
+      "rows": 2,
+      "lines": 80,
+      "counted": 75
+    },
+    "DELETE": {
+      "rows": 25,
+      "lines": 1509,
+      "counted": 1101
+    }
+  },
+  "goldenPath": [
+    {
+      "step": "Turn 18: the opening evening",
+      "scenes": "address"
+    },
+    {
+      "step": "Meet people",
+      "scenes": "first-meeting, becoming-friends, first-day"
+    },
+    {
+      "step": "Asked to run",
+      "scenes": "party-recruit, advice"
+    },
+    {
+      "step": "File where the place files",
+      "scenes": "filing-clerk, family-filing"
+    },
+    {
+      "step": "Campaign",
+      "scenes": "door-signature, door-ask, volunteer-offer, manager-offer, speech-afterward, interview-invite, interview-sitting, debate-invite, debate-sitting, rival-word, rally-opponent, donor-ask"
+    },
+    {
+      "step": "Win or lose",
+      "scenes": "race-won, race-lost, family-loss"
+    },
+    {
+      "step": "Take office",
+      "scenes": "swearing-in"
+    },
+    {
+      "step": "Propose an ordinance",
+      "scenes": "bill-carry"
+    },
+    {
+      "step": "Negotiate",
+      "scenes": "section-bargain, bill-held-chair, vote-asked, vote-sought, vote-confirmed"
+    },
+    {
+      "step": "Pass or fail",
+      "scenes": "floor-debate, desk-visit"
+    },
+    {
+      "step": "The town changes; people bring it up",
+      "scenes": "constituent-stop, town-hall-question, press-interview"
+    },
+    {
+      "step": "The next election uses the record",
+      "scenes": "recall"
+    }
+  ],
+  "neededLater": [
+    "**A court scene** (hearing, verdict): a prosecutor, a defense and a judge in the room, from the justice engine's charge and ruling records; courts come after early access (AGENTS.md)."
+  ],
+  "likedLinesRetired": [
+    {
+      "scene": "family-win",
+      "key": "scene-talk.state-congratulate.office-you-really-did-it",
+      "text": "{office}. You really did it."
+    },
+    {
+      "scene": "family-win",
+      "key": "scene-talk.reply-thank.i-couldn-t-have-done-it-without-you",
+      "text": "I couldn't have done it without you."
+    },
+    {
+      "scene": "family-win",
+      "key": "scene-talk.reply-boast.not-bad-for-a-first-run-right",
+      "text": "Not bad for a first run, right?"
+    },
+    {
+      "scene": "party-ask",
+      "key": "scene-talk.follow-threaten.the-party-has-a-long-memory",
+      "text": "The party has a long memory."
+    },
+    {
+      "scene": "floor-vote",
+      "key": "scene-talk.reply-ask.why-me",
+      "text": "Why me?"
+    },
+    {
+      "scene": "floor-vote",
+      "key": "scene-talk.follow-answer.because-you-ve-been-on-the-fence-all-week-and-everybody-on-this-floor-",
+      "text": "Because you've been on the fence all week, and everybody on this floor knows it. You're the one I can still move."
+    },
+    {
+      "scene": "floor-vote",
+      "key": "scene-talk.reply-bargain.then-move-me-what-s-it-worth-to-you",
+      "text": "Then move me. What's it worth to you?"
+    },
+    {
+      "scene": "floor-vote",
+      "key": "scene-talk.reply-agree.done-put-it-in-writing-tonight",
+      "text": "Done. Put it in writing tonight."
+    },
+    {
+      "scene": "race-told",
+      "key": "scene-talk.state-tell.i-won-the-office-race-first-i-still-can-t-quite-believe-it",
+      "text": "I won the {office} race, {first}. I still can't quite believe it."
+    },
+    {
+      "scene": "race-told",
+      "key": "scene-talk.reply-tell.it-matters-to-me-whoever-won-i-live-under-what-they-decide",
+      "text": "It matters to me whoever won. I live under what they decide."
+    },
+    {
+      "scene": "public-hearing",
+      "key": "scene-talk.reply-thank.thank-you-chair",
+      "text": "Thank you, Chair."
+    },
+    {
+      "scene": "public-hearing",
+      "key": "scene-talk.reply-thank.thank-you-all",
+      "text": "Thank you all."
+    },
+    {
+      "scene": "public-hearing",
+      "key": "scene-talk.open-call-to-order.good-afternoon",
+      "text": "Good afternoon."
+    },
+    {
+      "scene": "race-told",
+      "key": "scene-talk.reply-tell.of-course-i-care-who-won-theyre-the-ones-who-govern-me",
+      "text": "Of course I care who won. They're the ones who govern me."
+    },
+    {
+      "scene": "race-told",
+      "key": "scene-talk.reply-tell.i-cant-say-im-filled-with-confidence",
+      "text": "I can't say I'm filled with confidence."
+    },
+    {
+      "scene": "race-told",
+      "key": "scene-talk.reply-tell.im-a-little-apprehensive",
+      "text": "I'm a little apprehensive."
+    },
+    {
+      "scene": "public-hearing (purpose hearing-testify; restored there Nov 8 from this key, data/english/grades/restored-liked-lines.json)",
+      "key": "hearing.thanks.thank-you-chair",
+      "text": "Thank you, Chair."
+    },
+    {
+      "scene": "public-hearing (purpose hearing-testify; restored there Nov 8 from this key, data/english/grades/restored-liked-lines.json)",
+      "key": "bank:hearing.thanks.thank-you-all",
+      "text": "Thank you all."
+    },
+    {
+      "scene": "public-hearing (purpose hearing-testify; restored there Nov 8 from this key, data/english/grades/restored-liked-lines.json)",
+      "key": "bank:hearing.chair-procedure.good-afternoon",
+      "text": "Good afternoon."
+    }
+  ],
+  "awaitingWishes": [
+    {
+      "type": "news-arrives",
+      "records": ["diagnosis-disclosed", "acceptance", "result"]
+    },
+    {
+      "type": "argument",
+      "records": [
+        "dispute-over-money",
+        "dispute-over-rules",
+        "dispute-over-belief"
+      ]
+    },
+    {
+      "type": "celebration",
+      "records": ["birthday-gathering"]
+    },
+    {
+      "type": "first-meeting",
+      "records": ["new-neighbor"]
+    },
+    {
+      "type": "first-day",
+      "records": ["school-started (a producer never built)"]
+    },
+    {
+      "type": "last-day",
+      "records": ["retirement", "quitting"]
+    },
+    {
+      "type": "betrayal",
+      "records": ["broken-undertaking", "lie-found-out", "secret-told"]
+    },
+    {
+      "type": "arrival",
+      "records": ["stepparent-arrives", "housemate-moves-in"]
+    },
+    {
+      "type": "advice",
+      "records": ["next-step (a producer never built)"]
+    },
+    {
+      "type": "warning",
+      "records": ["arrears", "eviction-notice", "conflict-escalating"]
+    },
+    {
+      "type": "reconciliation",
+      "records": ["help-after-quarrel"]
+    },
+    {
+      "type": "polling-place",
+      "records": ["polling-place", "election-day (a producer never built)"]
+    }
+  ],
+  "rows": [
+    {
+      "key": "concession-taken",
+      "kind": "type",
+      "cause": "src/core2/modules/press.ts (concession)",
+      "writes": "tie only; its endings keep nothing an engine reads",
+      "models": "src/core2/modules/press.ts (reportConcession)",
+      "verdict": "DELETE",
+      "why": "The loser's side of the call is race-lost's concession-call, whose reply press.ts reads to write the concession record; this second scene on that record writes nothing read and waits unplayed (impact 0.28, not an own record).",
+      "computed": {
+        "purpose": "concession-taken",
+        "setting": ["phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:concession",
+            "engine": "press",
+            "record": "concession",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 45,
+          "counted": 35,
+          "onlyHere": 45,
+          "onlyHereCounted": 35
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "race-won",
+      "kind": "type",
+      "cause": "src/core2/modules/elections.ts (election-result)",
+      "writes": "tie; victory-night's promise is unread (SG-WORDS-favor-promise-keeps-unread)",
+      "models": "src/core2/modules/elections.ts",
+      "verdict": "KEEP",
+      "why": "The golden path's win: played on election night through src/bench/election-night.ts resultMomentOf from the result record.",
+      "reachNote": "Played on the night of the count by src/bench/election-night.ts (resultMomentOf), whatever the scheduler's outcome.",
+      "computed": {
+        "purpose": "victory-night",
+        "setting": ["venue", "home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:election-result",
+            "engine": "elections",
+            "record": "election-result",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes (Played on the night of the count by src/bench/election-night.ts (resultMomentOf), whatever the scheduler's outcome.)",
+        "lines": {
+          "all": 81,
+          "counted": 65,
+          "onlyHere": 81,
+          "onlyHereCounted": 65
+        }
+      }
+    },
+    {
+      "key": "race-lost",
+      "kind": "type",
+      "cause": "src/core2/modules/elections.ts (election-result, primary-result)",
+      "writes": "the reply's conceded mark; src/core2/modules/press.ts reportConcession writes the public concession record",
+      "models": "src/core2/modules/elections.ts, press.ts",
+      "verdict": "KEEP",
+      "why": "The golden path's loss: press.ts reads the reply's conceded yes or no and prints the concession.",
+      "reachNote": "Played on the night of the count by src/bench/election-night.ts (resultMomentOf).",
+      "computed": {
+        "purpose": "concession-call",
+        "setting": ["venue", "home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:election-result",
+            "engine": "elections",
+            "record": "election-result",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          },
+          {
+            "cause": "cause:event:primary-result",
+            "engine": "elections",
+            "record": "primary-result",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes (Played on the night of the count by src/bench/election-night.ts (resultMomentOf).)",
+        "lines": {
+          "all": 62,
+          "counted": 56,
+          "onlyHere": 62,
+          "onlyHereCounted": 56
+        }
+      }
+    },
+    {
+      "key": "concession-received",
+      "kind": "type",
+      "cause": "src/core2/modules/elections.ts (election-result)",
+      "writes": "tie only; meeting-set and promise endings unread",
+      "models": "src/core2/modules/press.ts (concession)",
+      "verdict": "DELETE",
+      "why": "The rival's call writes nothing an engine reads, and the winner's night is race-won's; a second scene on the same election-result record.",
+      "computed": {
+        "purpose": "concession-received",
+        "setting": ["phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:election-result",
+            "engine": "elections",
+            "record": "election-result",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 88,
+          "counted": 76,
+          "onlyHere": 88,
+          "onlyHereCounted": 76
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "family-win",
+      "kind": "type",
+      "cause": "src/core2/modules/elections.ts (election-result)",
+      "writes": "tie only; every ending keeps none",
+      "models": "src/core2/modules/elections.ts",
+      "verdict": "DELETE",
+      "why": "Every ending keeps none, and the household is already in race-won's room at home on the same result record.",
+      "computed": {
+        "purpose": "family-win",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:election-result",
+            "engine": "elections",
+            "record": "election-result",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 66,
+          "counted": 59,
+          "onlyHere": 64,
+          "onlyHereCounted": 58
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "family-loss",
+      "kind": "type",
+      "cause": "src/core2/modules/elections.ts (election-result, primary-result)",
+      "writes": "the household's backing; src/core2/modules/candidacy.ts noteHouseholdBacking writes a backing row the next run reads",
+      "models": "src/core2/modules/candidacy.ts",
+      "verdict": "KEEP",
+      "why": "candidacy.ts reads its reply (facts.backing) for the next contest the player weighs.",
+      "computed": {
+        "purpose": "family-loss",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:election-result",
+            "engine": "elections",
+            "record": "election-result",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          },
+          {
+            "cause": "cause:event:primary-result",
+            "engine": "elections",
+            "record": "primary-result",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 66,
+          "counted": 45,
+          "onlyHere": 66,
+          "onlyHereCounted": 45
+        }
+      }
+    },
+    {
+      "key": "morning-after",
+      "kind": "type",
+      "cause": "src/core2/modules/elections.ts via circumstance morning-after",
+      "writes": "tie only; next-run-promised is unread",
+      "models": "src/core2/modules/candidacy.ts",
+      "verdict": "DELETE",
+      "why": "A fourth scene on one election-result record; its promise to run again is read by no engine, while family-loss's is (candidacy.ts).",
+      "computed": {
+        "purpose": "morning-after",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:morning-after",
+            "engine": "circumstance",
+            "record": "election-result",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 42,
+          "counted": 33,
+          "onlyHere": 42,
+          "onlyHereCounted": 33
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "run-doubt",
+      "kind": "type",
+      "cause": "src/core2/modules/elections.ts via circumstance run-doubt",
+      "writes": "tie only; candidacy.ts reads backing from family-loss alone",
+      "models": "src/core2/modules/candidacy.ts",
+      "verdict": "DELETE",
+      "why": "The same household talk after a loss as family-loss, whose reply candidacy.ts reads; run-doubt's reply is read by no engine.",
+      "computed": {
+        "purpose": "run-doubt",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:run-doubt",
+            "engine": "circumstance",
+            "record": "election-result",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 21,
+          "counted": 15,
+          "onlyHere": 21,
+          "onlyHereCounted": 15
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "race-told",
+      "kind": "type",
+      "cause": "src/core2/modules/elections.ts via circumstances race-result-known(-after-ran)",
+      "writes": "tie only; every ending keeps none",
+      "models": "src/core2/modules/elections.ts; src/director/bring-it-up.ts",
+      "verdict": "DELETE",
+      "why": "Every ending keeps none; a race told in the street is bring-it-up's work (src/director/bring-it-up.ts writes the told record the next person's belief follows), and the player's own result has race-won and race-lost.",
+      "computed": {
+        "purpose": "race-told",
+        "setting": ["public", "home", "phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:race-result-known",
+            "engine": "circumstance",
+            "record": "election-result",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "circumstance:race-result-known-after-ran",
+            "engine": "circumstance",
+            "record": "election-result",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 101,
+          "counted": 53,
+          "onlyHere": 101,
+          "onlyHereCounted": 53
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "filing",
+      "kind": "type",
+      "cause": "src/core2/modules/elections.ts (candidate-filed)",
+      "writes": "nothing an engine reads; it is the view of the player’s own filing and the petition record it opened (src/core2/modules/elections.ts petitionOf)",
+      "models": "src/core2/modules/filing-clerk.ts; src/bench/filing.ts",
+      "verdict": "KEEP",
+      "why": "Re-judged while building the deletion: it is the clerk’s talk right after the player files, telling the petition’s signatures and due day from its record and walking a first-time candidate through doors, money and the town’s paper (src/bench/filing-walkthrough.test.ts). Like the door scenes, it is the player’s own act shown from its record, and the owner named it twice (owner examples “Filing is a conversation at the clerk” and “Filing deliberately marked”). Its venue setting is outside ownRecordSettings, so where the filing screen has no counter it waits.",
+      "computed": {
+        "purpose": "filing-petition",
+        "setting": ["venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:candidate-filed",
+            "engine": "elections",
+            "record": "candidate-filed",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 57,
+          "counted": 40,
+          "onlyHere": 56,
+          "onlyHereCounted": 40
+        }
+      }
+    },
+    {
+      "key": "family-filing",
+      "kind": "type",
+      "cause": "src/core2/modules/elections.ts (candidate-filed)",
+      "writes": "a relative enlisted; src/core2/modules/campaigns.ts enlistVolunteer counts them among the volunteers",
+      "models": "src/core2/modules/campaigns.ts",
+      "verdict": "KEEP",
+      "why": "Its reply enlists the relative on the campaign through campaigns.ts; an own record met at home.",
+      "computed": {
+        "purpose": "family-filing",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:candidate-filed",
+            "engine": "elections",
+            "record": "candidate-filed",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 134,
+          "counted": 111,
+          "onlyHere": 126,
+          "onlyHereCounted": 104
+        }
+      }
+    },
+    {
+      "key": "party-recruit",
+      "kind": "type",
+      "cause": "src/core2/modules/candidacy.ts (party-asked)",
+      "writes": "the answer; src/core2/modules/candidacy.ts answerPartyAsk makes a yes the decision to run",
+      "models": "src/core2/modules/candidacy.ts",
+      "verdict": "KEEP",
+      "why": "candidacy.ts reads the reply; a yes files.",
+      "computed": {
+        "purpose": "ask-to-run",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:party-asked",
+            "engine": "candidacy",
+            "record": "party-asked",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 32,
+          "counted": 26,
+          "onlyHere": 31,
+          "onlyHereCounted": 25
+        }
+      }
+    },
+    {
+      "key": "rival-filed",
+      "kind": "type",
+      "cause": "src/core2/modules/elections.ts (rival-filed); circumstance rival-known-late",
+      "writes": "tie only; game-on is unread",
+      "models": "src/core2/modules/elections.ts",
+      "verdict": "DELETE",
+      "why": "News of a record the race screen and the paper already show; no engine reads the reply.",
+      "computed": {
+        "purpose": "rival-filed",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:rival-filed",
+            "engine": "elections",
+            "record": "rival-filed",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          },
+          {
+            "cause": "circumstance:rival-known-late",
+            "engine": "circumstance",
+            "record": "candidate-filed",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 44,
+          "counted": 20,
+          "onlyHere": 42,
+          "onlyHereCounted": 19
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "rival-word",
+      "kind": "type",
+      "cause": "src/core2/modules/campaigns.ts (rival-word)",
+      "writes": "tie only; answering-it is unread",
+      "models": "src/core2/modules/campaigns.ts (messages)",
+      "verdict": "WIRE",
+      "why": "The campaign engine already runs paid messages; the player's answer should be one.",
+      "link": "campaigns.ts reads an answering-it reply as the campaign's reply message (one reader beside answerOffer); size S.",
+      "computed": {
+        "purpose": "rival-word",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:rival-word",
+            "engine": "campaigns",
+            "record": "rival-word",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 33,
+          "counted": 20,
+          "onlyHere": 31,
+          "onlyHereCounted": 19
+        }
+      }
+    },
+    {
+      "key": "volunteer-offer",
+      "kind": "type",
+      "cause": "src/core2/modules/campaigns.ts (volunteer-offered)",
+      "writes": "the answer; src/core2/modules/campaigns.ts answerOffer keeps or drops the volunteer",
+      "models": "src/core2/modules/campaigns.ts",
+      "verdict": "KEEP",
+      "why": "campaigns.ts reads the reply; the offer's impact (0.7 times its weight) stops the day.",
+      "computed": {
+        "purpose": "offer-help",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:volunteer-offered",
+            "engine": "campaigns",
+            "record": "volunteer-offered",
+            "how": "stops when 0.7 times its weight reaches 0.5; else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 32,
+          "counted": 23,
+          "onlyHere": 29,
+          "onlyHereCounted": 22
+        }
+      }
+    },
+    {
+      "key": "manager-offer",
+      "kind": "type",
+      "cause": "src/core2/modules/campaigns.ts (volunteer-offered)",
+      "writes": "the answer; src/core2/modules/campaigns.ts answerOffer keeps or drops the staff",
+      "models": "src/core2/modules/campaigns.ts",
+      "verdict": "KEEP",
+      "why": "campaigns.ts reads the reply for the offer to run the campaign.",
+      "computed": {
+        "purpose": "offer-to-run",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:volunteer-offered",
+            "engine": "campaigns",
+            "record": "volunteer-offered",
+            "how": "stops when 0.7 times its weight reaches 0.5; else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 30,
+          "counted": 25,
+          "onlyHere": 30,
+          "onlyHereCounted": 25
+        }
+      }
+    },
+    {
+      "key": "door-ask",
+      "kind": "type",
+      "cause": "src/core2/modules/campaigns.ts via circumstances door-first, door-again",
+      "writes": "the knock is the player's own act; the campaign engine's warmth decides the answer the scene shows",
+      "models": "src/core2/modules/campaigns.ts (canvass)",
+      "verdict": "KEEP",
+      "why": "The player's own canvass act shown as a scene (owner, Oct 27: every campaign act is a scene); the answer is the campaign engine's record, never a second decision.",
+      "computed": {
+        "purpose": "ask-support",
+        "setting": ["other-home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:door-first",
+            "engine": "circumstance",
+            "record": "campaign.door",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "circumstance:door-again",
+            "engine": "circumstance",
+            "record": "campaign.door",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 54,
+          "counted": 45,
+          "onlyHere": 54,
+          "onlyHereCounted": 45
+        }
+      }
+    },
+    {
+      "key": "door-signature",
+      "kind": "type",
+      "cause": "src/core2/modules/campaigns.ts via circumstance door-petition",
+      "writes": "the signature is the campaign engine's askToSign record; the scene tells it",
+      "models": "src/core2/modules/campaigns.ts (petition)",
+      "verdict": "KEEP",
+      "why": "The player's own petition walk (owner, Oct 28: signatures introduce campaigning); the answer is the petition record.",
+      "computed": {
+        "purpose": "ask-signature",
+        "setting": ["other-home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:door-petition",
+            "engine": "circumstance",
+            "record": "campaign.door",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 51,
+          "counted": 37,
+          "onlyHere": 50,
+          "onlyHereCounted": 36
+        }
+      }
+    },
+    {
+      "key": "campaign-stop",
+      "kind": "type",
+      "cause": "src/core2/modules/speech.ts (speech.heard, occasion campaign)",
+      "writes": "tie only; signed-up is unread",
+      "models": "src/core2/modules/campaigns.ts (volunteer-offered)",
+      "verdict": "DELETE",
+      "why": "A volunteer after a speech is volunteer-offer, whose reply campaigns.ts reads; this one waits unplayed (impact 0.15) and its sign-up is read by no engine. Re-judged after #8596: that reader takes typeKey speech-afterward only, so nothing reads campaign-stop.",
+      "computed": {
+        "purpose": "rally-volunteer",
+        "setting": ["public", "venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "(any)",
+            "engine": "speech",
+            "record": "speech.heard",
+            "how": "by the appraisal of (any): stops at 0.5 or over, else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 51,
+          "counted": 45,
+          "onlyHere": 51,
+          "onlyHereCounted": 45
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "speech-afterward",
+      "kind": "type",
+      "cause": "src/core2/modules/speech.ts (speech.heard)",
+      "writes": "the pledge: src/core2/modules/campaigns.ts answerAskForVote keeps an accepting reply as the listener’s pledge, which the ballot reads (pledgesOf), citing the scene.reply (#8596, main e19720ac58)",
+      "models": "src/core2/modules/campaigns.ts (pledges), speech.ts",
+      "verdict": "WIRE",
+      "why": "Re-judged after main e19720ac58 (#8596): campaigns.ts now reads the reply as a pledge the ballot counts, so an engine stands behind it; it only waits unplayed (impact 0.15).",
+      "computed": {
+        "purpose": "ask-support",
+        "setting": ["venue", "public"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:speech.heard",
+            "engine": "speech",
+            "record": "speech.heard",
+            "how": "waits: impact 0.15, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 54,
+          "counted": 45,
+          "onlyHere": 54,
+          "onlyHereCounted": 45
+        }
+      },
+      "link": "cause:event:speech.heard joins ownRecordScenes (one data line; public and venue are met), so the listener meets the candidate that day; size S."
+    },
+    {
+      "key": "rally-opponent",
+      "kind": "type",
+      "cause": "src/core2/modules/campaigns.ts via circumstance rival-message; src/core2/modules/meetings.ts (debate)",
+      "writes": "tie only; jab keeps story-runs, which press.ts reads only from press-interview",
+      "models": "src/core2/modules/press.ts",
+      "verdict": "WIRE",
+      "why": "Meeting the rival on the trail is a campaign beat with a press consequence the press engine already prints.",
+      "link": "press.ts keepComment accepts typeKey rally-opponent beside press-interview (one condition); size S.",
+      "computed": {
+        "purpose": "rally-opponent",
+        "setting": ["public"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:rival-message",
+            "engine": "circumstance",
+            "record": "campaign-message",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "cause:event:debate",
+            "engine": "meetings",
+            "record": "debate",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 59,
+          "counted": 40,
+          "onlyHere": 54,
+          "onlyHereCounted": 37
+        }
+      }
+    },
+    {
+      "key": "donor-ask",
+      "kind": "type",
+      "cause": "src/core2/modules/campaigns.ts (campaign-gift); circumstance donor-ask-street",
+      "writes": "tie only; looking-again keeps a favor nobody reads",
+      "models": "src/core2/modules/legislature.ts (offerDeal favor, favorWorth)",
+      "verdict": "WIRE",
+      "why": "A donor's ask is a trade for a vote: the negotiation engine already values favors (legislature.ts favorWorth). Lines are PR 8910's.",
+      "link": "legislature.ts keepReply records a looking-again reply as a favor toward the donor's side on the pending bill (as it records voteAsks replies); size M.",
+      "computed": {
+        "purpose": "donor-ask",
+        "setting": ["office", "phone", "public"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:donor-ask-street",
+            "engine": "circumstance",
+            "record": "cause.donated",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "money:event:campaign-gift",
+            "engine": "campaigns",
+            "record": "campaign-gift",
+            "how": "waits: impact at most 0.28, under 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 332,
+          "counted": 271,
+          "onlyHere": 267,
+          "onlyHereCounted": 217
+        }
+      }
+    },
+    {
+      "key": "job-offer",
+      "kind": "type",
+      "cause": "src/core2/modules/jobs.ts (job-offered)",
+      "writes": "the answer; src/core2/modules/jobs.ts answerOffer accepts or declines the offer",
+      "models": "src/core2/modules/jobs.ts",
+      "verdict": "KEEP",
+      "why": "jobs.ts reads the reply; an own record met by phone.",
+      "computed": {
+        "purpose": "job-offer",
+        "setting": ["phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:job-offered",
+            "engine": "jobs",
+            "record": "job-offered",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 52,
+          "counted": 21,
+          "onlyHere": 52,
+          "onlyHereCounted": 21
+        }
+      }
+    },
+    {
+      "key": "interview-invite",
+      "kind": "type",
+      "cause": "src/core2/modules/press.ts (interview-invited)",
+      "writes": "the answer; src/core2/modules/press.ts answerInvitation",
+      "models": "src/core2/modules/press.ts",
+      "verdict": "KEEP",
+      "why": "press.ts reads the reply; a yes stages the sitting.",
+      "computed": {
+        "purpose": "invite-interview",
+        "setting": ["phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:interview-invited",
+            "engine": "press",
+            "record": "interview-invited",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 32,
+          "counted": 21,
+          "onlyHere": 32,
+          "onlyHereCounted": 21
+        }
+      }
+    },
+    {
+      "key": "interview-sitting",
+      "kind": "type",
+      "cause": "src/core2/modules/press.ts (interview-accepted)",
+      "writes": "the interview's answers; src/director/interview-sitting.ts publishes them through press.ts",
+      "models": "src/core2/modules/press.ts",
+      "verdict": "KEEP",
+      "why": "Played as a sitting in the conversation engine; the answers print.",
+      "computed": {
+        "purpose": null,
+        "setting": ["public"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:interview-accepted",
+            "engine": "press",
+            "record": "interview-accepted",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 0,
+          "counted": 0,
+          "onlyHere": 0,
+          "onlyHereCounted": 0
+        }
+      }
+    },
+    {
+      "key": "debate-invite",
+      "kind": "type",
+      "cause": "src/core2/modules/meetings.ts (debate-invited)",
+      "writes": "the answer; src/core2/modules/meetings.ts answerDebateInvitation",
+      "models": "src/core2/modules/meetings.ts",
+      "verdict": "KEEP",
+      "why": "meetings.ts reads the reply; a yes stages the debate.",
+      "computed": {
+        "purpose": "invite-debate",
+        "setting": ["phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:debate-invited",
+            "engine": "meetings",
+            "record": "debate-invited",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 32,
+          "counted": 19,
+          "onlyHere": 31,
+          "onlyHereCounted": 19
+        }
+      }
+    },
+    {
+      "key": "debate-sitting",
+      "kind": "type",
+      "cause": "src/core2/modules/meetings.ts (debate-accepted)",
+      "writes": "the debate's answers; src/director/debate-sitting.ts through meetings.ts",
+      "models": "src/core2/modules/meetings.ts",
+      "verdict": "KEEP",
+      "why": "Played as a sitting; the debate is held from it.",
+      "computed": {
+        "purpose": null,
+        "setting": ["public"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:debate-accepted",
+            "engine": "meetings",
+            "record": "debate-accepted",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 0,
+          "counted": 0,
+          "onlyHere": 0,
+          "onlyHereCounted": 0
+        }
+      }
+    },
+    {
+      "key": "polling-place",
+      "kind": "type",
+      "cause": "src/director/polling-place.ts (stagePollingVisits, on the eve of an election)",
+      "writes": "the ballot through src/core2/modules/voting.ts castBallot (the polling screen); the poll-problem talk writes nothing",
+      "models": "src/core2/modules/voting.ts",
+      "verdict": "NEEDED-LATER",
+      "why": "The visit plays as the polling screen; its poll-problem talk (a voter not on the roll) has no record behind it.",
+      "neededEngine": "A voter-roll record in voting.ts: who is on which precinct's list and who is not, so a poll worker can turn someone to a provisional ballot.",
+      "reachNote": "The visit plays through src/bench/polling.ts and election-night.ts; the type's own awaitingProducer election-day is never built.",
+      "computed": {
+        "purpose": "poll-problem",
+        "setting": ["venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [],
+        "playerReaches": "no (The visit plays through src/bench/polling.ts and election-night.ts; the type's own awaitingProducer election-day is never built.)",
+        "lines": {
+          "all": 64,
+          "counted": 62,
+          "onlyHere": 64,
+          "onlyHereCounted": 62
+        }
+      }
+    },
+    {
+      "key": "vote-asked",
+      "kind": "type",
+      "cause": "src/core2/modules/legislature.ts (vote-ahead, bill-amendment); circumstance hallway-colleague",
+      "writes": "the answer; src/core2/modules/legislature.ts keepReply records a favor or strain and casts the player's vote when they agree",
+      "models": "src/core2/modules/legislature.ts (askBeforeTheRoll, keepReply)",
+      "verdict": "KEEP",
+      "why": "The colleague's ask before the roll: legislature.ts reads the reply into the member's position and the player's vote.",
+      "computed": {
+        "purpose": "ask-vote",
+        "setting": ["office", "chamber"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:bill-amendment",
+            "engine": "legislature",
+            "record": "bill-amendment",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "cause:event:vote-ahead",
+            "engine": "legislature",
+            "record": "vote-ahead",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          },
+          {
+            "cause": "circumstance:hallway-colleague",
+            "engine": "circumstance",
+            "record": "committee-hearing",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 312,
+          "counted": 225,
+          "onlyHere": 202,
+          "onlyHereCounted": 135
+        }
+      }
+    },
+    {
+      "key": "vote-sought",
+      "kind": "type",
+      "cause": "src/core2/modules/legislature.ts (vote-ahead)",
+      "writes": "the colleague's answer; src/core2/modules/legislature.ts keepReply",
+      "models": "src/core2/modules/legislature.ts",
+      "verdict": "KEEP",
+      "why": "The player asking a colleague for a vote (playerAsks); legislature.ts reads the answer at the roll.",
+      "computed": {
+        "purpose": "ask-vote",
+        "setting": ["office", "chamber", "phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:vote-ahead",
+            "engine": "legislature",
+            "record": "vote-ahead",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 312,
+          "counted": 225,
+          "onlyHere": 202,
+          "onlyHereCounted": 135
+        }
+      }
+    },
+    {
+      "key": "vote-confirmed",
+      "kind": "type",
+      "cause": "src/core2/modules/legislature.ts (vote-promise); circumstance override-whip",
+      "writes": "the answer; src/core2/modules/legislature.ts keepReply (veto-override replies)",
+      "models": "src/core2/modules/legislature.ts",
+      "verdict": "KEEP",
+      "why": "legislature.ts reads override replies at the member's next position on the sponsor's bills.",
+      "computed": {
+        "purpose": "confirm-vote",
+        "setting": ["office", "chamber", "phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:override-whip",
+            "engine": "circumstance",
+            "record": "veto-override",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "cause:event:vote-promise",
+            "engine": "legislature",
+            "record": "vote-promise",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 135,
+          "counted": 106,
+          "onlyHere": 26,
+          "onlyHereCounted": 17
+        }
+      }
+    },
+    {
+      "key": "section-bargain",
+      "kind": "type",
+      "cause": "src/core2/modules/legislature.ts (bill-amendment)",
+      "writes": "tie only; traded keeps a promise nobody reads",
+      "models": "src/core2/modules/legislature.ts (offerDeal amend)",
+      "verdict": "WIRE",
+      "why": "Bargaining over one section is the negotiation engine's offerDeal('amend'), which changes a bill's real terms.",
+      "link": "its reply calls legislature.ts offerDeal with kind amend (one reader in keepReply), and bill-amendment joins ownRecordScenes so it stops the day in the chamber; size M.",
+      "computed": {
+        "purpose": "section-bargain",
+        "setting": ["chamber", "office"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:bill-amendment",
+            "engine": "legislature",
+            "record": "bill-amendment",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 119,
+          "counted": 88,
+          "onlyHere": 26,
+          "onlyHereCounted": 9
+        }
+      }
+    },
+    {
+      "key": "bill-carry",
+      "kind": "type",
+      "cause": "src/core2/modules/legislature.ts (carry-asked); circumstance bill-introduced-carry",
+      "writes": "tie only; the legislature holds the ask to the player as awaitingPlayer with no answer (SG-GOV-carry-ask-no-screen)",
+      "models": "src/core2/modules/legislature.ts (carryAsks)",
+      "verdict": "WIRE",
+      "why": "The legislature already holds a carry ask waiting on the player; the scene is the missing answer.",
+      "link": "legislature.ts keepReply settles the held carryAsks row from a carrying or declined reply, and carry-asked joins ownRecordScenes; size S.",
+      "computed": {
+        "purpose": "carry-bill",
+        "setting": ["office"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:bill-introduced-carry",
+            "engine": "circumstance",
+            "record": "office.introduced",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "cause:event:carry-asked",
+            "engine": "legislature",
+            "record": "carry-asked",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 123,
+          "counted": 98,
+          "onlyHere": 56,
+          "onlyHereCounted": 42
+        }
+      }
+    },
+    {
+      "key": "bill-held-chair",
+      "kind": "type",
+      "cause": "src/core2/modules/legislature.ts (bill-held-in-committee)",
+      "writes": "tie only; hearing-set keeps a promise nobody reads",
+      "models": "src/core2/modules/legislature.ts (committeesBeforeTheFloor)",
+      "verdict": "WIRE",
+      "why": "A sponsor asking the chair to hear a held bill is the negotiate step for an ordinance stuck in committee.",
+      "link": "the committee step in legislature.ts reads the chair's hearing-set reply to schedule the hearing, and the label joins ownRecordScenes; size M.",
+      "computed": {
+        "purpose": "hearing-ask",
+        "setting": ["office", "venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:bill-held-in-committee",
+            "engine": "legislature",
+            "record": "bill-held-in-committee",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 62,
+          "counted": 49,
+          "onlyHere": 55,
+          "onlyHereCounted": 43
+        }
+      }
+    },
+    {
+      "key": "bill-held-member",
+      "kind": "type",
+      "cause": "src/core2/modules/legislature.ts (bill-held-in-committee)",
+      "writes": "tie only",
+      "models": "src/core2/modules/legislature.ts",
+      "verdict": "DELETE",
+      "why": "A secondhand version of bill-held-chair (asking a member to push the chair); nothing reads it and it waits unplayed (impact 0.29).",
+      "computed": {
+        "purpose": "hearing-push",
+        "setting": ["office", "venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:bill-held-in-committee",
+            "engine": "legislature",
+            "record": "bill-held-in-committee",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 59,
+          "counted": 39,
+          "onlyHere": 21,
+          "onlyHereCounted": 3
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "floor-vote",
+      "kind": "type",
+      "cause": "src/core2/modules/legislature.ts (legislative-vote)",
+      "writes": "tie only; switched keeps a favor nobody reads",
+      "models": "src/core2/modules/legislature.ts",
+      "verdict": "DELETE",
+      "why": "Asking to switch after the roll duplicates vote-asked before it, which legislature.ts reads; this one waits unplayed (impact 0.29).",
+      "computed": {
+        "purpose": "floor-switch",
+        "setting": ["venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:legislative-vote",
+            "engine": "legislature",
+            "record": "legislative-vote",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 113,
+          "counted": 104,
+          "onlyHere": 109,
+          "onlyHereCounted": 101
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "floor-debate",
+      "kind": "type",
+      "cause": "src/core2/modules/legislature.ts via circumstances floor-debate-for/against",
+      "writes": "tie only; stood-with keeps a promise nobody reads",
+      "models": "src/core2/modules/meetings.ts (remarks), legislature.ts",
+      "verdict": "WIRE",
+      "why": "The floor before the roll is where a bill passes or fails; the player's stand should be on the record members read.",
+      "link": "the player's stood-with or spoke-against reply is kept as a floor remark legislature.ts reads at members' positions (as meetings.ts remarks are); size M.",
+      "computed": {
+        "purpose": "floor-debate",
+        "setting": ["seat", "venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:floor-debate-for",
+            "engine": "circumstance",
+            "record": "floor-debate",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "circumstance:floor-debate-against",
+            "engine": "circumstance",
+            "record": "floor-debate",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 26,
+          "counted": 19,
+          "onlyHere": 26,
+          "onlyHereCounted": 19
+        }
+      }
+    },
+    {
+      "key": "lobby-remembers",
+      "kind": "type",
+      "cause": "src/core2/modules/interest-groups.ts via circumstance lobby-remembers (office.voted)",
+      "writes": "tie only",
+      "models": "src/core2/modules/interest-groups.ts",
+      "verdict": "WIRE",
+      "why": "The group's standing with the member is the interest-group engine's, not the tie with one lobbyist.",
+      "link": "interest-groups.ts reads the reply (smoothed-over or told-off) into the group's support for the member; size M.",
+      "computed": {
+        "purpose": "lobby-remembers",
+        "setting": ["seat", "venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:lobby-remembers",
+            "engine": "circumstance",
+            "record": "office.voted",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 30,
+          "counted": 16,
+          "onlyHere": 29,
+          "onlyHereCounted": 16
+        }
+      }
+    },
+    {
+      "key": "hallway",
+      "kind": "type",
+      "cause": "circumstances meeting-colleague, meeting-reporter, lobbyist-hallway, governor-answer-hallway",
+      "writes": "nothing; outcome conversation.told is a record no engine writes or reads",
+      "models": "src/core2/modules/legislature.ts, press.ts, interest-groups.ts",
+      "verdict": "DELETE",
+      "why": "Its colleague, reporter and lobbyist causes are vote-asked's, press-interview's and lobby-remembers' work, and its gave-word promise is read by no engine.",
+      "computed": {
+        "purpose": "hallway-word",
+        "setting": ["seat", "venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:meeting-colleague",
+            "engine": "circumstance",
+            "record": "public-meeting",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "circumstance:meeting-reporter",
+            "engine": "circumstance",
+            "record": "public-meeting",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "circumstance:lobbyist-hallway",
+            "engine": "circumstance",
+            "record": "case.made",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "circumstance:governor-answer-hallway",
+            "engine": "circumstance",
+            "record": "governor.response",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 281,
+          "counted": 199,
+          "onlyHere": 279,
+          "onlyHereCounted": 198
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "public-hearing",
+      "kind": "type",
+      "cause": "src/core2/modules/meetings.ts (public-comment)",
+      "writes": "tie only",
+      "models": "src/core2/modules/meetings.ts (commentSpeakers)",
+      "verdict": "DELETE",
+      "why": "The same exchange as town-hall-question (identical endings); waits unplayed (impact 0.15) and nothing reads it.",
+      "computed": {
+        "purpose": "hearing-testify",
+        "setting": ["venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:public-comment",
+            "engine": "meetings",
+            "record": "public-comment",
+            "how": "waits: impact 0.15, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 117,
+          "counted": 81,
+          "onlyHere": 112,
+          "onlyHereCounted": 80
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "testimony-heard",
+      "kind": "type",
+      "cause": "src/core2/modules/speech.ts (speech.heard)",
+      "writes": "tie only",
+      "models": "src/core2/modules/meetings.ts",
+      "verdict": "DELETE",
+      "why": "Its arc is town-hall-question's, ending for ending; nothing reads it and it waits unplayed.",
+      "computed": {
+        "purpose": "testimony-heard",
+        "setting": ["venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:speech.heard",
+            "engine": "speech",
+            "record": "speech.heard",
+            "how": "by the appraisal of feeling:event:speech.heard: stops at 0.5 or over, else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 52,
+          "counted": 42,
+          "onlyHere": 7,
+          "onlyHereCounted": 0
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "town-hall-question",
+      "kind": "type",
+      "cause": "src/core2/modules/meetings.ts (town-hall)",
+      "writes": "tie only; gave-ground keeps a promise nobody reads",
+      "models": "src/core2/modules/meetings.ts, views.ts",
+      "verdict": "WIRE",
+      "why": "A resident's question to the official is a stance taken in public that the views engine already reads from speech.",
+      "link": "its gave-ground or stood-by reply is recorded as the official's spoken stance the way speech.ts records a speech heard, and the type stops the day; size M.",
+      "computed": {
+        "purpose": "town-hall-question",
+        "setting": ["venue", "public"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:town-hall",
+            "engine": "meetings",
+            "record": "town-hall",
+            "how": "waits: impact 0.15, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 103,
+          "counted": 61,
+          "onlyHere": 100,
+          "onlyHereCounted": 58
+        }
+      }
+    },
+    {
+      "key": "action-confront",
+      "kind": "type",
+      "cause": "src/core2/modules/public-action.ts (civic.protest, civic.strike)",
+      "writes": "tie only",
+      "models": "src/core2/modules/public-action.ts",
+      "verdict": "WIRE",
+      "why": "A protest's demand put to the official is public-action's; its answer should move the action.",
+      "link": "public-action.ts reads gave-ground as the demand met (beside playerJoins), and the type stops the day; size M.",
+      "computed": {
+        "purpose": "town-hall-question",
+        "setting": ["public"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:civic.protest",
+            "engine": "public-action",
+            "record": "civic.protest",
+            "how": "waits: impact 0.18, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "cause:event:civic.strike",
+            "engine": "public-action",
+            "record": "civic.strike",
+            "how": "waits: impact 0.18, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 103,
+          "counted": 61,
+          "onlyHere": 100,
+          "onlyHereCounted": 58
+        }
+      }
+    },
+    {
+      "key": "rally-word",
+      "kind": "type",
+      "cause": "src/core2/modules/public-action.ts (civic.rally)",
+      "writes": "spoke keeps address: giveInauguralAddress records a speech heard (src/core2/modules/speech.ts)",
+      "models": "src/core2/modules/public-action.ts, speech.ts",
+      "verdict": "WIRE",
+      "why": "Writes back already; it only waits unplayed (impact 0.18).",
+      "link": "stopsDay on the type (one field); size S.",
+      "computed": {
+        "purpose": "rally-word",
+        "setting": ["public"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:civic.rally",
+            "engine": "public-action",
+            "record": "civic.rally",
+            "how": "waits: impact 0.18, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 35,
+          "counted": 24,
+          "onlyHere": 35,
+          "onlyHereCounted": 24
+        }
+      }
+    },
+    {
+      "key": "warning",
+      "kind": "type",
+      "cause": "src/core2/modules/public-action.ts via circumstance organizing-warning",
+      "writes": "tie only",
+      "models": "src/core2/modules/public-action.ts",
+      "verdict": "WIRE",
+      "why": "An organizer warning the official before an action is public-action's; the official's answer should change it.",
+      "link": "public-action.ts reads the reply that calls the action off, or meeting-protesters; size M.",
+      "computed": {
+        "purpose": "protest-warning",
+        "setting": ["home", "phone", "letter"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:organizing-warning",
+            "engine": "circumstance",
+            "record": "initiative.organizing-started",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 15,
+          "counted": 13,
+          "onlyHere": 15,
+          "onlyHereCounted": 13
+        }
+      }
+    },
+    {
+      "key": "bill-signed",
+      "kind": "type",
+      "cause": "src/core2/modules/legislature.ts (executive-action)",
+      "writes": "tie only; owed keeps a favor nobody reads",
+      "models": "src/core2/modules/executive.ts",
+      "verdict": "DELETE",
+      "why": "The signing reaches the player through the bill paper and the press; this scene waits unplayed (impact 0.28) and nothing reads it.",
+      "computed": {
+        "purpose": "signing-ask",
+        "setting": ["venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:executive-action",
+            "engine": "legislature",
+            "record": "executive-action",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 55,
+          "counted": 49,
+          "onlyHere": 55,
+          "onlyHereCounted": 49
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "veto",
+      "kind": "type",
+      "cause": "src/core2/modules/legislature.ts (executive-action, veto-override)",
+      "writes": "tie only; override keeps story-runs nobody reads",
+      "models": "src/core2/modules/legislature.ts (overridesDue)",
+      "verdict": "DELETE",
+      "why": "The override fight is vote-confirmed's (override-whip), which legislature.ts reads; this one waits unplayed.",
+      "computed": {
+        "purpose": "veto-call",
+        "setting": ["venue", "phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:executive-action",
+            "engine": "legislature",
+            "record": "executive-action",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "cause:event:veto-override",
+            "engine": "legislature",
+            "record": "veto-override",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 54,
+          "counted": 50,
+          "onlyHere": 54,
+          "onlyHereCounted": 50
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "desk-bill",
+      "kind": "type",
+      "cause": "src/core2/modules/legislature.ts (bill-presented)",
+      "writes": "nothing; signed and vetoed endings keep none",
+      "models": "src/core2/modules/executive.ts; src/bench/ui/bill-stage.mjs (the desk)",
+      "verdict": "DELETE",
+      "why": "The desk screen is where the executive signs or vetoes (src/bench/ui/bill-stage.mjs); this scene duplicates it and decides nothing.",
+      "computed": {
+        "purpose": "desk-bill",
+        "setting": ["office"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:bill-presented",
+            "engine": "legislature",
+            "record": "bill-presented",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "cause:event:bill-presented",
+            "engine": "legislature",
+            "record": "bill-presented",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 131,
+          "counted": 110,
+          "onlyHere": 122,
+          "onlyHereCounted": 102
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "desk-visit",
+      "kind": "type",
+      "cause": "src/core2/modules/legislature.ts (bill-presented)",
+      "writes": "tie only; fix-first keeps a promise nobody reads",
+      "models": "src/core2/modules/executive.ts",
+      "verdict": "WIRE",
+      "why": "A sponsor lobbying the executive before the deadline is the executive role's negotiation.",
+      "link": "the executive's sign-or-veto decision reads the reply as a favor (as legislature.ts keepReply does), and the type stops the day; size M.",
+      "computed": {
+        "purpose": "desk-visit",
+        "setting": ["office", "phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:bill-presented",
+            "engine": "legislature",
+            "record": "bill-presented",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "cause:event:bill-presented",
+            "engine": "legislature",
+            "record": "bill-presented",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 100,
+          "counted": 80,
+          "onlyHere": 100,
+          "onlyHereCounted": 80
+        }
+      }
+    },
+    {
+      "key": "budget-cut",
+      "kind": "type",
+      "cause": "src/core2/modules/budgets.ts (budget-line-changed)",
+      "writes": "tie only; half-back keeps a promise nobody reads",
+      "models": "src/core2/modules/budgets.ts",
+      "verdict": "WIRE",
+      "why": "A department head arguing a cut is the budget engine's line.",
+      "link": "budgets.ts reads half-back as a proposed restoration of the line, and the type stops the day; size M.",
+      "computed": {
+        "purpose": "cut-argument",
+        "setting": ["office", "phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:budget-line-changed",
+            "engine": "budgets",
+            "record": "budget-line-changed",
+            "how": "waits: impact 0.15, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 76,
+          "counted": 58,
+          "onlyHere": 76,
+          "onlyHereCounted": 58
+        }
+      }
+    },
+    {
+      "key": "appointment",
+      "kind": "type",
+      "cause": "src/core2/modules/executive.ts (official-appointed); src/core2/modules/macro.ts (economy.board-appointment)",
+      "writes": "tie only; accepted keeps a favor nobody reads",
+      "models": "src/core2/modules/executive.ts, offices.ts",
+      "verdict": "WIRE",
+      "why": "The appointment record exists; the player should be able to accept or decline it as jobs.ts lets them with a job offer.",
+      "link": "offices.ts reads accept or decline as jobs.ts answerOffer does, and official-appointed joins ownRecordScenes; size M.",
+      "computed": {
+        "purpose": "appointment-offer",
+        "setting": ["venue", "phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:economy.board-appointment",
+            "engine": "macro",
+            "record": "economy.board-appointment",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "cause:event:official-appointed",
+            "engine": "executive",
+            "record": "official-appointed",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 67,
+          "counted": 41,
+          "onlyHere": 67,
+          "onlyHereCounted": 41
+        }
+      }
+    },
+    {
+      "key": "office-hours",
+      "kind": "type",
+      "cause": "src/core2/modules/constituent-cases.ts (office.approached)",
+      "writes": "tie only; will-call and caseworker keep promises nobody reads",
+      "models": "src/core2/modules/constituent-cases.ts",
+      "verdict": "WIRE",
+      "why": "Office hours are the constituent engine's cases; lines are PR 8910's.",
+      "link": "it plays: office.approached joins ownRecordScenes (or the waiting reader of director-a-waiting-scene-is-never-played), and constituent-cases.ts reads will-call as the case taken up; size M.",
+      "computed": {
+        "purpose": "constituent-help",
+        "setting": ["venue", "office"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:office.approached",
+            "engine": "constituent-cases",
+            "record": "office.approached",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 436,
+          "counted": 380,
+          "onlyHere": 424,
+          "onlyHereCounted": 369
+        }
+      }
+    },
+    {
+      "key": "press-interview",
+      "kind": "type",
+      "cause": "src/core2/modules/press.ts and src/core2/modules/legislature.ts acts; circumstance hallway-reporter",
+      "writes": "what was said; src/core2/modules/press.ts keepComment prints it",
+      "models": "src/core2/modules/press.ts",
+      "verdict": "KEEP",
+      "why": "press.ts reads the reply; lines are PR 8910's.",
+      "computed": {
+        "purpose": "press-comment",
+        "setting": ["venue", "phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:executive-action",
+            "engine": "legislature",
+            "record": "executive-action",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "cause:event:veto-override",
+            "engine": "legislature",
+            "record": "veto-override",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "cause:event:office.introduced",
+            "engine": "legislature",
+            "record": "office.introduced",
+            "how": "waits: impact 0.15, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "cause:event:legislative-vote",
+            "engine": "legislature",
+            "record": "legislative-vote",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "cause:event:interview-published",
+            "engine": "press",
+            "record": "interview-published",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "circumstance:hallway-reporter",
+            "engine": "circumstance",
+            "record": "bill-held-in-committee",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 656,
+          "counted": 526,
+          "onlyHere": 640,
+          "onlyHereCounted": 515
+        }
+      }
+    },
+    {
+      "key": "scandal",
+      "kind": "type",
+      "cause": "src/core2/modules/press.ts (press.exposed)",
+      "writes": "tie only; story-runs is read by press.ts only from press-interview",
+      "models": "src/core2/modules/press.ts",
+      "verdict": "WIRE",
+      "why": "A reporter asking about a scandal is press-interview's exchange; the press already prints what is said.",
+      "link": "press.ts keepComment accepts typeKey scandal (one condition); size S.",
+      "computed": {
+        "purpose": "scandal-comment",
+        "setting": ["home", "phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:press.exposed",
+            "engine": "press",
+            "record": "press.exposed",
+            "how": "stops the day: impact 0.5, at or over 0.5",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 57,
+          "counted": 50,
+          "onlyHere": 56,
+          "onlyHereCounted": 49
+        }
+      }
+    },
+    {
+      "key": "staff-news",
+      "kind": "type",
+      "cause": "src/core2/modules/legislature.ts (bill-failed); src/core2/modules/press.ts (press-story)",
+      "writes": "tie only; statement keeps story-runs nobody reads",
+      "models": "src/core2/modules/staff.ts, press.ts",
+      "verdict": "DELETE",
+      "why": "A messenger scene for records the paper and the bill screens already show; nothing reads the reply.",
+      "computed": {
+        "purpose": "staff-news",
+        "setting": ["office", "phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:bill-failed",
+            "engine": "legislature",
+            "record": "bill-failed",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "cause:event:press-story",
+            "engine": "press",
+            "record": "press-story",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          },
+          {
+            "cause": "cause:event:press-story",
+            "engine": "press",
+            "record": "press-story",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 84,
+          "counted": 57,
+          "onlyHere": 79,
+          "onlyHereCounted": 52
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "swearing-in",
+      "kind": "type",
+      "cause": "src/core2/modules/offices.ts (took-office)",
+      "writes": "the oath or address: meetOfficiant and giveInauguralAddress (src/core2/modules/speech.ts)",
+      "models": "src/core2/modules/offices.ts, speech.ts",
+      "verdict": "KEEP",
+      "why": "Stops the day (stopsDay); its address is a speech heard.",
+      "computed": {
+        "purpose": "swearing-in",
+        "setting": ["seat", "venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:took-office",
+            "engine": "offices",
+            "record": "took-office",
+            "how": "stops the day (the type's stopsDay)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 80,
+          "counted": 37,
+          "onlyHere": 80,
+          "onlyHereCounted": 37
+        }
+      }
+    },
+    {
+      "key": "recall",
+      "kind": "type",
+      "cause": "src/core2/modules/recalls.ts (recall-petition, recall-outcome)",
+      "writes": "the answer; src/core2/modules/recalls.ts keepAnswer",
+      "models": "src/core2/modules/recalls.ts",
+      "verdict": "KEEP",
+      "why": "recalls.ts reads the reply into the public record voters hear.",
+      "computed": {
+        "purpose": "recall-confront",
+        "setting": ["public", "home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:recall-petition",
+            "engine": "recalls",
+            "record": "recall-petition",
+            "how": "stops the day: the player's own record (ownRecordScenes)",
+            "plays": "yes"
+          },
+          {
+            "cause": "cause:event:recall-outcome",
+            "engine": "recalls",
+            "record": "recall-outcome",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 97,
+          "counted": 89,
+          "onlyHere": 97,
+          "onlyHereCounted": 89
+        }
+      }
+    },
+    {
+      "key": "bribe-offer",
+      "kind": "type",
+      "cause": "src/core2/modules/corruption.ts (corruption.bribe-offered)",
+      "writes": "the choice; src/core2/modules/corruption.ts takes, refuses or reports the bribe",
+      "models": "src/core2/modules/corruption.ts",
+      "verdict": "KEEP",
+      "why": "corruption.ts reads the ending; lines are PR 8910's.",
+      "computed": {
+        "purpose": "bribe-offer",
+        "setting": ["office", "venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:corruption.bribe-offered",
+            "engine": "corruption",
+            "record": "corruption.bribe-offered",
+            "how": "stops the day: impact 0.63, at or over 0.5",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 270,
+          "counted": 240,
+          "onlyHere": 268,
+          "onlyHereCounted": 239
+        }
+      }
+    },
+    {
+      "key": "bribe-pressed",
+      "kind": "type",
+      "cause": "src/core2/modules/corruption.ts (corruption.bribe-pressed)",
+      "writes": "the choice; src/core2/modules/corruption.ts (said-you-would-report reaches the press)",
+      "models": "src/core2/modules/corruption.ts",
+      "verdict": "KEEP",
+      "why": "corruption.ts reads the ending; lines are PR 8910's.",
+      "computed": {
+        "purpose": "bribe-pressed",
+        "setting": ["office", "venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:corruption.bribe-pressed",
+            "engine": "corruption",
+            "record": "corruption.bribe-pressed",
+            "how": "stops the day: impact 0.63, at or over 0.5",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 115,
+          "counted": 64,
+          "onlyHere": 115,
+          "onlyHereCounted": 64
+        }
+      }
+    },
+    {
+      "key": "accusation",
+      "kind": "type",
+      "cause": "src/core2/modules/justice.ts (justice.accused); circumstance bribe-accused",
+      "writes": "tie only; recused keeps a promise nobody reads",
+      "models": "src/core2/modules/justice.ts, corruption.ts",
+      "verdict": "KEEP",
+      "why": "Stops the day (impact 0.5, or met where you are); the matter between accuser and accused is their tie.",
+      "computed": {
+        "purpose": "conflict-accuse",
+        "setting": ["school", "workplace", "public"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:justice.accused",
+            "engine": "justice",
+            "record": "justice.accused",
+            "how": "stops the day: impact 0.5, at or over 0.5",
+            "plays": "yes"
+          },
+          {
+            "cause": "circumstance:bribe-accused",
+            "engine": "circumstance",
+            "record": "scandal.reported",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 182,
+          "counted": 107,
+          "onlyHere": 181,
+          "onlyHereCounted": 107
+        }
+      }
+    },
+    {
+      "key": "address",
+      "kind": "type",
+      "cause": "src/director/opening-story.ts and local-address.ts (president, governor, mayor addresses)",
+      "writes": "the speech heard is recorded by the address producer (src/core2/modules/speech.ts); the scene shows it",
+      "models": "src/core2/modules/speech.ts",
+      "verdict": "KEEP",
+      "why": "The opening evening's address is the game's first scene (turn 18).",
+      "reachNote": "The opening day's scene plays through the new-life route (src/bench/handler.ts); later addresses wait unplayed (impact 0.28).",
+      "computed": {
+        "purpose": null,
+        "setting": ["seat", "venue", "public"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:president.address",
+            "engine": "opening-story",
+            "record": "president.address",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "cause:event:president.address",
+            "engine": "opening-story",
+            "record": "president.address",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "cause:event:governor.address",
+            "engine": "local-address",
+            "record": "governor.address",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "cause:event:mayor.address",
+            "engine": "local-address",
+            "record": "mayor.address",
+            "how": "waits: impact 0.28, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no (The opening day's scene plays through the new-life route (src/bench/handler.ts); later addresses wait unplayed (impact 0.28).)",
+        "lines": {
+          "all": 0,
+          "counted": 0,
+          "onlyHere": 0,
+          "onlyHereCounted": 0
+        }
+      }
+    },
+    {
+      "key": "law-takes-effect",
+      "kind": "type",
+      "cause": "src/core2/modules/laws.ts via budgets (law.effect-learned)",
+      "writes": "tie only",
+      "models": "src/core2/modules/laws.ts, src/director/bring-it-up.ts",
+      "verdict": "DELETE",
+      "why": "Its purpose law-reaches is constituent-stop's, which plays through the law-reached-street circumstance; this one waits unplayed (impact 0.11).",
+      "computed": {
+        "purpose": "law-reaches",
+        "setting": ["home", "workplace", "public"],
+        "timing": "effective-date",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "cause:event:law.effect-learned",
+            "engine": "budgets",
+            "record": "law.effect-learned",
+            "how": "waits: impact 0.11, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 28,
+          "counted": 13,
+          "onlyHere": 27,
+          "onlyHereCounted": 12
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "constituent-stop",
+      "kind": "type",
+      "cause": "src/core2/modules/laws.ts, news.ts via circumstances vote-read-street, law-reached-street, law-news-street",
+      "writes": "tie only; promise-to-fix and blame-shifted are unread",
+      "models": "src/core2/modules/views.ts; src/director/bring-it-up.ts",
+      "verdict": "WIRE",
+      "why": "People bringing up the law to the official who made it is the golden path's step; the answer should move the resident's blame.",
+      "link": "bring-it-up's told record (src/director/bring-it-up.ts) takes the official's answer: blame-shifted passes the blame on, promise-to-fix holds it; size M.",
+      "computed": {
+        "purpose": "law-reaches",
+        "setting": ["public"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:vote-read-street",
+            "engine": "circumstance",
+            "record": "news.read",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "circumstance:law-reached-street",
+            "engine": "circumstance",
+            "record": "law.effect-learned",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "circumstance:law-news-street",
+            "engine": "circumstance",
+            "record": "news.read",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 28,
+          "counted": 13,
+          "onlyHere": 27,
+          "onlyHereCounted": 12
+        }
+      }
+    },
+    {
+      "key": "news-arrives",
+      "kind": "type",
+      "cause": "household records: housing.ts eviction, life.ts death, jobs.ts job ended, health.ts illness; street circumstances",
+      "writes": "the conversation it opens (src/director/conversation.ts, family-open) writes time together to closeness",
+      "models": "src/core2/modules/housing.ts, jobs.ts, health.ts, life.ts",
+      "verdict": "KEEP",
+      "why": "The household's hard news at home (owner, Oct 14 night); its street circumstances duplicate bring-it-up and can go.",
+      "computed": {
+        "purpose": null,
+        "setting": ["home", "phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:housing.eviction",
+            "engine": "",
+            "record": "",
+            "how": "stops the day: the household's record (householdRecordScenes)",
+            "plays": "yes"
+          },
+          {
+            "cause": "feeling:event:housing.eviction",
+            "engine": "",
+            "record": "",
+            "how": "stops the day: the household's record (householdRecordScenes)",
+            "plays": "yes"
+          },
+          {
+            "cause": "feeling:event:housing.eviction",
+            "engine": "",
+            "record": "",
+            "how": "stops the day: the household's record (householdRecordScenes)",
+            "plays": "yes"
+          },
+          {
+            "cause": "feeling:event:life.death",
+            "engine": "",
+            "record": "",
+            "how": "stops the day when a household member is in it (householdScenes)",
+            "plays": "yes"
+          },
+          {
+            "cause": "feeling:event:family.partnered",
+            "engine": "",
+            "record": "",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "feeling:event:family.separated",
+            "engine": "",
+            "record": "",
+            "how": "stops the day: impact 0.65, at or over 0.5",
+            "plays": "yes"
+          },
+          {
+            "cause": "money:job-ended",
+            "engine": "",
+            "record": "",
+            "how": "stops the day when a household member is in it (householdScenes)",
+            "plays": "yes"
+          },
+          {
+            "cause": "feeling:event:justice.imprisoned",
+            "engine": "",
+            "record": "",
+            "how": "stops the day: impact 0.63, at or over 0.5",
+            "plays": "yes"
+          },
+          {
+            "cause": "money:job-ended",
+            "engine": "",
+            "record": "",
+            "how": "stops the day when a household member is in it (householdScenes)",
+            "plays": "yes"
+          },
+          {
+            "cause": "feeling:event:health.serious-illness",
+            "engine": "",
+            "record": "",
+            "how": "stops the day when a household member is in it (householdScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 0,
+          "counted": 0,
+          "onlyHere": 0,
+          "onlyHereCounted": 0
+        }
+      }
+    },
+    {
+      "key": "layoff",
+      "kind": "type",
+      "cause": "src/core2/modules/jobs.ts (job ended)",
+      "writes": "tie only; severance-won keeps money nobody pays",
+      "models": "src/core2/modules/jobs.ts, finance.ts",
+      "verdict": "WIRE",
+      "why": "The terms of a layoff are the jobs engine's; a severance won should be paid.",
+      "link": "jobs.ts reads severance-won and pays it through finance (one reader); size M.",
+      "computed": {
+        "purpose": "layoff-terms",
+        "setting": ["workplace"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "money:job-ended",
+            "engine": "work",
+            "record": "work.job-lost",
+            "how": "by the appraisal of money:job-ended: stops at 0.5 or over, else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 19,
+          "counted": 18,
+          "onlyHere": 19,
+          "onlyHereCounted": 18
+        }
+      }
+    },
+    {
+      "key": "reach-out",
+      "kind": "type",
+      "cause": "src/core2/modules/jobs.ts via circumstance job-lost-calls",
+      "writes": "tie only; favor-done keeps a favor nobody reads",
+      "models": "src/core2/modules/jobs.ts",
+      "verdict": "WIRE",
+      "why": "A friend out of work asking for help is the jobs engine's hiring.",
+      "link": "jobs.ts reads favor-done as a referral the employer weighs at the asker's next hire; size M.",
+      "computed": {
+        "purpose": "favor-job",
+        "setting": ["phone"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:job-lost-calls",
+            "engine": "circumstance",
+            "record": "work.job-lost",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 17,
+          "counted": 15,
+          "onlyHere": 16,
+          "onlyHereCounted": 14
+        }
+      }
+    },
+    {
+      "key": "return",
+      "kind": "type",
+      "cause": "src/core2/modules/justice.ts (justice.released)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/closeness.ts",
+      "verdict": "WIRE",
+      "why": "A relative home from custody is household news the justice engine records; it only waits (impact 0.45).",
+      "link": "add feeling:event:justice.released to scheduling.householdScenes (one data line); size S.",
+      "computed": {
+        "purpose": "homecoming",
+        "setting": ["home"],
+        "timing": "effective-date",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:justice.released",
+            "engine": "justice",
+            "record": "justice.released",
+            "how": "waits: impact 0.45, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "feeling:event:justice.released",
+            "engine": "justice",
+            "record": "justice.released",
+            "how": "waits: impact 0.45, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 55,
+          "counted": 38,
+          "onlyHere": 54,
+          "onlyHereCounted": 37
+        }
+      }
+    },
+    {
+      "key": "departure",
+      "kind": "type",
+      "cause": "src/core2/modules/justice.ts (justice.imprisoned); awaiting record:deployment",
+      "writes": "nothing: no purpose, no reply",
+      "models": "src/core2/modules/justice.ts",
+      "verdict": "DELETE",
+      "why": "Narration only; imprisonment reaches the household through news-arrives and prison-visit, and no engine models a deployment.",
+      "computed": {
+        "purpose": null,
+        "setting": ["home"],
+        "timing": "effective-date",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:justice.imprisoned",
+            "engine": "",
+            "record": "",
+            "how": "stops the day: impact 0.63, at or over 0.5",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 0,
+          "counted": 0,
+          "onlyHere": 0,
+          "onlyHereCounted": 0
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "visit",
+      "kind": "type",
+      "cause": "src/core2/modules/justice.ts, src/core2/modules/health.ts",
+      "writes": "nothing: no purpose, no reply",
+      "models": "src/core2/modules/health.ts, justice.ts",
+      "verdict": "DELETE",
+      "why": "Narration only, twin of prison-visit and care, which have purposes and replies.",
+      "computed": {
+        "purpose": null,
+        "setting": ["venue"],
+        "timing": "next-together",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:justice.imprisoned",
+            "engine": "",
+            "record": "",
+            "how": "stops the day: impact 0.63, at or over 0.5",
+            "plays": "yes"
+          },
+          {
+            "cause": "feeling:event:health.serious-illness",
+            "engine": "",
+            "record": "",
+            "how": "by the appraisal of feeling:event:health.serious-illness: stops at 0.5 or over, else waits",
+            "plays": "maybe"
+          },
+          {
+            "cause": "feeling:event:health.serious-illness",
+            "engine": "",
+            "record": "",
+            "how": "by the appraisal of feeling:event:health.serious-illness: stops at 0.5 or over, else waits",
+            "plays": "maybe"
+          },
+          {
+            "cause": "feeling:event:justice.held-before-trial",
+            "engine": "",
+            "record": "",
+            "how": "by the appraisal of feeling:event:justice.held-before-trial: stops at 0.5 or over, else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 0,
+          "counted": 0,
+          "onlyHere": 0,
+          "onlyHereCounted": 0
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "prison-visit",
+      "kind": "type",
+      "cause": "src/core2/modules/justice.ts via circumstances held-known-visit, imprisoned-known-visit",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/justice.ts",
+      "verdict": "KEEP",
+      "why": "Met where you are; its matter is the tie. Its row is in situation-types.json twice, byte for byte: one goes.",
+      "computed": {
+        "purpose": "prison-visit",
+        "setting": ["venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:held-known-visit",
+            "engine": "circumstance",
+            "record": "justice.held-before-trial",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "circumstance:imprisoned-known-visit",
+            "engine": "circumstance",
+            "record": "justice.imprisoned",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 49,
+          "counted": 30,
+          "onlyHere": 49,
+          "onlyHereCounted": 30
+        }
+      }
+    },
+    {
+      "key": "hearing",
+      "kind": "type",
+      "cause": "src/core2/modules/justice.ts (justice.charged); awaiting record:prosecutor-in-scene",
+      "writes": "nothing: no purpose, no reply",
+      "models": "src/core2/modules/justice.ts",
+      "verdict": "DELETE",
+      "why": "Narration only; courts come after early access, so a court scene is on the needed-later list.",
+      "computed": {
+        "purpose": null,
+        "setting": ["public"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:justice.charged",
+            "engine": "",
+            "record": "",
+            "how": "stops the day: impact 0.5, at or over 0.5",
+            "plays": "yes"
+          },
+          {
+            "cause": "feeling:event:justice.charged",
+            "engine": "",
+            "record": "",
+            "how": "stops the day: impact 0.5, at or over 0.5",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 0,
+          "counted": 0,
+          "onlyHere": 0,
+          "onlyHereCounted": 0
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "verdict",
+      "kind": "type",
+      "cause": "src/core2/modules/justice.ts (convicted, acquitted); awaiting record:judge-in-scene",
+      "writes": "nothing: no purpose, no reply",
+      "models": "src/core2/modules/justice.ts",
+      "verdict": "DELETE",
+      "why": "Narration only; on the needed-later list with the courts.",
+      "computed": {
+        "purpose": null,
+        "setting": ["public"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:justice.convicted",
+            "engine": "",
+            "record": "",
+            "how": "stops the day: impact 0.63, at or over 0.5",
+            "plays": "yes"
+          },
+          {
+            "cause": "feeling:event:justice.convicted",
+            "engine": "",
+            "record": "",
+            "how": "stops the day: impact 0.63, at or over 0.5",
+            "plays": "yes"
+          },
+          {
+            "cause": "feeling:event:justice.acquitted",
+            "engine": "",
+            "record": "",
+            "how": "waits: impact 0.45, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "feeling:event:justice.acquitted",
+            "engine": "",
+            "record": "",
+            "how": "waits: impact 0.45, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 0,
+          "counted": 0,
+          "onlyHere": 0,
+          "onlyHereCounted": 0
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "letter",
+      "kind": "type",
+      "cause": "src/core2/modules/kin-contact.ts (family.contact)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/kin-contact.ts",
+      "verdict": "KEEP",
+      "why": "kin-contact.ts writes the contact; the reply is the tie.",
+      "computed": {
+        "purpose": "letter-ask",
+        "setting": ["letter"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:family.contact",
+            "engine": "partnerships",
+            "record": "family.contact",
+            "how": "stops when 0.6 times its closeness reaches 0.5; else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 78,
+          "counted": 50,
+          "onlyHere": 78,
+          "onlyHereCounted": 50
+        }
+      }
+    },
+    {
+      "key": "argument",
+      "kind": "type",
+      "cause": "any tie turn (tie:*); awaiting dispute records",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/quarrel.ts",
+      "verdict": "WIRE",
+      "why": "The quarrel engine exists; the scene is cast from any tie change instead of a quarrel.",
+      "link": "its cause is quarrel.ts's quarrel record in place of tie:* (one cause row); size S.",
+      "computed": {
+        "purpose": "neighbor-argument",
+        "setting": ["home", "workplace", "school", "public"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "tie:*",
+            "engine": "",
+            "record": "",
+            "how": "stops the day when met the day the tie turned (tieMet); else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 69,
+          "counted": 57,
+          "onlyHere": 69,
+          "onlyHereCounted": 57
+        }
+      }
+    },
+    {
+      "key": "apology",
+      "kind": "type",
+      "cause": "src/core2/modules/partnerships.ts (family.quarrel)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/closeness.ts, src/core2/modules/quarrel.ts",
+      "verdict": "KEEP",
+      "why": "Stops when the quarrel's closeness carries it; the apology's matter is the tie.",
+      "computed": {
+        "purpose": "owed-apology",
+        "setting": ["home", "other-home", "public"],
+        "timing": "next-together",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:family.quarrel",
+            "engine": "partnerships",
+            "record": "family.quarrel",
+            "how": "stops when 0.6 times its closeness reaches 0.5; else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 203,
+          "counted": 133,
+          "onlyHere": 202,
+          "onlyHereCounted": 132
+        }
+      }
+    },
+    {
+      "key": "reconciliation",
+      "kind": "type",
+      "cause": "a tie turn (tie:*)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/closeness.ts",
+      "verdict": "KEEP",
+      "why": "Met the day the tie turns; its matter is the tie.",
+      "computed": {
+        "purpose": "ally-return",
+        "setting": ["home", "other-home", "public"],
+        "timing": "next-together",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "tie:*",
+            "engine": "",
+            "record": "",
+            "how": "stops the day when met the day the tie turned (tieMet); else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 17,
+          "counted": 13,
+          "onlyHere": 15,
+          "onlyHereCounted": 13
+        }
+      }
+    },
+    {
+      "key": "becoming-friends",
+      "kind": "type",
+      "cause": "a contact tie turn (tie:contact:contact*)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/closeness.ts",
+      "verdict": "KEEP",
+      "why": "Met the day the tie turns; meeting people is the golden path's second step.",
+      "computed": {
+        "purpose": "friend-ask",
+        "setting": ["public", "home", "other-home"],
+        "timing": "next-together",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "tie:contact:contact*",
+            "engine": "",
+            "record": "",
+            "how": "stops the day when met the day the tie turned (tieMet); else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 45,
+          "counted": 21,
+          "onlyHere": 45,
+          "onlyHereCounted": 21
+        }
+      }
+    },
+    {
+      "key": "first-meeting",
+      "kind": "type",
+      "cause": "src/core2/modules/jobs.ts via circumstance new-coworker",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts); src/director/meeting-facts.ts reads what they share",
+      "models": "src/core2/modules/jobs.ts, people.ts",
+      "verdict": "KEEP",
+      "why": "Met where you are; meeting people.",
+      "computed": {
+        "purpose": "introduction",
+        "setting": ["public", "venue"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:new-coworker",
+            "engine": "circumstance",
+            "record": "job",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 45,
+          "counted": 28,
+          "onlyHere": 45,
+          "onlyHereCounted": 28
+        }
+      }
+    },
+    {
+      "key": "reunion",
+      "kind": "type",
+      "cause": "the director's own re-entry echo (echo:re-entry)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/closeness.ts",
+      "verdict": "DELETE",
+      "why": "Decided by record (lead, Nov 12): no engine records a return. moves.ts writes only person.moved-away, lives and residents keep no moved-back record, and the one real return, a release from custody (justice.released), is already the return scene’s cause. Its own cause is the director’s re-entry echo, so DELETE stands.",
+      "computed": {
+        "purpose": "reunion-ask",
+        "setting": ["public", "home", "other-home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "echo:re-entry",
+            "engine": "",
+            "record": "",
+            "how": "by the appraisal of echo:re-entry: stops at 0.5 or over, else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 45,
+          "counted": 20,
+          "onlyHere": 44,
+          "onlyHereCounted": 19
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "betrayal",
+      "kind": "type",
+      "cause": "the director's own kept-fact echo; awaiting broken-undertaking, lie-found-out, secret-told",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "none: no engine keeps promises",
+      "verdict": "NEEDED-LATER",
+      "why": "A promise broken needs a record of the promise, and no engine reads the promise or favor a scene keeps (SG-WORDS-favor-promise-keeps-unread).",
+      "neededEngine": "An obligations ledger: the promises and favors scene replies keep, read when they come due, kept or broken.",
+      "computed": {
+        "purpose": "betrayal-explain",
+        "setting": ["home", "other-home", "public"],
+        "timing": "next-together",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "echo:kept-fact-due",
+            "engine": "",
+            "record": "",
+            "how": "by the appraisal of echo:kept-fact-due: stops at 0.5 or over, else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 16,
+          "counted": 13,
+          "onlyHere": 16,
+          "onlyHereCounted": 13
+        }
+      }
+    },
+    {
+      "key": "celebration",
+      "kind": "type",
+      "cause": "src/core2/modules/partnerships.ts (family.married), jobs.ts (job-started)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/partnerships.ts",
+      "verdict": "KEEP",
+      "why": "A marriage stops the day (impact 0.5); the matter is the tie.",
+      "computed": {
+        "purpose": "celebration-ask",
+        "setting": ["home", "venue"],
+        "timing": "effective-date",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:family.married",
+            "engine": "partnerships",
+            "record": "family.married",
+            "how": "stops the day: impact 0.5, at or over 0.5",
+            "plays": "yes"
+          },
+          {
+            "cause": "money:job-started",
+            "engine": "",
+            "record": "",
+            "how": "by the appraisal of money:job-started: stops at 0.5 or over, else waits",
+            "plays": "maybe"
+          },
+          {
+            "cause": "money:job-started",
+            "engine": "",
+            "record": "",
+            "how": "by the appraisal of money:job-started: stops at 0.5 or over, else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 45,
+          "counted": 19,
+          "onlyHere": 44,
+          "onlyHereCounted": 18
+        }
+      }
+    },
+    {
+      "key": "gathering-missing",
+      "kind": "type",
+      "cause": "src/core2/modules/partnerships.ts (family.gathering-missed)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/kin-contact.ts",
+      "verdict": "KEEP",
+      "why": "The kin-contact record; the reply is the tie.",
+      "computed": {
+        "purpose": "gathering-ask",
+        "setting": ["home"],
+        "timing": "effective-date",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:family.gathering-missed",
+            "engine": "partnerships",
+            "record": "family.gathering-missed",
+            "how": "stops when 0.6 times its closeness reaches 0.5; else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 75,
+          "counted": 47,
+          "onlyHere": 75,
+          "onlyHereCounted": 47
+        }
+      }
+    },
+    {
+      "key": "funeral",
+      "kind": "type",
+      "cause": "src/core2/modules/life.ts (life.death)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/life.ts",
+      "verdict": "KEEP",
+      "why": "A death is household news; the funeral is its tie.",
+      "computed": {
+        "purpose": "funeral-cause",
+        "setting": ["venue"],
+        "timing": "effective-date",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:life.death",
+            "engine": "",
+            "record": "",
+            "how": "by the appraisal of feeling:event:life.death: stops at 0.5 or over, else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 22,
+          "counted": 11,
+          "onlyHere": 21,
+          "onlyHereCounted": 10
+        }
+      }
+    },
+    {
+      "key": "date",
+      "kind": "type",
+      "cause": "src/core2/modules/partnerships.ts (family.partnered)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/partnerships.ts",
+      "verdict": "WIRE",
+      "why": "The partnership record exists; the scene only waits (impact 0.29).",
+      "link": "feeling:event:family.partnered joins ownRecordScenes (one data line); size S.",
+      "computed": {
+        "purpose": "first-date",
+        "setting": ["public", "venue"],
+        "timing": "next-together",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:family.partnered",
+            "engine": "partnerships",
+            "record": "family.partnered",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 49,
+          "counted": 45,
+          "onlyHere": 49,
+          "onlyHereCounted": 45
+        }
+      }
+    },
+    {
+      "key": "proposal",
+      "kind": "type",
+      "cause": "src/core2/modules/partnerships.ts (family.engaged)",
+      "writes": "the answer; src/core2/modules/partnerships.ts answerProposal",
+      "models": "src/core2/modules/partnerships.ts",
+      "verdict": "WIRE",
+      "why": "partnerships.ts already reads the answer; the scene only waits (impact 0.29), so the reader never hears it.",
+      "link": "feeling:event:family.engaged joins ownRecordScenes (one data line); size S.",
+      "computed": {
+        "purpose": "proposal-ask",
+        "setting": ["home", "public", "venue"],
+        "timing": "next-together",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:family.engaged",
+            "engine": "partnerships",
+            "record": "family.engaged",
+            "how": "waits: impact 0.29, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 52,
+          "counted": 48,
+          "onlyHere": 52,
+          "onlyHereCounted": 48
+        }
+      }
+    },
+    {
+      "key": "breakup",
+      "kind": "type",
+      "cause": "src/core2/modules/partnerships.ts (family.separated)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/partnerships.ts",
+      "verdict": "KEEP",
+      "why": "Stops the day (impact 0.65).",
+      "computed": {
+        "purpose": "breakup-tell",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:family.separated",
+            "engine": "partnerships",
+            "record": "family.separated",
+            "how": "stops the day: impact 0.65, at or over 0.5",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 52,
+          "counted": 49,
+          "onlyHere": 52,
+          "onlyHereCounted": 49
+        }
+      }
+    },
+    {
+      "key": "rescue",
+      "kind": "type",
+      "cause": "src/core2/modules/rescue.ts (health.rescued)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/rescue.ts",
+      "verdict": "WIRE",
+      "why": "The rescue record exists; the scene waits (impact 0.47).",
+      "link": "feeling:event:health.rescued joins ownRecordScenes (one data line); size S.",
+      "computed": {
+        "purpose": "rescue-ask",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:health.rescued",
+            "engine": "partnerships",
+            "record": "health.rescued",
+            "how": "waits: impact 0.47, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 42,
+          "counted": 18,
+          "onlyHere": 42,
+          "onlyHereCounted": 18
+        }
+      }
+    },
+    {
+      "key": "arrival",
+      "kind": "type",
+      "cause": "src/core2/modules/residents.ts via circumstance new-housemate",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/moves.ts",
+      "verdict": "KEEP",
+      "why": "Met at home the day someone moves in.",
+      "computed": {
+        "purpose": "housemate-arrives",
+        "setting": ["home"],
+        "timing": "effective-date",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:new-housemate",
+            "engine": "circumstance",
+            "record": "household-member",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 96,
+          "counted": 86,
+          "onlyHere": 96,
+          "onlyHereCounted": 86
+        }
+      }
+    },
+    {
+      "key": "care",
+      "kind": "type",
+      "cause": "src/core2/modules/health.ts (health.serious-illness)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/health.ts",
+      "verdict": "KEEP",
+      "why": "Household illness is family news; the visit is the tie.",
+      "computed": {
+        "purpose": "care-visit",
+        "setting": ["home", "other-home"],
+        "timing": "effective-date",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:health.serious-illness",
+            "engine": "",
+            "record": "",
+            "how": "stops the day when a household member is in it (householdScenes)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 38,
+          "counted": 26,
+          "onlyHere": 38,
+          "onlyHereCounted": 26
+        }
+      }
+    },
+    {
+      "key": "advice",
+      "kind": "type",
+      "cause": "src/core2/modules/mentorship.ts (work.mentorship-formed); circumstance mentor-weighs-in (party-asked); awaiting next-step",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/mentorship.ts",
+      "verdict": "KEEP",
+      "why": "The mentor weighing in after a party's ask is the file step's counsel; the choice stays the player's.",
+      "computed": {
+        "purpose": "mentor-advice",
+        "setting": ["school", "home", "other-home"],
+        "timing": "next-together",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:work.mentorship-formed",
+            "engine": "partnerships",
+            "record": "work.mentorship-formed",
+            "how": "stops when 0.6 times its seniority reaches 0.5; else waits",
+            "plays": "maybe"
+          },
+          {
+            "cause": "circumstance:mentor-weighs-in",
+            "engine": "circumstance",
+            "record": "party-asked",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 108,
+          "counted": 101,
+          "onlyHere": 107,
+          "onlyHereCounted": 100
+        }
+      }
+    },
+    {
+      "key": "first-day",
+      "kind": "type",
+      "cause": "src/core2/modules/jobs.ts (job-started); awaiting school-started",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/jobs.ts",
+      "verdict": "KEEP",
+      "why": "Meeting coworkers on the first day; its school cause waits on a producer no engine writes.",
+      "computed": {
+        "purpose": "first-day-ropes",
+        "setting": ["school", "workplace"],
+        "timing": "effective-date",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "money:job-started",
+            "engine": "",
+            "record": "",
+            "how": "by the appraisal of money:job-started: stops at 0.5 or over, else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "maybe",
+        "lines": {
+          "all": 100,
+          "counted": 94,
+          "onlyHere": 99,
+          "onlyHereCounted": 94
+        }
+      }
+    },
+    {
+      "key": "last-day",
+      "kind": "type",
+      "cause": "src/core2/modules/school.ts via circumstance school-last-day; src/core2/modules/jobs.ts (job-left)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/school.ts, jobs.ts",
+      "verdict": "KEEP",
+      "why": "Met where you are; the farewell is the tie.",
+      "computed": {
+        "purpose": "last-day-farewell",
+        "setting": ["school", "workplace"],
+        "timing": "effective-date",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:school-last-day",
+            "engine": "circumstance",
+            "record": "school.finished",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "money:job-left",
+            "engine": "jobs",
+            "record": "job",
+            "how": "by the appraisal of money:job-left: stops at 0.5 or over, else waits",
+            "plays": "maybe"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 126,
+          "counted": 117,
+          "onlyHere": 125,
+          "onlyHereCounted": 116
+        }
+      }
+    },
+    {
+      "key": "diploma-home",
+      "kind": "type",
+      "cause": "src/core2/modules/school.ts via circumstance graduation-home",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/school.ts",
+      "verdict": "KEEP",
+      "why": "Met at home the day school ends; the household's tie.",
+      "computed": {
+        "purpose": "diploma-home",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:graduation-home",
+            "engine": "circumstance",
+            "record": "school.finished",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 51,
+          "counted": 42,
+          "onlyHere": 51,
+          "onlyHereCounted": 42
+        }
+      }
+    },
+    {
+      "key": "no-diploma-home",
+      "kind": "type",
+      "cause": "src/core2/modules/school.ts via circumstance no-graduation-home",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/school.ts",
+      "verdict": "KEEP",
+      "why": "Met at home; the household's tie.",
+      "computed": {
+        "purpose": "no-diploma-home",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:no-graduation-home",
+            "engine": "circumstance",
+            "record": "school.finished",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 45,
+          "counted": 41,
+          "onlyHere": 45,
+          "onlyHereCounted": 41
+        }
+      }
+    },
+    {
+      "key": "new-baby",
+      "kind": "type",
+      "cause": "src/core2/modules/life.ts (person-birth)",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/life.ts",
+      "verdict": "WIRE",
+      "why": "A birth is household news; it only waits (impact 0.39).",
+      "link": "feeling:event:person-birth joins scheduling.householdScenes (one data line); size S.",
+      "computed": {
+        "purpose": "new-baby",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:person-birth",
+            "engine": "",
+            "record": "",
+            "how": "waits: impact 0.39, under the interrupt line 0.5",
+            "plays": "no"
+          },
+          {
+            "cause": "feeling:event:person-birth",
+            "engine": "",
+            "record": "",
+            "how": "waits: impact 0.39, under the interrupt line 0.5",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 60,
+          "counted": 34,
+          "onlyHere": 60,
+          "onlyHereCounted": 34
+        }
+      }
+    },
+    {
+      "key": "cause-invite",
+      "kind": "type",
+      "cause": "src/core2/modules/drives.ts (cause.shared)",
+      "writes": "the answer; src/core2/modules/public-action.ts playerJoins puts the player in the action",
+      "models": "src/core2/modules/public-action.ts",
+      "verdict": "WIRE",
+      "why": "public-action.ts reads the yes; the type waits (waits: true) and no waiting scene is ever played.",
+      "link": "the waiting-scene reader of director-a-waiting-scene-is-never-played (claimed by W7); size M, already an item.",
+      "computed": {
+        "purpose": "join-cause",
+        "setting": ["public", "other-home"],
+        "timing": "next-together",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:cause.shared",
+            "engine": "",
+            "record": "",
+            "how": "waits by its type (waits: true), and a waiting scene is never played",
+            "plays": "no"
+          }
+        ],
+        "playerReaches": "no",
+        "lines": {
+          "all": 226,
+          "counted": 206,
+          "onlyHere": 226,
+          "onlyHereCounted": 206
+        }
+      }
+    },
+    {
+      "key": "family-absence",
+      "kind": "type",
+      "cause": "src/core2/modules/meetings.ts via circumstance away-evening",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/closeness.ts",
+      "verdict": "KEEP",
+      "why": "The cost of office at home; the strain is the tie.",
+      "computed": {
+        "purpose": "family-absence",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:away-evening",
+            "engine": "circumstance",
+            "record": "public-meeting",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 80,
+          "counted": 69,
+          "onlyHere": 75,
+          "onlyHereCounted": 64
+        }
+      }
+    },
+    {
+      "key": "office-doubt",
+      "kind": "type",
+      "cause": "src/core2/modules/public-action.ts via circumstance office-doubt",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/closeness.ts",
+      "verdict": "KEEP",
+      "why": "The household's doubt; the tie is its matter.",
+      "computed": {
+        "purpose": "office-doubt",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:office-doubt",
+            "engine": "circumstance",
+            "record": "civic.protest",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 29,
+          "counted": 19,
+          "onlyHere": 29,
+          "onlyHereCounted": 19
+        }
+      }
+    },
+    {
+      "key": "story-read",
+      "kind": "type",
+      "cause": "src/core2/modules/news.ts via circumstances story-read-home, national-news-work",
+      "writes": "tie only",
+      "models": "src/core2/modules/news.ts; src/director/bring-it-up.ts",
+      "verdict": "DELETE",
+      "why": "bring-it-up (src/director/bring-it-up.ts) reads the same news.read record and writes the told record the next person's belief follows; story-read writes only a strain.",
+      "computed": {
+        "purpose": "story-read",
+        "setting": ["home", "workplace"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:story-read-home",
+            "engine": "circumstance",
+            "record": "news.read",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          },
+          {
+            "cause": "circumstance:national-news-work",
+            "engine": "circumstance",
+            "record": "news.read",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 110,
+          "counted": 64,
+          "onlyHere": 110,
+          "onlyHereCounted": 64
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "moving-goodbye",
+      "kind": "type",
+      "cause": "src/core2/modules/moves.ts via circumstance moved-away-farewell",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
+      "models": "src/core2/modules/moves.ts",
+      "verdict": "KEEP",
+      "why": "Met the day someone moves away; the tie.",
+      "computed": {
+        "purpose": "moving-goodbye",
+        "setting": ["other-home", "home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:moved-away-farewell",
+            "engine": "circumstance",
+            "record": "person.moved-away",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 112,
+          "counted": 73,
+          "onlyHere": 112,
+          "onlyHereCounted": 73
+        }
+      }
+    },
+    {
+      "key": "notice-home",
+      "kind": "type",
+      "cause": "src/core2/modules/housing.ts via circumstance notice-home",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts); paying-it keeps a promise nobody reads",
+      "models": "src/core2/modules/housing.ts",
+      "verdict": "KEEP",
+      "why": "The household's stake in a notice; the strain is the tie (the promise unread under SG-WORDS-favor-promise-keeps-unread).",
+      "computed": {
+        "purpose": "notice-home",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:notice-home",
+            "engine": "circumstance",
+            "record": "housing.notice-served",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 71,
+          "counted": 41,
+          "onlyHere": 71,
+          "onlyHereCounted": 41
+        }
+      }
+    },
+    {
+      "key": "home-damaged",
+      "kind": "type",
+      "cause": "src/core2/modules/disasters.ts via circumstance home-damaged",
+      "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts); chipping-in keeps a promise nobody reads",
+      "models": "src/core2/modules/disasters.ts",
+      "verdict": "KEEP",
+      "why": "The household's stake in the damage; the strain is the tie.",
+      "computed": {
+        "purpose": "home-damaged",
+        "setting": ["home"],
+        "timing": "at-cause",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "circumstance:home-damaged",
+            "engine": "circumstance",
+            "record": "disaster.home-damaged",
+            "how": "stops the day: met where the player is (metWhereYouAre)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 105,
+          "counted": 76,
+          "onlyHere": 104,
+          "onlyHereCounted": 75
+        }
+      }
+    },
+    {
+      "key": "filing-clerk",
+      "kind": "purpose",
+      "cause": "the player's visit to the filing office (src/bench/filing.ts)",
+      "writes": "the filing; src/core2/modules/filing-clerk.ts and candidacy.ts",
+      "models": "src/core2/modules/filing-clerk.ts",
+      "verdict": "KEEP",
+      "why": "The clerk at the window on the filing screen (src/director/filing-visit.ts); the golden path's file step.",
+      "reachNote": "A screen: the player goes to the filing office.",
+      "computed": {
+        "purpose": "filing-clerk",
+        "playerReaches": "A screen: the player goes to the filing office.",
+        "lines": {
+          "all": 189,
+          "counted": 0,
+          "onlyHere": 188,
+          "onlyHereCounted": 0
+        }
+      }
+    },
+    {
+      "key": "party-ask",
+      "kind": "purpose",
+      "cause": "none",
+      "writes": "nothing",
+      "models": "src/core2/modules/candidacy.ts (party-asked)",
+      "verdict": "DELETE",
+      "why": "No type and no code names it; party-recruit plays the same ask under ask-to-run, read by candidacy.ts.",
+      "computed": {
+        "purpose": "party-ask",
+        "playerReaches": "",
+        "lines": {
+          "all": 127,
+          "counted": 101,
+          "onlyHere": 61,
+          "onlyHereCounted": 47
+        }
+      },
+      "removed": true
+    },
+    {
+      "key": "election-night",
+      "kind": "purpose",
+      "cause": "src/director/election-day.ts",
+      "writes": "the narration of the day's own records",
+      "models": "src/core2/modules/voting.ts, elections.ts",
+      "verdict": "KEEP",
+      "why": "Election day and the returns (src/bench/election-night.ts).",
+      "reachNote": "A screen: election day.",
+      "computed": {
+        "purpose": "election-night",
+        "playerReaches": "A screen: election day.",
+        "lines": {
+          "all": 49,
+          "counted": 16,
+          "onlyHere": 49,
+          "onlyHereCounted": 16
+        }
+      }
+    },
+    {
+      "key": "campaign-answer",
+      "kind": "purpose",
+      "cause": "src/director/campaign-answer.ts",
+      "writes": "the campaign's answer through src/bench/campaign.ts",
+      "models": "src/core2/modules/campaigns.ts",
+      "verdict": "KEEP",
+      "why": "The campaign screen's answer lines.",
+      "reachNote": "A screen: the campaign.",
+      "computed": {
+        "purpose": "campaign-answer",
+        "playerReaches": "A screen: the campaign.",
+        "lines": {
+          "all": 16,
+          "counted": 16,
+          "onlyHere": 16,
+          "onlyHereCounted": 16
+        }
+      }
+    },
+    {
+      "key": "talk",
+      "kind": "purpose",
+      "cause": "src/director/scene-talk.ts (purpose talk)",
+      "writes": "the conversation's own records",
+      "models": "src/director/conversation.ts",
+      "verdict": "KEEP",
+      "why": "The plain talk's arc.",
+      "reachNote": "Any talk.",
+      "computed": {
+        "purpose": "talk",
+        "playerReaches": "Any talk.",
+        "lines": {
+          "all": 40,
+          "counted": 20,
+          "onlyHere": 35,
+          "onlyHereCounted": 19
+        }
+      }
+    },
+    {
+      "key": "*",
+      "kind": "purpose",
+      "cause": "src/director/scene-talk.ts (arcs.keys, for types with no purpose)",
+      "writes": "whatever the type writes",
+      "models": "src/director/scene-talk.ts",
+      "verdict": "KEEP",
+      "why": "Shared narration keys for the no-purpose types that stay (news-arrives, address, sittings).",
+      "computed": {
+        "purpose": "*",
+        "playerReaches": "",
+        "lines": {
+          "all": 111,
+          "counted": 87,
+          "onlyHere": 107,
+          "onlyHereCounted": 85
+        }
+      }
+    }
+  ]
+}

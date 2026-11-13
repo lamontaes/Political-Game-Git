@@ -344,7 +344,9 @@ function intake(api: CoreAPI): void {
   table(api, "cursor").put({ id: "crimes", count: rows.length });
   for (const crime of rows.slice(from))
     // The official who refused a bribe saw the offer; one who took it is a party and keeps quiet unless they fall out (the corruption engine's telling).
-    if (crime.offered && !crime.taken)
+    // An offer to the player's seat waits for the player's own answer in the bribe-offer scene
+    // (`pending`): it is not refused yet, and nobody reports it in the player's name.
+    if (crime.offered && !crime.taken && !crime.pending)
       considerReport(api, crime, crime.officialId, "witness");
 }
 
