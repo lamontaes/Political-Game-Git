@@ -62,6 +62,12 @@
       "spread": "1 to 2",
       "note": "The most sentences one paragraph of a speech may spend saying one measure's condition: its fact and one sentence of what it has meant (the words lead, Nov 12, on a town head who said the same rent fact three times running)."
     },
+    "spanMostSentences": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": "1 to 2",
+      "note": "The most sentences one paragraph of a speech may say a span of years in, never two in a row: the context says it, and the turn after may say it again (the words lead, Nov 12)."
+    },
     "echoLeastWords": {
       "value": 4,
       "tag": "TUNABLE",

@@ -17,6 +17,7 @@
 import data from "../../data/english/composed-checks.json" with { type: "json" };
 import questionNames from "../../data/english/question-names.json" with { type: "json" };
 import { OPENING_SPEECH_BANK } from "./english-opening-speech";
+import spanWords from "../../data/english/span-words.json" with { type: "json" };
 import {
   linesOf,
   plainSentence,
@@ -738,6 +739,21 @@ const CONDITION_WORDINGS: readonly { topic: string; pattern: RegExp }[] =
     }));
   });
 
+/** A span of years said in a sentence, in figures or as the span reader words it ("six years", "six more years", "about thirty years"). */
+const SPAN = new RegExp(
+  `\\b(?:\\d+|${[
+    ...new Set(
+      [
+        ...Object.values(spanWords.years),
+        ...Object.values(spanWords.aboutYears),
+      ].map((said) => said.replace(/ years$/, "")),
+    ),
+  ]
+    .map(escape)
+    .join("|")})\\s+(?:more\\s+)?years\\b`,
+  "i",
+);
+
 /**
  * One paragraph of a speech that says one condition more than its fact and
  * one sentence of what it has meant (the words lead, Nov 12: "rents have kept
@@ -761,6 +777,26 @@ export const conditionSaidOnce: ComposedCheck = (text) => {
         ))
           counts.set(topic, [...(counts.get(topic) ?? []), sentence]);
       }
+    // The span the condition is told over is said once more at most, never
+    // in the next sentence (the words lead, Nov 12: "In the 6 years since I
+    // took this office ... Over 6 years, that has meant ... 6 more years").
+    const sentences = screen.lines.flatMap((line) => line.sentences);
+    const spans = sentences.flatMap((sentence, index) =>
+      SPAN.test(sentence) ? [index] : [],
+    );
+    if (
+      spans.length > value("spanMostSentences") ||
+      spans.some((index, at) => at > zero && index - spans[at - one]! === one)
+    )
+      found.push(
+        breakOf(
+          "condition-said-once",
+          text,
+          at,
+          `says how long in ${spans.length} sentences${spans.some((index, i) => i > zero && index - spans[i - one]! === one) ? ", two of them in a row" : ""}`,
+          spans.map((index) => sentences[index]).join(" / "),
+        ),
+      );
     for (const [topic, sentences] of counts)
       if (sentences.length > value("conditionMostSentences"))
         found.push(

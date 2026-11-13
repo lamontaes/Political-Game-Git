@@ -291,8 +291,16 @@ const FIXTURES: Record<
   },
   "condition-said-once": {
     // The words lead, Nov 12: a town head said one rent fact three times
-    // running, in its context, its meaning and the year's claim.
+    // running, in its context, its meaning and the year's claim; and said the
+    // span three times, two of them in a row.
     catches: sampleOf(
+      text("speech:mayor", [
+        [
+          "In the six years since I took this office, rents have kept rising, and too many families spend too much of each month on them.",
+          "Over six years, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
+          "No one should have to live through six more years of that.",
+        ],
+      ]),
       text("speech:mayor", [
         [
           "In the 6 years since I took this office, rents have kept rising, and too many families spend too much of each month on them.",
@@ -302,11 +310,13 @@ const FIXTURES: Record<
       ]),
     ),
     spares: sampleOf(
-      // Its fact and one sentence of what it has meant.
+      // Its fact and one sentence of what it has meant; the span once more,
+      // as the turn, not in the next sentence (the words lead, Nov 12).
       text("speech:mayor", [
         [
-          "In the 6 years since I took this office, rents have kept rising, and too many families spend too much of each month on them.",
-          "Over 6 years, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
+          "In the six years since I took this office, rents have kept rising, and too many families spend too much of each month on them.",
+          "In Leonidas, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
+          "No one should have to live through another six years of that.",
         ],
       ]),
       // One sentence of it in each of two paragraphs.

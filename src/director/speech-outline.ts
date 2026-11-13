@@ -92,6 +92,7 @@ import { earlierAddressPieces } from "./opening-facts";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
 import { changeSaid, moneySaid } from "../english/count-words";
+import { spanSaid } from "../english/span-words";
 import { areaName, measureWords } from "../english/area-names";
 
 import { addDays, daysBetweenText } from "../core2/kernel/dates";
@@ -1711,6 +1712,11 @@ function figure(value: number): string {
   return String(Number(value.toFixed(N.decimals)));
 }
 
+/** A span of whole years as people say it in a speech ("six years"), through the span reader. */
+function spanOf(api: CoreAPI, years: number): string {
+  return spanSaid(Math.round(years * api.parameter("daysPerMeanYear")));
+}
+
 /** Whole years between two dates. */
 function yearsBetween(api: CoreAPI, from: string, to: string): number {
   return Math.floor(
@@ -1740,6 +1746,7 @@ function contextFacts(
     return read && years >= least
       ? {
           "context-years": fact(String(years), ...read.sourceRecordIds),
+          "context-span": fact(spanOf(api, years), ...read.sourceRecordIds),
           [`context-${topic}`]: fact("yes", ...read.sourceRecordIds),
         }
       : {};
@@ -1766,6 +1773,7 @@ function contextFacts(
   return of
     ? {
         "context-years": fact(String(years), ...ids),
+        "context-span": fact(spanOf(api, years), ...ids),
         "context-amount": fact(figure(of()), ...ids),
         [`context-${topic}`]: fact("yes", ...ids),
       }
