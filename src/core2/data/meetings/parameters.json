@@ -25,6 +25,13 @@
       "source": "Attendance at a local official's town hall: a few dozen residents (Congressional Management Foundation 2017, 'Citizen-Centric Advocacy': in-person town halls draw dozens in most districts).",
       "spread": [15, 120]
     },
+    "publicCommentHours": {
+      "value": 0.05,
+      "role": "level",
+      "tag": "TUNABLE",
+      "source": "Hours a resident spends at the podium for public comment, the time together a first tie with a member of the body holds; local bodies commonly allow about three minutes a speaker.",
+      "spread": [0.02, 0.1]
+    },
     "townHallFreeTimeCost": {
       "value": 1.0,
       "role": "coefficient",

@@ -176,18 +176,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-P15-encounters",
-    "kind": "behavior-model-gap",
-    "file": "src/core2/data/encounters.json",
-    "line": 3,
-    "whatItFakes": "New people are met on a visit (the host's household), on joining a group (its other members), on the opening day at work and when a person is hired into a job during play (jobs.ts hire path, meetAtWork); the first tie holds the act's hours. Still faked: meetings at an organized meeting (public comment, council) wait for attendance, and neighbors wait for addresses.",
-    "why": "Owner's ruling, October 10, 2026 (CTO on #3956): build encounters 1 and 2 now, 3 with M1's jobs work.",
-    "addedBy": "OPUS-PEOPLE",
-    "addedAt": "2026-10-11",
-    "replacement": "Partly replaced Nov 10 (stand-in triage): new coworkers on a hire are met through meetAtWork in src/core2/modules/jobs.ts (call at the hire path, landed in the release commit 09a28996). Still to build: encounters at meetings with attendance, neighbors once addresses exist, and first-tie hours checked against a study of how acquaintances form. Was: Encounters at meetings with attendance, new coworkers when jobs change, neighbors once addresses exist, and first-tie hours checked against a study of how acquaintances form.",
-    "status": "open"
-  },
-  {
     "id": "SG-P15-kin-light-past",
     "kind": "shared-past-generation-gap",
     "file": "src/core2/past-school.ts",

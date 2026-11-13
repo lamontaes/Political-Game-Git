@@ -470,6 +470,33 @@
       "kind": "written"
     },
     {
+      "key": "person-history.summary.work.outside",
+      "text": "Works outside {place}.",
+      "move": "summary",
+      "origin": "authored",
+      "author": "Words builder W2 (work outside the town)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.outside.you",
+      "text": "You work outside {place}.",
+      "move": "summary",
+      "origin": "authored",
+      "author": "Words builder W2 (work outside the town)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.outside.first",
+      "text": "I work outside {place}.",
+      "move": "summary",
+      "origin": "authored",
+      "author": "Words builder W2 (work outside the town)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
       "key": "person-history.summary.work.employer.you",
       "move": "summary",
       "text": "You work at {employer}.",
