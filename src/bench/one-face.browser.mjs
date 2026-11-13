@@ -8,6 +8,8 @@
 //   BENCH_BROWSER=/opt/pw-browsers/chromium node src/bench/one-face.browser.mjs [shots dir]
 // STATE and TOWN name a place to search in the creator (the audit's repro:
 // STATE="New Hampshire" TOWN=Blodgett); without them a state and town are drawn.
+// SEED replays a life's seed (the new-life request's own `seed`), so a drawn
+// place a run names can be played again.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { playOpening } from "./start-life.mjs";
@@ -39,6 +41,12 @@ const faceIn = async (selector) => {
 };
 const seen = {};
 try {
+  if (process.env.SEED)
+    await page.route("**/api/newlife?*", (route) => {
+      const url = new URL(route.request().url());
+      url.searchParams.set("seed", process.env.SEED);
+      return route.continue({ url: url.toString() });
+    });
   await page.goto(`${base}/play`);
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
@@ -115,9 +123,12 @@ try {
     await shot(tab);
   }
   await page.keyboard.press("Escape");
+  // People opens on a card of someone at home; a child's card draws the bust
+  // frame with no portrait in it (ui/face.mjs `columnBust`), so the card is
+  // ready when its frame is, with or without a face.
   ms.people = await timed(
     () => page.locator('#rings [data-tab="people"]').click(),
-    "#sheet .mxbust .bust-stack",
+    "#sheet .mxglow",
   );
   await page.waitForTimeout(800);
   await shot("people");
