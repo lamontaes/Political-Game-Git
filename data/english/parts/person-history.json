@@ -23,7 +23,8 @@
     "here": "The town or county the person lives in now, from the place records.",
     "age": "How old the person was then, from their birth record and the record's date.",
     "child": "A child's first name from their record.",
-    "kin": "Who lives with the person, each as they call them (\"your mother\", \"your daughters\"), joined with \"or\", from the household and family records."
+    "kin": "Who lives with the person, each as they call them (\"your mother\", \"your daughters\"), joined with \"or\", from the household and family records.",
+    "seat": "The office said as the seat a person holds in it, from the office record's seat count: \"a council member\" for one seat of several, \"mayor\" for the only one."
   },
   "maxWords": 24,
   "parts": [
@@ -264,7 +265,7 @@
     {
       "key": "person-history.story.office.elected.third",
       "move": "story",
-      "text": "{who} won election as {office}.",
+      "text": "{who} won election as {seat}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -273,7 +274,7 @@
     {
       "key": "person-history.story.office.elected.they",
       "move": "story",
-      "text": "They won election as {office}.",
+      "text": "They won election as {seat}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -282,7 +283,7 @@
     {
       "key": "person-history.story.office.elected-again.third",
       "move": "story",
-      "text": "{who} won election as {office}, and won it again in {years}.",
+      "text": "{who} won election as {seat}, and won it again in {years}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -291,7 +292,7 @@
     {
       "key": "person-history.story.office.elected-again.they",
       "move": "story",
-      "text": "They won election as {office}, and won it again in {years}.",
+      "text": "They won election as {seat}, and won it again in {years}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -300,7 +301,7 @@
     {
       "key": "person-history.story.office.appointed.third",
       "move": "story",
-      "text": "{who} was appointed {office}.",
+      "text": "{who} was appointed {seat}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -309,7 +310,7 @@
     {
       "key": "person-history.story.office.appointed.they",
       "move": "story",
-      "text": "They were appointed {office}.",
+      "text": "They were appointed {seat}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -318,7 +319,7 @@
     {
       "key": "person-history.story.office.appointed-again.third",
       "move": "story",
-      "text": "{who} was appointed {office}, and won the seat in {years}.",
+      "text": "{who} was appointed {seat}, and won the seat in {years}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -327,7 +328,7 @@
     {
       "key": "person-history.story.office.appointed-again.they",
       "move": "story",
-      "text": "They were appointed {office}, and won the seat in {years}.",
+      "text": "They were appointed {seat}, and won the seat in {years}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -336,7 +337,7 @@
     {
       "key": "person-history.story.office.entered.third",
       "move": "story",
-      "text": "{who} took office as {office}.",
+      "text": "{who} took office as {seat}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -345,7 +346,7 @@
     {
       "key": "person-history.story.office.entered.they",
       "move": "story",
-      "text": "They took office as {office}.",
+      "text": "They took office as {seat}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -354,7 +355,7 @@
     {
       "key": "person-history.story.office.entered-again.third",
       "move": "story",
-      "text": "{who} took office as {office}, and was returned in {years}.",
+      "text": "{who} took office as {seat}, and was returned in {years}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -363,7 +364,7 @@
     {
       "key": "person-history.story.office.entered-again.they",
       "move": "story",
-      "text": "They took office as {office}, and were returned in {years}.",
+      "text": "They took office as {seat}, and were returned in {years}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -372,7 +373,7 @@
     {
       "key": "person-history.summary.office.run",
       "move": "summary",
-      "text": "Has served as {office} since {year}, reelected each time.",
+      "text": "Has served as {seat} since {year}, reelected each time.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -381,7 +382,7 @@
     {
       "key": "person-history.summary.office.run.you",
       "move": "summary",
-      "text": "You have served as {office} since {year}, reelected each time.",
+      "text": "You have served as {seat} since {year}, reelected each time.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -390,7 +391,7 @@
     {
       "key": "person-history.summary.office.one",
       "move": "summary",
-      "text": "Has served as {office} since {year}.",
+      "text": "Has served as {seat} since {year}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -399,7 +400,7 @@
     {
       "key": "person-history.summary.office.one.you",
       "move": "summary",
-      "text": "You have served as {office} since {year}.",
+      "text": "You have served as {seat} since {year}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -579,7 +580,7 @@
     {
       "key": "person-history.story.office.elected-always.third",
       "move": "story",
-      "text": "{who} won election as {office}, and won every race for the seat after that.",
+      "text": "{who} won election as {seat}, and won every race for the seat after that.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -588,7 +589,7 @@
     {
       "key": "person-history.story.office.elected-always.they",
       "move": "story",
-      "text": "They won election as {office}, and won every race for the seat after that.",
+      "text": "They won election as {seat}, and won every race for the seat after that.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -597,7 +598,7 @@
     {
       "key": "person-history.story.office.appointed-always.third",
       "move": "story",
-      "text": "{who} was appointed {office}, and won every race for the seat after that.",
+      "text": "{who} was appointed {seat}, and won every race for the seat after that.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -606,7 +607,7 @@
     {
       "key": "person-history.story.office.appointed-always.they",
       "move": "story",
-      "text": "They were appointed {office}, and won every race for the seat after that.",
+      "text": "They were appointed {seat}, and won every race for the seat after that.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -615,7 +616,7 @@
     {
       "key": "person-history.story.office.entered-always.third",
       "move": "story",
-      "text": "{who} took office as {office}, and was returned at every election after that.",
+      "text": "{who} took office as {seat}, and was returned at every election after that.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -624,7 +625,7 @@
     {
       "key": "person-history.story.office.entered-always.they",
       "move": "story",
-      "text": "They took office as {office}, and were returned at every election after that.",
+      "text": "They took office as {seat}, and were returned at every election after that.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -633,7 +634,7 @@
     {
       "key": "person-history.summary.office.run.first",
       "move": "summary",
-      "text": "I've served as {office} since {year}, reelected each time.",
+      "text": "I've served as {seat} since {year}, reelected each time.",
       "origin": "authored",
       "author": "Claude Sonnet (Fixer, the approved You screen)",
       "date": "2026-11-08",
@@ -642,7 +643,7 @@
     {
       "key": "person-history.summary.office.one.first",
       "move": "summary",
-      "text": "I've served as {office} since {year}.",
+      "text": "I've served as {seat} since {year}.",
       "origin": "authored",
       "author": "Claude Sonnet (Fixer, the approved You screen)",
       "date": "2026-11-08",
@@ -1101,7 +1102,7 @@
     {
       "key": "person-history.story.office.left.third",
       "move": "story",
-      "text": "{who} left office as {office} in {year}.",
+      "text": "{who} left office as {seat} in {year}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1110,7 +1111,7 @@
     {
       "key": "person-history.story.office.left.they",
       "move": "story",
-      "text": "They left office as {office} in {year}.",
+      "text": "They left office as {seat} in {year}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1263,7 +1264,7 @@
     {
       "key": "person-history.story.office.elected.i",
       "move": "story",
-      "text": "I won election as {office}.",
+      "text": "I won election as {seat}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1272,7 +1273,7 @@
     {
       "key": "person-history.story.office.elected-again.i",
       "move": "story",
-      "text": "I won election as {office}, and won it again in {years}.",
+      "text": "I won election as {seat}, and won it again in {years}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1281,7 +1282,7 @@
     {
       "key": "person-history.story.office.appointed.i",
       "move": "story",
-      "text": "I was appointed {office}.",
+      "text": "I was appointed {seat}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1290,7 +1291,7 @@
     {
       "key": "person-history.story.office.appointed-again.i",
       "move": "story",
-      "text": "I was appointed {office}, and won the seat in {years}.",
+      "text": "I was appointed {seat}, and won the seat in {years}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1299,7 +1300,7 @@
     {
       "key": "person-history.story.office.entered.i",
       "move": "story",
-      "text": "I took office as {office}.",
+      "text": "I took office as {seat}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1308,7 +1309,7 @@
     {
       "key": "person-history.story.office.entered-again.i",
       "move": "story",
-      "text": "I took office as {office}, and was returned in {years}.",
+      "text": "I took office as {seat}, and was returned in {years}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1317,7 +1318,7 @@
     {
       "key": "person-history.story.office.elected-always.i",
       "move": "story",
-      "text": "I won election as {office}, and won every race for the seat after that.",
+      "text": "I won election as {seat}, and won every race for the seat after that.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1326,7 +1327,7 @@
     {
       "key": "person-history.story.office.appointed-always.i",
       "move": "story",
-      "text": "I was appointed {office}, and won every race for the seat after that.",
+      "text": "I was appointed {seat}, and won every race for the seat after that.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1335,7 +1336,7 @@
     {
       "key": "person-history.story.office.entered-always.i",
       "move": "story",
-      "text": "I took office as {office}, and was returned at every election after that.",
+      "text": "I took office as {seat}, and was returned at every election after that.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1542,7 +1543,7 @@
     {
       "key": "person-history.story.office.left.i",
       "move": "story",
-      "text": "I left office as {office} in {year}.",
+      "text": "I left office as {seat} in {year}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -3819,7 +3820,7 @@
     {
       "key": "person-history.story.office.elected.i.w3",
       "move": "story",
-      "text": "I got elected {office}.",
+      "text": "I got elected {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3828,7 +3829,7 @@
     {
       "key": "person-history.story.office.elected.i.w4",
       "move": "story",
-      "text": "I was voted in as {office}.",
+      "text": "I was voted in as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3846,7 +3847,7 @@
     {
       "key": "person-history.story.office.elected.i.w6",
       "move": "story",
-      "text": "I was elected {office}.",
+      "text": "I was elected {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3864,7 +3865,7 @@
     {
       "key": "person-history.story.office.elected.third.w3",
       "move": "story",
-      "text": "{who} got elected {office}.",
+      "text": "{who} got elected {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3873,7 +3874,7 @@
     {
       "key": "person-history.story.office.elected.third.w4",
       "move": "story",
-      "text": "{who} was voted in as {office}.",
+      "text": "{who} was voted in as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3891,7 +3892,7 @@
     {
       "key": "person-history.story.office.elected.third.w6",
       "move": "story",
-      "text": "{who} was elected {office}.",
+      "text": "{who} was elected {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3909,7 +3910,7 @@
     {
       "key": "person-history.story.office.elected.they.w3",
       "move": "story",
-      "text": "They got elected {office}.",
+      "text": "They got elected {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3918,7 +3919,7 @@
     {
       "key": "person-history.story.office.elected.they.w4",
       "move": "story",
-      "text": "They were voted in as {office}.",
+      "text": "They were voted in as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3936,7 +3937,7 @@
     {
       "key": "person-history.story.office.elected.they.w6",
       "move": "story",
-      "text": "They were elected {office}.",
+      "text": "They were elected {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3945,7 +3946,7 @@
     {
       "key": "person-history.story.office.appointed.i.w2",
       "move": "story",
-      "text": "I was named {office}.",
+      "text": "I was named {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3954,7 +3955,7 @@
     {
       "key": "person-history.story.office.appointed.i.w3",
       "move": "story",
-      "text": "I got the appointment as {office}.",
+      "text": "I got the appointment as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3963,7 +3964,7 @@
     {
       "key": "person-history.story.office.appointed.i.w4",
       "move": "story",
-      "text": "I was picked to serve as {office}.",
+      "text": "I was picked to serve as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3972,7 +3973,7 @@
     {
       "key": "person-history.story.office.appointed.i.w5",
       "move": "story",
-      "text": "I was tapped as {office}.",
+      "text": "I was tapped as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3981,7 +3982,7 @@
     {
       "key": "person-history.story.office.appointed.i.w6",
       "move": "story",
-      "text": "I was chosen to fill the seat as {office}.",
+      "text": "I was chosen to fill the seat as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3990,7 +3991,7 @@
     {
       "key": "person-history.story.office.appointed.third.w2",
       "move": "story",
-      "text": "{who} was named {office}.",
+      "text": "{who} was named {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3999,7 +4000,7 @@
     {
       "key": "person-history.story.office.appointed.third.w3",
       "move": "story",
-      "text": "{who} got the appointment as {office}.",
+      "text": "{who} got the appointment as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4008,7 +4009,7 @@
     {
       "key": "person-history.story.office.appointed.third.w4",
       "move": "story",
-      "text": "{who} was picked to serve as {office}.",
+      "text": "{who} was picked to serve as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4017,7 +4018,7 @@
     {
       "key": "person-history.story.office.appointed.third.w5",
       "move": "story",
-      "text": "{who} was tapped as {office}.",
+      "text": "{who} was tapped as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4026,7 +4027,7 @@
     {
       "key": "person-history.story.office.appointed.third.w6",
       "move": "story",
-      "text": "{who} was chosen to fill the seat as {office}.",
+      "text": "{who} was chosen to fill the seat as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4035,7 +4036,7 @@
     {
       "key": "person-history.story.office.appointed.they.w2",
       "move": "story",
-      "text": "They were named {office}.",
+      "text": "They were named {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4044,7 +4045,7 @@
     {
       "key": "person-history.story.office.appointed.they.w3",
       "move": "story",
-      "text": "They got the appointment as {office}.",
+      "text": "They got the appointment as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4053,7 +4054,7 @@
     {
       "key": "person-history.story.office.appointed.they.w4",
       "move": "story",
-      "text": "They were picked to serve as {office}.",
+      "text": "They were picked to serve as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4062,7 +4063,7 @@
     {
       "key": "person-history.story.office.appointed.they.w5",
       "move": "story",
-      "text": "They were tapped as {office}.",
+      "text": "They were tapped as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4071,7 +4072,7 @@
     {
       "key": "person-history.story.office.appointed.they.w6",
       "move": "story",
-      "text": "They were chosen to fill the seat as {office}.",
+      "text": "They were chosen to fill the seat as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4080,7 +4081,7 @@
     {
       "key": "person-history.story.office.entered.i.w2",
       "move": "story",
-      "text": "I became {office}.",
+      "text": "I became {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4089,7 +4090,7 @@
     {
       "key": "person-history.story.office.entered.i.w3",
       "move": "story",
-      "text": "I was sworn in as {office}.",
+      "text": "I was sworn in as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4098,7 +4099,7 @@
     {
       "key": "person-history.story.office.entered.i.w4",
       "move": "story",
-      "text": "I started serving as {office}.",
+      "text": "I started serving as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4107,7 +4108,7 @@
     {
       "key": "person-history.story.office.entered.i.w5",
       "move": "story",
-      "text": "I stepped into the job of {office}.",
+      "text": "I stepped into the job of {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4116,7 +4117,7 @@
     {
       "key": "person-history.story.office.entered.i.w6",
       "move": "story",
-      "text": "I began a term as {office}.",
+      "text": "I began a term as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4125,7 +4126,7 @@
     {
       "key": "person-history.story.office.entered.third.w2",
       "move": "story",
-      "text": "{who} became {office}.",
+      "text": "{who} became {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4134,7 +4135,7 @@
     {
       "key": "person-history.story.office.entered.third.w3",
       "move": "story",
-      "text": "{who} was sworn in as {office}.",
+      "text": "{who} was sworn in as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4143,7 +4144,7 @@
     {
       "key": "person-history.story.office.entered.third.w4",
       "move": "story",
-      "text": "{who} started serving as {office}.",
+      "text": "{who} started serving as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4152,7 +4153,7 @@
     {
       "key": "person-history.story.office.entered.third.w5",
       "move": "story",
-      "text": "{who} stepped into the job of {office}.",
+      "text": "{who} stepped into the job of {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4161,7 +4162,7 @@
     {
       "key": "person-history.story.office.entered.third.w6",
       "move": "story",
-      "text": "{who} began a term as {office}.",
+      "text": "{who} began a term as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4170,7 +4171,7 @@
     {
       "key": "person-history.story.office.entered.they.w2",
       "move": "story",
-      "text": "They became {office}.",
+      "text": "They became {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4179,7 +4180,7 @@
     {
       "key": "person-history.story.office.entered.they.w3",
       "move": "story",
-      "text": "They were sworn in as {office}.",
+      "text": "They were sworn in as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4188,7 +4189,7 @@
     {
       "key": "person-history.story.office.entered.they.w4",
       "move": "story",
-      "text": "They started serving as {office}.",
+      "text": "They started serving as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4197,7 +4198,7 @@
     {
       "key": "person-history.story.office.entered.they.w5",
       "move": "story",
-      "text": "They stepped into the job of {office}.",
+      "text": "They stepped into the job of {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4206,7 +4207,7 @@
     {
       "key": "person-history.story.office.entered.they.w6",
       "move": "story",
-      "text": "They began a term as {office}.",
+      "text": "They began a term as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",

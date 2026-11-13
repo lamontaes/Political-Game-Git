@@ -31,7 +31,7 @@ import {
   screenPick,
   screenWays,
 } from "../english/screen-words";
-import { framedByAge } from "../english/journal-words";
+import { articleFor, framedByAge } from "../english/journal-words";
 import controls from "./data/controls.json" with { type: "json" };
 import {
   pronounSetOfGender,
@@ -246,6 +246,47 @@ function officeTitle(core: CoreState, officeId: string): string | null {
     .table("offices")
     .get(officeId) as { title?: string } | undefined;
   return office?.title ?? null;
+}
+
+/**
+ * Each office as a sentence says it, with how many seats it has, from the
+ * offices table: one seat of several is said with "a" ("a council member",
+ * "a member of the board of elections"), a seat there is one of is not
+ * ("mayor").
+ */
+function seatsBySaid(core: CoreState): Map<string, number> {
+  const counts = new Map<string, number>();
+  const rows = coreAPI(core)
+    .moduleState(OFFICES)
+    .table("offices")
+    .rows() as readonly { title?: string; seats?: number }[];
+  for (const row of rows) {
+    if (!row.title || !row.seats) continue;
+    const said = inSentence(row.title);
+    counts.set(said, Math.max(counts.get(said) ?? row.seats, row.seats));
+  }
+  return counts;
+}
+
+/** An office said as the seat a person holds in it, by the office record's seat count. */
+const seatOf = (counts: ReadonlyMap<string, number>, said: string) =>
+  (counts.get(said) ?? 0) > 1 ? `${articleFor(said)} ${said}` : said;
+
+/** The card's office lines with the seat said beside the office, for the sentences that name the person's role. */
+function withSeats(
+  core: CoreState,
+  lines: readonly HistoryLine[],
+): HistoryLine[] {
+  if (!lines.some((line) => line.slots.office)) return [...lines];
+  const counts = seatsBySaid(core);
+  return lines.map((line) =>
+    line.slots.office
+      ? {
+          ...line,
+          slots: { ...line.slots, seat: seatOf(counts, line.slots.office) },
+        }
+      : line,
+  );
 }
 
 /** The offices a person serves in now, by title. */
@@ -1104,6 +1145,8 @@ function noJobLine(
 /** A run of terms in one office, as a card's header and lines under the name read it. */
 interface OfficeRun {
   readonly office: string;
+  /** The office said as the seat held in it: "a council member", "mayor". */
+  readonly seat: string;
   readonly since: string;
   readonly terms: number;
   readonly wonAgain: boolean;
@@ -1139,6 +1182,7 @@ function summaryOf(
           : "office.one",
         {
           office: now.office.office,
+          seat: now.office.seat,
           year: now.office.since.slice(0, 4),
         },
       )
@@ -1184,6 +1228,7 @@ function summaryOf(
  * and whether they won it again with no term given by appointment.
  */
 function officeRunOf(
+  core: CoreState,
   lines: readonly HistoryLine[],
   office: string | null | undefined,
 ): OfficeRun | null {
@@ -1196,6 +1241,7 @@ function officeRunOf(
   if (!terms.length) return null;
   return {
     office: said,
+    seat: seatOf(seatsBySaid(core), said),
     since: terms[0]!.start ?? terms[0]!.date,
     terms: new Set(terms.map((line) => line.date.slice(0, 4))).size,
     // Won again: a later term won at the polls and none given by appointment
@@ -1399,7 +1445,7 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     holder?.looks?.pronouns ??
       pronounSetOfGender(holder?.looks?.gender ?? term.identity.gender),
   );
-  const run = officeRunOf(lines, office?.title);
+  const run = officeRunOf(core, lines, office?.title);
   return {
     personId: id,
     name,
@@ -1432,7 +1478,7 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
         year: Number((run?.since ?? term.startDate).slice(0, 4)),
       },
     ],
-    history: tellHistory(lines, teller),
+    history: tellHistory(withSeats(core, lines), teller),
     colleagues: [],
     // The public record's "since" is the run's first term too.
     publicKnowledge: withSince(
@@ -1547,7 +1593,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
       ? (corePlaceByJurisdictionId(birthplace.facts.placeId as never)
           ?.displayName ?? null)
       : null;
-  const run = officeRunOf(lines, servingOffices(core, otherId)[0]);
+  const run = officeRunOf(core, lines, servingOffices(core, otherId)[0]);
   // The office a President held before, from their record.
   const prior = (other.pastFacts ?? []).find(
     (row) => row.kind === "career:prior-office",
@@ -1690,7 +1736,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     }),
     // Their history from the one history every engine reads, oldest first, for
     // everyone the viewer opens, told as a story.
-    history: tellHistory(lines, teller),
+    history: tellHistory(withSeats(core, lines), teller),
     // An officeholder's colleagues in office, by their tie records.
     colleagues: colleaguesOf(core, otherId),
     // What the public knows of a figure the viewer may never have met (the
