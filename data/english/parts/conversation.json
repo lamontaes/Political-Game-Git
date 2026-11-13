@@ -36542,7 +36542,8 @@
           "move": "charge-reply-back-core",
           "subject": "charge-reply-back",
           "role": "core",
-          "stages": ["ask"]
+          "stages": ["ask"],
+          "excludesFacts": ["told-plea", "plea"]
         }
       ],
       "piece": {
