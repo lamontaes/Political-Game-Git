@@ -42,6 +42,26 @@ try {
     "Place:",
     await page.locator("#card-place").innerText(),
   );
+  // A new life opens on its first evening at home, a scene the player goes
+  // through before the day's controls show (as bill-stage.browser.mjs does):
+  // a reply, Continue or Leave, until Day is there, or fail by name.
+  const shown = (id) => page.locator(`#${id}`).isVisible();
+  const throughTalk = async (when) => {
+    for (let i = 0; i < 40; i += 1) {
+      if (await shown("day")) return;
+      const replies = page.locator("#talk-choices .reply");
+      if ((await replies.count()) > 0 && (await replies.first().isVisible()))
+        await replies.first().click();
+      else if (await shown("talk-next"))
+        await page.locator("#talk-next").click();
+      else if (await shown("talk-leave"))
+        await page.locator("#talk-leave").click();
+      else if (await shown("continue")) await page.locator("#continue").click();
+      await page.waitForTimeout(800);
+    }
+    throw new Error(`Day never showed ${when}: a scene stayed open`);
+  };
+  await throughTalk("after the opening");
   // Every screen: the rail's, Who you are from the portrait, and its Jobs and
   // study tab.
   const tabs = [
@@ -92,6 +112,8 @@ try {
       await page.locator("#sheet-close").click();
   };
   await scan("start");
+  // The evening's scene can open while the sheets are read: go through it.
+  await throughTalk("before the first day");
   await page.locator("#day").click();
   await page.waitForFunction(() => !document.getElementById("day").disabled);
   await scan("after a day");
