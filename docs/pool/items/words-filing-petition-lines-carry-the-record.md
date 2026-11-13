@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: Words builder W3
-pr: 9025
+pr: #9025
 after:
 blocked-on:
 lead: words
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: Fable A, Nov 13 04:04Z and 04:19Z on #8928 (the golden-path scenes, the filing scene first)
+merged-at: 2026-11-13T07:32:52.949Z
 ---
 
 **What.** After the player files, the clerk's scene (the director's `filing` type, purpose filing-petition) answers with lines that carry no fact: "The counter closes at five sharp.", "That's the law's number, not mine.", "Good luck out there.", "When will I know I'm on?". Forty of its 57 lines name nothing on record, so the clerk sounds the same in every town and race. Seen: the talk box the day after filing, in any drawn place.
