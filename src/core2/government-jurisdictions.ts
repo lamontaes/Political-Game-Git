@@ -16,3 +16,6 @@ export function federalJurisdictionId(): string {
 export function stateJurisdictionId(stateKey: string): string | undefined {
   return coreStateJurisdiction(stateKey)?.id;
 }
+
+/** A listed government as people write it, for the families that name one (see offices-local). */
+export { governmentTitleName } from "./offices-local";

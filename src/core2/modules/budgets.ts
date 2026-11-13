@@ -87,6 +87,7 @@ import {
 } from "../budgets-treasury";
 import {
   federalJurisdictionId,
+  governmentTitleName,
   stateJurisdictionId,
 } from "../government-jurisdictions";
 import { syncServiceCharges } from "../budgets-service-charges";
@@ -937,7 +938,9 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
         {
           id: `county:${county}`,
           level: "county",
-          name: countyUnit.name,
+          // As people write it ("COUNTY OF PASSAIC" is "County of Passaic"): the
+          // treasury is named for it, and a public worker's card names the treasury.
+          name: governmentTitleName(countyUnit.name),
           fiscalYearStart: localFiscalYearStart(
             chain.stateKey,
             "county",
@@ -985,7 +988,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
           id: `place:${geoid}`,
           level: "city",
           base: "city",
-          name: city.name,
+          name: governmentTitleName(city.name),
           fiscalYearStart: localFiscalYearStart(
             chain.stateKey,
             "municipal",
