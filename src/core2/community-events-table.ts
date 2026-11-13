@@ -2,7 +2,7 @@
  * The year of community events by place type. The type comes from the
  * place's population (the world's reference count, never a name), so every
  * place resolves and no town is named in logic. Events and seasons are data
- * in `data/world/community-events.json`, each row SOURCED or ESTIMATED.
+ * in `src/core2/data/world/community-events.json`, each row SOURCED or ESTIMATED.
  */
 import table from "./data/world/community-events.json" with { type: "json" };
 import { corePlaceByKey } from "./place-lookup";
