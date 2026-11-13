@@ -14,6 +14,10 @@
  *   (the record's billId: `bill`, `bill-first`, `bill-later`, `about`), and
  *   the side they want (`want-for`, `want-against`, the record's billSide).
  *
+ * - `employer` and `work`: where the donor works and what they do there,
+ *   from their job record, for the reason they give from their own working
+ *   life (said only where the job record holds an employer people can name).
+ *
  * Each fact cites its records; a fact with no record is left out and the
  * pieces that need it are never said.
  */
@@ -21,7 +25,9 @@ import type { CoreState, PersonId } from "../core2/types";
 import { P } from "../core2/parameters";
 import { moneySaid } from "../english/count-words";
 import type { Fact } from "../english/scene-talk-words";
+import { employerSaidAs, jobSaidAs } from "../english/said-as";
 import { pressCommentFacts } from "./press-comment-facts";
+import { properName } from "./words";
 
 /** The bill's own facts a donor's ask names (its name, what it does). */
 const BILL_FACTS = /^(?:bill|bill-first|bill-later|story|about)$/;
@@ -45,6 +51,29 @@ export function donorFacts(
   // Given before: the running total is more than this gift, and says more.
   if (total > amount && moneySaid(total) !== moneySaid(amount))
     facts.given = cite(moneySaid(total));
+  // Where the donor works, from their job record: the reason they give.
+  const donor = gift.facts.donorId
+    ? core.people.get(gift.facts.donorId as PersonId)
+    : undefined;
+  const job = donor?.jobId ? core.jobs.get(donor.jobId) : undefined;
+  const org = job ? core.organizations.get(job.organizationId) : undefined;
+  const employer =
+    job && org
+      ? employerSaidAs({
+          name: properName(org.name),
+          kind: org.kind,
+          outside: !!org.outsideFlow,
+          ...(org.classification ? { classification: org.classification } : {}),
+          ...(org.governmentFacts
+            ? { governmentFacts: org.governmentFacts }
+            : {}),
+        })
+      : null;
+  if (job && org && employer) {
+    facts.employer = cite(employer, [job.id, org.id]);
+    const work = jobSaidAs(job.title, { outside: !!org.outsideFlow });
+    if (work?.kind === "title") facts.work = cite(work.asJob, [job.id]);
+  }
   const billId = gift.facts.billId;
   if (!billId) return facts;
   for (const [key, fact] of Object.entries(

@@ -128,7 +128,8 @@
     "vote-wanted": "The side the offerer wants the vote on, \"for\" or \"against\", from the group's side in its lobbying record.",
     "contract": "A public contract by the budget line it pays from (\"the road contract\"), from the bribe's subject.",
     "amount-exact": "The money offered in a bribe, said without \"about\" only where the crime record's own figure is the one said (\"$400\").",
-    "gift": "What a donor just gave to the player's campaign, as people say it (\"about $500\"), from the campaigns engine's campaign-gift record."
+    "gift": "What a donor just gave to the player's campaign, as people say it (\"about $500\"), from the campaigns engine's campaign-gift record.",
+    "work": "What a person does at work, with its article (\"a stocker\"), from their job record's title (said-as)."
   },
   "maxWords": 70,
   "parts": [
@@ -181072,6 +181073,118 @@
       "key": "scene-talk.state-request.donor-11",
       "move": "state-request",
       "kind": "spoken",
+      "text": "I work at {employer}, and {bill} would help the people I work with.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "donor",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["bill", "employer", "want-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 7, donor move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "donor"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "donor.state-request",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.donor-12",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I work at {employer}, and {bill} would cost the people I work with.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "donor",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["bill", "employer", "want-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 7, donor move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "donor"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "donor.state-request",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.donor-13",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm {work} at {employer}. I see who {bill} would help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "donor",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["bill", "employer", "want-for", "work"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 7, donor move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "donor"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "donor.state-request",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.donor-14",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm {work} at {employer}. I see who {bill} would hurt.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "donor",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["bill", "employer", "want-against", "work"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 7, donor move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "request",
+        "key": "donor"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "donor.state-request",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.donor-15",
+      "move": "state-request",
+      "kind": "spoken",
       "text": "I put {gift} into your campaign.",
       "uses": [
         {
@@ -181096,7 +181209,7 @@
       }
     },
     {
-      "key": "scene-talk.state-request.donor-12",
+      "key": "scene-talk.state-request.donor-16",
       "move": "state-request",
       "kind": "spoken",
       "text": "I just gave {gift} to your campaign.",
@@ -181123,7 +181236,7 @@
       }
     },
     {
-      "key": "scene-talk.state-request.donor-13",
+      "key": "scene-talk.state-request.donor-17",
       "move": "state-request",
       "kind": "spoken",
       "text": "I've given you {given} all told.",
@@ -181151,7 +181264,7 @@
       }
     },
     {
-      "key": "scene-talk.state-request.donor-14",
+      "key": "scene-talk.state-request.donor-18",
       "move": "state-request",
       "kind": "spoken",
       "text": "We go back a long way, so I'll ask you straight.",
@@ -181179,7 +181292,7 @@
       }
     },
     {
-      "key": "scene-talk.state-request.donor-15",
+      "key": "scene-talk.state-request.donor-19",
       "move": "state-request",
       "kind": "spoken",
       "text": "I'm asking as a friend first.",
@@ -181207,7 +181320,7 @@
       }
     },
     {
-      "key": "scene-talk.state-request.donor-16",
+      "key": "scene-talk.state-request.donor-20",
       "move": "state-request",
       "kind": "spoken",
       "text": "I asked you once already.",
@@ -181235,7 +181348,7 @@
       }
     },
     {
-      "key": "scene-talk.state-request.donor-17",
+      "key": "scene-talk.state-request.donor-21",
       "move": "state-request",
       "kind": "spoken",
       "text": "Last time you put me off.",

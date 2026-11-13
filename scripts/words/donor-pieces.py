@@ -86,6 +86,19 @@ add("state", "request", R, "core", "calm", [
     "I gave {gift}. When I call, I'd like you to pick up.",
     "I put {gift} behind you. I'll want your ear when it counts.",
 ])
+# The reason, from the donor's own working life (their job record), for the side they want.
+add("state", "request", R, "reason", "calm", [
+    "I work at {employer}, and {bill} would help the people I work with.",
+], [FOR])
+add("state", "request", R, "reason", "calm", [
+    "I work at {employer}, and {bill} would cost the people I work with.",
+], [AGAINST])
+add("state", "request", R, "reason", "calm", [
+    "I'm {work} at {employer}. I see who {bill} would help.",
+], [FOR])
+add("state", "request", R, "reason", "calm", [
+    "I'm {work} at {employer}. I see who {bill} would hurt.",
+], [AGAINST])
 add("state", "request", R, "opener", "calm", [
     "I put {gift} into your campaign.",
     "I just gave {gift} to your campaign.",
@@ -320,6 +333,8 @@ SIDED = {}
 
 
 SLOTS = {
+    "employer": "Where a person works, as people say it, from their job record's employer (said-as).",
+    "work": "What a person does at work, with its article (\"a stocker\"), from their job record's title (said-as).",
     "gift": "What a donor just gave to the player's campaign, as people say it (\"about $500\"), from the campaigns engine's campaign-gift record.",
     "given": "What a donor has given the player's campaign in all, as people say it, from the campaign-gift record's running total.",
 }
