@@ -19,6 +19,9 @@ it("says an office title in a sentence without the form's note", () => {
   expect(officeInSentence("Public Service Commission President")).toBe(
     "public service commission president",
   );
+  expect(officeInSentence("Chairman of the Council (elected citywide)")).toBe(
+    "chairman of the council",
+  );
   expect(officeInSentence("Insurance Commissioner")).toBe(
     "insurance commissioner",
   );
