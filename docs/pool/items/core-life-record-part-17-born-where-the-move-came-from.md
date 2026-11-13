@@ -29,7 +29,7 @@ checked: opus-lr 2026-11-13
 
 **Rules.** One engine: the moves pass decides where someone came from; the card reads it. Estimate, never UNKNOWN: a place the world keeps at its state's level is said by the state.
 
-**Done when.** A test draws places until one has a resident who moved in, and checks that every such resident's card does not say they were born in the town, and that their residence on their birth date is where the move came from. A second session opens a card on main of someone who moved to the town and sees a birthplace that is not the town.
+**Done when.** A test draws places until one has a resident who moved in, and checks that every such resident's card does not say they were born in the town, and that their residence on their birth date is where the move came from. A second session, on main in a drawn place it names with its seed, opens the card of someone who moved to the town and sees a birthplace that is not the town.
 
 **Waits on.** Nothing.
 
