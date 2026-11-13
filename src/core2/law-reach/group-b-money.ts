@@ -1573,6 +1573,8 @@ interface MoveRow {
   readonly governmentId: string;
   readonly budgetId: string;
   readonly moves: Readonly<Record<string, number>>;
+  /** Changes to revenue lines (aid a higher treasury pays), by line. */
+  readonly revenueMoves?: Readonly<Record<string, number>>;
   readonly undone: boolean;
 }
 
@@ -1589,6 +1591,11 @@ export function moveBudget(
     readonly inForce: boolean;
     readonly lawId: string;
     readonly plan: (
+      gov: GovernmentRow,
+      budget: BudgetRow,
+    ) => Record<string, number>;
+    /** Changes to this government's revenue lines, applied and undone with the spending moves. */
+    readonly revenuePlan?: (
       gov: GovernmentRow,
       budget: BudgetRow,
     ) => Record<string, number>;
@@ -1613,6 +1620,15 @@ export function moveBudget(
           deltaMinor: -delta,
           measureId: `${stamp}#undo`,
         });
+    for (const [line, delta] of Object.entries(prior.revenueMoves ?? {}))
+      if (delta)
+        amendBudget(api, {
+          governmentId: gov.id,
+          line,
+          deltaMinor: -delta,
+          measureId: `${stamp}#undo`,
+          side: "revenue",
+        });
     const row = { ...prior, undone: true };
     putRow(api, "taken", row);
     return row;
@@ -1633,12 +1649,23 @@ export function moveBudget(
         deltaMinor: delta,
         measureId: stamp,
       });
+  const revenueMoves = input.revenuePlan?.(gov, budget) ?? {};
+  for (const [line, delta] of Object.entries(revenueMoves))
+    if (delta)
+      amendBudget(api, {
+        governmentId: gov.id,
+        line,
+        deltaMinor: delta,
+        measureId: stamp,
+        side: "revenue",
+      });
   const row: MoveRow = {
     id,
     key: input.key,
     governmentId: gov.id,
     budgetId: budget.id,
     moves,
+    revenueMoves,
     undone: false,
   };
   putRow(api, "taken", row);

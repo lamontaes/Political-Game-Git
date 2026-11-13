@@ -2213,6 +2213,13 @@ export function amendBudget(
     readonly deltaMinor: number;
     readonly measureId: string;
     /**
+     * Which side of the budget the line is on (default spending). A revenue
+     * line is aid a higher treasury pays (budgets-treasury.ts); a revenue
+     * change is never carried into later years' budgets and blames no
+     * executive.
+     */
+    readonly side?: "spending" | "revenue";
+    /**
      * A passed budget bill's change: it joins the government's enacted lines,
      * which every later year's budget starts from (the carry rule above). A
      * one-time grant or a law that applies its own amount each year leaves
@@ -2249,13 +2256,15 @@ export function amendBudget(
     } as unknown as ModuleRow);
   }
   const measure = lawMeasureOf(api, input.measureId);
+  const revenue = input.side === "revenue";
+  const sideKey = revenue ? "revenueMinor" : "spendingMinor";
   const amended: BudgetRow = {
     ...budget,
-    spendingMinor: {
-      ...budget.spendingMinor,
+    [sideKey]: {
+      ...budget[sideKey],
       [input.line]: Math.max(
         0,
-        (budget.spendingMinor[input.line] ?? 0) + input.deltaMinor,
+        (budget[sideKey][input.line] ?? 0) + input.deltaMinor,
       ),
     },
     adoptedBy: {
@@ -2275,7 +2284,7 @@ export function amendBudget(
     id: `budget-line-changed:${budget.id}:${input.line}:${input.measureId}`,
     date: api.state.date,
     kind: "budget-line-changed",
-    personIds: executiveOfCut(api, gov, input.deltaMinor),
+    personIds: revenue ? [] : executiveOfCut(api, gov, input.deltaMinor),
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
@@ -2289,9 +2298,10 @@ export function amendBudget(
       level: gov.level,
       line: input.line,
       deltaMinor: String(input.deltaMinor),
-      ...executiveFact(api, gov, input.deltaMinor),
+      ...(revenue ? {} : executiveFact(api, gov, input.deltaMinor)),
       measureId: input.measureId,
       carried: input.carry ? "yes" : "no",
+      side: revenue ? "revenue" : "spending",
     },
   });
   return amended;

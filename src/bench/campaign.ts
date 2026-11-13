@@ -18,6 +18,7 @@ import {
 import type { Stance } from "../core2/campaign-data";
 import {
   campaignDayChoices,
+  raceLive,
   contestStanding,
   takeCampaignDayChoice,
   whyNotToday,
@@ -107,6 +108,9 @@ function townFirst(api: CoreAPI, outletIds: readonly string[]) {
   return outletIds.find((id) => tier.get(id) === "local") ?? outletIds[0];
 }
 
+/** Whether a filing's race is live: ahead and not yet counted (the screens' one reading of it). */
+export { raceLive };
+
 /** The player's campaigns: one for each filing on the ballot. */
 export function campaignView(core: CoreState, personId: string) {
   if (!core.modules.has(CAMPAIGNS)) return { campaigns: [], venues: [] };
@@ -116,7 +120,7 @@ export function campaignView(core: CoreState, personId: string) {
       .moduleState(ELECTIONS)
       .table("filings")
       .query("byPerson", [personId]) as unknown as FilingRow[]
-  ).filter((row) => row.status !== "withdrawn");
+  ).filter((row) => raceLive(api, row));
   const pictures = filings.length ? trailPictures(core, personId) : {};
   return {
     venues: scenePlaces.speechPlaces,
