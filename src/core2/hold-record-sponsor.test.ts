@@ -6,6 +6,9 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { CORRUPTION_MODULE_ID } from "./modules/corruption";
+import { lawChain } from "./modules/laws";
+import { wireItem } from "./press-topics";
 import { billOf, committeeRecords } from "./modules/legislature";
 import { coreAPI } from "./state";
 import { applyCoreEvent } from "./state";
@@ -17,7 +20,9 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 
 it(`a held bill names its sponsor, is printed, and a chair's agreed reply sets the hearing (seed ${seed})`, () => {
   const tried: string[] = [];
-  for (let attempt = 0; attempt < 6; attempt += 1) {
+  let printed = 0;
+  let reopened = false;
+  for (let attempt = 0; attempt < 5; attempt += 1) {
     const place = drawPlace(`${seed}:${attempt}`, "hold-record-sponsor");
     setBookkeeping(false);
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
@@ -45,20 +50,30 @@ it(`a held bill names its sponsor, is printed, and a chair's agreed reply sets t
           bill.sponsorId,
         );
     }
-    // The paper prints at least one hold, by its record id.
+    // The press wire takes every hold up (what the desk prints of it is the desk's ranking, so a
+    // print is looked for across the drawn places).
+    const chain = lawChain(api);
+    for (const hold of holds)
+      expect(
+        wireItem(api, hold, {
+          placeId: chain.townPlaceId,
+          stateKey: chain.stateKey,
+        })?.id,
+        `${where}: ${hold.id} reaches the wire`,
+      ).toBe(hold.id);
     const stories = (
       api.moduleState("news").table("stories").rows() as unknown as {
         kind: string;
         facts: Record<string, unknown>;
       }[]
     ).filter((story) => story.kind === "press.printed");
-    const printed = holds.filter((hold) =>
+    printed += holds.filter((hold) =>
       stories.some((story) => story.facts.sourceRecordId === hold.id),
-    );
-    expect(
-      printed.length,
-      `${where}: none of ${holds.map((h) => h.id).join(", ")} printed`,
-    ).toBeGreaterThan(0);
+    ).length;
+    if (reopened) {
+      if (printed) break;
+      continue;
+    }
 
     // The chair agrees in the scene that follows a hold: the bill is heard.
     const hold = holds.find((row) => {
@@ -72,6 +87,18 @@ it(`a held bill names its sponsor, is printed, and a chair's agreed reply sets t
       `${where}: no held bill with a chair who is a person`,
     ).toBeDefined();
     const bill = billOf(api, hold!.facts!.billId!);
+    // The hold settled no bribe taken on the bill: the officials' votes were not cast, so the
+    // reopened bill's real vote settles each once.
+    const settledFor = (billId: string) =>
+      api.state.modules.has(CORRUPTION_MODULE_ID)
+        ? (
+            api
+              .moduleState(CORRUPTION_MODULE_ID)
+              .table("settled")
+              .rows() as unknown as { billId: string }[]
+          ).filter((row) => row.billId === billId).length
+        : 0;
+    expect(settledFor(bill.id), `${where}: ${bill.id} settled a bribe`).toBe(0);
     applyCoreEvent(core, {
       id: `scene-reply:${hold!.id}:bill-held-chair:0`,
       date: core.date,
@@ -96,8 +123,12 @@ it(`a held bill names its sponsor, is printed, and a chair's agreed reply sets t
       "committee-hearing",
     );
     expect(billOf(api, bill.id).status, where).not.toBe("failed");
-    // A refusal leaves a hold standing.
-    return;
+    reopened = true;
+    if (printed) break;
   }
-  throw new Error(`no place held a bill: ${tried.join(", ")}`);
+  if (!reopened) throw new Error(`no place held a bill: ${tried.join(", ")}`);
+  expect(
+    printed,
+    `no hold printed across ${tried.length + 1}+ places`,
+  ).toBeGreaterThan(0);
 }, 600_000);
