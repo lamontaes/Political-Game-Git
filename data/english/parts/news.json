@@ -13058,7 +13058,7 @@
       "key": "news.study-reported.the-committee-studying-designation-reported-on-date-and-its-members-no",
       "move": "study-reported",
       "kind": "written",
-      "text": "The committee studying {designation} reported on {date} that its members lean toward the bill.",
+      "text": "The committee studying {designation} reported on {date}, that its members lean toward the bill.",
       "uses": [
         {
           "move": "study-reported",
@@ -13102,7 +13102,7 @@
       "key": "news.study-reported.the-committee-studying-designation-reported-on-date-and-its-members-no-2",
       "move": "study-reported",
       "kind": "written",
-      "text": "The committee studying {designation} reported on {date} that its members lean against the bill.",
+      "text": "The committee studying {designation} reported on {date}, that its members lean against the bill.",
       "uses": [
         {
           "move": "study-reported",
