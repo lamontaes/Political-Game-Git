@@ -40,3 +40,5 @@ No member weighed what a whole line's loss does. Seen: the meeting panel and Bil
 **Files.** src/core2/modules/legislature.ts, src/core2/data/campaigns/parameters.json, src/core2/legislature.test.ts
 
 **Notes.** The draft box takes whole dollars while today's amount reads "$1.7 million", so a player who types 2.04 meaning millions writes a $2 line. Whether the box should read millions is for Fable A and the screens lead (`Review: words`).
+
+A contrast (Playtester P2, Weston, Pennsylvania, seed 54d00b26-5de7-4322-99af-61d4e24802be): a commissioner's draft cutting Highways from $6.5 million to $7.80 failed "2 yes, 5 no". So the clamp doesn't decide every board, but a cut to nothing still drew two yes votes. The test should compare the two cuts on one board.
