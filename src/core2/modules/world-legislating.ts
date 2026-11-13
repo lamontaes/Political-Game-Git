@@ -1349,7 +1349,12 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         fileChanges(api, {
           key: `${work.key}:${group}`,
           jurisdiction,
-          body: lower,
+          // Each chamber's group files in its own chamber, so a request the
+          // executive makes goes to one of that group's members.
+          body:
+            federal && group === 1
+              ? { id: FEDERAL_SENATE, members: filers }
+              : lower,
           filers,
           leader,
           floorDays: 0,
