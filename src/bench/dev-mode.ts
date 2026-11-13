@@ -1273,8 +1273,8 @@ export class DevMode {
   scenes() {
     const types = SITUATION_LIBRARY.types;
     return types.map((type) => {
-      // The record kinds the type waits on that an engine writes; a type with only a producer that
-      // does not exist yet (`awaitingProducer`) or no cause record has none, and so no way in.
+      // The record kinds the type waits on that an engine writes; a type with no cause record has
+      // none, and so no way in.
       // A cause is named by a record kind the type is tagged with (`causeRecord`), or by the moment the
       // director's ledger keeps (`match`): a feeling about an event the game logs
       // (`feeling:event:<kind>`), a job started, a tie turning, a re-entry. The record kind behind an
@@ -1295,7 +1295,6 @@ export class DevMode {
           : [];
       });
       const causeRecords = [...new Set([...tagged, ...matched])];
-      const waiting = type.causes.flatMap((c) => c.awaitingProducer ?? []);
       // `death`, `illness` and `layoff` bring the cause about through an engine's own function; `wait`
       // runs the world until an engine writes the record naming the player; `moment` runs it until the
       // director's own ledger holds a moment that `causeMatches` reads as one of the type's causes.
@@ -1313,7 +1312,7 @@ export class DevMode {
         : recipe === "wait" || recipe === "moment"
           ? ("waits" as const)
           : ("plays" as const);
-      return { key: type.key, causeRecords, waiting, recipe, state };
+      return { key: type.key, causeRecords, recipe, state };
     });
   }
 
