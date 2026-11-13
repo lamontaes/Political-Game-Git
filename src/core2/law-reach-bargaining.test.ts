@@ -15,6 +15,7 @@ import { gameStartDate } from "./game-start";
 import { advanceCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
+import { bargainingCovers } from "./law-reach/group-a-bargaining";
 import { enactLaw, lawChain, yesLevels } from "./modules/laws";
 import { reachTable } from "./law-reach/group-a-records";
 import { jobsAt } from "./law-reach/group-b-money";
@@ -273,4 +274,17 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
         : `no place raised a named worker's pay in six tries (seed ${seed}): ${tried.join("; ")}`,
     );
   }, 3_600_000);
+});
+
+describe("who a public-bargaining law reaches", () => {
+  it("a city law covers the town's employers and not a school district; a state law covers both", () => {
+    const city = [{ level: "city" }];
+    const state = [{ level: "state" }];
+    expect(bargainingCovers(city, "service:municipal-government")).toBe(true);
+    expect(bargainingCovers(city, "service:school")).toBe(false);
+    expect(bargainingCovers(city, "service:public-school")).toBe(false);
+    expect(bargainingCovers(state, "service:school")).toBe(true);
+    expect(bargainingCovers(state, "service:municipal-government")).toBe(true);
+    expect(bargainingCovers([], "service:school")).toBe(false);
+  });
 });
