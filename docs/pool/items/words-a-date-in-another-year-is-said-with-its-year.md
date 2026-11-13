@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: opus-lr
 pr: #9033
@@ -17,6 +17,7 @@ effort: medium
 root: design-life-record
 source: Fable A, rule 3, Nov 13, 2026, from Playtester P2's lines (Hewitt, New Jersey); filed by the Life records builder opus-lr
 checked: opus-lr 2026-11-13
+merged-at: 2026-11-13T08:34:42.436Z
 ---
 
 **What.** Fable A, Nov 13, rule 3: "A date in another year is said with its year or as \"last February\". A bare month and day always means this year." Playtester P2, Hewitt, New Jersey (seed bf6b1bd7-4b1b-4fd7-92f9-6c5ec310f7b0), January 31, 2026: "First thing on January 31st, Aaron Hamilton stops you in the street about what happened on February 20th." The recall petition was from February 20 of the year before. Seen: a scene's opening line that says when its record happened.
