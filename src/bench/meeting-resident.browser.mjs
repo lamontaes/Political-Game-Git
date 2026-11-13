@@ -277,14 +277,21 @@ try {
       const bill = await (
         await fetch(`/api/bill?billId=${encodeURIComponent(billId)}`)
       ).json();
+      // How it ended and why, from dev mode's own account of the bill.
+      const outcome = await (
+        await fetch(
+          `/api/dev/bill-outcome?billId=${encodeURIComponent(billId)}`,
+        )
+      ).json();
       return {
         number: bill.spoken,
         status: bill.decision?.status ?? null,
         votes: bill.votes?.length ?? 0,
+        ending: JSON.stringify(outcome.ending ?? null).slice(0, 400),
       };
     }, spokeOn);
     console.log(
-      `The item the next day: ${paper.number}, ${paper.status}, ${paper.votes} votes on its roll call`,
+      `The item the next day: ${paper.number}, ${paper.status}, ${paper.votes} votes on its roll call; ending ${paper.ending}`,
     );
     await page
       .locator('[data-tab="people"]')
@@ -296,6 +303,19 @@ try {
     console.log(
       `People the next day lists ${met.length} of ${spoke.length} members: ${met.join(", ")}`,
     );
+    // The picture shows a member who heard them, on their own card.
+    if (met.length) {
+      const row = page
+        .locator("#sheet-body")
+        .getByText(met[0], { exact: true })
+        .first();
+      await row.scrollIntoViewIfNeeded();
+      await row.click();
+      await page.waitForTimeout(2500);
+      console.log(
+        `${met[0]}'s card: ${(await page.locator("#sheet-body").innerText()).split(met[0]).at(-1).replace(/\s+/g, " ").trim().slice(0, 500)}`,
+      );
+    }
     await shot(page, "after-6-people");
     // A body that voted the item heard its public comment, and its members met the speaker.
     // An item it dropped unvoted (already settled by another law) had no hearing.

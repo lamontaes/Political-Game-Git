@@ -881,26 +881,16 @@ function ownVote(api: CoreAPI, billId: string): void {
 }
 
 /**
- * A body the player sits on, while the player holds the clock: its members'
- * ordinances are filed the day before the meeting and wait on its agenda,
- * for the player's scene to take up (or for the meeting to close).
+ * Every town and county body files its members' ordinances the day before
+ * the meeting, and they wait on its agenda for the meeting to vote them:
+ * the agenda is posted ahead, so the town hears of an item before the vote
+ * whether or not the player is in the room, and a meeting the player sits at
+ * or watches decides as one nobody watches (one path). Only a meeting with
+ * under a day's notice, the first after a world begins among them, files on
+ * its own day.
  */
-function holdsMemberFilings(api: CoreAPI, officeId: string): boolean {
-  if (!api.state.modules.has(OFFICE_DAY_MODULE_ID)) return false;
-  const player = playerOf(api);
-  return (
-    player !== undefined &&
-    snapshotExplicitControlV1(api.state).personId === player &&
-    (members(api, officeId).some(sits(player)) ||
-      // The body's next meeting, which the player marked to attend as a resident.
-      attendsNext(api, officeId, player))
-  );
-}
-
-function attendsNext(api: CoreAPI, officeId: string, player: string): boolean {
-  const next = upcomingMeeting(api, officeId);
-  const row = next && meetingOf(api, meetingId(officeId, next.date));
-  return !!row && row.status === "scheduled" && row.audience === player;
+function holdsMemberFilings(api: CoreAPI): boolean {
+  return api.state.modules.has(OFFICE_DAY_MODULE_ID);
 }
 
 /** Ordinances members filed for a meeting go on its agenda; with no meeting row they are voted now. */

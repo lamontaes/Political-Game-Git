@@ -2233,7 +2233,8 @@ function closeSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const officeId = work.sourceRecordIds[0]!;
   const meetingDate = work.sourceRecordIds[1] ?? api.state.date;
-  // On the eve, a body nobody the player plays sits on files on the day.
+  // On the eve, a world with no agenda to keep the filings on (no office-day
+  // module) files on the day.
   if (meetingDate > api.state.date && !meetingHold?.(api, officeId)) {
     api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
       key: `${work.key}:day`,
@@ -2245,9 +2246,9 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     return;
   }
   scheduleMeeting(api, officeId, meetingDate);
-  // Held for the player from the moment they take the seat, the meeting day
-  // itself included: a meeting still on the books takes its filings onto the
-  // agenda (and may stop the player) instead of voting them at once.
+  // Filed the day before, or on the day for a meeting with under a day's
+  // notice: a meeting still on the books takes its filings onto the agenda
+  // (and may stop the player) and votes them when it meets.
   const hold = meetingDate >= api.state.date && !!meetingHold?.(api, officeId);
   const body: Body = { id: officeId, members: members(api, officeId) };
   // The presiding member the body elected, else the most senior.

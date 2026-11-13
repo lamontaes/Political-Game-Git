@@ -290,6 +290,16 @@ const named = process.env.TWIN_PLACES?.split(",").map((pair) => {
 const twinPlaces = (salt: string) =>
   named ??
   Array.from({ length: 6 }, (_, draw) => drawPlace(`${seed}:${draw}`, salt));
+/**
+ * The place that showed two filing paths cannot decide alike (Nov 13, 2026):
+ * its council voted a budget line differently once the town had a night to
+ * hear of it. Kept, so the one path is proved where the two paths split.
+ */
+const SPLIT_PLACE = {
+  key: "1820692",
+  name: "Elizabethtown, Indiana",
+  seed: "fcad6dc9215fc941ce39501ad985fc28419c852d4dab6e3dd5220a7b1d462a7a",
+};
 const DAYS = Number(process.env.TWIN_DAYS ?? 100);
 const endOf = (core: CoreState) =>
   new Date(Date.parse(`${core.date}T00:00:00Z`) + DAYS * 86_400_000)
@@ -299,8 +309,12 @@ const endOf = (core: CoreState) =>
 it("watching changes nothing: attending in silence, the same bills get the same votes", () => {
   let proved = 0;
   const passedOver: string[] = [];
-  for (const place of twinPlaces("resident-watches")) {
+  // The kept place first, and it must pass; then drawn ones until one has a meeting to attend.
+  const places = named ?? [SPLIT_PLACE, ...twinPlaces("resident-watches")];
+  for (const place of places) {
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    console.log(`resident-watches builds ${where}`);
+    const kept = place === SPLIT_PLACE;
     // One world in memory at a time: each run returns only what is compared.
     const run = (attend: boolean) => {
       const { core, api, player } = open(place.seed, place.key);
@@ -328,6 +342,12 @@ it("watching changes nothing: attending in silence, the same bills get the same 
     expect(watched.date).toBe(alone.date);
     expect(watched.bills, where).toEqual(alone.bills);
     // A place with no meeting to attend proves nothing: passed over by name.
+    if (kept) {
+      expect(watched.attended, `${where}: meetings attended`).toBeGreaterThan(
+        0,
+      );
+      continue;
+    }
     if (watched.attended > 0) proved += 1;
     else passedOver.push(where);
     if (!named && proved) break;
