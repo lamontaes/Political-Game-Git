@@ -10,9 +10,13 @@ import { packet } from "../director/speech-outline";
  * keys count under any bank, so a State of the Union reads the inaugural's.
  */
 const f = (text: string) => ({ text, sourceRecordIds: ["record:test"] });
+// Each case of the Speaker's slot, as the address composer fills them from
+// the one fact (withCases, src/director/opening-story.ts): a greeting that
+// addresses the Speaker requires its case by name.
 const facts = {
   speaker: f("Ann Lee"),
   "speaker-object": f("Ann Lee"),
+  "speaker-addressed": f("Speaker Ann Lee"),
   "kind-policy": f("yes"),
 };
 const move = openingMove("inaugural", "polished", "salutation", {

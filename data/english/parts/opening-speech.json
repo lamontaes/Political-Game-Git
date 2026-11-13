@@ -92018,7 +92018,7 @@
       "key": "opening-speech.belief-words.both-inaugural-when-folks-fall-on-hard-times-we-catch-family-safety-net-pole-b",
       "move": "belief-words",
       "kind": "spoken",
-      "text": "when folks fall on hard times, we catch them first and ask questions later",
+      "text": "we catch folks first when they fall on hard times and ask questions later",
       "uses": [
         {
           "move": "belief-words",
@@ -92803,7 +92803,7 @@
       "key": "opening-speech.belief-words.plain-inaugural-when-washington-runs-health-care-you-wait-longer-family-health-pole-b",
       "move": "belief-words",
       "kind": "spoken",
-      "text": "when Washington runs health care, you wait longer and pay more",
+      "text": "you wait longer and pay more when Washington runs health care",
       "uses": [
         {
           "move": "belief-words",
