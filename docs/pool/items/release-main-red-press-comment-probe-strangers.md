@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/red-main-press-comment-probe-strangers
-pr: 8983
+pr: #8983
 after:
 blocked-on:
 lead: words
@@ -16,6 +16,7 @@ model: opus
 effort: low
 root: none
 source: Red desk, Nov 13 (Fable A on #8928, comment 6840590053)
+merged-at: 2026-11-13T03:45:43.797Z
 ---
 
 **What.** `src/director/press-comment-variants.test.ts` fails on clean main at GOLDEN_PATH_SEED=32d25706d5cdbd72 (Butteville, Oregon, 4110100, attempt 10): the hand-made probe that expects the plain call between a town reporter and a member gets friendly, because in that world the reporter the probe picked is close to the member (closeness 0.36). The game is right: a close reporter's call is friendlier. Seen: the probes check one record at a time from a call between two strangers.
