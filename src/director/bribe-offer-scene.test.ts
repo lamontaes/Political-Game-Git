@@ -154,4 +154,32 @@ describe(`an offer left for an official (seed ${seed})`, () => {
       new Set(states.map((part) => part.bearing)).size,
     ).toBeGreaterThanOrEqual(3);
   });
+
+  it("never reads a rounded price back as exact, and refuses a thank-you only where the offer called itself one", () => {
+    // The lead's stop lines (Nov 12): "Is yours more than about $4,400?" and
+    // "A thank-you doesn't weigh that much." after an offer that never said
+    // thanks.
+    const talk = compose({
+      ...cast,
+      "favor-vote": fact("vote"),
+      bill: fact("the free-fares ordinance"),
+    });
+    const lines: { text: string; move: string; parts: string[] }[] = [];
+    const walk = (node: (typeof talk)["tree"]) => {
+      for (const line of node.lines) lines.push(line);
+      for (const reply of node.replies) {
+        lines.push(reply.line);
+        if (reply.next) walk(reply.next);
+      }
+    };
+    walk(talk.tree);
+    for (const line of lines)
+      for (const question of line.text.match(/[^.?!]*\?/g) ?? [])
+        expect(question, line.text).not.toMatch(/\babout \$/);
+    const offer = talk.state;
+    const thanked = /\bthank/i.test(offer.text);
+    for (const reply of talk.tree.replies)
+      if (/A thank-you/.test(reply.line.text))
+        expect(thanked, `${offer.text} / ${reply.line.text}`).toBe(true);
+  });
 });

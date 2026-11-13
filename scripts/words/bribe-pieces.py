@@ -48,6 +48,10 @@ def add(step, move, role, part, bearing, rows, requires=(), after=None, group=No
         r.replace("-unnamed", "") if r.endswith("-unnamed") else r for r in requires
     ]
     for text in rows:
+        # A rounded figure ("about $4,400") is never read back in a question
+        # as if exact: a question names {amount-exact} or says it another way.
+        for q in re.findall(r"[^.?!]*\?", text):
+            assert not re.search(r"\{(?:amount|cost)\}", q), text
         P.append((step, move, role, part, text, list(requires), after, bearing, group))
 
 
@@ -166,7 +170,7 @@ add("reply", "tell", A, "core", "braced", [
 ], ["amount", VOTE])
 add("follow", "bargain", R, "core", "guarded", [
     "Then name your number. {amount} was only the start.",
-    "What would it take, if {amount} isn't enough?",
+    "If {amount} isn't enough, tell me what is.",
 ], ["amount"])
 add("follow", "offer", R, "core", "guarded", [
     "Then take {amount} as a gift, nothing more.",
@@ -284,9 +288,13 @@ add("follow", "plea", R, "core", "anxious", [
     "One vote on {bill}. That's all I'm asking, and it's {amount}.",
 ], ["amount", VOTE])
 add("follow", "press", R, "core", "braced", [
-    "Everyone has a price. Is yours more than {amount}?",
+    "Everyone has a price. I brought {amount}. What's yours?",
     "If {amount} is too small, name a number.",
 ], ["amount"])
+# Asked back as a figure only where the record's own figure is the one said.
+add("follow", "press", R, "core", "braced", [
+    "Everyone has a price. Is yours more than {amount-exact}?",
+], ["amount-exact"])
 add("follow", "accept", R, "core", "guarded", [
     "Fine. Keep your vote. {group} will find another.",
     "Suit yourself. {group} has other members to talk to.",
@@ -333,12 +341,24 @@ LIKED_AS = {
     "A thank-you doesn't weigh that much. Take it back.": [],
     "A thank-you is a card. This is not a card.": [],
 }
-LIKED_AFTER = {}
+# A thank-you is refused only where the offer called itself one: the offer
+# pieces whose own words frame the money as thanks.
+THANKS = [
+    "@It's only {amount}. A small thanks, for when the bids are read.",
+    "@It's only {amount}. Call it thanks for looking at {bill} again.",
+    "@It's only {amount}. A small thanks for your vote.",
+    "scene-talk.state-request.bill-is-coming-to-you-i-d-like-to-know-you-ll-be-with-me-and-this-is-h",
+]
+LIKED_AFTER = {
+    "A thank-you doesn't weigh that much. Take it back.": THANKS,
+    "A thank-you is a card. This is not a card.": THANKS,
+}
 SIDED = {}
 
 
 SLOTS = {
     "amount": "The money offered in a bribe, as people say it (\"about $400\"), from the corruption engine's crime record.",
+    "amount-exact": "The money offered in a bribe, said without \"about\" only where the crime record's own figure is the one said (\"$400\").",
     "group": "The interest group a lobbyist offering a bribe speaks for, from the interest-groups engine's lobbying record.",
     "vote-wanted": "The side the offerer wants the vote on, \"for\" or \"against\", from the group's side in its lobbying record.",
     "cost": "What a bill costs the employers a group speaks for a year (\"about $40,000\"), from the lobbying record.",
@@ -359,8 +379,10 @@ def main():
     dry = "--dry" in sys.argv
     keys = piece_keys()
     for text, after in list(LIKED_AFTER.items()):
-        if after.startswith("@"):
-            LIKED_AFTER[text] = keys[after[1:]]
+        LIKED_AFTER[text] = [
+            keys[one[1:]] if one.startswith("@") else one
+            for one in (after if isinstance(after, list) else [after])
+        ]
     bank = json.load(open(BANK))
     grades = json.load(open(GRADES))["parts"]
     fam = lambda u: (u.get("purpose") or "") in REPLACES
@@ -374,14 +396,15 @@ def main():
             continue
         # A carried liked opener: its conditions as this script last set them.
         if x["text"] in LIKED_AS and x.get("piece", {}).get("of", "").startswith(f"{SET}."):
-            for u in x["uses"]:
-                if u.get("set") == SET:
-                    u.pop("requiresFacts", None)
-                    u.pop("after", None)
-                    if LIKED_AS[x["text"]]:
-                        u["requiresFacts"] = LIKED_AS[x["text"]]
-                    if x["text"] in LIKED_AFTER:
-                        u["after"] = LIKED_AFTER[x["text"]]
+            mine_ = [u for u in x["uses"] if u.get("set") == SET]
+            others = [u for u in x["uses"] if u.get("set") != SET]
+            base = {k: v for k, v in mine_[0].items() if k not in ("requiresFacts", "after")}
+            if LIKED_AS[x["text"]]:
+                base["requiresFacts"] = LIKED_AS[x["text"]]
+            x["uses"] = [
+                {**base, **({"after": one} if one else {})}
+                for one in LIKED_AFTER.get(x["text"], [None])
+            ] + others
         # A whole line of the purpose that states a side says it only for that side.
         if x["text"] in SIDED:
             for u in x["uses"]:
@@ -405,9 +428,10 @@ def main():
                 use["key"] = "favor-asked"
             if LIKED_AS[x["text"]]:
                 use["requiresFacts"] = LIKED_AS[x["text"]]
-            if x["text"] in LIKED_AFTER:
-                use["after"] = LIKED_AFTER[x["text"]]
-            x["uses"] = [use] + [v for v in x["uses"] if not fam(v)]
+            x["uses"] = [
+                {**use, **({"after": one} if one else {})}
+                for one in LIKED_AFTER.get(x["text"], [None])
+            ] + [v for v in x["uses"] if not fam(v)]
             x["piece"] = {"of": f"{SET}.{u['step']}-{u['move']}", "part": "opener"}
             kept.append(x)
             carried += 1

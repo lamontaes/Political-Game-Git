@@ -118,6 +118,7 @@
   "votes": "{count} votes",
   "aboutVotes": "about {count} votes",
   "aboutMoney": "about ${count}",
+  "exactMoney": "${count}",
   "clock": {
     "about": "A time of day and a span of work hours as people say them in talk (\"I'm on at seven-thirty\", \"eight hours\"): the hour in words on a twelve-hour clock, the minutes rounded to the quarter hour, noon and midnight by name. Words composer, talk on ordinary days (Nov 12).",
     "stepMinutes": {

@@ -126,7 +126,8 @@
     "amount": "The money offered in a bribe, as people say it (\"about $400\"), from the corruption engine's crime record.",
     "group": "The interest group a lobbyist offering a bribe speaks for, from the interest-groups engine's lobbying record.",
     "vote-wanted": "The side the offerer wants the vote on, \"for\" or \"against\", from the group's side in its lobbying record.",
-    "contract": "A public contract by the budget line it pays from (\"the road contract\"), from the bribe's subject."
+    "contract": "A public contract by the budget line it pays from (\"the road contract\"), from the bribe's subject.",
+    "amount-exact": "The money offered in a bribe, said without \"about\" only where the crime record's own figure is the one said (\"$400\")."
   },
   "maxWords": 70,
   "parts": [
@@ -76866,7 +76867,32 @@
           "set": "bribe",
           "step": "reply",
           "move": "refuse",
-          "role": "asked"
+          "role": "asked",
+          "after": "scene-talk.state-offer.bribe-1"
+        },
+        {
+          "subject": "scene",
+          "set": "bribe",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "scene-talk.state-offer.bribe-2"
+        },
+        {
+          "subject": "scene",
+          "set": "bribe",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "scene-talk.state-offer.bribe-5"
+        },
+        {
+          "subject": "scene",
+          "set": "bribe",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "scene-talk.state-request.bill-is-coming-to-you-i-d-like-to-know-you-ll-be-with-me-and-this-is-h"
         }
       ],
       "bearing": "braced",
@@ -76893,7 +76919,32 @@
           "set": "bribe",
           "step": "reply",
           "move": "refuse",
-          "role": "asked"
+          "role": "asked",
+          "after": "scene-talk.state-offer.bribe-1"
+        },
+        {
+          "subject": "scene",
+          "set": "bribe",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "scene-talk.state-offer.bribe-2"
+        },
+        {
+          "subject": "scene",
+          "set": "bribe",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "scene-talk.state-offer.bribe-5"
+        },
+        {
+          "subject": "scene",
+          "set": "bribe",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "scene-talk.state-request.bill-is-coming-to-you-i-d-like-to-know-you-ll-be-with-me-and-this-is-h"
         }
       ],
       "bearing": "guarded",
@@ -183956,7 +184007,7 @@
       "key": "scene-talk.follow-bargain.bribe-2",
       "move": "follow-bargain",
       "kind": "spoken",
-      "text": "What would it take, if {amount} isn't enough?",
+      "text": "If {amount} isn't enough, tell me what is.",
       "uses": [
         {
           "subject": "scene",
@@ -185587,7 +185638,7 @@
       "key": "scene-talk.follow-press.bribe-1",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Everyone has a price. Is yours more than {amount}?",
+      "text": "Everyone has a price. I brought {amount}. What's yours?",
       "uses": [
         {
           "subject": "scene",
@@ -185625,6 +185676,35 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["amount"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 6, bribe move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "press",
+        "key": "bribe"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "bribe.follow-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.bribe-3",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Everyone has a price. Is yours more than {amount-exact}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "bribe",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["amount-exact"]
         }
       ],
       "origin": "authored",

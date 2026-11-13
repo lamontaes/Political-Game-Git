@@ -33,6 +33,19 @@ export function moneySaid(minor: number): string {
   );
 }
 
+/**
+ * A sum of money said without "about": only where the record's own figure is
+ * the round sum people would say ($400, $5,000), else null. A rounded figure
+ * is never read back as if exact.
+ */
+export function moneyExactSaid(minor: number): string | null {
+  const dollars = minor / 100;
+  const step = stepFor(data.moneySteps, dollars);
+  return dollars >= step && dollars % step === 0
+    ? fill(data.exactMoney, dollars)
+    : null;
+}
+
 /** How long rent has gone unpaid, in days, as people say it: "about two months". */
 export function lateSaid(days: number): string {
   const rows = data.lateSteps.rows as readonly {

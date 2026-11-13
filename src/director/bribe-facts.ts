@@ -7,7 +7,8 @@
  * sentences:
  *
  * - `amount`: the money offered, as people say it ("about $400"), from the
- *   crime record;
+ *   crime record; `amount-exact` ("$400") only where the record's own figure
+ *   is that sum, so a question never reads a rounded figure back as exact;
  * - `favor-vote` with the bill (`bill`, its first spoken form `bill-first`,
  *   `bill-later`, `about`), or `favor-contract` with `contract` ("the road
  *   contract"), from what the favor is;
@@ -30,7 +31,7 @@ import {
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import { P } from "../core2/parameters";
-import { moneySaid } from "../english/count-words";
+import { moneyExactSaid, moneySaid } from "../english/count-words";
 import type { Fact } from "../english/scene-talk-words";
 import { pressCommentFacts } from "./press-comment-facts";
 import { properName } from "./words";
@@ -52,8 +53,12 @@ export function bribeFacts(
     text,
     sourceRecordIds: [...ids],
   });
-  if (crime.amountMinor > P.zero)
+  if (crime.amountMinor > P.zero) {
     facts.amount = cite(moneySaid(crime.amountMinor));
+    // Said back as a figure only where the record's own figure is that sum.
+    const exact = moneyExactSaid(crime.amountMinor);
+    if (exact) facts["amount-exact"] = cite(exact);
+  }
   if ((crime.heardOf?.length ?? P.zero) > P.zero)
     facts["heard-of"] = cite("yes", [crime.id, ...crime.heardOf!]);
   if (crime.subjectId.startsWith("contract:")) {
