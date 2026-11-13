@@ -4105,6 +4105,7 @@ const sheets = {
         date,
         items,
         labels,
+        held: packet?.kind === "stop",
         onAdvance: (day) => {
           closeSheet();
           act(`/api/advance?mode=calendar&date=${day}`);
