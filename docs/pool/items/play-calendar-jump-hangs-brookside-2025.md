@@ -1,13 +1,13 @@
 ---
 id: play-calendar-jump-hangs-brookside-2025
-title: "Go to this day stops answering on the way through Brookside, Delaware's first year"
+title: "Go to this day is offered while a stop is open, and the browser checks click through it"
 area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: account-lead-t29
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -40,3 +40,5 @@ checked: fable 2026-11-10
 **Notes (Fable's check, Nov 10).** How to find the cause: Find which stop holds the advance (the talk after a closed-at-night visit, or the chained stop after a scene) and why the next request is never answered, and fix it in the advance or the talk, in src/bench/handler.ts or src/director. Name the element or stop that blocked Continue by selector or record id. Never shorten the jump or loosen the check.
 
 Cause found (Nov 11, 2026, cause finder for Fable B): ran the check twice on main b957363c with a fresh bench, the second time with `leaveScenes`'s wait raised to 20 seconds in a working copy (undone after). The first run failed at the Calendar ring after the Cynthia Sherman stop. The second reached the item's 400s: each Go to this day was pressed while a stop was pending, and the calendar offered it. Screenshots of each jump showed the stop's talk opening a moment after the jump was refused.
+
+**Cause corrected (Nov 13, 2026, Account lead T29, on the train).** The hang does not reproduce. Server-side jumps with every stop resumed and the polls left on election day answered every request: Brookside, Delaware (1009850, seed 4d50e1f88df997f9, to 2026-05-16: 22 stops, longest request 25 s, 233 s in all; the Robert Moran stop on 2025-06-11 resumed in 0.2 s), East Valley, Nevada (seed aa11bb22cc33dd44, to 2027-01-05 across two year ends and the Nov 2026 election: 111 s) and El Adobe, California (seed 7e5f01a9b2c4d6e8, same jump: 143 s). A jump is slow by what plays on the way (about 2 to 8 s per jumped month, the played-year cost), not stuck. What does happen: the calendar offered Go to this day while a stop was open, and the server refused it (400, "Answer the open choice or stop first."; the page then takes the stop back and shows Continue, or else prints the server's refusal on the card's place line). The browser check pressed it through stops and gave up after a fixed 3 seconds. The page now draws no Go to this day while a stop is open (`offersJump` in src/bench/ui/calendar.mjs, `held` from play.mjs) and the checks wait on the server's answers.
