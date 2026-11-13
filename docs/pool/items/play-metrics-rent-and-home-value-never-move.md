@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/p2-metrics-current-rent
-pr:
+pr: #9024
 after:
 blocked-on:
 lead: play-first
