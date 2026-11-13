@@ -40,16 +40,26 @@ export interface PersonWork {
   readonly offices: readonly PersonOffice[];
 }
 
+/** A form's note in parentheses, innermost first so a nested note goes whole. */
+const FORM_NOTE = /\s*\([^()]*\)/g;
+/** A title that names a body of several members, not one seat in it. */
+const BODY_TITLE =
+  /\b(?:board|commission|council|committee)\b(?!.*\b(?:member|chair|president|commissioner)s?$)/i;
+
 /**
  * An office title read in running text: "council member", "U.S. senator".
  * Each word is lower case, except one written in capitals ("U.S.", "DA"),
- * and a form's note in parentheses is left out.
+ * and a form's note in parentheses is left out. A title that names a body
+ * ("State Board of Education") is said as one seat in it, the way the
+ * council's own seat is "council member": "state board of education member",
+ * which reads in every frame ("served as", "the race for", "sworn in as").
  */
-export const officeInSentence = (title: string): string =>
-  title
-    // A form's note in parentheses ("(nonpartisan)", "(3 members, statewide,
-    // staggered 6-year terms)") is never said, as `seatSaid` drops it.
-    .replace(/\s*\([^)]*\)/g, "")
+export const officeInSentence = (title: string): string => {
+  let plain = title;
+  // A form's note ("(nonpartisan)", "(3 members, statewide, staggered 6-year
+  // terms)") is never said, as `seatSaid` drops it.
+  while (FORM_NOTE.test(plain)) plain = plain.replace(FORM_NOTE, "");
+  const said = plain
     .trim()
     .split(/(\s+)/)
     .map((word) =>
@@ -58,6 +68,8 @@ export const officeInSentence = (title: string): string =>
         : word.toLowerCase(),
     )
     .join("");
+  return BODY_TITLE.test(said) ? `${said} member` : said;
+};
 
 /**
  * The job prefixes a seat's own job carries: a public seat's

@@ -10,10 +10,19 @@ it("says an office title in a sentence without the form's note", () => {
     officeInSentence(
       "Railroad Commission (3 members, statewide, staggered 6-year terms)",
     ),
-  ).toBe("railroad commission");
+  ).toBe("railroad commission member");
   expect(
     officeInSentence("Superintendent of Public Instruction (nonpartisan)"),
   ).toBe("superintendent of public instruction");
   expect(officeInSentence("U.S. Senator")).toBe("U.S. senator");
   expect(officeInSentence("Council Member")).toBe("council member");
+  expect(officeInSentence("Public Service Commission President")).toBe(
+    "public service commission president",
+  );
+  expect(officeInSentence("Insurance Commissioner")).toBe(
+    "insurance commissioner",
+  );
+  expect(
+    officeInSentence("State Board of Education (8 members (at large))"),
+  ).toBe("state board of education member");
 });
