@@ -389,11 +389,17 @@ function termEnd(
       ? // Asked from the year before: a spring election's filing can close
         // in the winter before its year.
         electionInYear({ ...where, year, onDate: `${year - 1}-07-01` })
-      : staggeredSeatElection({ ...where, onDate: date, index: seat.index });
+      : // A board elected all at once has every seat on the first cycle.
+        staggeredSeatElection({
+          ...where,
+          onDate: date,
+          index: office.staggered === false ? 0 : seat.index,
+        });
   if (election) return termStartAfter(office, election.electionDate);
   const starts = office.termStarts ?? "01-01";
   if (year !== undefined) return `${year + 1}-${starts}`;
-  const offset = seat.index % Math.max(1, office.termYears);
+  const offset =
+    office.staggered === false ? 0 : seat.index % Math.max(1, office.termYears);
   return `${Number(date.slice(0, 4)) + offset + 1}-${starts}`;
 }
 

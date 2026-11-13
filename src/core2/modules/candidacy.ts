@@ -954,6 +954,19 @@ export function weighContest(
     if (term?.status === "serving" && term.personId)
       committed.add(term.personId);
   }
+  // A member serving another seat of the same body past this election (a
+  // staggered board's seats take turns) keeps that seat: they don't run
+  // for a second seat they could not hold with it.
+  for (const term of terms.query("byOfficeStatus", [
+    contest.officeId,
+    "serving",
+  ]) as unknown as TermRow[])
+    if (
+      term.personId &&
+      term.seatId !== contest.seatId &&
+      (!term.endDate || term.endDate > contest.electionDate)
+    )
+      committed.add(term.personId);
   // An at-large race is one race: those already running for its other seats
   // are in the field each would-be candidate weighs (the same field term).
   const weighedTable = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
