@@ -4108,7 +4108,7 @@
     {
       "key": "person-history.story.office.entered.i.w5",
       "move": "story",
-      "text": "I stepped into the job of {seat}.",
+      "text": "I stepped into the job as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4153,7 +4153,7 @@
     {
       "key": "person-history.story.office.entered.third.w5",
       "move": "story",
-      "text": "{who} stepped into the job of {seat}.",
+      "text": "{who} stepped into the job as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4198,7 +4198,7 @@
     {
       "key": "person-history.story.office.entered.they.w5",
       "move": "story",
-      "text": "They stepped into the job of {seat}.",
+      "text": "They stepped into the job as {seat}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
