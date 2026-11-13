@@ -511,6 +511,16 @@
       }
     },
     {
+      "kindPrefix": "act:speak-for",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "act:speak-against",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "act:interview",
       "turn": false,
       "entry": "story"

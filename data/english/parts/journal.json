@@ -60,7 +60,11 @@
     "effects": "What laws did to the person's bills, joined from their records.",
     "lean": "Which way a view moved (\"more liberal\"), from the views engine's record of what moved it.",
     "year": "A year, from the record.",
-    "their": "A person's possessive pronoun (\"his\", \"her\", \"their\"), from their recorded gender."
+    "their": "A person's possessive pronoun (\"his\", \"her\", \"their\"), from their recorded gender.",
+    "yes": "Votes for, from the roll call.",
+    "no": "Votes against, from the roll call.",
+    "remove": "Votes to remove, from the recall vote's record.",
+    "keep": "Votes to keep, from the recall vote's record."
   },
   "maxWords": 10,
   "mining": {
@@ -10194,6 +10198,1051 @@
             {
               "kindPrefix": "memoir:",
               "field": "became"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-speak-for.i-spoke-for-bill-at-the-body-meeting",
+      "move": "office-line-speak-for",
+      "kind": "spoken",
+      "text": "I spoke for {bill} at the {body} meeting.",
+      "uses": [
+        {
+          "move": "office-line-speak-for",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-spoke-for-bill-at-the-body-meeting",
+          "journal": [
+            {
+              "kindPrefix": "act:speak-for",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "opening",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-speak-for.at-the-body-meeting-i-stood-up-for-bill",
+      "move": "office-line-speak-for",
+      "kind": "spoken",
+      "text": "At the {body} meeting, I stood up for {bill}.",
+      "uses": [
+        {
+          "move": "office-line-speak-for",
+          "subject": "office",
+          "role": "line",
+          "choice": "at-the-body-meeting-i-stood-up-for-bill",
+          "journal": [
+            {
+              "kindPrefix": "act:speak-for",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "opening",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-speak-for.i-went-to-the-body-meeting-and-spoke-in-",
+      "move": "office-line-speak-for",
+      "kind": "spoken",
+      "text": "At the {body} meeting, I spoke in favor of {bill}.",
+      "uses": [
+        {
+          "move": "office-line-speak-for",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-went-to-the-body-meeting-and-spoke-in-",
+          "journal": [
+            {
+              "kindPrefix": "act:speak-for",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "opening",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-speak-against.i-spoke-against-bill-at-the-body-meeting",
+      "move": "office-line-speak-against",
+      "kind": "spoken",
+      "text": "I spoke against {bill} at the {body} meeting.",
+      "uses": [
+        {
+          "move": "office-line-speak-against",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-spoke-against-bill-at-the-body-meeting",
+          "journal": [
+            {
+              "kindPrefix": "act:speak-against",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "opening",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-speak-against.at-the-body-meeting-i-stood-up-against-b",
+      "move": "office-line-speak-against",
+      "kind": "spoken",
+      "text": "At the {body} meeting, I stood up against {bill}.",
+      "uses": [
+        {
+          "move": "office-line-speak-against",
+          "subject": "office",
+          "role": "line",
+          "choice": "at-the-body-meeting-i-stood-up-against-b",
+          "journal": [
+            {
+              "kindPrefix": "act:speak-against",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "opening",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-speak-against.i-went-to-the-body-meeting-and-spoke-out",
+      "move": "office-line-speak-against",
+      "kind": "spoken",
+      "text": "I went to the {body} meeting and spoke out against {bill}.",
+      "uses": [
+        {
+          "move": "office-line-speak-against",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-went-to-the-body-meeting-and-spoke-out",
+          "journal": [
+            {
+              "kindPrefix": "act:speak-against",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "opening",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-same.count-others-spoke-the-same-way",
+      "move": "memoir-speak-same",
+      "kind": "spoken",
+      "text": "{count} others spoke the same way.",
+      "uses": [
+        {
+          "move": "memoir-speak-same",
+          "subject": "office",
+          "role": "speakSame",
+          "choice": "count-others-spoke-the-same-way",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakSame"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-same.count-others-said-what-i-said",
+      "move": "memoir-speak-same",
+      "kind": "spoken",
+      "text": "{count} others said what I said.",
+      "uses": [
+        {
+          "move": "memoir-speak-same",
+          "subject": "office",
+          "role": "speakSame",
+          "choice": "count-others-said-what-i-said",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakSame"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-same.count-others-took-my-side",
+      "move": "memoir-speak-same",
+      "kind": "spoken",
+      "text": "{count} others took my side.",
+      "uses": [
+        {
+          "move": "memoir-speak-same",
+          "subject": "office",
+          "role": "speakSame",
+          "choice": "count-others-took-my-side",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakSame"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-same-one.one-other-person-spoke-the-same-way",
+      "move": "memoir-speak-same-one",
+      "kind": "spoken",
+      "text": "One other person spoke the same way.",
+      "uses": [
+        {
+          "move": "memoir-speak-same-one",
+          "subject": "office",
+          "role": "speakSameOne",
+          "choice": "one-other-person-spoke-the-same-way",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakSameOne"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-same-one.one-other-person-said-what-i-said",
+      "move": "memoir-speak-same-one",
+      "kind": "spoken",
+      "text": "One other person said what I said.",
+      "uses": [
+        {
+          "move": "memoir-speak-same-one",
+          "subject": "office",
+          "role": "speakSameOne",
+          "choice": "one-other-person-said-what-i-said",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakSameOne"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-same-one.one-other-person-took-my-side",
+      "move": "memoir-speak-same-one",
+      "kind": "spoken",
+      "text": "One other person took my side.",
+      "uses": [
+        {
+          "move": "memoir-speak-same-one",
+          "subject": "office",
+          "role": "speakSameOne",
+          "choice": "one-other-person-took-my-side",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakSameOne"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-against.count-people-spoke-against-me",
+      "move": "memoir-speak-against",
+      "kind": "spoken",
+      "text": "{count} people spoke against me.",
+      "uses": [
+        {
+          "move": "memoir-speak-against",
+          "subject": "office",
+          "role": "speakAgainst",
+          "choice": "count-people-spoke-against-me",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakAgainst"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-against.count-people-took-the-other-side",
+      "move": "memoir-speak-against",
+      "kind": "spoken",
+      "text": "{count} people took the other side.",
+      "uses": [
+        {
+          "move": "memoir-speak-against",
+          "subject": "office",
+          "role": "speakAgainst",
+          "choice": "count-people-took-the-other-side",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakAgainst"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-against.count-people-argued-the-other-way",
+      "move": "memoir-speak-against",
+      "kind": "spoken",
+      "text": "{count} people argued the other way.",
+      "uses": [
+        {
+          "move": "memoir-speak-against",
+          "subject": "office",
+          "role": "speakAgainst",
+          "choice": "count-people-argued-the-other-way",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakAgainst"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-against-one.one-person-spoke-against-me",
+      "move": "memoir-speak-against-one",
+      "kind": "spoken",
+      "text": "One person spoke against me.",
+      "uses": [
+        {
+          "move": "memoir-speak-against-one",
+          "subject": "office",
+          "role": "speakAgainstOne",
+          "choice": "one-person-spoke-against-me",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakAgainstOne"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-against-one.one-person-took-the-other-side",
+      "move": "memoir-speak-against-one",
+      "kind": "spoken",
+      "text": "One person took the other side.",
+      "uses": [
+        {
+          "move": "memoir-speak-against-one",
+          "subject": "office",
+          "role": "speakAgainstOne",
+          "choice": "one-person-took-the-other-side",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakAgainstOne"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-against-one.one-person-argued-the-other-way",
+      "move": "memoir-speak-against-one",
+      "kind": "spoken",
+      "text": "One person argued the other way.",
+      "uses": [
+        {
+          "move": "memoir-speak-against-one",
+          "subject": "office",
+          "role": "speakAgainstOne",
+          "choice": "one-person-argued-the-other-way",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakAgainstOne"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-nobody.nobody-else-spoke-the-way-i-did",
+      "move": "memoir-speak-nobody",
+      "kind": "spoken",
+      "text": "Nobody else spoke the way I did.",
+      "uses": [
+        {
+          "move": "memoir-speak-nobody",
+          "subject": "office",
+          "role": "speakNobody",
+          "choice": "nobody-else-spoke-the-way-i-did",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakNobody"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-nobody.i-was-the-only-one-who-said-it",
+      "move": "memoir-speak-nobody",
+      "kind": "spoken",
+      "text": "I was the only one who said it.",
+      "uses": [
+        {
+          "move": "memoir-speak-nobody",
+          "subject": "office",
+          "role": "speakNobody",
+          "choice": "i-was-the-only-one-who-said-it",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakNobody"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-nobody.no-one-else-took-my-side",
+      "move": "memoir-speak-nobody",
+      "kind": "spoken",
+      "text": "No one else took my side.",
+      "uses": [
+        {
+          "move": "memoir-speak-nobody",
+          "subject": "office",
+          "role": "speakNobody",
+          "choice": "no-one-else-took-my-side",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakNobody"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "others",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-passed.the-body-passed-it-yes-to-no",
+      "move": "memoir-speak-passed",
+      "kind": "spoken",
+      "text": "The {body} passed it {yes} to {no}.",
+      "uses": [
+        {
+          "move": "memoir-speak-passed",
+          "subject": "office",
+          "role": "speakPassed",
+          "choice": "the-body-passed-it-yes-to-no",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakPassed"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "vote",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-passed.it-passed-yes-to-no",
+      "move": "memoir-speak-passed",
+      "kind": "spoken",
+      "text": "It passed, {yes} to {no}.",
+      "uses": [
+        {
+          "move": "memoir-speak-passed",
+          "subject": "office",
+          "role": "speakPassed",
+          "choice": "it-passed-yes-to-no",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakPassed"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "vote",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-passed.the-body-voted-yes-to-no-to-pass-it",
+      "move": "memoir-speak-passed",
+      "kind": "spoken",
+      "text": "The {body} voted {yes} to {no} to pass it.",
+      "uses": [
+        {
+          "move": "memoir-speak-passed",
+          "subject": "office",
+          "role": "speakPassed",
+          "choice": "the-body-voted-yes-to-no-to-pass-it",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakPassed"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "vote",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-down.the-body-voted-it-down-no-to-yes",
+      "move": "memoir-speak-down",
+      "kind": "spoken",
+      "text": "The {body} voted it down {no} to {yes}.",
+      "uses": [
+        {
+          "move": "memoir-speak-down",
+          "subject": "office",
+          "role": "speakDown",
+          "choice": "the-body-voted-it-down-no-to-yes",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakDown"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "vote",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-down.it-went-down-no-to-yes",
+      "move": "memoir-speak-down",
+      "kind": "spoken",
+      "text": "It went down, {no} to {yes}.",
+      "uses": [
+        {
+          "move": "memoir-speak-down",
+          "subject": "office",
+          "role": "speakDown",
+          "choice": "it-went-down-no-to-yes",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakDown"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "vote",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-speak-down.the-body-turned-it-down-no-to-yes",
+      "move": "memoir-speak-down",
+      "kind": "spoken",
+      "text": "The {body} turned it down, {no} to {yes}.",
+      "uses": [
+        {
+          "move": "memoir-speak-down",
+          "subject": "office",
+          "role": "speakDown",
+          "choice": "the-body-turned-it-down-no-to-yes",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "speakDown"
+            }
+          ]
+        }
+      ],
+      "piece": {
+        "of": "journal.public-comment",
+        "part": "vote",
+        "required": false
+      },
+      "origin": "authored",
+      "author": "W3 words builder (accepted by the words lead, Nov 13), carried by the journal composer",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-recall-kept.at-the-vote-other-kept-the-seat-keep-to-",
+      "move": "memoir-recall-kept",
+      "kind": "spoken",
+      "text": "At the vote, {other} kept the seat, {keep} to {remove}.",
+      "uses": [
+        {
+          "move": "memoir-recall-kept",
+          "subject": "memoir",
+          "role": "recallKept",
+          "choice": "at-the-vote-other-kept-the-seat-keep-to-",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "recallKept"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-recall-kept.the-voters-kept-other-keep-to-remove",
+      "move": "memoir-recall-kept",
+      "kind": "spoken",
+      "text": "The voters kept {other}, {keep} to {remove}.",
+      "uses": [
+        {
+          "move": "memoir-recall-kept",
+          "subject": "memoir",
+          "role": "recallKept",
+          "choice": "the-voters-kept-other-keep-to-remove",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "recallKept"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-recall-removed.at-the-vote-other-was-recalled-remove-to",
+      "move": "memoir-recall-removed",
+      "kind": "spoken",
+      "text": "At the vote, {other} was recalled, {remove} to {keep}.",
+      "uses": [
+        {
+          "move": "memoir-recall-removed",
+          "subject": "memoir",
+          "role": "recallRemoved",
+          "choice": "at-the-vote-other-was-recalled-remove-to",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "recallRemoved"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-recall-removed.the-voters-removed-other-remove-to-keep",
+      "move": "memoir-recall-removed",
+      "kind": "spoken",
+      "text": "The voters removed {other}, {remove} to {keep}.",
+      "uses": [
+        {
+          "move": "memoir-recall-removed",
+          "subject": "memoir",
+          "role": "recallRemoved",
+          "choice": "the-voters-removed-other-remove-to-keep",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "recallRemoved"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-recall-kept-me.at-the-vote-i-kept-my-seat-keep-to-remov",
+      "move": "memoir-recall-kept-me",
+      "kind": "spoken",
+      "text": "At the vote, I kept my seat, {keep} to {remove}.",
+      "uses": [
+        {
+          "move": "memoir-recall-kept-me",
+          "subject": "memoir",
+          "role": "recallKeptMe",
+          "choice": "at-the-vote-i-kept-my-seat-keep-to-remov",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "recallKeptMe"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-recall-kept-me.the-voters-kept-me-keep-to-remove",
+      "move": "memoir-recall-kept-me",
+      "kind": "spoken",
+      "text": "The voters kept me, {keep} to {remove}.",
+      "uses": [
+        {
+          "move": "memoir-recall-kept-me",
+          "subject": "memoir",
+          "role": "recallKeptMe",
+          "choice": "the-voters-kept-me-keep-to-remove",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "recallKeptMe"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-recall-removed-me.at-the-vote-i-was-recalled-remove-to-kee",
+      "move": "memoir-recall-removed-me",
+      "kind": "spoken",
+      "text": "At the vote, I was recalled, {remove} to {keep}.",
+      "uses": [
+        {
+          "move": "memoir-recall-removed-me",
+          "subject": "memoir",
+          "role": "recallRemovedMe",
+          "choice": "at-the-vote-i-was-recalled-remove-to-kee",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "recallRemovedMe"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-recall-removed-me.the-voters-removed-me-remove-to-keep",
+      "move": "memoir-recall-removed-me",
+      "kind": "spoken",
+      "text": "The voters removed me, {remove} to {keep}.",
+      "uses": [
+        {
+          "move": "memoir-recall-removed-me",
+          "subject": "memoir",
+          "role": "recallRemovedMe",
+          "choice": "the-voters-removed-me-remove-to-keep",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "recallRemovedMe"
             }
           ]
         }

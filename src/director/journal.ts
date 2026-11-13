@@ -14,6 +14,7 @@ import { coreAPI } from "../core2/state";
 import journalLife from "./data/journal-life.json" with { type: "json" };
 import JOURNAL_OUTLINE from "./data/journal-outline.json" with { type: "json" };
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { governmentProperName } from "../core2/government-proper-name";
 import { PLACE_PRICES_MODULE_ID } from "../core2/business-module-id";
 import {
   ELECTIONS_MODULE_ID,
@@ -22,6 +23,7 @@ import {
 import { personWorkOf } from "../core2/person-work";
 import {
   LEGISLATURE_MODULE_ID,
+  votesOn,
   type BillRow,
 } from "../core2/modules/legislature";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
@@ -256,13 +258,26 @@ function employerName(
     : undefined;
   // The outside buyers and sellers are the market's stand-in for work out of
   // town, never an employer to name (skill words-engine).
-  return org && org.kind !== "outside-market"
-    ? {
-        text: employerSaid(properName(org.name), org),
-        sourceRecordIds: [...recordIds, org.id],
-      }
-    : undefined;
+  if (!org || org.kind === "outside-market") return undefined;
+  // A local government that is the employer itself ("COUNTY OF HILL") is
+  // said through the one reader of government names, from its place record
+  // (`governmentProperName`, #9000); a department keeps its own name.
+  const key = org.governmentFacts?.governmentKey;
+  const name =
+    typeof key === "string" &&
+    org.governmentFacts?.governmentKind === "local-government" &&
+    GOVERNMENT_ITSELF.test(org.name)
+      ? governmentProperName(org.name, key)
+      : properName(org.name);
+  return {
+    text: employerSaid(name, org),
+    sourceRecordIds: [...recordIds, org.id],
+  };
 }
+
+/** A government's own name, as the listing writes it ("City of", "County of"). */
+const GOVERNMENT_ITSELF =
+  /^(?:city|town|village|county|borough|township|parish|municipality|unified government) of\b/i;
 
 /** A list whose items may hold "and" themselves: a comma before the last "and". */
 function listOfParts(items: readonly string[]): string {
@@ -1072,6 +1087,86 @@ function officeActMoments(
       // row; an interview by the outlet it was given to, through the
       // outlet's organization (from W3's claude/words-w3-journal, Nov 12). A
       // count of one is not told as a number ("1 people").
+      // A resident's public comment on a bill: for or against it, at its
+      // body's meeting, with how many spoke the same way or the other way
+      // (the bill's other remarks) and that day's roll call when one is on
+      // record (lead, Nov 13; W3's wordings).
+      if (act.kind === "speak") {
+        const remark = core.modules.has(MEETINGS_MODULE_ID)
+          ? (api
+              .moduleState(MEETINGS_MODULE_ID)
+              .table("remarks")
+              .get(act.recordId) as unknown as
+              | { billId: string; position: number; question?: string }
+              | undefined)
+          : undefined;
+        const bill = remark
+          ? (bills.get(remark.billId) as unknown as BillRow | undefined)
+          : undefined;
+        if (!remark || !bill) return [];
+        const ids = [act.recordId, bill.id];
+        const about =
+          (remark.question ? questionAbout(remark.question) : null) ??
+          billName(core, bill.id);
+        const body = core.modules.has(OFFICES_MODULE_ID)
+          ? (
+              api
+                .moduleState(OFFICES_MODULE_ID)
+                .table("offices")
+                .get(bill.bodyOfficeId) as unknown as
+                { bodyName?: string } | undefined
+            )?.bodyName
+          : undefined;
+        if (!about || !body) return [];
+        const others = (
+          api
+            .moduleState(MEETINGS_MODULE_ID)
+            .table("remarks")
+            .query("byBill", [bill.id]) as unknown as {
+            id: string;
+            personId: string;
+            position: number;
+          }[]
+        ).filter((row) => row.personId !== personId);
+        const same = others.filter(
+          (row) => Math.sign(row.position) === Math.sign(remark.position),
+        );
+        const against = others.filter(
+          (row) => Math.sign(row.position) === -Math.sign(remark.position),
+        );
+        const votes = votesOn(api, bill.id);
+        const yes = votes.filter((row) => row.vote === "yes").length;
+        const no = votes.filter((row) => row.vote === "no").length;
+        // That day's vote, only when the bill's own record ended it that day.
+        const decided =
+          bill.passedOn === act.date
+            ? "passed"
+            : bill.failedOn === act.date
+              ? "down"
+              : null;
+        const count = (rows: readonly { id: string }[]): Fact => ({
+          text: String(rows.length),
+          sourceRecordIds: rows.map((row) => row.id),
+        });
+        return [
+          moment(
+            act.detail === "against" ? "act:speak-against" : "act:speak-for",
+            {
+              bill: { text: about, sourceRecordIds: ids },
+              body: { text: properName(body), sourceRecordIds: ids },
+              ...(same.length ? { same: count(same) } : {}),
+              ...(against.length ? { against: count(against) } : {}),
+              ...(decided && votes.length
+                ? {
+                    decided: { text: decided, sourceRecordIds: [bill.id] },
+                    yes: { text: String(yes), sourceRecordIds: [bill.id] },
+                    no: { text: String(no), sourceRecordIds: [bill.id] },
+                  }
+                : {}),
+            },
+          ),
+        ];
+      }
       if (act.kind === "town-hall") {
         const hall = core.modules.has(MEETINGS_MODULE_ID)
           ? (api
@@ -2589,6 +2684,96 @@ export function composeJournal(
     return out.length ? out : null;
   };
 
+  /**
+   * After a resident's public comment: how many spoke the same way, else how
+   * many the other way, else nobody; then that day's vote when one is on
+   * record. The field is chosen from the counts; the bank words it.
+   */
+  const speakAfter = (unit: Unit): JournalWorded[] => {
+    if (!unit.moment.causeKind.startsWith("act:speak")) return [];
+    const facts = unit.facts;
+    const one_ = (fact: Fact | undefined) => fact?.text === String(one);
+    const others: MemoirField = facts.same
+      ? one_(facts.same)
+        ? "speakSameOne"
+        : "speakSame"
+      : facts.against
+        ? one_(facts.against)
+          ? "speakAgainstOne"
+          : "speakAgainst"
+        : "speakNobody";
+    const count = facts.same ?? facts.against;
+    const ids = [unit.moment.causeId];
+    const out = [
+      render(
+        { part: "memoir", field: others },
+        count ? { count } : {},
+        `${unit.moment.id}:others`,
+        ids,
+      ),
+      facts.decided
+        ? render(
+            {
+              part: "memoir",
+              field:
+                facts.decided.text === "passed" ? "speakPassed" : "speakDown",
+            },
+            facts,
+            `${unit.moment.id}:vote`,
+            ids,
+          )
+        : null,
+    ];
+    return out.filter((part): part is JournalWorded => !!part);
+  };
+
+  /**
+   * A recall that went to a vote tells its result in the same paragraph when
+   * the recalls engine's record of the vote is on file (lead, Nov 13, rule
+   * 25): kept or removed, with the counts.
+   */
+  const recallAfter = (unit: Unit): JournalWorded[] => {
+    if (unit.moment.causeKind !== "event:recall-outcome") return [];
+    const record = core.durableLog.get(unit.moment.causeId)?.facts;
+    if (record?.outcome !== "on-ballot") return [];
+    const recallId = String(record.recallId ?? "");
+    const result = ["removed", "kept"]
+      .map((outcome) =>
+        core.durableLog.get(`recall-outcome:${recallId}:${outcome}` as never),
+      )
+      .find((row) => row && row.date <= through);
+    if (!result) return [];
+    const mine = record.memberId === personId;
+    const kept = String(result.facts?.outcome) === "kept";
+    const facts: Facts = {
+      remove: {
+        text: String(result.facts?.remove ?? ""),
+        sourceRecordIds: [result.id],
+      },
+      keep: {
+        text: String(result.facts?.keep ?? ""),
+        sourceRecordIds: [result.id],
+      },
+      ...(unit.facts.other ? { other: unit.facts.other } : {}),
+    };
+    const told = render(
+      {
+        part: "memoir",
+        field: mine
+          ? kept
+            ? "recallKeptMe"
+            : "recallRemovedMe"
+          : kept
+            ? "recallKept"
+            : "recallRemoved",
+      },
+      facts,
+      `${unit.moment.id}:recall-vote`,
+      [unit.moment.causeId, result.id],
+    );
+    return told ? [told] : [];
+  };
+
   const entryOf = (told: readonly Unit[], sentences: JournalWorded[]) => ({
     id: told[zero]!.moment.id,
     date: told[zero]!.moment.date,
@@ -2933,7 +3118,11 @@ export function composeJournal(
       (row) => row.kindPrefix === group[zero]?.row.kindPrefix,
     );
     // A merged kind is told only as its merged sentence.
-    const told = mergeOf(group) ?? (merged ? [] : tellParagraph(group, "play"));
+    const told = [
+      ...(mergeOf(group) ?? (merged ? [] : tellParagraph(group, "play"))),
+      ...group.flatMap(speakAfter),
+      ...group.flatMap(recallAfter),
+    ];
     push(group, told);
   }
 
