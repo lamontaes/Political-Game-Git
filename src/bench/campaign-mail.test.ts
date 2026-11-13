@@ -41,6 +41,14 @@ import controls from "./data/controls.json" with { type: "json" };
 import { advanceToFilingOpen } from "../core2/gov-test-clock";
 
 const START = "2026-01-05";
+/**
+ * Each case's world waits for its place's first filing window before anyone
+ * files (gov-test-clock): measured 45 s at GOLDEN_PATH_SEED=
+ * b3c0f0d12130151e4ef8ae66089b47c5c01dbf5374d7d55f366922f9ee1f1061, where the
+ * window opens months after the start; the default 30 s cut it off in CI
+ * (#8976). About twice the slowest measured.
+ */
+const FILING_WAIT_MS = 100_000;
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`campaign-mail:${Date.now()}`).digest("hex");
@@ -238,7 +246,7 @@ it("mail spends what the player set on mailers and reaches the households it buy
   expect(end.raisedMinor - end.spentMinor, where).toBeGreaterThanOrEqual(0);
   // The screen's Mail control is worded.
   expect(controls.campaignActs.mail, where).toBeTruthy();
-});
+}, FILING_WAIT_MS);
 
 it("offers the house party by its control word and runs the engine's donor meeting", () => {
   const { core, api, filing, where } = world();
@@ -278,4 +286,4 @@ it("offers the house party by its control word and runs the engine's donor meeti
   // Seen in the host's home, the people in the room around the candidate.
   expect(out.scene, where).toBeDefined();
   expect(out.scene!.people.length + out.scene!.more, where).toBeGreaterThan(0);
-});
+}, FILING_WAIT_MS);
