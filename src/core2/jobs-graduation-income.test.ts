@@ -38,7 +38,8 @@ import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
 const seed = process.env.GRADUATION_PAY_SEED ?? randomBytes(8).toString("hex");
-const DRAWS = 6;
+// Places drawn, one after another, until one shows the case; the run fails, naming every seed tried, if none does.
+const DRAWS = 16;
 const LINK = "school-spending-to-attainment";
 const SHIFT = 0.5;
 const before = setBookkeeping(false);
@@ -214,6 +215,9 @@ it("a senior who graduates only where graduation was raised is hired at a diplom
   for (let draw = 0; draw < DRAWS; draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "graduation-pay");
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    process.stdout.write(
+      `graduation-pay: draw ${draw + 1} of ${DRAWS}: ${where}\n`,
+    );
     // The twins play side by side, a day at a time, so a place is left as
     // soon as it cannot show the change, and the run stops at the first hire.
     const base = build(place.seed, place.key);
@@ -296,8 +300,8 @@ it("a senior who graduates only where graduation was raised is hired at a diplom
     );
     return;
   }
-  // A case that does not appear in these draws is not a failure: the counts found are reported, and a draw that has one asserts it.
-  process.stdout.write(
-    `graduation-pay: no drawn place showed a senior graduating only where graduation was raised and hired in both worlds (GRADUATION_PAY_SEED=${seed}); counts found: ${tried.join("; ")}\n`,
+  // A pass that never reached the pay and income assertions proves nothing: no draw showing the case is a failure that names the seeds tried.
+  throw new Error(
+    `graduation-pay: none of ${DRAWS} drawn places showed a senior graduating only where graduation was raised and hired in both worlds (GRADUATION_PAY_SEED=${seed}); counts found: ${tried.join("; ")}`,
   );
 }, 3_600_000);
