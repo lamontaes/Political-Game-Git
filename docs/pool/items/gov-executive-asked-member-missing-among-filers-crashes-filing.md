@@ -33,3 +33,7 @@ source: found while building meetings-resident-player-speaks-at-public-comment; 
 **Waits on.** Nothing
 
 **Files.** src/core2/modules/world-legislating.ts, src/core2/world-legislating.test.ts
+
+**Notes.**
+
+Nov 13, account lead T21: golden-path-year `M1-11` on pull request #9030's head crashed at the same line. Twin Creeks, Montana (key 3075550), place seed d888b20564f96beac8772cf19a02d37f8e6ca065c294cc49e35b9327a498592f, with `GOLDEN_PATH_SEED` and `GOLDEN_PATH_PLACE_KEY` set and `node --import tsx src/bench/m1-11-check.ts`: `TypeError: Cannot read properties of undefined (reading 'personId')` at `memberKey`, from `filerOf`, `fileChanges` and `openSession` in world-legislating.ts. It reproduces the same way on current main and on the train branch (#9052), so it is not from #9030.
