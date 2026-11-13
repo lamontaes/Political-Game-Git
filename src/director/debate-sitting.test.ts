@@ -202,6 +202,15 @@ function play(draw: number): Evidence | string {
   expect(sitting.momentId, where).toContain(yes.eventId);
   const scene = composeScene(core, director, me, sitting);
   expect(scene?.talkToId, `${where}: the moderator opens it`).toBe(moderatorId);
+  // The debate opens on its day, never from a street stop (Fable A, Nov 13,
+  // rule 13; P3, North Hyde Park VT: "out and about, you stop to talk with
+  // Kevin Garcia." then "Welcome to the ... debate."): it opens on the day
+  // alone, then says who opens the debate.
+  const opening = scene!.narration.map((line) => line.text).join(" ");
+  expect(opening, where).toMatch(
+    /^(First thing on|Late in the morning on|Around noon on|On the afternoon of|Toward evening on|Late on) [A-Z][a-z]+ \d{1,2}(st|nd|rd|th)\. .*debate/,
+  );
+  expect(opening, where).not.toMatch(/out and about|in the street|downtown/);
 
   // A vote of the player's on the first question asked, by hand.
   const asked = waiting.questions.filter((question) => questionAbout(question));
