@@ -852,7 +852,7 @@ for (const [family, pole, voice, clause] of BELIEF_ROWS)
     text: clause,
     needs: [`family-${family}`, `pole-${pole}`],
     // Said only inside a frame that names it as {belief}.
-    piece: { of: "opening-belief", part: "reason" },
+    piece: { of: "opening-ask", part: "reason" },
   });
 const BELIEF_FRAMES: [string, string, string, string][] = [
   ["ask", "both", "Because I believe {belief},", "belief-leads"],
