@@ -41,12 +41,31 @@ export interface PersonWork {
   readonly offices: readonly PersonOffice[];
 }
 
+/** A form's note in parentheses, innermost first so a nested note goes whole. */
+const FORM_NOTE = /\s*\([^()]*\)/;
+/** A title that names a body of several members, not one seat in it. */
+const BODY_TITLE = /\b(?:board|commission|council|committee)\b/i;
+/** A body named first and then by what it serves ("Board of Elections"). */
+const LEADS_WITH_BODY = /^(?:board|commission|council|committee)\s+of\b/i;
+/** A word that already names one seat in a body ("Council Member", "Chairman of the Council"). */
+const SEAT_WORD =
+  /\b(?:member|chair|chairman|chairwoman|chairperson|president|speaker|clerk|secretary|commissioner|director|delegate)s?\b/i;
+
 /**
  * An office title read in running text: "council member", "U.S. senator".
- * Each word is lower case, except one written in capitals ("U.S.", "DA").
+ * Each word is lower case, except one written in capitals ("U.S.", "DA"),
+ * and a form's note in parentheses is left out. A title that names a body
+ * ("State Board of Education") is said as one seat in it, the way the
+ * council's own seat is "council member": "state board of education member", or
+ * "member of the board of elections" for a body named first; it reads in every frame ("served as", "the race for", "sworn in as").
  */
-export const officeInSentence = (title: string): string =>
-  title
+export const officeInSentence = (title: string): string => {
+  let plain = title;
+  // A form's note ("(nonpartisan)", "(3 members, statewide, staggered 6-year
+  // terms)") is never said, as `seatSaid` drops it.
+  while (FORM_NOTE.test(plain)) plain = plain.replace(FORM_NOTE, "");
+  const said = plain
+    .trim()
     .split(/(\s+)/)
     .map((word) =>
       /^[A-Z]{2,}[a-z]?$/.test(word.replace(/[^A-Za-z]/g, ""))
@@ -54,6 +73,14 @@ export const officeInSentence = (title: string): string =>
         : word.toLowerCase(),
     )
     .join("");
+  if (!BODY_TITLE.test(said) || SEAT_WORD.test(said)) return said;
+  // "Council of the District of Columbia" is said "member of the council of
+  // the district of columbia"; "Railroad Commission", "railroad commission
+  // member", as "Council" is "council member".
+  return LEADS_WITH_BODY.test(said)
+    ? `member of the ${said}`
+    : `${said} member`;
+};
 
 /**
  * The job prefixes a seat's own job carries: a public seat's
