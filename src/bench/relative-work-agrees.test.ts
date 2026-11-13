@@ -47,6 +47,8 @@ describe.each(["a", "b"])("a relative's work and office (case %s)", (draw) => {
       const atHome = (id: PersonId) =>
         (core.households.get(core.people.get(id)!.householdId)?.memberIds ?? [])
           .filter((other) => other !== id && core.people.get(other)?.alive)
+          // A relative at home: the Journal names a housemate by their tie.
+          .filter((other) => core.people.get(id)!.familyIds.has(other))
           .filter((other) => personWorkOf(core, other).offices.length > 0);
       const player = (
         atHome(playerId! as PersonId).length
