@@ -47,6 +47,7 @@ import {
 import { carriedLink, placeOutcome } from "./modules/outcome-web";
 import { baseOf } from "./outcome-web-model";
 import { webReach } from "./outcome-web-reach";
+import { putOutputNumber } from "./output-numbers";
 import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "./school-measures";
 import type { CoreAPI, CoreState } from "./types";
 import { worldRateFactor } from "./world-base-rates";
@@ -871,7 +872,11 @@ function populationByPlace(
  * resident (the schools line of the budget in force over the government's
  * residents), times the town's residents, over the students enrolled. The
  * town is the place the web follows with the most students. Recorded once a
- * year with the tests.
+ * year with the tests. This row is the one figure: the outcome web keeps none
+ * of its own, and the registry's year row (school.spending-per-student) is
+ * written from it with the students and residents behind it. A town with few
+ * children shows its money over those few students, never a floor or a county
+ * figure.
  */
 export function recordSchoolSpending(
   api: CoreAPI,
@@ -881,7 +886,9 @@ export function recordSchoolSpending(
   if (!core.modules.has(BUDGETS_MODULE_ID)) return null;
   const measure = SCHOOL_MEASURE.spending;
   const town = [...populationByPlace(api, startYear)]
-    .filter(([placeId]) => placeOutcome(api, placeId, measure))
+    .filter(([placeId]) =>
+      placeOutcome(api, placeId, SCHOOL_MEASURE.graduation),
+    )
     .sort((a, b) => b[1].students - a[1].students || (a[0] < b[0] ? -1 : 1))[0];
   if (!town || town[1].students <= 0) return null;
   const [placeId, { students, residents }] = town;
@@ -909,10 +916,26 @@ export function recordSchoolSpending(
     students,
     passed: 0,
     expected: 0,
-    webRecordId: placeOutcome(api, placeId, measure)?.recordId ?? null,
+    webRecordId: null,
     budgetIds: lines,
   };
   table(api, "measures").put(row as never);
+  // The registry's figures, with the money and the people behind them.
+  const inputs = {
+    students: Math.round(students),
+    residents: Math.round(residents),
+    schoolsPerResident: Math.round(perResident) / 100,
+    measureId: row.id,
+    budgetIds: lines.join(","),
+  };
+  putOutputNumber(
+    api,
+    "school.spending-per-student",
+    placeId,
+    row.value,
+    inputs,
+  );
+  putOutputNumber(api, "school.students", placeId, students, inputs);
   return row;
 }
 

@@ -22,7 +22,7 @@ claimed-at:
 
 **What.** A seated council member sees the budget on the meeting panel on the fiscal year's first day (Jul 1 in Danville, Iowa, seed 4b0fc31d-ba59-4168-8b84-d7c0e3f826b6). Where no regular meeting falls that day, the body meets that day at its usual hour only to vote the budget. Real councils and boards adopt their budget at a regular meeting before the fiscal year starts, often weeks before, as their charter or state law sets. Seen: the meeting panel on the year's first day, and the Politics calendar, which does not list that meeting.
 
-**Cause.** budgets.ts schedules `budget-adoption` on `${fy}-${fiscalYearStart}` and computes the fiscal year from the date it runs (`fiscalYearOf(api.state.date, ...)`); office-day.ts `placeBudgetVote` puts the budget on that day's meeting, holding one if none is regular (stopgap SG-OFFICE-budget-meeting-on-the-year-start).
+**Cause.** Found in code: budgets.ts schedules `budget-adoption` on `${fy}-${fiscalYearStart}` and computes the fiscal year from the date it runs (`fiscalYearOf(api.state.date, ...)`); office-day.ts `placeBudgetVote` puts the budget on that day's meeting, holding one if none is regular (stopgap SG-OFFICE-budget-meeting-on-the-year-start).
 
 **Fix.** Read each body's adoption deadline from data (state law or charter, by place type), place the budget on the last regular meeting before it, and have the adoption name its fiscal year explicitly instead of reading it from the date. Moving the date moves every world's budget, so the speed and divergence rule applies.
 

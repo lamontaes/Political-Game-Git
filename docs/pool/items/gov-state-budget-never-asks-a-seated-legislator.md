@@ -22,7 +22,7 @@ claimed-at:
 
 **What.** An Advanced start as a state representative, state senator or member of Congress never sees the state's or the nation's budget come to a vote. The roll call records the player as abstaining. Before office-board-vote-cast-for-the-player-without-a-stop-again, the player's own position was cast without asking, as "Decided for me". Seen: the budget's roll call on the bill's record, and Politics, then Your office.
 
-**Cause.** A legislature has no meeting row in office-day.ts, so `placeBudgetVote` leaves its budget to the budgets calendar (`adoptBudget`, then `councilBudget` in legislature.ts). That roll reads each member's cast vote, and the player, never asked, has none. The floor-vote stop (`state-floor-vote` and `floor-vote` in ownVote) covers ordinary bills by their floor day; the budget has no floor day.
+**Cause.** Found in code: a legislature has no meeting row in office-day.ts, so `placeBudgetVote` leaves its budget to the budgets calendar (`adoptBudget`, then `councilBudget` in legislature.ts). That roll reads each member's cast vote, and the player, never asked, has none. The floor-vote stop (`state-floor-vote` and `floor-vote` in ownVote) covers ordinary bills by their floor day; the budget has no floor day.
 
 **Fix.** Give the budget a floor day on the chamber's session calendar and hold the player there with the floor-vote stop, through the same `voteBudgetAtMeeting` route the town bodies use, so the vote is the player's press, their own position when they leave it to the character, or an abstention when they stay silent.
 

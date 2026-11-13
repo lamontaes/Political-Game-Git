@@ -4703,7 +4703,9 @@ export function coworkersToMeet(
     .map((row) => row.personId);
   for (const id of ids) {
     if (room <= api.parameter("zero")) break;
-    if (!c.people.has(id) && !knownIds?.has(id)) personOrFillIn(c, id);
+    // A worker returned to the counts keeps a record with no job (their job is a counted one), so they are filled in too.
+    const held = c.people.get(id);
+    if ((!held || isDemoted(held)) && !knownIds?.has(id)) personOrFillIn(c, id);
     room -= api.parameter("one");
   }
   return ids;

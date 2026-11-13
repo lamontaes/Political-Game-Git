@@ -18,6 +18,7 @@ import { coreAPI } from "./state";
 import { setBookkeeping } from "./bookkeeping";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { personCard } from "../bench/card";
+import { isDemoted } from "./counted-groups";
 import { knownAmong } from "./encounters";
 import { countedHeadcountOf, countedJobsOf } from "./residents-economy";
 import {
@@ -104,7 +105,11 @@ describe(
         const player = core.people.get(playerId)!;
         const job = core.jobs.get(player.jobId!)!;
         const source = `job-change:${core.date}:${job.id}:hire`;
-        const filled = [...bookRows.keys()].filter((id) => core.people.has(id));
+        // A counted worker is filled in once they hold a full record: one returned to the counts keeps a record but is still counted.
+        const filled = [...bookRows.keys()].filter((id) => {
+          const q = core.people.get(id);
+          return q !== undefined && !isDemoted(q);
+        });
         expect(filled.length).toBeGreaterThan(0);
         // Room is the staff's size, not everyone: a small staff meets all.
         const staff = countedBefore.length;
