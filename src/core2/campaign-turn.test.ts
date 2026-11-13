@@ -98,18 +98,32 @@ function world(salt: string) {
 }
 
 /**
- * Two wealthy adults filed in the first contest both qualify for: the richest
- * adults, in order, who the contest's rules let on the ballot (a national
- * outlet's head lives elsewhere and a press owner may not run).
+ * Two wealthy adults of the town filed in the first contest both qualify for:
+ * the richest residents, in order, who the contest's rules let on the ballot.
+ * The cases play the town's campaign, which reaches people through the
+ * candidate's own circle there, so someone who lives elsewhere (a station
+ * owner kept at the state's level, a national outlet's head) is not drawn.
  */
 function twoCandidates(
   api: CoreAPI,
   core: CoreState,
 ): { you: FilingRow; rival: FilingRow } | null {
+  // Every race opens its filing on its own real day: move to the first day
+  // one is open in this place (gov-test-clock), as a player would wait.
+  advanceToFilingOpen(core);
+  const town = (
+    api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("town")
+      .get("town") as unknown as {
+      townPlaceId: string;
+    }
+  ).townPlaceId;
   const adults = [...core.people.values()]
     .filter(
       (p) =>
         p.alive &&
+        p.placeId === town &&
         Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
     )
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
