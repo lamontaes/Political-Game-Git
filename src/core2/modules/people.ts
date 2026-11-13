@@ -49,7 +49,9 @@ import {
   type HistoryWriter,
   type PreStartModule,
   type PreStartWindow,
+  pastJusticeFor,
   pastServiceFor,
+  prisonTermOf,
   wholePastOpened,
 } from "../past-module";
 import type {
@@ -651,6 +653,9 @@ function writePast(core: CoreState, person: PersonState): void {
   schoolHistoryFor(core, [person]);
   pastWorkFor(core, [person], PEOPLE_MODULE_ID);
   pastServiceFor(core, [person], PEOPLE_MODULE_ID);
+  pastJusticeFor(core, [person], PEOPLE_MODULE_ID, (one) =>
+    prisonTermOf(core, one),
+  );
 }
 
 /**

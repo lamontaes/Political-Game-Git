@@ -11,6 +11,15 @@
  * short. Social Security paid in town follows the federal line.
  */
 import { publicPayTreasuries } from "./public-work-pay";
+import {
+  lineAdders,
+  linePayers,
+  registerLineAdditions,
+  registerLinePayments,
+  registerTreasuryRule,
+  treasuryRules,
+  type LineAddition,
+} from "./budgets-line-payers";
 import spendingData from "./data/budgets/treasury-spending.json" with { type: "json" };
 import payeeData from "./data/budgets/spending-payees.json" with { type: "json" };
 import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
@@ -382,36 +391,15 @@ export function lineForPost(
   return DATA.postLines.lines[best] ?? DATA.postLines.lines["town:"]!;
 }
 
-/** Lines in-town engines pay this month without a payday (law-reach benefits). */
-type LinePayer = (api: CoreAPI, gov: GovernmentRow) => Record<string, number>;
-const linePayers: LinePayer[] = [];
-export function registerLinePayments(payer: LinePayer): void {
-  if (!linePayers.includes(payer)) linePayers.push(payer);
-}
-
-/** A line raised in the budget in force by a law's own amount (a share of the line), as the law-reach engine that raised it records it. */
-export interface LineAddition {
-  readonly line: string;
-  /** The law's policy key. */
-  readonly key: string;
-  /** The law row that raised the line. */
-  readonly lawId: string;
-  /** What the law added to the line this fiscal year, in minor units. */
-  readonly annualMinor: number;
-  /** What the treasury's payment is recorded as (ends in "-paid"). */
-  readonly what: string;
-}
-const lineAdders: {
-  keys: readonly string[];
-  additions: (api: CoreAPI, gov: GovernmentRow) => readonly LineAddition[];
-}[] = [];
-/** Law reach says which laws raise a line by their own amount, so the treasury can record whom their share of the line pays. */
-export function registerLineAdditions(
-  adder: (typeof lineAdders)[number],
-): void {
-  if (!lineAdders.some((a) => a.additions === adder.additions))
-    lineAdders.push(adder);
-}
+// The registry of in-town engines that pay a line this month without a payday
+// lives in a leaf module: engines register at import time, and a registry held
+// here was read before it was set when an engine's file was entered first.
+export {
+  registerLineAdditions,
+  registerLinePayments,
+  registerTreasuryRule,
+  type LineAddition,
+};
 
 /** The recorded payment of a bill's carried change to a line. */
 const BILL_LINE_PAID = "budget-line-paid";
@@ -491,12 +479,6 @@ function endLineLaws(
  * funding, a minimum reserve): each month's close reads the rules in force and
  * applies them to the budget it then pays from, before any line is paid.
  */
-type TreasuryRule = (api: CoreAPI) => void;
-const treasuryRules: TreasuryRule[] = [];
-export function registerTreasuryRule(rule: TreasuryRule): void {
-  if (!treasuryRules.includes(rule)) treasuryRules.push(rule);
-}
-
 /**
  * Whether an employer and a treasury belong to one government: the same
  * recorded government key, or, for a state's or the nation's office, the same
