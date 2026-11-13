@@ -34,8 +34,12 @@ import { governmentProperName } from "./government-proper-name";
  * Commissioners of Pocahontas County"; with "Board of Supervisors" it is
  * "Pocahontas County Board of Supervisors".
  */
-export function boardBodyName(listed: string, bodyName: string): string {
-  const area = countyDisplayName(listed);
+export function boardBodyName(
+  listed: string,
+  bodyName: string,
+  governmentId?: string,
+): string {
+  const area = countyDisplayName(listed, governmentId);
   const kind = area.split(" ").at(-1)!;
   if (bodyName.startsWith(`${kind} `))
     return `${area.slice(0, -kind.length)}${bodyName}`;
@@ -214,7 +218,7 @@ function boardOffices(
       level,
       jurisdiction: unit.id,
       governmentName: unit.name,
-      bodyName: boardBodyName(unit.name, board.bodyName),
+      bodyName: boardBodyName(unit.name, board.bodyName, unit.id),
       kind: level === "county" ? "county-board" : "township-board",
       title: board.memberTitle,
       seats: board.seats,
