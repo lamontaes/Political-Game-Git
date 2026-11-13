@@ -119,5 +119,17 @@
     "addedAt": "2026-11-13",
     "replacement": "Write the birthplace fact from the moves pass (the residence on the birth date) when a person's past is opened, by the ACS share born in their state of residence (B05002) for those with no parent elsewhere, and drop the opening's default.",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-past-hospital-age-only",
+    "kind": "partial-model",
+    "file": "src/core2/past-health.ts",
+    "line": 82,
+    "whatItFakes": "A person's hospital stays before the start come from their age alone (the NHIS share by age band, less childbirth stays): their traits, their health record's conditions, their work and their place do not weigh, and every stay is told as one kind of event, a serious illness or injury, without which.",
+    "why": "The life record, part 6 (pool item core-life-record-part-6-the-past-holds-what-happened-between-people) built the event from the one published table read (NHIS 2018 Table P-10a); the health engine's conditions describe a fatal illness's risk, not a survived stay's.",
+    "addedBy": "opus-5234 (core-life-record-part-6)",
+    "addedAt": "2026-11-11",
+    "replacement": "The share of stays by age, sex and condition (HCUP National Inpatient Sample by diagnosis), weighed by the person's health record and traits, with injuries told apart from illnesses.",
+    "status": "open"
   }
 ]

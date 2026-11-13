@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: opus-lr
+pr: #8957
 after: core-life-record-part-6-the-past-holds-what-happened-between-people
 blocked-on:
 lead: lives
