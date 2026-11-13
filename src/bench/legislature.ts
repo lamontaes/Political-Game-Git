@@ -21,6 +21,8 @@ import {
   floorDateOf,
   memberKey,
   members as bodyMembersOf,
+  proposalRight,
+  proposeAsExecutive,
   votesOn,
   whipCount,
   type BillRow,
@@ -78,8 +80,66 @@ export function bodiesOf(core: CoreState, personId: string) {
       },
     ];
   });
+  // A single-seat executive with a proposal right has no seat on the body that votes on
+  // their government's bills; they send a bill to it through a member (the one engine,
+  // `proposeAsExecutive`), so the body is theirs to draft for.
+  const sitting = new Set(
+    mine.flatMap((term) => {
+      const office = offices.table("offices").get(term.officeId) as
+        { id: string; seats: number } | undefined;
+      return office && office.seats >= 2 ? [office.id] : [];
+    }),
+  );
+  const byRequest = mine.flatMap((term) => {
+    const office = offices.table("offices").get(term.officeId) as
+      | {
+          id: string;
+          kind: string;
+          seats: number;
+          jurisdiction: string;
+          level: string;
+        }
+      | undefined;
+    if (!office || office.seats >= 2) return [];
+    if (proposalRight(api, office.kind).mode !== "by-request") return [];
+    return (
+      offices
+        .table("offices")
+        .query("byJurisdiction", [office.jurisdiction]) as unknown as {
+        id: string;
+        seats: number;
+        level: string;
+        kind: string;
+      }[]
+    ).flatMap((chamber) => {
+      // Only the government's own body: a state's U.S. senators share its jurisdiction.
+      const body =
+        chamber.seats >= 2 && chamber.level === office.level
+          ? bodyOf(api, chamber.id)
+          : undefined;
+      if (!body || sitting.has(chamber.id)) return [];
+      const roster = bodyMembersOf(api, chamber.id);
+      return [
+        {
+          officeId: chamber.id,
+          title: body.bodyName ?? body.governmentName,
+          level: chamber.level,
+          kind: chamber.kind,
+          // Sent through a member, never in the executive's own name.
+          byRequest: true,
+          members: roster.map((row) => ({
+            key: memberKey(row),
+            name: personName(core, memberKey(row)),
+            party: row.party,
+            you: row.personId === personId,
+          })),
+        },
+      ];
+    });
+  });
   return [
     ...federal,
+    ...byRequest,
     ...mine.flatMap((term) => {
       const office = offices.table("offices").get(term.officeId) as
         | {
@@ -276,6 +336,9 @@ export function seatAct(
     (b) => b.officeId === input.officeId,
   );
   if (!body) throw new Error("You don't sit on that body.");
+  // An executive's bill goes through a member (`seatAsk`), never drafted in their name.
+  if ("byRequest" in body && body.byRequest)
+    throw new Error("An executive asks a member (seatAsk).");
   // A budget line's amount in force today, as the writing screen shows it
   // beside the box: the player types the line's new amount, and a budget-line
   // section records the change to the line (`value`) on that amount (`of`),
@@ -331,6 +394,10 @@ export function seatAct(
       last = date;
     }
   }
+  if ("byRequest" in body && body.byRequest && input.steps?.length)
+    throw new Error(
+      "An executive's bill is sent as one amount, not a phase-in.",
+    );
   const provisions: Provision[] = input.steps?.length
     ? input.steps.map((step) => ({
         ...sectionOf(step.value),
@@ -730,4 +797,72 @@ function menusFor(
         reason: row.authority.reason,
       })),
   }));
+}
+
+/** Whether the person's bill to this body goes through a member (a single-seat executive's right). */
+export function isByRequest(
+  core: CoreState,
+  personId: string,
+  officeId: string | undefined,
+): boolean {
+  return bodiesOf(core, personId).some(
+    (b) => b.officeId === officeId && "byRequest" in b && b.byRequest,
+  );
+}
+
+/**
+ * An executive sends one bill to the body that votes on their government's bills: the
+ * member most inclined to carry it is asked (`proposeAsExecutive`, the one engine) and
+ * answers from their own position and tie to the executive. Returns who was asked, what
+ * they said and the bill when they carried it; a refusal files nothing.
+ */
+export function seatAsk(
+  core: CoreState,
+  personId: string,
+  input: {
+    officeId?: string;
+    series?: string;
+    question?: string;
+    line?: string;
+    value?: number;
+  },
+) {
+  const api = coreAPI(core);
+  const body = bodiesOf(core, personId).find(
+    (b) => b.officeId === input.officeId && "byRequest" in b && b.byRequest,
+  );
+  if (!body) throw new Error("You can't send a bill to that body.");
+  const provision: Provision = input.line
+    ? { kind: "budget-line", line: input.line, value: input.value ?? 0 }
+    : input.series
+      ? {
+          kind: "law-amount",
+          series: input.series,
+          value: input.value ?? 0,
+          unit:
+            menusFor(api, body.level, input.officeId!)
+              .flatMap((menu) => menu.items)
+              .find((row) => row.series === input.series)?.unit ?? undefined,
+        }
+      : {
+          kind: "policy-question",
+          question: input.question ?? "",
+          value: input.value ?? 1,
+        };
+  const asked = proposeAsExecutive(api, {
+    bodyOfficeId: input.officeId!,
+    provisions: [provision],
+  });
+  if (!asked)
+    throw new Error("No member of that body can be asked to carry it.");
+  return {
+    asked: {
+      memberId: asked.memberId,
+      name: personName(core, asked.memberId),
+      carried: asked.carried,
+      awaitingPlayer: asked.awaitingPlayer ?? false,
+      askId: asked.id,
+      billId: asked.billId,
+    },
+  };
 }

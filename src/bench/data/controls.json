@@ -1108,7 +1108,10 @@
     "title": "Draft a bill",
     "issue": "What it is about",
     "today": "In force today",
-    "newAmount": "The new amount"
+    "newAmount": "The new amount",
+    "askedCarried": "{name} agreed to carry your bill.",
+    "askedRefused": "{name} declined to carry your bill, and nothing was filed.",
+    "askedWaiting": "{name} is weighing it."
   },
   "journal": {
     "title": "My story",
