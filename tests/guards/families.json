@@ -176,13 +176,15 @@
         "src/core2/modules/outcome-web.ts",
         "src/core2/law-reach/applied.ts",
         "src/core2/modules/federal-courts.ts",
-        "src/core2/laws-in-force.ts"
+        "src/core2/laws-in-force.ts",
+        "src/core2/modules/police-patrol.ts"
       ],
       "paths": [
         "src/core2/modules/laws.ts",
         "src/core2/modules/justice.ts",
         "src/core2/modules/public-safety.ts",
         "src/core2/modules/crime.ts",
+        "src/core2/modules/police-patrol.ts",
         "src/core2/modules/corruption.ts",
         "src/core2/modules/outcome-web.ts",
         "src/core2/modules/prices-web-gaps.ts",

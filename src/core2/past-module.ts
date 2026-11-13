@@ -80,6 +80,7 @@ export {
   type HistoryWriter,
   type PreStartModule,
   type PreStartWindow,
+  wholePastOpened,
 } from "./pre-start";
 export {
   PAST_WORK_OUT,

@@ -57,6 +57,8 @@ const data = table as unknown as {
       readonly everyYears: number;
       readonly fromYear: number;
     };
+    /** Each holiday's name as people say it, by its id. */
+    readonly names: Readonly<Record<string, string>>;
   };
 };
 
@@ -207,6 +209,11 @@ export function federalHolidays(year: number): ReadonlyMap<string, string> {
   }
   holidayCache.set(year, out);
   return out;
+}
+
+/** A federal holiday's name as people say it, from the calendar's record. */
+export function federalHolidayName(id: string): string | null {
+  return data.holidays.names[id] ?? null;
 }
 
 export function federalHoliday(date: string): string | null {

@@ -4,7 +4,8 @@
  * joining a group meets its other members. Each meeting is a dated fact naming
  * the place and the other person, and the first tie holds the hours spent
  * together, so closeness grows only through later contact. A new hire
- * meets the coworkers already working there. Two people who talk meet each
+ * meets the coworkers already working there. A resident who speaks at public comment meets the members of the
+ * body who hear them. Two people who talk meet each
  * other.
  */
 import data from "./data/encounters.json" with { type: "json" };
@@ -23,7 +24,6 @@ export function meetAtVisit(
   const host = api.state.people.get(hostId);
   const visitor = api.state.people.get(visitorId);
   if (!host || !visitor) return api.parameter("zero");
-  api.stopgap(data.stopgapId);
   let met = api.parameter("zero");
   for (const id of api.state.households.get(host.householdId)?.memberIds ??
     []) {
@@ -70,7 +70,6 @@ export function meetAtJoin(
   organizationId: string,
   hours: number,
 ): number {
-  api.stopgap(data.stopgapId);
   const person = api.state.people.get(personId);
   if (!person) return api.parameter("zero");
   const place =
@@ -123,7 +122,6 @@ export function meetAtWork(
   hours: number,
   sourceId: string,
 ): number {
-  api.stopgap(data.stopgapId);
   const person = api.state.people.get(personId);
   if (!person) return api.parameter("zero");
   const place =
@@ -156,6 +154,35 @@ export function meetAtWork(
 }
 
 /**
+ * The people at a meeting who did not know the one they came to hear, met by
+ * name: each full person among `attendeeIds` meets `hostId` (a town hall's
+ * host, a seated member of the body), and the first tie holds `hours`, the
+ * time they sat in the room. A resident still in the counted population is
+ * not met (two-level population): the meeting leaves their record as it is
+ * until the player meets or clicks them. Returns how many were newly met.
+ */
+export function meetAtMeeting(
+  api: CoreAPI,
+  hostId: string,
+  attendeeIds: readonly string[],
+  placeId: string,
+  sourceId: string,
+  cause: string,
+  hours: number,
+): number {
+  const host = api.state.people.get(hostId);
+  if (!host?.alive) return api.parameter("zero");
+  let met = api.parameter("zero");
+  for (const id of attendeeIds) {
+    const attendee = api.state.people.get(id);
+    if (id === hostId || !attendee?.alive) continue;
+    if (api.meet(id, hostId, { placeId, sourceId, cause, hours }))
+      met += api.parameter("one");
+  }
+  return met;
+}
+
+/**
  * The person the player talked to, met once the talk really opens (a line is
  * said): each now knows the other by name, and the first tie holds the talk's
  * own time. Nobody else in the room is met by it. True when they had not met.
@@ -168,7 +195,6 @@ export function meetInTalk(
   hours: number,
   sourceId: string,
 ): boolean {
-  api.stopgap(data.stopgapId);
   const player = api.state.people.get(playerId);
   const other = api.state.people.get(otherId);
   if (!player || !other?.alive || playerId === otherId) return false;

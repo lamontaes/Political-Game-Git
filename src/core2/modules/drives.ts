@@ -998,11 +998,20 @@ export function respond(
       trace.driveId = identity.id;
       // Naming the one responsible fills them in with their household (an owner who lets a relative go): a counted
       // actor filled in just now is a full person, and they lived through the event as its subject.
-      if (counted && api.state.people.has(actor.id)) {
-        counted = false;
-        actor = api.state.people.get(actor.id)!;
+      // Someone returned to the counts (`stillCounted`) answers a counted
+      // event through their kept full record, and lived through it the same way.
+      const filledNow = counted && api.state.people.has(actor.id);
+      const experienced = `event:${event.id}:experienced`;
+      if (
+        filledNow ||
+        (!counted && isDemoted(actor) && !api.knows(actor.id, experienced))
+      ) {
+        if (filledNow) {
+          counted = false;
+          actor = api.state.people.get(actor.id)!;
+        }
         api.observe(actor.id, {
-          key: `event:${event.id}:experienced`,
+          key: experienced,
           value: event.id,
           learnedAt: event.date,
           sourceId: event.id,
