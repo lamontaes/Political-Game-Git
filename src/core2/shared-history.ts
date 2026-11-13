@@ -50,6 +50,34 @@ export interface SharedHistory {
   ended?: boolean;
 }
 
+/** True when a person's last school run, at this school, ended with this school year's last day. */
+function graduatedThisSummer(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  schoolId: string,
+): boolean {
+  if (core.date.slice(5) <= schoolDays.schoolYear.lastDay) return false;
+  const year = schoolYearOf(core.date);
+  return schoolSpans(core, personId).some(
+    (span) => span.schoolId === schoolId && span.final && span.to === year,
+  );
+}
+
+/** True when a person's school runs show them enrolled at a school today. */
+function enrolledAt(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  schoolId: string,
+): boolean {
+  const year = schoolYearOf(core.date);
+  return (
+    !graduatedThisSummer(core, personId, schoolId) &&
+    schoolSpans(core, personId).some(
+      (span) => span.schoolId === schoolId && span.to >= year,
+    )
+  );
+}
+
 /** The school year a date falls in, by its first calendar year (the year a September 1 start began). */
 function schoolYearOf(date: string): number {
   const year = Number(date.slice(0, 4));
@@ -302,8 +330,13 @@ export function sharedHistory(
       kind: "schoolmate",
       recordId: schoolA.schoolId,
       year: schoolA.year,
-      // Both attended it this school year: they are at school together now.
-      ...(schoolA.year < schoolYearOf(core.date) ? { ended: true } : {}),
+      // Both attended it this school year and are enrolled there today: a
+      // graduate is no longer once the year's last day has passed.
+      ...(schoolA.year < schoolYearOf(core.date) ||
+      graduatedThisSummer(core, a, schoolA.schoolId) ||
+      graduatedThisSummer(core, b, schoolA.schoolId)
+        ? { ended: true }
+        : {}),
     });
   // The school years before the start: two people share a school when their
   // runs at it overlap. A school the school engine's own rows already named is
@@ -322,22 +355,11 @@ export function sharedHistory(
           kind: "schoolmate",
           recordId: mine.schoolId,
           year: Math.max(mine.from, peer.from),
-          // A run lasts until this school year at most: each with a run there
-          // that reaches it is enrolled there now (a district holds several
-          // runs of one person, one per stage).
-          ...([mine.schoolId].every(
-            (school) =>
-              schoolSpans(core, a).some(
-                (span) =>
-                  span.schoolId === school &&
-                  span.to >= schoolYearOf(core.date),
-              ) &&
-              theirs.some(
-                (span) =>
-                  span.schoolId === school &&
-                  span.to >= schoolYearOf(core.date),
-              ),
-          )
+          // Each with a run there that reaches this school year is enrolled
+          // there now (a district holds several runs of one person, one per
+          // stage); a graduate's last run is over once its last day has passed.
+          ...(enrolledAt(core, a, mine.schoolId) &&
+          enrolledAt(core, b, mine.schoolId)
             ? {}
             : { ended: true }),
         });
