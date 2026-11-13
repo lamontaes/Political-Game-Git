@@ -1029,6 +1029,26 @@
       "what": "moved-in"
     },
     {
+      "kind": "justice.arrested-before",
+      "life": "law",
+      "what": "arrested"
+    },
+    {
+      "kind": "justice.convicted-before",
+      "life": "law",
+      "what": "convicted"
+    },
+    {
+      "kind": "justice.imprisoned-before",
+      "life": "law",
+      "what": "imprisoned"
+    },
+    {
+      "kind": "justice.released-before",
+      "life": "law",
+      "what": "released"
+    },
+    {
       "kind": "person.moved-within",
       "life": "move",
       "what": "moved-within"

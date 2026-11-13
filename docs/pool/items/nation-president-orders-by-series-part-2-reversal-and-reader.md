@@ -19,7 +19,7 @@ source: split from nation-president-orders-by-series in the pool redo, Nov 10, 2
 checked: fable 2026-11-10
 ---
 
-**What.** An unplayed President already weighs and issues the one federal order in president-acts.ts. Prove and, where it fails, fix the back-and-forth: the next President of the other side reverses an order by their own view, a law row for the series is in force from the next day citing the order and the President, and an engine reads it (the climate emissions index for the power-plant series, 24 months on). This is part 2 of nation-president-orders-by-series.
+**What.** An unplayed President already weighs and issues the one federal order in president-acts.ts. Prove and, where it fails, fix the back-and-forth: the next President of the other side reverses an order by their own view, a law row for the series is in force from the next day citing the order and the President, and an engine reads it (the climate emissions index for the power-plant series, 24 months on). This is part 2 of nation-president-orders-by-series. Seen: a federal law row changing the day after a new President reverses an order, and the economy reading it months later.
 
 **Cause.** Found in code: `presidentialOrderDecisions` and `issueFederalOrder` in src/core2/modules/executive.ts are called from src/core2/modules/president-acts.ts; no test follows an order, its reversal and a downstream reader across two Presidents.
 

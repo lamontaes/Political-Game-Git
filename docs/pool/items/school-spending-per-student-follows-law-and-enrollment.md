@@ -5,10 +5,10 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: #8969
 after:
 blocked-on:
 lead: laws-effects
