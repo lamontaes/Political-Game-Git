@@ -193,7 +193,7 @@ export function spokenOffice(note: string): string {
   const first = note
     // An aside inside the name ("County (local) board of elections") is
     // dropped, not where the name ends.
-    .replace(/\s*\([^)]*\)(?=\s+[a-z])/g, "")
+    .replace(/\s*\([^)]*\)(?=\s+(?!and\b|or\b)[a-z])/g, "")
     .split(/\s*[;(]|\s+\/\s+|,\s/)
     [P.zero]!.replace(/\s+(?:of|in) the candidate's\b.*$/i, "")
     .trim();
