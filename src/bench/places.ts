@@ -3,7 +3,8 @@
 import { personWorkOf } from "../core2/person-work";
 import { ageOnDate } from "../core2/kernel/dates";
 import { coreAPI, fillInPerson } from "../core2/state";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
+import { upcomingMeeting } from "../core2/modules/office-day";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName } from "../director/words";
 import { backdropStaging } from "./staging";
@@ -68,6 +69,51 @@ const SCHOOL_AGE_UNDER = 19;
  * organization with a picture (owner, Oct 13: "Why would you need to visit
  * the market?").
  */
+/** The levels of a body that meets at its town's or county's own office. */
+const LOCAL_BODIES = new Set([
+  "city",
+  "town",
+  "village",
+  "township",
+  "borough",
+  "county",
+]);
+
+/**
+ * The town's and county's offices the player has business at, by the
+ * government's name (the office record names it; its organization carries
+ * the same name, and may sit in the town's own jurisdiction rather than the
+ * census place the player lives in, as a New England town does), each with
+ * the record that is the reason: the seat they hold on its body, or the
+ * body's meeting today.
+ */
+function civicBusiness(
+  core: CoreState,
+  playerId: string,
+): Map<string, { kind: "seat" | "meeting"; recordId: string }> {
+  const api = coreAPI(core);
+  const business = new Map<
+    string,
+    { kind: "seat" | "meeting"; recordId: string }
+  >();
+  for (const { office, seat, holder } of townSeats(api)) {
+    const government = office.governmentName?.toLowerCase();
+    if (!government || !LOCAL_BODIES.has(office.level)) continue;
+    if (holder?.personId === playerId) {
+      business.set(government, { kind: "seat", recordId: seat.id });
+      continue;
+    }
+    if (business.has(government)) continue;
+    const meeting = office.seats > 1 ? upcomingMeeting(api, office.id) : null;
+    if (meeting && meeting.date === core.date)
+      business.set(government, {
+        kind: "meeting",
+        recordId: `${office.id}:${meeting.date}`,
+      });
+  }
+  return business;
+}
+
 /** A party's office: listed for its members (play-join-a-party-has-no-scene-and-no-headquarters). */
 const PARTY_OFFICE = "membership:political-party";
 
@@ -105,6 +151,11 @@ export function townPlaces(
       birth !== undefined && ageOnDate(birth, core.date) < SCHOOL_AGE_UNDER
     );
   });
+  // Where the player has political business by the records
+  // (play-travel-in-a-village-lists-no-town-office): the town's or county's
+  // office, while they hold a seat on its body or its body meets today.
+  // An office listed only for being an office stays out (owner, Oct 26).
+  const civic = civicBusiness(core, playerId);
   const official = coreAPI(core)
     .moduleState(OFFICES_MODULE_ID)
     .table("terms")
@@ -112,7 +163,10 @@ export function townPlaces(
     .some((row) => (row as { status?: string }).status === "serving");
   return (
     [...core.organizations.values()]
-      .filter((org) => org.placeId === player.placeId)
+      .filter(
+        (org) =>
+          org.placeId === player.placeId || civic.has(org.name.toLowerCase()),
+      )
       .flatMap((org) => {
         const place = orgPlace(core, org.id);
         if (!place || !hasBackdrop(place)) return [];
@@ -143,6 +197,9 @@ export function townPlaces(
           })),
           ...(official && STATE_OFFICES.has(org.classification ?? "")
             ? [{ kind: "serve" as const, recordId: org.id }]
+            : []),
+          ...(civic.has(org.name.toLowerCase())
+            ? [civic.get(org.name.toLowerCase())!]
             : []),
           // The office of a party the player belongs to (their membership record).
           ...(core.memberships.has(`${playerId}:${org.id}`) &&
