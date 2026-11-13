@@ -16,6 +16,7 @@
 /src/core2/stopgaps.ts @lamontaes
 /src/core2/seeded.ts @lamontaes
 /src/core2/world-base-rates.ts @lamontaes
+/src/core2/shares.ts @lamontaes
 /src/core2/world-draw.ts @lamontaes
 /src/core2/union-rate.ts @lamontaes
 /src/core2/module-*.ts @lamontaes
