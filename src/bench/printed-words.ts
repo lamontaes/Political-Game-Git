@@ -6,6 +6,7 @@
  * facts its news banks word. Every fact cites the printed story and the record
  * it came from. A record whose facts can't be said is left unworded here.
  */
+import { governmentProperName } from "../core2/government-proper-name";
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 import businessBooks from "../core2/data/business-books.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
@@ -1111,7 +1112,9 @@ const budgetHearing: Builder = (read, f) => {
     f.governmentId === "US"
       ? null
       : (read.place(f.governmentId) ??
-        (government ? governmentWords(government.name) : null));
+        (government
+          ? governmentProperName(government.name, f.governmentId ?? "")
+          : null));
   return story(
     "hearing",
     {
@@ -1166,21 +1169,6 @@ const budgetAdopted: Builder = (read, f) =>
     f,
   );
 
-/** A government's name as the books keep it ("COUNTY OF LANDER") read as a paper prints it ("Lander County"). */
-function governmentWords(name: string): string {
-  if (name !== name.toUpperCase()) return name;
-  const title = (words: string) =>
-    words
-      .toLowerCase()
-      .replace(
-        /(^|[\s-])([a-z])/g,
-        (_, gap: string, letter: string) => gap + letter.toUpperCase(),
-      );
-  const county = /^COUNTY OF (.+)$/.exec(name);
-  if (county) return `${title(county[1]!)} County`;
-  return title(name).replace(/\b(Of|The|And)\b/g, (word) => word.toLowerCase());
-}
-
 /**
  * A government's budget as the paper tells it: where and which year, its
  * largest line, and the totals it plans to spend and take in, read from the
@@ -1215,7 +1203,9 @@ function budgetStory(
   const place = federal
     ? null
     : (read.place(governmentId) ??
-      (government ? governmentWords(government.name) : null));
+      (government
+        ? governmentProperName(government.name, governmentId)
+        : null));
   const year = f.fiscalYear ?? (budget ? String(budget.fiscalYear) : "");
   return story(
     "budget-adopted",
