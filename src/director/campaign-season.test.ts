@@ -21,7 +21,12 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { campaignFor } from "../core2/modules/campaigns";
-import { openContests, playerMayFileFor } from "../core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  type FilingRow,
+  openContests,
+  playerMayFileFor,
+} from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
@@ -251,8 +256,16 @@ it("a filed candidate's months are never silent, and each season scene writes ba
     }));
     const longest = gaps.reduce((a, b) => (b.days > a.days ? b : a));
     const kinds = new Set(stops.map((row) => row.typeKey));
+    // Who else filed for the race, at any status (a rival who withdrew still
+    // filed, and was word around town).
+    const rivals = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byContest", [filed.id]) as unknown as FilingRow[]
+    ).filter((row) => row.personId !== me);
     console.log(
-      `CAMPAIGN SEASON ${where}: filed ${filed.id} on ${filedOn}, election ${filed.electionDate}\n` +
+      `CAMPAIGN SEASON ${where}: filed ${filed.id} on ${filedOn}, election ${filed.electionDate}, ${rivals.length} others filed\n` +
         `stops: ${stops.map((s) => `${s.date} ${s.typeKey}`).join("; ")}\n` +
         `stories: ${stories.map((s) => s.date).join(", ")}\n` +
         `longest quiet stretch ${longest.days} days (${longest.from} to ${longest.to}); kinds: ${[...kinds].join(", ")}\n` +
@@ -275,6 +288,17 @@ it("a filed candidate's months are never silent, and each season scene writes ba
       beats[0] && daysBetween(filedOn, beats[0]) <= GAP_DAYS,
       `${where}: first beat ${beats[0]}`,
     ).toBe(true);
+    // A race nobody else entered has no rival to file, no word of a rival's
+    // campaign and no debate: three of the five season kinds cannot fire
+    // (Forestbrook, South Carolina, seed cb0ee038e6ab80a99082:0, a school
+    // board seat the player won alone). It is named and the next place is
+    // drawn; every check above held for it.
+    if (!rivals.length) {
+      tried.push(
+        `${where}: no one else filed for ${filed.id} (season kinds ${[...fired].filter((kind) => SEASON_TYPES.has(kind)).join(", ")})`,
+      );
+      continue;
+    }
     // The middle of a quiet race is not yet filled: the longest stretch is
     // printed, and the parent item carries the 28-day rule there.
     // The season's kinds that fired (Northford, Connecticut, seed
@@ -288,5 +312,7 @@ it("a filed candidate's months are never silent, and each season scene writes ba
     expect(answered, `${where}: a season scene answered`).toBeGreaterThan(0);
     return;
   }
-  throw new Error(`no drawn place had a race to file in: ${tried.join("; ")}`);
+  throw new Error(
+    `no drawn place had a contested race to file in: ${tried.join("; ")}`,
+  );
 }, 3_600_000);

@@ -5,13 +5,13 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: open
 standard: 2
 claimed-by: claude/pool-roadmap-m1-flip-proven-three
-pr: #5875
+pr: "#8718"
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T06:31:57.349Z
+claimed-at:
 after:
 lead: m0-m2
 model: sonnet
@@ -56,3 +56,5 @@ Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md):
 Cause found (Nov 11, 2026, cause finder for Fable B): confirmed Fable's Nov 10 note against the check's code on main. The empty Swanton result is the check's own documented case, and the check already draws further places. Only the finish line is left, so the item is rewritten for a Sonnet run of three places and the flag flip.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:31 UTC) on branch claude/pool-roadmap-m1-flip-proven-three.
+
+Released by next (2026-11-11): no push to claude/pool-roadmap-m1-flip-proven-three since 2026-11-11 08:07 UTC, more than twice its 1-hour time box. Continue on branch claude/pool-roadmap-m1-flip-proven-three and pull request #5875.

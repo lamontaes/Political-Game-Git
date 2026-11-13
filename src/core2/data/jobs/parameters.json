@@ -593,6 +593,7 @@
   "jobsReofferRealRaiseShare": {
     "value": 0.1,
     "tag": "TUNABLE",
+    "role": "coefficient",
     "citation": "The real raise that makes an employer whose earlier offer a person turned down or let lapse ask again with the same job: what pay must rise beyond the nation's hourly earnings before the offer is a new one rather than the same call. Set near the premium job switchers earn over stayers each year (the Federal Reserve Bank of Atlanta's Wage Growth Tracker, 2024: about 1 to 2 points a year on a 4 to 5 percent base) compounded over the months a raise takes to build, so a cents-an-hour drift never counts. Checked against played years in which one employer phoned a jobless 17-year-old three times for the same job (Ninnekah, Oklahoma, seed 3dac8ffb3f3c).",
     "spread": {
       "low": 0.05,

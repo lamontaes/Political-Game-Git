@@ -266,6 +266,12 @@
       "stopgapId": "SG-EW-HEALTH-condition-record"
     },
     {
+      "link": "fare-free-transit-to-ridership",
+      "outcome": "transit.ridership",
+      "reason": "Under a fare-free law the transit fare is zero, so the price engine multiplies the web's ridership factor into a zero fare and the added riders move no money; no other engine reads transit.ridership (stopgap SG-WEB-fare-free-riders-unread).",
+      "stopgapId": "SG-WEB-fare-free-riders-unread"
+    },
+    {
       "link": "farm-payments-cut-to-land-values",
       "outcome": "farmland.value-per-acre",
       "reason": "engine doesn't read the factor: farmland.value-per-acre moves only in the web's monthly ledger; no engine multiplies its own rates by it",

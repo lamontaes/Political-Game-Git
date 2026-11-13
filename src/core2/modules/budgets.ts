@@ -19,6 +19,7 @@
  *   by the law in force (`tax-withholding.ts`), move from the worker's cash to
  *   each government's account through the journal on payday.
  */
+import { taxIndexOf } from "../tax-index";
 import type { GovernmentLevel } from "../government-level";
 import { corePlaceByKey } from "../place-lookup";
 import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
@@ -30,6 +31,7 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import priorGrowth from "../data/budgets/prior-year-growth.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
+import { OFFICES_MODULE_ID } from "./offices";
 import { lawApplied } from "../law-reach/applied";
 import type {
   HistoryWriter,
@@ -56,7 +58,12 @@ import {
 import { worldOffsetUnit } from "../world-draw";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import propertyTaxCaps from "../data/laws/property-tax-caps.json" with { type: "json" };
-import { registerPropertyTax } from "../housing-property-tax";
+import {
+  PROPERTY_TAX_AVERAGE_SOURCE,
+  registerPropertyTax,
+  stateEffectiveRate,
+} from "../housing-property-tax";
+import { placeStateKey } from "../place-map";
 import {
   lawChainForPlace,
   startingLawRows,
@@ -96,6 +103,71 @@ export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 export const PAYROLL_TAX_SERIES: Readonly<Record<string, string | undefined>> =
   { "social-security": "social-security-tax", medicare: "medicare-tax" };
 const WITHHOLDING_KIND = "budgets:withholding";
+
+/**
+ * The sitting elected executive (mayor, county executive or governor) of a
+ * government's jurisdiction, if anyone serves; null for none. A cut to a line
+ * names them so the department it pays for can come to them.
+ */
+function sittingExecutiveOf(
+  api: CoreAPI,
+  gov: Pick<GovernmentRow, "id" | "organizationId" | "jurisdictionId">,
+): string | null {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  // The offices name a local government by its unit (the treasury's
+  // government key), a state by its key and the nation as "US".
+  const keys = [
+    api.state.organizations.get(gov.organizationId)?.governmentFacts
+      ?.governmentKey,
+    gov.id,
+    gov.jurisdictionId,
+  ];
+  let office: { id: string; kind: string } | undefined;
+  for (const key of keys) {
+    if (!key) continue;
+    office = (
+      offices.table("offices").query("byJurisdiction", [key]) as unknown as {
+        id: string;
+        kind: string;
+      }[]
+    ).find((o) => /^(mayor|governor|county-executive|president)$/.test(o.kind));
+    if (office) break;
+  }
+  if (!office) return null;
+  for (const seat of offices
+    .table("seats")
+    .query("byOffice", [office.id]) as unknown as { id: string }[]) {
+    const term = (
+      offices
+        .table("terms")
+        .query("bySeatStatus", [seat.id, "serving"]) as unknown as {
+        personId: string;
+      }[]
+    )[0];
+    if (term?.personId) return term.personId;
+  }
+  return null;
+}
+
+/** The sitting executive, for a lowering change only (a raise names no one). */
+function executiveOfCut(
+  api: CoreAPI,
+  gov: Pick<GovernmentRow, "id" | "organizationId" | "jurisdictionId">,
+  delta: number,
+): string[] {
+  if (!(delta < 0)) return [];
+  const id = sittingExecutiveOf(api, gov);
+  return id ? [id] : [];
+}
+
+function executiveFact(
+  api: CoreAPI,
+  gov: Pick<GovernmentRow, "id" | "organizationId" | "jurisdictionId">,
+  delta: number,
+): { executiveId?: string } {
+  const [id] = executiveOfCut(api, gov, delta);
+  return id ? { executiveId: id } : {};
+}
 
 export interface GovernmentRow {
   readonly id: string;
@@ -171,6 +243,8 @@ export interface BudgetRow {
   readonly revenueMinor: Readonly<Record<string, number>>;
   readonly spendingMinor: Readonly<Record<string, number>>;
   readonly source: string;
+  /** Another state's budget: the country tier's row whose ledger it is a view of (outside-budgets). */
+  readonly ledgerId?: string;
 }
 
 interface WithholdingRecord {
@@ -1120,8 +1194,14 @@ export function syncSalesTax(api: CoreAPI): void {
  * the home's value), paid to the treasury that collects it: the county,
  * else the city, else the state.
  */
-function propertyTaxTerms(api: CoreAPI) {
+function propertyTaxTerms(api: CoreAPI, placeId?: string) {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return undefined;
+  // A home outside the played town is billed by its own place's terms, not
+  // the played town's rate and collector (owner, Nov 5: "It should be
+  // everywhere").
+  const town = api.state.placeMetadata?.housingTown;
+  if (placeId && town && placeId !== town)
+    return otherPlacePropertyTax(api, placeId);
   const answer = lawInForce(api, "property-tax");
   const row = answer.governing;
   if (!row || answer.value === null || !(answer.value >= 0)) return undefined;
@@ -1168,6 +1248,27 @@ function propertyTaxTerms(api: CoreAPI) {
       asOf: api.state.date,
       estimatedFrom:
         "Property tax in force, to the county's tax collector; a yes/no growth cap uses the registered assessment-cap estimate.",
+    },
+  };
+}
+
+/**
+ * Property tax for a home in a place whose law rows are not kept: its state's
+ * average effective rate (ACS, by state), paid to its place's outside account
+ * (the payee is left to `billPropertyTax`), marked as an estimate with its
+ * source. Never the played town's rate or collector.
+ */
+function otherPlacePropertyTax(api: CoreAPI, placeId: string) {
+  // stopgapId: SG-WORLD-property-tax-other-places-state-average
+  api.stopgap("SG-WORLD-property-tax-other-places-state-average");
+  const usps = placeStateKey(placeId)?.slice(3) ?? "";
+  return {
+    rate: stateEffectiveRate(usps),
+    source: {
+      tag: "ESTIMATED" as const,
+      citation: PROPERTY_TAX_AVERAGE_SOURCE.citation,
+      asOf: api.state.date,
+      estimatedFrom: `${usps || "national"} average effective property tax rate; no law row is kept for this place`,
     },
   };
 }
@@ -1654,7 +1755,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         id: `budget-line-changed:${budget.id}:${line}:adopted`,
         date: api.state.date,
         kind: "budget-line-changed",
-        personIds: [],
+        personIds: executiveOfCut(api, gov, delta),
         placeId: lawChain(api).townPlaceId,
         source: {
           tag: "SOURCED",
@@ -1668,6 +1769,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           level: gov.level,
           line,
           deltaMinor: String(delta),
+          ...executiveFact(api, gov, delta),
           measureId: `budget:${gov.id}:${fy}`,
         },
       });
@@ -1899,6 +2001,7 @@ function withholdingDue(
     incomeTax: law("income-tax"),
     socialSecurity: law("social-security-tax"),
     medicare: law("medicare-tax"),
+    index: taxIndexOf(api),
   });
   return { lines, ytdId, ytd };
 }
@@ -2172,7 +2275,7 @@ export function amendBudget(
     id: `budget-line-changed:${budget.id}:${input.line}:${input.measureId}`,
     date: api.state.date,
     kind: "budget-line-changed",
-    personIds: [],
+    personIds: executiveOfCut(api, gov, input.deltaMinor),
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
@@ -2186,6 +2289,7 @@ export function amendBudget(
       level: gov.level,
       line: input.line,
       deltaMinor: String(input.deltaMinor),
+      ...executiveFact(api, gov, input.deltaMinor),
       measureId: input.measureId,
       carried: input.carry ? "yes" : "no",
     },

@@ -15,7 +15,7 @@ import {
   type FilingRow,
 } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
-import { SPEECH_MODULE_ID } from "../core2/modules/speech";
+import { SPEECH_HEARD, SPEECH_MODULE_ID } from "../core2/modules/speech";
 import { askToVolunteer, campaignFor } from "../core2/modules/campaigns";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
@@ -249,8 +249,20 @@ function filingAndStops(
       `${filing.personId} filed ${filing.id}; clerk ${clerk.personId} (${clerk.basis} ${clerk.recordId}); scene ${entry!.momentId}`,
     );
   }
+  // Each speech's crowd as the speech engine emits it: the durable log drops
+  // a speech (a circle entry) three months after its day, so the crowd of an
+  // early speech is kept here, from the same event, when it is given.
+  const crowds = new Map<string, readonly string[]>();
+  const unsubscribe = api.subscribeEvents(
+    "electoral-scenes-test",
+    [SPEECH_HEARD],
+    (_api, event) => {
+      crowds.set(event.id, event.witnessIds ?? []);
+    },
+  );
   // The campaign runs to election day; each speech to a crowd is a stop.
   advanceCore(core, addDays(makeIsoDate(contest.electionDate), -1));
+  unsubscribe();
   let stops = 0;
   // A speech's address row is kept for good; its retellings are dropped 30
   // days after it, so a speech early in the campaign has none left by now.
@@ -272,7 +284,11 @@ function filingAndStops(
         `${where}: ${entry.momentId} cites no recorded speech`,
       ).toBeTruthy();
       // The crowd is the speech's recorded audience, kept on its event.
-      const heard = new Set(core.durableLog.get(speechId!)?.witnessIds ?? []);
+      const heard = new Set(crowds.get(speechId!) ?? []);
+      expect(
+        crowds.has(speechId!),
+        `${where}: ${speechId} was never heard`,
+      ).toBe(true);
       expect(
         scene.roles.find((row) => row.role === "candidate")!.personIds,
       ).toEqual([filing.personId]);

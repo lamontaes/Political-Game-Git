@@ -16,6 +16,8 @@ import {
   type GroundedEnglishPacket,
 } from "./grounded-english";
 import { journalDataFromBank } from "./mined/journal-bank";
+import articleSounds from "../../data/english/article-sounds.json" with { type: "json" };
+import seatWords from "../../data/english/seat-words.json" with { type: "json" };
 
 const zero = P.zero;
 const one = P.one;
@@ -582,11 +584,126 @@ export function journalEntry(parts: readonly JournalWorded[]): string {
   return parts.map((part) => part.text).join(" ");
 }
 
+/**
+ * A job title as people say it inside a sentence: lower case, each word, as
+ * "chief administrative officer" (the records spell it "Chief Administrative
+ * Officer"); a run of capitals (an initialism such as "IT") keeps them.
+ */
+export function jobSaid(title: string): string {
+  return title
+    .split(/(\s+)/)
+    .map((word) =>
+      /^[A-Z]{2,}[a-z]?$/.test(word.replace(/[^A-Za-z]/g, ""))
+        ? word
+        : word.toLowerCase(),
+    )
+    .join("");
+}
+
+/** "a" or "an" by the word's first sound ("a union", "an hour"), from data/english/article-sounds.json. */
+export function articleFor(word: string): "a" | "an" {
+  const start = word.toLowerCase();
+  if (articleSounds.a.some((prefix) => start.startsWith(prefix))) return "a";
+  if (articleSounds.an.some((prefix) => start.startsWith(prefix))) return "an";
+  return /^[aeiou]/.test(start) ? "an" : "a";
+}
+
+/** What an office's record says about its seat, enough to say it in a sentence. */
+export interface SeatRecord {
+  /** The office's title as its record spells it ("Council member", "Mayor"). */
+  readonly title: string;
+  /** How many seats the office has: more than one is a seat on a body. */
+  readonly seats?: number;
+  /** The body the seat sits on, by its record's name ("Mutual Village Council"). */
+  readonly bodyName?: string | null;
+  /** The district the seat is for, as its record codes it ("2", "038"). */
+  readonly district?: string | null;
+}
+
+/**
+ * A seat as people say it in a sentence (words in `data/english/seat-words.json`):
+ * a seat on a body by the body, "the Mutual Village Council" the first time a
+ * screen says it and "the council" after (`first: false`); a single office by
+ * its title in lower case, "mayor"; a district's seat with its district,
+ * "state representative in District 38", then "the seat". The title's
+ * parenthesis (a form's note) is never said. Nothing here names an office or
+ * a place: each comes from the record.
+ */
+export function seatSaid(
+  seat: SeatRecord,
+  options: { first?: boolean } = {},
+): string {
+  const first = options.first ?? true;
+  const title = seat.title.replace(/\s*\([^)]*\)/g, "").trim();
+  // A seat for a district (a House or legislative seat) is said by its
+  // district, whatever body it sits in.
+  const district = (seat.district ?? "").trim().replace(/^0+(?=\w)/, "");
+  const districted =
+    !!district && !/^0+$/.test(district) && !/^at[- ]large$/i.test(district);
+  if (districted)
+    return first
+      ? seatWords.district
+          .replace("{office}", jobSaid(title))
+          .replace("{n}", district)
+      : seatWords.districtAgain;
+  if ((seat.seats ?? one) > one) {
+    // The body by its record's name, or the title without its member word or
+    // seat number ("City Council, Seat 2" is a seat on the city council).
+    // A body's own name that starts with "the" keeps it once.
+    const body =
+      seat.bodyName?.trim().replace(/^the\s+/i, "") ||
+      title
+        .replace(/,.*$/, "")
+        .replace(/\s+(?:member|seat)$/i, "")
+        .trim();
+    const named = seat.bodyName?.trim() ? body : jobSaid(body);
+    const last = body.split(/\s+/).at(-one) ?? body;
+    return seatWords.body.replace("{body}", first ? named : jobSaid(last));
+  }
+  return jobSaid(title);
+}
+
 /** A job title as a sentence says it after "works as": "a county clerk", "an electrician". */
 export function withArticle(title: string): string {
-  const said =
-    title.length > one && title.charAt(one) === title.charAt(one).toLowerCase()
-      ? title.charAt(zero).toLowerCase() + title.slice(one)
-      : title;
-  return `${/^[aeiou]/i.test(said) ? "an" : "a"} ${said}`;
+  const said = jobSaid(title);
+  return `${articleFor(said)} ${said}`;
+}
+
+/** What an employer's record says it is, enough to say its name in a sentence. */
+export interface EmployerRecord {
+  readonly kind: string;
+  readonly classification?: string;
+  readonly governmentFacts?: Readonly<Record<string, unknown>>;
+}
+
+/**
+ * An employer's name as people say it in a sentence, from the kind of its
+ * record, never a list of names: a government or one of its offices takes
+ * "the" ("the Island Falls Police Department"), by the government it belongs
+ * to on record; a government's treasury is not an employer, so the government
+ * is said ("the Village of Athens", "the government of Maine", "the federal
+ * government"; skill words-engine). A school system ("Island Falls Public
+ * Schools"), a business or any other employer keeps its name as it stands.
+ * `name` is the name as the reader already spells it (`properName`).
+ */
+export function employerSaid(name: string, record: EmployerRecord): string {
+  if (record.kind === "government-outside")
+    return name === "US"
+      ? "the federal government"
+      : `the government of ${name}`;
+  if (record.kind === "government-treasury") {
+    const government = name.replace(/\s+treasury$/i, "");
+    return /\bof\b/.test(government)
+      ? `the ${government}`
+      : `the government of ${government}`;
+  }
+  // A business keeps its name, whatever public contracts its record lists.
+  const business = !!record.classification?.startsWith("enterprise:");
+  const government =
+    !!record.governmentFacts?.governmentKind ||
+    !!record.governmentFacts?.governmentKey;
+  const schools = record.classification === "service:school";
+  return government && !business && !schools && !/^the\s/i.test(name)
+    ? `the ${name}`
+    : name;
 }

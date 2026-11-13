@@ -289,6 +289,11 @@ function staffHeads(c: CoreState, jobs: readonly JobInput[]): number {
   return heads;
 }
 
+/** How many people an employer has on staff now, full people and counted workers alike. */
+export function staffCount(api: CoreAPI, organizationId: string): number {
+  return staffHeads(core(api), currentJobs(api, organizationId));
+}
+
 /** The jobs an opening stands for. */
 const positionHeads = (position: Pick<PositionRow, "heads">): number =>
   position.heads ?? 1;
@@ -428,7 +433,7 @@ function noteLeaver(
 }
 
 /** A job by id, a full person's or a counted worker's. */
-function jobById(api: CoreAPI, jobId: string): JobInput | undefined {
+export function jobById(api: CoreAPI, jobId: string): JobInput | undefined {
   return (
     core(api).jobs.get(jobId) ?? residentsRuntime(core(api))?.jobs.get(jobId)
   );
@@ -5146,3 +5151,4 @@ export { residentEmploymentRate } from "../opening-employment";
 export { countySectorEmployment } from "../town-employment-mix";
 export { nationalMedianAnnualWage } from "../town-pay";
 export { workedToday } from "../job-lifecycle";
+export { openingWorkStatus } from "../jobs-elsewhere";

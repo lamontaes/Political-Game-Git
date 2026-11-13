@@ -43,8 +43,9 @@ try {
   };
   await choose("skin", "deep");
   await page.locator("#cr-bust .bust-stack:not(.loading)").waitFor();
-  // The bust the creator shows, without its top (the top follows where the person is).
-  const worn = (layers) => layers.filter((url) => !/\/top-/.test(url));
+  // The bust the creator shows, without its clothes (they follow where the person is).
+  const worn = (layers) =>
+    layers.filter((url) => !/\/(top|shirt|tie|jacket)-/.test(url));
   const made = worn(
     await page.evaluate(() =>
       [...document.querySelectorAll("#cr-bust .bust-stack img")].map(
