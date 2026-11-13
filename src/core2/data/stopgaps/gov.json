@@ -2261,18 +2261,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-petition-electorate-cap",
-    "kind": "partial-model",
-    "file": "src/core2/modules/voting.ts",
-    "line": 599,
-    "whatItFakes": "A local race's petition asks at most petitionMaxShareOfVoters (10%) of the town's voters, at least one, wherever the law's count or the estimated median would ask more: one share for every place, not each place's own percentage, minimum and maximum.",
-    "why": "The places' rows give a fixed count or a median estimate that does not scale with the town, so a town of a few dozen adults was asked for 30 signatures (Johnson, Minnesota). The rows' own formulas scale with the place's voters (Vermont 30 or 1% whichever is less; Iowa 2% minimum 10; North Dakota 10% maximum 300; North Carolina 10% maximum 200; Arizona 5% to 10%).",
-    "addedBy": "Lane 1 (elections-petition-larger-than-the-town)",
-    "addedAt": "2026-11-03",
-    "replacement": "Each place's own petition formula read into data (its percentage, base, minimum and maximum) and applied to the town's voters, so the cap is the law's own and no common share is needed.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-home-local-district",
     "kind": "missing-data",
     "file": "src/core2/modules/elections.ts",

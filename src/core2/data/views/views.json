@@ -168,6 +168,13 @@
       "citation": "How much larger a layoff's shift is for someone at the conservative end of the scale than at the center: the effect was 'appreciably larger among Republicans than among Democrats' (Margalit 2013, abstract). Spread 0 to 1.",
       "stopgapId": "SG-PEOPLE-past-views-sizes",
       "role": "coefficient"
+    },
+    "pastOwnLayoffTurnWeight": {
+      "value": 1.5,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "citation": "How far a person's traits turn their own layoff's shift: the shift's direction is -1 plus this times their lean toward blaming outsiders over leaning on help (-1 to 1), so the average stays leftward (Margalit 2013) and those leaning furthest to blame turn right (Autor, Dorn, Hanson and Majlesi 2020, AER 110(10), abstract: 'pure rightward shifts in others'). Checked by the share of laid-off adults who move right and the town's party shares staying inside the CES spread; spread 1 to 2.",
+      "stopgapId": "SG-PEOPLE-past-views-sizes"
     }
   },
   "labels": [

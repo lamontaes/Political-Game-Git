@@ -8,6 +8,9 @@
 //   BENCH_BROWSER=/opt/pw-browsers/chromium node src/bench/one-face.browser.mjs [shots dir]
 // STATE and TOWN name a place to search in the creator (the audit's repro:
 // STATE="New Hampshire" TOWN=Blodgett); without them a state and town are drawn.
+// SEED replays a life's seed (the new-life request's own `seed`), so a drawn
+// place a run names can be played again; NEWLIFE replays a whole new-life
+// request's query (seed, place, person, settings), as a run printed it.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { playOpening } from "./start-life.mjs";
@@ -39,6 +42,13 @@ const faceIn = async (selector) => {
 };
 const seen = {};
 try {
+  if (process.env.SEED || process.env.NEWLIFE)
+    await page.route("**/api/newlife?*", (route) => {
+      const url = new URL(route.request().url());
+      if (process.env.NEWLIFE) url.search = process.env.NEWLIFE;
+      else url.searchParams.set("seed", process.env.SEED);
+      return route.continue({ url: url.toString() });
+    });
   await page.goto(`${base}/play`);
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
@@ -77,6 +87,8 @@ try {
     body.placeName,
     "Seed:",
     new URL(made.url()).searchParams.get("seed"),
+    "NEWLIFE:",
+    new URL(made.url()).search.slice(1),
   );
   await page.waitForFunction(
     () => document.getElementById("card-name")?.textContent.trim(),
@@ -115,9 +127,13 @@ try {
     await shot(tab);
   }
   await page.keyboard.press("Escape");
+  // People opens on a card of someone at home; a child's card draws an empty
+  // bust frame with no size (ui/face.mjs `columnBust`), so no frame need be
+  // shown. People is ready when its roster is (ui/roster-screen.mjs), whoever
+  // the open card is; the faces are read after.
   ms.people = await timed(
     () => page.locator('#rings [data-tab="people"]').click(),
-    "#sheet .mxbust .bust-stack",
+    "#sheet .roster-screen",
   );
   await page.waitForTimeout(800);
   await shot("people");
