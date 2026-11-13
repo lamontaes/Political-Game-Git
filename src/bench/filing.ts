@@ -25,7 +25,7 @@ import {
   sayAtCounter,
   counterNarration,
   petitionAtCounter,
-  spokenOffice,
+  saidOffice,
   filedAtCounter,
   openFilingVisit,
   pickContest,
@@ -258,7 +258,37 @@ export function openBenchFilingVisit(
   // filing: while its petition gathers signatures the clerk says where it
   // stands; with nothing left to do there is no scene (Fable A, Nov 13,
   // rule 19).
-  const here = contests.length ? null : filedHere(core, playerId, filedWith);
+  const mineHere = filedHere(core, playerId, filedWith);
+  const here = contests.length ? null : mineHere;
+  // Back for another race with one already filed here: the clerk opens from
+  // that filing (Fable A, Nov 13, Miracle Valley, Arizona).
+  const filedRow =
+    contests.length && mineHere
+      ? (api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .get(mineHere.contestId) as unknown as
+          | { title: string; officeId: string; district?: string | null }
+          | undefined)
+      : undefined;
+  const filedOffice = filedRow
+    ? (offices.get(filedRow.officeId) as unknown as OfficeRecord | undefined)
+    : undefined;
+  const back =
+    mineHere && filedRow
+      ? {
+          filingId: mineHere.id,
+          seat: {
+            title: filedRow.title,
+            seats: filedOffice?.seats ?? 1,
+            bodyName:
+              (filedOffice?.seats ?? 1) > 1
+                ? (filedOffice?.bodyName ?? null)
+                : null,
+            district: filedRow.district ?? null,
+          },
+        }
+      : undefined;
   // A race that takes no signatures has no petition for the clerk to tell
   // (Fable A, Nov 13: "a thing that does not exist for this race is not
   // shown and not told").
@@ -282,6 +312,7 @@ export function openBenchFilingVisit(
           contests,
           clerk ?? undefined,
           filedWith,
+          back,
         );
   const place = officePlace(filedWith);
   const player = core.people.get(playerId)!;
@@ -319,14 +350,15 @@ export function openBenchFilingVisit(
         ? counterNarration(
             core,
             visit,
-            / or /i.test(spokenOffice(filedWith))
-              ? clerkRow
-              : { ...clerkRow, title: spokenOffice(filedWith) },
+            saidOffice(filedWith, contests)
+              ? { ...clerkRow, title: saidOffice(filedWith, contests)! }
+              : clerkRow,
             // The player's own filing is the visit's business only when no
             // race is left here to file for; with races left, the visit is
             // for one of them, never "back with your petition" (Miracle
-            // Valley, Arizona, seed w3-return-1).
-            here,
+            // Valley, Arizona, seed w3-return-1); back for one of them, it
+            // is a return.
+            here ?? (back ? mineHere : null),
             minuteOfDay,
           )
         : [],

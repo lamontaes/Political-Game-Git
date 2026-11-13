@@ -120,7 +120,9 @@
     "filed-at-counter": "That the player filed at the counter, in the clerk's scene there: the record of the reply that filed.",
     "filed-so-far": "How many have filed for the office so far, said before the player files (\"two candidates\"), from the elections engine's filings.",
     "signed": "How many signatures a petition holds so far, from the petition record.",
-    "none-signed": "That a petition holds no signatures yet, from the petition record."
+    "none-signed": "That a petition holds no signatures yet, from the petition record.",
+    "filed-office": "The office the player already filed for at this counter, from the filing's contest record.",
+    "back-again": "Set when the player is back at a counter where their own filing is already in, for another race."
   },
   "maxWords": 70,
   "parts": [
@@ -34538,7 +34540,7 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "excludesFacts": ["returning", "on-ballot"]
+          "excludesFacts": ["back-again", "on-ballot", "returning"]
         }
       ],
       "bearing": "calm",
@@ -54200,7 +54202,7 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "requiresFacts": ["incumbent"],
-          "excludesFacts": ["returning", "on-ballot"]
+          "excludesFacts": ["back-again", "on-ballot", "returning"]
         }
       ],
       "bearing": "calm",
@@ -54226,7 +54228,7 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "requiresFacts": ["incumbent"],
-          "excludesFacts": ["returning", "on-ballot"]
+          "excludesFacts": ["back-again", "on-ballot", "returning"]
         }
       ],
       "bearing": "calm",
@@ -60166,7 +60168,7 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "requiresFacts": ["incumbent"],
-          "excludesFacts": ["returning", "on-ballot"]
+          "excludesFacts": ["back-again", "on-ballot", "returning"]
         }
       ],
       "bearing": "calm",
@@ -71645,7 +71647,7 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "requiresFacts": ["office", "post"],
-          "excludesFacts": ["returning", "on-ballot"]
+          "excludesFacts": ["back-again", "on-ballot", "returning"]
         }
       ],
       "bearing": "calm",
@@ -117275,6 +117277,81 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.begins-youre-back-at-the-posts-office-name-knows-you-from-last-time",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{begins}, you're back at the {post}'s office. {name} knows you from last time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["back-again", "begins", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.begins-youre-back-at-the-posts-counter-and-name-waves-you-over",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{begins}. You're back at the {post}'s counter, and {name} waves you over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["back-again", "begins", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.youre-back-at-the-posts-office-name-looks-up-from-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You're back at the {post}'s office. {name} looks up from the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["back-again", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.reply-tell.we-didnt-win",
       "move": "reply-tell",
       "kind": "spoken",
@@ -161021,6 +161098,78 @@
       "piece": {
         "of": "filing-greet",
         "part": "closer"
+      }
+    },
+    {
+      "key": "scene-talk.state-greet-back.back-again-your-papers-for-filed-office-are-in",
+      "move": "state-greet-back",
+      "kind": "spoken",
+      "text": "Back again? Your papers for {filed-office} are in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-back",
+          "role": "asker",
+          "requiresFacts": ["filed-office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "greet-back",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-greet-back.youre-filed-for-filed-office-something-else",
+      "move": "state-greet-back",
+      "kind": "spoken",
+      "text": "You're filed for {filed-office}. Something else?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-back",
+          "role": "asker",
+          "requiresFacts": ["filed-office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "greet-back",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-greet-back.good-to-see-you-again-ive-got-your-filing-for-filed-office-what-else-can-i-do-fo",
+      "move": "state-greet-back",
+      "kind": "spoken",
+      "text": "Good to see you again. I've got your filing for {filed-office}. What else can I do for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-back",
+          "role": "asker",
+          "requiresFacts": ["filed-office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "greet-back",
+        "key": "routine"
       }
     },
     {

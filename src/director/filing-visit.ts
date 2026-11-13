@@ -129,6 +129,12 @@ export function openFilingVisit(
   clerkId?: PersonId,
   /** The office that takes these filings, as its record names it. */
   filedWith?: string,
+  /**
+   * The player's own filing at this counter, when they are back for another
+   * race: the clerk who took it does not introduce themself again and opens
+   * from it (Fable A, Nov 13: "Back again? Your papers for {office} are in.").
+   */
+  back?: { filingId: string; seat: SeatRecord },
 ): FilingVisit {
   const visit: FilingVisit = {
     playerId,
@@ -139,20 +145,29 @@ export function openFilingVisit(
   };
   // The clerk greets the player by the town and the office they are in, and
   // says who they are where the records name the clerk.
-  const greet = visitLine(core, visit, "clerk", "greet-counter", {
-    ...placeFact(core, playerId),
-    // An office the record names only as a choice ("City or town clerk")
-    // is no name a clerk says of their own office; the town is said instead.
-    ...(filedWith && !/ or /i.test(spokenOffice(filedWith))
-      ? {
-          where: {
-            text: titleInSentence(spokenOffice(filedWith)),
-            sourceRecordIds: contests.map((row) => row.id),
-          },
-        }
-      : {}),
-    ...clerkFact(core, clerkId),
-  });
+  const greet = back
+    ? visitLine(core, visit, "clerk", "greet-back", {
+        "filed-office": {
+          text: seatSaid(back.seat, { first: false }),
+          sourceRecordIds: [back.filingId],
+        },
+        ...clerkFact(core, clerkId),
+      })
+    : visitLine(core, visit, "clerk", "greet-counter", {
+        ...placeFact(core, playerId),
+        // An office the record names only as a choice ("City or town clerk") is
+        // said as the place's own kind; where the records do not settle it, the
+        // town is said instead.
+        ...(filedWith && saidOffice(filedWith, contests)
+          ? {
+              where: {
+                text: titleInSentence(saidOffice(filedWith, contests)!),
+                sourceRecordIds: contests.map((row) => row.id),
+              },
+            }
+          : {}),
+        ...clerkFact(core, clerkId),
+      });
   if (greet) visit.lines.push({ speaker: "clerk", ...greet });
   for (const contest of contests) {
     const line = visitLine(
@@ -203,6 +218,37 @@ export function spokenOffice(note: string): string {
 }
 
 /**
+ * The filing office as the place says it. A research note that names a choice
+ * ("City or town clerk") is settled by the kind of place the races here are
+ * for, read from their own names ("Town of Wareham Select Board": the town
+ * clerk; Fable A, Nov 13, rule 8). Null when the records do not settle it.
+ */
+export function saidOffice(
+  note: string,
+  races: readonly {
+    title: string;
+    seat?: { bodyName?: string | null } | null;
+  }[],
+): string | null {
+  const office = spokenOffice(note);
+  const choice = /^(\w+) or (\w+) (.+)$/i.exec(office);
+  if (!choice) return / or /i.test(office) ? null : office;
+  const kind = races
+    .map(
+      (race) =>
+        /\b(Town|City|Village|Borough) of\b/.exec(
+          `${race.seat?.bodyName ?? ""} ${race.title}`,
+        )?.[1],
+    )
+    .find((word) => word !== undefined);
+  if (!kind) return null;
+  const word = [choice[1]!, choice[2]!].find(
+    (option) => option.toLowerCase() === kind.toLowerCase(),
+  );
+  return word ? `${kind} ${choice[3]!}` : null;
+}
+
+/**
  * A title as it is said inside a sentence: one the record capitalizes only at
  * its start ("Town clerk") is a common noun ("the town clerk"); one with
  * proper names ("Secretary of State") stays as written.
@@ -241,10 +287,14 @@ export function pickContest(
       text: spokenDate(contest.filingDeadline, core.date),
       sourceRecordIds: ids,
     },
-    where: {
-      text: titleInSentence(spokenOffice(terms.filedWith)),
-      sourceRecordIds: ids,
-    },
+    ...(saidOffice(terms.filedWith, visit.contests)
+      ? {
+          where: {
+            text: titleInSentence(saidOffice(terms.filedWith, visit.contests)!),
+            sourceRecordIds: ids,
+          },
+        }
+      : {}),
   };
   visit.choices = [];
   visit.picked = { contestId, facts, path: [] };
@@ -712,7 +762,13 @@ export function counterNarration(
       : {}),
     ...(filing
       ? {
-          [filing.status === "petitioning" ? "returning" : "on-ballot"]: {
+          // Back for another race while the first is filed: a return,
+          // not the petition's handover.
+          [visit.contests.length
+            ? "back-again"
+            : filing.status === "petitioning"
+              ? "returning"
+              : "on-ballot"]: {
             text: "yes",
             sourceRecordIds: [filing.id],
           },

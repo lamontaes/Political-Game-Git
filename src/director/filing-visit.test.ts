@@ -8,6 +8,7 @@ import {
   sayAtCounter,
   openFilingVisit,
   pickContest,
+  saidOffice,
   spokenOffice,
   type FilingCheck,
 } from "./filing-visit";
@@ -242,4 +243,41 @@ it("names every filing office without the research note's glosses", () => {
     expect(said, note).not.toMatch(/candidate|[;()]/i);
     expect(said.split(" ").length, note).toBeGreaterThan(1);
   }
+});
+
+// Back for another race with one filed here: the clerk who took the filing
+// opens from it and does not introduce themself again (Fable A, Nov 13,
+// Miracle Valley, Arizona, seed w3-return-1).
+it("greets a candidate back for another race from the filing on record", () => {
+  const clerk = [...core.people.values()].find(
+    (row) => row.id !== player.id && row.tier !== "husk",
+  )!;
+  const visit = openFilingVisit(
+    core,
+    player.id,
+    [contest],
+    clerk.id,
+    "City Clerk",
+    {
+      filingId: "filing:fixture",
+      seat: { title: "Mayor", seats: 1, bodyName: null },
+    },
+  );
+  const greeting = visit.lines[0]!;
+  expect(greeting.text).toMatch(/mayor/i);
+  expect(greeting.text).not.toMatch(/I'm|I am/);
+  expect(greeting.sourceRecordIds).toContain("filing:fixture");
+});
+
+// An office the research names as a choice is said as the place's own kind,
+// read from the races' names (Fable A, Nov 13, West Wareham, Massachusetts:
+// "I'll be back at the city or town clerk soon").
+it("says a choice of office as the kind of place the races are for", () => {
+  const town = [{ title: "Town of Wareham Select Board" }];
+  expect(saidOffice("City or town clerk", town)).toBe("Town clerk");
+  expect(
+    saidOffice("Town or city clerk", [{ title: "City of Hope Council" }]),
+  ).toBe("City clerk");
+  expect(saidOffice("City or town clerk", [{ title: "Board" }])).toBeNull();
+  expect(saidOffice("Town clerk (party)", [])).toBe("Town clerk");
 });

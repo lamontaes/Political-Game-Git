@@ -1,6 +1,6 @@
 import { lastTimeOf } from "./last-time";
 import { raceTitle } from "./race-words";
-import { spokenOffice } from "../director/filing-visit";
+import { saidOffice, spokenOffice } from "../director/filing-visit";
 import { properName } from "../director/words";
 import { ageOnDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
@@ -327,7 +327,9 @@ export function governmentView(core: CoreState, personId: string) {
       // The office as people say it, one name for the counter and Travel.
       filingOffice: {
         ...filingOfficeFor(api, contest.id),
-        said: spokenOffice(filingOfficeFor(api, contest.id).filedWith),
+        said:
+          saidOffice(filingOfficeFor(api, contest.id).filedWith, [contest]) ??
+          spokenOffice(filingOfficeFor(api, contest.id).filedWith),
       },
       checks: core.people.has(personId)
         ? checkEligibility(api, personId, contest.id)
