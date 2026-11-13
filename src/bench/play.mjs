@@ -14,6 +14,7 @@ import {
   mountSpeakers,
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
+import { metricsChange, metricsFigure } from "./ui/metrics-change.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { personCard } from "./ui/person-card.mjs";
@@ -3824,29 +3825,16 @@ const sheets = {
   async metrics() {
     const view = await api("/api/metrics");
     const words = controls.metrics;
-    const figure = (row, value) =>
-      row.unit === "dollars"
-        ? roundedMoney(Math.round(value * 100))
-        : row.unit === "money"
-          ? roundedMoney(Math.round(value))
-          : row.unit === "count"
-            ? Math.round(value).toLocaleString("en-US")
-            : `${value.toFixed(1)} ${words.percent}`;
+    const figure = (row, value) => metricsFigure(row, value, words.percent);
     const sections = view.sections.map((section, at) =>
       stripSection(
         at + 1,
         // A section that shows one government's books is headed by that government's name.
         section.name ?? words[section.key],
         ...section.rows.map((row) => {
-          const moved = row.before === null ? null : row.now - row.before;
+          const change = metricsChange(row);
           const direction =
-            moved === null
-              ? ""
-              : Math.abs(moved) < 0.05
-                ? words.same
-                : moved > 0
-                  ? words.up
-                  : words.down;
+            change.direction === null ? "" : words[change.direction];
           return typedRow(
             words[row.key],
             // A small town's count shows the people behind it ("13 of 86").
@@ -3855,7 +3843,7 @@ const sheets = {
               : `${figure(row, row.now)} ${words.of} ${figure(row, row.of)}`,
             row.before === null
               ? ""
-              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
+              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, change.size, words.since].filter(Boolean).join(" ")}`,
           );
         }),
       ),
