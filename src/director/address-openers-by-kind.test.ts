@@ -289,11 +289,20 @@ describe("the bank holds each kind's own greeting, occasion, oath, creed and uni
         // A greeting is a list of people and belongs to every kind (speech
         // outline, Nov 12): it is counted with the general pieces, not here.
         if (role === "salutation") continue;
+        // A governor's or a town's occasion carries the year's record or goes
+        // straight to the theme (owner, Nov 12, through the words lead): the
+        // 64 kind-own occasion lines that carried no record were deleted on
+        // purpose, so an occasion piece that belongs to every kind counts
+        // toward each kind here, as a greeting does. The President's
+        // occasion keeps the kind-own rule.
+        const shared =
+          role === "occasion" &&
+          !["inaugural", "state-of-the-union"].includes(subject);
         for (const kind of ADDRESS_KINDS)
           for (const voice of VOICES) {
             const own = OPENING_SPEECH_BANK.parts.filter(
               (part) =>
-                part.addressKind === kind &&
+                (part.addressKind === kind || (shared && !part.addressKind)) &&
                 partHolds(part.voice, voice) &&
                 part.uses.some(
                   (use) => use.subject === subject && use.role === role,
@@ -398,9 +407,12 @@ describe("the bank holds each kind's own greeting, occasion, oath, creed and uni
             expect(result.kind, `${subject} ${kind} ${voice} ${stage}`).toBe(
               "rendered",
             );
+            // The Speaker is addressed by office and name through said-as
+            // ("Speaker {name}"): "Mr." and "Madam" guessed a person's sex
+            // from nothing on record and are gone (the words lead, Nov 12).
             if (subject === "state-of-the-union")
               expect(result.kind === "rendered" && result.text).toMatch(
-                stage === "chair-male" ? /^Mr\. Speaker/ : /^Madam Speaker/,
+                /^Speaker [A-Z]/,
               );
           }
   });
