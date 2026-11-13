@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/red-main-press-comment-probe-strangers
-pr:
+pr: 8983
 after:
 blocked-on:
 lead: words
