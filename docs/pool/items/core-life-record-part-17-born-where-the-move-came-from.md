@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: opus-lr
 pr: #8987
@@ -17,6 +17,7 @@ effort: medium
 root: design-life-record
 source: Fable A's read of #8957's cards, Nov 13, 2026, filed by the Life records builder opus-lr
 checked: opus-lr 2026-11-13
+merged-at: 2026-11-13T03:40:33.209Z
 ---
 
 **What.** The owner, Nov 8: "None of my history is simulated." A card can say "I was born in Angoon, Alaska in 2007." and then "In 2008, I moved to Angoon, Alaska." (Fable A, Nov 13, Angoon AK seed lrcard03; the same in Cayuse OR seed lrcard01 and Diamondville WY seed lrcard04). Seen: a person's card, whose birthplace and moves agree.
