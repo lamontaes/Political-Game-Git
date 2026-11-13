@@ -276,6 +276,7 @@
 /src/core2/home-distance.ts @lamontaes
 /src/core2/sibling-names.ts @lamontaes
 /src/core2/modules/partnerships.ts @lamontaes
+/src/core2/modules/owed-talks.ts @lamontaes
 /src/core2/modules/kin-contact.ts @lamontaes
 /src/core2/modules/mentorship.ts @lamontaes
 /src/core2/modules/rescue.ts @lamontaes

@@ -65,6 +65,7 @@ import {
   scheduleBirthdays,
 } from "./kin-contact";
 import { declareSnapshotCovered } from "../snapshot";
+import { OWED_TALK_KIND, noteReply, owedTalkComesDue } from "./owed-talks";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -947,7 +948,14 @@ export const partnershipsModule: CoreModule = {
   id: PARTNERSHIPS_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { state: {}, pulls: {}, couples: {}, contacts: {}, jobsSeen: {} },
+    tables: {
+      state: {},
+      pulls: {},
+      couples: {},
+      contacts: {},
+      jobsSeen: {},
+      owed: {},
+    },
   },
   // A death ends the person's pull, so the table holds only the living.
   eventKinds: [
@@ -966,6 +974,7 @@ export const partnershipsModule: CoreModule = {
       return;
     }
     if (event.kind === "scene.reply") {
+      noteReply(api, event);
       answerProposal(api, event);
       return;
     }
@@ -979,6 +988,10 @@ export const partnershipsModule: CoreModule = {
   onCalendarWork(api, work) {
     if (work.kind === BIRTHDAY_KIND) {
       birthdayGathering(api, work.key);
+      return;
+    }
+    if (work.kind === OWED_TALK_KIND) {
+      owedTalkComesDue(api, work.sourceRecordIds[1] ?? work.key);
       return;
     }
     if (work.kind !== REVIEW_KIND) return;
