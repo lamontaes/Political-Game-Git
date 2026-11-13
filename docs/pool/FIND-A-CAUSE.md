@@ -23,7 +23,7 @@ Whoever starts you names three things: the item's id, your branch, and your time
    - Do not set or change `checked:`. The lead checks your cause against the code and sets it.
    - If the item is a duplicate of another, or should be split, say so in the pull request and leave that to the lead.
 4. **Check it.** `npm run pool -- --check` shows nothing new against main, and prettier passes on the item's file. A note needs no release note of its own.
-5. **Commit it to the hour's bundle, not to a pull request of your own** (owner, Nov 11; skill `pool-notes`). Commit the one item file to the branch `pool/notes` through GitHub's contents API, one item per commit, with the message `pool: <item id>: cause and fix written in`. The item stays open, because nothing was built: never set its status to merged, and never open a pull request whose first line is `Pool item:` for a cause (the merge reads that as "this builds the item"; three items were lost that way for twenty minutes on Nov 10). If the commit is refused because the file changed, read it again from `pool/notes` and commit on top.
+5. **Commit it to the hour's bundle, not to a pull request of your own** (owner, Nov 11; skill `pool-notes`). Commit the one item file to the hour's own branch, `pool/notes-<date>-<hour>` (named for the hour it closes in UTC; the skill says how to create it when it is not there yet), through GitHub's contents API, one item per commit, with the message `pool: <item id>: cause and fix written in`. The item stays open, because nothing was built: never set its status to merged, and never open a pull request whose first line is `Pool item:` for a cause (the merge reads that as "this builds the item"; three items were lost that way for twenty minutes on Nov 10). If the commit is refused because the file changed, read it again from the hour's branch and commit on top.
 6. **Say what you found** on the crew's issue, or to whoever started you if they named a session: `noted <item id> <the commit's full sha>`, then the cause in two or three sentences: the record id, the file and function, the place and seed, and the probe that showed it. Plain American English, short sentences, no model names (skill `civic-reports`). Give every money figure in dollars, and say so once: the journal keeps cents, and a figure copied from it unconverted is a hundred times too large. The lead reads the cause against the code before the hour's bundle merges; a cause nobody has checked must not reach main, because the item is offered to builders the moment it does.
 
 ## When the time box runs out with no cause
@@ -45,7 +45,7 @@ Many `Needs cause.` items are tests that were red on some draw weeks ago. Before
 
 - Change game code or tests in this pull request. It holds pool files and the release note only.
 - Build the fix, or merge anything.
-- Post on issue 7365. Your pull request is your thread.
+- Post on issue 8928. Your pull request is your thread.
 - Force-push, weaken a test, or leave a probe in a commit.
 - Name a place in a Fix as a rule. A named place is a labeled case for a test.
 - Write a line under `data/english/parts/`, or put the game's title where outsiders can see it.

@@ -43,7 +43,7 @@ it("marking a line as a gap writes one record naming the scene and the line, and
   for (const other of ids.slice(1, 21)) {
     opened = await ask("POST", `/api/talk/open?otherId=${other}`);
     expect(opened.status, where).toBe(200);
-    lines = opened.json.lines as { text: string }[];
+    lines = (opened.json?.lines as { text: string }[] | undefined) ?? [];
     if (lines.length) break;
   }
   expect(lines.length, `${where}: no talk had a line`).toBeGreaterThan(0);

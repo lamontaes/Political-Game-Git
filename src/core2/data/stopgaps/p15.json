@@ -8,8 +8,10 @@
     "why": "Families and temperaments must be generated now; no instrument-matched source fixes these coefficients yet.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "Coefficients sourced from NSFG, natality and NEO-PI-R facet tables and checked against the P15 answer keys.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Coefficients sourced from NSFG, natality and NEO-PI-R facet tables and checked against the P15 answer keys.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "claude/stopgap-triage-t6-p15"
   },
   {
     "id": "SG-P15-kin-generation",
@@ -32,8 +34,10 @@
     "why": "Counted kin households earn (unplaced pay) and must spend by the same rule as the town's households; with no cost they were a one-way source of money (Ripley, TN: 18,650 counted households, 352 million dollars of yearly pay, no spending).",
     "addedBy": "Money",
     "addedAt": "2026-11-08",
-    "replacement": "The kin engine (SG-P15-kin-generation) places each relative's household in a real place, and its cost comes from that place's region and HUD row.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The kin engine (SG-P15-kin-generation) places each relative's household in a real place, and its cost comes from that place's region and HUD row.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "claude/stopgap-triage-t6-p15"
   },
   {
     "id": "SG-P15-personality-mapping",
@@ -44,8 +48,10 @@
     "why": "The owner's five dimensions have no published norms of their own; facet norms are the nearest sourced spread.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "Researched Oct 24, 2026: the A4 quadratic term is zero by the source itself. Terracciano and others (2005) Table 2, read at https://pmc.ncbi.nlm.nih.gov/articles/PMC2808690/, fits A4 Compliance as a straight line (\"The quadratic terms are presented only when the quadratic model fit the data better than the linear model\"). Every facet's curve in opening-kin.json and the two facet correlations (psychTools 2.6.4 dataset neo, read from the package data) are checked by scripts/research/people-parameters-check.ts against data/research/people/terracciano-blsa-neo-facets-2005.json and data/research/people/neo-pi-r-facet-correlations-1992.json. Still open, so personalitySociabilityRiskCorrelation and personalityReliabilityImpulseCorrelation stay ESTIMATED: norms measured on the five dimensions themselves, which would make both correlations SOURCED.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Researched Oct 24, 2026: the A4 quadratic term is zero by the source itself. Terracciano and others (2005) Table 2, read at https://pmc.ncbi.nlm.nih.gov/articles/PMC2808690/, fits A4 Compliance as a straight line (\"The quadratic terms are presented only when the quadratic model fit the data better than the linear model\"). Every facet's curve in opening-kin.json and the two facet correlations (psychTools 2.6.4 dataset neo, read from the package data) are checked by scripts/research/people-parameters-check.ts against data/research/people/terracciano-blsa-neo-facets-2005.json and data/research/people/neo-pi-r-facet-correlations-1992.json. Still open, so personalitySociabilityRiskCorrelation and personalityReliabilityImpulseCorrelation stay ESTIMATED: norms measured on the five dimensions themselves, which would make both correlations SOURCED.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "claude/stopgap-triage-t6-p15"
   },
   {
     "id": "SG-P15-closeness-model",
@@ -56,8 +62,10 @@
     "why": "No survey measures closeness in hours or its decay without contact; Hall (2019) gives hour thresholds and Roberts and Dunbar (2015) only the direction of decay.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "Closeness calibrated against a panel of measured tie strength and contact (for example, the Roberts and Dunbar network data or a US panel), with per-pair opening histories from the shared past. Researched Oct 23, 2026 (research-core-sourced-parameters): Roberts and Dunbar (Human Nature, 2015) slopes, kin +0.27 and friends -0.62 points a wave on a 1 to 10 scale, and inner-layer retention over 18 months (kin 70.3%, friends 48.6%), with Hall's hours to friendship (KU News, 2018), are in data/research/core/tie-decay-panels-2015.json; scripts/research/core-year.ts reports a town's yearly closeness change by tie kind against them. Still open: no source read gives a half-life of closeness without contact or a pair's own opening history; the builder item core-stopgap-closeness-relationship-closeness-model reads the file.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Closeness calibrated against a panel of measured tie strength and contact (for example, the Roberts and Dunbar network data or a US panel), with per-pair opening histories from the shared past. Researched Oct 23, 2026 (research-core-sourced-parameters): Roberts and Dunbar (Human Nature, 2015) slopes, kin +0.27 and friends -0.62 points a wave on a 1 to 10 scale, and inner-layer retention over 18 months (kin 70.3%, friends 48.6%), with Hall's hours to friendship (KU News, 2018), are in data/research/core/tie-decay-panels-2015.json; scripts/research/core-year.ts reports a town's yearly closeness change by tie kind against them. Still open: no source read gives a half-life of closeness without contact or a pair's own opening history; the builder item core-stopgap-closeness-relationship-closeness-model reads the file.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "claude/stopgap-triage-t6-p15"
   },
   {
     "id": "SG-P15-partnership-model",
@@ -68,8 +76,10 @@
     "why": "No source gives each opening adult's partnership history or household; the chain and the CPS tables turn sourced rates into ages by sex and household type. Partnered adults keep the household generator's sex; people living alone and housemates draw sex with age.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "Place-level ACS 5-year sex-by-age, marital-status and household-relationship tables for every seated place and territory, cohabitation and second-marriage survival from NSFG, the spouse age gap and parents' ages by place, and siblings, grandparents raising grandchildren and older parents living in a grown child's home seated as their own household types. Oct 23, 2026 (research-deep-past-sourced-parameters): spouseAgeGapOpenRowYears re-estimated from the CPS 2023 ASEC public use file (U.S. Census Bureau, 2023; ESTIMATED, 16 years, spread 14 to 22), read by opening-partnership.ts SPOUSE_GAP; it becomes SOURCED when the engine reads the measured single-year tail in place of an even spread. data/research/core/cps-asec-2023-partner-age-gap.json also holds the measured gap bands of same-sex married couples and of opposite- and same-sex cohabiting couples for the builder item art-stopgap-opening-partnership-estimated-behavior; place-level tables and the four territories remain open, and their rows already wait unread on main in data/research/stopgaps-oct19/census/census-SG-P15-partnership-model.json (2020 Island Areas census rows for the four territories) and census-SG-P15-partnership-model-places.json (place rows).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Place-level ACS 5-year sex-by-age, marital-status and household-relationship tables for every seated place and territory, cohabitation and second-marriage survival from NSFG, the spouse age gap and parents' ages by place, and siblings, grandparents raising grandchildren and older parents living in a grown child's home seated as their own household types. Oct 23, 2026 (research-deep-past-sourced-parameters): spouseAgeGapOpenRowYears re-estimated from the CPS 2023 ASEC public use file (U.S. Census Bureau, 2023; ESTIMATED, 16 years, spread 14 to 22), read by opening-partnership.ts SPOUSE_GAP; it becomes SOURCED when the engine reads the measured single-year tail in place of an even spread. data/research/core/cps-asec-2023-partner-age-gap.json also holds the measured gap bands of same-sex married couples and of opposite- and same-sex cohabiting couples for the builder item art-stopgap-opening-partnership-estimated-behavior; place-level tables and the four territories remain open, and their rows already wait unread on main in data/research/stopgaps-oct19/census/census-SG-P15-partnership-model.json (2020 Island Areas census rows for the four territories) and census-SG-P15-partnership-model-places.json (place rows).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "claude/stopgap-triage-t6-p15"
   },
   {
     "id": "SG-P15-distance-by-place",
@@ -80,8 +90,10 @@
     "why": "Relatives outside the town carry only a county or state, not a place, so no travel distance exists to read.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "Travel time between the two people's places once relatives carry a place, from the Census Gazetteer interior points the repository already holds (data/source/places/corpus.json, data/source/counties/corpus.json), with visits falling with travel time; builder item core-kin-visits-by-distance. Until then farKinContactShare is ESTIMATED at 0.39 (spread 0.39 to 0.49) from Pew Research Center 2006, contact with a parent in town against out of town (data/research/core/pew-2006-family-contact.json, checked by scripts/research/core-parameters-check.ts). The measured figure that would make it SOURCED is a U.S. table of contact by travel time: none was found on Oct 23, 2026, and the French INED table a search named was not reachable from the cloud session.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Travel time between the two people's places once relatives carry a place, from the Census Gazetteer interior points the repository already holds (data/source/places/corpus.json, data/source/counties/corpus.json), with visits falling with travel time; builder item core-kin-visits-by-distance. Until then farKinContactShare is ESTIMATED at 0.39 (spread 0.39 to 0.49) from Pew Research Center 2006, contact with a parent in town against out of town (data/research/core/pew-2006-family-contact.json, checked by scripts/research/core-parameters-check.ts). The measured figure that would make it SOURCED is a U.S. table of contact by travel time: none was found on Oct 23, 2026, and the French INED table a search named was not reachable from the cloud session.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "claude/stopgap-triage-t6-p15"
   },
   {
     "id": "SG-P15-school-assignment",
@@ -106,8 +118,10 @@
     "why": "Employers carry no departments or teams, and no source gives how many coworkers a person knows.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "Workgroups from occupation and establishment records (BLS OEWS staffing patterns by industry) and a measured number of coworkers known, with time worked together adding to closeness on the shifts both attend.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Workgroups from occupation and establishment records (BLS OEWS staffing patterns by industry) and a measured number of coworkers known, with time worked together adding to closeness on the shifts both attend.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "claude/stopgap-triage-t6-p15"
   },
   {
     "id": "SG-P15-grief-line",
@@ -118,8 +132,10 @@
     "why": "Owner's ruling, October 10, 2026 (CTO on #3942): a personal resilience line, calibrated to about 46% with little grief by 6 months and 15.6% still grieving at 18 months; P10 reported a widow organizing on the day her husband died.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "A grief measure matched to a bereavement instrument (for example the grief items Bonanno et al. used), choice weights checked against observed behavior after a loss, and losses saved with the world.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A grief measure matched to a bereavement instrument (for example the grief items Bonanno et al. used), choice weights checked against observed behavior after a loss, and losses saved with the world.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "claude/stopgap-triage-t6-p15"
   },
   {
     "id": "SG-P15-falling-outs",
@@ -142,8 +158,10 @@
     "why": "The CTO's part 2b decision (October 10, 2026): one scoring pass per free block for daily-tier people and a week planned forward for weekly-tier people, within 20% of part 2's speed.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "A complete daily time budget that reserves the ATUS time of activities the game does not model, needs that evolve on each planned day from their own causes, and plans saved with the world. Researched Oct 23, 2026 (research-core-sourced-parameters): the ATUS time of unmodeled activities is already reserved (src/core2/data/free-block.json, BLS ATUS 2025 Table 3); the visit band is ATUS 2025 Table 1 socializing and communicating (30.4% of people a day, men 28.2%, women 32.5%) in data/research/core/atus-2025-socializing.json, reported by scripts/research/core-year.ts. unmodeledLeisureValuePerHour stays TUNABLE: no published effect converts to its score units. Still open: one act per need a day, needs held between planned days and plans kept out of the save; the builder item core-free-block-daily-budget.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A complete daily time budget that reserves the ATUS time of activities the game does not model, needs that evolve on each planned day from their own causes, and plans saved with the world. Researched Oct 23, 2026 (research-core-sourced-parameters): the ATUS time of unmodeled activities is already reserved (src/core2/data/free-block.json, BLS ATUS 2025 Table 3); the visit band is ATUS 2025 Table 1 socializing and communicating (30.4% of people a day, men 28.2%, women 32.5%) in data/research/core/atus-2025-socializing.json, reported by scripts/research/core-year.ts. unmodeledLeisureValuePerHour stays TUNABLE: no published effect converts to its score units. Still open: one act per need a day, needs held between planned days and plans kept out of the save; the builder item core-free-block-daily-budget.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "claude/stopgap-triage-t6-p15"
   },
   {
     "id": "SG-P15-favors",
@@ -162,11 +180,11 @@
     "kind": "behavior-model-gap",
     "file": "src/core2/data/encounters.json",
     "line": 3,
-    "whatItFakes": "New people are met only on a visit (the host's household) and on joining a group (its other members); the first tie holds the act's hours. Meetings at an organized meeting wait for attendance, and new coworkers for jobs changing during play (M1).",
+    "whatItFakes": "New people are met on a visit (the host's household), on joining a group (its other members), on the opening day at work and when a person is hired into a job during play (jobs.ts hire path, meetAtWork); the first tie holds the act's hours. Still faked: meetings at an organized meeting (public comment, council) wait for attendance, and neighbors wait for addresses.",
     "why": "Owner's ruling, October 10, 2026 (CTO on #3956): build encounters 1 and 2 now, 3 with M1's jobs work.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
-    "replacement": "Encounters at meetings with attendance, new coworkers when jobs change, neighbors once addresses exist, and first-tie hours checked against a study of how acquaintances form.",
+    "replacement": "Partly replaced Nov 10 (stand-in triage): new coworkers on a hire are met through meetAtWork in src/core2/modules/jobs.ts (call at the hire path, landed in the release commit 09a28996). Still to build: encounters at meetings with attendance, neighbors once addresses exist, and first-tie hours checked against a study of how acquaintances form. Was: Encounters at meetings with attendance, new coworkers when jobs change, neighbors once addresses exist, and first-tie hours checked against a study of how acquaintances form.",
     "status": "open"
   },
   {
@@ -177,8 +195,8 @@
     "why": "They never act, and generating that history for every relative made the prepared town too large to serialize (La Homa: 861 MB of past facts with part 1).",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
-    "replacement": "Run a relative's years before the start when the game first simulates them (the school engine's later hook, src/core2/past-school.ts schoolHistoryFor, and the working life's pastWorkFor).",
-    "status": "open"
+    "replacement": "Resolved (pool item life-relatives-who-live-elsewhere-have-a-past, Nov 10, 2026): a relative living elsewhere is still left out of the run over everyone, and their moves, school years and working life are written by the same passes when their card is first opened (openWholePast in src/core2/modules/people.ts, read against the place they live in, their work ending where the lives-elsewhere rule puts them on the opening day). Shown in src/core2/relatives-elsewhere-past.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-P15-views-first-version",
@@ -201,8 +219,10 @@
     "why": "The research names the reasons (interest, a personal stake, temperament, money, time, age) but not their sizes in this model.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Weights checked against candidate counts per seat across drawn places once GOV's contests run every cycle (M2-04).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Weights checked against candidate counts per seat across drawn places once GOV's contests run every cycle (M2-04).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "claude/stopgap-triage-t6-p15"
   },
   {
     "id": "SG-P15-news-habits",
@@ -249,8 +269,10 @@
     "why": "Takes now fire (seated officials' savings spread around the SCF median, officialSavingsSpreadSigma) and contract awards settle a taken bribe (settleBribe), but in the audited years the bought firm won every award, so no tie soured and no one was told. Forcing a breach would be a dice-free but invented mechanic.",
     "addedBy": "traits-fire-integrity helper",
     "addedAt": "2026-10-28",
-    "replacement": "Measure the share of taken bribes cheated across 56 drawn places over several years (scripts/research/core-parameters-year.ts) and calibrate the official savings spread and the bribe-share-of-stake against Global Corruption Barometer incidence; or let a letdown arise from the contract engine's own losing bidders.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Measure the share of taken bribes cheated across 56 drawn places over several years (scripts/research/core-parameters-year.ts) and calibrate the official savings spread and the bribe-share-of-stake against Global Corruption Barometer incidence; or let a letdown arise from the contract engine's own losing bidders.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "claude/stopgap-triage-t6-p15"
   },
   {
     "id": "SG-P15-opening-profile",
@@ -261,8 +283,10 @@
     "why": "Views and candidacy need education and faith on records now; joint state tables are too sparse in one survey year.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Attainment from the person's own schooling history (deep past) checked against ACS B15001 by state, age and sex; faith from upbringing and the Pew Religious Landscape Study. Oct 23, 2026 (research-deep-past-sourced-parameters): the check tables are in data/research/core/acs-2023-b15001-attainment-by-state.json (ACS 2019-2023 B15001 by state, age and sex) and data/research/core/pew-rls-2023-24-faith-by-state.json (Pew Research Center Religious Landscape Study 2023-24, by state), both for all 56 places, reported against the opening profile by scripts/research/deep-past-year.ts. The builder item core-opening-profile-attainment-from-schooling derives attainment and faith from the person's own record and checks the town against them.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Attainment from the person's own schooling history (deep past) checked against ACS B15001 by state, age and sex; faith from upbringing and the Pew Religious Landscape Study. Oct 23, 2026 (research-deep-past-sourced-parameters): the check tables are in data/research/core/acs-2023-b15001-attainment-by-state.json (ACS 2019-2023 B15001 by state, age and sex) and data/research/core/pew-rls-2023-24-faith-by-state.json (Pew Research Center Religious Landscape Study 2023-24, by state), both for all 56 places, reported against the opening profile by scripts/research/deep-past-year.ts. The builder item core-opening-profile-attainment-from-schooling derives attainment and faith from the person's own record and checks the town against them.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "claude/stopgap-triage-t6-p15"
   },
   {
     "id": "SG-P15-moves-weights",
@@ -273,8 +297,10 @@
     "why": "The research gives how often people of each age leave a county and the reasons movers give, but not each tie's and event's size in this model.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Weights checked against ACS departures by age and tenure across drawn places in the M1-09 year run, and against the CPS reasons for moving. Oct 23, 2026: the owner and job holds are ESTIMATED as log ratios of CPS ASEC 2023 different-county move rates (data/research/core/cps-asec-2023-mobility.json). The children and kin holds convert to 0.32 (CPS ASEC 2023 Table 6) and 0.30 per relative (Spring, Ackert, Crowder and South 2017, data/research/core/spring-2017-kin-proximity.json) but stay at their starting values, 0.4 and 0.15, with the converted figures as their spreads, because applying them takes src/core2/moves.test.ts past its departure band while the engine already sends about 1.75 times the expected adults away; world-town-net-moving-negative applies them once the departure rate is right. All are checked by scripts/research/core-parameters-check.ts; the figures that would make them SOURCED are effects net of age. The cutoff and caps are gone: who decides alone is the place's age of majority (data/research/people/age-of-majority.json), kin hold and pull slide with movesKinHoldDecay, and the housing push rises with the share of the household's income and net cash its home takes. The other pulls and pushes stay TUNABLE: scripts/research/core-parameters-year.ts reports a town's departures against the ACS 2024 rate for its adults and the share of leavers by recorded cause against the CPS different-county reasons.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Weights checked against ACS departures by age and tenure across drawn places in the M1-09 year run, and against the CPS reasons for moving. Oct 23, 2026: the owner and job holds are ESTIMATED as log ratios of CPS ASEC 2023 different-county move rates (data/research/core/cps-asec-2023-mobility.json). The children and kin holds convert to 0.32 (CPS ASEC 2023 Table 6) and 0.30 per relative (Spring, Ackert, Crowder and South 2017, data/research/core/spring-2017-kin-proximity.json) but stay at their starting values, 0.4 and 0.15, with the converted figures as their spreads, because applying them takes src/core2/moves.test.ts past its departure band while the engine already sends about 1.75 times the expected adults away; world-town-net-moving-negative applies them once the departure rate is right. All are checked by scripts/research/core-parameters-check.ts; the figures that would make them SOURCED are effects net of age. The cutoff and caps are gone: who decides alone is the place's age of majority (data/research/people/age-of-majority.json), kin hold and pull slide with movesKinHoldDecay, and the housing push rises with the share of the household's income and net cash its home takes. The other pulls and pushes stay TUNABLE: scripts/research/core-parameters-year.ts reports a town's departures against the ACS 2024 rate for its adults and the share of leavers by recorded cause against the CPS different-county reasons.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "claude/stopgap-triage-t6-p15"
   },
   {
     "id": "SG-P15-moves-place-kept",
@@ -297,8 +323,10 @@
     "why": "Splitting a mortgaged home between those who go and those who stay (who keeps the home and the loan) is not modeled.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "A recorded decision of who keeps a home and its mortgage when some of a household's members leave, so that groups can leave with part of the household behind.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A recorded decision of who keeps a home and its mortgage when some of a household's members leave, so that groups can leave with part of the household behind.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "claude/stopgap-triage-t6-p15"
   },
   {
     "id": "SG-P15-moves-player-home-stays",

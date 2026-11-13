@@ -155,7 +155,7 @@
             },
             {
               "id": "question:us-policy-positions:health-human-services.expand-medicaid-eligibility",
-              "name": "expand medicaid eligibility",
+              "name": "expand Medicaid eligibility",
               "kind": "policy-question",
               "question": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
               "operations": ["enact", "repeal"],
@@ -163,7 +163,7 @@
             },
             {
               "id": "law:local-power:expand-medicaid-eligibility",
-              "name": "Local power: expand medicaid eligibility",
+              "name": "Local power: expand Medicaid eligibility",
               "kind": "law-amount",
               "series": "local-power:us-policy-positions:health-human-services.expand-medicaid-eligibility",
               "operations": ["raise", "lower"],
@@ -171,7 +171,7 @@
             },
             {
               "id": "question:us-policy-positions:health-human-services.medicaid-work-requirement",
-              "name": "medicaid work requirement",
+              "name": "Medicaid work requirement",
               "kind": "policy-question",
               "question": "us-policy-positions:health-human-services.medicaid-work-requirement",
               "operations": ["enact", "repeal"],
@@ -179,7 +179,7 @@
             },
             {
               "id": "law:local-power:medicaid-work-requirement",
-              "name": "Local power: medicaid work requirement",
+              "name": "Local power: Medicaid work requirement",
               "kind": "law-amount",
               "series": "local-power:us-policy-positions:health-human-services.medicaid-work-requirement",
               "operations": ["raise", "lower"],
@@ -209,7 +209,7 @@
           "policies": [
             {
               "id": "budget:healthAndHospitals",
-              "name": "Spending: healthAndHospitals",
+              "name": "Spending: health and hospitals",
               "kind": "budget-line",
               "line": "healthAndHospitals",
               "operations": ["expand", "restrict"],
@@ -242,7 +242,7 @@
           "policies": [
             {
               "id": "question:us-federal-positions:health.medicare-drug-price-negotiation",
-              "name": "medicare drug price negotiation",
+              "name": "Medicare drug price negotiation",
               "kind": "policy-question",
               "question": "us-federal-positions:health.medicare-drug-price-negotiation",
               "operations": ["enact", "repeal"],
@@ -367,7 +367,7 @@
           "policies": [
             {
               "id": "budget:higherEducation",
-              "name": "Spending: higherEducation",
+              "name": "Spending: higher education",
               "kind": "budget-line",
               "line": "higherEducation",
               "operations": ["expand", "restrict"],
@@ -656,7 +656,7 @@
           "policies": [
             {
               "id": "budget:welfareAndMedicaid",
-              "name": "Spending: welfareAndMedicaid",
+              "name": "Spending: welfare and Medicaid",
               "kind": "budget-line",
               "line": "welfareAndMedicaid",
               "operations": ["expand", "restrict"],
@@ -1306,7 +1306,7 @@
           "policies": [
             {
               "id": "budget:naturalResources",
-              "name": "Spending: naturalResources",
+              "name": "Spending: natural resources",
               "kind": "budget-line",
               "line": "naturalResources",
               "operations": ["expand", "restrict"],
@@ -1712,7 +1712,7 @@
             },
             {
               "id": "law:state-contribution-limit-state-senate",
-              "name": "State campaign contribution limit: stateSenate",
+              "name": "State campaign contribution limit: state senate",
               "kind": "law-amount",
               "series": "state-contribution-limit-state-senate",
               "unit": "USD/election",
@@ -1721,7 +1721,7 @@
             },
             {
               "id": "law:state-contribution-limit-state-house",
-              "name": "State campaign contribution limit: stateHouse",
+              "name": "State campaign contribution limit: state house",
               "kind": "law-amount",
               "series": "state-contribution-limit-state-house",
               "unit": "USD/election",

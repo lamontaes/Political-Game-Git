@@ -1,0 +1,7 @@
+Seed w5-5e81f9; place: Fallon Station, Nevada
+Office: Secretary of State, or the county clerk for districts entirely within one county
+Greeting: Janet Waller / What can I do for you? / I want to run for U.S. Representative (District 2). November 3, 2026 · Held by Christopher Vasquez / I want to run for Assemblymember (District 38). November 3, 2026 · Held by Denise Hardy / Leave
+Told: Janet Waller / PAT CANDIDATE / I want to run for U.S. Representative (District 2). / Running for U.S. Representative (District 2)? Good. Let me pull the papers. It's a 2-year term. The primary's June 9, the general's November 3. You'd represent this district in Congress and vote on every bill the House takes up. You've got until March 13 to get it all back to me. / Let's do it. Where do I sign? / Leave
+Replies: Let's do it. Where do I sign?
+Answer: PAT CANDIDATE / Let's do it. Where do I sign? / YOU ARE ON THE BALLOT / Continue
+Replies: 

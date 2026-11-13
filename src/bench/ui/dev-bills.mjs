@@ -14,6 +14,10 @@ let lastBillId = null;
 let lastSeries = null;
 export const lastIntroducedSeries = () => lastSeries;
 
+/** The row Government's main column gives Dev mode's Bills and Bribe panels, so neither is drawn over the Members. */
+export const devPanelsRow = (...sections) =>
+  el("div", { className: "dev-only dev-panels" }, ...sections);
+
 /** The last result line, kept across the sheet's redraws. */
 let lastResult = "";
 
@@ -131,7 +135,8 @@ export async function devBillsPanel({ labels, onDone }) {
     lastSeries = seriesBox.value;
     return [bill.number, bill.status, bill.id].join(" · ");
   });
-  // Repealing a yes-or-no law is a bill that answers it No, voted like any other.
+  // Repealing a yes-or-no law is a bill that answers it No; repealing an
+  // amount ends the body's own law, so its level holds what it held before.
   const repeal = makeButton({ className: "action" }, labels.repeal);
   repeal.dataset.testid = "dev-repeal";
   act(repeal, async () => {
@@ -140,6 +145,7 @@ export async function devBillsPanel({ labels, onDone }) {
       sponsorId: memberBox.value,
       series: seriesBox.value,
       value: 0,
+      ...(questions.has(seriesBox.value) ? {} : { repeal: true }),
     });
     lastBillId = bill.id;
     return [labels.repeal, bill.number, bill.status, bill.id].join(" · ");

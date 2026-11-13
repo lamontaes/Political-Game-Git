@@ -59,6 +59,7 @@ describe(`office hours (${place.name}, seed ${seed})`, () => {
       officialId: official,
       problem: "looking-for-work",
       severity: 0.5,
+      standing: 0,
       facts: { cushionMonths: 1 },
       opened: core.date,
       respondBy: addDays(core.date, 7),
