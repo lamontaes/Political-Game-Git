@@ -17,6 +17,22 @@ import {
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
+/**
+ * The seeds a test draws, logged before the world is built so a failed draw
+ * can be replayed: set PUBLIC_FLOOR_SEED and that seed is tried first, then
+ * the usual fresh draws follow (a seed whose place lacks the case the test
+ * needs is passed over and named, like any other draw).
+ */
+function* drawSeeds(purpose: string, attempts: number): Generator<string> {
+  const replay = process.env.PUBLIC_FLOOR_SEED;
+  const total = replay ? attempts + 1 : attempts;
+  for (let i = 0; i < total; i += 1) {
+    const seed = replay && i === 0 ? replay : randomBytes(8).toString("hex");
+    process.stdout.write(`public-pay-floor-hire ${purpose}: seed ${seed}\n`);
+    yield seed;
+  }
+}
+
 // A public hire is paid at the public pay floor on the day it is hired, not a
 // month later at the review (pool: laws-stopgap-laws-missing-engine, row
 // SG-GOV-public-pay-floor-owner). The jobs engine reads this helper when it
@@ -25,8 +41,7 @@ import type { CoreState } from "./types";
 it("holds a new public hire's pay to the floor in force, and no private hire's", () => {
   const tried: string[] = [];
   setBookkeeping(false);
-  for (let attempt = 0; attempt < 6; attempt += 1) {
-    const seed = randomBytes(8).toString("hex");
+  for (const seed of drawSeeds("public-floor-hire", 6)) {
     const place = drawPlace(seed, "public-floor-hire");
     const where = `${place.name} [${place.key}], seed ${seed}`;
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
@@ -85,8 +100,7 @@ it("holds a new public hire's pay to the floor in force, and no private hire's",
 it("pays an aide hired in a played world at the floor from the day they are hired", () => {
   const tried: string[] = [];
   setBookkeeping(false);
-  for (let attempt = 0; attempt < 6; attempt += 1) {
-    const seed = randomBytes(8).toString("hex");
+  for (const seed of drawSeeds("public-floor-aide", 6)) {
     const place = drawPlace(seed, "public-floor-aide");
     const where = `${place.name} [${place.key}], seed ${seed}`;
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
@@ -96,13 +110,8 @@ it("pays an aide hired in a played world at the floor from the day they are hire
     const api = coreAPI(core);
     const state = core as CoreState;
     const holder = townSeats(api).find((seat) => seat.holder)?.holder;
-    const candidate = holder
-      ? staffCandidates(api, holder.personId).find(
-          (row) => !inCustody(api, row.personId),
-        )
-      : undefined;
-    if (!holder || !candidate) {
-      tried.push(`${where}: no official with a candidate`);
+    if (!holder) {
+      tried.push(`${where}: no official`);
       continue;
     }
     for (const level of lawChain(api).levels)
@@ -115,6 +124,19 @@ it("pays an aide hired in a played world at the floor from the day they are hire
         measureId: "fixture:public-floor-aide",
         citation: "Fixture: a public pay floor enacted at every level.",
       });
+    // The applicant is picked from who is advertised with the laws in force,
+    // then hired at once: a candidate chosen before the laws can stop being
+    // one by the time of the hire.
+    const candidate = staffCandidates(api, holder.personId).find(
+      (row) => !inCustody(api, row.personId),
+    );
+    process.stdout.write(
+      `public-pay-floor-hire aide: ${where}, official ${holder.personId}, applicant ${candidate?.personId ?? "none"}\n`,
+    );
+    if (!candidate) {
+      tried.push(`${where}: no official with a candidate`);
+      continue;
+    }
     const aide = hireStaff(api, {
       officialId: holder.personId,
       personId: candidate.personId,
@@ -143,8 +165,7 @@ it("pays an aide hired in a played world at the floor from the day they are hire
 it("holds a school district's hire to a state floor and not to a city or county floor", () => {
   const tried: string[] = [];
   setBookkeeping(false);
-  for (let attempt = 0; attempt < 8; attempt += 1) {
-    const seed = randomBytes(8).toString("hex");
+  for (const seed of drawSeeds("public-floor-school", 8)) {
     const place = drawPlace(seed, "public-floor-school");
     const where = `${place.name} [${place.key}], seed ${seed}`;
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
