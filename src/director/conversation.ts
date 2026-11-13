@@ -728,6 +728,9 @@ function isAbout(subject: Subject, moment: Moment, data: ConversationData) {
   ]);
   return (
     ids.has(moment.causeId) ||
+    // A story someone read: the read event names the story by its id.
+    (!!subject.aboutId &&
+      storyOfReadEvent(moment.causeId) === subject.aboutId) ||
     (!!subject.aboutId &&
       moment.counterpartIds.includes(subject.aboutId as PersonId)) ||
     (data.topicOfLabel[moment.label] === subject.kind &&
@@ -3016,6 +3019,19 @@ function mainTopic(
       consider(subject, true, playerId);
   for (const subject of subjectsBetween(core, otherId, playerId, director))
     if (data.otherRaises[subject.kind]) consider(subject, false, otherId);
+  // A scene a story someone read caused ("Riley has news for you") opens on
+  // that story, by its headline, whether or not it is the newest they read
+  // (Fable A, Nov 13: a scene's opening line and its talk come from the same
+  // cause).
+  const read = occasion ? storyOfReadEvent(occasion.causeId) : null;
+  if (read && core.modules.has(NEWS_MODULE_ID)) {
+    const story = storiesHeard(coreAPI(core), otherId).find(
+      (row) => row.id === read,
+    );
+    const subject = story ? printedSubject(core, story, director) : null;
+    if (subject && data.otherRaises[subject.kind])
+      consider(subject, false, otherId);
+  }
   const lead = best as { subject: Subject; asks: boolean } | null;
   const stand = standing as { subject: Subject; asks: boolean } | null;
   return lead ? { ...lead, ...(stand ? { standing: stand } : {}) } : stand;
