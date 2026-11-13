@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: opus-lr
 pr: #8992
@@ -17,6 +17,7 @@ effort: medium
 root: design-life-record
 source: Fable A's question on #8973, Nov 13, 2026, filed by the Life records builder opus-lr
 checked: opus-lr 2026-11-13
+merged-at: 2026-11-13T03:40:15.584Z
 ---
 
 **What.** The owner, Nov 12: a past event "could have turned you super MAGA, or it could have turned you liberal." Part 14 moved everyone's own layoff to the left. Seen: dev mode's Trace on a laid-off person, whose view moved left or right with the layoff's record.
