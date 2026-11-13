@@ -24,20 +24,7 @@ import { councilElectionMethod } from "./gov-rules/council-election-method";
 import { boardGoverningBodyRules } from "./gov-rules/township-governing-body-rules";
 import type { GovernmentUnitIdentity } from "./reference/government-units";
 import { countyDisplayName } from "./business-names";
-
-/** A listed government as people write it: "VILLAGE OF EOLIA" is "Village of Eolia". */
-export function governmentTitleName(listed: string): string {
-  return listed
-    .trim()
-    .toLowerCase()
-    .split(" ")
-    .map((word) =>
-      word === "and" || word === "of"
-        ? word
-        : word.replace(/(^|-)([a-z])/g, (found) => found.toUpperCase()),
-    )
-    .join(" ");
-}
+import { governmentProperName } from "./government-proper-name";
 
 /**
  * What a board of a county, parish or township is called: its government as
@@ -148,10 +135,12 @@ function municipalBodyName(unit: GovernmentUnitIdentity): string {
   const kind = words[1] === "OF" ? words[0]!.toLowerCase() : "";
   const usual =
     BODY_BY_STATE[unit.stateUsps]?.[kind] ?? BODY_BY_KIND[kind] ?? null;
-  if (usual)
-    return `${governmentTitleName(words.slice(2).join(" "))} ${usual.value}`;
+  // The town by its place record's own name ("McCall"), never the listing's
+  // capitals recased ("Mccall").
+  const proper = governmentProperName(unit.name, unit.id);
+  if (usual) return `${proper.split(" ").slice(2).join(" ")} ${usual.value}`;
   // stopgapId: SG-GOV-municipal-body-name (a listing name that gives no kind)
-  return `${governmentTitleName(unit.name)} ${bodyNames.municipal.value}`;
+  return `${proper} ${bodyNames.municipal.value}`;
 }
 
 function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
