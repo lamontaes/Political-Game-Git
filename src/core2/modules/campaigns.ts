@@ -146,6 +146,12 @@ export const CAMPAIGNS_MODULE_ID = "core2-campaigns-v1";
 const DONATION_KIND = "campaigns:donation";
 const AD_KIND = "campaigns:ad-buy";
 const PURCHASE_KIND = "campaigns:purchase";
+/** The journal source kinds of campaign payments, whose source records are let go once posted. */
+export const CAMPAIGN_MONEY_KINDS: readonly string[] = [
+  DONATION_KIND,
+  AD_KIND,
+  PURCHASE_KIND,
+];
 
 export interface CampaignRow {
   readonly id: string;
@@ -436,33 +442,49 @@ interface MoneyRecord {
   }[];
 }
 
-const slots = new WeakMap<object, Map<string, CashJournalSourceSlot>>();
+/**
+ * A campaign payment's journal source, held only while `postMoney` posts it,
+ * as budgets' withholding does: no table keeps it, and the slot is let go
+ * once the entry is posted. Every later reader reads the campaign row's
+ * totals (raisedMinor, spentMinor, spentByKind), the gifts, the
+ * campaign-gift event or the journal's receipts.
+ */
+const heldSlots = new WeakMap<object, Map<string, CashJournalSourceSlot>>();
+/**
+ * The ids of the campaign payments posted today, kept for the day only: a
+ * second post of an id on its day throws, as the journal's posted marker did
+ * while every slot was kept. The engine's own ids carry their date, so no
+ * later day repeats one (see postMoney).
+ */
+const postedToday = new WeakMap<
+  object,
+  { readonly date: string; readonly ids: Set<string> }
+>();
 function moneySlot(
   api: CoreAPI,
   id: string,
 ): CashJournalSourceSlot | undefined {
-  const map = slots.get(api.state) ?? new Map<string, CashJournalSourceSlot>();
-  slots.set(api.state, map);
-  if (map.has(id)) return map.get(id);
-  const row = table(api, "money").get(id) as unknown as MoneyRecord | undefined;
-  if (!row) return undefined;
+  return heldSlots.get(api.state)?.get(id);
+}
+function holdMoneySlot(api: CoreAPI, record: MoneyRecord): void {
+  const map =
+    heldSlots.get(api.state) ?? new Map<string, CashJournalSourceSlot>();
+  heldSlots.set(api.state, map);
   const resolved = {
-    kind: row.kind,
-    id: row.id,
-    date: row.date,
-    source: row.source,
-    expectedPostings: row.postings.map((p) => ({ ...p })),
+    kind: record.kind,
+    id: record.id,
+    date: record.date,
+    source: record.source,
+    expectedPostings: record.postings.map((p) => ({ ...p })),
     requiredRelatedRefs: [],
     relatedRecords: [],
   };
-  const slot = {
+  map.set(record.id, {
     resolved,
     marker: resolved,
     retainFull: false,
     metadata: [],
-  } as unknown as CashJournalSourceSlot;
-  map.set(id, slot);
-  return slot;
+  } as unknown as CashJournalSourceSlot);
 }
 
 export const CAMPAIGNS_MODULE: CoreModule = {
@@ -504,7 +526,6 @@ export const CAMPAIGNS_MODULE: CoreModule = {
         },
       },
       polls: { indexes: { byContest: { fields: ["contestId"] } } },
-      money: {},
       /** A decision cast for a person on a campaign's ask (the player's, or a dev pick): read in place of their own lean (`castVolunteer`). */
       casts: {},
       gifts: {
@@ -1966,6 +1987,80 @@ export function volunteerReason(
   );
 }
 
+/** The kind of the record written when someone joins a campaign's volunteers. */
+export const VOLUNTEER_JOINED_EVENT = "campaign-volunteer-joined";
+/** The kind of the record written when a volunteer's reasons have weakened past giving evenings. */
+export const VOLUNTEER_LAPSED_EVENT = "campaign-volunteer-lapsed";
+
+/**
+ * Writes the record of someone joining a campaign: when, and the ask or the
+ * filing that brought them (`causeId`, the group speaker's id when a group's
+ * ask did, else the candidate's filing record).
+ */
+function recordVolunteerJoined(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  personId: string,
+  how: "asked" | "said-so" | "group-ask",
+  askerId?: string,
+): void {
+  // stopgapId: SG-CAMPAIGN-volunteer-joined-lapsed-unread
+  api.stopgap("SG-CAMPAIGN-volunteer-joined-lapsed-unread");
+  const date = api.state.date;
+  const person = api.state.people.get(personId);
+  const filed = api.state.durableLog.get(
+    `candidate-filed:${campaign.filingId}` as never,
+  );
+  api.emit({
+    id: `${VOLUNTEER_JOINED_EVENT}:${campaign.filingId}:${personId}`,
+    date,
+    kind: VOLUNTEER_JOINED_EVENT,
+    personIds: api.state.people.has(campaign.candidateId)
+      ? [campaign.candidateId as PersonId, personId as PersonId]
+      : [personId as PersonId],
+    placeId: townRow(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `${person?.givenName ?? ""} ${person?.familyName ?? ""} joins campaign ${campaign.filingId}`,
+      asOf: date,
+    },
+    facts: {
+      volunteerId: personId,
+      candidateId: campaign.candidateId,
+      campaignId: campaign.id,
+      filingId: campaign.filingId,
+      how,
+      causeId: askerId ?? (filed ? String(filed.id) : campaign.filingId),
+      ...(askerId ? { askerId } : {}),
+    },
+  });
+}
+
+/**
+ * Why a volunteer's reasons have weakened past giving evenings, or null while
+ * they hold. The reasons are the ones that brought them (`volunteerReason`:
+ * liking, closeness, family, against the hours their work takes); the cause
+ * named is the largest one working against them: their work's hours, a
+ * candidate they no longer like, or no closeness left to carry them.
+ */
+export function volunteerLapseReason(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState>,
+): "work-hours" | "cooled" | "distant" | null {
+  if (volunteerReason(api, campaign, person) > 0) return null;
+  const core = api.state as CoreState;
+  const warmth =
+    impressionOf(api, person.id, campaign.candidateId)?.warmth ?? 0;
+  const tie = closenessBetween(core, person.id, campaign.candidateId);
+  const weeklyWork = [...(core.work.commitmentsByPerson.get(person.id) ?? [])]
+    .map((id) => core.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0)
+    .reduce((a, b) => a + b, 0);
+  const load = weeklyWork / campaignParameter("turnoutWorkWeekMinutes");
+  if (load >= Math.max(0, -warmth) && load >= tie) return "work-hours";
+  return warmth < 0 ? "cooled" : "distant";
+}
+
 /**
  * Ask someone to volunteer. They say yes when liking the candidate,
  * closeness, an outgoing or dutiful temperament (and, asked through a group
@@ -2000,11 +2095,19 @@ export function askToVolunteer(
         "decline",
         volunteerReason(api, campaign, person, ask),
       );
-  if (yes && !campaign.volunteerIds.includes(personId))
+  if (yes && !campaign.volunteerIds.includes(personId)) {
     save(api, {
       ...campaign,
       volunteerIds: [...campaign.volunteerIds, personId],
     });
+    recordVolunteerJoined(
+      api,
+      campaign,
+      personId,
+      ask ? "group-ask" : "asked",
+      ask?.askerId,
+    );
+  }
   return yes;
 }
 
@@ -2752,6 +2855,7 @@ export function enlistVolunteer(
     ...campaign,
     volunteerIds: [...campaign.volunteerIds, personId],
   });
+  recordVolunteerJoined(api, campaign, personId, "said-so");
   return true;
 }
 
@@ -2876,6 +2980,37 @@ export function volunteerShifts(
       walked.has(id)
     )
       continue;
+    // A volunteer whose reasons have weakened past giving evenings is written
+    // down once, with the cause that weakened them (a record, not a roll).
+    const lapse = volunteerLapseReason(api, campaign, person);
+    if (
+      lapse &&
+      !api.state.durableLog.get(
+        `${VOLUNTEER_LAPSED_EVENT}:${filingId}:${id}` as never,
+      )
+    )
+      api.emit({
+        id: `${VOLUNTEER_LAPSED_EVENT}:${filingId}:${id}`,
+        date,
+        kind: VOLUNTEER_LAPSED_EVENT,
+        personIds: api.state.people.has(campaign.candidateId)
+          ? [campaign.candidateId as PersonId, person.id]
+          : [person.id],
+        placeId: townRow(api).townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: `${person.givenName} ${person.familyName} stops giving evenings to campaign ${filingId}`,
+          asOf: date,
+        },
+        facts: {
+          volunteerId: id,
+          candidateId: campaign.candidateId,
+          campaignId: campaign.id,
+          filingId,
+          reason: lapse,
+          joinedId: `${VOLUNTEER_JOINED_EVENT}:${filingId}:${id}`,
+        },
+      });
     const hours = canvassHoursFree(api, person);
     if (hours <= 0) continue;
     // Each working day adds their share to what they are owed (starting
@@ -3817,8 +3952,8 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
 
 /**
  * A purchase from the campaign's account to a seller, on the journal; the
- * campaign's books (spent, and spent by kind) read it. Returns the money
- * record's id.
+ * campaign's books (spent, and spent by kind) read it. Returns the id the
+ * journal entry names as its source (`sourceRef.id`).
  */
 function spend(
   api: CoreAPI,
@@ -3974,15 +4109,35 @@ function postMoney(
       { id: `${id}:in`, accountId: `cash:${to}:residual`, deltaMinor: amount },
     ],
   };
-  table(api, "money").put(record as unknown as ModuleRow);
+  // The journal reads the record from its held slot while it posts; no table
+  // keeps it. An id is posted once. The engine's ids carry the date, so no
+  // later day repeats one, and a running total that every post grows (the
+  // donor's gift `totalMinor`, the campaign's `spentMinor`; the journal
+  // refuses a zero posting), so no second post that day does; a cause group
+  // posts once a month. A later fold of the gifts table must keep a donor's
+  // row through the day of its count, or a donation id repeats. A repeat on
+  // its day throws here; buyAdTime's caller names its own id and keeps it
+  // unique.
+  const day = postedToday.get(api.state);
+  const posted = day?.date === date ? day.ids : new Set<string>();
+  if (day?.date !== date) postedToday.set(api.state, { date, ids: posted });
+  if (posted.has(id))
+    throw new Error("Campaign payment is already posted today.");
+  holdMoneySlot(api, record);
   const state = api.state as CoreState;
-  api.postJournal({
-    id: `journal:${date}:${state.cashJournal.nextSequence}`,
-    date,
-    expectedSequence: state.cashJournal.nextSequence,
-    sourceRef: { kind, id },
-    postings: record.postings,
-  });
+  try {
+    api.postJournal({
+      id: `journal:${date}:${state.cashJournal.nextSequence}`,
+      date,
+      expectedSequence: state.cashJournal.nextSequence,
+      sourceRef: { kind, id },
+      postings: record.postings,
+    });
+    posted.add(id);
+  } finally {
+    // The entry is posted: the held slot (a second copy of every posting) is let go.
+    heldSlots.get(api.state)?.delete(id);
+  }
 }
 
 /**
@@ -4631,7 +4786,9 @@ export function adTimeForSale(api: CoreAPI): boolean {
 /**
  * Buy ad time outside a campaign (a cause group's ad): the buyer pays the
  * seller on the journal and gets the people the ad reaches, the same
- * audience a campaign's ad buys.
+ * audience a campaign's ad buys. `recordId` is the payment's journal source
+ * id and must never repeat (carry the date): no record keeps it once posted,
+ * and only a repeat on the same day throws.
  */
 export function buyAdTime(
   api: CoreAPI,
@@ -5701,6 +5858,42 @@ export interface CauseSummaryRow {
   >;
   /** The first door the candidate knocked on for this voter, if any. */
   readonly firstDoor: string | null;
+  /**
+   * The same sums for each of the candidate's campaigns, by filing id: the
+   * causes dated from the day they filed to that contest's election day,
+   * which is the window a race's standing reads (`contestStanding`), so a
+   * race's standing reads the same numbers before and after its causes fold.
+   */
+  readonly byFiling?: Readonly<Record<string, CauseSums>>;
+}
+
+/** What a run of folded causes adds up to for one voter. */
+export interface CauseSums {
+  readonly moved: number;
+  readonly acts: Readonly<
+    Record<string, { reached: number; warmer: number; cooler: number }>
+  >;
+}
+
+/** A candidate's campaigns as date windows: filed to election day, by filing id. */
+function campaignWindows(
+  api: CoreAPI,
+  candidateId: string,
+): readonly { id: string; from: string; through: string | undefined }[] {
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
+  const contests = elections(api, "contests");
+  return (
+    elections(api, "filings").query("byPerson", [
+      candidateId,
+    ]) as unknown as FilingRow[]
+  ).map((filing) => ({
+    id: filing.id,
+    from: filing.filedOn,
+    through: (
+      contests.get(filing.contestId) as unknown as
+        { electionDate?: string } | undefined
+    )?.electionDate,
+  }));
 }
 
 /** A candidate's folded causes, one row a voter. */
@@ -5807,6 +6000,7 @@ function foldCauses(
   const sourcesOf = new Map<string, Set<string>>();
   for (const candidateId of candidateIds) {
     if (candidateId === core.playerId) continue;
+    const windows = campaignWindows(api, candidateId);
     const byVoter = new Map<string, CauseRow[]>();
     for (const row of causes.query("byCandidate", [
       candidateId,
@@ -5828,6 +6022,26 @@ function foldCauses(
       > = {};
       for (const [act, count] of Object.entries(before?.acts ?? {}))
         acts[act] = { ...count };
+      const byFiling: Record<
+        string,
+        {
+          moved: number;
+          acts: Record<
+            string,
+            { reached: number; warmer: number; cooler: number }
+          >;
+        }
+      > = {};
+      for (const [filingId, sums] of Object.entries(before?.byFiling ?? {}))
+        byFiling[filingId] = {
+          moved: sums.moved,
+          acts: Object.fromEntries(
+            Object.entries(sums.acts).map(([act, count]) => [
+              act,
+              { ...count },
+            ]),
+          ),
+        };
       let sources = sourcesOf.get(voterId);
       if (!sources)
         sourcesOf.set(
@@ -5844,6 +6058,23 @@ function foldCauses(
         if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
         else if (row.warmthAfter < row.warmthBefore) entry.cooler += 1;
         moved = moved + (row.warmthAfter - row.warmthBefore);
+        for (const window of windows) {
+          if (
+            row.date < window.from ||
+            (window.through !== undefined && row.date > window.through)
+          )
+            continue;
+          const sums = (byFiling[window.id] ??= { moved: 0, acts: {} });
+          const part = (sums.acts[row.act] ??= {
+            reached: 0,
+            warmer: 0,
+            cooler: 0,
+          });
+          part.reached += 1;
+          if (row.warmthAfter > row.warmthBefore) part.warmer += 1;
+          else if (row.warmthAfter < row.warmthBefore) part.cooler += 1;
+          sums.moved = sums.moved + (row.warmthAfter - row.warmthBefore);
+        }
         if (
           row.act === "door" &&
           row.actorId === candidateId &&
@@ -5862,6 +6093,7 @@ function foldCauses(
         moved,
         acts,
         firstDoor,
+        byFiling,
       } as unknown as ModuleRow);
     }
   }
@@ -5954,7 +6186,7 @@ export function sendMail(
  * The campaign rents an evening at a venue in town (a hall, lodge or
  * restaurant room, `seller`) at the event-venue unit price, paid from its
  * account on the journal: an event's evening and a forum's alike. Returns
- * the venue's seller and the money record's id.
+ * the venue's seller and the id the journal entry names as its source.
  */
 export function rentVenue(
   api: CoreAPI,

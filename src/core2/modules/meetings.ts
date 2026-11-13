@@ -77,6 +77,8 @@ import {
 } from "./press";
 import { closenessBetween } from "../closeness";
 import { personLean, questionAxis } from "../campaign-views";
+import { homeDistanceMiles } from "../home-distance";
+import { campaignParameter } from "../campaign-data";
 import { type Stance } from "../campaign-data";
 import { agreementWith, countedLean, viewOn } from "./views";
 import { POLICY_QUESTIONS } from "../policy-answers";
@@ -251,7 +253,7 @@ function scheduleWeek(api: CoreAPI, from: string): void {
   });
 }
 
-function townAdults(api: CoreAPI): PersonState[] {
+export function townAdults(api: CoreAPI): PersonState[] {
   const adultAge = api.parameter("votingAge");
   const date = api.state.date;
   return [...(api.state.peopleByPlace.get(lawChain(api).townPlaceId) ?? [])]
@@ -654,6 +656,8 @@ export function townHallDrives(
   question: string | undefined;
   base: number;
   drive: number;
+  /** What the evening costs them, in the units of the drive. */
+  cost: number;
   lean: number;
 }[] {
   const questions = Object.keys(POLICY_QUESTIONS).filter(
@@ -687,10 +691,47 @@ export function townHallDrives(
         .slice()
         .sort((a, b) => salience(b) - salience(a) || a.localeCompare(b))[0];
       const base = question ? salience(question) : 0;
-      return { p, question, base, ...driveOf(base, p, api.state) };
+      const { drive, lean: temperament } = driveOf(base, p, api.state);
+      // What the evening costs them (their work's hours and how far they live),
+      // weighed against how strongly they feel: a room fills only with those
+      // for whom it is worth the trip (as `attendCase` does for party meetings).
+      return {
+        p,
+        question,
+        base,
+        drive,
+        cost: eveningCost(api.state as CoreState, p),
+        lean: temperament,
+      };
     })
-    .filter((row) => row.drive > 0)
-    .sort((a, b) => b.drive - a.drive || a.p.id.localeCompare(b.p.id));
+    .filter((row) => row.drive - row.cost > 0)
+    .sort(
+      (a, b) =>
+        b.drive - b.cost - (a.drive - a.cost) || a.p.id.localeCompare(b.p.id),
+    );
+}
+
+/**
+ * What an evening out costs a resident, in the units of how strongly they feel
+ * (0 to 1): the share of a working week their work already takes, and how far
+ * their home is from the middle of town. Both slide, so a retiree across town
+ * and a worker next door each pay a part.
+ */
+function eveningCost(core: CoreState, p: Readonly<PersonState>): number {
+  const weeklyWork = [...(core.work.commitmentsByPerson.get(p.id) ?? [])]
+    .map((id) => core.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0)
+    .reduce((a, b) => a + b, 0);
+  const workShare = Math.min(
+    1,
+    weeklyWork / campaignParameter("turnoutWorkWeekMinutes"),
+  );
+  const miles = homeDistanceMiles(core, p.householdId);
+  const farShare =
+    miles / (miles + meetingParameter("townHallHalfDistanceMiles"));
+  return (
+    meetingParameter("townHallFreeTimeCost") * workShare +
+    meetingParameter("townHallDistanceCost") * farShare
+  );
 }
 
 /** A host's town hall on a day: one a day, by who held it and when. */
