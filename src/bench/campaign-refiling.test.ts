@@ -181,6 +181,9 @@ it(
         ).status,
         `on the ballot: ${note}`,
       ).toBe("on-ballot");
+      process.stdout.write(
+        `campaign-refiling: second filing reached in place ${n + 1} of ${PLACES}; passed over ${tried.length}: ${tried.join(" | ")}\n`,
+      );
       return;
     }
     throw new Error(
