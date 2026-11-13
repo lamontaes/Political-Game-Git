@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/p2-past-votes-by-level
-pr:
+pr: #9009
 after:
 blocked-on:
 lead: play-first
