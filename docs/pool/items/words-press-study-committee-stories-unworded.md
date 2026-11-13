@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: Words builder W3 (opus-d51c)
-pr:
+pr: 8982
 after:
 blocked-on:
 lead: words
