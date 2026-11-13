@@ -4714,13 +4714,14 @@ function questionOnce(conversation: Conversation): void {
   if (!names.length) return;
   const pattern = new RegExp(
     `(?<![\\w'])(${names.map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})(?![\\w'])`,
-    "g",
+    // A name that opens a sentence is said with a capital: it is the same name.
+    "gi",
   );
   const say = (text: string, onTable: string | null) => {
     let table = onTable;
     const out = text.replace(pattern, (name) => {
-      if (name === table) return QUESTION_AGAIN_WORD;
-      table = name;
+      if (name.toLowerCase() === table) return QUESTION_AGAIN_WORD;
+      table = name.toLowerCase();
       return name;
     });
     return { text: out === text ? text : sentenceStarts(out), table };

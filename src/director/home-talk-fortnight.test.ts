@@ -169,7 +169,7 @@ const QUESTION_NAMES = Object.values(
   .sort((a, b) => b.length - a.length);
 const QUESTION_NAME = new RegExp(
   `(?<![\\w'])(${QUESTION_NAMES.map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})(?![\\w'])`,
-  "g",
+  "gi",
 );
 const NON_ANSWER = /^(okay|oh, i see|alright|all right|oh, okay)\.$/i;
 const OUTSIDE =
@@ -423,11 +423,11 @@ function fortnight(draw: number): string[] {
         let onTable: string | null = null;
         for (const line of talk.lines)
           for (const match of line.text.matchAll(QUESTION_NAME)) {
-            if (match[1] === onTable)
+            if (match[1]!.toLowerCase() === onTable)
               broken.push(
                 `${here}: ${match[1]} named in full twice in one talk: "${line.text}"`,
               );
-            onTable = match[1]!;
+            onTable = match[1]!.toLowerCase();
           }
         const screen = [
           ...talk.lines.map((line) => line.text),
