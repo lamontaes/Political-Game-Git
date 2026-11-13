@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-core-life-record-part-6-the-past-holds-what-happened-between-people
 pr: #8957
@@ -19,6 +19,7 @@ source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T06:03:12.138Z
 branch: claude/pool-core-life-record-part-6-the-past-holds-what-happened-between-people
+merged-at: 2026-11-13T03:56:34.960Z
 ---
 
 **What.** The owner, Nov 8: "None of my history is simulated. I can't see anything that my character went through. No, a girlfriend or a car accident or college or whatever." The past now tells school, work and moves. Nothing in it happened between people or to a body. Seen: a person's card, which now tells an earlier partner and a serious illness or injury (owner, Nov 8).
