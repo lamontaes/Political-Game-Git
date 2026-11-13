@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: Words builder W3
-pr:
+pr: 8995
 after: words-press-study-committee-stories-unworded
 blocked-on:
 lead: words
