@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/red-main-outlook-money-drift
-pr: 8996
+pr: #8996
 after:
 blocked-on:
 lead: cto
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: Red desk, Nov 13 (Account lead T7 on #8928, comment 6842671869)
+merged-at: 2026-11-13T05:12:09.979Z
 ---
 
 **What.** `src/bench/dev-outlook.test.ts` fails on clean main in nearly every drawn place: Hagåtña, Guam (DEV_MODE_SEED=407cf5672cb2f1da), El Chaparral, Texas (bb4c89efc75cd75a), Ash Grove, Missouri (24bc87d3e7e66f9c) and Bruning, Nebraska (776a993f8b09cf32). Dev mode's outlook says the country's next 20 years could not be (`couldBe` false) with no problem listed, because its dollars drift by 0.005% (4.9e-5 against a bound of 1e-9). Seen: dev mode's outlook says the country could be, and its money adds up.
