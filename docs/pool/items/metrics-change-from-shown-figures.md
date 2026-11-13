@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: account lead T38
-pr:
+pr: #9068
 blocked-on:
 after:
 lead: metrics
