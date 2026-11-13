@@ -1,6 +1,4 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -105,31 +103,18 @@ describe("a founded business keeps the outside buyers it won while it hires its 
     );
   }, 900_000);
 
-  it("in a drawn place where a business is founded, the same holds", () => {
-    const run = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-    const passed: string[] = [];
-    for (let attempt = 0; attempt < 4; attempt += 1) {
-      const place = drawPlace(
-        attempt ? `${run}:${attempt}` : run,
-        "core2-founded-outside-buyers",
-      );
-      const where = `${place.name} (${place.key}), run seed ${run}, world seed ${place.seed}`;
-      const rows = followFoundings(place.seed, place.key, 240);
-      if (!rows.some((row) => row.hiring.length > 0)) {
-        // No business founded with outside buyers and seen hiring: nothing to check here.
-        passed.push(
-          `${where}: ${rows.length} foundings with outside buyers, none seen hiring`,
-        );
-        continue;
-      }
-      expectHeld(where, rows);
-      process.stdout.write(
-        `founded outside buyers: ${where}: ${rows.length} foundings checked${passed.length ? `; passed over ${passed.join("; ")}` : ""}\n`,
-      );
-      return;
-    }
+  it("in Teaticket, Massachusetts (2569205, seed 7267935d...), where factories and an inn are founded in the first year, the same holds", () => {
+    const seed =
+      "7267935d62c897ff6a2b675177b96c7de73b8bb5cd851a0a2c431c61eacde194";
+    const where = `Teaticket, Massachusetts (2569205), seed ${seed}`;
+    const rows = followFoundings(seed, "2569205", 240);
+    expect(
+      rows.some((row) => row.hiring.length > 0),
+      `${where}: no founding was seen hiring its opening staff`,
+    ).toBe(true);
+    expectHeld(where, rows);
     process.stdout.write(
-      `founded outside buyers: no drawn place had a founding to check (run seed ${run}): ${passed.join("; ")}\n`,
+      `founded outside buyers: ${where}: ${rows.length} foundings checked\n`,
     );
-  }, 1_800_000);
+  }, 900_000);
 });
