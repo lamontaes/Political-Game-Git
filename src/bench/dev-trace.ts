@@ -1193,10 +1193,13 @@ export function traceNode(
     found?.engine === "core.cashJournal"
       ? (found.record as { sourceRef?: { kind: string; id: string } }).sourceRef
       : undefined;
+  // Let go means no store keeps it: an id no store keeps still answers from
+  // the records it names (`id-parts`), and is folded all the same.
+  const kept = sourceRef ? findRecord(core, sourceRef.id) : undefined;
   if (
     sourceRef &&
     CAMPAIGN_MONEY_KINDS.includes(sourceRef.kind) &&
-    !findRecord(core, sourceRef.id)
+    (!kept || kept.engine === ID_PARTS_ENGINE)
   ) {
     const at = children.findIndex(
       (child) => child.kind === "missing" && child.id === sourceRef.id,
