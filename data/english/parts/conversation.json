@@ -75,7 +75,8 @@
     "probation": "A sentence's probation, as people say a length (\"two years\"), from the justice engine's sentence.",
     "fine": "A sentence's fine, as people round it, from the justice engine's sentence.",
     "official": "The official a refused bribe was offered to, by name (the corruption crime row).",
-    "contested": "A mark: convicted at a trial the defendant fought (no guilty plea on the case)."
+    "contested": "A mark: convicted at a trial the defendant fought (no guilty plea on the case).",
+    "same-town": "A mark: the speaker lives in the listener's own town."
   },
   "maxWords": 10,
   "lineWords": {
@@ -1742,37 +1743,6 @@
       }
     },
     {
-      "key": "conversation.own-work-ask-still-at.are-you-still-there",
-      "move": "own-work-ask-still-at",
-      "kind": "spoken",
-      "text": "Are you still there?",
-      "uses": [
-        {
-          "move": "home-raise-still-in",
-          "subject": "home",
-          "role": "raise",
-          "choice": "still-in"
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "hearings": 1,
-        "house": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "FORMULA SAFETY AND SUPPLY: PROTECTING THE HEALTH OF AMERICA'S BABIES",
-        "date": "2022-05-25",
-        "granule": "CHRG-117hhrg61456",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg61456/html/CHRG-117hhrg61456.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
       "key": "conversation.own-work-raise-tell.i-work-at-employer",
       "move": "own-work-raise-tell",
       "kind": "spoken",
@@ -2340,138 +2310,6 @@
       }
     },
     {
-      "key": "conversation.own-work-answer-turn.what-are-you-doing-now",
-      "move": "own-work-answer-turn",
-      "kind": "spoken",
-      "text": "What are you doing now?",
-      "uses": [
-        {
-          "move": "own-work-new-ask-where",
-          "subject": "own-work-new",
-          "role": "ask",
-          "choice": "where"
-        },
-        {
-          "move": "their-work-raise-ask",
-          "subject": "their-work",
-          "role": "raise",
-          "choice": "ask"
-        }
-      ],
-      "transcriptsUsing": 10,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
-        "dcpd": 2,
-        "house": 1,
-        "nasa": 1
-      },
-      "source": {
-        "document": "Remarks at a Campaign Reception in New York City",
-        "date": "2023-06-29",
-        "granule": "DCPD-202300586",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300586/html/DCPD-202300586.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
-      "key": "conversation.own-work-answer-turn.what-do-you-do",
-      "move": "own-work-answer-turn",
-      "kind": "spoken",
-      "text": "What do you do?",
-      "uses": [
-        {
-          "move": "own-work-new-ask-where",
-          "subject": "own-work-new",
-          "role": "ask",
-          "choice": "where"
-        },
-        {
-          "move": "their-work-raise-ask",
-          "subject": "their-work",
-          "role": "raise",
-          "choice": "ask"
-        },
-        {
-          "move": "own-work-new-answer-turn",
-          "subject": "own-work-new",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        }
-      ],
-      "transcriptsUsing": 121,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "National Archives History Office oral history project (nyc-oral-histories)": 2,
-        "Richard Nixon Presidential Library (NARA) oral history project": 2,
-        "U.S. Election Assistance Commission (eac.gov)": 3,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 8,
-        "U.S. Senate Historical Office oral history": 11,
-        "briefing": 1,
-        "crec": 11,
-        "dcpd": 22,
-        "hearings": 16,
-        "house": 4,
-        "nasa": 14,
-        "nasa2": 5,
-        "nih": 1,
-        "nps": 19,
-        "nps.gov (PDF)": 1
-      },
-      "source": {
-        "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
-        "date": "2026-08-21",
-        "granule": "DCPD-202600552",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600552/html/DCPD-202600552.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
-      "key": "conversation.own-work-answer-turn.where-do-you-work",
-      "move": "own-work-answer-turn",
-      "kind": "spoken",
-      "text": "Where do you work?",
-      "uses": [
-        {
-          "move": "own-work-new-ask-where",
-          "subject": "own-work-new",
-          "role": "ask",
-          "choice": "where"
-        },
-        {
-          "move": "own-work-new-answer-turn",
-          "subject": "own-work-new",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "Remarks on Signing a Proclamation on National Nurses Day, 2020, and an Exchange With Reporters",
-        "date": "2020-05-06",
-        "granule": "DCPD-202000333",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202000333/html/DCPD-202000333.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
       "key": "conversation.own-work-answer-brief.nothings-changed",
       "move": "own-work-answer-brief",
       "kind": "spoken",
@@ -2767,70 +2605,6 @@
       }
     },
     {
-      "key": "conversation.own-work-new-ask-where.where-are-you-working-now",
-      "move": "own-work-new-ask-where",
-      "kind": "spoken",
-      "text": "Where are you working now?",
-      "uses": [
-        {
-          "move": "own-work-new-ask-where",
-          "subject": "own-work-new",
-          "role": "ask",
-          "choice": "where"
-        },
-        {
-          "move": "their-work-raise-ask",
-          "subject": "their-work",
-          "role": "raise",
-          "choice": "ask"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1
-      },
-      "source": {
-        "document": "Sara Lyons Davis oral history interview",
-        "date": "2025-05-01",
-        "granule": "nara-staff-oral-history-interview-with-sara-lyons-davis",
-        "url": "https://www.archives.gov/files/about/history/oral-history-interview-with-sara-lyons-davis.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
-      "key": "conversation.own-work-new-ask-where.what-do-you-do-for-a-living",
-      "move": "own-work-new-ask-where",
-      "kind": "spoken",
-      "text": "What do you do for a living?",
-      "uses": [
-        {
-          "move": "own-work-new-ask-where",
-          "subject": "own-work-new",
-          "role": "ask",
-          "choice": "where"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "Remarks on the Installation of New White House Flagpoles and an Exchange With Reporters",
-        "date": "2025-06-18",
-        "granule": "DCPD-202500703",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500703/html/DCPD-202500703.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
       "key": "conversation.own-work-new-answer-plain.at-employer",
       "move": "own-work-new-answer-plain",
       "kind": "spoken",
@@ -2976,37 +2750,6 @@
       }
     },
     {
-      "key": "conversation.their-work-raise-ask.what-do-you-do-now",
-      "move": "their-work-raise-ask",
-      "kind": "spoken",
-      "text": "What do you do now?",
-      "uses": [
-        {
-          "move": "their-work-raise-ask",
-          "subject": "their-work",
-          "role": "raise",
-          "choice": "ask"
-        }
-      ],
-      "transcriptsUsing": 14,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 10,
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 1,
-        "nasa": 1
-      },
-      "source": {
-        "document": "Press Briefing by Press Secretary Karine Jean-Pierre and Commerce Secretary Gina Raimondo",
-        "date": "2022-09-06",
-        "granule": "WH-2022-09-06-press-briefing-by-press-secretary-karine-jean-pierre-and-commerce-secr",
-        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2022/09/06/press-briefing-by-press-secretary-karine-jean-pierre-and-commerce-secretary-gina-raimondo/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
       "key": "conversation.other-work-reply-none.not-right-now",
       "move": "other-work-reply-none",
       "kind": "spoken",
@@ -3018,6 +2761,12 @@
           "role": "reply",
           "choice": "none",
           "stages": ["none"]
+        },
+        {
+          "move": "quiet-answer-alone",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "alone"
         }
       ],
       "transcriptsUsing": 15,
@@ -3513,6 +3262,12 @@
           "subject": "job-new-reply",
           "role": "answer",
           "choice": "congratulate"
+        },
+        {
+          "move": "job-new-detail-reply-answer-congratulate",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "congratulate"
         }
       ],
       "transcriptsUsing": 27,
@@ -3663,67 +3418,6 @@
       "bearing": "glad"
     },
     {
-      "key": "conversation.other-work-answer-tenure.how-long-have-you-been-there",
-      "move": "other-work-answer-tenure",
-      "kind": "spoken",
-      "text": "How long have you been there?",
-      "uses": [
-        {
-          "move": "their-tenure-raise-ask",
-          "subject": "their-tenure",
-          "role": "raise",
-          "choice": "ask"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "hearings": 1,
-        "nasa": 1
-      },
-      "source": {
-        "document": "REUSABLE MEDICAL EQUIPMENT: CONTINUING TO EXAMINE VHA'S STERILE PROCESSING PROBLEMS",
-        "date": "2018-09-05",
-        "granule": "CHRG-115hhrg35828",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-115hhrg35828/html/CHRG-115hhrg35828.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "curious"
-    },
-    {
-      "key": "conversation.other-work-answer-tenure.how-long-have-you-been-doing-that",
-      "move": "other-work-answer-tenure",
-      "kind": "spoken",
-      "text": "How long have you been doing that?",
-      "uses": [
-        {
-          "move": "their-tenure-raise-ask",
-          "subject": "their-tenure",
-          "role": "raise",
-          "choice": "ask"
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "hearings": 2,
-        "nasa2": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "EXAMINING THE MANAGEMENT OF RED SNAPPER FISHING IN THE GULF OF MEXICO",
-        "date": "2017-05-02",
-        "granule": "CHRG-115hhrg27115",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-115hhrg27115/html/CHRG-115hhrg27115.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "curious"
-    },
-    {
       "key": "conversation.other-work-answer-tenure.how-long",
       "move": "other-work-answer-tenure",
       "kind": "spoken",
@@ -3866,49 +3560,6 @@
       },
       "tag": {
         "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.tenure-reply-answer-turn.thats-a-long-time",
-      "move": "tenure-reply-answer-turn",
-      "kind": "spoken",
-      "text": "That's a long time.",
-      "uses": [
-        {
-          "move": "tenure-reply-answer-turn",
-          "subject": "tenure-reply",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "next-2"
-        },
-        {
-          "move": "tenure-reply-answer-ack",
-          "subject": "tenure-reply",
-          "role": "answer",
-          "choice": "ack"
-        }
-      ],
-      "transcriptsUsing": 70,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "briefing": 1,
-        "dcpd": 47,
-        "hearings": 1,
-        "nasa": 4,
-        "nasa2": 4,
-        "nps": 10,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Remarks on Affordability in Macungie, Pennsylvania",
-        "date": "2026-06-23",
-        "granule": "DCPD-202600423",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600423/html/DCPD-202600423.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "react"
       }
     },
     {
@@ -4109,77 +3760,6 @@
       }
     },
     {
-      "key": "conversation.home-answer-always.i-grew-up-here",
-      "move": "home-answer-always",
-      "kind": "spoken",
-      "text": "I grew up here.",
-      "uses": [
-        {
-          "move": "home-answer-always",
-          "subject": "home",
-          "role": "answer",
-          "choice": "always",
-          "stages": ["born"]
-        },
-        {
-          "move": "home-new-answer-always",
-          "subject": "home-new",
-          "role": "answer",
-          "choice": "always",
-          "stages": ["born"]
-        }
-      ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "crec": 1,
-        "hearings": 1,
-        "house": 1,
-        "nps": 5,
-        "nps.gov (PDF)": 1
-      },
-      "source": {
-        "document": "THE GLOBAL FIGHT TO END MODERN SLAVERY",
-        "date": "2018-11-28",
-        "granule": "CHRG-115shrg40475",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-115shrg40475/html/CHRG-115shrg40475.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.home-answer-always.i-was-born-here",
-      "move": "home-answer-always",
-      "kind": "spoken",
-      "text": "I was born here.",
-      "uses": [
-        {
-          "move": "home-answer-always",
-          "subject": "home",
-          "role": "answer",
-          "choice": "always",
-          "stages": ["born"]
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "dcpd": 2,
-        "nps": 2,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Remarks at a Campaign Event for Senator Robert P. Casey, Jr., in Bryn Mawr, Pennsylvania",
-        "date": "2024-10-08",
-        "granule": "DCPD-202400891",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400891/html/DCPD-202400891.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.home-answer-turn.you-too",
       "move": "home-answer-turn",
       "kind": "spoken",
@@ -4315,120 +3895,6 @@
       },
       "tag": {
         "move": "lie"
-      }
-    },
-    {
-      "key": "conversation.home-new-ask-where.where-are-you-from",
-      "move": "home-new-ask-where",
-      "kind": "spoken",
-      "text": "Where are you from?",
-      "uses": [
-        {
-          "move": "home-new-ask-where",
-          "subject": "home-new",
-          "role": "ask",
-          "choice": "where"
-        },
-        {
-          "move": "home-new-answer-turn",
-          "subject": "home-new",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "home"
-        }
-      ],
-      "transcriptsUsing": 87,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 35,
-        "U.S. Senate Historical Office oral history": 3,
-        "briefing": 2,
-        "crec": 1,
-        "dcpd": 31,
-        "hearings": 1,
-        "house": 1,
-        "nasa": 4,
-        "nasa2": 1,
-        "nih": 2,
-        "nps": 6
-      },
-      "source": {
-        "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
-        "date": "2026-09-04",
-        "granule": "DCPD-202600575",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600575/html/DCPD-202600575.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
-      "key": "conversation.home-new-ask-where.where-do-you-come-from",
-      "move": "home-new-ask-where",
-      "kind": "spoken",
-      "text": "Where do you come from?",
-      "uses": [
-        {
-          "move": "home-new-ask-where",
-          "subject": "home-new",
-          "role": "ask",
-          "choice": "where"
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 1,
-        "dcpd": 3
-      },
-      "source": {
-        "document": "Remarks to the United Nations General Assembly in New York City",
-        "date": "2025-09-23",
-        "granule": "DCPD-202500944",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500944/html/DCPD-202500944.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
-      "key": "conversation.home-new-answer-plain.im-from-place",
-      "move": "home-new-answer-plain",
-      "kind": "spoken",
-      "text": "I'm from {place}.",
-      "uses": [
-        {
-          "move": "home-new-answer-plain",
-          "subject": "home-new",
-          "role": "answer",
-          "choice": "plain"
-        }
-      ],
-      "transcriptsUsing": 136,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 4,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 12,
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 5,
-        "dcpd": 68,
-        "hearings": 10,
-        "house": 2,
-        "nasa": 6,
-        "nasa2": 7,
-        "nps": 18
-      },
-      "source": {
-        "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
-        "date": "2026-07-08",
-        "granule": "DCPD-202600450",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600450/html/DCPD-202600450.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
       }
     },
     {
@@ -4604,10 +4070,10 @@
       }
     },
     {
-      "key": "conversation.home-new-answer-brief.right-here-in-place",
+      "key": "conversation.home-new-answer-brief.right-here",
       "move": "home-new-answer-brief",
       "kind": "spoken",
-      "text": "Right here in {place}.",
+      "text": "Right here.",
       "uses": [
         {
           "move": "home-new-answer-brief",
@@ -4639,44 +4105,6 @@
       }
     },
     {
-      "key": "conversation.home-new-answer-brief.right-here",
-      "move": "home-new-answer-brief",
-      "kind": "spoken",
-      "text": "Right here.",
-      "uses": [
-        {
-          "move": "home-new-answer-brief",
-          "subject": "home-new",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        }
-      ],
-      "transcriptsUsing": 160,
-      "bySource": {
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 2,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "briefing": 22,
-        "dcpd": 121,
-        "hearings": 5,
-        "nasa": 1,
-        "nps": 5,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Remarks During a Greeting With California State Parks Lifeguard Ryder Williams and an Exchange With Reporters",
-        "date": "2026-08-17",
-        "granule": "DCPD-202600543",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600543/html/DCPD-202600543.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.home-reply-reply-still.i-live-in-place",
       "move": "home-reply-reply-still",
       "kind": "spoken",
@@ -4686,7 +4114,8 @@
           "move": "home-reply-reply-still",
           "subject": "home-reply",
           "role": "reply",
-          "choice": "still"
+          "choice": "still",
+          "excludesFacts": ["same-town"]
         }
       ],
       "transcriptsUsing": 76,
@@ -4879,6 +4308,12 @@
           "subject": "home-reply",
           "role": "answer",
           "choice": "ack"
+        },
+        {
+          "move": "job-new-reply-answer-brief",
+          "subject": "job-new-reply",
+          "role": "answer",
+          "choice": "brief"
         }
       ],
       "transcriptsUsing": 4,
@@ -5357,85 +4792,6 @@
       }
     },
     {
-      "key": "conversation.shared-school-reply-years.that-was-a-long-time-ago",
-      "move": "shared-school-reply-years",
-      "kind": "spoken",
-      "text": "That was a long time ago.",
-      "uses": [
-        {
-          "move": "shared-school-reply-years",
-          "subject": "shared-school",
-          "role": "reply",
-          "choice": "years"
-        },
-        {
-          "move": "shared-school-answer-years",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "years"
-        }
-      ],
-      "transcriptsUsing": 27,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Senate Historical Office oral history": 1,
-        "crec": 1,
-        "dcpd": 7,
-        "hearings": 2,
-        "house": 1,
-        "nasa": 8,
-        "nih": 1,
-        "nps": 2,
-        "wpa": 2
-      },
-      "source": {
-        "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
-        "date": "2026-07-08",
-        "granule": "DCPD-202600450",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600450/html/DCPD-202600450.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "conversation.shared-school-reply-years.that-was-years-ago",
-      "move": "shared-school-reply-years",
-      "kind": "spoken",
-      "text": "That was years ago.",
-      "uses": [
-        {
-          "move": "shared-school-reply-years",
-          "subject": "shared-school",
-          "role": "reply",
-          "choice": "years"
-        },
-        {
-          "move": "shared-school-answer-years",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "years"
-        }
-      ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "dcpd": 5,
-        "nps": 1
-      },
-      "source": {
-        "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Lod, Israel",
-        "date": "2025-10-12",
-        "granule": "DCPD-202501004",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501004/html/DCPD-202501004.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
       "key": "conversation.shared-school-reply-years.its-been-years-years",
       "move": "shared-school-reply-years",
       "kind": "spoken",
@@ -5473,114 +4829,6 @@
         "date": "2026-03-03",
         "granule": "DCPD-202600145",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600145/html/DCPD-202600145.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "conversation.shared-school-reply-years.its-been-a-long-time",
-      "move": "shared-school-reply-years",
-      "kind": "spoken",
-      "text": "It's been a long time.",
-      "uses": [
-        {
-          "move": "shared-school-reply-years",
-          "subject": "shared-school",
-          "role": "reply",
-          "choice": "years"
-        }
-      ],
-      "transcriptsUsing": 42,
-      "bySource": {
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 2,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
-        "briefing": 4,
-        "dcpd": 25,
-        "nasa2": 3,
-        "nps": 3,
-        "wpa": 2
-      },
-      "source": {
-        "document": "Remarks Prior to a Working Lunch With President Volodymyr Zelenskky of Ukraine and an Exchange With Reporters",
-        "date": "2025-10-17",
-        "granule": "DCPD-202501023",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501023/html/DCPD-202501023.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.shared-school-reply-years.its-been-a-while",
-      "move": "shared-school-reply-years",
-      "kind": "spoken",
-      "text": "It's been a while.",
-      "uses": [
-        {
-          "move": "shared-school-reply-years",
-          "subject": "shared-school",
-          "role": "reply",
-          "choice": "years"
-        }
-      ],
-      "transcriptsUsing": 29,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "briefing": 12,
-        "dcpd": 9,
-        "hearings": 1,
-        "house": 1,
-        "nasa": 2,
-        "nasa2": 1,
-        "nps": 2
-      },
-      "source": {
-        "document": "Press Briefing by Press Secretary Karine Jean-Pierre and National Security Communications Adviser John Kirby",
-        "date": "2024-09-09",
-        "granule": "WH-2024-09-09-press-briefing-by-press-secretary-karine-jean-pierre-and-national-secu",
-        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "conversation.shared-school-reply-years.that-was-a-while-ago",
-      "move": "shared-school-reply-years",
-      "kind": "spoken",
-      "text": "That was a while ago.",
-      "uses": [
-        {
-          "move": "shared-school-reply-years",
-          "subject": "shared-school",
-          "role": "reply",
-          "choice": "years"
-        },
-        {
-          "move": "shared-school-answer-years",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "years"
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "crec": 1,
-        "dcpd": 2,
-        "nasa": 1,
-        "nasa2": 1
-      },
-      "source": {
-        "document": "Remarks to the Department of War in Quantico, Virginia",
-        "date": "2025-09-30",
-        "granule": "DCPD-202500970",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500970/html/DCPD-202500970.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -5650,6 +4898,12 @@
           "subject": "shared-work",
           "role": "answer",
           "choice": "plain"
+        },
+        {
+          "move": "shared-school-answer-brief",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "brief"
         }
       ],
       "transcriptsUsing": 468,
@@ -5926,46 +5180,6 @@
         "move": "answer"
       },
       "bearing": "glad"
-    },
-    {
-      "key": "conversation.shared-school-answer-plain.ill-never-forget-it",
-      "move": "shared-school-answer-plain",
-      "kind": "spoken",
-      "text": "I'll never forget it.",
-      "uses": [
-        {
-          "move": "shared-school-answer-plain",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "plain"
-        }
-      ],
-      "transcriptsUsing": 44,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 2,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 5,
-        "U.S. Senate Historical Office oral history": 8,
-        "dcpd": 13,
-        "hearings": 1,
-        "house": 3,
-        "nasa": 2,
-        "nasa2": 1,
-        "nih": 1,
-        "nps": 5,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Remarks at the Inaugural Meeting of the Board of Peace",
-        "date": "2026-02-19",
-        "granule": "DCPD-202600120",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600120/html/DCPD-202600120.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
     },
     {
       "key": "conversation.shared-school-answer-turn.i-do",
@@ -6463,67 +5677,6 @@
         "date": "2026-03-07",
         "granule": "DCPD-202600155",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600155/html/DCPD-202600155.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.mutual-reply-not.i-havent-seen-him",
-      "move": "mutual-reply-not",
-      "kind": "spoken",
-      "text": "I haven't seen him.",
-      "uses": [
-        {
-          "move": "mutual-reply-not",
-          "subject": "mutual",
-          "role": "reply",
-          "choice": "not",
-          "stages": ["not"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 1,
-        "nasa": 1,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Daily Press Briefing by Press Secretary Sean Spicer",
-        "date": "2017-05-09",
-        "granule": "WH-2017-05-09-daily-press-briefing-press-secretary-sean-spicer-050917",
-        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/daily-press-briefing-press-secretary-sean-spicer-050917/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.mutual-reply-not.i-havent-seen-them",
-      "move": "mutual-reply-not",
-      "kind": "spoken",
-      "text": "I haven't seen them.",
-      "uses": [
-        {
-          "move": "mutual-reply-not",
-          "subject": "mutual",
-          "role": "reply",
-          "choice": "not",
-          "stages": ["not"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Remarks on Signing the Miracle on Ice Congressional Gold Medal Act and an Exchange With Reporters",
-        "date": "2025-12-12",
-        "granule": "DCPD-202501189",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501189/html/DCPD-202501189.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -7171,37 +6324,6 @@
       },
       "tag": {
         "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.school-ask-how.where-did-you-go-to-school",
-      "move": "school-ask-how",
-      "kind": "spoken",
-      "text": "Where did you go to school?",
-      "uses": [
-        {
-          "move": "school-ask-how",
-          "subject": "school",
-          "role": "ask",
-          "choice": "how"
-        }
-      ],
-      "transcriptsUsing": 20,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 10,
-        "dcpd": 3,
-        "nps": 6
-      },
-      "source": {
-        "document": "Remarks Prior to a Cabinet Meeting and an Exchange With Reporters at Camp David, Maryland",
-        "date": "2026-07-31",
-        "granule": "DCPD-202600509",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600509/html/DCPD-202600509.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
       }
     },
     {
@@ -8439,53 +7561,6 @@
       "bearing": "glad"
     },
     {
-      "key": "conversation.news-answer-react.i-didnt-know-that",
-      "move": "news-answer-react",
-      "kind": "spoken",
-      "text": "I didn't know that.",
-      "uses": [
-        {
-          "move": "lie-doubt-question",
-          "subject": "lie",
-          "role": "doubt",
-          "choice": "question"
-        }
-      ],
-      "transcriptsUsing": 131,
-      "bySource": {
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
-        "National Archives History Office oral history project": 1,
-        "National Archives History Office oral history project (brooks-oral-histories)": 2,
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 3,
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 6,
-        "U.S. Senate Historical Office oral history": 16,
-        "briefing": 1,
-        "dcpd": 45,
-        "hearings": 9,
-        "house": 6,
-        "nasa": 9,
-        "nasa2": 4,
-        "nih": 1,
-        "nps": 21,
-        "nps.gov": 1
-      },
-      "source": {
-        "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
-        "date": "2026-07-23",
-        "granule": "DCPD-202600487",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600487/html/DCPD-202600487.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "conversation.news-answer-react.no-kidding",
       "move": "news-answer-react",
       "kind": "spoken",
@@ -9615,6 +8690,12 @@
           "choice": "bye"
         },
         {
+          "move": "job-new-told-reply-answer-thank",
+          "subject": "job-new-told-reply",
+          "role": "answer",
+          "choice": "thank"
+        },
+        {
           "move": "charge-reply-back-core",
           "subject": "charge-reply-back",
           "role": "core",
@@ -10680,72 +9761,6 @@
       }
     },
     {
-      "key": "conversation.home-new-answer-turn.where-do-you-live",
-      "move": "home-new-answer-turn",
-      "kind": "spoken",
-      "text": "Where do you live?",
-      "uses": [
-        {
-          "move": "home-new-answer-turn",
-          "subject": "home-new",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "home"
-        }
-      ],
-      "transcriptsUsing": 8,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 1,
-        "hearings": 1,
-        "nasa2": 1,
-        "nps": 2,
-        "nps.gov (PDF)": 2
-      },
-      "source": {
-        "document": "Remarks at the American Business Forum in Miami, Florida",
-        "date": "2025-11-05",
-        "granule": "DCPD-202501095",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501095/html/DCPD-202501095.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
-      "key": "conversation.asked-mutual-answer-not.not-for-a-long-time",
-      "move": "asked-mutual-answer-not",
-      "kind": "spoken",
-      "text": "Not for a long time.",
-      "uses": [
-        {
-          "move": "asked-mutual-answer-not",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "not",
-          "requiresFacts": ["my_not"]
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "dcpd": 2,
-        "hearings": 1,
-        "nih": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "ENERGY AND WATER DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR 2025",
-        "date": "2024-03-20",
-        "granule": "CHRG-118hhrg57786",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57786/html/CHRG-118hhrg57786.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.asked-mutual-answer-not.not-since-year",
       "move": "asked-mutual-answer-not",
       "kind": "spoken",
@@ -11050,36 +10065,6 @@
       }
     },
     {
-      "key": "conversation.mutual-reply-not.i-havent-seen-her",
-      "move": "mutual-reply-not",
-      "kind": "spoken",
-      "text": "I haven't seen her.",
-      "uses": [
-        {
-          "move": "mutual-reply-not",
-          "subject": "mutual",
-          "role": "reply",
-          "choice": "not",
-          "stages": ["not"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 1
-      },
-      "source": {
-        "document": "Oversight Of The Voting Rights Act: A Continuing Record Of Discrimination",
-        "date": "2021-05-27",
-        "granule": "CHRG-117hhrg46229",
-        "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg46229",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.mutual-reply-not.not-recently",
       "move": "mutual-reply-not",
       "kind": "spoken",
@@ -11310,35 +10295,6 @@
       }
     },
     {
-      "key": "conversation.family-open-open.we-need-to-talk",
-      "move": "family-open-open",
-      "kind": "spoken",
-      "text": "We need to talk.",
-      "uses": [
-        {
-          "move": "family-open-open",
-          "subject": "family-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "chrg": 2
-      },
-      "source": {
-        "document": "THE FUTURE OF DIGITAL ASSET REGULATION",
-        "date": "2022-06-23",
-        "granule": "CHRG-117hhrg49769",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg49769/html/CHRG-117hhrg49769.htm",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "request"
-      },
-      "bearing": "braced"
-    },
-    {
       "key": "conversation.family-open-open.can-we-talk",
       "move": "family-open-open",
       "kind": "spoken",
@@ -11506,36 +10462,6 @@
       }
     },
     {
-      "key": "conversation.job-hope-reply-answer-help.how-can-i-help",
-      "move": "job-hope-reply-answer-help",
-      "kind": "spoken",
-      "text": "How can I help?",
-      "uses": [
-        {
-          "move": "victimization-reply-answer-help",
-          "subject": "victimization-reply",
-          "role": "answer",
-          "choice": "help"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "house-oral": 1,
-        "nasa-oral": 1
-      },
-      "source": {
-        "document": "HUBBLE SPACE TELESCOPE OPERATIONAL ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT JOSEPH H. ROTHENBERG INTERVIEWED BY CHRISTOPHER GAINOR MOUNTAIN",
-        "date": "2016-09-27",
-        "granule": "rothenbergjr-9-27-16",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/03/rothenbergjr-9-27-16.pdf",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
       "key": "conversation.eviction-reply-answer-ask.how-come",
       "move": "eviction-reply-answer-ask",
       "kind": "spoken",
@@ -11575,34 +10501,6 @@
         "key": "loss"
       },
       "bearing": "curious"
-    },
-    {
-      "key": "conversation.family-open-open.can-i-talk-to-you",
-      "move": "family-open-open",
-      "kind": "spoken",
-      "text": "Can I talk to you?",
-      "uses": [
-        {
-          "move": "family-open-open",
-          "subject": "family-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Remarks at the Tribal Nations Summit",
-        "date": "2024-12-09",
-        "granule": "DCPD-202401060",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202401060/html/DCPD-202401060.htm",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "request"
-      }
     },
     {
       "key": "conversation.job-cause-reply-answer-ask.what-happens-now",
@@ -12313,28 +11211,6 @@
       }
     },
     {
-      "key": "conversation.job-new-reply-answer-ask.what-will-you-be-doing-there",
-      "move": "job-new-reply-answer-ask",
-      "kind": "spoken",
-      "text": "What will you be doing there?",
-      "uses": [
-        {
-          "move": "job-new-reply-answer-ask",
-          "subject": "job-new-reply",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "curious",
-      "tag": {
-        "move": "ask",
-        "key": "honor"
-      }
-    },
-    {
       "key": "conversation.job-new-reply-answer-ask.what-s-the-job",
       "move": "job-new-reply-answer-ask",
       "kind": "spoken",
@@ -12353,50 +11229,6 @@
       "bearing": "curious",
       "tag": {
         "move": "ask",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "conversation.job-new-reply-answer-brief.oh-nice-tell-me-about-it",
-      "move": "job-new-reply-answer-brief",
-      "kind": "spoken",
-      "text": "Oh, nice. Tell me about it.",
-      "uses": [
-        {
-          "move": "job-new-reply-answer-brief",
-          "subject": "job-new-reply",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "glad",
-      "tag": {
-        "move": "react",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "conversation.job-new-reply-answer-brief.wow-how-did-that-come-about",
-      "move": "job-new-reply-answer-brief",
-      "kind": "spoken",
-      "text": "Wow. How did that come about?",
-      "uses": [
-        {
-          "move": "job-new-reply-answer-brief",
-          "subject": "job-new-reply",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "curious",
-      "tag": {
-        "move": "react",
         "key": "honor"
       }
     },
@@ -12467,50 +11299,6 @@
       }
     },
     {
-      "key": "conversation.job-new-told-reply-answer-thank.thanks-it-finally-came-through",
-      "move": "job-new-told-reply-answer-thank",
-      "kind": "spoken",
-      "text": "Thanks. It finally came through.",
-      "uses": [
-        {
-          "move": "job-new-told-reply-answer-thank",
-          "subject": "job-new-told-reply",
-          "role": "answer",
-          "choice": "thank"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "glad",
-      "tag": {
-        "move": "thank",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "conversation.job-new-told-reply-answer-thank.thank-you-i-appreciate-that",
-      "move": "job-new-told-reply-answer-thank",
-      "kind": "spoken",
-      "text": "Thank you. I appreciate that.",
-      "uses": [
-        {
-          "move": "job-new-told-reply-answer-thank",
-          "subject": "job-new-told-reply",
-          "role": "answer",
-          "choice": "thank"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "thank",
-        "key": "honor"
-      }
-    },
-    {
       "key": "conversation.job-new-told-reply-answer-tell.i-start-soon",
       "move": "job-new-told-reply-answer-tell",
       "kind": "spoken",
@@ -12533,137 +11321,10 @@
       }
     },
     {
-      "key": "conversation.job-new-told-reply-answer-tell.it-s-a-good-job-i-ll-tell-you-more-about-it",
-      "move": "job-new-told-reply-answer-tell",
-      "kind": "spoken",
-      "text": "It's a good job. I'll tell you more about it.",
-      "uses": [
-        {
-          "move": "job-new-told-reply-answer-tell",
-          "subject": "job-new-told-reply",
-          "role": "answer",
-          "choice": "tell"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "glad",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
       "key": "conversation.family-open-open.got-a-minute",
       "move": "family-open-open",
       "kind": "spoken",
       "text": "Got a minute?",
-      "uses": [
-        {
-          "move": "family-open-open",
-          "subject": "family-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "request"
-      }
-    },
-    {
-      "key": "conversation.family-open-open.can-i-tell-you-something",
-      "move": "family-open-open",
-      "kind": "spoken",
-      "text": "Can I tell you something?",
-      "uses": [
-        {
-          "move": "family-open-open",
-          "subject": "family-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "nervous",
-      "tag": {
-        "move": "request"
-      }
-    },
-    {
-      "key": "conversation.family-open-open.there-s-something-i-need-to-tell-you",
-      "move": "family-open-open",
-      "kind": "spoken",
-      "text": "There's something I need to tell you.",
-      "uses": [
-        {
-          "move": "family-open-open",
-          "subject": "family-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "solemn",
-      "tag": {
-        "move": "request"
-      }
-    },
-    {
-      "key": "conversation.family-open-open.come-sit-with-me",
-      "move": "family-open-open",
-      "kind": "spoken",
-      "text": "Come sit with me.",
-      "uses": [
-        {
-          "move": "family-open-open",
-          "subject": "family-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "request"
-      }
-    },
-    {
-      "key": "conversation.family-open-open.i-need-to-talk-to-you-about-something",
-      "move": "family-open-open",
-      "kind": "spoken",
-      "text": "I need to talk to you about something.",
-      "uses": [
-        {
-          "move": "family-open-open",
-          "subject": "family-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "solemn",
-      "tag": {
-        "move": "request"
-      }
-    },
-    {
-      "key": "conversation.family-open-open.do-you-have-a-second",
-      "move": "family-open-open",
-      "kind": "spoken",
-      "text": "Do you have a second?",
       "uses": [
         {
           "move": "family-open-open",
@@ -12702,48 +11363,6 @@
       }
     },
     {
-      "key": "conversation.other-work-answer-tenure.have-you-been-there-long",
-      "move": "other-work-answer-tenure",
-      "kind": "spoken",
-      "text": "Have you been there long?",
-      "uses": [
-        {
-          "move": "their-tenure-raise-ask",
-          "subject": "their-tenure",
-          "role": "raise",
-          "choice": "ask"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "curious",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.other-work-answer-tenure.how-long-has-it-been",
-      "move": "other-work-answer-tenure",
-      "kind": "spoken",
-      "text": "How long has it been?",
-      "uses": [
-        {
-          "move": "their-tenure-raise-ask",
-          "subject": "their-tenure",
-          "role": "raise",
-          "choice": "ask"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "curious",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.asked-mutual-answer-not.not-lately",
       "move": "asked-mutual-answer-not",
       "kind": "spoken",
@@ -12754,64 +11373,7 @@
           "subject": "asked-mutual",
           "role": "answer",
           "choice": "not"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.asked-mutual-answer-not.not-in-a-while",
-      "move": "asked-mutual-answer-not",
-      "kind": "spoken",
-      "text": "Not in a while.",
-      "uses": [
-        {
-          "move": "asked-mutual-answer-not",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "not"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.asked-mutual-answer-not.i-can-t-remember-the-last-time",
-      "move": "asked-mutual-answer-not",
-      "kind": "spoken",
-      "text": "I can't remember the last time.",
-      "uses": [
-        {
-          "move": "asked-mutual-answer-not",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "not"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "nervous",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask",
-      "move": "asked-mutual-answer-brief",
-      "kind": "spoken",
-      "text": "No, I haven't. Why do you ask?",
-      "uses": [
+        },
         {
           "move": "asked-mutual-answer-brief",
           "subject": "asked-mutual",
@@ -12822,51 +11384,9 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
-      "bearing": "curious",
+      "bearing": "calm",
       "tag": {
         "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.asked-mutual-answer-brief.nope-not-in-a-while",
-      "move": "asked-mutual-answer-brief",
-      "kind": "spoken",
-      "text": "Nope. Not in a while.",
-      "uses": [
-        {
-          "move": "asked-mutual-answer-brief",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "guarded",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.asked-mutual-answer-turn.why-do-you-ask",
-      "move": "asked-mutual-answer-turn",
-      "kind": "spoken",
-      "text": "Why do you ask?",
-      "uses": [
-        {
-          "move": "asked-mutual-answer-turn",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "turn"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "curious",
-      "tag": {
-        "move": "ask"
       }
     },
     {
@@ -12912,48 +11432,6 @@
       }
     },
     {
-      "key": "conversation.shared-school-answer-brief.of-course-how-could-i-forget",
-      "move": "shared-school-answer-brief",
-      "kind": "spoken",
-      "text": "Of course. How could I forget?",
-      "uses": [
-        {
-          "move": "shared-school-answer-brief",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "glad",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.shared-school-answer-brief.yeah-that-takes-me-back",
-      "move": "shared-school-answer-brief",
-      "kind": "spoken",
-      "text": "Yeah. That takes me back.",
-      "uses": [
-        {
-          "move": "shared-school-answer-brief",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.shared-school-answer-plain.how-could-i-forget-school",
       "move": "shared-school-answer-plain",
       "kind": "spoken",
@@ -12975,27 +11453,6 @@
       }
     },
     {
-      "key": "conversation.shared-school-answer-plain.those-were-the-days",
-      "move": "shared-school-answer-plain",
-      "kind": "spoken",
-      "text": "Those were the days.",
-      "uses": [
-        {
-          "move": "shared-school-answer-plain",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "plain"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years",
       "move": "shared-school-answer-years",
       "kind": "spoken",
@@ -13012,27 +11469,6 @@
       "author": "Words session",
       "date": "2026-10-15",
       "bearing": "tender",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.shared-school-answer-years.feels-like-forever-ago",
-      "move": "shared-school-answer-years",
-      "kind": "spoken",
-      "text": "Feels like forever ago.",
-      "uses": [
-        {
-          "move": "shared-school-answer-years",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "years"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
       "tag": {
         "move": "answer"
       }
@@ -13140,29 +11576,6 @@
       }
     },
     {
-      "key": "conversation.victimization-raise.someone-got-into-our-place-to-steal",
-      "move": "victimization-raise",
-      "kind": "spoken",
-      "text": "Someone got into our place to steal.",
-      "uses": [
-        {
-          "move": "victimization-raise",
-          "subject": "victimization",
-          "role": "raise",
-          "choice": "raise",
-          "stages": ["burglary"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item director-talk-lived-crime)",
-      "date": "2026-10-24",
-      "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
       "key": "conversation.victimization-raise.our-home-got-burglarized-when",
       "move": "victimization-raise",
       "kind": "spoken",
@@ -13190,29 +11603,6 @@
       "move": "victimization-raise",
       "kind": "spoken",
       "text": "We had something stolen {when}.",
-      "uses": [
-        {
-          "move": "victimization-raise",
-          "subject": "victimization",
-          "role": "raise",
-          "choice": "raise",
-          "stages": ["other-property"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item director-talk-lived-crime)",
-      "date": "2026-10-24",
-      "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.victimization-raise.somebody-stole-something-of-ours",
-      "move": "victimization-raise",
-      "kind": "spoken",
-      "text": "Somebody stole something of ours.",
       "uses": [
         {
           "move": "victimization-raise",
@@ -13393,23 +11783,6 @@
       }
     },
     {
-      "key": "conversation.address-ask-seen.did-you-see-the-president-s-speech",
-      "move": "address-ask-seen",
-      "kind": "spoken",
-      "text": "Did you see the President's speech?",
-      "uses": [
-        {
-          "move": "address-ask-seen",
-          "subject": "address",
-          "role": "ask",
-          "choice": "seen"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
       "key": "conversation.ack-reply-right.fair-enough",
       "move": "ack-reply-right",
       "kind": "spoken",
@@ -13437,50 +11810,6 @@
         "key": "household"
       },
       "bearing": "calm"
-    },
-    {
-      "key": "conversation.ack-reply-right.if-you-say-so",
-      "move": "ack-reply-right",
-      "kind": "spoken",
-      "text": "If you say so.",
-      "uses": [
-        {
-          "move": "ack-reply-right",
-          "subject": "ack",
-          "role": "reply",
-          "choice": "right"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "acknowledge",
-        "key": "household"
-      },
-      "bearing": "guarded"
-    },
-    {
-      "key": "conversation.ack-reply-right.that-s-what-i-thought-too",
-      "move": "ack-reply-right",
-      "kind": "spoken",
-      "text": "That's what I thought too.",
-      "uses": [
-        {
-          "move": "ack-reply-right",
-          "subject": "ack",
-          "role": "reply",
-          "choice": "right"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "acknowledge",
-        "key": "household"
-      },
-      "bearing": "glad"
     },
     {
       "key": "conversation.ack-reply-right.i-know-love",
@@ -13551,141 +11880,6 @@
       "bearing": "calm"
     },
     {
-      "key": "conversation.quiet-raise-day.busy-one-at-work-today",
-      "move": "quiet-raise-day",
-      "kind": "spoken",
-      "text": "Busy one at work today?",
-      "uses": [
-        {
-          "move": "quiet-raise-day",
-          "subject": "quiet",
-          "role": "raise",
-          "choice": "day",
-          "requiresFacts": ["dayDone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "household"
-      },
-      "bearing": "calm"
-    },
-    {
-      "key": "conversation.quiet-raise-day.you-were-up-early",
-      "move": "quiet-raise-day",
-      "kind": "spoken",
-      "text": "You were up early.",
-      "uses": [
-        {
-          "move": "quiet-raise-day",
-          "subject": "quiet",
-          "role": "raise",
-          "choice": "day",
-          "requiresFacts": ["dayDone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "household"
-      },
-      "bearing": "calm"
-    },
-    {
-      "key": "conversation.quiet-raise-day.another-work-day-huh",
-      "move": "quiet-raise-day",
-      "kind": "spoken",
-      "text": "Another work day, huh?",
-      "uses": [
-        {
-          "move": "quiet-raise-day",
-          "subject": "quiet",
-          "role": "raise",
-          "choice": "day",
-          "requiresFacts": ["dayDone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "household"
-      },
-      "bearing": "calm"
-    },
-    {
-      "key": "conversation.quiet-answer-tired.i-m-beat-just-glad-to-be-home",
-      "move": "quiet-answer-tired",
-      "kind": "spoken",
-      "text": "I'm beat. Just glad to be home.",
-      "uses": [
-        {
-          "move": "quiet-answer-tired",
-          "subject": "quiet",
-          "role": "answer",
-          "choice": "tired"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "reply",
-        "key": "household"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.quiet-answer-tired.long-i-don-t-want-to-get-into-it",
-      "move": "quiet-answer-tired",
-      "kind": "spoken",
-      "text": "Long. I don't want to get into it.",
-      "uses": [
-        {
-          "move": "quiet-answer-tired",
-          "subject": "quiet",
-          "role": "answer",
-          "choice": "tired"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "reply",
-        "key": "household"
-      },
-      "bearing": "guarded"
-    },
-    {
-      "key": "conversation.quiet-answer-fine.fine-nothing-worth-telling",
-      "move": "quiet-answer-fine",
-      "kind": "spoken",
-      "text": "Fine. Nothing worth telling.",
-      "uses": [
-        {
-          "move": "quiet-answer-fine",
-          "subject": "quiet",
-          "role": "answer",
-          "choice": "fine"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "reply",
-        "key": "household"
-      },
-      "bearing": "calm"
-    },
-    {
       "key": "conversation.quiet-answer-fine.pretty-good-actually",
       "move": "quiet-answer-fine",
       "kind": "spoken",
@@ -13706,265 +11900,6 @@
         "key": "household"
       },
       "bearing": "glad"
-    },
-    {
-      "key": "conversation.quiet-answer-talk.i-missed-you-today",
-      "move": "quiet-answer-talk",
-      "kind": "spoken",
-      "text": "I missed you today.",
-      "uses": [
-        {
-          "move": "quiet-answer-talk",
-          "subject": "quiet",
-          "role": "answer",
-          "choice": "miss"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "reply",
-        "key": "household"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.quiet-answer-alone.i-just-need-some-quiet-right-now",
-      "move": "quiet-answer-alone",
-      "kind": "spoken",
-      "text": "I just need some quiet right now.",
-      "uses": [
-        {
-          "move": "quiet-answer-alone",
-          "subject": "quiet",
-          "role": "answer",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "reply",
-        "key": "household"
-      },
-      "bearing": "guarded"
-    },
-    {
-      "key": "conversation.quiet-answer-alone.can-we-not-do-this-right-now",
-      "move": "quiet-answer-alone",
-      "kind": "spoken",
-      "text": "Can we not do this right now?",
-      "uses": [
-        {
-          "move": "quiet-answer-alone",
-          "subject": "quiet",
-          "role": "answer",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "reply",
-        "key": "household"
-      },
-      "bearing": "braced"
-    },
-    {
-      "key": "conversation.news-answer-no.did-they-say-why",
-      "move": "news-answer-no",
-      "kind": "spoken",
-      "text": "Did they say why?",
-      "uses": [
-        {
-          "move": "victimization-reply-answer-ask",
-          "subject": "victimization-reply",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "transcriptsUsing": 243,
-      "bySource": {
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "National Archives History Office oral history project": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 9,
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 16,
-        "U.S. Senate Historical Office oral history": 16,
-        "briefing": 22,
-        "crec": 20,
-        "dcpd": 78,
-        "hearings": 27,
-        "house": 4,
-        "nasa": 16,
-        "nasa2": 6,
-        "nih": 2,
-        "nps": 23,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
-        "date": "2026-09-09",
-        "granule": "DCPD-202600590",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      },
-      "bearing": "curious",
-      "date": "2026-10-27",
-      "author": "Claude Opus (pool item words-home-news-talk)"
-    },
-    {
-      "key": "conversation.news-answer-react.we-ll-manage-we-always-do",
-      "move": "news-answer-react",
-      "kind": "spoken",
-      "text": "We'll manage. We always do.",
-      "uses": [
-        {
-          "move": "victimization-reply-answer-comfort",
-          "subject": "victimization-reply",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "transcriptsUsing": 249,
-      "bySource": {
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 5,
-        "National Archives History Office oral history project": 6,
-        "National Archives History Office oral history project (brooks-oral-histories)": 1,
-        "National Archives History Office oral history project (nprc-oral-histories)": 2,
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 3,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 19,
-        "U.S. Senate Historical Office oral history": 23,
-        "briefing": 12,
-        "crec": 10,
-        "dcpd": 32,
-        "hearings": 18,
-        "house": 14,
-        "nasa": 23,
-        "nasa2": 27,
-        "nih": 2,
-        "nps": 48,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Remarks at the Pennsylvania Defense and Innovation Summit in Carlisle, Pennsylvania",
-        "date": "2026-07-15",
-        "granule": "DCPD-202600465",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600465/html/DCPD-202600465.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      },
-      "date": "2026-10-27",
-      "author": "Claude Opus (pool item words-home-news-talk)"
-    },
-    {
-      "key": "conversation.other-work-answer-ack-none.i-m-so-sorry-that-s-family",
-      "move": "other-work-answer-ack-none",
-      "kind": "spoken",
-      "text": "I'm so sorry. That's family.",
-      "uses": [
-        {
-          "move": "victimization-reply-answer-comfort",
-          "subject": "victimization-reply",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "transcriptsUsing": 622,
-      "bySource": {
-        "Federal Election Commission (fec.gov)": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
-        "National Archives History Office oral history project": 8,
-        "National Archives History Office oral history project (nprc-oral-histories)": 2,
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 8,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 27,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
-        "U.S. Senate Historical Office oral history": 4,
-        "briefing": 168,
-        "dcpd": 129,
-        "hearings": 152,
-        "house": 13,
-        "nasa": 20,
-        "nasa2": 13,
-        "nih": 3,
-        "nps": 67
-      },
-      "source": {
-        "document": "Remarks in a Roundtable Discussion on the Ratepayer Protection Pledge",
-        "date": "2026-07-23",
-        "granule": "DCPD-202600486",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600486/html/DCPD-202600486.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "condole",
-        "key": "loss"
-      },
-      "bearing": "tender",
-      "date": "2026-10-27",
-      "author": "Claude Opus (pool item words-home-news-talk)"
-    },
-    {
-      "key": "conversation.news-answer-no.did-they-say-when-you-can-see-them",
-      "move": "news-answer-no",
-      "kind": "spoken",
-      "text": "Did they say when you can see them?",
-      "uses": [
-        {
-          "move": "victimization-reply-answer-ask",
-          "subject": "victimization-reply",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "transcriptsUsing": 243,
-      "bySource": {
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "National Archives History Office oral history project": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 9,
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 16,
-        "U.S. Senate Historical Office oral history": 16,
-        "briefing": 22,
-        "crec": 20,
-        "dcpd": 78,
-        "hearings": 27,
-        "house": 4,
-        "nasa": 16,
-        "nasa2": 6,
-        "nih": 2,
-        "nps": 23,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
-        "date": "2026-09-09",
-        "granule": "DCPD-202600590",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      },
-      "bearing": "curious",
-      "date": "2026-10-27",
-      "author": "Claude Opus (pool item words-home-news-talk)"
     },
     {
       "key": "conversation.job-new-detail-raise.i-ll-be-position",
@@ -14011,91 +11946,6 @@
           "subject": "job-new-detail",
           "role": "raise",
           "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28"
-    },
-    {
-      "key": "conversation.job-new-detail-reply-answer-congratulate.that-sounds-like-a-good-fit",
-      "move": "job-new-detail-reply-answer-congratulate",
-      "kind": "spoken",
-      "text": "That sounds like a good fit.",
-      "uses": [
-        {
-          "move": "job-new-detail-reply-answer-congratulate",
-          "subject": "job-new-detail-reply",
-          "role": "answer",
-          "choice": "congratulate"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28"
-    },
-    {
-      "key": "conversation.job-new-detail-reply-answer-congratulate.you-ll-be-good-at-that",
-      "move": "job-new-detail-reply-answer-congratulate",
-      "kind": "spoken",
-      "text": "You'll be good at that.",
-      "uses": [
-        {
-          "move": "job-new-detail-reply-answer-congratulate",
-          "subject": "job-new-detail-reply",
-          "role": "answer",
-          "choice": "congratulate"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28"
-    },
-    {
-      "key": "conversation.job-new-detail-reply-answer-hope.i-hope-they-treat-you-right",
-      "move": "job-new-detail-reply-answer-hope",
-      "kind": "spoken",
-      "text": "I hope they treat you right.",
-      "uses": [
-        {
-          "move": "job-new-detail-reply-answer-hope",
-          "subject": "job-new-detail-reply",
-          "role": "answer",
-          "choice": "hope"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28"
-    },
-    {
-      "key": "conversation.job-new-detail-reply-answer-hope.i-hope-it-pays-what-it-should",
-      "move": "job-new-detail-reply-answer-hope",
-      "kind": "spoken",
-      "text": "I hope it pays what it should.",
-      "uses": [
-        {
-          "move": "job-new-detail-reply-answer-hope",
-          "subject": "job-new-detail-reply",
-          "role": "answer",
-          "choice": "hope"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28"
-    },
-    {
-      "key": "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start",
-      "move": "job-new-detail-reply-answer-brief",
-      "kind": "spoken",
-      "text": "Well, it's a start.",
-      "uses": [
-        {
-          "move": "job-new-detail-reply-answer-brief",
-          "subject": "job-new-detail-reply",
-          "role": "answer",
-          "choice": "brief"
         }
       ],
       "origin": "authored",
@@ -21197,68 +19047,6 @@
       }
     },
     {
-      "key": "conversation.mutual-answer-deflect.that-s-a-story-for-another-time",
-      "move": "mutual-answer-deflect",
-      "kind": "spoken",
-      "text": "That's a story for another time.",
-      "uses": [
-        {
-          "move": "mutual-answer-deflect",
-          "subject": "mutual",
-          "role": "answer",
-          "choice": "deflect"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, own-work mutual answers)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.mutual-answer-change.okay-where-do-you-work-these-days",
-      "move": "mutual-answer-change",
-      "kind": "spoken",
-      "text": "Okay. Where do you work these days?",
-      "uses": [
-        {
-          "move": "mutual-answer-change",
-          "subject": "mutual",
-          "role": "answer",
-          "choice": "change",
-          "raises": "their-work"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, own-work mutual answers)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.mutual-answer-change.huh-what-are-you-doing-for-work-now",
-      "move": "mutual-answer-change",
-      "kind": "spoken",
-      "text": "Huh. What are you doing for work now?",
-      "uses": [
-        {
-          "move": "mutual-answer-change",
-          "subject": "mutual",
-          "role": "answer",
-          "choice": "change",
-          "raises": "their-work"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, own-work mutual answers)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.home-new-answer-detail.i-m-not-from-place-originally-i-moved-here",
       "move": "home-new-answer-detail",
       "kind": "spoken",
@@ -21395,46 +19183,6 @@
           "role": "answer",
           "choice": "work",
           "raises": "their-work"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, home-new four answers)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.home-new-answer-deflect.it-s-a-long-story-ask-me-again-over-coffee",
-      "move": "home-new-answer-deflect",
-      "kind": "spoken",
-      "text": "It's a long story. Ask me again over coffee.",
-      "uses": [
-        {
-          "move": "home-new-answer-deflect",
-          "subject": "home-new",
-          "role": "answer",
-          "choice": "deflect"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, home-new four answers)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.home-new-answer-deflect.not-much-to-tell-ask-me-again-sometime",
-      "move": "home-new-answer-deflect",
-      "kind": "spoken",
-      "text": "Not much to tell. Ask me again sometime.",
-      "uses": [
-        {
-          "move": "home-new-answer-deflect",
-          "subject": "home-new",
-          "role": "answer",
-          "choice": "deflect"
         }
       ],
       "origin": "authored",
@@ -33180,6 +30928,12 @@
           "subject": "illness-news",
           "role": "answer",
           "choice": "help"
+        },
+        {
+          "move": "victimization-reply-answer-help",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "help"
         }
       ],
       "bearing": "tender",
@@ -35974,6 +33728,385 @@
       "date": "2026-11-12"
     },
     {
+      "key": "conversation.asked-mutual-answer-brief.not-lately-why",
+      "move": "asked-mutual-answer-brief",
+      "kind": "spoken",
+      "text": "Not lately. Why?",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-brief",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.home-new-answer-deflect.long-story",
+      "move": "home-new-answer-deflect",
+      "kind": "spoken",
+      "text": "Long story.",
+      "uses": [
+        {
+          "move": "home-new-answer-deflect",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.home-new-ask-where.where-s-home",
+      "move": "home-new-ask-where",
+      "kind": "spoken",
+      "text": "Where's home?",
+      "uses": [
+        {
+          "move": "home-new-ask-where",
+          "subject": "home-new",
+          "role": "ask",
+          "choice": "where"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.home-new-ask-where.from-around-here",
+      "move": "home-new-ask-where",
+      "kind": "spoken",
+      "text": "From around here?",
+      "uses": [
+        {
+          "move": "home-new-ask-where",
+          "subject": "home-new",
+          "role": "ask",
+          "choice": "where"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-brief.it-s-a-start",
+      "move": "job-new-detail-reply-answer-brief",
+      "kind": "spoken",
+      "text": "It's a start.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-brief",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-congratulate.that-suits-you",
+      "move": "job-new-detail-reply-answer-congratulate",
+      "kind": "spoken",
+      "text": "That suits you.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-congratulate",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "congratulate"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-hope.hope-it-pays",
+      "move": "job-new-detail-reply-answer-hope",
+      "kind": "spoken",
+      "text": "Hope it pays.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-hope",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.job-new-reply-answer-brief.how-d-that-happen",
+      "move": "job-new-reply-answer-brief",
+      "kind": "spoken",
+      "text": "How'd that happen?",
+      "uses": [
+        {
+          "move": "job-new-reply-answer-brief",
+          "subject": "job-new-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.mutual-answer-change.working-these-days",
+      "move": "mutual-answer-change",
+      "kind": "spoken",
+      "text": "Working these days?",
+      "uses": [
+        {
+          "move": "mutual-answer-change",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "change"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-work-new-ask-where.what-s-your-work",
+      "move": "own-work-new-ask-where",
+      "kind": "spoken",
+      "text": "What's your work?",
+      "uses": [
+        {
+          "move": "their-work-raise-ask",
+          "subject": "their-work",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.quiet-answer-alone.i-need-quiet",
+      "move": "quiet-answer-alone",
+      "kind": "spoken",
+      "text": "I need quiet.",
+      "uses": [
+        {
+          "move": "quiet-answer-alone",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.quiet-answer-miss.missed-you-today",
+      "move": "quiet-answer-miss",
+      "kind": "spoken",
+      "text": "Missed you today.",
+      "uses": [
+        {
+          "move": "quiet-answer-miss",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "miss"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.quiet-answer-tired.i-m-beat",
+      "move": "quiet-answer-tired",
+      "kind": "spoken",
+      "text": "I'm beat.",
+      "uses": [
+        {
+          "move": "quiet-answer-tired",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "tired"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.quiet-answer-tired.long-day",
+      "move": "quiet-answer-tired",
+      "kind": "spoken",
+      "text": "Long day.",
+      "uses": [
+        {
+          "move": "quiet-answer-tired",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "tired"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.quiet-raise-day.good-day",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "Good day?",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["dayDone"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.quiet-raise-day.done-for-today",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "Done for today?",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["dayDone"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-ask-how.what-school",
+      "move": "school-ask-how",
+      "kind": "spoken",
+      "text": "What school?",
+      "uses": [
+        {
+          "move": "school-ask-how",
+          "subject": "school",
+          "role": "ask",
+          "choice": "how"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-ask-how.still-in-school",
+      "move": "school-ask-how",
+      "kind": "spoken",
+      "text": "Still in school?",
+      "uses": [
+        {
+          "move": "school-ask-how",
+          "subject": "school",
+          "role": "ask",
+          "choice": "how"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.shared-school-answer-brief.takes-me-back",
+      "move": "shared-school-answer-brief",
+      "kind": "spoken",
+      "text": "Takes me back.",
+      "uses": [
+        {
+          "move": "shared-school-answer-brief",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.their-tenure-raise-ask.been-there-long",
+      "move": "their-tenure-raise-ask",
+      "kind": "spoken",
+      "text": "Been there long?",
+      "uses": [
+        {
+          "move": "their-tenure-raise-ask",
+          "subject": "their-tenure",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.their-tenure-raise-ask.how-long-there",
+      "move": "their-tenure-raise-ask",
+      "kind": "spoken",
+      "text": "How long there?",
+      "uses": [
+        {
+          "move": "their-tenure-raise-ask",
+          "subject": "their-tenure",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-12"
+    },
+    {
       "key": "conversation.eviction-say-core.they-put-us-out-when-we-owed-owed",
       "move": "eviction-say-core",
       "kind": "spoken",
@@ -36826,29 +34959,6 @@
       "date": "2026-11-13"
     },
     {
-      "key": "conversation.conviction-reply-back-core.i-report-to-prison-soon-you",
-      "move": "conviction-reply-back-core",
-      "kind": "spoken",
-      "text": "I report to prison soon, {you}.",
-      "uses": [
-        {
-          "move": "conviction-reply-back-core",
-          "subject": "conviction-reply-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["told-term"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words builder W1 (a court case told through the composer)",
-      "date": "2026-11-13"
-    },
-    {
       "key": "conversation.conviction-reply-back-core.i-report-to-a-probation-officer-you-and-behave",
       "move": "conviction-reply-back-core",
       "kind": "spoken",
@@ -36905,29 +35015,6 @@
           "subject": "conviction-reply-back",
           "role": "core",
           "stages": ["comfort"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words builder W1 (a court case told through the composer)",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "conversation.conviction-reply-back-core.write-to-me",
-      "move": "conviction-reply-back-core",
-      "kind": "spoken",
-      "text": "Write to me?",
-      "uses": [
-        {
-          "move": "conviction-reply-back-core",
-          "subject": "conviction-reply-back",
-          "role": "core",
-          "stages": ["comfort"],
-          "requiresFacts": ["told-term"]
         }
       ],
       "piece": {
@@ -37209,6 +35296,52 @@
       "date": "2026-11-13"
     },
     {
+      "key": "conversation.conviction-reply-back-core.i-report-to-prison-soon-you",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I report to prison soon, {you}.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.write-to-me",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "Write to me?",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["told-term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
       "key": "conversation.charge-reply-back-core.i-tried-to-pay-off-official-it-didn-t-work",
       "move": "charge-reply-back-core",
       "kind": "spoken",
@@ -37320,6 +35453,63 @@
       "origin": "authored",
       "author": "Words builder W1 (a court case told through the composer)",
       "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.home-reply-reply-still.here-too",
+      "move": "home-reply-reply-still",
+      "kind": "spoken",
+      "text": "Here too.",
+      "uses": [
+        {
+          "move": "home-reply-reply-still",
+          "subject": "home-reply",
+          "role": "reply",
+          "choice": "still",
+          "requiresFacts": ["same-town"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (small talk said short or from the record)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.home-new-answer-plain.im-from-place",
+      "move": "home-new-answer-plain",
+      "kind": "spoken",
+      "text": "I'm from {place}.",
+      "uses": [
+        {
+          "move": "home-new-answer-plain",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "transcriptsUsing": 136,
+      "bySource": {
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 4,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 12,
+        "U.S. Senate Historical Office oral history": 2,
+        "briefing": 5,
+        "dcpd": 68,
+        "hearings": 10,
+        "house": 2,
+        "nasa": 6,
+        "nasa2": 7,
+        "nps": 18
+      },
+      "source": {
+        "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
+        "date": "2026-07-08",
+        "granule": "DCPD-202600450",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600450/html/DCPD-202600450.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer"
+      }
     }
   ]
 }

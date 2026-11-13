@@ -8,9 +8,6 @@
   },
   "sample": {
     "conversation.greet-answer-fine.im-all-right": ["alright-in-dialogue"],
-    "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start": [
-      "no-filler"
-    ],
     "opening-speech.creed.polished-ina-sta-hopeful-core-a-free-and-hardworking-people-will-keep-best-moving": [
       "no-stock-phrases"
     ],
