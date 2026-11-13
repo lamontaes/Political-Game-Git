@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/red-main-hold-scenes-chair
-pr: 8993
+pr: #8993
 after:
 blocked-on:
 lead: words
@@ -16,6 +16,7 @@ model: opus
 effort: low
 root: none
 source: Red desk, Nov 13 (Fable A on #8928, comment 6842448463)
+merged-at: 2026-11-13T04:23:03.984Z
 ---
 
 **What.** `src/director/hold-scenes.test.ts` fails on clean main at GOLDEN_PATH_SEED=07dadfc81a04b1923d9ea056b67cde5952921ea0 in Pine Hills, Florida (1256825), on its first draw: "no chair was asked for a hearing: expected 0 to be greater than 0". All four bills held in that world's 90 days are U.S. House and Senate bills, whose chairs are members of Congress from other states. Seen: a council, county board or legislature chair asked for a hearing by the sponsor of the bill it holds.
