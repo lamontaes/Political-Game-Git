@@ -10,6 +10,7 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
+import news from "../../data/research/press/local-news-2026.json" with { type: "json" };
 import { STOPGAPS as stopgaps } from "./stopgaps";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { gameStartDate } from "./game-start";
@@ -106,7 +107,8 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
     const subs = (m: OutletRevenueMonthRow) =>
       m.subscriptionsFullMinor + m.subscriptionsCountedMinor;
     const price =
-      (pressParameter("newspaperRevenuePerFollowerYear") *
+      ((pressParameter("newspaperRevenuePerAdultYear") /
+        news.habits.national.localNewspapers) *
         pressParameter("newspaperCirculationShare")) /
       pressParameter("monthsPerYear");
     // The first paper that stayed open and whose readers both rose and fell.
@@ -274,7 +276,7 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
     ).toBe("resolved");
     const year = months.map(
       (m) =>
-        `${m.month}: readers ${m.readers.toFixed(1)}, subscriptions ${subs(m)} (${m.subscriberPayments} full payments), ads ${m.adsMinor} (${m.adPayments}), wider audience ${m.shortfallMinor}`,
+        `${m.month}: readers ${m.readers.toFixed(1)}, subscriptions ${subs(m)} (${m.subscriberPayments} full payments), ads ${m.adsMinor} (${m.adPayments})`,
     );
     process.stdout.write(
       `PRESS MONEY ${where}: ${paper.organizationId}\n  ${year.join("\n  ")}\n  ${home} paid in ${receipt!.id} (${receipt!.sourceRef.id}: ${own.beforeMinor - own.afterMinor} from ${payerId}, ${to.afterMinor - to.beforeMinor} to the paper)\n  ad ${ad.id}: ${ad.advertiserId} paid ${ad.amountMinor} in ${ad.transferId} in ${adReceipt.id} (its cash ${buyer.beforeMinor} to ${buyer.afterMinor}; the paper's ${seller.beforeMinor} to ${seller.afterMinor})\n`,

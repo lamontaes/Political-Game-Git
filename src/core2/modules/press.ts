@@ -114,9 +114,9 @@ import {
   adBudgetMonthMinor,
   installOutletMoney,
   outletYearlyRevenue,
-  outsideCustomersOf,
-  payWiderAudience,
   type OutletMoneyDeps,
+  outsideCustomersOf,
+  payMarket,
 } from "../press-money";
 import { countedJobHeads, countedJobsOf } from "../residents-economy";
 import { pressStaffChanged } from "../press-conflict";
@@ -290,7 +290,14 @@ const NEWS = news as unknown as {
   };
 };
 const BASES = bases as unknown as {
-  places: Record<string, { population2024?: number }>;
+  places: Record<
+    string,
+    {
+      population2024?: number;
+      puertoRicoPopulation2025?: number;
+      islandAreaPopulation2020?: number;
+    }
+  >;
   countyPopulation2024: Record<string, number>;
 };
 const HABIT: Record<LocalKind, HabitKey> = {
@@ -502,10 +509,19 @@ function countedReadersOf(api: CoreAPI, outlet: OutletRow): number {
   );
 }
 
+/** A paper's revenue per reader a year: the national amount per adult over the share of adults who follow local newspapers. */
+function revenuePerReaderYearMinor(): number {
+  return (
+    pressParameter("newspaperRevenuePerAdultYear") /
+    NEWS.habits.national.localNewspapers
+  );
+}
+
 /**
  * What an outlet can expect to take in a year: its readers' subscriptions and
- * its share of the town's businesses' ads at their cash today, and at least
- * what its people here cost where its wider audience makes up the rest.
+ * its share of the town's businesses' ads at their cash today. No wider
+ * audience tops it up: a paper that takes in less than its people cost shows
+ * the loss, and its owner weighs closing it.
  */
 function expectedRevenueYearMinor(api: CoreAPI, outlet: OutletRow): number {
   const core = api.state as CoreState;
@@ -516,7 +532,7 @@ function expectedRevenueYearMinor(api: CoreAPI, outlet: OutletRow): number {
   const subscriptions =
     outlet.kind === "newspaper"
       ? audience(outlet) *
-        pressParameter("newspaperRevenuePerFollowerYear") *
+        revenuePerReaderYearMinor() *
         pressParameter("newspaperCirculationShare")
       : 0;
   let ads = 0;
@@ -526,10 +542,181 @@ function expectedRevenueYearMinor(api: CoreAPI, outlet: OutletRow): number {
         ads += adBudgetMonthMinor(api, id) * months;
   const town =
     subscriptions + (total > 0 ? (ads * audience(outlet)) / total : 0);
-  const floor = outsideCustomersOf(core, outlet.placeId)
-    ? outletMonthlyCostMinor(api, outlet) * months
-    : 0;
-  return Math.round(Math.max(town, floor));
+  // The market's adults beyond the town pay at the town's rate per reader.
+  const readers = audience(outlet);
+  return Math.round(
+    readers > 0 ? town * (1 + marketReadersOf(api, outlet) / readers) : town,
+  );
+}
+
+/**
+ * The adults beyond the town whom an outlet reaches, counted and not
+ * simulated: its market's adults (a paper's or station's county, a
+ * television station's share of the state, as the outlet counts were drawn)
+ * less the town's, at the town's own reading habits by age, shared among the
+ * outlets of its kind as the town's readers are.
+ */
+export function marketReadersOf(api: CoreAPI, outlet: OutletRow): number {
+  const town = townReading(api, outlet);
+  if (!town) return 0;
+  const own = outletsHere(api).filter((o) => o.kind === outlet.kind).length;
+  const beyond = Math.max(0, marketAdultsOf(api, outlet, town) - town.adults);
+  return (beyond * (town.readers / town.adults)) / Math.max(1, own);
+}
+
+/** The town's adults, all its people, and the adults who read an outlet's kind, by the habits of their age. */
+function townReading(
+  api: CoreAPI,
+  outlet: OutletRow,
+): { adults: number; people: number; readers: number } | null {
+  const adultAge = api.parameter("votingAge");
+  let adults = 0,
+    people = 0,
+    readers = 0;
+  for (const row of countsThisMonth(api)) {
+    if (row.placeId !== outlet.placeId) continue;
+    for (const [bandKey, count] of Object.entries(row.byAgeBand ?? {})) {
+      const low = Number(bandKey.split("-")[0]);
+      if (!Number.isFinite(low)) continue;
+      people += count;
+      if (low < adultAge) continue;
+      adults += count;
+      readers +=
+        count *
+        (NEWS.habits.byAge[bandOf(low)]?.[HABIT[outlet.kind as LocalKind]] ??
+          0);
+    }
+  }
+  return adults > 0 && people > 0 ? { adults, people, readers } : null;
+}
+
+/**
+ * The people in the market an outlet of this kind serves: a paper's or a
+ * radio station's county, a television station's share of the state (the
+ * state over its media markets). A county the population data does not list
+ * (Puerto Rico's municipios, the island areas) is the state's people over
+ * the state's published outlets of the kind, the average area one serves.
+ * Throws where no population is known, so a missing market never quietly
+ * becomes the town alone.
+ */
+export function marketPeople(
+  stateKey: string,
+  countyGeoid: string | undefined,
+  kind: LocalKind,
+): number {
+  // The state's people, or an island area's or Puerto Rico's own count.
+  const base = BASES.places[stateKey];
+  const state =
+    base?.population2024 ??
+    base?.puertoRicoPopulation2025 ??
+    base?.islandAreaPopulation2020 ??
+    0;
+  const counts = NEWS.places[stateKey];
+  if (kind === "television") {
+    if (!(state > 0)) throw new Error(`No population for ${stateKey}'s market`);
+    return state / Math.max(1, counts?.tvMarkets ?? 1);
+  }
+  const county =
+    (countyGeoid ? BASES.countyPopulation2024[countyGeoid] : 0) ?? 0;
+  if (county > 0) return county;
+  const outlets =
+    kind === "newspaper"
+      ? (counts?.newspapers ?? 0)
+      : (counts?.radioStations ?? 0) * pressParameter("newsRadioShare");
+  if (!(state > 0) || !(outlets > 0))
+    throw new Error(`No population for ${stateKey}'s ${kind} market`);
+  return state / outlets;
+}
+
+/** The adults of an outlet's market: its people at the town's share of adults. */
+function marketAdultsOf(
+  api: CoreAPI,
+  outlet: OutletRow,
+  town: { adults: number; people: number },
+): number {
+  const chain = lawChain(api);
+  return (
+    marketPeople(
+      chain.stateKey,
+      chain.countyGeoids[0],
+      outlet.kind as LocalKind,
+    ) *
+    (town.adults / town.people)
+  );
+}
+
+/**
+ * The newsroom jobs an outlet keeps for its market, shared among the outlets
+ * of its kind: a paper's and a station's at the national jobs per adult (Pew
+ * 2020; RTDNA 2024) but never below the kind's floor; a radio station's the
+ * published average of its market's size band, sliding between bands.
+ */
+export function newsroomJobsOf(
+  kind: LocalKind,
+  marketAdults: number,
+  outletsOfKind: number,
+): number {
+  const share = Math.max(1, outletsOfKind);
+  if (kind === "newspaper")
+    return Math.max(
+      pressParameter("newspaperNewsroomFloor"),
+      marketAdults / pressParameter("adultsPerNewspaperNewsroomWorker") / share,
+    );
+  if (kind === "television")
+    return Math.max(
+      pressParameter("tvNewsroomFloor"),
+      marketAdults / pressParameter("adultsPerTvNewsWorker") / share,
+    );
+  const points = (["Small", "Medium", "Large", "Major"] as const).map(
+    (band) =>
+      [
+        Math.log(pressParameter(`radioListenersAnchor${band}`)),
+        pressParameter(`radioNewsStaff${band}`),
+      ] as const,
+  );
+  const at = Math.log(Math.max(1, marketAdults));
+  if (at <= points[0]![0]) return points[0]![1];
+  for (let i = 1; i < points.length; i += 1) {
+    const [x1, y1] = points[i - 1]!;
+    const [x2, y2] = points[i]!;
+    if (at <= x2) return y1 + ((y2 - y1) * (at - x1)) / (x2 - x1);
+  }
+  return points[points.length - 1]![1];
+}
+
+/**
+ * What an outlet pays each year outside the town: the newsroom beyond its
+ * town bureau (its market's newsroom jobs less the bureau's people, at a
+ * reporter's pay and the employer's payroll tax; these workers live outside
+ * the town and are not simulated) and, for a newspaper, the rest of its cost
+ * with each newsroom job (printing, delivery, sales, administration). A
+ * station's cost is its newsroom pay alone.
+ */
+export function outsideNewsroomYearMinor(
+  api: CoreAPI,
+  outlet: OutletRow,
+  bureauPeople: number,
+): number {
+  const town = townReading(api, outlet);
+  if (!town) return 0;
+  const own = outletsHere(api).filter((o) => o.kind === outlet.kind).length;
+  const jobs = newsroomJobsOf(
+    outlet.kind as LocalKind,
+    marketAdultsOf(api, outlet, town),
+    own,
+  );
+  const pay = pressParameter("reporterAnnualPayMinor");
+  // A newspaper carries the rest of its cost with each newsroom job.
+  const other =
+    outlet.kind === "newspaper"
+      ? jobs * pressParameter("newspaperOtherCostPerNewsroomJobYearMinor")
+      : 0;
+  return Math.round(
+    Math.max(0, jobs - bureauPeople) *
+      pay *
+      (1 + employerTaxShareOfWage(api, pay)) +
+      other,
+  );
 }
 
 /** What the money side reads of the press: its outlets, their audiences and costs. */
@@ -546,19 +733,22 @@ function outletMoneyDeps(api: CoreAPI): OutletMoneyDeps {
     townPlaceId: () => lawChain(api).townPlaceId,
     outlets: local,
     followers: (id) => followersOf(api, id),
+    marketMonthlyPerReaderMinor: (id) =>
+      local().find((o) => o.id === id)?.kind === "newspaper"
+        ? revenuePerReaderYearMinor() / pressParameter("monthsPerYear")
+        : undefined,
+    marketReaders: (id) => {
+      const outlet = local().find((o) => o.id === id);
+      return outlet ? marketReadersOf(api, outlet) : 0;
+    },
     countedFollowers: (id) => {
       const outlet = local().find((o) => o.id === id);
       return outlet ? countedReadersOf(api, outlet) : 0;
     },
     subscriptionYearMinor:
-      pressParameter("newspaperRevenuePerFollowerYear") *
-      pressParameter("newspaperCirculationShare"),
+      revenuePerReaderYearMinor() * pressParameter("newspaperCirculationShare"),
     adShareOfCosts: pressParameter("advertisingShareOfCosts"),
     localNewsShareOfAds: pressParameter("localNewsShareOfAdvertising"),
-    monthlyCostMinor: (id) => {
-      const outlet = local().find((o) => o.id === id);
-      return outlet ? outletMonthlyCostMinor(api, outlet) : 0;
-    },
     source: {
       tag: "ESTIMATED",
       citation:
@@ -860,9 +1050,8 @@ function enrollPressEmployers(api: CoreAPI): void {
     const payroll = Math.round(
       outletPayrollYearMinor(api, outlet.organizationId),
     );
-    // Its demand is the revenue it can expect (subscriptions, ads and its
-    // wider audience's part); an actual income anchor prevents manufactured
-    // zero demand. Its costs other than its people are not on its books.
+    // Its demand is the revenue it can expect (subscriptions and ads); an actual
+    // income anchor prevents manufactured zero demand. Its costs other than its people are not on its books.
     // stopgapId: SG-PEOPLE-press-outlet-other-costs
     api.stopgap("SG-PEOPLE-press-outlet-other-costs");
     api.addBusinessBooks({
@@ -870,7 +1059,7 @@ function enrollPressEmployers(api: CoreAPI): void {
       kindId: "information",
       annualPayrollMinor: payroll,
       annualDemandMinor: outlet.audienceRevenueMinor,
-      annualOtherCostsMinor: 0,
+      annualOtherCostsMinor: outsideNewsroomYearMinor(api, outlet, jobs.length),
       openingTownIncomeMinor: anchor.openingTownIncomeMinor,
       capacityMinor: outlet.audienceRevenueMinor,
       price: api.parameter("one"),
@@ -3522,8 +3711,7 @@ export function refreshPressStaff(api: CoreAPI): void {
 }
 
 /**
- * Each press week the outlets' wider audience pays its part of the coming
- * week; the first press week of each month, each outlet's yearly revenue is
+ * The first press week of each month, each outlet's yearly revenue is
  * last month's, times twelve.
  */
 function reviewOutletRevenue(api: CoreAPI, monthStart: boolean): void {
@@ -3531,13 +3719,18 @@ function reviewOutletRevenue(api: CoreAPI, monthStart: boolean): void {
   // A restored world has no money hooks until the press puts them back.
   installOutletMoney(api, deps);
   const core = api.state as CoreState;
-  payWiderAudience(
-    api,
-    deps,
-    outsideCustomersOf(core, lawChain(api).townPlaceId),
-    api.parameter("daysPerWeek"),
-  );
   if (!monthStart) return;
+  payMarket(api, deps, outsideCustomersOf(core, lawChain(api).townPlaceId));
+  // The newsroom beyond the town bureau follows the market it serves.
+  for (const outlet of outletsHere(api)) {
+    const book = core.finance.businesses.get(outlet.organizationId);
+    if (outlet.tier === "national" || !book || book.closedAt) continue;
+    book.annualOtherCostsMinor = outsideNewsroomYearMinor(
+      api,
+      outlet,
+      staffOf(api, outlet.id).filter((row) => !row.leftOn).length,
+    );
+  }
   const last = addDays(makeIsoDate(`${core.date.slice(0, 7)}-01`), -1).slice(
     0,
     7,
@@ -3575,7 +3768,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
   refreshPressStaff(api);
-  // Revenue: the week's wider-audience part, and each month's yearly rate.
+  // Revenue: each month's yearly rate.
   reviewOutletRevenue(
     api,
     Number(api.state.date.slice(8, 10)) <= api.parameter("daysPerWeek"),
