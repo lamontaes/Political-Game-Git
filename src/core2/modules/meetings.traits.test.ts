@@ -192,6 +192,10 @@ describe("meetings.take-part reads one calibrated trait term", () => {
     expect(played.length).toBeGreaterThan(0);
     let moved = 0;
     for (const row of played) {
+      // A resident the evening's cost keeps home with personality flat is not
+      // in the flat room (the room is who is driven past what the evening costs),
+      // so only those in both are compared.
+      if (!flat.has(row.p.id)) continue;
       const lean = decisionLean(
         core,
         row.p,

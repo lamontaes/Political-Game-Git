@@ -6,7 +6,7 @@
 // Run against a fresh bench: node src/bench/talk-history.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife, toReplies } from "./start-life.mjs";
+import { finishTalk, startLife, toReplies } from "./start-life.mjs";
 
 const shots = process.argv[2];
 const browser = await chromium.launch({
@@ -22,24 +22,68 @@ try {
     fresh: true,
   });
   console.log("Place:", await page.locator("#card-place").innerText());
-  const figure = page.locator("#people .talkable").first();
-  await figure.waitFor();
-  await figure.focus();
-  // A person in the room is talked to by a key (owner, Oct 27: no Talk button).
-  await page.keyboard.press("Enter");
-  await page.locator("#talk:not([hidden])").waitFor();
-  // Two exchanges: pick the first reply twice.
-  for (let turn = 0; turn < 2; turn++) {
-    // A talk may open with lines and Continue before its replies.
-    assert.ok(await toReplies(page), "the talk ended with no reply to choose");
-    const reply = page.locator("#talk-choices .reply").first();
-    const before = await page.locator("#talk-lines").innerText();
-    await reply.click();
-    await page.waitForFunction(
-      (text) => document.getElementById("talk-lines").innerText !== text,
-      before,
-    );
+  // The first person's talk may end after one exchange (the talk after the
+  // President's address has one), which leaves no history to read. Talk to
+  // each person in the room in turn, and when none has a talk of two
+  // exchanges let an hour pass (a day, after the first day) and try the room again, up to a month; a check
+  // that accepted a one-exchange talk would have nothing to check.
+  let twoExchanges = false;
+  let tried = 0;
+  for (let step = 0; step < 48 && !twoExchanges; step += 1) {
+    if (step) {
+      // A talk still open from the last try is left first.
+      const leave = page.locator("#talk-leave");
+      if (await leave.isVisible()) await leave.click({ timeout: 15000 });
+      await page
+        .locator(step < 24 ? "#hour:not([disabled])" : "#day:not([disabled])")
+        .click({ timeout: 15000 })
+        .catch(async (e) => {
+          await page.screenshot({ path: "/tmp/claude-0/th-fail.png" });
+          throw e;
+        });
+      await page.waitForTimeout(700);
+      // A scene the day stops on is played through before the room is back.
+      if (await page.locator("#talk:not([hidden])").count())
+        await finishTalk(page).catch(() => undefined);
+    }
+    const people = page.locator("#here .busts-person.talkable");
+    const count = await people.count();
+    for (let at = 0; at < count && !twoExchanges; at += 1) {
+      tried += 1;
+      try {
+        await people.nth(at).focus();
+        // A person in the room is talked to by a key (owner, Oct 27: no Talk button).
+        await page.keyboard.press("Enter");
+        await page.locator("#talk:not([hidden])").waitFor({ timeout: 15000 });
+        twoExchanges = true;
+        for (let turn = 0; turn < 2; turn++) {
+          // A talk may open with lines and Continue before its replies.
+          if (!(await toReplies(page))) {
+            twoExchanges = false;
+            break;
+          }
+          const reply = page.locator("#talk-choices .reply").first();
+          const before = await page.locator("#talk-lines").innerText();
+          await reply.click({ timeout: 15000 });
+          await page.waitForFunction(
+            (text) => document.getElementById("talk-lines").innerText !== text,
+            before,
+            { timeout: 15000 },
+          );
+        }
+      } catch {
+        // A talk the screen could not play through is not a talk of two exchanges.
+        twoExchanges = false;
+      }
+      // A talk that ended early is left, and the next person tried.
+      if (!twoExchanges && (await page.locator("#talk:not([hidden])").count()))
+        await finishTalk(page).catch(() => undefined);
+    }
   }
+  assert.ok(
+    twoExchanges,
+    `none of the ${tried} talks tried in a month had two exchanges`,
+  );
   const read = await page.evaluate(() => {
     const list = document.getElementById("talk-lines");
     const blocks = [...list.children];

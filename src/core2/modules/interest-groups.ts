@@ -974,9 +974,13 @@ registerStanceListener(reviewMember);
 // it, alternating sides: a for-witness, then an against-witness (the stake is the side, as a code).
 function hearingWitnesses(
   api: CoreAPI,
-  _bill: BillRow,
+  bill: BillRow,
   question: string,
 ): readonly { personId: string; stake: string }[] {
+  // The town's groups are its residents: they testify on law that reaches
+  // them (the nation's and their own chain's), as they organize over it
+  // (`organize`), never at another state's committee.
+  if (!reachesTown(api, billJurisdiction(api, bill))) return [];
   const sides = groupsHere(api)
     .filter((group) => group.interest === question)
     .map((group) => ({

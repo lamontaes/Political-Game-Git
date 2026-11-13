@@ -29,6 +29,7 @@ import {
   type PersonBust,
 } from "./bust";
 import { frontUrl, type Plate, type PlateSpot } from "./mannequin-plates";
+import { parameter } from "../core2/parameters";
 import type { Occluder } from "./occluders";
 
 export type AgeBand = "child" | "teen" | "adult" | "older";
@@ -36,7 +37,13 @@ export type AgeBand = "child" | "teen" | "adult" | "older";
 /** A person's age band on the game's date. */
 export function ageBandOf(core: CoreState, birthDate: string): AgeBand {
   const age = ageOnDate(makeIsoDate(birthDate), makeIsoDate(core.date));
-  return age < 13 ? "child" : age < 18 ? "teen" : age < 65 ? "adult" : "older";
+  return age < 13
+    ? "child"
+    : age < parameter("votingAge")
+      ? "teen"
+      : age < 65
+        ? "adult"
+        : "older";
 }
 
 /** Who is being drawn: their record, and whether they hold office. */
@@ -141,8 +148,10 @@ export function bustOf(
   const band = ageBandOf(core, who.birthDate);
   if (band === "child") return null;
   const dress = who.official ? "official" : dressKindFor(core, who, place);
+  // Someone 65 or older has the older face and gray hair.
+  const older = band === "older";
   // A look made in the creator names its own pieces.
-  if (who.look) return bustOfLook(who.look, dress);
+  if (who.look) return bustOfLook(who.look, dress, older);
   const person = bustPersonOf(who);
   if (!person) return null;
   return bustFor(
@@ -151,6 +160,7 @@ export function bustOf(
     bustPick(`${who.seed ?? who.id}:bust`),
     // A teenager wears no beard.
     band !== "teen",
+    older,
   );
 }
 /** Whether a figure is in the dress someone wears here first, not a fallback. */
