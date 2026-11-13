@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/candidacy.ts, src/core2/candidacy-in-play.test.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-GOV-wide-resident-pool.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have widened the pool of candidates in county, state and statewide races to counted residents; those races already have candidates.

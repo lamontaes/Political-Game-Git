@@ -28,6 +28,7 @@ import { openBudgets } from "../core2/modules/budgets";
 import { openOutsideBudgets } from "../core2/modules/outside-budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
 import { openCrime } from "../core2/modules/crime";
+import { openPatrol } from "../core2/modules/police-patrol";
 import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/homeless-count";
 import { openGrievance } from "../core2/modules/people";
@@ -539,6 +540,8 @@ function* benchWorldStages(
   openGrievance(core);
   // Crimes that happen to households, from the national rates and the web's factors (OPUS-CORE).
   openCrime(core);
+  // The hours the police line pays its staff, a row per place and month.
+  openPatrol(core);
   openEstates(core);
   openEmployerTaxes(core);
   yield "legislature";

@@ -28,6 +28,7 @@ import {
   donationAsksView,
   campaignDay,
   campaignView,
+  playerRecord,
   debateAnswer,
   speechBegin,
   speechGive,
@@ -46,7 +47,8 @@ import {
   resultMomentOf,
   stayedHomeLine,
 } from "./election-night";
-import { wordOwnResult } from "./archive-words";
+import { homePapers, wordOwnResult } from "./archive-words";
+import { openingsView } from "./openings";
 import { billPaper, seatAct, seatView } from "./legislature";
 import {
   billPageView,
@@ -119,7 +121,6 @@ import {
   moveAppearance,
   lookFaces,
   newGameFaces,
-  portraitFace,
   readRecipe,
 } from "./appearance";
 import { pollingScene } from "./polling";
@@ -836,14 +837,14 @@ const ROUTES: readonly Route[] = [
                 ),
                 makeIsoDate(state.core!.date),
               ),
-              // The face the creator saved, for Continue's headshot.
-              face: state.core!.people.get(personId)?.looks?.recipe
-                ? portraitFace(
-                    readRecipe(
-                      state.core!.people.get(personId)!.looks!.recipe!,
-                    ),
-                  )
-                : null,
+              // Continue's and Saved games' face: the player's one face, as
+              // every screen in play draws it (older head and gray hair past
+              // 65), never the creator's look drawn a second way.
+              face: faceOf(
+                state.core!,
+                personId,
+                scenePlace(state.core!, personId).place,
+              ),
               placeName: state.placeName,
               date: state.core!.date,
               minuteOfDay:
@@ -1768,6 +1769,15 @@ const ROUTES: readonly Route[] = [
       return;
     },
   },
+  // The player's record in office, as voters read it: what the Campaigns screen plans a re-run from.
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/campaign/record",
+    run: async ({ url, send }) => {
+      send(200, playerRecord(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    },
+  },
   {
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/campaign/asks",
@@ -2041,6 +2051,14 @@ const ROUTES: readonly Route[] = [
     },
   },
   {
+    // The player's own papers, which News shows from the first day.
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/news/home",
+    run: async ({ url, send }) => {
+      send(200, homePapers(requireCore(), url.searchParams.get("id") ?? ""));
+    },
+  },
+  {
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/news",
     run: async ({ url, send }) => {
@@ -2061,6 +2079,7 @@ const ROUTES: readonly Route[] = [
       // A public record names who it is about: each fact that is a person
       // or a state.
       const core = requireCore();
+      const reader = id ? core.people.get(id) : undefined;
       const stateNames = new Map([
         ...corePlaceStateIdentities().map(
           (row) => [row.jurisdictionKey, row.name] as const,
@@ -2077,6 +2096,19 @@ const ROUTES: readonly Route[] = [
           // Laws other states passed lately, under the Nation heading.
           ...nationStories(core, controls.news.nation, id ?? undefined),
         ].map((row) => {
+          // The player's own paper: an outlet of the place they live in, which
+          // News opens on (homePapers in archive-words.ts).
+          const outlet = (row as { outlet?: { id: string } }).outlet;
+          if (outlet && reader)
+            row = {
+              ...row,
+              outlet: {
+                ...outlet,
+                home:
+                  core.organizations.get(outlet.id as never)?.placeId ===
+                  reader.placeId,
+              },
+            } as typeof row;
           const facts = (row as { facts?: Record<string, unknown> }).facts;
           const names: Record<string, string> = {};
           for (const value of Object.values(facts ?? {})) {
@@ -2123,6 +2155,14 @@ const ROUTES: readonly Route[] = [
             ?.id ?? "",
         ),
       );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/openings",
+    run: async ({ url, send }) => {
+      send(200, openingsView(requireCore(), url.searchParams.get("id") ?? ""));
       return;
     },
   },

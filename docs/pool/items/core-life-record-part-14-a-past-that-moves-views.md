@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: opus-lr
+pr: #8973
 after: core-life-record-part-6-the-past-holds-what-happened-between-people
 blocked-on:
 lead: lives
@@ -35,10 +35,4 @@ checked: opus-lr 2026-11-12
 
 **Files.** src/core2/modules/views.ts, src/core2/modules/people.ts, src/core2/data/views/
 
-**Notes.** Read by the Life records builder (opus-lr), Nov 12, before anyone builds this. Three things to settle first:
-
-- **Order.** `viewOf` (src/core2/modules/views.ts line 394) forms a view the first time anything reads it and keeps it. `openWholePast` writes a person's past only when they are opened. A view read before the past is opened would never see the events. Either open the past before the first read of a view, or apply each shift when its record is written, as a change with its record id.
-- **Two tiers.** `countedLean` (line 370) is the lean a counted resident gets when filled in. A counted resident has no records, so a full person's shift would make their lean jump at fill-in. Keep the shifts zero-mean over a town so totals hold, and register the counted side as a stopgap; otherwise this is a rule for full people only (AGENTS.md).
-- **Direction.** Toward or away from a parent needs a decision row in the shared trait table (`decisionLean`, src/core2/trait-decisions.ts), with its trait effects in the manifest (`npm run check:trait-effects`), not a new chooser.
-
-Events a past holds today, by record kind: a parent's spell ended `let-go` (`person.work-spell` and `person.out-of-work` in the work pass) while the child was at home, `family:parent-died`, the person's own job lost, and, once merged, `family.partnership-ended` (#8670) and `justice.arrested-before` (#8945).
+**Notes.** Built by the Life records builder (opus-lr), Nov 13. Two events move a view: a parent's layoff while the person was a child (toward or away from the parent by the new trait decision `views.parent-hardship`, further the more the parent follows politics), and the person's own last layoff as an adult (leftward, more for those who lean right, fading with years back at work). The sizes are TUNABLE (`SG-PEOPLE-past-views-sizes`): the papers' abstracts give directions only. A parent's layoff is read only once the parent's own past is opened, so opening a person never writes anyone else's past; opening a parent later re-reads their opened children.

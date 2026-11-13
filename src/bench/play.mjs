@@ -2,7 +2,7 @@
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
-import { headshot } from "./ui/headshot.mjs";
+import { face as drawFace } from "./ui/face.mjs";
 import {
   talkLine,
   transcript,
@@ -16,7 +16,7 @@ import {
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
-import { memberCard } from "./ui/member-card.mjs";
+import { personCard } from "./ui/person-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
 import {
@@ -98,7 +98,6 @@ import {
 } from "./ui/newspaper.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 import {
-  bust,
   stripScreen,
   stripSection,
   perkList,
@@ -116,15 +115,12 @@ import {
   quitButton,
   optionsBoard,
   patchNotesScreen,
-  savedLifeRow,
-  leaderBlock,
   seatNumbers,
   voteRows,
   moneyFigure,
   deskBill,
   deskTitle,
   deskList,
-  candidate,
   rosterTitle,
   rosterCols,
   rosterSide,
@@ -136,6 +132,12 @@ mountSpeakers();
 const $ = (id) => document.getElementById(id);
 let me;
 let packet;
+/** The News tab the player last chose, kept while the game is open. */
+let newsTab = null;
+// The tab order News first opened with, kept while the game is open, and
+// whose life they are (another life starts its own).
+let newsOrder = [];
+let newsFor = null;
 // The game's date is the clock's, the packet's; me.date is only the day the
 // screen loaded (P15, C10: the News kept the opening day).
 const today = () => packet?.at?.date ?? me.date;
@@ -161,7 +163,7 @@ function setClock(at) {
 }
 /** A bust: the person's round headshot (the People map's), or nothing. */
 function setFace(id, face) {
-  $(id).replaceChildren(...(face ? [headshot(face)] : []));
+  $(id).replaceChildren(...(face ? [drawFace(face)] : []));
 }
 // A record id as the bench stores it (person_<hex>, official:term:seat:...).
 const RECORD_ID =
@@ -2459,9 +2461,7 @@ async function personCardNode(
           stripSection(
             2,
             heading("howISee", "howISeeThem"),
-            perkList(
-              c.traitLines.map((t) => ({ name: t.label, line: t.line })),
-            ),
+            perkList(c.traitLines.map((t) => ({ name: t.label }))),
           ),
         ]
       : []),
@@ -3515,7 +3515,6 @@ const sheets = {
                       c.traitLines.map((row) => ({
                         name: row.label,
                         strength: strengthWord[row.strength],
-                        line: row.line,
                       })),
                     ),
                   ),
@@ -3713,9 +3712,43 @@ const sheets = {
           ]),
     );
     work.classList.add("job-plate");
+    // The jobs open in town, from the position records; shown to a person with no job.
+    const { openings } = job
+      ? { openings: [] }
+      : await api(`/api/openings?id=${encodeURIComponent(me.id)}`);
     return [
       ownStrip([
-        [work],
+        [
+          work,
+          ...(job
+            ? []
+            : [
+                stripSection(
+                  1,
+                  labels.openings,
+                  ...(openings.length
+                    ? openings.flatMap((o) => [
+                        heading(o.title, "h3"),
+                        ...(o.employer
+                          ? [prose(o.employer, "job-employer")]
+                          : []),
+                        row(
+                          labels.pay,
+                          `${moneyWords(o.hourlyMinor)} ${labels.hourly}`,
+                        ),
+                        ...(o.hoursDaily !== null
+                          ? [
+                              row(
+                                labels.hours,
+                                `${Number(o.hoursDaily.toFixed(1))} ${labels.daily}`,
+                              ),
+                            ]
+                          : []),
+                      ])
+                    : [prose(labels.noOpenings, "record-empty")]),
+                ),
+              ]),
+        ],
         worked.length
           ? [stripSection(2, labels.workAndSchool, ...lifeParagraphs(worked))]
           : [],
@@ -4018,14 +4051,17 @@ const sheets = {
                   stripSection(
                     4,
                     gov.executive.title,
-                    leaderBlock({
-                      face: gov.executive.face,
-                      name: gov.executive.name,
-                      party: gov.executive.party,
-                      post: gov.executive.title,
-                      onOpen: () =>
-                        showPerson({ personId: gov.executive.cardId }),
-                    }),
+                    personCard(
+                      {
+                        face: gov.executive.face,
+                        name: gov.executive.name,
+                        party: gov.executive.party,
+                        line: gov.executive.title,
+                        onOpen: () =>
+                          showPerson({ personId: gov.executive.cardId }),
+                      },
+                      { layout: "leader" },
+                    ),
                   ),
                 ]
               : []),
@@ -4090,7 +4126,17 @@ const sheets = {
     // One feed, what you heard, newest first: News and the toast read the
     // news engine's same stories through storyHeadline.
     const { stories } = await nightsNews(me.id);
+    if (newsFor !== me.id) {
+      newsFor = me.id;
+      newsOrder = [];
+      newsTab = null;
+    }
     const outlets = new Map();
+    // The player's own outlets have a tab from the first day, before they print.
+    for (const paper of await api(
+      `/api/news/home?id=${encodeURIComponent(me.id)}`,
+    ))
+      outlets.set(paper.id, { ...paper, stories: [] });
     for (const story of stories) {
       const outlet = story.outlet ?? {
         id: "news",
@@ -4101,15 +4147,56 @@ const sheets = {
       if (!outlets.has(key)) outlets.set(key, { ...outlet, stories: [] });
       outlets.get(key).stories.push(story);
     }
-    if (!outlets.size)
+    // A place with no press of its own opens on the desk of stories no outlet
+    // printed, there every day.
+    if (
+      ![...outlets.values()].some((outlet) => outlet.home) &&
+      !outlets.has("news")
+    )
       outlets.set("news", {
+        id: "news",
         name: labels.title,
         layout: "broadsheet",
         stories: [],
       });
+    // One tab order, whatever came in last (play-nov8-news-opens-on-a-different-paper-each-time):
+    // the player's own paper first (an outlet of the place they live in), then the
+    // desk of stories no outlet printed (there from day one), the other papers by
+    // name, the Nation's last; News opens on the tab the player last chose, else
+    // the first.
+    const rank = (outlet) =>
+      outlet.home || outlet.stories.some((st) => st.outlet?.home)
+        ? 0
+        : outlet.id === "news"
+          ? 1
+          : outlet.id === "nation"
+            ? 3
+            : 2;
+    // Tabs News showed before keep their places; new ones follow by rank.
+    const placeOf = (key) => {
+      const at = newsOrder.indexOf(key);
+      return at < 0 ? newsOrder.length : at;
+    };
+    const ordered = new Map(
+      [...outlets].sort(
+        ([keyA, a], [keyB, b]) =>
+          placeOf(keyA) - placeOf(keyB) ||
+          rank(a) - rank(b) ||
+          // The player's own outlets keep the order the press record gives them.
+          (rank(a) ? String(a.name).localeCompare(String(b.name)) : 0),
+      ),
+    );
+    newsOrder = [
+      ...newsOrder,
+      ...[...ordered.keys()].filter((key) => !newsOrder.includes(key)),
+    ];
     return [
       newsBoard({
-        outlets,
+        outlets: ordered,
+        chosenKey: newsTab,
+        onChoose: (key) => {
+          newsTab = key;
+        },
         labels,
         date: today(),
         headlineOf: storyHeadline,
@@ -4187,19 +4274,23 @@ const sheets = {
     const life = titleLife;
     if (!life) return [plate(null, prose(words.none, "saves-none"))];
     return [
-      savedLifeRow({
-        name: life.name,
-        face: life.face,
-        date: dateWords(life.date),
-        load: makeButton({
-          className: "action",
-          textContent: words.load,
-          onclick: () => {
-            closeSheet();
-            $("front-continue").click();
-          },
-        }),
-      }),
+      personCard(
+        { name: life.name, face: life.face },
+        {
+          layout: "saved",
+          note: dateWords(life.date),
+          actions: [
+            makeButton({
+              className: "action",
+              textContent: words.load,
+              onclick: () => {
+                closeSheet();
+                $("front-continue").click();
+              },
+            }),
+          ],
+        },
+      ),
     ];
   },
   /**
@@ -4578,24 +4669,22 @@ const sheets = {
     const racePage = (race) => {
       const candidates = race.filers.length
         ? race.filers.map((f) =>
-            candidate(
-              memberCard({
-                name: f.name ?? "",
-                line: f.party ?? "",
-                party: f.party,
-                face: f.face,
-                onOpen: () => {
-                  closeSheet();
-                  showPerson({ personId: f.cardId });
-                },
-              }),
-              ...f.stances.map((st) =>
+            personCard({
+              name: f.name ?? "",
+              line: f.party ?? "",
+              party: f.party,
+              face: f.face,
+              onOpen: () => {
+                closeSheet();
+                showPerson({ personId: f.cardId });
+              },
+              more: f.stances.map((st) =>
                 row(
                   policyLabel(st.question),
                   st.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
                 ),
               ),
-            ),
+            }),
           )
         : [prose(labels.noFilers, "record-empty")];
       const mayFile =
@@ -4701,6 +4790,61 @@ const sheets = {
         ),
       ];
     };
+    // The player's own record in office, as voters read it: roll calls, bills sponsored and
+    // promises with their status, each row tagged with its record id for the Trace.
+    const recordSection = (record) => {
+      const floor = controls.floor?.status ?? {};
+      const tag = (rows) => {
+        const node = dotRows(
+          rows.map((row) => ({ label: row.label, value: row.value })),
+        );
+        [...node.children].forEach((child, at) => {
+          child.dataset.recordId = rows[at].id;
+        });
+        return [node];
+      };
+      const voteRows = record.votes.map((vote) => ({
+        id: vote.id,
+        label: vote.number
+          ? `${vote.number} · ${policyLabel(vote.question)}`
+          : `${policyLabel(vote.question)} · ${dateWords(vote.date)}`,
+        value: `${vote.position > 0 ? labels.votedFor : labels.votedAgainst} · ${
+          vote.passed ? labels.votePassedResult : labels.voteAgainstResult
+        }`,
+      }));
+      const billRows = record.bills.map((bill) => ({
+        id: bill.id,
+        label: bill.number,
+        value: floor[bill.status] ?? "",
+      }));
+      const promiseRows = record.promises.map((promise) => ({
+        id: promise.id,
+        label: `${policyLabel(promise.question)} · ${promise.position > 0 ? (stance.for ?? "") : (stance.against ?? "")}`,
+        value:
+          promise.status === "kept"
+            ? labels.promiseKept
+            : promise.status === "broken"
+              ? labels.promiseBroken
+              : labels.promiseOpen,
+      }));
+      return voteRows.length || billRows.length || promiseRows.length
+        ? [
+            stripSection(
+              2,
+              labels.yourRecord,
+              ...(voteRows.length
+                ? [stripSection(3, labels.recordVotes, ...tag(voteRows))]
+                : []),
+              ...(billRows.length
+                ? [stripSection(3, labels.recordBills, ...tag(billRows))]
+                : []),
+              ...(promiseRows.length
+                ? [stripSection(3, labels.recordPromises, ...tag(promiseRows))]
+                : []),
+            ),
+          ]
+        : [];
+    };
     const byDate = new Map();
     for (const race of ballot.races) {
       const day = byDate.get(race.electionDate) ?? [];
@@ -4744,7 +4888,15 @@ const sheets = {
       groups,
       className: "elections-screen",
       render: async (entry) =>
-        entry.ask ? askPage(entry.ask) : racePage(entry.race),
+        entry.ask
+          ? askPage(entry.ask)
+          : [
+              ...racePage(entry.race),
+              ...(filed.has(entry.race.contestId) ||
+              entry.race.lastTime?.winnerId === me.id
+                ? recordSection(await api(`/api/campaign/record?id=${me.id}`))
+                : []),
+            ],
     });
   },
   /**
@@ -4820,7 +4972,7 @@ const sheets = {
             })
           : district;
     const card = (body, m, line, large = false) =>
-      memberCard(
+      personCard(
         {
           name: m.name,
           line,
@@ -4986,14 +5138,16 @@ const sheets = {
                     stripSection(
                       5,
                       chief.title,
-                      leaderBlock({
-                        face: chief.members[0].face,
-                        name: chief.members[0].name,
-                        party: chief.members[0].party,
-                        post: chief.title,
-                        line: sinceLine(chief.members[0]),
-                        onOpen: open(chief.members[0].cardId),
-                      }),
+                      personCard(
+                        {
+                          face: chief.members[0].face,
+                          name: chief.members[0].name,
+                          party: chief.members[0].party,
+                          line: chief.title,
+                          onOpen: open(chief.members[0].cardId),
+                        },
+                        { layout: "leader", note: sinceLine(chief.members[0]) },
+                      ),
                     ),
                   ]
                 : []),
@@ -5029,14 +5183,16 @@ const sheets = {
                     stripSection(
                       1,
                       chief.title,
-                      leaderBlock({
-                        face: head.face,
-                        name: head.name,
-                        party: head.party,
-                        post: chief.title,
-                        line: sinceLine(head),
-                        onOpen: open(head.cardId),
-                      }),
+                      personCard(
+                        {
+                          face: head.face,
+                          name: head.name,
+                          party: head.party,
+                          line: chief.title,
+                          onOpen: open(head.cardId),
+                        },
+                        { layout: "leader", note: sinceLine(head) },
+                      ),
                     ),
                   ]
                 : []),
@@ -5268,7 +5424,7 @@ const sheets = {
             ? pager({
                 items: seats,
                 render: (s) =>
-                  memberCard({
+                  personCard({
                     name: s.name,
                     line: s.title,
                     party: name,
@@ -5847,10 +6003,14 @@ api("/api/title").then((title) => {
   // New game's two choices, each under its busts (the mock's fr-new): someone
   // starting out, and three who hold office.
   $("new-start-busts").replaceChildren(
-    ...(title.newGame?.start ? [bust(title.newGame.start, "", 210)] : []),
+    ...(title.newGame?.start
+      ? [drawFace(title.newGame.start, { shape: "bust", column: 210 })]
+      : []),
   );
   $("new-advanced-busts").replaceChildren(
-    ...(title.newGame?.advanced ?? []).map((face) => bust(face, "", 132)),
+    ...(title.newGame?.advanced ?? []).map((face) =>
+      drawFace(face, { shape: "bust", column: 132 }),
+    ),
   );
 });
 $("front-continue").addEventListener("click", async () => {
@@ -6274,7 +6434,9 @@ function showLook(view) {
   setup.recipe = view.recipe;
   setup.lookView = view;
   const tab = setup.lookTab;
-  $("cr-bust").replaceChildren(bust(view.faces[tab], "", 250));
+  $("cr-bust").replaceChildren(
+    drawFace(view.faces[tab], { shape: "bust", column: 250 }),
+  );
   const row = (r) =>
     lookRow(r, {
       onMove: (id, by) => void moveLook(id, by),

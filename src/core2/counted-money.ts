@@ -848,6 +848,31 @@ export function countedGroupIdOf(
 }
 
 /**
+ * One household's cash: its share of its group's account, by its people,
+ * the same account `countedPayment` pays from, so an engine that weighs a
+ * cost against a counted household's cash weighs what it can pay. Zero when
+ * the id is not a counted household here.
+ */
+export function countedHouseholdCash(
+  api: CoreAPI,
+  householdId: string,
+): number {
+  const rt = residentsRuntime(api.state as CoreState);
+  const h = rt ? householdById(rt, householdId) : undefined;
+  if (!rt || !h) return 0;
+  fundGroups(api, rt);
+  const groupPeople = peopleInGroup(rt, h.group);
+  const weight = rt.store.weightOf(h);
+  if (groupPeople <= 0 || weight <= 0) return 0;
+  // One household's people: the record's weighted count over the households it stands for.
+  const people = rt.store.weightedCount(h) / weight;
+  return Math.max(
+    0,
+    Math.floor((fundBalance(api, rt, h.group) * people) / groupPeople),
+  );
+}
+
+/**
  * A payment between a counted person, household or place and another owner,
  * for engines outside the residents engine (benefits, an owner's draw, a
  * tax bill): positive `amountMinor` is paid by the counted side, negative is

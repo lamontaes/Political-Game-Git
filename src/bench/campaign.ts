@@ -28,6 +28,8 @@ import { petitionOf } from "../core2/modules/elections";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
+import { promisesOf, votesOf } from "../core2/modules/people";
+import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { retellingsOf } from "../core2/modules/speech";
 import {
   answerDebate,
@@ -49,6 +51,10 @@ import { campaignParameter } from "../core2/campaign-data";
 import { backdropFor, homeOf, peopleHere } from "./scene";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
 import { campaignAnswer } from "../director/campaign-answer";
+import { spokenDate as dateSaid } from "../director/words";
+import { seatSaid } from "../english/journal-words";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { filingDeadlineFor } from "../core2/modules/elections";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 /** The voters a poll asks when the player commissions one from the Campaigns screen. */
@@ -157,7 +163,13 @@ export function campaignView(core: CoreState, personId: string) {
         // The sample a poll asks, so the screen's Poll button and the price below agree.
         pollSample: POLL_SAMPLE,
         // Where the race stands, in the English engine's words, from the contest's records.
-        standing: raceStanding(core, filing, polls.at(-1), causes),
+        standing: raceStanding(
+          core,
+          filing,
+          polls.at(-1),
+          causes,
+          contest ? raceSaid(api, contest) : undefined,
+        ),
         // Where the player can go out and meet people today: a street of doors, the phone bank.
         outings: campaignDayChoices(api, filing.id).flatMap((choice) => {
           const outing = OUTINGS[choice.kind];
@@ -201,6 +213,64 @@ export function campaignView(core: CoreState, personId: string) {
   };
 }
 
+/** What the standing says about the race itself, each from the contest's own records. */
+export interface RaceSaid {
+  /** The seat as people say it ("a seat on the Mutual Village Council", "mayor"). */
+  readonly office: string;
+  /**
+   * The next day voters decide it, by which vote it is: the primary while it
+   * is ahead (`primary`), else the general (`general`). One of the two is set.
+   */
+  readonly when: { readonly primary: string } | { readonly general: string };
+  /** The day filing closes, while it is still ahead. */
+  readonly closes?: string;
+  /** The records these facts come from: the contest and its office. */
+  readonly recordIds: readonly string[];
+}
+
+/**
+ * The race as the standing says it: the seat through the one seat reader
+ * (`seatSaid`), the next vote and the filing deadline as dates people say,
+ * all read from the contest and office records.
+ */
+export function raceSaid(api: CoreAPI, contest: ContestRow): RaceSaid {
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(contest.officeId) as unknown as
+    { seats?: number; bodyName?: string | null } | undefined;
+  const today = api.state.date;
+  const primaryAhead = !!contest.primaryDate && contest.primaryDate >= today;
+  const deadline = filingDeadlineFor(api, contest);
+  return {
+    office: seatSaid({
+      title: contest.title,
+      seats: office?.seats ?? 1,
+      bodyName: (office?.seats ?? 1) > 1 ? (office?.bodyName ?? null) : null,
+      district: contest.district,
+    }),
+    when: primaryAhead
+      ? { primary: dateSaid(contest.primaryDate!, today) }
+      : { general: dateSaid(contest.electionDate, today) },
+    ...(deadline >= today ? { closes: dateSaid(deadline, today) } : {}),
+    recordIds: [contest.id, contest.officeId],
+  };
+}
+
+/**
+ * A candidate already named in full on this screen, said again: by first
+ * name, unless another candidate shares it.
+ */
+function saidAgain(
+  name: string,
+  all: readonly { readonly name: string }[],
+): string {
+  const first = name.split(" ")[0] ?? name;
+  return all.filter((who) => who.name.split(" ")[0] === first).length > 1
+    ? name
+    : first;
+}
+
 /**
  * Where the race stands, as sentences from the English engine's
  * campaign-standing bank: the voters the player reached and how many moved,
@@ -215,6 +285,7 @@ export function raceStanding(
     | { date: string; contacted: number; answers: Record<string, number> }
     | undefined,
   causes: readonly CandidateStanding[],
+  race?: RaceSaid,
 ): string[] {
   const mine = causes.find((who) => who.you);
   const others = causes.filter((who) => !who.you);
@@ -227,11 +298,21 @@ export function raceStanding(
   ) => standingLine(core.seed, filing.personId, move, recordId, slots);
   return [
     mine && mine.reached > 0
-      ? line(mine.reached === 1 ? "reached-one" : "reached", id, {
-          reached: mine.reached,
-        })
-      : line("reached-none", id, {}),
-    ...(mine && mine.reached > 0
+      ? line(
+          mine.reached > 1
+            ? "reached"
+            : mine.warmer + mine.cooler > 0
+              ? "reached-one"
+              : "reached-one-unmoved",
+          id,
+          {
+            reached: mine.reached,
+            ...race?.when,
+          },
+        )
+      : line("reached-none", id, { ...race?.when }),
+    // One voter reached who did not move is said in the reached line itself.
+    ...(mine && (mine.reached > 1 || mine.warmer + mine.cooler > 0)
       ? [
           line(
             mine.warmer > 0 && mine.cooler > 0
@@ -242,7 +323,11 @@ export function raceStanding(
                   ? "moved-cooler"
                   : "moved-none",
             id,
-            { warmer: mine.warmer, cooler: mine.cooler },
+            {
+              warmer: mine.warmer,
+              cooler: mine.cooler,
+              reached: mine.reached,
+            },
           ),
         ]
       : []),
@@ -250,14 +335,24 @@ export function raceStanding(
       ? line(others.length === 1 ? "opponent-one" : "opponents", id, {
           opponents: nameList(others.map((who) => who.name)),
         })
-      : line("opponents-none", id, {}),
+      : line(
+          race?.closes ? "opponents-none" : "opponents-none-closed",
+          id,
+          race
+            ? {
+                office: race.office,
+                ...(race.closes ? { closes: race.closes } : {}),
+              }
+            : {},
+        ),
     ...others
       .filter((who) => who.reached > 0)
       .map((who) =>
         line(
           who.reached === 1 ? "opponent-reached-one" : "opponent-reached",
           `${id}|${who.candidateId}`,
-          { name: who.name, reached: who.reached },
+          // Named in full in the line before, then by first name (said-as).
+          { name: saidAgain(who.name, others), reached: who.reached },
         ),
       ),
     ...(lastPoll
@@ -389,16 +484,36 @@ export function campaignAct(
           amountMinor: input.amountMinor ?? 0,
         }),
       );
-      const spentMinor = campaignFor(api, input.filingId).spentMinor - before;
+      const after = campaignFor(api, input.filingId);
+      const spentMinor = after.spentMinor - before;
+      const cashMinor = after.raisedMinor - after.spentMinor;
+      // When nothing was bought, the line says why from the campaign's own
+      // books: nothing raised since filing, all of it spent, or money left.
+      const filedOn = (
+        api.moduleState(ELECTIONS).table("filings").get(input.filingId) as
+          { filedOn?: string } | undefined
+      )?.filedOn;
       return {
         ...rows,
         spentMinor,
         line: standingLine(
           core.seed,
           personId,
-          spentMinor > 0 ? "ad-bought" : "ad-none",
+          spentMinor > 0
+            ? "ad-bought"
+            : after.raisedMinor <= 0
+              ? "ad-none-unraised"
+              : cashMinor <= 0
+                ? "ad-none-spent"
+                : "ad-none-unsold",
           `${input.filingId}|ad|${before}`,
-          { cost: dollarsOf(spentMinor), reached: rows.reached },
+          {
+            cost: dollarsOf(spentMinor),
+            reached: rows.reached,
+            raised: dollarsOf(after.raisedMinor),
+            cash: dollarsOf(Math.max(cashMinor, 0)),
+            ...(filedOn ? { filed: dateSaid(filedOn, core.date) } : {}),
+          },
         ),
         scene: askScene(core, personId, scenePlaces.adBuyPlace),
       };
@@ -782,6 +897,66 @@ export function speechGive(
     retold,
     scene: speechScene(core, personId, venue, causes),
   };
+}
+
+/**
+ * The player's own record in office, as voters read it (`recordAppeal`): the
+ * roll-call votes they cast, the bills they sponsored with how each stands,
+ * and each promise they made with whether their votes since kept it. A view of
+ * the record and legislature tables; it keeps nothing of its own.
+ */
+export function playerRecord(core: CoreState, personId: string) {
+  const api = coreAPI(core);
+  const billNumbers = new Map<string, string>();
+  if (core.modules.has(LEGISLATURE_MODULE_ID))
+    for (const bill of api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .rows() as unknown as { id: string; number: string }[])
+      billNumbers.set(bill.id, bill.number);
+  // A vote with no outcome on record is left out, never shown half-filled.
+  const votes = votesOf(api, personId)
+    .filter((vote) => vote.passed !== null)
+    .map((vote) => ({
+      id: vote.id,
+      date: vote.date,
+      // A vote on a bill the legislature still holds shows its number; an old
+      // measure with no bill number shows its title and date only.
+      number: billNumbers.get(vote.measureId) ?? null,
+      question: vote.stance.question,
+      position: Math.sign(vote.stance.position),
+      passed: vote.passed,
+    }));
+  const bills = core.modules.has(LEGISLATURE_MODULE_ID)
+    ? (
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .rows() as unknown as {
+          id: string;
+          number: string;
+          status: string;
+          sponsorId: string;
+          introduced: string;
+        }[]
+      )
+        .filter((bill) => bill.sponsorId === personId)
+        .map((bill) => ({
+          id: bill.id,
+          number: bill.number,
+          status: bill.status,
+          introduced: bill.introduced,
+        }))
+    : [];
+  const promises = promisesOf(api, personId).map((row) => ({
+    id: row.promise.id,
+    date: row.promise.date,
+    question: row.promise.stance.question,
+    position: Math.sign(row.promise.stance.position),
+    status: row.status,
+    voteId: row.voteId,
+  }));
+  return { votes, bills, promises };
 }
 
 /**

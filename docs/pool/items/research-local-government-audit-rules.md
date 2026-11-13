@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing for the table. Its reader waits on gov-treasury-diversion-part-3-the-yearly-audit.
 
 **Files.** data/research/gov/government-audit-rules-2026.json (new), src/core2/data/stopgaps/gov.json
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have built a table of who audits each government in 56 places; one named auditor per government is enough and nobody sees the table.

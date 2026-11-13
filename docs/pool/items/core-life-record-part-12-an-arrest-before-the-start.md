@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: opus-lr
+pr: #8945
 after:
 blocked-on:
 lead: lives
@@ -17,6 +17,7 @@ effort: high
 root: design-life-record
 source: gap sheet, Nov 12, 2026 (Fable A), filed by the Life records builder opus-lr
 checked: opus-lr 2026-11-12
+merged-at: 2026-11-13T01:42:02.025Z
 ---
 
 **What.** The owner, Nov 8: "None of my history is simulated." A past never holds an arrest or a charge, though a real share of adults have one (gap sheet, Nov 12, row 4). The justice engine already writes these records in play. Seen: a person's card and the Journal, which tell the charge with a year.
@@ -34,3 +35,5 @@ checked: opus-lr 2026-11-12
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/justice.ts, src/core2/modules/people.ts, src/core2/data/past/parameters.json, src/core2/data/life/remembered.json
+
+**Notes.** Built by the Life records builder (opus-lr), Nov 12. Arrests, convictions and prison terms are written. A first build wrote prison terms that the work pass did not know about: in Cayuse, Oregon (seed lrcard01) a mother was in prison from 2008 to 2010 while her work history had her looking for work in 2009. Now the work pass reads the term (`prisonTermOf`). A job or a search ends the day the term begins, and the search starts again on release; a term that would overlap the job held on day one is not written.
