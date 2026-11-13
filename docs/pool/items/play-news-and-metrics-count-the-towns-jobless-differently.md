@@ -35,3 +35,5 @@ claimed-at:
 **Waits on.** Nothing. The Metrics plan's orders on townEmployed and townSeekers (orders 5 and 2) touch the same counts, so check with whoever holds them first.
 
 **Files.** src/core2/modules/world-metrics.ts, src/core2/modules/world-panels.ts, src/bench/printed-words.ts
+
+**Notes.** Iowa reading (Account lead T25, Nov 13, 2026; Danville, Iowa, seed 4b0fc31d-ba59-4168-8b84-d7c0e3f826b6, train c39bbb71): in a year of play no News story in Danville printed a count of people out of work, so there is no News figure to set beside Metrics. Metrics read 'People looking for work 0 of 447' on Jan 20, 2025, '22 of 439' on Sep 8, 2025 and '23 of 478' in Jan 2026; the town's outcome-web record for Feb 2025 says 6.07 percent unemployed, so the opening month's 0 disagrees with the town's own record. For the owner of townSeekers (the Jobs builder on the first account): the January 0 of 447 against the town's own 6.07 percent for February is theirs to fix; Metrics only shows the count and is not changed for it.
