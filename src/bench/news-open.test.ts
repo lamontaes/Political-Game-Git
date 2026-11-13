@@ -52,6 +52,15 @@ describe("News opens on", () => {
     expect(openingTab(outlets, "paper", new Set(["a"]))).toBe("tv");
   });
 
+  it("the desk of stories no outlet printed when only it has something new", () => {
+    // North Hyde Park, Vermont (Fable A, Nov 13): every story on the desk.
+    const outlets = tabs([
+      ["paper", { home: true, why: "local", stories: [] }],
+      ["news", { stories: [story("record:2", "2025-05-30")] }],
+    ]);
+    expect(openingTab(outlets, null, new Set())).toBe("news");
+  });
+
   it("the home paper when nothing is unread", () => {
     const outlets = tabs([
       ["news", { stories: [story("r", "2025-05-30")] }],
