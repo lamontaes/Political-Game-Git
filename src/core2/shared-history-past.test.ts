@@ -14,7 +14,11 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { schoolSpans } from "./past-school";
-import { sharedHistory } from "./shared-history";
+import { inSummerBreak, sharedHistory } from "./shared-history";
+import { ageOn } from "./counted-groups";
+
+/** An age past every school stage: no one this old is enrolled in a K-12 school. */
+const PAST_SCHOOL_AGE = 19;
 
 const base = process.env.SHARED_PAST_SEED ?? randomBytes(8).toString("hex");
 /** The most people read for pairs: enough for a town's school, small enough to read quickly. */
@@ -40,6 +44,8 @@ for (const salt of ["a", "b"]) {
       const withSchool = people.filter((p) => schoolSpans(core, p.id).length);
       let schoolPairs = 0;
       let coworkerPairs = 0;
+      let ended = 0;
+      let grownPairs = 0;
       let example = "";
       for (let i = 0; i < people.length; i += 1)
         for (let j = i + 1; j < people.length; j += 1) {
@@ -48,6 +54,19 @@ for (const salt of ["a", "b"]) {
             expect(row.recordId, `${where}: a row's record`).toBeTruthy();
             if (row.kind === "schoolmate") {
               schoolPairs += 1;
+              // School that has ended is past (Fable A, Nov 13): a pair in
+              // which one is past school age is never at school together now.
+              const grown = [people[i]!, people[j]!].some(
+                (p) => ageOn(p.birthDate, core.date) > PAST_SCHOOL_AGE,
+              );
+              if (grown) {
+                grownPairs += 1;
+                expect(
+                  row.ended,
+                  `${where}: ${people[i]!.id} and ${people[j]!.id} at ${row.recordId}: one is past school age`,
+                ).toBe(true);
+              }
+              if (row.ended) ended += 1;
               if (!example)
                 example = `${people[i]!.id} and ${people[j]!.id} at ${row.recordId} in ${row.year}`;
             }
@@ -55,8 +74,11 @@ for (const salt of ["a", "b"]) {
           }
         }
       console.log(
-        `shared-history-past: ${where}; ${people.length} full people, ${withSchool.length} with school years; ${schoolPairs} schoolmate pairs, ${coworkerPairs} coworker pairs; first ${example || "none"}`,
+        `shared-history-past: ${where}; ${people.length} full people, ${withSchool.length} with school years; ${schoolPairs} schoolmate pairs (${ended} ended), ${coworkerPairs} coworker pairs; first ${example || "none"}`,
       );
+      // Where a grown person shares a school with anyone, an ended pair is
+      // on record: the check above cannot pass on a draw with none to read.
+      if (grownPairs) expect(ended, `${where}: ended pairs`).toBeGreaterThan(0);
       if (withSchool.length >= 2)
         expect(schoolPairs, `${where}: schoolmate pairs`).toBeGreaterThan(0);
     } finally {
@@ -64,3 +86,13 @@ for (const salt of ["a", "b"]) {
     }
   }, 900_000);
 }
+
+// A graduate's school is over once the year's last day has passed, and only
+// until the next year begins: a senior in the fall is still enrolled.
+it("knows the summer break by the school year's last and first days", () => {
+  expect(inSummerBreak("2025-07-01")).toBe(true);
+  expect(inSummerBreak("2025-08-31")).toBe(true);
+  expect(inSummerBreak("2025-10-15")).toBe(false);
+  expect(inSummerBreak("2025-03-01")).toBe(false);
+  expect(inSummerBreak("2025-06-10")).toBe(false);
+});
