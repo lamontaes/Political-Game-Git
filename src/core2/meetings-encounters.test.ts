@@ -17,7 +17,8 @@ import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import { draftBill, holdVote, openLegislature } from "./modules/legislature";
 import { openPress } from "./modules/press";
-import { openMeetings, remarksOn } from "./modules/meetings";
+import { openMeetings, remarksOn, signUpToSpeak } from "./modules/meetings";
+import { ENCOUNTERS } from "./encounters";
 import { viewsModule } from "./modules/views";
 import { speechModule } from "./modules/speech";
 import { POLICY_QUESTIONS } from "./policy-answers";
@@ -125,5 +126,42 @@ describe("meetings meet people", () => {
     }
     // Time passes: the new tie reads as an ordinary acquaintance after a day.
     advanceCore(core, "2026-01-07");
+  }, 300_000);
+
+  it("a player who signed up to speak meets the members who heard them, with the speaker's time at the podium as the first tie", () => {
+    const { core, api, bill, seats, where } = town();
+    const memberIds = seats.map((s) => s.holder!.personId!);
+    const you = [...core.people.values()]
+      .filter(
+        (p) =>
+          !memberIds.includes(p.id) &&
+          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 30 &&
+          memberIds.every((m) => !p.knownIds.has(m)),
+      )
+      .sort((a, b) => a.id.localeCompare(b.id))[0];
+    expect(you, `${where}: an adult who knows no member`).toBeDefined();
+    core.playerId = you!.id;
+    signUpToSpeak(api, { billId: bill.id, personId: you!.id, position: 1 });
+    holdVote(api, bill.id);
+    expect(
+      remarksOn(api, bill.id).some((r) => r.personId === you!.id && r.signedUp),
+      where,
+    ).toBe(true);
+    for (const m of memberIds) {
+      expect(core.people.get(you!.id)!.knownIds.has(m), where).toBe(true);
+      expect(core.people.get(m)!.knownIds.has(you!.id), where).toBe(true);
+      const fact = core.knowledgeByPerson.get(you!.id)?.get(`person:${m}:met`);
+      expect(fact?.sourceId, where).toBe(`public-comment:${bill.id}`);
+      const tie = core.relationships.get([you!.id, m].sort().join(":"));
+      expect(tie, where).toBeDefined();
+      // The tie is the player's own, so its reason is kept: the meeting.
+      expect(tie!.level, where).toBeGreaterThan(0);
+      expect(tie!.latestChange?.reason?.cause, where).toBe(
+        ENCOUNTERS.causes.metAtPublicComment,
+      );
+      expect(tie!.latestChange?.reason?.sourceId, where).toBe(
+        `public-comment:${bill.id}`,
+      );
+    }
   }, 300_000);
 });

@@ -438,15 +438,17 @@ function publicComment(api: CoreAPI, billId: string): void {
   }
   const said = remarksOn(api, billId);
   if (!said.length) return;
-  // The members sit through the comment, so each speaker they did not know now
-  // knows them by name; the first tie holds the speaker's time at the podium.
-  // A speaker still in the wider population is not met (two-level population).
+  // The members sit through the comment, so each speaker on the record (those
+  // who signed up, the player among them, and those moved to stand up) they
+  // did not know now knows them by name; the first tie holds the speaker's
+  // time at the podium. A speaker still in the wider population is not met
+  // (two-level population).
   for (const seat of members(api, bill.bodyOfficeId))
     if (seat.personId)
       meetAtMeeting(
         api,
         seat.personId,
-        speakers.map((x) => x.p.id),
+        said.map((r) => r.personId),
         lawChain(api).townPlaceId,
         `public-comment:${bill.id}`,
         ENCOUNTERS.causes.metAtPublicComment,
