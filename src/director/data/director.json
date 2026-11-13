@@ -436,6 +436,7 @@
       "tag": "TUNABLE",
       "citation": "Fable A, Nov 13, 2026, rule 28: a child under 13 is never cast to tell news of politics, money, law or work, and never opens with an adult's line; from 13 to 17 they may tell what they heard at school or at home; adults as now. Playtester P1, Commack NY: a 4-year-old son cast to tell his mother who filed for town board.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
       "spread": {
         "low": 10,
         "high": 16,
