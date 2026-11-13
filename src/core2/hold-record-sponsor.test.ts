@@ -10,7 +10,7 @@ import { CORRUPTION_MODULE_ID } from "./modules/corruption";
 import { lawChain } from "./modules/laws";
 import { wordPrintedStory } from "../bench/archive-words";
 import { wireItem } from "./press-topics";
-import { billOf, committeeRecords } from "./modules/legislature";
+import { billOf, chambersOf, committeeRecords } from "./modules/legislature";
 import { coreAPI } from "./state";
 import { applyCoreEvent } from "./state";
 
@@ -81,8 +81,11 @@ it(`a held bill names its sponsor, reaches the wire and the committee story, and
     // The chair agrees in the scene that follows a hold: the bill is heard.
     const hold = holds.find((row) => {
       const bill = billOf(api, row.facts!.billId!);
+      // A hold in the bill's first chamber (a later chamber's hold stands: see reopenHeldBill).
       return (
-        bill.status === "failed" && core.people.has(row.facts!.chair as never)
+        bill.status === "failed" &&
+        row.id.endsWith(`:${chambersOf(api, bill)[0]}`) &&
+        core.people.has(row.facts!.chair as never)
       );
     });
     expect(
@@ -118,17 +121,18 @@ it(`a held bill names its sponsor, reaches the wire and the committee story, and
     });
     const records = committeeRecords(api, bill.id);
     expect(records.length, where).toBe(1);
-    expect(
-      records[0]!.heard,
-      `${where}: ${bill.id} hold chair ${hold!.facts!.chair}, now ${records[0]!.chairId}, record ${records[0]!.id}, hold date ${hold!.date}`,
-    ).toBe(true);
+    expect(records[0]!.heard, `${where}: ${bill.id}`).toBe(true);
     expect(records[0]!.chairReasons.agreedReplyId, where).toBe(
       `scene-reply:${hold!.id}:bill-held-chair:0`,
     );
     expect(core.durableLog.get(`${hold!.id}:after-hold`)?.kind, where).toBe(
       "committee-hearing",
     );
-    expect(billOf(api, bill.id).status, where).not.toBe("failed");
+    // Heard, the committee reports it (the bill is back on the calendar) or votes it down (the
+    // bill fails again, now after a hearing record that shows the vote).
+    expect(billOf(api, bill.id).status === "failed", where).toBe(
+      !records[0]!.reported,
+    );
     reopened = true;
     break;
   }

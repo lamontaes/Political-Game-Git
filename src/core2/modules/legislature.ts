@@ -523,8 +523,11 @@ function reopenHeldBill(
   if (!held || held.heard || !event.personIds.includes(held.chairId)) return;
   const bill = table(api, "bills").get(held.billId) as unknown as
     BillRow | undefined;
-  // Only the bill that hold ended: one refiled or settled since stays as it is.
+  // Only the bill that hold ended: one refiled or settled since stays as it is. And only a hold in
+  // the bill's first chamber: a later chamber's committee sits after the first chamber's floor
+  // vote, which a re-listing would count a second time, so that hold stands.
   if (!bill || bill.status !== "failed") return;
+  if (held.chamber !== chambersOf(api, bill)[0]) return;
   table(api, "replies").put({
     id: `hearing:${bill.id}`,
     replyId: event.id,
