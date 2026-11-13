@@ -105,25 +105,34 @@ it(`the player who files last is told who is already running (seed ${seed})`, ()
     const fact = (key: string) => scene.facts.find((row) => row.key === key);
     const filings = ballot(api, race.id).filter((row) => row.personId !== me);
     expect(fact("already-filed")?.text, where).toBe(String(filings.length));
+    // A list names three, then counts (Fable A, Nov 13, rule 2): with more
+    // than three, the first two to file and how many others.
+    const inOrder = [...filings].sort(
+      (a, b) => a.filedOn.localeCompare(b.filedOn) || a.id.localeCompare(b.id),
+    );
+    const named = inOrder.length > 3 ? inOrder.slice(0, 2) : inOrder;
     for (const row of filings) {
+      expect(fact("rivals")?.recordIds, where).toContain(row.id);
       const person = core.people.get(row.personId as PersonId)!;
+      if (!named.includes(row)) continue;
       expect(fact("rivals")?.text, where).toContain(
         `${person.givenName} ${person.familyName}`,
       );
-      expect(fact("rivals")?.recordIds, where).toContain(row.id);
       const incumbent = incumbentOf(api, race.id);
       if (incumbent?.personId === row.personId)
         expect(fact("rivals")?.text, where).toContain(
           `incumbent ${person.givenName}`,
         );
-      else if (row.party && row.party !== "party")
-        expect(fact("rivals")?.text, where).toContain(
-          `${row.party} candidate ${person.givenName}`,
-        );
     }
+    if (inOrder.length > 3)
+      expect(fact("rivals")?.text, where).toMatch(/ and \w+ others$/);
+    // A party is never said before every name.
+    expect(fact("rivals")?.text, where).not.toMatch(/ candidate /);
     expect(scene.cause.id, where).toBe(moment.causeId);
-    expect(scene.talk.state.text, where).toContain(
-      fact("rivals")!.text.split(" and ")[0]!,
+    // The list may open the sentence ("Incumbent Audrey Romero and ..."), so
+    // its first name is found whatever the case of its first letter.
+    expect(scene.talk.state.text.toLowerCase(), where).toContain(
+      fact("rivals")!.text.split(" and ")[0]!.toLowerCase(),
     );
     expect(scene.talk.state.text, where).not.toMatch(/[{}]|undefined/);
 
