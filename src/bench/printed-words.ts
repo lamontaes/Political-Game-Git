@@ -1024,7 +1024,7 @@ const studyReported: Builder = (read, f) => {
   // The chair gave the findings only when the speech on record is theirs
   // (a member gives it when the chair has died).
   const speech = study.report?.speechId
-    ? read.row<{ readonly speakerId: string }>(
+    ? read.row<{ readonly id: string; readonly speakerId: string }>(
         SPEECH_MODULE_ID,
         "addresses",
         study.report.speechId,
@@ -1037,9 +1037,13 @@ const studyReported: Builder = (read, f) => {
       ...read.billBody(f.billId),
       ...read.who(study.chairId, "name", false),
       date: read.date(),
-      [`members-${f.direction}`]: read.yes(),
-      ...(before !== finding > 0 ? { changed: read.yes() } : {}),
-      ...(speech?.speakerId === study.chairId ? { presented: read.yes() } : {}),
+      [`members-${f.direction}`]: read.fact("yes", study.id),
+      ...(before !== finding > 0
+        ? { changed: read.fact("yes", study.id) }
+        : {}),
+      ...(speech?.speakerId === study.chairId
+        ? { presented: read.fact("yes", study.id, speech.id) }
+        : {}),
     },
     ["designation"],
     study.chairId,
