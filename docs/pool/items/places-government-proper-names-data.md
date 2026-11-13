@@ -23,6 +23,7 @@ source: "Words builder W2, Nov 13, at Fable A's word on #8928 after #9000"
 **Cause.** Found in code: the government-units listing (`src/core2/reference/government-units.ts`, `name`) is in capitals only. For the 122, its last words do not match the place record's name (`corePlaceByKey(...).displayName`). Townships carry no `placeGeoid`, so `governmentProperName` (`src/core2/government-proper-name.ts`) has no record to read.
 
 **Fix.** Give each of these a proper name in data, read by the one reader:
+
 - For the 122, add a small override table keyed by unit id: the name as the government writes it ("Redwood City", "City of St. Paul").
 - For the 107 townships, add the township's own name.
 - `governmentProperName` reads the table before its letter match, so no code names a place.
