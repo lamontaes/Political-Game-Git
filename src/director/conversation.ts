@@ -137,6 +137,7 @@ import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import {
   properName,
   spoken,
+  spokenDate,
   spokenWhen,
   spokenWhenRow,
   stateInSentence,
@@ -817,10 +818,29 @@ function evictionSubjects(
       facts: { evicted: { text: "", sourceRecordIds: [evicted.causeId] } },
     },
   ];
-  const owed = (
-    housing.table("cases").get(caseId) as
-      { owedAtRemovalMinor?: number } | undefined
-  )?.owedAtRemovalMinor;
+  const kept = housing.table("cases").get(caseId) as
+    | { owedAtRemovalMinor?: number; removalAt?: string; removedAt?: string }
+    | undefined;
+  const owed = kept?.owedAtRemovalMinor;
+  // How long they had: the day the court set for the removal, from the case
+  // (Fable A, Nov 13, rule 5: "How long do we have?" is answered from the
+  // eviction's record), said "today" on the day itself.
+  const until = kept?.removalAt ?? kept?.removedAt;
+  if (until)
+    out.push({
+      id: `eviction-until:${caseId}`,
+      kind: "eviction-until",
+      aboutId: evicted.causeId,
+      facts: {
+        until: {
+          text:
+            until === core.date
+              ? spokenWhen(until, core.date)
+              : spokenDate(until, core.date),
+          sourceRecordIds: [caseId],
+        },
+      },
+    });
   if (owed !== undefined && owed > zero)
     out.push({
       id: `eviction-cause:${caseId}`,
@@ -2914,6 +2934,7 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "eviction",
   "eviction-cause",
   "eviction-where",
+  "eviction-until",
   "victimization",
   "death-news",
   "illness-news",
@@ -3598,14 +3619,22 @@ function offerChoices(
     // plea to be left alone, a reaction). Else a wording that asks nothing
     // stands in, or the reply is not offered.
     const asksLast = tail ? asksQuestion(tail) : answer.asks;
+    // A question the player asks is answered from the record or the reply is
+    // not offered (Fable A, Nov 13, rule 5; P1, Curtisville: "We're being
+    // evicted." / "Oh, no. How long do we have?" / "I've got a few things to
+    // get done this morning."): the subject it asks for must be one the other
+    // person can tell now, with words to tell it. Bad news is otherwise only
+    // taken in, so a question about it goes unanswered.
+    const toldBack = data.tells?.[last.kind]?.[choiceKey];
     const heard =
-      NEWS_SUBJECTS.has(last.subject.kind) ||
       // What say() reads: the raised subject between them, and the other
       // person's own words for it.
       (!!raised &&
         between.some((row) => row.id === raised.id) &&
         !!replyFacts(core, otherId, raised)) ||
-      !!data.tells?.[last.kind]?.[choiceKey] ||
+      (toldBack
+        ? !!tellable(core, conversation, data, toldBack)
+        : NEWS_SUBJECTS.has(last.subject.kind) && !asksLast) ||
       // Every reply to the address's point is answered, in composed words,
       // and so is asking someone why they stand where they do.
       last.kind === POINT ||
