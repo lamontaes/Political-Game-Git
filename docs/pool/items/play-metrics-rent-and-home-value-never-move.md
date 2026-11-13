@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/p2-metrics-current-rent
 pr: #9024
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: Playtester P2, Nov 13 (Joseph City, Arizona, seed 3bb11757-b22e-4a8d-b6c4-7259e5c84834)
+merged-at: 2026-11-13T07:00:03.779Z
 ---
 
 **What.** On main 596d5127, an Advanced start in Joseph City, Arizona (seed 3bb11757-b22e-4a8d-b6c4-7259e5c84834), played two years week by week. Politics → Metrics → Homes reads "Typical monthly rent $904 · Typical home value $198,000" on January 20, 2025, and exactly the same in January 2027, while the country's prices rose 3.4% and then 2.8% in between. The housing engine's own figures do move: in Crestview, New Mexico (seed 7e9b5aa3...) the town's typical rent went from $803.65 to $835.24 and its typical home value from $96,007 to $99,152 in the first year. Seen: Metrics' typical rent and home value are today's.
