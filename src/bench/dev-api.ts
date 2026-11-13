@@ -248,6 +248,7 @@ export async function handleDev(
           series: input.series === undefined ? undefined : String(input.series),
           value: input.value === undefined ? undefined : Number(input.value),
           unit: input.unit === undefined ? undefined : String(input.unit),
+          repeal: input.repeal === true,
           billId: input.billId === undefined ? undefined : String(input.billId),
           schedule: input.schedule === true,
         }),
@@ -310,6 +311,9 @@ export async function handleDev(
       );
       return true;
     }
+    case "GET bill-deciders":
+      send(200, mode.billDeciders(q("billId")));
+      return true;
     case "GET wealthiest":
       send(200, mode.wealthiest());
       return true;

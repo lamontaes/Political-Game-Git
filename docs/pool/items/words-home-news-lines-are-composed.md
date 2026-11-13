@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/words-w3-news
+pr: #8822
 after: words-opening-evening-talk-raises-what-the-president-said
 blocked-on:
 lead: words
@@ -17,8 +17,9 @@ effort: medium
 root: rc4-hand-written-words
 source: owner, Nov 11, 2026 (docs/coordination/OWNER-DECISIONS.md, "Nov 11: every line goes through the English engine"); planned for Fable B from a read of main at 5ef67361
 checked:
-claimed-at:
-branch:
+claimed-at: 2026-11-11
+branch: claude/words-w3-news
+merged-at: 2026-11-11T19:00:03.034Z
 ---
 
 **What.** When someone passes on news (a story they read, or a place in town that closed), the raise already names it ("Did you see {headline} in {outlet}?"), but the rest of the exchange is fixed. They ask "What do you make of the news?", and the player answers "I think it's terrible." or "I think it's great." whatever the story is and whatever their own life says. 24 of the 58 lines under the bank's `news` subject have no insert. Seen: a talk that opens on a story or a closing in town, its question back to the player and the player's four replies.

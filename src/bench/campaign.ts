@@ -1,8 +1,10 @@
 import { spokenDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import {
+  answerDonationAsk,
   askForEndorsement,
   contributeOwnMoney,
+  donationAsksFor,
   askToVolunteer,
   campaignFor,
   commissionPoll,
@@ -26,6 +28,8 @@ import { petitionOf } from "../core2/modules/elections";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
+import { promisesOf, votesOf } from "../core2/modules/people";
+import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { retellingsOf } from "../core2/modules/speech";
 import {
   answerDebate,
@@ -779,5 +783,125 @@ export function speechGive(
     text: speechText(build),
     retold,
     scene: speechScene(core, personId, venue, causes),
+  };
+}
+
+/**
+ * The player's own record in office, as voters read it (`recordAppeal`): the
+ * roll-call votes they cast, the bills they sponsored with how each stands,
+ * and each promise they made with whether their votes since kept it. A view of
+ * the record and legislature tables; it keeps nothing of its own.
+ */
+export function playerRecord(core: CoreState, personId: string) {
+  const api = coreAPI(core);
+  const billNumbers = new Map<string, string>();
+  if (core.modules.has(LEGISLATURE_MODULE_ID))
+    for (const bill of api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .rows() as unknown as { id: string; number: string }[])
+      billNumbers.set(bill.id, bill.number);
+  // A vote with no outcome on record is left out, never shown half-filled.
+  const votes = votesOf(api, personId)
+    .filter((vote) => vote.passed !== null)
+    .map((vote) => ({
+      id: vote.id,
+      date: vote.date,
+      // A vote on a bill the legislature still holds shows its number; an old
+      // measure with no bill number shows its title and date only.
+      number: billNumbers.get(vote.measureId) ?? null,
+      question: vote.stance.question,
+      position: Math.sign(vote.stance.position),
+      passed: vote.passed,
+    }));
+  const bills = core.modules.has(LEGISLATURE_MODULE_ID)
+    ? (
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .rows() as unknown as {
+          id: string;
+          number: string;
+          status: string;
+          sponsorId: string;
+          introduced: string;
+        }[]
+      )
+        .filter((bill) => bill.sponsorId === personId)
+        .map((bill) => ({
+          id: bill.id,
+          number: bill.number,
+          status: bill.status,
+          introduced: bill.introduced,
+        }))
+    : [];
+  const promises = promisesOf(api, personId).map((row) => ({
+    id: row.promise.id,
+    date: row.promise.date,
+    question: row.promise.stance.question,
+    position: Math.sign(row.promise.stance.position),
+    status: row.status,
+    voteId: row.voteId,
+  }));
+  return { votes, bills, promises };
+}
+
+/**
+ * Candidates' asks for money that reached the player and wait on their answer
+ * (play-campaign-ask-reaches-player): who asks, for which race, what they
+ * would give by their own reasons, and the cash they hold to give from.
+ */
+export function donationAsksView(core: CoreState, personId: string) {
+  const api = coreAPI(core);
+  const asks = core.modules.has("core2-campaigns-v1")
+    ? donationAsksFor(api, personId)
+    : [];
+  const person = core.people.get(personId);
+  return {
+    cashMinor: person?.liquidMinor ?? 0,
+    asks: asks.map((ask) => {
+      const candidate = core.people.get(ask.candidateId);
+      const filing = api
+        .moduleState(ELECTIONS)
+        .table("filings")
+        .get(ask.campaignId) as unknown as FilingRow | undefined;
+      const contest = filing
+        ? (api
+            .moduleState(ELECTIONS)
+            .table("contests")
+            .get(filing.contestId) as unknown as ContestRow | undefined)
+        : undefined;
+      return {
+        id: ask.id,
+        candidateId: ask.candidateId,
+        candidate: candidate
+          ? `${candidate.givenName} ${candidate.familyName}`
+          : "",
+        race: contest ? raceTitle(contest.title, contest.district) : "",
+        party: filing?.party ?? null,
+        suggestedMinor: ask.suggestedMinor,
+        askedOn: ask.askedOn,
+      };
+    }),
+  };
+}
+
+/** The player's answer to one of their own open asks: give a sum, or decline. */
+export function answerAsk(
+  core: CoreState,
+  personId: string,
+  input: { askId: string; answer: string; amountMinor?: number },
+) {
+  if (input.answer !== "give" && input.answer !== "decline")
+    throw new Error("Invalid answer.");
+  if (!donationAsksView(core, personId).asks.some((a) => a.id === input.askId))
+    throw new Error("This ask is not open for this person.");
+  return {
+    answered: answerDonationAsk(
+      coreAPI(core),
+      input.askId,
+      input.answer,
+      input.amountMinor,
+    ),
   };
 }

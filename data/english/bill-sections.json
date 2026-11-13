@@ -414,6 +414,66 @@
       "subject": "a ban on members trading stock",
       "purpose": "bar members of Congress from trading stock",
       "enact": "members of Congress shall not buy or sell individual stocks while in office"
+    },
+    "tax.raise-top-income-tax-rate": {
+      "subject": "a higher top income tax rate",
+      "purpose": "raise the top rate of the federal income tax",
+      "enact": "the tax rate on the highest bracket of taxable income shall be raised to the rate set here"
+    },
+    "foreign-affairs.increase-foreign-aid": {
+      "subject": "more foreign aid",
+      "purpose": "increase the money the United States spends on aid abroad",
+      "enact": "the sums made available for economic and development aid abroad shall be raised to the amounts set here"
+    },
+    "monetary-financial.cap-consumer-loan-interest": {
+      "subject": "a cap on consumer loan interest",
+      "purpose": "cap the interest rate on consumer loans",
+      "enact": "no lender shall charge an annual percentage rate on a consumer loan above the limit set here"
+    },
+    "social-insurance.raise-retirement-age": {
+      "subject": "a later Social Security retirement age",
+      "purpose": "raise the full retirement age for Social Security",
+      "enact": "the age at which full Social Security retirement benefits begin shall be raised to the age set here"
+    },
+    "agriculture.cut-farm-subsidies": {
+      "subject": "lower farm subsidies",
+      "purpose": "cut federal payments to farms",
+      "enact": "the reference prices and payment rates for covered crops shall be lowered to the levels set here"
+    },
+    "defense.grow-defense-spending": {
+      "subject": "more defense spending",
+      "purpose": "increase spending on national defense",
+      "enact": "the sums authorized for national defense shall be raised to the amounts set here"
+    },
+    "transport-water.expand-passenger-rail": {
+      "subject": "more passenger rail",
+      "purpose": "expand passenger rail service",
+      "enact": "grants shall be made to build and run new and longer passenger rail routes"
+    },
+    "federal.income-tax-terms": {
+      "subject": "the terms of the federal income tax",
+      "purpose": "change the terms of the federal income tax",
+      "enact": "the federal income tax shall be figured on the brackets, deductions and credits set here"
+    },
+    "federal.payroll-tax-terms": {
+      "subject": "the terms of the federal payroll taxes",
+      "purpose": "change the terms of the Social Security and Medicare taxes on wages",
+      "enact": "the Social Security and Medicare taxes on wages shall be charged on the terms set here"
+    },
+    "federal.excise-tax-terms": {
+      "subject": "the terms of the federal excise taxes",
+      "purpose": "change the terms of the federal excise taxes",
+      "enact": "the federal excise taxes on motor fuel and other goods shall be charged on the terms set here"
+    },
+    "federal.sales-tax-terms": {
+      "subject": "a federal sales tax",
+      "purpose": "set the terms of a federal tax on retail sales",
+      "enact": "a federal tax on retail sales shall be charged on the terms set here"
+    },
+    "federal.corporate-tax-terms": {
+      "subject": "the terms of the federal corporate income tax",
+      "purpose": "change the terms of the federal corporate income tax",
+      "enact": "the income tax on corporations shall be figured on the terms set here"
     }
   },
   "amounts": {

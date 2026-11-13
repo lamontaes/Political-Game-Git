@@ -113,6 +113,7 @@
         "src/core2/modules/officials.ts",
         "src/core2/modules/office-day.ts",
         "src/core2/modules/president-acts.ts",
+        "src/core2/modules/staff.ts",
         "src/core2/government-jurisdictions.ts"
       ],
       "paths": [
@@ -143,7 +144,8 @@
       "entry": [
         "src/core2/modules/budgets.ts",
         "src/core2/modules/finance.ts",
-        "src/core2/budgets-treasury.ts"
+        "src/core2/budgets-treasury.ts",
+        "src/core2/tax-index.ts"
       ],
       "paths": [
         "src/core2/modules/budgets.ts",
@@ -287,7 +289,8 @@
         "src/core2/closeness.ts",
         "src/core2/trait-decisions.ts",
         "src/core2/modules/moves.ts",
-        "src/core2/person-work.ts"
+        "src/core2/person-work.ts",
+        "src/core2/home-distance.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",

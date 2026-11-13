@@ -158,7 +158,16 @@ describe(`dev mode: ${world.place.displayName} (seed ${seed})`, () => {
       const job = core.jobs.get(jobId) ?? rt?.jobs.get(jobId);
       expect(job?.hourlyMinor).toBe(toMinor);
     }
-    expect(dev.reach(law.id).records).toBe(raises.length);
+    // The reach counts every row of every engine that applied the law: the raise
+    // rows themselves are one side, and the law engine's applied rows for the
+    // same jobs ("raised-to-pay-floor", "held-at-pay-floor") are others, so the
+    // total is at least the raises, and the raises side is exactly them.
+    const reach = dev.reach(law.id);
+    const raisesSide = reach.by.find(
+      (side) => side.engine === "core2-laws-v1" && side.what === "raises",
+    );
+    expect(raisesSide?.records ?? 0).toBe(raises.length);
+    expect(reach.records).toBeGreaterThanOrEqual(raises.length);
     const end = new Date(`${core.date}T00:00:00Z`);
     end.setUTCMonth(end.getUTCMonth() + 1);
     dev.advance(end.toISOString().slice(0, 10));

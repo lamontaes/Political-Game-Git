@@ -1,16 +1,31 @@
 {
-  "about": "How people say how long ago they last saw someone, in passing: never a calendar date (owner, Oct 15, evening: nobody says a date in speech, 'I talked to Diana on November 13'). The first row whose upToDays covers the gap is said. Authored, calibrated to the way Americans mention a recent contact in the conversation bank; the engine only picks the row by the contact record's date.",
+  "about": "How people say how long ago they last saw someone, in passing: never a calendar date (owner, Oct 15, evening: nobody says a date in speech, 'I talked to Diana on November 13'). The first row whose upToDays covers the gap is said. Authored, calibrated to the way Americans mention a recent contact in the conversation bank; the engine only picks the row by the contact record's date. `gap` says how long that is as a greeting hears it (recent for a day, month for up to about six weeks, long past that, the owner's lead's three stages on Nov 11: \"I just saw you yesterday\" only when recent, a hedge like \"if I remember right\" only when long), and `since` whether the words read after \"since\" (\"since last week\", never \"since a few days ago\"); both are marks a line may require.",
   "origin": "authored",
   "author": "Words line, Claude Sonnet 5.5",
   "date": "2026-10-15",
   "rows": [
-    { "upToDays": 0, "said": "today" },
-    { "upToDays": 1, "said": "yesterday" },
-    { "upToDays": 6, "said": "a few days ago" },
-    { "upToDays": 13, "said": "last week" },
-    { "upToDays": 45, "said": "a few weeks ago" },
-    { "upToDays": 120, "said": "a couple of months ago" },
-    { "upToDays": 400, "said": "last year" },
-    { "upToDays": 100000, "said": "years ago" }
+    { "upToDays": 0, "said": "today", "gap": "recent", "since": false },
+    { "upToDays": 1, "said": "yesterday", "gap": "recent", "since": true },
+    {
+      "upToDays": 6,
+      "said": "a few days ago",
+      "gap": "month",
+      "since": false
+    },
+    { "upToDays": 13, "said": "last week", "gap": "month", "since": true },
+    {
+      "upToDays": 45,
+      "said": "a few weeks ago",
+      "gap": "month",
+      "since": false
+    },
+    {
+      "upToDays": 120,
+      "said": "a couple of months ago",
+      "gap": "long",
+      "since": false
+    },
+    { "upToDays": 400, "said": "last year", "gap": "long", "since": true },
+    { "upToDays": 100000, "said": "years ago", "gap": "long", "since": false }
   ]
 }

@@ -76,6 +76,23 @@ for (const seed of seeds) {
       expect(shownIn.length + shownNot.length, where).toBe(laws.length);
     });
 
+    it("every law's subject has a worded name, and no subject holds one law only because the screen lacks a word", () => {
+      const named = new Set(
+        Object.keys(
+          (controls as unknown as { politics: { issueGroups: object } })
+            .politics.issueGroups,
+        ),
+      );
+      const subjects = new Map<string, number>();
+      for (const law of laws)
+        subjects.set(
+          subjectOf(law.series),
+          (subjects.get(subjectOf(law.series)) ?? 0) + 1,
+        );
+      const raw = [...subjects.keys()].filter((key) => !named.has(key));
+      expect(raw, `${where}: subjects with no worded name`).toEqual([]);
+    });
+
     it("subject: exactly the laws of that subject, and the subjects cover every law", () => {
       const subjects = [...new Set(laws.map((l) => subjectOf(l.series)))];
       let total = 0;
