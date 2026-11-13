@@ -17,6 +17,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
+import { playerClockFrontierV1 } from "../core2/player-stops-v1";
 import type { PersonId } from "../core2/types";
 import { dateSaid } from "../english/day-words";
 import { composeScene } from "./scene";
@@ -26,7 +27,7 @@ const MORNING = 8 * 60;
 /** Past the new year from the game's start in late January. */
 const PLAY_DAYS = 380;
 
-it(`a scene about a record from another year says its year (seed ${seed})`, () => {
+it(`a scene opens on the player's day and says a record's year when it is another (seed ${seed})`, () => {
   setBookkeeping(false);
   const place = drawPlace(seed, "scene-date-year");
   const where = `${place.name} (${place.key}), seed ${seed}`;
@@ -45,12 +46,41 @@ it(`a scene about a record from another year says its year (seed ${seed})`, () =
       minuteOfDay: P.zero,
     },
   });
-  while (packet.kind !== "complete")
+  const book = director.ledger.people.get(player)!;
+  // At every stop, the scene it stops for opens on the day the player's
+  // clock reads (P3, North Hyde Park VT: "First thing on November 26th"
+  // while the clock read November 27, 7:00 AM).
+  let stops = 0;
+  let nextMorning = 0;
+  while (packet.kind !== "complete") {
+    if (packet.kind === "stop") {
+      const clock = playerClockFrontierV1(core, player)!;
+      for (const entry of book.schedule) {
+        const at = entry.stop?.at;
+        if (!at || at.date !== clock.date || !entry.bindings.length) continue;
+        const scene = composeScene(
+          core,
+          director,
+          player,
+          entry,
+          undefined,
+          at.minuteOfDay,
+        );
+        const first = scene?.narration[0]?.text;
+        if (!first) continue;
+        stops += 1;
+        if (book.momentsById.get(entry.momentId)!.date < clock.date)
+          nextMorning += 1;
+        expect(first, `${where}: a stop on ${clock.date}`).toContain(
+          dateSaid(clock.date),
+        );
+      }
+    }
     packet =
       packet.kind === "stop"
         ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
         : resumePlayerV1(core, { kind: "own-choice", pauseId: packet.pauseId });
-  const book = director.ledger.people.get(player)!;
+  }
   const year = core.date.slice(0, 4);
   const told: string[] = [];
   let older = 0;
@@ -80,6 +110,9 @@ it(`a scene about a record from another year says its year (seed ${seed})`, () =
         told.push(`${moment.date}: ${line.text}`);
     }
   }
+  process.stderr.write(
+    `stops in ${where}: ${stops} scenes opened at a stop, ${nextMorning} of them the morning after their record, each on the clock's day\n`,
+  );
   process.stderr.write(
     `date in another year, ${where}, told on ${core.date}: ${older} scenes about records from before ${year}, ${told.length} lines saying when\n` +
       told
