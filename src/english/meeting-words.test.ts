@@ -31,6 +31,8 @@ describe("a resident's meeting lines", () => {
         });
         expect(line, key).not.toBeNull();
         expect(line!.text).not.toMatch(/[{}]/);
+        // A time said "7 p.m." never ends a line, so no line ends "p.m.."
+        expect(line!.text).not.toMatch(/\.\./);
         expect(line!.text).toContain(facts.body);
         said.add(line!.text);
       }

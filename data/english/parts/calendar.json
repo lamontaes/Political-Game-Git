@@ -144,7 +144,7 @@
     {
       "key": "calendar.meeting-plan.1",
       "move": "meeting-plan",
-      "text": "You plan to go to the {body} meeting at {time}.",
+      "text": "At {time}, you plan to go to the {body} meeting.",
       "origin": "authored",
       "author": "Words builder W3",
       "date": "2026-11-13",
@@ -162,7 +162,7 @@
     {
       "key": "calendar.meeting-plan.1.w3",
       "move": "meeting-plan",
-      "text": "You're going to the {body} meeting at {time}.",
+      "text": "The {body} meets at {time}, and you're going.",
       "origin": "authored",
       "author": "Words builder W3",
       "date": "2026-11-13",
