@@ -1146,7 +1146,7 @@ function billTopic(bill: BillRow): string | undefined {
       .find(Boolean);
     if (name) counts.set(name, (counts.get(name) ?? zero) + one);
   }
-  const top = [...counts].sort((a, b) => b[1] - a[1])[zero]?.[zero];
+  const top = [...counts].sort((a, b) => b[one] - a[one])[zero]?.[zero];
   // Said inside a sentence: a capitalized word is lowered, an initialism
   // ("K-12") is kept.
   return top?.replace(

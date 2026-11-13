@@ -6785,7 +6785,7 @@
       "key": "journal.office-line-petition.my-petition-came-back-with-valid-good-signatures-against-needed",
       "move": "office-line-petition",
       "kind": "spoken",
-      "text": "My petition came back with {valid} good signatures of the {needed} I needed.",
+      "text": "My petition came back with {valid} good signatures of {needed} needed.",
       "uses": [
         {
           "move": "office-line-petition",
@@ -11445,7 +11445,7 @@
       "key": "journal.memoir-act-run.in-when-i-cast-count-votes-on-the-body-m",
       "move": "memoir-act-run",
       "kind": "spoken",
-      "text": "In {when}, I cast {count} votes on the {body}, most on {topic}.",
+      "text": "In {when}, I cast {count} {body} votes, most on {topic}.",
       "uses": [
         {
           "move": "memoir-act-run",
@@ -11473,7 +11473,7 @@
       }
     },
     {
-      "key": "journal.memoir-act-run.i-voted-count-times-on-the-body-in-when",
+      "key": "journal.memoir-act-run.i-voted-count-times-on-the-body-in-when-mostly",
       "move": "memoir-act-run",
       "kind": "spoken",
       "text": "I voted {count} times on the {body} in {when}, mostly on {topic}.",
@@ -11482,7 +11482,7 @@
           "move": "memoir-act-run",
           "subject": "office",
           "role": "actRunVoteMost",
-          "choice": "i-voted-count-times-on-the-body-in-when",
+          "choice": "i-voted-count-times-on-the-body-in-when-mostly",
           "journal": [
             {
               "kindPrefix": "memoir:",
@@ -11507,7 +11507,7 @@
       "key": "journal.memoir-act-run.in-when-i-cast-count-votes-on-the-body-a",
       "move": "memoir-act-run",
       "kind": "spoken",
-      "text": "In {when}, I cast {count} votes on the {body}, all on {topic}.",
+      "text": "In {when}, I cast {count} {body} votes, all on {topic}.",
       "uses": [
         {
           "move": "memoir-act-run",

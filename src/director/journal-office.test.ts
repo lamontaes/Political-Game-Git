@@ -239,7 +239,10 @@ describe("the officeholder's journal", () => {
     // Three of the four were on one topic: "most on" it.
     expect(run[0]!.text, where).toMatch(/\bmost(?:ly)? on \w/);
     expect(run[0]!.text, where).toMatch(
-      /\b(?:cast 4 votes|voted 4 times)\b.*\b(?:winter|spring|summer|fall) of \d{4}\b|\b(?:winter|spring|summer|fall) of \d{4}, I cast 4 votes\b/,
+      /\b(?:cast 4\b[^.]*\bvotes|voted 4 times)\b/,
+    );
+    expect(run[0]!.text, where).toMatch(
+      /\bthe (?:winter|spring|summer|fall) of \d{4}\b/,
     );
     expect(
       after.some((line) => /\bI voted (for|against)\b/.test(line.text)),

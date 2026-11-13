@@ -53,7 +53,6 @@ for (const name of readdirSync("data/english/grades"))
   ).grades)
     if (row.restoredFrom) moved.set(row.restoredFrom, row.parts);
 
-<<<<<<< HEAD
 /**
  * Liked lines the words lead deleted under the owner's authority of Nov 12,
  * 2026 ("You don't need to constantly build on everything"), each with why.
@@ -66,10 +65,6 @@ const DELETED_BY_LEAD: Readonly<Record<string, string>> = {
     "Journal composer (words composer, unit 6): the same look-back, worded again; no fact behind it.",
 };
 
-const liked = Object.entries(ledger.parts)
-  .filter(([key, counts]) => counts.good > 0 && !DELETED_BY_LEAD[key])
-  .map(([key]) => key);
-=======
 /** Liked lines that left the banks with their scene (the scene inventory, Nov 12, 2026). */
 const retired =
   (
@@ -80,10 +75,9 @@ const retired =
 const retiredKeys = new Set(retired.map((row) => row.key));
 
 const liked = Object.entries(ledger.parts)
-  .filter(([, counts]) => counts.good > 0)
+  .filter(([key, counts]) => counts.good > 0 && !DELETED_BY_LEAD[key])
   .map(([key]) => key)
   .filter((key) => !retiredKeys.has(key));
->>>>>>> origin/main
 
 describe("a line the owner graded good stays in the banks", () => {
   it("is a piece in a bank, or a grade moved onto a live piece in a bank", () => {
