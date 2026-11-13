@@ -1,8 +1,6 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { wordPrintedStory } from "../bench/archive-words";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gatherSignatures } from "../core2/campaign-petition-kit";
 import { gameStartDate } from "../core2/game-start";
@@ -17,10 +15,7 @@ import {
   type FilingRow,
 } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
-import {
-  advanceToRaceFiling,
-  racesToFileBefore,
-} from "../core2/gov-test-clock";
+import { advanceToRaceFiling } from "../core2/gov-test-clock";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
@@ -31,12 +26,8 @@ import type { TreeNode } from "./scene-talk";
 // The concession call counts (path 6, "a real concession"): a candidate who
 // lost and conceded on the call after the count, or would not concede that
 // night, is put on the public record by the press, and the paper prints it
-// naming the winner. Drawn places and a fresh seed; place and seed in every
-// message.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-// A place with no race in the year costs only its build, so more are drawn.
-const ATTEMPTS = 40;
-const YEAR = 365;
+// naming the winner. One pinned place and race (see Pin); place and seed in
+// every message.
 const PAPER_DAYS = 10;
 
 /** The reply path that keeps choosing `move` until the talk ends. */
@@ -59,81 +50,73 @@ function pathTo(
   return null;
 }
 
+/**
+ * A place and race pinned from data (the calendar the world is built with,
+ * read without playing a day: a small town with a newspaper and a local race
+ * early in the year), so a failure can only mean the code failed. Found by
+ * building drawn places and reading their contests and outlets.
+ */
+interface Pin {
+  readonly name: string;
+  readonly key: string;
+  readonly worldSeed: string;
+  readonly contestId: string;
+}
+
 const run = (
-  drawSeed: string,
+  pin: Pin,
   move: "agree" | "refuse",
 ): { done: boolean; note: string } => {
-  const place = drawPlace(drawSeed, "concession-reported");
-  const where = `${place.name} (${place.key}), seed ${drawSeed}`;
+  const where = `${pin.name} (${pin.key}), world seed ${pin.worldSeed}`;
   setBookkeeping(false);
-  const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
+  const { core, director } = buildBenchWorld(pin.worldSeed, gameStartDate(), {
     twoLevel: true,
-    placeKey: place.key,
+    placeKey: pin.key,
   });
   const api = coreAPI(core);
-  const end = addDays(makeIsoDate(core.date), YEAR);
   // Residents of the town file: a filing refuses a resident of another place.
   const townId = core.people.get(core.playerId!)?.placeId;
-  // The races on the calendar the world was built with, read before any day
-  // is played: a place with none counted within the year is passed over at
-  // once. Each race is tried the day its filing opens, soonest first.
-  // The town's own races first (a resident's first race is a local one;
-  // a statewide race is won by an official the place holds only as results).
-  const local = (race: ContestRow) =>
-    ["city", "township", "county", "school"].includes(race.level);
-  const races = racesToFileBefore(core, end).sort(
-    (a, b) => Number(local(b)) - Number(local(a)),
-  );
-  if (!races.length)
-    return {
-      done: false,
-      note: `${where}: no race on the calendar counted by ${end}`,
-    };
-  let contest: ContestRow | undefined;
-  let filings: FilingRow[] = [];
-  const refused: string[] = [];
-  for (const race of races) {
-    if (race.filingDeadline < core.date) continue;
-    advanceToRaceFiling(core, race);
-    const clerkId = filingClerkFor(api, race.id)?.personId;
-    const town = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.placeId === townId &&
-          p.id !== core.playerId &&
-          p.id !== clerkId &&
-          p.birthDate < "2000-01-01",
-      )
-      .sort((a, b) => a.id.localeCompare(b.id))
-      .slice(0, 40);
-    filings = [];
-    for (const person of town) {
-      if (filings.length >= 3) break;
-      director.watch(core, person.id);
-      const result = fileCandidacy(api, {
-        personId: person.id,
-        contestId: race.id,
-        platform: [],
-      });
-      if (["petitioning", "on-ballot"].includes(result.status ?? ""))
-        filings.push(result.filing);
-    }
-    if (filings.length >= 2) {
-      contest = race;
-      break;
-    }
-    refused.push(`${race.id} took ${filings.length}`);
-  }
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(pin.contestId) as unknown as ContestRow | undefined;
   if (!contest)
     return {
       done: false,
-      note: `${where}: no race took two filers (${refused.join(", ")})`,
+      note: `${where}: no ${pin.contestId} on the calendar`,
+    };
+  advanceToRaceFiling(core, contest);
+  const clerkId = filingClerkFor(api, contest.id)?.personId;
+  const filings: FilingRow[] = [];
+  for (const person of [...core.people.values()]
+    .filter(
+      (p) =>
+        p.alive &&
+        p.placeId === townId &&
+        p.id !== core.playerId &&
+        p.id !== clerkId &&
+        p.birthDate < "2000-01-01",
+    )
+    .sort((a, b) => a.id.localeCompare(b.id))
+    .slice(0, 40)) {
+    if (filings.length >= 3) break;
+    director.watch(core, person.id);
+    const result = fileCandidacy(api, {
+      personId: person.id,
+      contestId: contest.id,
+      platform: [],
+    });
+    if (["petitioning", "on-ballot"].includes(result.status ?? ""))
+      filings.push(result.filing);
+  }
+  if (filings.length < 2)
+    return {
+      done: false,
+      note: `${where}: ${contest.id} took ${filings.length} filers`,
     };
   gatherSignatures(core, ...filings.map((f) => f.id));
-  // A filer short of signatures at the deadline is off the ballot; with
-  // fewer than two on it there is no count to lose (Hillsview, South
-  // Dakota, seed de4ef0f8ff6efdfb:agree:13).
+  // Two or more on the ballot on the eve: a filer short of signatures at
+  // the deadline is off it.
   advanceCore(core, addDays(makeIsoDate(contest.electionDate), -1));
   const onBallot = ballot(api, contest.id).length;
   if (onBallot < 2)
@@ -258,22 +241,31 @@ const run = (
   };
 };
 
-it(`a concession, and a refusal, on the call after the count are told in the race's story in the paper (seed ${seed})`, () => {
-  const skipped: string[] = [];
-  const shown: string[] = [];
-  for (const move of ["agree", "refuse"] as const) {
-    let done = false;
-    for (let attempt = 0; attempt < ATTEMPTS && !done; attempt += 1) {
-      const out = run(`${seed}:${move}:${attempt}`, move);
-      if (out.done) shown.push(out.note);
-      else {
-        skipped.push(out.note);
-        process.stdout.write(`not shown: ${out.note}\n`);
-      }
-      done = out.done;
-    }
-    if (!done)
-      throw new Error(`no drawn place told a ${move}: ${skipped.join("; ")}`);
-  }
-  process.stdout.write(`${shown.join("\n")}\n`);
-}, 3_600_000);
+const NORTH_WESTMINSTER: Pin = {
+  name: "North Westminster, Vermont",
+  key: "5052375",
+  worldSeed: "18d0fb93fe003b8a20a3e4ce1848cd57da4a5e825a8dd4eab5c799ee23806b39",
+  contestId: "contest:seat:gus2025:211883:board:0:2025-03-04",
+};
+
+for (const move of ["agree", "refuse"] as const)
+  it(`${NORTH_WESTMINSTER.name}: a ${move} on the call after the count is told in the race's story in the paper`, () => {
+    const out = run(NORTH_WESTMINSTER, move);
+    process.stdout.write(`${out.done ? "shown" : "not shown"}: ${out.note}\n`);
+    expect(out.done, out.note).toBe(true);
+  }, 600_000);
+
+// The town's paper never prints its own council race today: the desk weighs
+// the race by its few candidates while votes and laws count every follower
+// (pool item press-town-race-result-never-printed, which un-skips this as
+// its failing-before test).
+const SEARSBORO: Pin = {
+  name: "Searsboro, Iowa",
+  key: "1971355",
+  worldSeed: "9230351683af4e111f4a121d1748e40e2722b7892af033ef20e633a06e1fac12",
+  contestId: "contest:seat:gus2025:164548:council:0:2025-11-04",
+};
+it.skip(`press-town-race-result-never-printed: ${SEARSBORO.name}'s council race is printed and tells the concession`, () => {
+  const out = run(SEARSBORO, "agree");
+  expect(out.done, out.note).toBe(true);
+}, 600_000);

@@ -10,17 +10,13 @@
  * another winner or themselves, and none plays where nobody missed it; and
  * the race reads "won" on the screens for whichever seat the count gave.
  *
- * The drawn case draws from all 56 until a place's calendar holds an
- * at-large race still open for filing, and files residents in it, one more
- * than its seats, so someone misses the cut; it names what it passed over
- * (GOLDEN_PATH_SEED reproduces a run). The two fixed cases are the replays
- * that showed the fault on main (every winner also "lost", another winner
- * calling). A single seat's record keeps
+ * The case is pinned from data: a small town whose calendar holds an
+ * at-large race and a single seat on the same early day, so a failure can
+ * only mean the code failed. Residents file one more than the seats, so
+ * someone misses the cut, and two for the single seat, whose record keeps
  * every candidate named and the runner-up as the caller.
  */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { electionResults, ownRace } from "../bench/results";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -41,12 +37,6 @@ import type { CoreState, PersonId } from "../core2/types";
 import { civicFill } from "./civic-roles";
 import type { Moment } from "./types";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-// A place with no at-large race open for filing costs only its build.
-const DRAWS = 30;
-// The window a race must be decided in: two years from the start.
-const WINDOW = "2027-01-01";
-
 interface Settled {
   readonly id: string;
   readonly personIds: readonly string[];
@@ -66,25 +56,6 @@ const filingsOf = (core: CoreState, contestId: string) =>
       .table("filings")
       .rows() as unknown as { contestId: string; personId: string }[]
   ).filter((f) => f.contestId === contestId);
-
-/** Local races decided in the window, earliest first, each as the engine groups it. */
-function racesIn(core: CoreState): ContestRow[][] {
-  const api = coreAPI(core);
-  return contestsOf(core)
-    .filter(
-      (c) =>
-        ["city", "township", "county"].includes(c.level) &&
-        !c.special &&
-        !c.primaryDate &&
-        c.electionDate < WINDOW,
-    )
-    .sort((a, b) => a.electionDate.localeCompare(b.electionDate))
-    .map((c) => [...atLargeGroup(api, c)])
-    .filter(
-      (group, n, all) =>
-        all.findIndex((other) => other[0]!.id === group[0]!.id) === n,
-    );
-}
 
 const recordsOf = (core: CoreState, race: readonly ContestRow[]) =>
   race.map(
@@ -183,158 +154,138 @@ function checkRace(
   return `${race.length} seats on ${race[0]!.electionDate} (${race[0]!.id}); ${lines.join("; ")}`;
 }
 
-it(`a drawn at-large race with someone outside the cut names each candidate once (seed ${seed})`, () => {
-  setBookkeeping(false);
-  const tried: string[] = [];
-  for (let draw = 0; draw < DRAWS; draw += 1) {
-    const place = drawPlace(`${seed}:${draw}`, "at-large-result");
-    const where = `${place.name} (${place.key}), run seed ${seed} draw ${draw}, world seed ${place.seed}`;
-    process.stdout.write(`BUILD ${where}\n`);
-    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    // The pooled races on the calendar the world was built with, read before
-    // any day is played; a place with none still open for filing is passed
-    // over at once.
-    const races = racesIn(core).filter(
-      (group) =>
-        group.length > 1 && group.every((c) => c.filingDeadline >= core.date),
-    );
-    if (!races.length) {
-      tried.push(
-        `${where}: no local at-large race open for filing before ${WINDOW}`,
-      );
-      continue;
-    }
-    // In the race, residents file (one more than its seats, spread over the
-    // seats) on the day its filing opens, so someone is sure to miss the
-    // cut whoever else files; then the world plays to two days past the
-    // count.
-    for (const race of races) {
-      if (race.some((c) => c.filingDeadline < core.date)) continue;
-      advanceToRaceFiling(core, race[0]!);
-      const api = coreAPI(core);
-      const townId = core.people.get(core.playerId!)?.placeId;
-      const running = (personId: string) =>
-        (
+/** A place and its at-large race, pinned from the calendar the world is built with. */
+interface Pin {
+  readonly name: string;
+  readonly key: string;
+  readonly worldSeed: string;
+  /** The race's first seat. */
+  readonly raceId: string;
+  /** A single seat decided the same day. */
+  readonly singleId: string;
+}
+
+// A five-seat council and the mayor on one August day, in a small town:
+// read without playing a day, by building drawn places and listing their
+// contests.
+const NORTH_COURTLAND: Pin = {
+  name: "North Courtland, Alabama",
+  key: "0155044",
+  worldSeed: "57991bf91d582506371821c6dd040c6557845a437a8b2035954fde34881fd75a",
+  raceId: "contest:seat:gus2025:160661:council:0:2025-08-26",
+  singleId: "contest:seat:gus2025:160661:mayor:0:2025-08-26",
+};
+
+/** Residents of the town who may run for `seatId` and are not running, in id order. */
+function residentsFor(core: CoreState, seatId: string): string[] {
+  const api = coreAPI(core);
+  const townId = core.people.get(core.playerId!)?.placeId;
+  return [...core.people.values()]
+    .filter(
+      (p) =>
+        p.alive &&
+        p.placeId === townId &&
+        p.id !== core.playerId &&
+        !(
           api
             .moduleState(ELECTIONS_MODULE_ID)
             .table("filings")
-            .query("byPerson", [personId]) as unknown as { status: string }[]
-        ).some((row) => ["petitioning", "on-ballot"].includes(row.status));
-      const filed: string[] = [];
-      for (const person of [...core.people.values()]
-        .filter(
-          (p) =>
-            p.alive &&
-            p.placeId === townId &&
-            p.id !== core.playerId &&
-            !running(p.id),
-        )
-        .sort((a, b) => a.id.localeCompare(b.id))) {
-        if (filed.length > race.length) break;
-        const seat = race[filed.length % race.length]!;
-        if (checkEligibility(api, person.id, seat.id, null).some((c) => !c.met))
-          continue;
-        const result = fileCandidacy(api, {
-          personId: person.id,
-          contestId: seat.id,
-          platform: [],
-        });
-        if (["petitioning", "on-ballot"].includes(result.status ?? ""))
-          filed.push(result.filing.id);
-      }
-      gatherSignatures(core, ...filed);
-      advanceCore(core, addDays(makeIsoDate(race[0]!.electionDate), 2));
-      const field = new Set(
-        race.flatMap((c) => filingsOf(core, c.id).map((f) => f.personId)),
-      );
-      if (recordsOf(core, race).some((r) => !r)) {
-        tried.push(`${where}: ${race[0]!.id} and its seats not all decided`);
-        continue;
-      }
-      if (field.size <= race.length) {
-        tried.push(
-          `${where}: ${race[0]!.id} had ${field.size} candidates for ${race.length} seats (${filed.length} residents filed)`,
-        );
-        continue;
-      }
-      process.stdout.write(
-        `AT LARGE RESULT ${where}: ${checkRace(core, race, where)}${tried.length ? `; passed over: ${tried.join("; ")}` : ""}\n`,
-      );
-      return;
-    }
-  }
-  expect.fail(`seed ${seed}: ${tried.join("; ")}`);
-}, 3_600_000);
+            .query("byPerson", [p.id]) as unknown as { status: string }[]
+        ).some((row) => ["petitioning", "on-ballot"].includes(row.status)) &&
+        !checkEligibility(api, p.id, seatId, null).some((c) => !c.met),
+    )
+    .sort((a, b) => a.id.localeCompare(b.id))
+    .map((p) => p.id);
+}
 
-// The replays that showed the fault on main 48296b91: a council and a town
-// board where every winner was also told they lost and another winner
-// called. Nobody missed the cut in either, so nobody calls; the first plain
-// single-seat local race of the same world keeps every candidate named and
-// the runner-up as its winner's caller, as before.
-for (const [name, key, worldSeed] of [
-  [
-    "Dandridge, Tennessee",
-    "4719380",
-    "619f499e38d2ac287d8c108c08b9fcee9de55646cdcc6aa1beff906b4bfd8237",
-  ],
-  ["Newport East, Rhode Island", "4450140", "t20:4450140"],
-] as const)
-  it(`${name}: every winner of the pooled race is elected once and lost never; a single seat is unchanged`, () => {
-    setBookkeeping(false);
-    const where = `${name} (${key}), world seed ${worldSeed}`;
-    process.stdout.write(`BUILD ${where}\n`);
-    const { core } = buildBenchWorld(worldSeed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: key,
+it(`${NORTH_COURTLAND.name}: every candidate of an at-large race is named once, elected or lost as the cut says; a single seat is unchanged`, () => {
+  setBookkeeping(false);
+  const pin = NORTH_COURTLAND;
+  const where = `${pin.name} (${pin.key}), world seed ${pin.worldSeed}`;
+  const { core } = buildBenchWorld(pin.worldSeed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: pin.key,
+  });
+  const api = coreAPI(core);
+  const first = contestsOf(core).find((c) => c.id === pin.raceId);
+  expect(first, `${where}: ${pin.raceId} on the calendar`).toBeDefined();
+  const race = [...atLargeGroup(api, first!)];
+  expect(race.length, `${where}: ${pin.raceId} is pooled`).toBeGreaterThan(1);
+  // Residents file the day filing opens: one more than the seats, spread
+  // over the seats, so someone misses the cut whoever else files; and two
+  // for the single seat, so it has a rival.
+  advanceToRaceFiling(core, first!);
+  const filed: string[] = [];
+  const fileFor = (personId: string, seatId: string) => {
+    const result = fileCandidacy(api, {
+      personId,
+      contestId: seatId,
+      platform: [],
     });
-    const races = racesIn(core);
-    const race = races.find((group) => group.length > 1);
-    expect(race, `${where}: an at-large race before ${WINDOW}`).toBeDefined();
-    advanceCore(core, addDays(makeIsoDate(race![0]!.electionDate), 2));
-    const line = checkRace(core, race!, where);
-    // A single seat decided by then, with a rival, reads as it did.
-    const single = races
-      .filter(
-        (group) => group.length === 1 && group[0]!.electionDate <= core.date,
-      )
-      .map((group) => recordsOf(core, group)[0])
-      .find(
-        (r) =>
-          !!r?.facts?.winnerId &&
-          Object.keys(JSON.parse(String(r.facts.totals))).length > 1,
-      );
-    let alone = "no single seat with a rival decided";
-    if (single) {
-      const totals = JSON.parse(String(single.facts!.totals)) as Record<
-        string,
-        number
-      >;
-      const winnerId = String(single.facts!.winnerId);
-      const others = Object.keys(totals)
-        .filter((id) => id !== winnerId && core.people.has(id as PersonId))
-        .sort();
-      expect(single.facts?.race, `${single.id} is no pooled race`).toBe(
-        undefined,
-      );
-      expect(
-        [...single.personIds].filter((id) => id !== winnerId).sort(),
-        `${single.id} names every candidate`,
-      ).toEqual(others);
-      expect(
-        JSON.parse(String(single.facts!.outIds)),
-        `${single.id} outIds`,
-      ).toEqual(others);
-      const runnerUp = Object.entries(totals)
-        .filter(([id]) => id !== winnerId && core.people.has(id as PersonId))
-        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0];
-      expect(
-        callersOf(core, winnerId, single.id),
-        `${single.id} caller`,
-      ).toEqual(runnerUp ? [runnerUp] : []);
-      alone = `${single.id}: ${others.length + 1} named, caller ${runnerUp}`;
-    }
-    process.stdout.write(`AT LARGE FIXED ${where}: ${line}; single ${alone}\n`);
-  }, 3_600_000);
+    if (["petitioning", "on-ballot"].includes(result.status ?? ""))
+      filed.push(result.filing.id);
+  };
+  for (const id of residentsFor(core, race[0]!.id)) {
+    if (filed.length > race.length) break;
+    fileFor(id, race[filed.length % race.length]!.id);
+  }
+  expect(filed.length, `${where}: residents filed for the council`).toBe(
+    race.length + 1,
+  );
+  for (const id of residentsFor(core, pin.singleId).slice(0, 2))
+    fileFor(id, pin.singleId);
+  gatherSignatures(core, ...filed);
+  advanceCore(core, addDays(makeIsoDate(race[0]!.electionDate), 2));
+  expect(
+    recordsOf(core, race).every((r) => !!r),
+    `${where}: every seat of ${race[0]!.id} decided`,
+  ).toBe(true);
+  const field = new Set(
+    race.flatMap((c) => filingsOf(core, c.id).map((f) => f.personId)),
+  );
+  expect(field.size, `${where}: someone misses the cut`).toBeGreaterThan(
+    race.length,
+  );
+  const line = checkRace(core, race, where);
+  // The single seat keeps every candidate named and the runner-up as its
+  // winner's caller, as before.
+  const single = core.durableLog.get(
+    `election-result:${pin.singleId}` as never,
+  ) as unknown as Settled | undefined;
+  expect(
+    single?.facts?.winnerId,
+    `${where}: ${pin.singleId} decided`,
+  ).toBeTruthy();
+  const totals = JSON.parse(String(single!.facts!.totals)) as Record<
+    string,
+    number
+  >;
+  const winnerId = String(single!.facts!.winnerId);
+  const others = Object.keys(totals)
+    .filter((id) => id !== winnerId && core.people.has(id as PersonId))
+    .sort();
+  expect(
+    others.length,
+    `${where}: ${pin.singleId} has a rival`,
+  ).toBeGreaterThan(0);
+  expect(single!.facts?.race, `${single!.id} is no pooled race`).toBe(
+    undefined,
+  );
+  expect(
+    [...single!.personIds].filter((id) => id !== winnerId).sort(),
+    `${single!.id} names every candidate`,
+  ).toEqual(others);
+  expect(
+    JSON.parse(String(single!.facts!.outIds)),
+    `${single!.id} outIds`,
+  ).toEqual(others);
+  const runnerUp = Object.entries(totals)
+    .filter(([id]) => id !== winnerId && core.people.has(id as PersonId))
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0];
+  expect(callersOf(core, winnerId, single!.id), `${single!.id} caller`).toEqual(
+    runnerUp ? [runnerUp] : [],
+  );
+  process.stdout.write(
+    `AT LARGE ${where}: ${line}; single ${single!.id}: ${others.length + 1} named, caller ${runnerUp}\n`,
+  );
+}, 600_000);

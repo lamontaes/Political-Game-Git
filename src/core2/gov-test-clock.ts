@@ -11,7 +11,7 @@ import {
   ELECTIONS_MODULE_ID,
   type ContestRow,
 } from "./modules/elections";
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { makeIsoDate } from "./kernel/dates";
 import type { CoreState } from "./types";
 
 export function advanceToFilingOpen(core: CoreState): string {
@@ -31,33 +31,6 @@ export function advanceToFilingOpen(core: CoreState): string {
     .sort()[0];
   if (next && next > today) advanceCore(core, next);
   return core.date;
-}
-
-/**
- * The races a test can file for before `end`, read from the calendar the
- * world was built with, before any day is played: each contest whose filing
- * has not closed and whose count is in by two days before `end`, the soonest
- * filing first (ties by id). A place with none is passed over at once, so a
- * test never plays a year to learn its place holds no race.
- */
-export function racesToFileBefore(core: CoreState, end: string): ContestRow[] {
-  const today = core.date;
-  return (
-    coreAPI(core)
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("contests")
-      .rows() as unknown as ContestRow[]
-  )
-    .filter(
-      (c) =>
-        c.filingDeadline >= today &&
-        addDays(makeIsoDate(c.electionDate), 2) <= end,
-    )
-    .sort(
-      (a, b) =>
-        (a.filingOpens ?? today).localeCompare(b.filingOpens ?? today) ||
-        a.id.localeCompare(b.id),
-    );
 }
 
 /** Play the world to the day a race's filing opens, if that is later. */
