@@ -12,7 +12,12 @@ import { createHash } from "node:crypto";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { countedChoice, countedResidents } from "./electorate";
+import {
+  countedAppeal,
+  countedChoice,
+  countedResidents,
+  type CountedFieldEntry,
+} from "./electorate";
 import { electorateParameter } from "./electorate-inputs";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { describe, expect, it } from "vitest";
@@ -725,4 +730,60 @@ describe("a door yes holds for the one household the door reached", () => {
       `seed ${seed}: no drawn town had a weighted counted record that a door reached and that votes in the race; passed over: ${passedOver.join("; ")}`,
     );
   }, 3_600_000);
+});
+
+describe("a held door yes lifts its candidate in proportion to how far it holds", () => {
+  // Three candidates whose other reasons (standing) differ; a voter at the
+  // center, so party adds nothing. B leads A by 5 appeal units without any
+  // pledge, more than twice the pledge weight.
+  const entry = (id: string, standing: number): CountedFieldEntry => ({
+    id,
+    side: 0,
+    isIncumbent: false,
+    standing,
+    localStanding: 0,
+    recognition: 0,
+    platform: [],
+  });
+  const field = [entry("A", 0), entry("B", 5), entry("C", 1)];
+  const read = (pledges: Record<string, number>) =>
+    countedAppeal(0, field, {
+      inTown: true,
+      local: false,
+      incumbentLean: 0,
+      pledges,
+    });
+  const weight = campaignParameter("doorPledgeWeight");
+  const gap = 5; // B's total less A's, with no pledge
+
+  it("held in full, the pledged candidate leads the best rival by the pledge weight whatever the other reasons sum to", () => {
+    const appeal = read({ A: 1 });
+    expect(appeal.A!.total - appeal.B!.total).toBeCloseTo(weight, 9);
+    expect(countedChoice(appeal)).toBe("A");
+  });
+
+  it("held halfway, it adds half the weight and closes half the gap, so a rival leading by more than that still leads", () => {
+    const appeal = read({ A: 0.5 });
+    expect(appeal.A!.pledge).toBeCloseTo(weight / 2, 9);
+    expect(appeal.A!.pledgeLift).toBeCloseTo(gap / 2, 9);
+    expect(appeal.A!.total - appeal.B!.total).toBeCloseTo(
+      -gap / 2 + weight / 2,
+      9,
+    );
+  });
+
+  it("fully doubted, it adds nothing, and it never lifts above a lone leader", () => {
+    expect(read({ A: 0 }).A!.total).toBeCloseTo(0, 9);
+    const lead = read({ B: 1 });
+    expect(lead.B!.pledgeLift ?? 0).toBe(0);
+    expect(lead.B!.total).toBeCloseTo(5 + weight, 9);
+  });
+
+  it("a voter holding a yes to two candidates is lifted symmetrically: the two read each other's pledge-free totals, so neither runs away", () => {
+    const appeal = read({ A: 1, B: 1 });
+    // A: 0 + weight + (5 - 0); B: 5 + weight + 0: the order of the pledge-free totals is kept and the two tie only where the words are held equally.
+    expect(appeal.A!.total).toBeCloseTo(5 + weight, 9);
+    expect(appeal.B!.total).toBeCloseTo(5 + weight, 9);
+    expect(appeal.C!.total).toBeCloseTo(1, 9);
+  });
 });
