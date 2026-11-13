@@ -11,7 +11,6 @@ import {
   filingOfficeFor,
   openContests,
   playerContests,
-  raceAhead,
   type FilingRow,
   type RequirementCheck,
 } from "../core2/modules/elections";
@@ -21,6 +20,7 @@ import {
   partyTie,
 } from "../core2/modules/parties";
 import { contestPositions } from "../core2/contest-positions";
+import { raceLive } from "../core2/campaign-day";
 import { seatHolder } from "../core2/modules/voting";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
@@ -296,13 +296,13 @@ export function filedHere(
       (row) =>
         row.filedWith === filedWith &&
         row.status === "petitioning" &&
-        raceAhead(api, row),
+        raceLive(api, row),
     ) ??
     filings.find(
       (row) =>
         row.filedWith === filedWith &&
         row.status === "on-ballot" &&
-        raceAhead(api, row),
+        raceLive(api, row),
     );
   return held ? { id: held.id, status: held.status } : null;
 }

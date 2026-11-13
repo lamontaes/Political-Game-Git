@@ -24,6 +24,8 @@ import {
   petitionOf,
   type FilingRow,
 } from "../core2/modules/elections";
+import { resultOf } from "../core2/modules/voting";
+import { campaignDayChoices } from "../core2/campaign-day";
 import { gatherSignatures } from "../core2/campaign-petition-kit";
 import { campaignDay, campaignView } from "./campaign";
 import { filedHere } from "./filing";
@@ -102,6 +104,24 @@ it(
       ).electionDate;
       skip.add(first.contestId);
       // The world runs past that election day, then to the next race that takes her filing.
+      // The day before, and until the count, the race is the live campaign.
+      advanceCore(core, addDays(makeIsoDate(over), -1));
+      expect(
+        campaignView(core, candidate.id).campaigns.map((c) => c.filing.id),
+        `the race is live before its count: ${where}`,
+      ).toEqual([first.id]);
+      // The evening of election day, once the count is recorded.
+      advanceCore(core, makeIsoDate(over));
+      const counted = resultOf(api, first.contestId);
+      const evening = campaignView(core, candidate.id).campaigns.find(
+        (c) => c.filing.id === first.id,
+      );
+      expect(counted, `the count is recorded: ${where}`).toBeTruthy();
+      expect(evening, `a counted race is not live: ${where}`).toBeUndefined();
+      expect(
+        campaignDayChoices(api, first.id),
+        `a counted race offers no campaign actions: ${where}`,
+      ).toEqual([]);
       while (core.date <= over)
         advanceCore(core, addDays(makeIsoDate(core.date), 7));
       let second: FilingRow | null = null;

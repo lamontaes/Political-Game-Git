@@ -18,13 +18,14 @@ import {
 import type { Stance } from "../core2/campaign-data";
 import {
   campaignDayChoices,
+  raceLive,
   contestStanding,
   takeCampaignDayChoice,
   whyNotToday,
   type CandidateStanding,
   type CampaignDayKind,
 } from "../core2/campaign-day";
-import { petitionOf, raceAhead } from "../core2/modules/elections";
+import { petitionOf } from "../core2/modules/elections";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
@@ -116,7 +117,7 @@ export function campaignView(core: CoreState, personId: string) {
       .moduleState(ELECTIONS)
       .table("filings")
       .query("byPerson", [personId]) as unknown as FilingRow[]
-  ).filter((row) => raceAhead(api, row));
+  ).filter((row) => raceLive(api, row));
   const pictures = filings.length ? trailPictures(core, personId) : {};
   return {
     venues: scenePlaces.speechPlaces,

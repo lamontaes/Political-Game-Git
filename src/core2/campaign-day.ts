@@ -42,8 +42,10 @@ import {
   petitionCirculating,
   standing,
   type ContestRow,
+  raceAhead,
   type FilingRow,
 } from "./modules/elections";
+import { resultOf } from "./modules/voting";
 import {
   answerInterview,
   interviewsFor,
@@ -269,6 +271,19 @@ function townHasDoor(api: CoreAPI): boolean {
   return false;
 }
 
+/**
+ * Whether a filing's race is live for campaigning: it is ahead (`raceAhead`)
+ * and its count is not yet recorded. The general's count is the contest's
+ * `result:` row; a primary keeps its own `primary-result:` record, so a
+ * primary's winner stays live for the general after the primary is counted.
+ */
+export function raceLive(
+  api: CoreAPI,
+  filing: Readonly<Pick<FilingRow, "status" | "contestId">>,
+): boolean {
+  return raceAhead(api, filing) && !resultOf(api, filing.contestId);
+}
+
 function contextOf(api: CoreAPI, filingId: string, world = false) {
   const filing = elections(api, "filings").get(filingId) as unknown as
     FilingRow | undefined;
@@ -278,6 +293,7 @@ function contextOf(api: CoreAPI, filingId: string, world = false) {
   ) as unknown as ContestRow;
   const open =
     standing(filing) &&
+    raceLive(api, filing) &&
     (world
       ? !!api.state.people.get(filing.personId)?.alive &&
         filing.personId !== (api.state as CoreState).playerId
