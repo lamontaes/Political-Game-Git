@@ -259,8 +259,12 @@ export function openBenchFilingVisit(
   // stands; with nothing left to do there is no scene (Fable A, Nov 13,
   // rule 19).
   const here = contests.length ? null : filedHere(core, playerId, filedWith);
-  const petition =
+  // A race that takes no signatures has no petition for the clerk to tell
+  // (Fable A, Nov 13: "a thing that does not exist for this race is not
+  // shown and not told").
+  const view =
     here?.status === "petitioning" ? petitionView(api, here.id) : null;
+  const petition = view?.needed ? view : null;
   if (!contests.length && !(here && petition)) throw new NothingAtCounter();
   // The clerk the contest's filing office records name (none for a state or federal counter).
   const clerkRow = filingClerkFor(api, contests[0]?.id ?? here!.contestId);

@@ -69,10 +69,7 @@ const ELECTIONS = "core2-elections-v1";
  */
 export function petitionView(api: CoreAPI, filingId: string) {
   const petition = petitionOf(api, filingId);
-  // A race that takes no signatures has no petition to show or tell
-  // (Fable A, Nov 13, Richburg, South Carolina: "SIGNATURES THE CLERK WILL
-  // COUNT: 0" above "YOU ARE ON THE BALLOT").
-  if (!petition || !petition.needed) return null;
+  if (!petition) return null;
   return {
     id: petition.id,
     needed: petition.needed,
