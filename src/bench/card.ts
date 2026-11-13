@@ -22,7 +22,7 @@ import {
 import { townFacts } from "../core2/modules/laws";
 import type { EntityId } from "../core2/kernel/brands";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
-import { PAST_MODULE_ID } from "../core2/past-module";
+import { PAST_MODULE_ID, residenceOn } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState, PersonId } from "../core2/types";
 import {
@@ -597,8 +597,16 @@ function lineOf(
     }
     case "health/serious-illness":
       return make("health.ill", {});
-    case "law/victim":
+    // An arrest before play is said as the arrest it is: the record holds no
+    // charge (Fable A, Nov 13: "say what the record holds").
+    case "law/arrested":
+      return make("law.arrested", {});
+    // The justice engine's accusation names its offense on the record.
     case "law/accused":
+      return typeof facts.offense === "string"
+        ? make("law.accused", { offense: facts.offense })
+        : null;
+    case "law/victim":
     case "law/charged":
     case "law/convicted":
     case "law/imprisoned":
@@ -1120,7 +1128,12 @@ function summaryOf(
   teller: Teller,
   now: {
     readonly office?: OfficeRun | null;
-    readonly work?: { title: string | null; employer: string | null } | null;
+    readonly work?: {
+      title: string | null;
+      employer: string | null;
+      /** The town they live in, when their work is outside it. */
+      outside?: string | null;
+    } | null;
     readonly school?: string | null;
     readonly place?: string | null;
     readonly born?: { year: string; place: string | null } | null;
@@ -1145,14 +1158,16 @@ function summaryOf(
     : null;
   // Their job, from the same record the journal reads (`personWorkOf`): told
   // beside an office they hold too, never in place of it.
-  const work = now.work?.employer
-    ? now.work.title
-      ? line("work.title", {
-          title: inSentence(now.work.title),
-          employer: now.work.employer,
-        })
-      : line("work.employer", { employer: now.work.employer })
-    : null;
+  const work = now.work?.outside
+    ? line("work.outside", { place: now.work.outside })
+    : now.work?.employer
+      ? now.work.title
+        ? line("work.title", {
+            title: inSentence(now.work.title),
+            employer: now.work.employer,
+          })
+        : line("work.employer", { employer: now.work.employer })
+      : null;
   const role =
     office || work
       ? null
@@ -1539,14 +1554,30 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const homePlace = knowsHome
     ? (corePlaceByJurisdictionId(other.placeId as never)?.displayName ?? null)
     : null;
+  // Born where they lived the day they were born: someone the moves pass
+  // brought to the county was born where they came from, as the run's birth
+  // record says, never in the town they later moved to (Fable A, Nov 13:
+  // "born in Angoon" and then "moved to Angoon"). The opening's birthplace
+  // fact is the town they live in now (SG-HIST-birthplace-is-home).
   const birthplace = (other.pastFacts ?? []).find(
     (row) => row.kind === "birthplace",
   );
-  const bornIn =
-    typeof birthplace?.facts?.placeId === "string"
-      ? (corePlaceByJurisdictionId(birthplace.facts.placeId as never)
-          ?.displayName ?? null)
-      : null;
+  const bornAt = residenceOn(core, other, other.birthDate).placeId;
+  const bornId =
+    bornAt !== other.placeId
+      ? bornAt
+      : typeof birthplace?.facts?.placeId === "string"
+        ? birthplace.facts.placeId
+        : null;
+  // A place by its name; a place the world keeps only at its state's level, by the state's.
+  const bornState = bornId ? coreStateKeyOfJurisdictionId(bornId) : null;
+  const bornStateName = bornState
+    ? coreStateName(bornState.replace(/^US-/, ""))
+    : null;
+  const bornIn = bornId
+    ? (corePlaceByJurisdictionId(bornId as never)?.displayName ??
+      (bornStateName ? stateInSentence(bornStateName) : null))
+    : null;
   const run = officeRunOf(lines, servingOffices(core, otherId)[0]);
   // The office a President held before, from their record.
   const prior = (other.pastFacts ?? []).find(
@@ -1572,10 +1603,14 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     office: run,
     // Their work, as the story already tells it of anyone.
     work: job
-      ? {
-          title: job.title,
-          employer: core.organizations.get(job.organizationId)?.name ?? null,
-        }
+      ? core.organizations.get(job.organizationId)?.outsideFlow
+        ? // The market's stand-in for work out of town is no employer: they
+          // work outside the town they live in.
+          { title: null, employer: null, outside: homePlace }
+        : {
+            title: job.title,
+            employer: core.organizations.get(job.organizationId)?.name ?? null,
+          }
       : null,
     school: school?.name ?? null,
     place: homePlace,

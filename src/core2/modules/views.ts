@@ -134,6 +134,8 @@ export interface PastShift {
   parentId?: string;
   /** Toward the parent's view (positive) or away from it (negative), from the person's traits. */
   follow?: number;
+  /** For their own layoff: how far their traits lean to blaming outsiders (positive) over leaning on help (negative). */
+  blame?: number;
 }
 
 const FAITH_IMPORTANCE: Readonly<Record<string, string>> = {
@@ -531,8 +533,9 @@ function layoffsOf(api: CoreAPI, personId: PersonId) {
  * - Their own layoff as an adult, which moved them toward more support for
  *   welfare spending, "appreciably larger among Republicans", and "short
  *   lived, dissipating as individuals' employment situations improved"
- *   (Margalit 2013): leftward, more for those who lean right, fading with
- *   the years back at work.
+ *   (Margalit 2013): leftward on average, more for those who lean right,
+ *   fading with the years back at work; rightward for someone whose traits
+ *   lean to blaming outsiders (the shared decision `views.own-layoff`).
  * Each shift keeps its record, so the view's why names the event.
  */
 export function pastViewShifts(
@@ -587,16 +590,30 @@ export function pastViewShifts(
     const years =
       daysBetween(makeIsoDate(backAt), makeIsoDate(start)) /
       api.parameter("daysPerMeanYear");
+    // Which way: on average left, toward more help (Margalit 2013); someone
+    // whose traits lean to blaming outsiders and looking out for themselves
+    // turns right instead, as trade-hit places did in part (Autor, Dorn,
+    // Hanson and Majlesi 2020, "pure rightward shifts in others").
+    const blame = decisionLean(
+      api.state,
+      person,
+      "views.own-layoff",
+      "blame-outsiders",
+      "lean-on-help",
+    );
+    const way = -v("one") + v("pastOwnLayoffTurnWeight") * blame;
     api.stopgap("SG-PEOPLE-past-views-sizes");
     shifts.push({
       recordId: own.recordId,
       kind: "own-job-lost",
       change:
-        -v("pastOwnLayoffShift") *
+        v("pastOwnLayoffShift") *
+        way *
         Math.exp(-years / v("pastOwnLayoffFadeYears")) *
         (v("one") +
           (v("pastOwnLayoffRightBoost") * Math.max(v("zero"), lean)) /
             v("leanMax")),
+      blame,
     });
   }
   return shifts;
