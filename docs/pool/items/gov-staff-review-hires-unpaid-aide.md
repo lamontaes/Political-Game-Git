@@ -5,8 +5,8 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: claimed
-claimed-by: claude/pool-gov-staff-review-hires-unpaid-aide
+status: open
+claimed-by:
 pr:
 blocked-on:
 standard: 2
@@ -15,7 +15,7 @@ effort: low
 lead: governing
 root: none
 source: found while fixing tests-small-town-treasury-payroll-red, Oct 25
-claimed-at: 2026-11-11T04:32:33.404Z
+claimed-at:
 after:
 checked: fable 2026-11-10
 branch: claude/pool-gov-staff-review-hires-unpaid-aide
@@ -40,3 +40,7 @@ branch: claude/pool-gov-staff-review-hires-unpaid-aide
 **Notes.** staffReview's hire condition is being rewritten by lamontaes/Political-Game-Git#5715 (leanedYes); build this on it once it merges.
 
 Released (2026-11-11): Does not reproduce on main 5c01c76/origin: a one-year buildBenchWorld run of Brookford NC (3708140, seed brookford-1) and of a drawn place leaves every serving aide with an open paid job and none hired without a job, with or without a zero-cap guard in staffReview; staff-paid-every-place and small-town-treasury-payroll pass. The path (hireStaff with a capped line, staff.ts:747) still exists, so it needs a repro where a line's cap is zero (a unit world with an exhausted staff line) before anything is built. Continue on branch claude/pool-gov-staff-review-hires-unpaid-aide.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have stopped a small-town official hiring an aide with no pay room; the aide is a payroll line no player screen shows.
+
+Released by next (2026-11-13): no push to claude/pool-gov-staff-review-hires-unpaid-aide since 2026-11-11 07:45 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-gov-staff-review-hires-unpaid-aide.

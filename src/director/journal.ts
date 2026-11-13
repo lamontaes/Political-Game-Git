@@ -499,7 +499,7 @@ function householdMoments(
                   ? {
                       employer: {
                         // The government itself ("the County of Nuckolls").
-                        text: employerSaid(properName(office.governmentName), {
+                        text: employerSaid(office.governmentName, {
                           kind: "government-treasury",
                         }),
                         sourceRecordIds: ids,

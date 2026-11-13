@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-laws-hold-record-names-the-sponsor
+pr: #8972
 after:
 blocked-on:
 lead: laws-effects
@@ -16,7 +16,7 @@ model: sonnet
 effort: medium
 root: design-story-director
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-12T23:58:29.445Z
 checked: fable 2026-11-10
 branch: claude/pool-laws-hold-record-names-the-sponsor
 ---

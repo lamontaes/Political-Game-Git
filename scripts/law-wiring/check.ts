@@ -895,6 +895,19 @@ const FIRST_AMOUNT: Readonly<Record<string, number>> = {
 };
 
 /**
+ * Caps a raise binds less: a contribution limit raised a tenth holds back only
+ * a donor already at it, so the check lowers it to a tenth instead, as a body
+ * tightening the cap would (contribution-limit-reach.test.ts does the same).
+ */
+const LOWERED_CAPS: ReadonlySet<string> = new Set([
+  "federal-campaign-contribution-limit",
+  "state-contribution-limit-governor",
+  "state-contribution-limit-state-senate",
+  "state-contribution-limit-state-house",
+  "state-contribution-limit-local",
+]);
+
+/**
  * Amount series whose every starting row is 0 or 1: a grant or a yes-or-no
  * (a state granting localities an income tax). A body changes one by
  * switching it, not by raising it a tenth (1 to 2 would not be read as
@@ -964,11 +977,13 @@ function changeAmount(
     ? old === 1
       ? 0
       : 1
-    : old > 0
-      ? Number.isInteger(old)
-        ? Math.max(old + 1, Math.round(old * 1.1))
-        : Math.round(old * 1.1 * 100) / 100
-      : (FIRST_AMOUNT[series] ?? 1);
+    : old > 0 && LOWERED_CAPS.has(series)
+      ? Math.max(1, Math.round(old / 10))
+      : old > 0
+        ? Number.isInteger(old)
+          ? Math.max(old + 1, Math.round(old * 1.1))
+          : Math.round(old * 1.1 * 100) / 100
+        : (FIRST_AMOUNT[series] ?? 1);
   const date = addDays(makeIsoDate(api.state.date), 1);
   const row = enactLaw(api, {
     ...at,

@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** gov-town-payers-vehicle-tax-part-1-households-hold-vehicles (the vehicle totals).
 
 **Files.** src/core2/budgets-treasury.ts, src/core2/data/budgets/revenue-payers.json, src/core2/data/budgets/line-names.json, src/core2/data/laws/starting-law.json, src/core2/vehicle-tax-rate.test.ts (new)
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have given every household vehicles and taxed them; the outside group already pays that tax, so no player sees the difference.

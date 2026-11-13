@@ -90,7 +90,9 @@
     "commenter": "The person a reporter asked for comment, by name, from the comment record.",
     "since": "The day a seat fell empty, from the vacancy record.",
     "vacated": "The day the seat a new holder takes fell empty, from the vacancy record.",
-    "opened": "The month and year a business opened, from its founding record, when it was open less than two years."
+    "opened": "The month and year a business opened, from its founding record, when it was open less than two years.",
+    "members": "How many sit on a study committee, said in words, from the study's row.",
+    "until": "The day a study committee reports by, from the study's row."
   },
   "maxWords": 14,
   "mining": {
@@ -7692,10 +7694,10 @@
       }
     },
     {
-      "key": "news.bill-purpose.at-issue-is-purpose",
+      "key": "news.bill-purpose.the-proposal-centers-on-purpose",
       "move": "bill-purpose",
       "kind": "written",
-      "text": "At issue is {purpose}.",
+      "text": "The proposal centers on {purpose}.",
       "uses": [
         {
           "move": "bill-purpose",
@@ -7706,8 +7708,8 @@
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
-      "date": "2026-10-29",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -12647,7 +12649,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
@@ -12669,7 +12671,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
@@ -12691,7 +12693,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
@@ -12713,7 +12715,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
@@ -12735,7 +12737,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
@@ -12757,7 +12759,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
@@ -12779,7 +12781,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
@@ -12801,7 +12803,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
@@ -12823,7 +12825,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
@@ -12845,7 +12847,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
@@ -12867,7 +12869,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
@@ -12889,7 +12891,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
@@ -12911,7 +12913,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
@@ -12934,7 +12936,7 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
@@ -12957,7 +12959,228 @@
         }
       ],
       "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-formed.name-will-chair-a-committee-of-members-studying-designation",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "{name} will chair a committee of {members} studying {designation}.",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "news",
+          "role": "study-formed",
+          "choice": "lede",
+          "requiresFacts": ["name", "members"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-formed.name-who-sponsored-designation-will-chair-the-committee-of-members",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "{name}, who sponsored {designation}, will chair the committee of {members} studying it.",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "news",
+          "role": "study-formed",
+          "choice": "lede",
+          "requiresFacts": ["name", "members"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-next.the-committee-reports-by-until",
+      "move": "study-next",
+      "kind": "written",
+      "text": "The committee reports by {until}.",
+      "uses": [
+        {
+          "move": "study-next",
+          "subject": "news",
+          "role": "study-next",
+          "choice": "context",
+          "requiresFacts": ["until"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-next.its-report-is-due-by-until",
+      "move": "study-next",
+      "kind": "written",
+      "text": "Its report is due by {until}.",
+      "uses": [
+        {
+          "move": "study-next",
+          "subject": "news",
+          "role": "study-next",
+          "choice": "context",
+          "requiresFacts": ["until"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.the-committee-studying-designation-reported-on-date-and-its-members-no",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "The committee studying {designation} reported on {date}, that its members lean toward the bill.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["members-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.on-date-the-committee-on-designation-reported-that-its-members-now-fav",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "On {date}, the committee on {designation} reported that, on balance, its members favor the bill.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["members-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.the-committee-studying-designation-reported-on-date-and-its-members-no-2",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "The committee studying {designation} reported on {date}, that its members lean against the bill.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["members-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.on-date-the-committee-on-designation-reported-that-its-members-now-opp",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "On {date}, the committee on {designation} reported that, on balance, its members oppose the bill.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["members-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-chair.name-its-chair-gave-the-findings-to-the-body",
+      "move": "study-chair",
+      "kind": "written",
+      "text": "{name}, its chair, gave the findings to the {body}.",
+      "uses": [
+        {
+          "move": "study-chair",
+          "subject": "news",
+          "role": "study-chair",
+          "choice": "context",
+          "requiresFacts": ["presented", "name", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-chair.name-chaired-the-committee",
+      "move": "study-chair",
+      "kind": "written",
+      "text": "{name} chaired the committee.",
+      "uses": [
+        {
+          "move": "study-chair",
+          "subject": "news",
+          "role": "study-chair",
+          "choice": "context",
+          "requiresFacts": ["name"],
+          "excludesFacts": ["presented"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
       "date": "2026-11-12",
       "tag": {
         "move": "deliver-news",
