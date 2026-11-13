@@ -1830,10 +1830,12 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     pronouns: teller.words,
     work:
       (family || housemate || coworker) && job
-        ? {
-            title: job.title,
-            employer: employerOf(core, job.organizationId),
-          }
+        ? core.organizations.get(job.organizationId)?.outsideFlow
+          ? { title: job.title, employer: undefined }
+          : {
+              title: job.title,
+              employer: employerOf(core, job.organizationId),
+            }
         : null,
     tie: tie
       ? {

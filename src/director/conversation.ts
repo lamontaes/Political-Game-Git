@@ -3332,7 +3332,8 @@ function lieClaims(
     claims.push({ stage: "none", value: "none", facts: {} });
     const nearby = [...(core.peopleByPlace.get(player.placeId) ?? [])]
       .map((id) => jobOf(core, core.people.get(id)!)?.org)
-      .filter((org) => org && org.id !== own.value);
+      // The market's stand-in for work out of town is no employer to claim.
+      .filter((org) => org && org.id !== own.value && !org.outsideFlow);
     const other = nearby.sort((a, b) =>
       stableHash(`${key}:${a!.id}`).localeCompare(
         stableHash(`${key}:${b!.id}`),
@@ -3344,7 +3345,7 @@ function lieClaims(
         value: other.id,
         facts: {
           claimed: {
-            text: properName(other.name),
+            text: employerText(other),
             sourceRecordIds: [other.id],
           },
         },
