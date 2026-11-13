@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-people-views-opening-place-type-and-values-part-1-place-type-term
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: design-one-model-two-tiers
 source: split from people-views-opening-place-type-and-values in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:03:29.954Z
+claimed-at:
 branch: claude/pool-people-views-opening-place-type-and-values-part-1-place-type-term
 ---
 
@@ -42,3 +42,5 @@ branch: claude/pool-people-views-opening-place-type-and-values-part-1-place-type
 Released (2026-11-11): Not built: changing openingLean/countedLean in views.ts moves every voter's opening view in all 56 places, and campaign-views personLean already re-ranks the town's adults to its area's 2024 vote share, so the place-type term's effect on polls and election night is unproven; needs the Pew-to-views-scale conversion (researcher skill, with fetched page and spread) and a place-type field check in src/core2/data/places/localities.json first. Cause confirmed: nothing in src/core2 reads byUrbanicity or the Pew file. Continue on branch claude/pool-people-views-opening-place-type-and-values-part-1-place-type-term.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:03 UTC) on branch claude/pool-people-views-opening-place-type-and-values-part-1-place-type-term.
+
+Released by next (2026-11-13): no push to claude/pool-people-views-opening-place-type-and-values-part-1-place-type-term since 2026-11-11 02:58 UTC, more than twice its 4-hour time box. Continue on branch claude/pool-people-views-opening-place-type-and-values-part-1-place-type-term.

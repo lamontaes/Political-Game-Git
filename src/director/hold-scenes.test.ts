@@ -21,6 +21,8 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // legislature holds a bill.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const DAYS = 90;
+/** The bodies whose members the director follows here. */
+const WATCHED_LEVELS = ["city", "county", "state"];
 
 it(`a held bill is a hearing ask for the chair and a push for a member, from its record (seed ${seed})`, () => {
   const tried: string[] = [];
@@ -33,18 +35,26 @@ it(`a held bill is a hearing ask for the chair and a push for a member, from its
     });
     const api = coreAPI(core);
     for (const row of townSeats(api))
-      if (["city", "county", "state"].includes(row.office.level))
+      if (WATCHED_LEVELS.includes(row.office.level))
         for (const term of members(api, row.office.id)) {
           const key = memberKey(term);
           if (core.people.get(key)?.alive) director.watch(core, key);
         }
     advanceCore(core, addDays(makeIsoDate(core.date), DAYS));
-    const holds = [...core.durableLog.values()].filter(
+    // The holds of the bodies watched above (city, county, state, the
+    // record's own `level`); a federal committee's chair and members are
+    // officials elsewhere, whom the director here does not follow.
+    const all = [...core.durableLog.values()].filter(
       (row) => row.kind === "bill-held-in-committee",
+    );
+    const holds = all.filter((row) =>
+      WATCHED_LEVELS.includes(row.facts?.level ?? ""),
     );
     const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
     if (!holds.length) {
-      tried.push(place.name);
+      tried.push(
+        `${place.name}: ${all.length ? `only ${all.length} hold(s) of a body at another level (${[...new Set(all.map((row) => row.facts?.level))].join(", ")})` : "no hold"}`,
+      );
       continue;
     }
     let chairScenes = 0;

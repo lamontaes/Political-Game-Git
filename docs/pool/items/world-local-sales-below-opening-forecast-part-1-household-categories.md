@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-world-local-sales-below-opening-forecast-part-1-household-categories
+claimed-by:
 pr: #8499
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: none
 source: split from world-local-sales-below-opening-forecast in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T02:55:59.202Z
+claimed-at:
 branch: claude/pool-world-local-sales-below-opening-forecast-part-1-household-categories
 ---
 
@@ -38,3 +38,5 @@ branch: claude/pool-world-local-sales-below-opening-forecast-part-1-household-ca
 **Files.** src/core2/data/opening-customers.json, src/core2/opening-customers.ts, data/research/prices/household-prices-2026.json
 
 **Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:55 UTC) on branch claude/pool-world-local-sales-below-opening-forecast-part-1-household-categories.
+
+Released by next (2026-11-13): no push to claude/pool-world-local-sales-below-opening-forecast-part-1-household-categories since 2026-11-11 02:56 UTC, more than twice its 6-hour time box. Continue on branch claude/pool-world-local-sales-below-opening-forecast-part-1-household-categories and pull request #8499.

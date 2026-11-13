@@ -46,6 +46,7 @@
     "src/core2/mind-types.ts",
     "src/core2/health-mortality-table.ts",
     "src/core2/business-names.ts",
+    "src/core2/government-proper-name.ts",
     "src/core2/household-mix.generated.ts",
     "src/core2/household-mix.ts",
     "src/core2/hud-rents.ts",

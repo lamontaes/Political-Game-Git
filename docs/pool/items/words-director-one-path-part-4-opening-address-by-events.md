@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-words-director-one-path-part-4-opening-address-by-events
+claimed-by:
 pr: #8512
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: design-story-director
 source: split from words-director-one-path in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:10:13.066Z
+claimed-at:
 branch: claude/pool-words-director-one-path-part-4-opening-address-by-events
 ---
 
@@ -38,3 +38,5 @@ branch: claude/pool-words-director-one-path-part-4-opening-address-by-events
 **Files.** src/director/opening-story.ts, src/director/data/opening-address.json, src/director/opening-address.test.ts
 
 **Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:10 UTC) on branch claude/pool-words-director-one-path-part-4-opening-address-by-events.
+
+Released by next (2026-11-13): no push to claude/pool-words-director-one-path-part-4-opening-address-by-events since 2026-11-11 03:10 UTC, more than twice its 6-hour time box. Continue on branch claude/pool-words-director-one-path-part-4-opening-address-by-events and pull request #8512.
