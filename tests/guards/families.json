@@ -369,6 +369,7 @@
         "src/core2/resting-stress.ts",
         "src/core2/representative-sample.ts",
         "src/core2/money-traits-kit.ts",
+        "src/core2/shares.ts",
         "src/core2/town-households.ts",
         "src/core2/world-poverty.ts",
         "src/core2/circle-turnover-check.ts",
