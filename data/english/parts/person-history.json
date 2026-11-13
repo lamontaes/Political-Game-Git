@@ -6678,15 +6678,6 @@
       "author": "Words builder W2 (what people say, Nov 13)",
       "date": "2026-11-13",
       "kind": "spoken"
-    },
-    {
-      "key": "person-history.said.child.born",
-      "text": "{given} was born in {year}.",
-      "move": "said",
-      "origin": "authored",
-      "author": "Words builder W2 (what people say, Nov 13)",
-      "date": "2026-11-13",
-      "kind": "spoken"
     }
   ]
 }
