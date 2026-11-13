@@ -39,20 +39,25 @@ it(`Metrics reads the town's latest monthly rent and home value, a year on, seed
       .table("months")
       .get(`metrics:${town}:${core.date.slice(0, "YYYY-MM".length)}-02`) as
       { medianRentMinor?: number; medianHomeValueMinor?: number } | undefined;
+    const rows = (metricsView(core, town).sections.find(
+      (section) => section.key === "housing",
+    )?.rows ?? []) as { key: string; now: number }[];
+    const shown = (key: string) => rows.find((row) => row.key === key);
+    // A town with no renter, or no owned home, on record shows no such row: never a
+    // zero, and never the opening's figure standing in for it.
+    if (!month?.medianRentMinor)
+      expect(shown("rent"), `${where}: rent with no renter`).toBeUndefined();
+    if (!month?.medianHomeValueMinor)
+      expect(
+        shown("homeValue"),
+        `${where}: home value with no owned home`,
+      ).toBeUndefined();
     if (!month?.medianRentMinor || !month.medianHomeValueMinor) {
       passedOver.push(`${where}: no renter or owned home on record`);
       continue;
     }
-    const rows = metricsView(core, town).sections.find(
-      (section) => section.key === "housing",
-    )?.rows as { key: string; now: number }[] | undefined;
-    expect(rows, `${where}: no homes section`).toBeDefined();
-    expect(rows!.find((row) => row.key === "rent")?.now, where).toBe(
-      month.medianRentMinor,
-    );
-    expect(rows!.find((row) => row.key === "homeValue")?.now, where).toBe(
-      month.medianHomeValueMinor,
-    );
+    expect(shown("rent")?.now, where).toBe(month.medianRentMinor);
+    expect(shown("homeValue")?.now, where).toBe(month.medianHomeValueMinor);
     checked += 1;
   }
   expect(checked, `passed over: ${passedOver.join("; ")}`).toBe(2);
