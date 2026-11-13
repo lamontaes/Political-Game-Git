@@ -8,7 +8,11 @@ import {
   resultOf,
   worldRacesOpen,
 } from "../core2/modules/voting";
-import type { ContestRow, FilingRow } from "../core2/modules/elections";
+import {
+  atLargeGroup,
+  type ContestRow,
+  type FilingRow,
+} from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { backdropFor, peopleHere } from "./scene";
@@ -176,11 +180,23 @@ export function ownRace(core: CoreState, personId: string) {
       newest = { contest, result };
   }
   if (!newest) return null;
-  const { contest, result } = newest;
-  const won = result.winnerId === personId;
-  // Who they ran against: the winner when they lost, the runner-up when they won.
+  // One race, one result: in an at-large race the player won if the count
+  // seated them in any of the race's seats, not only the one they filed for.
+  const seats = atLargeGroup(api, newest.contest).map((row) => ({
+    contest: row,
+    result: resultOf(api, row.id),
+  }));
+  const seated = seats.find((seat) => seat.result?.winnerId === personId);
+  const { contest, result } =
+    seated && seated.result
+      ? { contest: seated.contest, result: seated.result }
+      : newest;
+  const won = !!seated;
+  const winners = new Set(seats.map((seat) => seat.result?.winnerId));
+  // Who they ran against: the top finisher when they lost; when they won,
+  // the first of those who missed the cut (the other winners were seated).
   const rival = Object.entries(result.totals)
-    .filter(([id]) => id !== personId)
+    .filter(([id]) => id !== personId && (!won || !winners.has(id)))
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0];
   return {
     contestId: contest.id,
