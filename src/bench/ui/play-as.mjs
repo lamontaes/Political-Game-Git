@@ -5,14 +5,9 @@ import { makeButton } from "./button.mjs";
 import { stripSection } from "./strips.mjs";
 import { personCard } from "./person-card.mjs";
 
-const titleCase = (text) =>
-  text.toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase());
-
 /** The body a holder sits in, as the list's heading. */
 const bodyOf = (holder, levels) =>
-  holder.government
-    ? titleCase(holder.government)
-    : (levels?.[holder.level] ?? "");
+  holder.government ? holder.government : (levels?.[holder.level] ?? "");
 
 /**
  * Sections down the list, one a body, a row a person: name left, office right.

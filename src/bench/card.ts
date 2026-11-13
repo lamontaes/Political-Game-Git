@@ -1,3 +1,4 @@
+import { governmentProperName } from "../core2/government-proper-name";
 import { servingTermsOf } from "../core2/modules/offices";
 import { officeInSentence, personWorkOf } from "../core2/person-work";
 import {
@@ -1450,7 +1451,12 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     .moduleState(OFFICES)
     .table("offices")
     .get(term.officeId) as
-    { title?: string; governmentName?: string } | undefined;
+    | { title?: string; governmentName?: string; jurisdiction?: string }
+    | undefined;
+  // The government by its place record's proper name ("City of McCall").
+  const government = office?.governmentName
+    ? governmentProperName(office.governmentName, office.jurisdiction ?? "")
+    : null;
   let publicKnowledge: ReturnType<typeof publicKnowledgeOf> | null = null;
   try {
     publicKnowledge = core.modules.has(PAST_MODULE_ID)
@@ -1506,11 +1512,9 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     relationRecordId: null,
     age: null,
     alive: true,
-    placeName: office?.governmentName ?? null,
+    placeName: government,
     school: null,
-    work: office?.title
-      ? { title: office.title, employer: office.governmentName ?? null }
-      : null,
+    work: office?.title ? { title: office.title, employer: government } : null,
     tie: null,
     known: false,
     shared: [],

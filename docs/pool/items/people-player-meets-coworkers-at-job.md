@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-x61cvt
 pr:
 after:
 blocked-on:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+claimed-at: 2026-11-13T04:15:38.511Z
 ---
 
 **What.** When the player takes a job, the people they work beside become people they know and see on People. Today the hire meets only coworkers who are already full people (fullJobs in src/core2/modules/jobs.ts, the meetAtWork call near line 4813); coworkers who are only counted in the business's books are never filled in, so a small shop can show the player an empty People list. Fill in the counted coworkers nearest first (same role, then the rest) from the business's own books, matching job and pay, up to the number meetAtWork lets one know. Seen: the player's new coworkers on the People screen after taking a job. Feeds: core-stopgap-encounters-behavior-model-gap
