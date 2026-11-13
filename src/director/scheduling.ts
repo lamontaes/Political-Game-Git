@@ -167,6 +167,14 @@ export interface SituationType {
    */
   waits?: boolean;
   /**
+   * "day": the scene's setting stands in for a room it has no picture of yet
+   * (a debate's stage), so its opening says only the day and the lead says
+   * who is there and why, never a placement like "out and about" (Fable A,
+   * Nov 13, rule 13: "a debate opens in the room it is held in, never from a
+   * street stop").
+   */
+  arrivesBy?: "day";
+  /**
    * A scene that is an event in itself (a swearing-in, owner Oct 29): it
    * stops the day however strongly the moment was felt, for the one whose
    * record it is.
