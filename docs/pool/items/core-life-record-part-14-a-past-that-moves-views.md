@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: opus-lr
 pr: #8973
@@ -17,6 +17,7 @@ effort: high
 root: design-life-record
 source: gap sheet, Nov 12, 2026 (Fable A), filed by the Life records builder opus-lr
 checked: opus-lr 2026-11-12
+merged-at: 2026-11-13T02:48:41.350Z
 ---
 
 **What.** The owner, Nov 12 (relayed by the CTO on #7365, 20:13Z): the life history before the start should "include some big events in your life that shape the person you are, right? So if your dad lost his job and then he kind of went off the rails and became a super MAGA guy, that could have turned you super MAGA, or it could have turned you liberal." Today a person's opening views come only from their state, age, schooling and faith, never from anything in their past. Seen: dev mode's Trace on a person's view, and their card, which tell the past event that moved it.
