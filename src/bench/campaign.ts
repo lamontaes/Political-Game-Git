@@ -204,7 +204,8 @@ export function campaignView(core: CoreState, personId: string) {
           .filter((row) => row.status === "invited")
           .map((row) => ({
             id: row.id,
-            date: row.date,
+            // Read in words, never as the record's ISO date.
+            date: spokenDate(row.date),
             outletId: row.outletId,
             questions: row.questions,
           })),

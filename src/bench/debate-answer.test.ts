@@ -11,7 +11,7 @@ import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
 import { gatherSignatures } from "../core2/campaign-petition-kit";
 import { coreAPI } from "../core2/state";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, makeIsoDate, spokenDate } from "../core2/kernel/dates";
 import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
@@ -138,6 +138,11 @@ it("lists the invited debate for the player, who answers it, and it is held with
       `debate-answer: ${where}, waited ${weeksWaited} weeks, race ${contest.id}`,
     );
     expect(debatesIn(api, contest.id)[0]!.status, where).toBe("invited");
+    // The invitation's date reads in words, not as the record's ISO string.
+    expect(invited.date, where).not.toMatch(/^\d{4}-\d{2}-\d{2}/);
+    expect(invited.date, where).toBe(
+      spokenDate(debatesIn(api, contest.id)[0]!.date),
+    );
 
     // The player takes a position on the first question and passes on the rest.
     const answers = invited.questions.map((question, index) => ({
