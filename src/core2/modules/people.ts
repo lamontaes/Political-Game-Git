@@ -65,6 +65,7 @@ import type {
   Relationship,
 } from "../types";
 import { offer } from "./life";
+import { stopgap } from "../stopgaps";
 import { departureRateFor, livesElsewhere, withinCountyRateFor } from "./moves";
 import { coreAPI } from "../state";
 import { pastViewShifts, setPastViewShifts } from "./views";
@@ -645,6 +646,7 @@ function relativesOf(person: Readonly<PersonState>, kind: string): string[] {
 
 /** The passes that write a person's past, each once (moves first: the others place each year where they lived). */
 function writePast(core: CoreState, person: PersonState): void {
+  bornWhere(core, person);
   pastMovesFor(
     core,
     [person],
@@ -660,6 +662,52 @@ function writePast(core: CoreState, person: PersonState): void {
   pastJusticeFor(core, [person], PEOPLE_MODULE_ID, (one) =>
     prisonTermOf(core, one),
   );
+}
+
+/**
+ * A person an engine made to hold a role (a newspaper's owner, a state's
+ * election chief) is made with no past facts. Opened, they get what every
+ * opening resident is built with: their birth date, and their birthplace as
+ * the place they live, the opening's own default where nothing records
+ * another (opening-people.ts). An official's roster nativity already says
+ * where they were born, so they keep it.
+ */
+function bornWhere(core: CoreState, person: PersonState): void {
+  const facts = person.pastFacts ?? [];
+  if (facts.some((row) => row.kind === "birth-date")) return;
+  // stopgapId: SG-PEOPLE-role-people-have-no-past
+  stopgap("SG-PEOPLE-role-people-have-no-past");
+  const source = {
+    tag: "ESTIMATED" as const,
+    asOf: core.date,
+    citation:
+      "A person made to hold a role, opened: born on their recorded birth date where they live, as every opening resident's birthplace defaults to their home (src/core2/opening-people.ts).",
+    estimatedFrom:
+      "No record of this person's birthplace exists; the place they live stands for it.",
+  };
+  const born = facts.some((row) => row.kind === "identity:nativity");
+  person.pastFacts = [
+    ...facts,
+    {
+      id: `${person.id}:birth-date`,
+      date: makeIsoDate(person.birthDate),
+      kind: "birth-date",
+      summary: "Their birth date is established.",
+      source,
+    },
+    ...(born
+      ? []
+      : [
+          {
+            id: `${person.id}:birthplace`,
+            date: makeIsoDate(person.birthDate),
+            kind: "birthplace",
+            summary: "Their birthplace is established.",
+            source,
+            facts: { placeId: person.placeId },
+          },
+        ]),
+  ];
 }
 
 /**
