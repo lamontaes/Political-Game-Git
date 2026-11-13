@@ -52,7 +52,7 @@ import {
   coreStateKeyOfJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
-import { properName, stateInSentence } from "../director/words";
+import { organizationName, stateInSentence } from "../director/words";
 import { relationWord, schoolsOf } from "./words";
 import { faceOf, scenePlace } from "./scene";
 import {
@@ -300,7 +300,7 @@ function officeSlotsOf(core: CoreState, officeId: string) {
 /** An employer's name as people say it, from its record (`employerSaid`); null for none. */
 function employerOf(core: CoreState, organizationId: string): string | null {
   const org = core.organizations.get(organizationId);
-  return org ? employerSaid(properName(org.name), org) : null;
+  return org ? employerSaid(organizationName(org), org) : null;
 }
 
 /** The offices a person serves in now, by title. */
@@ -1829,7 +1829,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
       (family || housemate || coworker) && job
         ? {
             title: job.title,
-            employer: core.organizations.get(job.organizationId)?.name ?? null,
+            employer: employerOf(core, job.organizationId),
           }
         : null,
     tie: tie

@@ -6,7 +6,7 @@ import {
 } from "./reference/government-units";
 import { createStableId } from "./kernel/ids";
 import { corePlaceByKey } from "./place-lookup";
-import { governmentProperName } from "./government-proper-name";
+import { governmentUnitRecordedName } from "./gov-rules/government-unit-names";
 import { DEFAULT_DATA } from "./data";
 import financePolicy from "./data/finance.json" with { type: "json" };
 import {
@@ -74,14 +74,14 @@ function recordedFixture(startedAt = openingAt) {
     organizationId: ownerId,
     organizationStableKey: stableKey,
     worldId,
-    name: governmentProperName(county.name, county.id),
+    name: governmentUnitRecordedName(county),
     classification: "service:county-government",
     placeId: governmentUnitJurisdictionId(county),
     startedAt,
   });
   const owner: OrganizationInput = {
     id: ownerId,
-    name: governmentProperName(county.name, county.id),
+    name: governmentUnitRecordedName(county),
     classification: "service:county-government",
     placeId: governmentUnitJurisdictionId(county),
     kind: "employer",

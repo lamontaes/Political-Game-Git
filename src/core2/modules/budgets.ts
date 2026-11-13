@@ -19,7 +19,6 @@
  *   by the law in force (`tax-withholding.ts`), move from the worker's cash to
  *   each government's account through the journal on payday.
  */
-import { governmentProperName } from "../government-proper-name";
 import { taxIndexOf } from "../tax-index";
 import type { GovernmentLevel } from "../government-level";
 import { corePlaceByKey } from "../place-lookup";
@@ -606,9 +605,7 @@ function government(
     api.addOrganization({
       id: organizationId,
       placeId: lawChain(api).townPlaceId,
-      // The government by its place record's proper name ("Town of
-      // Smithtown treasury"), never the listing's capitals.
-      name: `${governmentProperName(row.name, row.id)} treasury`,
+      name: `${row.name} treasury`,
       kind: "government-treasury",
       // stopgapId: SG-WORLD-government-opening-fund-balance
       liquidMinor: 0,

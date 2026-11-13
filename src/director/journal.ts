@@ -50,7 +50,12 @@ import {
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import type { RACE_MARGINS } from "../english/mined/journal-bank";
-import { properName, spokenDate, stateInSentence } from "./words";
+import {
+  organizationName,
+  properName,
+  spokenDate,
+  stateInSentence,
+} from "./words";
 import { graduationResults, schoolResult } from "./school";
 import {
   PAST_WORK_OUT,
@@ -257,7 +262,7 @@ function employerName(
   // town, never an employer to name (skill words-engine).
   return org && org.kind !== "outside-market"
     ? {
-        text: employerSaid(properName(org.name), org),
+        text: employerSaid(organizationName(org), org),
         sourceRecordIds: [...recordIds, org.id],
       }
     : undefined;
