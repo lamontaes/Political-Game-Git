@@ -12,7 +12,10 @@ import { afterAll, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
+import { campaignParameter } from "../core2/campaign-data";
+import { members } from "../core2/modules/legislature";
 import { remarksOn } from "../core2/modules/meetings";
+import { meetingOf } from "../core2/modules/office-day";
 import { coreAPI, type CoreState } from "../core2/state";
 import { calendarItems } from "./calendar";
 import {
@@ -42,6 +45,45 @@ function step(player: BenchPlayer) {
   else player.advance("day");
 }
 
+/** Whether the meeting's body is large enough to hear the public at a committee's day. */
+const withCommittees = (api: ReturnType<typeof coreAPI>, meetingId: string) =>
+  members(api, meetingOf(api, meetingId)!.officeId).length >
+  campaignParameter("committeeOfTheWholeMaximum");
+
+/**
+ * At a board with a committee stage the panel offers a resident nothing: no
+ * line about speaking, no way to speak, and the route leaves no remark.
+ */
+function offersNothing(
+  core: CoreState,
+  me: string,
+  minute: number,
+  where: string,
+): boolean {
+  const api = coreAPI(core);
+  const scene = meetingSceneView(core, me, minute)!;
+  expect(scene.speaks, `${where}: no remark offered`).toBe(false);
+  expect(scene.seated, `${where}: not seated`).toBe(false);
+  if (scene.items.length)
+    expect(scene.note, `${where}: no line about speaking`).toBeNull();
+  const item = scene.items.find((row) => !row.takenUp);
+  if (!item) return false;
+  meetingSpeak(core, scene.id, item.billId, "for");
+  expect(
+    remarksOn(api, item.billId).some((r) => r.personId === me),
+    `${where}: no remark on the record`,
+  ).toBe(false);
+  expect(
+    JSON.stringify(
+      meetingSceneView(core, me, minute)!.items.find(
+        (row) => row.billId === item.billId,
+      )?.remarks,
+    ),
+    `${where}: who spoke is unchanged`,
+  ).toBe(JSON.stringify(item.remarks));
+  return true;
+}
+
 it("the Calendar offers a posted meeting, the panel lets a resident speak and leave, and nothing else", () => {
   const tried: string[] = [];
   for (let draw = 0; draw < 6; draw += 1) {
@@ -66,6 +108,7 @@ it("the Calendar offers a posted meeting, the panel lets a resident speak and le
       calendarItems(core, me).filter((item) => item.kind === "meeting");
     let sawOffer = false;
     let emptyRooms = 0;
+    let committeeRooms = 0;
     let done = false;
     for (let guard = 0; guard < 2_000 && core.date < end && !done; guard += 1) {
       for (const item of offered()) {
@@ -106,6 +149,15 @@ it("the Calendar offers a posted meeting, the panel lets a resident speak and le
       // One line under the title for a resident: an empty agenda, or, only at
       // the first meeting they come to, what they can do here.
       const items = scene.items.length;
+      // A board with a committee stage offers a resident nothing to say (the
+      // case below); this walk leaves it and waits for a body that hears them.
+      if (withCommittees(api, scene.id)) {
+        offersNothing(core, me, minute, where);
+        committeeRooms += 1;
+        meetingAdjourn(core, scene.id);
+        continue;
+      }
+      expect(scene.speaks, `${where}: the panel offers a remark`).toBe(true);
       // (This is the first meeting with an item that this resident has come to.)
       expect(scene.note, `${where}: the resident's line`).toMatch(
         items ? /speak for or against/ : /\S/,
@@ -168,8 +220,66 @@ it("the Calendar offers a posted meeting, the panel lets a resident speak and le
       return;
     }
     tried.push(
-      `${where}: offered ${sawOffer}, ${emptyRooms} meetings with no item`,
+      `${where}: offered ${sawOffer}, ${emptyRooms} meetings with no item, ${committeeRooms} at a board with committees`,
     );
   }
   throw new Error(`no meeting with an item was reached; ${tried.join("; ")}`);
+}, 3_600_000);
+
+// A kept place whose board has committees (pool item
+// meetings-resident-remark-reaches-a-committee-board found it): a remark made
+// at its meeting is not heard yet, so the panel offers none.
+it("at a board with a committee stage the panel offers a resident no remark", () => {
+  const place = {
+    name: "Jaguas, Puerto Rico",
+    key: "7237336",
+    seed: "9d9e53d2305f75c3583e29af76860e2d96c0bd7bb16d04e5b1b33e87c455f942",
+  };
+  const where = `${place.name} (${place.key}), seed ${place.seed}`;
+  const world = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const core = world.core as CoreState;
+  const api = coreAPI(core);
+  const me = core.playerId!;
+  const player = new BenchPlayer(core, world.director);
+  player.select(me);
+  player.advance("day");
+  const end = new Date(Date.parse(`${core.date}T00:00:00Z`) + 150 * 86_400_000)
+    .toISOString()
+    .slice(0, 10);
+  let rooms = 0;
+  let withItem = false;
+  for (
+    let guard = 0;
+    guard < 2_000 && core.date < end && !withItem;
+    guard += 1
+  ) {
+    for (const item of calendarItems(core, me))
+      if (item.kind === "meeting" && item.attend && !item.attend.marked)
+        meetingAttend(core, item.attend.officeId, item.attend.date, true);
+    step(player);
+    const minute = player.packet?.at.minuteOfDay ?? 18 * 60;
+    const stopped =
+      player.packet?.kind === "stop" &&
+      (
+        player.packet as { stop?: { modules?: { reasonKey: string }[] } }
+      ).stop?.modules?.some((m) => m.reasonKey === "office-day.meeting");
+    const scene = stopped ? meetingSceneView(core, me, minute) : null;
+    if (!scene) continue;
+    if (withCommittees(api, scene.id)) {
+      rooms += 1;
+      withItem = offersNothing(core, me, minute, where);
+    }
+    meetingAdjourn(core, scene.id);
+  }
+  expect(
+    rooms,
+    `${where}: a meeting of a board with committees`,
+  ).toBeGreaterThan(0);
+  expect(withItem, `${where}: one of them had an item`).toBe(true);
+  console.log(
+    `meeting-attend-screens ${where}: ${rooms} meetings of a board with committees, nothing offered`,
+  );
 }, 3_600_000);

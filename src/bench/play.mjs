@@ -845,11 +845,16 @@ function inMeeting() {
             );
             return b;
           });
-          // A resident in the room speaks; only the seated vote.
+          // A resident in the room speaks, where the body hears them; only the seated vote.
           return billBlock(
             item,
             scene.members ?? [],
-            item.takenUp ? [] : scene.seated ? [speak, vote] : [speak],
+            item.takenUp
+              ? []
+              : [
+                  ...(scene.speaks ? [speak] : []),
+                  ...(scene.seated ? [vote] : []),
+                ],
             (billId) =>
               openBillPaper(
                 billId,

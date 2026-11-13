@@ -28,7 +28,7 @@ In all three places the Calendar plate for February 4 lists the meeting ("The Ca
 
 - Calendar, February 4: "The Carbon County Board of Commissioners meets" with the control **Attend**.
 - Once pressed: "At 9 a.m., you plan to go to the Carbon County Board of Commissioners meeting." with the control **Not going**.
-- The panel at 9:00 AM, titled "Carbon County Board of Commissioners": "You can speak for or against either of the two items before the Carbon County Board of Commissioners votes." (As played before the Words lead's read it said "any of the two items", and the picture `after-4-panel-agenda` for Hanna still shows that wording; the line was changed on November 13 at the Words lead's word.) Each item has **Read the bill**, **Speak for** and **Speak against**; the panel closes with **Leave**. No Yes, No, Abstain, Decide for me or Adjourn.
+- The panel at 9:00 AM, titled "Carbon County Board of Commissioners": "You can speak for or against either of the two items before the Carbon County Board of Commissioners votes." (The line and both panel pictures for Hanna were taken again on November 13 after the Words lead's read, which changed "any of the two items" to "either of the two items".) Each item has **Read the bill**, **Speak for** and **Speak against**; the panel closes with **Leave**. No Yes, No, Abstain, Decide for me or Adjourn.
 - After Speak for on "Budget Ordinance": "SPOKE FOR · 1" and "Isabel Mathews".
 - The next day: Ordinance 2025-3 enacted, seven votes on its roll call. People lists seven of the board's seven members: Melissa Munoz, Mary Griffin, Stella Watkins, David Carr, Marcus Valenzuela, Madison Hubbard, Laura Rowe. The picture has Melissa Munoz's card open ("You barely know each other").
 
@@ -58,3 +58,7 @@ In all three places the Calendar plate for February 4 lists the meeting ("The Ca
 - Nothing is told to the player between leaving the room and the next morning in any of the three places. The scene Fable A listed for the hearing itself did not come up for a resident.
 - The members who heard the speaker are listed on People under Others. Sorting an official the player has met under Politics is pool item `people-screen-officials-met-sort-under-politics` (#8986).
 - In Moro, Illinois (seed `3b908bda-8022-49b0-9e84-ec5415720393`) the one item, a repeal of the county's civilian police oversight, died without a vote: the law it would repeal was passed but not yet in force, so the board found it moot (dev mode's bill outcome says how: "moot"). Nobody is heard on an item that is not voted, so no member met the speaker there. That place is not among the pictures.
+
+## A board with a committee stage
+
+At a board with more members than a committee of the whole (ten or more today), the public is heard at the committee's day before the meeting, so a remark at the meeting itself would reach nobody yet. There the panel offers a resident no **Speak for** or **Speak against** and no line about speaking; **Read the bill** and **Leave** stay. Checked in Jaguas, Puerto Rico (key 7237336, seed `9d9e53d2305f75c3583e29af76860e2d96c0bd7bb16d04e5b1b33e87c455f942`) by `src/bench/meeting-attend.test.ts`. This is withheld until pool item `meetings-resident-remark-reaches-a-committee-board` lands. No new words.
