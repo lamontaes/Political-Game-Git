@@ -55,7 +55,7 @@ import {
 import { SUBJECT_WORDS } from "../english/composed-checks";
 import { P } from "../core2/parameters";
 import { officeWords, saidAs } from "../english/said-as";
-import { tellingOf } from "../english/telling";
+import { mentionsOf, noteMention, tellingOf } from "../english/telling";
 import { saidPersonOf } from "./said-person";
 import type { AddressKind } from "./address-kind";
 import {
@@ -348,11 +348,19 @@ export function composeBlocks(
     const id = row.sourceRecordIds[P.zero];
     if (!slot || !id) return row.text;
     const person = saidPersonOf(core, id, telling);
+    // Spoken to by office and name: the full name at first mention, the
+    // office and family name after ("Thank you, Vice President Franklin"),
+    // and the mention is the telling's, so a part after it in the same
+    // sentence says the person by role (said-as; the Vice President was
+    // named three times in Stockport, Iowa, seed 5c1e8a0b7d2f4e19:0).
     if (slot.ending === "-addressed") {
       const office = officeWords(person.officeKind);
-      return office
+      if (!office) return row.text;
+      const first = mentionsOf(telling, person.id) === P.zero;
+      if (say) noteMention(telling, person.id, first);
+      return first
         ? `${office.before} ${person.givenName} ${person.familyName}`
-        : row.text;
+        : `${office.before} ${person.familyName}`;
     }
     const memory = telling.text;
     const into = say
@@ -571,6 +579,19 @@ export function composeBlocks(
             [...runs].some((run) => earlier.has(run)),
           );
         });
+      // A sentence says a person's full name once (said-as): a greeting that
+      // addresses the Vice President by name and a core joined to it that
+      // names them again ("Vice President Brian Franklin, ... I am grateful
+      // to Vice President Brian Franklin") is drawn again.
+      const fullNames = PEOPLE.flatMap((person) => {
+        const id = block.facts[person]?.sourceRecordIds[P.zero];
+        if (!id) return [];
+        const said = saidPersonOf(core, id, telling);
+        return [`${said.givenName} ${said.familyName}`];
+      });
+      const namesTwice = (row: ReturnType<typeof sayMove>) =>
+        row.kind === "rendered" &&
+        fullNames.some((name) => row.text.split(name).length - P.one > P.one);
       // A subject's word is said at most the composed check's budget in one
       // speech (speech-has-one-theme): a wording that would say one more
       // time is drawn again, a few times, and the fewest over stands.
@@ -607,14 +628,17 @@ export function composeBlocks(
         for (
           let retry = P.one;
           retry <= SHAPE.parameters.redraws.value &&
-          (echoesVice(said) || overBy(said) > P.zero);
+          (echoesVice(said) || namesTwice(said) || overBy(said) > P.zero);
           retry += P.one
         ) {
           const again = sayMove(move, facts, retry);
           if (
             again.kind === "rendered" &&
             !echoesVice(again) &&
-            (echoesVice(said) || overBy(again) < overBy(said))
+            !namesTwice(again) &&
+            (echoesVice(said) ||
+              namesTwice(said) ||
+              overBy(again) < overBy(said))
           )
             said = again;
         }
