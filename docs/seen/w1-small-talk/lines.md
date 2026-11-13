@@ -1,6 +1,6 @@
 # Small talk (W1, job E)
 
-AFTER: claude/w1-conversation-small-talk at 222d3efdbd. BEFORE: claude/words-telling-said-as-talk at 657f1cd009.
+AFTER: claude/w1-conversation-small-talk at 438bfc5cb0. BEFORE: claude/words-telling-said-as-talk at 657f1cd009.
 
 Places were drawn with drawPlace(<label>, "w1-talks"); the world seed is the draw's own hash. Each place was played with the same seed, the same day and the same clicks in both copies.
 
@@ -12,9 +12,9 @@ Places were drawn with drawPlace(<label>, "w1-talks"); the world seed is the dra
 
 What was played (a walk, as a player plays; replies taken in turn, the first reply first):
 
-1. The opening evening at home (Monday, January 20, 8:30 PM). Every housemate on the strip who has something to say was clicked; nobody had anything to say in any of the three places.
+1. The opening evening at home (Monday, January 20, 8:30 PM). Every housemate on the strip who has something to say was clicked. Nobody had anything to say in any of the three places, in either copy.
 2. Day, then Hour until 6:00 PM Tuesday: the evening after a work day. Every housemate who has something to say was clicked.
-3. Day (Wednesday, 7:00 AM). Travel to the first school listed (a schoolmate), then to the first other place listed, and a talk with up to two people there.
+3. Day (Wednesday, 7:00 AM). Travel to the first school listed (a schoolmate), then to the first other place listed, and a talk with up to two people there. In the AFTER town talks (438bfc5cb0) one pick rule differs: when a reply ending "And you?", "How about you?" or "What about you?" is offered, it is picked, so the answer back is seen; otherwise replies are taken in turn as everywhere else. The BEFORE walks took replies in turn only.
 
 What did not come, and why:
 
@@ -54,16 +54,16 @@ Travel lists 8: Hazen Public Schools | Harris's Kitchen | Franklin's Market | Ri
 --- [Wednesday, January 22, 20259:34 AM] talk: Jay Harris
 Hello.
 Where's home?
-REPLIES: I'm from Hazen. And you? | I'm from Hazen. | I was born and raised in Hazen. | Right here in Hazen.
+REPLIES: I'm from Hazen. And you? | I was born and raised in Hazen. | Here in Hazen. | Long story.
 --- [Wednesday, January 22, 20259:34 AM] talk: Jay Harris
 DAWN MCKAY
 I'm from Hazen. And you?
-I live in Hazen.
+Here too.
 REPLIES: Right. | Me too.
 --- [Wednesday, January 22, 20259:34 AM] talk: Jay Harris
 DAWN MCKAY
 Me too.
-Where'd you study?
+What school?
 REPLIES: I'm a student at Hazen Public Schools.
 --- [Wednesday, January 22, 20259:34 AM] talk: Jay Harris
 DAWN MCKAY
@@ -72,11 +72,11 @@ I'm a student at Hazen Public Schools.
 --- [Wednesday, January 22, 20259:48 AM] talk: Andrew Robertson
 Hi.
 From around here?
-REPLIES: I'm from Hazen. How about you? | I'm from Hazen. | I was born in Hazen. | Here in Hazen.
+REPLIES: I'm from Hazen. How about you? | I was born in Hazen. | Right here. | Long story.
 --- [Wednesday, January 22, 20259:48 AM] talk: Andrew Robertson
 DAWN MCKAY
 I'm from Hazen. How about you?
-I live in Hazen.
+Here too.
 REPLIES: Oh. | Same here.
 --- [Wednesday, January 22, 20259:48 AM] talk: Andrew Robertson
 DAWN MCKAY
@@ -182,11 +182,11 @@ Travel lists 9: Martin's Kitchen | Yarbrough Trucking | Annex F Business Service
 --- [Wednesday, January 22, 20259:34 AM] talk: Mark Dixon
 Hey.
 Where's home?
-REPLIES: I'm from Annex F. | I was born and raised in Annex F. | Right here. | Nothing much.
+REPLIES: I was born and raised in Annex F. | Here in Annex F. | Long story. | I'm from Annex F.
 --- [Wednesday, January 22, 20259:34 AM] talk: Mark Dixon
 LEAH MARTIN
-I'm from Annex F.
-What school?
+I was born and raised in Annex F.
+Still in school?
 REPLIES: I'm a student at Annex F Public Schools.
 --- [Wednesday, January 22, 20259:34 AM] talk: Mark Dixon
 LEAH MARTIN
@@ -318,16 +318,16 @@ I'm not, Justin. I'd vote it down.
 --- [Wednesday, January 22, 20259:40 AM] talk: Jonathan Rush
 Hi.
 Where's home?
-REPLIES: I'm from Buna. What about you? | I'm from Buna. | I grew up in Buna. | Right here.
+REPLIES: I'm from Buna. What about you? | I grew up in Buna. | Right here. | Long story.
 --- [Wednesday, January 22, 20259:40 AM] talk: Jonathan Rush
 JUSTIN HOWELL
 I'm from Buna. What about you?
-I live in Buna.
+Here too.
 REPLIES: Sure. | Me too.
 --- [Wednesday, January 22, 20259:40 AM] talk: Jonathan Rush
 JUSTIN HOWELL
 Me too.
-Where'd you study?
+What school?
 REPLIES: I'm at Buna Public Schools.
 --- [Wednesday, January 22, 20259:40 AM] talk: Jonathan Rush
 JUSTIN HOWELL
