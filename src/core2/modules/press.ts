@@ -572,9 +572,18 @@ export function marketReadersOf(api: CoreAPI, outlet: OutletRow): number {
   if (outlet.kind !== "newspaper") return 0;
   const town = townReading(api, outlet);
   if (!town) return 0;
-  const own = outletsHere(api).filter((o) => o.kind === outlet.kind).length;
+  const own = openOfKind(api, outlet.kind);
   const beyond = Math.max(0, marketAdultsOf(api, outlet, town) - town.adults);
   return (beyond * (town.readers / town.adults)) / Math.max(1, own);
+}
+
+/** How many outlets of a kind are open: a closed one's readers go to the rest. */
+function openOfKind(api: CoreAPI, kind: string): number {
+  return outletsHere(api).filter(
+    (o) =>
+      o.kind === kind &&
+      !api.state.finance.businesses.get(o.organizationId)?.closedAt,
+  ).length;
 }
 
 /** The town's adults, all its people, and the adults who read an outlet's kind, by the habits of their age. */
@@ -679,7 +688,7 @@ export function outsideNewsroomYearMinor(
   if (outlet.kind !== "newspaper") return 0;
   const town = townReading(api, outlet);
   if (!town) return 0;
-  const own = outletsHere(api).filter((o) => o.kind === outlet.kind).length;
+  const own = openOfKind(api, outlet.kind);
   const jobs = newsroomJobsOf(
     marketAdultsOf(api, outlet, town),
     own,
@@ -1067,6 +1076,8 @@ function enrollPressEmployers(api: CoreAPI): void {
       ownerId: owner.id,
       incomeAnchorRecordId: anchor.organizationId,
       date: core.date,
+      // The papers sharing its market when its books opened.
+      papers: openOfKind(api, outlet.kind),
     });
   }
 }
@@ -1078,7 +1089,7 @@ function enrollPressEmployers(api: CoreAPI): void {
  */
 function countedAudience(api: CoreAPI, outlet: OutletRow): number {
   const town = outlet.placeId;
-  const own = outletsHere(api).filter((o) => o.kind === outlet.kind).length;
+  const own = openOfKind(api, outlet.kind);
   const adultAge = api.parameter("votingAge");
   let total = 0;
   for (const row of countsThisMonth(api)) {
@@ -3696,6 +3707,34 @@ export function refreshPressStaff(api: CoreAPI): void {
 }
 
 /**
+ * When a paper closes, the papers left share its market: each takes the
+ * readers and newsroom that the market now divides into, by the same formulas
+ * as at the opening, and its books' demand and cost are reset to them.
+ */
+export function reassessSharedMarkets(api: CoreAPI): void {
+  const core = api.state as CoreState;
+  const enrolled = table(api, "employerEnrollment");
+  const open = openOfKind(api, "newspaper");
+  for (const outlet of outletsHere(api)) {
+    if (outlet.kind !== "newspaper" || outlet.tier === "national") continue;
+    const book = core.finance.businesses.get(outlet.organizationId);
+    const row = enrolled.get(outlet.id) as unknown as
+      { papers?: number } | undefined;
+    if (!book || book.closedAt || !row || row.papers === open) continue;
+    const demand = expectedRevenueYearMinor(api, outlet);
+    const cost = outsideNewsroomYearMinor(
+      api,
+      outlet,
+      staffOf(api, outlet.id).filter((s) => !s.leftOn).length,
+    );
+    book.anchorAnnualDemandMinor = book.annualDemandMinor = demand;
+    book.capacityMinor = demand;
+    book.anchorAnnualOtherCostsMinor = book.annualOtherCostsMinor = cost;
+    enrolled.put({ ...row, papers: open } as unknown as ModuleRow);
+  }
+}
+
+/**
  * The first press week of each month, each outlet's yearly revenue is
  * last month's, times twelve.
  */
@@ -3707,6 +3746,7 @@ function reviewOutletRevenue(api: CoreAPI, monthStart: boolean): void {
   const payer = outsideCustomersOf(core, lawChain(api).townPlaceId);
   payWiderAudience(api, deps, payer, api.parameter("daysPerWeek"));
   if (!monthStart) return;
+  reassessSharedMarkets(api);
   payMarket(api, deps, payer);
   const last = addDays(makeIsoDate(`${core.date.slice(0, 7)}-01`), -1).slice(
     0,

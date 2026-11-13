@@ -17,6 +17,7 @@ import {
   marketReadersOf,
   newsroomJobsOf,
   outsideNewsroomYearMinor,
+  reassessSharedMarkets,
   pressParameter,
   outletMonthlyCostMinor,
   outletsHere,
@@ -143,5 +144,57 @@ it(`the market beyond the town pays an outlet by readers, not by its cost (seed 
   }
   throw new Error(
     `no drawn place had an outlet reaching beyond the town: ${tried.join("; ")}`,
+  );
+}, 1_200_000);
+
+it(`when a paper closes the papers left take its market (seed ${seed})`, () => {
+  const tried: string[] = [];
+  for (let draw = 0; draw < 10; draw += 1) {
+    const place = drawPlace(`${seed}:${draw}`, "press-market-closure");
+    const where = `${place.name} (${place.key}), seed ${place.seed}, base ${seed}:${draw}`;
+    const { core: world } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const core = world as CoreState;
+    const api = coreAPI(core);
+    // The papers' books open in the first press week.
+    advanceCore(core, addDays(makeIsoDate(core.date), 14));
+    const papers = outletsHere(api).filter(
+      (o) => o.tier === "local" && o.kind === "newspaper",
+    );
+    if (papers.length < 2) {
+      tried.push(`${where}: fewer than two papers`);
+      continue;
+    }
+    const [closing, kept] = papers as [
+      (typeof papers)[number],
+      (typeof papers)[number],
+    ];
+    const readersBefore = marketReadersOf(api, kept);
+    if (!(readersBefore > 0)) {
+      tried.push(`${where}: no readers beyond the town`);
+      continue;
+    }
+    // The other paper closes: the one left has the whole market to itself.
+    core.finance.businesses.get(closing.organizationId)!.closedAt = core.date;
+    const open = papers.length - 1;
+    expect(marketReadersOf(api, kept), where).toBeCloseTo(
+      (readersBefore * papers.length) / open,
+      6,
+    );
+    // At the next month's start, its books' demand follows the larger market.
+    const demandBefore = core.finance.businesses.get(
+      kept.organizationId,
+    )!.annualDemandMinor;
+    reassessSharedMarkets(api);
+    expect(
+      core.finance.businesses.get(kept.organizationId)!.annualDemandMinor,
+      where,
+    ).toBeGreaterThan(demandBefore);
+    return;
+  }
+  throw new Error(
+    `no drawn place had two papers with readers beyond the town: ${tried.join("; ")}`,
   );
 }, 1_200_000);

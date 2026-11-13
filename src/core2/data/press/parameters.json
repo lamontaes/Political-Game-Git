@@ -119,13 +119,15 @@
       "value": 6678,
       "tag": "SOURCED",
       "source": "U.S. adults per newsroom worker at newspapers, 2018: 253,768,092 U.S. adults on July 1, 2018 (U.S. Census Bureau, Estimates of the Voting Age Population for 2018, Federal Register, Oct 4, 2019, 2019-21663) over the 38,000 newspaper newsroom workers of 2018 (Pew Research Center, 'Fast facts about the newspaper industry's financial struggles', Feb 14, 2020). A market's newsroom jobs follow its adults at this rate, shared among its papers.",
-      "spread": [5500, 8000]
+      "spread": [5500, 8000],
+      "role": "coefficient"
     },
     "newspaperNewsroomFloor": {
       "value": 2,
       "tag": "ESTIMATED",
       "source": "Newsroom jobs the smallest paper keeps whatever its market: its editor and one reporter, the staff the game already seeds (Medill State of Local News 2024 puts the average surviving paper at about 5 journalists; the small weekly's floor of two is the game's own estimate, not a published figure).",
-      "spread": [1, 3]
+      "spread": [1, 3],
+      "role": "coefficient"
     },
     "reportersPerNewspaper": {
       "value": 1,
@@ -593,13 +595,15 @@
       "value": 56800000,
       "tag": "SOURCED",
       "source": "What a paper spends beyond newsroom pay for each newsroom job it keeps (printing, delivery, sales, administration, rent), per year, in cents: $24,002 million total expenses of U.S. newspaper publishers, all establishments, employer firms, 2018 (U.S. Census Bureau Service Annual Survey, series NPEAEEF351111 on FRED, https://fred.stlouisfed.org/data/NPEAEEF351111) over the 38,000 newsroom workers of 2018 (Pew Research Center, Feb 2020) is $631,600 per newsroom job; less $63,250, a reporter's median pay ($57,500, BLS) with 10 percent for employer taxes (the game's own payroll tax rate differs a little), leaves about $568,000. The same accounts give revenue of $25,436 million, so the average paper's expenses are 94 percent of its revenue. Newspapers only: the accounts for radio and television broadcasting include networks and music stations, which a town's news outlet is not, so only a newspaper's whole cost is modeled; a station's cost is its newsroom pay.",
-      "spread": [45000000, 70000000]
+      "spread": [45000000, 70000000],
+      "role": "coefficient"
     },
     "newspaperRevenuePerAdultYear": {
       "value": 10023,
       "tag": "SOURCED",
       "source": "A paper's total revenue (subscriptions and advertising) per adult in its market per year, in cents, 2018: $25,436 million revenue of U.S. newspaper publishers, all establishments, employer firms (U.S. Census Bureau Service Annual Survey, series REVEF51111ALLEST on FRED, https://fred.stlouisfed.org/data/REVEF51111ALLEST) over 253,768,092 U.S. adults on July 1, 2018 (U.S. Census Bureau, Estimates of the Voting Age Population for 2018, Federal Register, Oct 4, 2019, 2019-21663). The game pays it per reader: this figure over the national share of adults who follow local newspapers in data/research/press/local-news-2026.json, so a market that reads like the nation pays the national amount per adult.",
-      "spread": [8000, 12000]
+      "spread": [8000, 12000],
+      "role": "coefficient"
     }
   }
 }
