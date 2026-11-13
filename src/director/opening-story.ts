@@ -55,7 +55,7 @@ import {
 import { SUBJECT_WORDS } from "../english/composed-checks";
 import { P } from "../core2/parameters";
 import { officeWords, saidAs } from "../english/said-as";
-import { tellingOf } from "../english/telling";
+import { mentionsOf, noteMention, tellingOf } from "../english/telling";
 import { saidPersonOf } from "./said-person";
 import type { AddressKind } from "./address-kind";
 import {
@@ -185,6 +185,26 @@ const CASES = {
   "-possessive": "possessive",
   "-addressed": "subject",
 } as const;
+
+/**
+ * The fact keys a composed part used, with each person said in a case
+ * ({vice-president-object}) also counted as that person's own fact: the bank
+ * requires a case slot by its own name, and the composer fills it from the
+ * person's one fact (`withCases`), so the name budgets count the person.
+ */
+function usedKeys(part: {
+  readonly usedFactKeys: readonly string[];
+}): string[] {
+  return [
+    ...new Set([
+      ...part.usedFactKeys,
+      ...part.usedFactKeys.flatMap((key) => {
+        const slot = personSlot(key);
+        return slot ? [slot.person] : [];
+      }),
+    ]),
+  ];
+}
 
 /** The person and the case a slot's fact key says, or null for a slot that is no person. */
 function personSlot(
@@ -328,11 +348,19 @@ export function composeBlocks(
     const id = row.sourceRecordIds[P.zero];
     if (!slot || !id) return row.text;
     const person = saidPersonOf(core, id, telling);
+    // Spoken to by office and name: the full name at first mention, the
+    // office and family name after ("Thank you, Vice President Franklin"),
+    // and the mention is the telling's, so a part after it in the same
+    // sentence says the person by role (said-as; the Vice President was
+    // named three times in Stockport, Iowa, seed 5c1e8a0b7d2f4e19:0).
     if (slot.ending === "-addressed") {
       const office = officeWords(person.officeKind);
-      return office
+      if (!office) return row.text;
+      const first = mentionsOf(telling, person.id) === P.zero;
+      if (say) noteMention(telling, person.id, first);
+      return first
         ? `${office.before} ${person.givenName} ${person.familyName}`
-        : row.text;
+        : `${office.before} ${person.familyName}`;
     }
     const memory = telling.text;
     const into = say
@@ -539,7 +567,7 @@ export function composeBlocks(
         row.moves.some((done) => {
           if (
             !done.parts.some((part) =>
-              part.usedFactKeys.includes("vice-president"),
+              usedKeys(part).includes("vice-president"),
             )
           )
             return false;
@@ -551,6 +579,19 @@ export function composeBlocks(
             [...runs].some((run) => earlier.has(run)),
           );
         });
+      // A sentence says a person's full name once (said-as): a greeting that
+      // addresses the Vice President by name and a core joined to it that
+      // names them again ("Vice President Brian Franklin, ... I am grateful
+      // to Vice President Brian Franklin") is drawn again.
+      const fullNames = PEOPLE.flatMap((person) => {
+        const id = block.facts[person]?.sourceRecordIds[P.zero];
+        if (!id) return [];
+        const said = saidPersonOf(core, id, telling);
+        return [`${said.givenName} ${said.familyName}`];
+      });
+      const namesTwice = (row: ReturnType<typeof sayMove>) =>
+        row.kind === "rendered" &&
+        fullNames.some((name) => row.text.split(name).length - P.one > P.one);
       // A subject's word is said at most the composed check's budget in one
       // speech (speech-has-one-theme): a wording that would say one more
       // time is drawn again, a few times, and the fewest over stands.
@@ -587,14 +628,17 @@ export function composeBlocks(
         for (
           let retry = P.one;
           retry <= SHAPE.parameters.redraws.value &&
-          (echoesVice(said) || overBy(said) > P.zero);
+          (echoesVice(said) || namesTwice(said) || overBy(said) > P.zero);
           retry += P.one
         ) {
           const again = sayMove(move, facts, retry);
           if (
             again.kind === "rendered" &&
             !echoesVice(again) &&
-            (echoesVice(said) || overBy(again) < overBy(said))
+            !namesTwice(again) &&
+            (echoesVice(said) ||
+              namesTwice(said) ||
+              overBy(again) < overBy(said))
           )
             said = again;
         }
@@ -617,9 +661,7 @@ export function composeBlocks(
       if (result?.kind === "rendered")
         for (const done of result.moves)
           if (
-            done.parts.some((part) =>
-              part.usedFactKeys.includes("vice-president"),
-            )
+            done.parts.some((part) => usedKeys(part).includes("vice-president"))
           )
             viceSaid.push(
               fourWordRuns(done.text, block.facts["vice-president"]?.text),
@@ -635,7 +677,7 @@ export function composeBlocks(
         for (const part of done.parts)
           if (part.part === "opener") ledIn.add(part.text);
         for (const key of new Set(
-          done.parts.flatMap((part) => part.usedFactKeys),
+          done.parts.flatMap((part) => usedKeys(part)),
         )) {
           const text = told[key]?.text;
           if (counted(key) && text)
@@ -652,7 +694,7 @@ export function composeBlocks(
         // A later move of this block does not repeat this one's wordings.
         said.push(...done.parts.map((part) => part.partKey));
         // A question said in this sentence is said again by its second name.
-        for (const key of done.parts.flatMap((part) => part.usedFactKeys)) {
+        for (const key of done.parts.flatMap((part) => usedKeys(part))) {
           const question = questionOf(told[key]);
           if (question && NAMING_KEYS.test(key)) questionsNamed.add(question);
         }
@@ -672,7 +714,7 @@ export function composeBlocks(
     }
     for (const [at, move] of address.moves.entries()) {
       const facts = toldOf[at] ?? block.facts;
-      const used = new Set(move.parts.flatMap((part) => part.usedFactKeys));
+      const used = new Set(move.parts.flatMap((part) => usedKeys(part)));
       // A crafted device cites the addresses that earned it.
       const earned = move.parts.some((part) => part.device) ? craft : [];
       const visit = used.has("place")
