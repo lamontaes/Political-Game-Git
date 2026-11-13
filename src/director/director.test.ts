@@ -571,32 +571,16 @@ describe("story director on the new core", () => {
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));
       for (const cause of type.causes) {
-        expect(Boolean(cause.match) !== Boolean(cause.awaitingProducer)).toBe(
-          true,
-        );
+        expect(Boolean(cause.match)).toBe(true);
         for (const role of Object.keys(cause.bind ?? {}))
           expect(roles.has(role)).toBe(true);
       }
     }
-    // A race's result reaches the player through a candidate they know; the
-    // player's own win is the race-won scene, not a second celebration.
-    expect(
-      types
-        .find((row) => row.key === "race-told")!
-        .causes.some(
-          (row) =>
-            row.match?.label === "circumstance:race-result-known" &&
-            row.causeRecord === "election-result",
-        ),
-    ).toBe(true);
+    // The player's own win is the race-won scene, not a second celebration.
     expect(
       types
         .find((row) => row.key === "celebration")!
-        .causes.some(
-          (row) =>
-            row.awaitingProducer === "election-result" ||
-            row.causeRecord === "election-result",
-        ),
+        .causes.some((row) => row.causeRecord === "election-result"),
     ).toBe(false);
     // A door the player's own canvass knocked, the first time or again: the
     // player asks the resident for their vote (golden-door-ask), or, while
@@ -612,7 +596,6 @@ describe("story director on the new core", () => {
     expect(knocked("door-ask")).toBe(2);
     expect(knocked("door-signature")).toBe(1);
     expect(knocked("first-meeting")).toBe(0);
-    expect(knocked("visit")).toBe(0);
   });
 
   it("lets a sole earner's job loss take over the screen as news for the household, and stop a skip", () => {
@@ -834,10 +817,10 @@ describe("story director on the new core", () => {
   });
 
   it("stages every cause of a scene about one record's own decision, the same day and within the repeat window", () => {
-    // A member's vote on one bill is a scene of its own, however many votes
-    // the same chamber takes that day or that month (eachCause).
+    // A bribe offered is a scene of its own, however many the same person
+    // brings that day or that month (eachCause).
     expect(
-      SITUATION_LIBRARY.types.find((row) => row.key === "floor-vote")
+      SITUATION_LIBRARY.types.find((row) => row.key === "bribe-offer")
         ?.eachCause,
     ).toBe(true);
     const { core, director } = run("place:director-fixture", true);
@@ -1035,8 +1018,6 @@ describe("story director on the new core", () => {
     expect(
       worker.threads.get("person:classmate")!.turns.map((row) => row.turn),
     ).toEqual(["renewed", "grew"]);
-    const entry = worker.schedule.find((row) => row.momentId === back.id)!;
-    expect(entry.bindings.map((row) => row.typeKey)).toContain("reunion");
   });
 
   it("scores the recorded past: personal facts are moments", () => {

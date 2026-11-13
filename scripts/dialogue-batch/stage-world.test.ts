@@ -7,18 +7,12 @@ describe("the grading bench's staging", () => {
   it("skips a type with no cause record, with why, and never invents one", () => {
     const types = [
       { key: "alive", causes: [{ match: { label: "x" } }] },
-      { key: "waiting", causes: [{ awaitingProducer: "left-home" }] },
       { key: "quiet", causes: [{ match: { label: "y" } }] },
-      { key: "bare", causes: [], awaiting: ["record:birthday-gathering"] },
+      { key: "bare", causes: [] },
     ] as unknown as Parameters<typeof typeStatuses>[0];
     const rows = typeStatuses(types, [{ typeKey: "alive" }]);
     expect(rows).toEqual([
       { key: "alive", staged: 1 },
-      {
-        key: "waiting",
-        staged: 0,
-        skipped: "awaiting producer: left-home",
-      },
       {
         key: "quiet",
         staged: 0,
@@ -27,7 +21,7 @@ describe("the grading bench's staging", () => {
       {
         key: "bare",
         staged: 0,
-        skipped: "awaiting record:birthday-gathering",
+        skipped: "no cause is written for this type",
       },
     ]);
   });
