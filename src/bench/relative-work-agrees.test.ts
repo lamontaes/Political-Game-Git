@@ -5,8 +5,9 @@
  * told with both on their card and in the journal, each line on its own
  * record (the term, the job), and Travel lists the job's employer as a
  * family workplace: all three read `personWorkOf`. Places are drawn from all
- * 56 until one has a household member in office (up to eight per case);
- * each place passed over is named. Replay with RELATIVE_WORK_SEED.
+ * 56; in each, the case is looked for (a full person who lives with someone
+ * serving in an office), and a place with none is named as passed over.
+ * Replay with RELATIVE_WORK_SEED.
  */
 import { randomBytes } from "node:crypto";
 import { appendFileSync } from "node:fs";
@@ -37,16 +38,28 @@ describe.each(["a", "b"])("a relative's work and office (case %s)", (draw) => {
         gameStartDate(),
         { twoLevel: true, placeKey: place.key },
       );
-      const player = playerId! as PersonId;
-      const members = (
-        core.households.get(core.people.get(player)!.householdId)?.memberIds ??
-        []
-      ).filter((id) => id !== player && core.people.get(id)?.alive);
-      const serving = members.filter(
-        (id) => personWorkOf(core, id).offices.length > 0,
-      );
-      if (!serving.length) {
-        passed.push(`${where}: nobody at home serves in an office`);
+      // The case is found, not hoped for (skill drawn-place-tests): the
+      // drawn player when someone at home serves in an office, else a
+      // full person who lives with a seat holder, read from the offices
+      // engine's serving terms through `personWorkOf`. The Journal, the card
+      // and Travel are read from that person's side, as they would be for a
+      // player in that household.
+      const atHome = (id: PersonId) =>
+        (core.households.get(core.people.get(id)!.householdId)?.memberIds ?? [])
+          .filter((other) => other !== id && core.people.get(other)?.alive)
+          .filter((other) => personWorkOf(core, other).offices.length > 0);
+      const player = (
+        atHome(playerId! as PersonId).length
+          ? playerId
+          : [...core.people.values()]
+              .filter((person) => person.alive && person.tier !== "husk")
+              .map((person) => person.id as PersonId)
+              .sort()
+              .find((id) => atHome(id).length > 0)
+      ) as PersonId | undefined;
+      const serving = player ? atHome(player) : [];
+      if (!player || !serving.length) {
+        passed.push(`${where}: nobody in town lives with a seat holder`);
         continue;
       }
       // The player's journal, as play has it once the player is chosen.
