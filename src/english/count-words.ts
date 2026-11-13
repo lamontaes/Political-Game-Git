@@ -94,6 +94,18 @@ export function hoursSaid(minutes: number): string {
   );
 }
 
+/** A term of office in years as people say it: "four years". */
+export function termSaid(years: number): string {
+  const count = Math.max(1, Math.round(years));
+  if (count === 1) return data.term.year;
+  return data.term.years.replace(
+    "{count}",
+    data.clock.numbers[count] && count <= HOURS_ON_A_CLOCK
+      ? data.clock.numbers[count]!
+      : String(count),
+  );
+}
+
 /** Days from today as people say them: "today", "tomorrow", "in three days". */
 export function daysSaid(days: number): string {
   const said = data.clock.days as Readonly<Record<string, string>>;

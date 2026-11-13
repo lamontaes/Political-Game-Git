@@ -49,7 +49,8 @@
     "speaker-object": "the Speaker where the sentence needs the object case",
     "speaker-possessive": "the Speaker where the sentence needs the possessive",
     "today": "how the policy question stands today, by the law in force (question-names.json `today`)",
-    "first-side": "the speech's first point as the speaker's side says it (question-names `for` or `against`), for the close"
+    "first-side": "the speech's first point as the speaker's side says it (question-names `for` or `against`), for the close",
+    "term-length": "the length of the term this address opens, from the offices engine's term record, in words (\"four years\")"
   },
   "maxWords": 40,
   "mining": {
@@ -71362,6 +71363,110 @@
       "origin": "authored",
       "author": "Claude (Words builder, opening address versions)",
       "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.occasion.polished-ina-hopeful-core-term-length-term-begins-today",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "The next {term-length} begin today, and I mean to spend every one of them earning the trust you have placed in me.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["term-length"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "hopeful",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-occasion",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (fixer for the words lead, occasion from the term record)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "opening-speech.occasion.polished-ina-combative-core-term-length-not-one-day-wasted",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "You have given me {term-length}, and I do not intend to waste a single day of them.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["term-length"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-occasion",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (fixer for the words lead, occasion from the term record)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "opening-speech.occasion.plain-ina-combative-core-term-length-clock-starts-now",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I've got {term-length} in this job, and the clock starts right now.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["term-length"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-occasion",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (fixer for the words lead, occasion from the term record)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "opening-speech.occasion.polished-ina-mourning-core-term-length-begins-in-grief",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "These {term-length} begin in a season of grief, and I will carry that with me into this office.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["term-length"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "solemn",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-occasion",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (fixer for the words lead, occasion from the term record)",
+      "date": "2026-11-13"
     },
     {
       "key": "opening-speech.unity.polished-ina-hopeful-core-vice-president-and-i-owe-the-same-service-to",

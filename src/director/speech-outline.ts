@@ -45,6 +45,7 @@ import type {
   GroundedEnglishPacket,
 } from "../english/grounded-english";
 import { composeAddress } from "../english/english-composition";
+import { termSaid } from "../english/count-words";
 import {
   openingMove,
   type OpeningLevel,
@@ -1224,6 +1225,17 @@ export function planSpeech(
             ...themeFacts,
             ...(prior?.facts?.title
               ? { "prior-office": fact(prior.facts.title, prior.id) }
+              : {}),
+            // The occasion's own record: the term this address opens, by its
+            // length (lead, Nov 13: an occasion is always sayable from its
+            // own record, never only when a claim or a name is free).
+            ...(official?.termYears
+              ? {
+                  "term-length": fact(
+                    termSaid(official.termYears),
+                    official.termId ?? official.id,
+                  ),
+                }
               : {}),
           },
           moves: [move("occasion"), move("oath")],
