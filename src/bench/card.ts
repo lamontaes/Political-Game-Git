@@ -508,6 +508,10 @@ function lineOf(
       return make("school.college", {});
     case "school/college-ended":
       return make(facts.degree ? "school.degree" : "school.college-left", {});
+    // Service before the start: the day they enlisted and the day they left.
+    case "service/enlisted":
+    case "service/discharged":
+      return make(`service.${event.what}`, {});
     case "work/job-started": {
       const employer = orgName(facts.organizationId);
       if (!employer) {

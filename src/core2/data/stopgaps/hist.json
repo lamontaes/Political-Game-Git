@@ -64,6 +64,17 @@
     "status": "open"
   },
   {
+    "id": "SG-HIST-past-service-one-term",
+    "kind": "partial-model",
+    "file": "src/core2/past-military.ts",
+    "whatItFakes": "Every veteran served one first term of the same length (pastServiceYears, four years) from the day their schooling ended: no draft-era two-year service, no officer after college, no career of twenty years, no branch, no deployment, and no Reserve or Guard.",
+    "why": "Gap sheet, Nov 12, row 4: no past held military service. The ACS share says who served; how long and where needs its own research.",
+    "addedBy": "opus-lr (Life records builder)",
+    "addedAt": "2026-11-12",
+    "replacement": "Service length and branch by cohort from the VA's National Survey of Veterans or the Defense Manpower Data Center's separations, with draft-era terms for those born before 1953, read against the person's traits.",
+    "status": "open"
+  },
+  {
     "id": "SG-HIST-within-moves-child-own-past",
     "kind": "partial-model",
     "file": "src/core2/past-moves.ts",
