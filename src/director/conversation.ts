@@ -2422,9 +2422,9 @@ export function subjectsBetween(
             speakerId,
             // A point someone in the house made today is behind them: each
             // person makes their own (owner, Nov 12: "basically saying the
-            // same thing"), unless it is the only one.
-            fresher(
-              addressPoints(opening),
+            // same thing"), and with every point made, they raise none (a
+            // question is named once a day in the house).
+            addressPoints(opening).filter(
               (row) => !heardNow.has(`${HEARD_QUESTION}${row.question}`),
             ),
             listenerId,
@@ -4416,12 +4416,6 @@ function openConversationNow(
  * (owner, Nov 12: "basically saying the same thing").
  */
 const HEARD_PREFIX = "talk:heard:";
-/** The rows that pass, or all of them when none does. */
-function fresher<T>(rows: readonly T[], keep: (row: T) => boolean): T[] {
-  const kept = rows.filter(keep);
-  return kept.length ? kept : [...rows];
-}
-
 /** A town or state figure told today. */
 const HEARD_FIGURE = "figure:";
 /** A policy question named today, by anyone in the house. */

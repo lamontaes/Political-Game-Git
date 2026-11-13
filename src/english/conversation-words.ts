@@ -194,8 +194,21 @@ export function wordConversationMove(request: {
           (key) => key === row.forChoice || key.startsWith(`${row.forChoice}.`),
         )),
   );
+  // A reason the listener heard today is held back too while another is
+  // on hand ("Lives out in Sharp County." from two of the household one
+  // morning; the telling's rule that the house says a thing once a day).
+  const freshReasons = request.avoid
+    ? reasons?.filter((row) => !row.part || !request.avoid!.has(row.part))
+    : reasons;
   if (usable?.length && reasons?.length)
-    return composedMove(request, bank, words.version, stage, usable, reasons);
+    return composedMove(
+      request,
+      bank,
+      words.version,
+      stage,
+      usable,
+      freshReasons?.length ? freshReasons : reasons,
+    );
   const line = renderLine({
     seed: request.seed,
     surface: "dialogue",
