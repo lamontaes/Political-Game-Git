@@ -7249,6 +7249,19 @@
     "tag": "SOURCED",
     "citation": "U.S. Department of Education: a bachelor's degree is a four-year program of full-time study (IPEDS definitions)."
   },
+  "pastServiceYears": {
+    "value": 4,
+    "role": "level",
+    "tag": "ESTIMATED",
+    "citation": "The years of a first enlistment before discharge: 10 U.S.C. 505(c) lets the services accept original enlistments \"for a period of at least two but not more than eight years\" (fetched Nov 12, 2026, https://www.law.cornell.edu/uscode/text/10/505); four, the common first term, is taken for every veteran.",
+    "estimatedFrom": "The statute's range of an original enlistment; the common four-year active term within it.",
+    "spread": {
+      "low": 2,
+      "high": 8,
+      "unit": "years",
+      "citation": "10 U.S.C. 505(c): at least two and not more than eight years."
+    }
+  },
   "pastWorkSomeCollegeYears": {
     "value": 2,
     "tag": "SOURCED",
