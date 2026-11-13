@@ -58,8 +58,11 @@ import {
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
 import { viewKey, viewQuestionKey } from "../director/view-learned";
 import { questionAbout } from "../english/question-names";
-import { preStartHistory, sharedHistory } from "../core2/past";
-import { organizationName } from "../core2/places-elsewhere";
+import {
+  organizationName,
+  preStartHistory,
+  sharedHistory,
+} from "../core2/past";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;
