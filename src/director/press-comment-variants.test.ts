@@ -173,8 +173,24 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
           Math.min(...names.map((n) => pullFor(b, n))) -
             Math.min(...names.map((n) => pullFor(a, n))) || a.localeCompare(b),
       )[0] as PersonId | undefined;
-    const probe =
-      best(staff("local"), ["friendly", "hostile", "scandal"]) ?? reporter;
+    // The probes read one record at a time from a call between two people
+    // with no tie: a tie's closeness is a read of its own (arc-variant.ts
+    // `closeness`), and a close reporter rightly plays friendly at no record
+    // (Fable A, Nov 13: closeness 0.36 at seed 32d25706d5cdbd72). The probe
+    // goes to a reporter of the town with no tie to the member; a town whose
+    // every reporter has one is passed over.
+    const tied = (id: string) =>
+      core.relationships.has(id < me ? `${id}:${me}` : `${me}:${id}`);
+    const strangers = [...staff("local"), reporter].filter(
+      (id) => id !== me && !tied(id),
+    );
+    const probe = best(strangers, ["friendly", "hostile", "scandal"]);
+    if (!probe) {
+      tried.push(
+        `${where}: every local reporter has a tie to ${me}, so no probe of two strangers`,
+      );
+      continue;
+    }
     const nationalId = best(staff("national"), ["national"]);
     const pick = (
       id: string,
