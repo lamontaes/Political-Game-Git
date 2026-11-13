@@ -6152,11 +6152,38 @@ function sayNow(
     // "I see.") of an answer that asked nothing is a non-reply (owner, Nov
     // 12: "a useless interaction"); the talk carries on from its records
     // instead. Taking up a request ("Sit with me a minute?" "Sure.") stays.
-    const take =
+    const bare =
       answered?.move === "accept" &&
-      replyMoveOf(last.kind, choice.move) !== "request"
-        ? null
-        : answered;
+      replyMoveOf(last.kind, choice.move) !== "request";
+    const take = bare ? null : answered;
+    // But the other person always has the last word away from home: where
+    // nothing carries on, the taking-in closes the talk, not the player's
+    // answer (conversation.test, Jackson Center, Ohio: "Where are you from?"
+    // "I'm from Jackson Center." and nothing after). At home a talk ends on
+    // its last line that says something (owner, Nov 12).
+    const housemate =
+      core.people.get(otherId)?.householdId ===
+      core.people.get(playerId)?.householdId;
+    if (bare && answered && !doubted && !housemate) {
+      const before = conversation.lines.length;
+      carryOn(core, conversation, data);
+      if (conversation.lines.length === before && !conversation.choices.length)
+        conversation.lines.push({
+          speakerId: otherId,
+          subjectId: choice.answers,
+          kind: "ack",
+          act: "tell",
+          text: answered.text,
+          sourceRecordIds: [eventId],
+          wording: {
+            bank: "scene-talk",
+            parts: [answered.pieceKey],
+            stage: "default",
+            facts: [],
+          },
+        });
+      return conversation;
+    }
     if (take)
       conversation.lines.push({
         speakerId: otherId,

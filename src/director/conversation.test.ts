@@ -970,18 +970,23 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       }
       // Rule 2 and 3: a farewell is never the next thing said after the
       // other person's own question was answered (an ack may sit between).
-      talk.lines.forEach((line, at) => {
-        if (line.kind !== "farewell") return;
-        let back = at - 1;
-        while (back >= 0 && talk.lines[back]!.kind === "ack") back -= 1;
-        const answer = talk.lines[back];
-        const asked = talk.lines[back - 1];
-        if (answer && answer.speakerId === player.id && asked) {
-          checkedPairs += 1;
-          expect(
-            asked.speakerId === talk.otherId && /\?$/.test(asked.text.trim()),
-          ).toBe(false);
-        }
+      // Every question of theirs the player answered is a pair checked,
+      // whether or not the talk went on to a goodbye (fixer round 7 of
+      // #8879: in Jackson Center every talk opened on a question of theirs
+      // and none reached a goodbye, so counting only goodbyes checked none).
+      talk.lines.forEach((asked, at) => {
+        const answer = talk.lines[at + 1];
+        if (
+          asked.speakerId !== talk.otherId ||
+          !/\?$/.test(asked.text.trim()) ||
+          answer?.speakerId !== player.id
+        )
+          return;
+        checkedPairs += 1;
+        let next = at + 2;
+        while (next < talk.lines.length && talk.lines[next]!.kind === "ack")
+          next += 1;
+        expect(talk.lines[next]?.kind, asked.text).not.toBe("farewell");
       });
     }
     expect(talks).toBe(talkers.length);
