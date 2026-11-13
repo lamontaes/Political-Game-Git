@@ -63,7 +63,11 @@ import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
-import { JUSTICE_MODULE_ID, bribeRoleOf } from "../core2/modules/justice";
+import {
+  JUSTICE_MODULE_ID,
+  bribeRefusedBy,
+  bribeRoleOf,
+} from "../core2/modules/justice";
 import { dollars } from "../english/bill-sections";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { sharedHistory } from "../core2/shared-history";
@@ -1217,6 +1221,10 @@ function caseFacts(
   // The defendant's side of it: taking bribes, paying or offering one.
   const offense = offenseSaid(core, row.id, row.defendantId);
   if (offense) facts.offense = { ...offense, sourceRecordIds: cites };
+  // Whom they offered it to, when the official turned it down and reported it.
+  const refusedBy = bribeRefusedBy(coreAPI(core as CoreState), row.id);
+  if (refusedBy && refusedBy !== row.defendantId && core.people.has(refusedBy))
+    facts.official = fact(fullName(core, refusedBy), [row.id, refusedBy]);
   if (row.plea) facts.plea = fact("yes");
   else if (row.trialDate && row.trialDate > core.date)
     facts.trial = fact(spokenDate(row.trialDate, core.date));
@@ -4186,6 +4194,10 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "job-new",
   "job-new-detail",
   "job-new-told",
+  // A court case of their own (W1, Nov 13).
+  "charge",
+  "conviction",
+  "acquittal",
 ]);
 
 /** The kind of a subject the talk opened, by its id ("own-work:...", "them>mutual:..."). */
@@ -4555,8 +4567,14 @@ function openConversationNow(
     )
       ? told
       : null;
+  // Their own hard news (a death, an eviction, a conviction) comes before
+  // the day's printed news (W1's strict review, Nov 13: a housemate
+  // convicted that day talked about voter registration instead).
+  const ownNews = brought ? mainTopic(core, conversation, data) : null;
+  const ownNewsFirst =
+    !!ownNews && !ownNews.asks && NEWS_SUBJECTS.has(ownNews.subject.kind);
   let raisedBrought = false;
-  if (brought) {
+  if (brought && !ownNewsFirst) {
     conversation.recorded.push(brought.toldEventId);
     const storyId = storyOfReadEvent(brought.change.eventId);
     const ids = [

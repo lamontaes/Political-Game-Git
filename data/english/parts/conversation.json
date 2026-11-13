@@ -73,7 +73,8 @@
     "bail": "The bail set before trial, as people round it, from the justice engine's pretrial record.",
     "held": "A mark: held before trial, from the justice engine's pretrial record.",
     "probation": "A sentence's probation, as people say a length (\"two years\"), from the justice engine's sentence.",
-    "fine": "A sentence's fine, as people round it, from the justice engine's sentence."
+    "fine": "A sentence's fine, as people round it, from the justice engine's sentence.",
+    "official": "The official a refused bribe was offered to, by name (the corruption crime row)."
   },
   "maxWords": 10,
   "lineWords": {
@@ -9610,6 +9611,18 @@
           "subject": "farewell",
           "role": "answer",
           "choice": "bye"
+        },
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["promise"]
+        },
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["promise"]
         }
       ],
       "transcriptsUsing": 6578,
@@ -11713,12 +11726,6 @@
       "kind": "spoken",
       "text": "I'm here.",
       "uses": [
-        {
-          "move": "charge-reply-answer-comfort",
-          "subject": "charge-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
         {
           "move": "conviction-reply-answer-comfort",
           "subject": "conviction-reply",
@@ -35915,7 +35922,8 @@
           "move": "charge-reply-answer-blame",
           "subject": "charge-reply",
           "role": "answer",
-          "choice": "blame"
+          "choice": "blame",
+          "excludesFacts": ["told-plea", "plea"]
         }
       ],
       "bearing": "guarded",
@@ -36612,7 +36620,8 @@
           "subject": "charge-reply-back",
           "role": "core",
           "stages": ["ask"],
-          "requiresFacts": ["told-plea"]
+          "requiresFacts": ["told-plea"],
+          "excludesFacts": ["official"]
         }
       ],
       "piece": {
@@ -36829,10 +36838,10 @@
       "date": "2026-11-13"
     },
     {
-      "key": "conversation.conviction-reply-back-core.i-turn-myself-in-soon-you-then-i-wait",
+      "key": "conversation.conviction-reply-back-core.i-report-to-prison-soon-you",
       "move": "conviction-reply-back-core",
       "kind": "spoken",
-      "text": "I turn myself in soon, {you}. Then I wait.",
+      "text": "I report to prison soon, {you}.",
       "uses": [
         {
           "move": "conviction-reply-back-core",
@@ -36920,10 +36929,10 @@
       "date": "2026-11-13"
     },
     {
-      "key": "conversation.conviction-reply-back-core.write-to-me-while-i-m-gone-you",
+      "key": "conversation.conviction-reply-back-core.write-to-me",
       "move": "conviction-reply-back-core",
       "kind": "spoken",
-      "text": "Write to me while I'm gone, {you}?",
+      "text": "Write to me?",
       "uses": [
         {
           "move": "conviction-reply-back-core",
@@ -37202,6 +37211,29 @@
       ],
       "piece": {
         "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-tried-to-pay-off-official-it-didn-t-work",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I tried to pay off {official}. It didn't work.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["official", "told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
         "part": "core",
         "required": true
       },
