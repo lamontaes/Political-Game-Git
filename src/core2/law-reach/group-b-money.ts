@@ -405,11 +405,19 @@ export function reconcileObligations(
   const existing = rowsOf<BenefitRow>(api, "taken").filter(
     (r) => r.key === `${input.rowKind}|${input.key}`,
   );
+  // A recipient whose amount only changes keeps the day their payment is next
+  // due: a mid-month law change must not open the new amount tomorrow and pay
+  // the month twice (the work requirement's change-day rerun did, Marion,
+  // Mississippi, seed 7df73e53cd67).
+  const carriedDue = new Map<string, typeof first>();
   for (const row of existing) {
     if (want.get(`${row.governmentId}|${row.recipientId}`) === row.amountMinor)
       continue;
-    if (!accounts.obligation(row.obligationId)?.endedAt)
-      accounts.endObligation(row.obligationId);
+    const old = accounts.obligation(row.obligationId);
+    const pair = `${row.governmentId}|${row.recipientId}`;
+    if (old && !old.endedAt && old.nextDueAt && want.has(pair))
+      carriedDue.set(pair, makeIsoDate(old.nextDueAt));
+    if (!old?.endedAt) accounts.endObligation(row.obligationId);
     putRow(api, "taken", { ...row, key: `ended|${input.key}` });
   }
   const kept = new Set(
@@ -436,7 +444,8 @@ export function reconcileObligations(
         ? recipientId.slice(FUND.length)
         : accounts.main(recipientId),
       amountMinor,
-      firstDueAt: first,
+      // Tomorrow at the earliest; the old payment's own next day when it is later.
+      firstDueAt: [first, carriedDue.get(pair) ?? first].sort().at(-1)!,
       cadence: { kind: "months", every: reachParameter("reviewEveryMonths") },
       accruesArrears: false,
       reasonKey: input.reasonKey,
