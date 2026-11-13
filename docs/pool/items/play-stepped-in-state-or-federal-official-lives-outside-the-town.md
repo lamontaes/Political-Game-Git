@@ -57,3 +57,10 @@ The second keeps "playing as a governor or President" open from any drawn place.
 Seen again in a state (Playtester P2, same day, main 596d5127): Prairie City, Oregon (seed 70457df0-607e-4349-8f0a-b255747c6765), stepping in as Governor Paul Oliver. The card reads "Prairie City, Oregon", but `/api/dev/person` answers `placeId: "US-OR"`, the Journal reads "Nothing is written here yet." and Your office is blank.
 
 A third: Inarajan, Guam (seed db11f543-5a3e-4bcb-b4be-2e6384c8ea3d), stepping in as Derek Cox of the Consolidated Commission on Utilities, played a year by Week. Travel and Your office were empty all year, and News said "You don't follow a paper or a station." on the first day.
+
+Seen over seven years (Playtester P2, Washington, District of Columbia, seed e087a8d7-f6db-4a9f-9ae5-97ee6c1b8ab7, run-year from 2025 to 2032, Councilmember Curtis Pruitt of the D.C. Council, a `legislature-unicameral` seat in D.C.'s state record):
+
+- **The seat.** In 2029 the card read "legislature-unicameral, District of Columbia treasury". By 2030 it read "Age 54", and Your office was gone from Politics. Elections said "No local election is on the calendar" every year, so the player never saw the seat end.
+- **The Journal.** By 2031 it was titled with a stranger: "MY STORY / Judith Tyson / 2026 to 2029 / Judith Tyson died. Judith was 81. / I lost my job. I had no job after the District of Columbia." The chapter title comes from `placeName(person.placeId)` (`src/director/journal.ts`, line 1646), which finds no town for a state record and falls back to a name from the facts. `journal-story.test.ts` forbids exactly that.
+- **News.** It read "You don't follow a paper or a station." in 2031 and 2032.
+- **Money.** Cash was $0 with bills "left unpaid" through 2031, then $341,000 in 2032.
