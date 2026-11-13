@@ -19,7 +19,7 @@ source: split from gov-other-towns-and-counties-never-meet in the pool redo, Nov
 checked: fable 2026-11-10
 ---
 
-**What.** A result nobody reads is a placeholder. The press or the regional economy must read a neighbor town's result by record id, a test must fail if every local result in the world belongs to the played town, and the year must stay inside the speed bar with records before and after reported. Without a reader the new results would be records nobody uses.
+**What.** A result nobody reads is a placeholder. The press or the regional economy must read a neighbor town's result by record id, a test must fail if every local result in the world belongs to the played town, and the year must stay inside the speed bar with records before and after reported. Without a reader the new results would be records nobody uses. Seen: the News tab's stories of what neighboring towns and counties decided.
 
 **Cause.** Found in code: src/core2/press-desk.ts function runDesk (line 623, the desk that picks stories) and src/bench/nation-news.ts (which shows them) are the readers to extend; neither reads another town's local result today, since none exists (see the Measured cause in gov-other-towns-and-counties-never-meet).
 

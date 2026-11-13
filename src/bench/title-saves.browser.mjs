@@ -34,12 +34,12 @@ try {
       await page.locator("#sheet .saves-row .action").innerText(),
       "Load",
     );
-    // A life made without the creator has no saved face yet; the bust follows the title's own record.
+    // The bust follows the title's own record (the player's one face; none for a child).
     const face = await page.evaluate(
       async () => (await (await fetch("/api/title")).json()).life?.face,
     );
     assert.equal(
-      await page.locator("#sheet .saves-row .mxbust img").count(),
+      await page.locator("#sheet .saves-row .mxbust .bust-stack").count(),
       face ? 1 : 0,
     );
   } else assert.ok(await page.locator("#sheet .saves-none").count());

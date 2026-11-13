@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** Oct 20 (pool feeder): split from gov-stopgap-budgets-assumed-data. CTO call recommended: pre-tax deductions are not built (game, not spreadsheet); the row is narrowed to name them.
 
 **Notes (Fable's check, Nov 10).** This item also covers what is left of gov-standin-withholding-residence (proposed drop): the working town's local tax withheld on its own base, with the local law rows' exemptions and adjustments, and SG-WORLD-withholding-local-base resolved.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have researched a personal exemption for each local income tax; the withheld amount is already close and few places have one.
