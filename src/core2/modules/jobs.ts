@@ -222,6 +222,14 @@ interface EmployerRow {
   };
   /** A new business's template for its first roles. */
   templateFromId?: string;
+  /**
+   * A new business still hiring its opening staff: while the openings it
+   * posted at its first review stand and nobody is hired yet, it has no
+   * service level to read (`firmStaffing` gives none), so it keeps the
+   * customers its founding won. Its first hire, or its openings lapsing,
+   * ends it; from then its staff divides its customers like any firm's.
+   */
+  hiring?: true;
   /** The staff mix at the opening: each role's head count and a job to copy for it. */
   mix?: Record<string, { count: number; templateJobId: string }>;
   /** Fraction of a posting's withdrawal carried to the next review. */
@@ -1642,11 +1650,16 @@ function reviewEmployers(api: CoreAPI): void {
         ),
       });
     }
+    // A new business's hold lasts while its opening postings stand; its first hire, or the postings lapsing, ends it.
+    const { hiring, ...kept } = row;
+    const stillHiring =
+      hiring && !(staff > 0) && (!row.staffing || positions.length > 0);
     // Leavers not refilled this month wait while staff is below target; above it, attrition does the shrinking.
     store(api)
       .table("employers")
       .put({
-        ...row,
+        ...kept,
+        ...(stillHiring ? { hiring: true as const } : {}),
         need,
         salesStaff,
         hoursFactor,
@@ -1678,7 +1691,8 @@ export interface FirmStaffing {
 /**
  * The one read the business engine takes of a firm's staffing (owner, Nov 9:
  * firms diverge by service level): the employer's last review, or none for a
- * firm the jobs engine does not run or has not yet reviewed. The service level
+ * firm the jobs engine does not run or has not yet reviewed, or a new business
+ * still hiring its opening staff (`hiring`). The service level
  * is staff over target, one where the firm is fully staffed.
  */
 export function firmStaffing(
@@ -1689,7 +1703,7 @@ export function firmStaffing(
   const row = store(api).table("employers").get(organizationId) as
     EmployerRow | undefined;
   const read = row?.staffing;
-  if (!read) return undefined;
+  if (!read || row.hiring) return undefined;
   return {
     ...read,
     serviceLevel:
@@ -5234,7 +5248,9 @@ export function registerEmployer(
       isEmployer: true,
       openingStaff,
       ...(scale !== undefined ? { openingScale: scale } : {}),
-      need: 0,
+      // It posts its opening staff at its first review, as a new business hires before it opens.
+      need: openingStaff,
+      hiring: true,
       // An employer registered after the opening keeps the roles its staff is
       // made of, so a role it loses is refilled as that role even when its
       // last holder leaves (a reporter at an outlet with only an editor left).
