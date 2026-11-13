@@ -960,7 +960,8 @@ function budgetBillSections(
   sponsor: string;
 } {
   const priorities =
-    budgetPriorities(api, gov.id) ?? executivePriorities(api, gov, fy);
+    budgetPriorities(api, gov.id) ??
+    executivePriorities(api, gov, fy, chambers);
   const carried = budgetCarry(api, gov, fy);
   const proposed: Provision[] = Object.entries(priorities?.changes ?? {}).map(
     ([line, delta]) => ({
@@ -1312,6 +1313,7 @@ function executivePriorities(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
+  chambers?: ReturnType<typeof budgetChambers>,
 ): { setBy: string; changes: Record<string, number> } | null {
   const kind = BODIES.vetoHolder[gov.level];
   const offices = api.moduleState(OFFICES_MODULE_ID);
@@ -1330,19 +1332,31 @@ function executivePriorities(
       o.level === gov.level &&
       (o.level !== "state" || o.jurisdiction === gov.id),
   );
-  if (!office) return null;
-  const holder = (
-    offices.table("seats").query("byOffice", [office.id]) as unknown as {
-      id: string;
-    }[]
-  )
-    .flatMap(
-      (seat) =>
-        offices
-          .table("terms")
-          .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[],
+  // Where no office of the veto holder's kind sits at the government's own
+  // level (a city whose council is modeled as its state's legislature), the
+  // executive is the one over the body that votes this budget.
+  const voting = office ? null : (chambers ?? budgetChambers(api, gov));
+  const over = voting?.chambers[0]
+    ? executiveOf(api, voting.chambers[0]).term
+    : undefined;
+  if (!office && !over) return null;
+  const holder =
+    over ??
+    (
+      offices.table("seats").query("byOffice", [office!.id]) as unknown as {
+        id: string;
+      }[]
     )
-    .sort((a, b) => a.id.localeCompare(b.id))[0];
+      .flatMap(
+        (seat) =>
+          offices
+            .table("terms")
+            .query("bySeatStatus", [
+              seat.id,
+              "serving",
+            ]) as unknown as TermRow[],
+      )
+      .sort((a, b) => a.id.localeCompare(b.id))[0];
   const base = budgetCarry(api, gov, fy);
   if (!holder || !base) return null;
   const key = memberKey(holder);
