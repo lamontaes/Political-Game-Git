@@ -77,7 +77,6 @@ export interface SituationCause {
      */
     causeNames?: "subject";
   };
-  awaitingProducer?: string;
   causeEngine?: string;
   /** The record kind (or kinds, comma-joined) the cause reads, for the scene web. */
   causeRecord?: string;
@@ -160,12 +159,19 @@ export interface SituationType {
   setting: readonly string[];
   timing: string;
   causes: readonly SituationCause[];
-  awaiting?: readonly string[];
   /**
    * A scene that never stops the player's day: it waits its turn by the life's
    * pace however strongly it was felt (an invitation to a cause meeting).
    */
   waits?: boolean;
+  /**
+   * "day": the scene's setting stands in for a room it has no picture of yet
+   * (a debate's stage), so its opening says only the day and the lead says
+   * who is there and why, never a placement like "out and about" (Fable A,
+   * Nov 13, rule 13: "a debate opens in the room it is held in, never from a
+   * street stop").
+   */
+  arrivesBy?: "day";
   /**
    * A scene that is an event in itself (a swearing-in, owner Oct 29): it
    * stops the day however strongly the moment was felt, for the one whose

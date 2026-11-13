@@ -11,28 +11,23 @@
       "diploma-home",
       "no-diploma-home",
       "confession",
-      "departure",
       "family-absence",
       "family-filing",
       "family-loss",
-      "family-win",
       "favor-asked",
       "first-day",
       "funeral",
       "gathering-missing",
-      "hearing",
       "home-damaged",
       "interview",
       "last-day",
-      "law-takes-effect",
       "layoff",
       "letter",
       "new-baby",
       "news-arrives",
       "notice-home",
       "proposal",
-      "return",
-      "verdict"
+      "return"
     ],
     "meeting-people-and-places": [
       "accusation",
@@ -47,12 +42,9 @@
       "reach-out",
       "reconciliation",
       "rescue",
-      "reunion",
-      "visit",
       "warning"
     ],
     "the-campaign": [
-      "campaign-stop",
       "door-ask",
       "filing",
       "party-ask",
@@ -60,31 +52,15 @@
       "rally-opponent",
       "speech-afterward"
     ],
-    "election-day-and-night": [
-      "polling-place",
-      "race-lost",
-      "race-told",
-      "race-won"
-    ],
+    "election-day-and-night": ["polling-place", "race-lost", "race-won"],
     "legislating": [
       "bill-carry",
-      "floor-vote",
-      "public-hearing",
       "section-bargain",
       "vote-asked",
       "vote-confirmed",
       "vote-sought"
     ],
-    "the-executive": [
-      "address",
-      "appointment",
-      "bill-signed",
-      "desk-bill",
-      "recall",
-      "staff-news",
-      "swearing-in",
-      "veto"
-    ],
+    "the-executive": ["address", "appointment", "recall", "swearing-in"],
     "constituents-and-cases": ["office-hours"],
     "donors-and-corruption": ["donor-ask"],
     "the-press": [

@@ -42,15 +42,8 @@ const staged = (typeKey: string, personId: string, action: string) =>
     );
 
 describe("an officeholder's desk record stages scenes", () => {
-  it("a signing reaches the signer's press and the sponsor's signing scene", () => {
+  it("a signing reaches the signer's press", () => {
     expect(staged("press-interview", executive, "signed")).toBe(true);
-    // The desk scene comes when the bill is presented, not when it is signed
-    // (desk-scene.test.ts plays it from the bill-presented record).
-    expect(staged("desk-bill", executive, "signed")).toBe(false);
-    expect(staged("bill-signed", sponsor, "signed")).toBe(true);
-    // The signer is not told their own signing, and a signing is no veto.
-    expect(staged("bill-signed", executive, "signed")).toBe(false);
-    expect(staged("veto", sponsor, "signed")).toBe(false);
   });
   it("a town hall reaches its host as a resident's question, not as office hours", () => {
     const core = {
@@ -86,10 +79,6 @@ describe("an officeholder's desk record stages scenes", () => {
         causeMatches(c, book, at(executive), core),
       ),
     ).toBe(false);
-  });
-  it("a veto reaches the sponsor as a veto", () => {
-    expect(staged("veto", sponsor, "vetoed")).toBe(true);
-    expect(staged("bill-signed", sponsor, "vetoed")).toBe(false);
   });
   it("a filing, an introduced bill or an appointment learned of through a tie is not cast as one's own", () => {
     for (const [typeKey, label] of [

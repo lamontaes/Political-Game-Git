@@ -32,14 +32,6 @@
       "checkedAgainst": "A gift big enough that leaning on it reads as pressure, not a joke. Under it the donor is 'one of your donors', with no amount said."
     }
   },
-  "screens": {
-    "about": "The game screens a scene's ending can hand the player to, by the key the game screen uses.",
-    "desk": "The desk: sign or veto the bill.",
-    "filing": "The filing office: file to run.",
-    "office": "Your office: bills, cases and staff.",
-    "meeting": "The meeting: the vote on the floor.",
-    "campaigns": "Campaigns: the campaign's week."
-  },
   "bluntGreeting": {
     "about": "So scenes do not all open the same way: an asker whose sociability is at or below minus this level skips the greeting and opens on why they came; trait levels run from -2 to 2.",
     "value": 1,
@@ -151,17 +143,6 @@
       "checkedAgainst": "How far back a relative's own news (a child born, a wedding, a move, new work, an illness) still counts as news at a family occasion: a year, the span in which a family would still be catching up on it."
     }
   },
-  "owedTalk": {
-    "about": "A reply whose ending sets a meeting (keeps meeting-set) or puts a matter off (ending put-off, or not-yet in the filing talk) owes the other person a talk: the reply's record carries who it is owed to, its topic and the day it falls due, for the people engine's owed-talk record (agreements/2-3.md, people-owed-talk-record) and the director's scene when it comes due (scene-owed-talk-comes-due). Ending ids and keeps only; no sentence.",
-    "keeps": ["meeting-set"],
-    "endings": ["put-off", "not-yet"],
-    "dueDays": {
-      "value": 7,
-      "tag": "TUNABLE",
-      "spread": [3, 14],
-      "checkedAgainst": "'We'll talk later' or 'let's meet' in ordinary American usage means within about a week; a week falls between the next few days and the next pay period. Checked against the played-world test: the due day lands after the scene and before the next month's scenes."
-    }
-  },
   "noticeShortfall": {
     "about": "How a notice to pay or leave is worded to fit what is owed (owner, Nov 8 playtest: 'that far behind' said of a $14 shortfall). The shortfall is read against the rent the lease asks each month. Under `littleBelow` months of rent the lines call it small (they still say it is owed); from `deepFrom` months of rent they call it deep. In between, the lines say the amount and how long it has run and call it neither. Wording only; the landlord's own weighing of amount and months is the housing engine's.",
     "littleBelow": {
@@ -180,12 +161,30 @@
   "departureWhy": {
     "about": "Why someone is leaving, said only when a record names it (owner, Nov 8: a farewell names the leaving; 'why' only when the records say). Each row is a key in the departure's `reasons` (an event that added to the pull, or a push the moves engine read) or `basis:<destinationBasis>`; the fact it sets is the one the bank's lines require. Rows are tried in order and the first present names the reason; no row present, and no reason is said. Moves only, no sentence.",
     "rows": [
-      { "reason": "housing.eviction", "fact": "why-evicted" },
-      { "reason": "work.job-lost", "fact": "why-work-lost" },
-      { "reason": "push:jobElsewhere", "fact": "why-job-elsewhere" },
-      { "reason": "basis:relative", "fact": "why-family" },
-      { "reason": "person.moved-away", "fact": "why-kin-moved" },
-      { "reason": "life.death", "fact": "why-loss" }
+      {
+        "reason": "housing.eviction",
+        "fact": "why-evicted"
+      },
+      {
+        "reason": "work.job-lost",
+        "fact": "why-work-lost"
+      },
+      {
+        "reason": "push:jobElsewhere",
+        "fact": "why-job-elsewhere"
+      },
+      {
+        "reason": "basis:relative",
+        "fact": "why-family"
+      },
+      {
+        "reason": "person.moved-away",
+        "fact": "why-kin-moved"
+      },
+      {
+        "reason": "life.death",
+        "fact": "why-loss"
+      }
     ]
   }
 }
