@@ -15,7 +15,10 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { schoolSpans } from "./past-school";
 import { sharedHistory } from "./shared-history";
-import schoolDays from "./data/school-days.json" with { type: "json" };
+import { ageOn } from "./counted-groups";
+
+/** An age past every school stage: no one this old is enrolled in a K-12 school. */
+const PAST_SCHOOL_AGE = 19;
 
 const base = process.env.SHARED_PAST_SEED ?? randomBytes(8).toString("hex");
 /** The most people read for pairs: enough for a town's school, small enough to read quickly. */
@@ -42,11 +45,7 @@ for (const salt of ["a", "b"]) {
       let schoolPairs = 0;
       let coworkerPairs = 0;
       let ended = 0;
-      const today = core.date;
-      const thisSchoolYear =
-        today.slice(5) >= schoolDays.schoolYear.firstDay
-          ? Number(today.slice(0, 4))
-          : Number(today.slice(0, 4)) - 1;
+      let grownPairs = 0;
       let example = "";
       for (let i = 0; i < people.length; i += 1)
         for (let j = i + 1; j < people.length; j += 1) {
@@ -55,20 +54,19 @@ for (const salt of ["a", "b"]) {
             expect(row.recordId, `${where}: a row's record`).toBeTruthy();
             if (row.kind === "schoolmate") {
               schoolPairs += 1;
-              // School that has ended is past (Fable A, Nov 13): two people
-              // whose runs there do not both reach this school year are not
-              // at school together now.
-              const now = (id: string) =>
-                schoolSpans(core, id).some(
-                  (span) =>
-                    span.schoolId === row.recordId && span.to >= thisSchoolYear,
-                );
-              const both = now(people[i]!.id) && now(people[j]!.id);
-              if (!both) ended += 1;
-              expect(
-                row.ended === true,
-                `${where}: ${people[i]!.id} and ${people[j]!.id} at ${row.recordId}, both enrolled now: ${both}`,
-              ).toBe(!both);
+              // School that has ended is past (Fable A, Nov 13): a pair in
+              // which one is past school age is never at school together now.
+              const grown = [people[i]!, people[j]!].some(
+                (p) => ageOn(p.birthDate, core.date) > PAST_SCHOOL_AGE,
+              );
+              if (grown) {
+                grownPairs += 1;
+                expect(
+                  row.ended,
+                  `${where}: ${people[i]!.id} and ${people[j]!.id} at ${row.recordId}: one is past school age`,
+                ).toBe(true);
+              }
+              if (row.ended) ended += 1;
               if (!example)
                 example = `${people[i]!.id} and ${people[j]!.id} at ${row.recordId} in ${row.year}`;
             }
@@ -78,6 +76,9 @@ for (const salt of ["a", "b"]) {
       console.log(
         `shared-history-past: ${where}; ${people.length} full people, ${withSchool.length} with school years; ${schoolPairs} schoolmate pairs (${ended} ended), ${coworkerPairs} coworker pairs; first ${example || "none"}`,
       );
+      // Where a grown person shares a school with anyone, an ended pair is
+      // on record: the check above cannot pass on a draw with none to read.
+      if (grownPairs) expect(ended, `${where}: ended pairs`).toBeGreaterThan(0);
       if (withSchool.length >= 2)
         expect(schoolPairs, `${where}: schoolmate pairs`).toBeGreaterThan(0);
     } finally {
