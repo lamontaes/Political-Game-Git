@@ -6,7 +6,7 @@
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { playOpening } from "./start-life.mjs";
-import { devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
+import { devModeOff, devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -18,12 +18,17 @@ const shots = process.env.PLAIN_TEXT_SHOTS;
 const found = [];
 // What developer text looks like once a screen draws it.
 const tells = [
-  ["an ISO date", /\b\d{4}-\d{2}(?:-\d{2})?\b/],
+  // "Act 2025-12" and "Ordinance 2025-18" are a law's number, not a date.
+  [
+    "an ISO date",
+    /(?<!\b(?:Acts?|Ordinances?|Resolutions?|Measures?) )\b\d{4}-\d{2}(?:-\d{2})?\b/,
+  ],
   ["a field name", /\b[a-z]+[A-Z][A-Za-z]*\b/],
   ["a status code", /\b[a-z]+(?:-[a-z]+)+\b/],
   ["a status code", /\b[A-Z]+(?:-[A-Z]+)+\b/],
   ["a record kind", /\b[A-Z][a-z]+\.[a-z]+\b/],
-  ["a bare fraction", /(?<![$\d.])\b0\.\d+\b(?!\s*%)/],
+  // Three or more decimals is an unrounded value; a one-decimal change ("up 0.3") is rounded.
+  ["a bare fraction", /(?<![$\d.])\b0\.\d{3,}\b(?!\s*%)/],
   ["the Mark gap button", /\bMark gap\b/],
   ["a raw yes-or-no value", /\b(?:True|False)\b/],
 ];
@@ -40,9 +45,19 @@ const words = new Set([
   "long-term",
   "short-term",
   "high-school",
+  "single-family",
+  "multi-family",
   "co-op",
   "e-mail",
   "x-ray",
+  "same-day",
+  "self-defense",
+  "assessor-collector",
+  "pre-k",
+  "well-being",
+  "cost-of-living",
+  "on-site",
+  "non-profit",
 ]);
 async function read(screen, selector) {
   // Each visible text node by itself, so neighboring buttons never run together.
@@ -59,7 +74,9 @@ async function read(screen, selector) {
   for (const line of text.split("\n"))
     for (const [what, pattern] of tells) {
       const match = line.match(pattern);
-      if (match && !words.has(match[0].toLowerCase()))
+      // A station's call sign (KCJN-TV) is a name, not a code.
+      const callSign = /^[KW][A-Z]{2,3}-(?:TV|FM|AM)$/.test(match?.[0] ?? "");
+      if (match && !callSign && !words.has(match[0].toLowerCase()))
         found.push(`${screen}: ${what} "${match[0]}" in "${line.trim()}"`);
     }
   if (shots)
@@ -165,12 +182,34 @@ try {
     await page.waitForTimeout(600);
     await read(`Talk box, race picked (${who})`, "#talk");
   };
+  // The clerk's talk ends on a reply (I see.) or a Leave: answered as a player would.
+  const leaveTalk = async () => {
+    for (let turn = 0; turn < 8; turn += 1) {
+      if (await page.locator("#talk[hidden]").count()) return;
+      if (await page.locator("#talk-leave").isVisible())
+        return page.locator("#talk-leave").click();
+      const reply = page.locator("#talk-choices button");
+      if (await reply.count()) await reply.first().click();
+      else if (await page.locator("#talk-next").isVisible())
+        await page.locator("#talk-next").click();
+      await page.waitForTimeout(400);
+    }
+  };
+  // Escape closes the top open thing and opens Options only when nothing is
+  // open, so a sheet left open (Travel, after the filing counter) is closed first.
+  const optionsFree = async () => {
+    if (await page.locator("#sheet-close").isVisible())
+      await page.locator("#sheet-close").click();
+  };
   // A seat the player may file for has its window open: the world runs until one does (dev mode, on the Calendar).
+  await optionsFree();
   await devModeOn(page);
   const opened = await devRunUntilMayFile(page);
   assert.equal(opened.reason, "event", "no seat opened its filing window");
+  // The screens are read as a player sees them: dev mode off.
+  await devModeOff(page);
   await counter("seventeen");
-  await page.locator("#talk-leave").click();
+  await leaveTalk();
   // A grown resident of the same world files, so the clerk's reply and
   // Campaigns are read too.
   const person = JSON.stringify({
@@ -192,21 +231,36 @@ try {
     document.getElementById("card-name").textContent.trim(),
   );
   console.log("Place:", await page.locator("#card-place").innerText());
+  await optionsFree();
   await devModeOn(page);
   await devRunUntilMayFile(page);
+  await devModeOff(page);
   await counter("grown");
-  const choices = page.locator("#talk-choices button");
-  const labels = await choices.allInnerTexts();
-  const fileAt = labels.findIndex((l) => /^File\b/i.test(l.trim()));
-  assert.ok(fileAt >= 0, `no File choice: ${labels.join(" | ")}`);
-  const filed = page.waitForResponse(
-    (r) => new URL(r.url()).pathname === "/api/filing/choose",
-  );
-  await choices.nth(fileAt).click();
-  await filed;
+  // The clerk's lead-in ends on the choice to take the papers; the filing is
+  // made by the choice after it. Each is answered as a player would, until the
+  // filing is on record.
+  let filedSeen = false;
+  page.on("response", (r) => {
+    if (new URL(r.url()).pathname === "/api/filing/choose") filedSeen = true;
+  });
+  for (let turn = 0; turn < 10 && !filedSeen; turn += 1) {
+    const choices = page.locator("#talk-choices button");
+    const labels = await choices.allInnerTexts();
+    // The clerk words the commit choice from a bank (File, take the papers, Where do I sign...): the
+    // choice that is not a way out is the filing.
+    const fileAt = labels.findIndex(
+      (l) => !/\b(?:not now|think|leave|walk|never mind|later|see)\b/i.test(l),
+    );
+    if (fileAt >= 0) await choices.nth(fileAt).click();
+    else if (await page.locator("#talk-next").isVisible())
+      await page.locator("#talk-next").click();
+    else assert.fail(`no File choice: ${labels.join(" | ")}`);
+    await page.waitForTimeout(600);
+  }
+  assert.ok(filedSeen, "the filing was never made");
   await page.waitForTimeout(800);
   await read("After filing", "#talk");
-  await page.locator("#talk-leave").click();
+  await leaveTalk();
   await sheet("politics");
   await page
     .locator("#sheet-tabs")
@@ -221,6 +275,23 @@ try {
       (r) => new URL(r.url()).pathname === "/api/advance",
       { timeout: 600000 },
     );
+    moved.catch(() => {});
+    // Whatever holds the clock (a scene, a stop) is answered first, as a player would.
+    for (
+      let hold = 0;
+      hold < 30 && (await page.locator("#week").isDisabled());
+      hold += 1
+    ) {
+      if (await page.locator("#talk-leave").isVisible())
+        await page.locator("#talk-leave").click();
+      else if (await page.locator("#talk-next").isVisible())
+        await page.locator("#talk-next").click();
+      else if (await page.locator("#talk-choices button").count())
+        await page.locator("#talk-choices button").first().click();
+      else if (await page.locator("#continue").isVisible())
+        await page.locator("#continue").click();
+      await page.waitForTimeout(500);
+    }
     await page.locator("#week").click();
     await moved;
     await page.waitForTimeout(1000);
