@@ -4757,6 +4757,7 @@
           "bearing": "braced"
         }
       ],
+      "arrivesBy": "day",
       "setting": ["public"],
       "timing": "at-cause",
       "causes": [

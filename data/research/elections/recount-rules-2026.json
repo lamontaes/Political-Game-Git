@@ -1,0 +1,1033 @@
+{
+  "id": "recount-rules-2026",
+  "asOf": "2026-11-11",
+  "about": "Each place's recount rule for a state-level general election (owner, Nov 10, 2026: \"Recount by own states rules\"), read by the elections engine's count (src/core2/modules/voting.ts, keepCount). `automatic` and `request` are lists of tiers, the first whose `maxCast` (votes cast for the office) is at or over the race's applying: a margin qualifies when it is at or under `share` of the margin base (`marginOf`: all votes for the office, the top two's combined votes, or the winner's votes) and, with `join` lesser, also at or under `votes`; with `join` either, at or under one of them; a margin at or under `minVotes` always qualifies. A share of 0 is a tie only; a share of 1 is any margin. Null: none (no automatic recount, or a candidate may not ask). `days` is how long a recount takes from the count to its certified end. One rule a place: the statewide rule applies to every race there (stopgap SG-GOV-recount-one-rule-per-place).",
+  "sources": [
+    "https://www.multistate.us/elections/recounts-101 (fetched Nov 11, 2026; its table follows each statute, linked by row)",
+    "https://www.nass.org/sites/default/files/reports/summary-canvass-certification-laws-oct2024.pdf (fetched Nov 11, 2026)"
+  ],
+  "places": {
+    "US-AL": {
+      "name": "Alabama",
+      "automatic": [
+        {
+          "share": 0.005
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "≤0.5%, general elections only (waivable) | Any margin, with security for costs | State (automatic); requester (petition) | Ala. Code 17-16-20, -21",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-AK": {
+      "name": "Alaska",
+      "automatic": [
+        {
+          "share": 0
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "top-two",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "Tie only | Any margin | Deposit ($15,000 statewide); free and state-paid if margin ≤0.5% or ≤20 votes | AS 15.20.430–.450",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-AZ": {
+      "name": "Arizona",
+      "automatic": [
+        {
+          "share": 0.005
+        }
+      ],
+      "request": null,
+      "marginOf": "top-two",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "≤0.5% | None | State | ARS 16-661",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-AR": {
+      "name": "Arkansas",
+      "automatic": null,
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Any margin, by precinct petition | Requester; refunded if the outcome changes | Ark. Code 7-5-319",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-CA": {
+      "name": "California",
+      "automatic": null,
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Any voter, any race, any margin | Requester pays per day; refunded if the outcome changes | Elec. Code 15620 | 15645",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-CO": {
+      "name": "Colorado",
+      "automatic": [
+        {
+          "share": 0.005
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "winner",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "≤0.5% | Any margin | State (automatic); requester otherwise | CRS 1-10.5-101",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-CT": {
+      "name": "Connecticut",
+      "automatic": [
+        {
+          "share": 0.005,
+          "votes": 2000,
+          "join": "lesser",
+          "minVotes": 20
+        }
+      ],
+      "request": null,
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "Recanvass: <0.5% capped at 2,000 votes, or <20 votes (waivable) | None | State | CGS 9-311a",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-DE": {
+      "name": "Delaware",
+      "automatic": [
+        {
+          "share": 0.005,
+          "votes": 1000,
+          "join": "lesser"
+        }
+      ],
+      "request": [
+        {
+          "share": 0.005,
+          "votes": 1000,
+          "join": "lesser"
+        }
+      ],
+      "marginOf": "top-two",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "Legislative and county: < lesser of 1,000 votes or 0.5% | Statewide offices at the same margin, by court petition | State | 15 Del. C. 5702",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-FL": {
+      "name": "Florida",
+      "automatic": [
+        {
+          "share": 0.005
+        }
+      ],
+      "request": null,
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "≤0.5% machine; ≤0.25% manual (waivable) | None | State | Fla. Stat. 102.141, 102.166",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-GA": {
+      "name": "Georgia",
+      "automatic": null,
+      "request": [
+        {
+          "share": 0.005
+        }
+      ],
+      "marginOf": "top-two",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "New for 2026: ≤0.5% manual recount for statewide executive contests listed first or second on the ballot | ≤0.5%, as of right | State | OCGA 21-2-495 | 2026 SB 3EX",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-HI": {
+      "name": "Hawaii",
+      "automatic": [
+        {
+          "share": 0.005,
+          "votes": 100,
+          "join": "lesser"
+        }
+      ],
+      "request": null,
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "≤ lesser of 100 votes or 0.5% (the 100-vote cap controls most races) | None | State | HRS 11-158",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-ID": {
+      "name": "Idaho",
+      "automatic": null,
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Any margin | Free if margin ≤0.1% or 5 votes (whichever greater); else $100 per precinct | Idaho Code 34-2301, -2309",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-IL": {
+      "name": "Illinois",
+      "automatic": null,
+      "request": null,
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | None that can change results: a discovery recount (open to candidates with at least 95% of the winner's vote total, up to 25% of precincts) only feeds a court contest | Requester, $50 per precinct | 10 ILCS 5/22-9.1",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-IN": {
+      "name": "Indiana",
+      "automatic": null,
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Any margin (state recount commission for state and legislative offices) | Requester bond | Ind. Code 3-12-11",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-IA": {
+      "name": "Iowa",
+      "automatic": null,
+      "request": [
+        {
+          "share": 0.0015
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Statewide: <0.15%. Legislative: < lesser of 1% or 50 votes | County-run under the 2024 overhaul | Iowa Code 50.48",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-KS": {
+      "name": "Kansas",
+      "automatic": null,
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Any margin | Requester bond; state pays if margin ≤0.5% (statewide generals) | KSA 25-3107",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-KY": {
+      "name": "Kentucky",
+      "automatic": [
+        {
+          "share": 0.005
+        }
+      ],
+      "request": null,
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "≤0.5%, generals and specials only (primaries get a recanvass or court contest) | Recanvass at <1%; candidates who miss the automatic trigger may petition for a court recount ( | 120.185 | ) | State (automatic) | KRS 120.157 | 117.305",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-LA": {
+      "name": "Louisiana",
+      "automatic": null,
+      "request": null,
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Absentee and early-voting paper ballots only, and only if enough of them could change the outcome | Requester; refunded if the outcome changes | La. R.S. 18:1313.1",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-ME": {
+      "name": "Maine",
+      "automatic": [
+        {
+          "share": 0
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "Tie (SoS initiates) | Any margin | Free if margin ≤1% or 1,000 votes (statewide) / ≤1.5% (legislative); tiered deposits to $10,000 beyond | 21-A MRS 737-A | 732",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-MD": {
+      "name": "Maryland",
+      "automatic": null,
+      "request": [
+        {
+          "share": 0.05
+        }
+      ],
+      "marginOf": "top-two",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Margin ≤5% | County pays if the outcome changes, requester gains ≥2%, or margin ≤0.25%; requester bond otherwise | Md. Elec. Law 12-101 to -107",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-MA": {
+      "name": "Massachusetts",
+      "automatic": null,
+      "request": [
+        {
+          "share": 0.005
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | ≤0.5%, with voter signatures | Public expense | MGL c.54 §135",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-MI": {
+      "name": "Michigan",
+      "automatic": [
+        {
+          "share": 0.001
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "≤0.1% statewide; ≤75 votes Senate; ≤25 votes House (waivable) | Fraud-or-error petition, any margin | State (automatic); petition deposits $50 to $500 per precinct, refunded if reversed | MCL 168.880a | .879",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-MN": {
+      "name": "Minnesota",
+      "automatic": null,
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Any margin | Free if <0.25% statewide / <0.5% legislative (or ≤10 votes when ≤400 cast); requester pays beyond | Minn. Stat. 204C.35",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-MS": {
+      "name": "Mississippi",
+      "automatic": null,
+      "request": null,
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | None: | court contest only | n/a | Miss. Code tit. 23",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-MO": {
+      "name": "Missouri",
+      "automatic": null,
+      "request": [
+        {
+          "share": 0.005
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | <0.5% for offices filed with the SoS, which includes the legislature; <1% contest path | Costs can fall to the unsuccessful party | RSMo 115.601",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-MT": {
+      "name": "Montana",
+      "automatic": [
+        {
+          "share": 0
+        }
+      ],
+      "request": [
+        {
+          "share": 0.005
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "Tie | Petition free if margin ≤0.25%; between 0.25% and 0.5% the candidate posts a bond covering full costs; none beyond 0.5% | County inside 0.25%; requester beyond | MCA 13-16-201 | -211",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-NE": {
+      "name": "Nebraska",
+      "automatic": [
+        {
+          "share": 0.02,
+          "maxCast": 500
+        },
+        {
+          "share": 0.01
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "winner",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "≤1% of the winner's votes (>500 cast); ≤2% (≤500) | Available at requester's expense | State (automatic) | Neb. Rev. Stat. 32-1119",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-NV": {
+      "name": "Nevada",
+      "automatic": null,
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Any margin, within 3 working days | Requester deposits estimated cost; refunded if the outcome changes | NRS 293.403–.405",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Ballotpedia and Verified Voting search excerpt, Nov 11, 2026: \"Each recount must begin within five days after the request and must be completed no later than five days after its start\""
+    },
+    "US-NH": {
+      "name": "New Hampshire",
+      "automatic": null,
+      "request": [
+        {
+          "share": 0.2
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Margin <20% | Fees tiered by margin and office ($10 for a State Rep race within 1%); refunded if the requester wins | RSA 660:1, :2",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-NJ": {
+      "name": "New Jersey",
+      "automatic": null,
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Any margin, by application to a Superior Court judge | Requester deposit per district; refunded on error | NJSA 19:28-1",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-NM": {
+      "name": "New Mexico",
+      "automatic": [
+        {
+          "share": 0.0025
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "<0.25% statewide; <1% or ≤5 votes legislative | Any margin, with deposit | State (automatic) | NMSA 1-14-24",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-NY": {
+      "name": "New York",
+      "automatic": [
+        {
+          "share": 0.005,
+          "minVotes": 20
+        }
+      ],
+      "request": null,
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "≤20 votes; ≤0.5%; or <5,000 votes where 1M+ ballots cast | None | State | N.Y. Elec. Law 9-208",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-NC": {
+      "name": "North Carolina",
+      "automatic": null,
+      "request": [
+        {
+          "share": 0.005,
+          "votes": 10000,
+          "join": "lesser"
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Statewide: ≤ lesser of 0.5% or 10,000 votes. Legislative: ≤1% | Election boards | NCGS 163-182.7",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-ND": {
+      "name": "North Dakota",
+      "automatic": [
+        {
+          "share": 0.005
+        }
+      ],
+      "request": [
+        {
+          "share": 0.02
+        }
+      ],
+      "marginOf": "winner",
+      "days": 14,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "General ≤0.5%; primary ≤1% | Demanded recount up to 2% | State (automatic); requester bond (demanded) | NDCC 16.1-16-01",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Ballotpedia and Verified Voting search excerpt, Nov 11, 2026: \"the recount must finish within seven days after that order for state legislative elections and no later than 14 days for statewide elections\""
+    },
+    "US-OH": {
+      "name": "Ohio",
+      "automatic": [
+        {
+          "share": 0.0025
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "≤0.25% statewide; ≤0.5% district | Any margin | State (automatic); requester deposit otherwise | ORC 3515.011",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Ballotpedia and Verified Voting search excerpt, Nov 11, 2026: \"automatic and requested recounts have a 10-day completion window\""
+    },
+    "US-OK": {
+      "name": "Oklahoma",
+      "automatic": null,
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Any margin, by contest petition | Requester deposit; refunded if the outcome changes | 26 O.S. 8-111",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-OR": {
+      "name": "Oregon",
+      "automatic": [
+        {
+          "share": 0.002
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "top-two",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "≤0.2% or tie | Any margin | State (automatic); requester deposit otherwise, refunded if the outcome changes | ORS 258.280, .161",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-PA": {
+      "name": "Pennsylvania",
+      "automatic": [
+        {
+          "share": 0.005
+        }
+      ],
+      "request": null,
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "≤0.5%, statewide races only (Secretary-ordered, waivable); none for legislative races at any margin | Candidates cannot request; three voters per district may petition | State (automatic); $50 cash or $100 bond per district (petitions) | 25 P.S. 3154(g) | 3261",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-RI": {
+      "name": "Rhode Island",
+      "automatic": null,
+      "request": [
+        {
+          "share": 0.02,
+          "votes": 200,
+          "join": "either",
+          "maxCast": 20000
+        },
+        {
+          "share": 0.01,
+          "votes": 500,
+          "join": "either",
+          "maxCast": 100000
+        },
+        {
+          "share": 0.005,
+          "votes": 1500,
+          "join": "either"
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Tiered by race size: ≤0.5% or 1,500 votes (>100k cast); ≤1% or 500 (20k–100k); ≤2% or 200 (≤20k). Trailing by up to 5%, a candidate can petition for a re-read of the machines’ memory devices; we do not count that as a recount | Board-run, free | RIGL 17-19-37.1",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-SC": {
+      "name": "South Carolina",
+      "automatic": [
+        {
+          "share": 0.01
+        }
+      ],
+      "request": null,
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "≤1% (waivable) | None | State | S.C. Code 7-17-280",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-SD": {
+      "name": "South Dakota",
+      "automatic": [
+        {
+          "share": 0
+        }
+      ],
+      "request": [
+        {
+          "share": 0.0025
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "Tie | Statewide: ≤0.25%. Legislative: ≤2% | Counties | SDCL 12-21-11, -12",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-TN": {
+      "name": "Tennessee",
+      "automatic": null,
+      "request": null,
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | None: | court-ordered only | , within a contest | n/a | Tenn. Code tit. 2, ch. 17",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-TX": {
+      "name": "Texas",
+      "automatic": [
+        {
+          "share": 0
+        }
+      ],
+      "request": [
+        {
+          "share": 1,
+          "maxCast": 999
+        },
+        {
+          "share": 0.1
+        }
+      ],
+      "marginOf": "winner",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "Tie only | <10% of the leader's vote total (or total votes <1,000) | Requester, $60–$100 per precinct; refunded if the outcome changes | Tex. Elec. Code 212.022",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-UT": {
+      "name": "Utah",
+      "automatic": [
+        {
+          "share": 0
+        }
+      ],
+      "request": [
+        {
+          "votes": 1,
+          "maxCast": 400
+        },
+        {
+          "share": 0.0025
+        }
+      ],
+      "marginOf": "office",
+      "days": 7,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "Tie | ≤0.25% (or 1 vote where ≤400 cast) | State or the political subdivision | Utah Code 20A-4-401",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Ballotpedia and Verified Voting search excerpt, Nov 11, 2026: \"the recount must be completed no later than seven days after the request\""
+    },
+    "US-VT": {
+      "name": "Vermont",
+      "automatic": [
+        {
+          "share": 0
+        }
+      ],
+      "request": [
+        {
+          "share": 0.02
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "Tie, via the same court process | ≤2% statewide and Senate; ≤5% House | State; free to the requester | 17 V.S.A. 2601, 2602",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-VA": {
+      "name": "Virginia",
+      "automatic": null,
+      "request": [
+        {
+          "share": 0.01
+        }
+      ],
+      "marginOf": "top-two",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | ≤1% | Public if margin ≤0.5%; requester bond plus costs if 0.5–1% and unsuccessful | Va. Code 24.2-800",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-WA": {
+      "name": "Washington",
+      "automatic": [
+        {
+          "share": 0.005,
+          "votes": 2000,
+          "join": "lesser"
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "top-two",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "Machine: <2,000 votes and <0.5%. Manual: <1,000 and <0.25% statewide (<150 non-statewide) | Any margin | State (automatic); requester deposit otherwise | RCW 29A.64.021",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-WV": {
+      "name": "West Virginia",
+      "automatic": null,
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | Any margin, demanded within 48 hours of the canvass | Requester bond capped at $300; waived if the outcome changes | W. Va. Code 3-6-9",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-WI": {
+      "name": "Wisconsin",
+      "automatic": null,
+      "request": [
+        {
+          "votes": 40,
+          "maxCast": 4000
+        },
+        {
+          "share": 0.01
+        }
+      ],
+      "marginOf": "office",
+      "days": 13,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "None | ≤1% (>4,000 votes cast) or ≤40 votes (≤4,000) | Free if margin ≤0.25% (or <10 votes); requester prepays actual cost beyond | Wis. Stat. 9.01",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Ballotpedia and Verified Voting search excerpt, Nov 11, 2026: \"The deadline for completion is within 13 days of the order for the recount\""
+    },
+    "US-WY": {
+      "name": "Wyoming",
+      "automatic": [
+        {
+          "share": 0.01
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "winner",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.multistate.us/elections/recounts-101",
+      "quote": "<1% (of the lowest winning candidate's votes) | By affidavit alleging fraud or error in the count, any margin | State (automatic) | Wyo. Stat. 22-16-109 | -110",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (Ohio 10, Nevada 10, Utah 7, Wisconsin 13, North Dakota 14 days; spread 5 to 60, California's 60 the longest)"
+    },
+    "US-DC": {
+      "name": "District of Columbia",
+      "automatic": [
+        {
+          "share": 0.01
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "SOURCED",
+      "source": "https://www.nass.org/sites/default/files/reports/summary-canvass-certification-laws-oct2024.pdf",
+      "quote": "An automatic recount must be conducted if the certified election results show a margin of victory for a candidate that is less than 1% of the total votes cast for that office (3 DCMR § 814)",
+      "requestTag": "ESTIMATED",
+      "requestSource": "The most common request rule (any margin, thirteen states, Multistate); the District's own request rule was not read",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (see US-OH)"
+    },
+    "US-PR": {
+      "name": "Puerto Rico",
+      "automatic": [
+        {
+          "share": 0.005
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "ESTIMATED",
+      "source": "The most common rule: an automatic recount at 0.5 percent of the votes for the office (the most common trigger, \"most commonly 0.5 percent\", Multistate) and a candidate's request at any margin (thirteen states); this place's own rule was not read",
+      "quote": "When the certified margin falls inside a statutory trigger, most commonly 0.5 percent, the recount proceeds and the government nearly always pays.",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (see US-OH)"
+    },
+    "US-GU": {
+      "name": "Guam",
+      "automatic": [
+        {
+          "share": 0.005
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "ESTIMATED",
+      "source": "The most common rule: an automatic recount at 0.5 percent of the votes for the office (the most common trigger, \"most commonly 0.5 percent\", Multistate) and a candidate's request at any margin (thirteen states); this place's own rule was not read",
+      "quote": "When the certified margin falls inside a statutory trigger, most commonly 0.5 percent, the recount proceeds and the government nearly always pays.",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (see US-OH)"
+    },
+    "US-VI": {
+      "name": "U.S. Virgin Islands",
+      "automatic": [
+        {
+          "share": 0.005
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "ESTIMATED",
+      "source": "The most common rule: an automatic recount at 0.5 percent of the votes for the office (the most common trigger, \"most commonly 0.5 percent\", Multistate) and a candidate's request at any margin (thirteen states); this place's own rule was not read",
+      "quote": "When the certified margin falls inside a statutory trigger, most commonly 0.5 percent, the recount proceeds and the government nearly always pays.",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (see US-OH)"
+    },
+    "US-AS": {
+      "name": "American Samoa",
+      "automatic": [
+        {
+          "share": 0.005
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "ESTIMATED",
+      "source": "The most common rule: an automatic recount at 0.5 percent of the votes for the office (the most common trigger, \"most commonly 0.5 percent\", Multistate) and a candidate's request at any margin (thirteen states); this place's own rule was not read",
+      "quote": "When the certified margin falls inside a statutory trigger, most commonly 0.5 percent, the recount proceeds and the government nearly always pays.",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (see US-OH)"
+    },
+    "US-MP": {
+      "name": "Northern Mariana Islands",
+      "automatic": [
+        {
+          "share": 0.005
+        }
+      ],
+      "request": [
+        {
+          "share": 1
+        }
+      ],
+      "marginOf": "office",
+      "days": 10,
+      "tag": "ESTIMATED",
+      "source": "The most common rule: an automatic recount at 0.5 percent of the votes for the office (the most common trigger, \"most commonly 0.5 percent\", Multistate) and a candidate's request at any margin (thirteen states); this place's own rule was not read",
+      "quote": "When the certified margin falls inside a statutory trigger, most commonly 0.5 percent, the recount proceeds and the government nearly always pays.",
+      "daysTag": "ESTIMATED",
+      "daysSource": "Median of the completion windows read (see US-OH)"
+    }
+  }
+}

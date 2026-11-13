@@ -90,18 +90,35 @@ export function introText(...parts) {
 }
 
 /**
- * A life told as sentences, never a list of dates: the card's lines (oldest
- * first, each with its kind and the record behind it) grouped by what mattered
- * (`groups`: the kinds that belong together, in the order they are read), one
- * paragraph in the story face for each group, each sentence on its record.
+ * A life's lines as paragraphs, in the order they were lived (Fable A, Nov 13,
+ * rule 17: "A life is told in order everywhere it is told"): the card's lines
+ * come oldest first, and a new paragraph starts where the kind of thing
+ * changes (`groups`: the kinds that belong together), so related lines sit
+ * together without ever moving a line out of its year.
  */
-export function lifeStory(lines, groups, onOpen) {
+export function inOrderParagraphs(lines, groups) {
   const at = new Map(
     groups.flatMap((kinds, i) => kinds.map((kind) => [kind, i])),
   );
-  const paragraphs = [...groups, []].map(() => []);
-  for (const line of lines)
-    paragraphs[at.get(line.kind) ?? groups.length].push(line);
+  const paragraphs = [];
+  let last;
+  for (const line of lines) {
+    const group = at.get(line.kind) ?? groups.length;
+    if (!paragraphs.length || group !== last) paragraphs.push([]);
+    paragraphs.at(-1).push(line);
+    last = group;
+  }
+  return paragraphs;
+}
+
+/**
+ * A life told as sentences, never a list of dates: the card's lines (oldest
+ * first, each with its kind and the record behind it) in the order they were
+ * lived (`inOrderParagraphs`), each paragraph in the story face, each sentence
+ * on its record.
+ */
+export function lifeStory(lines, groups, onOpen) {
+  const paragraphs = inOrderParagraphs(lines, groups);
   return paragraphs
     .filter((rows) => rows.length)
     .map((rows) =>

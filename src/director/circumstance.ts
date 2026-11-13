@@ -30,7 +30,7 @@ import {
   ELECTIONS_MODULE_ID,
   PARTIES_MODULE_ID,
 } from "../core2/modules/elections";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type {
@@ -89,6 +89,13 @@ export interface CircumstanceRow {
    * person who lives there, however lately the news came to them).
    */
   recast?: boolean;
+  /**
+   * The row's news is one a child can know (their own school year, a newcomer
+   * at home, a goodbye): it may cast someone under the news teller's age.
+   * Every other row is news of politics, money, law or work, which a child
+   * under that age is never cast to tell (Fable A, Nov 13, rule 28).
+   */
+  childMayTell?: boolean;
   /**
    * The scene comes ahead of the day's other scenes from circumstance (the
    * floor before the roll comes before the word in the hallway after the
@@ -169,6 +176,8 @@ export interface CastWeights {
   tie: number;
   sociability: number;
   traitScale: number;
+  /** The youngest age at which a row that is not a child's news may cast someone (rule 28). */
+  newsTellerMinAge: number;
 }
 
 export interface CircumstancePick {
@@ -660,7 +669,16 @@ export function circumstancePicks(
       if (!playerHolds(row.player, core, playerId, standing, record)) continue;
       for (const source of row.pool)
         for (const { id, named } of poolOf(source, core, playerId, record)) {
-          if (id === playerId || core.people.get(id)?.alive !== true) continue;
+          const person = core.people.get(id);
+          if (id === playerId || person?.alive !== true) continue;
+          // A child too young to know of politics, money, law or work is
+          // never cast to tell it, by the age on their birth record.
+          if (
+            !row.childMayTell &&
+            ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) <
+              weights.newsTellerMinAge
+          )
+            continue;
           if (options.castDue && !options.castDue(id, row)) continue;
           if (!placedWith(row.where, core, playerId, id)) continue;
           // The one who comes does not live with the player where the row
