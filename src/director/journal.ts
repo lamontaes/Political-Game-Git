@@ -2807,8 +2807,16 @@ export function composeJournal(
         workTold = true;
         flush();
         const work = row.filter(isWork);
+        // A place another record of the stretch must name (a partner met
+        // there, a move) is left to that record.
+        const placesLater = new Set([
+          ...said,
+          ...row.flatMap((other) =>
+            !isWork(other) && other.facts.place ? [other.facts.place.text] : [],
+          ),
+        ]);
         const told =
-          tellWork(work, at === lastWork, until, said) ??
+          tellWork(work, at === lastWork, until, placesLater) ??
           tellParagraph(work, "work", said);
         // The places and employers the work sentence named, said once.
         for (const unit of work)
