@@ -16,6 +16,7 @@ const cases = [
   ["meeting", "meeting.empty-agenda.1", 3],
   ["meeting", "meeting.resident-can-speak.1", 1],
   ["meeting", "meeting.resident-can-speak-one.1", 1],
+  ["meeting", "meeting.resident-can-speak-two.1", 1],
 ] as const;
 
 describe("a resident's meeting lines", () => {

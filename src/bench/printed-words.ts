@@ -61,6 +61,7 @@ import { lineName } from "./budget";
 import { policyNames } from "./words";
 import { placeLabel } from "../director/journal";
 import { stateInSentence } from "../director/words";
+import { beatenRunnerUp } from "../core2/modules/voting";
 
 /**
  * The ids of the modules whose tables a story is told from, named here by
@@ -1656,9 +1657,10 @@ const electionResult: Builder = (read, f) => {
       ["office"],
       f.contestId,
     );
-  const rival = Object.entries(totals)
-    .filter(([id]) => id !== f.winnerId && read.name(id))
-    .sort((a, b) => b[1] - a[1])[0]?.[0];
+  // The one the winner beat: first among those who missed the cut (in an
+  // at-large race the other winners were seated too).
+  const beaten = beatenRunnerUp(f, f.winnerId ?? "");
+  const rival = beaten && read.name(beaten.id) ? beaten.id : undefined;
   const cast = Object.values(totals).reduce((a, b) => a + b, 0);
   return story(
     "election",

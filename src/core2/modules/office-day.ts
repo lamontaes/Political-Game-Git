@@ -58,6 +58,8 @@ import {
   members,
   registerLegislatureHooks,
   registerMeetingAgendaReader,
+  registerCommitteeWait,
+  playerSitsOnCommittee,
   type BillRow,
   type DeskAction,
 } from "./legislature";
@@ -644,7 +646,7 @@ function closeMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 /** Every item the meeting has not taken up is voted, each member their own position, and it adjourns. */
 function voteLeft(api: CoreAPI, row: MeetingRow): void {
   const left = row.agenda.filter((id) => !row.takenUp.includes(id));
-  for (const billId of left) voteAtMeeting(api, billId);
+  for (const billId of left) voteItem(api, billId);
   finish(api, { ...row, takenUp: [...row.takenUp, ...left] });
 }
 
@@ -776,8 +778,8 @@ export function takeUpItem(
   // rule every member's vote follows (`ownVote`).
   const bill =
     vote === "own"
-      ? leavingToCharacter(api, [billId], () => voteAtMeeting(api, billId))
-      : voteAtMeeting(api, billId);
+      ? leavingToCharacter(api, [billId], () => voteItem(api, billId))
+      : voteItem(api, billId);
   table(api, "meetings").put({
     ...row,
     status: "in-session",
@@ -844,7 +846,7 @@ export function adjourn(api: CoreAPI, meetingIdValue: string): MeetingRow {
   const left = row.agenda.filter((id) => !row.takenUp.includes(id));
   earlierMeetingsVote(api, row);
   leavingToCharacter(api, left, () => {
-    for (const billId of left) voteAtMeeting(api, billId);
+    for (const billId of left) voteItem(api, billId);
   });
   finish(api, { ...row, takenUp: [...row.takenUp, ...left] });
   releaseHeld(api, row.id);
@@ -852,6 +854,21 @@ export function adjourn(api: CoreAPI, meetingIdValue: string): MeetingRow {
 }
 
 // ---- The character's own choices ---------------------------------------
+
+/**
+ * A bill comes to its vote at the meeting. A board with committees runs the
+ * own-vote hook once, on the eve, and marks it done; the player's seat does not
+ * vote on the eve (`ownVote` defers it to the meeting's day), so where the hook
+ * has already run, the member's own position is cast here, on the day, the same
+ * for a player away and for one who left it to their character. A player held at
+ * the meeting who has not acted stays unvoted (`ownVote`).
+ */
+function voteItem(api: CoreAPI, billId: string): BillRow {
+  const bill = billOf(api, billId);
+  if (bill?.status === "drafted" && bill.hooksRun?.includes("own-vote"))
+    ownVote(api, billId);
+  return voteAtMeeting(api, billId);
+}
 
 /** The items the player, at a held meeting, has left to the character while their votes are held. */
 const leftToCharacter = new WeakMap<object, Set<string>>();
@@ -910,6 +927,9 @@ function ownVote(api: CoreAPI, billId: string): void {
   // has them abstain (legislature.ts: the player is never voted for).
   const placedFor = table(api, "agendaItems").get(billId) as unknown as
     { date: string } | undefined;
+  // On the eve of the meeting the player's seat does not vote, present or
+  // not: it votes on the meeting's day with the position the day gives it.
+  if (placedFor && placedFor.date > api.state.date) return;
   if (
     placedFor &&
     meetingOf(api, meetingId(bill.bodyOfficeId, placedFor.date))
@@ -966,7 +986,7 @@ function placeFiled(
 ): void {
   const row = meetingOf(api, meetingId(officeId, date));
   if (!row || row.status === "adjourned") {
-    for (const billId of billIds) voteAtMeeting(api, billId);
+    for (const billId of billIds) voteItem(api, billId);
     return;
   }
   for (const billId of billIds)
@@ -985,6 +1005,18 @@ function placeFiled(
   holdPlayerIfDue(api, placed);
 }
 registerMeetingHold(holdsMemberFilings, placeFiled);
+registerCommitteeWait((api, bill) => {
+  // Only the player's own body can wait: one indexed read of the player's
+  // seats answers false for every other body before any agenda is read.
+  const player = playerOf(api);
+  if (!player || !officeHost.officesOf(api, player).includes(bill.bodyOfficeId))
+    return false;
+  const placed = table(api, "agendaItems").get(bill.id) as unknown as
+    { date: string } | undefined;
+  return (
+    !!placed && placed.date > api.state.date && playerSitsOnCommittee(api, bill)
+  );
+});
 // The floor's agenda for a date includes what a town body's meeting that day
 // takes up (the evening-before ask reads it).
 registerMeetingAgendaReader((api, date) =>

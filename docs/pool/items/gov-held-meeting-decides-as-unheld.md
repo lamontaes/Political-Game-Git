@@ -7,8 +7,8 @@ priority: 1
 size: S
 status: in-pr
 standard: 2
-claimed-by: claude/project-thread-3t5gn4
-pr: 9022
+claimed-by: claude/project-thread-nn1p6c
+pr: 9051
 after:
 blocked-on:
 lead: governing

@@ -190,9 +190,10 @@ function residentNote(
     )
   )
     return null;
-  return items === 1
-    ? pick("meeting.resident-can-speak-one.1", { body })
-    : pick("meeting.resident-can-speak.1", { body, count: count(items) });
+  // Of two, "either"; of more, "any of the three" (Words lead, Nov 13).
+  if (items === 1) return pick("meeting.resident-can-speak-one.1", { body });
+  if (items === 2) return pick("meeting.resident-can-speak-two.1", { body });
+  return pick("meeting.resident-can-speak.1", { body, count: count(items) });
 }
 
 /** The meeting holding the player's clock: the room, the agenda, and what was taken up. */

@@ -46,6 +46,15 @@
       "kind": "written"
     },
     {
+      "key": "meeting.resident-can-speak-two.1",
+      "move": "resident-can-speak-two",
+      "text": "You can speak for or against either of the two items before the {body} votes.",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
       "key": "meeting.resident-can-speak-one.1",
       "move": "resident-can-speak-one",
       "text": "You can speak for or against the one item before the {body} votes.",

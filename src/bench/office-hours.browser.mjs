@@ -1,4 +1,4 @@
-/* global process, console, document, URL */
+/* global process, console, document, URL, window */
 // An office keeps its clerk's hours (owner, Nov 1: "obviously the office isn't
 // open at 8:30 p.m."): on the opening evening the filing office's Travel card
 // says when it opens, Go plays the visit at that opening with the clock moved
@@ -24,6 +24,18 @@ try {
   });
   page.setDefaultTimeout(120000);
   page.on("pageerror", (e) => errors.push(e.message));
+  // How many of the page's own /api calls are still waiting on the server (a resumed jump
+  // plays on to its next stop and can take many seconds).
+  await page.addInitScript(() => {
+    window.__apiInFlight = 0;
+    const real = window.fetch.bind(window);
+    window.fetch = (...args) => {
+      window.__apiInFlight += 1;
+      return real(...args).finally(() => {
+        window.__apiInFlight -= 1;
+      });
+    };
+  });
   const pinned = {
     seed: process.env.BENCH_SEED,
     placeKey: process.env.BENCH_PLACE,
@@ -57,6 +69,8 @@ try {
       "#talk-leave:visible, #talk-next:visible, #talk-skip:visible, #continue:visible";
     // Election morning: not today, then stay home (no ballot is cast).
     const morning = ["Not today", "Stay home", "Continue"];
+    // A jump to a far day chains a stop after a stop, each a scene of several lines: the loop
+    // runs until nothing holds the screen, not for a fixed few answers.
     // Open now, or within a few seconds (a panel can follow the scene that
     // just closed, as an election morning does).
     const holding = "#talk:visible, #continue:visible, #election-day:visible";
@@ -67,7 +81,16 @@ try {
         .waitFor({ timeout: 3000 })
         .then(() => true)
         .catch(() => false);
-    for (let i = 0; i < 20 && (await open()); i += 1) {
+    for (let i = 0; i < 400 && (await open()); i += 1) {
+      if (process.env.BENCH_TRACE)
+        console.log(
+          "  holding:",
+          await page.evaluate(() =>
+            [...document.querySelectorAll("#talk, #continue, #election-day")]
+              .map((n) => `${n.id}${n.hidden ? "(hidden)" : ""}`)
+              .join(" "),
+          ),
+        );
       const day = page.locator("#election-day-acts button:visible");
       // The morning's choices come after its narration.
       if (await page.locator("#election-day:visible").count())
@@ -81,11 +104,30 @@ try {
           .locator("#election-day-acts button", { hasText: pick })
           .first()
           .click();
-      // The scene's own way out, or else its first answer ("Continue").
-      else if (await page.locator(exits).count())
-        await page.locator(exits).first().click();
-      else if (await page.locator("#talk-choices button:visible").count())
-        await page.locator("#talk-choices button:visible").first().click();
+      // The scene's own way out, or else its first answer ("Continue"). A Continue resumes a
+      // held jump, which plays on to its next stop and can take many seconds: wait for the
+      // server's answer to the click, not a fixed time, then let the next stop settle.
+      else {
+        // A button seen a moment ago can be gone by the click (a scene moves on): Playwright's
+        // own click either lands or times out, and the loop looks again.
+        await page
+          .locator(`${exits}, #talk-choices button:visible`)
+          .first()
+          .click({ timeout: 5000 })
+          .catch(() => {});
+        if (process.env.BENCH_TRACE)
+          console.log(
+            "  left a scene; calls in flight:",
+            await page.evaluate(() => window.__apiInFlight),
+          );
+        await page.waitForFunction(
+          () => window.__apiInFlight === 0,
+          undefined,
+          {
+            timeout: 600000,
+          },
+        );
+      }
       await page.waitForTimeout(500);
     }
   };

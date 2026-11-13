@@ -28,7 +28,7 @@ In all three places the Calendar plate for February 4 lists the meeting ("The Ca
 
 - Calendar, February 4: "The Carbon County Board of Commissioners meets" with the control **Attend**.
 - Once pressed: "At 9 a.m., you plan to go to the Carbon County Board of Commissioners meeting." with the control **Not going**.
-- The panel at 9:00 AM, titled "Carbon County Board of Commissioners": "You can speak for or against any of the two items before the Carbon County Board of Commissioners votes." Each item has **Read the bill**, **Speak for** and **Speak against**; the panel closes with **Leave**. No Yes, No, Abstain, Decide for me or Adjourn.
+- The panel at 9:00 AM, titled "Carbon County Board of Commissioners": "You can speak for or against either of the two items before the Carbon County Board of Commissioners votes." (As played before the Words lead's read it said "any of the two items", and the picture `after-4-panel-agenda` for Hanna still shows that wording; the line was changed on November 13 at the Words lead's word.) Each item has **Read the bill**, **Speak for** and **Speak against**; the panel closes with **Leave**. No Yes, No, Abstain, Decide for me or Adjourn.
 - After Speak for on "Budget Ordinance": "SPOKE FOR · 1" and "Isabel Mathews".
 - The next day: Ordinance 2025-3 enacted, seven votes on its roll call. People lists seven of the board's seven members: Melissa Munoz, Mary Griffin, Stella Watkins, David Carr, Marcus Valenzuela, Madison Hubbard, Laura Rowe. The picture has Melissa Munoz's card open ("You barely know each other").
 
