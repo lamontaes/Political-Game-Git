@@ -11721,27 +11721,6 @@
       }
     },
     {
-      "key": "conversation.charge-reply-answer-comfort.i-m-here",
-      "move": "charge-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "I'm here.",
-      "uses": [
-        {
-          "move": "conviction-reply-answer-comfort",
-          "subject": "conviction-reply",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "comfort",
-        "key": "threat"
-      }
-    },
-    {
       "key": "conversation.conviction-answer-tell.i-was-convicted",
       "move": "conviction-answer-tell",
       "kind": "spoken",
