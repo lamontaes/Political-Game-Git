@@ -28,7 +28,7 @@ export function absenceRate(industry = "Private sector"): number | undefined {
 }
 
 export interface TurnoverReport {
-  /** People employed at the end of the year: a full person's job is one, a counted job is the heads it stands for. */
+  /** People employed at private businesses at the end of the year: a full person's job is one, a counted job is the heads it stands for. */
   readonly employed: number;
   /** Changes in the year by kind, in people (a counted job's change is the heads it moved), with the record ids of the first few. */
   readonly counts: Readonly<Record<string, number>>;
@@ -37,6 +37,25 @@ export interface TurnoverReport {
   readonly rates: Readonly<
     Record<TurnoverKind, { town: number; jolts: number | undefined }>
   >;
+}
+
+/**
+ * Whether a job is a private business's: not a post on a government's payroll (a `job:public:` post,
+ * or one whose employer is a public organization). The monthly worker review skips public posts, and
+ * JOLTS total private rates are private employment only, so the measure counts private jobs alone.
+ */
+function privateJob(
+  core: CoreState,
+  jobId: string,
+  organizationId: string | undefined,
+): boolean {
+  return (
+    !jobId.startsWith("job:public:") &&
+    !(
+      organizationId !== undefined &&
+      core.publicOrganizations.has(organizationId)
+    )
+  );
 }
 
 /** One played year of the jobs engine's changes, as monthly rates against JOLTS. */
@@ -59,9 +78,17 @@ export function turnoverReport(
   }[];
   const counts: Record<string, number> = {};
   const ids: Record<string, string[]> = {};
+  const counted = residentsRuntime(core)?.jobs;
   for (const row of changes) {
     const date = row.date ?? row.id.split(":")[1] ?? "";
     if (date < from || date >= to) continue;
+    // Private jobs only: a change to a government post is not what JOLTS' private rates measure.
+    if (row.jobId) {
+      const employer =
+        core.jobs.get(row.jobId)?.organizationId ??
+        counted?.get(row.jobId)?.organizationId;
+      if (!privateJob(core, row.jobId, employer)) continue;
+    }
     // The people the change stood for when the jobs engine recorded it, so a
     // later fill-in of the worker leaves the year's counts as they were.
     const heads = row.heads ?? 1;
@@ -70,9 +97,12 @@ export function turnoverReport(
     if (seen.length < 3) seen.push(row.id);
   }
   let employed = 0;
-  for (const job of core.jobs.values()) if (!job.endsAt) employed += 1;
+  for (const job of core.jobs.values())
+    if (!job.endsAt && privateJob(core, job.id, job.organizationId))
+      employed += 1;
   for (const job of residentsRuntime(core)?.jobs.values() ?? [])
-    if (!job.endsAt) employed += countedJobHeads(core, job);
+    if (!job.endsAt && privateJob(core, job.id, job.organizationId))
+      employed += countedJobHeads(core, job);
   const months = 12;
   const rate = (n: number) => (employed ? (100 * n) / months / employed : 0);
   // A staff cut that sheds part of a counted job is a layoff of the heads it shed.

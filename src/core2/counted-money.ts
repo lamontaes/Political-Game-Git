@@ -16,6 +16,7 @@
  * place as a whole) is shared by the place's groups by their people
  * (SG-CORE-counted-unkeyed-money).
  */
+import { taxIndexOf } from "./tax-index";
 import { transferSplit } from "./accounts";
 import {
   PAID_LEAVE_KEY,
@@ -508,6 +509,7 @@ export function groupWithholding(
     incomeTax: law.incomeTax,
     socialSecurity: law.socialSecurity,
     medicare: law.medicare,
+    index: taxIndexOf(api),
   });
   rt.withholdingYtd.set(ytdKey, ytd + perWorker);
   const out: Withheld[] = [];
@@ -843,6 +845,31 @@ export function countedGroupIdOf(
   const rt = residentsRuntime(api.state as CoreState);
   const h = rt ? householdById(rt, householdId) : undefined;
   return rt && h ? rt.store.groups[h.group]?.id : undefined;
+}
+
+/**
+ * One household's cash: its share of its group's account, by its people,
+ * the same account `countedPayment` pays from, so an engine that weighs a
+ * cost against a counted household's cash weighs what it can pay. Zero when
+ * the id is not a counted household here.
+ */
+export function countedHouseholdCash(
+  api: CoreAPI,
+  householdId: string,
+): number {
+  const rt = residentsRuntime(api.state as CoreState);
+  const h = rt ? householdById(rt, householdId) : undefined;
+  if (!rt || !h) return 0;
+  fundGroups(api, rt);
+  const groupPeople = peopleInGroup(rt, h.group);
+  const weight = rt.store.weightOf(h);
+  if (groupPeople <= 0 || weight <= 0) return 0;
+  // One household's people: the record's weighted count over the households it stands for.
+  const people = rt.store.weightedCount(h) / weight;
+  return Math.max(
+    0,
+    Math.floor((fundBalance(api, rt, h.group) * people) / groupPeople),
+  );
 }
 
 /**

@@ -19,6 +19,7 @@ import {
   yesLevels,
 } from "../modules/laws";
 import type { LawRowInput } from "../laws-starting";
+import { inForceOn } from "../laws-in-force";
 import { registerLawReach } from "./index";
 import { REACH_A_MODULE_ID } from "./group-a-records";
 import { REACH_B_MODULE_ID } from "./group-b-store";
@@ -58,8 +59,7 @@ export function openLawReach(core: CoreState): void {
         .rows() as unknown as LawRowInput[]
     )
       .filter(
-        (r) =>
-          r.effectiveDate <= core.date && r.value === 1 && keys.has(r.series),
+        (r) => inForceOn(r, core.date) && r.value === 1 && keys.has(r.series),
       )
       .sort((a, b) => a.id.localeCompare(b.id));
     for (const row of rows)

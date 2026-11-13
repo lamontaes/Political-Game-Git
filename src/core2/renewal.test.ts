@@ -130,8 +130,10 @@ it(
             ?.id ?? null,
         );
         const decision = (plan.decisions as unknown as Decision[])[0]!;
+        // A trip her cash cannot pay is not taken.
         expect(decision.continues, `${label} ${plan.id}`).toBe(
-          decision.scores.continue >= decision.scores.end,
+          decision.scores.continue >= decision.scores.end ||
+            decision.cashMinor < decision.travelMinor,
         );
         // The trip is the miles recorded for her state, before or after a restriction.
         expectDistance(api, plan, decision, draw.state, `${label} ${plan.id}`);
@@ -473,7 +475,10 @@ it(
       for (const found of rows) {
         const label = `${draw.key} seed ${draw.seed} ${found.id}`;
         const scores = found.scores as { continue: number; end: number };
-        expect(found.continues, label).toBe(scores.continue >= scores.end);
+        expect(found.continues, label).toBe(
+          scores.continue >= scores.end ||
+            Number(found.cashMinor) < Number(found.travelMinor),
+        );
         expect(found.miles, label).toBe(
           found.restricted ? miles.milesNow.miles : miles.milesBefore.miles,
         );
@@ -622,6 +627,15 @@ it(
         );
       tried.push(`${draw.key} seed ${draw.seed}: ${ended.length} ended`);
       if (!ended.length) continue;
+      // The cash she weighed is the cash that pays: every ending paid its
+      // whole trip, from cash that covered it, so none ended for free.
+      for (const row of ended) {
+        const label = `${draw.key} seed ${draw.seed} ${String(row.id)}`;
+        expect(Number(row.cashMinor), label).toBeGreaterThanOrEqual(
+          Number(row.travelMinor),
+        );
+        expect(Number(row.paidMinor), label).toBe(Number(row.travelMinor));
+      }
       // What the law added to the trips: at most the households' trips times the share, less what a group without the cash could not pay.
       const added = ended.reduce(
         (sum, row) =>

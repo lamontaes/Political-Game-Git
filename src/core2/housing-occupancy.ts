@@ -1,6 +1,7 @@
 /** Completed rentals are occupied by households choosing a cheaper home. */
 import { regionalLevel, regionalRegistered } from "./modules/regional";
 import {
+  assistanceIncomeByHousehold,
   LAWS_MODULE_ID,
   lawChain,
   lawInForce,
@@ -20,7 +21,6 @@ import { stableHash } from "./kernel/ids";
 import { nextDue } from "./housing-homeless";
 import { reopenResidentFlow, setResidentFlowAmount } from "./residents-economy";
 import { lawApplied } from "./law-reach/applied";
-import { assistanceIncomeByHousehold } from "./law-reach/group-b-money";
 import { CONSTRUCTION_LAW_KEYS } from "./housing-construction";
 import { webFactorFor } from "./outcome-web-reach";
 import type { CountedHousehold } from "./counted-groups";
