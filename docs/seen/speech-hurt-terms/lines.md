@@ -1,6 +1,6 @@
 # A hurt address answers its own bad news: six addresses as played
 
-Each address is composed by `composeLocalAddress` in the place drawn from the seed, in a bad term: the outcome web's rows for the town written as the local-address test writes them (schools down 15 percent, crime up 20 percent, rents up 30 percent over the term). Before is the parent branch as it was (#8878, 6cbb1e6b7b); after is this branch with the parent's head 5387762cf8 merged in, where a condition is also said once in its paragraph. Each paragraph below is one Continue as the player reads it. Nothing drawn changes, so there are no pictures.
+Each address is composed by `composeLocalAddress` in the place drawn from the seed, in a bad term: the outcome web's rows for the town written as the local-address test writes them (schools down 15 percent, crime up 20 percent, rents up 30 percent over the term). Before is the parent branch as it was (#8878, 6cbb1e6b7b); after is this branch, where a condition is said once in its paragraph and its span once, in words. Each paragraph below is one Continue as the player reads it. Nothing drawn changes, so there are no pictures.
 
 ## Leonidas, Minnesota (2736530): governor, seed 3e3eadd3c195b50d
 
@@ -16,7 +16,7 @@ Address kind: crisis. Theme: abortion. Worst condition: crime. Answer: {"questio
 
 **After**
 
-> Lawmakers of Minnesota, and all who call this state home. In the 10 years since I took this office, crime has risen, and people have felt less safe in their own neighborhoods. Over 10 years, that has meant parents worrying a little more each time their children walk out the door. I have always believed guns should be kept out of the wrong hands. Today, carrying a hidden gun takes a permit. I will keep the permit rule for carrying a concealed gun, and any bill in this legislature to undo it will meet my veto.
+> Lawmakers of Minnesota, and all who call this state home. In the ten years since I took this office, crime has risen, and people have felt less safe in their own neighborhoods. Over those years, that has meant parents worrying a little more each time their children walk out the door. I have always believed guns should be kept out of the wrong hands. Today, carrying a hidden gun takes a permit. I will keep the permit rule for carrying a concealed gun, and any bill in this legislature to undo it will meet my veto.
 >
 > There is other work before us as well, and it is abortion. Today, a woman makes her own decision about a pregnancy, with her doctor. Because I believe a woman should make her own decisions about her own body, I am against restricting abortion, and if the legislature passes it, I will veto it.
 >
@@ -44,9 +44,9 @@ Address kind: crisis. Theme: housing. Worst condition: crime. Answer: {"question
 
 > Members of the council, and my fellow residents. I have come to speak to Leonidas about safety on our streets, because it bears on every family here. For 2025, we are spending about $11,000 more than we take in, and I won't hand that bill to whoever sits here next.
 >
-> In the 6 years since I took this office, crime has risen, and people have felt less safe in their own neighborhoods. Over 6 years, that has meant parents worrying a little more each time their children walk out the door. I believe justice means the same treatment for the rich and the poor. Today, a complaint against an officer stays inside the department. I will ask the council to give civilians oversight of the police, and I will not let it rest.
+> In the six years since I took this office, crime has risen, and people have felt less safe in their own neighborhoods. Over those years, that has meant parents worrying a little more each time their children walk out the door. I believe justice means the same treatment for the rich and the poor. Today, a complaint against an officer stays inside the department. I will ask the council to give civilians oversight of the police, and I will not let it rest.
 >
-> There is other work before us as well, and it is the cost of a place to live. As we meet tonight, a landlord can raise the rent as much as they like when the lease runs out. In the 6 years since I took this office, rents have kept rising, and too many families spend too much of each month on them. Over 6 years, that has meant giving more of every paycheck to the landlord and keeping less for everything else. No one should have to live through 6 more years of that. Because I believe a family shouldn't lose its home because the rent jumped, I am for rent stabilization, and I ask the council to limit how much rents can rise this year.
+> There is other work before us as well, and it is the cost of a place to live. As we meet tonight, a landlord can raise the rent as much as they like when the lease runs out. In the six years since I took this office, rents have kept rising, and too many families spend too much of each month on them. Over those years, that has meant giving more of every paycheck to the landlord and keeping less for everything else. No one should have to live through another six years of that. Because I believe a family shouldn't lose its home because the rent jumped, I am for rent stabilization, and I ask the council to limit how much rents can rise this year.
 >
 > Should we go on like this, when new apartments rent at prices most working families can't touch? Because I hold that everybody deserves a safe place to live that they can afford, I will ask the council to require affordable units in new buildings, and I will not let it rest.
 >
@@ -98,7 +98,7 @@ Address kind: combative. Theme: justice. Worst condition: crime. Answer: {"quest
 
 > Members of the board, and my fellow citizens. Tonight I want to talk with the people of Kent County about safety on our streets. For 2024, we are taking in about $42 million more than we spend here, and I mean to keep it so.
 >
-> In the 8 years since I took this office, crime has risen, and people have felt less safe in their own neighborhoods. Over 8 years, that has meant parents worrying a little more each time their children walk out the door. I believe justice means the same treatment for the rich and the poor. As things stand, the police answer only to themselves when a complaint comes in. I am for civilian oversight of the police, and I ask the board to give civilians oversight of the police this year.
+> In the eight years since I took this office, crime has risen, and people have felt less safe in their own neighborhoods. Over those years, that has meant parents worrying a little more each time their children walk out the door. I believe justice means the same treatment for the rich and the poor. As things stand, the police answer only to themselves when a complaint comes in. I am for civilian oversight of the police, and I ask the board to give civilians oversight of the police this year.
 >
 > Why would we change course, when the police already take the biggest share of what we spend? Because I believe money spent before trouble starts goes further than money spent after, I will oppose any ordinance to give the police department more to work with.
 >
@@ -124,7 +124,7 @@ Address kind: crisis. Theme: budget. Worst condition: crime. Answer: {"question"
 
 > Members of the Maine legislature, and folks at home. The state's books for 2024 show about $961 million more coming in than going out, and I'd like to keep them that way. This past year, the law funding pensions on schedule took effect, and it's already touching folks all over the state.
 >
-> In my 22 years on this job, crime has gone up, and folks don't feel as safe on their own streets. That's 22 years of folks locking up a little tighter at night. I'm asking the legislature to require a permit to carry a concealed gun, and I won't let it rest. I'll tell you why. I believe guns should be kept out of the wrong hands. As of today, anyone can carry a hidden gun without a permit.
+> In my about twenty-five years on this job, crime has gone up, and folks don't feel as safe on their own streets. Those years have meant folks locking up a little tighter at night. I'm asking the legislature to require a permit to carry a concealed gun, and I won't let it rest. I'll tell you why. I believe guns should be kept out of the wrong hands. As of today, anyone can carry a hidden gun without a permit.
 >
 > There's other work on the table, too, and it's how we pay our bills. In fact, there's savings in the bank for the next bad year. Because I believe you don't spend money you don't have, and that goes for government too, anybody in this building who wants to undo the reserve requirement will have to get past my veto.
 >
