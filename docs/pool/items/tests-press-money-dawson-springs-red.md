@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-tests-press-money-dawson-springs-red
 pr: #8430
@@ -19,9 +19,10 @@ effort: medium
 root: none
 checked: fable 2026-11-10
 branch: claude/pool-tests-press-money-dawson-springs-red
+merged-at: 2026-11-12T02:11:54.417Z
 ---
 
-**What.** src/core2/press-money.test.ts fails on main with GOLDEN_PATH_SEED=87f9d8a36f733083. Its first draw, Dawson Springs, Kentucky (2120224), place seed cb670b23a8bfc0787ac8adf6af104ac8b022be4acf201ee326c4c7118b509e66, never has a month when the paper's readers and its revenue both rise, so the check that revenue follows the audience fails over March 2025 to January 2026. The analysis in the Notes found the cause: the paper's readers sit within 1 percent of 700 all year, while its subscriptions moved by a fifth, because households short of cash pay in part and the rest in a later month. A threshold fix passed Dawson but failed Little America, Wyoming (5646935, seed pmf1:0).
+**What.** src/core2/press-money.test.ts fails on main with GOLDEN_PATH_SEED=87f9d8a36f733083. Its first draw, Dawson Springs, Kentucky (2120224), place seed cb670b23a8bfc0787ac8adf6af104ac8b022be4acf201ee326c4c7118b509e66, never has a month when the paper's readers and its revenue both rise, so the check that revenue follows the audience fails over March 2025 to January 2026. The analysis in the Notes found the cause: the paper's readers sit within 1 percent of 700 all year, while its subscriptions moved by a fifth, because households short of cash pay in part and the rest in a later month. A threshold fix passed Dawson but failed Little America, Wyoming (5646935, seed pmf1:0). Guards: the paper a player reads keeps its readers and revenue moving together, so a small town's paper does not stall.
 
 **Cause.** Found in code: src/core2/press-money.test.ts near line 112 (the first paper whose readers both rose and fell) compares monthly signs, while src/core2/modules/press.ts lets a household short of cash pay a subscription in part, so a month's revenue is cash-limited and not audience-limited. The per-reader-month ceiling already in the test holds in both places. Place seed cb670b23a8bfc0787ac8adf6af104ac8b022be4acf201ee326c4c7118b509e66, Dawson Springs, Kentucky.
 

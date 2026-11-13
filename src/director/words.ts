@@ -79,6 +79,14 @@ export function spokenDate(iso: string, today: string): string {
  * the row of `src/director/data/spoken-when.json` that covers the gap.
  */
 export function spokenWhen(iso: string, today: string): string {
+  return spokenWhenRow(iso, today).said;
+}
+
+/** The row of `./data/spoken-when.json` that covers the gap: its words, how long a gap it is, and whether it reads after "since". */
+export function spokenWhenRow(
+  iso: string,
+  today: string,
+): { said: string; gap: string; since: boolean } {
   const days = Math.round(
     (Date.parse(`${today}T00:00:00Z`) - Date.parse(`${iso}T00:00:00Z`)) /
       (P.hoursPerDay *
@@ -86,6 +94,25 @@ export function spokenWhen(iso: string, today: string): string {
         P.secondsPerMinute *
         P.millisecondsPerSecond),
   );
-  const row = SPOKEN_WHEN.rows.find((r) => days <= r.upToDays);
-  return (row ?? SPOKEN_WHEN.rows[SPOKEN_WHEN.rows.length - P.one]!).said;
+  return (
+    SPOKEN_WHEN.rows.find((r) => days <= r.upToDays) ??
+    SPOKEN_WHEN.rows[SPOKEN_WHEN.rows.length - P.one]!
+  );
 }
+
+const NUMBER_WORDS = [
+  "no",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
+  "ten",
+];
+/** A count as people say it in a sentence: "nine" up to ten, the figure above. */
+export const numberWord = (count: number): string =>
+  NUMBER_WORDS[count] ?? String(count);

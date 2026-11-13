@@ -51,18 +51,25 @@
       "source": "How much more readily a voter tells the pollster the more the day's races mattered to them (their own gap between the candidates, the turnout decision's interest): people take part more in a survey on a topic that matters to them (Pew Research Center 2017, citing topic salience). Sets the scale of the case; the base, the engagement weight and the trait weight are fitted against it. Fitted on the named voters of three drawn race towns (src/core2/trait-test-kit.ts drawnRaceWorld, 30 days to two days past the race, every module): Finklea, South Carolina (place key 4525405, seed 100a9eddd8c1, 586 voters with a choice), Silver City, Nevada (3266800, 62fd4b12c74d, 122) and Douglas, Nebraska (3113505, d6f5f50c5452, 209).",
       "spread": [0.25, 1]
     },
-    "petitionMaxShareOfVoters": {
-      "value": 0.1,
-      "tag": "ESTIMATED",
-      "source": "The largest share of a place's voters a local candidate petition asks among the formulas read in data/research/elections/filing-requirements.json (municipal rows): North Dakota 10% of the last vote for the office (maximum 300), North Carolina 10% of registered voters (maximum 200), Arizona 5% to 10% of the last city vote; most others ask 1% to 5% (Vermont 1%, Iowa 2%, South Dakota 1% to 5%, South Carolina 5%). A petition above it is larger than any read law asks of a town that size.",
-      "spread": [0.05, 0.1],
-      "stopgapId": "SG-GOV-petition-electorate-cap"
-    },
     "filingWindowDays": {
       "value": 60,
       "tag": "ESTIMATED",
       "source": "Where a place's records give no opening day for filing, the window is taken to open this many days before the deadline. State candidate filing periods commonly run from two weeks to about three months before the deadline (National Conference of State Legislatures, 'Filing Deadlines for State Legislative Candidates'; Ballotpedia, 'Signature requirements and deadlines for 2026 local elections'). Read by filingWindowOpens (elections.ts): the world's candidates file on it and the player is offered a race on it.",
       "spread": [14, 120]
+    },
+    "recountAskCloseShare": {
+      "value": 0.005,
+      "role": "level",
+      "tag": "TUNABLE",
+      "source": "The margin, as a share of the votes the place's rule measures it against, at which the case for a trailing candidate asking for a recount is even; closer, it pulls toward asking, wider, away, and the candidate's temperament decides near it. Set at the most common automatic trigger, 0.5 percent (\"most commonly 0.5 percent\", MultiState, Recounts, fetched Nov 11, 2026), where states judge a count close enough to check. Checked against FairVote's count of 36 statewide recounts in 6,929 statewide general elections from 2000 to 2023 (13 requested), cited on the same page.",
+      "spread": [0.001, 0.02]
+    },
+    "recountAskWeight": {
+      "value": 1,
+      "role": "coefficient",
+      "tag": "TUNABLE",
+      "source": "How much the closeness of a count weighs in a trailing candidate's choice to ask for a recount against their temperament (voting.ask-recount): at a tied count, one unit toward asking. Checked so that a candidate inside a tenth of the closeness share asks whatever their traits, and one at twice it does not.",
+      "spread": [0.5, 2]
     }
   }
 }

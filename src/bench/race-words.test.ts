@@ -38,6 +38,11 @@ const lineFor = (
         }
       : undefined,
     causes,
+    {
+      office: "a seat on the Mutual Village Council",
+      when: { general: "November 3" },
+      recordIds: ["contest:c1"],
+    },
   );
 };
 
@@ -68,12 +73,17 @@ it("says one voter in the singular, never opens with a numeral, never prints a z
           expect(sentence, sentence).not.toMatch(/^\d/);
         if (count === 1) expect(text).toMatch(/\bone voter\b/);
         if (count > 1) expect(text).toMatch(/\b7 voters\b/);
-        if (count > 0) {
+        // One voter reached who did not move is said in the reached line.
+        if (count === 1 && warmer === 0 && cooler === 0)
+          expect(lines[0]).toMatch(/not changed their mind|no change of mind/);
+        else if (count > 0) {
           const moved = lines[1];
           expect(moved, moved).not.toMatch(/\b0 /);
           if (warmer === 0 && cooler === 0)
             expect(moved).toMatch(
-              /(Nobody|No one) you reached has changed their mind yet\./,
+              new RegExp(
+                `\\b${count === 1 ? "one voter" : `${count} voters`}\\b`,
+              ),
             );
           if (warmer > 0 && cooler === 0) expect(moved).toMatch(/warm/);
           if (cooler > 0 && warmer === 0) expect(moved).toMatch(/cool/);

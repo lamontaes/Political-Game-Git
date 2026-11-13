@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { dateSaid, dayOpening, ordinalDay } from "./day-words";
+import { dateSaid, dayOpening, daySince, ordinalDay } from "./day-words";
 
 describe("a day named as people say it", () => {
   it("gives every day of the month its ordinal", () => {
@@ -26,5 +26,17 @@ describe("a day named as people say it", () => {
       "On the afternoon of June 7th",
     );
     expect(dayOpening("2026-06-07", 23 * 60)).toBe("Late on June 7th");
+  });
+  it("tells a day in another year with its year, never as a bare date (Fable A, Nov 13, rule 3)", () => {
+    // Playtester P2, Hewitt NJ: on January 31st, "about what happened on
+    // February 20th" meant a February a year gone.
+    expect(daySince("2025-02-20", "2026-01-31")).toBe("last February");
+    expect(daySince("2025-12-30", "2026-01-12")).toBe("last December");
+    expect(daySince("2023-02-20", "2026-01-31")).toBe("in February 2023");
+    // This year's date stays a bare month and day; a recent day stays recent
+    // across the new year.
+    expect(daySince("2026-01-03", "2026-01-31")).toBe("on January 3rd");
+    expect(daySince("2025-12-31", "2026-01-01")).toBe("yesterday");
+    expect(daySince("2025-12-29", "2026-01-02")).toBe("the other day");
   });
 });

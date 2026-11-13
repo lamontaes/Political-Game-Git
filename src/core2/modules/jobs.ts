@@ -45,7 +45,12 @@ import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
 import { outsideLaborForce } from "../gov-rules/place-population";
 import { regionalMonth } from "./regional";
-import { ageOn, isDemoted } from "../counted-groups";
+import {
+  ageOn,
+  isDemoted,
+  type CountedHousehold,
+  type CountedStore,
+} from "../counted-groups";
 import { webFactorFor, type Subject } from "../outcome-web-reach";
 import {
   countedFacts,
@@ -60,9 +65,11 @@ import {
   keepCalendar,
   countedHouseholdOf,
   householdCash,
+  householdCashReader,
   residentFacts,
   residentPerson,
   residentsRuntime,
+  type ResidentsRuntime,
   startRegionalWork,
   stopRegionalWork,
 } from "./residents";
@@ -289,6 +296,11 @@ function staffHeads(c: CoreState, jobs: readonly JobInput[]): number {
   return heads;
 }
 
+/** How many people an employer has on staff now, full people and counted workers alike. */
+export function staffCount(api: CoreAPI, organizationId: string): number {
+  return staffHeads(core(api), currentJobs(api, organizationId));
+}
+
 /** The jobs an opening stands for. */
 const positionHeads = (position: Pick<PositionRow, "heads">): number =>
   position.heads ?? 1;
@@ -428,7 +440,7 @@ function noteLeaver(
 }
 
 /** A job by id, a full person's or a counted worker's. */
-function jobById(api: CoreAPI, jobId: string): JobInput | undefined {
+export function jobById(api: CoreAPI, jobId: string): JobInput | undefined {
   return (
     core(api).jobs.get(jobId) ?? residentsRuntime(core(api))?.jobs.get(jobId)
   );
@@ -882,6 +894,31 @@ function openSeekers(api: CoreAPI): void {
   }
 }
 
+/**
+ * Which of a counted household's working-age members without a recorded job
+ * are at work through its out-of-town workers (`unplacedWorkers`, workers per
+ * household of the record, as its members are): they hold jobs, so they are
+ * neither jobless nor looking. Whole workers by a running carry through the
+ * households in order, first by id, never a roll. `share` is the household's
+ * workers not already tied to a named member (one in regional work).
+ */
+function awayByShare(
+  counted: CountedStore,
+  h: CountedHousehold,
+  idle: number[],
+  share: number,
+  carry: { unplaced: number; placed: number },
+): Set<number> {
+  carry.unplaced += Math.min(Math.max(0, share), idle.length);
+  const away = new Set(
+    idle
+      .sort((a, b) => counted.ids[a]!.localeCompare(counted.ids[b]!))
+      .slice(0, Math.floor(carry.unplaced) - carry.placed),
+  );
+  carry.placed += away.size;
+  return away;
+}
+
 /** The wider population's seekers at the opening: jobless working-age adults in the households with the fewest earners, as many as the rate implies. */
 function openCountedSeekers(api: CoreAPI): void {
   const c = core(api),
@@ -902,8 +939,7 @@ function openCountedSeekers(api: CoreAPI): void {
   const ageAt = (m: number) =>
     daysBetweenText(counted.born[m]!, c.date) /
     api.parameter("jobsDaysPerYear");
-  let unplaced = 0,
-    placed = 0;
+  const carry = { unplaced: 0, placed: 0 };
   for (const h of counted.liveHouseholds()) {
     // People in custody or in the armed forces seek no civilian work.
     if (outsideLaborForce(h.quarters)) continue;
@@ -918,13 +954,7 @@ function openCountedSeekers(api: CoreAPI): void {
     // band's jobs and not among the jobless. Whole workers by a running
     // carry through the households in order, never a roll.
     const idle = adults.filter((m) => !working.has(counted.ids[m]!));
-    unplaced += Math.min(h.unplacedWorkers / counted.weightOf(h), idle.length);
-    const away = new Set(
-      idle
-        .sort((a, b) => counted.ids[a]!.localeCompare(counted.ids[b]!))
-        .slice(0, Math.floor(unplaced) - placed),
-    );
-    placed += away.size;
+    const away = awayByShare(counted, h, idle, h.unplacedWorkers, carry);
     const share =
       adults.filter((m) => working.has(counted.ids[m]!) || away.has(m)).length /
       adults.length;
@@ -4053,6 +4083,29 @@ function reviewCountedWorkers(
 }
 
 /**
+ * How many days a counted household's money covers its costs. Its money is
+ * its share of its group's fund (what it is paid into and what leaves with
+ * it); its members' own cash is only what the fund was opened with, and a
+ * household that arrived since carries none there. Before the funds exist (a
+ * world still opening) the members' cash is the money. `cashOf` is a
+ * `householdCashReader`, valid until the next posting.
+ */
+export function countedDaysOfMoney(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  cashOf: (h: CountedHousehold) => number,
+): number {
+  let liquid = 0,
+    cost = 0;
+  for (const member of rt.store.factsOfHousehold(h)) {
+    liquid += member.liquidMinor;
+    cost += member.livingCostDailyMinor;
+  }
+  const money = rt.funded ? cashOf(h) : liquid;
+  return cost > 0 ? money / cost : Number.POSITIVE_INFINITY;
+}
+
+/**
  * Counted adults of working age with no job wait or look for work by the
  * offers a full person weighs (see `reviewJobless`): how few days their
  * household's money covers, the place's unemployment and their traits. The
@@ -4078,29 +4131,48 @@ export function reviewCountedEntry(api: CoreAPI, opening = false): void {
   );
   const monthDays = p("jobsDaysPerYear") / p("macroMonthsPerYear");
   const counted = rt.store;
+  const carry = { unplaced: 0, placed: 0 };
+  const cashOf = householdCashReader(rt);
+  const ageOf = (m: number) =>
+    daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
   for (const h of counted.liveHouseholds()) {
     // People in custody or in the armed forces seek no civilian work.
     if (outsideLaborForce(h.quarters)) continue;
     let days: number | undefined;
-    for (const m of counted.countedMembers(h)) {
+    // The household's out-of-town workers hold jobs (the opening's rule,
+    // `openCountedSeekers`): those members are not jobless, so they neither
+    // wait nor look. A member in regional work is one of those workers by
+    // name; the rest of the household's workers are its first free members.
+    const members = counted.countedMembers(h);
+    let regionalHere = 0;
+    const idle: number[] = [];
+    for (const m of members) {
+      const id = counted.ids[m]!;
+      if (abroad.has(id)) regionalHere += 1;
+      // Someone already looking is jobless by record, never one of them.
+      else if (!working.has(id) && !seekers.get(id)) {
+        const age = ageOf(m);
+        if (age >= young && age < old) idle.push(m);
+      }
+    }
+    const away = awayByShare(
+      counted,
+      h,
+      idle,
+      h.unplacedWorkers - regionalHere,
+      carry,
+    );
+    for (const m of members) {
       const personId = counted.ids[m]!;
-      if (working.has(personId) || abroad.has(personId)) continue;
-      const age =
-        daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
+      if (working.has(personId) || abroad.has(personId) || away.has(m))
+        continue;
+      const age = ageOf(m);
       if (age < young || age >= old) continue;
       // The custody query after the age test, so children and retirees skip it.
       if (inCustody(api, personId)) continue;
       const placeId = counted.strings[counted.placeIx[m]!]!;
       // The household's money against its costs, as a full person's household reads.
-      if (days === undefined) {
-        let liquid = 0,
-          cost = 0;
-        for (const member of counted.factsOfHousehold(h)) {
-          liquid += member.liquidMinor;
-          cost += member.livingCostDailyMinor;
-        }
-        days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
-      }
+      days ??= countedDaysOfMoney(rt, h, cashOf);
       const seeking = seekers.get(personId) as SeekerRow | undefined;
       const result = chooseAct(c, personId, [
         offer("wait", personId, {}),
@@ -5146,3 +5218,4 @@ export { residentEmploymentRate } from "../opening-employment";
 export { countySectorEmployment } from "../town-employment-mix";
 export { nationalMedianAnnualWage } from "../town-pay";
 export { workedToday } from "../job-lifecycle";
+export { openingWorkStatus } from "../jobs-elsewhere";

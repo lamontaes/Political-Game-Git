@@ -58,6 +58,7 @@ import { personLean, personStance } from "../campaign-views";
 import { campaignParameter } from "../campaign-data";
 import {
   enactLaw,
+  repealLaw,
   calibrationRows,
   lastEnactment,
   lawChain,
@@ -76,11 +77,11 @@ import {
 } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
 import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
-import { lastVoteOn, recordVote } from "./record";
+import { lastVoteOn, recordVote, type VoteRecordRow } from "./record";
 import { viewOn } from "./views";
 import { ownStance } from "../officials-roster";
 import { closenessBetween } from "../closeness";
-import { bribePull } from "./corruption";
+import { bribePull, registerBribeScope } from "./corruption";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
   BUDGETS_MODULE_ID,
@@ -153,6 +154,8 @@ export interface Provision {
   readonly value: number;
   readonly unit?: string;
   readonly effectiveDate?: string;
+  /** For an amount law: the section repeals the body's own law on the series (its value is unused), so the level holds what it held before, including nothing. */
+  readonly repeal?: boolean;
   /** For a budget line: the line's amount the change is made to, so a stance weighs its size. */
   readonly of?: number;
   /** The catalog policy the section was drafted from, and what it does to it. */
@@ -384,8 +387,11 @@ function table(api: CoreAPI, name: string) {
 /** A reply said in a scene about a member's vote, as `keepReply` keeps it. */
 interface ReplyRow {
   readonly id: string;
-  /** "sponsor": read on every bill of the sponsor's; "bill": read on that bill alone. */
-  readonly scope: "sponsor" | "bill";
+  /**
+   * "sponsor": read on every bill of the sponsor's; "bill": read on that bill alone; "hearing": a
+   * committee chair's agreement, in the scene after a hold, to hear the bill (read by `committeeStage`).
+   */
+  readonly scope: "sponsor" | "bill" | "hearing";
   readonly memberId: string;
   /** Who asked: the sponsor after an override, the member who asked before a floor vote. */
   readonly askerId: string;
@@ -397,6 +403,8 @@ interface ReplyRow {
   /** The vote asked for: 1 yes, -1 no. */
   readonly side: number;
   readonly date: string;
+  /** A "hearing" row: the scene reply in which the chair of the hold agreed to hear the bill (the row's id is `hearing:<bill>`). */
+  readonly replyId?: string;
 }
 
 /** The evening before a floor vote, a member's ask of another the bill needs (`askBeforeTheRoll`). */
@@ -428,6 +436,10 @@ function keepReply(api: CoreAPI, event: CoreEventInput): void {
       ? -1
       : 0;
   if (!sign) return;
+  if (causeId.startsWith("committee:")) {
+    reopenHeldBill(api, event, causeId, move, sign);
+    return;
+  }
   const ask = table(api, "voteAsks").get(causeId) as unknown as
     VoteAsk | undefined;
   if (ask) {
@@ -490,6 +502,52 @@ function keepReply(api: CoreAPI, event: CoreEventInput): void {
     side: 1,
     date: event.date,
   } satisfies ReplyRow as unknown as ModuleRow);
+}
+
+/**
+ * The chair's answer in the sponsor's scene after a hold (`bill-held-chair`, caused by the hold's
+ * record). A chair who agrees is kept as one more reason on the committee's decision, and the bill the
+ * hold ended goes back before the committee: the hold's row is replaced by the hearing the chair set,
+ * which the committee stage now reads the agreement into. A refusal leaves the hold standing.
+ */
+function reopenHeldBill(
+  api: CoreAPI,
+  event: CoreEventInput,
+  causeId: string,
+  move: string,
+  sign: number,
+): void {
+  if (event.facts?.typeKey !== "bill-held-chair" || sign < 0) return;
+  const held = table(api, "committees").get(causeId) as unknown as
+    CommitteeRecord | undefined;
+  if (!held || held.heard || !event.personIds.includes(held.chairId)) return;
+  const bill = table(api, "bills").get(held.billId) as unknown as
+    BillRow | undefined;
+  // Only the bill that hold ended: one refiled or settled since stays as it is. And only a hold in
+  // the bill's first chamber: a later chamber's committee sits after the first chamber's floor
+  // vote, which a re-listing would count a second time, so that hold stands.
+  if (!bill || bill.status !== "failed") return;
+  if (held.chamber !== chambersOf(api, bill)[0]) return;
+  table(api, "replies").put({
+    id: `hearing:${bill.id}`,
+    replyId: event.id,
+    scope: "hearing",
+    memberId: held.chairId,
+    askerId: bill.sponsorId,
+    sponsorId: bill.sponsorId,
+    billId: bill.id,
+    move,
+    sign,
+    side: 1,
+    date: event.date,
+  } satisfies ReplyRow as unknown as ModuleRow);
+  table(api, "bills").put({
+    ...bill,
+    status: "drafted",
+    failedOn: undefined,
+  } as unknown as ModuleRow);
+  table(api, "committees").remove(causeId);
+  holdCommittee(api, bill.id);
 }
 
 /**
@@ -833,6 +891,9 @@ export function openLegislature(core: CoreState): void {
     registerModule(core, LEGISLATURE_MODULE);
   registerBudgetVote(councilBudget);
   registerBudgetHearing(holdCouncilBudgetHearing);
+  // Registered when the legislature opens, never as the file loads: in an
+  // import cycle the corruption module's list may not exist yet.
+  registerBribeScope(billBribeScope);
   // Every body's members are people with reasons of their own (OPUS-OFFICIALS).
   if (core.modules.has(OFFICES_MODULE_ID)) openOfficials(core);
 }
@@ -1758,7 +1819,20 @@ export function shapedRate(
 ): { unit: string; terms: Record<string, unknown> } | null {
   const schedules = current?.terms?.schedules as
     Record<string, { brackets?: { over: number; rate: number }[] }> | undefined;
-  const shape = provision.shape ?? (schedules ? "graduated" : null);
+  // A row whose schedules hold no rated bracket (a "none" starting row: the
+  // place has no such tax) has nothing to scale, so a tax adopted on it is
+  // flat, the shape the policy question writes for a first tax.
+  const hasRatedBracket =
+    !!schedules &&
+    Object.values(schedules).some(
+      (s) =>
+        Array.isArray(s.brackets) &&
+        s.brackets.length > 0 &&
+        s.brackets.every((b) => typeof b.rate === "number"),
+    );
+  const shape =
+    provision.shape ??
+    (schedules ? (hasRatedBracket ? "graduated" : "flat") : null);
   if (shape === "flat")
     return { unit: "percent-flat", terms: { system: "flat" } };
   // A death tax's schedule (an exemption and a rate that slides to the top,
@@ -3909,12 +3983,34 @@ export function holdFloorDebate(
   );
 }
 
-/** One chamber's vote: each member yes for a positive position, no for a negative one, abstaining with nothing either way. */
+/** A member's side of one question of a roll, held until the roll's outcome is known. */
+type RollRecordRow = Omit<VoteRecordRow, "id" | "date" | "question" | "passed">;
+
+/**
+ * Writes a closed roll's member rows to the record, each with the roll's own
+ * outcome: whether the chamber carried the bill (a tie the presiding officer
+ * broke against it and the Senate's cloture shortfall both fail it). The
+ * outcome is written here once, when the tally closes, and every view of a
+ * member's vote reads it from the row.
+ */
+export function recordRoll(
+  api: CoreAPI,
+  rows: readonly RollRecordRow[],
+  carried: boolean,
+): void {
+  for (const row of rows) recordVote(api, { ...row, passed: carried });
+}
+
+/**
+ * One chamber's vote: each member yes for a positive position, no for a negative one, abstaining with nothing either way.
+ * The members' record rows come back with the count, for `recordRoll` to write once the roll's outcome is decided.
+ */
 function chamberVote(
   api: CoreAPI,
   bill: BillRow,
   officeId: string,
-): { yes: number; no: number } {
+): { yes: number; no: number; rows: RollRecordRow[] } {
+  const rows: RollRecordRow[] = [];
   let yes = 0;
   let no = 0;
   const seated = members(api, officeId);
@@ -3987,7 +4083,7 @@ function chamberVote(
     } as unknown as ModuleRow);
     for (const stance of billStances(api, bill)) {
       if (vote !== "abstain" && vote !== "absent")
-        recordVote(api, {
+        rows.push({
           personId: key,
           body: officeId,
           billId: bill.id,
@@ -3996,7 +4092,6 @@ function chamberVote(
             question: stance.question,
             position: vote === "yes" ? stance.position : -stance.position,
           },
-          passed: null,
         });
     }
   }
@@ -4029,7 +4124,7 @@ function chamberVote(
       no: String(no),
     },
   });
-  return { yes, no };
+  return { yes, no, rows };
 }
 
 export interface CommitteeRecord {
@@ -4052,6 +4147,8 @@ export interface CommitteeRecord {
   readonly chairReasons: {
     readonly position: MemberPosition;
     readonly hearingTrait: number;
+    /** The scene reply (after an earlier hold) in which the chair agreed to hear the bill. */
+    readonly agreedReplyId?: string;
   };
   readonly votes: readonly {
     readonly memberId: string;
@@ -4296,9 +4393,15 @@ function committeeStage(
   const castHear = table(api, "choices").get(
     `${bill.id}|${memberKey(chair)}|hear`,
   ) as unknown as { hear: boolean } | undefined;
+  // The agreement of the chair who held the bill, said in the sponsor's scene after the hold, is a
+  // reason read here (the seat's chair may have changed since: the agreement still stands for the bill).
+  const agreed = table(api, "replies").get(`hearing:${bill.id}`) as unknown as
+    ReplyRow | undefined;
   const heard = castHear
     ? castHear.hear
-    : chairPosition.total + hearingTrait >= 0;
+    : agreed
+      ? true
+      : chairPosition.total + hearingTrait >= 0;
   // The chair's reasons are kept on the committee record; no scene or story
   // reads them yet. stopgapId: SG-LAW-held-bill-chair-reasons-unread
   api.stopgap("SG-LAW-held-bill-chair-reasons-unread");
@@ -4355,6 +4458,11 @@ function committeeStage(
           // A witness paid under the proposed floor speaks for the raise.
           desiredChange: question.position > 0 ? "enact" : "repeal",
           audienceIds: room.filter((id) => id !== w.personId),
+          // The hearing's own record, written below (`committee:<bill>:<chamber>`).
+          occasion: {
+            recordId: `committee:${bill.id}:${chamber}`,
+            kind: "committee-hearing",
+          },
         });
   }
   // Markup: the committee's holdouts trade for sections of their own, and
@@ -4394,7 +4502,11 @@ function committeeStage(
     memberIds: roster.map(memberKey),
     heard,
     ...(castHear ? { chairPicked: true as const } : {}),
-    chairReasons: { position: chairPosition, hearingTrait },
+    chairReasons: {
+      position: chairPosition,
+      hearingTrait,
+      ...(agreed?.replyId ? { agreedReplyId: agreed.replyId } : {}),
+    },
     votes,
     witnesses,
     yes,
@@ -4404,14 +4516,19 @@ function committeeStage(
   };
   table(api, "committees").put(record as unknown as ModuleRow);
   api.emit({
-    id: `committee:${bill.id}:${chamber}`,
+    // A hearing the chair set after agreeing in the scene that followed a hold is a record of its own.
+    id: `committee:${bill.id}:${chamber}${agreed ? ":after-hold" : ""}`,
     date: api.state.date,
     kind: heard ? "committee-hearing" : "bill-held-in-committee",
     personIds: [
       // The people the record names: the committee's members and chair (its
-      // roll call), then the witnesses it heard.
-      ...record.memberIds,
-      ...witnesses.map((w) => w.personId),
+      // roll call), the bill's sponsor (a held bill is theirs to take up with
+      // the chair), then the witnesses it heard.
+      ...new Set([
+        ...record.memberIds,
+        bill.sponsorId,
+        ...witnesses.map((w) => w.personId),
+      ]),
     ].filter((id) => api.state.people.has(id)),
     placeId: lawChain(api).townPlaceId,
     source: {
@@ -4421,9 +4538,11 @@ function committeeStage(
       estimatedFrom: "SG-GOV-committee-structure",
     },
     publicRecord: true,
-    news: heard,
+    // A bill that died without a hearing is news too.
+    news: true,
     facts: {
       billId: bill.id,
+      sponsorId: bill.sponsorId,
       level: billReach(api, bill).level,
       committee: record.committee,
       chair: record.chairId,
@@ -5071,6 +5190,10 @@ function reportStudy(api: CoreAPI, studyId: string): void {
         topic: study.topic,
         desiredChange: finding > 0 ? "enact" : "repeal",
         audienceIds: audience,
+        occasion: {
+          recordId: `study-reported:${studyId}`,
+          kind: "study-reported",
+        },
       });
     }
   }
@@ -5157,7 +5280,7 @@ function countVote(api: CoreAPI, billId: string): BillRow {
       breaker !== null && memberPosition(api, bill.id, breaker).total > 0;
     const tally =
       breaker === null
-        ? counted
+        ? { yes: counted.yes, no: counted.no }
         : {
             yes: counted.yes + (breakerYes ? 1 : 0),
             no: counted.no + (breakerYes ? 0 : 1),
@@ -5181,6 +5304,8 @@ function countVote(api: CoreAPI, billId: string): BillRow {
           members(api, chamber).length *
             campaignParameter("senateClotureShare"),
         );
+    // The roll is closed: its member rows go to the record with the outcome.
+    recordRoll(api, counted.rows, !(tally.yes <= tally.no || cloture));
     if (tally.yes <= tally.no || cloture) {
       const failed: BillRow = {
         ...bill,
@@ -6125,6 +6250,22 @@ function enact(
     // A passed step that a later step of the same law overtakes before it
     // could take effect writes nothing: no row, no calendar entry.
     if (effectiveDate === null) continue;
+    if (
+      provision.kind === "law-amount" &&
+      provision.series &&
+      provision.repeal
+    ) {
+      repealLaw(api, {
+        jurisdiction,
+        level,
+        series: provision.series,
+        effectiveDate,
+        measureId: bill.number,
+        citation,
+        terms: { ...(terms ?? {}), repealedByBill: bill.id },
+      });
+      continue;
+    }
     if (provision.kind === "law-amount" && provision.series) {
       const current =
         lawInForce(api, provision.series).levels.find(
@@ -6542,6 +6683,34 @@ export function floorAgendaOn(api: CoreAPI, date: string): readonly BillRow[] {
         (weekly.has(b.id) || calendar.get(`meeting:${b.id}`)?.date === date),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/**
+ * A bribe for a bill's vote can only go to someone who has a say on it: a member of a chamber it
+ * passes through, or the executive who signs it. Read from the bill's own body, never a named place.
+ */
+function billBribeScope(
+  api: CoreAPI,
+  subjectId: string,
+  officialId: string,
+): string | null {
+  if (
+    !subjectId.startsWith("bill:") ||
+    !api.state.modules.has(LEGISLATURE_MODULE_ID)
+  )
+    return null;
+  const bill = table(api, "bills").get(subjectId) as unknown as
+    BillRow | undefined;
+  if (!bill) return null;
+  const deciders = new Set<string>();
+  for (const chamber of chambersOf(api, bill))
+    for (const term of members(api, chamber))
+      if (term.personId) deciders.add(term.personId);
+  const signer = executiveOf(api, bill.bodyOfficeId).term?.personId;
+  if (signer) deciders.add(signer);
+  return deciders.has(officialId)
+    ? null
+    : "That official has no vote or signature on this bill, so there is nothing to buy from them.";
 }
 
 export function billOf(api: CoreAPI, billId: string): BillRow {

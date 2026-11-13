@@ -5,7 +5,7 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -34,6 +34,8 @@ checked: fable 2026-11-10
 
 **Waits on.** words-hearing-chair-question, which adds the chair's question parts to data/english/parts/hearing.json. This item adds only the chair-title fact and the yes-or-no kind of question on top of those parts, so the bank gets one set of chair questions.
 
-**Files.** data/english/parts/hearing.json, src/director/purpose-scene.ts, src/director/data/purpose-arcs.json, src/director/hearing-scenes.test.ts, src/director/data/stopgaps.json
+**Files.** data/english/parts/hearing.json, src/director/purpose-scene.ts, src/director/data/purpose-arcs.json, src/director/data/stopgaps.json
 
 **Notes.** Added Nov 8 by the Story session with the restore of the owner's liked lines (`scripts/dialogue-batch/liked-lines-kept.test.ts`). The graded keys stay in a bank until a scene reads them.
+
+- Dropped Nov 12, 2026 by the story builder for the lead (Fable A): its scene was deleted with the scene inventory (docs/design/scene-inventory.md, branch claude/story-scene-inventory); the scene's reply was read by no engine.

@@ -83,6 +83,7 @@ export function withCountySample(
 ): CountySample | null {
   const county = countyOf(input);
   if (!county) return null;
+  const countyPlaceId = county.jurisdictionId;
   stopgap(COUNTY_SAMPLE_STOPGAP);
   const start = makeIsoDate(input.startedAt);
   const size = p("countySampleHouseholds");
@@ -104,6 +105,25 @@ export function withCountySample(
     parents: string[];
   }[] = [];
   const base = new Map<string, Omit<PersonInput, "traits">>();
+  // Every record stands for as many households as the county's eligible
+  // voters (adult citizens) ask for.
+  const share = citizenShareOf(county.placeKey, county.usps, input.seed);
+  // The circle's kin already living in the county and counted each stand for
+  // themselves (weight one, each a real relative); the sample stands for the
+  // rest, so the county's weighted adult citizens come to its eligible count
+  // without counting the kin twice.
+  const adultOf = (row: { readonly birthDate: string }) =>
+    ageInYears(row.birthDate, start) >= p("votingAge");
+  const kin = input.people.filter(
+    (row) => row.placeId === county.jurisdictionId && !kept.has(row.id),
+  );
+  const kinEligible = kin.filter(adultOf).length * share;
+  // The sample stops growing once its eligible voters would pass what the
+  // county has besides the kin: a household stands for at least itself (a
+  // weight of one or more), so a small county gets a smaller sample, never a
+  // household that stands for less than one.
+  const wanted = county.eligible - kinEligible;
+  let sampleEligible = 0;
   for (let index = 0; index < size; index += 1) {
     const skeleton = townHouseholdSkeleton(
       input.seed,
@@ -111,6 +131,9 @@ export function withCountySample(
       index,
     );
     const named = namedMembers(world, county.jurisdictionId as never, skeleton);
+    const eligibleHere = named.filter(adultOf).length * share;
+    if (index > 0 && sampleEligible + eligibleHere > wanted) break;
+    sampleEligible += eligibleHere;
     const householdId = createStableId(
       "household",
       `county-sample:${county.geoid}:${index}`,
@@ -271,45 +294,63 @@ export function withCountySample(
         (n < reserve % adultsHere.length ? p("one") : p("zero"));
     });
   }
-  // Every record stands for as many households as the county's eligible
-  // voters (adult citizens) ask for.
-  const share = citizenShareOf(county.placeKey, county.usps, input.seed);
-  // The circle's kin already living in the county and counted each stand for
-  // themselves (weight one, each a real relative); the sample stands for the
-  // rest, so the county's weighted adult citizens come to its eligible count
-  // without counting the kin twice.
-  const adultOf = (row: PersonInput) =>
-    ageInYears(row.birthDate, start) >= p("votingAge");
-  const kin = input.people.filter(
-    (row) => row.placeId === county.jurisdictionId && !kept.has(row.id),
-  );
-  const kinEligible = kin.filter(adultOf).length * share;
-  const sampleEligible = people.filter(adultOf).length * share;
+  // Each sampled household stands for the same number of real ones, so the
+  // county's weighted adult citizens come to its eligible count (never below
+  // one: a county with fewer eligible voters than one household holds one).
   const weight =
     sampleEligible > 0
-      ? Math.max(county.eligible - kinEligible, p("one")) / sampleEligible
+      ? Math.max(Math.max(wanted, p("one")) / sampleEligible, p("one"))
       : p("one");
   const kinHouseholds = new Set(kin.map((row) => row.householdId));
-  return {
-    placeId: county.jurisdictionId,
-    weight,
-    input: {
-      ...input,
-      people: [...input.people, ...people],
-      households: [
-        ...input.households.map((home) =>
-          kinHouseholds.has(home.id) ? { ...home, weight: p("one") } : home,
-        ),
-        ...households.map((home) => ({
-          ...home,
-          weight,
-          ...(employment.has(home.id)
-            ? { employment: employment.get(home.id)! as never }
-            : {}),
-        })),
-      ],
-    },
-  };
+  // A record stands for at least one real household. Where the county's
+  // eligible voters (less the kin already placed) are fewer than the sample's
+  // own, keep the households, in the sample's order, that fit at a weight of
+  // one; where none fit, there is no sample.
+  const room = Math.max(county.eligible - kinEligible, p("zero"));
+  if (sampleEligible > p("zero") && room < sampleEligible) {
+    // Stop at the first household that does not fit: the sample's own order.
+    const prefix: typeof households = [];
+    let running = p("zero");
+    for (const home of households) {
+      const adultsIn =
+        home.memberIds.filter((id) => adultOf(byId.get(id)!)).length * share;
+      if (running + adultsIn > room) break;
+      running += adultsIn;
+      prefix.push(home);
+    }
+    if (!prefix.length || running <= p("zero")) return null;
+    const keepHomes = new Set(prefix.map((home) => home.id));
+    households.splice(0, households.length, ...prefix);
+    const keepPeople = people.filter((row) => keepHomes.has(row.householdId));
+    people.splice(0, people.length, ...keepPeople);
+    for (const id of [...employment.keys()])
+      if (!keepHomes.has(id)) employment.delete(id);
+    return build(room / running);
+  }
+  return build(weight);
+
+  function build(at: number): CountySample {
+    return {
+      placeId: countyPlaceId,
+      weight: at,
+      input: {
+        ...input,
+        people: [...input.people, ...people],
+        households: [
+          ...input.households.map((home) =>
+            kinHouseholds.has(home.id) ? { ...home, weight: p("one") } : home,
+          ),
+          ...households.map((home) => ({
+            ...home,
+            weight: at,
+            ...(employment.has(home.id)
+              ? { employment: employment.get(home.id)! as never }
+              : {}),
+          })),
+        ],
+      },
+    };
+  }
 }
 
 /** The place (jurisdiction id) of the town's county, where the world records one. */

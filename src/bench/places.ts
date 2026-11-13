@@ -1,5 +1,6 @@
 // "Go to": the town's places from its organizations and the art library,
 // who works there, who's there now and what the player can do there.
+import { personWorkOf } from "../core2/person-work";
 import { ageOnDate } from "../core2/kernel/dates";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
@@ -7,6 +8,7 @@ import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName } from "../director/words";
 import { backdropStaging } from "./staging";
 import { backdropFor, orgPlace, staffOf, peopleHere } from "./scene";
+import { isOnShift } from "./shift";
 import { hasBackdrop } from "./backdrop-places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import type { CoreState } from "../core2/types";
@@ -66,6 +68,9 @@ const SCHOOL_AGE_UNDER = 19;
  * organization with a picture (owner, Oct 13: "Why would you need to visit
  * the market?").
  */
+/** A party's office: listed for its members (play-join-a-party-has-no-scene-and-no-headquarters). */
+const PARTY_OFFICE = "membership:political-party";
+
 export function townPlaces(
   core: CoreState,
   playerId: string,
@@ -79,13 +84,16 @@ export function townPlaces(
   const household = core.households.get(player.householdId)?.memberIds ?? [
     playerId,
   ];
+  // By the one reader of what a person does (`personWorkOf`), which the card
+  // and the journal tell too: their job's employer and each seat's own.
   const ownWork = new Set(
-    [...household, ...player.familyIds]
-      .map((id) => core.people.get(id)?.jobId)
-      .map((jobId) =>
-        jobId ? core.jobs.get(jobId)?.organizationId : undefined,
-      )
-      .filter((id): id is string => !!id),
+    [...household, ...player.familyIds].flatMap((id) => {
+      const work = personWorkOf(core, id);
+      return [
+        work.job?.organizationId,
+        ...work.offices.map((office) => office.organizationId),
+      ].filter((org): org is string => !!org);
+    }),
   );
   const ownJob = player.jobId
     ? core.jobs.get(player.jobId)?.organizationId
@@ -136,16 +144,18 @@ export function townPlaces(
           ...(official && STATE_OFFICES.has(org.classification ?? "")
             ? [{ kind: "serve" as const, recordId: org.id }]
             : []),
+          // The office of a party the player belongs to (their membership record).
+          ...(core.memberships.has(`${playerId}:${org.id}`) &&
+          org.classification === PARTY_OFFICE
+            ? [{ kind: "member" as const, recordId: org.id }]
+            : []),
         ];
         const open = PUBLIC_PLACES.has(place);
         if (!reasons.length && !open) return [];
         // Who is at work there now, by their own work spans.
-        const here = onShift(
-          core,
-          full.filter((id) => id !== playerId),
-          org.id,
-          minute,
-        );
+        const here = full
+          .filter((id) => id !== playerId)
+          .filter((id) => isOnShift(core, id, minute, org.id));
         return [
           {
             organizationId: org.id,
@@ -211,32 +221,6 @@ export function workSpansOf(
   }
 }
 
-/** Who is at work there at this minute, by their own work spans. */
-function onShift(
-  core: CoreState,
-  ids: readonly string[],
-  organizationId: string,
-  minute: number,
-): string[] {
-  const api = coreAPI(core);
-  return ids.filter((id) => {
-    try {
-      return workSpansOnDateV1(api, {
-        controlledPersonId: id,
-        date: core.date,
-      }).owners.some(
-        (owner) =>
-          owner.organizationId === organizationId &&
-          owner.spans.some(
-            (span) => span.startMinute <= minute && minute < span.endMinute,
-          ),
-      );
-    } catch {
-      return false;
-    }
-  });
-}
-
 /** Look in on a place: its picture at this hour and whoever is working there. */
 export function visitPlace(
   core: CoreState,
@@ -254,12 +238,9 @@ export function visitPlace(
   const room = (backdropStaging(place)?.spots.length ?? 1) - 1;
   const met = counted.slice(0, Math.max(room - full.length, 0));
   for (const id of met) fillInPerson(core, id);
-  const present = onShift(
-    core,
-    [...full, ...met.filter((id) => core.people.has(id))],
-    organizationId,
-    minute,
-  ).filter((id) => id !== playerId);
+  const present = [...full, ...met.filter((id) => core.people.has(id))]
+    .filter((id) => isOnShift(core, id, minute, organizationId))
+    .filter((id) => id !== playerId);
   const ids = [playerId, ...present].map((id) => {
     const row = core.people.get(id)!;
     return {

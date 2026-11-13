@@ -5,19 +5,20 @@
 // and joins the top of the talk box in a talk, where whoever speaks is lit and a
 // little larger. A room is its painting alone; nobody is drawn into it.
 import { el } from "./dom.mjs";
-import { bustStack } from "./bust.mjs";
+import { face } from "./face.mjs";
 
 /** One person on the strip: their bust, cut soft at the shoulders, and their name. */
 function stripPerson(person, { speakingId, onClick }) {
-  const bust = person.face.bust;
-  const stack = bustStack(bust, person.name);
-  // The head's middle sits over the middle of the person's place on the strip.
-  stack.style.setProperty("--head-middle", String(bust.head[1] / bust.size));
+  const stack = face(person.face, { shape: "strip", alt: person.name });
   const cell = el(
     "div",
     { className: "busts-person" },
     el("div", { className: "busts-face" }, stack),
     el("span", { className: "busts-name", textContent: person.name }),
+    // The office a scene names them by (an address cutting to officials).
+    ...(person.role
+      ? [el("span", { className: "busts-role", textContent: person.role })]
+      : []),
   );
   cell.dataset.person = person.personId ?? "";
   if (speakingId !== undefined)
@@ -40,7 +41,7 @@ function stripPerson(person, { speakingId, onClick }) {
 }
 
 /**
- * `people`: [{ personId, name, face: { bust }, talkable? }]. `more`: how many
+ * `people`: [{ personId, name, face: { bust }, talkable?, role? }]. `more`: how many
  * others are there, said after the busts in `words.more` ("and {count} more").
  * `words.label` names the strip at its left end. `speakingId` lights one person
  * and quiets the rest (a talk); left out, everyone is lit alike. `onClick`

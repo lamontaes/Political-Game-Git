@@ -1793,12 +1793,30 @@ export function standAgainReason(
 }
 
 /** Each day: weigh the contests whose weighing day has come, then file for those whose window opened. */
+/** What the voting engine does with a race closed at the opening once candidacy has weighed it (voting.ts). */
+let closedContestWeighed: ((api: CoreAPI, contest: ContestRow) => void) | null =
+  null;
+/**
+ * The voting engine registers how it finishes the field of a race whose
+ * filing closed before the record began (its stand-in nominees, a primary
+ * already past), run after the town's own runners have filed.
+ */
+export function registerClosedContestWeighed(
+  fn: (api: CoreAPI, contest: ContestRow) => void,
+): void {
+  closedContestWeighed = fn;
+}
+
 function candidacyDay(api: CoreAPI): void {
   const held = queuesFor(api);
   if (!held) return;
   const today = api.state.date;
-  while (held.opening.length)
-    weighClosedContest(api, held.opening.shift()!, held.localRank);
+  while (held.opening.length) {
+    const contest = held.opening.shift()!;
+    weighClosedContest(api, contest, held.localRank);
+    // The voting engine finishes the race's field once its own runners have filed.
+    closedContestWeighed?.(api, contest);
+  }
   while (held.weigh[0] && weighingDate(api, held.weigh[0]) <= today) {
     const contest = held.weigh.shift()!;
     if (contest.filingDeadline >= today)

@@ -431,6 +431,19 @@
         "citation": "Cast weight of the person's recorded sociability, from -1 to 1 of the trait scale: the talkative bring it up."
       }
     },
+    "directorCircumstanceNewsTellerMinAge": {
+      "value": 13,
+      "tag": "TUNABLE",
+      "citation": "Fable A, Nov 13, 2026, rule 28: a child under 13 is never cast to tell news of politics, money, law or work, and never opens with an adult's line; from 13 to 17 they may tell what they heard at school or at home; adults as now. Playtester P1, Commack NY: a 4-year-old son cast to tell his mother who filed for town board.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 10,
+        "high": 16,
+        "unit": "years",
+        "citation": "Youngest age, on the person's birth record, at which a circumstance may cast someone to tell news of politics, money, law or work; a row whose news a child can know (their school year, a newcomer at home, a goodbye) is not held to it."
+      }
+    },
     "directorTieSharedHome": {
       "value": 0.3,
       "tag": "TUNABLE",
@@ -732,6 +745,11 @@
         "max": 180,
         "ref": "WORDS-TALK-RECENT-DAYS"
       }
+    },
+    "directorRentBurdenShare": {
+      "value": 0.3,
+      "tag": "SOURCED",
+      "citation": "HUD's measure of housing cost burden: a household paying more than 30 percent of its income for housing is cost burdened (U.S. Department of Housing and Urban Development, Office of Policy Development and Research, 'Rental Burdens: Rethinking Affordability Measures', PD&R Edge). Read against world-metrics rentToEarnings, a year of the town's typical rent over the typical household's earnings: above it, a hearer of the address may say rent in their town takes too much."
     },
     "directorTalkAddressDays": {
       "value": 14,

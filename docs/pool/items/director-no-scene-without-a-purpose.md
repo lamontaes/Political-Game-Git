@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-director-no-scene-without-a-purpose
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,8 @@ root: rc6-scenes-repeat
 lead: director
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 4, root cause 6)
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T00:08:06.765Z
+claimed-at:
+branch: claude/pool-director-no-scene-without-a-purpose
 ---
 
 **What.** Many kinds of scene stop the player and leave nothing behind. Read by me on Nov 10's main (commit 8ac2262853), from the data only: `src/director/data/situation-types.json` holds 103 kinds; 8 have no `purpose` (departure, news-arrives, visit, hearing, verdict, address, interview-sitting, debate-sitting); 9 have a purpose whose endings all keep "none"; and 17 keep only a promise or nothing. In the audit's browser play (Blodgett Landing, New Hampshire, a 17-year-old, ten weeks, no seed kept) seven scenes played and none had a purpose. The director still stages a kind whether or not anything reads what it leaves. This item also takes the new-adult skip leftovers from director-moments-for-a-new-adult: a skip that stops with no scene bound (Point of Rocks, Wyoming, no stop at all in eight months) and a stopping moment whose record id does not resolve.
@@ -43,3 +44,5 @@ My Nov 10 lists. All endings keep "none": race-told, diploma-home, no-diploma-ho
 Not verified: I played none of these scenes to their endings, and the audit did not say which seven kinds played in Blodgett Landing beyond the five "someone has news" scenes, the hallway scene and the goodbye. Dev mode's scene list is screenshot 08 in docs/audits/fable-vision-2026-11-09-screens/ on branch audit/fable-vision.
 
 Related: words-scene-ending-writes-its-record (open, lead words: making each ending write its record; evidence added there Nov 10), director-no-borrowed-small-talk (filed with this one: what a kind with no lines does today), director-casting-rule-on-every-scene-kind and director-cap-on-scene-repeats.
+
+Released by next (2026-11-13): no push to claude/pool-director-no-scene-without-a-purpose since 2026-11-11 00:18 UTC, more than twice its 10-hour time box. Continue on branch claude/pool-director-no-scene-without-a-purpose.

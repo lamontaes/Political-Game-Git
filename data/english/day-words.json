@@ -1,13 +1,37 @@
 {
   "about": "How a day is named at the start of a scene (owner, Nov 8, 2:20 p.m.: 'If it's June 7th, it says first thing on June 7th. You head to the clerk's office and speak to Maria Patton.'): the part of the day and the date as people say it, 'first thing on June 7th'. Read by src/english/day-words.ts; the director passes the date and the minute of the day.",
   "parts": [
-    { "upToMinute": 540, "said": "First thing on {date}" },
-    { "upToMinute": 690, "said": "Late in the morning on {date}" },
-    { "upToMinute": 810, "said": "Around noon on {date}" },
-    { "upToMinute": 1020, "said": "On the afternoon of {date}" },
-    { "upToMinute": 1200, "said": "Toward evening on {date}" },
-    { "upToMinute": null, "said": "Late on {date}" }
+    {
+      "upToMinute": 540,
+      "said": "First thing on {date}"
+    },
+    {
+      "upToMinute": 690,
+      "said": "Late in the morning on {date}"
+    },
+    {
+      "upToMinute": 810,
+      "said": "Around noon on {date}"
+    },
+    {
+      "upToMinute": 1020,
+      "said": "On the afternoon of {date}"
+    },
+    {
+      "upToMinute": 1200,
+      "said": "Toward evening on {date}"
+    },
+    {
+      "upToMinute": null,
+      "said": "Late on {date}"
+    }
   ],
+  "spokenParts": {
+    "about": "The part of the day as a person says it in passing, for a goodbye at home (\"We'll talk more later tonight.\"), by the mark the scene's hour gives (src/director/day-part.ts). Read by dayPartSaid in src/english/day-words.ts.",
+    "morning": "this morning",
+    "afternoon": "this afternoon",
+    "evening": "tonight"
+  },
   "ordinals": {
     "one": "st",
     "two": "nd",
@@ -28,5 +52,34 @@
     "October",
     "November",
     "December"
+  ],
+  "since": [
+    {
+      "upToDays": 1,
+      "said": "yesterday"
+    },
+    {
+      "upToDays": 6,
+      "said": "the other day"
+    },
+    {
+      "upToDays": null,
+      "said": "on {date}"
+    }
+  ],
+  "sinceOtherYear": {
+    "about": "A record's day in another year than the day a scene plays, told with its year (Fable A, Nov 13, rule 3: 'A date in another year is said with its year or as \"last February\". A bare month and day always means this year.'; Playtester P2, Hewitt NJ: 'stops you in the street about what happened on February 20th' on January 31st, a February a year gone). lastYear is the calendar year before the scene's; earlier is any year before that. Read by daySince in src/english/day-words.ts in place of the since row that names the date.",
+    "lastYear": "last {month}",
+    "earlier": "in {month} {year}"
+  },
+  "sinceAbout": "A record's own day told as past from the day a scene plays (pool item words-day-end-scene-opens-next-midnight): 'yesterday', 'the other day', 'on January 3rd'; never a weekday, since a scene's opening names no weekday (owner, Oct 26: \"it shouldn't say ... it's Tuesday in November\"; src/director/scene.test.ts). Read by daySince in src/english/day-words.ts; the scene passes it to its lines as the fact since, which a sentence may use.",
+  "weekdays": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
   ]
 }

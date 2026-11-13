@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/pool-words-past-fact-renderings
+status: open
+claimed-by:
 pr: #8484
 blocked-on:
 source: "split from core-needs-opus-core-23; docs/coordination/OPUS-CORE.md"
-claimed-at: 2026-11-11T02:38:00.400Z
+claimed-at:
 after:
 standard: 2
 model: sonnet
@@ -42,3 +42,5 @@ branch: claude/pool-words-past-fact-renderings
 Sent back 2026-10-20 from PR #5194 (branch claude/words-past-fact-renderings): data/english/parts/journal.json adds an origin authored livelihood line with shippable true, without grading proof. Keep authored text held until graded. The body also says no played-world year was run for this slice; provide the year/record proof named by the item, and keep the split remaining renderings as explicit open work rather than completing the umbrella on a partial slice.; finish on that branch, merge main into it first.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:37 UTC) on branch claude/pool-words-past-fact-renderings.
+
+Released by next (2026-11-11): no push to claude/pool-words-past-fact-renderings since 2026-11-11 02:38 UTC, more than twice its 4-hour time box. Continue on branch claude/pool-words-past-fact-renderings and pull request #8484.

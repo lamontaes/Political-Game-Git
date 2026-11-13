@@ -77,7 +77,6 @@ export interface SituationCause {
      */
     causeNames?: "subject";
   };
-  awaitingProducer?: string;
   causeEngine?: string;
   /** The record kind (or kinds, comma-joined) the cause reads, for the scene web. */
   causeRecord?: string;
@@ -101,18 +100,78 @@ export interface SituationCause {
   setting?: readonly string[];
 }
 
+/** Who may receive a scene (director-casting-rule-on-every-scene-kind): read before a cast is staged. */
+export interface ReceiveRule {
+  /** "any": no age rule beyond the type's own causes. */
+  age: "any";
+  /** "apart": the one who comes, calls or asks does not live with the person. */
+  counterpart: "any" | "apart";
+  /** "serving": a seat or chamber setting is staged only for someone who holds an office. */
+  seat: "any" | "serving";
+}
+
+/** Settings at an office's seat: the chamber and the members' own seats. */
+const SEAT_SETTINGS: ReadonlySet<string> = new Set(["seat", "chamber"]);
+
+/**
+ * Whether a cast may be staged for the person whose scene it is, by the
+ * type's receive rule: the asker does not live with them where the rule says
+ * apart, and a seat or chamber scene reaches only someone serving in office.
+ */
+export function receives(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  rule: ReceiveRule | undefined,
+  askerIds: readonly PersonId[],
+  settingKind: string,
+): boolean {
+  const person = core.people.get(personId);
+  if (!person) return false;
+  if (rule?.counterpart === "apart") {
+    const home = new Set(
+      core.households.get(person.householdId)?.memberIds ?? [],
+    );
+    if (askerIds.some((id) => id !== personId && home.has(id))) return false;
+  }
+  if (SEAT_SETTINGS.has(settingKind) && !serving(core, personId)) return false;
+  return true;
+}
+
+/** Whether a person serves a term in any office now. */
+function serving(core: Readonly<CoreState>, personId: PersonId): boolean {
+  const api = coreAPI(core as CoreState);
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
+  return (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("byPerson", [personId]) as unknown as { status: string }[]
+  ).some((term) => term.status === "serving");
+}
+
 export interface SituationType {
   key: string;
+  /** The role that comes, calls or asks. */
+  asker?: string;
+  /** Who may receive the scene; a cast that breaks it goes to the journal. */
+  receive?: ReceiveRule;
   roles: readonly SituationRole[];
   setting: readonly string[];
   timing: string;
   causes: readonly SituationCause[];
-  awaiting?: readonly string[];
   /**
    * A scene that never stops the player's day: it waits its turn by the life's
    * pace however strongly it was felt (an invitation to a cause meeting).
    */
   waits?: boolean;
+  /**
+   * "day": the scene's setting stands in for a room it has no picture of yet
+   * (a debate's stage), so its opening says only the day and the lead says
+   * who is there and why, never a placement like "out and about" (Fable A,
+   * Nov 13, rule 13: "a debate opens in the room it is held in, never from a
+   * street stop").
+   */
+  arrivesBy?: "day";
   /**
    * A scene that is an event in itself (a swearing-in, owner Oct 29): it
    * stops the day however strongly the moment was felt, for the one whose
@@ -889,6 +948,22 @@ export function scheduleMoment(
     )
       for (const typeKey of new Set(entry.bindings.map((row) => row.typeKey)))
         inSeason.set(typeKey, (inSeason.get(typeKey) ?? zero) + one);
+  // A cast the type's receive rule refuses goes to the journal: nobody who
+  // lives with the person comes to the house, and a seat scene reaches only
+  // someone in office.
+  const receivable = (row: SceneBinding) => {
+    const type = library.types.find((t) => t.key === row.typeKey);
+    const askerIds = type?.asker
+      ? (row.roles.find((role) => role.role === type.asker)?.personIds ?? [])
+      : [];
+    return receives(
+      core,
+      book.personId,
+      type?.receive,
+      askerIds,
+      row.setting.kind,
+    );
+  };
   // A letter from a writer whose earlier letter was already staged plays
   // again only with something on record since: news of the writer's life, a
   // birthday they missed at the reader's table or their own birthday near
@@ -939,6 +1014,7 @@ export function scheduleMoment(
   const held = new Set(heldBack.map((row) => row.typeKey));
   const bindings = wanted.filter(
     (row) =>
+      receivable(row) &&
       !held.has(row.typeKey) &&
       (eachCause(row) ||
         (!sittingToday.has(castOf(row)) &&

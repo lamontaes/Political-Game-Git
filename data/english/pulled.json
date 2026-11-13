@@ -1,20 +1,7 @@
 {
   "schema": "english-pulled/1",
   "pulled": {},
-  "waiting": {
-    "scene-talk.follow-answer.because-those-three-can-t-afford-a-yes-and-you-can": [
-      "trade-not-bribe"
-    ],
-    "scene-talk.state-tell-duty.the-board-sets-the-town-s-budget-and-passes-its-local-laws-you-d-get-a-vote-on-a": [
-      "body-named-as-place-names-it"
-    ],
-    "scene-talk.state-tell-duty.you-d-run-the-town-day-to-day-the-departments-the-budget-and-whatever-the-board-": [
-      "body-named-as-place-names-it"
-    ],
-    "scene-talk.state-tell-duty.you-d-sit-on-the-board-that-decides-the-town-s-budget-its-roads-and-its-rules": [
-      "body-named-as-place-names-it"
-    ]
-  },
+  "waiting": {},
   "sample": {
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
       "evasion-points-somewhere"
@@ -26,20 +13,11 @@
     "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start": [
       "no-filler"
     ],
-    "opening-speech.families.plain-ina-sta-if-you-ve-been-up-at-night-this-year-doing-the-math-on-your": [
+    "opening-speech.creed.polished-ina-sta-hopeful-core-a-free-and-hardworking-people-will-keep-best-moving": [
       "no-stock-phrases"
-    ],
-    "opening-speech.families.polished-ina-sta-to-every-parent-who-lay-awake-this-year-wondering-how-to-mak": [
-      "no-stock-phrases"
-    ],
-    "opening-speech.salutation.plain-ina-well-here-we-are-thank-you-for-being-here": [
-      "no-filler"
     ],
     "scene-talk.close-accept.all-right-i-hear-you": ["no-stock-phrases"],
     "scene-talk.close-accept.all-right-i-ll-let-you-go": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.close-accept.all-right-we-can-leave-it-there": [
       "alright-in-dialogue"
     ],
     "scene-talk.close-accept.that-s-all-right-i-enjoyed-what-we-got-to-ask-me-again-whenever-you-wa": [
@@ -51,27 +29,15 @@
     "scene-talk.close-press.we-still-have-to-settle-this-you-know": [
       "no-filler"
     ],
-    "scene-talk.follow-accept.all-right-you-might-be-right-i-ll-think-about-it": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.follow-accept.i-hear-you-thanks-for-being-straight-with-me": [
-      "no-stock-phrases"
-    ],
     "scene-talk.follow-accept.i-hear-you-the-ring-goes-back-in-the-drawer-and-we-re-still-us-i-ll-ta": [
       "no-stock-phrases"
     ],
     "scene-talk.follow-accept.it-s-all-right": ["alright-in-dialogue"],
-    "scene-talk.follow-press.are-you-sure-you-re-all-right-first": [
-      "alright-in-dialogue"
-    ],
     "scene-talk.follow-press.i-hear-you-but-this-matters-to-the-family-what-s-in-the-way": [
       "no-stock-phrases"
     ],
     "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way": [
       "no-stock-phrases"
-    ],
-    "scene-talk.follow-press.people-will-read-a-no-comment-as-an-answer-you-know": [
-      "no-filler"
     ],
     "scene-talk.follow-thank.i-m-holding-you-to-that-you-know": ["no-filler"],
     "scene-talk.open-greet.deceased-talked-about-you-you-know": ["no-filler"],
@@ -81,18 +47,12 @@
     "scene-talk.open-greet.hi-i-hope-it-s-all-right-that-i-m-here": [
       "alright-in-dialogue"
     ],
-    "scene-talk.open-greet.i-hope-it-s-all-right-that-i-came-by": [
-      "alright-in-dialogue"
-    ],
     "scene-talk.open-greet.well-look-who-it-is": ["no-filler"],
     "scene-talk.open-greet.well-that-s-the-year": ["no-filler"],
     "scene-talk.reply-accept.i-hear-you-i-wish-it-had-gone-another-way-we-did-try-and-i-want-to-rem": [
       "no-stock-phrases"
     ],
     "scene-talk.reply-agree.all-right-i-ll-do-it": ["alright-in-dialogue"],
-    "scene-talk.reply-agree.all-right-you-re-right-it-bothers-me-too": [
-      "alright-in-dialogue"
-    ],
     "scene-talk.reply-agree.well-when-you-put-it-that-way-give-me-the-pen": [
       "no-filler"
     ],
@@ -102,13 +62,7 @@
     "scene-talk.reply-ask.are-you-going-to-be-all-right-with-whoever-comes-in-next": [
       "alright-in-dialogue"
     ],
-    "scene-talk.reply-comfort.don-t-worry-about-me-i-ll-be-all-right": [
-      "alright-in-dialogue"
-    ],
     "scene-talk.reply-comfort.i-know-its-a-lot-to-watch-im-all-right-really": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.reply-comfort.im-all-right-it-hurts-and-ill-get-over-it": [
       "alright-in-dialogue"
     ],
     "scene-talk.reply-decline.i-hear-you-the-city-still-can-t-change-it-by-itself": [
@@ -131,17 +85,11 @@
     ],
     "scene-talk.state-ask.you-settling-in-all-right": ["alright-in-dialogue"],
     "scene-talk.state-confront.you-can-t-win-this-you-know": ["no-filler"],
-    "scene-talk.state-congratulate.well-if-i-had-to-lose-to-anybody-i-m-glad-it-was-you-congratulations": [
-      "no-filler"
-    ],
     "scene-talk.state-congratulate.well-look-at-you": ["no-filler"],
     "scene-talk.state-deliver-news.they-sent-aid-for-the-damage-and-the-repairs-come-to-less-than-that-we": [
       "alright-in-dialogue"
     ],
     "scene-talk.state-request.i-practiced-this-and-forgot-it-so-plainly-i-d-like-to-be-your-spouse-w": [
-      "no-filler"
-    ],
-    "scene-talk.state-tell.took-you-long-enough-it-was-never-that-close-you-know": [
       "no-filler"
     ]
   },

@@ -1964,7 +1964,6 @@
     "value": 0.335,
     "tag": "TUNABLE",
     "citation": "Inherited old town-finances sales proxy. Moretti Local Multipliers, https://eml.berkeley.edu/~moretti/multipliers.pdf, Table 1 reports employment-to-employment elasticity; it does not report sales-to-all-town-income elasticity. This coefficient is uncalibrated.",
-    "stopgapId": "SG-P8-business-books-dynamics",
     "spread": {
       "status": "unmeasured",
       "reason": "Employment elasticity uncertainty is not a bound for this sales response coefficient. Matched sales/income data and identification are missing."
@@ -1977,7 +1976,6 @@
     "value": 785,
     "tag": "ESTIMATED",
     "citation": "BLS Local Area Unemployment Statistics, state unemployment-rate gaps 2000–2025: half-life implied by their AR(1) persistence, median across the 50 states (data/research/regional/roadmap-r1-gap-persistence.json, research roadmap R1).",
-    "stopgapId": "SG-P8-business-books-dynamics",
     "spread": {
       "low": 357,
       "high": 1473,
@@ -2008,7 +2006,6 @@
     "value": 0.05,
     "tag": "TUNABLE",
     "citation": "A per-review cap on the price move from demand pressure. Nakamura and Steinsson (2008), 'Five Facts about Prices,' QJE 123(4): the median absolute size of a regular consumer price change is 8.5% (6.1% to 14.2% by major group), made about once every 8 to 11 months; a monthly cap of 5% keeps a monthly review's move below one typical change.",
-    "stopgapId": "SG-P8-business-books-dynamics",
     "spread": {
       "low": 0.05,
       "high": 0.142,
@@ -2062,7 +2059,6 @@
     "value": 0.5,
     "tag": "TUNABLE",
     "citation": "Old town-finances DEFAULT_PRICE_ELASTICITY is explicitly PLACEHOLDER; not a common measured elasticity for every industry.",
-    "stopgapId": "SG-P8-business-books-dynamics",
     "spread": {
       "status": "unmeasured",
       "reason": "Sector-specific price/quantity and spending data are required; no matched coefficient bounds established."
@@ -2075,7 +2071,6 @@
     "value": 0.81,
     "tag": "TUNABLE",
     "citation": "Old town-finances references Andreyeva, Long and Brownell, AJPH 2010, food-away-from-home aggregate demand elasticity. Carrying that magnitude into this generated market/price projection is an uncalibrated crosswalk, not a measured firm coefficient.",
-    "stopgapId": "SG-P8-business-books-dynamics",
     "spread": {
       "status": "unmeasured",
       "reason": "The food-away-from-home category/study spread has not been reconstructed and does not identify this town-market price coefficient. Require matching source quantities and market observations."
@@ -4023,8 +4018,7 @@
       "high": 7,
       "unit": "people known in a group of 10, before the power law's exponent",
       "citation": "Five work friends (Olivet Nazarene University, 2019) to the near-27 average contacts in a mid-size firm (Jacobs and Watts, 2021)."
-    },
-    "stopgapId": "SG-P15-encounters"
+    }
   },
   "groupKnownExponent": {
     "value": 0.4,
@@ -4036,8 +4030,7 @@
       "high": 0.5,
       "unit": "exponent",
       "citation": "Range that keeps 100 people at 18 to 45 known."
-    },
-    "stopgapId": "SG-P15-encounters"
+    }
   },
   "groupKnownCap": {
     "value": 150,
@@ -7254,6 +7247,19 @@
     "tag": "SOURCED",
     "citation": "U.S. Department of Education: a bachelor's degree is a four-year program of full-time study (IPEDS definitions)."
   },
+  "pastServiceYears": {
+    "value": 4,
+    "role": "level",
+    "tag": "ESTIMATED",
+    "citation": "The years of a first enlistment before discharge: 10 U.S.C. 505(c) lets the services accept original enlistments \"for a period of at least two but not more than eight years\" (fetched Nov 12, 2026, https://www.law.cornell.edu/uscode/text/10/505); four, the common first term, is taken for every veteran.",
+    "estimatedFrom": "The statute's range of an original enlistment; the common four-year active term within it.",
+    "spread": {
+      "low": 2,
+      "high": 8,
+      "unit": "years",
+      "citation": "10 U.S.C. 505(c): at least two and not more than eight years."
+    }
+  },
   "pastWorkSomeCollegeYears": {
     "value": 2,
     "tag": "SOURCED",
@@ -8464,6 +8470,18 @@
       "high": 400,
       "unit": "days",
       "citation": "A month (a canvass and recount) to a year and a month; checked against the records proof of a two-year Montpelier run."
+    }
+  },
+  "traitWeightVotingAskRecount": {
+    "value": 0.2,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "No study of candidates' choice to ask for a recount was found; set at the weight of the nearest calibrated candidate choice, standing again (traitWeightVotingStandAgain, 0.2), so temperament tips only a count near the closeness share (recountAskCloseShare).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "weight",
+      "citation": "The spread of traitWeightVotingStandAgain."
     }
   }
 }

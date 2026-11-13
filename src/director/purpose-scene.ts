@@ -27,10 +27,7 @@ import {
 import { viewOn } from "../core2/modules/views";
 import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
-import {
-  isExplicitlyControlledPersonV1,
-  playerClockFrontierV1,
-} from "../core2/life";
+import { dayParts, sceneMinute } from "./day-part";
 import {
   corePlaceByJurisdictionId,
   coreStateKeyOfJurisdictionId,
@@ -59,7 +56,12 @@ import {
 import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
 import { withArticle } from "../english/journal-words";
-import { JOB_OFFERED_EVENT } from "../core2/modules/jobs";
+import {
+  JOBS_MODULE_ID,
+  JOB_OFFERED_EVENT,
+  jobById,
+  staffCount,
+} from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { petitionAtDoor } from "./doors";
@@ -81,7 +83,6 @@ import {
 import type { Fact } from "../english/scene-talk-words";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
-import { reunionFacts } from "./reunion-facts";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
 import { gatheringFacts } from "./gathering-facts";
@@ -122,7 +123,13 @@ import { closenessBetween } from "../core2/closeness";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
-import { properName, spoken, spokenDate, stateInSentence } from "./words";
+import {
+  numberWord,
+  properName,
+  spoken,
+  spokenDate,
+  stateInSentence,
+} from "./words";
 import { giveInauguralAddress, inauguralStand } from "./inaugural-address";
 import {
   ADDRESS_KEEPS,
@@ -464,6 +471,57 @@ function composeBinding(
         text: spokenDate(said.deadline, core.date),
         sourceRecordIds: ids,
       };
+    // What the work is beyond the title and pay, from the opening's own row
+    // (words-job-offer-answer-repeats-title-and-pay): the weekly hours of the job
+    // it was modeled on, who held it before when it replaces someone, and how
+    // many people work there now. Each is said only when the record holds it.
+    const jobs = core.modules.has(JOBS_MODULE_ID)
+      ? coreAPI(core as CoreState).moduleState(JOBS_MODULE_ID)
+      : undefined;
+    const offer = said.offerId
+      ? (jobs?.table("offers").get(said.offerId) as
+          { positionId?: string } | undefined)
+      : undefined;
+    const position = offer?.positionId
+      ? (jobs?.table("positions").get(offer.positionId) as
+          | {
+              id: string;
+              templateJobId?: string;
+              replacesPersonId?: string;
+            }
+          | undefined)
+      : undefined;
+    if (position) {
+      const at = [moment.causeId, position.id];
+      const api = coreAPI(core as CoreState);
+      // Full people's jobs and counted workers' by one rule (two tiers).
+      const template = position.templateJobId
+        ? jobById(api, position.templateJobId)
+        : undefined;
+      // A job's hours are kept as a calendar day's share of the week; people
+      // say the week ("40 hours a week").
+      if (template && template.hoursDaily > P.zero)
+        facts.hours = {
+          text: String(
+            Math.round(template.hoursDaily * api.parameter("daysPerWeek")),
+          ),
+          sourceRecordIds: [...at, template.id],
+        };
+      const before = position.replacesPersonId
+        ? core.people.get(position.replacesPersonId as PersonId)
+        : undefined;
+      if (before)
+        facts.replaced = {
+          text: `${before.givenName} ${before.familyName}`,
+          sourceRecordIds: [...at, before.id],
+        };
+      const crew = Math.round(staffCount(api, said.organizationId));
+      if (crew > P.one)
+        facts.crew = {
+          text: String(crew),
+          sourceRecordIds: [...at, said.organizationId],
+        };
+    }
   }
   // A notice to pay or leave (housing.ts): what the household owes as people
   // say it ("about $400"), how long it has gone unpaid, whether the shortfall
@@ -506,8 +564,7 @@ function composeBinding(
   // A story someone in the household read (news.ts, `news.read`): what it was
   // about, as the catalog names it, and the paper that ran it. The lines name
   // the story; a story the catalog cannot name has no scene (the scene is
-  // skipped, never worded as "something"). stopgapId:
-  // SG-WORDS-story-read-talk-moves-nothing (the talk moves no view).
+  // skipped, never worded as "something").
   const storyId =
     record?.kind === NEWS_READ ? storyOfReadEvent(record.id) : null;
   const about =
@@ -584,23 +641,12 @@ function composeBinding(
     meetingFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
   ))
     facts[key] = fact;
-  // Someone who has come back after a long time apart (the director's thread
-  // for the pair), and a letter from a relative elsewhere (kin-contact.ts's
-  // `family.contact`): how long, where they live, what changed in their life
-  // and what the tie records, each cited. stopgapId:
-  // SG-WORDS-reunion-ask-unrecorded, SG-WORDS-letter-ask-unrecorded
+  // A letter from a relative elsewhere (kin-contact.ts's `family.contact`):
+  // how long, where they live, what changed in their life and what the tie
+  // records, each cited. stopgapId: SG-WORDS-letter-ask-unrecorded
   const placeNamed = (placeId: string) => destinationSaid(placeId, "");
-  for (const [key, fact] of Object.entries({
-    ...reunionFacts(
-      core,
-      director,
-      binding.typeKey,
-      moment.date,
-      askerId,
-      askedId,
-      placeNamed,
-    ),
-    ...letterFacts(
+  for (const [key, fact] of Object.entries(
+    letterFacts(
       core,
       binding.typeKey,
       moment.causeId,
@@ -608,7 +654,7 @@ function composeBinding(
       askedId,
       placeNamed,
     ),
-  }))
+  ))
     facts[key] = fact;
   // A celebration (a wedding, a new job) and a family gathering with a
   // relative missing (`family.gathering-missed`): what is celebrated and whose
@@ -1011,24 +1057,28 @@ function composeBinding(
         {
           row,
           name,
+          // The incumbent is said as one; a party is never said before
+          // every name (Fable A, Nov 13, rule 2).
           text:
-            incumbent?.personId === row.personId
-              ? `incumbent ${name}`
-              : row.party && row.party !== "party"
-                ? `${row.party} candidate ${name}`
-                : name,
+            incumbent?.personId === row.personId ? `incumbent ${name}` : name,
         },
       ];
     });
     if (said_.length) {
       const cited = [moment.causeId, ...said_.map((row) => row.row.id)];
+      // A list names three, then counts (Fable A, Nov 13, rule 2): up to
+      // three by name; more, the first two and how many others.
+      const named =
+        said_.length > P.two + P.one
+          ? [
+              ...said_.slice(P.zero, P.two).map((row) => row.text),
+              `${numberWord(said_.length - P.two)} others`,
+            ]
+          : said_.map((row) => row.text);
       const list =
-        said_.length === P.one
-          ? said_[P.zero]!.text
-          : `${said_
-              .slice(P.zero, -P.one)
-              .map((row) => row.text)
-              .join(", ")} and ${said_.at(-P.one)!.text}`;
+        named.length === P.one
+          ? named[P.zero]!
+          : `${named.slice(P.zero, -P.one).join(", ")} and ${named.at(-P.one)!}`;
       facts["already-filed"] = {
         text: String(said_.length),
         sourceRecordIds: cited,
@@ -1628,7 +1678,10 @@ function petitionFacts(
       : null;
   if (!petition) return {};
   const fact = (text: string) => ({ text, sourceRecordIds: [petition.id] });
-  const walk = walkThroughFacts(core, petition);
+  const walk = {
+    ...walkThroughFacts(core, petition),
+    ...voteDay(core, petition),
+  };
   if (petition.needed <= P.zero) return { "no-petition": fact("yes"), ...walk };
   const due = fact(spokenDate(petition.due, core.date));
   return petition.needed === P.one
@@ -1638,6 +1691,38 @@ function petitionFacts(
         due,
         ...walk,
       };
+}
+
+/**
+ * The race's next vote, its primary when one is still ahead, else the
+ * election, said as a day, from the contest the filing is in: what the clerk
+ * names when the candidate asks when they will know, or what comes next.
+ */
+function voteDay(
+  core: Readonly<CoreState>,
+  petition: { filingId: string },
+): Record<string, Fact> {
+  const api = coreAPI(core as CoreState);
+  const elections = api.moduleState(ELECTIONS_MODULE_ID);
+  const filing = elections
+    .table("filings")
+    .get(petition.filingId) as unknown as { contestId: string } | undefined;
+  const contest = filing
+    ? (elections.table("contests").get(filing.contestId) as unknown as
+        | { id: string; primaryDate: string | null; electionDate: string }
+        | undefined)
+    : undefined;
+  if (!contest) return {};
+  const day =
+    contest.primaryDate && contest.primaryDate >= core.date
+      ? contest.primaryDate
+      : contest.electionDate;
+  return {
+    "vote-day": {
+      text: spokenDate(day, core.date),
+      sourceRecordIds: [contest.id],
+    },
+  };
 }
 
 /**
@@ -1676,29 +1761,6 @@ function walkThroughFacts(
       ? { outlet: { text: paper, sourceRecordIds: [outlet.id] } }
       : {}),
   };
-}
-
-const AFTERNOON_FROM = rulesFile.timeOfDay.afternoonFromMinute.value;
-const EVENING_FROM = rulesFile.timeOfDay.eveningFromMinute.value;
-
-/** The marks a scene's hour gives its lines: the daytime and its half, or the evening. */
-function dayParts(minute: number | undefined): readonly string[] {
-  if (minute === undefined) return [];
-  if (minute >= EVENING_FROM) return ["evening"];
-  return ["daytime", minute >= AFTERNOON_FROM ? "afternoon" : "morning"];
-}
-
-/**
- * The minute of the day a scene plays at: the player's clock, where the
- * person is the one the player controls and the clock stands on today.
- */
-function sceneMinute(
-  core: Readonly<CoreState>,
-  personId: PersonId,
-): number | undefined {
-  if (!isExplicitlyControlledPersonV1(core, personId)) return undefined;
-  const now = playerClockFrontierV1(core as CoreState, personId);
-  return now?.date === core.date ? now.minuteOfDay : undefined;
 }
 
 /** Hours of quarrel an ending that strains a tie writes to closeness, by what it keeps. */
@@ -1795,14 +1857,6 @@ export function replyInScene(
         ? "no"
         : undefined
     : undefined;
-  // A meeting set or a matter put off owes the other a talk: who, about
-  // what and by when, for the people engine's owed-talk record to read
-  // (agreements/2-3.md).
-  const owed =
-    !!ending &&
-    (rulesFile.owedTalk.keeps.includes(ending.keeps) ||
-      rulesFile.owedTalk.endings.includes(ending.id));
-  const owedWith = scene.playerAsks ? scene.askedId : scene.askerId;
   applyCoreEvent(core, {
     id,
     date: core.date,
@@ -1824,16 +1878,6 @@ export function replyInScene(
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
       ...(conceded ? { conceded } : {}),
-      ...(owed
-        ? {
-            owedWith,
-            owedTopic: stakeKind ?? scene.typeKey,
-            owedDueOn: addDays(
-              makeIsoDate(core.date),
-              rulesFile.owedTalk.dueDays.value,
-            ),
-          }
-        : {}),
     },
     source: {
       tag: "SOURCED",

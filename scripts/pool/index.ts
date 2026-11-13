@@ -11,6 +11,7 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
 import {
   branchPrefix,
@@ -555,6 +556,29 @@ export function indexCheck(poolDir: string): string[] {
 
 const POOL = (): string => join(process.cwd(), "docs", "pool");
 const itemPath = (id: string): string => join(POOL(), "items", `${id}.md`);
+
+/** The repository's own Prettier, found from this file so it works from any working directory. */
+const PRETTIER = createRequire(import.meta.url).resolve(
+  "prettier/bin/prettier.cjs",
+);
+
+/**
+ * The one writer of an item file: the text goes through the repository's
+ * Prettier, with the item's own path so its Markdown rules and any
+ * configuration apply, before it is written. Every command that writes an
+ * item (add, claim, release, status, seen, next and the merged flip) writes
+ * through here, so nothing the tool pushes fails the repository's format
+ * check (three items written by add on Nov 12, 2026 did).
+ */
+function writeItem(id: string, text: string): void {
+  const path = itemPath(id);
+  const formatted = execFileSync(
+    process.execPath,
+    [PRETTIER, "--stdin-filepath", path],
+    { input: text, encoding: "utf8", stdio: ["pipe", "pipe", "pipe"] },
+  );
+  writeFileSync(path, formatted);
+}
 
 /** Sets or inserts front-matter keys in an item's text. */
 export function setFields(
@@ -1171,8 +1195,8 @@ function next(
       taken = null;
       released = staleClaims(read(), now, (b) => branchTip(b, true));
       for (const s of released)
-        writeFileSync(
-          itemPath(s.id),
+        writeItem(
+          s.id,
           releasedText(s.id, `Released by next (${day(now)}): ${staleLine(s)}`),
         );
       const item = pick(read());
@@ -1183,7 +1207,7 @@ function next(
             ? `Claimed by next for ${agent} (${when(now)}) on branch ${branchOf(item)}.`
             : undefined,
         });
-        if (text) writeFileSync(itemPath(item.id), text);
+        if (text) writeItem(item.id, text);
         taken = item;
       }
       const ids = [...released.map((s) => s.id), ...(item ? [item.id] : [])];
@@ -1305,7 +1329,7 @@ function next(
           item.id,
           () => {
             const text = claimText(item.id, branch, { pr });
-            if (text) writeFileSync(itemPath(item.id), text);
+            if (text) writeItem(item.id, text);
           },
           `pool: ${item.id} draft ${pr}`,
           false,
@@ -1355,7 +1379,7 @@ export function command(
       const pr = f.pr ? `#${f.pr.replace(/^#/, "")}` : "";
       const edit = (): void => {
         const text = claimText(id, f.branch, { pr });
-        if (text) writeFileSync(itemPath(id), text);
+        if (text) writeItem(id, text);
       };
       mutate(id, edit, `pool: claim ${id} (${f.branch})`, noPush);
     } else if (cmd === "release") {
@@ -1366,8 +1390,8 @@ export function command(
         const fm = readItem(id);
         if (fm.status !== "claimed")
           throw new Error(`${id} is ${fm.status}, not claimed`);
-        writeFileSync(
-          itemPath(id),
+        writeItem(
+          id,
           releasedText(
             id,
             `Released (${new Date().toISOString().slice(0, 10)}): ${reason}`,
@@ -1423,10 +1447,7 @@ export function command(
           fields["claimed-at"] = "";
           if ("merged-at" in fm) fields["merged-at"] = "";
         }
-        writeFileSync(
-          itemPath(id),
-          setFields(readFileSync(itemPath(id), "utf8"), fields),
-        );
+        writeItem(id, setFields(readFileSync(itemPath(id), "utf8"), fields));
       };
       mutate(
         id,
@@ -1467,8 +1488,8 @@ export function command(
           : { status: "done", "seen-by": fmValue(by), "seen-at": now };
         if (not && "merged-at" in fm) fields["merged-at"] = "";
         const note = `${not ? "Not seen" : "Seen"} in the game (${now.slice(0, 10)}, ${by}): ${oneLine(f.place)}, seed ${oneLine(f.seed)}, main ${oneLine(f.main)}: ${saw}`;
-        writeFileSync(
-          itemPath(id),
+        writeItem(
+          id,
           appendNote(
             setFields(readFileSync(itemPath(id), "utf8"), fields),
             note,
@@ -1507,7 +1528,7 @@ export function command(
           ),
         ];
         if (problems.length) throw new Error(problems.join("\n"));
-        writeFileSync(itemPath(id), text);
+        writeItem(id, text);
       };
       mutate(id, edit, `pool: add ${id}`, noPush);
     } else return `unknown subcommand: ${cmd}`;

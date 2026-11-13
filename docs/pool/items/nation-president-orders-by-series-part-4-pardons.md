@@ -19,7 +19,7 @@ source: split from nation-president-orders-by-series in the pool redo, Nov 10, 2
 checked: fable 2026-11-10
 ---
 
-**What.** `pardonable` in src/core2/office-day-federal-president.ts returns nothing (stopgap SG-OFFICE-FED-pardons) because the justice engine tries every crime under the state's law, so there is no federal conviction to pardon. Once the justice engine records which sovereign prosecuted, a President may pardon offenses against the United States only (U.S. Const. art. II, sec. 2, cl. 1), through the executive engine. This is part 4 of nation-president-orders-by-series.
+**What.** `pardonable` in src/core2/office-day-federal-president.ts returns nothing (stopgap SG-OFFICE-FED-pardons) because the justice engine tries every crime under the state's law, so there is no federal conviction to pardon. Once the justice engine records which sovereign prosecuted, a President may pardon offenses against the United States only (U.S. Const. art. II, sec. 2, cl. 1), through the executive engine. This is part 4 of nation-president-orders-by-series. Feeds: nation-president-orders-by-series
 
 **Cause.** Found in code: `pardonable` (line 985) in src/core2/office-day-federal-president.ts returns an empty list and registers SG-OFFICE-FED-pardons.
 

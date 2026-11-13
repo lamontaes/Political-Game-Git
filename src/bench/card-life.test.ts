@@ -16,6 +16,7 @@ import { advanceCore } from "../core2/life";
 import { lifeOf } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import type { CoreEventInput, IsoDate } from "../core2/types";
+import { inOrderParagraphs } from "./ui/strips.mjs";
 import { knownCard } from "./card";
 import { traceNode } from "./dev-trace";
 import { buildBenchWorld } from "./world";
@@ -155,7 +156,12 @@ it("the player's own life is told in the first person, never repeats who they ar
     expect(line.text, `${where}: ${line.recordId}`).not.toMatch(/\byou(r)?\b/);
   }
   expect(
-    mine.history.some((line) => /^I\b/.test(line.text)),
+    // After the time it opens on, when it opens on one ("In 2012, I ...").
+    mine.history.some((line) =>
+      /^(?:(?:(?:In|Back in|Then in|Later, in) \d{4}|At (?:age )?\d+|That same year), )?I\b/.test(
+        line.text,
+      ),
+    ),
     where,
   ).toBe(true);
   // "Who I am" tells where they were born; the story does not tell it again.
@@ -204,7 +210,11 @@ it("three or more jobs are one sentence naming every employer, on every job's re
     return;
   }
   const card = knownCard(core, playerId!, worker.id);
-  const jobs = card.history.filter((line) => line.text.includes(" before "));
+  // The one sentence of several jobs, by the piece that worded it (its
+  // wordings vary: "held jobs at A and B before C", "bounced from A to C").
+  const jobs = card.history.filter((line) =>
+    line.piece.startsWith("person-history.story.work.history."),
+  );
   expect(jobs, `${where}: ${worker.id}`).toHaveLength(1);
   const employers = [
     ...new Set(
@@ -219,7 +229,9 @@ it("three or more jobs are one sentence naming every employer, on every job's re
   for (const event of spells(worker.id))
     expect(jobs[0]!.records, `${where}: ${event.id}`).toContain(event.id);
   expect(
-    card.history.filter((line) => /went to work at/.test(line.text)),
+    card.history.filter((line) =>
+      line.piece.startsWith("person-history.story.work.spell."),
+    ),
     where,
   ).toEqual([]);
   console.log(`card-life jobs: ${where}; ${worker.id}: ${jobs[0]!.text}`);
@@ -249,18 +261,40 @@ it("a partner the person was made with is told before their children", () => {
   console.log(`card-life order: ${where}; no partner dated after a child`);
 });
 
-it("a loss is told after school and work, and a partner before the children, in the one set of paragraphs My life and every card share", () => {
+it("My life and every card tell a life in the order it was lived, a new paragraph where the kind of thing changes (Fable A, Nov 13, rule 17)", () => {
   const groups: string[][] = JSON.parse(
     readFileSync(new URL("./data/controls.json", import.meta.url), "utf8"),
   ).lifeGroups;
-  const at = (kind: string) =>
-    groups.findIndex((kinds) => kinds.includes(kind));
-  for (const kind of ["partner", "child", "school", "work", "loss"])
-    expect(at(kind), `${kind} has a paragraph`).toBeGreaterThanOrEqual(0);
-  expect(at("loss"), "a loss after school").toBeGreaterThan(at("school"));
-  expect(at("loss"), "a loss after work").toBeGreaterThan(at("work"));
-  expect(at("loss"), "a loss in its own paragraph").not.toBe(at("child"));
-  expect(at("partner"), "a partner before the children").toBeLessThanOrEqual(
-    at("child"),
+  // P2, Fruitland, Idaho (Nov 13): My life opened "I separated from
+  // Jeffrey Pennington in 2016." before "In 1979, I began school", and ended
+  // a 2020 hospital stay before a 1989 arrest. The card's lines come oldest
+  // first; the paragraphs keep them so.
+  const lines = [
+    { kind: "school", text: "In 1979, I began school.", recordId: "a" },
+    { kind: "law", text: "I was arrested in 1989.", recordId: "b" },
+    { kind: "law", text: "I was convicted of a crime in 1990.", recordId: "c" },
+    { kind: "work", text: "I worked at the mill.", recordId: "d" },
+    {
+      kind: "partner",
+      text: "I separated from Jeffrey Pennington in 2016.",
+      recordId: "e",
+    },
+    {
+      kind: "health",
+      text: "I spent time in the hospital in 2020.",
+      recordId: "f",
+    },
+  ];
+  const paragraphs = inOrderParagraphs(lines, groups);
+  expect(paragraphs.flat().map((line) => line.recordId)).toEqual(
+    lines.map((line) => line.recordId),
   );
+  // The arrest and the conviction, one after the other, share a paragraph.
+  expect(paragraphs.map((rows) => rows.map((line) => line.recordId))).toEqual([
+    ["a"],
+    ["b", "c"],
+    ["d"],
+    ["e"],
+    ["f"],
+  ]);
 });

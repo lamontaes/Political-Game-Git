@@ -41,7 +41,7 @@ import {
   type ResidentFacts,
   type TownFacts,
 } from "./group-b-people";
-import { flowWeights, fundOf } from "../counted-money";
+import { flowWeights, fundOf, peopleInGroup } from "../counted-money";
 import {
   getRow,
   putRow,
@@ -51,11 +51,13 @@ import {
 } from "./group-b-store";
 import type { ModuleRow } from "../module-data";
 import {
+  budgetInForce,
   fundFederalStanding,
   noteLinePaid,
   registerLinePayments,
 } from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
+import expansionMatch from "../data/laws/medicaid-expansion-match.json" with { type: "json" };
 
 export const source = (api: CoreAPI, citation: string): Source => ({
   tag: "SOURCED",
@@ -334,6 +336,17 @@ interface BenefitRow {
  * Each month's close counts the benefits and vouchers a treasury pays in town
  * as that line's spending, so the line pays only the rest outside.
  */
+/**
+ * The line a benefit with no line of its own counts against: the paying government's own budget
+ * line for it, read from the budget it keeps (a town or state's welfare and Medicaid; the federal
+ * budget's lines are the Treasury's outlays by function, so its income security).
+ */
+const BENEFIT_LINES = ["welfareAndMedicaid", "incomeSecurity"] as const;
+function benefitLineOf(api: CoreAPI, gov: { readonly id: string }): string {
+  const lines = budgetInForce(api, gov.id)?.spendingMinor ?? {};
+  return BENEFIT_LINES.find((line) => line in lines) ?? BENEFIT_LINES[0];
+}
+
 registerLinePayments((api, gov) => {
   const accounts = api.accounts();
   const out: Record<string, number> = {};
@@ -348,7 +361,7 @@ registerLinePayments((api, gov) => {
     )
       continue;
     if (accounts.obligation(row.obligationId)?.endedAt) continue;
-    const line = row.line ?? "welfareAndMedicaid";
+    const line = row.line ?? benefitLineOf(api, gov);
     out[line] = (out[line] ?? 0) + row.amountMinor;
   }
   return out;
@@ -393,11 +406,19 @@ export function reconcileObligations(
   const existing = rowsOf<BenefitRow>(api, "taken").filter(
     (r) => r.key === `${input.rowKind}|${input.key}`,
   );
+  // A recipient whose amount only changes keeps the day their payment is next
+  // due: a mid-month law change must not open the new amount tomorrow and pay
+  // the month twice (the work requirement's change-day rerun did, Marion,
+  // Mississippi, seed 7df73e53cd67).
+  const carriedDue = new Map<string, typeof first>();
   for (const row of existing) {
     if (want.get(`${row.governmentId}|${row.recipientId}`) === row.amountMinor)
       continue;
-    if (!accounts.obligation(row.obligationId)?.endedAt)
-      accounts.endObligation(row.obligationId);
+    const old = accounts.obligation(row.obligationId);
+    const pair = `${row.governmentId}|${row.recipientId}`;
+    if (old && !old.endedAt && old.nextDueAt && want.has(pair))
+      carriedDue.set(pair, makeIsoDate(old.nextDueAt));
+    if (!old?.endedAt) accounts.endObligation(row.obligationId);
     putRow(api, "taken", { ...row, key: `ended|${input.key}` });
   }
   const kept = new Set(
@@ -424,7 +445,8 @@ export function reconcileObligations(
         ? recipientId.slice(FUND.length)
         : accounts.main(recipientId),
       amountMinor,
-      firstDueAt: first,
+      // Tomorrow at the earliest; the old payment's own next day when it is later.
+      firstDueAt: [first, carriedDue.get(pair) ?? first].sort().at(-1)!,
       cadence: { kind: "months", every: reachParameter("reviewEveryMonths") },
       accruesArrears: false,
       reasonKey: input.reasonKey,
@@ -854,10 +876,17 @@ export function payMedicaidCare(
   if (!state) return { paidBySeller, journalIds };
   const federal = governmentAt(api, "federal");
   const match = lawInForce(api, "medicaid-match");
+  // The expansion population's federal share is the statute's own, higher than
+  // the regular match (42 U.S.C. 1396d(y)(1)), for the 50 States and D.C.; a
+  // territory's capped financing keeps the regular match in force.
+  const usps = lawChain(api).stateKey.slice(3);
+  const expansionPercent = expansionMatch.territories.value.includes(usps)
+    ? (match.value ?? 0)
+    : expansionMatch.percent.value;
   const federalShare = federal
     ? Math.min(
         1,
-        Math.max(0, (match.value ?? 0) / reachParameter("percentPerWhole")),
+        Math.max(0, expansionPercent / reachParameter("percentPerWhole")),
       )
     : 0;
   const accounts = api.accounts();
@@ -1518,7 +1547,8 @@ export function payVouchers(
             targetId: `${town}:private-tuition-group:${group}`,
             target: "group",
             what: "private-tuition-voucher-paid",
-            count: Math.max(1, Math.round(weight)),
+            // The people the group stands for, never its dollar weight in the flow.
+            count: Math.max(1, Math.round(peopleInGroup(rt, group))),
             amountMinor: amount,
           });
           paidGroups += 1;
