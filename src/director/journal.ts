@@ -2141,8 +2141,9 @@ export function composeJournal(
   const tellParagraph = (
     told: readonly Unit[],
     key: string,
+    /** What the stretch has named already (an employer, a place), shared by its runs. */
+    said: Set<string> = new Set<string>(),
   ): JournalWorded[] => {
-    const said = new Set<string>();
     const sentences: JournalWorded[] = [];
     const remember = (text: string, facts: Facts) => {
       for (const [name, fact] of Object.entries(facts))
@@ -2164,15 +2165,15 @@ export function composeJournal(
             ([name]) => !repeated.some(([gone]) => gone === name),
           ),
         );
-        // The employer first: a place may be said again where the line
-        // has no other way to say where.
+        // Without both first; a place is said again only where the line has
+        // no other way to say where.
         const fewerButPlace = Object.fromEntries(
           Object.entries(unit.facts).filter(
             ([name]) =>
               name === "place" || !repeated.some(([gone]) => gone === name),
           ),
         );
-        const again = unit.retell(fewerButPlace) ?? unit.retell(fewer);
+        const again = unit.retell(fewer) ?? unit.retell(fewerButPlace);
         if (again) event = again;
       }
       // No "we" or "our" without a partner on record to stand behind it
@@ -2305,6 +2306,8 @@ export function composeJournal(
     lastPart = true,
     /** The day the stretch ends (the next move, or the start): the years the stretch's work covers. */
     until?: IsoDate,
+    /** What the stretch has named already: a place said is not said again. */
+    said?: Set<string>,
   ): JournalWorded[] | null => {
     const employers = new Map<string, string>();
     for (const unit of told)
@@ -2340,7 +2343,8 @@ export function composeJournal(
       .sort(([a, x], [b, y]) => y.n - x.n || a.localeCompare(b))
       .slice(zero, P.two);
     const join = JOURNAL_OUTLINE.workJoin;
-    const where = lastUnit.facts.place ?? first.facts.place;
+    const placed = lastUnit.facts.place ?? first.facts.place;
+    const where = placed && !said?.has(placed.text) ? placed : undefined;
     const span: Fact = {
       text: spanSaid(
         daysBetween(
@@ -2786,9 +2790,11 @@ export function composeJournal(
         core.startedAt) as IsoDate;
       const key = row[zero]!.moment.date < grownUp ? "roots" : "family";
       const sentences: JournalWorded[] = [];
+      // What the stretch has named (a place, an employer), said once in it.
+      const said = new Set<string>();
       let run: Unit[] = [];
       const flush = () => {
-        if (run.length) sentences.push(...tellParagraph(run, key));
+        if (run.length) sentences.push(...tellParagraph(run, key, said));
         run = [];
       };
       let workTold = false;
@@ -2801,10 +2807,18 @@ export function composeJournal(
         workTold = true;
         flush();
         const work = row.filter(isWork);
-        sentences.push(
-          ...(tellWork(work, at === lastWork, until) ??
-            tellParagraph(work, "work")),
-        );
+        const told =
+          tellWork(work, at === lastWork, until, said) ??
+          tellParagraph(work, "work", said);
+        // The places and employers the work sentence named, said once.
+        for (const unit of work)
+          for (const name of sayOnce)
+            if (
+              unit.facts[name] &&
+              told.some((part) => part.text.includes(unit.facts[name]!.text))
+            )
+              said.add(unit.facts[name]!.text);
+        sentences.push(...told);
       }
       flush();
       for (const paragraph of ["roots", "work"])
