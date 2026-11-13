@@ -277,8 +277,14 @@ export function useFit(
     (u.set ? four + two : zero) +
     (u.key ? two : zero) +
     (u.after ? (u.after === use.afterPiece ? four + four : one) : zero) +
-    // A piece that needs a fact the record holds says more than one that does not.
-    (u.requiresFacts?.length ?? zero)
+    // A piece that needs a fact the record holds says more than one that does
+    // not; one that speaks from a strength (a read) fits by how strong it is,
+    // so a strain of almost nothing leaves the strain line behind and a strong
+    // one brings it forward. Nothing switches a line on at a line drawn.
+    (u.requiresFacts?.reduce(
+      (sum, name) => sum + (facts[name]?.weight ?? one),
+      zero,
+    ) ?? zero)
   );
 }
 

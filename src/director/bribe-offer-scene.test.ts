@@ -182,4 +182,57 @@ describe(`an offer left for an official (seed ${seed})`, () => {
       if (/A thank-you/.test(reply.line.text))
         expect(thanked, `${offer.text} / ${reply.line.text}`).toBe(true);
   });
+
+  it("weighs a read by its strength: a friend with almost no strain does not open with the desperate line", () => {
+    // Primrose, Alaska (0264240), seed 48e269d37a71efa5:0, the friend row:
+    // reads tie 0.84, strain about 0 (shown as 0), need 0.28; it opened "I'm
+    // not in a spot to take no for an answer." A read weighs the lines that
+    // speak from it (scene-talk-words useFit); nothing switches one on.
+    const strainOpeners =
+      /I'll be honest, I need this one|I'm not in a spot to take no/;
+    const read = (weight: number): Fact => ({
+      text: "yes",
+      sourceRecordIds: ["bribe:primrose"],
+      weight,
+    });
+    const friend = {
+      ...type,
+      purpose: "bribe-offer.friend",
+      family: "bribe-offer",
+    };
+    const base = {
+      ...cast,
+      amount: fact("about $1,500"),
+      "favor-contract": fact("contract"),
+    };
+    const said = (facts: Record<string, Fact>, causeId: string) => {
+      const result = composeSceneTalk(
+        core,
+        director,
+        { askerId, askedId, causeId },
+        friend,
+        facts,
+      );
+      expect(result.kind).toBe("composed");
+      return result.kind === "composed" ? result.talk.state.text : "";
+    };
+    const faint: string[] = [];
+    const strong: string[] = [];
+    for (let n = 0; n < 12; n += 1) {
+      faint.push(
+        said(
+          {
+            ...base,
+            "read-tie": read(0.84),
+            "read-strain": read(0.004),
+            "read-need": read(0.28),
+          },
+          `primrose-${n}`,
+        ),
+      );
+      strong.push(said({ ...base, "read-strain": read(0.8) }, `strained-${n}`));
+    }
+    for (const text of faint) expect(text).not.toMatch(strainOpeners);
+    expect(strong.some((text) => strainOpeners.test(text))).toBe(true);
+  });
 });

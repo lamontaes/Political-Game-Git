@@ -1372,7 +1372,8 @@ function composeBinding(
         })
       : null;
   // What the records gave the variant, for the lines that say it: every read
-  // that came to more than nothing is a fact of the scene, cited to the records
+  // that came to more than nothing is a fact of the scene, weighted by its
+  // strength (a line that speaks from it fits by that much), cited to the records
   // it came from (`read-town-against`, `read-scandal`), so a line about the
   // town being against the vote plays only where the vote record shows it.
   if (variant)
@@ -1381,6 +1382,8 @@ function composeBinding(
         facts[`read-${name}`] = {
           text: "yes",
           sourceRecordIds: [...variant.recordIds],
+          // A read is a strength: it weighs the lines that speak from it.
+          weight: Math.min(value, P.one),
         };
   // A constituent's own records, worded: the job they lost, the notice on
   // their rent, the pay under the floor, the relative who is ill.

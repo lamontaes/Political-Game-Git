@@ -16,6 +16,13 @@ import {
 export interface Fact {
   text: string;
   sourceRecordIds: readonly string[];
+  /**
+   * How strongly the record holds it, 0 to 1, where it is a strength and not
+   * a yes or no (a variant's read: how strained, how close). A scene piece
+   * that speaks from it fits by this much (scene-talk-words `useFit`); a fact
+   * without one counts whole.
+   */
+  weight?: number;
 }
 export interface Variant {
   key: string;
