@@ -7,6 +7,7 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
+import { placeStateKey } from "../core2/place-map";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { personLean } from "../core2/campaign-views";
 import { appointmentsIn } from "../core2/modules/executive";
@@ -321,10 +322,7 @@ export function lawReachFacts(
 
 /** The state a person lives in (`US-IL`), from their place's record or, for someone placed only at their state's level, the state's own id. */
 export function homeStateOf(placeId: string): string | null {
-  return (
-    corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey ??
-    coreStateKeyOfJurisdictionId(placeId)
-  );
+  return placeStateKey(placeId);
 }
 
 /** A law row of the laws engine by its id: where it is law and the day it takes effect. */
