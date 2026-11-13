@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 **Notes (Fable's check, Nov 10).** A second sighting, traced Nov 10 for gov-decision-to-run-off-ballot-huntington: in Mashantucket, Connecticut (place key 0945995, world seed 7a0e449feba29bda0d3d54d316d649976ee7b892f35bcb55ce8adf0a619a44c7) a county filing officer filed for board seat 1 on 2025-06-07 and died by 2025-07-01, before the deadline of 2025-08-06. The filing row still read on-ballot, nobody filed in their place, and the race had nobody on it. That world plays its year in 22 seconds.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added each place's rule for a sole filer who dies late; the seat already resolves by the holdover rule and the case is vanishingly rare.

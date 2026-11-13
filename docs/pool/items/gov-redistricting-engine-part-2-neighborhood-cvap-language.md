@@ -19,7 +19,7 @@ source: split from gov-redistricting-engine in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** A redistricting plan needs the makeup of each neighborhood the way courts read it: Census place makeup, citizen voting-age population and language-minority data, kept as cited place data and never as a field on a person. It comes from the stubs gov-redistricting-neighborhood-data and gov-redistricting-cvap-and-language.
+**What.** A redistricting plan needs the makeup of each neighborhood the way courts read it: Census place makeup, citizen voting-age population and language-minority data, kept as cited place data and never as a field on a person. It comes from the stubs gov-redistricting-neighborhood-data and gov-redistricting-cvap-and-language. Feeds: gov-redistricting-engine-part-3-who-draws-and-plan.
 
 **Cause.** Design: docs/codex/specs/bank/b16-redistricting-vra.md (the only written spec; its old-core references are not ported, so take only what the golden path uses) and the owner's approved decisions D-6 and Sept 28 #8 named in gov-redistricting-engine. Today no src/core2 file draws a district, and SG-GOV-REACH-A-redistricting is open in src/core2/data/stopgaps/gov.json.
 
