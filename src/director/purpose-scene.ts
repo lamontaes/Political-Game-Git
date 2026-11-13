@@ -1728,7 +1728,10 @@ function petitionFacts(
       : null;
   if (!petition) return {};
   const fact = (text: string) => ({ text, sourceRecordIds: [petition.id] });
-  const walk = walkThroughFacts(core, petition);
+  const walk = {
+    ...walkThroughFacts(core, petition),
+    ...voteDay(core, petition),
+  };
   if (petition.needed <= P.zero) return { "no-petition": fact("yes"), ...walk };
   const due = fact(spokenDate(petition.due, core.date));
   return petition.needed === P.one
@@ -1738,6 +1741,38 @@ function petitionFacts(
         due,
         ...walk,
       };
+}
+
+/**
+ * The race's next vote, its primary when one is still ahead, else the
+ * election, said as a day, from the contest the filing is in: what the clerk
+ * names when the candidate asks when they will know, or what comes next.
+ */
+function voteDay(
+  core: Readonly<CoreState>,
+  petition: { filingId: string },
+): Record<string, Fact> {
+  const api = coreAPI(core as CoreState);
+  const elections = api.moduleState(ELECTIONS_MODULE_ID);
+  const filing = elections
+    .table("filings")
+    .get(petition.filingId) as unknown as { contestId: string } | undefined;
+  const contest = filing
+    ? (elections.table("contests").get(filing.contestId) as unknown as
+        | { id: string; primaryDate: string | null; electionDate: string }
+        | undefined)
+    : undefined;
+  if (!contest) return {};
+  const day =
+    contest.primaryDate && contest.primaryDate >= core.date
+      ? contest.primaryDate
+      : contest.electionDate;
+  return {
+    "vote-day": {
+      text: spokenDate(day, core.date),
+      sourceRecordIds: [contest.id],
+    },
+  };
 }
 
 /**

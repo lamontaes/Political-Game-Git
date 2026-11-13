@@ -117,7 +117,8 @@
     "crew": "How many people work at the employer now, full people and counted workers alike: 12.",
     "replaced": "The full name of the person whose job an opening fills.",
     "about": "What a bill is about, as a noun phrase (\"a higher minimum wage\"), from the question its first section answers in the legislature record.",
-    "floor-count": "A bill's floor count, yes to no (\"5 to 2\"), from the legislature's roll call on it."
+    "floor-count": "A bill's floor count, yes to no (\"5 to 2\"), from the legislature's roll call on it.",
+    "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record."
   },
   "maxWords": 70,
   "parts": [
@@ -39821,7 +39822,7 @@
       "key": "scene-talk.close-thank.good-luck-out-there",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Good luck out there.",
+      "text": "Good luck in the race for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -39830,13 +39831,14 @@
           "role": "asker",
           "purpose": "filing-petition",
           "key": "filed",
-          "outcome": "resolved"
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
         }
       ],
       "bearing": "glad",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "thank",
         "key": "routine"
@@ -50330,7 +50332,7 @@
       "key": "scene-talk.close-thank.good-luck-i-mean-it",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Good luck. I mean it.",
+      "text": "Good luck on {vote-day}. I mean it.",
       "uses": [
         {
           "subject": "scene",
@@ -50339,13 +50341,14 @@
           "role": "asker",
           "purpose": "filing-petition",
           "key": "filed",
-          "outcome": "resolved"
+          "outcome": "resolved",
+          "requiresFacts": ["vote-day"]
         }
       ],
       "bearing": "glad",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "thank",
         "key": "routine"
@@ -62349,7 +62352,7 @@
       "key": "scene-talk.close-promise.i-ll-call-if-anyone-else-files",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll call if anyone else files.",
+      "text": "I'll call if anyone else files for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -62358,13 +62361,14 @@
           "role": "asker",
           "purpose": "filing-petition",
           "key": "filed",
-          "outcome": "resolved"
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "promise",
         "key": "routine"
@@ -62374,7 +62378,7 @@
       "key": "scene-talk.close-press.don-t-wait-till-the-last-hour",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Don't wait till the last hour.",
+      "text": "Don't wait till {due} to bring them in.",
       "uses": [
         {
           "subject": "scene",
@@ -62383,40 +62387,16 @@
           "role": "asker",
           "purpose": "filing-petition",
           "key": "filed",
-          "outcome": "open"
+          "outcome": "open",
+          "requiresFacts": ["due"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "press",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.the-counter-closes-at-five-sharp",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "The counter closes at five sharp.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "filing-petition",
-          "key": "filed",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "warn",
         "key": "routine"
       }
     },
@@ -65999,31 +65979,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.the-confirmation-goes-to-your-office-today",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "The confirmation goes to your office today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "filing-petition",
-          "key": "filed",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
         "key": "routine"
       }
     },
@@ -113551,7 +113506,7 @@
       "key": "scene-talk.state-tell-no-petition.this-office-doesn-t-take-a-petition-once-i-check-the-forms-you-re-on-the-ballot",
       "move": "state-tell-no-petition",
       "kind": "spoken",
-      "text": "This office doesn't take a petition. Once I check the forms, you're on the ballot.",
+      "text": "A run for {office} takes no petition. Once I check the forms, you're on the ballot.",
       "uses": [
         {
           "subject": "scene",
@@ -113560,13 +113515,13 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["no-petition", "repeat-filing"]
+          "requiresFacts": ["no-petition", "repeat-filing", "office"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-29",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "tell",
         "key": "filed"
@@ -113576,7 +113531,7 @@
       "key": "scene-talk.state-tell-no-petition.no-signatures-for-this-one-the-forms-are-all-i-need",
       "move": "state-tell-no-petition",
       "kind": "spoken",
-      "text": "No signatures for this one. The forms are all I need.",
+      "text": "No signatures for {office}. The forms are all I need.",
       "uses": [
         {
           "subject": "scene",
@@ -113585,13 +113540,13 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["no-petition", "repeat-filing"]
+          "requiresFacts": ["no-petition", "repeat-filing", "office"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-29",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "tell",
         "key": "filed"
@@ -115281,7 +115236,7 @@
       "key": "scene-talk.reply-agree.i-ll-have-them-back-before-then",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll have them back before then.",
+      "text": "I'll have them back before {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -115295,8 +115250,8 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "agree",
         "key": "filed"
@@ -115306,7 +115261,7 @@
       "key": "scene-talk.reply-agree.plenty-of-time-i-ll-start-this-week",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Plenty of time. I'll start this week.",
+      "text": "{due} is plenty of time. I'll start this week.",
       "uses": [
         {
           "subject": "scene",
@@ -115320,8 +115275,8 @@
       ],
       "bearing": "glad",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "agree",
         "key": "filed"
@@ -115331,7 +115286,7 @@
       "key": "scene-talk.reply-agree.good-then-i-m-on",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Good. Then I'm on.",
+      "text": "Good. Then I'm on for {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -115340,13 +115295,13 @@
           "role": "asked",
           "purpose": "filing-petition",
           "key": "filed",
-          "requiresFacts": ["no-petition"]
+          "requiresFacts": ["no-petition", "vote-day"]
         }
       ],
       "bearing": "glad",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "agree",
         "key": "filed"
@@ -115356,7 +115311,7 @@
       "key": "scene-talk.reply-agree.then-i-ll-wait-to-hear-from-you",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Then I'll wait to hear from you.",
+      "text": "Then I'll wait to hear I'm on the ballot for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -115365,13 +115320,13 @@
           "role": "asked",
           "purpose": "filing-petition",
           "key": "filed",
-          "requiresFacts": ["no-petition"]
+          "requiresFacts": ["no-petition", "office"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "agree",
         "key": "filed"
@@ -115381,7 +115336,7 @@
       "key": "scene-talk.reply-ask.what-if-i-come-up-short",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What if I come up short?",
+      "text": "What if I'm short of {signatures} by {due}?",
       "uses": [
         {
           "subject": "scene",
@@ -115390,13 +115345,13 @@
           "role": "asked",
           "purpose": "filing-petition",
           "key": "filed",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due", "signatures"]
         }
       ],
       "bearing": "anxious",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "ask",
         "key": "filed"
@@ -115406,7 +115361,7 @@
       "key": "scene-talk.reply-ask.can-anybody-sign-it",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Can anybody sign it?",
+      "text": "Can anybody sign it, or only voters in {place}?",
       "uses": [
         {
           "subject": "scene",
@@ -115415,13 +115370,13 @@
           "role": "asked",
           "purpose": "filing-petition",
           "key": "filed",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due", "place"]
         }
       ],
       "bearing": "curious",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "ask",
         "key": "filed"
@@ -115431,7 +115386,7 @@
       "key": "scene-talk.reply-ask.when-will-i-know-i-m-on",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "When will I know I'm on?",
+      "text": "Will I know before {vote-day} that I'm on?",
       "uses": [
         {
           "subject": "scene",
@@ -115440,13 +115395,13 @@
           "role": "asked",
           "purpose": "filing-petition",
           "key": "filed",
-          "requiresFacts": ["no-petition"]
+          "requiresFacts": ["no-petition", "vote-day"]
         }
       ],
       "bearing": "curious",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "ask",
         "key": "filed"
@@ -115456,7 +115411,7 @@
       "key": "scene-talk.reply-confront.that-many-for-one-seat",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "That many? For one seat?",
+      "text": "{signatures}? For one seat?",
       "uses": [
         {
           "subject": "scene",
@@ -115470,8 +115425,8 @@
       ],
       "bearing": "braced",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "confront",
         "key": "filed"
@@ -115481,7 +115436,7 @@
       "key": "scene-talk.reply-confront.who-decided-it-takes-that-many",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Who decided it takes that many?",
+      "text": "Who decided it takes {signatures}?",
       "uses": [
         {
           "subject": "scene",
@@ -115495,8 +115450,8 @@
       ],
       "bearing": "braced",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "confront",
         "key": "filed"
@@ -115506,7 +115461,7 @@
       "key": "scene-talk.reply-leave.then-i-d-better-get-started",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Then I'd better get started.",
+      "text": "Then I'd better get started. {due} comes fast.",
       "uses": [
         {
           "subject": "scene",
@@ -115520,8 +115475,8 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "leave",
         "key": "filed"
@@ -115531,7 +115486,7 @@
       "key": "scene-talk.reply-leave.then-i-ll-get-out-of-your-way",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Then I'll get out of your way.",
+      "text": "Then I'll go tell people I'm running for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -115540,37 +115495,13 @@
           "role": "asked",
           "purpose": "filing-petition",
           "key": "filed",
-          "requiresFacts": ["no-petition"]
+          "requiresFacts": ["no-petition", "office"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "leave",
-        "key": "filed"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.thanks-that-s-all-i-needed",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Thanks. That's all I needed.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "filing-petition",
-          "key": "filed"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "leave",
         "key": "filed"
@@ -115580,7 +115511,7 @@
       "key": "scene-talk.follow-thank.good-bring-them-to-this-counter-nobody-else-s",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Good. Bring them to this counter, nobody else's.",
+      "text": "Good. Bring them to this counter by {due}, nobody else's.",
       "uses": [
         {
           "subject": "scene",
@@ -115594,8 +115525,8 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "thank",
         "key": "filed"
@@ -115605,7 +115536,7 @@
       "key": "scene-talk.follow-thank.good-count-them-before-you-bring-them-in",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Good. Count them before you bring them in.",
+      "text": "Good. Count them before you bring them in. I need {signatures} that hold up.",
       "uses": [
         {
           "subject": "scene",
@@ -115614,13 +115545,13 @@
           "role": "asker",
           "purpose": "filing-petition",
           "key": "filed",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due", "signatures"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "thank",
         "key": "filed"
@@ -115630,7 +115561,7 @@
       "key": "scene-talk.follow-thank.then-you-re-as-good-as-on-congratulations",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Then you're as good as on. Congratulations.",
+      "text": "Then you're as good as on the ballot. See you on {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -115639,13 +115570,13 @@
           "role": "asker",
           "purpose": "filing-petition",
           "key": "filed",
-          "requiresFacts": ["no-petition"]
+          "requiresFacts": ["no-petition", "vote-day"]
         }
       ],
       "bearing": "glad",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "thank",
         "key": "filed"
@@ -115655,7 +115586,7 @@
       "key": "scene-talk.follow-answer.then-your-name-doesn-t-go-on-the-ballot",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Then your name doesn't go on the ballot.",
+      "text": "Then your name doesn't go on the ballot for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -115664,13 +115595,14 @@
           "role": "asker",
           "purpose": "filing-petition",
           "key": "filed",
-          "after": "scene-talk.reply-ask.what-if-i-come-up-short"
+          "after": "scene-talk.reply-ask.what-if-i-come-up-short",
+          "requiresFacts": ["office"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "filed"
@@ -115680,7 +115612,7 @@
       "key": "scene-talk.follow-answer.voters-who-live-here-i-check-every-name-against-the-rolls",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Voters who live here. I check every name against the rolls.",
+      "text": "Voters who live in {place}. I check every name against the rolls.",
       "uses": [
         {
           "subject": "scene",
@@ -115689,13 +115621,14 @@
           "role": "asker",
           "purpose": "filing-petition",
           "key": "filed",
-          "after": "scene-talk.reply-ask.can-anybody-sign-it"
+          "after": "scene-talk.reply-ask.can-anybody-sign-it",
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "filed"
@@ -115705,7 +115638,7 @@
       "key": "scene-talk.follow-answer.once-i-ve-checked-the-forms-it-won-t-take-long",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Once I've checked the forms. It won't take long.",
+      "text": "Once I've checked your forms for {office}. It won't take long.",
       "uses": [
         {
           "subject": "scene",
@@ -115714,13 +115647,14 @@
           "role": "asker",
           "purpose": "filing-petition",
           "key": "filed",
-          "after": "scene-talk.reply-ask.when-will-i-know-i-m-on"
+          "after": "scene-talk.reply-ask.when-will-i-know-i-m-on",
+          "requiresFacts": ["office"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "filed"
@@ -115730,7 +115664,7 @@
       "key": "scene-talk.follow-refuse.the-law-sets-the-number-i-just-count-them",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "The law sets the number. I just count them.",
+      "text": "The law sets {signatures}. I just count them.",
       "uses": [
         {
           "subject": "scene",
@@ -115739,13 +115673,14 @@
           "role": "asker",
           "purpose": "filing-petition",
           "key": "filed",
-          "after": "scene-talk.reply-confront.that-many-for-one-seat"
+          "after": "scene-talk.reply-confront.that-many-for-one-seat",
+          "requiresFacts": ["signatures"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "refuse",
         "key": "filed"
@@ -115755,7 +115690,7 @@
       "key": "scene-talk.follow-refuse.that-s-the-law-s-number-not-mine",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "That's the law's number, not mine.",
+      "text": "{signatures} is the law's number, not mine.",
       "uses": [
         {
           "subject": "scene",
@@ -115764,13 +115699,14 @@
           "role": "asker",
           "purpose": "filing-petition",
           "key": "filed",
-          "after": "scene-talk.reply-confront.who-decided-it-takes-that-many"
+          "after": "scene-talk.reply-confront.who-decided-it-takes-that-many",
+          "requiresFacts": ["signatures"]
         }
       ],
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "refuse",
         "key": "filed"
@@ -115780,7 +115716,7 @@
       "key": "scene-talk.reply-leave.i-ll-go-start-knocking-on-doors",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'll go start knocking on doors.",
+      "text": "I'll go knock on doors until I have {signatures}.",
       "uses": [
         {
           "subject": "scene",
@@ -115789,38 +115725,13 @@
           "role": "asked",
           "purpose": "filing-petition",
           "key": "filed",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due", "signatures"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "leave",
-        "key": "filed"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.then-i-ll-leave-you-to-it",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Then I'll leave you to it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "filing-petition",
-          "key": "filed",
-          "requiresFacts": ["no-petition"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-11-01",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "leave",
         "key": "filed"
@@ -121094,7 +121005,7 @@
       "key": "scene-talk.state-tell.this-office-doesn-t-take-a-petition-so-once-i-check-the-forms-you-re-on-the-ball",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "This office doesn't take a petition, so once I check the forms, you're on the ballot. Have you ever run a campaign before?",
+      "text": "A run for {office} takes no petition, so once I check the forms, you're on the ballot. Have you ever run a campaign before?",
       "uses": [
         {
           "subject": "scene",
@@ -121103,13 +121014,13 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["no-petition", "first-filing"]
+          "requiresFacts": ["no-petition", "first-filing", "office"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
-      "date": "2026-11-02",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "tell",
         "key": "filed"
@@ -121119,7 +121030,7 @@
       "key": "scene-talk.reply-ask.no-where-do-i-even-start",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "No. Where do I even start?",
+      "text": "No. Where do I even start, with {due} coming?",
       "uses": [
         {
           "subject": "scene",
@@ -121133,8 +121044,8 @@
       ],
       "bearing": "anxious",
       "origin": "authored",
-      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
-      "date": "2026-11-02",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "ask",
         "key": "filed"
@@ -121144,7 +121055,7 @@
       "key": "scene-talk.reply-ask.not-really-can-you-walk-me-through-it",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Not really. Can you walk me through it?",
+      "text": "Not really. Can you walk me through a run for {office}?",
       "uses": [
         {
           "subject": "scene",
@@ -121153,13 +121064,13 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["first-filing", "due"]
+          "requiresFacts": ["first-filing", "due", "office"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
-      "date": "2026-11-02",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "ask",
         "key": "filed"
@@ -121169,7 +121080,7 @@
       "key": "scene-talk.reply-ask.no-what-do-i-do-now",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "No. What do I do now?",
+      "text": "No. What do I do between now and {vote-day}?",
       "uses": [
         {
           "subject": "scene",
@@ -121178,13 +121089,13 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["first-filing", "no-petition"]
+          "requiresFacts": ["first-filing", "no-petition", "vote-day"]
         }
       ],
       "bearing": "anxious",
       "origin": "authored",
-      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
-      "date": "2026-11-02",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "ask",
         "key": "filed"
@@ -121194,7 +121105,7 @@
       "key": "scene-talk.reply-agree.i-have-i-ll-have-them-back-before-then",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I have. I'll have them back before then.",
+      "text": "I have. I'll have them back before {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -121208,8 +121119,8 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
-      "date": "2026-11-02",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "agree",
         "key": "filed"
@@ -121219,7 +121130,7 @@
       "key": "scene-talk.reply-agree.i-know-the-drill-you-ll-have-them-in-time",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I know the drill. You'll have them in time.",
+      "text": "I know the drill. You'll have them by {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -121233,8 +121144,8 @@
       ],
       "bearing": "glad",
       "origin": "authored",
-      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
-      "date": "2026-11-02",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "agree",
         "key": "filed"
@@ -121244,7 +121155,7 @@
       "key": "scene-talk.reply-agree.i-have-i-ll-take-it-from-here",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I have. I'll take it from here.",
+      "text": "I have. I'll be ready for {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -121253,13 +121164,13 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["first-filing", "no-petition"]
+          "requiresFacts": ["first-filing", "no-petition", "vote-day"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
-      "date": "2026-11-02",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "agree",
         "key": "filed"
@@ -121319,7 +121230,7 @@
       "key": "scene-talk.follow-answer.start-with-the-signatures-knock-on-doors-set-up-a-table-where-people-shop-and-ge-2",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Start with the signatures. Knock on doors, set up a table where people shop, and get your friends to carry a sheet each. Then money: ask everyone you know, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
+      "text": "Start with the {signatures} signatures. Knock on doors, set up a table where people shop, and get your friends to carry a sheet each. Then money: ask everyone you know, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
       "uses": [
         {
           "subject": "scene",
@@ -121333,8 +121244,8 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
-      "date": "2026-11-02",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "filed"
@@ -121369,7 +121280,7 @@
       "key": "scene-talk.follow-answer.get-your-one-signature-today-and-that-part-s-done-then-it-s-the-voters-knock-on-2",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Get your one signature today and that part's done. Then it's the voters. Knock on doors, ask everyone you know for money, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
+      "text": "Get your one signature before {due} and that part's done. Then it's the voters. Knock on doors, ask everyone you know for money, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
       "uses": [
         {
           "subject": "scene",
@@ -121378,13 +121289,13 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["first-filing", "one-signature"]
+          "requiresFacts": ["first-filing", "one-signature", "due"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial); the no-newspaper variant filled in by Elections, Nov 8",
-      "date": "2026-11-08",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "filed"
@@ -121419,7 +121330,7 @@
       "key": "scene-talk.follow-answer.then-your-time-goes-to-the-voters-knock-on-doors-show-up-where-people-gather-and-2",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Then your time goes to the voters. Knock on doors, show up where people gather, and get your friends to bring theirs. Raise money from everyone you know, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
+      "text": "Then your time goes to the voters of {place}. Knock on doors, show up where people gather, and get your friends to bring theirs. Raise money from everyone you know, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
       "uses": [
         {
           "subject": "scene",
@@ -121428,13 +121339,13 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["first-filing", "no-petition"]
+          "requiresFacts": ["first-filing", "no-petition", "place"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
-      "date": "2026-11-02",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "filed"
