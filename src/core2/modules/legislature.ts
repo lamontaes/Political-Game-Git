@@ -387,8 +387,11 @@ function table(api: CoreAPI, name: string) {
 /** A reply said in a scene about a member's vote, as `keepReply` keeps it. */
 interface ReplyRow {
   readonly id: string;
-  /** "sponsor": read on every bill of the sponsor's; "bill": read on that bill alone. */
-  readonly scope: "sponsor" | "bill";
+  /**
+   * "sponsor": read on every bill of the sponsor's; "bill": read on that bill alone; "hearing": a
+   * committee chair's agreement, in the scene after a hold, to hear the bill (read by `committeeStage`).
+   */
+  readonly scope: "sponsor" | "bill" | "hearing";
   readonly memberId: string;
   /** Who asked: the sponsor after an override, the member who asked before a floor vote. */
   readonly askerId: string;
@@ -431,6 +434,10 @@ function keepReply(api: CoreAPI, event: CoreEventInput): void {
       ? -1
       : 0;
   if (!sign) return;
+  if (causeId.startsWith("committee:")) {
+    reopenHeldBill(api, event, causeId, move, sign);
+    return;
+  }
   const ask = table(api, "voteAsks").get(causeId) as unknown as
     VoteAsk | undefined;
   if (ask) {
@@ -493,6 +500,48 @@ function keepReply(api: CoreAPI, event: CoreEventInput): void {
     side: 1,
     date: event.date,
   } satisfies ReplyRow as unknown as ModuleRow);
+}
+
+/**
+ * The chair's answer in the sponsor's scene after a hold (`bill-held-chair`, caused by the hold's
+ * record). A chair who agrees is kept as one more reason on the committee's decision, and the bill the
+ * hold ended goes back before the committee: the hold's row is replaced by the hearing the chair set,
+ * which the committee stage now reads the agreement into. A refusal leaves the hold standing.
+ */
+function reopenHeldBill(
+  api: CoreAPI,
+  event: CoreEventInput,
+  causeId: string,
+  move: string,
+  sign: number,
+): void {
+  if (event.facts?.typeKey !== "bill-held-chair" || sign < 0) return;
+  const held = table(api, "committees").get(causeId) as unknown as
+    CommitteeRecord | undefined;
+  if (!held || held.heard || !event.personIds.includes(held.chairId)) return;
+  const bill = table(api, "bills").get(held.billId) as unknown as
+    BillRow | undefined;
+  // Only the bill that hold ended: one refiled or settled since stays as it is.
+  if (!bill || bill.status !== "failed") return;
+  table(api, "replies").put({
+    id: event.id,
+    scope: "hearing",
+    memberId: held.chairId,
+    askerId: bill.sponsorId,
+    sponsorId: bill.sponsorId,
+    billId: bill.id,
+    move,
+    sign,
+    side: 1,
+    date: event.date,
+  } satisfies ReplyRow as unknown as ModuleRow);
+  table(api, "bills").put({
+    ...bill,
+    status: "drafted",
+    failedOn: undefined,
+  } as unknown as ModuleRow);
+  table(api, "committees").remove(causeId);
+  holdCommittee(api, bill.id);
 }
 
 /**
@@ -4092,6 +4141,8 @@ export interface CommitteeRecord {
   readonly chairReasons: {
     readonly position: MemberPosition;
     readonly hearingTrait: number;
+    /** The scene reply (after an earlier hold) in which the chair agreed to hear the bill. */
+    readonly agreedReplyId?: string;
   };
   readonly votes: readonly {
     readonly memberId: string;
@@ -4336,9 +4387,18 @@ function committeeStage(
   const castHear = table(api, "choices").get(
     `${bill.id}|${memberKey(chair)}|hear`,
   ) as unknown as { hear: boolean } | undefined;
+  // The chair's agreement, said in the sponsor's scene after an earlier hold, is a reason read here.
+  const agreed = (
+    table(api, "replies").query("byBill", [
+      memberKey(chair),
+      bill.id,
+    ]) as unknown as ReplyRow[]
+  ).find((row) => row.scope === "hearing");
   const heard = castHear
     ? castHear.hear
-    : chairPosition.total + hearingTrait >= 0;
+    : agreed
+      ? true
+      : chairPosition.total + hearingTrait >= 0;
   // The chair's reasons are kept on the committee record; no scene or story
   // reads them yet. stopgapId: SG-LAW-held-bill-chair-reasons-unread
   api.stopgap("SG-LAW-held-bill-chair-reasons-unread");
@@ -4439,7 +4499,11 @@ function committeeStage(
     memberIds: roster.map(memberKey),
     heard,
     ...(castHear ? { chairPicked: true as const } : {}),
-    chairReasons: { position: chairPosition, hearingTrait },
+    chairReasons: {
+      position: chairPosition,
+      hearingTrait,
+      ...(agreed ? { agreedReplyId: agreed.id } : {}),
+    },
     votes,
     witnesses,
     yes,
@@ -4449,14 +4513,19 @@ function committeeStage(
   };
   table(api, "committees").put(record as unknown as ModuleRow);
   api.emit({
-    id: `committee:${bill.id}:${chamber}`,
+    // A hearing the chair set after agreeing in the scene that followed a hold is a record of its own.
+    id: `committee:${bill.id}:${chamber}${agreed ? ":after-hold" : ""}`,
     date: api.state.date,
     kind: heard ? "committee-hearing" : "bill-held-in-committee",
     personIds: [
       // The people the record names: the committee's members and chair (its
-      // roll call), then the witnesses it heard.
-      ...record.memberIds,
-      ...witnesses.map((w) => w.personId),
+      // roll call), the bill's sponsor (a held bill is theirs to take up with
+      // the chair), then the witnesses it heard.
+      ...new Set([
+        ...record.memberIds,
+        bill.sponsorId,
+        ...witnesses.map((w) => w.personId),
+      ]),
     ].filter((id) => api.state.people.has(id)),
     placeId: lawChain(api).townPlaceId,
     source: {
@@ -4466,9 +4535,11 @@ function committeeStage(
       estimatedFrom: "SG-GOV-committee-structure",
     },
     publicRecord: true,
-    news: heard,
+    // A bill that died without a hearing is news too.
+    news: true,
     facts: {
       billId: bill.id,
+      sponsorId: bill.sponsorId,
       level: billReach(api, bill).level,
       committee: record.committee,
       chair: record.chairId,
