@@ -5,10 +5,10 @@ area: world
 kind: research
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-world-home-turnover-part-1-measure-sales-now
-pr:
+pr: #8502
 after:
 blocked-on:
 lead: laws-effects
@@ -27,7 +27,7 @@ branch: claude/pool-world-home-turnover-part-1-measure-sales-now
 
 **Fix.** Write the current counts by reason into this part's Notes, and add the sale row for any leave, death or move that still writes none (src/core2/modules/housing.ts, src/core2/housing-sale.ts).
 
-**Time box.** 4 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 4 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: world-home-turnover and play-home-sales-on-screen (the news list of homes sold; today a played year writes almost none).
 
 **Rules.** No dice: a household sells from its reasons (a move, a death or estate, a job, a new household, income against price, rates and the law in force), never a fixed percentage; the real rate is reported beside the result and never a target (owner, Nov 8). One model, two tiers: counted owners sell by the same rule as full households, times their count. One rule, all 56 places.
 

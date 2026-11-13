@@ -31,6 +31,7 @@ import type { PersonId } from "../core2/types";
 import { stakeOf } from "./family-stake";
 import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // The talk at home after a lost race (scenes-from-life, household-after-the-loss):
 // staged only for a relative who put work or money into the race, opening on what
@@ -234,16 +235,19 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
     expect(part!.key, here).toBe(
       `stake-${stakeOf(core, filer, causeId, askerId)!.kind}`,
     );
-    // Four replies, four stances.
+    // Up to four replies, all different stances (owner, Nov 10).
     const moves = talk.tree.replies.map((row) => row.line.move);
     expect(new Set(moves).size, `${here}: ${moves}`).toBe(moves.length);
     expect(
       new Set(talk.tree.replies.map((row) => row.line.text)).size,
       here,
     ).toBe(moves.length);
-    expect(moves, here).toEqual(
-      expect.arrayContaining(["thank", "blame", "deflect", "promise"]),
+    expectUpToFourDifferent(
+      talk.tree.replies.map((row) => row.line),
+      here,
     );
+    for (const move of moves)
+      expect(["thank", "blame", "deflect", "promise"], here).toContain(move);
     lines.push(
       `${here} (${part!.key}, lost by ${margin.text}): ${core.people.get(askerId)!.givenName}: "${talk.state.text}" / ${talk.tree.replies.map((row) => `${row.line.move}: "${row.line.text}"`).join(" | ")}`,
     );

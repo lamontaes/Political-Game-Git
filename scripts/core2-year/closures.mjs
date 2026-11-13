@@ -106,6 +106,16 @@ const cashTotal = () =>
     0,
   );
 const openingCash = cashTotal();
+// The opening build posts journal entries before this point; the outside net
+// is read at the same moment as openingCash, so only what the year moves
+// counts against the balance (strict equality, no tolerance).
+const outsideNetNow = () => {
+  let net = 0;
+  for (const row of core.cashJournal.externalFlowsByOwner.values())
+    net += row.netMinor;
+  return net;
+};
+const openingOutsideNet = outsideNetNow();
 const traceFirm = value("--trace-firm", "");
 const traced = new Map();
 if (traceFirm) {
@@ -192,6 +202,7 @@ for (const [id, row] of core.cashJournal.externalFlowsByOwner) {
   };
   outsideNet += row.netMinor;
 }
+outsideNet -= openingOutsideNet;
 const sales = rows.reduce((n, r) => n + r.sales$, 0),
   wages = rows.reduce((n, r) => n + r.wagesRequested$, 0);
 const closed = rows.filter((r) => r.closedAt).length;

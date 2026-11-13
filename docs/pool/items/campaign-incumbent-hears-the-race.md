@@ -5,11 +5,11 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/pool-campaign-incumbent-hears-the-race
-pr:
+pr: 8516
 after:
-blocked-on:
+blocked-on: campaign-incumbent-response-test-red-by-seed
 lead: governing
 source: governing lead, Nov 1 (trace of the played-year proof's clause d)
 claimed-at: 2026-11-11T03:15:11.696Z
@@ -40,3 +40,5 @@ branch: claude/pool-campaign-incumbent-hears-the-race
 **Notes.** Nov 2, 01:40 (governing lead): branch governing/incumbent-hears-the-race at 6d0f3bd18c (clause (d)'s engine fix, built by a workflow on Nov 1). Not re-checked since. Next: read the branch's commits against the done-when, run its test on two fresh seeds, then open the PR or write what is left here.
 
 Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:15 UTC) on branch claude/pool-campaign-incumbent-hears-the-race.
+
+Blocked (2026-11-11, opus-5234): the Fix is built on PR #8516 (branch claude/pool-campaign-incumbent-hears-the-race): the told reading carried from governing/incumbent-hears-the-race, and door evenings open a reading by themselves; its test file cannot find a race to test in drawn places, on main too (campaign-incumbent-response-test-red-by-seed). Continue on that branch once the blocker lands.

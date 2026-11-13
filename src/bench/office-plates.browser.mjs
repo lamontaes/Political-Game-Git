@@ -107,10 +107,22 @@ try {
   assert.equal(await scrolls(), false, "the seat tab scrolls");
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/seat.png` });
   // The draft card, on the board, for a member of a body (it used to have a tab of its own).
-  if (await page.locator(".office-board .draft-card").count()) {
-    await page.locator(".office-board .draft-card select").waitFor();
-    assert.equal(await scrolls(), false, "the drafts tab scrolls");
+  if (await page.locator('.office-board [data-act="write-a-bill"]').count()) {
+    // Writing a bill opens from the board; the Your office tab returns to the seat (a menu has no Back).
+    await page
+      .locator('.office-board [data-act="write-a-bill"]')
+      .first()
+      .click();
+    await page.locator(".draft-card .pick").first().waitFor();
+    assert.equal(await scrolls(), false, "the drafts screen scrolls");
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/drafts.png` });
+    assert.equal(
+      await page.locator("#sheet-body > .acts .action").count(),
+      0,
+      "the drafts screen has a Back button",
+    );
+    await page.locator('#sheet-tabs .tab[aria-pressed="true"]').click();
+    await page.locator(".office-board").waitFor();
   } else console.log("no body to draft in for this seat");
   // The budget lines, when the player sends a budget (an executive's seat): a section of the board with a choice per line.
   const budget = page

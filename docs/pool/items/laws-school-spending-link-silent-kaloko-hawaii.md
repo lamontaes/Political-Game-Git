@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/law-wiring-health-schools.test.ts, src/core2/modules/outcome-web.ts, src/core2/budgets-treasury.ts
 
 **Notes.** Found Nov 1 by the laws lead's builder on claude/laws-medical-debt. The same world first failed on medicaid-expansion-to-medical-debt never firing: Hawaii's legislature passed HB 23 restoring the expansion on 2025-03-04, the same day as the test's repeal, and the test's latest-row helper broke the tie the other way from the web's lawValue, so the test never repealed it again. The test's helpers now read the latest row as the web does (latestAt), and the expansion's link fires there.
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_PLACE_KEY=1526867 GOLDEN_PATH_WORLD_SEED=9d81ae8d...f2bc npx vitest run src/core2/law-wiring-health-schools.test.ts` (Kaloko, Hawaii): still red, but at a different assertion than the item names: "counted teachers covered: expected +0 to be 14". The school-spending link message did not print first. No fresh draw run (red).

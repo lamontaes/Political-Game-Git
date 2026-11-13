@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-campaign-door-pledge-held-read-at-ballot
+pr: #8525
 after:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: none
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T03:21:28.095Z
 branch: claude/pool-campaign-door-pledge-held-read-at-ballot
 ---
 

@@ -10,7 +10,7 @@ standard: 2
 claimed-by:
 pr: #6760
 after:
-blocked-on: wire-law-links-to-people-part-1-partly-wired-laws,wire-law-links-to-people-part-2-effects-families-2-to-5,wire-law-links-to-people-part-3-effects-families-6-to-9,wire-law-links-to-people-part-4-loan-cap-and-research-sizes
+blocked-on: wire-law-links-to-people-part-1-partly-wired-laws,wire-law-links-to-people-part-2-effects-families-2-to-5,wire-law-links-to-people-part-3-effects-families-6-to-9
 lead: laws-effects
 model: sonnet
 effort: low
@@ -32,7 +32,7 @@ checked: fable 2026-11-10
 
 **Done when.** A second session replays the regenerated matrices after the parts merge and sees wired up and stopgapped down by the PRs' counts, with each PR naming the link, the place, the seed and the record ids from the checker, and no link reaching the world through a second path. Do not let a matrix-regeneration PR flip this item to done (Oct 29 note).
 
-**Waits on.** Its parts: wire-law-links-to-people-part-1-partly-wired-laws, wire-law-links-to-people-part-2-effects-families-2-to-5, wire-law-links-to-people-part-3-effects-families-6-to-9, wire-law-links-to-people-part-4-loan-cap-and-research-sizes (listed in blocked-on).
+**Waits on.** Its parts: wire-law-links-to-people-part-1-partly-wired-laws, wire-law-links-to-people-part-2-effects-families-2-to-5, wire-law-links-to-people-part-3-effects-families-6-to-9 (listed in blocked-on). Part 4 (the loan-rate cap lag and research sizes) was dropped in the depth sweep on Nov 10, 2026.
 
 **Files.** src/core2/law-reach/applied.ts, scripts/law-wiring/matrix.ts, scripts/law-wiring/check.ts, docs/reports/law-wiring-matrix.json, docs/reports/effects-web-plan-2026-10-29.md
 

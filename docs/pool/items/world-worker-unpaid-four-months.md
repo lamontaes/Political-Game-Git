@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** None until the cause is found.
 
-**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the worker's paychecks on the Journal; an employer's wages stop.
 
 **Rules.** Wire to the world: the fix pays real dollars from the employer's account to the worker, shown on the journal. Ask why: the unpaid case is answered by record, naming the employer and the missing link.
 

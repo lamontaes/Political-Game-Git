@@ -5,7 +5,7 @@ area: laws
 kind: feature
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/laws.ts, src/core2/modules/budgets.ts, src/core2/tax-withholding.test.ts, src/core2/data/stopgaps/world.json
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have withheld a commuter's pay by the law of the place he lives in; the player would see one commuter's paycheck differ by a little.

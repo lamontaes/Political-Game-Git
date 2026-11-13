@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after: people-health-conditions-begin
@@ -37,3 +37,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/health.ts, src/core2/modules/jobs.ts, src/core2/data/health.json, src/core2/health-injury.test.ts (new)
 
 **Notes.** Split from people-stopgap-health-missing-mechanic Oct 20. Needs a sourced occupation injury table (BLS SOII), which the builder adds to the parameter table with its spread.
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have given workers job injuries from an injury-rate table, with a recovery spell and a smaller paycheck; nothing on the golden path shows it. The owner can ask for it back.

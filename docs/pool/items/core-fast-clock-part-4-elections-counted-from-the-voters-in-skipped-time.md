@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-core-fast-clock-part-4-elections-counted-from-the-voters-in-skipped-time
+pr: #8606
 after:
 blocked-on:
 lead: elections
@@ -17,6 +17,8 @@ effort: high
 root: design-country-tier
 source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:12:03.127Z
+branch: claude/pool-core-fast-clock-part-4-elections-counted-from-the-voters-in-skipped-time
 ---
 
 **What.** In skipped time every race is still campaigned event by event; the only shortcut is a switch that plays one rival campaign day in four. This part decides a race the player is not in from its voters on election day, through the one election engine, and deletes the switch. A race the player or the people around them are in is not touched.
@@ -31,6 +33,10 @@ checked: fable 2026-11-10
 
 **Done when.** A second session runs the part's test in a drawn place it names with its seed: four skipped years that include a general election. Every seat on the ballot has a winner and a term, and the printed line shows turnout and the winner's share for three races beside the same races in the day-by-day world. After part 6 it presses the control in the running game, opens the town's council on the Politics screen and finds every seat held by a person with an election date inside the skipped years. A search of src finds no `fastForward`.
 
-**Waits on.** core-fast-clock-part-1-a-results-mode-for-skipped-time. It reads the group results of core-speed-world-campaign-days-as-group-results-part-3-asks-endorsements-by-group when they are on main and does not wait for them.
+**Waits on.** core-fast-clock-part-1-a-results-mode-for-skipped-time.
 
 **Files.** src/core2/fast-forward.ts, src/core2/modules/campaigns.ts, src/core2/modules/elections.ts, src/core2/modules/voting.ts, src/core2/data/stopgaps/speed.json
+
+**Notes (Fable B, Nov 10).** Waits on used to add: "It reads the group results of core-speed-world-campaign-days-as-group-results-part-3-asks-endorsements-by-group when they are on main and does not wait for them." That sentence is true and is kept here. In Waits on it named a second item, and `next` reads every item named there as something to wait for, so this part was never offered.
+
+**Notes.** Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 05:12 UTC) on branch claude/pool-core-fast-clock-part-4-elections-counted-from-the-voters-in-skipped-time.

@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/views.test.ts, src/core2/modules/views.ts, data/research/people/, docs/packages/M1-views.md
 
 **Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have found and quoted a survey to check the 14 values; research precision that no player sees, and the values themselves are borderline on part 2.
+
+**Notes (Fable B, Nov 10, the owner's answer).** Dropped Nov 10, 2026 (depth sweep): the owner was asked about the 14 values and said "Not now." This part checks those values against a key, so it goes with part 2. If he asks for the values later, both come back.

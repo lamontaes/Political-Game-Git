@@ -1,8 +1,10 @@
 import { spokenDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import {
+  answerDonationAsk,
   askForEndorsement,
   contributeOwnMoney,
+  donationAsksFor,
   askToVolunteer,
   campaignFor,
   commissionPoll,
@@ -22,9 +24,12 @@ import {
   type CandidateStanding,
   type CampaignDayKind,
 } from "../core2/campaign-day";
+import { petitionOf } from "../core2/modules/elections";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
+import { promisesOf, votesOf } from "../core2/modules/people";
+import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { retellingsOf } from "../core2/modules/speech";
 import {
   answerDebate,
@@ -43,7 +48,7 @@ import {
   type SpeechBuild,
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-data";
-import { backdropFor, homeOf, stagePeople } from "./scene";
+import { backdropFor, homeOf, peopleHere } from "./scene";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
 import { campaignAnswer } from "../director/campaign-answer";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -52,6 +57,29 @@ import scenePlaces from "./data/scene-places.json" with { type: "json" };
 const POLL_SAMPLE = campaignParameter("pollSampleSize");
 
 const ELECTIONS = "core2-elections-v1";
+
+/**
+ * A filing's petition as the screens show it, read from the petition record
+ * (the signatures the clerk will count, the last day, the signatures held and,
+ * once the clerk has checked it, the verdict). Null for a filing with none.
+ */
+export function petitionView(api: CoreAPI, filingId: string) {
+  const petition = petitionOf(api, filingId);
+  if (!petition) return null;
+  return {
+    id: petition.id,
+    needed: petition.needed,
+    due: petition.due,
+    signed: petition.signed,
+    check: petition.check
+      ? {
+          on: petition.check.on,
+          valid: petition.check.valid,
+          struck: petition.check.struckIds.length,
+        }
+      : null,
+  };
+}
 const CAMPAIGNS = "core2-campaigns-v1";
 
 /** The campaign day's acts that open as a scene, by the name the screen's control carries. */
@@ -85,6 +113,7 @@ export function campaignView(core: CoreState, personId: string) {
       .table("filings")
       .query("byPerson", [personId]) as unknown as FilingRow[]
   ).filter((row) => row.status !== "withdrawn");
+  const pictures = filings.length ? trailPictures(core, personId) : {};
   return {
     venues: scenePlaces.speechPlaces,
     campaigns: filings.map((filing) => {
@@ -124,6 +153,7 @@ export function campaignView(core: CoreState, personId: string) {
           ).length,
         },
         polls: polls.slice(-3),
+        petition: petitionView(api, filing.id),
         // What the contest turns on: each candidate's acts and how the people they reached came to feel.
         causes,
         // The sample a poll asks, so the screen's Poll button and the price below agree.
@@ -149,6 +179,7 @@ export function campaignView(core: CoreState, personId: string) {
           return [
             {
               outing,
+              picture: pictures[outing],
               hours: choice.hours,
               available: choice.available,
               ...(outletId ? { outletId } : {}),
@@ -156,6 +187,8 @@ export function campaignView(core: CoreState, personId: string) {
             },
           ];
         }),
+        // The picture on each of the trail's other tiles (the asks, the money, the speech, a debate).
+        pictures,
         // Debates the outlet has invited the candidates to, waiting for their answers.
         debates: debatesIn(api, filing.contestId)
           .filter((row) => row.status === "invited")
@@ -392,6 +425,62 @@ export function campaignAct(
   }
 }
 
+/**
+ * Where each act on the campaign trail happens before anyone is met: the
+ * street of doors, the hall, the outlet's newsroom, the campaign office. One
+ * list, read by the act's scene and by the trail's tile, so the tile shows
+ * the place the act opens in (owner, Oct 20: "campaign acts are scenes you go
+ * to"). An act with no place of its own is not listed: a house party is the
+ * host's living room, and the player's own money is given from home.
+ */
+const TRAIL_PLACES: Readonly<Record<string, string>> = {
+  doors: scenePlaces.doorKnockingPlaces.house,
+  calls: scenePlaces.phoneBankPlace,
+  event: scenePlaces.speechPlaces[0]!,
+  forum: scenePlaces.sceneSettings.venue[0]!,
+  interview: scenePlaces.interviewPlace,
+  volunteer: scenePlaces.volunteerOfficePlace,
+  endorsement: scenePlaces.endorsementMeetingPlace,
+  ad: scenePlaces.adBuyPlace,
+  // Mail and a poll are ordered at the campaign office.
+  mail: scenePlaces.volunteerOfficePlace,
+  poll: scenePlaces.volunteerOfficePlace,
+  speech: scenePlaces.speechPlaces[0]!,
+  debate: scenePlaces.debatePlace,
+};
+
+/** The hour a trail act is pictured at: the afternoon, a house party and the player's own money in the evening at home. */
+const TRAIL_HOUR = 16 * 60;
+const TRAIL_EVENING = 20 * 60;
+
+/**
+ * The picture on each trail tile, by the name the screen's control carries:
+ * the place the act opens in, in this town's light and season. A house party
+ * and the player's own money show the player's living room in the evening,
+ * since the host's home is not known until the party is held.
+ */
+function trailPictures(
+  core: CoreState,
+  personId: string,
+): Record<string, string> {
+  const home = backdropFor(
+    core,
+    homeOf(core, personId, TRAIL_EVENING),
+    TRAIL_EVENING,
+    personId,
+  ).url;
+  return {
+    ...Object.fromEntries(
+      Object.entries(TRAIL_PLACES).map(([act, place]) => [
+        act,
+        backdropFor(core, place, TRAIL_HOUR).url,
+      ]),
+    ),
+    party: home,
+    contribute: home,
+  };
+}
+
 /** A place where the player asks people for something (the campaign office, the phone bank), the player at it; each person asked is heard by name. */
 function askScene(core: CoreState, personId: string, place: string) {
   const backdrop = backdropFor(core, place, 18 * 60);
@@ -399,7 +488,7 @@ function askScene(core: CoreState, personId: string, place: string) {
   return {
     place,
     backdrop,
-    ...stagePeople(core, backdrop.file, [
+    ...peopleHere(core, backdrop.file, [
       {
         id: personId,
         name: row ? `${row.givenName} ${row.familyName}` : "",
@@ -426,7 +515,7 @@ function speechScene(
   return {
     place,
     backdrop,
-    ...stagePeople(
+    ...peopleHere(
       core,
       backdrop.file,
       ids.map((id) => {
@@ -502,18 +591,14 @@ function outingScene(
   const place = party
     ? homeOf(core, met[0]!, minute)
     : kind === "canvass"
-      ? (doors[dwelling] ?? doors.house!)
-      : kind === "event"
-        ? scenePlaces.speechPlaces[0]!
-        : kind === "forum"
-          ? scenePlaces.sceneSettings.venue[0]!
-          : scenePlaces.phoneBankPlace;
+      ? (doors[dwelling] ?? TRAIL_PLACES.doors!)
+      : TRAIL_PLACES[OUTINGS[kind] ?? "calls"]!;
   const ids = [personId, ...met].filter((id) => core.people.get(id)?.alive);
   const backdrop = backdropFor(core, place, minute, party ? met[0] : undefined);
   return {
     place,
     backdrop,
-    ...stagePeople(
+    ...peopleHere(
       core,
       backdrop.file,
       ids.map((id) => {
@@ -698,5 +783,125 @@ export function speechGive(
     text: speechText(build),
     retold,
     scene: speechScene(core, personId, venue, causes),
+  };
+}
+
+/**
+ * The player's own record in office, as voters read it (`recordAppeal`): the
+ * roll-call votes they cast, the bills they sponsored with how each stands,
+ * and each promise they made with whether their votes since kept it. A view of
+ * the record and legislature tables; it keeps nothing of its own.
+ */
+export function playerRecord(core: CoreState, personId: string) {
+  const api = coreAPI(core);
+  const billNumbers = new Map<string, string>();
+  if (core.modules.has(LEGISLATURE_MODULE_ID))
+    for (const bill of api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .rows() as unknown as { id: string; number: string }[])
+      billNumbers.set(bill.id, bill.number);
+  // A vote with no outcome on record is left out, never shown half-filled.
+  const votes = votesOf(api, personId)
+    .filter((vote) => vote.passed !== null)
+    .map((vote) => ({
+      id: vote.id,
+      date: vote.date,
+      // A vote on a bill the legislature still holds shows its number; an old
+      // measure with no bill number shows its title and date only.
+      number: billNumbers.get(vote.measureId) ?? null,
+      question: vote.stance.question,
+      position: Math.sign(vote.stance.position),
+      passed: vote.passed,
+    }));
+  const bills = core.modules.has(LEGISLATURE_MODULE_ID)
+    ? (
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .rows() as unknown as {
+          id: string;
+          number: string;
+          status: string;
+          sponsorId: string;
+          introduced: string;
+        }[]
+      )
+        .filter((bill) => bill.sponsorId === personId)
+        .map((bill) => ({
+          id: bill.id,
+          number: bill.number,
+          status: bill.status,
+          introduced: bill.introduced,
+        }))
+    : [];
+  const promises = promisesOf(api, personId).map((row) => ({
+    id: row.promise.id,
+    date: row.promise.date,
+    question: row.promise.stance.question,
+    position: Math.sign(row.promise.stance.position),
+    status: row.status,
+    voteId: row.voteId,
+  }));
+  return { votes, bills, promises };
+}
+
+/**
+ * Candidates' asks for money that reached the player and wait on their answer
+ * (play-campaign-ask-reaches-player): who asks, for which race, what they
+ * would give by their own reasons, and the cash they hold to give from.
+ */
+export function donationAsksView(core: CoreState, personId: string) {
+  const api = coreAPI(core);
+  const asks = core.modules.has("core2-campaigns-v1")
+    ? donationAsksFor(api, personId)
+    : [];
+  const person = core.people.get(personId);
+  return {
+    cashMinor: person?.liquidMinor ?? 0,
+    asks: asks.map((ask) => {
+      const candidate = core.people.get(ask.candidateId);
+      const filing = api
+        .moduleState(ELECTIONS)
+        .table("filings")
+        .get(ask.campaignId) as unknown as FilingRow | undefined;
+      const contest = filing
+        ? (api
+            .moduleState(ELECTIONS)
+            .table("contests")
+            .get(filing.contestId) as unknown as ContestRow | undefined)
+        : undefined;
+      return {
+        id: ask.id,
+        candidateId: ask.candidateId,
+        candidate: candidate
+          ? `${candidate.givenName} ${candidate.familyName}`
+          : "",
+        race: contest ? raceTitle(contest.title, contest.district) : "",
+        party: filing?.party ?? null,
+        suggestedMinor: ask.suggestedMinor,
+        askedOn: ask.askedOn,
+      };
+    }),
+  };
+}
+
+/** The player's answer to one of their own open asks: give a sum, or decline. */
+export function answerAsk(
+  core: CoreState,
+  personId: string,
+  input: { askId: string; answer: string; amountMinor?: number },
+) {
+  if (input.answer !== "give" && input.answer !== "decline")
+    throw new Error("Invalid answer.");
+  if (!donationAsksView(core, personId).asks.some((a) => a.id === input.askId))
+    throw new Error("This ask is not open for this person.");
+  return {
+    answered: answerDonationAsk(
+      coreAPI(core),
+      input.askId,
+      input.answer,
+      input.amountMinor,
+    ),
   };
 }

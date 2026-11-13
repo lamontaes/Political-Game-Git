@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-play-town-moves-news-line
+pr: #8674
 after:
 blocked-on:
 standard: 2
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:52:03.112Z
 ---
 
 **What.** The town's size and moves show on Who you are, but News prints nothing when someone the player knows moves away. The news engine keeps no story for a move: the move is recorded as person.moved-away and read by people, offices, jobs and parties, never by news or press. A line built in the bench would be a view inventing news, which breaks one engine per mechanic. The press should record a known person's move as a story, and News then prints it like any other story with no bench change.

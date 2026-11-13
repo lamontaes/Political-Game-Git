@@ -22,18 +22,13 @@ Whoever starts you names three things: the item's id, your branch, and your time
    - Keep the earlier Notes. Add one Notes paragraph with the date, what you ran, and what is still unknown.
    - Do not set or change `checked:`. The lead checks your cause against the code and sets it.
    - If the item is a duplicate of another, or should be split, say so in the pull request and leave that to the lead.
-4. **Check it.** `npm run pool -- --check` passes, and prettier passes on the files you changed. Add a release note, `docs/release/changes/<an id nobody has used>.md`, with frontmatter `id:` (the file name without `.md`) and `impact: none`, then one plain sentence. With `impact: none` it has no `section:` and no `title:`.
-5. **Open the pull request as a draft.** The lead reads the cause against the code and marks it ready; a cause nobody has checked must not merge, because the item is offered to builders the moment it does. The first line of its body is exactly:
-
-   `Touches pool item: <id> (cause and fix written in; nothing built, so the item stays open).`
-
-   Never write `Pool item:` there: the merge reads that as "this builds the item" and marks it merged (three items were lost that way for twenty minutes on Nov 10). Then four headings: `## What changed for the player` ("Nothing."), `## What I found` (the cause by record id, file and line, the place and seed, and the probe that showed it), `## Still unknown`, and `## Removed` ("Nothing."). Plain American English, short sentences, no model names (skill `civic-reports`).
-
-6. **Tell whoever started you,** if they named a session: one message with the pull request number, its head commit and the cause in three sentences. Give every money figure in dollars, and say so once: the journal keeps cents, and a figure copied from it unconverted is a hundred times too large. Then stop.
+4. **Check it.** `npm run pool -- --check` shows nothing new against main, and prettier passes on the item's file. A note needs no release note of its own.
+5. **Commit it to the hour's bundle, not to a pull request of your own** (owner, Nov 11; skill `pool-notes`). Commit the one item file to the hour's own branch, `pool/notes-<date>-<hour>` (named for the hour it closes in UTC; the skill says how to create it when it is not there yet), through GitHub's contents API, one item per commit, with the message `pool: <item id>: cause and fix written in`. The item stays open, because nothing was built: never set its status to merged, and never open a pull request whose first line is `Pool item:` for a cause (the merge reads that as "this builds the item"; three items were lost that way for twenty minutes on Nov 10). If the commit is refused because the file changed, read it again from the hour's branch and commit on top.
+6. **Say what you found** on the crew's issue, or to whoever started you if they named a session: `noted <item id> <the commit's full sha>`, then the cause in two or three sentences: the record id, the file and function, the place and seed, and the probe that showed it. Plain American English, short sentences, no model names (skill `civic-reports`). Give every money figure in dollars, and say so once: the journal keeps cents, and a figure copied from it unconverted is a hundred times too large. The lead reads the cause against the code before the hour's bundle merges; a cause nobody has checked must not reach main, because the item is offered to builders the moment it does.
 
 ## When the time box runs out with no cause
 
-Open the pull request all the same. The item keeps `Needs cause.`, and its new Notes paragraph says what you ruled out, by file and line, and what to print next. That is a result: the next finder starts from it.
+Commit the item all the same. The item keeps `Needs cause.`, and its new Notes paragraph says what you ruled out, by file and line, and what to print next. That is a result: the next finder starts from it.
 
 ## A sweep: is each red still red?
 
@@ -43,14 +38,14 @@ Many `Needs cause.` items are tests that were red on some draw weeks ago. Before
 2. Do not trace anything. A sweep only says green or red.
 3. Add one Notes paragraph to the item: `**Notes (re-run, <date>, main <first ten characters of the commit>).**` then the command, the place and seed, and the result. For a red, quote the first failing assertion as printed. For a green on the item's own seed, run one fresh draw too and name its place and seed; if both are green, end the note with "Proposed for the CTO: drop as fixed on main." Change nothing else in the item: its Cause stays `Needs cause.`
 4. Commit and push after every five items, so the work survives a session that ends.
-5. One pull request for the whole list, opened after the first push and kept up to date. The first line of its body is `Touches pool item: none (re-runs of red tests; notes only).` Under `## What I found` it has one table: item, still red or green, place and seed, and for a red the assertion in a few words.
-6. Tell whoever started you when the list is done, with the pull request number and the counts of red and green.
+5. Each item's note is one commit on the hour's bundle (skill `pool-notes`), not a pull request of your own. When the list is done, post one table on the crew's issue: item, still red or green, place and seed, and the first failing assertion for each red.
+6. Tell whoever started you when the list is done, with the counts of red and green.
 
 ## What you never do
 
 - Change game code or tests in this pull request. It holds pool files and the release note only.
 - Build the fix, or merge anything.
-- Post on issue 7365. Your pull request is your thread.
+- Post on issue 8928. Your pull request is your thread.
 - Force-push, weaken a test, or leave a probe in a commit.
 - Name a place in a Fix as a rule. A named place is a labeled case for a test.
 - Write a line under `data/english/parts/`, or put the game's title where outsiders can see it.

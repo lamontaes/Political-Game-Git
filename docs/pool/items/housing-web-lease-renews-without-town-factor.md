@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-housing-web-lease-renews-without-town-factor
+pr: #8565
 after:
 blocked-on:
 lead: laws
@@ -17,7 +17,7 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T03:58:17.491Z
 branch: claude/pool-housing-web-lease-renews-without-town-factor
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-housing-web-lease-renews-without-town-factor
 **Notes.** Nov 1, 20:45 UTC (speed lead): a second seed, the same failure on clean main 8712646f8f: WEB_HOUSING_SEED=38096aba2bd718a2 draws Felton, Delaware, and fails with 'lease:household_469542be0d124e00: expected 1 to be close to 1.05'. It fails the same way on speed/evicted-stay-counted before and after its merge of main, so it is not that PR's. Probable cause, from renewRentalLeases (src/core2/housing-occupancy.ts): webChange is the town's factor over the factor stored on the lease's first renewals row, so a lease first recorded after the web shift (a lease signed during the run) reads 1.05 over 1.05.
 
 Released (2026-11-11): Cause differs on main 37bf82a661: with WEB_HOUSING_SEED=d36f407e7c697a43 (Macon, Georgia) and 38096aba2bd718a2 (Felton, Delaware) the renewed-lease checks in src/core2/housing-web.test.ts now PASS (every lease records 1.05, the loop at lines 181-188); both seeds instead fail at line 193, expect(moved.exited).toBe(true): the homeless household's way back does not exit in the shifted run. That is a different defect (housing-homeless review with the vouchers factor) and needs its own item; the lease item as written is not reproducible. Continue on branch claude/pool-housing-web-lease-renews-without-town-factor.
+
+Released (2026-11-11): Cause differs on main (Nov 11): WEB_HOUSING_SEED=d36f407e7c697a43 fails housing-web.test.ts after 163 s with 'expected false to be true' (a boolean assertion), not the item's 'expected 1 to be close to 1.05'; the code at housing-occupancy.ts line 502 matches the Cause, but the failing assertion must be identified first. Continue on branch claude/pool-housing-web-lease-renews-without-town-factor.

@@ -4,10 +4,10 @@ title: "Stopgaps in world-races (missing-data): 2 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr: #5304
+claimed-by: claude/pool-core-stopgap-world-races-missing-data
+pr: #8626
 after:
 blocked-on:
 milestone:
@@ -16,7 +16,7 @@ effort: medium
 root: rc9-place-facts-one-default
 lead: governing
 source: "src/core2/data/stopgaps.json, src/core2/modules/world-races.ts, kind missing-data"
-claimed-at:
+claimed-at: 2026-11-11T05:24:27.722Z
 size: S
 checked: fable 2026-11-10
 ---

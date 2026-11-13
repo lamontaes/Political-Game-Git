@@ -6,7 +6,7 @@ kind: feature
 lead: cto
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -33,4 +33,6 @@ checked: fable 2026-11-10
 
 **Waits on.** The owner's decision on how busts are shown (OWNER-DECISIONS.md, Nov 10, "Staging waits for busts"); full-body staging is not built while busts are coming.
 
-**Files.** art/people-rooms/mannequin-plates/, art/backdrops/manifest.json, src/bench/mannequin-plates.ts, src/bench/data/whole-figures.json, src/bench/people-pack.test.ts
+**Files.** art/people-rooms/mannequin-plates/, art/backdrops/manifest.json, src/bench/mannequin-plates.ts, src/bench/data/whole-figures.json
+
+**Notes (Nov 11, 2026, set aside).** Dropped: the owner ruled on Nov 10, 2026 (about 9:24 p.m.) "Remove all the people," and at about 9:27 p.m. "people will eventually be in the game, but right now for early access, it's just we have to do the busts." No plate is painted or measured while rooms draw nobody. The full-body system and what comes back after early access are in docs/art/full-body-people-after-early-access.md; this item is rewritten from that record when full bodies return.

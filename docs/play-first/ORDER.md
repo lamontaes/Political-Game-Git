@@ -34,7 +34,7 @@ What makes it his game: the people are the ones he made, nobody stands around wi
 8. `play-first-11-people-web-uses-created-look` [open, after 05-v1-figures-removed] · 2 h · The face at the center of People is the one he made.
 9. `play-first-07-no-random-people-in-rooms` [done #6084] · 4 h · Only his household and people with a reason stand in a room; no "X is with you".
 10. `play-stop-15-family-unexplained` [open] · 3 h · On the first evening narration says who is in the room and how each is his family.
-11. `play-stop-01-talk-says-nothing-a` [done #6078] · 4 h · Talking to his mother she opens from her life or the day, with four replies that move the talk. · Read #5914. (The acceptance requires real choices in every talk.)
+11. `play-stop-01-talk-says-nothing-a` [done #6078] · 4 h · Talking to his mother she opens from her life or the day, with replies that move the talk (up to four since Nov 10). · Read #5914. (The acceptance requires real choices in every talk.)
 12. `play-stop-01-talk-says-nothing-b` [open, after 01-talk-says-nothing-a] · 4 h · A moment that stops him for someone says who they are and why they came, and he answers it.
 13. `play-first-01-start-a-life-first` [open] · 3 h · New game opens with Start a life first and one world choice beneath it.
 14. `play-stop-13-start-a-life-or-new-world` [open, after 01-start-a-life-first] · 2 h · New game is one button, Start a life; world modes under one Advanced link; dimmed entries say why.

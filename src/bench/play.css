@@ -4,7 +4,7 @@
    .name / .heading (Cinzel), .speech / .prose (Andada Pro), .label / .role / .when
    (Fira Sans), .replies / .reply (numbered lines), .action (a button: .primary is Continue,
    plain is Back; one size for all; the brass corner mark shows only while .active or
-   pressed), .tabs / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
+   pressed), .tab-rail / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
    .glyph (thin close X, return arrow), .row (a gold label and its value), .lie-scales.
    The chevron rule: a mark appears only on a static button while it is activated; never in
    radial menus, items, cards, tabs or rows. Nothing inside a menu scrolls: long screens page.
@@ -103,6 +103,44 @@
   --ui: "Fira Sans", "Helvetica Neue", sans-serif;
   --glow: 0 0 6px rgba(255, 255, 255, 0.6), 0 0 16px rgba(255, 255, 255, 0.25);
   --gutter: 24px;
+  /* The type scale: every size of type in the game is one of these steps
+     (menu look: small text at least about 15px, labels about 14px in
+     capitals). A rule reads a step; it never types a pixel size. */
+  --t-label: 14px;
+  --t-ui: 15px;
+  --t-read: 17px;
+  --t-h3: 20px;
+  --t-h2: 26px;
+  --t-h1: 34px;
+  --t-name: 40px;
+  --t-display: 58px;
+  /* The UI system's sizes. Every control reads these, so one change here
+     changes every screen (src/bench/ui/README.md). */
+  --control-h: 34px;
+  --control-pad: 6px 16px;
+  --control-radius: 2px;
+  --control-font: 500 var(--t-ui) / 1.2 var(--ui);
+  /* A row a player picks in a list beside its page. */
+  --pick-pad: 6px 12px;
+  --pick-font: 600 var(--t-ui) var(--ui);
+  --pick-aside-font: 400 var(--t-label) var(--ui);
+  --pick-hover: rgba(214, 189, 132, 0.12);
+  --pick-hover-glow: 0 0 10px rgba(214, 189, 132, 0.2);
+  --pick-on: linear-gradient(
+    90deg,
+    rgba(196, 160, 90, 0.34),
+    rgba(196, 160, 90, 0.08)
+  );
+  /* The heading strip over a list or a section. */
+  --head-font: 700 var(--t-ui) var(--name);
+  --head-wash: linear-gradient(
+    90deg,
+    rgba(196, 160, 90, 0.32),
+    rgba(196, 160, 90, 0)
+  );
+  --group-font: 700 var(--t-label) var(--ui);
+  --cream: #f2e6c9;
+  --muted: #c4bbab;
 }
 * {
   box-sizing: border-box;
@@ -116,7 +154,7 @@ body {
   height: 100%;
   background: #111;
   color: var(--text);
-  font: 400 14.5px/1.4 var(--ui);
+  font: 400 var(--t-ui)/1.4 var(--ui);
   overflow: hidden;
   /* A game, not a web page: clicking a title never selects it (C17). */
   user-select: none;
@@ -200,46 +238,226 @@ ol {
     animation: none;
   }
 }
-#people .figure {
-  position: absolute;
-  overflow: hidden;
+/* ---- The strip of busts (ui/bust-strip.mjs; owner, Nov 11, 2026) ----
+   A room is its painting alone. The people in it stand as busts in a band of
+   soft glass with their names on it: its ends fade into the room and a light
+   runs along its top. --bust is one bust's side; the talk box sets it larger. */
+.bust-strip {
+  --bust: 140px;
+  position: relative;
+  pointer-events: none;
 }
-#people .figure img {
+.bust-strip .busts-glass {
   position: absolute;
   left: 0;
-  top: 0;
-  width: 100%;
-  transition: filter 0.25s ease;
-}
-/* People you can approach glow softly white on hover. */
-#people .figure.talkable {
-  cursor: pointer;
-}
-#people .figure.talkable:hover img {
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.75))
-    drop-shadow(0 0 14px rgba(255, 255, 255, 0.3));
-}
-/* The painting's own furniture in front of a person, through the spot's mask. */
-#people .occluder {
-  position: absolute;
-  pointer-events: none;
-  background-repeat: no-repeat;
-  mask-size: 100% 100%;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-}
-/* A soft contact shadow on the floor at a person's feet (placed by the scene). */
-#people .shadow {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(
-    closest-side,
-    rgb(0 0 0 / 34%),
-    rgb(0 0 0 / 20%) 55%,
+  right: 0;
+  bottom: 0;
+  height: calc(var(--bust) * 0.24 + 34px);
+  background: linear-gradient(rgba(40, 37, 33, 0.8), rgba(24, 22, 20, 0.88));
+  box-shadow: 0 -10px 22px rgba(0, 0, 0, 0.28);
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 9%,
+    black 91%,
     transparent
   );
-  pointer-events: none;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 9%,
+    black 91%,
+    transparent
+  );
+}
+/* The light along the top, gone before the ends. */
+.bust-strip .busts-glass::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 12%,
+    rgba(236, 200, 128, 0.5) 38%,
+    rgba(236, 200, 128, 0.5) 62%,
+    transparent 88%
+  );
+}
+.bust-strip .busts-label {
+  position: absolute;
+  left: 11%;
+  bottom: 9px;
+  font: var(--group-font);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.bust-strip .busts-row {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: calc(var(--bust) * 0.16);
+  padding: 0 var(--gutter);
+}
+.bust-strip .busts-person {
+  --mine: var(--bust);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: none;
+  pointer-events: auto;
+}
+/* The bust, cut soft at the shoulders where it meets the glass. */
+.bust-strip .busts-face {
+  position: relative;
+  width: calc(var(--mine) * 0.72);
+  height: calc(var(--mine) * 0.74);
+  mask-image: linear-gradient(black 72%, transparent);
+  -webkit-mask-image: linear-gradient(black 72%, transparent);
+  transition: filter 0.2s ease;
+}
+.bust-strip .busts-face .bust-stack {
+  width: var(--mine);
+  top: 0;
+  left: calc(var(--mine) * (0.36 - var(--head-middle, 0.5)));
+}
+.bust-strip .busts-name {
+  font: 600 var(--t-label) var(--ui);
+  color: var(--brass-hi);
+  padding-bottom: 8px;
+  margin-top: -4px;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+/* The office a scene names someone by, under their name; the glass is a line taller for it. */
+.bust-strip .busts-role {
+  font: 500 var(--t-label) var(--ui);
+  color: var(--muted);
+  padding-bottom: 8px;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+.bust-strip .busts-person:has(.busts-role) .busts-name {
+  padding-bottom: 0;
+}
+.bust-strip:has(.busts-role) .busts-glass {
+  height: calc(var(--bust) * 0.24 + 52px);
+}
+.bust-strip .busts-more {
+  font: 400 var(--t-ui) var(--ui);
+  color: var(--muted);
+  padding: 0 0 9px 8px;
+  white-space: nowrap;
+}
+/* Someone with something to say glows softly when pointed at. */
+.bust-strip .busts-person.talkable {
+  cursor: pointer;
+}
+.bust-strip .busts-person.talkable:hover .busts-face,
+.bust-strip .busts-person.talkable:focus-visible .busts-face {
+  filter: drop-shadow(0 0 10px rgba(236, 200, 128, 0.55));
+}
+.bust-strip .busts-person.talkable:focus-visible {
+  outline: none;
+}
+.bust-strip .busts-person.talkable:hover .busts-name,
+.bust-strip .busts-person.talkable:focus-visible .busts-name {
+  color: var(--text-strong);
+}
+/* In a talk, whoever speaks is lit and a little larger; the rest stand back. */
+.bust-strip .busts-person.speaking {
+  --mine: calc(var(--bust) * 1.16);
+}
+.bust-strip .busts-person.speaking .busts-face {
+  filter: drop-shadow(0 0 10px rgba(236, 200, 128, 0.4));
+}
+.bust-strip .busts-person.speaking .busts-name {
+  font-size: var(--t-ui);
+}
+.bust-strip .busts-person.quiet .busts-face {
+  filter: brightness(0.72) saturate(0.85);
+}
+.bust-strip .busts-person.quiet .busts-name {
+  color: var(--muted);
+}
+/* Who is here: along the foot of the room, clear of the player card. */
+#here {
+  position: absolute;
+  left: 472px;
+  right: 40px;
+  bottom: 26px;
+}
+/* A talk, a menu or the front screens take the foot of the room. */
+#game:has(#talk:not([hidden])) #here,
+#game.sheet-open #here,
+#game:has(#front:not([hidden])) #here {
+  display: none;
+}
+/* A panel at the side of the room (the meeting, the desk, the ballot, election
+   day, the returns) never covers the people: they stand in the room it leaves,
+   smaller, and nobody is cut in half (owner, Nov 11: "it's being covered up by
+   the menu"). A bill read there takes the whole frame, and the foot with it. */
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here {
+  right: calc(
+    var(--gutter) + min(560px, calc(var(--vw) - 2 * var(--gutter))) + 16px
+  );
+}
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .bust-strip {
+  --bust: 96px;
+}
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .busts-row {
+  padding: 0 8px;
+}
+/* The band is too narrow there for its label beside the names. */
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .busts-label {
+  display: none;
+}
+/* Three stand in the room the panel leaves; the rest are the faces on it. */
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .busts-person
+  ~ .busts-person
+  ~ .busts-person
+  ~ .busts-person {
+  display: none;
+}
+#game:has(:is(#meeting, #desk) .bill-board) #here {
+  display: none;
+}
+/* A person's card takes the room: the talk it was opened from waits under it
+   out of sight, and comes back when the card closes. Its lower edge used to
+   show under the card (owner, Nov 11: nothing is left half covered). */
+#game:has(#person:not([hidden])) #talk,
+#game:has(#person:not([hidden])) #here {
+  visibility: hidden;
+}
+/* On the talk box the strip joins its top edge, and the busts follow how many
+   stand there (the owner's sizes: one, two, and three or four). */
+#talk-strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+}
+#talk-strip .bust-strip[data-count="1"] {
+  --bust: 200px;
+}
+#talk-strip .bust-strip[data-count="2"] {
+  --bust: 180px;
+}
+#talk-strip .bust-strip {
+  --bust: 150px;
 }
 #stage.cut {
   animation: cut 0.6s ease-out;
@@ -260,14 +478,14 @@ ol {
   backdrop-filter: blur(6px) saturate(0.65);
   -webkit-backdrop-filter: blur(6px) saturate(0.65);
   border: 2.5px solid var(--brass);
-  border-radius: 2px;
+  border-radius: var(--control-radius);
   box-shadow:
     0 0 0 1px var(--iron),
     inset 0 0 0 1px var(--iron),
     0 4px 0 rgba(0, 0, 0, 0.58),
     0 12px 24px rgba(0, 0, 0, 0.58);
   color: var(--text);
-  font: 400 14.5px/1.4 var(--ui);
+  font: 400 var(--t-ui)/1.4 var(--ui);
   text-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
   font-variant-numeric: lining-nums tabular-nums;
 }
@@ -327,34 +545,34 @@ ol {
   height: 100%;
 }
 .name {
-  font: 800 18px/1.15 var(--name);
+  font: 800 var(--t-h3)/1.15 var(--name);
   letter-spacing: 0.05em;
   color: var(--text-strong);
 }
 .heading {
-  font: 800 30px/1.1 var(--name);
+  font: 800 var(--t-h1)/1.1 var(--name);
   letter-spacing: 0.05em;
   color: var(--text-strong);
 }
 .role {
-  font: 400 13px var(--ui);
+  font: 400 var(--t-label) var(--ui);
   color: var(--text-2);
 }
 .speech {
-  font: 500 17.5px/1.34 var(--speech);
+  font: 500 var(--t-read)/1.34 var(--speech);
   color: var(--text-strong);
 }
 .prose {
-  font: 500 15px/1.4 var(--speech);
+  font: 500 var(--t-ui)/1.4 var(--speech);
 }
 .label {
-  font: 600 10.5px var(--ui);
+  font: 600 var(--t-label) var(--ui);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--gold);
 }
 .when {
-  font: 400 12.5px/1.3 var(--ui);
+  font: 400 var(--t-label)/1.3 var(--ui);
   color: var(--text-2);
 }
 
@@ -388,17 +606,17 @@ select:focus-visible {
   position: relative;
   display: inline-block;
   /* One button size across the game (owner, Oct 24: buttons are the same size). */
-  min-height: 34px;
-  padding: 6px 20px;
+  min-height: var(--control-h);
+  padding: var(--control-pad);
   margin: 0 12px 0 0;
-  font: 500 15px/1.2 var(--ui);
+  font: var(--control-font);
   color: var(--text-strong);
   text-align: center;
   background:
     url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
     var(--key);
   border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 1px;
+  border-radius: var(--control-radius);
   box-shadow:
     0 2px 0 rgba(0, 0, 0, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
@@ -423,7 +641,7 @@ select:focus-visible {
   counter-increment: r;
   display: block;
   width: 100%;
-  font: 400 14.5px/1.4 var(--ui);
+  font: 400 var(--t-ui)/1.4 var(--ui);
   color: rgba(242, 237, 228, 0.84);
   padding: 1px 0;
 }
@@ -439,7 +657,6 @@ select:focus-visible {
    and something to delineate that that's the one that's selected"): a recessed bar with
    a brass edge; a tab at rest is plain type in it, and the chosen one is a raised glass
    plate, lit, with a gold bar where it meets what it shows. */
-.tabs,
 .tab-rail {
   display: flex;
   flex-wrap: wrap;
@@ -457,7 +674,6 @@ select:focus-visible {
     inset 0 -1px 0 rgba(255, 240, 199, 0.05),
     0 1px 0 rgba(255, 255, 255, 0.05);
 }
-.tabs:empty,
 .tab-rail:empty {
   display: none;
 }
@@ -465,14 +681,14 @@ select:focus-visible {
 #sheet-body .tab,
 #person .tab {
   position: relative;
-  min-height: 0;
+  min-height: var(--control-h);
   margin: 0;
-  font: 500 15px var(--ui);
+  font: var(--control-font);
   color: var(--text-2);
-  padding: 6px 16px;
+  padding: var(--control-pad);
   background: none;
   border: 1px solid transparent;
-  border-radius: 2px;
+  border-radius: var(--control-radius);
   box-shadow: none;
 }
 #sheet-body .tab:not(.on):hover,
@@ -586,7 +802,7 @@ select:focus-visible {
 .row > b:first-child {
   flex: none;
   max-width: 48%;
-  font: 600 10.5px/1.5 var(--ui);
+  font: 600 var(--t-label)/1.5 var(--ui);
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--gold);
@@ -726,13 +942,16 @@ select:focus-visible {
    open. */
 input,
 select {
-  font: 400 15px var(--ui);
+  font: 400 var(--t-ui) var(--ui);
   color: var(--text);
   background: transparent;
   border: 1px solid transparent;
   border-radius: 0;
   padding: 5px 8px;
   max-width: 260px;
+  /* A field or a dropdown is as tall as a button beside it. */
+  box-sizing: border-box;
+  min-height: var(--control-h);
   transition:
     border-color 0.2s ease,
     background-color 0.2s ease;
@@ -773,11 +992,21 @@ input[type="search"]::-webkit-search-cancel-button {
 input#place::-webkit-calendar-picker-indicator {
   display: none;
 }
+/* A dropdown is a control at rest (menu look: "clickable things need a cue
+   at rest"): the glass of a button and a small mark at its right. */
 select {
   -webkit-appearance: none;
   appearance: none;
-  padding-right: 8px;
+  padding: 5px 30px 5px 12px;
   cursor: pointer;
+  border-color: rgba(255, 255, 255, 0.16);
+  border-radius: var(--control-radius);
+  background:
+    linear-gradient(45deg, transparent 50%, var(--gold) 50%) calc(100% - 17px)
+      55% / 6px 6px no-repeat,
+    linear-gradient(135deg, var(--gold) 50%, transparent 50%) calc(100% - 11px)
+      55% / 6px 6px no-repeat,
+    var(--key);
 }
 select option,
 select optgroup {
@@ -792,6 +1021,7 @@ input[type="checkbox"] {
   flex: none;
   width: 20px;
   height: 20px;
+  min-height: 0;
   padding: 0;
   border: 1.5px solid var(--gold);
   border-radius: 1px;
@@ -809,6 +1039,7 @@ input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   height: 26px;
+  min-height: 0;
   padding: 0;
   border: 0;
   background: transparent;
@@ -877,7 +1108,7 @@ input[type="range"]::-moz-range-thumb {
   gap: 12px;
   padding: 6px 0;
   color: var(--text-2);
-  font-size: 14px;
+  font-size: var(--t-label);
 }
 .field input {
   width: 170px;
@@ -912,12 +1143,18 @@ input[type="range"]::-moz-range-thumb {
 }
 #cr-character .date-row {
   margin: 0;
-  grid-template-columns: 5fr 3fr 6fr;
+  grid-template-columns: minmax(0, 6.2fr) minmax(0, 2.9fr) minmax(0, 7.9fr);
   gap: 6px;
 }
+/* Room at the right for the dropdown's mark, so a long month ("November")
+   and "1982 (age 42)" are never drawn under it. */
 #cr-character .date-row select {
-  padding-inline: 6px;
-  font-size: 13px;
+  padding: 5px 18px 5px 7px;
+  font-size: var(--t-label);
+  background-position:
+    calc(100% - 11px) 55%,
+    calc(100% - 5px) 55%,
+    0 0;
 }
 #cr-character .group.row > :not(.label):not(.date-row):not(.choices) {
   grid-column: 1 / -1;
@@ -932,6 +1169,61 @@ input[type="range"]::-moz-range-thumb {
 #cr-character .choices .action {
   white-space: nowrap;
   padding: 6px 6px;
+}
+/* How I look's two tabs of clothes (owner, Nov 12: "two tabs, everyday and formal"),
+   on the owner's menu look: the open tab a lit brass fill, the other raised glass in
+   soft light; no rail, no ring, no bar under the open one. */
+#cr-rows .look-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  margin: 4px 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+/* With the tabs the look has one more line: its rows sit closer so the creator still fits
+   the screen without scrolling. */
+#cr-rows .look-row {
+  padding: 0;
+}
+#cr-rows {
+  display: grid;
+  gap: 1px;
+}
+#cr-rows .look-tabs .tab {
+  min-height: 26px;
+  padding: 0 12px;
+  text-align: center;
+  color: var(--text-2);
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    linear-gradient(rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+    var(--raised);
+  border: 0;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 10px rgba(255, 255, 255, 0.04);
+}
+#cr-rows .look-tabs .tab.on,
+#cr-rows .look-tabs .tab.on:hover {
+  color: var(--iron);
+  text-shadow: none;
+  background: linear-gradient(
+    var(--brass-hi),
+    var(--gold) 55%,
+    var(--brass-lo)
+  );
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 248, 225, 0.6),
+    0 0 14px rgba(214, 189, 132, 0.35);
+}
+#cr-rows .look-tabs .tab.on::after {
+  content: none;
 }
 /* A picked button is a lit brass fill: no corner mark on any control (owner, Nov 5). */
 .action[aria-pressed="true"] {
@@ -970,7 +1262,7 @@ input[type="range"]::-moz-range-thumb {
   padding: 26px 28px 22px;
 }
 .title {
-  font: 800 30px/1.1 var(--name);
+  font: 800 var(--t-h1)/1.1 var(--name);
   letter-spacing: 0.07em;
   color: var(--gold);
 }
@@ -981,7 +1273,7 @@ input[type="range"]::-moz-range-thumb {
 }
 .item b {
   display: block;
-  font: 800 15px var(--name);
+  font: 800 var(--t-ui) var(--name);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -1020,6 +1312,13 @@ input[type="range"]::-moz-range-thumb {
 .seed-row input {
   width: 150px;
 }
+/* The title's own menu stands at the left; every panel it opens (New game,
+   the creator, Advanced, Play as) sits centered over the painting, as the
+   Nov 8 front mocks draw them. */
+#front:has(> div:not(#front-main):not([hidden])):not(.loading) {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 #front.loading {
   top: 56px;
   transform: none;
@@ -1030,7 +1329,7 @@ input[type="range"]::-moz-range-thumb {
   text-align: right;
   margin-top: 10px;
   color: var(--text-3);
-  font: 400 11px var(--ui);
+  font: 400 var(--t-label) var(--ui);
 }
 #front-main .item b {
   display: inline;
@@ -1061,12 +1360,6 @@ input[type="range"]::-moz-range-thumb {
 }
 #cr-figure {
   align-items: center;
-}
-#cr-figure .portraits {
-  gap: 8px;
-}
-#cr-figure .portrait {
-  height: 170px;
 }
 #cr-figure .strip-name {
   text-align: center;
@@ -1105,13 +1398,13 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text);
 }
 .summary-name {
-  font: 700 15px var(--name);
+  font: 700 var(--t-ui) var(--name);
   font-variant: small-caps;
   letter-spacing: 0.06em;
 }
 .summary-edit {
   color: var(--gold);
-  font: 600 12px var(--ui);
+  font: 600 var(--t-label) var(--ui);
 }
 #front h2.label {
   margin: 12px 0 6px;
@@ -1194,7 +1487,7 @@ input[type="range"]::-moz-range-thumb {
   grid-column: 2;
   justify-content: flex-start;
   color: var(--text-2);
-  font: 500 12px var(--ui);
+  font: 500 var(--t-label) var(--ui);
 }
 .swatches {
   display: flex;
@@ -1223,23 +1516,6 @@ input[type="range"]::-moz-range-thumb {
   height: 12px;
   border-radius: 50%;
   border: 1px solid var(--brass);
-}
-/* The figure's preview, sized so the look stage with the place line over it
-   (37px) fits a 900px window with its ten rows; at 260px it ran 5px over
-   before the line was added. */
-.portrait {
-  display: block;
-  height: 200px;
-  margin: 0 auto 4px;
-}
-/* The creator's everyday and work clothes, side by side. */
-.portraits {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-}
-.portraits .portrait {
-  margin: 0 0 4px;
 }
 #front .acts {
   display: flex;
@@ -1281,6 +1557,14 @@ body:not(.dev) .dev-only {
 #dock > .panel {
   position: relative;
 }
+/* The dock is only its rail and its card: the room and an open screen beside
+   them take the clicks its empty corner would catch. */
+#dock {
+  pointer-events: none;
+}
+#dock > * {
+  pointer-events: auto;
+}
 .me {
   display: flex;
   gap: 11px;
@@ -1299,19 +1583,19 @@ body:not(.dev) .dev-only {
   clip-path: inset(50%);
   white-space: nowrap;
 }
-/* An open screen is read-only and owns the bottom left: the card steps away
-   until the screen closes. */
+/* An open screen is read-only: the card steps out of sight until the screen
+   closes, and keeps its place so the rail above it never moves. */
 #game.sheet-open #card {
-  display: none;
+  visibility: hidden;
 }
 #card-clock {
   margin: 0;
   padding-left: 11px;
-  font: 600 14px/1.35 var(--ui);
+  font: 600 var(--t-label)/1.35 var(--ui);
   color: var(--text-strong);
 }
 .me .name {
-  font-size: 16px;
+  font-size: var(--t-read);
 }
 #card-place:empty {
   display: none;
@@ -1366,7 +1650,7 @@ body:not(.dev) .dev-only {
 /* What was said before: a separate block above the line being said now, quieter, with a
    rule under it and the speaker named. */
 .talk-lines .history {
-  font: 400 13px/1.35 var(--ui);
+  font: 400 var(--t-label)/1.35 var(--ui);
   color: var(--text-3);
   padding-bottom: 8px;
   margin-bottom: 10px;
@@ -1374,7 +1658,7 @@ body:not(.dev) .dev-only {
 }
 .talk-lines .history-who {
   display: block;
-  font: 600 10.5px/1.5 var(--ui);
+  font: 600 var(--t-label)/1.5 var(--ui);
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -1407,7 +1691,7 @@ body:not(.dev) .dev-only {
   text-underline-offset: 3px;
 }
 .talk-lines .why {
-  font: 400 11px/1.3 var(--ui);
+  font: 400 var(--t-label)/1.3 var(--ui);
   color: var(--text-3);
   overflow-wrap: anywhere;
 }
@@ -1439,6 +1723,10 @@ body:not(.dev) .dev-only {
 #journal-note:has(#journal-line:empty) {
   display: none;
 }
+/* With people in the room, the note sits above their strip, never on a face. */
+#game:has(#here .bust-strip) #journal-note {
+  bottom: calc(26px + 140px + 28px);
+}
 
 /* ---- Menus: the rail on the left, the open screen beside it ---- */
 .nav-item {
@@ -1450,7 +1738,7 @@ body:not(.dev) .dev-only {
 }
 .nav-item .nl {
   display: block;
-  font: 800 14px var(--name);
+  font: 800 var(--t-label) var(--name);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text);
@@ -1557,7 +1845,7 @@ body:not(.dev) .dev-only {
 }
 #sheet-body .narrative {
   display: block;
-  font: 500 15px/1.4 var(--speech);
+  font: 500 var(--t-ui)/1.4 var(--speech);
 }
 #sheet-body .narrative > b:first-child,
 #sheet-body .campaign > b:first-child {
@@ -1629,7 +1917,7 @@ body:not(.dev) .dev-only {
   min-width: 0;
 }
 .calendar-board h3 {
-  font: 600 20px var(--name);
+  font: 600 var(--t-h3) var(--name);
   color: var(--gold);
   margin: 0;
 }
@@ -1644,15 +1932,10 @@ body:not(.dev) .dev-only {
   text-align: center;
 }
 #sheet-body .calendar-heading .month-step {
-  font-size: 16px;
-  line-height: 1;
-  padding: 4px 12px;
-  min-height: 30px;
   margin: 0;
 }
 #sheet-body .calendar-heading .today-step {
   margin-left: auto;
-  font-size: 12px;
 }
 #sheet-body .month {
   display: grid;
@@ -1666,7 +1949,7 @@ body:not(.dev) .dev-only {
 .month .weekday {
   grid-row: 1;
   height: auto;
-  font: 600 11px var(--ui);
+  font: 600 var(--t-label) var(--ui);
   color: var(--gold);
   text-align: center;
   padding: 0 0 2px;
@@ -1693,7 +1976,7 @@ body:not(.dev) .dev-only {
   box-shadow: none;
 }
 .month .day .num {
-  font: 600 14px var(--ui);
+  font: 600 var(--t-label) var(--ui);
 }
 .month .day.past {
   opacity: 0.55;
@@ -1734,12 +2017,12 @@ body:not(.dev) .dev-only {
   padding: 18px 20px;
 }
 .calendar-day .plate > .label {
-  font: 700 11px var(--ui);
+  font: 700 var(--t-label) var(--ui);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 .calendar-day .plate h3 {
-  font-size: 30px;
+  font-size: var(--t-h1);
 }
 .calendar-day-list {
   display: flex;
@@ -1752,12 +2035,12 @@ body:not(.dev) .dev-only {
   grid-template-columns: 20px minmax(0, 1fr);
   align-items: start;
   gap: 10px;
-  font: 15px/1.35 var(--ui);
+  font: var(--t-ui)/1.35 var(--ui);
 }
 .calendar-empty {
   margin: 0;
   color: var(--muted, var(--text));
-  font: 14px var(--ui);
+  font: var(--t-label) var(--ui);
 }
 .calendar-day .plate > .action {
   margin: 10px 0 0;
@@ -1773,7 +2056,7 @@ body:not(.dev) .dev-only {
   margin: 0;
   padding: 4px 8px;
   text-align: left;
-  font: 14px/1.25 var(--ui);
+  font: var(--t-label)/1.25 var(--ui);
   background: rgba(255, 255, 255, 0.04);
   box-shadow: none;
   border: 0;
@@ -1784,7 +2067,7 @@ body:not(.dev) .dev-only {
 }
 .calendar-entry .when {
   white-space: nowrap;
-  font: 600 12px var(--ui);
+  font: 600 var(--t-label) var(--ui);
   color: var(--gold);
 }
 
@@ -1804,8 +2087,7 @@ body:not(.dev) .dev-only {
   column-gap: 26px;
   padding: 26px 30px 28px;
 }
-.dossier #person-media,
-.character-sheet #sheet-media {
+.dossier #person-media {
   border: 1px solid rgba(156, 131, 80, 0.6);
   border-radius: 3px;
   background:
@@ -1820,8 +2102,7 @@ body:not(.dev) .dev-only {
     inset 0 0 40px rgba(0, 0, 0, 0.55),
     0 3px 8px rgba(0, 0, 0, 0.35);
 }
-.dossier #person-media::after,
-.character-sheet #sheet-media::after {
+.dossier #person-media::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -1837,8 +2118,7 @@ body:not(.dev) .dev-only {
   background-repeat: no-repeat;
   background-size: 13px 13px;
 }
-.dossier #person-media .screen-portrait,
-.character-sheet #sheet-media .screen-portrait {
+.dossier #person-media .screen-portrait {
   inset: 14px 0 0;
   height: calc(100% - 14px);
 }
@@ -1882,7 +2162,7 @@ body:not(.dev) .dev-only {
 }
 #person-facts .screen-lede {
   margin: 0;
-  font: 400 17px/1.45 var(--speech);
+  font: 400 var(--t-read)/1.45 var(--speech);
   color: var(--text);
   max-width: 60ch;
 }
@@ -1941,7 +2221,7 @@ body:not(.dev) .dev-only {
 }
 #tip .prose {
   margin: 6px 0 10px;
-  font: 400 15px/1.45 var(--speech);
+  font: 400 var(--t-ui)/1.45 var(--speech);
 }
 
 /* ---- Opening (director/opening-story, owner Oct 14, 2026) ----
@@ -2011,7 +2291,7 @@ body:not(.dev) .dev-only {
 }
 #news-reader .heading {
   margin: 0 0 12px;
-  font: 600 34px/1.15 var(--speech);
+  font: 600 var(--t-h1)/1.15 var(--speech);
 }
 #news-reader .paper-masthead {
   border-bottom: 1px solid var(--gold);
@@ -2025,7 +2305,7 @@ body:not(.dev) .dev-only {
   padding: 26px 30px;
 }
 #news-reader-body .prose {
-  font: 18px/1.5 var(--speech);
+  font: var(--t-h3)/1.5 var(--speech);
 }
 #news-reader-more {
   border-left: 1px solid rgba(214, 189, 132, 0.4);
@@ -2054,7 +2334,7 @@ body:not(.dev) .dev-only {
   display: flex;
   gap: 8px;
   align-items: center;
-  font: 400 13.5px var(--ui);
+  font: 400 var(--t-label) var(--ui);
   color: var(--text-2);
 }
 @media (max-width: 900px) {
@@ -2082,6 +2362,14 @@ body:not(.dev) .dev-only {
   flex-direction: column;
   overflow: hidden;
 }
+/* A bill read from the meeting or the desk takes a menu's frame: its three
+   columns need the width, and squeezed into the side panel they ran over each
+   other. */
+#meeting:has(.bill-board),
+#desk:has(.bill-board) {
+  left: calc(var(--gutter) + 98px);
+  width: auto;
+}
 /* The meeting and the desk: a titled panel whose agenda scrolls inside it, the Adjourn
    control kept under it. */
 #meeting-items,
@@ -2094,7 +2382,7 @@ body:not(.dev) .dev-only {
 }
 #meeting > .heading {
   margin: 0 0 12px;
-  font-size: 26px;
+  font-size: var(--t-h2);
 }
 .meeting-item + .meeting-item {
   margin-top: 16px;
@@ -2103,12 +2391,12 @@ body:not(.dev) .dev-only {
 }
 .meeting-title {
   margin: 0;
-  font: 600 20px/1.2 var(--name);
+  font: 600 var(--t-h3)/1.2 var(--name);
 }
 .meeting-sub {
   margin: 2px 0 10px;
   color: var(--text-2);
-  font: 13px var(--ui);
+  font: var(--t-label) var(--ui);
 }
 /* The members as round faces ringed by how each voted on this item. */
 .meeting-members {
@@ -2147,13 +2435,21 @@ body:not(.dev) .dev-only {
   margin: 0 0 6px;
 }
 .meeting-result strong {
-  font: 700 17px var(--ui);
+  font: 700 var(--t-read) var(--ui);
   color: var(--gold);
 }
 .meeting-remarks {
   margin: 0 0 8px;
   color: var(--text-2);
-  font: 13px var(--ui);
+  font: var(--t-label) var(--ui);
+}
+.meeting-remarks small {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--gold);
+  font: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 .meeting-acts {
   display: flex;
@@ -2199,7 +2495,7 @@ body:not(.dev) .dev-only {
 #returns.nation #returns-count .row {
   padding: 2px 0;
   gap: 8px;
-  font-size: 12.5px;
+  font-size: var(--t-label);
   white-space: nowrap;
 }
 #returns.nation #returns-count .row > b:first-child {
@@ -2235,11 +2531,11 @@ body:not(.dev) .dev-only {
 }
 /* The record screen (ui/screen.mjs): every screen of one person's or one place's records. */
 .record-title {
-  font: 600 34px var(--name);
+  font: 600 var(--t-h1) var(--name);
   margin: 16px 0;
 }
 .record-empty {
-  font: 22px var(--speech);
+  font: var(--t-h3) var(--speech);
 }
 .record-stats {
   display: flex;
@@ -2269,27 +2565,9 @@ body:not(.dev) .dev-only {
   border-bottom: 1px solid rgba(214, 189, 132, 0.2);
 }
 .record-figure strong {
-  font: 500 24px var(--ui);
+  font: 500 var(--t-h2) var(--ui);
 }
-/* Character screen: layout additions on the existing Kit 13 panel. */
-#sheet.character-sheet {
-  display: grid;
-  grid-template-columns: minmax(180px, 30%) minmax(0, 1fr);
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
-  column-gap: clamp(24px, calc(var(--vw) * 0.03), 48px);
-}
-.character-sheet .sheet-head,
-.character-sheet #sheet-tabs,
-.character-sheet #sheet-body {
-  grid-column: 2;
-}
-.character-sheet #sheet-body {
-  max-width: none;
-}
-#sheet-media {
-  grid-column: 1;
-  grid-row: 1 / 5;
-}
+
 /* The large side figure of the character screen and the person card. */
 .screen-media {
   position: relative;
@@ -2323,7 +2601,7 @@ body:not(.dev) .dev-only {
 }
 /* What you're like, as a short paragraph under your name. */
 #sheet-body .screen-lede {
-  font: 400 19px/1.45 var(--speech);
+  font: 400 var(--t-h3)/1.45 var(--speech);
   max-width: 46ch;
   margin: 0 0 26px;
 }
@@ -2357,7 +2635,7 @@ body:not(.dev) .dev-only {
   margin: 6px 0;
 }
 .record-feature {
-  font: 500 21px var(--speech);
+  font: 500 var(--t-h3) var(--speech);
 }
 .record-people {
   list-style: none;
@@ -2373,7 +2651,7 @@ body:not(.dev) .dev-only {
   gap: 10px;
 }
 .record-note {
-  font-size: 13px;
+  font-size: var(--t-label);
 }
 .record-views {
   display: grid;
@@ -2382,14 +2660,14 @@ body:not(.dev) .dev-only {
 }
 .record-views h4 {
   margin: 0 0 4px;
-  font: 600 10.5px var(--ui);
+  font: 600 var(--t-label) var(--ui);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--gold);
 }
 .view-plate .narrative {
   margin: 0;
-  font: 400 15.5px/1.4 var(--speech);
+  font: 400 var(--t-ui)/1.4 var(--speech);
 }
 .record-views {
   gap: 10px;
@@ -2398,113 +2676,75 @@ body:not(.dev) .dev-only {
   overflow-wrap: anywhere;
 }
 @media (max-width: 950px) {
-  #sheet.character-sheet {
-    grid-template-columns: minmax(100px, 24%) minmax(0, 1fr);
-    column-gap: 18px;
-  }
   .record-people {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
+/* A round headshot: the person's bust, placed inside the frame by ui/headshot.mjs. */
 .headshot {
   box-sizing: border-box;
+  display: block;
+  position: relative;
+  overflow: hidden;
   width: 60px;
   height: 60px;
   border-radius: 50%;
   border: 3px solid var(--kind, var(--gold));
-  object-fit: cover;
-  object-position: center top;
   background: var(--iron);
 }
-/* The headshot's figure is placed inside the round frame by play.mjs. */
-.headshot {
-  display: block;
-  background-repeat: no-repeat;
+/* The bust (ui/bust.mjs): a square of stacked pictures, one per piece, each
+   filling the square. The part that holds it sets its size and place. */
+.bust-stack {
+  position: absolute;
+  aspect-ratio: 1;
+  transition: opacity 0.14s ease;
 }
-/* People: the roster of everyone you know at the left, grouped, and the selected person's
-   card beside it (owner, Nov 7: the person card, "perfect"; the mock's pl-people). */
-#sheet-body:has(.people-screen) {
-  max-width: none;
+/* Shown whole or not yet: clear until every piece has arrived. */
+.bust-stack.loading {
+  opacity: 0;
 }
-.people-screen {
-  display: grid;
-  grid-template-columns: 270px 1fr;
-  gap: 22px;
-  align-items: start;
-}
-.people-roster {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-family: var(--ui);
-}
-.people-roster .sechead {
-  margin: 0 0 6px;
-  padding: 8px 12px;
-  font:
-    700 15px "Cinzel",
-    "Playfair Display",
-    Georgia,
-    serif;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #f2e6c9;
-  background: linear-gradient(
-    90deg,
-    rgba(196, 160, 90, 0.32),
-    rgba(196, 160, 90, 0)
-  );
-}
-.people-roster .group {
-  margin: 10px 0 2px 12px;
-  font: 700 11.5px var(--ui);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-.people-roster .person,
-#sheet-body .people-roster .person {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 10px;
+.bust-stack img {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  margin: 0;
-  padding: 6px 12px;
-  background: none;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  text-align: left;
-  color: #f2e6c9;
-  font: inherit;
+  height: 100%;
+  display: block;
+  max-width: none;
+  user-select: none;
+}
+/* People on the one roster (owner, Nov 7: the person card, "perfect"; the mock's
+   pl-people): the roster at the left and the chosen person's card beside it, the
+   width of the panel; each keeps to the panel's height and scrolls inside itself
+   (a menu never scrolls as a page). */
+#sheet-body:has(.roster-screen.people) {
+  display: flex;
+  overflow: hidden;
+}
+.roster-screen.people {
+  flex: 1;
+  width: auto;
   min-height: 0;
-  cursor: pointer;
+  grid-template-columns: 270px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 22px;
 }
-.people-roster .person b {
-  font: 600 15px var(--ui);
+.roster-screen.people > .roster,
+.roster-screen.people > .roster-page {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
-.people-roster .person span {
-  font: 13px var(--ui);
-  color: var(--muted, #c4bbab);
+.roster-screen.people > .roster {
+  align-content: start;
+  max-height: none;
+  margin: 0;
 }
-.people-roster .person:hover,
-#sheet-body .people-roster .person:hover,
-#sheet-body .people-roster .person:focus-visible {
-  background: rgba(214, 189, 132, 0.12);
-  box-shadow: 0 0 10px rgba(214, 189, 132, 0.2);
-}
-#sheet-body .people-roster .person[aria-pressed="true"] {
-  background: linear-gradient(
-    90deg,
-    rgba(196, 160, 90, 0.34),
-    rgba(196, 160, 90, 0.08)
-  );
-}
-.people-pane .strip-screen {
+.roster-screen.people > .roster-page .strip-screen {
   grid-template-columns: 1fr;
 }
-.people-pane .strip-screen:has(.mxbust) {
+.roster-screen.people > .roster-page .strip-screen:has(.mxbust) {
   grid-template-columns: 300px 1fr;
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
@@ -2525,7 +2765,7 @@ select.government-state {
   border-color: rgba(214, 189, 132, 0.55);
 }
 .record-place {
-  font: 18px var(--speech);
+  font: var(--t-h3) var(--speech);
   margin: 0 0 20px;
 }
 .record-section.wide .record-section {
@@ -2571,16 +2811,16 @@ select.government-state {
 .person-row-sub {
   flex-basis: 100%;
   margin: -10px 0 4px 46px;
-  font-size: 13px;
+  font-size: var(--t-label);
 }
 .record-total {
   display: block;
-  font: 600 30px var(--name);
+  font: 600 var(--t-h1) var(--name);
   margin: 12px 0 25px;
 }
 .record-warning {
   color: var(--red);
-  font: 600 14px var(--ui);
+  font: 600 var(--t-label) var(--ui);
   margin: 0 0 8px;
 }
 .screen-grid > .wide {
@@ -2604,7 +2844,7 @@ details.entry summary::-webkit-details-marker {
   display: none;
 }
 .entry-value {
-  font: 24px var(--speech);
+  font: var(--t-h2) var(--speech);
 }
 details.entry[open] {
   margin-bottom: 28px;
@@ -2617,7 +2857,7 @@ details.entry[open] {
   max-width: 960px;
 }
 .money-section h3 {
-  font: 600 22px var(--name);
+  font: 600 var(--t-h3) var(--name);
   color: var(--gold);
   margin: 0 0 18px;
 }
@@ -2628,7 +2868,7 @@ details.entry[open] {
   margin-top: 12px;
 }
 .money-home p {
-  font: 20px var(--speech);
+  font: var(--t-h3) var(--speech);
 }
 .property-image {
   float: left;
@@ -2642,16 +2882,16 @@ details.entry[open] {
 }
 @media (max-width: 1100px) {
   #sheet-body .lead .story-headline {
-    font-size: 25px;
+    font-size: var(--t-h2);
   }
   .story-lede {
-    font-size: 16px;
+    font-size: var(--t-read);
   }
   .paper {
     padding: 0;
   }
   .paper-masthead h2 {
-    font-size: 30px;
+    font-size: var(--t-h1);
   }
 }
 
@@ -2747,11 +2987,11 @@ details.entry[open] {
   text-align: left;
 }
 .pick-row .pick-name {
-  font: 700 17px var(--name);
+  font: 700 var(--t-read) var(--name);
 }
 .pick-row .pick-role {
   color: var(--text-2);
-  font: 500 13px var(--ui);
+  font: 500 var(--t-label) var(--ui);
 }
 .pick-row[aria-pressed="true"] {
   background: linear-gradient(
@@ -2765,6 +3005,67 @@ details.entry[open] {
 #sheet-body:has(.bill-board) {
   max-width: none;
 }
+/* The bill page keeps to the panel's height: its three columns each scroll
+   inside themselves, so the vote and the staff never fall off the foot of the
+   sheet (a menu never scrolls as a page). A bill stands straight in the sheet
+   (from Your office) or in a list's page (Bills). */
+#sheet-body:has(.bill-board) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#sheet-body > .bill-board,
+.roster-page > .bill-board {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+#sheet-body .bill-board > .board-cols {
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+}
+#sheet-body .bill-board > .board-cols > .mx3col {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+/* Bills: the list is narrow and the bill's page takes the rest of the sheet. */
+#sheet-body:has(.roster-screen.bills) {
+  max-width: none;
+}
+.roster-screen.bills {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  grid-template-columns: 250px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+}
+.roster-screen.bills > .roster-page {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.roster-screen.bills > .roster {
+  align-self: start;
+}
+/* What stands over and under the columns keeps its own height and width. */
+#sheet-body:has(> .bill-board) > :not(.bill-board),
+#sheet-body .bill-board > .bill-band {
+  flex: none;
+}
+#sheet-body:has(> .bill-board) > button {
+  align-self: flex-start;
+}
+/* The bill's number in its column: one step down from a page title, so
+   "Ordinance 2025-1" stays on one line. */
+.bill-doc h2.heading {
+  font-size: var(--t-h2);
+}
 
 /* Compare: the clause the law in force holds struck, the bill's inserted. */
 .bill-clause {
@@ -2776,6 +3077,13 @@ details.entry[open] {
   white-space: normal;
   text-align: right;
   overflow-wrap: anywhere;
+}
+.bill-clause[role="button"] {
+  cursor: pointer;
+}
+.bill-clause[role="button"]:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 2px;
 }
 .bill-clause s {
   color: var(--muted);
@@ -2791,7 +3099,7 @@ details.entry[open] {
   gap: 8px;
 }
 .bill-doc .prose {
-  font-size: 17px;
+  font-size: var(--t-read);
 }
 .bill-section {
   display: block;
@@ -2854,7 +3162,7 @@ details.entry[open] {
 /* The masthead names the paper: the sheet's own title is not shown, the close
    X sits in the corner in ink. */
 .paper {
-  font: 16px/1.45 var(--speech);
+  font: var(--t-read)/1.45 var(--speech);
   color: var(--paper-ink);
 }
 .paper-masthead {
@@ -2888,7 +3196,7 @@ details.entry[open] {
   padding: 5px 0;
   border-top: 1px solid var(--paper-ink);
   border-bottom: 3px double var(--paper-ink);
-  font: 13px/1.2 var(--ui);
+  font: var(--t-label)/1.2 var(--ui);
   letter-spacing: 0.05em;
 }
 /* The paper's page arrows, at the end of the dateline (ui/newspaper.mjs). */
@@ -2917,7 +3225,7 @@ details.entry[open] {
 #sheet-body .side-headline {
   margin: 0 0 4px;
   color: var(--paper-ink);
-  font: 600 12px/1.35 var(--ui);
+  font: 600 var(--t-label)/1.35 var(--ui);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   cursor: default;
@@ -2951,7 +3259,7 @@ details.entry[open] {
   border: 0;
   box-shadow: none;
   color: var(--paper-ink);
-  font: 700 22px/1.15 var(--speech);
+  font: 700 var(--t-h3)/1.15 var(--speech);
   text-align: left;
   text-shadow: none;
 }
@@ -2963,17 +3271,17 @@ details.entry[open] {
   color: var(--paper-red);
 }
 #sheet-body .lead .story-headline {
-  font-size: 40px;
+  font-size: var(--t-name);
   letter-spacing: -0.01em;
 }
 /* A front page that would run past the paper's foot sets its lead smaller
    (ui/newspaper.mjs, the page never scrolls). */
 #sheet-body .paper.tight .lead .story-headline {
-  font-size: 30px;
+  font-size: var(--t-h1);
 }
 .story-lede {
   margin: 8px 0 12px;
-  font: italic 19px/1.35 var(--speech);
+  font: italic var(--t-h3)/1.35 var(--speech);
 }
 .story-image {
   display: block;
@@ -2991,7 +3299,7 @@ details.entry[open] {
 }
 .story-text {
   margin: 0 0 10px;
-  font: 16px/1.5 var(--speech);
+  font: var(--t-read)/1.5 var(--speech);
 }
 .story-body .story-text {
   break-inside: avoid;
@@ -2999,17 +3307,17 @@ details.entry[open] {
 .story-body .story-text.drop-cap::first-letter {
   float: left;
   margin: 4px 6px 0 0;
-  font: 700 44px/0.8 var(--speech);
+  font: 700 var(--t-name)/0.8 var(--speech);
 }
 #sheet-body .paper-story.second .story-headline {
-  font-size: 20px;
+  font-size: var(--t-h3);
 }
 .paper-story.second .story-lede {
   margin: 6px 0 0;
-  font: 15px/1.4 var(--speech);
+  font: var(--t-ui)/1.4 var(--speech);
 }
 #sheet-body .paper-story.brief .story-headline {
-  font-size: 17px;
+  font-size: var(--t-read);
 }
 /* A modern daily: white stock, the name on a blue bar, sans type. */
 .paper-modern {
@@ -3033,7 +3341,7 @@ details.entry[open] {
   letter-spacing: -0.02em;
 }
 .paper-modern .story-lede {
-  font: 18px/1.4 var(--ui);
+  font: var(--t-h3)/1.4 var(--ui);
   color: #3a3a3a;
 }
 .paper-modern .story-text {
@@ -3066,7 +3374,7 @@ details.entry[open] {
   grid-template-columns: 2fr 1fr;
 }
 #sheet-body .paper-tabloid .lead .story-headline {
-  font: 900 46px/1 var(--ui);
+  font: 900 var(--t-name)/1 var(--ui);
   text-transform: uppercase;
   letter-spacing: -0.02em;
 }
@@ -3094,7 +3402,7 @@ details.entry[open] {
   grid-template-columns: 1fr 1fr;
 }
 #sheet-body .paper-weekly .lead .story-headline {
-  font-size: 34px;
+  font-size: var(--t-h1);
 }
 /* The first evening's paper (the reader over the scene) is the same page. */
 #news-reader {
@@ -3114,7 +3422,7 @@ details.entry[open] {
   border-left: 1px solid var(--paper-rule);
 }
 #news-reader .heading {
-  font: 700 34px/1.15 var(--speech);
+  font: 700 var(--t-h1)/1.15 var(--speech);
 }
 /* The parties' colors, by the party's name on the record. */
 .party-democratic {
@@ -3215,19 +3523,19 @@ details.entry[open] {
   overflow: hidden;
 }
 .issue-cards .entry h3 {
-  font: 600 15px/1.2 var(--ui);
+  font: 600 var(--t-ui)/1.2 var(--ui);
   color: var(--text-strong);
   margin: 0 0 4px;
 }
 .issue-cards .entry .entry-value {
   display: block;
-  font: 500 19px/1.15 var(--speech);
+  font: 500 var(--t-h3)/1.15 var(--speech);
   color: var(--gold);
   overflow-wrap: break-word;
   margin: 2px 0 4px;
 }
 .issue-cards .entry .entry-line {
-  font: 12.5px var(--ui);
+  font: var(--t-label) var(--ui);
   color: var(--text-2);
   margin: 0;
 }
@@ -3253,7 +3561,7 @@ details.entry[open] {
   flex-wrap: wrap;
 }
 #sheet-body .government-bodies .tab {
-  font-size: 13.5px;
+  font-size: var(--t-label);
   padding: 4px 12px;
   min-height: 0;
 }
@@ -3266,7 +3574,7 @@ details.entry[open] {
   margin: 0;
   background: var(--iron) center 58% / cover no-repeat;
   border: 1px solid var(--brass);
-  border-radius: 2px;
+  border-radius: var(--control-radius);
   box-shadow:
     inset 0 0 0 1px var(--iron),
     0 3px 0 rgba(0, 0, 0, 0.55);
@@ -3294,17 +3602,11 @@ details.entry[open] {
   gap: 3px;
 }
 .chamber-name {
-  font: 800 21px/1.1 var(--name);
+  font: 800 var(--t-h3)/1.1 var(--name);
   letter-spacing: 0.04em;
   color: var(--text-strong);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
 }
-.chamber-line {
-  font: 400 13px/1.3 var(--ui);
-  color: var(--text);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
-}
-
 /* The party split: one bar, each party's share in its color. */
 .party-none {
   --party: #6f6c66;
@@ -3327,7 +3629,7 @@ details.entry[open] {
   color: var(--text);
   background: linear-gradient(#2b2b2e, #1c1c1f);
   border: 1px solid rgba(156, 131, 80, 0.3);
-  border-radius: 2px;
+  border-radius: var(--control-radius);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     0 2px 0 rgba(0, 0, 0, 0.45);
@@ -3355,14 +3657,14 @@ details.entry[open] {
   gap: 2px;
 }
 .member-name {
-  font: 600 15px/1.15 var(--ui);
+  font: 600 var(--t-ui)/1.15 var(--ui);
   color: var(--text-strong);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .member-line {
-  font: 400 12.5px/1.2 var(--ui);
+  font: 400 var(--t-label)/1.2 var(--ui);
   color: var(--text-2);
   white-space: nowrap;
   overflow: hidden;
@@ -3390,7 +3692,7 @@ details.entry[open] {
   height: 64px;
 }
 .member-card.large .member-name {
-  font-size: 17px;
+  font-size: var(--t-read);
 }
 
 /* The long-list box: the rows that fit, the rest a scroll inside the box (never arrows or page numbers). */
@@ -3423,18 +3725,18 @@ details.entry[open] {
   display: contents;
 }
 .date-list-when {
-  font: 600 14px var(--ui);
+  font: 600 var(--t-label) var(--ui);
   color: var(--gold);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 .date-list-text {
-  font: 400 14px/1.3 var(--ui);
+  font: 400 var(--t-label)/1.3 var(--ui);
   color: var(--text-strong);
 }
 .date-list-empty {
   margin: 0;
-  font: italic 400 14px var(--speech);
+  font: italic 400 var(--t-label) var(--speech);
   color: var(--text-2);
 }
 .split-main .record-section {
@@ -3449,54 +3751,39 @@ details.entry[open] {
 
 /* The draft card on a body's office screen: the issue, what is in force today beside the
    amount typed, and Draft. */
-.draft-card {
-  display: grid;
-  gap: 8px;
-  margin-top: 12px;
-  padding: 12px 14px;
-  border: 1px solid rgba(214, 189, 132, 0.35);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.04);
-}
-.draft-title {
-  margin: 0;
-  font: 700 12px var(--ui);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-.draft-amounts {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 18px;
-}
-.draft-cell {
-  display: grid;
-  gap: 2px;
-}
-.draft-cell small {
-  color: var(--text-2);
-  font: 12px var(--ui);
-}
+/* Writing a bill (ui/draft-card.mjs): the pick list of subjects beside the
+   chosen subject's page. Its look is the roster screen's; these are only the
+   term's own line. */
 .draft-today {
-  font: 600 18px var(--ui);
+  font: 600 var(--t-h3) var(--ui);
 }
 .draft-entry {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  margin-bottom: 12px;
 }
 .draft-entry .number-box {
-  width: 110px;
+  width: 140px;
+}
+/* The amount is a field the player types in: it shows its box at rest, as
+   the creator's fields do. */
+.draft-entry .number-box {
+  border-color: rgba(242, 237, 228, 0.28);
+  background-color: rgba(8, 8, 9, 0.45);
+}
+.draft-entry .draft-unit {
+  font: 600 var(--t-read) var(--ui);
+  color: var(--cream);
+}
+/* A subject this body may not write a bill about: listed, and dimmed. */
+.draft-card .pick[data-blocked]:not([aria-pressed="true"]) {
+  opacity: 0.55;
 }
 .draft-note {
-  margin: 0;
+  margin: 0 0 12px;
   color: var(--text-2);
-  font: 13px var(--ui);
-}
-.draft-note:empty {
-  display: none;
+  font: var(--t-label) var(--ui);
 }
 
 /* Today's amount beside the new one on the bill paper's estimate card. */
@@ -3516,10 +3803,10 @@ details.entry[open] {
 }
 .bill-compare-cell small {
   color: var(--text-2);
-  font: 12px var(--ui);
+  font: var(--t-label) var(--ui);
 }
 .bill-compare-cell strong {
-  font: 700 20px var(--ui);
+  font: 700 var(--t-h3) var(--ui);
 }
 .bill-compare-cell.new {
   border-color: var(--gold);
@@ -3583,7 +3870,7 @@ details.entry[open] {
 }
 .chip {
   padding: 2px 10px;
-  font: 500 12.5px/1.5 var(--ui);
+  font: 500 var(--t-label)/1.5 var(--ui);
   color: var(--gold);
   border: 1px solid rgba(214, 189, 132, 0.55);
   border-radius: 999px;
@@ -3631,16 +3918,20 @@ details.entry[open] {
 #sheet-body:has(.travel-screen) {
   max-width: none;
 }
+/* The screen keeps to its panel: at a wider floor than the panel it ran off
+   the right edge, cutting the chosen place's name, hours and button. */
 .travel-screen {
-  width: 100%;
-  min-width: min(1180px, calc(var(--vw) * 0.88));
+  width: min(1000px, calc(var(--vw) * 0.88));
+  max-width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
   gap: 26px;
   align-items: start;
   font-family: var(--ui);
 }
-.patch-detail {
+/* Patch notes and the journal run long: their page scrolls inside its own box, never the sheet. */
+.roster-screen.patch-notes .roster-page,
+.roster-screen.journal .roster-page {
   max-height: calc(100vh - 250px);
   overflow-y: auto;
   scrollbar-width: thin;
@@ -3655,7 +3946,7 @@ details.entry[open] {
 }
 .travel-group {
   margin: 12px 0 6px;
-  font: 700 12px var(--ui);
+  font: 700 var(--t-label) var(--ui);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
@@ -3671,7 +3962,7 @@ details.entry[open] {
   padding: 0;
   overflow: hidden;
   border: 1px solid transparent;
-  border-radius: 2px;
+  border-radius: var(--control-radius);
   background: rgba(0, 0, 0, 0.3);
   text-align: left;
 }
@@ -3687,7 +3978,7 @@ details.entry[open] {
   left: 10px;
   bottom: 8px;
   right: 10px;
-  font: 600 15px var(--ui);
+  font: 600 var(--t-ui) var(--ui);
   color: #fff7e2;
   text-shadow: 0 1px 4px #000;
 }
@@ -3717,7 +4008,7 @@ details.entry[open] {
   width: 100%;
   aspect-ratio: 5 / 2;
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: var(--control-radius);
 }
 .travel-hero::after {
   content: "";
@@ -3730,10 +4021,12 @@ details.entry[open] {
   position: absolute;
   z-index: 1;
   left: 16px;
+  /* A long name wraps inside the picture; it never runs off its edge. */
+  right: 16px;
   bottom: 10px;
   margin: 0;
   font:
-    600 26px/1.1 "Playfair Display",
+    600 var(--t-h2)/1.1 "Playfair Display",
     Georgia,
     serif;
   text-transform: none;
@@ -3742,12 +4035,12 @@ details.entry[open] {
   text-shadow: 0 1px 4px #000;
 }
 .travel-facts {
-  font: 15px var(--ui);
-  color: #f2e6c9;
+  font: var(--t-ui) var(--ui);
+  color: var(--cream);
 }
 .travel-facts span {
   display: block;
-  font: 700 11px var(--ui);
+  font: 700 var(--t-label) var(--ui);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
@@ -3755,8 +4048,8 @@ details.entry[open] {
 .travel-does {
   margin: 0;
   padding: 0 0 0 18px;
-  font: 15px var(--ui);
-  color: #f2e6c9;
+  font: var(--t-ui) var(--ui);
+  color: var(--cream);
 }
 #sheet-body .travel-go {
   white-space: normal;
@@ -3787,7 +4080,7 @@ details.entry[open] {
   aspect-ratio: 3 / 1;
   object-fit: cover;
   border: 1px solid rgba(156, 131, 80, 0.6);
-  border-radius: 2px;
+  border-radius: var(--control-radius);
   margin: 0 0 10px;
 }
 .job-plate .heading {
@@ -3807,18 +4100,18 @@ details.entry[open] {
   overflow: hidden;
 }
 .race-cards .entry h3 {
-  font: 600 15px/1.2 var(--ui);
+  font: 600 var(--t-ui)/1.2 var(--ui);
   color: var(--text-strong);
   margin: 0 0 4px;
 }
 .race-cards .entry .entry-value {
   display: block;
-  font: 500 16px/1.2 var(--speech);
+  font: 500 var(--t-read)/1.2 var(--speech);
   color: var(--gold);
   margin: 0 0 4px;
 }
 .race-cards .entry p {
-  font: 12.5px/1.3 var(--ui);
+  font: var(--t-label)/1.3 var(--ui);
   color: var(--text-2);
   margin: 0;
 }
@@ -3858,71 +4151,23 @@ details.entry[open] {
   align-items: center;
   margin-bottom: 12px;
 }
-.guide-body {
-  display: grid;
-  grid-template-columns: 290px minmax(0, 1fr);
-  gap: 26px;
-  align-items: start;
+.roster-screen.guide {
+  width: auto;
 }
-.guide-roster .sechead {
-  margin: 0 0 6px;
-  padding: 8px 12px;
-  font:
-    700 15px "Cinzel",
-    "Playfair Display",
-    Georgia,
-    serif;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #f2e6c9;
-  background: linear-gradient(
-    90deg,
-    rgba(196, 160, 90, 0.32),
-    rgba(196, 160, 90, 0)
-  );
-}
-#sheet-body .guide-roster .term-row {
-  display: block;
-  width: 100%;
-  margin: 0;
-  padding: 6px 12px;
-  background: none;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  text-align: left;
-  font: 600 15px var(--ui);
-  color: #f2e6c9;
-  min-height: 0;
-}
-#sheet-body .guide-roster .term-row:hover,
-#sheet-body .guide-roster .term-row:focus-visible {
-  background: rgba(214, 189, 132, 0.12);
-  box-shadow: 0 0 10px rgba(214, 189, 132, 0.2);
-}
-#sheet-body .guide-roster .term-row[aria-pressed="true"] {
-  background: linear-gradient(
-    90deg,
-    rgba(196, 160, 90, 0.34),
-    rgba(196, 160, 90, 0.08)
-  );
-}
-.guide-article.strip-screen {
+.roster-screen.guide > .roster-page.strip-screen {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: auto;
-  min-width: 0;
 }
 #sheet-body .guide-term {
   margin: 0;
   font:
-    600 38px/1.1 "Playfair Display",
+    600 var(--t-name)/1.1 "Playfair Display",
     Georgia,
     serif;
   text-transform: none;
   letter-spacing: 0.3px;
-  color: #f2e6c9;
+  color: var(--cream);
 }
 .guide-related {
   display: flex;
@@ -3930,8 +4175,8 @@ details.entry[open] {
   gap: 8px;
 }
 .guide-none {
-  color: #c4bbab;
-  font: 15px var(--ui);
+  color: var(--muted);
+  font: var(--t-ui) var(--ui);
 }
 
 /* Patch notes: the release's name is its picker; its changes one card a
@@ -3949,14 +4194,14 @@ select.release-pick {
 .release-date {
   margin: 0 0 10px;
   color: var(--text-2);
-  font: 13px/1.3 var(--ui);
+  font: var(--t-label)/1.3 var(--ui);
 }
 .note-cards .entry h3 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font: 600 14px/1.3 var(--ui);
+  font: 600 var(--t-label)/1.3 var(--ui);
   color: var(--text-strong);
   margin: 0;
 }
@@ -3999,7 +4244,7 @@ select.release-pick {
    bounded box of its own that scrolls inside (never the menu as a page). */
 @media (max-height: 780px) {
   #sheet-body .screen-lede {
-    font-size: 17px;
+    font-size: var(--t-read);
     margin-bottom: 14px;
   }
 }
@@ -4016,7 +4261,7 @@ select.release-pick {
   margin-block: 6px;
 }
 #sheet-body.compact .screen-lede {
-  font-size: 16px;
+  font-size: var(--t-read);
   margin-bottom: 8px;
 }
 #sheet-body.tight .screen-lede {
@@ -4036,18 +4281,20 @@ select.release-pick {
   align-items: center;
   margin: 0 0 8px;
 }
+/* A filter is a lit toggle the size of every other button (menu look: "filters
+   are lit toggle buttons"): plain at rest, lit brass when on. */
 #sheet-body .calendar-key .key-chip {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 0;
-  padding: 4px 12px;
-  border-radius: 14px;
-  font-size: 13px;
-  opacity: 0.55;
+  color: var(--text-2);
 }
 #sheet-body .calendar-key .key-chip.on {
-  opacity: 1;
+  color: var(--gold);
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    var(--raised);
+  border-color: rgba(214, 189, 132, 0.55);
 }
 /* ---- Loading worth watching (Lane 4, path 3) ----
    The built world's past while the first scene is drawn: a year counter
@@ -4069,7 +4316,7 @@ select.release-pick {
   cursor: pointer;
 }
 .loading-year {
-  font: 600 44px/1 var(--name);
+  font: 600 var(--t-name)/1 var(--name);
   letter-spacing: 0.04em;
   color: var(--gold);
   font-variant-numeric: tabular-nums;
@@ -4095,7 +4342,7 @@ select.release-pick {
   animation: loading-write 0.6s ease both;
 }
 .loading-headline {
-  font: 600 13px/1.35 var(--ui);
+  font: 600 var(--t-label)/1.35 var(--ui);
   color: rgba(242, 237, 228, 0.78);
   border-left: 2px solid var(--gold);
   padding-left: 10px;
@@ -4125,7 +4372,7 @@ select.release-pick {
   --f-title: var(--name);
   --f-ui: var(--ui);
   --f-story: var(--speech);
-  --muted: #c4bbab;
+  --muted: var(--muted);
   --gold2: #e6cd93;
   display: grid;
   grid-template-columns: 320px 1fr;
@@ -4145,17 +4392,17 @@ select.release-pick {
 .strip-screen .strip-name {
   margin: 0;
   font:
-    600 40px/1.1 "Playfair Display",
+    600 var(--t-name)/1.1 "Playfair Display",
     Georgia,
     serif;
   letter-spacing: 0.3px;
   text-transform: none;
-  color: #f2e6c9;
+  color: var(--cream);
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 .strip-screen .strip-role {
   margin: 2px 0 0;
-  font: 500 16.5px var(--f-ui);
+  font: 500 var(--t-read) var(--f-ui);
   color: var(--gold2);
 }
 .strip-screen .mx3main {
@@ -4181,10 +4428,10 @@ select.release-pick {
 .strip-screen .sechead {
   margin: 0;
   padding: 7px 14px;
-  border-radius: 2px;
-  font: 700 15.5px var(--f-title);
+  border-radius: var(--control-radius);
+  font: 700 var(--t-ui) var(--f-title);
   letter-spacing: 0.6px;
-  color: #f2e6c9;
+  color: var(--cream);
 }
 .strip-screen .secbody {
   padding: 10px 14px 4px;
@@ -4236,7 +4483,7 @@ select.release-pick {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  border-radius: 2px;
+  border-radius: var(--control-radius);
   background:
     linear-gradient(
         90deg,
@@ -4269,19 +4516,19 @@ select.release-pick {
 }
 .strip-screen .intro {
   margin: 0;
-  font: 400 16.5px/1.55 var(--f-story);
+  font: 400 var(--t-read)/1.55 var(--f-story);
   color: #efe6d4;
 }
 .strip-screen .hispeople {
   margin: 0;
-  font: 400 16px/1.5 var(--f-story);
+  font: 400 var(--t-read)/1.5 var(--f-story);
   color: #efe6d4;
 }
 .strip-screen .nm {
   font-weight: 600;
   color: #f6dfae;
   cursor: pointer;
-  border-radius: 2px;
+  border-radius: var(--control-radius);
 }
 .strip-screen .nm:hover,
 .strip-screen .nm:focus-visible {
@@ -4298,12 +4545,12 @@ select.release-pick {
   gap: 12px;
 }
 .strip-screen .perkname b {
-  font: 700 17px var(--f-title);
+  font: 700 var(--t-read) var(--f-title);
   letter-spacing: 0.3px;
-  color: #f2e6c9;
+  color: var(--cream);
 }
 .strip-screen .perkname span {
-  font: 600 12.5px var(--f-ui);
+  font: 600 var(--t-label) var(--f-ui);
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--gold);
@@ -4312,7 +4559,7 @@ select.release-pick {
   position: relative;
   margin: 2px 0 0;
   padding-left: 24px;
-  font: italic 400 16px/1.45 var(--f-story);
+  font: italic 400 var(--t-read)/1.45 var(--f-story);
   color: #f3ead8;
 }
 .strip-screen .perk p::before {
@@ -4335,16 +4582,17 @@ select.release-pick {
 }
 .strip-screen .said blockquote {
   margin: 0;
-  font: italic 400 16px/1.5 var(--f-story);
+  font: italic 400 var(--t-read)/1.5 var(--f-story);
   color: #f3ead8;
 }
 .strip-screen .said figcaption {
   margin-top: 5px;
-  font: 400 14.5px var(--f-ui);
+  font: 400 var(--t-ui) var(--f-ui);
   color: var(--muted);
 }
 /* The bust: head to upper chest, a soft fade over its lower third and at the sides, never a hard edge. */
-.strip-screen .mxglow {
+.strip-screen .mxglow,
+.new-busts .mxglow {
   width: 320px;
   background: radial-gradient(
     ellipse 62% 56% at 50% 42%,
@@ -4353,7 +4601,8 @@ select.release-pick {
     transparent 80%
   );
 }
-.strip-screen .mxbust {
+.strip-screen .mxbust,
+.new-busts .mxbust {
   position: relative;
   width: 320px;
   overflow: hidden;
@@ -4366,15 +4615,7 @@ select.release-pick {
     linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
   mask-composite: intersect;
 }
-.strip-screen .mxbust img {
-  position: absolute;
-  display: block;
-  max-width: none;
-}
-/* The You sheet: no side figure, the screen carries its own bust. */
-#sheet.strip-sheet #sheet-media {
-  display: none;
-}
+
 #sheet.strip-sheet #sheet-body {
   max-width: none;
   width: 100%;
@@ -4404,7 +4645,7 @@ select.release-pick {
   display: flex;
   align-items: baseline;
   gap: 8px;
-  font: 400 16px/1.7 var(--f-story);
+  font: 400 var(--t-read)/1.7 var(--f-story);
   color: #efe6d4;
 }
 .strip-screen .dotleader {
@@ -4439,7 +4680,7 @@ select.release-pick {
   gap: 16px;
 }
 .strip-board .bfy {
-  font: 400 15px var(--ui);
+  font: 400 var(--t-ui) var(--ui);
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--muted);
@@ -4459,10 +4700,10 @@ select.release-pick {
   display: grid;
   grid-template-columns: 1fr auto;
   padding: 7px 12px;
-  border-radius: 2px;
+  border-radius: var(--control-radius);
   cursor: pointer;
-  font: 400 16px var(--f-ui);
-  color: #f2e6c9;
+  font: 400 var(--t-read) var(--f-ui);
+  color: var(--cream);
 }
 .strip-screen .bsdept b {
   font-weight: 600;
@@ -4474,7 +4715,7 @@ select.release-pick {
 }
 .strip-screen .bsdept span {
   grid-column: 1 / -1;
-  font-size: 14px;
+  font-size: var(--t-label);
   color: var(--muted);
 }
 .strip-screen .bsdept.sel,
@@ -4484,7 +4725,7 @@ select.release-pick {
 }
 .strip-screen .dotrow.typed {
   font-family: var(--ui);
-  font-size: 16px;
+  font-size: var(--t-read);
   text-transform: none;
 }
 .strip-screen .dotrow.typed .dotlabel {
@@ -4492,7 +4733,7 @@ select.release-pick {
 }
 .strip-screen .bmsub {
   margin: 0 0 8px;
-  font: 400 14px var(--ui);
+  font: 400 var(--t-label) var(--ui);
   color: var(--muted);
 }
 .strip-screen .dotrow.typed .dotlabel {
@@ -4551,14 +4792,14 @@ select.release-pick {
 }
 .strip-wrap .leader .leader-name {
   font:
-    600 34px/1.1 "Playfair Display",
+    600 var(--t-h1)/1.1 "Playfair Display",
     Georgia,
     serif;
-  color: #f2e6c9;
+  color: var(--cream);
 }
 .strip-wrap .leader-post {
   margin: 4px 0 6px;
-  font: 500 15px var(--f-ui);
+  font: 500 var(--t-ui) var(--f-ui);
   color: var(--muted);
 }
 .strip-wrap .leader-party {
@@ -4576,12 +4817,12 @@ select.release-pick {
   gap: 10px;
 }
 .seat-number b {
-  font: 600 44px/1 var(--f-ui);
+  font: 600 var(--t-name)/1 var(--f-ui);
   font-variant-numeric: lining-nums tabular-nums;
   color: var(--party, #d9d2c2);
 }
 .seat-number span {
-  font: 500 15px var(--f-ui);
+  font: 500 var(--t-ui) var(--f-ui);
   letter-spacing: 0.4px;
   color: var(--muted);
 }
@@ -4592,7 +4833,7 @@ select.release-pick {
   display: none;
 }
 #front-main .item b {
-  font: 600 17px var(--ui);
+  font: 600 var(--t-read) var(--ui);
   letter-spacing: 0;
   text-transform: none;
 }
@@ -4609,8 +4850,8 @@ select.release-pick {
 }
 .saves-row .save-date {
   margin: 0;
-  font: 500 16px var(--f-ui);
-  color: #f2e6c9;
+  font: 500 var(--t-read) var(--f-ui);
+  color: var(--cream);
 }
 
 /* Options (Nov 8 front mock, fr-options): a label over its On and Off toggles. */
@@ -4621,7 +4862,7 @@ select.release-pick {
   margin-bottom: 8px;
 }
 .strip-screen .setting-label {
-  font: 600 13px var(--f-ui);
+  font: 600 var(--t-label) var(--f-ui);
   letter-spacing: 1.4px;
   text-transform: uppercase;
   color: var(--gold2);
@@ -4660,7 +4901,7 @@ select.release-pick {
 
 /* New game (Nov 8 front mock, fr-new): two cards side by side on a wide panel. */
 #front:has(#front-new:not([hidden])) {
-  width: min(760px, calc(var(--vw) - 2 * var(--gutter)));
+  width: min(900px, calc(var(--vw) - 2 * var(--gutter)));
 }
 #front-new {
   display: grid;
@@ -4668,9 +4909,20 @@ select.release-pick {
   gap: 16px;
 }
 #front-new .item {
-  min-height: 150px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 14px 12px 16px;
+}
+/* The busts over each choice (fr-new): someone starting out, and three who hold office. */
+.new-busts {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 210px;
+  pointer-events: none;
 }
 
 /* The rail's names (owner, Nov 8): a ring's name lights beside it after a quarter second of
@@ -4683,8 +4935,8 @@ select.release-pick {
   transform: translateY(-50%);
   padding: 5px 12px;
   white-space: nowrap;
-  font: 600 14px var(--ui);
-  color: #f2e6c9;
+  font: 600 var(--t-label) var(--ui);
+  color: var(--cream);
   background: linear-gradient(rgba(34, 32, 29, 0.97), rgba(20, 19, 17, 0.97));
   border-radius: 3px;
   box-shadow:
@@ -4748,6 +5000,47 @@ select.release-pick {
   margin: 8px 0;
 }
 /* The country in 20 years: a wide table in a narrow panel, so its first column and its figures stay on one line. */
+/* Dev mode's Watch: its own tab of the Calendar's sheet. Its sections stand
+   side by side and each table scrolls inside its own box, so every header and
+   cell can be read (it used to be squeezed under the calendar). */
+.dev-watch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 22px;
+  align-items: start;
+}
+.dev-watch > :last-child {
+  grid-column: 1 / -1;
+}
+.dev-watch .scroll {
+  max-height: 230px;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+  margin-bottom: 8px;
+}
+.dev-watch table {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 var(--t-ui) var(--ui);
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--cream);
+}
+.dev-watch th {
+  position: sticky;
+  top: 0;
+  padding: 4px 12px 4px 0;
+  text-align: left;
+  font: 600 var(--t-label) var(--ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--iron);
+}
+.dev-watch td {
+  padding: 3px 12px 3px 0;
+  vertical-align: top;
+}
 .dev-outlook-table table {
   width: 100%;
   font-size: 0.85em;
@@ -4778,22 +5071,22 @@ select.release-pick {
   float: left;
   margin: 2px 8px 0 0;
   font:
-    600 58px/0.85 "Playfair Display",
+    600 var(--t-display)/0.85 "Playfair Display",
     Georgia,
     serif;
-  color: #f2e6c9;
+  color: var(--cream);
 }
 
 /* Money (Nov 8 play mock, pl-money): the cash in large type over typed rows. */
 .strip-board .money-figure {
   margin: 0 0 6px;
-  font: 600 44px/1.05 var(--f-ui);
+  font: 600 var(--t-name)/1.05 var(--f-ui);
   font-variant-numeric: lining-nums tabular-nums;
   color: #fbf6ea;
 }
 .strip-board .dotrows .dotrow {
   font-family: var(--ui);
-  font-size: 15px;
+  font-size: var(--t-ui);
   text-transform: none;
 }
 
@@ -4822,28 +5115,28 @@ select.release-pick {
 .news-masthead h2 {
   margin: 0;
   font:
-    400 40px/1.1 "Old Standard TT",
+    400 var(--t-name)/1.1 "Old Standard TT",
     Georgia,
     serif;
   text-transform: none;
   letter-spacing: 0;
-  color: #f2e6c9;
+  color: var(--cream);
 }
 .news-masthead span {
-  font: 500 15px var(--ui);
-  color: var(--muted, #c4bbab);
+  font: 500 var(--t-ui) var(--ui);
+  color: var(--muted);
 }
 .news-headline {
   margin: 0 0 6px;
   font:
-    700 28px/1.15 "Old Standard TT",
+    700 var(--t-h2)/1.15 "Old Standard TT",
     Georgia,
     serif;
   color: #f6efe0;
   cursor: pointer;
 }
 .news-headline.side {
-  font-size: 21px;
+  font-size: var(--t-h3);
 }
 .news-text .intro {
   margin: 0 0 10px;
@@ -4885,84 +5178,89 @@ select.release-pick {
   align-items: start;
   font-family: var(--ui);
 }
-.roster .sechead {
+/* The one pick list (People, the Guide, Elections, Parties, Issues, Bills): a
+   heading strip, small group headings and the rows a player picks, each lit
+   on hover and washed brass when chosen. One look, set by the tokens in :root;
+   a screen never restyles a row. */
+.pick-list {
+  font-family: var(--ui);
+}
+.pick-list .pick-head {
   margin: 0 0 6px;
   padding: 8px 12px;
-  font:
-    700 15px "Cinzel",
-    "Playfair Display",
-    Georgia,
-    serif;
+  font: var(--head-font);
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #f2e6c9;
-  background: linear-gradient(
-    90deg,
-    rgba(196, 160, 90, 0.32),
-    rgba(196, 160, 90, 0)
-  );
+  color: var(--cream);
+  background: var(--head-wash);
 }
-.roster-group {
+/* A group heading set straight in the list (not in a paged box) keeps air above it. */
+.pick-list > .pick-group {
+  margin-top: 10px;
+}
+.pick-group {
   align-self: end;
   padding: 0 12px 2px;
-  font: 700 11.5px var(--ui);
+  font: var(--group-font);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
 }
-#sheet-body .roster .roster-row {
+.pick-list .pick,
+#sheet-body .pick-list .pick {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: 10px;
   width: 100%;
+  min-height: var(--control-h);
   margin: 0;
-  padding: 6px 12px;
+  padding: var(--pick-pad);
   background: none;
   border: none;
   border-radius: 0;
   box-shadow: none;
   text-align: left;
-  color: #f2e6c9;
-  min-height: 0;
+  color: var(--cream);
 }
-.roster-row b {
-  font: 600 15px var(--ui);
+.pick b {
+  font: var(--pick-font);
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
-.roster-row span {
-  font: 13px var(--ui);
-  color: #c4bbab;
+.pick span {
+  font: var(--pick-aside-font);
+  color: var(--muted);
+  white-space: nowrap;
 }
-#sheet-body .roster .roster-row:hover,
-#sheet-body .roster .roster-row:focus-visible {
-  background: rgba(214, 189, 132, 0.12);
-  box-shadow: 0 0 10px rgba(214, 189, 132, 0.2);
+#sheet-body .pick-list .pick:hover,
+#sheet-body .pick-list .pick:focus-visible {
+  background: var(--pick-hover);
+  box-shadow: var(--pick-hover-glow);
 }
-#sheet-body .roster .roster-row[aria-pressed="true"] {
-  background: linear-gradient(
-    90deg,
-    rgba(196, 160, 90, 0.34),
-    rgba(196, 160, 90, 0.08)
-  );
+#sheet-body .pick-list .pick[aria-pressed="true"] {
+  background: var(--pick-on);
 }
 #sheet-body .roster-title {
   margin: 0 0 10px;
   font:
-    600 32px/1.1 "Playfair Display",
+    600 var(--t-h1)/1.1 "Playfair Display",
     Georgia,
     serif;
   text-transform: none;
   letter-spacing: 0;
-  color: #f2e6c9;
+  color: var(--cream);
 }
 .roster-title span {
   margin-left: 12px;
-  font: 500 15px var(--ui);
+  font: 500 var(--t-ui) var(--ui);
   color: var(--gold2, #e6cd93);
 }
+/* The side column is wide enough for a date and a name on one row
+   ("November 2, 2021 ... Holly Robles"), which wrapped to four lines. */
 .roster-cols {
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
   gap: 18px;
   align-items: start;
 }
@@ -4978,13 +5276,6 @@ select.release-pick {
   display: block;
   width: auto;
   min-width: 0;
-}
-.roster-row b {
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-.roster-row span {
-  white-space: nowrap;
 }
 
 /* Issues (pl-issues): three filters (level, in force, subject) over the laws, then the
@@ -5067,10 +5358,10 @@ select.release-pick {
 }
 .ballot-race {
   margin: 14px 0 2px;
-  font: 700 15px var(--ui);
+  font: 700 var(--t-ui) var(--ui);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #f2e6c9;
+  color: var(--cream);
 }
 #ballot .ballot-sheet .ballot-choice {
   display: flex;
@@ -5081,8 +5372,8 @@ select.release-pick {
   background: none;
   border: none;
   box-shadow: none;
-  color: #f2e6c9;
-  font: 600 15px var(--ui);
+  color: var(--cream);
+  font: 600 var(--t-ui) var(--ui);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -5108,10 +5399,10 @@ select.release-pick {
 }
 .ballot-person b {
   font:
-    600 20px "Playfair Display",
+    600 var(--t-h3) "Playfair Display",
     Georgia,
     serif;
-  color: #f2e6c9;
+  color: var(--cream);
 }
 .night-board.strip-screen {
   display: flex;
@@ -5122,12 +5413,12 @@ select.release-pick {
 .night-title {
   margin: 0;
   font:
-    600 34px "Playfair Display",
+    600 var(--t-h1) "Playfair Display",
     Georgia,
     serif;
   text-transform: none;
   letter-spacing: 0;
-  color: #f2e6c9;
+  color: var(--cream);
 }
 .night-cols {
   display: grid;
@@ -5151,8 +5442,8 @@ select.release-pick {
   border: none;
 }
 #election-day-lines p {
-  font: italic 18px/1.5 var(--speech);
-  color: #f2e6c9;
+  font: italic var(--t-h3)/1.5 var(--speech);
+  color: var(--cream);
 }
 #election-day-acts {
   counter-reset: choice;
@@ -5166,8 +5457,8 @@ select.release-pick {
   background: none;
   border: none;
   box-shadow: none;
-  font: 16px var(--ui);
-  color: #f2e6c9;
+  font: var(--t-read) var(--ui);
+  color: var(--cream);
 }
 #election-day-acts .action::before {
   content: counter(choice) "." / "";
@@ -5185,7 +5476,7 @@ select.release-pick {
   width: auto;
 }
 
-.guide-article .sec {
+.roster-screen.guide .sec {
   width: 100%;
 }
 
@@ -5212,7 +5503,7 @@ select.release-pick {
 /* New game: the two choices read in the title's own type, not small capitals (fr-new). */
 #front-new .item b {
   font:
-    700 24px "Playfair Display",
+    700 var(--t-h2) "Playfair Display",
     Georgia,
     serif;
   letter-spacing: 0.01em;
@@ -5256,8 +5547,8 @@ body.color-blind .meeting-member.vote-abstain {
   padding: 2px 0;
 }
 .dev-bill-member .name {
-  font: 600 14px var(--ui);
-  color: #f2e6c9;
+  font: 600 var(--t-label) var(--ui);
+  color: var(--cream);
 }
 .dev-bill-card .acts {
   margin: 8px 0;
@@ -5265,8 +5556,8 @@ body.color-blind .meeting-member.vote-abstain {
 /* What came of the bill: its ending, the law it made and who that law reached, a line each. */
 .dev-bill-line {
   margin: 2px 0;
-  font: 500 13px var(--ui);
-  color: #f2e6c9;
+  font: 500 var(--t-label) var(--ui);
+  color: var(--cream);
 }
 
 /* Dev mode's Trace of a vote (fr-dev-trace): the record, why, and what came of it side by side. */
@@ -5304,7 +5595,7 @@ body.color-blind .meeting-member.vote-abstain {
   margin: 0;
   padding: 18px 16px 8px;
   font:
-    600 24px "Cinzel",
+    600 var(--t-h2) "Cinzel",
     "Playfair Display",
     serif;
   color: var(--gold);
@@ -5342,4 +5633,32 @@ body.color-blind .meeting-member.vote-abstain {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+
+/* The journal chapter's picture: the place its lines happened in (no caption).
+   No line box: its sides and lower edge fade into the panel, as the bust does. */
+.journal-picture {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  margin-bottom: 12px;
+  -webkit-mask-image:
+    linear-gradient(180deg, black 62%, transparent 100%),
+    linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(180deg, black 62%, transparent 100%),
+    linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  mask-composite: intersect;
+}
+
+/* Government in Dev mode: Bills and Bribe sit in the main column under the members; the chamber picture gives them its room. */
+.dev-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.split-main:has(.dev-panels) .chamber {
+  display: none;
 }

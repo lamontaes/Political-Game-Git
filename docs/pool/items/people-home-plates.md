@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,7 +21,7 @@ checked: fable 2026-11-10
 branch: claude/pool-people-home-plates
 ---
 
-**What.** On the opening evening at home the player's household is cast into the living room but nobody is drawn and nobody can be talked to when the home picture has no mannequin plate: every member is unplaced with reason no-plate. People are drawn only on a plate (owner, Oct 28 and 29), and of the home living rooms the opening shows only house-suburban-living at night has one. The owner's first screen is that evening, so every home living room the dwelling records can pick needs its plate, in the light the opening uses (night) and then the others. This is full-body staging, and on Nov 10 the owner ruled that staging waits while busts are decided.
+**What.** On the opening evening at home the player's household is cast into the living room but nobody is drawn and nobody can be talked to when the home picture has no mannequin plate: every member is unplaced with reason no-plate. People are drawn only on a plate (owner, Oct 28 and 29), and of the home living rooms the opening shows only house-suburban-living at night has one. The owner's first screen is that evening, so every home living room the dwelling records can pick needs its plate, in the light the opening uses (night) and then the others. This is full-body staging, and on Nov 10 the owner ruled that staging waits while busts are decided. Seen: the opening evening at home, drawn with the household in the room.
 
 **Cause.** Measured: Albany, Vermont, seed d25a6da2-6418-4903-aa38-7114f4ae08ac, home picture suburban-house: three housemates unplaced as no-plate (Red main report; panels.browser.mjs fails there). Code: plates are read by src/bench/mannequin-plates.ts and the staging engine stagePeople.
 
@@ -35,7 +35,7 @@ branch: claude/pool-people-home-plates
 
 **Waits on.** The owner's decision on how busts are shown (OWNER-DECISIONS.md, Nov 10, "Staging waits for busts").
 
-**Files.** art/people-rooms/mannequin-plates/, art/backdrops/manifest.json, src/bench/people-pack.test.ts, src/core2/data/stopgaps/play.json
+**Files.** art/people-rooms/mannequin-plates/, art/backdrops/manifest.json, src/core2/data/stopgaps/play.json
 
 **Notes.**
 
@@ -44,3 +44,5 @@ branch: claude/pool-people-home-plates
 Lane 5 (pool truth, Nov 3): claim released under the 48-hour rule. Claimed 2026-10-29 on `claude/people-home-plates`; last push Oct 30, 02:12 UTC; no open PR. The branch keeps its work; claiming it takes the branch.
 
 Released (2026-11-11): art plates wait on the owner's Nov 10 busts decision. Continue on branch claude/pool-people-home-plates.
+
+**Notes (Nov 11, 2026, set aside).** Dropped: the owner ruled on Nov 10, 2026 (about 9:24 p.m.) "Remove all the people," and at about 9:27 p.m. "people will eventually be in the game, but right now for early access, it's just we have to do the busts." No plate is painted or measured while rooms draw nobody. The full-body system and what comes back after early access are in docs/art/full-body-people-after-early-access.md; this item is rewritten from that record when full bodies return.

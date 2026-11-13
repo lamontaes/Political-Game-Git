@@ -31,7 +31,7 @@ checked: fable 2026-11-10
 
 **Done when.** A second session, on main in a drawn place it names with its seed, plays 60 days and sets the Journal beside the player's You screen and the card of one person in the household: every life event in the Journal is on the matching screen with the same facts and date, none appears twice, and Trace on three Journal entries opens the same record the card's sentence opens.
 
-**Waits on.** Pull requests 8115, 8123 and 8139 on main.
+**Waits on.** Nothing. The life record's steps it waited on are on main (pull requests #8115 and #8139, which holds #8123).
 
 **Files.** src/director/journal.ts, src/core2/person-life.ts (new), src/bench/play.mjs
 

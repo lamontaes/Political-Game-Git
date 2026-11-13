@@ -78,7 +78,7 @@ test("the title menu and the creator follow the Oct 12 build", () => {
     "creator-change-state",
     "place-search",
     "place-choices",
-    "creator-engine-figure",
+    "creator-bust",
     "engine-appearance-controls",
     "creator-reset-appearance",
     "creator-undo-appearance",

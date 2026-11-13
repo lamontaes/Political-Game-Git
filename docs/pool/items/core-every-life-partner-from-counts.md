@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-core-every-life-partner-from-counts
-pr: #8491
+pr: #8631
 after:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T02:47:33.199Z
+claimed-at: 2026-11-11T05:27:58.501Z
 branch: claude/pool-core-every-life-partner-from-counts
 ---
 
@@ -40,3 +40,7 @@ branch: claude/pool-core-every-life-partner-from-counts
 **Notes.** Filed by the lives lead, Nov 1, on the speed lead's point after the unit 4 ablation (PR #7082).
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:47 UTC) on branch claude/pool-core-every-life-partner-from-counts.
+
+Released (2026-11-11): a builder claimed this and did not start it (its draft said so and left the claim in place); Fable B released it so another builder can take it.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:27 UTC) on branch claude/pool-core-every-life-partner-from-counts.

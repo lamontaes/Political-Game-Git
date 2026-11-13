@@ -5,10 +5,10 @@ area: laws
 kind: cleanup
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-laws-three-answers-to-what-is-the-law-now
+pr: #8582
 after:
 blocked-on:
 lead: laws-effects
@@ -17,6 +17,7 @@ model: opus
 effort: medium
 root: design-guards
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T04:51:37.192Z
 ---
 
 **What.** Three separate pieces of code answer "what is the law now". This is read in code, not measured in play. The laws engine has the full lookup, `lawInForce`, which reads every level of the town's chain on a date. The outcome web has its own, `lawValue`, which scans a question's rows, keeps the latest per jurisdiction and returns 1 if any says yes. The death taxes file has a third, `rowInForce`, which reads one jurisdiction's latest row. They do not follow the same rules: `rowInForce` skips a row past its end date, `lawValue` never looks at an end date, and each sorts ties its own way. So the same law can be in force for one engine and not for another, and a fix to how a law ends or is set aside has to be made three times. Keep `lawInForce` as the one lookup, point the outcome web and the death taxes at it, and delete `lawValue` and `rowInForce` with their tests. Every reader of the law, in every engine, then gets the same answer on the same day. Seen: the bill card's "in force today" line, which three lookups answer three ways (one engine per mechanic).

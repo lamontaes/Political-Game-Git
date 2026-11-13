@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** Give each rental an owner recorded in the business owners table and make the notice a chooseAct decision by that owner, as credit.ts does; route the landlord payout to the owners; register owner assignment as a stopgap with a source if the opening records no landlords.
 
-**Time box.** 8 hours for one session of the Opus model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 8 hours for one session of the Opus model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: world-stopgap-housing-faked-mechanic (a landlord with a name who serves the eviction notice, so an eviction scene can name who filed).
 
 **Rules.** No dice: the notice follows the owner's traits, cash and the tenant's record, never a pull that fires at a level (sliding scales and causes). One model, two tiers: a counted tenant's lease is read by the same owner rule as a full tenant's, times its count. Wire to the world: the owner's rent income and any notice move cash by journal record. Placeholders: assigning owners from the residents is itself a stand-in if the opening records no landlords, so register it with a source for the owner share of rentals (ACS B25003 renter-occupied, with the share of rental units held by individual investors) and a spread.
 

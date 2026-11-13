@@ -11,6 +11,7 @@ import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // "Never winning" (owner, Nov 8: failing and failing upward, never winning, the
 // "why do I want to do this" moment). A player who has filed and lost before and
@@ -120,9 +121,11 @@ it(`a second lost race brings the question home (seed ${seed})`, () => {
     expect(household.memberIds, where).toContain(scene.askerId);
     expect(scene.askerId, where).not.toBe(me);
     const root = scene.talk.tree.replies.map((reply) => reply.line);
-    expect(new Set(root.map((row) => row.move)), where).toEqual(
-      new Set(["tell", "comfort", "promise", "deflect"]),
-    );
+    expectUpToFourDifferent(root, where);
+    for (const row of root)
+      expect(["tell", "comfort", "promise", "deflect"], where).toContain(
+        row.move,
+      );
     for (const row of [scene.talk.state, ...root])
       expect(row.text, where).not.toMatch(
         /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,

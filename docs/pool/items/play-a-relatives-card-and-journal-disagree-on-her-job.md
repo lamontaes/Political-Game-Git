@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-a-relatives-card-and-journal-disagree-on-her-job
+pr: #8746
 after:
 blocked-on:
 lead: play-first
@@ -17,6 +17,7 @@ model: sonnet
 effort: high
 root: rc3-thin-life-record
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T07:45:32.895Z
 ---
 
 **What.** Measured by the Nov 9 audit in Blodgett Landing, New Hampshire (a random world, no seed), playing a 17-year-old girl the game named Ray Kent: the mother's card says she has served as commissioner since 2022, the journal says she is a sales representative, and at 8:30 p.m. the Travel screen places her at a supply company. Three screens tell a player three different things about what one woman does, because each reads a different record. Fix the class for every person: what someone does is one record that every screen reads the same way (an office and a job told together when she holds both), and where she is at an hour comes from the one record of where people are, which is her work spans at the clock's minute.

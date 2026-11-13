@@ -5,7 +5,7 @@ area: words
 kind: wiring
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5606
 blocked-on:
@@ -41,3 +41,5 @@ checked: fable 2026-11-10
 Sent back 2026-10-20 from PR #5606 (branch claude/press-favors-leaks): edits src/director/press-interview.ts (Words-session area) and adds a dated 'Done Oct 20' note in the stopgap resolution text; stacked on #5602, which was sent back for the same reasons; finish on that branch, merge main into it first.
 
 Oct 25 audit: From the dropped people-favors-and-leaks-stopgap-sg-people-press: leakToReporter is on main (PR #5163); press-owners.test.ts must not return early when the story is already in print.
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added a leak to a reporter as a move in a talk; no ruling asks for it. The owner can ask for it back.

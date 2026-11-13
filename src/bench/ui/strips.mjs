@@ -5,9 +5,11 @@
 // right, each a header strip of its own depth under a broken gold outline.
 // Every screen of that look builds from these parts, never its own markup.
 import { el } from "./dom.mjs";
-import { pager } from "./pager.mjs";
+import { picture } from "./picture.mjs";
+import { rosterScreen } from "./roster-screen.mjs";
 import { partyClass as partyClassOf } from "./map.mjs";
 import { makeButton } from "./button.mjs";
+import { bustPlace, bustStack } from "./bust.mjs";
 
 /** Characters a chapter needs to run in two columns, and a first paragraph to take a drop cap (layout, not game rules). */
 const JOURNAL_TWO_COLUMNS = 700;
@@ -26,29 +28,33 @@ export function stripSection(depth, title, ...nodes) {
   );
 }
 
-/** The bust's size: the head fills this share of the column, and the crop ends this far below the head's top. */
-const HEAD_PX = 190;
-const BUST_BELOW_HEAD = 1.65;
+/** The column a bust is sized for. */
 const COLUMN_PX = 320;
+/** The share of the column a bust's head takes: the shoulders reach the column's edges. */
+const BUST_HEAD_SHARE = 0.36;
 
 /**
- * A bust from a pack figure: head to upper chest, ending in a soft fade. `face`
- * is the card's face record (the figure's url and size, and its head
- * [top, middle, width] in the figure's pixels).
+ * A person's bust for a screen's left column (ui/bust.mjs): the whole of it
+ * across the column, ending in a soft fade on the chest. `face` is the card's
+ * face record; someone with none (a child) gets the warm light alone.
  */
 export function bust(face, alt, column = COLUMN_PX) {
   if (!face) return el("div", { className: "mxglow" });
-  const [top, middle, width] = face.head;
+  const record = face.bust;
   const scale = column / COLUMN_PX;
-  const k = (HEAD_PX * scale) / width;
-  const image = el("img", { src: face.url, alt });
-  Object.assign(image.style, {
-    height: `${Math.round(face.height * k)}px`,
-    left: `${Math.round(column / 2 - middle * k)}px`,
-    top: `${Math.round(12 * scale - top * k)}px`,
+  const at = bustPlace(record, {
+    share: BUST_HEAD_SHARE,
+    top: (12 * scale) / column,
   });
-  const frame = el("div", { className: "mxbust" }, image);
-  frame.style.height = `${Math.round(12 * scale + BUST_BELOW_HEAD * HEAD_PX * scale)}px`;
+  const stack = bustStack(record, alt);
+  Object.assign(stack.style, {
+    width: `${Math.round(at.side * column)}px`,
+    left: `${Math.round(at.left * column)}px`,
+    top: `${Math.round(at.top * column)}px`,
+  });
+  const frame = el("div", { className: "mxbust" }, stack);
+  // The frame ends where the canvas does, so the fade falls on the chest.
+  frame.style.height = `${Math.round((at.top + at.side) * column)}px`;
   frame.style.width = `${column}px`;
   const glow = el("div", { className: "mxglow" }, frame);
   glow.style.width = `${column}px`;
@@ -90,7 +96,7 @@ export function stripScreen({ name, role, face, columns }) {
   );
 }
 
-/** Perk rows: the leaning's name, how strong it runs, and its line in the first person. */
+/** Perk rows: the leaning's name, how strong it runs, and its line where it has one. */
 export function perkList(rows) {
   return el(
     "div",
@@ -105,7 +111,7 @@ export function perkList(rows) {
           el("b", { textContent: row.name }),
           ...(row.strength ? [el("span", { textContent: row.strength })] : []),
         ),
-        el("p", { textContent: row.line }),
+        ...(row.line ? [el("p", { textContent: row.line })] : []),
       ),
     ),
   );
@@ -400,138 +406,104 @@ export function quitButton(label, onQuit) {
 }
 
 /**
- * The patch notes screen: the builds in one strip, the chosen build's notes in a strip per
- * heading. `builds`: [{ name, when, groups: [{ heading, notes: [text] }] }], newest first.
+ * The patch notes screen on the one list-beside-detail part (`rosterScreen`): the builds
+ * listed at the left, newest first, and the chosen build's notes in a strip per heading.
+ * `builds`: [{ name, when, groups: [{ heading, notes: [text] }] }], newest first.
  */
-export function patchNotesScreen({ builds, title, rows }) {
-  const holder = el("div");
-  let chosen = builds[0];
-  const draw = () =>
-    holder.replaceChildren(
-      stripBoard({
-        columns: [
-          [
-            stripSection(
-              1,
-              title,
-              pager({
-                items: builds.map((build) =>
-                  departmentRow({
-                    name: build.name,
-                    amount: build.when,
-                    selected: build === chosen,
-                    onSelect: () => {
-                      chosen = build;
-                      draw();
-                    },
-                  }),
-                ),
-                render: (node) => node,
-                rows,
-                columns: 1,
-                rowHeight: 52,
-                gap: 2,
-                className: "bsdepts",
-              }),
-            ),
-          ],
-          [
-            // A build's notes run long: they scroll inside their own box, never the sheet.
-            el(
-              "div",
-              { className: "patch-detail" },
-              ...(chosen?.groups ?? []).map((group, at) =>
-                stripSection(
-                  Math.min(at + 2, 5),
-                  group.heading,
-                  ...group.notes.map((note) => introText(note)),
-                ),
-              ),
-            ),
-          ],
-        ],
-      }),
-    );
-  draw();
-  return holder;
+export function patchNotesScreen({ builds, title }) {
+  return rosterScreen({
+    title,
+    className: "patch-notes",
+    groups: [
+      {
+        entries: builds.map((build, at) => ({
+          key: String(at),
+          label: build.name,
+          aside: build.when,
+          build,
+        })),
+      },
+    ],
+    render: ({ build }) =>
+      build.groups.map((group, at) =>
+        stripSection(
+          Math.min(at + 2, 5),
+          group.heading,
+          ...group.notes.map((note) => introText(note)),
+        ),
+      ),
+  });
 }
 
 /**
- * The journal as the Nov 8 play mock draws it (pl-journal): "My story" lists the chapters,
- * newest last and chosen, each with its years; the chosen chapter is its title over two
- * columns of prose with a drop cap. `chapters`: [{ title, from, through, lines: [{ text }] }].
+ * The journal as the Nov 8 play mock draws it (pl-journal), on the one list-beside-detail
+ * part (`rosterScreen`): "My story" lists the chapters, each with its years, the newest
+ * chosen; the chosen chapter is its title over two columns of prose with a drop cap.
+ * `chapters`: [{ title, from, through, lines: [{ text }] }].
  */
-export function journalScreen({ chapters, labels, yearOf, rows }) {
-  const holder = el("div");
-  let chosen = chapters.at(-1);
+export function journalScreen({ chapters, labels, yearOf }) {
   const yearsOf = (chapter) => {
     const from = yearOf(chapter.from);
     const through = yearOf(chapter.through);
     return from === through ? from : `${from} to ${through}`;
   };
-  const draw = () =>
-    holder.replaceChildren(
-      stripBoard({
-        columns: [
-          [
-            stripSection(
-              1,
-              labels.title,
-              chapters.length
-                ? pager({
-                    items: chapters.map((chapter) =>
-                      departmentRow({
-                        name: chapter.title,
-                        amount: yearsOf(chapter),
-                        selected: chapter === chosen,
-                        onSelect: () => {
-                          chosen = chapter;
-                          draw();
-                        },
-                      }),
-                    ),
-                    render: (node) => node,
-                    rows,
-                    columns: 1,
-                    rowHeight: 52,
-                    gap: 2,
-                    className: "bsdepts",
-                  })
-                : el("p", { className: "intro", textContent: labels.empty }),
-            ),
-          ],
-          chosen
-            ? [
-                stripSection(
-                  2,
-                  chosen.title,
-                  // Two columns and a drop cap only where the words fill them: a short
-                  // chapter is one column and a one-line first paragraph has no drop cap.
-                  el(
-                    "div",
-                    {
-                      className: `journal-text${
-                        chosen.lines.reduce((n, l) => n + l.text.length, 0) <
-                        JOURNAL_TWO_COLUMNS
-                          ? " one-column"
-                          : ""
-                      }`,
-                    },
-                    ...chosen.lines.map((line, at) =>
-                      el("p", {
-                        className: `intro${at === 0 && line.text.length >= JOURNAL_DROP_CAP ? " lead" : ""}`,
-                        textContent: line.text,
-                      }),
-                    ),
-                  ),
-                ),
-              ]
-            : [],
-        ],
-      }),
-    );
-  draw();
-  return holder;
+  if (!chapters.length)
+    return [
+      stripSection(
+        1,
+        labels.title,
+        el("p", { className: "intro", textContent: labels.empty }),
+      ),
+    ];
+  return rosterScreen({
+    title: labels.title,
+    className: "journal",
+    chosenKey: String(chapters.length - 1),
+    groups: [
+      {
+        entries: chapters.map((chapter, at) => ({
+          key: String(at),
+          label: chapter.title,
+          aside: yearsOf(chapter),
+          chapter,
+        })),
+      },
+    ],
+    render: ({ chapter }) => [
+      stripSection(
+        2,
+        chapter.title,
+        // The picture of the place the chapter's lines happened in; none on record, no slot.
+        ...(chapter.picture
+          ? [
+              picture({
+                src: chapter.picture.url,
+                className: "journal-picture",
+              }),
+            ]
+          : []),
+        // Two columns and a drop cap only where the words fill them: a short
+        // chapter is one column and a one-line first paragraph has no drop cap.
+        el(
+          "div",
+          {
+            className: `journal-text${
+              chapter.lines.reduce((n, l) => n + l.text.length, 0) <
+              JOURNAL_TWO_COLUMNS
+                ? " one-column"
+                : ""
+            }`,
+          },
+          ...chapter.lines.map((line, at) =>
+            el("p", {
+              className: `intro${at === 0 && line.text.length >= JOURNAL_DROP_CAP ? " lead" : ""}`,
+              textContent: line.text,
+            }),
+          ),
+        ),
+      ),
+    ],
+  });
 }
 
 /**

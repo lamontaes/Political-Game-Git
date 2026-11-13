@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-nov8-news-opens-on-a-different-paper-each-time
-pr:
+pr: #8521
 after:
 blocked-on:
 standard: 2

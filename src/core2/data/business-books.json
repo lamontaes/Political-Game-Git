@@ -539,7 +539,6 @@
   "stopgapIds": [
     "SG-P8-business-books-priors",
     "SG-P8-business-books-classification",
-    "SG-P8-business-books-dynamics",
     "SG-P8-business-books-credit-policy"
   ],
   "reasons": {

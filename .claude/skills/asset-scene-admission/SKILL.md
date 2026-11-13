@@ -10,14 +10,14 @@ description: >
 
 # Asset fit and scene admission
 
-**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+**Look first (owner, Oct 27):** run `look-first` before building, fixing, filing or asking; a found ruling is built and cited, never asked again.
 
 Read the relevant contracts before acting:
 
 - `art/people-engine/v4/README.md` for the current people pack (whole painted people, read only through `src/bench/people-pack.ts`), and `art/people-rooms/mannequin-plates/README.md` for where people may stand;
-- `play-first` ("The browser check") for the check in play.
+- `play-first` ("Work", the screenshot acceptance) for the check in play.
 
-The old art pipeline was deleted at the owner's word, Nov 5; there is no art validator or tier-derivation script to run. Backdrops are imported with `scripts/backdrops/`. Don't add a parallel validator or a scene-specific screen path.
+The old art pipeline was deleted at the owner's word, Nov 5; there is no art validator or tier-derivation script to run. Backdrops are imported with `scripts/backdrops/` (`import-place-backdrops.mjs`, `import-capitol-backdrops.mjs`). Don't add a parallel validator or a scene-specific screen path.
 
 ## Workflow
 
@@ -25,14 +25,14 @@ The old art pipeline was deleted at the owner's word, Nov 5; there is no art val
 2. Keep source master, derived tier, candidate and released runtime asset distinct.
    - An external upscale must declare its parent. Repository tooling never enlarges a raster.
 3. Environments: a backdrop enters `art/backdrops/` through `scripts/backdrops/` and its manifest row.
-   - Geometry starts unresolved.
+   - Geometry starts unresolved. Room staging waits while busts are coming (owner, Nov 10): do not file or reopen full-body staging defects (who stands where, people blocking each other); how busts are shown is his call.
    - Never infer a world label or access grant from a filename, family or tag.
    - Anything the simulation owns (names, seals, headlines, dates) goes in a dynamic slot, never in the picture.
 4. People:
    - one whole figure per pose and angle, bald, with hair pieces fitted per angle;
    - seated people come from cut, per-seat occupants checked by hand;
    - scale, front and seat lines come from the room's staging data, not the art.
-5. Show the asset used by its real consumer in a drawn place, with a screenshot (`play-first`, "The browser check"). A count of derived files is not a usable room or person.
+5. Show the asset used by its real consumer in a drawn place, with a 1440×900 screenshot (`play-first`, "Work"). A count of derived files is not a usable room or person.
 
 Deliberately authored and generated imagery is allowed; its source and role are recorded so it can be made again. Missing measurements stay missing and carry their real confidence class.
 

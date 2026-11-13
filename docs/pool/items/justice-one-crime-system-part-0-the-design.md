@@ -10,7 +10,7 @@ standard: 2
 claimed-by:
 pr:
 after:
-blocked-on: the owner's word to start (Nov 10: not now)
+blocked-on: after the gameplay work (owner, Nov 10)
 lead: laws-effects
 model: fable
 effort: high
@@ -31,6 +31,8 @@ checked: fable 2026-11-10
 
 **Done when.** A second session reads docs/design/one-crime-system.md and can say, for a burglary in a drawn place (as a worked example in the design, place and seed named), who decided it and from what, where the row or the count is kept, how the victim was chosen, how it reaches justice, and what a played year costs; and the three part items are rewritten from the design with nothing left to guess.
 
-**Waits on.** The owner's word to start.
+**Waits on.** The gameplay work first (owner, Nov 10: "I want to be able to play the game").
 
 **Files.** docs/design/one-crime-system.md (new), docs/design/treasury-diversion.md
+
+**Notes (Fable B, Nov 10, the owner's answers).** Owner, Nov 10, 2026, about 7:16 p.m. Two rulings the design starts from. When it starts: "I want to be able to play the game", so the one crime system starts after the gameplay work. What the player may do: "Only corruption for the player." The player's only crime is corruption; every ordinary crime is something other people do, and the design offers the player no other offense.

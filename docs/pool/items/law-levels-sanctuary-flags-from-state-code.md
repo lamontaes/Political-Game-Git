@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** State Sessions Nov 6: one fetch pass found no usable source. NCSL (state-and-local-enforcement-of-federal-immigration-laws) returned 403, the ILRC and Justice Department pages I guessed returned 404, and state legislature pages were not tried because no statute URL was known. Nothing changed in the data. Next: read each state's code directly (start with AL AZ AR IN IA KS LA MS MO MT NH NC ND SC WV for the anti-sanctuary side and CO MA RI VT for the limiting side). The report's lists are leads, not sources.
 
 Nov 8 (State Sessions): the flags cannot be fixed by flipping them, because the question is narrower than the report assumed. The catalog's partner-with-federal-immigration-enforcement question is about 287(g) agreements only: its own note says an answer "yes" means state law REQUIRES local police and sheriffs to hold one, and preempts true on a "no" means state law bars them from holding one (California SB 54). A state statute that forbids local sanctuary limits is a different rule and does not fit it. Read from the state's own code today: Arizona, A.R.S. 11-1051(A): "No official or agency of this state or a county, city, town or other political subdivision of this state may limit or restrict the enforcement of federal immigration laws to less than the full extent permitted by federal law" (azleg.gov/ars/11/01051.htm); North Carolina, G.S. 160A-205.2(a): "No city may have in effect any policy, ordinance, or procedure that limits or restricts the enforcement of federal immigration laws to less than the full extent permitted by federal law" (ncleg.gov). Both leave a town free to hold 287(g) agreements, so under the question's own definition their flags (preempts false) are right. What is missing is a second catalog question, a town's own sanctuary policy (limiting cooperation), barred in AZ, NC and the other anti-sanctuary states and required or allowed in the limiting ones, with its own research file; official legislature pages read fine with curl and pdftotext (Iowa chapter 825 is now "Reserved", so its statute needs finding). Source the rest of the list that way, then add the question.
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have read about 17 states' statutes to settle who may set the rule on working with federal immigration enforcement; the law itself already reaches people and no screen shows the flag.

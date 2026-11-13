@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-words-civic-clerk-fill-seed-red
+pr: #8607
 after:
 blocked-on:
 lead: words
@@ -17,7 +17,7 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T04:55:30.754Z
 branch: claude/pool-words-civic-clerk-fill-seed-red
 ---
 

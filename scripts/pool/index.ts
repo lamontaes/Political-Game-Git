@@ -11,6 +11,7 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
 import {
   branchPrefix,
@@ -35,6 +36,7 @@ import {
   type Order,
   readOrder,
   timeBoxHours,
+  visibleRank,
 } from "./order";
 import {
   needsCause,
@@ -43,6 +45,7 @@ import {
   feedsId,
   section,
   standardProblems,
+  seenLine,
 } from "./standard";
 
 export { section };
@@ -464,6 +467,7 @@ export function run(
         ...(needsCause(fm, text) ? { "needs-cause": "1" } : {}),
         "waits-on": section(text, "Waits on"),
         "time-box": section(text, "Time box"),
+        shown: seenLine(section(text, "What"))?.kind ?? "",
       };
       items.push(row as Item);
     }
@@ -552,6 +556,29 @@ export function indexCheck(poolDir: string): string[] {
 
 const POOL = (): string => join(process.cwd(), "docs", "pool");
 const itemPath = (id: string): string => join(POOL(), "items", `${id}.md`);
+
+/** The repository's own Prettier, found from this file so it works from any working directory. */
+const PRETTIER = createRequire(import.meta.url).resolve(
+  "prettier/bin/prettier.cjs",
+);
+
+/**
+ * The one writer of an item file: the text goes through the repository's
+ * Prettier, with the item's own path so its Markdown rules and any
+ * configuration apply, before it is written. Every command that writes an
+ * item (add, claim, release, status, seen, next and the merged flip) writes
+ * through here, so nothing the tool pushes fails the repository's format
+ * check (three items written by add on Nov 12, 2026 did).
+ */
+function writeItem(id: string, text: string): void {
+  const path = itemPath(id);
+  const formatted = execFileSync(
+    process.execPath,
+    [PRETTIER, "--stdin-filepath", path],
+    { input: text, encoding: "utf8", stdio: ["pipe", "pipe", "pipe"] },
+  );
+  writeFileSync(path, formatted);
+}
 
 /** Sets or inserts front-matter keys in an item's text. */
 export function setFields(
@@ -930,10 +957,54 @@ function prState(pr: string): string | null {
   }
 }
 
+/**
+ * How many game pull requests are open, asked of gh's search: the open pull
+ * requests that are not drafts, less those whose body says `Touches pool
+ * item` (pool notes, rules, skills and docs). Null when gh cannot say.
+ */
+function openGamePullRequests(): number | null {
+  try {
+    const url = execFileSync("git", ["remote", "get-url", "origin"], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    const slug = /github\.com[:/]([^/\s]+\/[^/\s]+?)(?:\.git)?\s*$/.exec(
+      url,
+    )?.[1];
+    if (!slug) return null;
+    const count = (rest: string): number =>
+      Number(
+        execFileSync(
+          "gh",
+          [
+            "api",
+            "-X",
+            "GET",
+            "search/issues",
+            "-f",
+            `q=repo:${slug} is:pr is:open draft:false${rest}`,
+            "--jq",
+            ".total_count",
+          ],
+          { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+        ).trim(),
+      );
+    const open = count("");
+    const notes = count(' "Touches pool item" in:body');
+    return Number.isInteger(open) && Number.isInteger(notes)
+      ? open - notes
+      : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Where `next` prints, and a hook tests use to run another caller between the claim and its push. */
 export interface NextIO {
   out: (line: string) => void;
   beforePush?: () => void;
+  /** How many game pull requests are open; asked of gh when unset. */
+  openGame?: () => number | null;
   /** Where the stage lines go; standard error when unset, so the result lines stay the same. */
   progress?: (line: string) => void;
 }
@@ -1040,6 +1111,8 @@ function next(
     const cmp = makeOrder(items, order);
     const ready = items
       .filter((i) => claimable(i, onMain, known) && (!kind || inKind(i, kind)))
+      // While the cap is on, only what still comes first is handed out.
+      .filter((i) => !capLine || visibleRank(i, order) === 0)
       .sort(cmp);
     for (const l of levels) {
       const hit = ready.find((i) => i.model === l);
@@ -1047,9 +1120,30 @@ function next(
     }
     return null;
   };
-  const none = kind
-    ? `No ${kindName} item is left for your tier (${tier}) or any tier below it.`
-    : `No item is ready for tier ${tier} or any tier below it.`;
+  const capped = (): string | null => {
+    // The cap on new work (order.json `cap`; skill pool-notes).
+    const most = order.cap?.openGamePullRequests;
+    if (!most) return null;
+    stage("Counting the open game pull requests.");
+    const open = (io.openGame ?? openGamePullRequests)();
+    if (open === null) {
+      // Said with the stage lines, so the result lines stay the same.
+      stage(
+        "Could not count the open pull requests, so the cap was not checked.",
+      );
+      return null;
+    }
+    return open > most
+      ? `The cap is on: ${open} game pull requests are open and the cap is ${most} (docs/pool/order.json). Only a red on main, a rule, a check or a skill is handed out. Otherwise take no new item: fix what a desk sent back on your own pull requests, bring your open pull requests up to main, then stop and say so (skill pool-notes).`
+      : null;
+  };
+  const capLine = capped();
+  if (capLine) io.out(capLine);
+  const none = capLine
+    ? "Nothing that comes before the cap is ready for your tier."
+    : kind
+      ? `No ${kindName} item is left for your tier (${tier}) or any tier below it.`
+      : `No item is ready for tier ${tier} or any tier below it.`;
   const staleLine = (s: Stale): string =>
     `no push to ${s.branch || "its branch"} since ${when(s.last)}, more than twice its ${s.hours}-hour time box`;
 
@@ -1101,8 +1195,8 @@ function next(
       taken = null;
       released = staleClaims(read(), now, (b) => branchTip(b, true));
       for (const s of released)
-        writeFileSync(
-          itemPath(s.id),
+        writeItem(
+          s.id,
           releasedText(s.id, `Released by next (${day(now)}): ${staleLine(s)}`),
         );
       const item = pick(read());
@@ -1113,7 +1207,7 @@ function next(
             ? `Claimed by next for ${agent} (${when(now)}) on branch ${branchOf(item)}.`
             : undefined,
         });
-        if (text) writeFileSync(itemPath(item.id), text);
+        if (text) writeItem(item.id, text);
         taken = item;
       }
       const ids = [...released.map((s) => s.id), ...(item ? [item.id] : [])];
@@ -1235,7 +1329,7 @@ function next(
           item.id,
           () => {
             const text = claimText(item.id, branch, { pr });
-            if (text) writeFileSync(itemPath(item.id), text);
+            if (text) writeItem(item.id, text);
           },
           `pool: ${item.id} draft ${pr}`,
           false,
@@ -1285,7 +1379,7 @@ export function command(
       const pr = f.pr ? `#${f.pr.replace(/^#/, "")}` : "";
       const edit = (): void => {
         const text = claimText(id, f.branch, { pr });
-        if (text) writeFileSync(itemPath(id), text);
+        if (text) writeItem(id, text);
       };
       mutate(id, edit, `pool: claim ${id} (${f.branch})`, noPush);
     } else if (cmd === "release") {
@@ -1296,8 +1390,8 @@ export function command(
         const fm = readItem(id);
         if (fm.status !== "claimed")
           throw new Error(`${id} is ${fm.status}, not claimed`);
-        writeFileSync(
-          itemPath(id),
+        writeItem(
+          id,
           releasedText(
             id,
             `Released (${new Date().toISOString().slice(0, 10)}): ${reason}`,
@@ -1353,10 +1447,7 @@ export function command(
           fields["claimed-at"] = "";
           if ("merged-at" in fm) fields["merged-at"] = "";
         }
-        writeFileSync(
-          itemPath(id),
-          setFields(readFileSync(itemPath(id), "utf8"), fields),
-        );
+        writeItem(id, setFields(readFileSync(itemPath(id), "utf8"), fields));
       };
       mutate(
         id,
@@ -1397,8 +1488,8 @@ export function command(
           : { status: "done", "seen-by": fmValue(by), "seen-at": now };
         if (not && "merged-at" in fm) fields["merged-at"] = "";
         const note = `${not ? "Not seen" : "Seen"} in the game (${now.slice(0, 10)}, ${by}): ${oneLine(f.place)}, seed ${oneLine(f.seed)}, main ${oneLine(f.main)}: ${saw}`;
-        writeFileSync(
-          itemPath(id),
+        writeItem(
+          id,
           appendNote(
             setFields(readFileSync(itemPath(id), "utf8"), fields),
             note,
@@ -1437,7 +1528,7 @@ export function command(
           ),
         ];
         if (problems.length) throw new Error(problems.join("\n"));
-        writeFileSync(itemPath(id), text);
+        writeItem(id, text);
       };
       mutate(id, edit, `pool: add ${id}`, noPush);
     } else return `unknown subcommand: ${cmd}`;

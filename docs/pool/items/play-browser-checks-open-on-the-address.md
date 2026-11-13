@@ -5,12 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-play-browser-checks-open-on-the-address
+pr: #8754
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T06:13:18.103Z
 branch: lane-5/browser-checks-address
 ---
 

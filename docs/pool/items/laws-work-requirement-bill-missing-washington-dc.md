@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/law-wiring-health-schools.test.ts, src/core2/medical-bills.ts, src/core2/law-reach/group-b-money.ts
 
 **Notes.** Found Nov 1 by the laws lead's builder on claude/laws-medical-debt while rerunning the touched health and schools test (GOLDEN_PATH_SEED unset; Woodstock, New York was redrawn first for its teacher minimum).
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_PLACE_KEY=1150000 GOLDEN_PATH_WORLD_SEED=8fdeb9c8...63bf npx vitest run src/core2/law-wiring-health-schools.test.ts` (Washington, D.C.): green, exit 0. Fresh draw `GOLDEN_PATH_SEED=b70d0be4c7e7ca61`: green. Proposed for the CTO: drop as fixed on main.

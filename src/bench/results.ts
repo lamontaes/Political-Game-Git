@@ -11,7 +11,7 @@ import {
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
-import { backdropFor, stagePeople } from "./scene";
+import { backdropFor, peopleHere } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import { districtWords, raceTitle } from "./race-words";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -209,7 +209,7 @@ export function governorRacesTonight(core: CoreState) {
     (race) =>
       race.office === "governor" &&
       race.date <= core.date &&
-      resultOf(api, race.id) !== null,
+      race.votes !== undefined,
   );
   const night = held.reduce(
     (last, race) => (race.date > last ? race.date : last),
@@ -275,6 +275,6 @@ export function resultsScene(core: CoreState, playerId: string) {
   return {
     place,
     backdrop,
-    people: stagePeople(core, backdrop.file, cast).people,
+    people: peopleHere(core, backdrop.file, cast).people,
   };
 }

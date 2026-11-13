@@ -5,7 +5,7 @@ area: elections
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -51,3 +51,5 @@ Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-
 Oct 24, 2026: split. PR 5851 (item research-elections-filing-ballot-counts) delivers two sourced filing deadlines (Guam, Puerto Rico) and New York's party date (row ESTIMATED), the House registration rule and Vermont's legislature age, four ballot-order rows, and two county-count research files. Still open here: all seven stopgaps, each narrowed. The three seller stopgaps wait on builder item elections-campaign-sellers-beyond-town (no public hall fee schedule was sourced), and SG-GOV-polling-place-kind waits on elections-polling-places-by-building-kind (EAVS does not ask building kinds). Four charter-place deadlines, 39 ESTIMATED deadline rows, 35 registration rules and three territory ballot orders remain with research-elections-filing-rules-statutes, because the cloud could not read those codes.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced research rows for elections stand-ins; every item that waited on it is done or dropped.

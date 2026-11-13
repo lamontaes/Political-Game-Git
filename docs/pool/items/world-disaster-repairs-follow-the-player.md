@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-world-disaster-repairs-follow-the-player
+pr: #8538
 blocked-on:
 after:
 lead: laws-effects
@@ -17,6 +17,8 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:28:35.297Z
+merged-at: 2026-11-12T18:25:53.625Z
 ---
 
 **What.** The disasters engine reads FEMA's damage figures for the town the world opened in, whose name it fixes when it first runs (the runtime function in src/core2/modules/disasters.ts, line 116), but pays the household assistance and charges the repairs to the residents of the town where the player lives on the declaration day (the begin function, line 447, and line 576). When the player has moved, the new town's households receive the assistance and pay for repairs to homes in the old one, and the old town's builders get nothing. Measured in Guthrie, Oklahoma (place 4031700, seed 35f504a41ec4764f52666b6c5ccd1992aa077e83, salt stories-from-engines) with the player moved to another town of the world on the eve of disaster 4866: 42 damaged homes recorded under Guthrie, and no repair paid to Guthrie's 3 open builders. Seen: the town's households and budget after a disaster, which charges the town the player lives in for repairs in another.

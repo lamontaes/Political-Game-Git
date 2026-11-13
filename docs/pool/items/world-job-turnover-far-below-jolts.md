@@ -43,7 +43,7 @@ checked: fable 2026-11-10
 
 If, after fix 1, the crossings come all in the first month and then stop, the scores do not move month to month. Write that into this item's Notes with the month-by-month counts, rather than raising the baselines further.
 
-**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the town's unemployment rate on the Metrics tab and the hires and layoffs the paper reports, now far below any real range.
 
 **Rules.** No dice: each hire, quit and layoff comes from the worker's or employer's own situation, and the JOLTS ranges report the gap and never decide a pass (owner, Nov 8: ranges are not targets). One model, two tiers: counted workers change jobs by the same rules, times their count.
 
