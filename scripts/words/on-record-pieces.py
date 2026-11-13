@@ -463,6 +463,9 @@ LIKED_AS = {
 }
 
 
+# Whole lines with an insert that the set's pieces replace (lead's rule 1).
+RETIRED = {"I support it. It's good for {place}."}
+
 # Carried liked openers that themselves say the member's side: the core's
 # yes or no is not said again after one (a turn says its stand once).
 STATES_STAND = {
@@ -532,6 +535,14 @@ def main():
             for u in x["uses"]:
                 if fam(u):
                     u["requiresFacts"] = sorted(set(u.get("requiresFacts", []) + SIDED[x["text"]]))
+        # A whole line whose insert only sticks a name on a stock answer
+        # ("I support it. It's good for {place}.": the bill is never named):
+        # the set's answer pieces say the stand about the bill instead.
+        if x["text"] in RETIRED and any(fam(u) for u in x["uses"]):
+            x["uses"] = [u for u in x["uses"] if not fam(u)]
+            if not x["uses"]:
+                deleted += 1
+                continue
         mine = [u for u in x["uses"] if fam(u)]
         if not mine or not counted(x):
             kept.append(x)

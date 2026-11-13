@@ -5671,31 +5671,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-support-it-it-s-good-for-place",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I support it. It's good for {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["stand-for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.i-ll-have-something-to-say-after-the-vote",
       "move": "reply-deflect",
       "kind": "spoken",
