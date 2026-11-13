@@ -1157,8 +1157,9 @@ function councilBudget(
         // A member's cast vote stands (the player's press, or their own
         // position left to the character); the player is never voted for, so
         // a player who cast nothing abstains, as on an override.
-        const chosen = table(api, "choices").get(`${bill.id}|${key}`) as unknown as
-          { vote: "yes" | "no" | "abstain" } | undefined;
+        const chosen = table(api, "choices").get(
+          `${bill.id}|${key}`,
+        ) as unknown as { vote: "yes" | "no" | "abstain" } | undefined;
         const vote =
           chosen?.vote ??
           (key === player
@@ -1337,7 +1338,9 @@ let budgetMeeting: {
   readonly place: (api: CoreAPI, billId: string, date: string) => void;
   readonly votes: (api: CoreAPI, billId: string) => boolean;
 } | null = null;
-export function registerBudgetMeeting(input: NonNullable<typeof budgetMeeting>): void {
+export function registerBudgetMeeting(
+  input: NonNullable<typeof budgetMeeting>,
+): void {
   budgetMeeting = input;
 }
 

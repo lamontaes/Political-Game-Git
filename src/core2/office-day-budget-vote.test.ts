@@ -62,10 +62,7 @@ const reasons = (packet: unknown): string[] =>
   ).map((m) => m.reasonKey);
 
 /** A seated member of a town or county body that meets, played; the one named when asked for. */
-function seated(
-  place: { key: string; seed: string },
-  familyName?: string,
-) {
+function seated(place: { key: string; seed: string }, familyName?: string) {
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
@@ -125,8 +122,7 @@ function play(
     if (s.player.pollingPlace) s.player.leavePolls();
     const packet = s.player.packet;
     const meeting =
-      packet?.kind === "stop" &&
-      reasons(packet).includes("office-day.meeting")
+      packet?.kind === "stop" && reasons(packet).includes("office-day.meeting")
         ? meetingInProgress(s.api)
         : undefined;
     if (meeting && meeting.audience === undefined) {
@@ -189,7 +185,8 @@ function unpressed(
     const bill = billOf(api, row.billId);
     const path = row.override
       ? "override roll (legislature.ts runOverride)"
-      : bill?.budgetFor || (bill as { kind?: string } | undefined)?.kind === "budget"
+      : bill?.budgetFor ||
+          (bill as { kind?: string } | undefined)?.kind === "budget"
         ? "budget roll (legislature.ts councilBudget)"
         : "floor vote (legislature.ts countVote)";
     if (row.override) {
@@ -273,8 +270,8 @@ it("Danville: the player's no decides the budget, and last year's budget carries
     play(
       s,
       () =>
-      s.core.date > "2025-07-10" ||
-      (!!budgetId && billOf(api, budgetId).status !== "drafted"),
+        s.core.date > "2025-07-10" ||
+        (!!budgetId && billOf(api, budgetId).status !== "drafted"),
       (meeting) => {
         const budget = heardBudget(api, s.officeId);
         if (budget && meeting.agenda.includes(budget.id)) {
@@ -303,8 +300,7 @@ it("Danville: the player's no decides the budget, and last year's budget carries
         .table("budgets")
         .rows() as unknown as BudgetRow[]
     ).find(
-      (b) =>
-        (b.adoptedBy as { bill?: { id: string } }).bill?.id === budgetId,
+      (b) => (b.adoptedBy as { bill?: { id: string } }).bill?.id === budgetId,
     )!;
     return { bill, budget, seen, me, api, pressed };
   };
@@ -368,6 +364,8 @@ it("no vote of the player's seat is on the record that the player did not press,
       `${where}: ${budget.number} ${billOf(api, budget.id).status} on ${voteDay(api, budget.id) ?? "the budgets calendar"}, ${pressed.size} items pressed through ${core.date}`,
     );
   }
-  console.log(`budget-vote-sweep:\n${proved.join("\n")}\npassed over: ${passedOver.join("; ")}`);
+  console.log(
+    `budget-vote-sweep:\n${proved.join("\n")}\npassed over: ${passedOver.join("; ")}`,
+  );
   expect(proved.length, `passed over: ${passedOver.join("; ")}`).toBe(3);
 }, 3_600_000);
