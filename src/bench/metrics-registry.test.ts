@@ -31,6 +31,8 @@ import type { CoreState } from "../core2/types";
 const DRAWS = 3;
 /** The game opens in January 2025; fourteen months on is the item's finish line. */
 const AFTER_FOURTEEN_MONTHS = "2026-03-25";
+/** The small-town check plays only three months. */
+const THREE_MONTHS = "2025-04-25";
 const ONE_MORE_MONTH = "2026-04-25";
 
 const first = process.env.METRICS_SEED ?? randomBytes(8).toString("hex");
@@ -296,13 +298,14 @@ describe("Metrics reads the registry in a played world", () => {
     const seed = process.env.METRICS_SMALL_SEED ?? "7a5e19c2b3d84f60";
     const world = buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
     const where = `${world.place.displayName} (seed ${seed})`;
-    advanceCore(world.core, AFTER_FOURTEEN_MONTHS as never);
+    // Three months are enough for the equalities; last year is covered above.
+    advanceCore(world.core, THREE_MONTHS as never);
     const api = coreAPI(world.core);
     const view = metricsView(world.core, world.placeId);
     const march = api
       .moduleState("world-metrics")
       .table("months")
-      .get(`metrics:${world.placeId}:2026-03-02`) as
+      .get(`metrics:${world.placeId}:2025-04-02`) as
       Record<string, number> | undefined;
     const people = rowOf(view, "city", "people");
     // The town's own count: named people plus the counted ones, never a county or blended figure.
