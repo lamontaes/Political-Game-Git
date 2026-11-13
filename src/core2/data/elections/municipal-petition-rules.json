@@ -7,7 +7,8 @@
     "min": "floor on the count, where the law sets one",
     "max": "ceiling on the count, where the law sets one",
     "orFixed": "the count when the law says the fixed number or the share, whichever is less",
-    "byPopulation": "fixed counts by the town's population: the first tier whose belowPopulation exceeds the town's applies; the tier without belowPopulation is for larger towns"
+    "byPopulation": "fixed counts by the town's population: the first tier whose belowPopulation exceeds the town's applies; the tier without belowPopulation is for larger towns",
+    "election": "for a votes base, which recorded election it is: \"office\" (votes for the office being sought at its last election), \"level\" (the most votes cast in any one contest at the last election of the same level, the municipal election), or \"elsewhere\" (another office's votes in the town, such as governor, secretary of state or Assembly; the world keeps no town count of a state office's votes, so it is sized from the town's people times the votes-cast share)"
   },
   "places": {
     "US-AZ": {
@@ -15,7 +16,8 @@
         "share": 0.05,
         "base": "votes",
         "spread": [0.05, 0.1],
-        "text": "5% to 10% of the vote for the office at the last city election (by charter; general-law default)"
+        "text": "5% to 10% of the vote for the office at the last city election (by charter; general-law default)",
+        "election": "office"
       }
     },
     "US-CO": {
@@ -37,7 +39,8 @@
         "share": 0.01,
         "base": "votes",
         "min": 25,
-        "text": "1% of votes cast for the office at the last election (minimum about 25 in small towns)"
+        "text": "1% of votes cast for the office at the last election (minimum about 25 in small towns)",
+        "election": "office"
       }
     },
     "US-GA": {
@@ -52,14 +55,16 @@
         "share": 0.02,
         "base": "votes",
         "min": 10,
-        "text": "2% of votes cast for the office at the last regular city election, minimum 10 (Iowa Code 45.1)"
+        "text": "2% of votes cast for the office at the last regular city election, minimum 10 (Iowa Code 45.1)",
+        "election": "office"
       }
     },
     "US-IN": {
       "independent": {
         "share": 0.02,
         "base": "votes",
-        "text": "2% of the last secretary of state vote in the city"
+        "text": "2% of the last secretary of state vote in the city",
+        "election": "elsewhere"
       }
     },
     "US-MA": {
@@ -68,7 +73,8 @@
         "base": "votes",
         "min": 20,
         "max": 50,
-        "text": "town offices: 1% of votes for governor in the town, minimum 20, maximum 50"
+        "text": "town offices: 1% of votes for governor in the town, minimum 20, maximum 50",
+        "election": "elsewhere"
       }
     },
     "US-MP": {
@@ -98,7 +104,8 @@
         "share": 0.1,
         "base": "votes",
         "max": 300,
-        "text": "10% of the votes cast for the office at the last election, maximum 300 (city)"
+        "text": "10% of the votes cast for the office at the last election, maximum 300 (city)",
+        "election": "office"
       }
     },
     "US-NJ": {
@@ -106,12 +113,14 @@
         "share": 0.05,
         "base": "votes",
         "orFixed": 50,
-        "text": "50 party voters, or 5% of the party's last Assembly vote, whichever is less (N.J.S.A. 19:23-8)"
+        "text": "50 party voters, or 5% of the party's last Assembly vote, whichever is less (N.J.S.A. 19:23-8)",
+        "election": "elsewhere"
       },
       "independent": {
         "share": 0.01,
         "base": "votes",
-        "text": "1% of votes cast for the General Assembly in the town"
+        "text": "1% of votes cast for the General Assembly in the town",
+        "election": "elsewhere"
       }
     },
     "US-NY": {
@@ -125,7 +134,8 @@
         "share": 0.05,
         "base": "votes",
         "max": 500,
-        "text": "5% of the last gubernatorial vote, capped (the cap is the party row's 500)"
+        "text": "5% of the last gubernatorial vote, capped (the cap is the party row's 500)",
+        "election": "elsewhere"
       }
     },
     "US-OH": {
@@ -146,7 +156,8 @@
       "independent": {
         "share": 0.02,
         "base": "votes",
-        "text": "2% of the largest vote in the municipality"
+        "text": "2% of the largest vote in the municipality",
+        "election": "level"
       }
     },
     "US-SD": {
@@ -155,7 +166,8 @@
         "base": "votes",
         "min": 10,
         "spread": [0.01, 0.05],
-        "text": "1% to 5% of the votes cast at the last municipal election; minimum 10"
+        "text": "1% to 5% of the votes cast at the last municipal election; minimum 10",
+        "election": "level"
       }
     },
     "US-VT": {

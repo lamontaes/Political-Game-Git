@@ -624,6 +624,61 @@ export function lastVotesForOffice(
 }
 
 /**
+ * The votes cast at the most recent recorded election of one level in this
+ * world: the most cast in any one of its contests that day, with the result
+ * record they came from. None where no election of that level has been held
+ * in the run.
+ */
+export function lastVotesAtLevel(
+  api: CoreAPI,
+  level: string,
+): { readonly votes: number; readonly recordId: string } | undefined {
+  if (!api.state.modules.has(VOTING_MODULE_ID)) return undefined;
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  const rows = (
+    api
+      .moduleState(VOTING_MODULE_ID)
+      .table("results")
+      .rows() as unknown as ResultRow[]
+  ).flatMap((result) => {
+    const contest = contests.get(result.contestId) as unknown as
+      ContestRow | undefined;
+    const votes = Object.values(result.totals).reduce((n, v) => n + v, 0);
+    return contest?.level === level && votes > 0
+      ? [{ votes, recordId: result.id, date: result.date }]
+      : [];
+  });
+  const date = rows.reduce((d, r) => (r.date > d ? r.date : d), "");
+  const top = rows
+    .filter((r) => r.date === date)
+    .sort(
+      (a, b) => b.votes - a.votes || a.recordId.localeCompare(b.recordId),
+    )[0];
+  return top && { votes: top.votes, recordId: top.recordId };
+}
+
+/**
+ * The recorded votes a scaled petition's base names, read from the voting
+ * records: this office's last election ("office"), or the last election of
+ * the same level ("level"). A base that names another office's votes in the
+ * town ("elsewhere": governor, secretary of state, Assembly) has no town
+ * record in this world, and neither has a base before any election was held;
+ * the caller then sizes it from the town's people.
+ */
+export function recordedBase(
+  api: CoreAPI,
+  contest: ContestRow,
+  scale: PetitionRule["scale"] & object,
+): number | undefined {
+  if (scale.base !== "votes") return undefined;
+  if (scale.election === "office")
+    return lastVotesForOffice(api, contest.officeId)?.votes;
+  if (scale.election === "level")
+    return lastVotesAtLevel(api, contest.level)?.votes;
+  return undefined;
+}
+
+/**
  * The signatures a petition needs in this world. Where the law scales the
  * count to the town (a municipal "scaled" rule), the town's own voters set
  * it. Otherwise the law's count where the town is the district; where the
@@ -642,10 +697,7 @@ function petitionNeededHere(
   if (rule.basis === "scaled" && rule.scale)
     return petitionSignatures(rule.scale, {
       eligible: voters,
-      votesCast:
-        rule.scale.base === "votes"
-          ? lastVotesForOffice(api, contest.officeId)?.votes
-          : undefined,
+      votesCast: recordedBase(api, contest, rule.scale),
       population: Number(api.state.placeMetadata.referencePopulation) || 0,
     });
   const count = rule.count;

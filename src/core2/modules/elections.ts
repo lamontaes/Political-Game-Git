@@ -117,6 +117,8 @@ export const SCALED_PETITION_ESTIMATE =
 export interface PetitionScale {
   readonly share?: number;
   readonly base?: "registered" | "votes";
+  /** For a votes base, which recorded election: this office's, the same level's, or another office's (never recorded by town). */
+  readonly election?: "office" | "level" | "elsewhere";
   readonly min?: number;
   readonly max?: number;
   readonly orFixed?: number;

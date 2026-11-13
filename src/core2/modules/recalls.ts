@@ -35,11 +35,10 @@ import { LEGISLATURE_MODULE_ID, votesOn, type BillRow } from "./legislature";
 import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
 import {
   VOTING_MODULE_ID,
+  lastVotesAtLevel,
   lastVotesForOffice,
   turnoutOn,
-  type ResultRow,
 } from "./voting";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
 import { countedResidents } from "../electorate";
 import { NEWS_MODULE_ID, storiesHeard, type Story } from "./news";
 import { citizenShareOf } from "../electorate-places";
@@ -279,25 +278,6 @@ function eligibleVoters(api: CoreAPI, voters: readonly TownVoter[]): number {
   return Math.round(voters.reduce((n, p) => n + p.weight, 0) * eligibleShare);
 }
 
-/** Votes cast at the world's recorded elections: each result's totals, with the contest it was for. */
-function recordedCounts(
-  api: CoreAPI,
-): { result: ResultRow; contest: ContestRow; votes: number }[] {
-  if (!api.state.modules.has(VOTING_MODULE_ID)) return [];
-  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
-  return (
-    api
-      .moduleState(VOTING_MODULE_ID)
-      .table("results")
-      .rows() as unknown as ResultRow[]
-  ).flatMap((result) => {
-    const contest = contests.get(result.contestId) as unknown as
-      ContestRow | undefined;
-    const votes = Object.values(result.totals).reduce((n, v) => n + v, 0);
-    return contest && votes > 0 ? [{ result, contest, votes }] : [];
-  });
-}
-
 /**
  * What a state's rule says a petition's percentage is a percentage of, read
  * from the world's own records: votes cast for the office at its last
@@ -311,11 +291,6 @@ export function signatureBase(
   term: Readonly<Pick<TermRow, "officeId">>,
   voters: readonly TownVoter[],
 ): SignatureBase {
-  const records = recordedCounts(api).sort(
-    (a, b) =>
-      b.result.date.localeCompare(a.result.date) ||
-      a.result.id.localeCompare(b.result.id),
-  );
   if (kind === "votes-cast-for-office") {
     const last = lastVotesForOffice(api, term.officeId);
     if (last)
@@ -331,18 +306,13 @@ export function signatureBase(
       .moduleState(OFFICES_MODULE_ID)
       .table("offices")
       .get(term.officeId) as unknown as { level?: string } | undefined;
-    const sameLevel = records.filter((r) => r.contest.level === office?.level);
-    const date = sameLevel[0]?.result.date;
-    // The election's votes: the most cast in any one of its contests that day.
-    const top = sameLevel
-      .filter((r) => r.result.date === date)
-      .sort((a, b) => b.votes - a.votes)[0];
+    const top = office?.level ? lastVotesAtLevel(api, office.level) : undefined;
     if (top)
       return {
         kind,
         count: Math.round(top.votes),
         basis: "recorded",
-        recordId: top.result.id,
+        recordId: top.recordId,
       };
   }
   // stopgapId: SG-GOV-recall-signature-groups (registered voters, and votes with no record yet, are sized from the real averages)
