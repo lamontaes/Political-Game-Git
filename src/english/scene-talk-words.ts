@@ -85,7 +85,13 @@ export interface BankPart {
    * joined piece says so"): `of` names the sentence, `part` which part of it
    * this is, and `required` whether every such sentence has that part.
    */
-  piece?: { of: string; part: LinePart; required?: boolean };
+  piece?: {
+    of: string;
+    part: LinePart;
+    required?: boolean;
+    /** An opener that itself says the speaker's side: the core's yes or no is not said again. */
+    stand?: boolean;
+  };
 }
 
 const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
@@ -292,11 +298,23 @@ export function fitting(
   return scoredFits(
     use,
     facts,
-    (part) => !part.piece && keep(part),
+    (part) => wholeLine(part) && keep(part),
     parts,
     verdicts,
+    true,
   ).parts;
 }
+
+/**
+ * A shared move set's piece (a liked line carried as a set's opener) is
+ * still a whole line for the purposes that name it directly: "People say a
+ * lot of things." opens the on-record set's deflection and is still said
+ * whole to a colleague's confrontation over a vote. Any other piece is never
+ * said whole.
+ */
+const carriedWhole = (part: BankPart) =>
+  !!part.piece && part.uses.some((u) => u.set) && part.uses.some((u) => !u.set);
+const wholeLine = (part: BankPart) => !part.piece || carriedWhole(part);
 
 /** The closest-fitting pieces and how closely they fit (-1 when none do). */
 function scoredFits(
@@ -305,13 +323,16 @@ function scoredFits(
   keep: (part: BankPart) => boolean,
   parts: readonly BankPart[],
   verdicts: ReplyFollowsTable,
+  whole = false,
 ): { parts: BankPart[]; specific: number } {
   const steps = Array.isArray(use.step) ? use.step : [use.step];
   const fits = parts.filter(keep).flatMap((part) => {
     // A piece may carry one use for each purpose it serves: take the best fit.
+    // Said whole, a carried piece answers only to its own purposes' uses.
     let specific = -one;
     for (const u of part.uses)
-      specific = Math.max(specific, useFit(u, use, steps, facts));
+      if (!(whole && part.piece && u.set))
+        specific = Math.max(specific, useFit(u, use, steps, facts));
     return specific < zero ? [] : [{ part, specific }];
   });
   const answered = use.afterPiece;
@@ -431,9 +452,10 @@ export function wordSceneMove(input: {
   const whole = scoredFits(
     use,
     facts,
-    (part) => !part.piece && keepPart(part),
+    (part) => wholeLine(part) && keepPart(part),
     pool,
     verdicts,
+    true,
   );
   const every = whole.parts;
   // Sentences joined from pieces fit as closely as their core; one that fits
@@ -587,6 +609,23 @@ function unsaidSentence(
   return [{ ...row, parts }];
 }
 
+/**
+ * A turn says its stand once (lead's rule, Nov 12): a bare yes or no ("Yes.",
+ * "Still no.", "Even then.") answers a question only as the turn's first
+ * words. After an opener that itself says the speaker's side (`piece.stand`),
+ * which has given the answer already ("I'd tell them I listened, and I still disagree."), the
+ * core's answer word is not said again, and the core goes on from its next
+ * word. An opener that is no answer ("Plainly?") keeps the core's yes or no.
+ */
+const ANSWER_WORD =
+  /([.!?]\s+)(?:Yes|No|Still no|Still yes|Even then|Every time|It's still (?:yes|no))\.\s+(\S)/g;
+export function standSaidOnce(text: string): string {
+  return text.replace(
+    ANSWER_WORD,
+    (_all, stop: string, next: string) => `${stop}${next.toUpperCase()}`,
+  );
+}
+
 /** Word one joined sentence in the speaker's voice, or null when its facts cannot carry it. */
 function joinedMove(
   input: Parameters<typeof wordSceneMove>[0],
@@ -630,7 +669,15 @@ function joinedMove(
   const core = sentence.parts.core?.find((part) => part.key === coreKey);
   // A slot that opens a joined sentence ("... It goes to {agency}.") is
   // capitalized as the sentence's first word.
-  const text = sentenceStarts(line.text.trim());
+  // An opener that says the speaker's side has given the answer already.
+  const openerKey = line.parts.find(
+    (part) => part.part === "opener",
+  )?.variantKey;
+  const opener = sentence.parts.opener?.find((part) => part.key === openerKey);
+  const stood = opener?.piece?.stand === true;
+  const text = sentenceStarts(
+    stood ? standSaidOnce(line.text.trim()) : line.text.trim(),
+  );
   return {
     text,
     pieceKey: coreKey,

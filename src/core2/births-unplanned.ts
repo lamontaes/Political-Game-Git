@@ -166,8 +166,11 @@ export function weighUnplanned(
   };
   const carry = raising + accepted;
   const end = -p("renewalEndingBase") + travel;
+  // A trip her household's cash cannot pay is not taken: the cash weighed is
+  // the cash that pays it, so ending is never free.
+  const canPay = cash >= travelMinor;
   return {
-    continues: carry >= end,
+    continues: carry >= end || !canPay,
     restricted: law.restricted,
     lawId: law.lawId,
     miles,

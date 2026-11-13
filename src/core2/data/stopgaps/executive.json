@@ -8,7 +8,9 @@
     "why": "The administrator is an appointee, not a seat; the appointment engine's appointer is a seated official (TermRow).",
     "addedBy": "Legislation (town heads for county-run places)",
     "addedAt": "2026-11-08",
-    "replacement": "The appointer of an administrator-filled post is the person holding the county-administrator appointment, weighed by their own traits.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The appointer of an administrator-filled post is the person holding the county-administrator appointment, weighed by their own traits.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   }
 ]

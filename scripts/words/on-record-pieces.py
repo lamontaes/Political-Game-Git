@@ -41,6 +41,9 @@ INSERT = re.compile(r"\{[^{}\s]+\}")
 P = []
 
 
+CONDITIONAL = ("floor-count",)
+
+
 def add(step, move, role, part, bearing, rows, requires=(), after=None, group=None):
     for text in rows:
         P.append((step, move, role, part, text, list(requires), after, bearing, group))
@@ -460,6 +463,18 @@ LIKED_AS = {
 }
 
 
+# Whole lines with an insert that the set's pieces replace (lead's rule 1).
+RETIRED = {"I support it. It's good for {place}."}
+
+# Carried liked openers that themselves say the member's side: the core's
+# yes or no is not said again after one (a turn says its stand once).
+STATES_STAND = {
+    "I'd tell them I listened, and I still disagree.",
+    "Even then. It's the right call.",
+    "I'm voting for it, and you can quote me.",
+}
+
+
 # What a carried liked opener answers, where it answers a follow-up.
 LIKED_AFTER = {
     "Even then. It's the right call.": "follow-ask",
@@ -513,11 +528,21 @@ def main():
                         u["requiresFacts"] = LIKED_AS[x["text"]]
                     if x["text"] in LIKED_AFTER:
                         u["after"] = LIKED_AFTER[x["text"]]
+            if x["text"] in STATES_STAND:
+                x["piece"]["stand"] = True
         # A whole line of the purpose that states a side says it only for that side.
         if x["text"] in SIDED:
             for u in x["uses"]:
                 if fam(u):
                     u["requiresFacts"] = sorted(set(u.get("requiresFacts", []) + SIDED[x["text"]]))
+        # A whole line whose insert only sticks a name on a stock answer
+        # ("I support it. It's good for {place}.": the bill is never named):
+        # the set's answer pieces say the stand about the bill instead.
+        if x["text"] in RETIRED and any(fam(u) for u in x["uses"]):
+            x["uses"] = [u for u in x["uses"] if not fam(u)]
+            if not x["uses"]:
+                deleted += 1
+                continue
         mine = [u for u in x["uses"] if fam(u)]
         if not mine or not counted(x):
             kept.append(x)
@@ -538,6 +563,8 @@ def main():
                 use["after"] = LIKED_AFTER[x["text"]]
             x["uses"] = [use] + [v for v in x["uses"] if not fam(v)]
             x["piece"] = {"of": f"{SET}.{u['step']}-{u['move']}", "part": "opener"}
+            if x["text"] in STATES_STAND:
+                x["piece"]["stand"] = True
             kept.append(x)
             carried += 1
             continue
@@ -555,8 +582,15 @@ def main():
             use = {"subject": "scene", "set": SET, "step": step, "move": move, "role": role}
             if one:
                 use["after"] = one
-            if requires:
-                use["requiresFacts"] = requires
+            # A piece that says a conditional record's fact needs that fact:
+            # the floor count is there only where the roll was taken, and a
+            # piece more specific than its fellows must not win the pick and
+            # then fail to be worded (arc-variant: press-comment.hostile).
+            need = list(requires) + [
+                slot for slot in CONDITIONAL if "{" + slot + "}" in text and slot not in requires
+            ]
+            if need:
+                use["requiresFacts"] = need
             uses.append(use)
         piece = {"of": f"{SET}.{group or f'{step}-{move}'}", "part": part}
         if part == "core" or (group == WHY and part == "reason"):

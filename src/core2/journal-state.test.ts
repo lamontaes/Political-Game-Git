@@ -872,7 +872,18 @@ describe("synchronous canonical cash journal writer", () => {
         projections.push(
           postCashJournal(f.runtime, f.host, addOutsidePayment(f, 25).input),
         );
-        return JSON.stringify([projections, snapshot(f)], (_key, row) =>
+        // In play a posting nobody keeps in detail records changes only for
+        // its posted accounts; the checked run records every fund's, so the
+        // comparison keeps the posted ones.
+        const posted = projections.map((projection) => ({
+          ...projection,
+          accounts: new Map(
+            [...projection.accounts].filter(([id]) =>
+              projection.postings.some((row) => row.accountId === id),
+            ),
+          ),
+        }));
+        return JSON.stringify([posted, snapshot(f)], (_key, row) =>
           row instanceof Map || row instanceof Set ? [...row] : row,
         );
       } finally {

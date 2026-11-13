@@ -190,11 +190,12 @@ it(`the relative raises a point of this world's address, with a stand and a reas
         `${here}: ${talk.choices.map((row) => row.text).join(" / ")}`,
       ).toBeLessThanOrEqual(1);
       for (const choice of talk.choices) {
-        // A question is answered, and the answer does not name the point
-        // again; agreeing or disagreeing ends the talk on the player's reply
-        // (owner, Nov 12: "Good. We'll watch what it does to ..." "makes no
-        // sense": an answer that says nothing about the point is not said).
-        if (choice.move === "agree" || choice.move === "disagree") continue;
+        // Every reply is answered, and the answer does not name the point
+        // again: no talk ends on the player's line. An agreement or a
+        // disagreement is answered with what comes next for the side the
+        // speaker took (round 9: an answer fits the side), never the old
+        // "Good. We'll watch what it does to ..." (owner, Nov 12: "makes no
+        // sense").
         const back = composedLine(
           core,
           otherId,
@@ -209,10 +210,37 @@ it(`the relative raises a point of this world's address, with a stand and a reas
           BANK.lineWords[BACK]!,
         );
       }
-      // The answer to "what would it mean here?" says one thing this world
-      // keeps (the state's law on it, else the town's figure), over 20 talks
-      // in each place: a slot besides the town's name every time.
-      for (let talkAt = 0; talkAt < TOWN_TALKS; talkAt += 1) {
+      // "What would it mean here?" is offered only to someone holding a
+      // record to answer it with: the state's law or the town's figure, which
+      // only someone holding an office in town reads (owner, Nov 12: "how the
+      // hell would she know?"). Without one, no answer can be composed, so
+      // the question is never left unanswered.
+      const hereFact =
+        talk.last!.facts.state ?? talk.last!.facts["town-figure"];
+      if (moves.has("here"))
+        expect(hereFact, `${here}: "here" offered with no record`).toBeTruthy();
+      if (!hereFact) {
+        expect(moves.has("here"), here).toBe(false);
+        expect(
+          composedLine(
+            core,
+            otherId,
+            BACK,
+            talk.last!.facts,
+            "here",
+            `${here}:town:none`,
+          ),
+          `${here}: an answer about here with no record`,
+        ).toBeNull();
+      }
+      // Where it is offered, the answer says one thing this world keeps (the
+      // state's law on it, else the town's figure), over 20 talks in each
+      // place: a slot besides the town's name every time.
+      for (
+        let talkAt = 0;
+        moves.has("here") && talkAt < TOWN_TALKS;
+        talkAt += 1
+      ) {
         const back = composedLine(
           core,
           otherId,
@@ -238,12 +266,10 @@ it(`the relative raises a point of this world's address, with a stand and a reas
       const before = talk.lines.length;
       say(core, talk, choice.key);
       const answer = talk.lines[before + 1];
-      if (choice.move === "agree" || choice.move === "disagree")
-        expect(answer, `${here}: "${choice.text}"`).toBeUndefined();
-      else {
-        expect(answer?.kind, `${here}: "${choice.text}"`).toBe(BACK);
-        expect(answer?.speakerId, here).toBe(otherId);
-      }
+      expect(answer?.kind, `${here}: "${choice.text}"`).toBe(BACK);
+      expect(answer?.speakerId, here).toBe(otherId);
+      expect(answer!.text, here).not.toContain(about!);
+      expect(answer!.text, here).not.toMatch(/We'll watch what it does/);
       const kept = core.knowledgeByPerson
         .get(otherId)
         ?.get(`talk:${me}:address-point:${question}`);
@@ -255,7 +281,7 @@ it(`the relative raises a point of this world's address, with a stand and a reas
         here,
       ).not.toBe(question);
       process.stdout.write(
-        `${here}: "${talk.lines[0]!.text}" / you: "${talk.lines[1]!.text}" / "${line.text}" / you: "${choice.text}" / "${answer?.text ?? "(the talk ends on the reply)"}" (record ${kept!.sourceId})\n`,
+        `${here}: "${talk.lines[0]!.text}" / you: "${talk.lines[1]!.text}" / "${line.text}" / you: "${choice.text}" / "${answer!.text}" (record ${kept!.sourceId})\n`,
       );
       raised.push(line.text);
       pointsRaised.push(about!);
