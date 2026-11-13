@@ -20,7 +20,6 @@ import type { CoreAPI, CoreState, JobInput, Source } from "../types";
 import {
   lineBeforeBill,
   amendBudget,
-  amendBudgetRevenue,
   BUDGETS_MODULE_ID,
   budgetsOf,
   governments,
@@ -1606,10 +1605,12 @@ export function moveBudget(
         });
     for (const [line, delta] of Object.entries(prior.revenueMoves ?? {}))
       if (delta)
-        amendBudgetRevenue(api, {
+        amendBudget(api, {
           governmentId: gov.id,
           line,
           deltaMinor: -delta,
+          measureId: `${stamp}#undo`,
+          side: "revenue",
         });
     const row = { ...prior, undone: true };
     putRow(api, "taken", row);
@@ -1634,10 +1635,12 @@ export function moveBudget(
   const revenueMoves = input.revenuePlan?.(gov, budget) ?? {};
   for (const [line, delta] of Object.entries(revenueMoves))
     if (delta)
-      amendBudgetRevenue(api, {
+      amendBudget(api, {
         governmentId: gov.id,
         line,
         deltaMinor: delta,
+        measureId: stamp,
+        side: "revenue",
       });
   const row: MoveRow = {
     id,

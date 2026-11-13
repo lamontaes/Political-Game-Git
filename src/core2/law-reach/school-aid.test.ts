@@ -13,20 +13,23 @@ import { buildBenchWorld } from "../../bench/world";
 import { gameStartDate } from "../game-start";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { advanceCore } from "../life";
-import { amendBudget, budgetsOf, governments } from "../modules/budgets";
+import {
+  amendBudget,
+  BUDGETS_MODULE_ID,
+  budgetsOf,
+  governments,
+} from "../modules/budgets";
 import { setJournalTrace } from "../journal-state";
 import { treasuryMonthsOf } from "../budgets-treasury";
 import { enactLaw, lawChain } from "../modules/laws";
+import { regionOfPlace } from "../modules/regional";
+import { recordSchoolSpending } from "../school-outcomes";
 import { schoolsLineAboveBase } from "../school-budget-line";
 import { coreAPI } from "../state";
 import type { CoreAPI, CoreState } from "../types";
 import { appliedOn } from "./applied";
 import { rowsOf } from "./group-b-store";
-import {
-  schoolAidNeed,
-  schoolAidPool,
-  schoolAidShares,
-} from "./group-b-school-aid";
+import { schoolAidNeed, schoolAidShares } from "./group-b-school-aid";
 
 const KEY = "us-policy-positions:education.equalize-school-funding";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
@@ -79,6 +82,16 @@ describe("state school aid", () => {
       const b = coreAPI(on);
       const shares = schoolAidShares(b);
       const state = governments(b).find((g) => g.level === "state");
+      // A town of a few tens of thousands plays three years in the test's time.
+      const biggest = Math.max(
+        ...governments(b)
+          .filter((g) => g.level === "city" || g.level === "county")
+          .map((g) => g.residents),
+      );
+      if (biggest > 400_000) {
+        tried += ` ${where}: a government of ${biggest} residents is too large to play three years here;`;
+        continue;
+      }
       if (!state || !shares.size || ![...shares.values()].some((v) => v > 0)) {
         tried += ` ${where}: no state, town government or schools share;`;
         continue;
@@ -177,6 +190,107 @@ describe("state school aid", () => {
       process.stdout.write(
         `school aid proof: schools line above base: ${above(a)}% without, ${above(b)}% with\n`,
       );
+      // Size: spending per student should rise about the pool's 7 percent
+      // times the region's need. Each government's share counts its own
+      // residents; the school engine divides each schools line by the same
+      // government's residents (per resident) and multiplies by the town's
+      // residents over its students, so the rise is per resident, not per
+      // government.
+      const year = Number(b.state.date.slice(0, 4));
+      const perStudent = (api: CoreAPI) => recordSchoolSpending(api, year);
+      const spendA = perStudent(a);
+      const spendB = perStudent(b);
+      const needNow = schoolAidNeed(
+        lawChain(b).stateKey,
+        regionOfPlace(lawChain(b).townPlaceId),
+      );
+      process.stdout.write(
+        `school aid proof: spending per student ${spendA?.value} without, ${spendB?.value} with (${spendA && spendB ? ((spendB.value / spendA.value - 1) * 100).toFixed(2) : "n/a"} percent; ${spendB?.students} students); need ${needNow}; pool share 7 percent; residents each government's share counts: ${local.map((r) => `${r.governmentId} ${governments(b).find((g) => g.id === r.governmentId)?.residents}`).join(", ")}\n`,
+      );
+      // The second budget year: the aid is built again from the base, once,
+      // not on top of the first year's line.
+      const firstYear = {
+        state: stateRise,
+        aid,
+        budget: moves.find((r) => r.governmentId === local[0]!.governmentId)!,
+      };
+      run(off, 365);
+      run(on, 365);
+      const second = rowsOf<{
+        key: string;
+        governmentId: string;
+        budgetId: string;
+        undone: boolean;
+        moves: Record<string, number>;
+        revenueMoves?: Record<string, number>;
+      }>(b, "taken").filter((r) => r.key === KEY && !r.undone);
+      const secondState = second.find((r) => r.governmentId === stateGov.id);
+      const secondLocal = second.filter((r) => r.governmentId !== stateGov.id);
+      const secondAid = secondLocal.reduce(
+        (n, r) => n + (r.revenueMoves?.intergovernmental ?? 0),
+        0,
+      );
+      const lineNow = (
+        api: CoreAPI,
+        id: string,
+        side: "revenue" | "spending",
+        line: string,
+      ) => {
+        const budget = [...budgetsOf(api, id)]
+          .filter((row) => row.startsOn <= api.state.date)
+          .sort((x, y) => y.startsOn.localeCompare(x.startsOn))[0];
+        return (
+          (side === "revenue" ? budget?.revenueMinor : budget?.spendingMinor)?.[
+            line
+          ] ?? 0
+        );
+      };
+      const t = local[0]!.governmentId;
+      process.stdout.write(
+        `school aid proof: second budget year: state localAid move ${secondState?.moves.localAid} (first ${firstYear.state}); town aid move ${secondAid} (first ${aid}); state localAid line ${lineNow(b, stateOrg.id, "spending", "localAid")} with, ${lineNow(a, stateOrg.id, "spending", "localAid")} without; town intergovernmental ${lineNow(b, t, "revenue", "intergovernmental")} with, ${lineNow(a, t, "revenue", "intergovernmental")} without; town schools ${lineNow(b, t, "spending", "schools")} with, ${lineNow(a, t, "spending", "schools")} without; state account ${balance(b)} with, ${balance(a)} without\n`,
+      );
+      // What the state's treasury did with the line: what fell due, what went
+      // to the town (aid), what went outside, and what it fell short.
+      const localAidLine = (api: CoreAPI) =>
+        treasuryMonthsOf(api, stateOrg.id).reduce(
+          (n, m) => {
+            const l = m.lines.localAid;
+            return l
+              ? {
+                  due: n.due + l.dueMinor,
+                  aid: n.aid + l.aidMinor,
+                  outside: n.outside + l.outsideMinor,
+                  short: n.short + l.shortMinor,
+                }
+              : n;
+          },
+          { due: 0, aid: 0, outside: 0, short: 0 },
+        );
+      process.stdout.write(
+        `school aid proof: state localAid line over the run, with the law ${JSON.stringify(localAidLine(b))}, without ${JSON.stringify(localAidLine(a))}\n`,
+      );
+      // The state keeps a reserve and sends what it holds above it to the
+      // outside account at each close; paying the aid shows as less swept.
+      const swept = (api: CoreAPI) =>
+        (
+          api
+            .moduleState(BUDGETS_MODULE_ID)
+            .table("reserveSweeps")
+            .rows() as unknown as {
+            governmentId: string;
+            amountMinor: number;
+          }[]
+        )
+          .filter((r) => r.governmentId === stateOrg.id)
+          .reduce((n, r) => n + r.amountMinor, 0);
+      process.stdout.write(
+        `school aid proof: state reserve sweeps over the run: ${swept(b)} with the law, ${swept(a)} without\n`,
+      );
+      expect(secondState?.budgetId).not.toBe(firstYear.budget.budgetId);
+      expect(secondState!.moves.localAid!).toBeGreaterThan(stateRise * 0.8);
+      expect(secondState!.moves.localAid!).toBeLessThan(stateRise * 1.5);
+      expect(secondAid).toBeGreaterThan(aid * 0.8);
+      expect(secondAid).toBeLessThan(aid * 1.5);
       // A council that cuts its own schools line after the aid arrived cuts
       // only that line: the aid revenue stays.
       const lineOf = (
@@ -225,5 +339,5 @@ describe("state school aid", () => {
       return;
     }
     throw new Error(`No drawn place could show the aid:${tried}`);
-  }, 900_000);
+  }, 1_800_000);
 });
