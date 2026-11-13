@@ -603,7 +603,11 @@ it("a member the player plays decides alike at the stop and away from it: the me
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     console.log(`seated-holds builds ${where}`);
     const kept = place === SAME_DAY_PLACE || place === COMMITTEE_PLACE;
-    const run = (present: boolean, silent = false) => {
+    const run = (
+      present: boolean,
+      mode: "own" | "silent" | "adjourn" = "own",
+    ) => {
+      const silent = mode === "silent";
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.key,
@@ -630,6 +634,7 @@ it("a member the player plays decides alike at the stop and away from it: the me
       let held = 0;
       let items = 0;
       const sat: string[] = [];
+      let adjourned = 0;
       for (let guard = 0; guard < 2_000 && core.date < end; guard += 1) {
         step(player);
         const meeting = stoppedAt(api, player);
@@ -637,6 +642,40 @@ it("a member the player plays decides alike at the stop and away from it: the me
           // A player who does nothing: the day closes the meeting on them.
           held += 1;
           sat.push(...meeting.agenda);
+        } else if (meeting && mode === "adjourn") {
+          // The player presses Adjourn with items still open.
+          held += 1;
+          const open = meeting.agenda.filter(
+            (id) => billOf(api, id).status === "drafted",
+          );
+          for (const id of open)
+            expect(
+              api
+                .moduleState(LEGISLATURE_MODULE_ID)
+                .table("choices")
+                .get(`${id}|${member}`),
+              `${where}: ${id} voted before Adjourn`,
+            ).toBeUndefined();
+          adjourn(api, meeting.id);
+          for (const id of open) {
+            const chosen = api
+              .moduleState(LEGISLATURE_MODULE_ID)
+              .table("choices")
+              .get(`${id}|${member}`) as unknown as
+              { vote?: string } | undefined;
+            expect(
+              chosen?.vote,
+              `${where}: ${id} cast at Adjourn`,
+            ).toBeDefined();
+            const act = officeActsOf(api, member).find(
+              (a) => a.kind === "vote" && a.recordId === id,
+            );
+            expect(act?.how, `${where}: ${id} act at Adjourn`).toBe(
+              "own-choice",
+            );
+            expect(act?.date, `${where}: ${id} Adjourn day`).toBe(core.date);
+            adjourned += 1;
+          }
         } else if (meeting) {
           held += 1;
           for (const id of [...meeting.agenda]) {
@@ -687,6 +726,8 @@ it("a member the player plays decides alike at the stop and away from it: the me
           ).toBe(false);
         }
       }
+      if (mode === "adjourn")
+        expect(adjourned, `${where}: items left to Adjourn`).toBeGreaterThan(0);
       return { bills: decided(api), held, items, date: core.date };
     };
     const held = run(true);
@@ -701,7 +742,10 @@ it("a member the player plays decides alike at the stop and away from it: the me
     expect(away.held).toBe(0);
     expect(held.date).toBe(away.date);
     expect(held.bills, where).toEqual(away.bills);
-    if (place === COMMITTEE_PLACE) run(true, true);
+    if (place.key === COMMITTEE_PLACE.key) {
+      run(true, "silent");
+      run(true, "adjourn");
+    }
     if (kept) {
       expect(held.held, `${where}: meetings held`).toBeGreaterThan(0);
       continue;
