@@ -130,13 +130,6 @@
       "replacement": null
     },
     {
-      "file": "src/core2/electorate-places.ts",
-      "kind": "fixed-share",
-      "build": "pool:core-zero-dice-shares-in-code",
-      "count": 1,
-      "code": "const share = 0.5 + side * campaignParameter(\"legislativeSeatMargin\");"
-    },
-    {
       "file": "src/core2/gov-rules/given-name-cohorts.ts",
       "kind": "list-pick",
       "build": null,
@@ -169,20 +162,6 @@
       "code": "at < female ? \"female\" : at < female + male ? \"male\" : \"nonbinary\";"
     },
     {
-      "file": "src/core2/gov-rules/typical-council-size.ts",
-      "kind": "fixed-share",
-      "build": "pool:core-zero-dice-shares-in-code",
-      "count": 1,
-      "code": "const COUNCIL_SIZE_SHARES: readonly Share[] = ["
-    },
-    {
-      "file": "src/core2/gov-rules/typical-council-size.ts",
-      "kind": "fixed-share",
-      "build": "pool:core-zero-dice-shares-in-code",
-      "count": 1,
-      "code": "const COUNCIL_TERM_SHARES: readonly Share[] = ["
-    },
-    {
       "file": "src/core2/jobs-elsewhere.ts",
       "kind": "roll",
       "count": 1,
@@ -201,13 +180,6 @@
       "keyedBy": "world seed + person id",
       "reason": "Whether someone living elsewhere is at work, looking or out of the labor force on day one is who they are: their own seeded line read against CPS 2024 employment and participation for their age, so the shares hold over everyone, as citizenship is drawn. What they do after (let go, find work, move on, retire) is the working-life pulls from rates, causes and their traits.",
       "replacement": null
-    },
-    {
-      "file": "src/core2/modules/campaigns.ts",
-      "kind": "fixed-share",
-      "build": "pool:core-zero-dice-shares-in-code",
-      "count": 1,
-      "code": "side > 0 ? place.rightShare : side < 0 ? 1 - place.rightShare : 0.5;"
     },
     {
       "file": "src/core2/nativity.ts",
@@ -483,24 +455,10 @@
     },
     {
       "file": "src/core2/town-households.ts",
-      "kind": "fixed-share",
-      "build": "pool:core-zero-dice-generation-rolls",
-      "count": 1,
-      "code": "export const SAME_SEX_COUPLE_SHARE = 0.015;"
-    },
-    {
-      "file": "src/core2/town-households.ts",
       "kind": "roll",
       "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;"
-    },
-    {
-      "file": "src/core2/town-workplaces.ts",
-      "kind": "fixed-share",
-      "build": "pool:core-zero-dice-shares-in-code",
-      "count": 1,
-      "code": "export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {"
+      "code": "const sameSex = rng.next() < shareValue(\"sameSexCoupleShare\");"
     }
   ]
 }
