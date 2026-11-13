@@ -141,149 +141,159 @@ function world() {
   return { core, api, filing, where };
 }
 
-it("mail spends what the player set on mailers and reaches the households it buys", () => {
-  const { core, api, filing, where } = world();
-  expect(filing, `nobody could file: ${where}`).not.toBeNull();
-  const id = filing!.id;
-  const personId = filing!.personId;
-  const perPiece = unitPrice(api, "mailer-print") + unitPrice(api, "postage");
+it(
+  "mail spends what the player set on mailers and reaches the households it buys",
+  () => {
+    const { core, api, filing, where } = world();
+    expect(filing, `nobody could file: ${where}`).not.toBeNull();
+    const id = filing!.id;
+    const personId = filing!.personId;
+    const perPiece = unitPrice(api, "mailer-print") + unitPrice(api, "postage");
 
-  // With nothing raised, mail buys nothing.
-  const empty = campaignAct(core, personId, {
-    filingId: id,
-    kind: "mail",
-    amountMinor: 50 * perPiece,
-  }) as { reached: number; spentMinor: number };
-  expect(empty.spentMinor, where).toBe(0);
-  expect(empty.reached, where).toBe(0);
-
-  // The player puts in their own money, then sends mail with part of it.
-  const put = Math.min(
-    100 * perPiece,
-    Math.floor((core.people.get(personId)?.liquidMinor ?? 0) / 2),
-  );
-  const [, gifts] = campaignPayments(() =>
-    campaignAct(core, personId, {
+    // With nothing raised, mail buys nothing.
+    const empty = campaignAct(core, personId, {
       filingId: id,
-      kind: "contribute",
-      amountMinor: put,
-    }),
-  );
-  // The player's own gift is one journal entry; its money record was let go
-  // once it posted, and dev mode's trace from the player's receipt says so in
-  // words.
-  expect(
-    gifts.map((g) => g.kind),
-    where,
-  ).toEqual(["campaigns:donation"]);
-  const receipt = [...core.cashJournal.detailedReceipts.values()].find(
-    (r) => r.sourceRef.id === gifts[0]!.id,
-  );
-  expect(receipt, `the player's receipt is kept: ${where}`).toBeDefined();
-  expect(findRecord(core, gifts[0]!.id), where).toBeUndefined();
-  const folded = traceNode(core, undefined, receipt!.id).children.find(
-    (c) => c.id === gifts[0]!.id,
-  );
-  expect(folded?.kind, where).toBe("missing");
-  expect(folded?.value, where).toBe(FOLDED_AT_POST);
-  const held =
-    campaignFor(api, id).raisedMinor - campaignFor(api, id).spentMinor;
-  expect(held, `the candidate's own money is in: ${where}`).toBeGreaterThan(
-    perPiece,
-  );
-  const amount = Math.min(held, 20 * perPiece + perPiece - 1);
-  const before = campaignFor(api, id);
-  const [sent, payments] = campaignPayments(
-    () =>
+      kind: "mail",
+      amountMinor: 50 * perPiece,
+    }) as { reached: number; spentMinor: number };
+    expect(empty.spentMinor, where).toBe(0);
+    expect(empty.reached, where).toBe(0);
+
+    // The player puts in their own money, then sends mail with part of it.
+    const put = Math.min(
+      100 * perPiece,
+      Math.floor((core.people.get(personId)?.liquidMinor ?? 0) / 2),
+    );
+    const [, gifts] = campaignPayments(() =>
       campaignAct(core, personId, {
         filingId: id,
-        kind: "mail",
-        amountMinor: amount,
-      }) as { reached: number; spentMinor: number; causes: CauseRow[] },
-  );
-  const after = campaignFor(api, id);
-  // Whole mailers, as many as the amount buys: never more than it.
-  expect(sent.spentMinor, where).toBeGreaterThan(0);
-  expect(sent.spentMinor % perPiece, where).toBe(0);
-  expect(sent.spentMinor, where).toBeLessThanOrEqual(amount);
-  expect(amount - sent.spentMinor, where).toBeLessThan(perPiece);
-  expect(after.spentMinor - before.spentMinor, where).toBe(sent.spentMinor);
-  expect(
-    (after.spentByKind?.mail ?? 0) - (before.spentByKind?.mail ?? 0),
-    where,
-  ).toBe(sent.spentMinor);
-  // One purchase on the cash journal, out of the campaign's cash.
-  expect(
-    payments.map((p) => p.kind),
-    `on the journal: ${where}`,
-  ).toEqual(["campaigns:purchase"]);
-  expect(
-    payments[0]!.postings.find(
-      (p) => p.accountId === `cash:${after.organizationId}:residual`,
-    )?.deltaMinor,
-    where,
-  ).toBe(-sent.spentMinor);
-  // Each full adult it reached is a recorded mail cause; counted households
-  // are counted as reached.
-  expect(
-    sent.reached + (after.countedReached ?? 0) - (before.countedReached ?? 0),
-    `mail reached someone: ${where}`,
-  ).toBeGreaterThan(0);
-  for (const cause of sent.causes) {
-    expect(cause.act, where).toBe("mail");
-    expect(cause.candidateId, where).toBe(personId);
-  }
+        kind: "contribute",
+        amountMinor: put,
+      }),
+    );
+    // The player's own gift is one journal entry; its money record was let go
+    // once it posted, and dev mode's trace from the player's receipt says so in
+    // words.
+    expect(
+      gifts.map((g) => g.kind),
+      where,
+    ).toEqual(["campaigns:donation"]);
+    const receipt = [...core.cashJournal.detailedReceipts.values()].find(
+      (r) => r.sourceRef.id === gifts[0]!.id,
+    );
+    expect(receipt, `the player's receipt is kept: ${where}`).toBeDefined();
+    expect(findRecord(core, gifts[0]!.id), where).toBeUndefined();
+    const folded = traceNode(core, undefined, receipt!.id).children.find(
+      (c) => c.id === gifts[0]!.id,
+    );
+    expect(folded?.kind, where).toBe("missing");
+    expect(folded?.value, where).toBe(FOLDED_AT_POST);
+    const held =
+      campaignFor(api, id).raisedMinor - campaignFor(api, id).spentMinor;
+    expect(held, `the candidate's own money is in: ${where}`).toBeGreaterThan(
+      perPiece,
+    );
+    const amount = Math.min(held, 20 * perPiece + perPiece - 1);
+    const before = campaignFor(api, id);
+    const [sent, payments] = campaignPayments(
+      () =>
+        campaignAct(core, personId, {
+          filingId: id,
+          kind: "mail",
+          amountMinor: amount,
+        }) as { reached: number; spentMinor: number; causes: CauseRow[] },
+    );
+    const after = campaignFor(api, id);
+    // Whole mailers, as many as the amount buys: never more than it.
+    expect(sent.spentMinor, where).toBeGreaterThan(0);
+    expect(sent.spentMinor % perPiece, where).toBe(0);
+    expect(sent.spentMinor, where).toBeLessThanOrEqual(amount);
+    expect(amount - sent.spentMinor, where).toBeLessThan(perPiece);
+    expect(after.spentMinor - before.spentMinor, where).toBe(sent.spentMinor);
+    expect(
+      (after.spentByKind?.mail ?? 0) - (before.spentByKind?.mail ?? 0),
+      where,
+    ).toBe(sent.spentMinor);
+    // One purchase on the cash journal, out of the campaign's cash.
+    expect(
+      payments.map((p) => p.kind),
+      `on the journal: ${where}`,
+    ).toEqual(["campaigns:purchase"]);
+    expect(
+      payments[0]!.postings.find(
+        (p) => p.accountId === `cash:${after.organizationId}:residual`,
+      )?.deltaMinor,
+      where,
+    ).toBe(-sent.spentMinor);
+    // Each full adult it reached is a recorded mail cause; counted households
+    // are counted as reached.
+    expect(
+      sent.reached + (after.countedReached ?? 0) - (before.countedReached ?? 0),
+      `mail reached someone: ${where}`,
+    ).toBeGreaterThan(0);
+    for (const cause of sent.causes) {
+      expect(cause.act, where).toBe("mail");
+      expect(cause.candidateId, where).toBe(personId);
+    }
 
-  // Asking for more than the campaign holds spends no more than it holds.
-  const left = after.raisedMinor - after.spentMinor;
-  const big = campaignAct(core, personId, {
-    filingId: id,
-    kind: "mail",
-    amountMinor: left * 10 + perPiece,
-  }) as { spentMinor: number };
-  expect(big.spentMinor, where).toBeLessThanOrEqual(left);
-  const end = campaignFor(api, id);
-  expect(end.raisedMinor - end.spentMinor, where).toBeGreaterThanOrEqual(0);
-  // The screen's Mail control is worded.
-  expect(controls.campaignActs.mail, where).toBeTruthy();
-}, FILING_WAIT_MS);
+    // Asking for more than the campaign holds spends no more than it holds.
+    const left = after.raisedMinor - after.spentMinor;
+    const big = campaignAct(core, personId, {
+      filingId: id,
+      kind: "mail",
+      amountMinor: left * 10 + perPiece,
+    }) as { spentMinor: number };
+    expect(big.spentMinor, where).toBeLessThanOrEqual(left);
+    const end = campaignFor(api, id);
+    expect(end.raisedMinor - end.spentMinor, where).toBeGreaterThanOrEqual(0);
+    // The screen's Mail control is worded.
+    expect(controls.campaignActs.mail, where).toBeTruthy();
+  },
+  FILING_WAIT_MS,
+);
 
-it("offers the house party by its control word and runs the engine's donor meeting", () => {
-  const { core, api, filing, where } = world();
-  expect(filing, `nobody could file: ${where}`).not.toBeNull();
-  const id = filing!.id;
-  const personId = filing!.personId;
-  const view = () =>
-    campaignView(core, personId).campaigns.find((c) => c.filing.id === id)!;
-  const party = () => view().outings.find((o) => o.outing === "party");
-  expect(party(), where).toBeDefined();
-  expect(controls.campaignOutings.party, where).toBeTruthy();
-  // The town hears of the candidate first: a few shifts of doors.
-  for (let shift = 0; shift < 4 && !party()!.available; shift += 1)
-    takeCampaignDayChoice(api, id, "canvass");
-  const offered = party()!;
-  if (!offered.available) {
-    // Nobody close to the candidate would host: the screen says so in words.
-    expect(offered.why?.key, where).toBe("noHost");
-    expect(controls.campaignUnavailable.noHost, where).toBeTruthy();
-    return;
-  }
-  const out = campaignDay(core, personId, {
-    filingId: id,
-    kind: "donor-meeting",
-  });
-  expect(out.kind, where).toBe("donor-meeting");
-  // Each person in the room was asked, by name, with what they gave or why not.
-  expect(out.calls.length, where).toBeGreaterThan(0);
-  for (const call of out.calls) {
-    expect(call.name, where).toBeTruthy();
-    expect(call.line, `${call.personId} ${call.why}: ${where}`).toBeTruthy();
-  }
-  expect(out.callsLine, where).toBeTruthy();
-  expect(out.raisedMinor, where).toBe(
-    out.calls.reduce((t, c) => t + c.givenMinor, 0),
-  );
-  // Seen in the host's home, the people in the room around the candidate.
-  expect(out.scene, where).toBeDefined();
-  expect(out.scene!.people.length + out.scene!.more, where).toBeGreaterThan(0);
-}, FILING_WAIT_MS);
+it(
+  "offers the house party by its control word and runs the engine's donor meeting",
+  () => {
+    const { core, api, filing, where } = world();
+    expect(filing, `nobody could file: ${where}`).not.toBeNull();
+    const id = filing!.id;
+    const personId = filing!.personId;
+    const view = () =>
+      campaignView(core, personId).campaigns.find((c) => c.filing.id === id)!;
+    const party = () => view().outings.find((o) => o.outing === "party");
+    expect(party(), where).toBeDefined();
+    expect(controls.campaignOutings.party, where).toBeTruthy();
+    // The town hears of the candidate first: a few shifts of doors.
+    for (let shift = 0; shift < 4 && !party()!.available; shift += 1)
+      takeCampaignDayChoice(api, id, "canvass");
+    const offered = party()!;
+    if (!offered.available) {
+      // Nobody close to the candidate would host: the screen says so in words.
+      expect(offered.why?.key, where).toBe("noHost");
+      expect(controls.campaignUnavailable.noHost, where).toBeTruthy();
+      return;
+    }
+    const out = campaignDay(core, personId, {
+      filingId: id,
+      kind: "donor-meeting",
+    });
+    expect(out.kind, where).toBe("donor-meeting");
+    // Each person in the room was asked, by name, with what they gave or why not.
+    expect(out.calls.length, where).toBeGreaterThan(0);
+    for (const call of out.calls) {
+      expect(call.name, where).toBeTruthy();
+      expect(call.line, `${call.personId} ${call.why}: ${where}`).toBeTruthy();
+    }
+    expect(out.callsLine, where).toBeTruthy();
+    expect(out.raisedMinor, where).toBe(
+      out.calls.reduce((t, c) => t + c.givenMinor, 0),
+    );
+    // Seen in the host's home, the people in the room around the candidate.
+    expect(out.scene, where).toBeDefined();
+    expect(out.scene!.people.length + out.scene!.more, where).toBeGreaterThan(
+      0,
+    );
+  },
+  FILING_WAIT_MS,
+);
