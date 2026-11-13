@@ -5,9 +5,9 @@ area: play
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-dev-mode-remove-direct-law-write
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T06:06:32.277Z
+claimed-at:
 branch: claude/pool-dev-mode-remove-direct-law-write
 ---
 
@@ -48,3 +48,5 @@ Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Not built; inventory for the next builder. The experiments and saved-experiments parts are unreferenced by the UI (dev-api.ts lines 42, 62, 97-100, 495-514; dev-mode.ts line 106, 2242, 2247; src/bench/data/dev-experiments.json; scripts/law-wiring/check.ts line 891 cites it) and delete cleanly with dev-mode.test.ts lines 105-106. setLaw (dev-mode.ts 560, dev-api.ts 126) is NOT unused: it is called by dev-law-day-one.test.ts 33 (a law set before any session sits, which a bill cannot do on day one), dev-outlook.test.ts 65, dev-state-trace.test.ts 59, dev-acceptance.test.ts 129 and 346, dev-mode.test.ts 69, and dev-trace.ts 757 (via: dev-mode.setLaw). Each must be rewritten to pass its law through introduce, Hold the vote and sign, or kept as a test of its own route, before setLaw goes; the day-one test needs a decision on how a law reaches a world before the first session. Continue on branch claude/pool-dev-mode-remove-direct-law-write.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:06 UTC) on branch claude/pool-dev-mode-remove-direct-law-write.
+
+Released by next (2026-11-13): no push to claude/pool-dev-mode-remove-direct-law-write since 2026-11-11 06:10 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-dev-mode-remove-direct-law-write.

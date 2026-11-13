@@ -16,7 +16,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { openWholePast } from "./modules/people";
-import { viewOf } from "./modules/views";
+import { VIEWS_DATA, viewOf } from "./modules/views";
 import { PAST_WORK_SPELL } from "./past-work";
 import { preStartHistory } from "./pre-start";
 import { coreAPI } from "./state";
@@ -63,6 +63,8 @@ it(`a past's layoffs move views either way, by record, in ${where}`, () => {
   let moved = 0;
   let total = 0;
   let toward = 0;
+  let right = 0;
+  let ownSum = 0;
   let example = "";
   const before = { liberal: 0, conservative: 0 };
   const after = { liberal: 0, conservative: 0 };
@@ -96,8 +98,18 @@ it(`a past's layoffs move views either way, by record, in ${where}`, () => {
           age(person.birthDate, ended),
           shift.recordId,
         ).toBeGreaterThanOrEqual(18);
-        // A layoff moves its person left, never right.
-        expect(shift.change, shift.recordId).toBeLessThanOrEqual(0);
+        // Left on average; right only for someone whose traits lean far
+        // enough to blaming outsiders (the turn weight is the views table's).
+        const turnsRight =
+          (shift.blame ?? 0) *
+            VIEWS_DATA.parameters.pastOwnLayoffTurnWeight!.value >
+          1;
+        expect(
+          shift.change > 0,
+          `${shift.recordId}, blame ${shift.blame}`,
+        ).toBe(turnsRight);
+        if (shift.change > 0) right += 1;
+        ownSum += shift.change;
       }
       count[shift.kind] += 1;
       total += Math.abs(shift.change);
@@ -125,10 +137,12 @@ it(`a past's layoffs move views either way, by record, in ${where}`, () => {
   process.stdout.write(
     `past views in ${where}: of ${n} adults, ${moved} moved by their past ` +
       `(${count["parent-job-lost"]} by a parent's layoff, ${toward} of them toward the parent; ` +
-      `${count["own-job-lost"]} by their own), mean shift ${(shifted ? total / shifted : 0).toFixed(3)}; ` +
+      `${count["own-job-lost"]} by their own, ${right} of them to the right, mean ${(count["own-job-lost"] ? ownSum / count["own-job-lost"] : 0).toFixed(3)}), mean shift ${(shifted ? total / shifted : 0).toFixed(3)}; ` +
       `liberal ${before.liberal} to ${after.liberal}, conservative ${before.conservative} to ${after.conservative}.${example}\n`,
   );
   expect(moved, `${where}: nobody's past moved their view`).toBeGreaterThan(0);
+  // A layoff moves a town's laid-off adults left on average (Margalit 2013).
+  if (count["own-job-lost"]) expect(ownSum, where).toBeLessThan(0);
   expect(
     Math.abs(after.liberal - before.liberal) / n,
     where,

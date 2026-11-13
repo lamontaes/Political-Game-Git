@@ -65,6 +65,20 @@ import {
   scheduleBirthdays,
 } from "./kin-contact";
 import { declareSnapshotCovered } from "../snapshot";
+
+// The partnership chain, for the past family's run of earlier partnerships
+// before the start (src/core2/past-partners.ts): one chain, read through
+// this entry.
+export {
+  maritalShares,
+  partnerAgeFor,
+  partneringPerYear,
+  partnershipGeo,
+  separatingPerYear,
+  type Sex,
+} from "../opening-partnership";
+export { drawCanonicalNamedIdentity } from "../person-names";
+export { ssa2023AnnualProbability } from "../health-mortality-table";
 import type {
   CoreAPI,
   CoreEventInput,
