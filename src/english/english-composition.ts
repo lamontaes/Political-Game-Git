@@ -467,6 +467,9 @@ const SENTENCE_WORDS = new Set([
   "We'll",
   "Let's",
   "If",
+  // A span's frame after a lead-in ("Across the country, since I took this
+  // office, we have seen ...").
+  "Since",
   "Should",
   "Get",
   "Send",
