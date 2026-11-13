@@ -18,6 +18,8 @@ root: none
 source: Red desk, Nov 13 (Account lead T5 on #8928, comment 6848663002)
 ---
 
+Same defect as `gov-executive-asked-member-missing-among-filers-crashes-filing`; #9053 contains this change (at 93599ed9) and closes both items.
+
 **What.** The golden-path-year check M0-13 crashes on clean main 99540b89 in Booth, West Virginia (5409148), GOLDEN_PATH_SEED=4c34cc968c8412093378375288816b724fa98501f454e802c3eb42a3dceb801f, on January 3, 2026 when Congress opens: `TypeError: Cannot read properties of undefined (reading 'personId')` at `memberKey` from `filerOf`. In the Senate's filing group (`session-open:US:2026-01-03:1`, 100 senators) a question no senator carries is proposed by the President, who asks a member of the House (NY-04) to carry it, and that member is looked up among the senators. Seen: a new life in that place stops before its first day.
 
 **Cause.** Found in code: `openSession` in src/core2/modules/world-legislating.ts files Congress's questions once per chamber (`filerGroups`, House then Senate) but passes `body: lower`, the House, to both groups; `fileChanges` hands that body to `proposeAsExecutive` in src/core2/modules/legislature.ts, which picks the carrier among the body's members, and then finds the carrier with `input.filers.find(...)!`, which is undefined for the Senate group.
