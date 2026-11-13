@@ -33,6 +33,7 @@ import { townLean } from "./campaigns";
 import questionScopes from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
+import federalQuestions from "../../../data/research/campaigns/federal-questions-2026.json" with { type: "json" };
 import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
 import {
   budgetsOf,
@@ -266,6 +267,30 @@ function townBodies(api: CoreAPI): readonly string[] {
       o.kind === "township-board",
   );
   return offices.map((o) => o.id).sort();
+}
+
+/**
+ * The federal questions Congress may file on, read from the C2 research list
+ * (data/research/campaigns/federal-questions-2026.json): a question is admitted
+ * when the list names an engine that reads its law today (`reader`), keyed by
+ * the question's own id so the powers catalog's `us-policy-positions` and the
+ * list's `us-federal-positions` forms of one question are the same. A standing
+ * answer and members' stances are still to come (part 2 of
+ * gov-congress-passes-policy-laws; SG-GOV-federal-proposal-coverage).
+ */
+const FEDERAL_ADMITTED: ReadonlySet<string> = new Set(
+  (
+    federalQuestions as unknown as {
+      questions: { question: string; reader: string | null }[];
+    }
+  ).questions
+    .filter((row) => row.reader !== null)
+    .map((row) => row.question.split(":")[1]!),
+);
+
+/** Whether Congress may file on this question: the research list admits it. */
+export function federalQuestionAdmitted(question: string): boolean {
+  return FEDERAL_ADMITTED.has(question.split(":")[1] ?? question);
 }
 
 /** A government's own answer in force on a policy question: its latest enacted row, else its recorded starting answer. */
@@ -1251,37 +1276,45 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         (m) => majority === 0 || partySide(m.party) === majority,
       ),
     );
-  const filers = federal
-    ? [...members(api, FEDERAL_HOUSE), ...members(api, FEDERAL_SENATE)]
-    : ["legislature-lower", "legislature-upper", "legislature-unicameral"]
-        .map((kind) => chamber(api, jurisdiction, kind))
-        .flatMap((c) => c?.members ?? []);
+  // Congress files each question once in each chamber, from that chamber's own
+  // members; a state's members file together.
+  const filerGroups: (readonly TermRow[])[] = federal
+    ? [members(api, FEDERAL_HOUSE), members(api, FEDERAL_SENATE)]
+    : [
+        ["legislature-lower", "legislature-upper", "legislature-unicameral"]
+          .map((kind) => chamber(api, jurisdiction, kind))
+          .flatMap((c) => c?.members ?? []),
+      ];
   // stopgapId: SG-GOV-federal-proposal-coverage
   // Federal-only questions still need stances, opening answers and effect readers.
   if (federal) api.stopgap("SG-GOV-federal-proposal-coverage");
   const filed = lower
-    ? fileChanges(api, {
-        key: work.key,
-        jurisdiction,
-        body: lower,
-        filers,
-        leader,
-        floorDays: 0,
-        billsPerFloorDay: 0,
-        needsChange: (question, direction) =>
-          needsChange(direction, answerIn(api, jurisdiction, question, true)),
-        // A legislature answers only the questions its level may (data).
-        allowed: (question, value) =>
-          levelMayDecide(
-            api,
-            federal ? "federal" : "state",
-            question,
-            value,
-            federal ? undefined : jurisdiction,
-          ),
-        // A new session takes every bill up afresh.
-        barred: () => false,
-      })
+    ? filerGroups.flatMap((filers, group) =>
+        fileChanges(api, {
+          key: `${work.key}:${group}`,
+          jurisdiction,
+          body: lower,
+          filers,
+          leader,
+          floorDays: 0,
+          billsPerFloorDay: 0,
+          needsChange: (question, direction) =>
+            needsChange(direction, answerIn(api, jurisdiction, question, true)),
+          // A legislature answers only the questions its level may (data); Congress,
+          // only those the research list admits.
+          allowed: (question, value) =>
+            (!federal || federalQuestionAdmitted(question)) &&
+            levelMayDecide(
+              api,
+              federal ? "federal" : "state",
+              question,
+              value,
+              federal ? undefined : jurisdiction,
+            ),
+          // A new session takes every bill up afresh.
+          barred: () => false,
+        }),
+      )
     : [];
   const today = api.state.date;
   const length = Math.max(1, daysBetween(today, adjournAt));
