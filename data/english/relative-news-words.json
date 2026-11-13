@@ -11,7 +11,9 @@
     "diabetes": "diabetes"
   },
   "offenses": {
-    "bribery": "taking bribes"
+    "bribe-taken": "taking bribes",
+    "bribe-paid": "paying a bribe",
+    "bribe-offered": "offering a bribe"
   },
   "youngBelowAge": {
     "value": 60,
