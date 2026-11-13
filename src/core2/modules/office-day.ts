@@ -53,7 +53,6 @@ import {
   floorDateOf,
   executiveItemVeto,
   executiveLean,
-  holdVote,
   LEGISLATURE_MODULE_ID,
   memberKey,
   members,
@@ -62,7 +61,12 @@ import {
   type BillRow,
   type DeskAction,
 } from "./legislature";
-import { registerMeetingHold } from "./world-legislating";
+import {
+  filesAhead,
+  filingsOwed,
+  registerMeetingHold,
+  voteAtMeeting,
+} from "./world-legislating";
 import {
   nextMeeting as nextOnRule,
   bodyPopulation,
@@ -129,6 +133,13 @@ export interface MeetingRow {
   readonly status: "scheduled" | "in-session" | "adjourned";
   /** The player's stop held the clock at the meeting's hour. */
   readonly playerPresent: boolean;
+  /**
+   * A player who does not sit on the body and marked this meeting to attend:
+   * held at its hour like a member, to speak at public comment and not to vote.
+   */
+  readonly audience?: string;
+  /** The members' filings for this meeting are on its agenda (an empty agenda is posted too). */
+  readonly posted?: boolean;
   readonly citation: string;
 }
 
@@ -151,7 +162,13 @@ export const OFFICE_DAY_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
-      meetings: { indexes: { byOffice: { fields: ["officeId"] } } },
+      meetings: {
+        indexes: {
+          byOffice: { fields: ["officeId"] },
+          // The day's meetings, for the one order they vote in.
+          byDate: { fields: ["date"] },
+        },
+      },
       agendaItems: {},
       stops: {},
       acts: { indexes: { byPerson: { fields: ["personId"] } } },
@@ -359,9 +376,10 @@ export function placeOnAgenda(api: CoreAPI, billId: string): string {
   // A meeting already on the books takes the bill now, and may now hold the player.
   const row = meetingOf(api, meetingId(bill.bodyOfficeId, next.date));
   if (row && row.status === "scheduled") {
+    // In the order placed: the body takes its items in the order they came.
     const placed: MeetingRow = {
       ...row,
-      agenda: [...new Set([...row.agenda, billId])].sort(),
+      agenda: [...new Set([...row.agenda, billId])],
     };
     table(api, "meetings").put(placed as unknown as ModuleRow);
     holdPlayerIfDue(api, placed);
@@ -445,6 +463,105 @@ function postAgenda(
   holdPlayerIfDue(api, row);
 }
 
+/** Whether the player's clock has reached a meeting's hour (or its day is behind them). */
+function hourReached(api: CoreAPI, row: MeetingRow, player: string): boolean {
+  if (row.date < api.state.date) return true;
+  const frontier = playerClockFrontierV1(api.state as CoreState, player);
+  return (
+    !!frontier &&
+    (frontier.date > row.date ||
+      (frontier.date === row.date && frontier.minuteOfDay >= row.startMinute))
+  );
+}
+
+/**
+ * A posted meeting the player may come to as a resident: one still ahead of
+ * their clock, of a body they do not sit on (a member is held by their own
+ * stops). Public comment is open to anyone (`signUpToSpeak`), so nothing else
+ * is asked. Says whether they have marked it.
+ */
+export function meetingToAttend(
+  api: CoreAPI,
+  officeId: string,
+  date: string,
+): { id: string; marked: boolean; startMinute: number } | null {
+  const player = playerOf(api);
+  const row = meetingOf(api, meetingId(officeId, date));
+  if (
+    player === undefined ||
+    !row ||
+    row.status !== "scheduled" ||
+    snapshotExplicitControlV1(api.state).personId !== player ||
+    members(api, officeId).some(sits(player)) ||
+    hourReached(api, row, player) ||
+    // A meeting whose agenda is filed only on its own day has nothing to show
+    // a resident at its hour: it is not offered.
+    !(row.posted || filesAhead(api, officeId, date))
+  )
+    return null;
+  return {
+    id: row.id,
+    marked: row.audience === player,
+    startMinute: row.startMinute,
+  };
+}
+
+/** The meeting with nobody of the player's in its audience, and its hold on them gone. */
+function withoutAudience(row: MeetingRow): MeetingRow {
+  const next: { -readonly [K in keyof MeetingRow]: MeetingRow[K] } = {
+    ...row,
+    playerPresent: false,
+  };
+  delete next.audience;
+  return next;
+}
+
+/**
+ * The player marks a posted meeting to attend, or takes the mark back: marked,
+ * the meeting holds their clock at its hour, and the members' filings wait on
+ * its agenda as they do for a member the player plays (`holdsMemberFilings`).
+ */
+export function attendMeeting(
+  api: CoreAPI,
+  officeId: string,
+  date: string,
+  attend: boolean,
+): MeetingRow {
+  const open = meetingToAttend(api, officeId, date);
+  if (!open) throw new Error("That meeting is not in session.");
+  const row = meetingOf(api, open.id)!;
+  const next: MeetingRow = attend
+    ? { ...row, audience: playerOf(api)! }
+    : withoutAudience(row);
+  table(api, "meetings").put(next as unknown as ModuleRow);
+  if (attend) holdPlayerIfDue(api, next);
+  else releaseHeld(api, next.id);
+  return meetingOf(api, next.id)!;
+}
+
+/**
+ * A resident leaves the meeting they came to: the clock goes on and nothing
+ * is voted for their leaving. What they said stays on the record and is heard
+ * when the body takes the item up, at the meeting's close.
+ */
+export function leaveMeeting(api: CoreAPI, meetingIdValue: string): void {
+  const row = meetingOf(api, meetingIdValue);
+  if (!row || row.audience === undefined || !row.playerPresent)
+    throw new Error("That meeting is not in session.");
+  table(api, "meetings").put(withoutAudience(row) as unknown as ModuleRow);
+  // That they came is on the record with what they said there.
+  keepAct(api, {
+    personId: row.audience,
+    kind: "attend",
+    how: "did",
+    recordId: row.id,
+    position: null,
+    // How many items were before the body when they came.
+    detail: String(row.agenda.length),
+  });
+  releaseHeld(api, row.id);
+}
+
 /**
  * Whether the player is held at a meeting, decided again each time its
  * agenda changes (posted, a member's filing placed, the player's own bill
@@ -460,7 +577,9 @@ function holdPlayerIfDue(api: CoreAPI, row: MeetingRow): void {
   const player = playerOf(api);
   if (player === undefined) return;
   const body = members(api, row.officeId);
-  if (!body.some(sits(player))) return;
+  const seated = body.some(sits(player));
+  // A resident is held only at a meeting they marked to attend.
+  if (!seated && row.audience !== player) return;
   if (snapshotExplicitControlV1(api.state).personId !== player) return;
   const stops = stopsOf(api, player);
   const ownBill = row.agenda.some((id) => billOf(api, id).sponsorId === player);
@@ -471,6 +590,7 @@ function holdPlayerIfDue(api: CoreAPI, row: MeetingRow): void {
   const deciding =
     row.agenda.length > 0 && body.length <= officeDayParameter("decidingSeats");
   const present =
+    !seated ||
     stops["every-meeting"] === true ||
     (ownBill && stops["own-bill-vote"] === true) ||
     (deciding && stops["deciding-vote"] === true);
@@ -517,9 +637,43 @@ function closeMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   scheduleMeeting(api, officeId, date);
   const row = meetingOf(api, meetingId(officeId, date));
   if (!row || row.status === "adjourned") return;
+  earlierMeetingsVote(api, row);
+  voteLeft(api, row);
+}
+
+/** Every item the meeting has not taken up is voted, each member their own position, and it adjourns. */
+function voteLeft(api: CoreAPI, row: MeetingRow): void {
   const left = row.agenda.filter((id) => !row.takenUp.includes(id));
-  for (const billId of left) holdVote(api, billId);
+  for (const billId of left) voteAtMeeting(api, billId);
   finish(api, { ...row, takenUp: [...row.takenUp, ...left] });
+}
+
+/** Of two meetings the same day, the one whose hour comes first (then by id). */
+const meetsFirst = (a: MeetingRow, b: MeetingRow) =>
+  a.startMinute - b.startMinute || a.id.localeCompare(b.id);
+
+/**
+ * Before a body votes at its meeting, every other body's meeting of the same
+ * day whose hour comes first has voted. A law one body passes that day stands
+ * when the next weighs its own, in the same order whether the player's clock
+ * is held at one of the meetings or at none. A meeting the player is still at
+ * waits for them, and one whose members have yet to file waits for its filing.
+ */
+function earlierMeetingsVote(api: CoreAPI, row: MeetingRow): void {
+  const earlier = (
+    table(api, "meetings").query("byDate", [
+      row.date,
+    ]) as unknown as MeetingRow[]
+  )
+    .filter(
+      (other) =>
+        other.status !== "adjourned" &&
+        !other.playerPresent &&
+        meetsFirst(other, row) < 0 &&
+        !filingsOwed(api, other.officeId, other.date),
+    )
+    .sort(meetsFirst);
+  for (const other of earlier) voteLeft(api, meetingOf(api, other.id)!);
 }
 
 function finish(api: CoreAPI, row: MeetingRow): void {
@@ -569,14 +723,18 @@ export function meetingsOf(api: CoreAPI, officeId: string): MeetingRow[] {
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
-/** The meeting holding the player's clock, if any. */
+/** The meeting holding the player's clock, if any: of two the same day, the one whose hour comes first. */
 export function meetingInProgress(api: CoreAPI): MeetingRow | undefined {
-  return (table(api, "meetings").rows() as unknown as MeetingRow[]).find(
-    (row) =>
-      row.playerPresent &&
-      row.status !== "adjourned" &&
-      row.date === api.state.date,
-  );
+  return (table(api, "meetings").rows() as unknown as MeetingRow[])
+    .filter(
+      (row) =>
+        row.playerPresent &&
+        row.status !== "adjourned" &&
+        row.date === api.state.date,
+    )
+    .sort(
+      (a, b) => a.startMinute - b.startMinute || a.id.localeCompare(b.id),
+    )[0];
 }
 
 /**
@@ -594,12 +752,15 @@ export function takeUpItem(
     !row ||
     row.status === "adjourned" ||
     !row.playerPresent ||
+    // Someone who came to watch and speak takes nothing up.
+    row.audience !== undefined ||
     row.date !== api.state.date
   )
     throw new Error("That meeting is not in session.");
   if (!row.agenda.includes(billId) || row.takenUp.includes(billId))
     throw new Error("That item is not waiting on this agenda.");
   const player = playerOf(api)!;
+  earlierMeetingsVote(api, row);
   if (vote !== "own") {
     castMemberVote(api, billId, player, vote);
     keepAct(api, {
@@ -611,7 +772,12 @@ export function takeUpItem(
       detail: vote,
     });
   }
-  const bill = holdVote(api, billId);
+  // Left to the character: the member's own position casts the vote, by the
+  // rule every member's vote follows (`ownVote`).
+  const bill =
+    vote === "own"
+      ? leavingToCharacter(api, [billId], () => voteAtMeeting(api, billId))
+      : voteAtMeeting(api, billId);
   table(api, "meetings").put({
     ...row,
     status: "in-session",
@@ -656,16 +822,53 @@ export function speakOnItem(
 /** The chair adjourns: any item left is voted with the character's own votes, and the clock moves on. */
 export function adjourn(api: CoreAPI, meetingIdValue: string): MeetingRow {
   const row = meetingOf(api, meetingIdValue);
-  if (!row || row.status === "adjourned")
+  // The player in the audience cannot adjourn the body; they leave (`leaveMeeting`).
+  if (
+    !row ||
+    row.status === "adjourned" ||
+    (row.playerPresent && row.audience !== undefined)
+  )
     throw new Error("That meeting is not in session.");
+  // A meeting set with under a day's notice has no filings yet at its hour
+  // (its members file on the day): the chair cannot close it before them. The
+  // clock goes on, and the meeting votes at its close like any other, in the
+  // day's one order.
+  if (filingsOwed(api, row.officeId, row.date)) {
+    table(api, "meetings").put({
+      ...row,
+      playerPresent: false,
+    } as unknown as ModuleRow);
+    releaseHeld(api, row.id);
+    return meetingOf(api, row.id)!;
+  }
   const left = row.agenda.filter((id) => !row.takenUp.includes(id));
-  for (const billId of left) holdVote(api, billId);
+  earlierMeetingsVote(api, row);
+  leavingToCharacter(api, left, () => {
+    for (const billId of left) voteAtMeeting(api, billId);
+  });
   finish(api, { ...row, takenUp: [...row.takenUp, ...left] });
   releaseHeld(api, row.id);
   return meetingOf(api, row.id)!;
 }
 
 // ---- The character's own choices ---------------------------------------
+
+/** The items the player, at a held meeting, has left to the character while their votes are held. */
+const leftToCharacter = new WeakMap<object, Set<string>>();
+function leavingToCharacter<T>(
+  api: CoreAPI,
+  billIds: readonly string[],
+  vote: () => T,
+): T {
+  const left = leftToCharacter.get(api.state) ?? new Set<string>();
+  leftToCharacter.set(api.state, left);
+  for (const id of billIds) left.add(id);
+  try {
+    return vote();
+  } finally {
+    for (const id of billIds) left.delete(id);
+  }
+}
 
 function keepAct(api: CoreAPI, act: Omit<OfficeActRow, "id" | "date">): void {
   const row: OfficeActRow = {
@@ -705,11 +908,17 @@ function ownVote(api: CoreAPI, billId: string): void {
   // A local body's meeting the player is held at is where the player votes:
   // the character never casts it for them. Adjourned unchosen, the roll call
   // has them abstain (legislature.ts: the player is never voted for).
+  // Only at the meeting itself: a committee stage on the eve (a board with
+  // committees) runs this hook once and marks it done, so an abstention there
+  // would stand through the vote at the meeting too.
   const placedFor = table(api, "agendaItems").get(billId) as unknown as
     { date: string } | undefined;
   if (
     placedFor &&
-    meetingOf(api, meetingId(bill.bodyOfficeId, placedFor.date))?.playerPresent
+    placedFor.date <= api.state.date &&
+    meetingOf(api, meetingId(bill.bodyOfficeId, placedFor.date))
+      ?.playerPresent &&
+    !leftToCharacter.get(api.state)?.has(billId)
   )
     return;
   // A member of a legislature is held the evening before the floor vote for their own vote
@@ -740,18 +949,16 @@ function ownVote(api: CoreAPI, billId: string): void {
 }
 
 /**
- * A body the player sits on, while the player holds the clock: its members'
- * ordinances are filed the day before the meeting and wait on its agenda,
- * for the player's scene to take up (or for the meeting to close).
+ * Every town and county body files its members' ordinances the day before
+ * the meeting, and they wait on its agenda for the meeting to vote them:
+ * the agenda is posted ahead, so the town hears of an item before the vote
+ * whether or not the player is in the room, and a meeting the player sits at
+ * or watches decides as one nobody watches (one path). Only a meeting with
+ * under a day's notice, the first after a world begins among them, files on
+ * its own day.
  */
-function holdsMemberFilings(api: CoreAPI, officeId: string): boolean {
-  if (!api.state.modules.has(OFFICE_DAY_MODULE_ID)) return false;
-  const player = playerOf(api);
-  return (
-    player !== undefined &&
-    snapshotExplicitControlV1(api.state).personId === player &&
-    members(api, officeId).some(sits(player))
-  );
+function holdsMemberFilings(api: CoreAPI): boolean {
+  return api.state.modules.has(OFFICE_DAY_MODULE_ID);
 }
 
 /** Ordinances members filed for a meeting go on its agenda; with no meeting row they are voted now. */
@@ -763,7 +970,7 @@ function placeFiled(
 ): void {
   const row = meetingOf(api, meetingId(officeId, date));
   if (!row || row.status === "adjourned") {
-    for (const billId of billIds) holdVote(api, billId);
+    for (const billId of billIds) voteAtMeeting(api, billId);
     return;
   }
   for (const billId of billIds)
@@ -774,7 +981,9 @@ function placeFiled(
     } as unknown as ModuleRow);
   const placed: MeetingRow = {
     ...row,
-    agenda: [...new Set([...row.agenda, ...billIds])].sort(),
+    posted: true,
+    // In filing order, as an unheld meeting takes them.
+    agenda: [...new Set([...row.agenda, ...billIds])],
   };
   table(api, "meetings").put(placed as unknown as ModuleRow);
   holdPlayerIfDue(api, placed);
