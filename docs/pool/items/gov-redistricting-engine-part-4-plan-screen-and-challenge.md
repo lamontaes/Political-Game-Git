@@ -19,7 +19,7 @@ source: split from gov-redistricting-engine in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** The player and the press need to see a redistricting plan, and a challenge to a plan needs a decision. The plan shows on one screen read from the plan record, and a map challenge is decided by the law in force. It comes from the stubs gov-redistricting-plan-screen and gov-redistricting-map-challenge.
+**What.** The player and the press need to see a redistricting plan, and a challenge to a plan needs a decision. The plan shows on one screen read from the plan record, and a map challenge is decided by the law in force. It comes from the stubs gov-redistricting-plan-screen and gov-redistricting-map-challenge. Seen: the redistricting plan screen and the ruling on a challenge to a map.
 
 **Cause.** Design: docs/codex/specs/bank/b16-redistricting-vra.md (the only written spec; its old-core references are not ported, so take only what the golden path uses) and the owner's approved decisions D-6 and Sept 28 #8 named in gov-redistricting-engine. Today no src/core2 file draws a district, and SG-GOV-REACH-A-redistricting is open in src/core2/data/stopgaps/gov.json.
 
