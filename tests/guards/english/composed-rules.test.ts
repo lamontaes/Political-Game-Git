@@ -315,7 +315,7 @@ const FIXTURES: Record<
       text("speech:mayor", [
         [
           "In the six years since I took this office, rents have kept rising, and too many families spend too much of each month on them.",
-          "In Leonidas, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
+          "Over those years, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
           "No one should have to live through another six years of that.",
         ],
       ]),
