@@ -11,7 +11,11 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { openLaws } from "./modules/laws";
-import { OFFICES_MODULE_ID, openOffices } from "./modules/offices";
+import {
+  electedWithGovernorOnTicket,
+  OFFICES_MODULE_ID,
+  openOffices,
+} from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
@@ -44,6 +48,9 @@ const START = "2026-10-20";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`world-races:${Date.now()}`).digest("hex");
+// Printed before any world builds, so a failed run can be replayed with
+// GOLDEN_PATH_SEED=<seed>.
+process.stdout.write(`world-races: seed ${seed}\n`);
 function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
@@ -131,8 +138,16 @@ describe("M2-10 state and federal races in the world", () => {
         expect(sideOf(r.winnerParty), r.seatId).not.toBe(0);
         continue;
       }
-      expect(placesOf(api, r.id).length, r.seatId).toBeGreaterThan(0);
-      expect(returnsOf(api, r.id)?.reports.length, r.seatId).toBeGreaterThan(0);
+      // A ticket office shares its governor's count, places and returns.
+      const counted =
+        races.find(
+          (x) => x.resultId === r.resultId && x.seatId.endsWith(":governor"),
+        ) ?? r;
+      expect(placesOf(api, counted.id).length, r.seatId).toBeGreaterThan(0);
+      expect(
+        returnsOf(api, counted.id)?.reports.length,
+        r.seatId,
+      ).toBeGreaterThan(0);
       const share = raceShare(api, r);
       expect(share).toBeCloseTo(
         votes.republican / (votes.republican + votes.democratic),
@@ -148,6 +163,31 @@ describe("M2-10 state and federal races in the world", () => {
     process.stdout.write(
       `DELEGATE-RACES ${state} ${key} seed ${seed}: ${territories.join("; ")}\n`,
     );
+    // A statewide office the law elects on the governor's ticket is decided
+    // with the governor's race: the same night, the same count, the same party.
+    const offices = api.moduleState(OFFICES_MODULE_ID);
+    let ticketPairs = 0;
+    for (const r of races.filter((x) => x.office !== "us-house")) {
+      const seat = offices.table("seats").get(r.seatId) as unknown as
+        { officeId: string } | undefined;
+      const office = seat
+        ? (offices.table("offices").get(seat.officeId) as unknown as
+            { kind: string; jurisdiction: string } | undefined)
+        : undefined;
+      if (
+        !office ||
+        !electedWithGovernorOnTicket(office.jurisdiction, office.kind)
+      )
+        continue;
+      const governor = races.find(
+        (x) => x.seatId === `seat:${office.jurisdiction}:governor`,
+      );
+      if (!governor) continue;
+      ticketPairs += 1;
+      expect(r.winnerParty, r.seatId).toBe(governor.winnerParty);
+      expect(r.resultId, r.seatId).toBe(governor.resultId);
+    }
+    expect(ticketPairs, `${state} ${key}`).toBeGreaterThan(0);
     // Congress is seated January 3.
     advanceCore(core, "2027-01-02");
     const houseEve = count(members(api, FEDERAL_HOUSE));

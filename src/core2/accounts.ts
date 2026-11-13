@@ -119,6 +119,30 @@ interface Runtime {
   depositTotals: Map<string, number>;
   heldDeposits: Map<string, number>;
   depositsByHolder: Map<string, Set<string>>;
+  /**
+   * What each followed person paid out, by the transfer's reason, for the
+   * month in play and the one before (nothing older). A read for the Money
+   * sheet only: no engine reads it, and it moves no money. Present once a
+   * followed person has paid anything.
+   */
+  outflowsByPerson?: Map<string, PersonOutflows>;
+}
+
+/** A followed person's outflows by month; the months kept are the last two. */
+export interface PersonOutflows {
+  /** The first month a payment of theirs was seen; that month may be partial. */
+  firstMonth: string;
+  months: Map<string, Map<string, OutflowLine>>;
+}
+
+/** One reason's payments in one month, citing the last transfer and its journal entry. */
+export interface OutflowLine {
+  reasonKey: string;
+  requestedMinor: number;
+  paidMinor: number;
+  transferCount: number;
+  lastTransferId: string;
+  lastJournalSequence: number;
 }
 
 /** A claim on a bank, not a second copy of cash in the cash journal. */
@@ -149,6 +173,71 @@ function usedTransferId(rt: Runtime, date: IsoDate, id: string): boolean {
     }
   }
   return rt.transferIds.has(id) || rt.transferIdsBefore?.has(id) === true;
+}
+
+/**
+ * Keep a followed payer's outflow by reason for the Money sheet. A person who
+ * is not followed costs the caller one set lookup and nothing here.
+ */
+function noteOutflow(
+  rt: Runtime,
+  ownerId: string,
+  date: IsoDate,
+  receipt: TransferReceipt,
+): void {
+  const month = date.slice(0, 7);
+  const byPerson = (rt.outflowsByPerson ??= new Map());
+  let person = byPerson.get(ownerId);
+  if (!person) {
+    person = { firstMonth: month, months: new Map() };
+    byPerson.set(ownerId, person);
+  }
+  let lines = person.months.get(month);
+  if (!lines) {
+    // Only the last two months are kept: the month in play and the one closed.
+    for (const old of person.months.keys())
+      if (old < addMonths(month, -1)) person.months.delete(old);
+    lines = new Map();
+    person.months.set(month, lines);
+  }
+  const line = lines.get(receipt.reasonKey);
+  if (line) {
+    line.requestedMinor += receipt.requestedMinor;
+    line.paidMinor += receipt.paidMinor;
+    line.transferCount += 1;
+    line.lastTransferId = receipt.id;
+    line.lastJournalSequence = receipt.journalSequence;
+  } else
+    lines.set(receipt.reasonKey, {
+      reasonKey: receipt.reasonKey,
+      requestedMinor: receipt.requestedMinor,
+      paidMinor: receipt.paidMinor,
+      transferCount: 1,
+      lastTransferId: receipt.id,
+      lastJournalSequence: receipt.journalSequence,
+    });
+}
+
+/** The previous or following month of a yyyy-mm. */
+function addMonths(month: string, by: number): string {
+  const index =
+    Number(month.slice(0, 4)) * 12 + Number(month.slice(5, 7)) - 1 + by;
+  return `${Math.floor(index / 12)}-${String((index % 12) + 1).padStart(2, "0")}`;
+}
+
+/**
+ * What a followed person paid out in a closed month, by reason, or nothing
+ * when their first month of being watched is that one (a partial month is
+ * never shown as the whole). Read by the Money sheet only.
+ */
+export function personOutflowsForMonth(
+  core: CoreState,
+  personId: string,
+  month: string,
+): readonly Readonly<OutflowLine>[] {
+  const person = runtimes.get(core)?.outflowsByPerson?.get(personId);
+  if (!person || month <= person.firstMonth) return [];
+  return [...(person.months.get(month)?.values() ?? [])];
 }
 
 /** How many transfer ids the world holds to refuse a repeat (tests and probes). */
@@ -403,7 +492,12 @@ export function transfer(
     shortMinor: input.amountMinor - paid,
     reasonKey: input.reasonKey,
   };
-  if (paid === 0) return receipt;
+  if (paid === 0) {
+    const payer = core.cashJournal.accounts.get(input.from)?.ownerId;
+    if (payer !== undefined && core.focusPersonIds.has(payer))
+      noteOutflow(rt, payer, date, receipt);
+    return receipt;
+  }
   const postings: CashJournalPosting[] = [
     { id: `${input.id}:out`, accountId: input.from, deltaMinor: -paid },
     { id: `${input.id}:in`, accountId: input.to, deltaMinor: paid },
@@ -451,6 +545,9 @@ export function transfer(
   } finally {
     rt.pending.delete(input.id);
   }
+  const payer = core.cashJournal.accounts.get(input.from)?.ownerId;
+  if (payer !== undefined && core.focusPersonIds.has(payer))
+    noteOutflow(rt, payer, date, receipt);
   return receipt;
 }
 
@@ -531,11 +628,12 @@ export function transferSplit(
     marker: {},
     retainFull: false,
   });
+  const sequence = core.cashJournal.nextSequence;
   try {
     api.postJournal({
-      id: `journal:${date}:${core.cashJournal.nextSequence}`,
+      id: `journal:${date}:${sequence}`,
       date,
-      expectedSequence: core.cashJournal.nextSequence,
+      expectedSequence: sequence,
       sourceRef: { kind: SOURCE_KIND, id: input.id },
       postings,
     });
@@ -544,6 +642,22 @@ export function transferSplit(
     throw error;
   } finally {
     rt.pending.delete(input.id);
+  }
+  for (const posting of postings) {
+    if (posting.deltaMinor >= 0) continue;
+    const payer = core.cashJournal.accounts.get(posting.accountId)?.ownerId;
+    if (payer !== undefined && core.focusPersonIds.has(payer))
+      noteOutflow(rt, payer, date, {
+        id: input.id,
+        date,
+        from: posting.accountId,
+        to: "",
+        requestedMinor: -posting.deltaMinor,
+        paidMinor: -posting.deltaMinor,
+        shortMinor: 0,
+        reasonKey: input.reasonKey,
+        journalSequence: sequence,
+      });
   }
 }
 
@@ -702,3 +816,8 @@ export const ACCOUNTS_MODULE: CoreModule = {
       runtimes.get(api.state as CoreState)?.pending.get(reference.id),
   },
 };
+
+/** Drops every kept outflow (tests prove nothing in play reads them). */
+export function clearPersonOutflows(core: CoreState): void {
+  runtimes.get(core)?.outflowsByPerson?.clear();
+}

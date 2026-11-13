@@ -24,7 +24,6 @@ import { stateStake } from "../budget-stakes";
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import tenure from "../data/offices/tenure.json" with { type: "json" };
-import stateResearchJson from "../../../data/research/offices/state-offices.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import { registerHuskIdentity, registerHuskPromoter } from "../husk-promoters";
 import type { RecordedIdentity } from "../state";
@@ -62,6 +61,7 @@ import { researchedHolderParty } from "../offices-holder-parties";
 // The Elections family reads the researched holder party through this entry.
 export { researchedHolderParty } from "../offices-holder-parties";
 import {
+  electedWithGovernorOnTicket,
   isOutsideOffice,
   OFFICES_MODULE_ID,
   type TermRow,
@@ -272,9 +272,6 @@ const classes = (
     states: Record<string, { party: string; nextElection: number }[]>;
   }
 ).states;
-const stateResearch = stateResearchJson as unknown as {
-  places: Record<string, unknown>;
-};
 const TENURE = (
   tenure as unknown as { parameters: Record<string, { value: number }> }
 ).parameters;
@@ -446,17 +443,6 @@ function unrecordedParty(
     term.reached,
   );
   if (read) return read;
-  const executives =
-    (
-      stateResearch.places[stateKey] as
-        | {
-            executives?: {
-              key: string;
-              electedWithGovernorOnTicket?: boolean;
-            }[];
-          }
-        | undefined
-    )?.executives ?? [];
   const governor = (
     api
       .moduleState(OFFICES_MODULE_ID)
@@ -466,10 +452,7 @@ function unrecordedParty(
         "serving",
       ]) as unknown as TermRow[]
   )[0];
-  if (
-    executives.find((e) => e.key === kind)?.electedWithGovernorOnTicket &&
-    governor?.party
-  )
+  if (electedWithGovernorOnTicket(stateKey, kind) && governor?.party)
     return {
       party: governor.party,
       partySource: "elected on the governor's ticket",

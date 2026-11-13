@@ -41,18 +41,6 @@
     "status": "open"
   },
   {
-    "id": "SG-SCHOOL-equalized-funding-budget",
-    "kind": "missing-engine",
-    "file": "src/core2/school-outcomes.ts",
-    "line": 902,
-    "whatItFakes": "The equalized-funding law's link into spending per student is the web's number; no law handler moves the schools budget line, so the school spending measure does not follow the law.",
-    "why": "No handler in src/core2/law-reach moves the education budget for education.equalize-school-funding (law handlers belong to the law-wiring area).",
-    "addedBy": "EFFECT-WEB-SCHOOLS",
-    "addedAt": "2026-10-20",
-    "replacement": "A law-reach handler that moves the schools line of the budget in force (moveBudget), which the school engine's spending measure then reads. The graduation effect of that spending then runs through school-spending-to-attainment (the schools line above its Census base), so equalized-funding-to-graduation, the reduced form of the same study through the law, is dropped in the same change.",
-    "status": "open"
-  },
-  {
     "id": "SG-SCHOOL-hispanic-enrollment",
     "kind": "missing-engine",
     "file": "src/core2/school-outcomes.ts",
