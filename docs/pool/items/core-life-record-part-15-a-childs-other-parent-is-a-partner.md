@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: opus-lr
 pr: #8957
@@ -17,6 +17,7 @@ effort: medium
 root: design-life-record
 source: gap sheet, Nov 12, 2026 (Fable A), filed by the Life records builder opus-lr
 checked: opus-lr 2026-11-12
+merged-at: 2026-11-13T03:59:15.643Z
 ---
 
 **What.** Seen (gap sheet, Nov 12, row 11; Kaibito, Arizona, seed 7c1e5a90b3d24f68): a 36-year-old's first child was born when she was 15, with no partner record for either child's other parent. A child's other parent is made as a person, but nothing says the two were ever together. Part 6's earlier partner can then name someone else. Seen: a parent's card, which tells the partner before the child.

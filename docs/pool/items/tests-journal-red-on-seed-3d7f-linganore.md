@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-tests-journal-red-on-seed-3d7f-linganore
+claimed-by:
 pr: #8798
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: opus
 effort: medium
 root: design-words-machine
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T10:29:51.199Z
+claimed-at:
 branch: claude/pool-tests-journal-red-on-seed-3d7f-linganore
 ---
 
@@ -50,3 +50,5 @@ Merger 1, Oct26 04:50 UTC: fresh Cottage Grove WI root7e53bd5ea7be7333 reproduce
 Cause finder (Nov 11, 2026, for Fable B): reran all four seeds on main 556c4ae7; three pass, and North Weeki Wachee's three failures are traced above. The item's original relative's-race failure does not reproduce.
 
 Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 10:29 UTC) on branch claude/pool-tests-journal-red-on-seed-3d7f-linganore.
+
+Released by next (2026-11-13): no push to claude/pool-tests-journal-red-on-seed-3d7f-linganore since 2026-11-11 10:45 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-tests-journal-red-on-seed-3d7f-linganore and pull request #8798.

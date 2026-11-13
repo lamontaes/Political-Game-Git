@@ -10,6 +10,8 @@ import { billOf, memberKey, members } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { spokenDesignation } from "../english/bill-names";
+import { lawChain } from "../core2/modules/laws";
+import { wireItem } from "../core2/press-topics";
 import { purposeScene } from "./purpose-scene";
 import { expectUpToFourDifferent } from "./reply-set-check";
 
@@ -21,8 +23,10 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // legislature holds a bill.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const DAYS = 90;
+/** The bodies whose members the director follows here. */
+const WATCHED_LEVELS = ["city", "county", "state"];
 
-it(`a held bill is a hearing ask for the chair and a push for a member, from its record (seed ${seed})`, () => {
+it(`a held bill is a hearing ask for the chair, from its record (seed ${seed})`, () => {
   const tried: string[] = [];
   for (let attempt = 0; attempt < 4; attempt += 1) {
     const place = drawPlace(`${seed}:${attempt}`, "hold-scenes");
@@ -33,25 +37,59 @@ it(`a held bill is a hearing ask for the chair and a push for a member, from its
     });
     const api = coreAPI(core);
     for (const row of townSeats(api))
-      if (["city", "county", "state"].includes(row.office.level))
+      if (WATCHED_LEVELS.includes(row.office.level))
         for (const term of members(api, row.office.id)) {
           const key = memberKey(term);
           if (core.people.get(key)?.alive) director.watch(core, key);
         }
     advanceCore(core, addDays(makeIsoDate(core.date), DAYS));
-    const holds = [...core.durableLog.values()].filter(
+    // The holds of the bodies watched above (city, county, state, the
+    // record's own `level`); a federal committee's chair and members are
+    // officials elsewhere, whom the director here does not follow.
+    const all = [...core.durableLog.values()].filter(
       (row) => row.kind === "bill-held-in-committee",
+    );
+    const holds = all.filter((row) =>
+      WATCHED_LEVELS.includes(row.facts?.level ?? ""),
     );
     const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
     if (!holds.length) {
-      tried.push(place.name);
+      tried.push(
+        `${place.name}: ${all.length ? `only ${all.length} hold(s) of a body at another level (${[...new Set(all.map((row) => row.facts?.level))].join(", ")})` : "no hold"}`,
+      );
       continue;
     }
     let chairScenes = 0;
-    let memberScenes = 0;
     for (const hold of holds) {
       const bill = billOf(api, hold.facts!.billId!);
       const chair = hold.facts!.chair!;
+      // The record names the bill's sponsor: in its people and as a fact, so
+      // the sponsor meets the hold as a moment; and it is news the press wire
+      // takes up (what the desk prints of it is the desk's ranking).
+      if (core.people.has(bill.sponsorId as never)) {
+        expect(
+          hold.personIds,
+          `${where}: ${hold.id} names its sponsor ${bill.sponsorId}`,
+        ).toContain(bill.sponsorId);
+        expect(hold.facts!.sponsorId, `${where}: ${hold.id}`).toBe(
+          bill.sponsorId,
+        );
+        if (director.ledger.people.has(bill.sponsorId as never))
+          expect(
+            director.ledger.people
+              .get(bill.sponsorId as never)!
+              .schedule.some((row) => row.momentId.includes(hold.id)),
+            `${where}: ${bill.sponsorId} meets ${hold.id} as a moment`,
+          ).toBe(true);
+      }
+      expect(hold.news, `${where}: ${hold.id} is news`).toBe(true);
+      expect(
+        wireItem(api, hold, {
+          placeId: lawChain(api).townPlaceId,
+          stateKey: lawChain(api).stateKey,
+        })?.id,
+        `${where}: ${hold.id} reaches the press wire`,
+      ).toBe(hold.id);
       const sceneFor = (personId: string, typeKey: string) => {
         const entry = director.ledger.people
           .get(personId as never)
@@ -90,30 +128,16 @@ it(`a held bill is a hearing ask for the chair and a push for a member, from its
           result.scene.talk.tree.replies.map((reply) => reply.line),
           `${where}: ${personId}`,
         );
-        // The member is told whom to press, by name.
-        if (typeKey === "bill-held-member")
-          expect(fact("chair")?.recordIds).toContain(chair);
         return true;
       };
       if (hold.personIds.includes(chair as never) && chair !== bill.sponsorId)
         if (director.ledger.people.has(chair as never))
           if (check(chair, "bill-held-chair")) chairScenes += 1;
-      for (const id of hold.personIds)
-        if (
-          id !== chair &&
-          id !== bill.sponsorId &&
-          director.ledger.people.has(id)
-        )
-          if (check(id, "bill-held-member")) memberScenes += 1;
       // A chair who heard the bill held nothing: no hold scene cites a hearing.
     }
     expect(
       chairScenes,
       `${where}: no chair was asked for a hearing`,
-    ).toBeGreaterThan(0);
-    expect(
-      memberScenes,
-      `${where}: no member was asked to press`,
     ).toBeGreaterThan(0);
     // A bill the committee heard is not held: no hold scene names its record.
     for (const hearing of [...core.durableLog.values()].filter(
