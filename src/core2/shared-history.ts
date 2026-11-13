@@ -50,13 +50,21 @@ export interface SharedHistory {
   ended?: boolean;
 }
 
+/** True between a school year's last day and the next one's first day. */
+export function inSummerBreak(date: string): boolean {
+  const day = date.slice(5);
+  return (
+    day > schoolDays.schoolYear.lastDay && day < schoolDays.schoolYear.firstDay
+  );
+}
+
 /** True when a person's last school run, at this school, ended with this school year's last day. */
 function graduatedThisSummer(
   core: Readonly<CoreState>,
   personId: PersonId,
   schoolId: string,
 ): boolean {
-  if (core.date.slice(5) <= schoolDays.schoolYear.lastDay) return false;
+  if (!inSummerBreak(core.date)) return false;
   const year = schoolYearOf(core.date);
   return schoolSpans(core, personId).some(
     (span) => span.schoolId === schoolId && span.final && span.to === year,
