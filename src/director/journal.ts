@@ -1262,7 +1262,10 @@ export function composeJournal(
       // An organization the event is about is named from its own record.
       const value =
         spec.format === "organization"
-          ? core.organizations.get(logged?.topic ?? "")?.name
+          ? (() => {
+              const org = core.organizations.get(logged?.topic ?? "");
+              return org ? organizationName(org) : undefined;
+            })()
           : spec.format === "billName" || spec.format === "billNumberAndName"
             ? billName(
                 core,
@@ -2024,7 +2027,10 @@ export function composeJournal(
             recordId: row.recordId,
             school:
               row.kind === "schoolmate"
-                ? core.organizations.get(row.recordId)?.name
+                ? (() => {
+                    const org = core.organizations.get(row.recordId);
+                    return org ? organizationName(org) : undefined;
+                  })()
                 : undefined,
           })),
       );

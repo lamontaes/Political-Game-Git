@@ -19,7 +19,7 @@ import {
   type SceneBinding,
   type ScheduleEntry,
 } from "./scheduling";
-import { properName, spoken } from "./words";
+import { organizationName, spoken } from "./words";
 import { dayOpening, daySince } from "../english/day-words";
 
 const zero = P.zero;
@@ -226,7 +226,7 @@ export function composeScene(
             };
           if (settingOrg)
             facts.where = {
-              text: properName(settingOrg.name),
+              text: organizationName(settingOrg),
               sourceRecordIds: [settingOrg.id],
             };
           return facts;
@@ -278,7 +278,7 @@ export function composeScene(
           // The school or workplace the scene is set at, by its record.
           if (settingOrg)
             facts.where = {
-              text: properName(settingOrg.name),
+              text: organizationName(settingOrg),
               sourceRecordIds: [settingOrg.id],
             };
           const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
@@ -287,7 +287,7 @@ export function composeScene(
             : undefined;
           if (org)
             facts.employer = {
-              text: properName(org.name),
+              text: organizationName(org),
               sourceRecordIds: [org.id],
             };
           const town = place(person.placeId);
@@ -348,7 +348,7 @@ export function composeScene(
               : undefined;
           if (org)
             facts.employer = {
-              text: properName(org.name),
+              text: organizationName(org),
               sourceRecordIds: [org.id],
             };
           const town = place(person.placeId);

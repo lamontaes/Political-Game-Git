@@ -135,6 +135,7 @@ import {
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import {
+  organizationName,
   properName,
   spoken,
   spokenWhen,
@@ -400,7 +401,7 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
  * work for the Village of Jackson Center".
  */
 function employerText(org: { name: string; kind: string }): string {
-  const name = properName(org.name);
+  const name = organizationName(org);
   const said =
     org.kind === GOVERNMENT_TREASURY ? name.replace(/\s+treasury$/i, "") : name;
   return /^\p{Lu}\p{Ll}+ of /u.test(said) ? `the ${said}` : said;
@@ -677,7 +678,7 @@ function familyNews(
     const org = job ? core.organizations.get(job.organizationId) : undefined;
     if (org)
       facts.employer = {
-        text: properName(org.name),
+        text: organizationName(org),
         sourceRecordIds: [...cited, org.id],
       };
   }
@@ -1260,7 +1261,7 @@ export function subjectsBetween(
           ...(org
             ? {
                 employer: {
-                  text: properName(org.name),
+                  text: organizationName(org),
                   sourceRecordIds: [ended!.id, org.id],
                 },
               }
@@ -1288,7 +1289,7 @@ export function subjectsBetween(
     : undefined;
   if (started && startedJob && startedOrg) {
     const employer = {
-      text: properName(startedOrg.name),
+      text: organizationName(startedOrg),
       sourceRecordIds: [startedJob.id, startedOrg.id],
     };
     out.push({
@@ -1333,7 +1334,7 @@ export function subjectsBetween(
       aboutId: listenerStarted.causeId,
       facts: {
         employer: {
-          text: properName(listenerOrg.name),
+          text: organizationName(listenerOrg),
           sourceRecordIds: [listenerJob.id, listenerOrg.id],
         },
       },
@@ -1414,7 +1415,7 @@ export function subjectsBetween(
         aboutId: row.recordId,
         facts: {
           school: {
-            text: properName(school.name),
+            text: organizationName(school),
             sourceRecordIds: [row.recordId],
           },
           years: {
@@ -1437,7 +1438,7 @@ export function subjectsBetween(
         aboutId: org.id,
         facts: {
           employer: {
-            text: properName(org.name),
+            text: organizationName(org),
             sourceRecordIds: [org.id],
           },
           // Work together that ended long ago is a reason to ask after it.
@@ -1664,7 +1665,7 @@ export function subjectsBetween(
       news: { institutionId: institution.id },
       facts: {
         topic: {
-          text: properName(institution.name),
+          text: organizationName(institution),
           sourceRecordIds: [news.eventId, institution.id],
         },
         // A place in town that closed, by the change's own record.
@@ -1868,7 +1869,7 @@ function employerFact(
   const org = job ? core.organizations.get(job.organizationId) : undefined;
   if (!job || !org || org.outsideFlow || org.kind === "government-treasury")
     return undefined;
-  return { text: properName(org.name), sourceRecordIds: [job.id, org.id] };
+  return { text: organizationName(org), sourceRecordIds: [job.id, org.id] };
 }
 
 /**

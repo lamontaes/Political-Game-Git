@@ -169,7 +169,7 @@ export function personCard(core: CoreState, personId: string) {
               )?.replace(/\.$/, "") ?? job.title,
             employer: undefined,
           }
-        : { title: job.title, employer: employer?.name }),
+        : { title: job.title, employer: employerOf(core, job.organizationId) }),
       wageDailyMinor: job.wageDailyMinor,
       hoursDaily: job.hoursDaily,
     },
@@ -490,7 +490,10 @@ function lineOf(
     return row ? `${row.givenName} ${row.familyName}` : "";
   };
   const orgName = (id: unknown) =>
-    core.organizations.get(String(id ?? ""))?.name ?? "";
+    (() => {
+      const org = core.organizations.get(String(id ?? ""));
+      return org ? organizationName(org) : "";
+    })();
   // A place by its name; a person kept at their state's level, by the state's.
   const placeName = (id: unknown) => {
     if (typeof id !== "string") return "";
@@ -1852,7 +1855,10 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         // The employer or the school, by name.
         name:
           row.kind === "coworker" || row.kind === "schoolmate"
-            ? (core.organizations.get(row.recordId)?.name ?? null)
+            ? (() => {
+                const org = core.organizations.get(row.recordId);
+                return org ? organizationName(org) : null;
+              })()
             : null,
       })),
     // The seats they reached before the start, from the government's history
