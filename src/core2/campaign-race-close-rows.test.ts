@@ -54,13 +54,11 @@ it(`closeRace drops a rival-only race's four tables and keeps the player's (repl
   const fMine = filing(mine, me);
   const campaigns = api.moduleState(CAMPAIGNS_MODULE_ID);
   const plant = (contestId: string, filingId: string) => {
-    campaigns
-      .table("gifts")
-      .put({
-        id: `${filingId}|donor`,
-        campaignId: filingId,
-        donorId: "donor",
-      } as never);
+    campaigns.table("gifts").put({
+      id: `${filingId}|donor`,
+      campaignId: filingId,
+      donorId: "donor",
+    } as never);
     campaigns
       .table("endorsements")
       .put({ id: `endorsement:${filingId}:x`, filingId, contestId } as never);
