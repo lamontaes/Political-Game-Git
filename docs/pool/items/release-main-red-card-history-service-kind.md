@@ -28,7 +28,7 @@ source: Red desk, Nov 13 (merger codex-4629 and the CTO on #8928, comments 68400
 
 **Rules.** One rule, all 56 places: the check keeps drawing its place from the run seed and names it. No assertion is loosened; the list matches the kinds the card's bank words.
 
-**Done when.** A second session runs card-history.test.ts on main at GOLDEN_PATH_SEED=ff1d275d927d964b0ed490723a9dc664f646476d and at two fresh seeds, each naming its drawn place, and all four cases pass.
+**Done when.** A second session runs card-history.test.ts on main at GOLDEN_PATH_SEED=ff1d275d927d964b0ed490723a9dc664f646476d and at two fresh seeds, each naming its drawn place, and all four cases pass; on the bench, a card of a met person who served tells it among their history.
 
 **Waits on.** Nothing.
 
