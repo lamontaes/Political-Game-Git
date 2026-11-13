@@ -1,3 +1,4 @@
+import { governmentProperName } from "../core2/government-proper-name";
 import { servingTermsOf } from "../core2/modules/offices";
 import { officeInSentence, personWorkOf } from "../core2/person-work";
 import {
@@ -22,7 +23,7 @@ import {
 import { townFacts } from "../core2/modules/laws";
 import type { EntityId } from "../core2/kernel/brands";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
-import { PAST_MODULE_ID } from "../core2/past-module";
+import { PAST_MODULE_ID, residenceOn } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState, PersonId } from "../core2/types";
 import {
@@ -39,6 +40,7 @@ import {
   type PronounWords,
 } from "../english/pronoun-words";
 import { joinList } from "../english/bill-names";
+import { monthWords } from "../english/plain-words.mjs";
 import { spanSaid } from "../english/span-words";
 import {
   corePlaceByJurisdictionId,
@@ -189,12 +191,9 @@ export function personCard(core: CoreState, personId: string) {
         },
       ];
     }),
-    // What they're like, in plain sentences from their strongest leanings
-    // (owner, Oct 27), never the traits' names.
-    sketch: personSketch(person.traits),
-    // The same leanings in the You screen's own voice, each with its label and
-    // how strong it runs (shown only on the player's own screen).
-    traitLines: sketchRows(person.traits, "-first", {}, PEOPLE_TRAITS.length),
+    // The leanings on the You screen, each with its label and how strong it
+    // runs (shown only on the player's own screen).
+    traitLines: leanings(person.traits),
     // Where they place themselves politically, as the views engine's label.
     view: core.modules.has(VIEWS_MODULE_ID)
       ? (viewOf(coreAPI(core), personId)?.label ?? null)
@@ -355,6 +354,65 @@ function historyLines(
 }
 
 /**
+ * Who a past partner is to the reader, when the record names them as the
+ * other parent of the person's children: "your father" to one of those
+ * children, "my children's father" on the player's own card, "his
+ * children's mother" to anyone else ("daughter's" or "son's" for one child).
+ * Empty
+ * when the record names no other parent.
+ */
+function parentSaid(
+  core: CoreState,
+  viewerId: string,
+  person: {
+    readonly id: string;
+    readonly looks?: Readonly<Record<string, string>>;
+  },
+  partnerId: unknown,
+): string {
+  if (typeof partnerId !== "string" || !partnerId) return "";
+  const partner =
+    core.people.get(partnerId as PersonId) ??
+    core.husks.get(partnerId as PersonId);
+  const gender = partner?.looks?.gender;
+  const role =
+    gender === "male" ? "father" : gender === "female" ? "mother" : "parent";
+  const children = [...core.people.values()].filter(
+    (child) =>
+      (child.pastFacts ?? []).some(
+        (fact) =>
+          ["family:parent", "family:other-parent"].includes(fact.kind) &&
+          fact.facts?.otherPersonId === partnerId,
+      ) &&
+      (child.pastFacts ?? []).some(
+        (fact) =>
+          ["family:parent", "family:other-parent"].includes(fact.kind) &&
+          fact.facts?.otherPersonId === person.id,
+      ),
+  );
+  if (children.some((child) => child.id === viewerId)) return `your ${role}`;
+  const only = children.length === 1 ? children[0]! : undefined;
+  const sex = only?.looks?.gender;
+  const whose = only
+    ? sex === "female"
+      ? "daughter's"
+      : sex === "male"
+        ? "son's"
+        : "child's"
+    : "children's";
+  // Their own children: "my" on the player's card, else his, her or their.
+  const own =
+    person.id === viewerId
+      ? "my"
+      : person.looks?.gender === "male"
+        ? "his"
+        : person.looks?.gender === "female"
+          ? "her"
+          : "their";
+  return `${own} ${whose} ${role}`;
+}
+
+/**
  * One life event as a line of the story: the bank's key for its kind and the
  * slots its record can fill. Null for an event the story does not tell (one
  * the bank has no piece for, or whose names its record cannot give).
@@ -408,9 +466,8 @@ function lineOf(
       if (!partnerName) return null;
       const home =
         event.what === "partnered" ? "partner.home" : "partner.moved-in";
-      const line = make(partner === viewerId ? `${home}-you` : home, {
-        name: partnerName,
-      });
+      // The viewer is the partner's `{name}`, said "you": one key for both.
+      const line = make(home, { name: partnerName });
       // A partner the person was made with has only the year the partnership began (its
       // day is the world's opening day), so it is told before the children, never after
       // them by that day: it sorts no later than the first child.
@@ -424,10 +481,26 @@ function lineOf(
     }
     case "partner/engaged":
     case "partner/married":
-    case "partner/separated":
-      return partnerName
-        ? make(`partner.${event.what}`, { name: partnerName })
-        : null;
+    case "partner/separated": {
+      // An earlier partner before the start is a name on the record, never a
+      // person in the world until met.
+      const name = partnerName || String(facts.partnerName ?? "");
+      if (!name) return null;
+      // Widowed only where the record says they were married; a partner who
+      // died otherwise is lost (Fable A, Nov 13).
+      const what =
+        facts.ended === "widowed"
+          ? facts.union === "married"
+            ? "widowed"
+            : "died"
+          : event.what;
+      // The children's other parent is said as who they are to the reader.
+      const parent = parentSaid(core, viewerId, other, facts.partnerId);
+      return make(
+        parent ? `partner.${what}.parent` : `partner.${what}`,
+        parent ? { name, parent } : { name },
+      );
+    }
     case "child/born": {
       const childId = facts.childId ?? partner;
       const name = personName(childId);
@@ -505,6 +578,16 @@ function lineOf(
         ? make("school.finished", { school })
         : null;
     }
+    // College before the start (the school pass's records): the fall it
+    // began, and its end, a bachelor's or the years without one.
+    case "school/college-started":
+      return make("school.college", {});
+    case "school/college-ended":
+      return make(facts.degree ? "school.degree" : "school.college-left", {});
+    // Service before the start: the day they enlisted and the day they left.
+    case "service/enlisted":
+    case "service/discharged":
+      return make(`service.${event.what}`, {});
     case "work/job-started": {
       const employer = orgName(facts.organizationId);
       if (!employer) {
@@ -579,14 +662,29 @@ function lineOf(
     }
     case "move/moved-home":
       return make("moved.home", {});
+    // A move to another home in the same county before the start.
+    case "move/moved-within": {
+      const place = placeName(facts.toPlaceId);
+      return place ? make("moved.within", { place }) : null;
+    }
     case "move/moved-away": {
       const place = placeName(facts.toPlaceId);
       return place ? make("moved.away-to", { place }) : make("moved.away", {});
     }
     case "health/serious-illness":
       return make("health.ill", {});
-    case "law/victim":
+    case "health/hospital-stay":
+      return make("health.hospital", {});
+    // An arrest before play is said as the arrest it is: the record holds no
+    // charge (Fable A, Nov 13: "say what the record holds").
+    case "law/arrested":
+      return make("law.arrested", {});
+    // The justice engine's accusation names its offense on the record.
     case "law/accused":
+      return typeof facts.offense === "string"
+        ? make("law.accused", { offense: facts.offense })
+        : null;
+    case "law/victim":
     case "law/charged":
     case "law/convicted":
     case "law/imprisoned":
@@ -1047,11 +1145,45 @@ function noJobLine(
       ? { text, recordIds: [household!.id, earner.id, job.id, employer.id] }
       : null;
   }
-  const text = screenLine(
-    "person-history",
-    "person-history.summary.no-work.none.you",
-    {},
+  // Nobody at home earns: said by who lives there, as the player calls them
+  // ("your mother", "your brother"), from the household and family records.
+  const kin = (household?.memberIds ?? [])
+    .filter((id) => id !== person.id && core.people.get(id)?.alive)
+    .map((id) => relationWord(core, id, relationOf(id)))
+    .filter((word): word is string => !!word);
+  // Each relation once, in the plural where there are more than one ("your
+  // daughters"), in the order the household lists them.
+  const said = [...new Set(kin)].map((word) =>
+    kin.filter((other) => other === word).length > 1
+      ? `your ${word.endsWith("child") ? `${word}ren` : `${word}s`}`
+      : `your ${word}`,
   );
+  const others = (household?.memberIds ?? []).filter(
+    (id) => id !== person.id && core.people.get(id)?.alive,
+  ).length;
+  // When their last job ended, from the job records: the fact a line about
+  // living alone with no job is about. No job on record, no line.
+  const lastJobEnded = [...core.jobs.values()]
+    .filter((job) => job.personId === person.id && job.endsAt)
+    .map((job) => job.endsAt!)
+    .sort()
+    .at(-1);
+  const text =
+    others && kin.length === others
+      ? screenLine(
+          "person-history",
+          "person-history.summary.no-work.none.you",
+          {
+            kin: joinList(said, "or"),
+          },
+        )
+      : !others && lastJobEnded
+        ? screenLine(
+            "person-history",
+            "person-history.summary.no-work.alone.you",
+            { month: monthWords(lastJobEnded) },
+          )
+        : null;
   return text ? { text, recordIds: household ? [household.id] : [] } : null;
 }
 
@@ -1074,12 +1206,17 @@ function summaryOf(
   teller: Teller,
   now: {
     readonly office?: OfficeRun | null;
-    readonly work?: { title: string | null; employer: string | null } | null;
+    readonly work?: {
+      title: string | null;
+      employer: string | null;
+      /** The town they live in, when their work is outside it. */
+      outside?: string | null;
+    } | null;
     readonly school?: string | null;
     readonly place?: string | null;
     readonly born?: { year: string; place: string | null } | null;
     /** The office held before this one, from a President's record: its kind and state. */
-    readonly before?: { kind: string; state: string } | null;
+    readonly before?: { kind: string; state: string; year: string } | null;
   },
 ): string[] {
   const you =
@@ -1099,14 +1236,16 @@ function summaryOf(
     : null;
   // Their job, from the same record the journal reads (`personWorkOf`): told
   // beside an office they hold too, never in place of it.
-  const work = now.work?.employer
-    ? now.work.title
-      ? line("work.title", {
-          title: inSentence(now.work.title),
-          employer: now.work.employer,
-        })
-      : line("work.employer", { employer: now.work.employer })
-    : null;
+  const work = now.work?.outside
+    ? line("work.outside", { place: now.work.outside })
+    : now.work?.employer
+      ? now.work.title
+        ? line("work.title", {
+            title: inSentence(now.work.title),
+            employer: now.work.employer,
+          })
+        : line("work.employer", { employer: now.work.employer })
+      : null;
   const role =
     office || work
       ? null
@@ -1120,8 +1259,12 @@ function summaryOf(
       ? line("born.place", { place: now.born.place, year: now.born.year })
       : line("born.year", { year: now.born.year })
     : null;
+  // The office before, told as what they were when the election was won.
   const before = now.before
-    ? line(`before.${now.before.kind}`, { state: now.before.state })
+    ? line(`before.${now.before.kind}`, {
+        state: now.before.state,
+        year: now.before.year,
+      })
     : null;
   return [office, work, role, before, born].filter(
     (text): text is string => !!text,
@@ -1186,44 +1329,22 @@ function colleaguesOf(core: CoreState, personId: string) {
     .slice(0, CLOSEST);
 }
 
-// Engineering bands for the sketch: a lean under the first is not said; one
-// past the second takes the strong line. Display wording only, never a choice.
+// Engineering band for the leanings: a lean under it is not said; one past
+// the second is said as strong. Display wording only, never a choice.
 const SKETCH_SAID = 0.15;
 const SKETCH_STRONG = 0.5;
-const SKETCH_SENTENCES = 3;
 
 /**
- * Up to three sentences of what a person is like, strongest leaning first:
- * to the player in the second person, or of someone else in the third, with
- * the pronouns their record carries.
+ * The leanings a person is said to have, strongest first, each by the pole's
+ * own label and how strong it runs. No sentence goes beside the label: one
+ * that only said the label again in other words was deleted (Fable A on
+ * #7365, Nov 12, under the owner's Nov 11 ruling that every line comes from
+ * the world's records). A line comes back only where a record shows the
+ * leaning.
  */
-function personSketch(
+function leanings(
   traits: Readonly<Record<string, number>>,
-  pronouns?: string,
-): string {
-  const third = pronouns === undefined ? null : pronounWords(pronouns);
-  const voice = pronouns === undefined ? "" : third ? "-third" : "-they";
-  const said = sketchRows(traits, voice, third ?? {}).map((row) => row.line);
-  return said.length
-    ? said.join(" ")
-    : (screenLine(
-        "person-sketch",
-        `person-sketch.balanced.1${voice}`,
-        third ?? {},
-      ) ?? "");
-}
-
-/**
- * The leanings a person is said to have, strongest first, each as the pole's
- * own label, how strong it runs and its sentence in the given voice ("" the
- * player's second person, "-first" the You screen's own voice).
- */
-function sketchRows(
-  traits: Readonly<Record<string, number>>,
-  voice: string,
-  facts: Readonly<Record<string, string | number>>,
-  limit = SKETCH_SENTENCES,
-): { label: string; strength: "strong" | "mild"; line: string }[] {
+): { label: string; strength: "strong" | "mild" }[] {
   return PEOPLE_TRAITS.flatMap((trait) => {
     const value = traits[`${PEOPLE_MIND_VERSION}:${trait}`];
     if (value === undefined || Math.abs(value) < SKETCH_SAID) return [];
@@ -1231,18 +1352,10 @@ function sketchRows(
     const side = value < 0 ? shape.low : shape.high;
     const strength: "strong" | "mild" =
       Math.abs(value) >= SKETCH_STRONG ? "strong" : "mild";
-    const line = screenLine(
-      "person-sketch",
-      `person-sketch.${side.key}.${strength}${voice}`,
-      facts,
-    );
-    return line
-      ? [{ label: side.label, strength, line, weight: Math.abs(value) }]
-      : [];
+    return [{ label: side.label, strength, weight: Math.abs(value) }];
   })
     .sort((a, b) => b.weight - a.weight)
-    .slice(0, limit)
-    .map(({ label, strength, line }) => ({ label, strength, line }));
+    .map(({ label, strength }) => ({ label, strength }));
 }
 
 interface TermLike {
@@ -1338,7 +1451,12 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     .moduleState(OFFICES)
     .table("offices")
     .get(term.officeId) as
-    { title?: string; governmentName?: string } | undefined;
+    | { title?: string; governmentName?: string; jurisdiction?: string }
+    | undefined;
+  // The government by its place record's proper name ("City of McCall").
+  const government = office?.governmentName
+    ? governmentProperName(office.governmentName, office.jurisdiction ?? "")
+    : null;
   let publicKnowledge: ReturnType<typeof publicKnowledgeOf> | null = null;
   try {
     publicKnowledge = core.modules.has(PAST_MODULE_ID)
@@ -1394,12 +1512,9 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     relationRecordId: null,
     age: null,
     alive: true,
-    placeName: office?.governmentName ?? null,
+    placeName: government,
     school: null,
-    sketch: null,
-    work: office?.title
-      ? { title: office.title, employer: office.governmentName ?? null }
-      : null,
+    work: office?.title ? { title: office.title, employer: government } : null,
     tie: null,
     known: false,
     shared: [],
@@ -1520,23 +1635,45 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const homePlace = knowsHome
     ? (corePlaceByJurisdictionId(other.placeId as never)?.displayName ?? null)
     : null;
+  // Born where they lived the day they were born: someone the moves pass
+  // brought to the county was born where they came from, as the run's birth
+  // record says, never in the town they later moved to (Fable A, Nov 13:
+  // "born in Angoon" and then "moved to Angoon"). The opening's birthplace
+  // fact is the town they live in now (SG-HIST-birthplace-is-home).
   const birthplace = (other.pastFacts ?? []).find(
     (row) => row.kind === "birthplace",
   );
-  const bornIn =
-    typeof birthplace?.facts?.placeId === "string"
-      ? (corePlaceByJurisdictionId(birthplace.facts.placeId as never)
-          ?.displayName ?? null)
-      : null;
+  const bornAt = residenceOn(core, other, other.birthDate).placeId;
+  const bornId =
+    bornAt !== other.placeId
+      ? bornAt
+      : typeof birthplace?.facts?.placeId === "string"
+        ? birthplace.facts.placeId
+        : null;
+  // A place by its name; a place the world keeps only at its state's level, by the state's.
+  const bornState = bornId ? coreStateKeyOfJurisdictionId(bornId) : null;
+  const bornStateName = bornState
+    ? coreStateName(bornState.replace(/^US-/, ""))
+    : null;
+  const bornIn = bornId
+    ? (corePlaceByJurisdictionId(bornId as never)?.displayName ??
+      (bornStateName ? stateInSentence(bornStateName) : null))
+    : null;
   const run = officeRunOf(lines, servingOffices(core, otherId)[0]);
   // The office a President held before, from their record.
   const prior = (other.pastFacts ?? []).find(
     (row) => row.kind === "career:prior-office",
   )?.facts;
+  // The year they won the office they hold now, from the same record.
+  const elected = (other.pastFacts ?? []).find(
+    (row) => row.kind === "campaign:elected",
+  )?.facts?.year;
   const priorOffice =
     run && typeof prior?.office === "string"
       ? {
           kind: prior.office,
+          // Only the lines that name the year need it; the others say "before that".
+          year: typeof elected === "string" ? elected : "",
           state:
             typeof prior.stateKey === "string"
               ? (coreStateName(prior.stateKey.replace(/^US-/, "")) ?? "")
@@ -1547,10 +1684,14 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     office: run,
     // Their work, as the story already tells it of anyone.
     work: job
-      ? {
-          title: job.title,
-          employer: core.organizations.get(job.organizationId)?.name ?? null,
-        }
+      ? core.organizations.get(job.organizationId)?.outsideFlow
+        ? // The market's stand-in for work out of town is no employer: they
+          // work outside the town they live in.
+          { title: null, employer: null, outside: homePlace }
+        : {
+            title: job.title,
+            employer: core.organizations.get(job.organizationId)?.name ?? null,
+          }
       : null,
     school: school?.name ?? null,
     place: homePlace,
@@ -1584,22 +1725,12 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         : null,
     // The school a child or teen is at now, from the school their past records.
     school,
-    // What they are like, said of them, to someone who knows them: family,
-    // a housemate or anyone the player has a tie with.
-    sketch:
-      family || housemate || tie
-        ? personSketch(other.traits, other.looks?.pronouns ?? "they-them")
-        : null,
-    // The same leanings one by one, each by the pole's own label and no strength: how the
-    // viewer sees them (the approved person card), only for someone the viewer knows.
+    // Their leanings, each by the pole's own label and no strength: how the
+    // viewer sees them (the approved person card), only for someone the
+    // viewer knows: family, a housemate or anyone the player has a tie with.
     traitLines:
       family || housemate || tie
-        ? sketchRows(
-            other.traits,
-            teller.words ? "-third" : "-they",
-            teller.words ?? {},
-            PEOPLE_TRAITS.length,
-          ).map(({ label, line }) => ({ label, line }))
+        ? leanings(other.traits).map(({ label }) => ({ label }))
         : [],
     // Where they place themselves politically, as the views engine's label, once the viewer has
     // learned it: an official's or candidate's public stance is learned by everyone; anyone

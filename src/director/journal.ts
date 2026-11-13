@@ -153,7 +153,7 @@ type JournalMoment = Pick<
  * is not on record or has no name, and the line that would name it is left
  * out.
  */
-function billName(
+export function billName(
   core: Readonly<CoreState>,
   billId: string | undefined,
   /** Said with its number first ("HB 9, the Income Tax Act"), as a scene about it names it. */
@@ -549,7 +549,7 @@ function householdMoments(
                   ? {
                       employer: {
                         // The government itself ("the County of Nuckolls").
-                        text: employerSaid(properName(office.governmentName), {
+                        text: employerSaid(office.governmentName, {
                           kind: "government-treasury",
                         }),
                         sourceRecordIds: ids,

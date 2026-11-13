@@ -1783,6 +1783,38 @@
           "actKinds": ["change", "withdraw"]
         }
       ]
+    },
+    {
+      "id": "views.parent-hardship",
+      "site": "src/core2/modules/views.ts",
+      "owner": "lives lead",
+      "route": "formula",
+      "options": [
+        {
+          "id": "turn-away",
+          "actKinds": ["distrust", "change", "confront"]
+        },
+        {
+          "id": "follow",
+          "actKinds": ["trust", "keep-same", "follow-rules"]
+        }
+      ]
+    },
+    {
+      "id": "views.own-layoff",
+      "site": "src/core2/modules/views.ts",
+      "owner": "lives lead",
+      "route": "formula",
+      "options": [
+        {
+          "id": "lean-on-help",
+          "actKinds": ["help-others", "cooperate", "change"]
+        },
+        {
+          "id": "blame-outsiders",
+          "actKinds": ["distrust", "self-interest", "keep-same"]
+        }
+      ]
     }
   ],
   "outside": [

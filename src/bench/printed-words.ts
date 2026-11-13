@@ -6,6 +6,7 @@
  * facts its news banks word. Every fact cites the printed story and the record
  * it came from. A record whose facts can't be said is left unworded here.
  */
+import { governmentProperName } from "../core2/government-proper-name";
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 import businessBooks from "../core2/data/business-books.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
@@ -42,7 +43,7 @@ import {
   corePlaceByJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
-import { familyFactsOf } from "../core2/modules/people";
+import { familyFactsOf, SPEECH_MODULE_ID } from "../core2/modules/people";
 import { preStartHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId, PersonState } from "../core2/types";
@@ -959,6 +960,96 @@ const memberVote: Builder = (read, f) => {
   );
 };
 
+/** A study committee's row, as the legislature engine keeps it. */
+type StudyRecord = {
+  readonly id: string;
+  readonly chairId: string;
+  readonly memberIds: readonly string[];
+  readonly sunsetOn: string;
+  readonly startedAt: Readonly<Record<string, number>>;
+  readonly report?: {
+    readonly on: string;
+    readonly finding: number;
+    readonly speechId: string | null;
+  };
+};
+
+/**
+ * A study committee a body formed on a bill that fell short: who chairs it,
+ * how many sit on it and when it reports, from the study's own row.
+ */
+const studyFormed: Builder = (read, f) => {
+  const study = read.row<StudyRecord>(
+    LEGISLATURE_MODULE_ID,
+    "studies",
+    f.studyId,
+  );
+  if (!study) return null;
+  return story(
+    "study-formed",
+    {
+      ...read.billFacts(f.billId, f.number),
+      ...read.billBody(f.billId),
+      ...read.who(study.chairId, "name", false),
+      members: read.fact(count(study.memberIds.length), study.id),
+      until: read.fact(spokenDate(study.sunsetOn), study.id),
+    },
+    ["designation", "members"],
+    study.chairId,
+  );
+};
+
+/**
+ * A study committee's report: which way its members lean on the bill, on
+ * balance (the finding the legislature engine recorded), whether that is a
+ * change from where they stood when it was formed, and whether its chair gave
+ * it to the body, which is what the members' next votes read. A finding of
+ * exactly zero leans neither way and is not printed.
+ */
+const studyReported: Builder = (read, f) => {
+  const study = read.row<StudyRecord>(
+    LEGISLATURE_MODULE_ID,
+    "studies",
+    f.studyId,
+  );
+  const finding = study?.report?.finding;
+  if (
+    !study ||
+    !finding ||
+    (f.direction !== "for" && f.direction !== "against")
+  )
+    return null;
+  const started = Object.values(study.startedAt);
+  const before = started.reduce((n, t) => n + t, 0) / (started.length || 1) > 0;
+  // The chair gave the findings only when the speech on record is theirs
+  // (a member gives it when the chair has died).
+  const speech = study.report?.speechId
+    ? read.row<{ readonly id: string; readonly speakerId: string }>(
+        SPEECH_MODULE_ID,
+        "addresses",
+        study.report.speechId,
+      )
+    : undefined;
+  return story(
+    "study-reported",
+    {
+      ...read.billFacts(f.billId, f.number),
+      ...read.billBody(f.billId),
+      ...read.who(study.chairId, "name", false),
+      date: read.date(),
+      [`members-${f.direction}`]: read.fact("yes", study.id),
+      ...(before !== finding > 0
+        ? { changed: read.fact("yes", study.id) }
+        : {}),
+      ...(speech?.speakerId === study.chairId
+        ? { presented: read.fact("yes", study.id, speech.id) }
+        : {}),
+    },
+    ["designation"],
+    study.chairId,
+  );
+};
+
 /** Lawmakers' vote to override a veto. */
 const override: Builder = (read, f) =>
   story(
@@ -1009,11 +1100,27 @@ const hearing: Builder = (read, f) => {
 /** A government's public hearing on its budget bill, and how many spoke. */
 const budgetHearing: Builder = (read, f) => {
   const speakers = num(f.speakers) ?? 0;
+  // Whose budget it is, said as the budget's own story says it.
+  const government = f.governmentId
+    ? read.row<{ name: string }>(
+        BUDGETS_MODULE_ID,
+        "governments",
+        f.governmentId,
+      )
+    : undefined;
+  const place =
+    f.governmentId === "US"
+      ? null
+      : (read.place(f.governmentId) ??
+        (government
+          ? governmentProperName(government.name, f.governmentId ?? "")
+          : null));
   return story(
     "hearing",
     {
       ...read.billFacts(f.billId, f.number),
       budget: read.yes(),
+      ...(place ? { place: read.fact(place, f.governmentId ?? "") } : {}),
       ...(speakers ? { number: read.fact(count(speakers)) } : {}),
     },
     ["designation"],
@@ -1062,21 +1169,6 @@ const budgetAdopted: Builder = (read, f) =>
     f,
   );
 
-/** A government's name as the books keep it ("COUNTY OF LANDER") read as a paper prints it ("Lander County"). */
-function governmentWords(name: string): string {
-  if (name !== name.toUpperCase()) return name;
-  const title = (words: string) =>
-    words
-      .toLowerCase()
-      .replace(
-        /(^|[\s-])([a-z])/g,
-        (_, gap: string, letter: string) => gap + letter.toUpperCase(),
-      );
-  const county = /^COUNTY OF (.+)$/.exec(name);
-  if (county) return `${title(county[1]!)} County`;
-  return title(name).replace(/\b(Of|The|And)\b/g, (word) => word.toLowerCase());
-}
-
 /**
  * A government's budget as the paper tells it: where and which year, its
  * largest line, and the totals it plans to spend and take in, read from the
@@ -1111,7 +1203,9 @@ function budgetStory(
   const place = federal
     ? null
     : (read.place(governmentId) ??
-      (government ? governmentWords(government.name) : null));
+      (government
+        ? governmentProperName(government.name, governmentId)
+        : null));
   const year = f.fiscalYear ?? (budget ? String(budget.fiscalYear) : "");
   return story(
     "budget-adopted",
@@ -3348,6 +3442,8 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "bill-vote": rollCall,
   "committee-hearing": committee,
   "bill-held-in-committee": committee,
+  "study-formed": studyFormed,
+  "study-reported": studyReported,
   committee,
   "veto-override": override,
   "bill-amendment": amendment,

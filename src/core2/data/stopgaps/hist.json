@@ -51,5 +51,85 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
+  },
+  {
+    "id": "SG-HIST-past-no-college-all-graduated",
+    "kind": "partial-model",
+    "file": "src/core2/past-school.ts",
+    "whatItFakes": "Every adult whose opening profile gives a schooling level is told as finishing high school on their class's day, including the adults without a diploma, because the opening profile's levels (CES 2024: no-college, some-college, college) fold them into no-college.",
+    "why": "Gap sheet, Nov 12, row 15: a past had school starts and never an end. The profile is the one record of a person's schooling, and the work pass already dates a first job from the same day.",
+    "addedBy": "opus-lr (Life records builder)",
+    "addedAt": "2026-11-12",
+    "replacement": "Split no-college into less than high school and a diploma by the ACS educational attainment shares by age (table B15001), on the profile itself, so the school pass, the work pass and the jobs engine read the same level.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-past-arrest-age-only",
+    "kind": "partial-model",
+    "file": "src/core2/past-justice.ts",
+    "whatItFakes": "An arrest before the start comes from age alone, from 13 to 23, at the national share: the person's sex, traits, place, schooling and household do not weigh, no arrest after 23 is written, every conviction is a felony a year after the arrest, and every prison term is two years.",
+    "why": "Gap sheet, Nov 12, row 4: a past never held an arrest. The national cumulative shares (Brame et al. 2012; Shannon et al. 2017) were the published figures read.",
+    "addedBy": "opus-lr (Life records builder)",
+    "addedAt": "2026-11-12",
+    "replacement": "Arrest by sex and race-blind household income from Brame et al. (2014, Crime & Delinquency 60(3)), weighed by the person's traits through the shared trait table, with misdemeanor convictions and sentence lengths from BJS Felony Sentences in State Courts.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-player-past-arrest",
+    "kind": "owner-decision",
+    "file": "src/core2/past-justice.ts",
+    "whatItFakes": "The player's own past is run by the same rule as everyone's, so about three players in ten start with an arrest by 23 in their history, and some with a conviction, told on their own card and Journal.",
+    "why": "One rule for every person; whether the player's own character may start with a criminal record is a call about the player's experience, which only the owner makes (AGENTS.md, 'This is a game, not a spreadsheet').",
+    "addedBy": "opus-lr (Life records builder)",
+    "addedAt": "2026-11-12",
+    "replacement": "Decided Nov 12, 2026 (owner, 6:33 p.m., passed on by the CTO on #8928): the player's own past follows the same rule as everyone's, so it can hold an arrest, a conviction or a prison term. Choosing one's past through scenes after early access is the item core-life-record-part-16-choose-your-past-through-scenes.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-12",
+    "resolvedBy": "owner, Nov 12 (CTO on #8928)"
+  },
+  {
+    "id": "SG-HIST-past-service-one-term",
+    "kind": "partial-model",
+    "file": "src/core2/past-military.ts",
+    "whatItFakes": "Every veteran served one first term of the same length (pastServiceYears, four years) from the day their schooling ended: no draft-era two-year service, no officer after college, no career of twenty years, no branch, no deployment, and no Reserve or Guard.",
+    "why": "Gap sheet, Nov 12, row 4: no past held military service. The ACS share says who served; how long and where needs its own research.",
+    "addedBy": "opus-lr (Life records builder)",
+    "addedAt": "2026-11-12",
+    "replacement": "Service length and branch by cohort from the VA's National Survey of Veterans or the Defense Manpower Data Center's separations, with draft-era terms for those born before 1953, read against the person's traits.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-within-moves-child-own-past",
+    "kind": "partial-model",
+    "file": "src/core2/past-moves.ts",
+    "whatItFakes": "A move inside the county before the start is written on the adult's own past with the children at home named in its facts, but a child's own past, written when the child is opened, does not hold the moves they made with that parent.",
+    "why": "Gap sheet, Nov 12, row 16: a past held at most one move. The within-county moves run per adult from their own seeded line; a child's own run would need the parent's moves read first.",
+    "addedBy": "opus-lr (Life records builder)",
+    "addedAt": "2026-11-12",
+    "replacement": "When a child is opened, read the moves of the parent they lived with (by the record's childIds) into the child's own past instead of running their own until they are grown.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-birthplace-is-home",
+    "kind": "assumed-data",
+    "file": "src/core2/opening-people.ts",
+    "whatItFakes": "Every person the opening makes is given a birthplace fact naming the town they live in now (no caller passes a birthplace), so the fact never names anywhere else: 0 of 476 residents in Portsmouth NH, Selma NC and Woodlawn KY (seeds lrborn01 to 03) were born elsewhere by it. Readers that tell a birthplace (the card, a conversation) take the moves pass's residence on the birth date first, so a person brought to the county is born where they came from.",
+    "why": "The opening runs before the past's moves, which decide who came from elsewhere; the card told 'born in' the town and then 'moved to' it (Fable A, Nov 13).",
+    "addedBy": "opus-lr (Life records builder)",
+    "addedAt": "2026-11-13",
+    "replacement": "Write the birthplace fact from the moves pass (the residence on the birth date) when a person's past is opened, by the ACS share born in their state of residence (B05002) for those with no parent elsewhere, and drop the opening's default.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-past-hospital-age-only",
+    "kind": "partial-model",
+    "file": "src/core2/past-health.ts",
+    "line": 82,
+    "whatItFakes": "A person's hospital stays before the start come from their age alone (the NHIS share by age band, less childbirth stays): their traits, their health record's conditions, their work and their place do not weigh, and every stay is told as one kind of event, a serious illness or injury, without which.",
+    "why": "The life record, part 6 (pool item core-life-record-part-6-the-past-holds-what-happened-between-people) built the event from the one published table read (NHIS 2018 Table P-10a); the health engine's conditions describe a fatal illness's risk, not a survived stay's.",
+    "addedBy": "opus-5234 (core-life-record-part-6)",
+    "addedAt": "2026-11-11",
+    "replacement": "The share of stays by age, sex and condition (HCUP National Inpatient Sample by diagnosis), weighed by the person's health record and traits, with injuries told apart from illnesses.",
+    "status": "open"
   }
 ]
