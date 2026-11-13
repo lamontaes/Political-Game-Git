@@ -2,6 +2,8 @@ import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 import {
+  caseBreaksRule,
+  caseText,
   ruleFlags,
   textBreaksRule,
   type LineRule,
@@ -35,7 +37,7 @@ import {
 const ROOT = path.resolve(__dirname, "../../..");
 const run = freshRun();
 const tested = (rule: LineRule) =>
-  !["place", "judged"].includes(rule.test.kind);
+  !["place", "judged", "composed"].includes(rule.test.kind);
 
 describe("line rules: each rule does what it says", () => {
   it("flags every line it must catch and spares every line it must not", () => {
@@ -43,11 +45,11 @@ describe("line rules: each rule does what it says", () => {
       .filter(tested)
       .flatMap((rule) => [
         ...(rule.catches ?? [])
-          .filter((line) => !textBreaksRule(rule, line))
-          .map((line) => `${rule.id} must catch: ${line}`),
+          .filter((line) => !caseBreaksRule(rule, line))
+          .map((line) => `${rule.id} must catch: ${JSON.stringify(line)}`),
         ...(rule.spares ?? [])
-          .filter((line) => textBreaksRule(rule, line))
-          .map((line) => `${rule.id} must spare: ${line}`),
+          .filter((line) => caseBreaksRule(rule, line))
+          .map((line) => `${rule.id} must spare: ${JSON.stringify(line)}`),
       ]);
     expect(wrong).toEqual([]);
   });
@@ -58,7 +60,9 @@ describe("line rules: each rule does what it says", () => {
     const enforced = run.rules.filter(
       (rule) => rule.status === "enforced" && !rule.applies,
     );
-    const liked = run.rules.flatMap((rule) => rule.spares ?? []);
+    const liked = run.rules.flatMap((rule) =>
+      (rule.spares ?? []).map(caseText),
+    );
     const wrong = enforced.flatMap((rule) =>
       liked
         .filter((line) => textBreaksRule(rule, line))
@@ -116,6 +120,10 @@ describe("line rules: each rule does what it says", () => {
     for (const rule of run.rules)
       if (rule.status === "awaiting-test")
         expect(["place", "judged"], rule.id).toContain(rule.test.kind);
+      else if (rule.test.kind === "composed")
+        // A composed rule reads whole texts, never a bank line: its checks are
+        // registered and fixture-tested in composed-rules.test.ts.
+        expect(rule.status, rule.id).not.toBe("enforced");
       else if (rule.test.kind === "judged") {
         // A judged rule leaves awaiting-test with one line it must catch, one
         // it must leave alone, and its first verdicts folded.

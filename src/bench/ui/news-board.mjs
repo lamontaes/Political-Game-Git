@@ -16,8 +16,30 @@ const told = (story) =>
     ? [story.lede]
     : []);
 
-export function newsBoard({ outlets, labels, date, headlineOf, photoOf }) {
-  let chosen = outlets.keys().next().value;
+/**
+ * What an empty News page says, from the record of what the player follows:
+ * they follow no paper or station anywhere; the outlet open is one they
+ * follow and it has nothing yet; or it is one they do not follow. The three
+ * read differently (Fable A, Nov 12).
+ */
+export function emptyNewsLine(outlet, followsAny, labels) {
+  if (!followsAny) return labels.followsNone;
+  return outlet.why === "follows" && outlet.name
+    ? labels.printedNothing.replace("{name}", outlet.name)
+    : labels.nothingYet;
+}
+
+export function newsBoard({
+  outlets,
+  labels,
+  date,
+  headlineOf,
+  photoOf,
+  chosenKey,
+  onChoose,
+  followsAny = true,
+}) {
+  let chosen = outlets.has(chosenKey) ? chosenKey : outlets.keys().next().value;
   let opened = null;
   const holder = el("div", { className: "news-board" });
   const tabs = tabBar({
@@ -28,6 +50,7 @@ export function newsBoard({ outlets, labels, date, headlineOf, photoOf }) {
       label: outlet.name ?? labels.title,
       onSelect: () => {
         chosen = key;
+        onChoose?.(key);
         opened = null;
         chooseTab(tabs, "outlet", key);
         draw();
@@ -36,6 +59,7 @@ export function newsBoard({ outlets, labels, date, headlineOf, photoOf }) {
   });
   const draw = () => {
     const outlet = outlets.get(chosen);
+    holder.dataset.outlet = chosen;
     const stories = outlet.stories;
     const side = stories.filter((story) => story.brief);
     const front = stories.filter((story) => !story.brief);
@@ -106,7 +130,16 @@ export function newsBoard({ outlets, labels, date, headlineOf, photoOf }) {
       ),
       stripBoard({
         columns: [
-          lead ? [storyNode(lead, "lead")] : [],
+          lead
+            ? [storyNode(lead, "lead")]
+            : stories.length
+              ? []
+              : [
+                  el("p", {
+                    className: "intro",
+                    textContent: emptyNewsLine(outlet, followsAny, labels),
+                  }),
+                ],
           withText.map((story) => storyNode(story, "side")),
           briefs.length
             ? [
@@ -125,6 +158,9 @@ export function newsBoard({ outlets, labels, date, headlineOf, photoOf }) {
                     rows: 5,
                     columns: 1,
                     rowHeight: 86,
+                    // A long brief takes the room it needs; the box scrolls
+                    // and no brief is printed over the next.
+                    growRows: true,
                     gap: 6,
                     className: "news-briefs",
                   }),

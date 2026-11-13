@@ -1,159 +1,1887 @@
 {
+ "set": "women",
+ "angle": "front",
+ "heads": [
+  "light-adult",
+  "medium-adult",
+  "dark-adult",
+  "light-older",
+  "medium-older",
+  "dark-older"
+ ],
+ "tops": [
+  "denim",
+  "henley",
+  "oxford",
+  "cardigan",
+  "blazer",
+  "pantsuit"
+ ],
+ "hairs": [
+  "pixie-black",
+  "pixie-darkbrown",
+  "pixie-blond",
+  "pixie-gray",
+  "bob-black",
+  "bob-darkbrown",
+  "bob-blond",
+  "bob-gray",
+  "shoulder-black",
+  "shoulder-darkbrown",
+  "shoulder-blond",
+  "shoulder-gray",
+  "waves-black",
+  "waves-darkbrown",
+  "waves-blond",
+  "waves-gray",
+  "updo-black",
+  "updo-darkbrown",
+  "updo-blond",
+  "updo-gray",
+  "curls-black",
+  "curls-darkbrown",
+  "curls-blond",
+  "curls-gray"
+ ],
+ "faces": [],
+ "pieces": {
+  "head-light-adult": {
+   "changedPixels": 0,
+   "offBy": null,
+   "offByFull": null
+  },
+  "head-medium-adult": {
+   "changedPixels": 0,
+   "offBy": null,
+   "offByFull": null
+  },
+  "head-dark-adult": {
+   "changedPixels": 0,
+   "offBy": null,
+   "offByFull": null
+  },
+  "top-denim": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "top-henley": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "top-oxford": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "top-cardigan": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "top-blazer": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "top-pantsuit": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-pixie-darkbrown": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-bob-darkbrown": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-shoulder-darkbrown": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-waves-darkbrown": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-updo-darkbrown": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-curls-darkbrown": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "head-light-older": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "head-medium-older": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "head-dark-older": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-pixie-black": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-pixie-blond": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-pixie-gray": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-bob-black": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-bob-blond": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-bob-gray": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-shoulder-black": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-shoulder-blond": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-shoulder-gray": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-waves-black": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-waves-blond": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-waves-gray": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-updo-black": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-updo-blond": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-updo-gray": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-curls-black": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-curls-blond": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  },
+  "hair-curls-gray": {
+   "changedPixels": 0,
+   "offBy": [
+    0,
+    0
+   ],
+   "offByFull": [
+    0,
+    0
+   ]
+  }
+ },
+ "outline": {
+  "light-adult": {
+   "worst": 0,
+   "over1px": 0
+  },
+  "medium-adult": {
+   "worst": 1,
+   "over1px": 0
+  },
+  "dark-adult": {
+   "worst": 1,
+   "over1px": 0
+  },
+  "light-older": {
+   "worst": 1,
+   "over1px": 0
+  },
+  "medium-older": {
+   "worst": 2,
+   "over1px": 72
+  },
+  "dark-older": {
+   "worst": 2,
+   "over1px": 34
+  }
+ },
  "pairs": {
-  "head-A+tee": {
+  "light-adult+denim": {
    "holes": 0,
+   "bottomEdgeGaps": 0,
    "topPieceHoles": 0,
-   "joinUncoveredColumns": 0,
-   "headOwnTopShowing": 0
+   "joinUncovered": 0,
+   "teeShowing": 0
   },
-  "head-A+blouse": {
+  "light-adult+henley": {
    "holes": 0,
+   "bottomEdgeGaps": 553,
    "topPieceHoles": 0,
-   "joinUncoveredColumns": 0,
-   "headOwnTopShowing": 0
+   "joinUncovered": 0,
+   "teeShowing": 0
   },
-  "head-A+blazer": {
+  "light-adult+oxford": {
    "holes": 0,
+   "bottomEdgeGaps": 222,
    "topPieceHoles": 0,
-   "joinUncoveredColumns": 0,
-   "headOwnTopShowing": 0
+   "joinUncovered": 0,
+   "teeShowing": 0
   },
-  "head-B+tee": {
+  "light-adult+cardigan": {
    "holes": 0,
+   "bottomEdgeGaps": 258,
    "topPieceHoles": 0,
-   "joinUncoveredColumns": 0,
-   "headOwnTopShowing": 0
+   "joinUncovered": 0,
+   "teeShowing": 0
   },
-  "head-B+blouse": {
+  "light-adult+blazer": {
    "holes": 0,
+   "bottomEdgeGaps": 447,
    "topPieceHoles": 0,
-   "joinUncoveredColumns": 0,
-   "headOwnTopShowing": 0
+   "joinUncovered": 0,
+   "teeShowing": 0
   },
-  "head-B+blazer": {
+  "light-adult+pantsuit": {
    "holes": 0,
+   "bottomEdgeGaps": 930,
    "topPieceHoles": 0,
-   "joinUncoveredColumns": 0,
-   "headOwnTopShowing": 0
+   "joinUncovered": 0,
+   "teeShowing": 0
   },
-  "head-C+tee": {
+  "medium-adult+denim": {
    "holes": 0,
+   "bottomEdgeGaps": 0,
    "topPieceHoles": 0,
-   "joinUncoveredColumns": 0,
-   "headOwnTopShowing": 0
+   "joinUncovered": 0,
+   "teeShowing": 0
   },
-  "head-C+blouse": {
+  "medium-adult+henley": {
    "holes": 0,
+   "bottomEdgeGaps": 553,
    "topPieceHoles": 0,
-   "joinUncoveredColumns": 0,
-   "headOwnTopShowing": 0
+   "joinUncovered": 0,
+   "teeShowing": 0
   },
-  "head-C+blazer": {
+  "medium-adult+oxford": {
    "holes": 0,
+   "bottomEdgeGaps": 222,
    "topPieceHoles": 0,
-   "joinUncoveredColumns": 0,
-   "headOwnTopShowing": 0
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "medium-adult+cardigan": {
+   "holes": 0,
+   "bottomEdgeGaps": 258,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "medium-adult+blazer": {
+   "holes": 0,
+   "bottomEdgeGaps": 447,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "medium-adult+pantsuit": {
+   "holes": 0,
+   "bottomEdgeGaps": 930,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "dark-adult+denim": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "dark-adult+henley": {
+   "holes": 0,
+   "bottomEdgeGaps": 553,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "dark-adult+oxford": {
+   "holes": 0,
+   "bottomEdgeGaps": 222,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "dark-adult+cardigan": {
+   "holes": 0,
+   "bottomEdgeGaps": 258,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "dark-adult+blazer": {
+   "holes": 0,
+   "bottomEdgeGaps": 447,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "dark-adult+pantsuit": {
+   "holes": 0,
+   "bottomEdgeGaps": 930,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "light-older+denim": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "light-older+henley": {
+   "holes": 0,
+   "bottomEdgeGaps": 553,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "light-older+oxford": {
+   "holes": 0,
+   "bottomEdgeGaps": 222,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "light-older+cardigan": {
+   "holes": 0,
+   "bottomEdgeGaps": 258,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "light-older+blazer": {
+   "holes": 0,
+   "bottomEdgeGaps": 447,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "light-older+pantsuit": {
+   "holes": 0,
+   "bottomEdgeGaps": 930,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "medium-older+denim": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "medium-older+henley": {
+   "holes": 0,
+   "bottomEdgeGaps": 553,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "medium-older+oxford": {
+   "holes": 0,
+   "bottomEdgeGaps": 222,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "medium-older+cardigan": {
+   "holes": 0,
+   "bottomEdgeGaps": 258,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "medium-older+blazer": {
+   "holes": 0,
+   "bottomEdgeGaps": 447,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "medium-older+pantsuit": {
+   "holes": 0,
+   "bottomEdgeGaps": 930,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "dark-older+denim": {
+   "holes": 0,
+   "bottomEdgeGaps": 0,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "dark-older+henley": {
+   "holes": 0,
+   "bottomEdgeGaps": 553,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "dark-older+oxford": {
+   "holes": 0,
+   "bottomEdgeGaps": 222,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "dark-older+cardigan": {
+   "holes": 0,
+   "bottomEdgeGaps": 258,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "dark-older+blazer": {
+   "holes": 0,
+   "bottomEdgeGaps": 447,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
+  },
+  "dark-older+pantsuit": {
+   "holes": 0,
+   "bottomEdgeGaps": 930,
+   "topPieceHoles": 0,
+   "joinUncovered": 0,
+   "teeShowing": 0
   }
  },
  "hair": {
-  "short-on-A": {
-   "seeThroughWorst": 0,
-   "seeThroughPerTop": {
-    "tee": 0,
-    "blouse": 0,
-    "blazer": 0
+  "pixie-black": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 13
    },
-   "softEdgeWorst": 8,
-   "againstHairPaintingWorst": 20,
-   "pokeOut": 6
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 13
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 14
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 8
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 5
+   }
   },
-  "short-on-B": {
-   "seeThroughWorst": 0,
-   "seeThroughPerTop": {
-    "tee": 0,
-    "blouse": 0,
-    "blazer": 0
+  "pixie-darkbrown": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 14
    },
-   "softEdgeWorst": 7,
-   "againstHairPaintingWorst": 16,
-   "pokeOut": 7
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 13
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 16
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 10
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 6
+   }
   },
-  "short-on-C": {
-   "seeThroughWorst": 0,
-   "seeThroughPerTop": {
-    "tee": 0,
-    "blouse": 0,
-    "blazer": 0
+  "pixie-blond": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 13
    },
-   "softEdgeWorst": 0,
-   "againstHairPaintingWorst": 14,
-   "pokeOut": 0
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 12
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 16
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 10
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 6
+   }
   },
-  "shoulder-on-A": {
-   "seeThroughWorst": 0,
-   "seeThroughPerTop": {
-    "tee": 0,
-    "blouse": 0,
-    "blazer": 0
+  "pixie-gray": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 12
    },
-   "softEdgeWorst": 0,
-   "againstHairPaintingWorst": 24,
-   "pokeOut": 0
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 12
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 14
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 7
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 5
+   }
   },
-  "shoulder-on-B": {
-   "seeThroughWorst": 0,
-   "seeThroughPerTop": {
-    "tee": 0,
-    "blouse": 0,
-    "blazer": 0
+  "bob-black": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 18,
+    "pokeOut": 0
    },
-   "softEdgeWorst": 0,
-   "againstHairPaintingWorst": 24,
-   "pokeOut": 0
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 15,
+    "pokeOut": 0
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 5,
+    "pokeOut": 2
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 2,
+    "pokeOut": 0
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 6
+   }
   },
-  "shoulder-on-C": {
-   "seeThroughWorst": 0,
-   "seeThroughPerTop": {
-    "tee": 0,
-    "blouse": 0,
-    "blazer": 0
+  "bob-darkbrown": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 23,
+    "pokeOut": 0
    },
-   "softEdgeWorst": 0,
-   "againstHairPaintingWorst": 24,
-   "pokeOut": 0
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 15,
+    "pokeOut": 0
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 5,
+    "pokeOut": 2
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 2,
+    "pokeOut": 0
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 6
+   }
   },
-  "tied-on-A": {
-   "seeThroughWorst": 0,
-   "seeThroughPerTop": {
-    "tee": 0,
-    "blouse": 0,
-    "blazer": 0
+  "bob-blond": {
+   "light-adult": {
+    "gaps": 1,
+    "seeThrough": 0,
+    "softer": 18,
+    "pokeOut": 0
    },
-   "softEdgeWorst": 22,
-   "againstHairPaintingWorst": 64,
-   "pokeOut": 1
+   "medium-adult": {
+    "gaps": 1,
+    "seeThrough": 0,
+    "softer": 14,
+    "pokeOut": 0
+   },
+   "dark-adult": {
+    "gaps": 1,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 1,
+    "seeThrough": 0,
+    "softer": 5,
+    "pokeOut": 2
+   },
+   "medium-older": {
+    "gaps": 1,
+    "seeThrough": 0,
+    "softer": 2,
+    "pokeOut": 0
+   },
+   "dark-older": {
+    "gaps": 1,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 6
+   }
   },
-  "tied-on-B": {
-   "seeThroughWorst": 0,
-   "seeThroughPerTop": {
-    "tee": 0,
-    "blouse": 0,
-    "blazer": 0
+  "bob-gray": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 20,
+    "pokeOut": 0
    },
-   "softEdgeWorst": 8,
-   "againstHairPaintingWorst": 55,
-   "pokeOut": 5
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 14,
+    "pokeOut": 0
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 5,
+    "pokeOut": 2
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 2,
+    "pokeOut": 0
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 6
+   }
   },
-  "tied-on-C": {
-   "seeThroughWorst": 0,
-   "seeThroughPerTop": {
-    "tee": 0,
-    "blouse": 0,
-    "blazer": 0
+  "shoulder-black": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 13,
+    "pokeOut": 1
    },
-   "softEdgeWorst": 0,
-   "againstHairPaintingWorst": 51,
-   "pokeOut": 0
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 8,
+    "pokeOut": 1
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 5,
+    "pokeOut": 1
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 1,
+    "pokeOut": 0
+   }
+  },
+  "shoulder-darkbrown": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   }
+  },
+  "shoulder-blond": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   }
+  },
+  "shoulder-gray": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 1,
+    "pokeOut": 1
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 1
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 3,
+    "pokeOut": 1
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 1
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 2,
+    "pokeOut": 0
+   }
+  },
+  "waves-black": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 1
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 1
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 1
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 1
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 1
+   }
+  },
+  "waves-darkbrown": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   }
+  },
+  "waves-blond": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   }
+  },
+  "waves-gray": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 13,
+    "pokeOut": 2
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 9,
+    "pokeOut": 2
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 5,
+    "pokeOut": 2
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 3
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 2,
+    "pokeOut": 2
+   }
+  },
+  "updo-black": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 18
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 12
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 21
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 6
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 7
+   }
+  },
+  "updo-darkbrown": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 19
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 14
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 23
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 5
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 7
+   }
+  },
+  "updo-blond": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 21
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 15
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 25
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 3
+   },
+   "dark-older": {
+    "gaps": 1,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 6
+   }
+  },
+  "updo-gray": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 20
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 15
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 26
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 1,
+    "pokeOut": 5
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 1,
+    "pokeOut": 9
+   }
+  },
+  "curls-black": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 10,
+    "pokeOut": 0
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 7,
+    "pokeOut": 0
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 9,
+    "pokeOut": 2
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 7,
+    "pokeOut": 2
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 6
+   }
+  },
+  "curls-darkbrown": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 8,
+    "pokeOut": 0
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 3,
+    "pokeOut": 0
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 8,
+    "pokeOut": 1
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 6,
+    "pokeOut": 1
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 6
+   }
+  },
+  "curls-blond": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 10,
+    "pokeOut": 0
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 5,
+    "pokeOut": 0
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 9,
+    "pokeOut": 1
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 7,
+    "pokeOut": 1
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 6
+   }
+  },
+  "curls-gray": {
+   "light-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 8,
+    "pokeOut": 0
+   },
+   "medium-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 1,
+    "pokeOut": 0
+   },
+   "dark-adult": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 0
+   },
+   "light-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 9,
+    "pokeOut": 0
+   },
+   "medium-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 8,
+    "pokeOut": 0
+   },
+   "dark-older": {
+    "gaps": 0,
+    "seeThrough": 0,
+    "softer": 0,
+    "pokeOut": 5
+   }
   }
+ },
+ "face": {},
+ "lightRims": {
+  "hair-pixie-black-on-medium-adult": 1,
+  "hair-pixie-darkbrown-on-medium-adult": 1,
+  "hair-pixie-gray-on-medium-adult": 3,
+  "hair-shoulder-gray-on-medium-adult": 6,
+  "hair-updo-black-on-medium-adult": 1,
+  "hair-pixie-darkbrown-on-dark-adult": 2,
+  "hair-pixie-blond-on-dark-adult": 177,
+  "hair-pixie-gray-on-dark-adult": 51,
+  "hair-bob-black-on-dark-adult": 31,
+  "hair-bob-blond-on-dark-adult": 65,
+  "hair-bob-gray-on-dark-adult": 78,
+  "hair-shoulder-black-on-dark-adult": 43,
+  "hair-shoulder-blond-on-dark-adult": 265,
+  "hair-shoulder-gray-on-dark-adult": 316,
+  "hair-waves-black-on-dark-adult": 53,
+  "hair-waves-blond-on-dark-adult": 89,
+  "hair-waves-gray-on-dark-adult": 219,
+  "hair-updo-black-on-dark-adult": 2,
+  "hair-updo-blond-on-dark-adult": 476,
+  "hair-updo-gray-on-dark-adult": 764,
+  "hair-curls-blond-on-dark-adult": 133,
+  "hair-curls-gray-on-dark-adult": 68,
+  "hair-pixie-black-on-light-older": 2,
+  "hair-pixie-darkbrown-on-light-older": 5,
+  "hair-pixie-blond-on-light-older": 3,
+  "hair-pixie-gray-on-light-older": 1,
+  "hair-bob-black-on-light-older": 8,
+  "hair-bob-darkbrown-on-light-older": 6,
+  "hair-bob-blond-on-light-older": 11,
+  "hair-bob-gray-on-light-older": 20,
+  "hair-shoulder-black-on-light-older": 6,
+  "hair-shoulder-darkbrown-on-light-older": 2,
+  "hair-shoulder-blond-on-light-older": 12,
+  "hair-shoulder-gray-on-light-older": 18,
+  "hair-waves-black-on-light-older": 6,
+  "hair-waves-darkbrown-on-light-older": 1,
+  "hair-waves-gray-on-light-older": 2,
+  "hair-updo-black-on-light-older": 2,
+  "hair-updo-darkbrown-on-light-older": 2,
+  "hair-updo-blond-on-light-older": 1,
+  "hair-updo-gray-on-light-older": 2,
+  "hair-curls-black-on-light-older": 4,
+  "hair-curls-darkbrown-on-light-older": 1,
+  "hair-curls-blond-on-light-older": 3,
+  "hair-curls-gray-on-light-older": 2,
+  "hair-pixie-black-on-medium-older": 7,
+  "hair-pixie-darkbrown-on-medium-older": 1,
+  "hair-pixie-blond-on-medium-older": 4,
+  "hair-pixie-gray-on-medium-older": 7,
+  "hair-bob-black-on-medium-older": 14,
+  "hair-bob-darkbrown-on-medium-older": 15,
+  "hair-bob-blond-on-medium-older": 7,
+  "hair-bob-gray-on-medium-older": 10,
+  "hair-shoulder-black-on-medium-older": 1,
+  "hair-shoulder-darkbrown-on-medium-older": 9,
+  "hair-shoulder-blond-on-medium-older": 18,
+  "hair-shoulder-gray-on-medium-older": 28,
+  "hair-waves-black-on-medium-older": 7,
+  "hair-waves-darkbrown-on-medium-older": 3,
+  "hair-waves-blond-on-medium-older": 4,
+  "hair-waves-gray-on-medium-older": 3,
+  "hair-updo-black-on-medium-older": 1,
+  "hair-updo-gray-on-medium-older": 5,
+  "hair-curls-black-on-medium-older": 11,
+  "hair-curls-darkbrown-on-medium-older": 11,
+  "hair-curls-blond-on-medium-older": 12,
+  "hair-curls-gray-on-medium-older": 12,
+  "hair-pixie-darkbrown-on-dark-older": 1,
+  "hair-pixie-blond-on-dark-older": 151,
+  "hair-pixie-gray-on-dark-older": 45,
+  "hair-bob-black-on-dark-older": 10,
+  "hair-bob-blond-on-dark-older": 16,
+  "hair-bob-gray-on-dark-older": 59,
+  "hair-shoulder-black-on-dark-older": 12,
+  "hair-shoulder-blond-on-dark-older": 149,
+  "hair-shoulder-gray-on-dark-older": 300,
+  "hair-waves-black-on-dark-older": 32,
+  "hair-waves-blond-on-dark-older": 57,
+  "hair-waves-gray-on-dark-older": 199,
+  "hair-updo-black-on-dark-older": 1,
+  "hair-updo-blond-on-dark-older": 450,
+  "hair-updo-gray-on-dark-older": 743,
+  "hair-curls-blond-on-dark-older": 91,
+  "hair-curls-gray-on-dark-older": 53
+ },
+ "summary": {
+  "changedPixelsWorst": 0,
+  "offByNonzero": [],
+  "outlineWorst": 2,
+  "outlineOver1px": 106,
+  "bustHolesWorst": 0,
+  "bottomEdgeGapsWorst": 930,
+  "topPieceHolesWorst": 0,
+  "joinUncoveredWorst": 0,
+  "teeShowingWorst": 0,
+  "hairGapsWorst": {
+   "pixie-black": 0,
+   "pixie-darkbrown": 0,
+   "pixie-blond": 0,
+   "pixie-gray": 0,
+   "bob-black": 0,
+   "bob-darkbrown": 0,
+   "bob-blond": 1,
+   "bob-gray": 0,
+   "shoulder-black": 0,
+   "shoulder-darkbrown": 0,
+   "shoulder-blond": 0,
+   "shoulder-gray": 0,
+   "waves-black": 0,
+   "waves-darkbrown": 0,
+   "waves-blond": 0,
+   "waves-gray": 0,
+   "updo-black": 0,
+   "updo-darkbrown": 0,
+   "updo-blond": 1,
+   "updo-gray": 0,
+   "curls-black": 0,
+   "curls-darkbrown": 0,
+   "curls-blond": 0,
+   "curls-gray": 0
+  },
+  "hairSeeThroughWorst": {
+   "pixie-black": 0,
+   "pixie-darkbrown": 0,
+   "pixie-blond": 0,
+   "pixie-gray": 0,
+   "bob-black": 0,
+   "bob-darkbrown": 0,
+   "bob-blond": 0,
+   "bob-gray": 0,
+   "shoulder-black": 0,
+   "shoulder-darkbrown": 0,
+   "shoulder-blond": 0,
+   "shoulder-gray": 0,
+   "waves-black": 0,
+   "waves-darkbrown": 0,
+   "waves-blond": 0,
+   "waves-gray": 0,
+   "updo-black": 0,
+   "updo-darkbrown": 0,
+   "updo-blond": 0,
+   "updo-gray": 0,
+   "curls-black": 0,
+   "curls-darkbrown": 0,
+   "curls-blond": 0,
+   "curls-gray": 0
+  },
+  "hairPokeOutWorst": {
+   "pixie-black": 14,
+   "pixie-darkbrown": 16,
+   "pixie-blond": 16,
+   "pixie-gray": 14,
+   "bob-black": 6,
+   "bob-darkbrown": 6,
+   "bob-blond": 6,
+   "bob-gray": 6,
+   "shoulder-black": 1,
+   "shoulder-darkbrown": 0,
+   "shoulder-blond": 0,
+   "shoulder-gray": 1,
+   "waves-black": 1,
+   "waves-darkbrown": 0,
+   "waves-blond": 0,
+   "waves-gray": 3,
+   "updo-black": 21,
+   "updo-darkbrown": 23,
+   "updo-blond": 25,
+   "updo-gray": 26,
+   "curls-black": 6,
+   "curls-darkbrown": 6,
+   "curls-blond": 6,
+   "curls-gray": 5
+  },
+  "faceGapsWorst": {},
+  "faceSeeThroughWorst": {},
+  "lightRims": {
+   "hair-pixie-black-on-medium-adult": 1,
+   "hair-pixie-darkbrown-on-medium-adult": 1,
+   "hair-pixie-gray-on-medium-adult": 3,
+   "hair-shoulder-gray-on-medium-adult": 6,
+   "hair-updo-black-on-medium-adult": 1,
+   "hair-pixie-darkbrown-on-dark-adult": 2,
+   "hair-pixie-blond-on-dark-adult": 177,
+   "hair-pixie-gray-on-dark-adult": 51,
+   "hair-bob-black-on-dark-adult": 31,
+   "hair-bob-blond-on-dark-adult": 65,
+   "hair-bob-gray-on-dark-adult": 78,
+   "hair-shoulder-black-on-dark-adult": 43,
+   "hair-shoulder-blond-on-dark-adult": 265,
+   "hair-shoulder-gray-on-dark-adult": 316,
+   "hair-waves-black-on-dark-adult": 53,
+   "hair-waves-blond-on-dark-adult": 89,
+   "hair-waves-gray-on-dark-adult": 219,
+   "hair-updo-black-on-dark-adult": 2,
+   "hair-updo-blond-on-dark-adult": 476,
+   "hair-updo-gray-on-dark-adult": 764,
+   "hair-curls-blond-on-dark-adult": 133,
+   "hair-curls-gray-on-dark-adult": 68,
+   "hair-pixie-black-on-light-older": 2,
+   "hair-pixie-darkbrown-on-light-older": 5,
+   "hair-pixie-blond-on-light-older": 3,
+   "hair-pixie-gray-on-light-older": 1,
+   "hair-bob-black-on-light-older": 8,
+   "hair-bob-darkbrown-on-light-older": 6,
+   "hair-bob-blond-on-light-older": 11,
+   "hair-bob-gray-on-light-older": 20,
+   "hair-shoulder-black-on-light-older": 6,
+   "hair-shoulder-darkbrown-on-light-older": 2,
+   "hair-shoulder-blond-on-light-older": 12,
+   "hair-shoulder-gray-on-light-older": 18,
+   "hair-waves-black-on-light-older": 6,
+   "hair-waves-darkbrown-on-light-older": 1,
+   "hair-waves-gray-on-light-older": 2,
+   "hair-updo-black-on-light-older": 2,
+   "hair-updo-darkbrown-on-light-older": 2,
+   "hair-updo-blond-on-light-older": 1,
+   "hair-updo-gray-on-light-older": 2,
+   "hair-curls-black-on-light-older": 4,
+   "hair-curls-darkbrown-on-light-older": 1,
+   "hair-curls-blond-on-light-older": 3,
+   "hair-curls-gray-on-light-older": 2,
+   "hair-pixie-black-on-medium-older": 7,
+   "hair-pixie-darkbrown-on-medium-older": 1,
+   "hair-pixie-blond-on-medium-older": 4,
+   "hair-pixie-gray-on-medium-older": 7,
+   "hair-bob-black-on-medium-older": 14,
+   "hair-bob-darkbrown-on-medium-older": 15,
+   "hair-bob-blond-on-medium-older": 7,
+   "hair-bob-gray-on-medium-older": 10,
+   "hair-shoulder-black-on-medium-older": 1,
+   "hair-shoulder-darkbrown-on-medium-older": 9,
+   "hair-shoulder-blond-on-medium-older": 18,
+   "hair-shoulder-gray-on-medium-older": 28,
+   "hair-waves-black-on-medium-older": 7,
+   "hair-waves-darkbrown-on-medium-older": 3,
+   "hair-waves-blond-on-medium-older": 4,
+   "hair-waves-gray-on-medium-older": 3,
+   "hair-updo-black-on-medium-older": 1,
+   "hair-updo-gray-on-medium-older": 5,
+   "hair-curls-black-on-medium-older": 11,
+   "hair-curls-darkbrown-on-medium-older": 11,
+   "hair-curls-blond-on-medium-older": 12,
+   "hair-curls-gray-on-medium-older": 12,
+   "hair-pixie-darkbrown-on-dark-older": 1,
+   "hair-pixie-blond-on-dark-older": 151,
+   "hair-pixie-gray-on-dark-older": 45,
+   "hair-bob-black-on-dark-older": 10,
+   "hair-bob-blond-on-dark-older": 16,
+   "hair-bob-gray-on-dark-older": 59,
+   "hair-shoulder-black-on-dark-older": 12,
+   "hair-shoulder-blond-on-dark-older": 149,
+   "hair-shoulder-gray-on-dark-older": 300,
+   "hair-waves-black-on-dark-older": 32,
+   "hair-waves-blond-on-dark-older": 57,
+   "hair-waves-gray-on-dark-older": 199,
+   "hair-updo-black-on-dark-older": 1,
+   "hair-updo-blond-on-dark-older": 450,
+   "hair-updo-gray-on-dark-older": 743,
+   "hair-curls-blond-on-dark-older": 91,
+   "hair-curls-gray-on-dark-older": 53
+  },
+  "faceBand": null,
+  "combinations": 900
  }
 }

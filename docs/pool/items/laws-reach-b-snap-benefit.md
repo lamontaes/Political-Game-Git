@@ -5,7 +5,7 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-laws-reach-b-snap-benefit
 pr: #8609
@@ -18,6 +18,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
+merged-at: 2026-11-12T23:46:20.534Z
 ---
 
 **What.** A baseline SNAP benefit is already on main (PR #5652). What is still wrong is the work requirement: the time limit counts months only for the household's payee, so stopping a person who is not the payee changes nothing, and stopping the payee stops the whole household. Under 7 CFR 273.24 each covered adult uses a countable month whenever the household receives benefits, and only that person's share drops out when they are stopped. Measured in Caliente, Nevada (3208500), seed 97de418c56d113d5: household_0898e50f43a0ccf9, person_1f33b443275fd027 was stopped from April 2025 while the household kept drawing through person_1f33b343275fce74 (obligation reach-b:benefit:snap-maximum:US|person_1f33b343275fce74:2025-04-01). Stopgap SG-GOV-REACH-B-assistance-benefits stays open until the baseline benefit is accepted or dropped.

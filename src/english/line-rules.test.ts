@@ -6,11 +6,15 @@ import { verdictId, type JudgedStores } from "./judged";
 import {
   RULE_JUDGES,
   awaitingAfter,
+  caseBreaksRule,
+  caseText,
   gradedGood,
+  ruleApplies,
   ruleFlags,
   runRules,
   spotsOf,
   textBreaksRule,
+  usesWithTags,
   wholeLine,
   type LineRule,
   type LineRulesFile,
@@ -113,6 +117,95 @@ describe("a rule's own test", () => {
     const judged = rule({ test: { kind: "judged" } });
     expect(ruleFlags(judged, piece("a", "x"))).toBe(false);
     expect(ruleFlags(judged, piece("a", "x"), storesSaying("a", "x"))).toBe(
+      true,
+    );
+  });
+});
+
+describe("a rule that judges a piece in its spot", () => {
+  const school = rule({
+    test: { kind: "patterns", patterns: ["remember \\{school\\}"] },
+    applies: {
+      uses: {
+        has: { role: "^(?:ask|raise)$" },
+        lacks: { requiresFacts: "^long-ago$" },
+      },
+    },
+  });
+
+  it("reads a use's tags: what it must have and what it must lack, on lists too", () => {
+    const line = "Do you remember {school}?";
+    expect(ruleFlags(school, piece("a", line, [{ role: "raise" }]))).toBe(true);
+    expect(
+      ruleFlags(
+        school,
+        piece("a", line, [{ role: "raise", requiresFacts: ["long-ago"] }]),
+      ),
+    ).toBe(false);
+    expect(ruleFlags(school, piece("a", line, [{ role: "answer" }]))).toBe(
+      false,
+    );
+    // One use is enough: a piece said in two spots is covered where either fits.
+    expect(
+      ruleFlags(
+        school,
+        piece("a", line, [
+          { role: "raise", requiresFacts: ["long-ago"] },
+          { role: "ask", requiresFacts: ["seen"] },
+        ]),
+      ),
+    ).toBe(true);
+    expect(ruleFlags(school, piece("a", line, []))).toBe(false);
+  });
+
+  it("applies where any one entry of a list of conditions does", () => {
+    const narration = rule({
+      test: { kind: "patterns", patterns: ["\\bI\\b"] },
+      applies: [
+        { banks: ["scene-words"] },
+        { banks: ["scene-talk"], uses: { has: { role: "^narrator$" } } },
+      ],
+    });
+    const line = "I walk in.";
+    expect(
+      ruleFlags(narration, piece("a", line, [], { bank: "scene-words" })),
+    ).toBe(true);
+    expect(ruleFlags(narration, piece("a", line, [{ role: "narrator" }]))).toBe(
+      true,
+    );
+    expect(ruleFlags(narration, piece("a", line, [{ role: "asked" }]))).toBe(
+      false,
+    );
+    expect(ruleApplies(narration, piece("a", line, [], { bank: "news" }))).toBe(
+      false,
+    );
+  });
+
+  it("copies the part's own tags onto each use, never over the use's own", () => {
+    const uses = usesWithTags(
+      { bearing: "calm", voice: "plain", device: "contrast", key: "k" },
+      [{ role: "asked" }, { role: "asker", bearing: "braced" }],
+    );
+    expect(uses).toEqual([
+      { bearing: "calm", voice: "plain", device: "contrast", role: "asked" },
+      { bearing: "braced", voice: "plain", device: "contrast", role: "asker" },
+    ]);
+    // A spot is what the pickers match on; the part's tags are not part of it.
+    expect(spotsOf(piece("a", "x", uses))).toEqual(
+      spotsOf(piece("a", "x", [{ role: "asked" }, { role: "asker" }])),
+    );
+  });
+
+  it("tests a case with its spot where it is said, and a bare line wherever it is said", () => {
+    const line = "Do you remember {school}?";
+    expect(caseBreaksRule(school, line)).toBe(true);
+    expect(
+      caseBreaksRule(school, {
+        text: line,
+        use: { role: "raise", requiresFacts: ["long-ago"] },
+      }),
+    ).toBe(false);
+    expect(caseBreaksRule(school, { text: line, use: { role: "raise" } })).toBe(
       true,
     );
   });
@@ -496,6 +589,165 @@ describe("the grade notes no rule cites", () => {
   });
 });
 
+describe("the rules that judge a piece in its spot, over the banks", () => {
+  const file = JSON.parse(
+    readFileSync(
+      path.resolve(__dirname, "../../data/english/line-rules.json"),
+      "utf8",
+    ),
+  ) as LineRulesFile;
+  const inContext = file.rules.filter(
+    (row) => row.judges === "piece-in-context",
+  );
+  const byId = new Map(file.rules.map((row) => [row.id, row]));
+  const bank = (name: string): RulePiece[] => {
+    const parts = (
+      JSON.parse(
+        readFileSync(
+          path.resolve(__dirname, "../../data/english/parts", `${name}.json`),
+          "utf8",
+        ),
+      ) as {
+        parts: ({
+          key: string;
+          text: string;
+          kind?: string;
+          move?: string;
+          uses?: Record<string, unknown>[];
+        } & Record<string, unknown>)[];
+      }
+    ).parts;
+    return parts.map((part) => ({
+      bank: name,
+      key: part.key,
+      text: part.text,
+      kind: part.kind ?? "",
+      move: part.move ?? "",
+      uses: usesWithTags(part, part.uses ?? []),
+    }));
+  };
+  const flagged = (id: string, pieces: readonly RulePiece[]) =>
+    pieces.filter((p) => ruleFlags(byId.get(id)!, p)).map((p) => p.key);
+
+  it("each one has a test that reads where the line is said, or says in its row why it waits", () => {
+    expect(inContext.length).toBeGreaterThan(0);
+    const wrong = inContext.flatMap((row) => {
+      if (row.status === "awaiting-test")
+        return row.note?.trim() ? [] : [`${row.id} waits with no reason`];
+      // A composed rule reads whole texts; tests/guards/english/composed-rules.test.ts holds it.
+      if (row.test.kind === "composed") return [];
+      const tested = ["phrases", "patterns", "sentences"].includes(
+        row.test.kind,
+      );
+      const caught = (row.catches ?? []).some(
+        (line) => typeof line !== "string" && caseBreaksRule(row, line),
+      );
+      const spared = (row.spares ?? []).some(
+        (line) => typeof line !== "string" && !caseBreaksRule(row, line),
+      );
+      // The one enforced journal rule predates this part and reads one line.
+      if (row.id === "journal-work-line-tells-a-story-in-ten-words") return [];
+      return tested && row.applies && caught && spared
+        ? []
+        : [`${row.id} has no spot test with a case caught and a case spared`];
+    });
+    expect(wrong).toEqual([]);
+  });
+
+  it("an opener asking after a school is said only where the record shows the years since", () => {
+    const talk = bank("conversation");
+    const asks = talk.filter((p) => /remember \{school\}/i.test(p.text));
+    expect(asks.length).toBeGreaterThan(0);
+    // Every such opener in the bank requires long-ago, so the rule leaves it alone.
+    expect(flagged("no-do-you-remember-the-school", talk)).toEqual([]);
+    // The same line in an opener without that fact is caught.
+    const bare = {
+      ...asks[0]!,
+      uses: asks[0]!.uses.map((use) => ({ ...use, requiresFacts: [] })),
+    };
+    expect(ruleFlags(byId.get("no-do-you-remember-the-school")!, bare)).toBe(
+      true,
+    );
+  });
+
+  it("scene narration speaks as you, and a speaker in the same scene may say I", () => {
+    const talk = bank("scene-talk");
+    const words = bank("scene-words");
+    expect(flagged("narration-person", [...talk, ...words])).toEqual([]);
+    const narrator = talk.find((p) =>
+      p.uses.some((use) => use.role === "narrator"),
+    )!;
+    const asked = talk.find(
+      (p) =>
+        /\bI\b/.test(p.text) && p.uses.every((use) => use.role === "asked"),
+    )!;
+    const rule = byId.get("narration-person")!;
+    expect(ruleFlags(rule, asked)).toBe(false);
+    expect(ruleFlags(rule, { ...narrator, text: asked.text })).toBe(true);
+  });
+
+  it('"can\'t afford a yes" is flagged outside a bribe offer and spared inside one', () => {
+    const talk = bank("scene-talk");
+    const keys = flagged("trade-not-bribe", talk);
+    expect(keys).toEqual([
+      "scene-talk.follow-answer.because-those-three-can-t-afford-a-yes-and-you-can",
+    ]);
+    const line = talk.find((p) => p.key === keys[0])!;
+    const rule = byId.get("trade-not-bribe")!;
+    expect(
+      ruleFlags(rule, {
+        ...line,
+        uses: line.uses.map((use) => ({ ...use, purpose: "bribe-offer" })),
+      }),
+    ).toBe(false);
+  });
+
+  it("a body is called the board only where its name is on record; the vote board is left alone", () => {
+    // The three talk lines this rule used to flag (the filing clerk's "the
+    // board sets the town's budget" and two more) were rewritten to read the
+    // body's name in #8750 (2a68588939), so the bank holds none now. The rule
+    // is held by its own cases here, never by a count of bank lines.
+    const talk = bank("scene-talk");
+    const rule = byId.get("body-named-as-place-names-it")!;
+    const clerk = {
+      bank: "scene-talk",
+      key: "fixture.clerk",
+      kind: "",
+      move: "",
+      text: "You'd run the town day to day: the departments, the budget, and whatever the board sends you to sign.",
+      uses: [
+        {
+          subject: "scene",
+          role: "asker",
+          purpose: "filing-clerk",
+          excludesFacts: ["body"],
+        },
+      ],
+    } as RulePiece;
+    expect(ruleFlags(rule, clerk)).toBe(true);
+    // The same words where the body's name is not excluded are not flagged.
+    expect(
+      ruleFlags(rule, {
+        ...clerk,
+        uses: [{ subject: "scene", role: "asker", purpose: "filing-clerk" }],
+      } as RulePiece),
+    ).toBe(false);
+    // A line that names the body through its slot is not flagged.
+    expect(
+      ruleFlags(rule, {
+        ...clerk,
+        text: "The {body} sets the budget and passes the local laws.",
+      }),
+    ).toBe(false);
+    // It flags nothing the bank holds now.
+    expect(flagged("body-named-as-place-names-it", talk)).toEqual([]);
+    // The vote board's tally line is left alone.
+    const tally = talk.find((p) => /^The board shows every name/.test(p.text))!;
+    expect(ruleFlags(rule, tally)).toBe(false);
+    expect(rule.status).toBe("rewrite");
+  });
+});
+
 describe("the rules that judge one line", () => {
   const file = JSON.parse(
     readFileSync(
@@ -524,11 +776,15 @@ describe("the rules that judge one line", () => {
       expect((r.catches ?? []).length, `${id} catches`).toBeGreaterThan(0);
       expect((r.spares ?? []).length, `${id} spares`).toBeGreaterThan(0);
       for (const line of r.catches ?? [])
-        expect(textBreaksRule(r, line), `${id} must catch: ${line}`).toBe(true);
+        expect(
+          caseBreaksRule(r, line),
+          `${id} must catch: ${caseText(line)}`,
+        ).toBe(true);
       for (const line of r.spares ?? [])
-        expect(textBreaksRule(r, line), `${id} must spare: ${line}`).toBe(
-          false,
-        );
+        expect(
+          caseBreaksRule(r, line),
+          `${id} must spare: ${caseText(line)}`,
+        ).toBe(false);
     },
   );
 

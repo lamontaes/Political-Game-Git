@@ -28,11 +28,21 @@ export interface OrderVisible {
   reds?: string;
   playKind?: string;
 }
+/**
+ * The cap on new work (order.json `cap`; owner, Nov 11, 2026): while more
+ * than `openGamePullRequests` game pull requests are open, `next` hands out
+ * only what still comes first (a red on main, a rule, a check or a skill).
+ */
+export interface OrderCap {
+  why?: string;
+  openGamePullRequests: number;
+}
 export interface Order {
   levels: string[];
   classes: OrderClass[];
   kinds: Record<string, OrderKind>;
   visible?: OrderVisible;
+  cap?: OrderCap;
 }
 
 /** Item fields the order reads; `waits-on` and `time-box` are the item's sections and `shown` is the kind its What ends on (Seen:, Feeds: or Guards:), added when the item is read. */
@@ -59,6 +69,7 @@ export function readOrder(poolDir: string): Order {
     classes: raw.classes ?? [],
     kinds: raw.kinds ?? {},
     ...(raw.visible ? { visible: raw.visible } : {}),
+    ...(raw.cap ? { cap: raw.cap } : {}),
   };
 }
 

@@ -25,7 +25,7 @@
     "money": "A dollar amount, from the budget record.",
     "purpose": "What the money is for, from the budget record.",
     "against": "How many spoke against, from the hearing record.",
-    "body": "The governing body, from its record.",
+    "body": "The governing body, from its record; for a bill's next step, the body the bill is before, from the bill's body office record.",
     "by": "Who made the appointment, from its record.",
     "committee": "A committee, from the committee record.",
     "crime": "An offense, from the charge record.",
@@ -87,7 +87,12 @@
     "margin": "How many votes the winning side led by, from the vote record.",
     "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
     "district": "A seat's district, as its seat record numbers it (4, 12A), from the seat records.",
-    "commenter": "The person a reporter asked for comment, by name, from the comment record."
+    "commenter": "The person a reporter asked for comment, by name, from the comment record.",
+    "since": "The day a seat fell empty, from the vacancy record.",
+    "vacated": "The day the seat a new holder takes fell empty, from the vacancy record.",
+    "opened": "The month and year a business opened, from its founding record, when it was open less than two years.",
+    "members": "How many sit on a study committee, said in words, from the study's row.",
+    "until": "The day a study committee reports by, from the study's row."
   },
   "maxWords": 14,
   "mining": {
@@ -3670,28 +3675,6 @@
           "role": "vacancy",
           "choice": "lede",
           "requiresFacts": ["left"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.vacancy.a-special-election-will-fill-the-seat",
-      "move": "vacancy",
-      "kind": "written",
-      "text": "A special election will fill the seat.",
-      "uses": [
-        {
-          "move": "vacancy",
-          "subject": "news",
-          "role": "vacancy",
-          "choice": "lede",
-          "requiresFacts": ["special"]
         }
       ],
       "origin": "authored",
@@ -7711,10 +7694,10 @@
       }
     },
     {
-      "key": "news.bill-purpose.at-issue-is-purpose",
+      "key": "news.bill-purpose.the-proposal-centers-on-purpose",
       "move": "bill-purpose",
       "kind": "written",
-      "text": "At issue is {purpose}.",
+      "text": "The proposal centers on {purpose}.",
       "uses": [
         {
           "move": "bill-purpose",
@@ -7725,8 +7708,8 @@
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
-      "date": "2026-10-29",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -7953,50 +7936,6 @@
       }
     },
     {
-      "key": "news.signed-next.the-bill-goes-back-to-lawmakers-who-can-vote-to-override-the-veto",
-      "move": "signed-next",
-      "kind": "written",
-      "text": "The bill goes back to lawmakers, who can vote to override the veto.",
-      "uses": [
-        {
-          "move": "signed-next",
-          "subject": "news",
-          "role": "signed-next",
-          "choice": "context",
-          "requiresFacts": ["vetoed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.signed-next.lawmakers-can-still-override-the-veto-with-enough-votes",
-      "move": "signed-next",
-      "kind": "written",
-      "text": "Lawmakers can still override the veto with enough votes.",
-      "uses": [
-        {
-          "move": "signed-next",
-          "subject": "news",
-          "role": "signed-next",
-          "choice": "context",
-          "requiresFacts": ["vetoed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.signed-next.designation-becomes-law-with-name-s-signature",
       "move": "signed-next",
       "kind": "written",
@@ -8030,270 +7969,6 @@
           "role": "signed-next",
           "choice": "context",
           "requiresFacts": ["signed", "law"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.committee-next.the-bill-will-not-reach-the-floor-unless-the-committee-takes-it-up-aga",
-      "move": "committee-next",
-      "kind": "written",
-      "text": "The bill will not reach the floor unless the committee takes it up again.",
-      "uses": [
-        {
-          "move": "committee-next",
-          "subject": "news",
-          "role": "committee-next",
-          "choice": "context",
-          "requiresFacts": ["failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.committee-next.without-the-committee-s-support-the-bill-goes-no-further",
-      "move": "committee-next",
-      "kind": "written",
-      "text": "Without the committee's support, the bill goes no further.",
-      "uses": [
-        {
-          "move": "committee-next",
-          "subject": "news",
-          "role": "committee-next",
-          "choice": "context",
-          "requiresFacts": ["failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.committee-next.the-bill-stays-in-committee-for-now",
-      "move": "committee-next",
-      "kind": "written",
-      "text": "The bill stays in committee for now.",
-      "uses": [
-        {
-          "move": "committee-next",
-          "subject": "news",
-          "role": "committee-next",
-          "choice": "context",
-          "requiresFacts": ["failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.committee-next.the-committee-s-vote-stops-the-bill-there",
-      "move": "committee-next",
-      "kind": "written",
-      "text": "The committee's vote stops the bill there.",
-      "uses": [
-        {
-          "move": "committee-next",
-          "subject": "news",
-          "role": "committee-next",
-          "choice": "context",
-          "requiresFacts": ["failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.committee-next.for-now-the-bill-stops-in-committee",
-      "move": "committee-next",
-      "kind": "written",
-      "text": "For now, the bill stops in committee.",
-      "uses": [
-        {
-          "move": "committee-next",
-          "subject": "news",
-          "role": "committee-next",
-          "choice": "context",
-          "requiresFacts": ["failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.committee-next.the-committee-s-no-keeps-the-bill-off-the-floor",
-      "move": "committee-next",
-      "kind": "written",
-      "text": "The committee's no keeps the bill off the floor.",
-      "uses": [
-        {
-          "move": "committee-next",
-          "subject": "news",
-          "role": "committee-next",
-          "choice": "context",
-          "requiresFacts": ["failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.committee-next.that-ends-the-bill-s-run-unless-the-committee-changes-course",
-      "move": "committee-next",
-      "kind": "written",
-      "text": "That ends the bill's run unless the committee changes course.",
-      "uses": [
-        {
-          "move": "committee-next",
-          "subject": "news",
-          "role": "committee-next",
-          "choice": "context",
-          "requiresFacts": ["failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.committee-next.the-bill-now-goes-to-the-floor-for-a-vote",
-      "move": "committee-next",
-      "kind": "written",
-      "text": "The bill now goes to the floor for a vote.",
-      "uses": [
-        {
-          "move": "committee-next",
-          "subject": "news",
-          "role": "committee-next",
-          "choice": "context",
-          "requiresFacts": ["passed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.committee-next.next-the-full-body-votes-on-it",
-      "move": "committee-next",
-      "kind": "written",
-      "text": "Next, the full body votes on it.",
-      "uses": [
-        {
-          "move": "committee-next",
-          "subject": "news",
-          "role": "committee-next",
-          "choice": "context",
-          "requiresFacts": ["passed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.override-next.the-veto-stands-and-the-bill-does-not-become-law",
-      "move": "override-next",
-      "kind": "written",
-      "text": "The veto stands, and the bill does not become law.",
-      "uses": [
-        {
-          "move": "override-next",
-          "subject": "news",
-          "role": "override-next",
-          "choice": "context",
-          "requiresFacts": ["failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.override-next.the-bill-will-not-take-effect",
-      "move": "override-next",
-      "kind": "written",
-      "text": "The bill will not take effect.",
-      "uses": [
-        {
-          "move": "override-next",
-          "subject": "news",
-          "role": "override-next",
-          "choice": "context",
-          "requiresFacts": ["failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.override-next.the-bill-now-takes-effect-despite-the-veto",
-      "move": "override-next",
-      "kind": "written",
-      "text": "The bill now takes effect despite the veto.",
-      "uses": [
-        {
-          "move": "override-next",
-          "subject": "news",
-          "role": "override-next",
-          "choice": "context",
-          "requiresFacts": ["passed"]
         }
       ],
       "origin": "authored",
@@ -9402,28 +9077,6 @@
       }
     },
     {
-      "key": "news.vacancy-fill.the-seat-stays-open-under-the-rules",
-      "move": "vacancy-fill",
-      "kind": "written",
-      "text": "The seat stays open under the rules.",
-      "uses": [
-        {
-          "move": "vacancy-fill",
-          "subject": "news",
-          "role": "vacancy-fill",
-          "choice": "context",
-          "requiresFacts": ["empty"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.vacancy-election.the-special-election-is-set-for-when",
       "move": "vacancy-election",
       "kind": "written",
@@ -9721,160 +9374,6 @@
           "role": "took-office-by",
           "choice": "context",
           "requiresFacts": ["by"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.took-office-cause.the-seat-opened-when-its-holder-died",
-      "move": "took-office-cause",
-      "kind": "written",
-      "text": "The seat opened when its holder died.",
-      "uses": [
-        {
-          "move": "took-office-cause",
-          "subject": "news",
-          "role": "took-office-cause",
-          "choice": "context",
-          "requiresFacts": ["died"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.took-office-cause.its-last-holder-died-in-office",
-      "move": "took-office-cause",
-      "kind": "written",
-      "text": "Its last holder died in office.",
-      "uses": [
-        {
-          "move": "took-office-cause",
-          "subject": "news",
-          "role": "took-office-cause",
-          "choice": "context",
-          "requiresFacts": ["died"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.took-office-cause.the-seat-came-open-on-its-holders-death",
-      "move": "took-office-cause",
-      "kind": "written",
-      "text": "The seat came open on its holder's death.",
-      "uses": [
-        {
-          "move": "took-office-cause",
-          "subject": "news",
-          "role": "took-office-cause",
-          "choice": "context",
-          "requiresFacts": ["died"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.took-office-cause.the-seat-opened-after-its-holder-moved-away",
-      "move": "took-office-cause",
-      "kind": "written",
-      "text": "The seat opened after its holder moved away.",
-      "uses": [
-        {
-          "move": "took-office-cause",
-          "subject": "news",
-          "role": "took-office-cause",
-          "choice": "context",
-          "requiresFacts": ["moved"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.took-office-cause.its-last-holder-moved-away",
-      "move": "took-office-cause",
-      "kind": "written",
-      "text": "Its last holder moved away.",
-      "uses": [
-        {
-          "move": "took-office-cause",
-          "subject": "news",
-          "role": "took-office-cause",
-          "choice": "context",
-          "requiresFacts": ["moved"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-reach.it-applies-across-the-country",
-      "move": "law-reach",
-      "kind": "written",
-      "text": "It applies across the country.",
-      "uses": [
-        {
-          "move": "law-reach",
-          "subject": "news",
-          "role": "law-reach",
-          "choice": "context",
-          "requiresFacts": ["federal"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-reach.it-covers-everyone-in-the-country",
-      "move": "law-reach",
-      "kind": "written",
-      "text": "It covers everyone in the country.",
-      "uses": [
-        {
-          "move": "law-reach",
-          "subject": "news",
-          "role": "law-reach",
-          "choice": "context",
-          "requiresFacts": ["federal"]
         }
       ],
       "origin": "authored",
@@ -11162,28 +10661,6 @@
       }
     },
     {
-      "key": "news.vote-margin.it-carried-by-a-single-vote",
-      "move": "vote-margin",
-      "kind": "written",
-      "text": "It carried by a single vote.",
-      "uses": [
-        {
-          "move": "vote-margin",
-          "subject": "news",
-          "role": "vote-margin",
-          "choice": "context",
-          "requiresFacts": ["one-vote", "passed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.vote-margin.it-carried-by-margin-votes",
       "move": "vote-margin",
       "kind": "written",
@@ -11194,29 +10671,8 @@
           "subject": "news",
           "role": "vote-margin",
           "choice": "context",
-          "requiresFacts": ["margin", "passed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.vote-margin.it-fell-short-by-a-single-vote",
-      "move": "vote-margin",
-      "kind": "written",
-      "text": "It fell short by a single vote.",
-      "uses": [
-        {
-          "move": "vote-margin",
-          "subject": "news",
-          "role": "vote-margin",
-          "choice": "context",
-          "requiresFacts": ["one-vote", "failed"]
+          "requiresFacts": ["margin", "passed"],
+          "excludesFacts": ["one-vote"]
         }
       ],
       "origin": "authored",
@@ -11238,7 +10694,8 @@
           "subject": "news",
           "role": "vote-margin",
           "choice": "context",
-          "requiresFacts": ["margin", "failed"]
+          "requiresFacts": ["margin", "failed"],
+          "excludesFacts": ["one-vote"]
         }
       ],
       "origin": "authored",
@@ -11773,29 +11230,6 @@
       }
     },
     {
-      "key": "news.closing-account.its-owner-is-retiring",
-      "move": "closing-account",
-      "kind": "written",
-      "text": "Its owner is retiring.",
-      "uses": [
-        {
-          "move": "closing-account",
-          "subject": "news",
-          "role": "closing-account",
-          "choice": "context",
-          "requiresFacts": ["retiring"],
-          "excludesFacts": ["owner", "years"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.closing-account.owner-ran-it-for-years-years-with-no-one-to-take-over",
       "move": "closing-account",
       "kind": "written",
@@ -11875,29 +11309,6 @@
           "choice": "context",
           "requiresFacts": ["no-successor", "years"],
           "excludesFacts": ["owner"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-account.no-one-was-in-line-to-take-it-over",
-      "move": "closing-account",
-      "kind": "written",
-      "text": "No one was in line to take it over.",
-      "uses": [
-        {
-          "move": "closing-account",
-          "subject": "news",
-          "role": "closing-account",
-          "choice": "context",
-          "requiresFacts": ["no-successor"],
-          "excludesFacts": ["owner", "years"]
         }
       ],
       "origin": "authored",
@@ -11999,29 +11410,6 @@
       }
     },
     {
-      "key": "news.closing-account.it-had-been-losing-money",
-      "move": "closing-account",
-      "kind": "written",
-      "text": "It had been losing money.",
-      "uses": [
-        {
-          "move": "closing-account",
-          "subject": "news",
-          "role": "closing-account",
-          "choice": "context",
-          "requiresFacts": ["losses"],
-          "excludesFacts": ["owner", "years"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.closing-account.after-years-years-owner-ran-out-of-cash-to-pay-its-bills",
       "move": "closing-account",
       "kind": "written",
@@ -12079,29 +11467,6 @@
           "choice": "context",
           "requiresFacts": ["broke", "years"],
           "excludesFacts": ["owner"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-account.it-ran-out-of-cash-to-pay-what-it-owed",
-      "move": "closing-account",
-      "kind": "written",
-      "text": "It ran out of cash to pay what it owed.",
-      "uses": [
-        {
-          "move": "closing-account",
-          "subject": "news",
-          "role": "closing-account",
-          "choice": "context",
-          "requiresFacts": ["broke"],
-          "excludesFacts": ["owner", "years"]
         }
       ],
       "origin": "authored",
@@ -13071,7 +12436,10 @@
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-09",
-      "tag": { "move": "deliver-news", "key": "news-received" }
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     },
     {
       "key": "news.cabinet-nominated.name-is-the-presidents-choice-for-office-pending-a-senate-vote",
@@ -13089,7 +12457,10 @@
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-09",
-      "tag": { "move": "deliver-news", "key": "news-received" }
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     },
     {
       "key": "news.cabinet-nominated.by-named-name-to-be-office-the-nomination-goes-to-the-senate",
@@ -13108,7 +12479,10 @@
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-09",
-      "tag": { "move": "deliver-news", "key": "news-received" }
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     },
     {
       "key": "news.cabinet-confirmed.the-senate-confirmed-name-as-office-yeas-to-nays",
@@ -13127,7 +12501,10 @@
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-09",
-      "tag": { "move": "deliver-news", "key": "news-received" }
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     },
     {
       "key": "news.cabinet-confirmed.name-is-confirmed-as-office-after-a-senate-vote-of-yeas-to",
@@ -13146,7 +12523,10 @@
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-09",
-      "tag": { "move": "deliver-news", "key": "news-received" }
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     },
     {
       "key": "news.cabinet-confirmed.the-senate-has-confirmed-name-as-office",
@@ -13164,7 +12544,10 @@
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-09",
-      "tag": { "move": "deliver-news", "key": "news-received" }
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     },
     {
       "key": "news.cabinet-confirmed.name-will-serve-as-office-after-the-senates-vote",
@@ -13182,7 +12565,10 @@
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-09",
-      "tag": { "move": "deliver-news", "key": "news-received" }
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     },
     {
       "key": "news.cabinet-rejected.the-senate-voted-down-name-for-office-yeas-to-nays",
@@ -13201,7 +12587,10 @@
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-09",
-      "tag": { "move": "deliver-news", "key": "news-received" }
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     },
     {
       "key": "news.cabinet-rejected.name-will-not-be-office-the-senate-voted-the-nomination-down",
@@ -13219,7 +12608,10 @@
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-09",
-      "tag": { "move": "deliver-news", "key": "news-received" }
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     },
     {
       "key": "news.cabinet-rejected.the-senate-turned-down-name-for-office-and-the-post-stays-open",
@@ -13237,7 +12629,563 @@
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-09",
-      "tag": { "move": "deliver-news", "key": "news-received" }
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy.a-special-election-on-when-will-fill-the-seat",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "A special election on {when} will fill the seat.",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "news",
+          "role": "vacancy",
+          "choice": "lede",
+          "requiresFacts": ["special", "when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed-next.the-bill-goes-back-to-the-body-which-can-vote-to-override-the-veto",
+      "move": "signed-next",
+      "kind": "written",
+      "text": "The bill goes back to the {body}, which can vote to override the veto.",
+      "uses": [
+        {
+          "move": "signed-next",
+          "subject": "news",
+          "role": "signed-next",
+          "choice": "context",
+          "requiresFacts": ["vetoed", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed-next.the-body-can-still-override-the-veto-with-enough-votes",
+      "move": "signed-next",
+      "kind": "written",
+      "text": "The {body} can still override the veto with enough votes.",
+      "uses": [
+        {
+          "move": "signed-next",
+          "subject": "news",
+          "role": "signed-next",
+          "choice": "context",
+          "requiresFacts": ["vetoed", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.the-bill-wont-reach-the-body-floor-unless-the-committee-takes-it-up-ag",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "The bill won't reach the {body} floor unless the committee takes it up again.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.without-the-committees-support-the-bill-never-reaches-the-body",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "Without the committee's support, the bill never reaches the {body}.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.for-now-the-bill-stays-in-committee-off-the-body-floor",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "For now, the bill stays in committee, off the {body} floor.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.the-committees-no-keeps-the-bill-from-a-vote-of-the-full-body",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "The committee's no keeps the bill from a vote of the full {body}.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.the-bill-now-goes-to-the-floor-of-the-body-for-a-vote",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "The bill now goes to the floor of the {body} for a vote.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["passed", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.next-the-full-body-votes-on-it",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "Next, the full {body} votes on it.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["passed", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy-fill.the-seat-has-been-open-since-since-and-the-rules-leave-it-empty",
+      "move": "vacancy-fill",
+      "kind": "written",
+      "text": "The seat has been open since {since}, and the rules leave it empty.",
+      "uses": [
+        {
+          "move": "vacancy-fill",
+          "subject": "news",
+          "role": "vacancy-fill",
+          "choice": "context",
+          "requiresFacts": ["empty", "since"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office-cause.before-died-in-office-on-vacated",
+      "move": "took-office-cause",
+      "kind": "written",
+      "text": "{before} died in office on {vacated}.",
+      "uses": [
+        {
+          "move": "took-office-cause",
+          "subject": "news",
+          "role": "took-office-cause",
+          "choice": "context",
+          "requiresFacts": ["died", "before", "vacated"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office-cause.the-seat-opened-when-before-died-on-vacated",
+      "move": "took-office-cause",
+      "kind": "written",
+      "text": "The seat opened when {before} died on {vacated}.",
+      "uses": [
+        {
+          "move": "took-office-cause",
+          "subject": "news",
+          "role": "took-office-cause",
+          "choice": "context",
+          "requiresFacts": ["died", "before", "vacated"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office-cause.before-moved-away-and-the-seat-fell-empty-on-vacated",
+      "move": "took-office-cause",
+      "kind": "written",
+      "text": "{before} moved away, and the seat fell empty on {vacated}.",
+      "uses": [
+        {
+          "move": "took-office-cause",
+          "subject": "news",
+          "role": "took-office-cause",
+          "choice": "context",
+          "requiresFacts": ["moved", "before", "vacated"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.it-opened-in-opened-and-had-been-losing-money",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "It opened in {opened} and had been losing money.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["losses", "opened"],
+          "excludesFacts": ["owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.it-opened-in-opened-and-ran-out-of-cash-to-pay-what-it-owed",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "It opened in {opened} and ran out of cash to pay what it owed.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["broke", "opened"],
+          "excludesFacts": ["owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-formed.name-will-chair-a-committee-of-members-studying-designation",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "{name} will chair a committee of {members} studying {designation}.",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "news",
+          "role": "study-formed",
+          "choice": "lede",
+          "requiresFacts": ["name", "members"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-formed.name-who-sponsored-designation-will-chair-the-committee-of-members",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "{name}, who sponsored {designation}, will chair the committee of {members} studying it.",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "news",
+          "role": "study-formed",
+          "choice": "lede",
+          "requiresFacts": ["name", "members"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-next.the-committee-reports-by-until",
+      "move": "study-next",
+      "kind": "written",
+      "text": "The committee reports by {until}.",
+      "uses": [
+        {
+          "move": "study-next",
+          "subject": "news",
+          "role": "study-next",
+          "choice": "context",
+          "requiresFacts": ["until"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-next.its-report-is-due-by-until",
+      "move": "study-next",
+      "kind": "written",
+      "text": "Its report is due by {until}.",
+      "uses": [
+        {
+          "move": "study-next",
+          "subject": "news",
+          "role": "study-next",
+          "choice": "context",
+          "requiresFacts": ["until"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.the-committee-studying-designation-reported-on-date-and-its-members-no",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "The committee studying {designation} reported on {date}, that its members lean toward the bill.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["members-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.on-date-the-committee-on-designation-reported-that-its-members-now-fav",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "On {date}, the committee on {designation} reported that, on balance, its members favor the bill.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["members-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.the-committee-studying-designation-reported-on-date-and-its-members-no-2",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "The committee studying {designation} reported on {date}, that its members lean against the bill.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["members-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.on-date-the-committee-on-designation-reported-that-its-members-now-opp",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "On {date}, the committee on {designation} reported that, on balance, its members oppose the bill.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["members-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-chair.name-its-chair-gave-the-findings-to-the-body",
+      "move": "study-chair",
+      "kind": "written",
+      "text": "{name}, its chair, gave the findings to the {body}.",
+      "uses": [
+        {
+          "move": "study-chair",
+          "subject": "news",
+          "role": "study-chair",
+          "choice": "context",
+          "requiresFacts": ["presented", "name", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-chair.name-chaired-the-committee",
+      "move": "study-chair",
+      "kind": "written",
+      "text": "{name} chaired the committee.",
+      "uses": [
+        {
+          "move": "study-chair",
+          "subject": "news",
+          "role": "study-chair",
+          "choice": "context",
+          "requiresFacts": ["name"],
+          "excludesFacts": ["presented"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

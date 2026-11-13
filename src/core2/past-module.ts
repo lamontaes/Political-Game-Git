@@ -58,6 +58,14 @@ export function putPast(api: CoreAPI, name: string, row: object): void {
   pastTable(api, name).put(row as unknown as ModuleRow);
 }
 
+export {
+  PAST_ARRESTED,
+  PAST_CONVICTED,
+  PAST_IMPRISONED,
+  PAST_RELEASED,
+  pastJusticeFor,
+} from "./past-justice";
+export { prisonTermOf } from "./past-work";
 export { seededUnit } from "./seeded";
 
 // The one history, for the engines that run or read it (light imports only:
@@ -72,6 +80,7 @@ export {
   type HistoryWriter,
   type PreStartModule,
   type PreStartWindow,
+  wholePastOpened,
 } from "./pre-start";
 export {
   PAST_WORK_OUT,
@@ -88,7 +97,17 @@ export {
   residenceOn,
   type DepartureRate,
 } from "./past-moves";
+export { pastHealthFor } from "./past-health";
+export { pastPartnersFor } from "./past-partners";
 export {
+  PAST_DISCHARGED,
+  PAST_ENLISTED,
+  pastServiceFor,
+} from "./past-military";
+export {
+  COLLEGE_ENDED,
+  COLLEGE_STARTED,
+  SCHOOL_FINISHED,
   SCHOOL_STARTED,
   schoolHistory,
   schoolHistoryFor,
@@ -134,6 +153,12 @@ export interface PastElectionRow {
   readonly winnerId: string;
   readonly candidates: readonly PastCandidate[];
   readonly totalVotes: number;
+  /**
+   * The count this world's `totalVotes` was drawn around (the recorded total
+   * where the corpus has the race, else the electorate's ballots times
+   * turnout), whole votes: the world never prints it as its own.
+   */
+  readonly sourceVotes: number;
   /** The town's voter groups: their ballots and the winner's share of them. */
   readonly townGroups: readonly {
     readonly groupId: string;

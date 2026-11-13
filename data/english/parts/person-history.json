@@ -20,7 +20,12 @@
     "whom": "The person the story is about, as the object of a sentence: their full name the first time, then their pronoun (her, him).",
     "employers": "The earlier employers as a spoken list: A, B and C.",
     "span": "How long a stretch of work lasted, as people say it: nine years.",
-    "here": "The town or county the person lives in now, from the place records."
+    "here": "The town or county the person lives in now, from the place records.",
+    "age": "How old the person was then, from their birth record and the record's date.",
+    "child": "A child's first name from their record.",
+    "kin": "Who lives with the person, each as they call them (\"your mother\", \"your daughters\"), joined with \"or\", from the household and family records.",
+    "offense": "The offense the justice engine's record names: bribery.",
+    "parent": "Who the partner is to the people the line is told to, from the child's other-parent record, said only when the record holds it: on someone else's card \"your father\" or \"the children's mother\"; in the first person, on the player's own card, \"my children's father\" or \"my daughter's mother\"."
   },
   "maxWords": 24,
   "parts": [
@@ -81,7 +86,7 @@
     {
       "key": "person-history.story.moved.in.third",
       "move": "story",
-      "text": "{who} moved to the county.",
+      "text": "{who} moved to {here}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -90,7 +95,7 @@
     {
       "key": "person-history.story.moved.in.they",
       "move": "story",
-      "text": "They moved to the county.",
+      "text": "They moved to {here}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -163,60 +168,6 @@
       "key": "person-history.story.partner.home.they",
       "move": "story",
       "text": "They made a home with {name}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.partner.home-you.third",
-      "move": "story",
-      "text": "{who} made a home with you.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.partner.home-you.they",
-      "move": "story",
-      "text": "They made a home with you.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.third",
-      "move": "story",
-      "text": "{who} had a child, {name}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.they",
-      "move": "story",
-      "text": "They had a child, {name}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.you.third",
-      "move": "story",
-      "text": "You were born to {whom}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.you.they",
-      "move": "story",
-      "text": "You were born to them.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -459,10 +410,10 @@
     {
       "key": "person-history.summary.before.vice-president",
       "move": "summary",
-      "text": "Was vice president before that.",
+      "text": "Was vice president before winning in {year}.",
       "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
+      "author": "Words builder W2 (person-history inserts)",
+      "date": "2026-11-12",
       "kind": "written"
     },
     {
@@ -486,10 +437,10 @@
     {
       "key": "person-history.summary.before.cabinet",
       "move": "summary",
-      "text": "Served in the cabinet before that.",
+      "text": "Served in the cabinet before the {year} election.",
       "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
+      "author": "Words builder W2 (person-history inserts)",
+      "date": "2026-11-12",
       "kind": "written"
     },
     {
@@ -520,6 +471,33 @@
       "kind": "written"
     },
     {
+      "key": "person-history.summary.work.outside",
+      "text": "Works outside {place}.",
+      "move": "summary",
+      "origin": "authored",
+      "author": "Words builder W2 (work outside the town)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.outside.you",
+      "text": "You work outside {place}.",
+      "move": "summary",
+      "origin": "authored",
+      "author": "Words builder W2 (work outside the town)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.outside.first",
+      "text": "I work outside {place}.",
+      "move": "summary",
+      "origin": "authored",
+      "author": "Words builder W2 (work outside the town)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
       "key": "person-history.summary.work.employer.you",
       "move": "summary",
       "text": "You work at {employer}.",
@@ -540,10 +518,19 @@
     {
       "key": "person-history.summary.no-work.none.you",
       "move": "summary",
-      "text": "You have no job, and nobody in your household draws a wage.",
+      "text": "Nobody at home has a job, not you and not {kin}.",
       "origin": "authored",
-      "author": "Lane 4, Screens (play-who-you-are-says-why-no-job)",
-      "date": "2026-11-04",
+      "author": "Words builder W2 (person-history inserts)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.no-work.alone.you",
+      "move": "summary",
+      "text": "You live alone, and you have been out of work since {month}.",
+      "origin": "authored",
+      "author": "Words builder W2 (person-history inserts)",
+      "date": "2026-11-12",
       "kind": "written"
     },
     {
@@ -763,24 +750,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.partner.moved-in-you.third",
-      "move": "story",
-      "text": "{who} moved in with you in {year}.",
-      "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.partner.moved-in-you.they",
-      "move": "story",
-      "text": "They moved in with you in {year}.",
-      "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.partner.engaged.third",
       "move": "story",
       "text": "{who} got engaged to {name} in {year}.",
@@ -891,19 +860,37 @@
     {
       "key": "person-history.story.law.accused.third",
       "move": "story",
-      "text": "{who} was accused of a crime in {year}.",
+      "text": "{who} was accused of {offense} in {year}.",
       "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
+      "author": "Words builder W2 (Fable A, Nov 13: the accusation names its offense)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.arrested.third",
+      "move": "story",
+      "text": "{who} was arrested in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: an arrest before play said as an arrest)",
+      "date": "2026-11-13",
       "kind": "written"
     },
     {
       "key": "person-history.story.law.accused.they",
       "move": "story",
-      "text": "They were accused of a crime in {year}.",
+      "text": "They were accused of {offense} in {year}.",
       "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
+      "author": "Words builder W2 (Fable A, Nov 13: the accusation names its offense)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.arrested.they",
+      "move": "story",
+      "text": "They were arrested in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: an arrest before play said as an arrest)",
+      "date": "2026-11-13",
       "kind": "written"
     },
     {
@@ -1242,7 +1229,7 @@
     {
       "key": "person-history.story.moved.in.i",
       "move": "story",
-      "text": "I moved to the county.",
+      "text": "I moved to {here}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1270,15 +1257,6 @@
       "key": "person-history.story.partner.home.i",
       "move": "story",
       "text": "I made a home with {name}.",
-      "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.i",
-      "move": "story",
-      "text": "I had a child, {name}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1377,7 +1355,7 @@
     {
       "key": "person-history.story.office.entered-again.i",
       "move": "story",
-      "text": "I took office as {office}, and were returned in {years}.",
+      "text": "I took office as {office}, and was returned in {years}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1404,7 +1382,7 @@
     {
       "key": "person-history.story.office.entered-always.i",
       "move": "story",
-      "text": "I took office as {office}, and were returned at every election after that.",
+      "text": "I took office as {office}, and was returned at every election after that.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1476,10 +1454,19 @@
     {
       "key": "person-history.story.law.accused.i",
       "move": "story",
-      "text": "I was accused of a crime in {year}.",
+      "text": "I was accused of {offense} in {year}.",
       "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
+      "author": "Words builder W2 (Fable A, Nov 13: the accusation names its offense)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.arrested.i",
+      "move": "story",
+      "text": "I was arrested in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: an arrest before play said as an arrest)",
+      "date": "2026-11-13",
       "kind": "written"
     },
     {
@@ -1984,6 +1971,4695 @@
       "origin": "authored",
       "author": "Fable, the life record gaps (life-record-gaps)",
       "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.i.w2",
+      "move": "story",
+      "text": "I started kindergarten at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.i.w3",
+      "move": "story",
+      "text": "I began school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.i.w4",
+      "move": "story",
+      "text": "I started out at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.i.w5",
+      "move": "story",
+      "text": "I was enrolled at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.i.w6",
+      "move": "story",
+      "text": "I first went to school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.third.w2",
+      "move": "story",
+      "text": "{who} started kindergarten at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.third.w3",
+      "move": "story",
+      "text": "{who} began school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.third.w4",
+      "move": "story",
+      "text": "{who} started out at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.third.w5",
+      "move": "story",
+      "text": "{who} was enrolled at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.third.w6",
+      "move": "story",
+      "text": "{who} first went to school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.they.w2",
+      "move": "story",
+      "text": "They started kindergarten at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.they.w3",
+      "move": "story",
+      "text": "They began school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.they.w4",
+      "move": "story",
+      "text": "They started out at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.they.w5",
+      "move": "story",
+      "text": "They were enrolled at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.they.w6",
+      "move": "story",
+      "text": "They first went to school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.i.w2",
+      "move": "story",
+      "text": "I went to {school} for {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.i.w3",
+      "move": "story",
+      "text": "I started {stage} school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.i.w4",
+      "move": "story",
+      "text": "I moved up to {school} for {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.i.w5",
+      "move": "story",
+      "text": "I did {stage} school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.i.w6",
+      "move": "story",
+      "text": "I spent {stage} school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.third.w2",
+      "move": "story",
+      "text": "{who} went to {school} for {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.third.w3",
+      "move": "story",
+      "text": "{who} started {stage} school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.third.w4",
+      "move": "story",
+      "text": "{who} moved up to {school} for {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.third.w5",
+      "move": "story",
+      "text": "{who} did {stage} school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.third.w6",
+      "move": "story",
+      "text": "{who} spent {stage} school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.they.w2",
+      "move": "story",
+      "text": "They went to {school} for {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.they.w3",
+      "move": "story",
+      "text": "They started {stage} school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.they.w4",
+      "move": "story",
+      "text": "They moved up to {school} for {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.they.w5",
+      "move": "story",
+      "text": "They did {stage} school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.they.w6",
+      "move": "story",
+      "text": "They spent {stage} school at {school}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.i.w2",
+      "move": "story",
+      "text": "I moved up to {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.i.w3",
+      "move": "story",
+      "text": "I started {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.i.w4",
+      "move": "story",
+      "text": "I went into {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.i.w5",
+      "move": "story",
+      "text": "I made it to {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.i.w6",
+      "move": "story",
+      "text": "I began {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.third.w2",
+      "move": "story",
+      "text": "{who} moved up to {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.third.w3",
+      "move": "story",
+      "text": "{who} started {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.third.w4",
+      "move": "story",
+      "text": "{who} went into {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.third.w5",
+      "move": "story",
+      "text": "{who} made it to {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.third.w6",
+      "move": "story",
+      "text": "{who} began {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.they.w2",
+      "move": "story",
+      "text": "They moved up to {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.they.w3",
+      "move": "story",
+      "text": "They started {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.they.w4",
+      "move": "story",
+      "text": "They went into {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.they.w5",
+      "move": "story",
+      "text": "They made it to {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.they.w6",
+      "move": "story",
+      "text": "They began {stage} school.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.i.w2",
+      "move": "story",
+      "text": "I took a job at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.i.w3",
+      "move": "story",
+      "text": "I got hired at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.i.w4",
+      "move": "story",
+      "text": "I worked at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.i.w5",
+      "move": "story",
+      "text": "I found work at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.i.w6",
+      "move": "story",
+      "text": "I signed on with {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.third.w2",
+      "move": "story",
+      "text": "{who} took a job at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.third.w3",
+      "move": "story",
+      "text": "{who} got hired at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.third.w4",
+      "move": "story",
+      "text": "{who} worked at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.third.w5",
+      "move": "story",
+      "text": "{who} found work at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.third.w6",
+      "move": "story",
+      "text": "{who} signed on with {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.they.w2",
+      "move": "story",
+      "text": "They took a job at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.they.w3",
+      "move": "story",
+      "text": "They got hired at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.they.w4",
+      "move": "story",
+      "text": "They worked at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.they.w5",
+      "move": "story",
+      "text": "They found work at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.they.w6",
+      "move": "story",
+      "text": "They signed on with {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.i.w2",
+      "move": "story",
+      "text": "I held jobs at {employers} before {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.i.w3",
+      "move": "story",
+      "text": "I went through {employers} before settling at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.i.w4",
+      "move": "story",
+      "text": "I worked at {employers}, and ended up at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.i.w5",
+      "move": "story",
+      "text": "I put in time at {employers} before {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.i.w6",
+      "move": "story",
+      "text": "I bounced from {employers} to {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.third.w2",
+      "move": "story",
+      "text": "{who} held jobs at {employers} before {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.third.w3",
+      "move": "story",
+      "text": "{who} went through {employers} before settling at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.third.w4",
+      "move": "story",
+      "text": "{who} worked at {employers}, and ended up at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.third.w5",
+      "move": "story",
+      "text": "{who} put in time at {employers} before {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.third.w6",
+      "move": "story",
+      "text": "{who} bounced from {employers} to {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.they.w2",
+      "move": "story",
+      "text": "They held jobs at {employers} before {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.they.w3",
+      "move": "story",
+      "text": "They went through {employers} before settling at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.they.w4",
+      "move": "story",
+      "text": "They worked at {employers}, and ended up at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.they.w5",
+      "move": "story",
+      "text": "They put in time at {employers} before {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.they.w6",
+      "move": "story",
+      "text": "They bounced from {employers} to {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.i.w2",
+      "move": "story",
+      "text": "I was out of a job in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.i.w3",
+      "move": "story",
+      "text": "I went without work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.i.w4",
+      "move": "story",
+      "text": "I was looking for work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.i.w5",
+      "move": "story",
+      "text": "I spent part of {year} out of work.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.i.w6",
+      "move": "story",
+      "text": "I had no job for a while in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.third.w2",
+      "move": "story",
+      "text": "{who} was out of a job in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.third.w3",
+      "move": "story",
+      "text": "{who} went without work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.third.w4",
+      "move": "story",
+      "text": "{who} was looking for work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.third.w5",
+      "move": "story",
+      "text": "{who} spent part of {year} out of work.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.third.w6",
+      "move": "story",
+      "text": "{who} had no job for a while in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.they.w2",
+      "move": "story",
+      "text": "They were out of a job in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.they.w3",
+      "move": "story",
+      "text": "They went without work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.they.w4",
+      "move": "story",
+      "text": "They were looking for work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.they.w5",
+      "move": "story",
+      "text": "They spent part of {year} out of work.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.they.w6",
+      "move": "story",
+      "text": "They had no job for a while in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.i.w2",
+      "move": "story",
+      "text": "I came to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.i.w3",
+      "move": "story",
+      "text": "I settled in {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.i.w4",
+      "move": "story",
+      "text": "I made the move to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.i.w5",
+      "move": "story",
+      "text": "I came to live in {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.i.w6",
+      "move": "story",
+      "text": "I put down roots in {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.third.w2",
+      "move": "story",
+      "text": "{who} came to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.third.w3",
+      "move": "story",
+      "text": "{who} settled in {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.third.w4",
+      "move": "story",
+      "text": "{who} made the move to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.third.w5",
+      "move": "story",
+      "text": "{who} came to live in {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.third.w6",
+      "move": "story",
+      "text": "{who} put down roots in {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.they.w2",
+      "move": "story",
+      "text": "They came to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.they.w3",
+      "move": "story",
+      "text": "They settled in {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.they.w4",
+      "move": "story",
+      "text": "They made the move to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.they.w5",
+      "move": "story",
+      "text": "They came to live in {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.they.w6",
+      "move": "story",
+      "text": "They put down roots in {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.i.w2",
+      "move": "story",
+      "text": "I moved house in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.i.w3",
+      "move": "story",
+      "text": "I found a new place in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.i.w4",
+      "move": "story",
+      "text": "I changed homes in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.i.w5",
+      "move": "story",
+      "text": "I got a new place to live in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.i.w6",
+      "move": "story",
+      "text": "I packed up for a new home in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.third.w2",
+      "move": "story",
+      "text": "{who} moved house in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.third.w3",
+      "move": "story",
+      "text": "{who} found a new place in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.third.w4",
+      "move": "story",
+      "text": "{who} changed homes in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.third.w5",
+      "move": "story",
+      "text": "{who} got a new place to live in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.third.w6",
+      "move": "story",
+      "text": "{who} packed up for a new home in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.they.w2",
+      "move": "story",
+      "text": "They moved house in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.they.w3",
+      "move": "story",
+      "text": "They found a new place in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.they.w4",
+      "move": "story",
+      "text": "They changed homes in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.they.w5",
+      "move": "story",
+      "text": "They got a new place to live in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.they.w6",
+      "move": "story",
+      "text": "They packed up for a new home in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.i.w2",
+      "move": "story",
+      "text": "I moved away in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.i.w3",
+      "move": "story",
+      "text": "I left town in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.i.w4",
+      "move": "story",
+      "text": "I packed up and left in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.i.w5",
+      "move": "story",
+      "text": "I moved out of the area in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.i.w6",
+      "move": "story",
+      "text": "I left the county in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.third.w2",
+      "move": "story",
+      "text": "{who} moved away in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.third.w3",
+      "move": "story",
+      "text": "{who} left town in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.third.w4",
+      "move": "story",
+      "text": "{who} packed up and left in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.third.w5",
+      "move": "story",
+      "text": "{who} moved out of the area in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.third.w6",
+      "move": "story",
+      "text": "{who} left the county in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.they.w2",
+      "move": "story",
+      "text": "They moved away in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.they.w3",
+      "move": "story",
+      "text": "They left town in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.they.w4",
+      "move": "story",
+      "text": "They packed up and left in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.they.w5",
+      "move": "story",
+      "text": "They moved out of the area in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.they.w6",
+      "move": "story",
+      "text": "They left the county in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.i.w2",
+      "move": "story",
+      "text": "I left for {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.i.w3",
+      "move": "story",
+      "text": "I moved to {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.i.w4",
+      "move": "story",
+      "text": "I headed to {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.i.w5",
+      "move": "story",
+      "text": "I picked up and moved to {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.i.w6",
+      "move": "story",
+      "text": "I went off to {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.third.w2",
+      "move": "story",
+      "text": "{who} left for {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.third.w3",
+      "move": "story",
+      "text": "{who} moved to {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.third.w4",
+      "move": "story",
+      "text": "{who} headed to {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.third.w5",
+      "move": "story",
+      "text": "{who} picked up and moved to {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.third.w6",
+      "move": "story",
+      "text": "{who} went off to {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.they.w2",
+      "move": "story",
+      "text": "They left for {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.they.w3",
+      "move": "story",
+      "text": "They moved to {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.they.w4",
+      "move": "story",
+      "text": "They headed to {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.they.w5",
+      "move": "story",
+      "text": "They picked up and moved to {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.they.w6",
+      "move": "story",
+      "text": "They went off to {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.i.w2",
+      "move": "story",
+      "text": "I set up house with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.i.w3",
+      "move": "story",
+      "text": "I settled down with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.i.w4",
+      "move": "story",
+      "text": "I started a life with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.i.w5",
+      "move": "story",
+      "text": "I built a home with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.i.w6",
+      "move": "story",
+      "text": "I shared a home with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.third.w2",
+      "move": "story",
+      "text": "{who} set up house with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.third.w3",
+      "move": "story",
+      "text": "{who} settled down with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.third.w4",
+      "move": "story",
+      "text": "{who} started a life with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.third.w5",
+      "move": "story",
+      "text": "{who} built a home with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.third.w6",
+      "move": "story",
+      "text": "{who} shared a home with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.they.w2",
+      "move": "story",
+      "text": "They set up house with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.they.w3",
+      "move": "story",
+      "text": "They settled down with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.they.w4",
+      "move": "story",
+      "text": "They started a life with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.they.w5",
+      "move": "story",
+      "text": "They built a home with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.they.w6",
+      "move": "story",
+      "text": "They shared a home with {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.i.w2",
+      "move": "story",
+      "text": "I got married to {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.i.w3",
+      "move": "story",
+      "text": "I tied the knot with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.i.w4",
+      "move": "story",
+      "text": "I walked down the aisle with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.i.w5",
+      "move": "story",
+      "text": "I made it official with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.i.w6",
+      "move": "story",
+      "text": "I wed {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.third.w2",
+      "move": "story",
+      "text": "{who} got married to {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.third.w3",
+      "move": "story",
+      "text": "{who} tied the knot with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.third.w4",
+      "move": "story",
+      "text": "{who} walked down the aisle with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.third.w5",
+      "move": "story",
+      "text": "{who} made it official with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.third.w6",
+      "move": "story",
+      "text": "{who} wed {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.they.w2",
+      "move": "story",
+      "text": "They got married to {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.they.w3",
+      "move": "story",
+      "text": "They tied the knot with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.they.w4",
+      "move": "story",
+      "text": "They walked down the aisle with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.they.w5",
+      "move": "story",
+      "text": "They made it official with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.they.w6",
+      "move": "story",
+      "text": "They wed {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.i.w2",
+      "move": "story",
+      "text": "I started living with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.i.w3",
+      "move": "story",
+      "text": "I got a place with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.i.w4",
+      "move": "story",
+      "text": "I set up house with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.i.w5",
+      "move": "story",
+      "text": "I shared a place with {name} from {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.i.w6",
+      "move": "story",
+      "text": "I moved in together with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.third.w2",
+      "move": "story",
+      "text": "{who} started living with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.third.w3",
+      "move": "story",
+      "text": "{who} got a place with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.third.w4",
+      "move": "story",
+      "text": "{who} set up house with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.third.w5",
+      "move": "story",
+      "text": "{who} shared a place with {name} from {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.third.w6",
+      "move": "story",
+      "text": "{who} moved in together with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.they.w2",
+      "move": "story",
+      "text": "They started living with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.they.w3",
+      "move": "story",
+      "text": "They got a place with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.they.w4",
+      "move": "story",
+      "text": "They set up house with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.they.w5",
+      "move": "story",
+      "text": "They shared a place with {name} from {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.they.w6",
+      "move": "story",
+      "text": "They moved in together with {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.i.w2",
+      "move": "story",
+      "text": "I first met {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.i.w3",
+      "move": "story",
+      "text": "I got to know {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.i.w4",
+      "move": "story",
+      "text": "I ran into {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.i.w5",
+      "move": "story",
+      "text": "I was introduced to {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.i.w6",
+      "move": "story",
+      "text": "I came across {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.third.w2",
+      "move": "story",
+      "text": "{who} first met {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.third.w3",
+      "move": "story",
+      "text": "{who} got to know {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.third.w4",
+      "move": "story",
+      "text": "{who} ran into {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.third.w5",
+      "move": "story",
+      "text": "{who} was introduced to {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.third.w6",
+      "move": "story",
+      "text": "{who} came across {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.they.w2",
+      "move": "story",
+      "text": "They first met {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.they.w3",
+      "move": "story",
+      "text": "They got to know {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.they.w4",
+      "move": "story",
+      "text": "They ran into {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.they.w5",
+      "move": "story",
+      "text": "They were introduced to {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.they.w6",
+      "move": "story",
+      "text": "They came across {name} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.i.w2",
+      "move": "story",
+      "text": "I won the race for {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.i.w3",
+      "move": "story",
+      "text": "I got elected {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.i.w4",
+      "move": "story",
+      "text": "I was voted in as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.i.w5",
+      "move": "story",
+      "text": "I ran for {office} and won.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.i.w6",
+      "move": "story",
+      "text": "I was elected {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.third.w2",
+      "move": "story",
+      "text": "{who} won the race for {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.third.w3",
+      "move": "story",
+      "text": "{who} got elected {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.third.w4",
+      "move": "story",
+      "text": "{who} was voted in as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.third.w5",
+      "move": "story",
+      "text": "{who} ran for {office} and won.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.third.w6",
+      "move": "story",
+      "text": "{who} was elected {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.they.w2",
+      "move": "story",
+      "text": "They won the race for {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.they.w3",
+      "move": "story",
+      "text": "They got elected {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.they.w4",
+      "move": "story",
+      "text": "They were voted in as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.they.w5",
+      "move": "story",
+      "text": "They ran for {office} and won.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.they.w6",
+      "move": "story",
+      "text": "They were elected {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.i.w2",
+      "move": "story",
+      "text": "I was named {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.i.w3",
+      "move": "story",
+      "text": "I got the appointment as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.i.w4",
+      "move": "story",
+      "text": "I was picked to serve as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.i.w5",
+      "move": "story",
+      "text": "I was tapped as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.i.w6",
+      "move": "story",
+      "text": "I was chosen to fill the seat as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.third.w2",
+      "move": "story",
+      "text": "{who} was named {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.third.w3",
+      "move": "story",
+      "text": "{who} got the appointment as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.third.w4",
+      "move": "story",
+      "text": "{who} was picked to serve as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.third.w5",
+      "move": "story",
+      "text": "{who} was tapped as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.third.w6",
+      "move": "story",
+      "text": "{who} was chosen to fill the seat as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.they.w2",
+      "move": "story",
+      "text": "They were named {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.they.w3",
+      "move": "story",
+      "text": "They got the appointment as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.they.w4",
+      "move": "story",
+      "text": "They were picked to serve as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.they.w5",
+      "move": "story",
+      "text": "They were tapped as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.they.w6",
+      "move": "story",
+      "text": "They were chosen to fill the seat as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.i.w2",
+      "move": "story",
+      "text": "I became {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.i.w3",
+      "move": "story",
+      "text": "I was sworn in as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.i.w4",
+      "move": "story",
+      "text": "I started serving as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.i.w5",
+      "move": "story",
+      "text": "I stepped into the job of {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.i.w6",
+      "move": "story",
+      "text": "I began a term as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.third.w2",
+      "move": "story",
+      "text": "{who} became {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.third.w3",
+      "move": "story",
+      "text": "{who} was sworn in as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.third.w4",
+      "move": "story",
+      "text": "{who} started serving as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.third.w5",
+      "move": "story",
+      "text": "{who} stepped into the job of {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.third.w6",
+      "move": "story",
+      "text": "{who} began a term as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.they.w2",
+      "move": "story",
+      "text": "They became {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.they.w3",
+      "move": "story",
+      "text": "They were sworn in as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.they.w4",
+      "move": "story",
+      "text": "They started serving as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.they.w5",
+      "move": "story",
+      "text": "They stepped into the job of {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.they.w6",
+      "move": "story",
+      "text": "They began a term as {office}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.i",
+      "move": "story",
+      "text": "I was out of work for {span} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.i.w2",
+      "move": "story",
+      "text": "I went {span} without a job in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.i.w3",
+      "move": "story",
+      "text": "I spent {span} looking for work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.i.w4",
+      "move": "story",
+      "text": "I was out of a job for {span}, starting in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.i.w5",
+      "move": "story",
+      "text": "I looked for work for {span} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.i.w6",
+      "move": "story",
+      "text": "I went without work for {span} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.third",
+      "move": "story",
+      "text": "{who} was out of work for {span} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.third.w2",
+      "move": "story",
+      "text": "{who} went {span} without a job in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.third.w3",
+      "move": "story",
+      "text": "{who} spent {span} looking for work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.third.w4",
+      "move": "story",
+      "text": "{who} was out of a job for {span}, starting in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.third.w5",
+      "move": "story",
+      "text": "{who} looked for work for {span} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.third.w6",
+      "move": "story",
+      "text": "{who} went without work for {span} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.they",
+      "move": "story",
+      "text": "They were out of work for {span} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.they.w2",
+      "move": "story",
+      "text": "They went {span} without a job in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.they.w3",
+      "move": "story",
+      "text": "They spent {span} looking for work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.they.w4",
+      "move": "story",
+      "text": "They were out of a job for {span}, starting in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.they.w5",
+      "move": "story",
+      "text": "They looked for work for {span} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for.they.w6",
+      "move": "story",
+      "text": "They went without work for {span} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-second.i",
+      "move": "story",
+      "text": "I was out of work again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-second.i.w2",
+      "move": "story",
+      "text": "I went without a job again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-second.i.w3",
+      "move": "story",
+      "text": "I was back to looking for work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-second.i.w4",
+      "move": "story",
+      "text": "I lost work again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-second.third",
+      "move": "story",
+      "text": "{who} was out of work again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-second.third.w2",
+      "move": "story",
+      "text": "{who} went without a job again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-second.third.w3",
+      "move": "story",
+      "text": "{who} was back to looking for work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-second.third.w4",
+      "move": "story",
+      "text": "{who} lost work again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-second.they",
+      "move": "story",
+      "text": "They were out of work again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-second.they.w2",
+      "move": "story",
+      "text": "They went without a job again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-second.they.w3",
+      "move": "story",
+      "text": "They were back to looking for work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-second.they.w4",
+      "move": "story",
+      "text": "They lost work again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for-second.i",
+      "move": "story",
+      "text": "I was out of work again in {year}, for {span}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for-second.i.w2",
+      "move": "story",
+      "text": "I went {span} without a job again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for-second.i.w3",
+      "move": "story",
+      "text": "I spent another {span} looking for work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for-second.third",
+      "move": "story",
+      "text": "{who} was out of work again in {year}, for {span}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for-second.third.w2",
+      "move": "story",
+      "text": "{who} went {span} without a job again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for-second.third.w3",
+      "move": "story",
+      "text": "{who} spent another {span} looking for work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for-second.they",
+      "move": "story",
+      "text": "They were out of work again in {year}, for {span}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for-second.they.w2",
+      "move": "story",
+      "text": "They went {span} without a job again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out-for-second.they.w3",
+      "move": "story",
+      "text": "They spent another {span} looking for work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home-second.i",
+      "move": "story",
+      "text": "I moved again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home-second.i.w2",
+      "move": "story",
+      "text": "I packed up again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home-second.i.w3",
+      "move": "story",
+      "text": "I found yet another place in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home-second.third",
+      "move": "story",
+      "text": "{who} moved again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home-second.third.w2",
+      "move": "story",
+      "text": "{who} packed up again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home-second.third.w3",
+      "move": "story",
+      "text": "{who} found yet another place in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home-second.they",
+      "move": "story",
+      "text": "They moved again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home-second.they.w2",
+      "move": "story",
+      "text": "They packed up again in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home-second.they.w3",
+      "move": "story",
+      "text": "They found yet another place in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-second.i",
+      "move": "story",
+      "text": "I moved on to {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-second.i.w2",
+      "move": "story",
+      "text": "I switched to {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-second.i.w3",
+      "move": "story",
+      "text": "I went over to {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-second.i.w4",
+      "move": "story",
+      "text": "I took another job, at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-second.third",
+      "move": "story",
+      "text": "{who} moved on to {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-second.third.w2",
+      "move": "story",
+      "text": "{who} switched to {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-second.third.w3",
+      "move": "story",
+      "text": "{who} went over to {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-second.third.w4",
+      "move": "story",
+      "text": "{who} took another job, at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-second.they",
+      "move": "story",
+      "text": "They moved on to {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-second.they.w2",
+      "move": "story",
+      "text": "They switched to {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-second.they.w3",
+      "move": "story",
+      "text": "They went over to {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-second.they.w4",
+      "move": "story",
+      "text": "They took another job, at {employer}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.when.year",
+      "move": "when",
+      "text": "In {year},",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.when.same-year",
+      "move": "when",
+      "text": "That same year,",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.when.age",
+      "move": "when",
+      "text": "At {age},",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.when.age-years",
+      "move": "when",
+      "text": "At age {age},",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.i.w2",
+      "move": "story",
+      "text": "I spent {span} working in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.i.w3",
+      "move": "story",
+      "text": "I had a job in {place} for {span}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.i.w4",
+      "move": "story",
+      "text": "I put in {span} of work in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.i.w5",
+      "move": "story",
+      "text": "I worked {span} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.third.w2",
+      "move": "story",
+      "text": "{who} spent {span} working in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.third.w3",
+      "move": "story",
+      "text": "{who} had a job in {place} for {span}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.third.w4",
+      "move": "story",
+      "text": "{who} put in {span} of work in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.third.w5",
+      "move": "story",
+      "text": "{who} worked {span} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.they.w2",
+      "move": "story",
+      "text": "They spent {span} working in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.they.w3",
+      "move": "story",
+      "text": "They had a job in {place} for {span}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.they.w4",
+      "move": "story",
+      "text": "They put in {span} of work in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.they.w5",
+      "move": "story",
+      "text": "They worked {span} in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.i.w2",
+      "move": "story",
+      "text": "I spent {span} working elsewhere before moving to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.i.w3",
+      "move": "story",
+      "text": "I had {span} of work under my belt before coming to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.i.w4",
+      "move": "story",
+      "text": "I put in {span} of work before moving to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.i.w5",
+      "move": "story",
+      "text": "I worked {span} somewhere else before coming to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.third.w2",
+      "move": "story",
+      "text": "{who} spent {span} working elsewhere before moving to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.third.w3",
+      "move": "story",
+      "text": "{who} had {span} of work under {their} belt before coming to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.third.w4",
+      "move": "story",
+      "text": "{who} put in {span} of work before moving to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.third.w5",
+      "move": "story",
+      "text": "{who} worked {span} somewhere else before coming to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.they.w2",
+      "move": "story",
+      "text": "They spent {span} working elsewhere before moving to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.they.w3",
+      "move": "story",
+      "text": "They had {span} of work under their belt before coming to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.they.w4",
+      "move": "story",
+      "text": "They put in {span} of work before moving to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.they.w5",
+      "move": "story",
+      "text": "They worked {span} somewhere else before coming to {here}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.i.w2",
+      "move": "story",
+      "text": "I grew up going to school in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.i.w3",
+      "move": "story",
+      "text": "I did my schooling in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.i.w4",
+      "move": "story",
+      "text": "I went to school back in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.i.w5",
+      "move": "story",
+      "text": "I was a student in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.third.w2",
+      "move": "story",
+      "text": "{who} grew up going to school in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.third.w3",
+      "move": "story",
+      "text": "{who} did {their} schooling in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.third.w4",
+      "move": "story",
+      "text": "{who} went to school back in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.third.w5",
+      "move": "story",
+      "text": "{who} was a student in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.they.w2",
+      "move": "story",
+      "text": "They grew up going to school in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.they.w3",
+      "move": "story",
+      "text": "They did their schooling in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.they.w4",
+      "move": "story",
+      "text": "They went to school back in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.they.w5",
+      "move": "story",
+      "text": "They were a student in {place}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.i.w2",
+      "move": "story",
+      "text": "I finished at {school} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.i.w3",
+      "move": "story",
+      "text": "I got my diploma from {school} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.i.w4",
+      "move": "story",
+      "text": "I graduated {school} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.i.w5",
+      "move": "story",
+      "text": "I walked at graduation from {school} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.third.w2",
+      "move": "story",
+      "text": "{who} finished at {school} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.third.w3",
+      "move": "story",
+      "text": "{who} got {their} diploma from {school} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.third.w4",
+      "move": "story",
+      "text": "{who} graduated {school} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.third.w5",
+      "move": "story",
+      "text": "{who} walked at graduation from {school} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.they.w2",
+      "move": "story",
+      "text": "They finished at {school} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.they.w3",
+      "move": "story",
+      "text": "They got their diploma from {school} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.they.w4",
+      "move": "story",
+      "text": "They graduated {school} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.they.w5",
+      "move": "story",
+      "text": "They walked at graduation from {school} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.i.w2",
+      "move": "story",
+      "text": "I got let go from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.i.w3",
+      "move": "story",
+      "text": "I lost my spot at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.i.w4",
+      "move": "story",
+      "text": "I was laid off from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.i.w5",
+      "move": "story",
+      "text": "I was out at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.third.w2",
+      "move": "story",
+      "text": "{who} got let go from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.third.w3",
+      "move": "story",
+      "text": "{who} lost {their} spot at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.third.w4",
+      "move": "story",
+      "text": "{who} was laid off from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.third.w5",
+      "move": "story",
+      "text": "{who} was out at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.they.w2",
+      "move": "story",
+      "text": "They got let go from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.they.w3",
+      "move": "story",
+      "text": "They lost their spot at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.they.w4",
+      "move": "story",
+      "text": "They were laid off from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.they.w5",
+      "move": "story",
+      "text": "They were out at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.i.w2",
+      "move": "story",
+      "text": "I got let go in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.i.w3",
+      "move": "story",
+      "text": "I was laid off in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.i.w4",
+      "move": "story",
+      "text": "I lost work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.i.w5",
+      "move": "story",
+      "text": "I was let go from my job in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.third.w2",
+      "move": "story",
+      "text": "{who} got let go in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.third.w3",
+      "move": "story",
+      "text": "{who} was laid off in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.third.w4",
+      "move": "story",
+      "text": "{who} lost work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.third.w5",
+      "move": "story",
+      "text": "{who} was let go from {their} job in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.they.w2",
+      "move": "story",
+      "text": "They got let go in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.they.w3",
+      "move": "story",
+      "text": "They were laid off in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.they.w4",
+      "move": "story",
+      "text": "They lost work in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.they.w5",
+      "move": "story",
+      "text": "They were let go from their job in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.i.w2",
+      "move": "story",
+      "text": "I mourned my {relation}, {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.i.w3",
+      "move": "story",
+      "text": "I buried my {relation}, {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.i.w4",
+      "move": "story",
+      "text": "I said goodbye to my {relation}, {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.i.w5",
+      "move": "story",
+      "text": "I lost my {relation}, {name}, in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.third.w2",
+      "move": "story",
+      "text": "{who} mourned {their} {relation}, {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.third.w3",
+      "move": "story",
+      "text": "{who} buried {their} {relation}, {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.third.w4",
+      "move": "story",
+      "text": "{who} said goodbye to {their} {relation}, {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.third.w5",
+      "move": "story",
+      "text": "{who} lost {their} {relation}, {name}, in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.they.w2",
+      "move": "story",
+      "text": "They mourned their {relation}, {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.they.w3",
+      "move": "story",
+      "text": "They buried their {relation}, {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.they.w4",
+      "move": "story",
+      "text": "They said goodbye to their {relation}, {name}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.they.w5",
+      "move": "story",
+      "text": "They lost their {relation}, {name}, in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.i.w2",
+      "move": "story",
+      "text": "I said goodbye to {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.i.w3",
+      "move": "story",
+      "text": "I buried {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.i.w4",
+      "move": "story",
+      "text": "I lost {name} for good in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.i.w5",
+      "move": "story",
+      "text": "I mourned {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.third.w2",
+      "move": "story",
+      "text": "{who} said goodbye to {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.third.w3",
+      "move": "story",
+      "text": "{who} buried {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.third.w4",
+      "move": "story",
+      "text": "{who} lost {name} for good in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.third.w5",
+      "move": "story",
+      "text": "{who} mourned {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.they.w2",
+      "move": "story",
+      "text": "They said goodbye to {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.they.w3",
+      "move": "story",
+      "text": "They buried {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.they.w4",
+      "move": "story",
+      "text": "They lost {name} for good in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.they.w5",
+      "move": "story",
+      "text": "They mourned {name} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.when.then-year",
+      "move": "when",
+      "text": "Then in {year},",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.when.later-year",
+      "move": "when",
+      "text": "Later, in {year},",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born.any",
+      "move": "story",
+      "text": "{child} was born in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born.any.w2",
+      "move": "story",
+      "text": "{child} came along in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born.any.w3",
+      "move": "story",
+      "text": "{child} arrived in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born.any.w4",
+      "move": "story",
+      "text": "In {year}, {child} was born.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born-second.any",
+      "move": "story",
+      "text": "{child} followed in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born-second.any.w2",
+      "move": "story",
+      "text": "Then {child} was born in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born-second.any.w3",
+      "move": "story",
+      "text": "{child} came next, in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born-second.any.w4",
+      "move": "story",
+      "text": "{child} arrived after, in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.you.any",
+      "move": "story",
+      "text": "You came into the world in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.you.any.w2",
+      "move": "story",
+      "text": "You came along in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.you.any.w3",
+      "move": "story",
+      "text": "You arrived in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.third",
+      "move": "story",
+      "text": "{who} started college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.they",
+      "move": "story",
+      "text": "They started college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.i",
+      "move": "story",
+      "text": "I started college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.third.w2",
+      "move": "story",
+      "text": "{who} enrolled in college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.they.w2",
+      "move": "story",
+      "text": "They enrolled in college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.i.w2",
+      "move": "story",
+      "text": "I enrolled in college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.third.w3",
+      "move": "story",
+      "text": "{who} began college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.they.w3",
+      "move": "story",
+      "text": "They began college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.i.w3",
+      "move": "story",
+      "text": "I began college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.third",
+      "move": "story",
+      "text": "{who} graduated from college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.they",
+      "move": "story",
+      "text": "They graduated from college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.i",
+      "move": "story",
+      "text": "I graduated from college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.third.w2",
+      "move": "story",
+      "text": "{who} earned a bachelor's degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.they.w2",
+      "move": "story",
+      "text": "They earned a bachelor's degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.i.w2",
+      "move": "story",
+      "text": "I earned a bachelor's degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.third.w3",
+      "move": "story",
+      "text": "{who} finished college with a degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.they.w3",
+      "move": "story",
+      "text": "They finished college with a degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.i.w3",
+      "move": "story",
+      "text": "I finished college with a degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.third.w4",
+      "move": "story",
+      "text": "{who} got a college degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.they.w4",
+      "move": "story",
+      "text": "They got a college degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.i.w4",
+      "move": "story",
+      "text": "I got a college degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.third",
+      "move": "story",
+      "text": "{who} left college without a degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.they",
+      "move": "story",
+      "text": "They left college without a degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.i",
+      "move": "story",
+      "text": "I left college without a degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.third.w2",
+      "move": "story",
+      "text": "{who} stopped going to college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.they.w2",
+      "move": "story",
+      "text": "They stopped going to college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.i.w2",
+      "move": "story",
+      "text": "I stopped going to college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.third.w3",
+      "move": "story",
+      "text": "{who} left college in {year} before finishing.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.they.w3",
+      "move": "story",
+      "text": "They left college in {year} before finishing.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.i.w3",
+      "move": "story",
+      "text": "I left college in {year} before finishing.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.third.w4",
+      "move": "story",
+      "text": "{who} dropped out of college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.they.w4",
+      "move": "story",
+      "text": "They dropped out of college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.i.w4",
+      "move": "story",
+      "text": "I dropped out of college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.third",
+      "move": "story",
+      "text": "{who} moved to a new home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.they",
+      "move": "story",
+      "text": "They moved to a new home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.i",
+      "move": "story",
+      "text": "I moved to a new home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.third.w2",
+      "move": "story",
+      "text": "{who} moved to another home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.they.w2",
+      "move": "story",
+      "text": "They moved to another home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.i.w2",
+      "move": "story",
+      "text": "I moved to another home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.third.w3",
+      "move": "story",
+      "text": "{who} changed homes within {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.they.w3",
+      "move": "story",
+      "text": "They changed homes within {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.i.w3",
+      "move": "story",
+      "text": "I changed homes within {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.third",
+      "move": "story",
+      "text": "{who} was widowed when {name} died in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.they",
+      "move": "story",
+      "text": "They were widowed when {name} died in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.i",
+      "move": "story",
+      "text": "I was widowed when {name} died in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.third.w2",
+      "move": "story",
+      "text": "{name} died in {year}, and {who} was widowed.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.they.w2",
+      "move": "story",
+      "text": "{name} died in {year}, and they were widowed.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.i.w2",
+      "move": "story",
+      "text": "{name} died in {year}, and I was widowed.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.third",
+      "move": "story",
+      "text": "{who} spent time in the hospital in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.they",
+      "move": "story",
+      "text": "They spent time in the hospital in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.i",
+      "move": "story",
+      "text": "I spent time in the hospital in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.third.w2",
+      "move": "story",
+      "text": "{who} was in the hospital in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.they.w2",
+      "move": "story",
+      "text": "They were in the hospital in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.i.w2",
+      "move": "story",
+      "text": "I was in the hospital in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.third.w3",
+      "move": "story",
+      "text": "{who} had a hospital stay in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.they.w3",
+      "move": "story",
+      "text": "They had a hospital stay in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.i.w3",
+      "move": "story",
+      "text": "I had a hospital stay in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.third",
+      "move": "story",
+      "text": "{who} joined the armed forces in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.they",
+      "move": "story",
+      "text": "They joined the armed forces in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.i",
+      "move": "story",
+      "text": "I joined the armed forces in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.third.w2",
+      "move": "story",
+      "text": "{who} enlisted in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.they.w2",
+      "move": "story",
+      "text": "They enlisted in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.i.w2",
+      "move": "story",
+      "text": "I enlisted in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.third.w3",
+      "move": "story",
+      "text": "{who} signed up for the military in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.they.w3",
+      "move": "story",
+      "text": "They signed up for the military in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.i.w3",
+      "move": "story",
+      "text": "I signed up for the military in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.third.w4",
+      "move": "story",
+      "text": "{who} went into the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.they.w4",
+      "move": "story",
+      "text": "They went into the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.i.w4",
+      "move": "story",
+      "text": "I went into the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.third",
+      "move": "story",
+      "text": "{who} left the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.they",
+      "move": "story",
+      "text": "They left the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.i",
+      "move": "story",
+      "text": "I left the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.third.w2",
+      "move": "story",
+      "text": "{who} got out of the military in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.they.w2",
+      "move": "story",
+      "text": "They got out of the military in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.i.w2",
+      "move": "story",
+      "text": "I got out of the military in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.third.w3",
+      "move": "story",
+      "text": "{who} finished {their} time in the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.they.w3",
+      "move": "story",
+      "text": "They finished their time in the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.i.w3",
+      "move": "story",
+      "text": "I finished my time in the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.third.w4",
+      "move": "story",
+      "text": "{who} was discharged from the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.they.w4",
+      "move": "story",
+      "text": "They were discharged from the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.i.w4",
+      "move": "story",
+      "text": "I was discharged from the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.separated.parent.third",
+      "text": "{who} separated from {name}, {parent}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.separated.parent.they",
+      "text": "They separated from {name}, {parent}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.separated.parent.i",
+      "text": "I separated from {name}, {parent}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.parent.third",
+      "text": "{who} was widowed when {name}, {parent}, died in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.parent.they",
+      "text": "They were widowed when {name}, {parent}, died in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.parent.i",
+      "text": "I was widowed when {name}, {parent}, died in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.died.third",
+      "text": "{who} lost {their} partner, {name}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.died.they",
+      "text": "They lost their partner, {name}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.died.i",
+      "text": "I lost my partner, {name}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.died.parent.third",
+      "text": "{who} lost {name}, {parent}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.died.parent.they",
+      "text": "They lost {name}, {parent}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.died.parent.i",
+      "text": "I lost {name}, {parent}, in {year}.",
+      "move": "story",
+      "origin": "authored",
+      "author": "Words builder W2 (the other parent, Nov 13)",
+      "date": "2026-11-13",
       "kind": "written"
     }
   ]

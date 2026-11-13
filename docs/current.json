@@ -1,0 +1,415 @@
+{
+  "about": "The one place that says what is current (owner, Nov 11, 2026: \"have somewhere as like a master updater or something, to where in the future old things aren't pointing at all different things at all different times\"). `current` names the current thing for each kind. `topLevel` has a row for everything at the top of the repository. `records` are files that keep what was said or shipped; they are never rewritten, so the pointer guard does not read them. `replaced` is every path that was replaced or removed, with what stands in its place or the commit it comes back from, kept forever. docs/CURRENT.md is written from this file by `node --import tsx scripts/current/write.ts`; tests/guards/current-pointers.test.ts holds both; `node --import tsx scripts/current/pointers.ts --write` writes the guard's counts.",
+  "current": [
+    {
+      "kind": "The repository guide every agent follows",
+      "path": "AGENTS.md"
+    },
+    {
+      "kind": "The standing rules' own pages",
+      "path": ".agents/rules"
+    },
+    {
+      "kind": "The skills",
+      "path": ".agents/skills"
+    },
+    {
+      "kind": "The skills' mirror for Claude",
+      "path": ".claude/skills"
+    },
+    {
+      "kind": "The owner's rulings, the only rulings log",
+      "path": "docs/coordination/OWNER-DECISIONS.md"
+    },
+    {
+      "kind": "The decision register",
+      "path": "docs/coordination/DECISION-REGISTER.md"
+    },
+    {
+      "kind": "Earlier rulings, by subject",
+      "path": "docs/coordination/prior-rulings"
+    },
+    {
+      "kind": "Who is running and what each owns",
+      "path": "docs/coordination/CREW.md"
+    },
+    {
+      "kind": "The leads' channel",
+      "path": "docs/coordination/LEADS-2026-10-24.md"
+    },
+    {
+      "kind": "The merge order",
+      "path": "docs/coordination/MERGE-FIRST.md"
+    },
+    {
+      "kind": "The roadmap",
+      "path": "docs/ROADMAP.md"
+    },
+    {
+      "kind": "What The Political Process does, mapped to our specs",
+      "path": "docs/roadmap/political-process-baseline.md"
+    },
+    {
+      "kind": "The map of the docs",
+      "path": "docs/README.md"
+    },
+    {
+      "kind": "The map of the code",
+      "path": "ARCHITECTURE.md"
+    },
+    {
+      "kind": "The pool: the backlog",
+      "path": "docs/pool"
+    },
+    {
+      "kind": "The pool's items",
+      "path": "docs/pool/items"
+    },
+    {
+      "kind": "The order work is taken in, and the cap",
+      "path": "docs/pool/order.json"
+    },
+    {
+      "kind": "The builder brief",
+      "path": "docs/pool/START-A-BUILDER.md"
+    },
+    {
+      "kind": "The cause finder brief",
+      "path": "docs/pool/FIND-A-CAUSE.md"
+    },
+    {
+      "kind": "The play-first lane's law",
+      "path": "docs/play-first/LAW.md"
+    },
+    {
+      "kind": "The play-first lane's order",
+      "path": "docs/play-first/ORDER.md"
+    },
+    {
+      "kind": "The play-first lane's handoff log",
+      "path": "docs/play-first/PROGRESS.md"
+    },
+    {
+      "kind": "The engine's state and module registry",
+      "path": "src/core2/state.ts"
+    },
+    {
+      "kind": "The election engine",
+      "path": "src/core2/modules/elections.ts"
+    },
+    {
+      "kind": "The election engine's count of votes",
+      "path": "src/core2/modules/voting.ts"
+    },
+    {
+      "kind": "The body engine (every council, board, legislature and Congress)",
+      "path": "src/core2/modules/legislature.ts"
+    },
+    {
+      "kind": "The executive engine",
+      "path": "src/core2/modules/executive.ts"
+    },
+    {
+      "kind": "The budget engine",
+      "path": "src/core2/modules/budgets.ts"
+    },
+    {
+      "kind": "The law store",
+      "path": "src/core2/modules/laws.ts"
+    },
+    {
+      "kind": "The country tier",
+      "path": "src/core2/country-model.ts"
+    },
+    {
+      "kind": "The life record",
+      "path": "src/core2/life.ts"
+    },
+    {
+      "kind": "The registered stopgaps",
+      "path": "src/core2/data/stopgaps"
+    },
+    {
+      "kind": "The daily register (what may run or be kept every day)",
+      "path": "docs/design/daily-register.md"
+    },
+    {
+      "kind": "The scene engine (the director)",
+      "path": "src/director/scene.ts"
+    },
+    {
+      "kind": "The talk engine",
+      "path": "src/director/conversation.ts"
+    },
+    {
+      "kind": "The English engine's composer",
+      "path": "src/english/english-composition.ts"
+    },
+    {
+      "kind": "The words banks",
+      "path": "data/english/parts"
+    },
+    {
+      "kind": "The owner's notes as rules for lines",
+      "path": "data/english/line-rules.json"
+    },
+    {
+      "kind": "The play screen",
+      "path": "src/bench/play.mjs"
+    },
+    {
+      "kind": "The screen parts, and how to add a screen",
+      "path": "src/bench/ui/README.md"
+    },
+    {
+      "kind": "The game's server for the play screen",
+      "path": "src/bench/server.ts"
+    },
+    {
+      "kind": "The bust bank (how every person is drawn)",
+      "path": "art/busts/v1/manifest.json"
+    },
+    {
+      "kind": "The bust bank's spec",
+      "path": "docs/art/busts-spec.md"
+    },
+    {
+      "kind": "The backdrops",
+      "path": "art/backdrops/manifest.json"
+    },
+    {
+      "kind": "The approved menu mocks",
+      "path": "docs/mocks/2026-11-07-approved"
+    },
+    {
+      "kind": "The approved front mocks",
+      "path": "docs/mocks/2026-11-08-front"
+    },
+    {
+      "kind": "The approved play mocks",
+      "path": "docs/mocks/2026-11-08-play"
+    },
+    {
+      "kind": "The research data that calibrates the world",
+      "path": "data/research"
+    },
+    {
+      "kind": "This file's readable form",
+      "path": "docs/CURRENT.md"
+    }
+  ],
+  "topLevel": [
+    {
+      "path": ".agents",
+      "what": "Rules and skills for every agent"
+    },
+    {
+      "path": ".claude",
+      "what": "The skills' mirror and helpers for Claude"
+    },
+    {
+      "path": ".codex",
+      "what": "Settings for Codex"
+    },
+    {
+      "path": ".cursor",
+      "what": "Settings for Cursor"
+    },
+    {
+      "path": ".devcontainer",
+      "what": "The cloud container's setup"
+    },
+    {
+      "path": ".gitattributes",
+      "what": "Git's file rules"
+    },
+    {
+      "path": ".github",
+      "what": "The checks that run on pull requests, and the pull request template"
+    },
+    {
+      "path": ".gitignore",
+      "what": "What git leaves out"
+    },
+    {
+      "path": ".openai",
+      "what": "Settings for OpenAI tools"
+    },
+    {
+      "path": ".prettierignore",
+      "what": "What the formatter leaves alone"
+    },
+    {
+      "path": ".shot-travel.mjs",
+      "what": "A stray screenshot script; the slim-down removes it"
+    },
+    {
+      "path": "AGENTS.md",
+      "what": "The repository guide"
+    },
+    {
+      "path": "ARCHITECTURE.md",
+      "what": "The map of the code"
+    },
+    {
+      "path": "CLAUDE.md",
+      "what": "The bridge from Claude to the repository guide"
+    },
+    {
+      "path": "PATCH_NOTES.md",
+      "what": "The patch notes, written by the release machinery"
+    },
+    {
+      "path": "README.md",
+      "what": "The front page"
+    },
+    {
+      "path": "art",
+      "what": "Every picture the game draws"
+    },
+    {
+      "path": "calendar-day.png",
+      "what": "Written by the calendar browser check; the slim-down moves its output out of the top level"
+    },
+    {
+      "path": "calendar-holidays-hidden.png",
+      "what": "Written by the calendar browser check; the slim-down moves its output out of the top level"
+    },
+    {
+      "path": "calendar-today.png",
+      "what": "Written by the calendar browser check; the slim-down moves its output out of the top level"
+    },
+    {
+      "path": "data",
+      "what": "The words banks, the research data and the source files the world is built from"
+    },
+    {
+      "path": "deployment",
+      "what": "How a build is published"
+    },
+    {
+      "path": "desktop",
+      "what": "The desktop build"
+    },
+    {
+      "path": "docs",
+      "what": "Every document"
+    },
+    {
+      "path": "eslint.config.js",
+      "what": "The linter's rules"
+    },
+    {
+      "path": "package-lock.json",
+      "what": "The exact packages installed"
+    },
+    {
+      "path": "package.json",
+      "what": "The commands and the packages"
+    },
+    {
+      "path": "public",
+      "what": "Files the web build serves as they are"
+    },
+    {
+      "path": "scripts",
+      "what": "Tools run at development time"
+    },
+    {
+      "path": "src",
+      "what": "The game's code"
+    },
+    {
+      "path": "tests",
+      "what": "Guards and suites that are not beside their code"
+    },
+    {
+      "path": "tooling",
+      "what": "Build and editor tooling"
+    },
+    {
+      "path": "tsconfig.app.json",
+      "what": "TypeScript settings for the game"
+    },
+    {
+      "path": "tsconfig.json",
+      "what": "TypeScript settings"
+    },
+    {
+      "path": "tsconfig.node.json",
+      "what": "TypeScript settings for tools"
+    },
+    {
+      "path": "vite.config.ts",
+      "what": "The bundler's and test runner's settings"
+    }
+  ],
+  "records": [
+    "docs/coordination/OWNER-DECISIONS.md",
+    "docs/coordination/DECISION-REGISTER.md",
+    "docs/coordination/prior-rulings/",
+    "docs/coordination/playtest/",
+    "docs/coordination/LEADS-2026-10-24.md",
+    "docs/play-first/PROGRESS.md",
+    "docs/release/changes/",
+    "PATCH_NOTES.md",
+    "docs/current.json",
+    "docs/CURRENT.md"
+  ],
+  "replaced": [
+    {
+      "old": "src/simulation",
+      "now": "src/core2",
+      "when": "2026-10-28",
+      "why": "The old core was deleted (pull request 6659); the new core is the engine."
+    },
+    {
+      "old": "src/bench/scene-check.ts",
+      "now": "nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d",
+      "when": "2026-11-11",
+      "why": "Removed with the painted people (owner's call 11, PR 8643): the room's people are a strip of busts; the check of painted people in a room has nothing to check."
+    },
+    {
+      "old": "src/bench/art-check.ts",
+      "now": "nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d",
+      "when": "2026-11-11",
+      "why": "Removed with the painted people (owner's call 11, PR 8643): the painted full-body people left the rooms; their art check went with them."
+    },
+    {
+      "old": "src/bench/people-pack.test.ts",
+      "now": "nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d",
+      "when": "2026-11-11",
+      "why": "Removed with the painted people (owner's call 11, PR 8643): the people pack's room figures are not drawn any more; the bust tests cover faces."
+    },
+    {
+      "old": "src/director/scene-occasions.test.ts",
+      "now": "nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d",
+      "when": "2026-11-11",
+      "why": "Removed with the painted people (owner's call 11, PR 8643): it tested where painted people stood in a room."
+    },
+    {
+      "old": "src/bench/framing.browser.mjs",
+      "now": "nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d",
+      "when": "2026-11-11",
+      "why": "Removed with the painted people (owner's call 11, PR 8643): it checked how painted people were framed in a room."
+    },
+    {
+      "old": "src/bench/ui/headshot.mjs",
+      "now": "src/bench/ui/face.mjs (the one face part) and src/bench/ui/person-card.mjs (the one person card)",
+      "when": "2026-11-11",
+      "why": "One face part and one person card (play-one-person-shows-two-faces; Fable audit, Nov 9: \"six ways to draw a person card and three ways to draw a face\")."
+    },
+    {
+      "old": "src/bench/ui/member-card.mjs",
+      "now": "src/bench/ui/face.mjs (the one face part) and src/bench/ui/person-card.mjs (the one person card)",
+      "when": "2026-11-11",
+      "why": "One face part and one person card (play-one-person-shows-two-faces; Fable audit, Nov 9: \"six ways to draw a person card and three ways to draw a face\")."
+    },
+    {
+      "old": "data/english/parts/person-sketch.json",
+      "now": "nothing stands in its place: the person card shows each leaning by its label (and its strength on the You screen); restore it from commit 354fa017bdc126990eaec3a30367173e519bcfc2",
+      "when": "2026-11-12",
+      "why": "Every line in it only said a trait's label again in other words, with no fact from the world's records (owner, Nov 11: every line through the English engine; Fable A on #7365, Nov 12: a line that only restates the trait's name beside it is deleted)."
+    }
+  ]
+}

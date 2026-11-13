@@ -17,7 +17,7 @@ effort: low
 root: design-words-machine
 source: split from words-machine-rules-from-the-owners-notes by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T06:03:24.912Z
+claimed-at: 2026-11-13T04:23:31.168Z
 branch: claude/fable-b2-one-line-spots
 ---
 
@@ -44,3 +44,7 @@ Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released by next (2026-11-11): no push to claude/fable-b2-one-line-spots since 2026-11-10 18:00 UTC, more than twice its 3-hour time box. Continue on branch claude/fable-b2-one-line-spots.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:03 UTC) on branch claude/fable-b2-one-line-spots.
+
+Released by next (2026-11-13): no push to claude/fable-b2-one-line-spots since 2026-11-10 18:00 UTC, more than twice its 3-hour time box. Continue on branch claude/fable-b2-one-line-spots.
+
+Claimed by next for sonnet-64fc (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-13 04:22 UTC) on branch claude/fable-b2-one-line-spots.

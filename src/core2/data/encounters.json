@@ -1,14 +1,15 @@
 {
   "version": "p15-encounters-v1",
-  "stopgapId": "SG-P15-encounters",
   "causes": {
     "visit": "visit",
     "care": "care",
     "metOnVisit": "met-on-visit",
     "metInGroup": "met-in-group",
     "metAtWork": "met-at-work",
+    "metInTalk": "met-in-talk",
     "homeTime": "home-time",
     "openingHome": "opening-home",
-    "openingFamily": "opening-family"
+    "openingFamily": "opening-family",
+    "metAtPublicComment": "met-at-public-comment"
   }
 }

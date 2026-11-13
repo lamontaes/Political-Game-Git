@@ -11,12 +11,9 @@ import { setTraitProbe, traitProbe } from "../trait-probe";
 import { bookkeeping } from "../bookkeeping";
 import { keepsWhy } from "../why-kept";
 import { adTimeForSale, buyAdTime } from "./campaigns";
-import {
-  residentCounts,
-  residentsAccountFor,
-  residentsRuntime,
-} from "./residents";
+import { residentCounts, residentsAccountFor } from "./residents";
 import { countedPersonOf } from "../counted-actor";
+import { isDemoted } from "../counted-groups";
 import { initialPersonState } from "../person-state";
 import { fillInPerson, resolveOperation } from "../state";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
@@ -746,19 +743,26 @@ function countedSubjects(
   const named = event.facts?.[data.factKeys.countedSubject];
   if (named) out.add(named);
   if (event.kind === data.closureEventKind) {
-    // The closure event's id ends with the closed business.
+    // The closure event's id ends with the closed business; the closure
+    // record names the counted workers it ended the jobs of.
     const closure = state.finance.closures.get(
       event.id.split(":").slice(2).join(":"),
     );
-    const jobs = residentsRuntime(state)?.jobs;
-    for (const id of closure?.endedCountedJobIds ?? []) {
-      const personId = jobs?.get(id)?.personId;
-      if (personId) out.add(personId);
-    }
+    for (const personId of closure?.affectedCountedPersonIds ?? [])
+      out.add(personId as PersonId);
   }
-  return [...out].filter(
-    (id) => !state.people.has(id) && countedPersonOf(state, id) !== undefined,
-  );
+  return [...out].filter((id) => stillCounted(state, id));
+}
+
+/**
+ * Whether someone is still in the wider population: no full record, or a full
+ * record that marks them returned to the counts (`isDemoted`: the jobs
+ * engine's rule for the same person), who then responds through that kept
+ * record as any full person does.
+ */
+function stillCounted(state: CoreState, id: PersonId): boolean {
+  const full = state.people.get(id);
+  return (!full || isDemoted(full)) && countedPersonOf(state, id) !== undefined;
 }
 
 export function respond(
@@ -994,11 +998,20 @@ export function respond(
       trace.driveId = identity.id;
       // Naming the one responsible fills them in with their household (an owner who lets a relative go): a counted
       // actor filled in just now is a full person, and they lived through the event as its subject.
-      if (counted && api.state.people.has(actor.id)) {
-        counted = false;
-        actor = api.state.people.get(actor.id)!;
+      // Someone returned to the counts (`stillCounted`) answers a counted
+      // event through their kept full record, and lived through it the same way.
+      const filledNow = counted && api.state.people.has(actor.id);
+      const experienced = `event:${event.id}:experienced`;
+      if (
+        filledNow ||
+        (!counted && isDemoted(actor) && !api.knows(actor.id, experienced))
+      ) {
+        if (filledNow) {
+          counted = false;
+          actor = api.state.people.get(actor.id)!;
+        }
         api.observe(actor.id, {
-          key: `event:${event.id}:experienced`,
+          key: experienced,
           value: event.id,
           learnedAt: event.date,
           sourceId: event.id,
@@ -1988,7 +2001,10 @@ export function createDrivesModule(
       const around = event.facts?.[data.factKeys.countedPerceivers];
       if (subject && around)
         for (const id of JSON.parse(around) as PersonId[])
-          if (!api.state.people.has(id))
+          if (
+            !api.state.people.has(id) ||
+            stillCounted(api.state as CoreState, id)
+          )
             respond(api, data, id, { ...event, personIds: [subject] });
       // A counted household the event happened to (an eviction): every
       // member still counted is a subject with the whole household named,
@@ -1997,10 +2013,7 @@ export function createDrivesModule(
       if (household) {
         const named = JSON.parse(household) as PersonId[];
         for (const id of named)
-          if (
-            !api.state.people.has(id) &&
-            countedPersonOf(api.state as CoreState, id) !== undefined
-          )
+          if (stillCounted(api.state as CoreState, id))
             respond(api, data, id, { ...event, personIds: named });
       }
     },
@@ -2124,6 +2137,14 @@ export function createDrivesModule(
       },
     },
     eligibilityRules: {
+      // A planned share runs again on later days; the drive's told set stops
+      // the second telling to the same person.
+      "drive-target-untold": (api, actor, offer) => {
+        const drive = offer.driveId
+          ? heldFor(api, actor.id)?.get(offer.driveId)
+          : undefined;
+        return !!drive && !drive.told.has(offer.targetId);
+      },
       "no-known-group-on-topic": (api, actor, offer) => {
         const drive = offer.driveId
           ? heldFor(api, actor.id)?.get(offer.driveId)

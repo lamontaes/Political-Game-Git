@@ -328,13 +328,14 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     );
     // A death in the family is a hard time; running begins with deciding to.
     // A line may open on the time since the one before it ("One month on,").
-    // The relative is named by relation, or by their given name when another
-    // relative already holds the relation (two sons are not both "my son").
+    // The relative is named by relation, with their given name too when
+    // another relative holds the same relation (two sons are each "my son
+    // Mark" and "my son Tom").
     const relative = core.people.get(relativeId)!;
     expect(
       text.some((line) =>
         new RegExp(
-          `^(?:[^.]*, )?(?:[Mm]y \\w+|${relative.givenName}) (died|passed away)\\.`,
+          `^(?:[^.]*, )?(?:[Mm]y \\w+(?: ${relative.givenName})?|${relative.givenName}) (died|passed away)\\.`,
         ).test(line),
       ),
       text.join(" | "),
@@ -614,8 +615,9 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     )!;
     const relative = core.people.get(relativeId)!;
     // The shape src/core2/modules/moves.ts emits when someone leaves town.
+    const moveId = `person.moved-away:${relativeId}:${core.date}`;
     applyCoreEvent(core, {
-      id: `person.moved-away:${relativeId}:${core.date}`,
+      id: moveId,
       date: core.date,
       kind: "person.moved-away",
       personIds: [relativeId],
@@ -637,12 +639,21 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     );
     // The engine words it from the move record: who moved, by relation, and
     // the line cites the record it came from.
-    const told = lines.filter((line) => /moved away/.test(line.text));
+    // The lines of this move, by its record: a relative's earlier move in the
+    // past chapter is told with its age ("When I was 15 years old, my brother
+    // ... moved away."; Highland, Kansas, seed
+    // aa73e37ebdc41b538771fe51249d8514cb45eea4).
+    const told = lines.filter(
+      (line) =>
+        /moved away/.test(line.text) && line.sourceRecordIds.includes(moveId),
+    );
     expect(told.length).toBeGreaterThan(0);
     for (const line of told) {
-      // A second relative of one relation is said by given name ("Olivia moved away.").
+      // A second relative of one relation is said by given name ("Olivia
+      // moved away."); a young watcher's line is framed by their age ("When
+      // I was 15 years old, my brother ... moved away.").
       expect(line.plain ?? line.text).toMatch(
-        /^(My \w+( \w+)?|[A-Z][a-z]+) moved away\.$/,
+        /^(?:When I was [^,]+, )?(?:[Mm]y \w+( \w+)?|[A-Z][a-z]+) moved away\.$/,
       );
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
     }
@@ -752,8 +763,16 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         )
         .map((line) => line.plain ?? line.text);
     const named = told(mover.placeId);
-    const moved = named.filter((line) => /^We /.test(line));
+    // Told as the person's own move, after an age frame when they were young
+    // ("When I was 15 years old, we moved back to Highland, Kansas."), and
+    // the age said once.
+    const moved = named.filter((line) =>
+      /^(?:When I was [^,]+, )?We /i.test(line),
+    );
     expect(moved).toHaveLength(1);
+    expect(
+      moved[0]!.match(/\b\d+\b(?= (?:years old|that year))/g)?.length ?? 0,
+    ).toBeLessThanOrEqual(1);
     expect(moved[0]).toContain(
       corePlaceByJurisdictionId(mover.placeId as never)!.displayName,
     );

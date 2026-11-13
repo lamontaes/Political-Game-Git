@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/fable-b3-spot-rule-tests
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,8 @@ effort: medium
 root: design-words-machine
 source: split from words-machine-rules-from-the-owners-notes by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
-claimed-at: 2026-11-10T19:03:05.502Z
+claimed-at:
+branch: claude/fable-b3-spot-rule-tests
 ---
 
 **What.** Many of the owner's notes are about a line in its place: fine from a friend, wrong from a stranger; fine at a kitchen table, wrong at a podium. Twenty-eight such rules are written down with no test. This part hands a rule the line together with its spot, and writes those tests.
@@ -35,3 +36,5 @@ claimed-at: 2026-11-10T19:03:05.502Z
 **Waits on.** Pull request 8154 on main. words-machine-part-1-tests-for-rules-that-judge-one-line for the run's steps.
 
 **Files.** data/english/line-rules.json, src/english/line-rules.ts, scripts/words/run-rules.ts, data/english/scene-talk-tags.json
+
+**Notes.** Released by next (2026-11-13): no push to claude/fable-b3-spot-rule-tests since 2026-11-11 08:03 UTC, more than twice its 10-hour time box. Continue on branch claude/fable-b3-spot-rule-tests.
