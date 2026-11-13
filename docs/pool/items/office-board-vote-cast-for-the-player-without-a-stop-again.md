@@ -32,6 +32,8 @@ claimed-at:
 
 **Done when.** A second session plays a seated board member in a drawn place, named with its seed, on main, through two meetings where a scene stops the player the same morning. Each meeting stops her, and no roll-call row of hers exists that she did not press. A test of a bill filed the day before its meeting fails on main.
 
-**Waits on.** Nothing.
+**Waits on.** Nothing. T14's #9022 changes when agendas are filed and may touch the same path, so re-check this on main once it merges.
 
 **Files.** src/core2/modules/office-day.ts, src/core2/modules/world-legislating.ts, src/bench/play.mjs
+
+**Notes.** More from the same record (Playtester P3, Nov 13). The bill is bill:office:gus2025:187833:board:2026-06-01:person_3bd0dafe8c6796b5:62, Ordinance 2026-1 (budget lines), introduced Mon Jun 1, 2026. The board's regular meeting would have been Tue Jun 2 at 6:00 PM. Its roll call holds only her 'no'; Stephen Pugh's and Logan Tyson's rows are null, yet the bill reads enacted. The Journal toast with her 'no' showed when the week stopped at 8:00 AM on Jun 2, so the vote was cast before that evening's meeting, on Jun 1 or early Jun 2. I did not open the Calendar that week, so whether it listed the meeting is not known. Replaying the seed with BENCH_SEED to Jun 1, 2026 answers it. This was seen under the yearly-board bug (all three seats elected every year, fixed in #9023), and her seat in 2026 rests on that count. The vote itself does not depend on a re-election.
