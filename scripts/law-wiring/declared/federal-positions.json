@@ -1,0 +1,177 @@
+{
+  "about": "Federal positions no engine reads at the moment it decides or pays: each unwired link carries the one open stopgap that registers them (SG-LAWS-federal-position-no-reader), naming the engine that would read each (scripts/law-wiring/matrix.ts reads every file here).",
+  "laws": {
+    "us-federal-positions:education.forgive-student-loans": {
+      "reach": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: no borrower's loan is forgiven, so it reaches nobody and moves no money (the credit engine would, src/core2/modules/credit.ts)"
+      },
+      "systems": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: no borrower's loan is forgiven, so it reaches nobody and moves no money (the credit engine would, src/core2/modules/credit.ts)"
+      },
+      "money": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: no borrower's loan is forgiven, so it reaches nobody and moves no money (the credit engine would, src/core2/modules/credit.ts)"
+      },
+      "repeal": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: no borrower's loan is forgiven, so it reaches nobody and moves no money (the credit engine would, src/core2/modules/credit.ts)"
+      },
+      "allPlaces": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: no borrower's loan is forgiven, so it reaches nobody and moves no money (the credit engine would, src/core2/modules/credit.ts)"
+      },
+      "web": {
+        "status": "stopgap",
+        "id": "SG-WEB-unread-finance-past-due-debt",
+        "why": "its one sized-or-not link, student-debt-relief-to-finances, has no size and its outcome (past-due debt) is not kept by the web or produced by any engine"
+      }
+    },
+    "us-federal-positions:government.ban-congressional-stock-trading": {
+      "reach": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: no member's holdings are kept, so it reaches nobody and moves no money"
+      },
+      "systems": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: no member's holdings are kept, so it reaches nobody and moves no money"
+      },
+      "money": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: no member's holdings are kept, so it reaches nobody and moves no money"
+      },
+      "repeal": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: no member's holdings are kept, so it reaches nobody and moves no money"
+      },
+      "allPlaces": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: no member's holdings are kept, so it reaches nobody and moves no money"
+      }
+    },
+    "us-federal-positions:territories-culture.statehood-for-dc": {
+      "reach": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: the apportionment of seats does not read it, so it reaches nobody and moves no money"
+      },
+      "systems": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: the apportionment of seats does not read it, so it reaches nobody and moves no money"
+      },
+      "money": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: the apportionment of seats does not read it, so it reaches nobody and moves no money"
+      },
+      "repeal": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: the apportionment of seats does not read it, so it reaches nobody and moves no money"
+      },
+      "allPlaces": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "no engine reads it: the apportionment of seats does not read it, so it reaches nobody and moves no money"
+      },
+      "web": {
+        "status": "stopgap",
+        "id": "SG-LAW-outcome-link-unresearched",
+        "why": "no researched outcome-web link starts from it; the research would measure representation and federal spending in the District"
+      }
+    },
+    "us-federal-positions:housing.vouchers-for-every-eligible-family": {
+      "reach": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's ledger reads it (housing-vouchers-to-homelessness); rent assistance (src/core2/housing-assistance.ts) does not pay any household a voucher because of it"
+      },
+      "systems": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's ledger reads it (housing-vouchers-to-homelessness); rent assistance (src/core2/housing-assistance.ts) does not pay any household a voucher because of it"
+      },
+      "money": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's ledger reads it (housing-vouchers-to-homelessness); rent assistance (src/core2/housing-assistance.ts) does not pay any household a voucher because of it"
+      },
+      "repeal": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's ledger reads it (housing-vouchers-to-homelessness); rent assistance (src/core2/housing-assistance.ts) does not pay any household a voucher because of it"
+      },
+      "allPlaces": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's ledger reads it (housing-vouchers-to-homelessness); rent assistance (src/core2/housing-assistance.ts) does not pay any household a voucher because of it"
+      }
+    },
+    "us-federal-positions:energy-environment.limit-power-plant-carbon": {
+      "reach": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's ledger reads it (power-plant-carbon-to-emissions, -to-particulates); no electricity price (src/core2/modules/place-prices.ts adjustPrice) moves because of it"
+      },
+      "systems": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's ledger reads it (power-plant-carbon-to-emissions, -to-particulates); no electricity price (src/core2/modules/place-prices.ts adjustPrice) moves because of it"
+      },
+      "money": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's ledger reads it (power-plant-carbon-to-emissions, -to-particulates); no electricity price (src/core2/modules/place-prices.ts adjustPrice) moves because of it"
+      },
+      "repeal": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's ledger reads it (power-plant-carbon-to-emissions, -to-particulates); no electricity price (src/core2/modules/place-prices.ts adjustPrice) moves because of it"
+      },
+      "allPlaces": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's ledger reads it (power-plant-carbon-to-emissions, -to-particulates); no electricity price (src/core2/modules/place-prices.ts adjustPrice) moves because of it"
+      }
+    },
+    "us-federal-positions:trade.raise-tariffs": {
+      "reach": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's household-prices link reads it, a year after it is enacted (tariffs-to-prices); no business or buyer is recorded as reached"
+      },
+      "systems": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's household-prices link reads it, a year after it is enacted (tariffs-to-prices); no business or buyer is recorded as reached"
+      },
+      "money": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's household-prices link reads it, a year after it is enacted (tariffs-to-prices); no business or buyer is recorded as reached"
+      },
+      "repeal": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's household-prices link reads it, a year after it is enacted (tariffs-to-prices); no business or buyer is recorded as reached"
+      },
+      "allPlaces": {
+        "status": "stopgap",
+        "id": "SG-LAWS-federal-position-no-reader",
+        "why": "only the outcome web's household-prices link reads it, a year after it is enacted (tariffs-to-prices); no business or buyer is recorded as reached"
+      }
+    }
+  }
+}

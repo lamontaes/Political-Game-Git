@@ -1985,10 +1985,10 @@
       "kind": "question",
       "family": "housing",
       "inForceAtOpening": false,
-      "change": "enacted at federal (law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+      "change": "enacted at federal (law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489) effective 2025-01-21; then repealed at federal effective 2025-02-26",
       "lawIds": [
         "law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489",
-        "law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2026-01-22:law-wiring-45ece489-b"
+        "law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-02-26:law-wiring-45ece489-b"
       ],
       "openingReach": {
         "fullPeople": 0,
@@ -2033,9 +2033,9 @@
         "sample": []
       },
       "readers": {
-        "src/core2/modules/outcome-web.ts:207": 410,
-        "src/core2/modules/legislature.ts:4224": 9,
-        "src/core2/life.ts:573": 5
+        "src/core2/modules/outcome-web.ts:208": 50,
+        "src/core2/life.ts:552": 5,
+        "src/core2/modules/legislature.ts:4505": 2
       },
       "openingRow": "law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:starting",
       "money": {
@@ -2074,7 +2074,7 @@
         ],
         "fired": [],
         "firedCount": 0,
-        "windowDays": 365,
+        "windowDays": 35,
         "cause": [
           {
             "id": "web:jurisdiction_16b3bfd4091db759:2025-01",
@@ -2111,84 +2111,12 @@
             "lagMonths": 0,
             "treated": 1,
             "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-03",
-            "month": "2025-03",
-            "link": "housing-vouchers-to-homelessness",
-            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-03",
-            "month": "2025-03",
-            "link": "housing-vouchers-to-graduation",
-            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
-            "lagMonths": 0,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-04",
-            "month": "2025-04",
-            "link": "housing-vouchers-to-homelessness",
-            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-04",
-            "month": "2025-04",
-            "link": "housing-vouchers-to-graduation",
-            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
-            "lagMonths": 0,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-05",
-            "month": "2025-05",
-            "link": "housing-vouchers-to-homelessness",
-            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-05",
-            "month": "2025-05",
-            "link": "housing-vouchers-to-graduation",
-            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
-            "lagMonths": 0,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-06",
-            "month": "2025-06",
-            "link": "housing-vouchers-to-homelessness",
-            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-06",
-            "month": "2025-06",
-            "link": "housing-vouchers-to-graduation",
-            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
-            "lagMonths": 0,
-            "treated": 1,
-            "control": 0
           }
         ],
         "reenacted": null
       },
       "heard": {
-        "people": 122,
+        "people": 93,
         "sample": [
           "person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489",
           "person_11f8a33a381d6571:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489",
@@ -2219,7 +2147,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 74
+      "seconds": 15
     },
     {
       "key": "budget-line:communityAndRegionalDevelopment",
@@ -3495,10 +3423,10 @@
       "kind": "question",
       "family": "foreign-trade",
       "inForceAtOpening": false,
-      "change": "enacted at federal (law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+      "change": "enacted at federal (law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9) effective 2025-01-21; then repealed at federal effective 2025-02-26",
       "lawIds": [
         "law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9",
-        "law:US:federal:us-federal-positions:trade.raise-tariffs:general:2026-01-22:law-wiring-495529d9-b"
+        "law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-02-26:law-wiring-495529d9-b"
       ],
       "openingReach": {
         "fullPeople": 0,
@@ -3543,9 +3471,9 @@
         "sample": []
       },
       "readers": {
-        "src/core2/modules/outcome-web.ts:207": 246,
-        "src/core2/modules/legislature.ts:4224": 9,
-        "src/core2/life.ts:573": 5
+        "src/core2/modules/outcome-web.ts:208": 30,
+        "src/core2/life.ts:552": 5,
+        "src/core2/modules/legislature.ts:4505": 2
       },
       "openingRow": "law:US:federal:us-federal-positions:trade.raise-tariffs:general:starting",
       "money": {
@@ -3574,7 +3502,7 @@
         ],
         "fired": [],
         "firedCount": 0,
-        "windowDays": 365,
+        "windowDays": 35,
         "cause": [
           {
             "id": "web:jurisdiction_16b3bfd4091db759:2025-01",
@@ -3593,102 +3521,12 @@
             "lagMonths": 12,
             "treated": 1,
             "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-03",
-            "month": "2025-03",
-            "link": "tariffs-to-prices",
-            "from": "law:us-federal-positions:trade.raise-tariffs",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-04",
-            "month": "2025-04",
-            "link": "tariffs-to-prices",
-            "from": "law:us-federal-positions:trade.raise-tariffs",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-05",
-            "month": "2025-05",
-            "link": "tariffs-to-prices",
-            "from": "law:us-federal-positions:trade.raise-tariffs",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-06",
-            "month": "2025-06",
-            "link": "tariffs-to-prices",
-            "from": "law:us-federal-positions:trade.raise-tariffs",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-07",
-            "month": "2025-07",
-            "link": "tariffs-to-prices",
-            "from": "law:us-federal-positions:trade.raise-tariffs",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-08",
-            "month": "2025-08",
-            "link": "tariffs-to-prices",
-            "from": "law:us-federal-positions:trade.raise-tariffs",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-09",
-            "month": "2025-09",
-            "link": "tariffs-to-prices",
-            "from": "law:us-federal-positions:trade.raise-tariffs",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-10",
-            "month": "2025-10",
-            "link": "tariffs-to-prices",
-            "from": "law:us-federal-positions:trade.raise-tariffs",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-11",
-            "month": "2025-11",
-            "link": "tariffs-to-prices",
-            "from": "law:us-federal-positions:trade.raise-tariffs",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_16b3bfd4091db759:2025-12",
-            "month": "2025-12",
-            "link": "tariffs-to-prices",
-            "from": "law:us-federal-positions:trade.raise-tariffs",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
           }
         ],
         "reenacted": null
       },
       "heard": {
-        "people": 122,
+        "people": 93,
         "sample": [
           "person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9",
           "person_11f8a33a381d6571:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9",
@@ -3719,7 +3557,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 79
+      "seconds": 16
     }
   ]
 }

@@ -308,11 +308,11 @@ export function openLaws(core: CoreState): LawChain {
 }
 
 /**
- * Questions on federal law (answered once for the nation). Seven of them have
- * a starting answer and a bill-paper route but no engine reads them yet: the
- * debt limit, immigration levels, student loan forgiveness, the disaster cost
- * share, D.C. statehood, federal mandatory minimums and
- * the members' stock trading ban. stopgapId: SG-LAWS-federal-position-no-reader
+ * Questions on federal law (answered once for the nation). Six of them have a
+ * starting answer and a bill-paper route but no engine reads them as it
+ * decides or pays: student loan forgiveness, D.C. statehood, the members'
+ * stock trading ban, housing vouchers, power plant carbon and tariffs (the
+ * last three only through the outcome web). stopgapId: SG-LAWS-federal-position-no-reader
  */
 const FEDERAL_QUESTION_PREFIX = "us-federal-positions:";
 

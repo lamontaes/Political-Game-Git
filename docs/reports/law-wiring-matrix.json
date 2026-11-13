@@ -153,10 +153,10 @@
     }
   ],
   "summary": {
-    "laws": 178,
+    "laws": 187,
     "wired": 147,
-    "partly": 31,
-    "stopgapped": 0,
+    "partly": 34,
+    "stopgapped": 6,
     "researchLinks": {
       "links": 246,
       "reaching": 175,
@@ -181,14 +181,14 @@
     ],
     "byLink": {
       "exists": {
-        "wired": 113,
-        "partial": 4,
-        "missing": 3,
+        "wired": 119,
+        "partial": 5,
+        "missing": 5,
         "stopgap": 0,
         "n/a": 58
       },
       "change": {
-        "wired": 178,
+        "wired": 187,
         "partial": 0,
         "missing": 0,
         "stopgap": 0,
@@ -197,50 +197,50 @@
       "reach": {
         "wired": 99,
         "partial": 0,
-        "missing": 19,
-        "stopgap": 0,
+        "missing": 18,
+        "stopgap": 10,
         "n/a": 60
       },
       "systems": {
         "wired": 113,
         "partial": 0,
-        "missing": 15,
-        "stopgap": 0,
+        "missing": 14,
+        "stopgap": 10,
         "n/a": 50
       },
       "money": {
         "wired": 94,
-        "partial": 10,
-        "missing": 8,
-        "stopgap": 0,
+        "partial": 7,
+        "missing": 10,
+        "stopgap": 10,
         "n/a": 66
       },
       "web": {
-        "wired": 75,
+        "wired": 77,
         "partial": 0,
-        "missing": 28,
-        "stopgap": 0,
+        "missing": 29,
+        "stopgap": 6,
         "n/a": 75
       },
       "knowing": {
         "wired": 128,
         "partial": 0,
-        "missing": 0,
+        "missing": 9,
         "stopgap": 0,
         "n/a": 50
       },
       "repeal": {
         "wired": 100,
         "partial": 0,
-        "missing": 19,
-        "stopgap": 0,
+        "missing": 22,
+        "stopgap": 6,
         "n/a": 59
       },
       "allPlaces": {
         "wired": 101,
         "partial": 0,
-        "missing": 19,
-        "stopgap": 0,
+        "missing": 22,
+        "stopgap": 6,
         "n/a": 58
       }
     }
@@ -1605,7 +1605,7 @@
     },
     {
       "key": "budget-line:healthAndHospitals",
-      "name": "Spending: health and hospitals",
+      "name": "Spending: healthAndHospitals",
       "kind": "budget-line",
       "family": "healthcare",
       "reachGroup": "B",
@@ -2336,7 +2336,7 @@
     },
     {
       "key": "budget-line:higherEducation",
-      "name": "Spending: higher education",
+      "name": "Spending: higherEducation",
       "kind": "budget-line",
       "family": "education",
       "reachGroup": "B",
@@ -2489,7 +2489,7 @@
       "family": "education",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -2502,25 +2502,25 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): enacted at federal (law:US:federal:us-federal-positions:education.forgive-student-loans:general:2025-01-21:law-wiring-64942118) effective 2025-01-21; then repealed at federal effective 2026-01-22",
-          "why": "no law-reach row: nothing records who it applies to"
+          "why": "no engine reads it: no borrower's loan is forgiven, so it reaches nobody and moves no money (the credit engine would, src/core2/modules/credit.ts) (SG-LAWS-federal-position-no-reader)"
         },
         "systems": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "table trace: no engine read the law's rows in the run",
-          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+          "why": "no engine reads it: no borrower's loan is forgiven, so it reaches nobody and moves no money (the credit engine would, src/core2/modules/credit.ts) (SG-LAWS-federal-position-no-reader)"
         },
         "money": {
-          "status": "partial",
+          "status": "stopgap",
           "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:671 49602439179 -> 49601715831 (journal:2025-01-21:748); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/modules/counted-demotion.ts:318 40891373 -> 40260275 (journal:2025-09-01:68459); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:428 598001049 -> 597414514 (journal:2025-02-01:1107)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "why": "no engine reads it: no borrower's loan is forgiven, so it reaches nobody and moves no money (the credit engine would, src/core2/modules/credit.ts) (SG-LAWS-federal-position-no-reader)",
           "untraced": true
         },
         "web": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "student-debt-relief-to-finances: size-not-set, student-loan-forgiveness-to-poverty: about-zero",
-          "why": "every link is unbuilt: size-not-set"
+          "why": "its one sized-or-not link, student-debt-relief-to-finances, has no size and its outcome (past-due debt) is not kept by the web or produced by any engine (SG-WEB-unread-finance-past-due-debt)"
         },
         "knowing": {
           "status": "wired",
@@ -2528,14 +2528,14 @@
           "why": ""
         },
         "repeal": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "why": "no engine reads it: no borrower's loan is forgiven, so it reaches nobody and moves no money (the credit engine would, src/core2/modules/credit.ts) (SG-LAWS-federal-position-no-reader)"
         },
         "allPlaces": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
-          "why": "reaches nobody anywhere"
+          "why": "no engine reads it: no borrower's loan is forgiven, so it reaches nobody and moves no money (the credit engine would, src/core2/modules/credit.ts) (SG-LAWS-federal-position-no-reader)"
         }
       },
       "screens": [],
@@ -4312,7 +4312,7 @@
     },
     {
       "key": "budget-line:welfareAndMedicaid",
-      "name": "Spending: welfare and Medicaid",
+      "name": "Spending: welfareAndMedicaid",
       "kind": "budget-line",
       "family": "assistance",
       "reachGroup": "B",
@@ -4456,6 +4456,124 @@
           "inForceAtOpening": false
         }
       ],
+      "errors": []
+    },
+    {
+      "key": "child-care-income-limit",
+      "name": "Child care income limit (family of three)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "child-care-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:child-care-income-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "ssi-federal-benefit-rate",
+      "name": "SSI federal benefit rate (individual)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "ssi-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (federal 1); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:ssi-federal-benefit-rate: raise/lower at federal",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
       "errors": []
     },
     {
@@ -5116,6 +5234,65 @@
       "errors": []
     },
     {
+      "key": "energy-assistance-income-limit",
+      "name": "Home energy assistance income limit (percent of the poverty line)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "energy-assistance-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:energy-assistance-income-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
       "key": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
       "name": "allow multifamily in single family zones",
       "kind": "question",
@@ -5357,7 +5534,7 @@
       "family": "housing",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -5370,46 +5547,46 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): enacted at federal (law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489) effective 2025-01-21; then repealed at federal effective 2026-01-22",
-          "why": "no law-reach row: nothing records who it applies to"
+          "status": "stopgap",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): enacted at federal (law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+          "why": "only the outcome web's ledger reads it (housing-vouchers-to-homelessness); rent assistance (src/core2/housing-assistance.ts) does not pay any household a voucher because of it (SG-LAWS-federal-position-no-reader)"
         },
         "systems": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "table trace: no engine read the law's rows in the run",
-          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+          "why": "only the outcome web's ledger reads it (housing-vouchers-to-homelessness); rent assistance (src/core2/housing-assistance.ts) does not pay any household a voucher because of it (SG-LAWS-federal-position-no-reader)"
         },
         "money": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it"
+          "why": "only the outcome web's ledger reads it (housing-vouchers-to-homelessness); rent assistance (src/core2/housing-assistance.ts) does not pay any household a voucher because of it (SG-LAWS-federal-position-no-reader)"
         },
         "web": {
-          "status": "missing",
-          "evidence": "housing-vouchers-to-homelessness",
-          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): housing-vouchers-to-homelessness lags 12 months, past the run's window; the web read law:us-federal-positions:housing.vouchers-for-every-eligible-family as 1 (control 0) in web:jurisdiction_16b3bfd4091db759:2025-01 (2025-01); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): housing-vouchers-to-homelessness lags 12 months, past the run's window; the web read law:us-federal-positions:housing.vouchers-for-every-eligible-family as 1 (control 0) in web:jurisdiction_16b3bfd4091db759:2025-02 (2025-02)",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 122 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "why": "only the outcome web's ledger reads it (housing-vouchers-to-homelessness); rent assistance (src/core2/housing-assistance.ts) does not pay any household a voucher because of it (SG-LAWS-federal-position-no-reader)"
         },
         "allPlaces": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
-          "why": "reaches nobody anywhere"
+          "why": "only the outcome web's ledger reads it (housing-vouchers-to-homelessness); rent assistance (src/core2/housing-assistance.ts) does not pay any household a voucher because of it (SG-LAWS-federal-position-no-reader)"
         }
       },
       "screens": [],
       "runs": [
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
-          "change": "enacted at federal (law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489) effective 2025-01-21; then repealed at federal effective 2025-02-26",
           "inForceAtOpening": false
         }
       ],
@@ -6085,6 +6262,124 @@
           "inForceAtOpening": false
         }
       ],
+      "errors": []
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+      "name": "ban the box public hiring",
+      "kind": "question",
+      "family": "labor",
+      "reachGroup": "A",
+      "mechanic": "hiring-record",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026)",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:labor-workforce.ban-the-box-public-hiring: enact/repeal at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "local-power:us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+      "name": "Local power: ban the box public hiring",
+      "kind": "amount",
+      "family": "labor",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:local-power:ban-the-box-public-hiring: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
       "errors": []
     },
     {
@@ -7374,13 +7669,131 @@
       "errors": []
     },
     {
+      "key": "us-policy-positions:environment-energy.allow-retail-electric-choice",
+      "name": "allow retail electric choice",
+      "kind": "question",
+      "family": "energy-environment",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026)",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:environment-energy.allow-retail-electric-choice: enact/repeal at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "local-power:us-policy-positions:environment-energy.allow-retail-electric-choice",
+      "name": "Local power: allow retail electric choice",
+      "kind": "amount",
+      "family": "energy-environment",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:local-power:allow-retail-electric-choice: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
       "key": "us-federal-positions:energy-environment.limit-power-plant-carbon",
       "name": "limit power plant carbon",
       "kind": "question",
       "family": "energy-environment",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -7393,19 +7806,19 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): enacted at federal (law:US:federal:us-federal-positions:energy-environment.limit-power-plant-carbon:general:2025-01-21:law-wiring-c0357c70) effective 2025-01-21; then repealed at federal effective 2026-01-22",
-          "why": "no law-reach row: nothing records who it applies to"
+          "why": "only the outcome web's ledger reads it (power-plant-carbon-to-emissions, -to-particulates); no electricity price (src/core2/modules/place-prices.ts adjustPrice) moves because of it (SG-LAWS-federal-position-no-reader)"
         },
         "systems": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "table trace: no engine read the law's rows in the run",
-          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+          "why": "only the outcome web's ledger reads it (power-plant-carbon-to-emissions, -to-particulates); no electricity price (src/core2/modules/place-prices.ts adjustPrice) moves because of it (SG-LAWS-federal-position-no-reader)"
         },
         "money": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it"
+          "why": "only the outcome web's ledger reads it (power-plant-carbon-to-emissions, -to-particulates); no electricity price (src/core2/modules/place-prices.ts adjustPrice) moves because of it (SG-LAWS-federal-position-no-reader)"
         },
         "web": {
           "status": "wired",
@@ -7418,14 +7831,14 @@
           "why": ""
         },
         "repeal": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "why": "only the outcome web's ledger reads it (power-plant-carbon-to-emissions, -to-particulates); no electricity price (src/core2/modules/place-prices.ts adjustPrice) moves because of it (SG-LAWS-federal-position-no-reader)"
         },
         "allPlaces": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
-          "why": "reaches nobody anywhere"
+          "why": "only the outcome web's ledger reads it (power-plant-carbon-to-emissions, -to-particulates); no electricity price (src/core2/modules/place-prices.ts adjustPrice) moves because of it (SG-LAWS-federal-position-no-reader)"
         }
       },
       "screens": [],
@@ -7591,7 +8004,7 @@
     },
     {
       "key": "budget-line:naturalResources",
-      "name": "Spending: natural resources",
+      "name": "Spending: naturalResources",
       "kind": "budget-line",
       "family": "energy-environment",
       "reachGroup": "B",
@@ -9635,6 +10048,65 @@
       "errors": []
     },
     {
+      "key": "executive-term-limit",
+      "name": "Governor term limit (terms; 0 for none)",
+      "kind": "amount",
+      "family": "government",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "partial",
+          "evidence": "55/56 places (state 55); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-DC"
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:executive-term-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
       "key": "us-policy-positions:government-operations.all-mail-voting",
       "name": "all mail voting",
       "kind": "question",
@@ -10346,7 +10818,7 @@
     },
     {
       "key": "state-contribution-limit-governor",
-      "name": "State campaign contribution limit for governor",
+      "name": "State campaign contribution limit: governor",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10411,7 +10883,7 @@
     },
     {
       "key": "state-contribution-limit-state-senate",
-      "name": "State campaign contribution limit for state senate",
+      "name": "State campaign contribution limit: stateSenate",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10476,7 +10948,7 @@
     },
     {
       "key": "state-contribution-limit-state-house",
-      "name": "State campaign contribution limit for state house",
+      "name": "State campaign contribution limit: stateHouse",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10541,7 +11013,7 @@
     },
     {
       "key": "state-contribution-limit-local",
-      "name": "State campaign contribution limit for local office",
+      "name": "State campaign contribution limit: local",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10677,7 +11149,7 @@
       "family": "government",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -10690,19 +11162,19 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): enacted at federal (law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:2025-01-21:law-wiring-dd40db22) effective 2025-01-21; then repealed at federal effective 2026-01-22",
-          "why": "no law-reach row: nothing records who it applies to"
+          "why": "no engine reads it: no member's holdings are kept, so it reaches nobody and moves no money (SG-LAWS-federal-position-no-reader)"
         },
         "systems": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "table trace: no engine read the law's rows in the run",
-          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+          "why": "no engine reads it: no member's holdings are kept, so it reaches nobody and moves no money (SG-LAWS-federal-position-no-reader)"
         },
         "money": {
-          "status": "partial",
+          "status": "stopgap",
           "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:671 49602439179 -> 49601715831 (journal:2025-01-21:748); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/modules/counted-demotion.ts:318 40891373 -> 40260275 (journal:2025-09-01:68459); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:428 598001049 -> 597414514 (journal:2025-02-01:1107)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "why": "no engine reads it: no member's holdings are kept, so it reaches nobody and moves no money (SG-LAWS-federal-position-no-reader)",
           "untraced": true
         },
         "web": {
@@ -10716,14 +11188,14 @@
           "why": ""
         },
         "repeal": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "why": "no engine reads it: no member's holdings are kept, so it reaches nobody and moves no money (SG-LAWS-federal-position-no-reader)"
         },
         "allPlaces": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
-          "why": "reaches nobody anywhere"
+          "why": "no engine reads it: no member's holdings are kept, so it reaches nobody and moves no money (SG-LAWS-federal-position-no-reader)"
         }
       },
       "screens": [],
@@ -10877,6 +11349,65 @@
           "status": "n/a",
           "evidence": "",
           "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "meeting-notice-hours",
+      "name": "Public notice before a regular meeting (hours)",
+      "kind": "amount",
+      "family": "government",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:meeting-notice-hours: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
         }
       },
       "screens": [],
@@ -11191,7 +11722,7 @@
       "family": "government",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -11204,25 +11735,25 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): enacted at federal (law:US:federal:us-federal-positions:territories-culture.statehood-for-dc:general:2025-01-21:law-wiring-3c6e5c22) effective 2025-01-21; then repealed at federal effective 2026-01-22",
-          "why": "no law-reach row: nothing records who it applies to"
+          "why": "no engine reads it: the apportionment of seats does not read it, so it reaches nobody and moves no money (SG-LAWS-federal-position-no-reader)"
         },
         "systems": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "table trace: no engine read the law's rows in the run",
-          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+          "why": "no engine reads it: the apportionment of seats does not read it, so it reaches nobody and moves no money (SG-LAWS-federal-position-no-reader)"
         },
         "money": {
-          "status": "partial",
+          "status": "stopgap",
           "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:671 49602439179 -> 49601715831 (journal:2025-01-21:748); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/modules/counted-demotion.ts:318 40891373 -> 40260275 (journal:2025-09-01:68459); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:428 598001049 -> 597414514 (journal:2025-02-01:1107)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "why": "no engine reads it: the apportionment of seats does not read it, so it reaches nobody and moves no money (SG-LAWS-federal-position-no-reader)",
           "untraced": true
         },
         "web": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "why": "no researched outcome-web link starts from it; the research would measure representation and federal spending in the District (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
@@ -11230,14 +11761,14 @@
           "why": ""
         },
         "repeal": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "why": "no engine reads it: the apportionment of seats does not read it, so it reaches nobody and moves no money (SG-LAWS-federal-position-no-reader)"
         },
         "allPlaces": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
-          "why": "reaches nobody anywhere"
+          "why": "no engine reads it: the apportionment of seats does not read it, so it reaches nobody and moves no money (SG-LAWS-federal-position-no-reader)"
         }
       },
       "screens": [],
@@ -13068,7 +13599,7 @@
       "family": "foreign-trade",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -13081,46 +13612,46 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): enacted at federal (law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9) effective 2025-01-21; then repealed at federal effective 2026-01-22",
-          "why": "no law-reach row: nothing records who it applies to"
+          "status": "stopgap",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): enacted at federal (law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+          "why": "only the outcome web's household-prices link reads it, a year after it is enacted (tariffs-to-prices); no business or buyer is recorded as reached (SG-LAWS-federal-position-no-reader)"
         },
         "systems": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "table trace: no engine read the law's rows in the run",
-          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+          "why": "only the outcome web's household-prices link reads it, a year after it is enacted (tariffs-to-prices); no business or buyer is recorded as reached (SG-LAWS-federal-position-no-reader)"
         },
         "money": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it"
+          "why": "only the outcome web's household-prices link reads it, a year after it is enacted (tariffs-to-prices); no business or buyer is recorded as reached (SG-LAWS-federal-position-no-reader)"
         },
         "web": {
-          "status": "missing",
-          "evidence": "tariffs-to-prices",
-          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): tariffs-to-prices lags 12 months, past the run's window; the web read law:us-federal-positions:trade.raise-tariffs as 1 (control 0) in web:jurisdiction_16b3bfd4091db759:2025-01 (2025-01); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): tariffs-to-prices lags 12 months, past the run's window; the web read law:us-federal-positions:trade.raise-tariffs as 1 (control 0) in web:jurisdiction_16b3bfd4091db759:2025-02 (2025-02)",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 122 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "why": "only the outcome web's household-prices link reads it, a year after it is enacted (tariffs-to-prices); no business or buyer is recorded as reached (SG-LAWS-federal-position-no-reader)"
         },
         "allPlaces": {
-          "status": "missing",
+          "status": "stopgap",
           "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
-          "why": "reaches nobody anywhere"
+          "why": "only the outcome web's household-prices link reads it, a year after it is enacted (tariffs-to-prices); no business or buyer is recorded as reached (SG-LAWS-federal-position-no-reader)"
         }
       },
       "screens": [],
       "runs": [
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
-          "change": "enacted at federal (law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9) effective 2025-01-21; then repealed at federal effective 2025-02-26",
           "inForceAtOpening": false
         }
       ],
