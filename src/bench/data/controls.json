@@ -522,6 +522,7 @@
     "rules": {
       "filing-deadline": "Filing deadline",
       "already-filed": "Filed before",
+      "filing-fee": "Filing fee",
       "minimum-age": "Age",
       "residency": "Residency",
       "district-residency": "District residency",
