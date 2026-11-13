@@ -2977,6 +2977,12 @@ function mainTopic(
   // The occasion comes first: a talk a scene opens is about the scene's
   // moment.
   const occasion = conversation.occasion;
+  // A reunion that came from a shared cause (`cause.shared`) is about that cause: the old
+  // school or workplace the two share does not open it, and where each stands (the views
+  // engine's record of their lean) leads the talk instead.
+  const sharedCause =
+    !!occasion &&
+    core.durableLog.get(occasion.causeId)?.kind === "cause.shared";
   const consider = (subject: Subject, asks: boolean, holderId: PersonId) => {
     if (
       conversation.used.includes(subject.id) ||
@@ -2994,13 +3000,19 @@ function mainTopic(
           asks
           ? Number.MAX_VALUE
           : Number.POSITIVE_INFINITY
-        : occasion.counterpartIds.includes(otherId) &&
-            SHARED_KINDS.includes(subject.kind)
-          ? Number.MAX_VALUE
-          : topicWeight(core, director, holderId, subject, data);
+        : sharedCause && subject.kind === "own-view"
+          ? Number.POSITIVE_INFINITY
+          : occasion.counterpartIds.includes(otherId) &&
+              !sharedCause &&
+              SHARED_KINDS.includes(subject.kind)
+            ? Number.MAX_VALUE
+            : topicWeight(core, director, holderId, subject, data);
     // Where they stand politically competes with small talk only: any
     // recorded event, or the address while it is news, leads before it.
-    if (subject.weight !== undefined) {
+    if (
+      subject.weight !== undefined &&
+      !(sharedCause && subject.kind === "own-view")
+    ) {
       if (weight > zero && (!standing || weight > standing.weight))
         standing = { subject, asks, weight };
       return;
