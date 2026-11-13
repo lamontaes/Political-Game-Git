@@ -36,4 +36,4 @@ claimed-at:
 
 **Files.** src/core2/modules/voting.ts, src/core2/modules/elections.ts, src/bench/ui/ballot-paper.mjs
 
-**Notes.** Related, filed the same hour: director-concession-received-plays-for-the-loser and play-election-night-counts-three-seats-as-one-race are views of this same pooling; fix this first and re-check them.
+**Notes.** Related, filed the same hour: director-concession-received-plays-for-the-loser and play-election-night-counts-three-seats-as-one-race are views of this same pooling; fix this first and re-check them. More evidence, Jan 9, 2026, same life: Politics then Elections lists the March 3, 2026 ballot as "Selectboard member (Logan Tyson) 1 running / Selectboard member (Sofia Nash) / Selectboard member (Stephen Pugh) 1 running / Selectboard member (Logan Tyson)", so one seat is listed twice and the player's own seat shows no count. The seats are named for whoever holds them, and the three seats of a 3-member board all appear up in the same year.
