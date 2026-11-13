@@ -6,6 +6,66 @@
       "outcome": "local minimum wage adoption",
       "note": "Searched Nov 11, 2026 for a sized link from state authority (or preemption) to the share of cities that adopt a local minimum wage: found NELP's count of 25 preempting states (more than half after 2012) and its estimate of about 346,000 workers in 12 preempted cities and counties, and an Urban Studies paper on a 50-state labor-law dataset whose adoption results were not visible; none sizes an adoption rate with a spread. The outcome is also not a measure the web keeps. Row and stopgap kept.",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:transportation",
+      "outcome": "road condition, transit service and commute times in the places the federal transportation line pays for",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:medicare",
+      "outcome": "older adults' out-of-pocket medical costs, care used and mortality as federal Medicare spending moves",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:health",
+      "outcome": "coverage, care used and health outcomes as federal health spending (Medicaid, public health) moves",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:education",
+      "outcome": "school spending, attainment and earnings as federal education spending moves",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:incomeSecurity",
+      "outcome": "household poverty and food insecurity as federal income-security spending moves",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:socialSecurity",
+      "outcome": "older adults' poverty and income as federal Social Security spending moves",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:communityAndRegionalDevelopment",
+      "outcome": "local employment and income in the places federal community and regional development spending reaches",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:agriculture",
+      "outcome": "farm income and farmland use as federal agriculture spending moves",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:nationalDefense",
+      "outcome": "employment and income in places with defense contracts and bases as federal defense spending moves",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:veterans",
+      "outcome": "veterans' health, employment and income as federal veterans' spending moves",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "budget-line:internationalAffairs",
+      "outcome": "prices and employment in export industries as federal international-affairs spending moves",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "us-federal-positions:science-communications.national-data-privacy",
+      "outcome": "data breaches and identity theft per person under a national data privacy law",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
     }
   ]
 }
