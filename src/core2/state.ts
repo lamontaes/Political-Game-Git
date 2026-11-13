@@ -2351,6 +2351,14 @@ export function personOrFillIn(
   return fillInPerson(core, personId);
 }
 
+/** How many counted people each world has made full people, so a caller can tell a read that filled someone in. */
+const fillIns = new WeakMap<CoreState, number>();
+
+/** The number of people filled in from the counts in this world so far. */
+export function fillInCount(core: CoreState): number {
+  return fillIns.get(core) ?? 0;
+}
+
 export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const existing = core.people.get(personId);
   if (existing && !isDemoted(existing)) return existing;
@@ -2358,6 +2366,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const returning = existing !== undefined;
   const taken = takeResidentHousehold(core, personId);
   if (!taken) throw new Error(`Not in the wider population: ${personId}`);
+  fillIns.set(core, fillInCount(core) + 1);
   // Their past exists only from now: the engines' pre-start passes give the
   // household its years before the start when it is filled in (each
   // module's onFillIn), read against the same records as the opening's.
