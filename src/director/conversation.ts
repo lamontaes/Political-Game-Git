@@ -4146,6 +4146,8 @@ const DAY_TALK = (
       rentCoveredMonths: { value: number };
       evictionJobLostDays: { value: number };
       backOmitsTold: readonly string[];
+      /** Kinds that may still be asked about, whose telling is answered back. */
+      answersBack: readonly string[];
       toldFigures: readonly string[];
     };
   }
@@ -6264,9 +6266,13 @@ function sayNow(
           )?.wording?.facts ?? [],
         )
       : new Set<string>();
+    const omitted = (key: string) =>
+      told.has(key) && DAY_TALK.toldFigures.includes(key);
+    // What was left out is marked told, so an answer can lean on it ("I go
+    // in soon.") without saying it again.
     const backFacts = Object.fromEntries(
-      Object.entries(last.facts).filter(
-        ([key]) => !told.has(key) || !DAY_TALK.toldFigures.includes(key),
+      Object.entries(last.facts).flatMap(([key, value]) =>
+        omitted(key) ? [[`told-${key}`, value]] : [[key, value]],
       ),
     );
     const back = composedLine(
@@ -6498,7 +6504,8 @@ const POINT_INSTEAD = "instead";
 /** Whether a line's kind is a day's own subject whose replies are answered in composed words (`<kind>-back`). */
 function dayBack(kind: string): boolean {
   return (
-    DAY_TALK.kinds.includes(kind) && !!composedConversationBank(`${kind}-back`)
+    (DAY_TALK.kinds.includes(kind) || DAY_TALK.answersBack.includes(kind)) &&
+    !!composedConversationBank(`${kind}-back`)
   );
 }
 
