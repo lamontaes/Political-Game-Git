@@ -63,6 +63,7 @@ it(`a past's layoffs move views either way, by record, in ${where}`, () => {
   let moved = 0;
   let total = 0;
   let toward = 0;
+  let example = "";
   const before = { liberal: 0, conservative: 0 };
   const after = { liberal: 0, conservative: 0 };
   for (const person of adults) {
@@ -88,6 +89,7 @@ it(`a past's layoffs move views either way, by record, in ${where}`, () => {
         ).toBe(true);
         expect(age(person.birthDate, ended), shift.recordId).toBeLessThan(18);
         if ((shift.follow ?? 0) > 0) toward += 1;
+        example ||= ` For example, ${person.givenName} ${person.familyName} (${person.id}): ${shift.recordId}, ${shift.change.toFixed(3)} ${(shift.follow ?? 0) > 0 ? "toward" : "away from"} ${shift.parentId}.`;
       } else {
         expect(spell!.facts.personId, shift.recordId).toBe(person.id);
         expect(
@@ -124,7 +126,7 @@ it(`a past's layoffs move views either way, by record, in ${where}`, () => {
     `past views in ${where}: of ${n} adults, ${moved} moved by their past ` +
       `(${count["parent-job-lost"]} by a parent's layoff, ${toward} of them toward the parent; ` +
       `${count["own-job-lost"]} by their own), mean shift ${(shifted ? total / shifted : 0).toFixed(3)}; ` +
-      `liberal ${before.liberal} to ${after.liberal}, conservative ${before.conservative} to ${after.conservative}.\n`,
+      `liberal ${before.liberal} to ${after.liberal}, conservative ${before.conservative} to ${after.conservative}.${example}\n`,
   );
   expect(moved, `${where}: nobody's past moved their view`).toBeGreaterThan(0);
   expect(
