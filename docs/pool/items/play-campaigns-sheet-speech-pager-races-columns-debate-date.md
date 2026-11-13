@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-play-campaigns-sheet-speech-pager-races-columns-debate-date
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,8 @@ model: sonnet
 effort: low
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:30:53.505Z
+claimed-at:
+branch: claude/pool-play-campaigns-sheet-speech-pager-races-columns-debate-date
 ---
 
 **What.** Found while moving the speech and debate panels onto shared parts, all three on main before that change. First, the later speech stages are taller than the Campaigns sheet, so the four replies sit behind the sheet's Continue pager and the page returns to the first after every pick. Second, the local races block at the bottom of Campaigns draws as four narrow columns with one word a line. Third, the debate invitation's date shows as an ISO string. A player cannot build a speech without paging back and forth, and the screen shows developer text.
@@ -37,3 +38,5 @@ claimed-at: 2026-11-11T03:30:53.505Z
 **Files.** src/bench/play.mjs, src/bench/campaign.ts, src/bench/ui/campaign-acts.mjs, src/bench/play.css, src/bench/four-screens.browser.mjs
 
 **Notes.** Filed by the play-first lane Oct 27 from PR 6357. lead: play-first. milestone: play-first. Read: OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW; searched docs/pool/items for campaigns pager and local races: play-local-races-on-screen is the older done item for the block's content.
+
+Released by next (2026-11-13): no push to claude/pool-play-campaigns-sheet-speech-pager-races-columns-debate-date since 2026-11-12 16:56 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-play-campaigns-sheet-speech-pager-races-columns-debate-date.

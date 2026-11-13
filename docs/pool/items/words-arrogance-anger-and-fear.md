@@ -4,9 +4,9 @@ title: "Arrogance, anger and fear:"
 area: words
 kind: feature
 priority: 2
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-words-arrogance-anger-and-fear
+claimed-by:
 pr: #8480
 after:
 blocked-on:
@@ -16,7 +16,7 @@ effort: medium
 root: design-words-machine
 milestone:
 source: "docs/coordination/words.md line 50 (unchecked checklist line)"
-claimed-at: 2026-11-11T02:35:43.791Z
+claimed-at:
 size: M
 checked: fable 2026-11-10
 branch: claude/pool-words-arrogance-anger-and-fear
@@ -48,3 +48,5 @@ Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier 
 Released (2026-11-11): Is the Story session's job: every line is new bank parts under data/english/parts (boasts, threats, alarms, plain and rude), which a builder may not write; the director's trait-based choice has nothing to choose among until those lines exist. Continue on branch claude/pool-words-arrogance-anger-and-fear and pull request #5219.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:35 UTC) on branch claude/pool-words-arrogance-anger-and-fear.
+
+Released by next (2026-11-13): no push to claude/pool-words-arrogance-anger-and-fear since 2026-11-11 02:33 UTC, more than twice its 6-hour time box. Continue on branch claude/pool-words-arrogance-anger-and-fear and pull request #8480.
