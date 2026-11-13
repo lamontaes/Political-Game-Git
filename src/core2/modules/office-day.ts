@@ -162,7 +162,13 @@ export const OFFICE_DAY_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
-      meetings: { indexes: { byOffice: { fields: ["officeId"] } } },
+      meetings: {
+        indexes: {
+          byOffice: { fields: ["officeId"] },
+          // The day's meetings, for the one order they vote in.
+          byDate: { fields: ["date"] },
+        },
+      },
       agendaItems: {},
       stops: {},
       acts: { indexes: { byPerson: { fields: ["personId"] } } },
@@ -654,10 +660,13 @@ const meetsFirst = (a: MeetingRow, b: MeetingRow) =>
  * waits for them, and one whose members have yet to file waits for its filing.
  */
 function earlierMeetingsVote(api: CoreAPI, row: MeetingRow): void {
-  const earlier = (table(api, "meetings").rows() as unknown as MeetingRow[])
+  const earlier = (
+    table(api, "meetings").query("byDate", [
+      row.date,
+    ]) as unknown as MeetingRow[]
+  )
     .filter(
       (other) =>
-        other.date === row.date &&
         other.status !== "adjourned" &&
         !other.playerPresent &&
         meetsFirst(other, row) < 0 &&
