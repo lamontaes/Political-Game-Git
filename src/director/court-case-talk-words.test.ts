@@ -95,4 +95,30 @@ describe("a court case told through the composer", () => {
           expect(back!.text).not.toContain("ZZTOLD");
         }
   });
+
+  it("says what happened from the case: whom the bribe was offered to", () => {
+    const back = say(
+      "charge-reply-back",
+      {
+        "told-offense": fact("offering a bribe"),
+        "told-plea": fact("yes"),
+        official: fact("Randy Luna"),
+        you: fact("Austin"),
+      },
+      "ask",
+    );
+    expect(back!.text).toContain("Randy Luna");
+  });
+
+  it("owns a denial once a trial they fought ends in a conviction", () => {
+    const facts = {
+      "told-offense": fact("offering a bribe"),
+      "told-term": fact("30 months"),
+      contested: fact("yes"),
+      you: fact("Elizabeth"),
+    };
+    expect(say("conviction-reply-back", facts, "blame")!.text).toContain(
+      "I'm sorry",
+    );
+  });
 });

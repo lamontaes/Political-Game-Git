@@ -73,7 +73,9 @@
     "bail": "The bail set before trial, as people round it, from the justice engine's pretrial record.",
     "held": "A mark: held before trial, from the justice engine's pretrial record.",
     "probation": "A sentence's probation, as people say a length (\"two years\"), from the justice engine's sentence.",
-    "fine": "A sentence's fine, as people round it, from the justice engine's sentence."
+    "fine": "A sentence's fine, as people round it, from the justice engine's sentence.",
+    "official": "The official a refused bribe was offered to, by name (the corruption crime row).",
+    "contested": "A mark: convicted at a trial the defendant fought (no guilty plea on the case)."
   },
   "maxWords": 10,
   "lineWords": {
@@ -7054,7 +7056,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "date": "2026-11-13"
     },
     {
       "key": "conversation.news-answer-no.what-happened",
@@ -8766,6 +8769,18 @@
           "subject": "job-new-told-reply",
           "role": "answer",
           "choice": "thank"
+        },
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["promise"]
+        },
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["promise"]
         }
       ],
       "transcriptsUsing": 6578,
@@ -10681,33 +10696,6 @@
       }
     },
     {
-      "key": "conversation.charge-reply-answer-comfort.i-m-here",
-      "move": "charge-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "I'm here.",
-      "uses": [
-        {
-          "move": "charge-reply-answer-comfort",
-          "subject": "charge-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
-          "move": "conviction-reply-answer-comfort",
-          "subject": "conviction-reply",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "comfort",
-        "key": "threat"
-      }
-    },
-    {
       "key": "conversation.conviction-answer-tell.i-was-convicted",
       "move": "conviction-answer-tell",
       "kind": "spoken",
@@ -11880,6 +11868,13 @@
           "subject": "ack",
           "role": "reply",
           "choice": "right"
+        },
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["blame"],
+          "excludesFacts": ["contested"]
         }
       ],
       "origin": "authored",
@@ -33744,7 +33739,8 @@
           "move": "charge-reply-answer-blame",
           "subject": "charge-reply",
           "role": "answer",
-          "choice": "blame"
+          "choice": "blame",
+          "excludesFacts": ["told-plea", "plea"]
         }
       ],
       "bearing": "guarded",
@@ -34838,7 +34834,8 @@
           "subject": "charge-reply-back",
           "role": "core",
           "stages": ["ask"],
-          "requiresFacts": ["told-plea"]
+          "requiresFacts": ["told-plea"],
+          "excludesFacts": ["official"]
         }
       ],
       "piece": {
@@ -35055,29 +35052,6 @@
       "date": "2026-11-13"
     },
     {
-      "key": "conversation.conviction-reply-back-core.i-turn-myself-in-soon-you-then-i-wait",
-      "move": "conviction-reply-back-core",
-      "kind": "spoken",
-      "text": "I turn myself in soon, {you}. Then I wait.",
-      "uses": [
-        {
-          "move": "conviction-reply-back-core",
-          "subject": "conviction-reply-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["told-term"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words builder W1 (a court case told through the composer)",
-      "date": "2026-11-13"
-    },
-    {
       "key": "conversation.conviction-reply-back-core.i-report-to-a-probation-officer-you-and-behave",
       "move": "conviction-reply-back-core",
       "kind": "spoken",
@@ -35134,29 +35108,6 @@
           "subject": "conviction-reply-back",
           "role": "core",
           "stages": ["comfort"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words builder W1 (a court case told through the composer)",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "conversation.conviction-reply-back-core.write-to-me-while-i-m-gone-you",
-      "move": "conviction-reply-back-core",
-      "kind": "spoken",
-      "text": "Write to me while I'm gone, {you}?",
-      "uses": [
-        {
-          "move": "conviction-reply-back-core",
-          "subject": "conviction-reply-back",
-          "role": "core",
-          "stages": ["comfort"],
-          "requiresFacts": ["told-term"]
         }
       ],
       "piece": {
@@ -35247,7 +35198,8 @@
           "move": "conviction-reply-back-core",
           "subject": "conviction-reply-back",
           "role": "core",
-          "stages": ["blame"]
+          "stages": ["blame"],
+          "excludesFacts": ["contested"]
         }
       ],
       "piece": {
@@ -35269,7 +35221,8 @@
           "move": "conviction-reply-back-core",
           "subject": "conviction-reply-back",
           "role": "core",
-          "stages": ["blame"]
+          "stages": ["blame"],
+          "excludesFacts": ["contested"]
         }
       ],
       "piece": {
@@ -35428,6 +35381,165 @@
       ],
       "piece": {
         "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-report-to-prison-soon-you",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I report to prison soon, {you}.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.write-to-me",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "Write to me?",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["told-term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-tried-to-pay-off-official-it-didn-t-work",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I tried to pay off {official}. It didn't work.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["official", "told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-told-everyone-i-didn-t-you-i-m-sorry",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I told everyone I didn't, {you}. I'm sorry.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["blame"],
+          "requiresFacts": ["contested"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.prison-then-i-ll-call-when-i-can-you",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "Prison, then. I'll call when I can, {you}.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-know-thanks",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I know. Thanks.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W1 (a court case told through the composer)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.conviction-say-core.they-didn-t-believe-me-i-got-term",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "They didn't believe me. I got {term}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["contested", "term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
         "part": "core",
         "required": true
       },

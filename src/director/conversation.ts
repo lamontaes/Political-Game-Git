@@ -63,7 +63,11 @@ import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
-import { JUSTICE_MODULE_ID, bribeRoleOf } from "../core2/modules/justice";
+import {
+  JUSTICE_MODULE_ID,
+  bribeRefusedBy,
+  bribeRoleOf,
+} from "../core2/modules/justice";
 import { dollars } from "../english/bill-sections";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { sharedHistory } from "../core2/shared-history";
@@ -131,7 +135,8 @@ import {
   type SubjectBank,
   type Wording,
 } from "../english/conversation-words";
-import { kinAddress, relationPhrase } from "../english/journal-words";
+import { jobSaid, kinAddress, relationPhrase } from "../english/journal-words";
+import { OFFICES_MODULE_ID, servingTermsOf } from "../core2/modules/offices";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { answerInTalk } from "./scene-talk";
 import {
@@ -1185,6 +1190,32 @@ function jobLost(
   };
 }
 
+/** An official as someone outside government says them: "someone on the Starr County Board of Commissioners", "the mayor". */
+function officialSaid(
+  core: Readonly<CoreState>,
+  personId: string,
+): { text: string; ids: string[] } | undefined {
+  if (!core.modules.has(OFFICES_MODULE_ID)) return undefined;
+  const api = coreAPI(core as CoreState);
+  const term = servingTermsOf(api, personId)[zero];
+  if (!term) return undefined;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(term.officeId) as
+    { title?: string; seats?: number; bodyName?: string } | undefined;
+  if (!office?.title) return undefined;
+  const body = office.bodyName?.trim().replace(/^the\s+/i, "");
+  const text =
+    (office.seats ?? one) > one && body
+      ? RELATIVE_NEWS.officials.onBody.replace("{body}", properName(body))
+      : RELATIVE_NEWS.officials.sole.replace(
+          "{office}",
+          jobSaid(office.title.replace(/\s*\([^)]*\)/g, "").trim()),
+        );
+  return { text, ids: [term.id, term.officeId] };
+}
+
 /**
  * What a court case is, from the justice engine's records (words composer):
  * the offense as people say it, the trial day or a guilty plea, held before
@@ -1217,6 +1248,13 @@ function caseFacts(
   // The defendant's side of it: taking bribes, paying or offering one.
   const offense = offenseSaid(core, row.id, row.defendantId);
   if (offense) facts.offense = { ...offense, sourceRecordIds: cites };
+  // Whom they offered it to, when the official turned it down and reported it.
+  // Said by the office, not a name the listener has never heard (W1's
+  // strict review, Nov 13: "who's Kathryn Hansen?").
+  const refusedBy = bribeRefusedBy(coreAPI(core as CoreState), row.id);
+  const official = refusedBy ? officialSaid(core, refusedBy) : undefined;
+  if (official && refusedBy !== row.defendantId)
+    facts.official = fact(official.text, [row.id, ...official.ids]);
   if (row.plea) facts.plea = fact("yes");
   else if (row.trialDate && row.trialDate > core.date)
     facts.trial = fact(spokenDate(row.trialDate, core.date));
@@ -1239,6 +1277,8 @@ function caseFacts(
     : undefined;
   if (sentence) {
     const ids = [sentence.id, ...cites];
+    // Convicted at a trial they fought: they had said they didn't do it.
+    if (!row.plea) facts.contested = fact("yes", ids);
     if ((sentence.custodyMonths ?? zero) > zero)
       facts.term = fact(termSaid(sentence.custodyMonths!), ids);
     if ((sentence.probationMonths ?? zero) > zero)
@@ -4186,6 +4226,10 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "job-new",
   "job-new-detail",
   "job-new-told",
+  // A court case of their own (W1, Nov 13).
+  "charge",
+  "conviction",
+  "acquittal",
 ]);
 
 /** The kind of a subject the talk opened, by its id ("own-work:...", "them>mutual:..."). */
@@ -4555,8 +4599,14 @@ function openConversationNow(
     )
       ? told
       : null;
+  // Their own hard news (a death, an eviction, a conviction) comes before
+  // the day's printed news (W1's strict review, Nov 13: a housemate
+  // convicted that day talked about voter registration instead).
+  const ownNews = brought ? mainTopic(core, conversation, data) : null;
+  const ownNewsFirst =
+    !!ownNews && !ownNews.asks && NEWS_SUBJECTS.has(ownNews.subject.kind);
   let raisedBrought = false;
-  if (brought) {
+  if (brought && !ownNewsFirst) {
     conversation.recorded.push(brought.toldEventId);
     const storyId = storyOfReadEvent(brought.change.eventId);
     const ids = [
