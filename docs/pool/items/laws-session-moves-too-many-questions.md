@@ -6,10 +6,10 @@ lead: laws-effects
 kind: bug
 priority: 3
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-jmnnjg
-pr:
+pr: #8967
 blocked-on:
 source: laws-and-effects lead, Oct 27 (laws-session-passes-moot-and-opposite-bills' played-world test)
 after:
