@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/p1-money-cash-household
-pr: 9006
+pr: #9006
 after:
 blocked-on:
 lead: play-first
@@ -17,6 +17,7 @@ effort: low
 root: none
 source: Playtester P1, Nov 13
 claimed-at: 2026-11-13
+merged-at: 2026-11-13T06:51:12.224Z
 ---
 
 **What.** Floydale, South Carolina (bench seed 7ef8e30e-dddf-4aae-a2c2-b4a1655188c7, main 5e68cde1), after a year of play. Money and property shows "Cash available · Floydale Community Bank" with "$0" in large type, and under it Aug $4,370, Sep $4,620, Oct $3,960, Nov $4,690, Dec $4,300, Jan $4,260. Hickory Hill, Kentucky (bench seed b258ee86-71f0-47cc-9311-fb3f905f521f) showed $0 over rows of $11,100 to $13,300. The player lives with working parents and owns nothing. Seen: the large cash figure on Money and property, which now matches the rows under it.
