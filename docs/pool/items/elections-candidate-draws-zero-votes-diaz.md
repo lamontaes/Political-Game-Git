@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/modules/voting.ts
 
-**Notes.** TODO
+**Notes.** Seen again Nov 13 by Playtester P2 on main 596d5127: Abbs Valley, Virginia (seed 62d329e8-11c0-4bd8-b757-240446436fb0), the governor's race of November 4, 2025. On election night Crystal Dominguez had "0 votes" after each of the first six places (Highland County, Norton city, Emporia city, Covington city, Bath County, Galax city) while Susan Lucas had 590 and Timothy McKay 428.
