@@ -247,8 +247,52 @@ export function purposeScene(
   return skipped;
 }
 
+/**
+ * The facts that say how a law reaches a reader it does not reach (Fable A,
+ * Nov 13): `effective`, the day a law enacted but not yet in force takes
+ * effect; else `lawstate` and `homestate`, when it is law in another state
+ * than the reader's. Empty for a law in force where the reader lives.
+ */
+export function lawReachFacts(
+  row: { jurisdiction?: string; effectiveDate?: string } | null,
+  homeStateKey: string | null,
+  today: string,
+  cite: { law: string[]; home: string[] },
+): Record<string, Fact> {
+  if (!row) return {};
+  if (row.effectiveDate && row.effectiveDate > today)
+    return {
+      effective: {
+        text: spokenDate(row.effectiveDate, today),
+        sourceRecordIds: cite.law,
+      },
+    };
+  if (
+    !row.jurisdiction?.startsWith(STATE_KEY_PREFIX) ||
+    !homeStateKey ||
+    homeStateKey === row.jurisdiction
+  )
+    return {};
+  const there = coreStateName(row.jurisdiction.slice(STATE_KEY_PREFIX.length));
+  const here = coreStateName(homeStateKey.slice(STATE_KEY_PREFIX.length));
+  return there && here
+    ? {
+        lawstate: { text: stateInSentence(there), sourceRecordIds: cite.law },
+        homestate: { text: stateInSentence(here), sourceRecordIds: cite.home },
+      }
+    : {};
+}
+
+/** The state a person lives in (`US-IL`), from their place's record or, for someone placed only at their state's level, the state's own id. */
+export function homeStateOf(placeId: string): string | null {
+  return (
+    corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey ??
+    coreStateKeyOfJurisdictionId(placeId)
+  );
+}
+
 /** A law row of the laws engine by its id: where it is law and the day it takes effect. */
-function lawRow(
+export function lawRow(
   core: Readonly<CoreState>,
   id: string,
 ): { jurisdiction?: string; effectiveDate?: string } | null {
@@ -423,33 +467,16 @@ function composeBinding(
     // Nov 13): one enacted but not yet in force by the day it takes effect;
     // one in force in another state by that state and the reader's own. Only
     // a law in force where the reader lives is spoken of as lived with.
-    const row = kept ? undefined : (lawRow(core, lawRowId) ?? undefined);
-    const home = coreStateKeyOfJurisdictionId(asker.placeId);
-    if (row?.effectiveDate && row.effectiveDate > core.date)
-      facts.effective = {
-        text: spokenDate(row.effectiveDate, core.date),
-        sourceRecordIds: [lawRowId, moment.causeId],
-      };
-    else if (
-      row?.jurisdiction?.startsWith(STATE_KEY_PREFIX) &&
-      home &&
-      home !== row.jurisdiction
-    ) {
-      const there = coreStateName(
-        row.jurisdiction.slice(STATE_KEY_PREFIX.length),
+    if (!kept)
+      Object.assign(
+        facts,
+        lawReachFacts(
+          lawRow(core, lawRowId),
+          homeStateOf(asker.placeId),
+          core.date,
+          { law: [lawRowId, moment.causeId], home: [asker.placeId, askerId] },
+        ),
       );
-      const here = coreStateName(home.slice(STATE_KEY_PREFIX.length));
-      if (there && here) {
-        facts.lawstate = {
-          text: stateInSentence(there),
-          sourceRecordIds: [lawRowId, moment.causeId],
-        };
-        facts.homestate = {
-          text: stateInSentence(here),
-          sourceRecordIds: [asker.placeId, askerId],
-        };
-      }
-    }
   }
   // A law in force that a bill enacted (a story that it took effect): the
   // bill by its number, cited to the law and the bill.
