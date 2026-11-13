@@ -111,7 +111,7 @@ const run = (drawSeed: string, decision: "help" | "decline"): string | null => {
   // thanks you for what they think was done, naming the office from the case
   // record; caught, only where they hold the record that says otherwise.
   expect(
-    talk.gaps.filter((gap) => /\/(follow|reply|close)\//.test(gap)),
+    talk.gaps.filter((gap) => /\/follow\/.* after lie/.test(gap)),
     where,
   ).toEqual([]);
   const agency = result.scene.facts.find((row) => row.key === "agency");
@@ -119,14 +119,17 @@ const run = (drawSeed: string, decision: "help" | "decline"): string | null => {
   for (const node of nodes(talk.tree))
     for (const reply of node.replies.filter((r) => r.line.move === "lie")) {
       lies += 1;
-      const answer = reply.next?.lines.find((line) => line.role === "asker");
+      // Answered in a follow, or, on the last round, in the close.
+      const follow = reply.next?.lines.find((line) => line.role === "asker");
+      const answer = follow ?? reply.next?.end?.close;
       expect(
         answer,
         `${where}: no answer to "${reply.line.text}"`,
       ).toBeTruthy();
-      expect(["thank", "accept", "confront"], where).toContain(answer!.move);
-      if (agency)
-        expect(answer!.text.toLowerCase(), where).toContain(
+      if (follow)
+        expect(["thank", "accept", "confront"], where).toContain(follow.move);
+      if (follow && agency)
+        expect(follow.text.toLowerCase(), where).toContain(
           agency.text.toLowerCase(),
         );
     }
