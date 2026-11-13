@@ -328,8 +328,21 @@ export function governmentView(core: CoreState, personId: string) {
       filingOffice: {
         ...filingOfficeFor(api, contest.id),
         said:
-          saidOffice(filingOfficeFor(api, contest.id).filedWith, [contest]) ??
-          spokenOffice(filingOfficeFor(api, contest.id).filedWith),
+          saidOffice(filingOfficeFor(api, contest.id).filedWith, [
+            {
+              title: contest.title,
+              seat: {
+                bodyName:
+                  (
+                    api
+                      .moduleState(OFFICES_MODULE_ID)
+                      .table("offices")
+                      .get(contest.officeId) as unknown as
+                      { bodyName?: string } | undefined
+                  )?.bodyName ?? null,
+              },
+            },
+          ]) ?? spokenOffice(filingOfficeFor(api, contest.id).filedWith),
       },
       checks: core.people.has(personId)
         ? checkEligibility(api, personId, contest.id)

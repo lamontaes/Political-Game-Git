@@ -148,7 +148,7 @@ export function openFilingVisit(
   const greet = back
     ? visitLine(core, visit, "clerk", "greet-back", {
         "filed-office": {
-          text: seatSaid(back.seat, { first: false }),
+          text: seatSaid(back.seat),
           sourceRecordIds: [back.filingId],
         },
         ...clerkFact(core, clerkId),

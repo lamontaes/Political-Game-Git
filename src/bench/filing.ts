@@ -26,6 +26,7 @@ import {
   counterNarration,
   petitionAtCounter,
   saidOffice,
+  counterFilingReplyId,
   filedAtCounter,
   openFilingVisit,
   pickContest,
@@ -385,13 +386,22 @@ function filedHere(
     status: string;
     contestId: string;
   }[];
+  // The filing the player made at this counter comes first: a filing in
+  // their name they did not make here (a running mate's place on a ticket,
+  // Miracle Valley, Arizona, seed w3-return-1) is not what they came back
+  // about.
+  const here = filings.filter(
+    (row) =>
+      row.filedWith === filedWith &&
+      (row.status === "petitioning" || row.status === "on-ballot"),
+  );
+  const made = (row: { id: string }) =>
+    core.durableLog.has(counterFilingReplyId(row.id));
   const held =
-    filings.find(
-      (row) => row.filedWith === filedWith && row.status === "petitioning",
-    ) ??
-    filings.find(
-      (row) => row.filedWith === filedWith && row.status === "on-ballot",
-    );
+    here.find((row) => made(row) && row.status === "petitioning") ??
+    here.find((row) => made(row)) ??
+    here.find((row) => row.status === "petitioning") ??
+    here[0];
   return held
     ? { id: held.id, status: held.status, contestId: held.contestId }
     : null;
