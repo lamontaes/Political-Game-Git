@@ -2380,12 +2380,23 @@ export function composeJournal(
         : {}),
       ...(where ? { place: where } : {}),
     };
-    const run = render(
-      { part: "memoir", field: "workRun" },
-      facts,
-      `${first.moment.id}:work-run`,
-      ids,
-    );
+    // With neither the kind of work nor a place left to say, the place is
+    // said again: a run is one sentence, never told job by job.
+    const run =
+      render(
+        { part: "memoir", field: "workRun" },
+        facts,
+        `${first.moment.id}:work-run`,
+        ids,
+      ) ??
+      (placed
+        ? render(
+            { part: "memoir", field: "workRun" },
+            { ...facts, place: placed },
+            `${first.moment.id}:work-run`,
+            ids,
+          )
+        : null);
     if (!run) return null;
     const times = (words ?? JOURNAL_WORDS).countWords;
     const lost = lostIds.length
