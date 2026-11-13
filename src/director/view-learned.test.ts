@@ -384,9 +384,12 @@ function ownViewIn(drawSeed: string, skipped: string[]): boolean {
     // The reason is said from the record (owner via the lead, Nov 12: "a
     // reason is said, not pointed at"): the hourly pay where the job has it,
     // else the employer.
-    expect(line?.text, where).toContain(
-      (subject.facts.wage ?? subject.facts.employer)!.text,
-    );
+    // A stance cites its source: where the job record holds both, the turn
+    // names the employer the reason is about and the pay it is paid (lead,
+    // Nov 13); a job with no wage on record names the employer.
+    expect(line?.text, where).toContain(subject.facts.employer!.text);
+    if (subject.facts.wage)
+      expect(line?.text, where).toContain(subject.facts.wage.text);
     process.stdout.write(`OWN VIEW WORK ${where}: "${line!.text}"\n`);
     break;
   }

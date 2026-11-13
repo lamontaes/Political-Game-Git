@@ -35155,7 +35155,8 @@
           "move": "own-view-say-reason",
           "subject": "own-view-say",
           "role": "reason",
-          "requiresFacts": ["wage"]
+          "requiresFacts": ["wage"],
+          "excludesFacts": ["employer"]
         }
       ],
       "origin": "authored",
@@ -35177,7 +35178,8 @@
           "move": "own-view-say-reason",
           "subject": "own-view-say",
           "role": "reason",
-          "requiresFacts": ["wage"]
+          "requiresFacts": ["wage"],
+          "excludesFacts": ["employer"]
         }
       ],
       "origin": "authored",
@@ -35199,13 +35201,58 @@
           "move": "own-view-say-reason",
           "subject": "own-view-say",
           "role": "reason",
-          "requiresFacts": ["wage"]
+          "requiresFacts": ["wage"],
+          "excludesFacts": ["employer"]
         }
       ],
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: a reason is said, not pointed at)",
       "date": "2026-11-12",
       "bearing": "guarded"
+    },
+    {
+      "key": "conversation.own-view-say-reason.i-make-wage-an-hour-at-employer-so-it-s-my-paycheck-too",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "I make {wage} an hour at {employer}, so it's my paycheck too.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason",
+          "requiresFacts": ["wage", "employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (fixer for the words lead: a stance names the employer its reason is about)",
+      "date": "2026-11-13",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.own-view-say-reason.employer-pays-me-wage-an-hour-that-s-my-living",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "{employer} pays me {wage} an hour. That's my living.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason",
+          "requiresFacts": ["wage", "employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (fixer for the words lead: a stance names the employer its reason is about)",
+      "date": "2026-11-13",
+      "bearing": "braced"
     },
     {
       "key": "conversation.own-view-back-core.because-i-make-wage-an-hour-you-do-the-math",
