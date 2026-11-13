@@ -88,9 +88,12 @@ export async function finishTalk(page) {
     const next = page.locator("#talk-next");
     const reply = page.locator("#talk-choices .reply").first();
     const leave = page.locator("#talk-leave");
-    if (await next.isVisible()) await next.click();
-    else if (await reply.isVisible()) await reply.click();
-    else if (await leave.isVisible()) await leave.click();
+    // A button the box redraws under the press (a poll re-renders the replies) is pressed again
+    // on the next step: the loop reads the box fresh each time and ends only when it closes.
+    const press = (button) => button.click({ timeout: 5000 }).catch(() => {});
+    if (await next.isVisible()) await press(next);
+    else if (await reply.isVisible()) await press(reply);
+    else if (await leave.isVisible()) await press(leave);
     // Nothing to press yet: the line is still being drawn. Wait for a change.
     await page.waitForFunction(
       (was) => {

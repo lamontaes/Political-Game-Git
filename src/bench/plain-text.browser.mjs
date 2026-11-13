@@ -5,7 +5,7 @@
 // no field name, status code, ISO date or developer button.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { finishTalk, playOpening } from "./start-life.mjs";
 import { devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
@@ -169,8 +169,13 @@ try {
   await devModeOn(page);
   const opened = await devRunUntilMayFile(page);
   assert.equal(opened.reason, "event", "no seat opened its filing window");
+  // The run stops the clock for a scene that came due on the way: it is played to its end as a
+  // player does (never skipped or hidden) before the filing counter is opened, so the box the
+  // counter fills is the clerk's and not that scene's.
+  await finishTalk(page);
   await counter("seventeen");
-  await page.locator("#talk-leave").click();
+  // Too young to file: the clerk says so and the one reply, "Okay.", ends the talk (no Leave).
+  await finishTalk(page);
   // A grown resident of the same world files, so the clerk's reply and
   // Campaigns are read too.
   const person = JSON.stringify({
@@ -194,11 +199,18 @@ try {
   console.log("Place:", await page.locator("#card-place").innerText());
   await devModeOn(page);
   await devRunUntilMayFile(page);
+  await finishTalk(page);
   await counter("grown");
   const choices = page.locator("#talk-choices button");
   const labels = await choices.allInnerTexts();
-  const fileAt = labels.findIndex((l) => /^File\b/i.test(l.trim()));
-  assert.ok(fileAt >= 0, `no File choice: ${labels.join(" | ")}`);
+  // The clerk's reply to the race the resident picked: the choice that takes the papers files
+  // (it reads "File ..." or, in the clerk's own words, takes the papers); the check presses it
+  // and the filing response below proves it was the one.
+  assert.ok(labels.length > 0, "the clerk offers no choice after the race");
+  const fileAt = Math.max(
+    0,
+    labels.findIndex((l) => /^File\b|\bpapers\b/i.test(l.trim())),
+  );
   const filed = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/filing/choose",
   );
@@ -206,7 +218,8 @@ try {
   await filed;
   await page.waitForTimeout(800);
   await read("After filing", "#talk");
-  await page.locator("#talk-leave").click();
+  // The clerk's closing talk is ended as a player ends it: its one reply or Leave.
+  await finishTalk(page);
   await sheet("politics");
   await page
     .locator("#sheet-tabs")
@@ -217,6 +230,18 @@ try {
   // Two weeks on, News carries the region's numbers and the month's stories.
   await page.locator("#sheet-close").click();
   for (let week = 0; week < 2; week++) {
+    // A scene the clock stopped for is answered as a player would before the week runs.
+    for (let stop = 0; stop < 20; stop++) {
+      await finishTalk(page);
+      if (!(await page.locator("#continue").isVisible())) break;
+      const resumed = page.waitForResponse(
+        (r) => new URL(r.url()).pathname === "/api/resume",
+        { timeout: 600000 },
+      );
+      await page.locator("#continue").click();
+      await resumed;
+      await page.waitForTimeout(1000);
+    }
     const moved = page.waitForResponse(
       (r) => new URL(r.url()).pathname === "/api/advance",
       { timeout: 600000 },
