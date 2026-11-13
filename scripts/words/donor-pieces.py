@@ -125,7 +125,7 @@ add("reply", "agree", A, "core", "calm", [
     "You gave {gift}. The least I owe you is a call back.",
 ])
 add("reply", "relent", A, "core", "calm", [
-    "All right. I'll look at {bill} again.",
+    "Alright. I'll look at {bill} again.",
     "Fine. {bill} gets a second look from me.",
 ])
 add("reply", "offer", A, "core", "calm", [
@@ -199,7 +199,7 @@ add("follow", "thank", R, "core", "calm", [
 ])
 add("follow", "accept", R, "core", "calm", [
     "Fair enough. A hearing on {bill} is something.",
-    "All right. I'll call your office about {bill}.",
+    "Alright. I'll call your office about {bill}.",
     "Then I'll make my case on {bill} to your staff.",
 ])
 add("follow", "accept", R, "core", "calm", [
@@ -248,7 +248,7 @@ add("follow", "deflect", R, "core", "guarded", [
 # After the donor steps around it: the player lets it rest, or presses.
 add("reply", "accept", A, "core", "calm", [
     "Fair enough. Send me what you have on {bill}.",
-    "All right. I'll read up on {bill}.",
+    "Alright. I'll read up on {bill}.",
 ])
 add("reply", "press", A, "core", "braced", [
     "Then tell me plainly what you want on {bill}.",
@@ -256,7 +256,7 @@ add("reply", "press", A, "core", "braced", [
 ])
 # The donor answers them: a promise to follow up, or the plain want.
 add("follow", "promise", R, "core", "calm", [
-    "I'll send it tonight. {bill} is worth your time.",
+    "I'll send it over today. {bill} is worth your time.",
     "You'll have it by morning. Read the part about {about}.",
 ])
 add("follow", "answer", R, "core", "calm", [
@@ -297,6 +297,28 @@ add("follow", "answer", R, "core", "calm", [
     "I care about {about}. That's all it is.",
     "It's {about}. I've cared about that a long time.",
 ])
+
+# ---- a second ask (the again variant, chosen on an earlier put-off) ----
+AGAIN = "@donor-ask.again"
+add("state", "request", R, "core", "braced", [
+    "I'm asking about {bill} a second time.",
+    "This is the second time I've come to you about {bill}.",
+], group=AGAIN)
+add("follow", "press", R, "core", "braced", [
+    "I waited once on {bill}. I'm not waiting again.",
+], group=AGAIN)
+add("follow", "accept", R, "core", "guarded", [
+    "Twice now on {bill}. I'll stop asking.",
+], group=AGAIN)
+add("follow", "thank", R, "core", "calm", [
+    "Thank you. It took two tries, but thank you, on {bill}.",
+], group=AGAIN)
+add("follow", "threaten", R, "core", "braced", [
+    "Two asks on {bill}, and nothing. My next check goes elsewhere.",
+], group=AGAIN)
+add("close", "warn", R, "core", "braced", [
+    "I won't ask a third time about {bill}.",
+], group=AGAIN)
 
 # ---- the close ----
 add("close", "thank", R, "core", "calm", [
@@ -430,7 +452,14 @@ def main():
         n = seen[(step, move)] = seen.get((step, move), 0) + 1
         uses = []
         for one in after if isinstance(after, list) else [after]:
-            use = {"subject": "scene", "set": SET, "step": step, "move": move, "role": role}
+            # A variant's own piece (group "@<purpose>"): what is particular
+            # to it, in the set's sentence, said for that variant alone.
+            own = group[1:] if group and group.startswith("@") else None
+            use = {"subject": "scene", "step": step, "move": move, "role": role}
+            if own:
+                use["purpose"] = own
+            else:
+                use["set"] = SET
             # The opening greets an offer, never the pressing after one.
             if step == "open":
                 use["key"] = "favor-asked"
@@ -439,7 +468,10 @@ def main():
             if requires:
                 use["requiresFacts"] = requires
             uses.append(use)
-        piece = {"of": f"{SET}.{group or f'{step}-{move}'}", "part": part}
+        piece = {
+            "of": f"{SET}.{f'{step}-{move}' if not group or group.startswith('@') else group}",
+            "part": part,
+        }
         if part == "core" or (WHY and group == WHY and part == "reason"):
             piece["required"] = True
             assert part != "core" or INSERT.search(text), text
