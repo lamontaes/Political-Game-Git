@@ -1,6 +1,6 @@
 {
   "about": "For each bank under data/english/parts, how many of its lines carry no insert (a slot in braces the English engine fills from the world's records) and are not excused by the owner's ruling of Nov 11, 2026 (call 12: \"Replies of one to three words and action names stay; everything else is rewritten.\"; a piece the engine joins counts as composed when the sentence it makes carries an insert). tests/guards/english/line-inserts.test.ts holds each count: it may only go down, and a bank not named here may hold none.",
-  "total": 5312,
+  "total": 5298,
   "excusedOnNov11": {
     "short": 562,
     "action-name": 43
@@ -9,12 +9,12 @@
     "address": 0,
     "bill-paper": 0,
     "bring-it-up": 0,
-    "calendar": 1,
-    "campaign-standing": 10,
+    "calendar": 0,
+    "campaign-standing": 0,
     "choice-names": 0,
     "conversation": 228,
-    "headlines": 2,
-    "hearing": 1,
+    "headlines": 0,
+    "hearing": 0,
     "journal": 51,
     "legislation": 0,
     "minutes": 0,
