@@ -35471,6 +35471,45 @@
       "origin": "authored",
       "author": "Words builder W1 (small talk said short or from the record)",
       "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.home-new-answer-plain.im-from-place",
+      "move": "home-new-answer-plain",
+      "kind": "spoken",
+      "text": "I'm from {place}.",
+      "uses": [
+        {
+          "move": "home-new-answer-plain",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "transcriptsUsing": 136,
+      "bySource": {
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 4,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 12,
+        "U.S. Senate Historical Office oral history": 2,
+        "briefing": 5,
+        "dcpd": 68,
+        "hearings": 10,
+        "house": 2,
+        "nasa": 6,
+        "nasa2": 7,
+        "nps": 18
+      },
+      "source": {
+        "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
+        "date": "2026-07-08",
+        "granule": "DCPD-202600450",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600450/html/DCPD-202600450.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer"
+      }
     }
   ]
 }
