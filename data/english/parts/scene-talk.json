@@ -117,9 +117,11 @@
     "crew": "How many people work at the employer now, full people and counted workers alike: 12.",
     "replaced": "The full name of the person whose job an opening fills.",
     "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record.",
-    "effective": "The day a law enacted but not yet in force takes effect, as people say it (\"October 1, 2026\"), from the law record.",
     "lawstate": "The state whose law it is, when it is not the reader's own, from the law record.",
-    "homestate": "The reader's own state, from their place record."
+    "homestate": "The reader's own state, from their place record.",
+    "effective": "The day a law enacted but not yet in force takes effect, as people say it (\"January 1, 2026\"), from the law record.",
+    "about": "What a law not yet in force changes, by what it is (\"the Social Security payroll tax\"), from the law record's policy name.",
+    "ended": "The day a law stopped being in force, as people say it, from the law record's end date."
   },
   "maxWords": 70,
   "parts": [
@@ -79599,10 +79601,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.law-takes-effect-on-effective",
+      "key": "scene-talk.state-tell.nothing-about-about-changes-before-effective",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "{law} takes effect on {effective}.",
+      "text": "Nothing about {about} changes before {effective}.",
       "uses": [
         {
           "subject": "scene",
@@ -79611,7 +79613,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["effective", "law"]
+          "requiresFacts": ["effective", "about"]
         }
       ],
       "bearing": "calm",
@@ -79624,10 +79626,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.law-doesn-t-start-until-effective",
+      "key": "scene-talk.state-tell.about-stays-as-it-is-until-effective",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "{law} doesn't start until {effective}.",
+      "text": "{about} stays as it is until {effective}.",
       "uses": [
         {
           "subject": "scene",
@@ -79636,7 +79638,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["effective", "law"]
+          "requiresFacts": ["effective", "about"]
         }
       ],
       "bearing": "guarded",
@@ -79649,10 +79651,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.law-changes-nothing-before-effective",
+      "key": "scene-talk.state-tell.the-change-to-about-comes-on-effective",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "{law} changes nothing before {effective}.",
+      "text": "The change to {about} comes on {effective}.",
       "uses": [
         {
           "subject": "scene",
@@ -79661,7 +79663,82 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["effective", "law"]
+          "requiresFacts": ["effective", "about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.it-isn-t-the-law-any-more-it-ended-on-ended",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It isn't the law any more. It ended on {ended}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.that-one-ended-on-ended",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "That one ended on {ended}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.it-was-the-law-until-ended",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It was the law until {ended}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["ended"]
         }
       ],
       "bearing": "calm",
@@ -79811,7 +79888,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "excludesFacts": ["effective", "lawstate"]
+          "excludesFacts": ["effective", "ended", "lawstate"]
         }
       ],
       "bearing": "calm",
@@ -79836,7 +79913,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "excludesFacts": ["lawstate"]
+          "excludesFacts": ["ended", "lawstate"]
         }
       ],
       "bearing": "tender",

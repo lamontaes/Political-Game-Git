@@ -252,6 +252,14 @@ export function purposeScene(
   return skipped;
 }
 
+/** What the law-reaches facts read of a law row: where it is law, when it starts and ends, and its series. */
+interface LawReachRow {
+  readonly jurisdiction?: string;
+  readonly effectiveDate?: string;
+  readonly endDate?: string | null;
+  readonly series?: string;
+}
+
 /**
  * The facts that say how a law reaches a reader it does not reach (Fable A,
  * Nov 13): `effective`, the day a law enacted but not yet in force takes
@@ -259,7 +267,7 @@ export function purposeScene(
  * than the reader's. Empty for a law in force where the reader lives.
  */
 export function lawReachFacts(
-  row: { jurisdiction?: string; effectiveDate?: string } | null,
+  row: LawReachRow | null,
   homeStateKey: string | null,
   today: string,
   cite: { law: string[]; home: string[] },
@@ -279,13 +287,35 @@ export function lawReachFacts(
       lawstate: { text: stateInSentence(there), sourceRecordIds: cite.law },
       homestate: { text: stateInSentence(here), sourceRecordIds: cite.home },
     };
-  if (row.effectiveDate && row.effectiveDate > today)
+  // A law that is no longer in force: the day it ended, from its own row.
+  // ("Struck down" is said only when a court's record ended it; no engine
+  // writes one yet.)
+  if (row.endDate && row.endDate <= today)
+    return {
+      ended: {
+        text: spokenDate(row.endDate, today),
+        sourceRecordIds: cite.law,
+      },
+    };
+  if (row.effectiveDate && row.effectiveDate > today) {
+    // What the law changes, by what it is, not by the number it sets: a tax
+    // rate's law changes the tax ("the Social Security payroll tax").
+    const name = row.series ? lawName(row.series) : null;
     return {
       effective: {
         text: spokenDate(row.effectiveDate, today),
         sourceRecordIds: cite.law,
       },
+      ...(name
+        ? {
+            about: {
+              text: name.replace(/\btax rate$/, "tax"),
+              sourceRecordIds: cite.law,
+            },
+          }
+        : {}),
     };
+  }
   return {};
 }
 
@@ -301,7 +331,7 @@ export function homeStateOf(placeId: string): string | null {
 export function lawRow(
   core: Readonly<CoreState>,
   id: string,
-): { jurisdiction?: string; effectiveDate?: string } | null {
+): LawReachRow | null {
   if (!core.modules.has(LAWS_MODULE_ID)) return null;
   return (
     (coreAPI(core as CoreState)

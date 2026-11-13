@@ -37,6 +37,7 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
     series: string;
     jurisdiction: string;
     effectiveDate: string;
+    endDate: string | null;
   }[];
   const tell = (
     facts: Record<string, { text: string; sourceRecordIds: string[] }>,
@@ -65,10 +66,9 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
   expect(later, `${where}: a law row not yet in force`).toBeDefined();
   const pending = lawReachFacts(later!, home, core.date, cite);
   expect(pending.effective?.text, where).toBeTruthy();
-  const saidLater = tell({
-    ...pending,
-    law: { text: lawName(later!.series)!, sourceRecordIds: ["law"] },
-  });
+  // Said by what changes, never the number's label acting.
+  expect(pending.about?.text, where).toBeTruthy();
+  const saidLater = tell(pending);
   expect(
     saidLater && "text" in saidLater ? saidLater.text : "",
     where,
@@ -125,9 +125,20 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
     const said = reply && "text" in reply ? reply.text : "";
     expect(said, where).not.toMatch(/doing to you|means for you/);
   }
+  // A law no longer in force is said by the day it ended.
+  const over = rows.find(
+    (row) =>
+      row.endDate && row.endDate <= core.date && row.jurisdiction !== elsewhere,
+  );
+  expect(over, `${where}: a law row that has ended`).toBeDefined();
+  const ended = lawReachFacts(over!, home, core.date, cite);
+  expect(ended.ended?.text, where).toBeTruthy();
+  const saidEnded = tell(ended);
+  const endedText = saidEnded && "text" in saidEnded ? saidEnded.text : "";
+  expect(endedText, where).toContain(ended.ended!.text);
   // A law in force where the reader lives gives none of these facts.
   expect(lawReachFacts(ownState!, home, core.date, cite), where).toEqual({});
   console.log(
-    `law-reaches-tell: ${where}: "${saidLater && "text" in saidLater ? saidLater.text : ""}" / "${text}"`,
+    `law-reaches-tell: ${where}: "${saidLater && "text" in saidLater ? saidLater.text : ""}" / "${text}" / "${endedText}" (${over!.id})`,
   );
 }, 300_000);
