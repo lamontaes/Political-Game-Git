@@ -40,7 +40,10 @@ const flag = (name: string, fallback: string) => {
 };
 const days = Number(flag("--days", "30"));
 const age = Number(flag("--age", "36"));
-const drawn = drawPlace(seed, "journal-walk");
+// A place given by its key (a playtest's town) or drawn from the seed.
+const drawn = args.includes("--place-key")
+  ? { key: flag("--place-key", ""), name: "" }
+  : drawPlace(seed, "journal-walk");
 const place =
   realLocalities().find((row) => row.key === drawn.key)?.displayName ??
   drawn.name;
@@ -116,12 +119,51 @@ const resumeStops = async () => {
     );
   }
 };
-for (let d = 0; d < days; d += 1) {
+// Each Day press, the toast the play screen would show, by its own rule
+// (src/bench/play.mjs renderJournalNote): the newest entry, once per entry
+// id, only on the day it was written or the first time.
+const toastSeen = new Set<string>();
+let firstToast = true;
+const toastAfterPress = async (press: number) => {
+  const shown = ((await ask(
+    "GET",
+    `/api/journal?id=${encodeURIComponent(me)}`,
+  )) ?? []) as Json[];
+  const newest = shown.at(-1)?.lines?.at(-1) as Json | undefined;
+  const today = String(benchWorld().player?.packet?.at?.date ?? "");
+  if (
+    newest &&
+    !toastSeen.has(String(newest.id)) &&
+    (firstToast || !today || String(newest.date) >= today.slice(0, 10))
+  ) {
+    toastSeen.add(String(newest.id));
+    console.log(
+      `toast after press ${press} (${today.slice(0, 10)}): ${newest.text}`,
+    );
+  } else
+    console.log(`toast after press ${press} (${today.slice(0, 10)}): none`);
+  firstToast = false;
+};
+// Play to the day after the filed race's count when --count is given.
+const counted = () =>
+  !!filed &&
+  [...(benchWorld().core?.durableLog.values() ?? [])].some(
+    (row) =>
+      row.kind === "election-result" &&
+      String(row.facts?.contestId ?? "") === filed,
+  );
+let afterCount = -1;
+for (let d = 0; d < (args.includes("--count") ? 400 : days); d += 1) {
   await resumeStops();
   const body = (await ask("POST", "/api/advance?mode=day"))!;
   if (body.pollingPlace || body.candidateMorning)
     await ask("POST", "/api/polling-place/leave").catch(() => null);
   await resumeStops();
+  await toastAfterPress(d + 1);
+  if (args.includes("--count")) {
+    if (afterCount < 0 && counted()) afterCount = d;
+    if (afterCount >= 0 && d > afterCount) break;
+  }
 }
 const chapters = ((await ask(
   "GET",
