@@ -42,10 +42,15 @@ export interface PersonWork {
 
 /**
  * An office title read in running text: "council member", "U.S. senator".
- * Each word is lower case, except one written in capitals ("U.S.", "DA").
+ * Each word is lower case, except one written in capitals ("U.S.", "DA"),
+ * and a form's note in parentheses is left out.
  */
 export const officeInSentence = (title: string): string =>
   title
+    // A form's note in parentheses ("(nonpartisan)", "(3 members, statewide,
+    // staggered 6-year terms)") is never said, as `seatSaid` drops it.
+    .replace(/\s*\([^)]*\)/g, "")
+    .trim()
     .split(/(\s+)/)
     .map((word) =>
       /^[A-Z]{2,}[a-z]?$/.test(word.replace(/[^A-Za-z]/g, ""))
