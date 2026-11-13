@@ -34,3 +34,5 @@ claimed-at:
 **Waits on.** Nothing.
 
 **Files.** src/director/purpose-scene.ts, src/director/data/circumstances.json, data/english/parts/scene-words.json, data/english/parts/conversation.json
+
+**Notes.** opus-lr, Nov 13, 08:15Z: #9016 closed on Fable A's ruling (#8928, 08:06Z). #8922 removed every street row that cast `news-arrives` and the `story-read` scene, so the street stops this item named (Curtisville's "Riley has news for you", Hickory Hill's stop with no talk) can no longer be staged. What is left is the greeting: "Last time was…" read from a talk on record (`lastTalk` in `src/director/conversation.ts`, on branch `claude/director-street-news-has-news`) instead of the tie's contact date. It comes back as a small pull request on main the hour house talk (#8879) lands, when Fable A says.
