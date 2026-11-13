@@ -37700,7 +37700,8 @@
           "subject": "government-news-say",
           "role": "closer",
           "stages": ["address", "meeting", "budget", "ordinance"],
-          "requiresFacts": ["wants-it"]
+          "requiresFacts": ["wants-it"],
+          "excludesFacts": ["about"]
         }
       ],
       "piece": {
@@ -37713,6 +37714,75 @@
       "date": "2026-11-12"
     },
     {
+      "key": "conversation.government-news-say-closer.i-m-for-about-for-what-it-s-worth",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "I'm for {about}, for what it's worth.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["address", "meeting", "budget", "ordinance"],
+          "requiresFacts": ["wants-it", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-say-closer.i-want-about-have-for-a-while",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "I want {about}. Have for a while.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["address", "meeting", "budget", "ordinance"],
+          "requiresFacts": ["wants-it", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-say-closer.count-me-for-about",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "Count me for {about}.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["address", "meeting", "budget", "ordinance"],
+          "requiresFacts": ["wants-it", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
       "key": "conversation.government-news-say-closer.i-m-against-it-you-and-i-ll-say-so",
       "move": "government-news-say-closer",
       "kind": "spoken",
@@ -37723,7 +37793,8 @@
           "subject": "government-news-say",
           "role": "closer",
           "stages": ["address", "meeting", "budget", "ordinance"],
-          "requiresFacts": ["wants-not"]
+          "requiresFacts": ["wants-not"],
+          "excludesFacts": ["about"]
         }
       ],
       "piece": {
@@ -37736,6 +37807,75 @@
       "date": "2026-11-12"
     },
     {
+      "key": "conversation.government-news-say-closer.i-m-against-about-for-what-it-s-worth",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "I'm against {about}, for what it's worth.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["address", "meeting", "budget", "ordinance"],
+          "requiresFacts": ["wants-not", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-say-closer.i-don-t-want-about-never-have",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "I don't want {about}. Never have.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["address", "meeting", "budget", "ordinance"],
+          "requiresFacts": ["wants-not", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-say-closer.count-me-against-about",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "Count me against {about}.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["address", "meeting", "budget", "ordinance"],
+          "requiresFacts": ["wants-not", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
       "key": "conversation.government-news-say-closer.we-ll-see-if-it-goes-anywhere-you",
       "move": "government-news-say-closer",
       "kind": "spoken",
@@ -37746,7 +37886,7 @@
           "subject": "government-news-say",
           "role": "closer",
           "stages": ["address", "meeting"],
-          "excludesFacts": ["wants-it", "wants-not"]
+          "excludesFacts": ["about", "wants-it", "wants-not"]
         }
       ],
       "piece": {
@@ -37757,6 +37897,78 @@
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
       "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-closer.i-don-t-know-what-i-think-about-about-yet",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "I don't know what I think about {about} yet.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["address", "meeting"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-say-closer.i-m-still-turning-about-over",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "I'm still turning {about} over.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["address", "meeting"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-say-closer.i-could-go-either-way-on-about",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "I could go either way on {about}.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["address", "meeting"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
     },
     {
       "key": "conversation.government-news-answer-for.i-d-be-for-it-first",
@@ -37841,7 +38053,8 @@
           "subject": "government-news-back",
           "role": "core",
           "stages": ["for"],
-          "requiresFacts": ["wants-it"]
+          "requiresFacts": ["wants-it"],
+          "excludesFacts": ["about"]
         }
       ],
       "piece": {
@@ -37855,6 +38068,102 @@
       "date": "2026-11-12"
     },
     {
+      "key": "conversation.government-news-back-core.then-we-both-want-about",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "Then we both want {about}.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "requiresFacts": ["wants-it", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.good-that-s-two-of-us-for-about",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "Good. That's two of us for {about}.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "requiresFacts": ["wants-it", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.we-re-on-the-same-side-of-about-then",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "We're on the same side of {about}, then.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "requiresFacts": ["wants-it", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.glad-you-see-about-the-way-i-do",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "Glad you see {about} the way I do.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "requiresFacts": ["wants-it", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
       "key": "conversation.government-news-back-core.i-m-not-you-i-d-vote-it-down",
       "move": "government-news-back-core",
       "kind": "spoken",
@@ -37865,7 +38174,8 @@
           "subject": "government-news-back",
           "role": "core",
           "stages": ["for"],
-          "requiresFacts": ["wants-not"]
+          "requiresFacts": ["wants-not"],
+          "excludesFacts": ["about"]
         }
       ],
       "piece": {
@@ -37877,6 +38187,102 @@
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
       "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-back-core.i-still-don-t-want-about-we-ll-see-who-s-right",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "I still don't want {about}. We'll see who's right.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "requiresFacts": ["wants-not", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.then-we-split-on-about",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "Then we split on {about}.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "requiresFacts": ["wants-not", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.you-won-t-talk-me-into-about",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "You won't talk me into {about}.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "requiresFacts": ["wants-not", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.i-m-against-about-all-the-same",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "I'm against {about} all the same.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "requiresFacts": ["wants-not", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
     },
     {
       "key": "conversation.government-news-back-core.same-here-you-i-hope-it-doesn-t-last",
@@ -37889,7 +38295,8 @@
           "subject": "government-news-back",
           "role": "core",
           "stages": ["against"],
-          "requiresFacts": ["wants-not"]
+          "requiresFacts": ["wants-not"],
+          "excludesFacts": ["about"]
         }
       ],
       "piece": {
@@ -37901,6 +38308,102 @@
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
       "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-back-core.then-neither-of-us-wants-about",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "Then neither of us wants {about}.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["wants-not", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.good-that-s-two-of-us-against-about",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "Good. That's two of us against {about}.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["wants-not", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.so-we-re-together-on-about-you-and-i",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "So we're together on {about}, you and I.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["wants-not", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.glad-i-m-not-the-only-one-against-about",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "Glad I'm not the only one against {about}.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["wants-not", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
     },
     {
       "key": "conversation.government-news-back-core.i-m-for-it-you-we-ll-see-who-s-wrong",
@@ -37913,7 +38416,8 @@
           "subject": "government-news-back",
           "role": "core",
           "stages": ["against"],
-          "requiresFacts": ["wants-it"]
+          "requiresFacts": ["wants-it"],
+          "excludesFacts": ["about"]
         }
       ],
       "piece": {
@@ -37925,6 +38429,102 @@
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
       "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-back-core.i-still-want-about-we-ll-see-who-s-right",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "I still want {about}. We'll see who's right.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["wants-it", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.we-won-t-agree-on-about-then",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "We won't agree on {about}, then.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["wants-it", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.you-won-t-talk-me-out-of-about",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "You won't talk me out of {about}.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["wants-it", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.i-m-for-about-all-the-same",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "I'm for {about} all the same.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["wants-it", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
     },
     {
       "key": "conversation.government-news-back-core.maybe-so-you-it-s-already-passed",
@@ -37937,7 +38537,7 @@
           "subject": "government-news-back",
           "role": "core",
           "stages": ["for"],
-          "excludesFacts": ["wants-it", "wants-not"]
+          "excludesFacts": ["about", "wants-it", "wants-not"]
         }
       ],
       "piece": {
@@ -37951,6 +38551,106 @@
       "date": "2026-11-12"
     },
     {
+      "key": "conversation.government-news-back-core.you-may-be-right-about-about",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "You may be right about {about}.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.maybe-so-i-haven-t-settled-on-about-myself",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "Maybe so. I haven't settled on {about} myself.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.i-can-see-the-case-for-about",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "I can see the case for {about}.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.i-ll-think-about-about-some-more",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "I'll think about {about} some more.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
       "key": "conversation.government-news-back-core.could-be-you-nobody-asked-us",
       "move": "government-news-back-core",
       "kind": "spoken",
@@ -37961,7 +38661,7 @@
           "subject": "government-news-back",
           "role": "core",
           "stages": ["against"],
-          "excludesFacts": ["wants-it", "wants-not"]
+          "excludesFacts": ["about", "wants-it", "wants-not"]
         }
       ],
       "piece": {
@@ -37975,6 +38675,106 @@
       "date": "2026-11-12"
     },
     {
+      "key": "conversation.government-news-back-core.you-may-be-right-to-doubt-about",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "You may be right to doubt {about}.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.maybe-so-i-m-not-sold-on-about-either",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "Maybe so. I'm not sold on {about} either.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.i-can-see-the-case-against-about",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "I can see the case against {about}.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-back-core.i-ll-keep-that-in-mind-about-about",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "I'll keep that in mind about {about}.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
       "key": "conversation.government-news-say-closer.we-ll-see-what-that-does-around-here-you",
       "move": "government-news-say-closer",
       "kind": "spoken",
@@ -37985,7 +38785,7 @@
           "subject": "government-news-say",
           "role": "closer",
           "stages": ["budget", "ordinance"],
-          "excludesFacts": ["wants-it", "wants-not"]
+          "excludesFacts": ["about", "wants-it", "wants-not"]
         }
       ],
       "piece": {
@@ -37996,6 +38796,102 @@
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
       "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-closer.we-ll-see-what-body-does-with-it",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "We'll see what {body} does with it.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["budget", "ordinance"],
+          "requiresFacts": ["body"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-say-closer.i-d-like-to-hear-more-from-body-first",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "I'd like to hear more from {body} first.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["budget", "ordinance"],
+          "requiresFacts": ["body"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-say-closer.i-haven-t-decided-what-body-should-do",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "I haven't decided what {body} should do.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["budget", "ordinance"],
+          "requiresFacts": ["body"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.government-news-say-closer.i-don-t-know-what-to-make-of-body-on-this-one",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "I don't know what to make of {body} on this one.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["budget", "ordinance"],
+          "requiresFacts": ["body"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Fable A (words lead)",
+      "date": "2026-11-13"
     }
   ]
 }
