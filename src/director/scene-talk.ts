@@ -397,6 +397,8 @@ export function answerInTalk(
     key: string;
     speakerId: PersonId;
     momentKey: string;
+    /** Pieces the listener already heard today (the telling's "said today"): not said again. */
+    heard?: ReadonlySet<string>;
   },
 ): { move: string; text: string; pieceKey: string; closes: boolean } | null {
   const arc = ARCS.purposes.talk;
@@ -418,7 +420,7 @@ export function answerInTalk(
       speakerId: input.speakerId,
       traits,
       momentKey: `${input.momentKey}:${candidate}`,
-      said: new Set(),
+      said: new Set(input.heard ?? []),
     });
     return line && !("unused" in line) ? [{ candidate, line }] : [];
   });

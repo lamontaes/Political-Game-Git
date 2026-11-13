@@ -5136,11 +5136,15 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Composed check (docs/design/words-composer.md, part 6): a full name twice on one screen, and a full name first said with no role or relationship about someone the listener was not given, over every kind of text. Sample: it reports, it pulls no bank line.",
+      "note": "Composed check (docs/design/words-composer.md, part 6): a full name twice on one screen, and a full name first said with no role or relationship about someone the listener was not given, over every kind of text. Sample: it reports, it pulls no bank line. An organization (an employer, a school district) is named once in an exchange, then said by the tie (organization-named-once).",
       "status": "sample",
       "test": {
         "kind": "composed",
-        "check": ["full-name-once-per-screen", "no-bare-full-name-unintroduced"]
+        "check": [
+          "full-name-once-per-screen",
+          "no-bare-full-name-unintroduced",
+          "organization-named-once"
+        ]
       }
     },
     {
@@ -5164,11 +5168,15 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Composed check: two full clauses joined by a comma, in every composed sentence. One tense in a sentence and sentences that follow one another are not built yet: a sound reader of tense needs the join's typed pieces (design part 4). Sample: it reports, it pulls no bank line.",
+      "note": "Composed check: two full clauses joined by a comma, in every composed sentence. One tense in a sentence and sentences that follow one another are not built yet: a sound reader of tense needs the join's typed pieces (design part 4). Sample: it reports, it pulls no bank line. A concession ('even so') with nothing contrary before it in the line is caught too (concession-names-what-it-concedes).",
       "status": "sample",
       "test": {
         "kind": "composed",
-        "check": ["no-comma-splice"]
+        "check": [
+          "no-comma-splice",
+          "act-named",
+          "concession-names-what-it-concedes"
+        ]
       }
     },
     {
@@ -5260,11 +5268,15 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Composed check: a line looking ahead to a part of the day already here or over, or end-of-day talk in the morning, read against the minute it was said; and the same opener to the same person on three days of one week. Whose day it was (no job, no school) is not read yet. Sample: it reports, it pulls no bank line.",
+      "note": "Composed check: a line looking ahead to a part of the day already here or over, or end-of-day talk in the morning, read against the minute it was said; and the same opener to the same person on three days of one week. Whose day it was (no job, no school) is not read yet. Sample: it reports, it pulls no bank line. A line naming the month a vote comes is checked against the world's election calendar (vote-month-on-calendar).",
       "status": "sample",
       "test": {
         "kind": "composed",
-        "check": ["no-over-daypart", "no-daily-subject-loop"],
+        "check": [
+          "no-over-daypart",
+          "no-daily-subject-loop",
+          "vote-month-on-calendar"
+        ],
         "applies": ["talk:home", "talk:town", "scene", "narration"]
       }
     },
@@ -5279,11 +5291,30 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Composed check: an answer of three words or fewer that only acknowledges what the player said, and a talk that closes on a promise to talk again. Sample: it reports, it pulls no bank line.",
+      "note": "Composed check: an answer of three words or fewer that only acknowledges what the player said, and a talk that closes on a promise to talk again. Sample: it reports, it pulls no bank line. An answer to an agreeing or disagreeing reply that only says they agree or differ is caught too (answer-adds-something).",
       "status": "sample",
       "test": {
         "kind": "composed",
-        "check": ["no-non-reply"],
+        "check": ["no-non-reply", "answer-adds-something"],
+        "applies": ["talk:home", "talk:town", "scene"]
+      }
+    },
+    {
+      "id": "reason-holds-for-the-side",
+      "says": "A reason from the speaker's own life is given only when their record supports the side they take: their own pay argues for a raise only at or near the proposed wage.",
+      "judges": "exchange",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "\"Where I'd draw the line is a higher federal minimum wage. At about $15 an hour, it's my own paycheck on the line.\" (she is against a raise that would pay her more)",
+          "via": "words lead, read as the owner, Nov 12"
+        }
+      ],
+      "note": "Composed check (docs/design/words-composer.md, part 5, stance): the fit is data per question and side (src/director/data/conversation-rules.json stands.reasonFits), and the talk offers a reason only where it fits. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["reason-fits-the-side"],
         "applies": ["talk:home", "talk:town", "scene"]
       }
     },

@@ -26,12 +26,6 @@
       "said": "Late on {date}"
     }
   ],
-  "spokenParts": {
-    "about": "The part of the day as a person says it in passing, for a goodbye at home (\"We'll talk more later tonight.\"), by the mark the scene's hour gives (src/director/day-part.ts). Read by dayPartSaid in src/english/day-words.ts.",
-    "morning": "this morning",
-    "afternoon": "this afternoon",
-    "evening": "tonight"
-  },
   "ordinals": {
     "one": "st",
     "two": "nd",

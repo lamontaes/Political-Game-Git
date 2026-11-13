@@ -197,6 +197,8 @@ export { FAMILY_CONTACT, FAMILY_GATHERING_MISSED } from "./kin-contact";
 // A housemate's call for help, for the director's rescue scene.
 export { HEALTH_RESCUED } from "./rescue";
 export { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../school-measures";
+/** A person's school day, read through the people family's entry. */
+export { schoolDayOf } from "./school";
 export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";
 export { SPEECH_MODULE_ID, addressesGivenBy, deliverSpeech } from "./speech";

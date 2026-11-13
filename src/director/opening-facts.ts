@@ -20,6 +20,9 @@ export const ADDRESS_FACT = {
   text: "address:text",
   /** The address in its parts, one per Continue, split by ADDRESS_PART_BREAK. */
   parts: "address:parts",
+  /** A governor's or mayor's address: its first stand, in its own words, and the speaker's side on it. */
+  pointAbout: "address:point-about",
+  pointStance: "address:point-stance",
 } as const;
 
 /** What separates the parts of the address in its recorded `address:parts` fact. */

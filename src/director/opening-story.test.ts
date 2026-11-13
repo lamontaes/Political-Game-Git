@@ -63,17 +63,24 @@ describe("the opening story", () => {
       expect(sentence.sourceRecordIds).toContain(story.president.id);
     }
     // A claim about the country cites the macro engine's months.
+    // A claim about the country's measures cites the macro engine's months;
+    // a point's "today" cites its question (speech outline, Nov 12).
     for (const sentence of story.address.sentences.filter(
-      (row) => row.level === "country" && row.facts.length,
+      (row) =>
+        row.level === "country" &&
+        row.facts.some((key) => /^(context|meaning)-|-(up|down)$/.test(key)) &&
+        !row.facts.includes("today"),
     ))
       expect(
         sentence.sourceRecordIds.some((id) => id.startsWith("macro-month:")),
         sentence.text,
       ).toBe(true);
-    // No figure at all (owner, Nov 1: "I don't like where this part of the
-    // speech where it just laces statistics"): the year is told in words.
+    // No figure but a point's context (owner, Nov 1: "I don't like where
+    // this part of the speech where it just laces statistics"; changed with
+    // the speech outline for his Nov 12 note that context may give one).
     for (const sentence of story.address.sentences)
-      expect(sentence.text, sentence.text).not.toMatch(/\d|percent/);
+      if (!sentence.facts.some((key) => /^context-/.test(key)))
+        expect(sentence.text, sentence.text).not.toMatch(/\d|percent/);
     // The party creed says the President's own party (an Oct 28 voice note:
     // the speech reads the President's party, traits and the world), and the
     // country's story ends on what the President will do about it.
@@ -81,14 +88,16 @@ describe("the opening story", () => {
     const country = story.address.sentences.filter(
       (row) => row.level === "country",
     );
+    // The theme's point opens on its context: how its question stands today,
+    // from the law in force, or a figure from the records (changed with the
+    // speech outline, Nov 12: before, the country's story ended on a claim
+    // about the year).
     if (country.length)
       expect(
-        country
-          .at(-1)!
-          .facts.some((key) =>
-            /^(mood|unemployment|inflation|wages)-/.test(key),
-          ),
-        country.at(-1)!.text,
+        country[0]!.facts.some(
+          (key) => key === "today" || /^context-/.test(key),
+        ),
+        country[0]!.text,
       ).toBe(true);
     // Composed from records, the same every time.
     expect(composeOpeningStory(core, playerId)).toEqual(story);

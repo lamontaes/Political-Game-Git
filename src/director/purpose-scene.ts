@@ -7,6 +7,9 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
+import { saidAs } from "../english/said-as";
+import { tellingOf } from "../english/telling";
+import { saidPersonOf } from "./said-person";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { personLean } from "../core2/campaign-views";
 import { appointmentsIn } from "../core2/modules/executive";
@@ -337,6 +340,16 @@ function composeBinding(
   const askedId = cast(type.asked) ?? personId;
   if (!askerId)
     return { kind: "skipped", reason: `no ${type.asker} on record` };
+  // Every person the scene names goes through the one said-as reader with
+  // the scene's telling (words composer, part 2): by role and name the first
+  // time, shorter after. The scene's own cause record names them, so the
+  // listener has been told who they are.
+  const telling = tellingOf({ speakerId: askerId, listenerId: askedId });
+  const sayPerson = (person: { id: string }) =>
+    saidAs(telling, {
+      ...saidPersonOf(core, person.id, telling),
+      knownToListener: true,
+    });
   const asker = core.people.get(askerId);
   const asked = core.people.get(askedId);
   if (!asker || !asked)
@@ -346,7 +359,7 @@ function composeBinding(
   const said = (record?.facts ?? {}) as Readonly<Record<string, string>>;
   const facts: Record<string, Fact> = {
     name: {
-      text: `${asker.givenName} ${asker.familyName}`,
+      text: sayPerson(asker),
       sourceRecordIds: [askerId],
     },
     first: { text: asked.givenName, sourceRecordIds: [askedId] },
@@ -428,7 +441,7 @@ function composeBinding(
     : undefined;
   if (chair && chair.id !== askedId)
     facts.chair = {
-      text: `${chair.givenName} ${chair.familyName}`,
+      text: sayPerson(chair),
       sourceRecordIds: [moment.causeId, chair.id],
     };
   // An executive's ask to carry their bill (legislature.ts askToCarry): the
@@ -512,7 +525,7 @@ function composeBinding(
         : undefined;
       if (before)
         facts.replaced = {
-          text: `${before.givenName} ${before.familyName}`,
+          text: sayPerson(before),
           sourceRecordIds: [...at, before.id],
         };
       const crew = Math.round(staffCount(api, said.organizationId));
@@ -837,7 +850,7 @@ function composeBinding(
     const reporter = core.people.get((said.reporterId ?? "") as PersonId);
     if (reporter)
       facts.reporter = {
-        text: `${reporter.givenName} ${reporter.familyName}`,
+        text: sayPerson(reporter),
         sourceRecordIds: [...cited, reporter.id],
       };
     const bill =
@@ -1016,7 +1029,7 @@ function composeBinding(
     : undefined;
   if (rival)
     facts.opponent = {
-      text: `${rival.givenName} ${rival.familyName}`,
+      text: sayPerson(rival),
       sourceRecordIds: [moment.causeId, rival.id],
     };
   // A rival who runs under the candidate's own party label: a primary
@@ -1117,7 +1130,7 @@ function composeBinding(
     : undefined;
   if (winner && winner.id !== askedId)
     facts.opponent = {
-      text: `${winner.givenName} ${winner.familyName}`,
+      text: sayPerson(winner),
       sourceRecordIds: [moment.causeId, winner.id],
     };
   // In a race the asked won, the opponent is the runner-up on the count.
@@ -1137,7 +1150,7 @@ function composeBinding(
     const other = runnerUp ? core.people.get(runnerUp as PersonId) : undefined;
     if (other)
       facts.opponent = {
-        text: `${other.givenName} ${other.familyName}`,
+        text: sayPerson(other),
         sourceRecordIds: [moment.causeId, other.id],
       };
   }
@@ -1297,7 +1310,7 @@ function composeBinding(
     };
   if (door) {
     facts.name = {
-      text: `${asker.givenName} ${asker.familyName}`,
+      text: sayPerson(asker),
       sourceRecordIds: [askerId],
     };
     facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
@@ -1309,7 +1322,7 @@ function composeBinding(
   // The player asks: their lines speak to the colleague by name.
   else if (standing) {
     facts.name = {
-      text: `${asked.givenName} ${asked.familyName}`,
+      text: sayPerson(asked),
       sourceRecordIds: [askedId],
     };
     facts.first = { text: asker.givenName, sourceRecordIds: [askerId] };

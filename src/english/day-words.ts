@@ -36,12 +36,6 @@ export function dayOpening(iso: string, minuteOfDay: number): string {
   return part.said.replace("{date}", dateSaid(iso));
 }
 
-/** The part of the day as said in passing ("this morning", "tonight"), by the mark a scene's hour gives; undefined for a mark with no words. */
-export function dayPartSaid(mark: string): string | undefined {
-  const said = (data.spokenParts as Readonly<Record<string, string>>)[mark];
-  return mark === "about" ? undefined : said;
-}
-
 /**
  * A record's own day told as past from the day a scene plays: "yesterday",
  * "the other day", "on January 3rd", and for a day in another year "last
