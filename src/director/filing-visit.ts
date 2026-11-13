@@ -7,15 +7,21 @@
  * passed in as plain data; the filing itself is GOV's `fileCandidacy`. The
  * visit says which move each line makes and the facts it stands on; the
  * English engine words it from the filing-clerk scene's own pieces
- * (`wordSceneMove`), the one word maker every scene uses. Once the filing
- * is taken, the clerk's talk about the petition is the director's `filing`
- * scene, staged from the filing's record, so the clerk says it once.
- *
- * stopgapId: SG-WORDS-filing-counter-prompts (the talk before filing is
- * still this visit's own sequence, until one scene ends in the counter).
+ * (`wordSceneMove`), the one word maker every scene uses. Once a race is
+ * named, the talk is one scene of the scene engine (`composeSceneTalk`, the
+ * `filing-clerk` arc): the clerk tells the race, the player files, asks or
+ * leaves, and each reply is a `scene.reply` record. Filing ends it; the
+ * clerk's talk about the petition is the director's `filing` scene, staged
+ * from the filing's record, so the clerk says it once.
  */
 import { P } from "../core2/parameters";
+import { applyCoreEvent } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import {
+  composeSceneTalk,
+  type PurposeType,
+  type TreeNode,
+} from "./scene-talk";
 import { spoken, spokenDate } from "./words";
 import {
   wordSceneMove,
@@ -78,22 +84,22 @@ export interface FilingCheck {
 export type FilingAction =
   | { kind: "pick"; contestId: string }
   | { kind: "file"; contestId: string }
-  /** A question about the race: who else has filed, or its dates. */
-  | { kind: "ask"; contestId: string; about: CounterQuestion }
+  /** A reply in the clerk's scene that is not filing or leaving: its place among the replies offered. */
+  | { kind: "say"; contestId: string; index: number }
   | { kind: "done" };
-
-/** What the player may ask the clerk about the race before filing. */
-export type CounterQuestion = "filed" | "dates";
 
 export interface FilingVisit {
   playerId: PersonId;
   clerkId?: PersonId;
   contests: readonly FilingContest[];
-  /** The race the player named, with the facts the clerk speaks from, and what they have asked. */
+  /**
+   * The race the player named, with the facts the clerk speaks from, and the
+   * path of replies chosen through the clerk's scene so far.
+   */
   picked?: {
     contestId: string;
     facts: Readonly<Record<string, Fact>>;
-    asked: readonly CounterQuestion[];
+    path: readonly number[];
   };
   lines: {
     speaker: "clerk" | "player";
@@ -228,25 +234,6 @@ export function pickContest(
       sourceRecordIds: ids,
     },
   };
-  // The clerk tells the candidate about the race before the paperwork
-  // (owner, Oct 28 sitting, 32: "you're running for Trustee ... the primary
-  // is this date and the general is this date ... here is what a trustee
-  // does, here is the term"), from the contest's records, as one answer in
-  // connected sentences, never a list of facts (owner, Nov 1: "it shouldn't
-  // read as a list. That's not how normal people talk.").
-  const told = [
-    ...raceTold(core, visit, contest, facts),
-    visitLine(core, visit, "clerk", "tell-deadline", facts),
-  ].filter((line) => line !== null);
-  if (told.length)
-    visit.lines.push({
-      speaker: "clerk",
-      text: told.map((line) => line.text).join(" "),
-      sourceRecordIds: [
-        ...new Set(told.flatMap((line) => line.sourceRecordIds)),
-      ],
-    });
-
   // Each rule that stops the filing, in the clerk's words, from its record.
   const unmet = checks.filter((row) => !row.met);
   for (const check of unmet) {
@@ -263,7 +250,7 @@ export function pickContest(
     if (line) visit.lines.push({ speaker: "clerk", ...line });
   }
   visit.choices = [];
-  visit.picked = { contestId, facts, asked: [] };
+  visit.picked = { contestId, facts, path: [] };
   // A rule stops the filing: the player takes the refusal, in their own
   // words; the transcript shows only the line they chose.
   if (unmet.length) {
@@ -278,121 +265,178 @@ export function pickContest(
       });
     return visit;
   }
-  offerReplies(core, visit);
+  // The clerk tells the candidate about the race before the paperwork
+  // (owner, Oct 28 sitting, 32: "you're running for Trustee ... the primary
+  // is this date and the general is this date ... here is what a trustee
+  // does, here is the term"), from the contest's records, as one answer in
+  // connected sentences, never a list of facts (owner, Nov 1: "it shouldn't
+  // read as a list. That's not how normal people talk."): the statement of
+  // the clerk's scene, and its replies are the player's choices.
+  const talk = clerkScene(core, visit);
+  if (talk) {
+    visit.lines.push(clerkSaid(talk.state));
+    for (const line of talk.tree.lines) visit.lines.push(clerkSaid(line));
+    offerReplies(visit, talk.tree);
+  }
   return visit;
 }
 
-/**
- * The player's replies once the clerk has told the race, up to four, each a
- * different move about it: file (agree), ask who else has filed (ask), ask
- * about the dates (tell), and leave without filing (leave). A question asked
- * is not offered again.
- */
-const REPLIES: readonly {
-  move: string;
-  key: string;
-  control: FilingVisit["choices"][number]["control"];
-  action: (contestId: string) => FilingAction;
-  about?: CounterQuestion;
-}[] = [
-  {
-    move: "agree",
-    key: "file",
-    control: "file",
-    action: (contestId) => ({ kind: "file", contestId }),
-  },
-  {
-    move: "ask",
-    key: "ask-filed",
-    control: "ask",
-    about: "filed",
-    action: (contestId) => ({ kind: "ask", contestId, about: "filed" }),
-  },
-  {
-    move: "tell",
-    key: "ask-dates",
-    control: "ask",
-    about: "dates",
-    action: (contestId) => ({ kind: "ask", contestId, about: "dates" }),
-  },
-  {
-    move: "leave",
-    key: "leave",
-    control: "leave",
-    action: () => ({ kind: "done" }),
-  },
-];
-
-function offerReplies(core: Readonly<CoreState>, visit: FilingVisit): void {
-  const picked = visit.picked!;
-  visit.choices = [];
-  const said = new Set<string>();
-  for (const reply of REPLIES) {
-    if (reply.about && picked.asked.includes(reply.about)) continue;
-    const line = visitLine(
-      core,
-      visit,
-      "player",
-      reply.move,
-      picked.facts,
-      `${visit.playerId}:${core.date}:${picked.contestId}:${reply.key}:${picked.asked.length}`,
-      said,
-      "reply",
-    );
-    if (line)
-      visit.choices.push({
-        key: reply.key,
-        text: line.text,
-        control: reply.control,
-        action: reply.action(picked.contestId),
-        sourceRecordIds: line.sourceRecordIds,
-      });
-  }
-}
-
-/** The move each question is, the clerk's answer to it answers. */
-const QUESTION_MOVE: Readonly<Record<CounterQuestion, string>> = {
-  filed: "ask",
-  dates: "tell",
+/** The clerk's scene at the counter: the `filing-clerk` arc, cast by the records. */
+const FILING_CLERK: PurposeType = {
+  key: "filing-clerk",
+  purpose: "filing-clerk",
+  asker: "clerk",
+  asked: "candidate",
+  tag: { key: "routine", endpoint: "political" },
 };
 
 /**
- * The player asks the clerk about the race: who else has filed, answered
- * from the elections engine's filings, or the dates, answered from the
- * contest's record. Then the replies left are offered again.
+ * The clerk's scene for the race named, from the visit's facts; the same
+ * records give the same scene, so each step composes it again and follows
+ * the path of replies chosen.
  */
-export function askAtCounter(
+function clerkScene(core: Readonly<CoreState>, visit: FilingVisit) {
+  const picked = visit.picked;
+  if (!picked || !visit.clerkId) return null;
+  const result = composeSceneTalk(
+    core,
+    undefined,
+    {
+      askerId: visit.clerkId,
+      askedId: visit.playerId,
+      causeId: picked.contestId,
+    },
+    FILING_CLERK,
+    picked.facts,
+  );
+  return result.kind === "composed" ? result.talk : null;
+}
+
+/** A line of the clerk's scene as the counter shows it: who says it and its records. */
+function clerkSaid(line: {
+  role: string;
+  text: string;
+  slotRecordIds: readonly string[];
+}): FilingVisit["lines"][number] {
+  return {
+    speaker: line.role === "asked" ? "player" : "clerk",
+    text: line.text,
+    sourceRecordIds: line.slotRecordIds,
+  };
+}
+
+/**
+ * The player's replies at a point in the clerk's scene: filing (agree),
+ * leaving, and the others (asking, a rival) by their place among them.
+ */
+function offerReplies(visit: FilingVisit, node: TreeNode): void {
+  const contestId = visit.picked!.contestId;
+  visit.choices = node.replies.map((reply, index) => {
+    const move = reply.line.move;
+    const base = {
+      text: reply.line.text,
+      sourceRecordIds: reply.line.slotRecordIds,
+    };
+    if (move === "agree")
+      return {
+        ...base,
+        key: "file",
+        control: "file" as const,
+        action: { kind: "file" as const, contestId },
+      };
+    if (move === "leave")
+      return {
+        ...base,
+        key: "leave",
+        control: "leave" as const,
+        action: { kind: "done" as const },
+      };
+    return {
+      ...base,
+      key: `say:${index}`,
+      control: "ask" as const,
+      action: { kind: "say" as const, contestId, index },
+    };
+  });
+}
+
+/**
+ * Follows a reply through the clerk's scene: the player's line, then what
+ * follows it, then the replies offered next or nothing when the scene ends.
+ * The reply is a `scene.reply` record, the kind every scene's reply is,
+ * which the Journal and the next day's `filing` scene read.
+ */
+function followReply(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  index: number,
+  filingId?: string,
+): FilingVisit {
+  const talk = clerkScene(core, visit);
+  if (!talk) throw new Error("The clerk's scene cannot be worded here.");
+  let node: TreeNode | null = talk.tree;
+  for (const step of visit.picked!.path)
+    node = node?.replies[step]?.next ?? null;
+  const reply = node?.replies[index];
+  if (!reply) throw new Error("Not an offered reply.");
+  visit.lines.push(clerkSaid(reply.line));
+  const next = reply.next;
+  for (const line of next?.lines ?? []) visit.lines.push(clerkSaid(line));
+  if (next?.end?.close) visit.lines.push(clerkSaid(next.end.close));
+  const path = [...visit.picked!.path, index];
+  visit.picked = { ...visit.picked!, path };
+  recordReply(core, visit, reply.line, path, next?.end?.ending, filingId);
+  visit.choices = [];
+  if (next && !next.end) offerReplies(visit, next);
+  return visit;
+}
+
+/** The reply as a record: the kind `replyInScene` writes for a scheduled scene. */
+function recordReply(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  line: { move: string; text: string },
+  path: readonly number[],
+  ending?: { id: string; keeps: string },
+  filingId?: string,
+): void {
+  const contestId = visit.picked!.contestId;
+  const player = core.people.get(visit.playerId);
+  if (!player || !visit.clerkId) return;
+  applyCoreEvent(core as CoreState, {
+    id: filingId
+      ? counterFilingReplyId(filingId)
+      : `scene-reply:filing-counter:${contestId}:${visit.playerId}:${path.join(".")}`,
+    date: core.date,
+    kind: "scene.reply",
+    personIds: [visit.playerId, visit.clerkId],
+    placeId: player.placeId,
+    facts: {
+      typeKey: FILING_CLERK.key,
+      causeId: contestId,
+      move: line.move,
+      line: line.text,
+      ...(filingId ? { filingId } : {}),
+      ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
+    },
+    source: {
+      tag: "SOURCED",
+      citation: "Recorded scene: the reply the player chose to say.",
+      asOf: core.date,
+    },
+  });
+}
+
+/** The player says a reply in the clerk's scene that is not filing or leaving. */
+export function sayAtCounter(
   core: Readonly<CoreState>,
   visit: FilingVisit,
   key: string,
 ): FilingVisit {
   const choice = visit.choices.find((row) => row.key === key);
-  if (!choice || choice.action.kind !== "ask" || !visit.picked)
-    throw new Error(`Not an offered question: ${key}`);
-  const about = choice.action.about;
-  visit.lines.push({
-    speaker: "player",
-    text: choice.text,
-    sourceRecordIds: choice.sourceRecordIds,
-  });
-  const line = visitLine(
-    core,
-    visit,
-    "clerk",
-    "answer",
-    visit.picked.facts,
-    undefined,
-    new Set(),
-    "follow",
-    QUESTION_MOVE[about],
-  );
-  if (line) visit.lines.push({ speaker: "clerk", ...line });
-  visit.picked = {
-    ...visit.picked,
-    asked: [...visit.picked.asked, about],
-  };
-  offerReplies(core, visit);
-  return visit;
+  if (!choice || choice.action.kind !== "say" || !visit.picked)
+    throw new Error(`Not an offered reply: ${key}`);
+  return followReply(core, visit, choice.action.index);
 }
 
 /**
@@ -404,39 +448,20 @@ export function filedAtCounter(
   core: Readonly<CoreState>,
   visit: FilingVisit,
   choice: FilingVisit["choices"][number],
+  /** The filing the elections engine took: the reply that filed is cited by it. */
+  filingId?: string,
 ): FilingVisit {
-  visit.lines.push({
-    speaker: "player",
-    text: choice.text,
-    sourceRecordIds: choice.sourceRecordIds,
-  });
-  const facts = visit.picked?.facts ?? {};
-  const said = new Set<string>();
-  const told = [
-    visitLine(
-      core,
-      visit,
-      "clerk",
-      "accept",
-      facts,
-      undefined,
-      said,
-      "follow",
-      "agree",
-    ),
-    visitLine(core, visit, "clerk", "thank", facts, undefined, said, "close"),
-  ].filter((line) => line !== null);
-  if (told.length)
-    visit.lines.push({
-      speaker: "clerk",
-      text: told.map((line) => line.text).join(" "),
-      sourceRecordIds: [
-        ...new Set(told.flatMap((line) => line.sourceRecordIds)),
-      ],
-    });
-  visit.choices = [];
-  return visit;
+  const index = visit.choices.indexOf(choice);
+  return followReply(core, visit, index, filingId);
 }
+
+/**
+ * The record of the reply that filed at the counter, by the filing it made:
+ * the next day's `filing` scene reads it, so the clerk does not take the
+ * papers a second time.
+ */
+export const counterFilingReplyId = (filingId: string) =>
+  `scene-reply:filing-counter:${filingId}`;
 
 /** The player's town, as people name it, from the place record. */
 function placeFact(
@@ -469,12 +494,6 @@ function clerkFact(
       }
     : {};
 }
-
-/**
- * What the clerk says about the race, in order: the office, then the term and
- * the dates in one breath, then the work.
- */
-const RACE_MOVES = ["tell-running", "tell-race", "tell-duty"];
 
 /**
  * A line of the filing-clerk scene in the speaker's own voice: the clerk's,
@@ -575,27 +594,6 @@ function raceFacts(
   } else if (filed)
     facts["none-filed"] = { text: "yes", sourceRecordIds: [contest.id] };
   return facts;
-}
-
-function raceTold(
-  core: Readonly<CoreState>,
-  visit: FilingVisit,
-  contest: FilingContest,
-  facts: Readonly<Record<string, Fact>>,
-): { text: string; sourceRecordIds: readonly string[] }[] {
-  const said = new Set<string>();
-  return RACE_MOVES.flatMap((move) => {
-    const line = visitLine(
-      core,
-      visit,
-      "clerk",
-      move,
-      facts,
-      `${visit.playerId}:${core.date}:${contest.id}:${move}`,
-      said,
-    );
-    return line ? [line] : [];
-  });
 }
 
 /**

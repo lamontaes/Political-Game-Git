@@ -22,7 +22,7 @@ import { contestPositions } from "../core2/contest-positions";
 import { seatHolder } from "../core2/modules/voting";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
-  askAtCounter,
+  sayAtCounter,
   counterNarration,
   filedAtCounter,
   openFilingVisit,
@@ -329,8 +329,8 @@ export function chooseAtCounter(
       overlay: overlayFor(core, state.visit.playerId, action.contestId),
     };
   }
-  if (action.kind === "ask")
-    return { ...state, visit: askAtCounter(core, state.visit, key) };
+  if (action.kind === "say")
+    return { ...state, visit: sayAtCounter(core, state.visit, key) };
   if (action.kind === "file") {
     const result = fileForOffice(
       core,
@@ -357,7 +357,12 @@ export function chooseAtCounter(
           ],
           choices: [],
         }
-      : filedAtCounter(core, state.visit, choice);
+      : filedAtCounter(
+          core,
+          state.visit,
+          choice,
+          (result as { filing?: { id: string } }).filing?.id,
+        );
     const made = (result as { filing?: { id: string } }).filing;
     return {
       ...state,

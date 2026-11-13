@@ -118,7 +118,8 @@
     "replaced": "The full name of the person whose job an opening fills.",
     "about": "What a bill is about, as a noun phrase (\"a higher minimum wage\"), from the question its first section answers in the legislature record.",
     "floor-count": "A bill's floor count, yes to no (\"5 to 2\"), from the legislature's roll call on it.",
-    "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record."
+    "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record.",
+    "filed-at-counter": "That the player filed at the counter, in the clerk's scene there: the record of the reply that filed."
   },
   "maxWords": 70,
   "parts": [
@@ -115172,7 +115173,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "filing-petition",
-          "key": "filed"
+          "key": "filed",
+          "excludesFacts": ["filed-at-counter"]
         }
       ],
       "bearing": "calm",
@@ -115196,7 +115198,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "filing-petition",
-          "key": "filed"
+          "key": "filed",
+          "excludesFacts": ["filed-at-counter"]
         }
       ],
       "bearing": "calm",
@@ -115220,7 +115223,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "filing-petition",
-          "key": "filed"
+          "key": "filed",
+          "excludesFacts": ["filed-at-counter"]
         }
       ],
       "bearing": "calm",
