@@ -1713,7 +1713,7 @@ registerBillIntroduced((api, billId) => {
     !api.state.people.get(leaderId)
   )
     return;
-  askLeaderForHearing(api, bill.sponsorId, billId);
+  askLeaderForHearing(api, bill.sponsorId, billId, { schedule: false });
 });
 
 /** A member's request to the floor leader to schedule their bill, and the leader's answer with the reasons. */
@@ -1750,6 +1750,7 @@ export function askLeaderForHearing(
   api: CoreAPI,
   memberId: string,
   billId: string,
+  options?: { readonly schedule?: boolean },
 ): LeaderRequestRow {
   const id = `leader-request:${billId}`;
   const existing = table(api, "leaderRequests").get(id) as unknown as
@@ -1805,9 +1806,10 @@ export function askLeaderForHearing(
     bare,
   );
   const granted = bare + traits > 0;
-  const already = api
-    .moduleCalendar(LEGISLATURE_MODULE_ID)
-    .get(`meeting:${billId}`);
+  const schedule = options?.schedule ?? true;
+  const already = schedule
+    ? api.moduleCalendar(LEGISLATURE_MODULE_ID).get(`meeting:${billId}`)
+    : undefined;
   const row: LeaderRequestRow = {
     id,
     memberId,
@@ -1815,7 +1817,11 @@ export function askLeaderForHearing(
     leaderId,
     date: api.state.date,
     granted,
-    scheduledFor: granted ? (already?.date ?? scheduleVote(api, billId)) : null,
+    scheduledFor: granted
+      ? schedule
+        ? (already?.date ?? scheduleVote(api, billId))
+        : null
+      : null,
     reasons: { ...reasons, ...(accepted ? { offer: offered } : {}), traits },
     ...(accepted
       ? {
