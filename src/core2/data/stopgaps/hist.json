@@ -108,5 +108,16 @@
     "addedAt": "2026-11-12",
     "replacement": "When a child is opened, read the moves of the parent they lived with (by the record's childIds) into the child's own past instead of running their own until they are grown.",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-birthplace-is-home",
+    "kind": "assumed-data",
+    "file": "src/core2/opening-people.ts",
+    "whatItFakes": "Every person the opening makes is given a birthplace fact naming the town they live in now (no caller passes a birthplace), so the fact never names anywhere else: 0 of 476 residents in Portsmouth NH, Selma NC and Woodlawn KY (seeds lrborn01 to 03) were born elsewhere by it. Readers that tell a birthplace (the card, a conversation) take the moves pass's residence on the birth date first, so a person brought to the county is born where they came from.",
+    "why": "The opening runs before the past's moves, which decide who came from elsewhere; the card told 'born in' the town and then 'moved to' it (Fable A, Nov 13).",
+    "addedBy": "opus-lr (Life records builder)",
+    "addedAt": "2026-11-13",
+    "replacement": "Write the birthplace fact from the moves pass (the residence on the birth date) when a person's past is opened, by the ACS share born in their state of residence (B05002) for those with no parent elsewhere, and drop the opening's default.",
+    "status": "open"
   }
 ]
