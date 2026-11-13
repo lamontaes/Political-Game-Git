@@ -155,6 +155,23 @@ add("follow", "thank", R, "core", "anxious", [
     "Thank you. I'll write it all down for {agency}.",
 ], ["agency"], after="offer")
 
+# ---- after a lie that the call was made (lie.believed, lie.caught) ----
+# Believed: the constituent thanks you for what they think was done, naming
+# the office the case would go to.
+add("follow", "thank", R, "core", "anxious", [
+    "Thank you. I'll wait to hear from {agency}, then.",
+    "Thank you. I didn't know {agency} already had it.",
+], ["agency"], after="lie")
+add("follow", "accept", R, "core", "guarded", [
+    "All right. If {agency} has it, I'll wait.",
+    "Then I'll wait on {agency}.",
+], ["agency"], after="lie")
+# Caught: only where the constituent holds the record that says otherwise.
+add("follow", "confront", R, "core", "braced", [
+    "I asked {agency} myself. They have nothing from your office.",
+    "{agency} told me they never heard from you.",
+], ["agency", "knows-truth"], after="lie")
+
 # ---- the constituent presses (follow: press) ----
 add("follow", "press", R, "core", "braced", [
     "People have promised me a call from {agency} before.",

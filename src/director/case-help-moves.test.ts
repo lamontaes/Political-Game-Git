@@ -107,6 +107,30 @@ const run = (drawSeed: string, decision: "help" | "decline"): string | null => {
         expect(answerFitsQuestion(asked.text, line.text), where).toBe(true);
     }
   }
+  // A lie that the call was made is answered: believed, the constituent
+  // thanks you for what they think was done, naming the office from the case
+  // record; caught, only where they hold the record that says otherwise.
+  expect(
+    talk.gaps.filter((gap) => /\/(follow|reply|close)\//.test(gap)),
+    where,
+  ).toEqual([]);
+  const agency = result.scene.facts.find((row) => row.key === "agency");
+  let lies = 0;
+  for (const node of nodes(talk.tree))
+    for (const reply of node.replies.filter((r) => r.line.move === "lie")) {
+      lies += 1;
+      const answer = reply.next?.lines.find((line) => line.role === "asker");
+      expect(
+        answer,
+        `${where}: no answer to "${reply.line.text}"`,
+      ).toBeTruthy();
+      expect(["thank", "accept", "confront"], where).toContain(answer!.move);
+      if (agency)
+        expect(answer!.text.toLowerCase(), where).toContain(
+          agency.text.toLowerCase(),
+        );
+    }
+  expect(lies, `${where}: no lie offered`).toBeGreaterThan(0);
   const ending = decision === "help" ? "will-call" : "cant-help";
   const path = pathTo(
     talk.tree,
