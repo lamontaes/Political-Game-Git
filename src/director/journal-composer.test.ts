@@ -69,12 +69,20 @@ it.each(draws)(
     expect(lines.length, `${where}: the Journal tells nothing`).toBeGreaterThan(
       0,
     );
-    // The past is the first chapter, one paragraph per outline row at most.
+    // The past is the first chapter, told in the order things happened (lead,
+    // Nov 13): each paragraph is dated by its earliest record, and the dates
+    // never go back. A thread is split only where another's record falls
+    // between, so there are never more paragraphs than records.
     const past = journal[0]!.lines.filter((line) => line.date < core.startedAt);
+    const dates = past.map((line) => line.date);
     expect(
-      past.length,
-      `${where}: ${past.map((l) => l.text).join(" | ")}`,
-    ).toBeLessThanOrEqual(outline.paragraphs.length);
+      dates,
+      `${where}: ${past.map((l) => `${l.date} ${l.text}`).join(" | ")}`,
+    ).toEqual([...dates].sort());
+    expect(past.length, where).toBeLessThanOrEqual(
+      past.reduce((n, line) => n + line.momentIds.length, 0),
+    );
+    expect(outline.paragraphs.length, where).toBeGreaterThan(0);
     // The composed checks read the page as the screen shows it.
     const sample: ComposedSample = {
       place: name,

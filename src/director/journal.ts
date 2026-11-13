@@ -2682,20 +2682,53 @@ export function composeJournal(
       [past[zero]!.moment.causeId],
     );
     open(past[zero]!.moment.id, title?.text ?? "", past[zero]!.moment.date);
-    for (const row of JOURNAL_OUTLINE.paragraphs) {
-      // A life is told from the day it began: the birth leads its paragraph.
-      const told = past
-        .filter((unit) => unit.paragraph === row.key)
-        .sort(
-          (a, b) =>
-            Number(b.moment.causeKind === "person.birth") -
-            Number(a.moment.causeKind === "person.birth"),
-        );
-      if (!told.length) continue;
+    // Each outline row's records, in the order they happened; the birth
+    // leads its paragraph, since a life is told from the day it began.
+    const queues = JOURNAL_OUTLINE.paragraphs
+      .map((row) => ({
+        key: row.key,
+        units: past
+          .filter((unit) => unit.paragraph === row.key)
+          .sort(
+            (a, b) =>
+              Number(b.moment.causeKind === "person.birth") -
+              Number(a.moment.causeKind === "person.birth"),
+          ),
+      }))
+      .filter((row) => row.units.length);
+    // The Journal is told in the order things happened (lead, Nov 13): a
+    // paragraph is dated by its earliest record and paragraphs follow those
+    // dates. A paragraph carries the later records of its thread only until
+    // another thread's next record comes first; then the thread is split, and
+    // its later records are a paragraph of their own in their place.
+    const viewsTold = new Set<string>();
+    while (queues.some((row) => row.units.length)) {
+      const open = queues.filter((row) => row.units.length);
+      // The thread whose next record came first (the outline's order breaks a tie).
+      const next = open.reduce((best, row) =>
+        row.units[zero]!.moment.date < best.units[zero]!.moment.date
+          ? row
+          : best,
+      );
+      const others = open
+        .filter((row) => row !== next)
+        .map((row) => row.units[zero]!.moment.date)
+        .sort();
+      const until = others[zero];
+      const told: Unit[] = [];
+      while (
+        next.units.length &&
+        (!told.length ||
+          until === undefined ||
+          next.units[zero]!.moment.date <= until)
+      )
+        told.push(next.units.shift()!);
+      const views = viewsTold.has(next.key) ? [] : pastViewSentences(next.key);
+      viewsTold.add(next.key);
       const sentences = [
-        ...((row.key === "work" ? tellWork(told) : null) ??
-          tellParagraph(told, row.key)),
-        ...pastViewSentences(row.key),
+        ...((next.key === "work" ? tellWork(told) : null) ??
+          tellParagraph(told, next.key)),
+        ...views,
       ];
       push(told, sentences);
     }
