@@ -5,8 +5,8 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/pool-words-season-variety-thin-circle
+status: open
+claimed-by:
 pr: #8490
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc6-scenes-repeat
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T02:38:31.740Z
+claimed-at:
 branch: claude/pool-words-season-variety-thin-circle
 ---
 
@@ -42,3 +42,5 @@ branch: claude/pool-words-season-variety-thin-circle
 Oct 30 (Words): more evidence, a first-beat gap: Pineland, Florida (seed chk2-b:0) failed campaign-season's first beat on main. Related: most of the people the player knows at the start are husks, and a talk with one opens empty (words-talk-husk-acquaintances-empty), which thins the circle a season can cast from.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:38 UTC) on branch claude/pool-words-season-variety-thin-circle.
+
+Released by next (2026-11-13): no push to claude/pool-words-season-variety-thin-circle since 2026-11-11 02:38 UTC, more than twice its 5-hour time box. Continue on branch claude/pool-words-season-variety-thin-circle and pull request #8490.

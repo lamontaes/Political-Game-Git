@@ -98,8 +98,16 @@ describe("an officeholder's desk record stages scenes", () => {
       ["appointment", "cause:event:official-appointed"],
     ] as const) {
       const type = SITUATION_LIBRARY.types.find((row) => row.key === typeKey)!;
+      // Their own record names them, as the journal marks it (`selfNamed`,
+      // journal.ts); one learned of through a tie names someone else, so the
+      // journal leaves the mark off and the tie is a counterpart.
       const of = (counterpartIds: string[]) =>
-        ({ ...moment(executive), label, counterpartIds }) as Moment;
+        ({
+          ...moment(executive),
+          label,
+          counterpartIds,
+          ...(counterpartIds.length ? {} : { selfNamed: true }),
+        }) as Moment;
       const core = { durableLog: new Map() } as unknown as CoreState;
       expect(
         type.causes.some((c) => causeMatches(c, book, of([]), core)),
