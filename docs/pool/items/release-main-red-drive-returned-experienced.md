@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/red-main-drive-returned-experienced
-pr:
+pr: 8977
 after:
 blocked-on:
 lead: cto
