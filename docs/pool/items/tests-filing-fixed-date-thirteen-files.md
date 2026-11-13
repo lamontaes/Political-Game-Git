@@ -46,11 +46,11 @@ Seen: no player screen; these tests guard the filing, campaign and scene paths a
 
 **Rules.** One rule, all 56 places: a test that needs a race draws, waits for the window, and names each place and seed (`drawn-place-tests`). Never pin a place or seed, never weaken or skip an assertion. No dice.
 
-**Done when.** A second session runs each of the thirteen files at a seed whose drawn place has no window open on January 5 and at a fresh seed, in a drawn place it names, and sees every file pass with the place and seed in its output.
+**Done when.** A second session runs each of the twelve files this item fixes (the thirteen above but `src/core2/campaign-money-calibration.test.ts`, whose wait moved to `tests-campaign-money-remerton-donors-not-warm`) at a seed whose drawn place has no window open on January 5 and at a fresh seed, in a drawn place it names, and sees every file pass with the place and seed in its output, except the reds on main this item's Notes name (campaign-mail's mail share, record's attack ad, campaign-calibration's niche speech), each its own item.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/campaign-calibration.test.ts, src/core2/record.test.ts, src/core2/donor-meeting.test.ts, src/core2/campaign-day.test.ts, src/core2/ballot-order.test.ts, src/core2/parties.test.ts, src/core2/campaign-door-balance.test.ts, src/core2/campaign-money-calibration.test.ts, src/core2/door-fill-in.test.ts, src/bench/player-day-morning.test.ts, src/bench/scene-hours.test.ts, src/bench/campaign-mail.test.ts, src/bench/donor-calls.test.ts
+**Files.** src/core2/gov-test-clock.ts, src/core2/campaign-calibration.test.ts, src/core2/record.test.ts, src/core2/donor-meeting.test.ts, src/core2/campaign-day.test.ts, src/core2/ballot-order.test.ts, src/core2/parties.test.ts, src/core2/campaign-door-balance.test.ts, src/core2/door-fill-in.test.ts, src/bench/player-day-morning.test.ts, src/bench/scene-hours.test.ts, src/bench/campaign-mail.test.ts, src/bench/donor-calls.test.ts
 
 **Notes.** Twins searched Nov 12: `tests-filing-starts-where-filing-opens` and `campaigns-test-waits-for-filing-window` (done, other files), `elections-filing-test-waits-for-filing-window` (dropped), `tests-door-pledge-turnout-race-open-by-draw` (door-pledge only, PR #8902). Not run: none of the thirteen was run; the list is from a grep and the line numbers are where each first calls `openContests` or `fileCandidacy` on main e298200245 plus the merge of 3fba4132b9.
 
