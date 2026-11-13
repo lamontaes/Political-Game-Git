@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/project-thread-ac0w9o
+pr: #9053
 after:
 blocked-on:
 lead: governing
@@ -20,9 +20,11 @@ source: found while building meetings-resident-player-speaks-at-public-comment; 
 
 **What.** A played year can stop with a TypeError in the legislature's filing step. CI's paired-performance check on pull request #9007 (a change that does not touch legislating) crashed in the legislature's work step at src/core2/modules/world-legislating.ts line 435, `memberKey`, inside `filerOf`, called with no term. The same throw failed the played-year check on pull request #9022 and on clean main. Seen: the game stops with an error on a day a council, board or legislature files, in place of the next day.
 
-**Cause.** Found in code: In src/core2/modules/world-legislating.ts, `fileChanges`. When no member carries a change, the executive over the body asks one through `proposeAsExecutive` (src/core2/modules/legislature.ts), which picks the member from `members(api, bodyOfficeId)`. `fileChanges` then looks that member up in its own list with `input.filers.find((t) => memberKey(t) === request.memberId)!` and passes the result to `filerOf`. The two lists are built by different callers, and nothing checks that the asked member is in `input.filers`; when they are not, `filerOf(api, undefined)` throws at `memberKey`. Reproduced Nov 13 on main 3338123a in Sheyenne, North Dakota (key 3872580), place seed 43d7ce9fd8df624bfdc912a579284207969b6124ba2c7780436d571a4bf7fcdf, with `GOLDEN_PATH_SEED` and `GOLDEN_PATH_PLACE_KEY` set and `node --import tsx src/bench/m1-11-check.ts`: the throw comes from `openSession`, a state legislature's or Congress's sitting, where the filers are passed one chamber group at a time while the executive's asked member is picked from the body's whole roster. Which sitting gives two different lists was the first thing to find, and that run answers it; to see the names, log `input.key`, the body and `request.memberId` at the lookup and run the #9007 check's place and seed, or the place above. This runs at filing itself, so it is the same on a meeting filed the day before and one filed on the day.
+**Cause.** Found in code: reproduced Nov 13 at Sheyenne ND (3872580), Twin Creeks MT (3075550) and Booth WV (5409148). The fault is in Congress's opening only, not a state legislature's: `openSession` in src/core2/modules/world-legislating.ts files the House and the Senate as two groups, but passed the House as `body` to both. In the Senate group the executive's request (`proposeAsExecutive`) picked its member from the House roster, which is not among the 100 senators in `input.filers`, so `fileChanges` looked it up with `find(...)!` and handed `undefined` to `filerOf`, which threw at `memberKey`. A state legislature does not hit it, because its one group holds every chamber's members. Fixed by pull request #9047 (the Senate group names the Senate as its body, so the President asks a senator); this item adds the regression test.
 
-**Fix.** In `fileChanges`, take the asked member's term from the same roster `proposeAsExecutive` read (`members(api, input.body.id)`) when it is not among `input.filers`, so one roster answers both. If the member holds no seat any more, the request has nobody to carry it: leave the executive's request on record as the engine already does for a request no member takes up, and file nothing for it. No silent skip: the request's record says why. Add the case to src/core2/world-legislating.test.ts with the place and seed that reproduced it.
+**Fix.** Pull request #9047's change is the fix. The unchecked `find(...)!` at the lookup in `fileChanges` stays as #9047 left it (the asked member now always sits in the chamber filed); replacing it with a lookup that cannot return `undefined` is left for after the train merges. The test in src/core2/world-legislating-federal.test.ts opens Congress at the three places and checks each bill the President asked a member to carry sits in that member's chamber.
+
+**Same defect.** `release-main-red-senate-files-in-its-own-chamber` (#9047) is the same bug; its change is contained in #9053 and closes both items.
 
 **Time box.** 2 hours
 
@@ -32,4 +34,4 @@ source: found while building meetings-resident-player-speaks-at-public-comment; 
 
 **Waits on.** Nothing
 
-**Files.** src/core2/modules/world-legislating.ts, src/core2/world-legislating.test.ts
+**Files.** src/core2/world-legislating-federal.test.ts
