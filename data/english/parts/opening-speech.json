@@ -118817,17 +118817,6 @@
             "first-after",
             "realm-name"
           ]
-        },
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": [
-            "first-side",
-            "first-after",
-            "realm-name"
-          ]
         }
       ],
       "voice": "polished",
@@ -118845,17 +118834,6 @@
         {
           "move": "close",
           "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": [
-            "first-side",
-            "first-after",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "close",
-          "subject": "town-address",
           "role": "close",
           "choice": "close",
           "requiresFacts": [
@@ -118887,17 +118865,6 @@
             "first-reason",
             "realm-name"
           ]
-        },
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": [
-            "first-side",
-            "first-reason",
-            "realm-name"
-          ]
         }
       ],
       "voice": "polished",
@@ -118915,17 +118882,6 @@
         {
           "move": "close",
           "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": [
-            "first-side",
-            "first-reason",
-            "realm-name"
-          ]
-        },
-        {
-          "move": "close",
-          "subject": "town-address",
           "role": "close",
           "choice": "close",
           "requiresFacts": [
@@ -118993,7 +118949,7 @@
       "key": "opening-speech.close.polished-twn-i-ask-body-to-ask",
       "move": "close",
       "kind": "spoken",
-      "text": "I ask {body} to {first-side} this year. Thank you, {realm-name}.",
+      "text": "I ask {body-name} to {first-side} this year. Thank you, {realm-name}.",
       "uses": [
         {
           "move": "close",
@@ -119002,22 +118958,22 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "body",
-            "realm-name"
+            "realm-name",
+            "body-name"
           ]
         }
       ],
       "voice": "polished",
       "bearing": "firm",
       "origin": "authored",
-      "author": "Claude (Opus words builder, speech staging)",
-      "date": "2026-11-12"
+      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
+      "date": "2026-11-13"
     },
     {
       "key": "opening-speech.close.plain-twn-im-asking-body-to-ask",
       "move": "close",
       "kind": "spoken",
-      "text": "I'm asking {body} to {first-side} this year. Thanks, {realm-name}.",
+      "text": "I'm asking {body-name} to {first-side} this year. Thanks, {realm-name}.",
       "uses": [
         {
           "move": "close",
@@ -119026,16 +118982,16 @@
           "choice": "close",
           "requiresFacts": [
             "first-side",
-            "body",
-            "realm-name"
+            "realm-name",
+            "body-name"
           ]
         }
       ],
       "voice": "plain",
       "bearing": "firm",
       "origin": "authored",
-      "author": "Claude (Opus words builder, speech staging)",
-      "date": "2026-11-12"
+      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
+      "date": "2026-11-13"
     },
     {
       "key": "opening-speech.salutation.plain-twn-mourning-everybody-in-this-room-and-everybody-watching-before-anything",
@@ -119886,6 +119842,106 @@
           "requiresFacts": [
             "first-side",
             "theme-short",
+            "realm-name",
+            "body-name"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "opening-speech.close.polished-twn-i-ask-bodyname-to-firstside-then-firstafter-thank",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I ask {body-name} to {first-side}. Then {first-after} Thank you, {realm-name}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side",
+            "first-after",
+            "realm-name",
+            "body-name"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "opening-speech.close.plain-twn-so-im-asking-bodyname-to-firstside-and-then",
+      "move": "close",
+      "kind": "spoken",
+      "text": "So I'm asking {body-name} to {first-side}, and then {first-after} Thanks, {realm-name}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side",
+            "first-after",
+            "realm-name",
+            "body-name"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "opening-speech.close.polished-twn-i-ask-bodyname-to-firstside-because-firstreason-good",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I ask {body-name} to {first-side}, because {first-reason}. Good night, {realm-name}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side",
+            "first-reason",
+            "realm-name",
+            "body-name"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
+      "date": "2026-11-13"
+    },
+    {
+      "key": "opening-speech.close.plain-twn-im-asking-bodyname-to-firstside-because-firstreason-thank",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I'm asking {body-name} to {first-side}, because {first-reason}. Thank you, {realm-name}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side",
+            "first-reason",
             "realm-name",
             "body-name"
           ]
