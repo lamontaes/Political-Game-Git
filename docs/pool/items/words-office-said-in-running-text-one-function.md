@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: 9197
 blocked-on:
 source: Words lead and the second words reader, Nov 14, the campaign manager scene
 lead: words
@@ -28,7 +28,7 @@ after:
 
 **Rules.** No hand-written player text in code; replace, never layer.
 
-**Done when.** A pinned test says each title form ("State Representative", "U.S. Senator", a form's note) as running text, and the director's scene facts for a campaign, an oath, a door and election night use it. A second session, on main, plays a campaign-manager offer and sees "your campaign for state representative".
+**Done when.** A pinned test says each title form ("State Representative", "U.S. Senator", a form's note) as running text, and the director's scene facts for a campaign, an oath, a door and election night use it. In a drawn place (named with its seed) where a campaign manager offers, the scene says the office in lower case. A second session, on main, plays a campaign-manager offer in a place nobody chose and sees "your campaign for state representative".
 
 **Waits on.** Nothing.
 
