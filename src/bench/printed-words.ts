@@ -58,11 +58,7 @@ import {
 } from "../english/bill-names";
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
-import {
-  JOURNAL_WORDS,
-  memberOfBody,
-  seatSaid,
-} from "../english/journal-words";
+import { JOURNAL_WORDS, seatSaid } from "../english/journal-words";
 import { storyTopicName } from "../english/policy-names";
 import {
   causeGroupForm,
@@ -567,16 +563,7 @@ class Reader {
     id: string | undefined,
     title: string | undefined,
   ): string | undefined {
-    if (!id) return title;
-    const contest = this.table(ELECTIONS_MODULE_ID, "contests")?.get(
-      id,
-    ) as unknown as { officeId?: string } | undefined;
-    const office = this.table(OFFICES_MODULE_ID, "offices")?.get(
-      contest?.officeId ?? "",
-    ) as unknown as { seats?: number; bodyName?: string | null } | undefined;
-    return (office?.seats ?? 1) > 1
-      ? (memberOfBody(office?.bodyName) ?? title)
-      : title;
+    return raceMemberTitle(this.core, id) ?? title;
   }
   /** A race's office, from its contest record ("Town board member"), as that place calls whoever holds it. */
   contestTitle(id: string | undefined): string | null {
