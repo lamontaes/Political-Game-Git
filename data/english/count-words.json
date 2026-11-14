@@ -162,11 +162,26 @@
     "years": "{count} years"
   },
   "length": {
-    "about": "A prison term or other length of months as people say it in talk (\"eight months\", \"three years\"): whole years when the months make whole years, else months. Read by lengthSaid in src/english/count-words.ts.",
+    "about": "A prison term, probation or other length of months as people say it in talk, always in words: under two years in months (\"thirteen months\"), longer in years rounded to the half year the way a person rounds (\"almost three years\" for 34 months, \"two and a half years\" for 30). Digits stay only in printed pieces (the paper, a court notice). Words lead ruling, Nov 14. Read by lengthSaid in src/english/count-words.ts.",
+    "yearsFromMonths": {
+      "value": 24,
+      "tag": "TUNABLE",
+      "spread": [18, 36],
+      "checkedAgainst": "People give a stretch under about two years in months (\"eighteen months\") and longer ones in years (Words lead, Nov 14)."
+    },
+    "roundToMonths": {
+      "value": 6,
+      "tag": "TUNABLE",
+      "spread": [3, 12],
+      "checkedAgainst": "A long stretch is rounded to the half year in speech (\"two and a half years\"); a month or two off the round figure is said as \"almost\" or \"a little over\"."
+    },
     "month": "a month",
     "months": "{count} months",
     "year": "a year",
-    "years": "{count} years"
+    "years": "{count} years",
+    "andAHalf": "{count} and a half years",
+    "almost": "almost {length}",
+    "over": "a little over {length}"
   },
   "moneyUnits": {
     "about": "A sum of a million dollars or more said in the unit people use (\"about $40 million\", \"about $2.3 billion\"), never the dollars written out; one decimal below ten of the unit, whole units above. Read by moneySaid in src/english/count-words.ts.",
@@ -197,7 +212,7 @@
     }
   },
   "smallCounts": {
-    "about": "A whole count below ten said in words, as the owner's rule says (\"counts under ten in words\"): a number of years in an address. Read by countSaid in src/english/count-words.ts; ten and more stay digits.",
+    "about": "A whole count below ten said in words, as the owner's rule says (\"counts under ten in words\"): a number of years in an address. Read by countSaid in src/english/count-words.ts; a caller may ask for words up to ninety-nine (a line opening on \"Thirteen years there\"); beyond the limit it stays digits.",
     "words": [
       "zero",
       "one",
@@ -208,7 +223,29 @@
       "six",
       "seven",
       "eight",
-      "nine"
+      "nine",
+      "ten",
+      "eleven",
+      "twelve",
+      "thirteen",
+      "fourteen",
+      "fifteen",
+      "sixteen",
+      "seventeen",
+      "eighteen",
+      "nineteen"
+    ],
+    "tens": [
+      "",
+      "",
+      "twenty",
+      "thirty",
+      "forty",
+      "fifty",
+      "sixty",
+      "seventy",
+      "eighty",
+      "ninety"
     ]
   }
 }
