@@ -1551,14 +1551,18 @@ export function composeSceneTalk(
   root.lines = rootStart.lines;
   // The narrator speaks between lines, not only at the top: a beat of the room after the statement and
   // partway in, where the bank has one for this purpose.
-  const beatAt = (path: Path, label: string): SceneTalkLine | null =>
-    render(
+  // A beat plays once on a path at most (Words lead, Nov 14): one the path
+  // has already said is left out, never said again.
+  const beatAt = (path: Path, label: string): SceneTalkLine | null => {
+    const beat = render(
       { step: "beat", move: "beat", role: "narrator", ...base },
       cast.askerId,
       {},
       `${label}:beat`,
       path.said,
     );
+    return beat && beat.parts.some((part) => path.said.has(part)) ? null : beat;
+  };
   let rootPath = rootStart.path;
   const rootBeat = beatAt(rootPath, "root");
   if (rootBeat) {

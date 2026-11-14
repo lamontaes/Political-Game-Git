@@ -261,57 +261,6 @@
     "us-federal-positions:transport-water.expand-passenger-rail": "infrastructure",
     "us-federal-positions:agriculture.cut-farm-subsidies": "agriculture"
   },
-  "budgetLineTopics": {
-    "about": "The measures each line of a budget bears on, for the answer a hurt address gives to its worst condition (a line the speaker backs in that area is a response; owner rule via the words lead, Nov 12: a hurt address answers its own bad news). The bill catalog gives budget lines no subject, so they are placed here, and only this answer reads them, so no theme changes.",
-    "budget-line:police": ["crime"],
-    "budget-line:corrections": ["crime"],
-    "budget-line:schools": ["schools"],
-    "budget-line:higherEducation": ["schools"],
-    "budget-line:parks": ["environment"],
-    "budget-line:naturalResources": ["environment"],
-    "budget-line:housing": ["rent"],
-    "budget-line:healthAndHospitals": ["health"],
-    "budget-line:welfareAndMedicaid": ["health"],
-    "budget-line:highways": ["roads"]
-  },
-  "answerTopics": {
-    "about": "The bill catalog topics whose questions answer each area of the term read, for a hurt address's answer to its worst condition: a subject is wider than its area (restoring the vote after a sentence is justice, and no answer to crime; the words lead read it so on Leonidas, Minnesota, Nov 12). TUNABLE wording of the match, checked by reading composed addresses.",
-    "rent": [
-      "Rental rules",
-      "Affordable and public housing",
-      "Planning and zoning",
-      "Homelessness services"
-    ],
-    "crime": [
-      "Policing",
-      "Criminal law and sentencing",
-      "Courts and legal aid",
-      "Juvenile justice",
-      "Firearms and weapons rules"
-    ],
-    "schools": [
-      "K-12 schools",
-      "School funding",
-      "Teachers and support staff",
-      "Early childhood and preschool",
-      "Special education"
-    ],
-    "health": [
-      "Coverage and insurance",
-      "Hospitals and clinics",
-      "Mental health and addiction services",
-      "Public health",
-      "Medicines and medical products"
-    ],
-    "roads": ["Transportation"],
-    "environment": [
-      "Air and emissions",
-      "Water quality",
-      "Pollution cleanup",
-      "Climate and resilience",
-      "Electricity and the grid"
-    ]
-  },
   "subjectPull": {
     "about": "Which subject under a theme a speaker leads with when none of their own causes is in it: the subject whose facets their recorded traits sum highest on (the traits are the speaker's record; no roll). The facets are the personality catalog's. TUNABLE: checked so that no question leads more than half of ten drawn addresses.",
     "tag": "TUNABLE",
@@ -396,6 +345,12 @@
     "about": "The shapes a speech's point may take (owner, Nov 8: \"almost all of them feel the exact same\"; the words lead, Nov 12: \"A point has several shapes\"). Each lists its moves in order; `figure` stands for the figure's sentences (context, what it has meant, the speaker's own record, and the sentence that ties it to the question), said only where the question's row lets the speaker's side use a measure. A condition comes before its answer (the words lead, Nov 14, rule 44): no shape puts how it stands, the figure or the question after the ask. A speech's points take the shapes in the order the speaker's traits pull hardest (`pull`, the summed facets), one shape per point, so no two points of a speech share one; ties go by the shape's name. No roll. The figure's tie names no question, so the ask after it names the question once. The question-first shape asks the audience about how things stand (\"Is it fair that ...?\"), so it names no question and says no separate today sentence. Where a belief goes is `beliefJoins`, one join to a point, in order.",
     "shapes": {
       "context-first": {
+        "typical": {
+          "value": 0.297,
+          "tag": "ESTIMATED",
+          "spread": "0.1 to 0.3 either way by place",
+          "note": "The average of this shape's summed facets over 2,920 people drawn in three places; a speaker's pull is read against it, so a shape whose facets run high in everyone does not lead for half the speakers."
+        },
         "moves": ["today", "figure", "ask"],
         "pull": [
           "personality-v1:facet-analytical",
@@ -405,6 +360,12 @@
         ]
       },
       "figure-first": {
+        "typical": {
+          "value": 0.699,
+          "tag": "ESTIMATED",
+          "spread": "0.1 to 0.3 either way by place",
+          "note": "The average of this shape's summed facets over 2,920 people drawn in three places; a speaker's pull is read against it, so a shape whose facets run high in everyone does not lead for half the speakers."
+        },
         "moves": ["figure", "today", "ask"],
         "pull": [
           "personality-v1:facet-sincere",
@@ -414,6 +375,12 @@
         ]
       },
       "question-first": {
+        "typical": {
+          "value": -0.22,
+          "tag": "ESTIMATED",
+          "spread": "0.1 to 0.3 either way by place",
+          "note": "The average of this shape's summed facets over 2,920 people drawn in three places; a speaker's pull is read against it, so a shape whose facets run high in everyone does not lead for half the speakers."
+        },
         "moves": ["question", "figure", "ask"],
         "pull": [
           "personality-v1:facet-dramatic",
@@ -423,6 +390,12 @@
         ]
       },
       "plain-first": {
+        "typical": {
+          "value": -0.228,
+          "tag": "ESTIMATED",
+          "spread": "0.1 to 0.3 either way by place",
+          "note": "The average of this shape's summed facets over 2,920 people drawn in three places; a speaker's pull is read against it, so a shape whose facets run high in everyone does not lead for half the speakers."
+        },
         "moves": ["today", "ask"],
         "pull": [
           "personality-v1:facet-blunt",
