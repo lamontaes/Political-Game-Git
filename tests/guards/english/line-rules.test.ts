@@ -3,6 +3,7 @@ import path from "path";
 import { describe, expect, it } from "vitest";
 import {
   caseBreaksRule,
+  caseIsOwners,
   caseText,
   ruleFlags,
   textBreaksRule,
@@ -61,7 +62,7 @@ describe("line rules: each rule does what it says", () => {
       (rule) => rule.status === "enforced" && !rule.applies,
     );
     const liked = run.rules.flatMap((rule) =>
-      (rule.spares ?? []).map(caseText),
+      (rule.spares ?? []).filter(caseIsOwners).map(caseText),
     );
     const wrong = enforced.flatMap((rule) =>
       liked

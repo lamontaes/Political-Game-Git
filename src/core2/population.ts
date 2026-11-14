@@ -374,9 +374,7 @@ function groupQuartersStopgaps(type: GroupQuartersType): void {
   stopgap("SG-GQ-no-turnover");
   stopgap("SG-GQ-means-tests-poverty");
   stopgap("SG-GQ-crime-exposure");
-  stopgap("SG-GQ-campaign-doors");
   stopgap("SG-GQ-home-backdrop");
-  if (type === "adultCorrectional") stopgap("SG-GQ-counted-prisoners-vote");
   if (type === "juvenile") stopgap("SG-GQ-juvenile-school");
   if (type === "military") stopgap("SG-GQ-military-pay");
 }

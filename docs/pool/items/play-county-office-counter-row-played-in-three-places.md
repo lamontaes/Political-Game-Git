@@ -20,7 +20,7 @@ after:
 
 **What.** The seat said with its area at the filing counter ("the county clerk", the county's commissioner seat) was proved on a staged row in `src/director/filing-visit-seat-place.test.ts` (county clerk, governor, state Senate, U.S. Senate and U.S. House, labeled staged). Mayor and trustee were played in a drawn place (Woodstock VT); governor, state House and Senate, U.S. Senate and U.S. House were played at state counters (Apple Canyon Lake IL, Enville TN). A county office never came open in the three drawn places, so its row is still staged. Seen: the clerk's line when a player files for a county office.
 
-**Cause.** Design: a played row is the evidence for what a player reads, and a county office only opens at a counter when a drawn place has one in its filing window; the draw (up to 12 places, waiting up to 80 weeks) did not reach one in three places.
+**Cause.** Design: docs/design/words-machine.md (the words are graded on what a played scene says, not a staged one); a played row is the evidence for what a player reads, and a county office only opens at a counter when a drawn place has one in its filing window; the draw (up to 12 places, waiting up to 80 weeks) did not reach one in three places.
 
 **Fix.** Play the row when a drawn place opens one: draw places on a fresh seed, wait for a county office at a counter, play the pick and the ask through `chooseAtCounter`, name the place, the seed and every place passed over, quote the clerk's line, and make the staged row in the test cite that played line.
 
