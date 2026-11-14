@@ -2,6 +2,12 @@
   "about": "One row per law: each of the nine wiring links (exists, change, reach, systems, money, web, knowing, repeal, allPlaces) graded wired, partial, missing or stopgap, with evidence and why. Built by scripts/law-wiring/matrix.ts from scripts/law-wiring/check.ts runs.",
   "places": [
     {
+      "seed": "13e8ffb8b9784c14db0727bbee4bd77596a82a7b5d8671c962bf05a634f75c0a",
+      "key": "0209710",
+      "name": "Butte, Alaska",
+      "state": "US-AK"
+    },
+    {
       "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
       "key": "2666300",
       "name": "Prescott, Michigan",
@@ -12,12 +18,6 @@
       "key": "3149425",
       "name": "Uehling, Nebraska",
       "state": "US-NE"
-    },
-    {
-      "seed": "13e8ffb8b9784c14db0727bbee4bd77596a82a7b5d8671c962bf05a634f75c0a",
-      "key": "0209710",
-      "name": "Butte, Alaska",
-      "state": "US-AK"
     },
     {
       "seed": "9e0221bdb8059f0be3311d498bfc36db09b3e63bd50e680ca65d13fd5e959552",
@@ -128,6 +128,30 @@
       "state": "US-RI"
     },
     {
+      "seed": "b728aa92efd914f5932d1dd77cbc7aa8fc7ad6863f5e9826312849d2685e6a91",
+      "key": "2044375",
+      "name": "Manter, Kansas",
+      "state": "US-KS"
+    },
+    {
+      "seed": "d3d37e45b6341a5a7c548d2e5a3e6e27a3d5787351607c40268c634485a277cf",
+      "key": "3684187",
+      "name": "Zena, New York",
+      "state": "US-NY"
+    },
+    {
+      "seed": "3faf142c52fc752de7c3d8c51bcc990976433087809a74824b3ebeabfc90a878",
+      "key": "territory:GU:hagatna",
+      "name": "Hagåtña, Guam",
+      "state": "US-GU"
+    },
+    {
+      "seed": "6bc8f3f997ddef99ba315283733dbf39681edb13b7021a1f275331785da8fce6",
+      "key": "4213168",
+      "name": "Cherryville, Pennsylvania",
+      "state": "US-PA"
+    },
+    {
       "seed": "393f73ee1c08140503117d6af7eea026ada4377080860846258968a73c13b710",
       "key": "0834960",
       "name": "Haxtun, Colorado",
@@ -155,8 +179,8 @@
   "summary": {
     "laws": 187,
     "wired": 147,
-    "partly": 40,
-    "stopgapped": 0,
+    "partly": 38,
+    "stopgapped": 2,
     "researchLinks": {
       "links": 246,
       "reaching": 175,
@@ -195,31 +219,31 @@
         "n/a": 0
       },
       "reach": {
-        "wired": 99,
-        "partial": 5,
-        "missing": 19,
-        "stopgap": 4,
+        "wired": 101,
+        "partial": 4,
+        "missing": 22,
+        "stopgap": 0,
         "n/a": 60
       },
       "systems": {
         "wired": 116,
         "partial": 0,
-        "missing": 17,
-        "stopgap": 4,
+        "missing": 21,
+        "stopgap": 0,
         "n/a": 50
       },
       "money": {
         "wired": 95,
         "partial": 3,
-        "missing": 16,
-        "stopgap": 4,
+        "missing": 19,
+        "stopgap": 1,
         "n/a": 69
       },
       "web": {
-        "wired": 77,
+        "wired": 76,
         "partial": 0,
-        "missing": 31,
-        "stopgap": 4,
+        "missing": 35,
+        "stopgap": 1,
         "n/a": 75
       },
       "knowing": {
@@ -230,16 +254,16 @@
         "n/a": 50
       },
       "repeal": {
-        "wired": 105,
+        "wired": 106,
         "partial": 0,
-        "missing": 23,
+        "missing": 22,
         "stopgap": 0,
         "n/a": 59
       },
       "allPlaces": {
-        "wired": 106,
+        "wired": 107,
         "partial": 0,
-        "missing": 23,
+        "missing": 22,
         "stopgap": 0,
         "n/a": 58
       }
@@ -401,7 +425,7 @@
       "family": "infrastructure",
       "reachGroup": "B",
       "mechanic": "transit-fares",
-      "overall": "wired",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -429,9 +453,9 @@
           "why": ""
         },
         "web": {
-          "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247",
-          "why": ""
+          "status": "stopgap",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 fare-free-transit-to-ridership 0.4200 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 fare-free-transit-to-ridership 0.4200 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 fare-free-transit-to-ridership 0.4200 (ledger row only)",
+          "why": "no production reader: fare-free-transit-to-ridership (SG-WEB-fare-free-riders-unread) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
@@ -1187,7 +1211,7 @@
     },
     {
       "key": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
-      "name": "expand medicaid eligibility",
+      "name": "expand Medicaid eligibility",
       "kind": "question",
       "family": "healthcare",
       "reachGroup": "B",
@@ -1270,7 +1294,7 @@
     },
     {
       "key": "local-power:us-policy-positions:health-human-services.expand-medicaid-eligibility",
-      "name": "Local power: expand medicaid eligibility",
+      "name": "Local power: expand Medicaid eligibility",
       "kind": "amount",
       "family": "healthcare",
       "reachGroup": null,
@@ -1329,7 +1353,7 @@
     },
     {
       "key": "us-policy-positions:health-human-services.medicaid-work-requirement",
-      "name": "medicaid work requirement",
+      "name": "Medicaid work requirement",
       "kind": "question",
       "family": "healthcare",
       "reachGroup": "B",
@@ -1412,7 +1436,7 @@
     },
     {
       "key": "local-power:us-policy-positions:health-human-services.medicaid-work-requirement",
-      "name": "Local power: medicaid work requirement",
+      "name": "Local power: Medicaid work requirement",
       "kind": "amount",
       "family": "healthcare",
       "reachGroup": null,
@@ -1605,7 +1629,7 @@
     },
     {
       "key": "budget-line:healthAndHospitals",
-      "name": "Spending: healthAndHospitals",
+      "name": "Spending: health and hospitals",
       "kind": "budget-line",
       "family": "healthcare",
       "reachGroup": "B",
@@ -1753,12 +1777,12 @@
     },
     {
       "key": "us-federal-positions:health.medicare-drug-price-negotiation",
-      "name": "medicare drug price negotiation",
+      "name": "Medicare drug price negotiation",
       "kind": "question",
       "family": "healthcare",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -1771,9 +1795,9 @@
           "why": ""
         },
         "reach": {
-          "status": "partial",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 12 open (full 12, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_a7869489a70c1548",
-          "why": "full people only: no counted group is reached (one model, two tiers)"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 12 open (full 12, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_a7869489a70c1548; Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): 861 open (full 17, counted groups 844/844 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_f9b946554f847221; Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc): 1501 open (full 18, counted groups 1483/51757 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_af0d82958bb9e8bf",
+          "why": ""
         },
         "systems": {
           "status": "wired",
@@ -1782,7 +1806,7 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): of 12 the law paid or charged, the payments that changed first: 7 accounts.transfer paid in (src/core2/medical-bills.ts:621; e.g. person_042cb0cc49072846 on 2025-02-01: -26536 in the control world, -28323 here, journal:2025-02-01:6336); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/medical-bills.ts:621 1205061 -> 1218787 (journal:2025-02-01:6297)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): of 12 the law paid or charged, the payments that changed first: 7 accounts.transfer paid in (src/core2/medical-bills.ts:621; e.g. person_042cb0cc49072846 on 2025-02-01: -26536 in the control world, -28323 here, journal:2025-02-01:6336); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/medical-bills.ts:621 1205061 -> 1218787 (journal:2025-02-01:6297); Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): accounts.transfer @ src/core2/medical-bills.ts:620 881072 -> 894791 (journal:2025-02-01:4120); Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc): accounts.transfer @ src/core2/medical-bills.ts:620 1164174 -> 1174470 (journal:2025-02-01:7241)",
           "why": ""
         },
         "web": {
@@ -1792,17 +1816,17 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef); Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): 70 people heard (person_bf387883fab7c6d9:printed:outlet:newspaper:2:jurisdiction_e310a6aecc2b3e79:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): opening 12 -> after repeal 0 -> re-enacted 12",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): opening 12 -> after repeal 0 -> re-enacted 12; Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): opening 861 -> after repeal 0 -> re-enacted 860; Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc): opening 1501 -> after repeal 0 -> re-enacted 1550",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805); Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75); Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc)",
           "why": ""
         }
       },
@@ -1810,6 +1834,16 @@
       "runs": [
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2025-02-26",
+          "inForceAtOpening": true
+        },
+        {
+          "place": "Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75)",
+          "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2025-02-26",
+          "inForceAtOpening": true
+        },
+        {
+          "place": "Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc)",
           "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2025-02-26",
           "inForceAtOpening": true
         }
@@ -2202,7 +2236,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026); drawn place row law:US-MI:state:us-policy-positions:education.raise-teacher-minimum-salary:general:starting",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026); drawn place row law:US-DC:state:us-policy-positions:education.raise-teacher-minimum-salary:general:starting",
           "why": ""
         },
         "change": {
@@ -2212,7 +2246,7 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 1/1 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:education.raise-teacher-minimum-salary|organization:public-schools:jurisdiction_971998ff58477430:counted-teachers; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 2 open (full 1, counted groups 1/2 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:education.raise-teacher-minimum-salary|person_ec73f444cf6e19d8; Washington, District of Columbia, US-DC (seed d5005a7c6bd3a520): 3 open (full 2, counted groups 1/71 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:education.raise-teacher-minimum-salary|person_8c4efc7c59907476",
+          "evidence": "Washington, District of Columbia, US-DC (seed d5005a7c6bd3a520): 3 open (full 2, counted groups 1/71 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:education.raise-teacher-minimum-salary|person_8c4efc7c59907476; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 1/1 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:education.raise-teacher-minimum-salary|organization:public-schools:jurisdiction_971998ff58477430:counted-teachers; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 2 open (full 1, counted groups 1/2 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:education.raise-teacher-minimum-salary|person_ec73f444cf6e19d8",
           "why": ""
         },
         "systems": {
@@ -2227,22 +2261,22 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): teacher-minimum-salary-to-graduation lags 24 months, past the run's window; the web read law:us-policy-positions:education.raise-teacher-minimum-salary as 1 (control 0) in web:jurisdiction_971998ff58477430:2025-01 (2025-01); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): teacher-minimum-salary-to-graduation lags 24 months, past the run's window; the web read law:us-policy-positions:education.raise-teacher-minimum-salary as 1 (control 0) in web:jurisdiction_971998ff58477430:2025-02 (2025-02); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): teacher-minimum-salary-to-graduation lags 24 months, past the run's window; the web read law:us-policy-positions:education.raise-teacher-minimum-salary as 1 (control 0) in web:jurisdiction_971998ff58477430:2025-03 (2025-03)",
+          "evidence": "Washington, District of Columbia, US-DC (seed d5005a7c6bd3a520): teacher-minimum-salary-to-graduation lags 24 months, past the run's window; the web read law:us-policy-positions:education.raise-teacher-minimum-salary as 1 (control 0) in web:jurisdiction_7691c6e3ae48f824:2025-01 (2025-01); Washington, District of Columbia, US-DC (seed d5005a7c6bd3a520): teacher-minimum-salary-to-graduation lags 24 months, past the run's window; the web read law:us-policy-positions:education.raise-teacher-minimum-salary as 1 (control 0) in web:jurisdiction_7691c6e3ae48f824:2025-02 (2025-02); Washington, District of Columbia, US-DC (seed d5005a7c6bd3a520): teacher-minimum-salary-to-graduation lags 24 months, past the run's window; the web read law:us-policy-positions:education.raise-teacher-minimum-salary as 1 (control 0) in web:jurisdiction_7691c6e3ae48f824:2025-03 (2025-03)",
           "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 51 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 103 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97); Washington, District of Columbia, US-DC (seed d5005a7c6bd3a520): 85 people heard (person_00dc91d66c81c918:printed:outlet:newspaper:1:jurisdiction_7691c6e3ae48f824:law-took-effect:law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97)",
+          "evidence": "Washington, District of Columbia, US-DC (seed d5005a7c6bd3a520): 85 people heard (person_00dc91d66c81c918:printed:outlet:newspaper:1:jurisdiction_7691c6e3ae48f824:law-took-effect:law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 51 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 103 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open -> after repeal 0 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 2 open -> after repeal 0 open, 0 ended; Washington, District of Columbia, US-DC (seed d5005a7c6bd3a520): 3 open -> after repeal 0 open, 0 ended",
+          "evidence": "Washington, District of Columbia, US-DC (seed d5005a7c6bd3a520): 3 open -> after repeal 0 open, 0 ended; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open -> after repeal 0 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 2 open -> after repeal 0 open, 0 ended",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Washington, District of Columbia, US-DC (seed d5005a7c6bd3a520)",
+          "evidence": "Washington, District of Columbia, US-DC (seed d5005a7c6bd3a520); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
           "why": ""
         }
       },
@@ -2258,6 +2292,11 @@
       ],
       "runs": [
         {
+          "place": "Washington, District of Columbia, US-DC (seed d5005a7c6bd3a520)",
+          "change": "enacted at city (law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97) effective 2025-01-21; then repealed at city effective 2026-01-22",
+          "inForceAtOpening": false
+        },
+        {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
           "change": "enacted at city (law:place:2666300:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
           "inForceAtOpening": false
@@ -2265,11 +2304,6 @@
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
           "change": "enacted at city (law:place:3149425:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
-          "inForceAtOpening": false
-        },
-        {
-          "place": "Washington, District of Columbia, US-DC (seed d5005a7c6bd3a520)",
-          "change": "enacted at city (law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97) effective 2025-01-21; then repealed at city effective 2026-01-22",
           "inForceAtOpening": false
         }
       ],
@@ -2336,7 +2370,7 @@
     },
     {
       "key": "budget-line:higherEducation",
-      "name": "Spending: higherEducation",
+      "name": "Spending: higher education",
       "kind": "budget-line",
       "family": "education",
       "reachGroup": "B",
@@ -3113,7 +3147,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:starting",
+          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US-FL:state:us-policy-positions:fiscal.adopt-income-tax:general:starting",
           "why": ""
         },
         "change": {
@@ -3123,7 +3157,7 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 153 open (full 116, counted groups 37/24.68643541755948 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:fiscal.adopt-income-tax|group:jurisdiction_971998ff58477430:town:with-children:income-2:mortgage:45-64:working; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 135 open (full 102, counted groups 33/28.440992964290455 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:fiscal.adopt-income-tax|person_014873ba8397594d; Parkland, Florida, US-FL (seed 9279b712a947331b): 845 open (full 734, counted groups 111/306.1970003645059 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:fiscal.adopt-income-tax|person_0099c089d4d4e8ac",
+          "evidence": "Parkland, Florida, US-FL (seed 9279b712a947331b): 845 open (full 734, counted groups 111/306.1970003645059 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:fiscal.adopt-income-tax|person_0099c089d4d4e8ac; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 153 open (full 116, counted groups 37/24.68643541755948 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:fiscal.adopt-income-tax|group:jurisdiction_971998ff58477430:town:with-children:income-2:mortgage:45-64:working; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 135 open (full 102, counted groups 33/28.440992964290455 people, households 0, orgs 0, govts 0) e.g. applied|us-policy-positions:fiscal.adopt-income-tax|person_014873ba8397594d",
           "why": ""
         },
         "systems": {
@@ -3143,17 +3177,17 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 100 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 69 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9); Parkland, Florida, US-FL (seed 9279b712a947331b): 169 people heard (person_0d8022e14c6a91c2:printed:outlet:newspaper:2:jurisdiction_8e032bc67be0e008:law-took-effect:law:place:1255125:city:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9)",
+          "evidence": "Parkland, Florida, US-FL (seed 9279b712a947331b): 169 people heard (person_0d8022e14c6a91c2:printed:outlet:newspaper:2:jurisdiction_8e032bc67be0e008:law-took-effect:law:place:1255125:city:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 100 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 69 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 153 -> after repeal 0 -> re-enacted 138; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 135 -> after repeal 0 -> re-enacted 126; Parkland, Florida, US-FL (seed 9279b712a947331b): 845 open -> after repeal 0 open, 0 ended",
+          "evidence": "Parkland, Florida, US-FL (seed 9279b712a947331b): 845 open -> after repeal 0 open, 0 ended; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 153 -> after repeal 0 -> re-enacted 138; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 135 -> after repeal 0 -> re-enacted 126",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Parkland, Florida, US-FL (seed 9279b712a947331b)",
+          "evidence": "Parkland, Florida, US-FL (seed 9279b712a947331b); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
           "why": ""
         }
       },
@@ -3173,6 +3207,11 @@
       ],
       "runs": [
         {
+          "place": "Parkland, Florida, US-FL (seed 9279b712a947331b)",
+          "change": "enacted at city (law:place:1255125:city:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
+          "inForceAtOpening": false
+        },
+        {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
           "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
           "inForceAtOpening": true
@@ -3181,11 +3220,6 @@
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
           "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
           "inForceAtOpening": true
-        },
-        {
-          "place": "Parkland, Florida, US-FL (seed 9279b712a947331b)",
-          "change": "enacted at city (law:place:1255125:city:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
-          "inForceAtOpening": false
         }
       ],
       "errors": []
@@ -4310,7 +4344,7 @@
     },
     {
       "key": "budget-line:welfareAndMedicaid",
-      "name": "Spending: welfareAndMedicaid",
+      "name": "Spending: welfare and Medicaid",
       "kind": "budget-line",
       "family": "assistance",
       "reachGroup": "B",
@@ -4476,24 +4510,24 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+          "why": "not run"
         },
         "systems": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+          "why": "not run"
         },
         "money": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+          "why": "not run"
         },
         "web": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+          "why": "not run"
         },
         "knowing": {
           "status": "missing",
@@ -4535,24 +4569,24 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+          "why": "not run"
         },
         "systems": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+          "why": "not run"
         },
         "money": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+          "why": "not run"
         },
         "web": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+          "why": "not run"
         },
         "knowing": {
           "status": "missing",
@@ -5249,24 +5283,24 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+          "why": "not run"
         },
         "systems": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+          "why": "not run"
         },
         "money": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+          "why": "not run"
         },
         "web": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+          "why": "not run"
         },
         "knowing": {
           "status": "missing",
@@ -6280,24 +6314,24 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+          "why": "not run"
         },
         "systems": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+          "why": "not run"
         },
         "money": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+          "why": "not run"
         },
         "web": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+          "why": "not run"
         },
         "knowing": {
           "status": "missing",
@@ -7858,7 +7892,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026); drawn place row law:US-MI:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026); drawn place row law:US-NJ:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting",
           "why": ""
         },
         "change": {
@@ -7868,12 +7902,12 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c): 3 open (full 0, counted groups 0/0 people, households 0, orgs 3, govts 0) e.g. applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e175247754c32e; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): nobody to bind (county 26129 misses 0 air quality standards in 2026 (EPA Green Book)); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): nobody to bind (county 31053 misses 0 air quality standards in 2026 (EPA Green Book))",
+          "evidence": "Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c): 3 open (full 0, counted groups 0/0 people, households 0, orgs 3, govts 0) e.g. applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e175247754c32e; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): nobody to bind (county 26129 misses 0 air quality standards in 2026 (EPA Green Book)); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): nobody to bind (county 31053 misses 0 air quality standards in 2026 (EPA Green Book))",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/business.ts:955, src/core2/modules/business.ts:1340, src/core2/modules/business.ts:921",
+          "evidence": "src/core2/modules/business.ts:1340, src/core2/modules/business.ts:921, src/core2/modules/business.ts:955",
           "why": ""
         },
         "money": {
@@ -7888,7 +7922,7 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 87 people heard (person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 72 people heard (person_e02fea68a64aaf0b:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216); Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c): 144 people heard (person_0ea5c71948f2853c:printed:outlet:newspaper:0:jurisdiction_7303b6b2477005c1:law-took-effect:law:place:3439630:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216)",
+          "evidence": "Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c): 144 people heard (person_0ea5c71948f2853c:printed:outlet:newspaper:0:jurisdiction_7303b6b2477005c1:law-took-effect:law:place:3439630:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 87 people heard (person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 72 people heard (person_e02fea68a64aaf0b:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216)",
           "why": ""
         },
         "repeal": {
@@ -7898,7 +7932,7 @@
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c)",
+          "evidence": "Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
           "why": ""
         }
       },
@@ -7922,6 +7956,11 @@
       ],
       "runs": [
         {
+          "place": "Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c)",
+          "change": "enacted at city (law:place:3439630:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2026-02-26",
+          "inForceAtOpening": false
+        },
+        {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
           "change": "enacted at state (law:US-MI:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at state effective 2026-01-22",
           "inForceAtOpening": false
@@ -7929,11 +7968,6 @@
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
           "change": "enacted at state (law:US-NE:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at no level effective 2026-01-22",
-          "inForceAtOpening": false
-        },
-        {
-          "place": "Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c)",
-          "change": "enacted at city (law:place:3439630:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2026-02-26",
           "inForceAtOpening": false
         }
       ],
@@ -8000,7 +8034,7 @@
     },
     {
       "key": "budget-line:naturalResources",
-      "name": "Spending: naturalResources",
+      "name": "Spending: natural resources",
       "kind": "budget-line",
       "family": "energy-environment",
       "reachGroup": "B",
@@ -8896,7 +8930,7 @@
       "family": "justice",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -8909,45 +8943,55 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2025-02-26",
-          "why": "no law-reach row: nothing records who it applies to"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 4 open (full 0, counted groups 4/5161 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug; Manter, Kansas, US-KS (seed 695c51eb1a2094e3): 4 open (full 0, counted groups 4/5161 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug; Zena, New York, US-NY (seed 7927c0ac3a4701a3): 4 open (full 0, counted groups 4/5161 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/federal-courts.ts:164",
+          "evidence": "src/core2/modules/federal-courts.ts:165",
           "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it"
+          "status": "stopgap",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 4 applied rows, none with an amount owed, paid or held (e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug); Manter, Kansas, US-KS (seed 695c51eb1a2094e3): 4 applied rows, none with an amount owed, paid or held (e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug); Zena, New York, US-NY (seed 7927c0ac3a4701a3): 4 applied rows, none with an amount owed, paid or held (e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug)",
+          "why": "the law shortens federal sentences and lowers the federal prison stock, but no engine pays the Bureau of Prisons per person held, so the smaller stock saves the Treasury nothing (SG-JUSTICE-federal-prison-cost-flat)"
         },
         "web": {
           "status": "wired",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): mandatory-minimum-cut-to-federal-prisoners lags 12 months, past the run's window; the web read law:us-federal-positions:justice-rights.reduce-mandatory-minimums as 1 (control 0) in web:jurisdiction_ffa1a12974173cce:2025-01 (2025-01); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): mandatory-minimum-cut-to-federal-prisoners lags 12 months, past the run's window; the web read law:us-federal-positions:justice-rights.reduce-mandatory-minimums as 1 (control 0) in web:jurisdiction_ffa1a12974173cce:2025-02 (2025-02)",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): mandatory-minimum-cut-to-federal-prisoners lags 12 months, past the run's window; the web read law:us-federal-positions:justice-rights.reduce-mandatory-minimums as 1 (control 0) in web:jurisdiction_ffa1a12974173cce:2025-01 (2025-01); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): mandatory-minimum-cut-to-federal-prisoners lags 12 months, past the run's window; the web read law:us-federal-positions:justice-rights.reduce-mandatory-minimums as 1 (control 0) in web:jurisdiction_ffa1a12974173cce:2025-02 (2025-02); Manter, Kansas, US-KS (seed 695c51eb1a2094e3): mandatory-minimum-cut-to-federal-prisoners lags 12 months, past the run's window; the web read law:us-federal-positions:justice-rights.reduce-mandatory-minimums as 1 (control 0) in web:jurisdiction_44fab3be4f9d7e06:2025-01 (2025-01)",
           "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 108 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077)",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 118 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077); Manter, Kansas, US-KS (seed 695c51eb1a2094e3): 58 people heard (person_a1102e737c21b117:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 4 open -> after repeal 0 open, 0 ended; Manter, Kansas, US-KS (seed 695c51eb1a2094e3): 4 open -> after repeal 0 open, 0 ended; Zena, New York, US-NY (seed 7927c0ac3a4701a3): 4 open -> after repeal 0 open, 0 ended",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
-          "why": "reaches nobody anywhere"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6); Manter, Kansas, US-KS (seed 695c51eb1a2094e3); Zena, New York, US-NY (seed 7927c0ac3a4701a3)",
+          "why": ""
         }
       },
       "screens": [],
       "runs": [
         {
           "place": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Manter, Kansas, US-KS (seed 695c51eb1a2094e3)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Zena, New York, US-NY (seed 7927c0ac3a4701a3)",
           "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2025-02-26",
           "inForceAtOpening": false
         }
@@ -9048,7 +9092,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026); drawn place row law:US-MI:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026); drawn place row law:US-IN:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting",
           "why": ""
         },
         "change": {
@@ -9058,7 +9102,7 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 1/2 people, households 0, orgs 0, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting:restored:estimated:restored:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 1/1 people, households 0, orgs 0, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting:restored:estimated:restored:2025-01-20; Reddington, Indiana, US-IN (seed 7c6e6a3aa5e6453d): 1 open (full 0, counted groups 1/1 people, households 0, orgs 0, govts 0) e.g. reach:law:US-IN:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting:restored:estimated:restored:2025-01-20; Bear Creek, Alabama, US-AL (seed b958c6b5269b8a79): 1 open (full 0, counted groups 1/7 people, households 0, orgs 0, govts 0) e.g. reach:law:US-AL:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480:restored:estimated:restored:2025-01-21; Leipsic, Delaware, US-DE (seed 1042d088fb85644d): 1 open (full 0, counted groups 1/1 people, households 0, orgs 0, govts 0) e.g. reach:law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480:restored:estimated:restored:2025-01-21",
+          "evidence": "Reddington, Indiana, US-IN (seed 7c6e6a3aa5e6453d): 1 open (full 0, counted groups 1/1 people, households 0, orgs 0, govts 0) e.g. reach:law:US-IN:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting:restored:estimated:restored:2025-01-20; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 1/2 people, households 0, orgs 0, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting:restored:estimated:restored:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 1/1 people, households 0, orgs 0, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting:restored:estimated:restored:2025-01-20; Bear Creek, Alabama, US-AL (seed b958c6b5269b8a79): 1 open (full 0, counted groups 1/7 people, households 0, orgs 0, govts 0) e.g. reach:law:US-AL:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480:restored:estimated:restored:2025-01-21; Leipsic, Delaware, US-DE (seed 1042d088fb85644d): 1 open (full 0, counted groups 1/1 people, households 0, orgs 0, govts 0) e.g. reach:law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480:restored:estimated:restored:2025-01-21",
           "why": ""
         },
         "systems": {
@@ -9084,12 +9128,12 @@
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 1 -> after repeal 0 -> re-enacted 1; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 1 -> after repeal 0 -> re-enacted 1; Reddington, Indiana, US-IN (seed 7c6e6a3aa5e6453d): opening 1 -> after repeal 0 -> re-enacted 1; Bear Creek, Alabama, US-AL (seed b958c6b5269b8a79): 1 open -> after repeal 0 open, 1 ended; Leipsic, Delaware, US-DE (seed 1042d088fb85644d): 1 open -> after repeal 1 open, 1 ended (1 under a law the world passed itself, reach:law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-03-04:HB 22:restored:estimated:restored:2025-03-04)",
+          "evidence": "Reddington, Indiana, US-IN (seed 7c6e6a3aa5e6453d): opening 1 -> after repeal 0 -> re-enacted 1; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 1 -> after repeal 0 -> re-enacted 1; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 1 -> after repeal 0 -> re-enacted 1; Bear Creek, Alabama, US-AL (seed b958c6b5269b8a79): 1 open -> after repeal 0 open, 1 ended; Leipsic, Delaware, US-DE (seed 1042d088fb85644d): 1 open -> after repeal 1 open, 1 ended (1 under a law the world passed itself, reach:law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-03-04:HB 22:restored:estimated:restored:2025-03-04)",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Reddington, Indiana, US-IN (seed 7c6e6a3aa5e6453d); Bear Creek, Alabama, US-AL (seed b958c6b5269b8a79); Leipsic, Delaware, US-DE (seed 1042d088fb85644d)",
+          "evidence": "Reddington, Indiana, US-IN (seed 7c6e6a3aa5e6453d); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Bear Creek, Alabama, US-AL (seed b958c6b5269b8a79); Leipsic, Delaware, US-DE (seed 1042d088fb85644d)",
           "why": ""
         }
       },
@@ -9109,6 +9153,11 @@
       ],
       "runs": [
         {
+          "place": "Reddington, Indiana, US-IN (seed 7c6e6a3aa5e6453d)",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+          "inForceAtOpening": true
+        },
+        {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
           "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
           "inForceAtOpening": true
@@ -9116,11 +9165,6 @@
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
           "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
-          "inForceAtOpening": true
-        },
-        {
-          "place": "Reddington, Indiana, US-IN (seed 7c6e6a3aa5e6453d)",
-          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
           "inForceAtOpening": true
         },
         {
@@ -10878,7 +10922,7 @@
     },
     {
       "key": "state-contribution-limit-state-senate",
-      "name": "State campaign contribution limit: stateSenate",
+      "name": "State campaign contribution limit: state senate",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10944,7 +10988,7 @@
     },
     {
       "key": "state-contribution-limit-state-house",
-      "name": "State campaign contribution limit: stateHouse",
+      "name": "State campaign contribution limit: state house",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -12930,7 +12974,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026); drawn place row law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026); drawn place row law:US-OR:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting",
           "why": ""
         },
         "change": {
@@ -12940,7 +12984,7 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_4b47f062ac052d9a; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Troutdale, Oregon, US-OR (seed dcb716723dd3881c): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_2c4415fc453bce44; Folsom, California, US-CA (seed abe7b705b34367d4): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_bf09387fd17a76f5; Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_a76a9e2525a93e12; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): nobody to bind (0 open farms in the town)",
+          "evidence": "Troutdale, Oregon, US-OR (seed dcb716723dd3881c): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_2c4415fc453bce44; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_4b47f062ac052d9a; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Folsom, California, US-CA (seed abe7b705b34367d4): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_bf09387fd17a76f5; Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_a76a9e2525a93e12; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): nobody to bind (0 open farms in the town)",
           "why": ""
         },
         "systems": {
@@ -12950,7 +12994,7 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (journal:2025-04-22:23519); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (control world 50000) (journal:2025-02-13:8216); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 100000 (journal:2025-02-05:10362); Folsom, California, US-CA (seed abe7b705b34367d4): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (control world 50000) (journal:2025-02-16:16224); Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 100000 (control world 100000) (journal:2025-02-08:8884); Folsom, California, US-CA (seed abe7b705b34367d4): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/modules/residents.ts:1297; e.g. organization_bf09387fd17a76f5 on 2025-02-04: 4128919 in the control world, 2846890 here, journal:2025-02-04:13171); Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/modules/residents.ts:1297; e.g. organization_a76a9e2525a93e12 on 2025-02-04: 984691 in the control world, 678944 here, journal:2025-02-04:8451); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): accounts.transfer @ src/core2/modules/business.ts:1888 187955772 -> 187962120 (journal:2025-04-01:31253)",
+          "evidence": "Troutdale, Oregon, US-OR (seed dcb716723dd3881c): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 100000 (journal:2025-02-05:10362); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (journal:2025-04-22:23519); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (control world 50000) (journal:2025-02-13:8216); Folsom, California, US-CA (seed abe7b705b34367d4): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (control world 50000) (journal:2025-02-16:16224); Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 100000 (control world 100000) (journal:2025-02-08:8884); Folsom, California, US-CA (seed abe7b705b34367d4): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/modules/residents.ts:1297; e.g. organization_bf09387fd17a76f5 on 2025-02-04: 4128919 in the control world, 2846890 here, journal:2025-02-04:13171); Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/modules/residents.ts:1297; e.g. organization_a76a9e2525a93e12 on 2025-02-04: 984691 in the control world, 678944 here, journal:2025-02-04:8451); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): accounts.transfer @ src/core2/modules/business.ts:1888 187955772 -> 187962120 (journal:2025-04-01:31253)",
           "why": ""
         },
         "web": {
@@ -12960,17 +13004,17 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 112 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 72 people heard (person_e02fea68a64aaf0b:printed:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): 192 people heard (person_007e1131ed2acda5:printed:outlet:cable:0:national:law-took-effect:law:US-OR:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Folsom, California, US-CA (seed abe7b705b34367d4): 188 people heard (person_008e559d464bf21a:printed:outlet:newspaper:3:jurisdiction_22c59279f92041a0:law-took-effect:law:place:0624638:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): 72 people heard (person_06e86a9470e1f4f5:printed:outlet:newspaper:0:jurisdiction_60a77d4dc27dd2ef:law-took-effect:law:place:4460260:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f)",
+          "evidence": "Troutdale, Oregon, US-OR (seed dcb716723dd3881c): 192 people heard (person_007e1131ed2acda5:printed:outlet:cable:0:national:law-took-effect:law:US-OR:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 112 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 72 people heard (person_e02fea68a64aaf0b:printed:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Folsom, California, US-CA (seed abe7b705b34367d4): 188 people heard (person_008e559d464bf21a:printed:outlet:newspaper:3:jurisdiction_22c59279f92041a0:law-took-effect:law:place:0624638:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): 72 people heard (person_06e86a9470e1f4f5:printed:outlet:newspaper:0:jurisdiction_60a77d4dc27dd2ef:law-took-effect:law:place:4460260:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 1 -> after repeal 0 -> re-enacted 1; Troutdale, Oregon, US-OR (seed dcb716723dd3881c): opening 1 -> after repeal 0 -> re-enacted 1; Folsom, California, US-CA (seed abe7b705b34367d4): 1 open -> after repeal 0 open, 0 ended; Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): 1 open -> after repeal 0 open, 0 ended",
+          "evidence": "Troutdale, Oregon, US-OR (seed dcb716723dd3881c): opening 1 -> after repeal 0 -> re-enacted 1; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 1 -> after repeal 0 -> re-enacted 1; Folsom, California, US-CA (seed abe7b705b34367d4): 1 open -> after repeal 0 open, 0 ended; Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): 1 open -> after repeal 0 open, 0 ended",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Troutdale, Oregon, US-OR (seed dcb716723dd3881c); Folsom, California, US-CA (seed abe7b705b34367d4); Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997)",
+          "evidence": "Troutdale, Oregon, US-OR (seed dcb716723dd3881c); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Folsom, California, US-CA (seed abe7b705b34367d4); Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997)",
           "why": ""
         }
       },
@@ -12990,6 +13034,11 @@
       ],
       "runs": [
         {
+          "place": "Troutdale, Oregon, US-OR (seed dcb716723dd3881c)",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+          "inForceAtOpening": true
+        },
+        {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
           "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
           "inForceAtOpening": true
@@ -12998,11 +13047,6 @@
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
           "change": "enacted at city (law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
           "inForceAtOpening": false
-        },
-        {
-          "place": "Troutdale, Oregon, US-OR (seed dcb716723dd3881c)",
-          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
-          "inForceAtOpening": true
         },
         {
           "place": "Folsom, California, US-CA (seed abe7b705b34367d4)",

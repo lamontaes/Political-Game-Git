@@ -147,11 +147,6 @@ export function talkControls({ silent, leave }) {
   $("talk").classList.toggle("no-leave", !leave);
 }
 
-/** A line added under the box's lines (a record's status label). */
-export function addTalkLine(line) {
-  $("talk-lines").append(line);
-}
-
 /** The number keys say the reply of that number while the box is showing and no screen is open. */
 export function mountTalkKeys(blocked) {
   document.addEventListener("keydown", (event) => {

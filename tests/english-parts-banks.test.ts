@@ -312,6 +312,8 @@ const EVENING_AHEAD = new Set([
   "scene-talk.close-press.think-about-it-tonight-we-re-out-of-time",
   "scene-talk.follow-comfort.take-it-easy-tonight",
   "scene-talk.follow-thank.then-we-start-tonight-bring-me-your-contact-list",
+  // The bill's vote that evening, from its floor date (rule 22).
+  "scene-talk.follow-answer.short-well-know-tonight-when-bill-comes-up",
 ]);
 describe("the time of day in scene talk", () => {
   const sceneTalk = banks.find((row) => row.name === "scene-talk.json")!.bank;

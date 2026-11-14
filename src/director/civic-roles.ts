@@ -60,7 +60,11 @@ import {
 import { retellingsOf } from "../core2/modules/speech";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
-import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
+import {
+  VOTING_MODULE_ID,
+  beatenRunnerUp,
+  pollingPlaceOf,
+} from "../core2/modules/voting";
 import { P } from "../core2/parameters";
 import { colleagues, outgoingHolder, swornOffice } from "./swearing-in";
 import { markWordsStopgap } from "./stopgaps";
@@ -258,25 +262,16 @@ export function civicFill(
       );
     }
     case "opponent": {
-      // The candidate who finished behind the moment's subject in the count
-      // the cause settled: the runner-up on the result record's totals, living
-      // and not the subject. Where the subject did not win, or nobody else
-      // stood, the role stays unfilled and the scene does not fire.
+      // The candidate who finished first behind the moment's subject among
+      // those who missed the cut in the count the cause settled (in an
+      // at-large race the other winners were seated too, so none of them
+      // calls): living and not the subject. Where the subject did not win,
+      // or nobody missed the cut, the role stays unfilled and the scene does
+      // not fire.
       const facts = core.durableLog.get(moment.causeId)?.facts;
       if (!facts?.totals || facts.winnerId !== moment.personId) return [];
-      const totals = JSON.parse(String(facts.totals)) as Record<string, number>;
-      return free(
-        living(
-          core,
-          Object.entries(totals)
-            .filter(([id]) => id !== moment.personId)
-            .sort(
-              ([idA, votesA], [idB, votesB]) =>
-                votesB - votesA || idA.localeCompare(idB),
-            )
-            .map(([id]) => id),
-        ),
-      ).slice(zero, one);
+      const beaten = beatenRunnerUp(facts, moment.personId);
+      return free(living(core, beaten ? [beaten.id] : [])).slice(zero, one);
     }
     case "volunteers": {
       // The volunteers of a campaign the candidate is running now, from the

@@ -16,6 +16,7 @@ import {
   LEGISLATURE_MODULE_ID,
   billOf,
   favorWorth,
+  floorDateOf,
   memberPosition,
   votesOn,
 } from "../core2/modules/legislature";
@@ -26,6 +27,7 @@ import {
 } from "../core2/modules/meetings";
 import { viewOn } from "../core2/modules/views";
 import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
+import { dayAhead, inNextMonth } from "../english/day-words";
 import { P } from "../core2/parameters";
 import { dayParts, sceneMinute } from "./day-part";
 import {
@@ -71,6 +73,7 @@ import {
   type SituationType,
 } from "./scheduling";
 import type { Moment } from "./types";
+import { beatenRunnerUp } from "../core2/modules/voting";
 import {
   composeSceneTalk,
   lastAnswerAlong,
@@ -123,9 +126,10 @@ import { closenessBetween } from "../core2/closeness";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
+import { counterFilingReplyId } from "./filing-visit";
 import {
   numberWord,
-  properName,
+  organizationName,
   spoken,
   spokenDate,
   stateInSentence,
@@ -381,6 +385,29 @@ function composeBinding(
       sourceRecordIds: [billId ?? moment.causeId, moment.causeId],
     };
   }
+  // When the bill comes to a vote, from its own record, so a promise of
+  // time fits the calendar: on the day of the vote it is "tonight"; before
+  // it, a count is promised for the day before the vote, never a day after
+  // it (Fable A, Nov 13, rule 22; P3: "I'll have a real count by Friday" on
+  // the morning of the vote).
+  const floor =
+    billId && named ? floorDateOf(coreAPI(core as CoreState), billId) : null;
+  if (floor && daysBetweenText(core.date, floor) === P.zero)
+    facts["vote-tonight"] = { text: "yes", sourceRecordIds: [billId!] };
+  else if (floor) {
+    const countBy = dayAhead(addDays(makeIsoDate(floor), -P.one), core.date);
+    if (countBy)
+      facts["count-by"] = { text: countBy, sourceRecordIds: [billId!] };
+    // "Next month" is said only when the vote falls in the month after the
+    // scene's; any other day is said from the record (Fable A, rule 22).
+    if (inNextMonth(floor, core.date))
+      facts["vote-next-month"] = { text: "yes", sourceRecordIds: [billId!] };
+    else {
+      const voteOn = dayAhead(floor, core.date);
+      if (voteOn)
+        facts["vote-on"] = { text: voteOn, sourceRecordIds: [billId!] };
+    }
+  }
   // A law in force (a story that it took effect): its policy by name, for
   // the lines that say what took effect.
   if (said.lawId && said.series) {
@@ -458,7 +485,7 @@ function composeBinding(
     const org = core.organizations.get(said.organizationId);
     const ids = [moment.causeId, said.organizationId];
     if (org)
-      facts.employer = { text: properName(org.name), sourceRecordIds: ids };
+      facts.employer = { text: organizationName(org), sourceRecordIds: ids };
     if (said.title)
       facts.position = { text: withArticle(said.title), sourceRecordIds: ids };
     if (Number(said.hourlyMinor) > P.zero)
@@ -584,7 +611,7 @@ function composeBinding(
     const printer = story ? core.organizations.get(story.outletId) : undefined;
     if (printer)
       facts.outlet = {
-        text: properName(printer.name),
+        text: organizationName(printer),
         sourceRecordIds: [...cited, printer.id],
       };
   }
@@ -829,7 +856,7 @@ function composeBinding(
     const cited = [moment.causeId, said.storyId ?? moment.causeId];
     if (outlet) {
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [...cited, outlet.id],
       };
       facts["press-story"] = facts.outlet;
@@ -909,7 +936,7 @@ function composeBinding(
       : undefined;
     if (outlet)
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [employer!.id, outlet.id],
       };
   }
@@ -919,7 +946,7 @@ function composeBinding(
     const outlet = core.organizations.get(said.outletId);
     if (outlet)
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [moment.causeId, outlet.id],
       };
   }
@@ -1120,20 +1147,13 @@ function composeBinding(
       text: `${winner.givenName} ${winner.familyName}`,
       sourceRecordIds: [moment.causeId, winner.id],
     };
-  // In a race the asked won, the opponent is the runner-up on the count.
+  // In a race the asked won, the opponent is the one they beat: first among
+  // those who missed the cut (in an at-large race the other winners were
+  // seated too).
   if (winner?.id === askedId && !facts.opponent && said.totals) {
-    let totals: Record<string, number> = {};
-    try {
-      totals = JSON.parse(said.totals) as Record<string, number>;
-    } catch {
-      totals = {};
-    }
-    const runnerUp = Object.entries(totals)
-      .filter(([id]) => id !== askedId && core.people.has(id as PersonId))
-      .sort(
-        ([aId, aVotes], [bId, bVotes]) =>
-          bVotes - aVotes || aId.localeCompare(bId),
-      )[P.zero]?.[P.zero];
+    const beaten = beatenRunnerUp(said, askedId);
+    const runnerUp =
+      beaten && core.people.has(beaten.id as PersonId) ? beaten.id : undefined;
     const other = runnerUp ? core.people.get(runnerUp as PersonId) : undefined;
     if (other)
       facts.opponent = {
@@ -1161,11 +1181,13 @@ function composeBinding(
   if (record?.kind === "election-result" && said.contestId)
     Object.assign(facts, raceTurnoutFacts(core, said.contestId));
   // The winner's side of a count: how far ahead they finished, from the
-  // result record's totals (votes, exact: a count is an integer).
+  // result record's totals (votes, exact: a count is an integer): over the
+  // first who missed the cut, so in an at-large race the margin of the cut.
   if (said.totals && said.winnerId === askedId) {
-    const counts = Object.values(
-      JSON.parse(said.totals) as Record<string, number>,
-    ).sort((a, b) => b - a);
+    const own =
+      (JSON.parse(said.totals) as Record<string, number>)[askedId] ?? P.zero;
+    const beaten = beatenRunnerUp(said, askedId);
+    const counts = beaten ? [own, beaten.votes] : [own];
     const ahead = (counts[P.zero] ?? P.zero) - (counts[P.one] ?? P.zero);
     // The count; the bank's lines say "votes", or "one vote" for one.
     if (counts.length > P.one && ahead > P.zero) {
@@ -1681,6 +1703,17 @@ function petitionFacts(
   const walk = {
     ...walkThroughFacts(core, petition),
     ...voteDay(core, petition),
+    // A filing made at the counter was taken there, in the clerk's scene:
+    // the record of the reply that filed is read so the clerk does not take
+    // the papers a second time (the narration of stamping them is left out).
+    ...(core.durableLog.has(counterFilingReplyId(petition.filingId))
+      ? {
+          "filed-at-counter": {
+            text: "yes",
+            sourceRecordIds: [counterFilingReplyId(petition.filingId)],
+          },
+        }
+      : {}),
   };
   if (petition.needed <= P.zero) return { "no-petition": fact("yes"), ...walk };
   const due = fact(spokenDate(petition.due, core.date));

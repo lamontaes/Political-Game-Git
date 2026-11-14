@@ -1,4 +1,5 @@
 /** Small word rules shared by the journal, conversations and scenes. */
+import { governmentProperName } from "../core2/government-proper-name";
 import { P } from "../core2/parameters";
 import SPOKEN_WHEN from "./data/spoken-when.json" with { type: "json" };
 
@@ -116,3 +117,20 @@ const NUMBER_WORDS = [
 /** A count as people say it in a sentence: "nine" up to ten, the figure above. */
 export const numberWord = (count: number): string =>
   NUMBER_WORDS[count] ?? String(count);
+
+/**
+ * An organization's name as people say it: a government's by its place
+ * record's proper name ("McDowell County", "Town of Smithtown treasury"),
+ * since the recorded name keeps the listing's capitals as its identity;
+ * anyone else's by `properName`.
+ */
+export function organizationName(org: {
+  readonly name: string;
+  readonly governmentFacts?: Readonly<Record<string, unknown>>;
+}): string {
+  const key = org.governmentFacts?.governmentKey;
+  if (typeof key !== "string") return properName(org.name);
+  const treasury = /\s+treasury$/i.exec(org.name);
+  const government = treasury ? org.name.slice(P.zero, treasury.index) : org.name;
+  return `${governmentProperName(government, key)}${treasury ? " treasury" : ""}`;
+}

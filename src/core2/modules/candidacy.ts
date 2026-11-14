@@ -56,6 +56,7 @@ import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingRulesFor,
+  filledByTickets,
   checkEligibility,
   filingWindowOpens as electionsFilingWindowOpens,
   officeFamily,
@@ -757,9 +758,12 @@ function queuesFor(api: CoreAPI): Queues | null {
   const held = queues.get(api.state);
   if (held && held.size === contests.size) return held;
   const weighed = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
-  const rows = (contests.rows() as unknown as ContestRow[]).filter(
-    (row) => row.filingDeadline >= api.state.date,
+  // A running mate's office is filled by the governor candidates' tickets:
+  // nobody weighs running for it on their own (`filledByTickets`).
+  const own = (contests.rows() as unknown as ContestRow[]).filter(
+    (row) => !filledByTickets(api, row),
   );
+  const rows = own.filter((row) => row.filingDeadline >= api.state.date);
   const built: Queues = {
     size: contests.size,
     localRank: Math.max(
@@ -782,7 +786,7 @@ function queuesFor(api: CoreAPI): Queues | null {
     // (a tie's second election reuses its field).
     opening: held
       ? []
-      : (contests.rows() as unknown as ContestRow[])
+      : own
           .filter(
             (row) =>
               row.filingDeadline < api.state.date &&
@@ -954,6 +958,19 @@ export function weighContest(
     if (term?.status === "serving" && term.personId)
       committed.add(term.personId);
   }
+  // A member serving another seat of the same body past this election (a
+  // staggered board's seats take turns) keeps that seat: they don't run
+  // for a second seat they could not hold with it.
+  for (const term of terms.query("byOfficeStatus", [
+    contest.officeId,
+    "serving",
+  ]) as unknown as TermRow[])
+    if (
+      term.personId &&
+      term.seatId !== contest.seatId &&
+      (!term.endDate || term.endDate > contest.electionDate)
+    )
+      committed.add(term.personId);
   // An at-large race is one race: those already running for its other seats
   // are in the field each would-be candidate weighs (the same field term).
   const weighedTable = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
@@ -1051,6 +1068,49 @@ export function weighContest(
       } as unknown as { id: string });
       asked.push(voter.id);
       running.push(voter.id);
+    }
+    // Filing opens: a counted adult who decided to run but whose pull no
+    // longer clears the bar today (the field grew) is not drawn, so they
+    // decide again by the same rule as the first time, on today's date, as a
+    // full person does. Still over the bar, they run and file; under it, the
+    // decision reads run false with its reasons.
+    if (reconsider) {
+      const drawnIds = new Set(screen.drawn.map((voter) => voter.id));
+      const stranded = new Set(
+        candidatesFor(api, field.contestId)
+          .map((decision) => decision.personId)
+          .filter(
+            (id) =>
+              !drawnIds.has(id) &&
+              !asked.includes(id) &&
+              !committed.has(id) &&
+              !api.state.people.has(id),
+          ),
+      );
+      const voters = stranded.size
+        ? countedResidents(api.state as CoreState).filter(
+            (voter) =>
+              stranded.has(voter.id) &&
+              (contest.family === "countyOffice"
+                ? [town.townPlaceId, countyPlaceOfWorld(api.state)]
+                : [town.townPlaceId]
+              ).includes(voter.placeId),
+          )
+        : [];
+      for (const voter of voters.sort((a, b) => a.id.localeCompare(b.id))) {
+        const id = `${field.contestId}:${voter.id}`;
+        const held = decisions.get(id) as unknown as CandidacyDecision;
+        const seat = { ...field, runners: running.length + raceRunners };
+        const reasons = countedCandidacyReasons(api, voter, seat);
+        let pull = api.parameter("zero");
+        for (const value of Object.values(reasons)) pull += value;
+        const run = pull > bar;
+        decisions.put({ ...held, date, run, reasons } as unknown as {
+          id: string;
+        });
+        asked.push(voter.id);
+        if (run) running.push(voter.id);
+      }
     }
   }
   const people = [...api.state.people.values()]

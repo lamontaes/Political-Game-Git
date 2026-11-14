@@ -2037,6 +2037,15 @@ body:not(.dev) .dev-only {
   gap: 10px;
   font: var(--t-ui)/1.35 var(--ui);
 }
+.calendar-entry .attend-plan {
+  display: block;
+  margin: 4px 0 0;
+  color: var(--muted, var(--text));
+}
+.calendar-entry .attend-meeting {
+  display: block;
+  margin: 6px 0 0;
+}
 .calendar-empty {
   margin: 0;
   color: var(--muted, var(--text));
@@ -2383,6 +2392,10 @@ body:not(.dev) .dev-only {
 #meeting > .heading {
   margin: 0 0 12px;
   font-size: var(--t-h2);
+}
+/* A line above the agenda (a refusal, or a resident's one line). */
+#meeting-items > .meeting-note {
+  margin: 0 0 12px;
 }
 .meeting-item + .meeting-item {
   margin-top: 16px;
@@ -5075,6 +5088,16 @@ select.release-pick {
     Georgia,
     serif;
   color: var(--cream);
+}
+
+/* The campaign board: the trail column holds one button, so it takes that
+   button's width and the money column keeps room for its figures; a figure
+   such as "39 of 1, due October 24, 2025" stays on one line. */
+.strip-board.campaign-board .board-cols {
+  grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.6fr) auto;
+}
+.strip-board.campaign-board .dotvalue {
+  white-space: nowrap;
 }
 
 /* Money (Nov 8 play mock, pl-money): the cash in large type over typed rows. */

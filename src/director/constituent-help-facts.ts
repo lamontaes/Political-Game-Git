@@ -19,7 +19,7 @@ import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { dollars } from "../english/bill-sections";
 import { spanSaid } from "../english/span-words";
 import type { Fact } from "../english/scene-talk-words";
-import { properName, spokenDate } from "./words";
+import { organizationName, spokenDate } from "./words";
 import type { VariantChoice } from "./arc-variant";
 
 /** The job a person lost most recently before a day: the jobs module's newest layoff row. */
@@ -64,7 +64,7 @@ export function constituentFacts(
     const org = loss ? core.organizations.get(loss.organizationId) : undefined;
     if (loss && org) {
       facts.employer = {
-        text: properName(org.name),
+        text: organizationName(org),
         sourceRecordIds: [loss.id, org.id],
       };
       facts.since = {
