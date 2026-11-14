@@ -25,6 +25,7 @@ import {
   chargedServicesOf,
   governmentOfJurisdiction,
 } from "./modules/budgets";
+import { localInstitutionsFor } from "./reference/local-institutions";
 import {
   FEE_LEVEL_RUNS,
   FEE_LEVEL_SERVICES,
@@ -104,7 +105,17 @@ export function billCatalog(
       if (!charged.has(service)) return false;
       const runs = FEE_LEVEL_RUNS[service];
       if (runs === null || runs === undefined) return runs === null;
-      return runs.some((line) => (spending?.[line] ?? 0) > 0);
+      if (!runs.some((line) => (spending?.[line] ?? 0) > 0)) return false;
+      // A town or county is offered hospital charges only where a hospital stands in its place
+      // (who owns it is not recorded yet: pool item gov-fee-facility-record-for-tolls-and-parking).
+      return !(
+        service === "hospitals" &&
+        government &&
+        government.level !== "state" &&
+        !localInstitutionsFor(government.jurisdictionId).hospitals.some(
+          (row) => row.kind === "hospital",
+        )
+      );
     },
   };
   return subjects.map((subject) => ({

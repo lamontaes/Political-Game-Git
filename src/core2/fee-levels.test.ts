@@ -21,6 +21,7 @@ import {
   FEE_LEVEL_SERVICES,
   isFeeLevelSeries,
 } from "./fee-levels";
+import { localInstitutionsFor } from "./reference/local-institutions";
 import { FEE_LEVEL_RUNS } from "./fee-levels";
 import { billCatalog } from "./bill-catalog";
 import { gameStartDate } from "./game-start";
@@ -161,8 +162,15 @@ it("a government is offered a fee line only for a service its charges row holds 
     // Runs the thing: its budget spends on it (sewer and trash by its own billing; no toll or parking record exists yet).
     const runs = (service: string) => {
       const lines = FEE_LEVEL_RUNS[service];
-      return (
-        lines === null || (lines ?? []).some((l) => (spending?.[l] ?? 0) > 0)
+      if (lines === null) return true;
+      if (!(lines ?? []).some((l) => (spending?.[l] ?? 0) > 0)) return false;
+      // A town or county is offered hospital charges only where a hospital stands in its place.
+      return !(
+        service === "hospitals" &&
+        gov.level !== "state" &&
+        !localInstitutionsFor(gov.jurisdictionId).hospitals.some(
+          (row) => row.kind === "hospital",
+        )
       );
     };
     const offered = billCatalog(
