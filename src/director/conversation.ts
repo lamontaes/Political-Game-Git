@@ -3957,6 +3957,19 @@ function youIn(
   return said ? {} : { you };
 }
 
+/** What the other person said since the player last spoke. */
+function toldSince(
+  lines: readonly ConversationLine[],
+  playerId: PersonId,
+): ConversationLine[] {
+  const run: ConversationLine[] = [];
+  for (let at = lines.length - one; at >= zero; at -= one) {
+    if (lines[at]!.speakerId === playerId) break;
+    run.unshift(lines[at]!);
+  }
+  return run;
+}
+
 /** The facts the player's own answers can add, from the player's records. */
 function playerFacts(
   core: Readonly<CoreState>,
@@ -3965,6 +3978,8 @@ function playerFacts(
   otherId?: PersonId,
   /** The other person's line the answer follows. */
   before?: ConversationLine,
+  /** What the other person said since the player last spoke. */
+  told: readonly ConversationLine[] = [],
 ): { facts: Facts; stage?: string } {
   const player = core.people.get(playerId)!;
   const facts: Facts = {};
@@ -4094,6 +4109,17 @@ function playerFacts(
       facts["before-feeling"] = {
         text: "yes",
         sourceRecordIds: before.sourceRecordIds,
+      };
+    // Where they got it, when they said so: "I read it in ... too" answers
+    // only a teller who named that outlet (Words lead, Nov 14).
+    const outlet = last.facts.outlet;
+    const named = outlet
+      ? told.find((line) => line.text.includes(outlet.text))
+      : undefined;
+    if (named)
+      facts["outlet-said"] = {
+        text: "yes",
+        sourceRecordIds: named.sourceRecordIds,
       };
   }
   if (last.kind === "school") stage = schoolStage(core, player);
@@ -6230,6 +6256,7 @@ function offerChoices(
     last,
     otherId,
     conversation.lines.at(-one),
+    toldSince(conversation.lines, playerId),
   );
   const other = core.people.get(otherId);
   const facts: Facts = {

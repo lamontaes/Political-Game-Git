@@ -22733,7 +22733,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": ["heard"]
+          "stages": ["heard"],
+          "requiresFacts": ["broadcast"]
         }
       ],
       "origin": "authored",
@@ -22770,7 +22771,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": ["heard"]
+          "stages": ["heard"],
+          "requiresFacts": ["broadcast"]
         }
       ],
       "origin": "authored",
@@ -22789,7 +22791,7 @@
           "role": "answer",
           "choice": "yes",
           "stages": ["heard"],
-          "requiresFacts": ["paper"]
+          "requiresFacts": ["outlet-said", "paper"]
         }
       ],
       "origin": "authored",
@@ -22843,7 +22845,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": ["not-heard"]
+          "stages": ["not-heard"],
+          "requiresFacts": ["broadcast"]
         }
       ],
       "origin": "authored",

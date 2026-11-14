@@ -390,6 +390,7 @@ function electionLines(
   const winnerName = nameOf(core, winnerId);
   if (!winnerName) return null;
   const winner = { text: winnerName, sourceRecordIds: [result.id, winnerId] };
+  const lastName = core.people.get(winnerId)?.familyName ?? winnerName;
   const seat = seatFact(
     core,
     String(result.facts?.contestId ?? ""),
@@ -421,8 +422,9 @@ function electionLines(
         { part: "lean", side: lean.side },
         {
           subject: paper,
-          // Told as one line with who won, the feeling does not name them again.
-          ...(known ? {} : { winner }),
+          // Told as one line after who won, the feeling names them by
+          // their last name ("I voted for Hill, so I'm not complaining.").
+          winner: known ? { ...winner, text: lastName } : winner,
           lean: {
             text: lean.side,
             sourceRecordIds: [result.id, speakerId],
