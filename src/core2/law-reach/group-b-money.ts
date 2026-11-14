@@ -2009,14 +2009,15 @@ export function incomeTaxAct(
         );
       } else {
         // stopgapId: SG-GOV-REACH-B-flat-tax-replacement — the catalog's binary
-        // question carries no enacted replacement rate or deduction rules.
+        // question carries no rate the sponsor writes; the place's own old top
+        // rate times the median share real conversions chose stands in for it.
         api.stopgap("SG-GOV-REACH-B-flat-tax-replacement");
         replacement = enact(
-          reachParameter(
-            scope === "state"
-              ? "stateFlatIncomeTaxPercent"
-              : "localFlatIncomeTaxPercent",
-          ),
+          Math.round(
+            current!.value! *
+              reachParameter("graduatedRepealFlatShareOfTopRate") *
+              1000,
+          ) / 1000,
           "percent-flat",
           undefined,
           "flatten",

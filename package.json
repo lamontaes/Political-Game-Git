@@ -14,6 +14,7 @@
     "words:composed": "node --max-old-space-size=4096 --import tsx scripts/words/composed.ts",
     "words:grade": "node --import tsx scripts/words/after-grading.ts",
     "words:pairs": "node --import tsx scripts/words/reply-pairs.ts",
+    "words:review": "node --import tsx scripts/words/review.ts",
     "words:rules": "node --import tsx scripts/words/run-rules.ts",
     "words:verdicts": "node --import tsx scripts/words/fold-verdicts.ts",
     "wording:check": "node --import tsx scripts/english-check/wording.ts",
@@ -69,6 +70,7 @@
     "report:check": "node scripts/report-check/cli.mjs",
     "validate:ci-sharded": "npm run format && npm run lint && npm run typecheck && npm run release:check && npm run zero-dice && npm run build",
     "secrets:scan": "node scripts/secrets/scan-tracked-secrets.mjs",
+    "tests:load": "node --import tsx scripts/tests-load/check.ts",
     "bench": "node scripts/storage/cli.mjs run test -- node --max-old-space-size=8192 --import tsx src/bench/server.ts",
     "check:data-shipping": "node scripts/world/check-data-shipping.mjs"
   },

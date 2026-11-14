@@ -13,6 +13,7 @@ import {
   mountSpeakers,
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
+import { metricsChange, metricsFigure } from "./ui/metrics-change.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { personCard } from "./ui/person-card.mjs";
@@ -1342,13 +1343,15 @@ function atThePolls(scene) {
           contests: scene.contests,
           labels: { ...labels, blank: controls.polling?.leaveBlank },
           onMark: async (contestId, candidateId) => {
+            // The visit may already be over (voted, or the polls closed): the ballot closes
+            // with it and goes on, never a live button on a ballot nobody is standing at.
             const result = await post(
               `/api/polling-place/mark?${new URLSearchParams({
                 contestId,
                 candidateId: candidateId ?? "",
               })}`,
-            );
-            if (result.pollingPlace) draw(result.pollingPlace);
+            ).catch(() => null);
+            if (result?.pollingPlace) draw(result.pollingPlace);
             else finish();
           },
           know: (personId) =>
@@ -1362,7 +1365,7 @@ function atThePolls(scene) {
               }))
               .catch(() => null),
           onLeave: async () => {
-            await post("/api/polling-place/leave");
+            await post("/api/polling-place/leave").catch(() => null);
             finish();
           },
         }),
@@ -1370,6 +1373,9 @@ function atThePolls(scene) {
     };
     const finish = () => {
       show("ballot", false);
+      // The paper goes with the visit: a ballot left in the page keeps live race buttons that
+      // would post a mark to polls that are no longer open.
+      $("ballot").replaceChildren();
       resolve();
     };
     draw(scene);
@@ -2228,7 +2234,8 @@ async function campaignParts() {
           nodes: [
             debateCard({
               words: controls.debate,
-              debate,
+              // The day in words ("October 20, 2026"), never the record's digits.
+              debate: { ...debate, date: dateWords(debate.date) },
               questionLabel: policyLabel,
               onAnswer: async (answers) => {
                 await post(
@@ -3455,6 +3462,32 @@ async function seatRows() {
   const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
   const parts = await officeParts();
   const draftNodes = [];
+  // Who to ask to carry an executive's bill: the members, likeliest yes first and marked; a press
+  // asks that member (`/api/seat/act` with `memberId`).
+  const chooseMember = async (body, params) => {
+    const options = await api(
+      `/api/seat/ask-options?${new URLSearchParams(params)}`,
+    );
+    $("sheet-body").replaceChildren(
+      plate(
+        null,
+        line(controls.seat.askWho),
+        ...options.members.map((member) => {
+          const pick = makeButton({
+            className: "action",
+            textContent: member.likely
+              ? `${member.name} · ${controls.seat.askLikely}`
+              : member.name,
+          });
+          pick.dataset.act = "ask-member";
+          pick.addEventListener("click", () =>
+            act({ ...params, memberId: member.key }),
+          );
+          return pick;
+        }),
+      ),
+    );
+  };
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
@@ -3492,8 +3525,8 @@ async function seatRows() {
       : "";
     seatResult = r.asked
       ? askedWord
-      : r.number
-        ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
+      : r.spoken
+        ? `${r.spoken} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
             r.authority?.some((a) => !a.allowed)
               ? ` · ${r.authority
                   .filter((a) => !a.allowed)
@@ -3562,7 +3595,7 @@ async function seatRows() {
           item.value.slice(0, item.value.indexOf(":")),
           item.value.slice(item.value.indexOf(":") + 1),
         ];
-        act({
+        const params = {
           kind: "draft",
           officeId: body.officeId,
           ...(kind === "series"
@@ -3587,7 +3620,11 @@ async function seatRows() {
                   ? String(Math.round(Number(typed) * 100))
                   : typed,
               }),
-        });
+        };
+        // An executive's bill goes through a member the player picks: the body's members, the
+        // one the engine would ask marked as the likely yes.
+        if (body.byRequest) chooseMember(body, params);
+        else act(params);
       },
     });
     // The body's line on the board: who sits on it, and the way in to writing
@@ -3615,7 +3652,7 @@ async function seatRows() {
   const labels = controls.officeScreen ?? {};
   // Your bills, each with its standing, the day it is taken up, how the vote came out and
   // the paper that opens to read it (the mock's "On my desk").
-  const desk = v.bills.map(({ bill, votes, tally, floorDate }) => {
+  const desk = v.bills.map(({ bill, spoken, votes, tally, floorDate }) => {
     const open = makeButton({
       className: "action",
       textContent: controls.bill?.open ?? "",
@@ -3628,7 +3665,7 @@ async function seatRows() {
       ),
     );
     return deskBill(
-      deskTitle(`${bill.number} · ${floor.status[bill.status] ?? ""}`),
+      deskTitle(`${spoken} · ${floor.status[bill.status] ?? ""}`),
       ...(floorDate
         ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
         : []),
@@ -3644,7 +3681,7 @@ async function seatRows() {
     );
   });
   const left = (v.incompatibilities ?? []).map((l) =>
-    line(`${l.date} · ${l.left} → ${l.took} · ${l.law}`),
+    line(`${dateWords(l.date)} · ${l.left} → ${l.took} · ${l.law}`),
   );
   const result = seatResult
     ? [plate(null, line(seatResult), ...seatText.map((t) => line(t)))]
@@ -4052,6 +4089,24 @@ const sheets = {
               labels.hours,
               `${Number(job.hoursDaily.toFixed(1))} ${labels.daily}`,
             ),
+            // Leaving is the holder's own press. A post held by office, or a
+            // business you own, has its own way out and shows no button.
+            ...(job.leave === null
+              ? [
+                  (() => {
+                    const leave = makeButton({
+                      textContent: labels.leaveJob,
+                    });
+                    leave.dataset.testid = "leave-job";
+                    leave.addEventListener("click", async () => {
+                      await post("/api/job/leave");
+                      await renderCard();
+                      openSheet("jobs");
+                    });
+                    return leave;
+                  })(),
+                ]
+              : []),
           ]
         : [
             prose(labels.noJob, "record-empty"),
@@ -4165,29 +4220,16 @@ const sheets = {
   async metrics() {
     const view = await api("/api/metrics");
     const words = controls.metrics;
-    const figure = (row, value) =>
-      row.unit === "dollars"
-        ? roundedMoney(Math.round(value * 100))
-        : row.unit === "money"
-          ? roundedMoney(Math.round(value))
-          : row.unit === "count"
-            ? Math.round(value).toLocaleString("en-US")
-            : `${value.toFixed(1)} ${words.percent}`;
+    const figure = (row, value) => metricsFigure(row, value, words.percent);
     const sections = view.sections.map((section, at) =>
       stripSection(
         at + 1,
         // A section that shows one government's books is headed by that government's name.
         section.name ?? words[section.key],
         ...section.rows.map((row) => {
-          const moved = row.before === null ? null : row.now - row.before;
+          const change = metricsChange(row, words.points);
           const direction =
-            moved === null
-              ? ""
-              : Math.abs(moved) < 0.05
-                ? words.same
-                : moved > 0
-                  ? words.up
-                  : words.down;
+            change.direction === null ? "" : words[change.direction];
           return typedRow(
             words[row.key],
             // A small town's count shows the people behind it ("13 of 86").
@@ -4196,7 +4238,7 @@ const sheets = {
               : `${figure(row, row.now)} ${words.of} ${figure(row, row.of)}`,
             row.before === null
               ? ""
-              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : `${Math.abs(moved).toFixed(1)} ${words.points}`) : "", words.since].filter(Boolean).join(" ")}`,
+              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, change.size, words.since].filter(Boolean).join(" ")}`,
           );
         }),
       ),
@@ -4880,13 +4922,31 @@ const sheets = {
           .filter((name) => !known.has(name))
           .map((name) => ({ name })),
       ]);
+      const open = p.filing
+        ? opensLine || labels.filing
+        : p.presentCount
+          ? labels.open
+          : labels.closed;
+      // Why it is listed (play-travel-in-a-village-lists-no-town-office): each
+      // of the records' reasons once, or open to the public where none.
+      const why = p.filing
+        ? [labels.reasons?.filing].filter(Boolean)
+        : [
+            ...new Set(
+              (p.reasons ?? [])
+                .map((r) => labels.reasons?.[r.kind])
+                .filter(Boolean),
+            ),
+          ];
+      if (!p.filing && !why.length && labels.reasons?.public)
+        why.push(labels.reasons.public);
       return {
-        openLabel: labels.openLabel,
-        open: p.filing
-          ? opensLine || labels.filing
-          : p.presentCount
-            ? labels.open
-            : labels.closed,
+        facts: [
+          { label: labels.openLabel, value: open },
+          ...(why.length
+            ? [{ label: labels.why, value: why.join(" · ") }]
+            : []),
+        ],
         who,
         does: doHere(p),
       };
