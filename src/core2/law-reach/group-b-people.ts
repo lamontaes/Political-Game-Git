@@ -24,6 +24,7 @@ import type {
 
 interface ParameterRow {
   readonly value: number;
+  readonly spread?: readonly [number, number];
 }
 const table = parameters as unknown as {
   parameters: Record<string, ParameterRow>;
@@ -49,6 +50,14 @@ export function reachParameter(key: string): number {
   const row = table.parameters[key];
   if (!row) throw new Error(`Unknown law-reach parameter: ${key}`);
   return row.value;
+}
+
+/** The low and high ends of a law-reach parameter's spread. */
+export function reachParameterSpread(key: string): readonly [number, number] {
+  const row = table.parameters[key];
+  if (!row?.spread)
+    throw new Error(`No spread for law-reach parameter: ${key}`);
+  return row.spread as unknown as readonly [number, number];
 }
 
 export function graduatedSchedule(scope: "state" | "local") {
