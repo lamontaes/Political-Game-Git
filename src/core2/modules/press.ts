@@ -4519,6 +4519,7 @@ export function attackOutlet(
       topic: outlet.organizationId,
       desiredChange: DISTRUST,
       audienceIds: input.audienceIds,
+      occasion: { recordId: id, kind: "attack" },
     });
   snubbed(api, "press.attacked", outlet.id, input.speakerId, id);
   followCache.delete(api.state);
