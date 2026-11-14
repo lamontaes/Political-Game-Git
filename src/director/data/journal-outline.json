@@ -20,7 +20,11 @@
     },
     {
       "key": "family",
-      "kinds": ["family:child", "household:partners-met"]
+      "kinds": [
+        "family:child",
+        "household:partners-met",
+        "household:children-together"
+      ]
     },
     {
       "key": "work",
@@ -95,19 +99,6 @@
     "kindsAnd": " and ",
     "onlyLast": " and "
   },
-  "merge": [
-    {
-      "kindPrefix": "event:law.effect-learned",
-      "field": "effectsLearned",
-      "clauses": {
-        "up": "effectUp",
-        "down": "effectDown"
-      },
-      "facts": ["topic", "law"],
-      "alone": true,
-      "about": "What laws the person learned were behind what they pay did to them, told by the bill that moved and about how much a month (the price engine's own record: the rule's good and the moved amount), several on one day as one sentence."
-    }
-  ],
   "goodBills": {
     "about": "The bill a price rule's good shows up on, as a person says it (src/core2/data/prices/goods.json keys).",
     "electricity": "electric bill",
@@ -130,5 +121,10 @@
     "breakRecords": 6,
     "paragraphsLeast": 2,
     "paragraphsMost": 6
+  },
+  "learnedVia": {
+    "about": "Where a law's effect was learned of, by the kind of outlet whose story the record names (the words the line says it with).",
+    "newspaper": "in the paper",
+    "cable": "on the news"
   }
 }

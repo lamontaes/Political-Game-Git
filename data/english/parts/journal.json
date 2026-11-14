@@ -58,7 +58,6 @@
     "out_span": "How long a person was out of work in all, summed from the work records.",
     "bill": "The bill a law moved, from the price rule's good (\"electric bill\").",
     "amount": "About how much a month a bill moved, from the price engine's record.",
-    "effects": "What laws did to the person's bills, joined from their records.",
     "lean": "Which way a view moved (\"more liberal\"), from the views engine's record of what moved it.",
     "year": "A year, from the record.",
     "their": "A person's possessive pronoun (\"his\", \"her\", \"their\"), from their recorded gender.",
@@ -66,7 +65,15 @@
     "no": "Votes against, from the roll call.",
     "remove": "Votes to remove, from the recall vote's record.",
     "keep": "Votes to keep, from the recall vote's record.",
-    "when": "When the acts were done, said as a season and its year, from the acts' dates."
+    "when": "When the acts were done, said as a season and its year, from the acts' dates.",
+    "partner": "A partner, by what they are and their name, from the relationship record.",
+    "first": "The year the first child was born, from the birth record.",
+    "last": "The year the last child was born, from the birth record.",
+    "names": "Given names, in birth order, from the people records.",
+    "short": "How many signatures short a petition fell, from the clerk's check.",
+    "sibling": "One older or younger brother or sister, said with the word for them, from the family record.",
+    "direction": "Up or down, from which way the price engine's record moved the bill.",
+    "learned": "Where the person learned of a law's effect, from the outlet of the story the record names."
   },
   "maxWords": 10,
   "mining": {
@@ -5820,32 +5827,6 @@
       }
     },
     {
-      "key": "journal.moved-other-away.relation-moved-away",
-      "move": "moved-other-away",
-      "kind": "spoken",
-      "text": "{relation} moved away.",
-      "uses": [
-        {
-          "move": "moved-other-away",
-          "subject": "moved",
-          "role": "other",
-          "choice": "away",
-          "journal": [
-            {
-              "kindPrefix": "event:person.moved-away",
-              "field": "otherLine"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-journal-household-move-line)",
-      "date": "2026-10-16",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.family-line-born.named-was-born",
       "move": "family-line-born",
       "kind": "spoken",
@@ -6437,32 +6418,6 @@
       }
     },
     {
-      "key": "journal.home-line-parent-apart.named-lived-apart-from-us",
-      "move": "home-line-parent-apart",
-      "kind": "spoken",
-      "text": "{named} lived apart from us.",
-      "uses": [
-        {
-          "move": "home-line-parent-apart",
-          "subject": "home",
-          "role": "parent-apart",
-          "choice": "parent-apart",
-          "journal": [
-            {
-              "kindPrefix": "household:parent-apart",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item play-first-10-journal-from-day-one)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.home-line-parent-apart.named-lived-somewhere-else",
       "move": "home-line-parent-apart",
       "kind": "spoken",
@@ -6717,84 +6672,6 @@
       ],
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.i-found-out-law-changed-what-i-pay",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "I found out {law} changed what I pay.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item words-law-effect-learned-journal)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.i-learned-law-is-behind-what-i-pay-now",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "I learned {law} is behind what I pay now.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item words-law-effect-learned-journal)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.now-i-know-law-is-why-my-costs-changed",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "Now I know {law} is why my costs changed.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item words-law-effect-learned-journal)",
       "date": "2026-10-25",
       "tag": {
         "move": "tell"
@@ -7787,84 +7664,6 @@
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.the-rules-on-topic-changed-what-i-pay",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "The rules on {topic} changed what I pay.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (Claude Code)",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.i-learned-the-law-on-topic-changed-my-costs",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "I learned the law on {topic} changed my costs.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (Claude Code)",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.that-law-on-topic-is-behind-what-i-pay-now",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "That law on {topic} is behind what I pay now.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (Claude Code)",
-      "date": "2026-10-28",
       "tag": {
         "move": "tell"
       }
@@ -12553,208 +12352,6 @@
       }
     },
     {
-      "key": "journal.memoir-effect-up.my-bill-went-up-about-amount-a-month",
-      "move": "memoir-effect-up",
-      "kind": "spoken",
-      "text": "my {bill} went up {amount} a month",
-      "uses": [
-        {
-          "move": "memoir-effect-up",
-          "subject": "memoir",
-          "role": "effectUp",
-          "choice": "my-bill-went-up-about-amount-a-month",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "effectUp"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      },
-      "piece": {
-        "of": "journal.effects-learned",
-        "part": "clause",
-        "required": true
-      }
-    },
-    {
-      "key": "journal.memoir-effect-up.my-bill-rose-about-amount-a-month",
-      "move": "memoir-effect-up",
-      "kind": "spoken",
-      "text": "my {bill} rose {amount} a month",
-      "uses": [
-        {
-          "move": "memoir-effect-up",
-          "subject": "memoir",
-          "role": "effectUp",
-          "choice": "my-bill-rose-about-amount-a-month",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "effectUp"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      },
-      "piece": {
-        "of": "journal.effects-learned",
-        "part": "clause",
-        "required": true
-      }
-    },
-    {
-      "key": "journal.memoir-effect-down.my-bill-came-down-about-amount-a-month",
-      "move": "memoir-effect-down",
-      "kind": "spoken",
-      "text": "my {bill} came down {amount} a month",
-      "uses": [
-        {
-          "move": "memoir-effect-down",
-          "subject": "memoir",
-          "role": "effectDown",
-          "choice": "my-bill-came-down-about-amount-a-month",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "effectDown"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      },
-      "piece": {
-        "of": "journal.effects-learned",
-        "part": "clause",
-        "required": true
-      }
-    },
-    {
-      "key": "journal.memoir-effect-down.my-bill-fell-about-amount-a-month",
-      "move": "memoir-effect-down",
-      "kind": "spoken",
-      "text": "my {bill} fell {amount} a month",
-      "uses": [
-        {
-          "move": "memoir-effect-down",
-          "subject": "memoir",
-          "role": "effectDown",
-          "choice": "my-bill-fell-about-amount-a-month",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "effectDown"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      },
-      "piece": {
-        "of": "journal.effects-learned",
-        "part": "clause",
-        "required": true
-      }
-    },
-    {
-      "key": "journal.memoir-effects-learned.after-the-rules-on-topic-changed-effects",
-      "move": "memoir-effects-learned",
-      "kind": "spoken",
-      "text": "After the rules on {topic} changed, {effects}.",
-      "uses": [
-        {
-          "move": "memoir-effects-learned",
-          "subject": "memoir",
-          "role": "effectsLearned",
-          "choice": "after-the-rules-on-topic-changed-effects",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "effectsLearned"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-effects-learned.once-the-rules-on-topic-took-hold-effect",
-      "move": "memoir-effects-learned",
-      "kind": "spoken",
-      "text": "Once the rules on {topic} took hold, {effects}.",
-      "uses": [
-        {
-          "move": "memoir-effects-learned",
-          "subject": "memoir",
-          "role": "effectsLearned",
-          "choice": "once-the-rules-on-topic-took-hold-effect",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "effectsLearned"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-effects-learned.after-law-took-effect-effects",
-      "move": "memoir-effects-learned",
-      "kind": "spoken",
-      "text": "After {law} took effect, {effects}.",
-      "uses": [
-        {
-          "move": "memoir-effects-learned",
-          "subject": "memoir",
-          "role": "effectsLearned",
-          "choice": "after-law-took-effect-effects",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "effectsLearned"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.memoir-view-parent-lost.when-i-was-age-named-lost-their-job-at-e",
       "move": "memoir-view-parent-lost",
       "kind": "spoken",
@@ -14603,6 +14200,786 @@
       "origin": "authored",
       "author": "Journal composer (playtest Nov 13: office acts told as a run; a rehire told as going back)",
       "date": "2026-11-13",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-children-together.partner-and-i-had-count-children-between-first-and-last-names",
+      "move": "home-line-children-together",
+      "kind": "spoken",
+      "text": "{partner} and I had {count} children between {first} and {last}: {names}.",
+      "uses": [
+        {
+          "move": "home-line-children-together",
+          "subject": "home",
+          "role": "children",
+          "choice": "children-together",
+          "journal": [
+            {
+              "kindPrefix": "household:children-together",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-children-together.we-had-count-children-between-first-and-last-names",
+      "move": "home-line-children-together",
+      "kind": "spoken",
+      "text": "We had {count} children between {first} and {last}: {names}.",
+      "uses": [
+        {
+          "move": "home-line-children-together",
+          "subject": "home",
+          "role": "children",
+          "choice": "children-together",
+          "journal": [
+            {
+              "kindPrefix": "household:children-together",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-children-together.between-first-and-last-partner-and-i-had-count-children-names",
+      "move": "home-line-children-together",
+      "kind": "spoken",
+      "text": "Between {first} and {last}, {partner} and I had {count} children: {names}.",
+      "uses": [
+        {
+          "move": "home-line-children-together",
+          "subject": "home",
+          "role": "children",
+          "choice": "children-together",
+          "journal": [
+            {
+              "kindPrefix": "household:children-together",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-children-together.our-children-came-between-first-and-last-names",
+      "move": "home-line-children-together",
+      "kind": "spoken",
+      "text": "Our children came between {first} and {last}: {names}.",
+      "uses": [
+        {
+          "move": "home-line-children-together",
+          "subject": "home",
+          "role": "children",
+          "choice": "children-together",
+          "journal": [
+            {
+              "kindPrefix": "household:children-together",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-children-together.our-family-grew-between-first-and-last-with-count-children-names",
+      "move": "home-line-children-together",
+      "kind": "spoken",
+      "text": "Our family grew between {first} and {last}, with {count} children: {names}.",
+      "uses": [
+        {
+          "move": "home-line-children-together",
+          "subject": "home",
+          "role": "children",
+          "choice": "children-together",
+          "journal": [
+            {
+              "kindPrefix": "household:children-together",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-children-together.i-had-count-children-between-first-and-last-names",
+      "move": "home-line-children-together",
+      "kind": "spoken",
+      "text": "I had {count} children between {first} and {last}: {names}.",
+      "uses": [
+        {
+          "move": "home-line-children-together",
+          "subject": "home",
+          "role": "children",
+          "choice": "children-together",
+          "journal": [
+            {
+              "kindPrefix": "household:children-together",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-children-together.my-children-came-between-first-and-last-names",
+      "move": "home-line-children-together",
+      "kind": "spoken",
+      "text": "My children came between {first} and {last}: {names}.",
+      "uses": [
+        {
+          "move": "home-line-children-together",
+          "subject": "home",
+          "role": "children",
+          "choice": "children-together",
+          "journal": [
+            {
+              "kindPrefix": "household:children-together",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-children-together.partner-and-i-had-count-children-in-first-names",
+      "move": "home-line-children-together",
+      "kind": "spoken",
+      "text": "{partner} and I had {count} children in {first}: {names}.",
+      "uses": [
+        {
+          "move": "home-line-children-together",
+          "subject": "home",
+          "role": "children",
+          "choice": "children-together",
+          "journal": [
+            {
+              "kindPrefix": "household:children-together",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-children-together.i-had-count-children-in-first-names",
+      "move": "home-line-children-together",
+      "kind": "spoken",
+      "text": "I had {count} children in {first}: {names}.",
+      "uses": [
+        {
+          "move": "home-line-children-together",
+          "subject": "home",
+          "role": "children",
+          "choice": "children-together",
+          "journal": [
+            {
+              "kindPrefix": "household:children-together",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parent-apart.named-lived-in-place-not-with-us",
+      "move": "home-line-parent-apart",
+      "kind": "spoken",
+      "text": "{named} lived in {place}, not with us.",
+      "uses": [
+        {
+          "move": "home-line-parent-apart",
+          "subject": "home",
+          "role": "apart",
+          "choice": "apart",
+          "journal": [
+            {
+              "kindPrefix": "household:parent-apart",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parent-apart.i-grew-up-apart-from-named",
+      "move": "home-line-parent-apart",
+      "kind": "spoken",
+      "text": "I grew up apart from {named}.",
+      "uses": [
+        {
+          "move": "home-line-parent-apart",
+          "subject": "home",
+          "role": "apart",
+          "choice": "apart",
+          "journal": [
+            {
+              "kindPrefix": "household:parent-apart",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parent-apart.named-lived-somewhere-else-when-i-was-growing-up",
+      "move": "home-line-parent-apart",
+      "kind": "spoken",
+      "text": "{named} lived somewhere else when I was growing up.",
+      "uses": [
+        {
+          "move": "home-line-parent-apart",
+          "subject": "home",
+          "role": "apart",
+          "choice": "apart",
+          "journal": [
+            {
+              "kindPrefix": "household:parent-apart",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-parent-apart.i-did-not-grow-up-with-named",
+      "move": "home-line-parent-apart",
+      "kind": "spoken",
+      "text": "I did not grow up with {named}.",
+      "uses": [
+        {
+          "move": "home-line-parent-apart",
+          "subject": "home",
+          "role": "apart",
+          "choice": "apart",
+          "journal": [
+            {
+              "kindPrefix": "household:parent-apart",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-older.i-had-sibling-name",
+      "move": "home-line-sibling-older",
+      "kind": "spoken",
+      "text": "I had {sibling}, {name}.",
+      "uses": [
+        {
+          "move": "home-line-sibling-older",
+          "subject": "home",
+          "role": "older",
+          "choice": "older",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-older",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-older.named-was-older-than-me",
+      "move": "home-line-sibling-older",
+      "kind": "spoken",
+      "text": "{named} was older than me.",
+      "uses": [
+        {
+          "move": "home-line-sibling-older",
+          "subject": "home",
+          "role": "older",
+          "choice": "older",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-older",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-sibling-born.i-had-sibling-name-born-after-me",
+      "move": "home-line-sibling-born",
+      "kind": "spoken",
+      "text": "I had {sibling}, {name}, born after me.",
+      "uses": [
+        {
+          "move": "home-line-sibling-born",
+          "subject": "home",
+          "role": "younger",
+          "choice": "younger",
+          "journal": [
+            {
+              "kindPrefix": "household:sibling-born",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-siblings-older.i-had-count-older-brothers-and-sisters-names",
+      "move": "home-line-siblings-older",
+      "kind": "spoken",
+      "text": "I had {count} older brothers and sisters: {names}.",
+      "uses": [
+        {
+          "move": "home-line-siblings-older",
+          "subject": "home",
+          "role": "older",
+          "choice": "older",
+          "journal": [
+            {
+              "kindPrefix": "household:siblings-older",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-siblings-born.i-had-count-younger-brothers-and-sisters-names",
+      "move": "home-line-siblings-born",
+      "kind": "spoken",
+      "text": "I had {count} younger brothers and sisters: {names}.",
+      "uses": [
+        {
+          "move": "home-line-siblings-born",
+          "subject": "home",
+          "role": "younger",
+          "choice": "younger",
+          "journal": [
+            {
+              "kindPrefix": "household:siblings-born",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.after-law-my-bill-went-direction-amount-a-month-i-heard-of-it-learned",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "After {law}, my {bill} went {direction} {amount} a month. I heard of it {learned}.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.my-bill-went-direction-amount-a-month-after-law-took-effect",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "My {bill} went {direction} {amount} a month after {law} took effect.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.after-law-my-bill-went-direction-amount-a-month",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "After {law}, my {bill} went {direction} {amount} a month.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.once-the-rules-on-topic-took-hold-my-bill-went-direction-amount-a-month",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "Once the rules on {topic} took hold, my {bill} went {direction} {amount} a month.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.after-the-rules-on-topic-changed-my-bill-went-direction-amount-a-month",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "After the rules on {topic} changed, my {bill} went {direction} {amount} a month.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-petition.i-fell-short-signatures-short-and-was-left-off-the-ballot",
+      "move": "office-line-petition",
+      "kind": "spoken",
+      "text": "I fell {short} signatures short and was left off the ballot.",
+      "uses": [
+        {
+          "move": "office-line-petition",
+          "subject": "office",
+          "role": "line",
+          "choice": "petition-short",
+          "journal": [
+            {
+              "kindPrefix": "event:petition-checked",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-petition.i-got-valid-signatures-not-needed-and-was-off-the-ballot",
+      "move": "office-line-petition",
+      "kind": "spoken",
+      "text": "I got {valid} signatures, not {needed}, and was off the ballot.",
+      "uses": [
+        {
+          "move": "office-line-petition",
+          "subject": "office",
+          "role": "line",
+          "choice": "petition-short",
+          "journal": [
+            {
+              "kindPrefix": "event:petition-checked",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-petition.the-clerk-counted-valid-so-i-stayed-off-the-ballot",
+      "move": "office-line-petition",
+      "kind": "spoken",
+      "text": "The clerk counted {valid}, so I stayed off the ballot.",
+      "uses": [
+        {
+          "move": "office-line-petition",
+          "subject": "office",
+          "role": "line",
+          "choice": "petition-short",
+          "journal": [
+            {
+              "kindPrefix": "event:petition-checked",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-petition.i-fell-short-signatures-short-and-stayed-off-the-ballot",
+      "move": "office-line-petition",
+      "kind": "spoken",
+      "text": "I fell {short} signatures short and stayed off the ballot.",
+      "uses": [
+        {
+          "move": "office-line-petition",
+          "subject": "office",
+          "role": "line",
+          "choice": "petition-short",
+          "journal": [
+            {
+              "kindPrefix": "event:petition-checked",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.my-bill-went-direction-amount-a-month-under-law-i-saw-it-learned",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "My {bill} went {direction} {amount} a month under {law}. I saw it {learned}.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.with-law-my-bill-went-direction-amount-a-month-i-saw-it-learned",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "With {law}, my {bill} went {direction} {amount} a month. I saw it {learned}.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.my-bill-was-direction-amount-by-the-next-month-after-law-took-hold",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "My {bill} was {direction} {amount} by the next month, after {law} took hold.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
       "tag": {
         "move": "tell"
       }

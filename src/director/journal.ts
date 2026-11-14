@@ -89,7 +89,7 @@ import {
   sharedHistory,
 } from "../core2/past";
 import { pastParameter } from "../core2/past-module";
-import { moneySaid } from "../english/count-words";
+import { changeSaid, countSaid, moneySaid } from "../english/count-words";
 
 import { spanSaid } from "../english/span-words";
 import type { Moment, PersonLedger } from "./types";
@@ -239,13 +239,6 @@ function employerName(
     : undefined;
 }
 
-/** A list whose items may hold "and" themselves: a comma before the last "and". */
-function listOfParts(items: readonly string[]): string {
-  return items.some((item) => / and /.test(item)) && items.length > one
-    ? `${items.slice(zero, -one).join(", ")}, and ${items.at(-one)}`
-    : listOf(items);
-}
-
 function listOf(items: readonly string[]): string {
   return items.length < P.two + one
     ? items.join(" and ")
@@ -358,8 +351,18 @@ function householdMoments(
     const group = familyGroups.get(category) ?? [];
     group.forEach((id) => toldOf.add(id));
     const born = relative.birthDate > bornOn ? relative.birthDate : bornOn;
+    // A parent who lived apart is said where they lived, when the records put
+    // every one of them in one place (rule 88: "lived in Peoria, not with us").
+    const apartPlaces = new Set(
+      group.map((id) => core.people.get(id as PersonId)?.placeId),
+    );
+    const apartFacts =
+      category === "household:parent-apart" && apartPlaces.size === one
+        ? placeOf([...apartPlaces][zero], fact.id)
+        : {};
     moments.push({
       ...base(fact.id, fact.kind === "family:sibling" ? born : bornOn),
+      ...(apartFacts.place ? { actFacts: apartFacts } : {}),
       // Several brothers and sisters have their own wordings (plural verbs).
       causeKind:
         group.length > one && category.startsWith("household:sibling-")
@@ -1827,6 +1830,35 @@ export function composeJournal(
         ? (JOURNAL_OUTLINE.goodBills as Record<string, string>)[rule.good]
         : undefined;
       if (!bill || !Number.isFinite(moved) || moved === zero) return null;
+      // A change the household had no way to notice is not told: on its own
+      // monthly earnings, one that rounds to nothing as a share of them
+      // (rule 90; the household's budget, never a cutoff in dollars).
+      const felt = core.modules.has(PLACE_PRICES_MODULE_ID)
+        ? (coreAPI(core as CoreState)
+            .moduleState(PLACE_PRICES_MODULE_ID)
+            .table("felt")
+            .get(`${person.householdId}|${logged?.facts?.lawId}`) as unknown as
+            { monthlyEarningsMinor?: number } | undefined)
+        : undefined;
+      const earnings = Number(felt?.monthlyEarningsMinor);
+      if (
+        earnings > zero &&
+        changeSaid(earnings, earnings + Math.abs(moved), false) === null
+      )
+        return null;
+      // Where they learned of it, from the outlet of the story the record
+      // names (the paper, the news); no outlet of a kind said leaves it out.
+      const outlet = /outlet:([a-z-]+)/.exec(
+        String(logged?.facts?.learnedFrom ?? ""),
+      )?.[one];
+      const via = outlet
+        ? (JOURNAL_OUTLINE.learnedVia as Record<string, string>)[outlet]
+        : undefined;
+      if (via)
+        facts.learned = {
+          text: via,
+          sourceRecordIds: [moment.causeId, String(logged?.facts?.learnedFrom)],
+        };
       facts.bill = {
         text: bill,
         sourceRecordIds: [moment.causeId, ruleId as string],
@@ -1897,6 +1929,20 @@ export function composeJournal(
             : said;
       }
     }
+    // One older or younger brother or sister is "an older brother" (rule 88).
+    if (
+      facts.named &&
+      (moment.causeKind === "household:sibling-older" ||
+        moment.causeKind === "household:sibling-born")
+    ) {
+      const said = facts.named.text.replace(/^my /, "").split(" ")[zero]!;
+      const how =
+        moment.causeKind === "household:sibling-older" ? "older" : "younger";
+      facts.sibling = {
+        text: `${how === "older" ? "an" : "a"} ${how} ${said}`,
+        sourceRecordIds: facts.named.sourceRecordIds,
+      };
+    }
     // Several relatives of one story ("my brothers Daniel and George") are
     // named together, each by their recorded relation and given name.
     if (moment.counterpartIds.length > one && facts.named) {
@@ -1918,6 +1964,14 @@ export function composeJournal(
       });
       const phrases = new Set(members.map((member) => member.phrase));
       const names = members.map((member) => member.name);
+      facts.count = {
+        text: countSaid(members.length),
+        sourceRecordIds: members.flatMap((m) => [m.factId, m.id]),
+      };
+      facts.names = {
+        text: listOf(names),
+        sourceRecordIds: members.flatMap((m) => [m.factId, m.id]),
+      };
       facts.named = {
         text:
           phrases.size === one
@@ -2244,15 +2298,19 @@ export function composeJournal(
     // Another person's vote, bill or race alone is not this life (Hope
     // Valley, Rhode Island, seed 224ba354-7613-4852-a48c-c2747306de10: forty
     // lines of a council's votes in a Journal whose person sat on no council):
-    // told only when it is a relative's race.
+    // told only when it is a relative's or a housemate's race, vote or bill.
     if (!own) {
       const whose = subjectOf(moment);
       if (
-        row.kindPrefix === "event:office.voted" ||
-        row.kindPrefix === "event:office.introduced" ||
-        ((row.kindPrefix === "event:election-result" ||
+        (row.kindPrefix === "event:office.voted" ||
+          row.kindPrefix === "event:office.introduced" ||
+          row.kindPrefix === "event:election-result" ||
           row.kindPrefix === "event:took-office") &&
-          !(whose && kin.has(whose)))
+        !(
+          whose &&
+          (kin.has(whose) ||
+            core.households.get(person.householdId)?.memberIds.includes(whose))
+        )
       )
         continue;
     }
@@ -2371,6 +2429,92 @@ export function composeJournal(
           }
         : {}),
     });
+  }
+
+  // Children told together (rule 85): the children born before the start are
+  // one sentence for the family, and a child is told alone only when something
+  // else on record happened that year (a move, a job lost).
+  {
+    const yearOf = (date: string) => date.slice(zero, P.two * P.two);
+    const busyYears = new Set(
+      units
+        .filter(
+          (unit) =>
+            unit.paragraph !== "play" &&
+            unit.moment.causeKind !== "family:child" &&
+            unit.moment.causeKind !== "household:partners-met" &&
+            unit.row.entry !== "setting",
+        )
+        .map((unit) => yearOf(unit.moment.date)),
+    );
+    const together = units.filter(
+      (unit) =>
+        unit.paragraph !== "play" &&
+        unit.moment.causeKind === "family:child" &&
+        unit.facts.other &&
+        !busyYears.has(yearOf(unit.moment.date)),
+    );
+    const row = rows.find(
+      (entry) => entry.kindPrefix === "household:children-together",
+    );
+    if (row && together.length > one) {
+      const names = together.map((unit) => {
+        const childId = lifeById.get(unit.moment.causeId)?.withIds[zero];
+        return core.people.get(childId as PersonId)?.givenName ?? "";
+      });
+      const first = yearOf(together[zero]!.moment.date);
+      const last = yearOf(together.at(-one)!.moment.date);
+      const ids = together.flatMap((unit) => [unit.moment.causeId]);
+      const [partnerId, partnerFact] =
+        [...kin.entries()].find(([, fact]) => fact.relation === "partner") ??
+        [];
+      const partnerRow = partnerId ? core.people.get(partnerId) : undefined;
+      const partnerPhrase =
+        partnerFact && partnerRow
+          ? relationPhrase(
+              partnerFact.relation,
+              partnerRow.looks?.gender ?? "other",
+              "journal",
+              words,
+            )
+          : undefined;
+      const facts: Facts = {
+        count: { text: countSaid(together.length), sourceRecordIds: ids },
+        first: { text: first, sourceRecordIds: ids },
+        last: { text: last, sourceRecordIds: ids },
+        names: { text: listOf(names), sourceRecordIds: ids },
+        ...(partnerRow && partnerPhrase
+          ? {
+              partner: {
+                text: `${partnerPhrase} ${partnerRow.givenName}`,
+                sourceRecordIds: [partnerFact!.factId, partnerRow.id],
+              },
+            }
+          : {}),
+      };
+      const at = together[zero]!;
+      const told = render(
+        { part: "line", kindPrefix: row.kindPrefix, whose: "own" },
+        facts,
+        `${at.moment.id}:children`,
+        ids,
+        `${first === last ? "one-year" : "years"}:${facts.partner ? "partner" : "alone"}`,
+      );
+      if (told) {
+        const gone = new Set(together);
+        const slot = units.indexOf(at);
+        units.splice(slot, one, {
+          ...at,
+          moment: { ...at.moment, causeKind: "household:children-together" },
+          row,
+          facts,
+          event: told,
+          framed: true,
+        });
+        for (let index = units.length - one; index > slot; index -= one)
+          if (gone.has(units[index]!)) units.splice(index, one);
+      }
+    }
   }
 
   // What moved the person's views, from the views engine's own record of
@@ -2874,73 +3018,6 @@ export function composeJournal(
   };
 
   /**
-   * Records of one kind that came together, told as one sentence: the facts
-   * that differ between them are said as one list ("the rules on
-   * transportation and the local income tax rate"), by the outline's merge
-   * row and its memoir field.
-   */
-  const mergeOf = (told: readonly Unit[]): JournalWorded[] | null => {
-    const row = JOURNAL_OUTLINE.merge.find(
-      (entry) => entry.kindPrefix === told[zero]?.row.kindPrefix,
-    );
-    if (!row || (told.length < P.two && !row.alone)) return null;
-    // Records named the same way (a law by its bill's name, or by what it is
-    // about) are one sentence each: the first of the row's facts each holds.
-    const byFact = new Map<string, Unit[]>();
-    for (const unit of told) {
-      const key = row.facts.find((name) => unit.facts[name]) ?? "";
-      byFact.set(key, [...(byFact.get(key) ?? []), unit]);
-    }
-    const out: JournalWorded[] = [];
-    for (const [key, units] of byFact) {
-      if (!key) continue;
-      const said = units.map((unit) => unit.facts[key]!);
-      const facts: Facts = {
-        [key]: {
-          text: listOfParts([...new Set(said.map((fact) => fact.text))]),
-          sourceRecordIds: said.flatMap((fact) => fact.sourceRecordIds),
-        },
-      };
-      // Each record's own clause (what it did), the clauses as one list.
-      const clauses = units.flatMap((unit) => {
-        const field =
-          row.clauses[unit.facts.direction?.text as keyof typeof row.clauses];
-        const clause = field
-          ? render(
-              { part: "memoir", field: field as MemoirField },
-              unit.facts,
-              `${unit.moment.id}:clause`,
-              [unit.moment.causeId],
-            )
-          : null;
-        return clause
-          ? [
-              {
-                ...clause,
-                text:
-                  clause.text.charAt(zero).toLowerCase() +
-                  clause.text.slice(one),
-              },
-            ]
-          : [];
-      });
-      if (!clauses.length) continue;
-      facts.effects = {
-        text: listOf(clauses.map((clause) => clause.text)),
-        sourceRecordIds: clauses.flatMap((clause) => clause.sourceRecordIds),
-      };
-      const line = render(
-        { part: "memoir", field: row.field as MemoirField },
-        facts,
-        `${units[zero]!.moment.id}:merged`,
-        units.map((unit) => unit.moment.causeId),
-      );
-      if (line) out.push(line);
-    }
-    return out.length ? out : null;
-  };
-
-  /**
    * After a resident's public comment: how many spoke the same way, else how
    * many the other way, else nobody; then that day's vote when one is on
    * record. The field is chosen from the counts; the bank words it.
@@ -3287,7 +3364,10 @@ export function composeJournal(
       );
       if (days < breakYears * yearDays || row.length <= breakRecords) continue;
       const child = row.findIndex(
-        (unit, i) => i > zero && unit.moment.causeKind === "family:child",
+        (unit, i) =>
+          i > zero &&
+          (unit.moment.causeKind === "family:child" ||
+            unit.moment.causeKind === "household:children-together"),
       );
       const pivot =
         child > zero
@@ -3401,19 +3481,13 @@ export function composeJournal(
   const groups: Unit[][] = [];
   const byContest = new Map<string, Unit[]>();
   for (const unit of played) {
-    // A race's records go together, and so do records of one kind the
-    // outline merges that came on one day (three laws learned at once).
-    const merged = JOURNAL_OUTLINE.merge.find(
-      (row) => row.kindPrefix === unit.row.kindPrefix,
-    );
+    // A race's records go together.
     // Acts of one kind in one season (and one body) are one paragraph,
     // told as one sentence (playtest, Nov 13: a ledger of fourteen acts).
     const run = ACT_RUNS[unit.row.kindPrefix];
     const contestId = run
       ? `act-run|${run}|${seasonOf(unit.moment.date).key}|${unit.facts.body?.text ?? ""}`
-      : merged
-        ? `${merged.kindPrefix}|${unit.moment.date}`
-        : core.durableLog.get(unit.moment.causeId)?.facts?.contestId;
+      : core.durableLog.get(unit.moment.causeId)?.facts?.contestId;
     const group =
       typeof contestId === "string" ? byContest.get(contestId) : undefined;
     if (group) {
@@ -3475,14 +3549,8 @@ export function composeJournal(
         group[zero]!.moment.date,
       );
     }
-    const merged = JOURNAL_OUTLINE.merge.some(
-      (row) => row.kindPrefix === group[zero]?.row.kindPrefix,
-    );
-    // A merged kind is told only as its merged sentence.
     const told = [
-      ...(actRun(group) ??
-        mergeOf(group) ??
-        (merged ? [] : tellParagraph(group, "play"))),
+      ...(actRun(group) ?? tellParagraph(group, "play")),
       ...group.flatMap(speakAfter),
       ...group.flatMap(recallAfter),
     ];

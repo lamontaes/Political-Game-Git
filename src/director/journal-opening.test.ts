@@ -10,7 +10,7 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { PersonId } from "../core2/types";
 import { composeJournal } from "./journal";
 import { employerSaid, jobSaid } from "../english/journal-words";
-import { properName } from "./words";
+import { organizationName } from "./words";
 import { writeFileSync } from "node:fs";
 
 // The journal from day one (play-first-10-journal-from-day-one). On the first
@@ -224,7 +224,7 @@ it(`the first note says each thing once and names each parent's employer (seed $
         // Someone who holds an office is told by the office alone.
         if (!sentence.includes(jobSaid(job!.title))) continue;
         expect(sentence, `${where}: ${id}`).toContain(
-          employerSaid(properName(org.name), org),
+          employerSaid(organizationName(org), org),
         );
         parentJobs += 1;
       }
