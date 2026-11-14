@@ -61336,7 +61336,8 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "answer"
+          "after": "answer",
+          "excludesFacts": ["agency"]
         }
       ],
       "bearing": "guarded",
@@ -178484,7 +178485,7 @@
       "key": "scene-talk.reply-ask.case-help-6",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "How much is on your check?",
+      "text": "What do they pay you an hour?",
       "uses": [
         {
           "subject": "scene",
@@ -178925,7 +178926,7 @@
       "key": "scene-talk.reply-leave.case-help-3",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Leave it with the desk. My office will get back to you {respond-in}.",
+      "text": "Leave it with the desk. My office will get back to you.",
       "uses": [
         {
           "subject": "scene",
@@ -178933,7 +178934,37 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["respond-in"]
+          "requiresFacts": ["agency"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 5, case-help move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "leave",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-leave",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.case-help-4",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me look into it. I'm not promising anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["agency"],
+          "after": "answer"
         }
       ],
       "origin": "authored",
@@ -179983,7 +180014,8 @@
           "step": "close",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["agency"],
+          "outcome": "resolved"
         }
       ],
       "origin": "authored",
@@ -180041,7 +180073,8 @@
           "step": "close",
           "move": "warn",
           "role": "asker",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["agency"],
+          "outcome": "resolved"
         }
       ],
       "origin": "authored",
@@ -180070,7 +180103,8 @@
           "step": "close",
           "move": "warn",
           "role": "asker",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["agency"],
+          "outcome": "resolved"
         }
       ],
       "origin": "authored",
