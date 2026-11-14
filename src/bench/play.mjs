@@ -1844,45 +1844,68 @@ function ticketSection(filing, ticket) {
           : words.later,
       ),
     );
-  let picked = ticket.choices[0].id;
-  const choose = async (personId) => {
+  // Only someone who may be asked now is offered; a no stands for a while.
+  const askable = ticket.choices.filter((c) => c.mayAsk);
+  let picked = askable[0]?.id;
+  const chooseForMe = async () => {
     await post(
-      `/api/campaign/running-mate?${new URLSearchParams({ filingId: filing.id, ...(personId ? { personId } : {}) })}`,
+      `/api/campaign/running-mate?${new URLSearchParams({ filingId: filing.id })}`,
     );
     await openSheet("campaign");
   };
+  // Asking is a conversation: it plays as a scene, and the answer is theirs.
+  const ask = async (personId) => {
+    const asked = await post(
+      `/api/campaign/running-mate/ask?${new URLSearchParams({ filingId: filing.id, personId })}`,
+    );
+    if (asked.packet) renderPacket(asked.packet);
+    const moment = storyStop(asked.packet);
+    closeSheet();
+    // The sit-down itself first; anything else that came up waits behind it.
+    if (asked.story) await showStory(asked.story);
+    else if (moment) await showStory(moment.recordId);
+  };
+  const rowLabel = (c) =>
+    (c.work && c.place
+      ? words.row
+      : c.place
+        ? words.rowPlace
+        : c.work
+          ? words.rowWork
+          : "{name}"
+    )
+      .replace("{name}", c.name)
+      .replace("{work}", c.work ?? "")
+      .replace("{place}", c.place ?? "");
+  const declined = ticket.choices.filter((c) => c.declined && !c.mayAsk);
   return stripSection(
     1,
     title,
-    select({
-      options: ticket.choices.map((c) => ({
-        value: c.id,
-        label: (c.work && c.place
-          ? words.row
-          : c.place
-            ? words.rowPlace
-            : c.work
-              ? words.rowWork
-              : "{name}"
-        )
-          .replace("{name}", c.name)
-          .replace("{work}", c.work ?? "")
-          .replace("{place}", c.place ?? ""),
-      })),
-      onChange: (value) => {
-        picked = value;
-      },
-    }),
+    ...(askable.length
+      ? [
+          select({
+            options: askable.map((c) => ({ value: c.id, label: rowLabel(c) })),
+            onChange: (value) => {
+              picked = value;
+            },
+          }),
+        ]
+      : []),
+    ...declined.map((c) => introText(words.declined.replace("{name}", c.name))),
     buttonRow(
-      makeButton({
-        className: "action primary",
-        textContent: words.choose,
-        onclick: () => choose(picked),
-      }),
+      ...(askable.length
+        ? [
+            makeButton({
+              className: "action primary",
+              textContent: words.ask,
+              onclick: () => ask(picked),
+            }),
+          ]
+        : []),
       makeButton({
         className: "action",
         textContent: words.own,
-        onclick: () => choose(null),
+        onclick: () => chooseForMe(),
       }),
     ),
   );
@@ -1899,6 +1922,7 @@ async function campaignParts() {
     outings,
     standing,
     debates,
+    team,
     pictures,
     runningMate,
   } of v.campaigns) {
@@ -1978,23 +2002,25 @@ async function campaignParts() {
         `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
       );
       campaignResult =
-        result.volunteers !== undefined
-          ? controls.campaignVolunteers.asked
-              .replace("{asked}", String(result.answers.length))
-              .replace(
-                "{yes}",
-                String(result.answers.filter((a) => a.yes).length),
-              )
-              .replace("{volunteers}", volunteerCount(result.volunteers))
-          : result.contacted !== undefined
-            ? `${controls.campaignActs[kind] ?? ""}: ${result.contacted} · ${Object.entries(
-                result.answers,
-              )
-                .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
-                .join(" · ")}`
-            : result.reached !== undefined
-              ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
-              : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+        typeof result.line === "string" && result.setAsideMinor !== undefined
+          ? result.line
+          : result.volunteers !== undefined
+            ? controls.campaignVolunteers.asked
+                .replace("{asked}", String(result.answers.length))
+                .replace(
+                  "{yes}",
+                  String(result.answers.filter((a) => a.yes).length),
+                )
+                .replace("{volunteers}", volunteerCount(result.volunteers))
+            : result.contacted !== undefined
+              ? `${controls.campaignActs[kind] ?? ""}: ${result.contacted} · ${Object.entries(
+                  result.answers,
+                )
+                  .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
+                  .join(" · ")}`
+              : result.reached !== undefined
+                ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
+                : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
       // A volunteer shift is a scene: each person asked is the next Continue.
       if (kind === "ad" && result.scene) {
         playAsks({ asked: [], summary: result.line, scene: result.scene });
@@ -2106,6 +2132,36 @@ async function campaignParts() {
           return { nodes: [buttonRow(dollarsOut, send)] };
         },
       },
+      // Paid circulators gather the signatures a county, district or
+      // statewide race needs outside the town while its petition circulates.
+      ...(petition?.outside
+        ? [
+            {
+              group: T.groupMoney,
+              title: controls.campaignActs.circulators,
+              picture: pictures?.mail,
+              load: async () => {
+                const dollarsOut = numberBox({
+                  value: 500,
+                  min: 0,
+                  step: 1,
+                  label: controls.campaignContribute.dollars,
+                });
+                const hire = button(
+                  controls.campaignActs.circulators,
+                  "circulators",
+                  () => ({
+                    amountMinor: String(
+                      Math.round(Number(dollarsOut.value) * 100),
+                    ),
+                  }),
+                );
+                hire.dataset.testid = "campaign-circulators";
+                return { nodes: [buttonRow(dollarsOut, hire)] };
+              },
+            },
+          ]
+        : []),
       {
         group: T.groupMoney,
         title: controls.campaignContribute.give,
@@ -2256,7 +2312,39 @@ async function campaignParts() {
             ]),
           ),
         ],
-        [buttonTray(out)],
+        [
+          // The inbox: only requests a record holds (a debate the outlet invited you to), each
+          // opening where it is answered; no heading when there is none.
+          ...(debates?.length
+            ? [
+                stripSection(
+                  3,
+                  labelsC.inbox,
+                  ...debates.map((debate) => {
+                    const open = makeButton({ textContent: labelsC.inboxOpen });
+                    open.addEventListener("click", () => trailView(part));
+                    return deskBill(
+                      line(controls.debate?.title ?? labelsC.debate),
+                      line(dateWords(debate.date)),
+                      buttonRow(open),
+                    );
+                  }),
+                ),
+              ]
+            : []),
+          // The team: the people on the campaign's own record, who runs it and who helps.
+          ...(team?.staff.length || team?.volunteers.length
+            ? [
+                stripSection(
+                  4,
+                  labelsC.team,
+                  ...team.staff.map((p) => row(p.name, labelsC.staff)),
+                  ...team.volunteers.map((p) => row(p.name, labelsC.volunteer)),
+                ),
+              ]
+            : []),
+          buttonTray(out),
+        ],
       ],
     });
     parts.push(part);
@@ -3372,10 +3460,35 @@ async function seatRows() {
     seatText = r.text ?? [];
     // An executive's bill goes through a member: who was asked and what they said.
     const askedWord = r.asked
-      ? (r.asked.carried
-          ? controls.seat.askedCarried
-          : controls.seat.askedRefused
-        ).replace("{name}", r.asked.name)
+      ? (() => {
+          const say = r.asked.pronouns;
+          const fill = (line) =>
+            line
+              .replace("{name}", r.asked.name)
+              .replace("{words}", r.asked.reasonWords ?? "")
+              .replace("{subject}", say?.lower ?? "they")
+              .replace("{object}", say?.object ?? "them")
+              .replace("{possessive}", say?.possessive ?? "their");
+          const reasons = say
+            ? controls.seat.askedReasons
+            : controls.seat.askedReasonsThey;
+          const reason = reasons[r.asked.reason];
+          const line = r.asked.carried
+            ? controls.seat.askedCarried
+            : r.asked.reasonWords
+              ? controls.seat.askedRefusedSaid
+              : reason
+                ? controls.seat.askedRefusedBecause.replace("{reason}", reason)
+                : controls.seat.askedRefused;
+          const earlier = r.asked.earlier ?? [];
+          const before = earlier.length
+            ? ` ${(earlier.length === 1
+                ? controls.seat.askedBefore
+                : controls.seat.askedBeforeMore
+              ).replace("{date}", dateWords(earlier.at(-1)))}`
+            : "";
+          return fill(line + before);
+        })()
       : "";
     seatResult = r.asked
       ? askedWord
