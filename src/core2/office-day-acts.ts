@@ -258,7 +258,7 @@ export interface OfficeActHost {
     row: {
       personId: string;
       kind: string;
-      how: "did" | "own-choice";
+      how: "did" | "own-choice" | "absent";
       recordId: string;
       position: number | null;
       detail: string;

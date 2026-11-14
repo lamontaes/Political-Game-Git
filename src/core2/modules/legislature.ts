@@ -698,7 +698,7 @@ function askBeforeTheRoll(api: CoreAPI): void {
         const key = memberKey(term);
         const chosen = (
           table(api, "choices").get(`${bill.id}|${key}`) as unknown as
-            { vote: "yes" | "no" | "abstain" } | undefined
+            { vote: "yes" | "no" | "abstain" | "absent" } | undefined
         )?.vote;
         const lean = chosen
           ? chosen === "yes"
@@ -1159,7 +1159,8 @@ function councilBudget(
         // a player who cast nothing abstains, as on an override.
         const chosen = table(api, "choices").get(
           `${bill.id}|${key}`,
-        ) as unknown as { vote: "yes" | "no" | "abstain" } | undefined;
+        ) as unknown as
+          { vote: "yes" | "no" | "abstain" | "absent" } | undefined;
         const vote =
           chosen?.vote ??
           (key === player
@@ -4137,7 +4138,7 @@ function chamberVote(
     // A member who chose their vote (the player) votes as they chose; the
     // player is never voted for, so with no choice they abstain.
     const chosen = table(api, "choices").get(`${bill.id}|${key}`) as unknown as
-      { vote: "yes" | "no" | "abstain" } | undefined;
+      { vote: "yes" | "no" | "abstain" | "absent" } | undefined;
     const vote =
       chosen?.vote ??
       (key ===
@@ -5940,7 +5941,7 @@ function overrideVote(
       const { position, executive } = positions[index]!;
       const chosen = table(api, "choices").get(
         `${bill.id}|${key}|override${itemIndex === undefined ? "" : `:item:${itemIndex}`}`,
-      ) as unknown as { vote: "yes" | "no" | "abstain" } | undefined;
+      ) as unknown as { vote: "yes" | "no" | "abstain" | "absent" } | undefined;
       const total = position.total + executive;
       const vote =
         chosen?.vote ??
@@ -6063,7 +6064,8 @@ export function castMemberVote(
   api: CoreAPI,
   billId: string,
   memberId: string,
-  vote: "yes" | "no" | "abstain",
+  /** "absent": the member was not there (the player whose stop for the vote was off). */
+  vote: "yes" | "no" | "abstain" | "absent",
   /** The member's vote on overriding a veto, not on the bill. */
   override = false,
 ): void {
@@ -6861,7 +6863,7 @@ export function whipCount(
       const key = memberKey(member);
       const chosen = (
         table(api, "choices").get(`${bill.id}|${key}`) as unknown as
-          { vote: "yes" | "no" | "abstain" } | undefined
+          { vote: "yes" | "no" | "abstain" | "absent" } | undefined
       )?.vote;
       const lean = chosen
         ? chosen === "yes"
