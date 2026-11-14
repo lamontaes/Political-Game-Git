@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9250
 after:
 blocked-on:
 lead: laws-effects
