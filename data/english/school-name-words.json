@@ -1,0 +1,29 @@
+{
+  "about": "Abbreviations school records hold (the federal school files: 'Shamokin Area El Sch', 'Northwestern MS') and the words people write for them. Read by schoolNameWords (src/english/school-names.ts) where a school's name is shown. Each key is a whole word, matched in any case and never before a period; 'onlyBeforeSchoolOrLast' words are expanded only before School or at the end of a name ('El' also begins place names: 'El Paso'); 'onlyBeforeHigh' words only before High ('Lincoln Jr High' is a junior high; 'Martin Luther King Jr Elementary' keeps the Jr of the person's name).",
+  "words": {
+    "Sch": "School",
+    "Elem": "Elementary",
+    "HS": "High School",
+    "MS": "Middle School",
+    "Comm": "Community",
+    "Acad": "Academy",
+    "Ctr": "Center",
+    "Twp": "Township",
+    "Educ": "Education",
+    "Dist": "District",
+    "SD": "School District",
+    "ISD": "Independent School District",
+    "CISD": "Consolidated Independent School District",
+    "CUSD": "Community Unit School District",
+    "CCSD": "Community Consolidated School District",
+    "USD": "Unified School District",
+    "ESD": "Elementary School District"
+  },
+  "onlyBeforeSchoolOrLast": {
+    "El": "Elementary"
+  },
+  "onlyBeforeHigh": {
+    "Jr": "Junior",
+    "Sr": "Senior"
+  }
+}
