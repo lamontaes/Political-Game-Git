@@ -29,6 +29,7 @@ import {
   type PollRow,
 } from "./modules/campaigns";
 import {
+  campaignParameter,
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
@@ -83,7 +84,15 @@ it("a wider race raises from donors outside the town, under the limit, and buys 
           p.alive &&
           Number(world.core.date.slice(0, 4)) -
             Number(p.birthDate.slice(0, 4)) >=
-            35,
+            35 &&
+          // A candidate whose deliberation puts their poll share at zero (the
+          // share is the base share times one plus the trait weight times
+          // deliberation, never below zero) buys none by their own
+          // temperament, so they are no subject for "a funded campaign polls".
+          1 +
+            campaignParameter("spendTraitWeight") *
+              (p.traits["people-mind-v1:deliberation"] ?? 0) >
+            0,
       )
       .sort(
         (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
