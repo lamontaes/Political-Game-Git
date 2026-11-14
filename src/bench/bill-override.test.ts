@@ -18,7 +18,7 @@ import {
   votesOn,
   authorityFor,
   type Provision,
-  holdVote,
+  holdEveryChamber,
 } from "../core2/modules/legislature";
 import { lawInForce } from "../core2/modules/laws";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
@@ -117,7 +117,7 @@ describe(`a veto the player may override (seed ${seed})`, () => {
           castMemberVote(api, draft.id, seat.holder!.personId!, "yes");
         // The governor's own choice is a veto; the floor passes it, the veto lands.
         executiveDecision(api, draft.id, false);
-        const after = holdVote(api, draft.id);
+        const after = holdEveryChamber(api, draft.id);
         if (after.status !== "vetoed" && after.status !== "overridden")
           continue;
         bill = draft;
