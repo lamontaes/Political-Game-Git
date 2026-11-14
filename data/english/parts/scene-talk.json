@@ -149748,10 +149748,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.accused.i-did-it-because-i-wanted-wanted-so-badly-that-i-stopped",
+      "key": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-wanted-wanted-so-badly-that-i",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I did it because I wanted {wanted} so badly that I stopped asking whether I should.",
+      "text": "I offered the money because I wanted {wanted} so badly that I stopped asking whether I should.",
       "uses": [
         {
           "subject": "scene",
@@ -149843,10 +149843,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.accused.i-did-it-because-i-knew-the-person-and-i-told-myself",
+      "key": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-knew-the-person-and-i-told",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I did it because I knew the person, and I told myself it was a favor between friends, not a payment.",
+      "text": "I offered the money because I knew the person, and I told myself it was a favor between friends, not a payment.",
       "uses": [
         {
           "subject": "scene",
@@ -149856,7 +149856,7 @@
           "purpose": "conflict-accuse.friend",
           "key": "threat",
           "after": "answer",
-          "requiresFacts": ["motive-tie", "secondhand"]
+          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
         },
         {
           "subject": "scene",
@@ -149866,7 +149866,7 @@
           "purpose": "conflict-accuse.friend",
           "key": "threat",
           "after": "ask",
-          "requiresFacts": ["motive-tie", "secondhand"]
+          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
         },
         {
           "subject": "scene",
@@ -149876,7 +149876,7 @@
           "purpose": "conflict-accuse.friend",
           "key": "threat",
           "after": "press",
-          "requiresFacts": ["motive-tie", "secondhand"]
+          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
         },
         {
           "subject": "scene",
@@ -149886,7 +149886,7 @@
           "purpose": "conflict-accuse.friend",
           "key": "threat",
           "after": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-          "requiresFacts": ["motive-tie", "secondhand"]
+          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
         },
         {
           "subject": "scene",
@@ -149896,7 +149896,7 @@
           "purpose": "conflict-accuse.hearsay",
           "key": "threat",
           "after": "answer",
-          "requiresFacts": ["motive-tie", "secondhand"]
+          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
         },
         {
           "subject": "scene",
@@ -149906,7 +149906,7 @@
           "purpose": "conflict-accuse.hearsay",
           "key": "threat",
           "after": "ask",
-          "requiresFacts": ["motive-tie", "secondhand"]
+          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
         },
         {
           "subject": "scene",
@@ -149916,7 +149916,7 @@
           "purpose": "conflict-accuse.hearsay",
           "key": "threat",
           "after": "press",
-          "requiresFacts": ["motive-tie", "secondhand"]
+          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
         },
         {
           "subject": "scene",
@@ -149926,7 +149926,7 @@
           "purpose": "conflict-accuse.hearsay",
           "key": "threat",
           "after": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-          "requiresFacts": ["motive-tie", "secondhand"]
+          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
         }
       ],
       "origin": "authored",
@@ -149938,10 +149938,105 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.friend.i-did-it-because-we-re-close-and-i-told-myself-you",
+      "key": "scene-talk.reply-tell.accused.i-took-the-money-because-i-knew-the-person-and-i-told",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I did it because we're close, and I told myself you'd take it as a favor between friends.",
+      "text": "I took the money because I knew the person, and I told myself it was a favor between friends, not a payment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "answer",
+          "requiresFacts": ["motive-tie", "you-took"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "ask",
+          "requiresFacts": ["motive-tie", "you-took"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "press",
+          "requiresFacts": ["motive-tie", "you-took"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
+          "requiresFacts": ["motive-tie", "you-took"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "answer",
+          "requiresFacts": ["motive-tie", "you-took"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "ask",
+          "requiresFacts": ["motive-tie", "you-took"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "press",
+          "requiresFacts": ["motive-tie", "you-took"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
+          "requiresFacts": ["motive-tie", "you-took"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (short replies, conflict-accuse)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.friend.i-offered-it-to-you-because-we-re-close-and-i-told",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I offered it to you because we're close, and I told myself you'd take it as a favor between friends.",
       "uses": [
         {
           "subject": "scene",
@@ -149983,10 +150078,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.accused.i-did-it-because-i-d-heard-money-had-gone-that-way",
+      "key": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-d-heard-money-had-gone-that",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I did it because I'd heard money had gone that way before, and I let that make it seem ordinary.",
+      "text": "I offered the money because I'd heard money had gone that way before, and I let that make it seem ordinary.",
       "uses": [
         {
           "subject": "scene",
@@ -150078,10 +150173,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.accused.i-did-it-because-i-was-behind-on-everything-and-i-couldn",
+      "key": "scene-talk.reply-tell.accused.i-took-the-money-because-i-was-behind-on-everything-and-i",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I did it because I was behind on everything, and I couldn't see another way out.",
+      "text": "I took the money because I was behind on everything, and I couldn't see another way out.",
       "uses": [
         {
           "subject": "scene",
@@ -150173,10 +150268,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.accused.i-did-it-because-it-was-a-lot-of-money-to-me",
+      "key": "scene-talk.reply-tell.accused.i-took-the-money-because-it-was-a-lot-of-money-to",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I did it because it was a lot of money to me, and I didn't make myself say no.",
+      "text": "I took the money because it was a lot of money to me, and I didn't make myself say no.",
       "uses": [
         {
           "subject": "scene",
@@ -151114,7 +151209,7 @@
           "role": "asker",
           "purpose": "conflict-accuse.friend",
           "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-did-it-because-i-wanted-wanted-so-badly-that-i-stopped"
+          "after": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-wanted-wanted-so-badly-that-i"
         },
         {
           "subject": "scene",
@@ -151123,7 +151218,7 @@
           "role": "asker",
           "purpose": "conflict-accuse.friend",
           "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-did-it-because-i-knew-the-person-and-i-told-myself"
+          "after": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-knew-the-person-and-i-told"
         },
         {
           "subject": "scene",
@@ -151132,7 +151227,7 @@
           "role": "asker",
           "purpose": "conflict-accuse.friend",
           "key": "threat",
-          "after": "scene-talk.reply-tell.friend.i-did-it-because-we-re-close-and-i-told-myself-you"
+          "after": "scene-talk.reply-tell.accused.i-took-the-money-because-i-knew-the-person-and-i-told"
         },
         {
           "subject": "scene",
@@ -151141,7 +151236,7 @@
           "role": "asker",
           "purpose": "conflict-accuse.friend",
           "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-did-it-because-i-d-heard-money-had-gone-that-way"
+          "after": "scene-talk.reply-tell.friend.i-offered-it-to-you-because-we-re-close-and-i-told"
         },
         {
           "subject": "scene",
@@ -151150,7 +151245,7 @@
           "role": "asker",
           "purpose": "conflict-accuse.friend",
           "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-did-it-because-i-was-behind-on-everything-and-i-couldn"
+          "after": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-d-heard-money-had-gone-that"
         },
         {
           "subject": "scene",
@@ -151159,7 +151254,16 @@
           "role": "asker",
           "purpose": "conflict-accuse.friend",
           "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-did-it-because-it-was-a-lot-of-money-to-me"
+          "after": "scene-talk.reply-tell.accused.i-took-the-money-because-i-was-behind-on-everything-and-i"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "scene-talk.reply-tell.accused.i-took-the-money-because-it-was-a-lot-of-money-to"
         },
         {
           "subject": "scene",
@@ -151192,7 +151296,7 @@
           "role": "asker",
           "purpose": "conflict-accuse.hearsay",
           "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-did-it-because-i-wanted-wanted-so-badly-that-i-stopped"
+          "after": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-wanted-wanted-so-badly-that-i"
         },
         {
           "subject": "scene",
@@ -151201,7 +151305,7 @@
           "role": "asker",
           "purpose": "conflict-accuse.hearsay",
           "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-did-it-because-i-knew-the-person-and-i-told-myself"
+          "after": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-knew-the-person-and-i-told"
         },
         {
           "subject": "scene",
@@ -151210,7 +151314,7 @@
           "role": "asker",
           "purpose": "conflict-accuse.hearsay",
           "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-did-it-because-i-d-heard-money-had-gone-that-way"
+          "after": "scene-talk.reply-tell.accused.i-took-the-money-because-i-knew-the-person-and-i-told"
         },
         {
           "subject": "scene",
@@ -151219,7 +151323,7 @@
           "role": "asker",
           "purpose": "conflict-accuse.hearsay",
           "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-did-it-because-i-was-behind-on-everything-and-i-couldn"
+          "after": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-d-heard-money-had-gone-that"
         },
         {
           "subject": "scene",
@@ -151228,7 +151332,16 @@
           "role": "asker",
           "purpose": "conflict-accuse.hearsay",
           "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-did-it-because-it-was-a-lot-of-money-to-me"
+          "after": "scene-talk.reply-tell.accused.i-took-the-money-because-i-was-behind-on-everything-and-i"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "scene-talk.reply-tell.accused.i-took-the-money-because-it-was-a-lot-of-money-to"
         }
       ],
       "origin": "authored",
