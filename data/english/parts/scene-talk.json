@@ -133,6 +133,8 @@
     "about": "What a law not yet in force changes, by what it is (\"the Social Security payroll tax\"), from the law record's policy name.",
     "ended": "The day a law stopped being in force, as people say it, from the law record's end date.",
     "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record.",
+    "contract": "The contract award a bribe offer wants, by the work it pays for (\"the highways contract\"), from the offer record.",
+    "wanted": "What a bribe offer wants, the bill or the contract the offer record names.",
     "their-bill": "A colleague's own bill waiting in the same body, by its title as a sentence says it, from the legislature record (askPrice).",
     "price-section": "The number of the section of the player's bill a colleague would take half of, from the legislature record (askPrice).",
     "ask-day": "A day between the ask and the vote, as people say it, from the bill's calendar."
@@ -1481,7 +1483,7 @@
       "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-tomorrow-and-you-don-t-have-the-votes-yet-you-go-looking-for-first",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The vote on {bill} is tomorrow, and you don't have the votes yet. You go looking for {first}.",
+      "text": "The vote on {bill} is tomorrow. You go looking for {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -1506,7 +1508,7 @@
       "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-today-and-you-don-t-have-the-votes-yet-you-go-looking-for-first",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The vote on {bill} is today, and you don't have the votes yet. You go looking for {first}.",
+      "text": "The vote on {bill} is today. You go looking for {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -1556,7 +1558,7 @@
       "key": "scene-talk.narrate-narrate.you-ve-counted-the-votes-on-bill-twice-it-comes-to-the-floor-tomorrow-and-first-is-still-on-your-list",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You've counted the votes on {bill} twice. It comes to the floor tomorrow, and {first} is still on your list.",
+      "text": "{bill} comes to the floor tomorrow. {first} hasn't said yes.",
       "uses": [
         {
           "subject": "scene",
@@ -1581,7 +1583,7 @@
       "key": "scene-talk.narrate-narrate.you-ve-counted-the-votes-on-bill-twice-it-comes-to-the-floor-today-and-first-is-still-on-your-list",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You've counted the votes on {bill} twice. It comes to the floor today, and {first} is still on your list.",
+      "text": "{bill} comes to the floor today. {first} hasn't said yes.",
       "uses": [
         {
           "subject": "scene",
@@ -9274,10 +9276,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.we-re-going-to-talk-about-this-properly",
+      "key": "scene-talk.close-warn.we-re-going-to-talk-about-this-the-right-way",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "We're going to talk about this properly.",
+      "text": "We're going to talk about this the right way.",
       "uses": [
         {
           "key": "threat",
@@ -19741,7 +19743,7 @@
       "key": "scene-talk.reply-lie.i-m-up-six-points-check-the-paper",
       "move": "reply-lie",
       "kind": "spoken",
-      "text": "I'm up six points. Check the paper.",
+      "text": "I'm ahead. Check the paper.",
       "uses": [
         {
           "subject": "scene",
@@ -21332,10 +21334,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-today-let-me-get-through-today-come-find-me-next-week-and-we-ll-talk-about-it-properly",
+      "key": "scene-talk.reply-decline.not-today-let-me-get-through-today-come-find-me-next-week-and-we-ll-talk-it-through",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not today. Let me get through today. Come find me next week, and we'll talk about it properly.",
+      "text": "Not today. Let me get through today. Come find me next week, and we'll talk it through.",
       "uses": [
         {
           "subject": "scene",
@@ -24343,7 +24345,7 @@
       "key": "scene-talk.narrate-narrate.name-stops-you-on-the-courthouse-steps-you-haven-t-spoken-since-the-sp",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} stops you on the courthouse steps. You haven't spoken since the split.",
+      "text": "{name} stops you. You haven't spoken since the split.",
       "uses": [
         {
           "subject": "scene",
@@ -25721,7 +25723,7 @@
       "key": "scene-talk.narrate-narrate.name-catches-you-outside-the-hardware-store-you-ve-known-each-other-a-",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} catches you outside the hardware store. You've known each other a long time.",
+      "text": "{name} catches you on the street.",
       "uses": [
         {
           "subject": "scene",
@@ -28362,10 +28364,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.i-ll-check-back-before-the-roll-call",
+      "key": "scene-talk.close-accept.i-ll-check-back-before-the-vote",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "I'll check back before the roll call.",
+      "text": "I'll check back before the vote.",
       "uses": [
         {
           "subject": "scene",
@@ -32531,10 +32533,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.then-let-s-finish-it-properly-tuesday-in-front-of-everybody",
+      "key": "scene-talk.reply-confront.then-let-s-finish-it-right-tuesday-in-front-of-everybody",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Then let's finish it properly. Tuesday, in front of everybody.",
+      "text": "Then let's finish it right. Tuesday, in front of everybody.",
       "uses": [
         {
           "subject": "scene",
@@ -35492,7 +35494,7 @@
       "key": "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has held office for years. You asked for coffee because you can't decide whether to run for {office} this year.",
+      "text": "{name} has held office for years, and has something to say about running for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -39090,10 +39092,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.let-me-chew-on-that-literally",
+      "key": "scene-talk.reply-leave.let-me-chew-on-that",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Let me chew on that. Literally.",
+      "text": "Let me chew on that.",
       "uses": [
         {
           "subject": "scene",
@@ -54856,10 +54858,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.nobody-sent-me-i-live-four-streets-from-here",
+      "key": "scene-talk.follow-answer.nobody-sent-me-i-live-four-blocks-from-here",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Nobody sent me. I live four streets from here.",
+      "text": "Nobody sent me. I live four blocks from here.",
       "uses": [
         {
           "subject": "scene",
@@ -60014,7 +60016,7 @@
       "key": "scene-talk.narrate-narrate.the-race-for-office-opens-monday-and-you-re-the-first-one-at-name-s-co",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The race for {office} opens Monday, and you're the first one at {name}'s counter.",
+      "text": "Filing for {office} has opened. {name} looks up from the counter.",
       "uses": [
         {
           "subject": "scene",
@@ -61844,10 +61846,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.a-few-of-us-are-knocking-on-doors-about-cause-saturday-morning-walk-on",
+      "key": "scene-talk.state-request.a-few-of-us-are-knocking-on-doors-about-cause-saturday-morning-walk-a-",
       "move": "state-request",
       "kind": "spoken",
-      "text": "A few of us are knocking on doors about {cause} Saturday morning. Walk one street with us.",
+      "text": "A few of us are knocking on doors about {cause} Saturday morning. Walk a block or two with us.",
       "uses": [
         {
           "subject": "scene",
@@ -65721,10 +65723,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.are-you-here-to-ask-a-question-or-to-catch-me-out",
+      "key": "scene-talk.reply-confront.are-you-here-to-ask-a-question-or-to-trip-me-up",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Are you here to ask a question or to catch me out?",
+      "text": "Are you here to ask a question or to trip me up?",
       "uses": [
         {
           "subject": "scene",
@@ -71816,10 +71818,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-i-ll-name-it-with-you-tonight",
+      "key": "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-we-ll-talk-about-it-toni",
       "move": "reply-comfort",
       "kind": "spoken",
-      "text": "There's a line I won't cross with our savings. I'll name it with you tonight.",
+      "text": "There's a line I won't cross with our savings. We'll talk about it tonight.",
       "uses": [
         {
           "subject": "scene",
@@ -80476,10 +80478,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.you-know-i-cover-place-i-d-like-to-do-a-proper-interview-about-the-office-race",
+      "key": "scene-talk.state-request.you-know-i-cover-place-i-d-like-to-do-a-real-sit-down-interview-about-the-office-race",
       "move": "state-request",
       "kind": "spoken",
-      "text": "You know I cover {place}. I'd like to do a proper interview about the {office} race.",
+      "text": "You know I cover {place}. I'd like to do a real, sit-down interview about the {office} race.",
       "uses": [
         {
           "subject": "scene",
@@ -81020,10 +81022,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-the-date-and-the-format-in-hand",
+      "key": "scene-talk.narrate-narrate.name-has-the-date-and-the-format-settled",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has the date and the format in hand.",
+      "text": "{name} has the date and the format settled.",
       "uses": [
         {
           "subject": "scene",
@@ -83601,7 +83603,7 @@
       "key": "scene-talk.state-deliver-news.they-cut-my-line-by-percent-percent-that-s-cut-i-was-counting-on",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "They cut my line by {percent} percent. That's {cut} I was counting on.",
+      "text": "They cut my line by {cut}. I was counting on that.",
       "uses": [
         {
           "subject": "scene",
@@ -83610,7 +83612,7 @@
           "role": "asker",
           "purpose": "cut-argument",
           "key": "cut-heard",
-          "requiresFacts": ["cut", "percent"]
+          "requiresFacts": ["cut"]
         }
       ],
       "bearing": "braced",
@@ -83626,7 +83628,7 @@
       "key": "scene-talk.state-deliver-news.percent-percent-of-my-budget-cut-came-out-in-one-vote",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "{percent} percent of my budget, {cut}, came out in one vote.",
+      "text": "{cut} of my budget came out in one vote.",
       "uses": [
         {
           "subject": "scene",
@@ -83635,7 +83637,7 @@
           "role": "asker",
           "purpose": "cut-argument",
           "key": "cut-heard",
-          "requiresFacts": ["cut", "percent"]
+          "requiresFacts": ["cut"]
         }
       ],
       "bearing": "braced",
@@ -83920,7 +83922,7 @@
       "key": "scene-talk.state-deliver-news.percent-percent-of-my-line-is-gone-cut-i-d-like-your-help-finding-a-way-through-it",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "{percent} percent of my line is gone, {cut}. I'd like your help finding a way through it.",
+      "text": "{cut} of my line is gone. I'd like your help finding a way through it.",
       "uses": [
         {
           "subject": "scene",
@@ -83929,7 +83931,7 @@
           "role": "asker",
           "purpose": "cut-argument",
           "key": "cut-heard",
-          "requiresFacts": ["cut", "percent"]
+          "requiresFacts": ["cut"]
         }
       ],
       "bearing": "tender",
@@ -86606,7 +86608,7 @@
       "key": "scene-talk.narrate-narrate.name-is-the-newest-person-in-your-household-and-it-s-up-to-you-to-sett",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is the newest person in your household, and it's up to you to settle what that means.",
+      "text": "{name} is the newest person in your household.",
       "uses": [
         {
           "subject": "scene",
@@ -87667,10 +87669,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-can-t-say-yes-to-this-yet-not-until-we-ve-talked-it-over-properly",
+      "key": "scene-talk.reply-decline.i-can-t-say-yes-to-this-yet-not-until-we-ve-really-talked-it-over",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I can't say yes to this yet. Not until we've talked it over properly.",
+      "text": "I can't say yes to this yet. Not until we've really talked it over.",
       "uses": [
         {
           "subject": "scene",
@@ -88901,10 +88903,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.we-ll-need-to-talk-about-it-properly-soon",
+      "key": "scene-talk.close-press.we-ll-need-to-sit-down-and-talk-about-it-soon",
       "move": "close-press",
       "kind": "spoken",
-      "text": "We'll need to talk about it properly soon.",
+      "text": "We'll need to sit down and talk about it soon.",
       "uses": [
         {
           "subject": "scene",
@@ -97464,10 +97466,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.you-ll-be-out-knocking-every-evening-somebody-has-to-mind-the-rest",
+      "key": "scene-talk.follow-press.you-ll-be-out-knocking-every-evening-somebody-has-to-handle-the-rest",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "You'll be out knocking every evening. Somebody has to mind the rest.",
+      "text": "You'll be out knocking every evening. Somebody has to handle the rest.",
       "uses": [
         {
           "subject": "scene",
@@ -106508,7 +106510,7 @@
       "key": "scene-talk.follow-press.dont-put-me-off-im-asking-because-im-worried",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Don't put me off. I'm asking because I'm worried.",
+      "text": "Don't brush me off. I'm asking because I'm worried.",
       "uses": [
         {
           "subject": "scene",
@@ -106624,10 +106626,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.no-one-else-seeks-the-floor-name-is-recognized",
+      "key": "scene-talk.narrate-narrate.nobody-else-asks-to-speak-the-chair-calls-on-name",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "No one else seeks the floor. {name} is recognized.",
+      "text": "Nobody else asks to speak. The chair calls on {name}.",
       "uses": [
         {
           "subject": "scene",
@@ -106774,7 +106776,7 @@
       "key": "scene-talk.state-tell.thank-you-chair-i-ask-the-body-to-hear-me-on-this",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "Thank you, Chair. I ask the body to hear me on this bill.",
+      "text": "Thank you, Chair. I ask my colleagues to hear me on this bill.",
       "uses": [
         {
           "subject": "scene",
@@ -107151,7 +107153,7 @@
       "key": "scene-talk.close-warn.chair-i-hope-the-body-will-remember-this-when-the-roll-is",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Chair, I hope the body will remember this when the roll is called.",
+      "text": "Chair, I hope my colleagues will remember this when the roll is called.",
       "uses": [
         {
           "subject": "scene",
@@ -107412,10 +107414,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-want-to-hear-from-my-constituents-first",
+      "key": "scene-talk.reply-stall.i-want-to-hear-from-the-people-i-represent-first",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I want to hear from my constituents first.",
+      "text": "I want to hear from the people I represent first.",
       "uses": [
         {
           "subject": "scene",
@@ -107535,7 +107537,7 @@
       "key": "scene-talk.narrate-narrate.you-split-a-plate-of-fries-because-neither-of-you-wanted-to-order-firs",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You split a plate of fries because neither of you wanted to order first. {name} keeps nudging the ketchup toward your side.",
+      "text": "{name} keeps nudging the ketchup toward your side of the table.",
       "uses": [
         {
           "subject": "scene",
@@ -107559,7 +107561,7 @@
       "key": "scene-talk.narrate-narrate.you-walk-slowly-a-little-apart-until-your-hands-end-up-closer-than-eit",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You walk slowly, a little apart, until your hands end up closer than either of you planned. {name} watches the sidewalk ahead and smiles at it.",
+      "text": "{name} walks beside you, watches the sidewalk ahead and smiles at it.",
       "uses": [
         {
           "subject": "scene",
@@ -108607,10 +108609,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-d-like-to-do-this-again-i-ll-ask-you-properly-no-circling-the-block-",
+      "key": "scene-talk.close-promise.i-d-like-to-do-this-again-i-ll-ask-you-the-right-way-no-circling-the-b",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'd like to do this again. I'll ask you properly, no circling the block first.",
+      "text": "I'd like to do this again. I'll ask you the right way, no circling the block first.",
       "uses": [
         {
           "subject": "scene",
@@ -109285,10 +109287,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.ask-me-again-after-we-ve-sorted-the-bills-and-i-ve-had-room-to-think-i",
+      "key": "scene-talk.reply-deflect.ask-me-again-after-we-ve-worked-out-the-bills-and-i-ve-had-room-to-thi",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Ask me again after we've sorted the bills and I've had room to think. I want my answer to be real.",
+      "text": "Ask me again after we've worked out the bills and I've had room to think. I want my answer to be real.",
       "uses": [
         {
           "subject": "scene",
@@ -109383,10 +109385,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.okay-good-thank-you-for-answering-straight-away-i-didn-t-have-to-stand",
+      "key": "scene-talk.follow-thank.okay-good-thank-you-for-answering-right-away-i-didn-t-have-to-stand-he",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Okay. Good. Thank you for answering straight away. I didn't have to stand here guessing.",
+      "text": "Okay. Good. Thank you for answering right away. I didn't have to stand here guessing.",
       "uses": [
         {
           "subject": "scene",
@@ -110036,7 +110038,7 @@
       "key": "scene-talk.narrate-narrate.you-have-both-been-careful-with-each-other-for-a-long-time-now-name-se",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You have both been careful with each other for a long time. Now {name} sets the phone face down and turns to look at you.",
+      "text": "{name} sets the phone face down and turns to look at you.",
       "uses": [
         {
           "subject": "scene",
@@ -110060,7 +110062,7 @@
       "key": "scene-talk.narrate-narrate.name-says-your-name-once-quietly-the-way-people-do-when-something-has-",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} says your name once, quietly, the way people do when something has already been decided. You put down what you were carrying.",
+      "text": "{name} says your name once, quietly, the way people do when something has already been decided.",
       "uses": [
         {
           "subject": "scene",
@@ -111008,10 +111010,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-plea.i-m-asking-you-to-stay-level-with-me-so-we-can-sort-out-the-lease-and-",
+      "key": "scene-talk.follow-plea.i-m-asking-you-to-stay-calm-so-we-can-work-out-the-lease-and-the-car-w",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "I'm asking you to stay level with me so we can sort out the lease and the car without it getting ugly.",
+      "text": "I'm asking you to stay calm so we can work out the lease and the car without it getting ugly.",
       "uses": [
         {
           "subject": "scene",
@@ -111111,7 +111113,7 @@
       "key": "scene-talk.close-accept.good-let-s-keep-it-simple-and-fair-whoever-can-t-cover-the-rent-alone-",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Good. Let's keep it simple and fair. Whoever can't cover the rent alone gets help from the other until the lease is sorted out.",
+      "text": "Good. Let's keep it simple and fair. Whoever can't cover the rent alone gets help from the other until the lease is worked out.",
       "uses": [
         {
           "subject": "scene",
@@ -111745,7 +111747,7 @@
       "key": "scene-talk.follow-accept.no-of-course-i-should-have-thought-ill-take-it-back",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "No, of course. I should have thought. I'll take it back.",
+      "text": "No, of course. I should have thought of that. I'll take it back.",
       "uses": [
         {
           "subject": "scene",
@@ -112033,10 +112035,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.count-it-if-you-like-its-a-serious-sum-and-i-want-a-serious-answer",
+      "key": "scene-talk.state-request.count-it-if-you-like-it-s-serious-money-and-i-want-a-serious-answer",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Count it if you like. It's a serious sum, and I want a serious answer.",
+      "text": "Count it if you like. It's serious money, and I want a serious answer.",
       "uses": [
         {
           "subject": "scene",
@@ -112426,7 +112428,7 @@
       "key": "scene-talk.narrate-narrate.name-asks-to-talk-and-you-have-known-them-too-long-to-say-no",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} asks to talk, and you have known them too long to say no.",
+      "text": "{name} asks to talk.",
       "uses": [
         {
           "subject": "scene",
@@ -117895,7 +117897,7 @@
       "key": "scene-talk.state-deliver-news.there-s-left-left-to-pay-on-the-repairs-i-wanted-to-tell-you-before-th",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "There's {left} left to pay on the repairs. I wanted to tell you before the builder calls.",
+      "text": "There's {left} left to pay on the repairs. I wanted to tell you before the contractor calls.",
       "uses": [
         {
           "subject": "scene",
@@ -118163,10 +118165,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.fine-i-ll-call-the-builder-first-thing-and-get-a-date",
+      "key": "scene-talk.reply-promise.fine-i-ll-call-the-contractor-first-thing-and-get-a-date",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Fine. I'll call the builder first thing and get a date.",
+      "text": "Fine. I'll call the contractor first thing and get a date.",
       "uses": [
         {
           "subject": "scene",
@@ -118188,10 +118190,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.then-let-s-get-it-done-i-ll-start-with-the-builder",
+      "key": "scene-talk.reply-promise.then-let-s-get-it-done-i-ll-start-with-the-contractor",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Then let's get it done. I'll start with the builder.",
+      "text": "Then let's get it done. I'll start with the contractor.",
       "uses": [
         {
           "subject": "scene",
@@ -118359,10 +118361,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.i-ll-pick-up-extra-hours-until-the-home-is-put-right",
+      "key": "scene-talk.reply-offer.i-ll-pick-up-extra-hours-until-the-home-is-fixed-up",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "I'll pick up extra hours until the {home} is put right.",
+      "text": "I'll pick up extra hours until the {home} is fixed up.",
       "uses": [
         {
           "subject": "scene",
@@ -118408,10 +118410,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.i-ve-got-a-little-set-aside-use-it-for-the-builder",
+      "key": "scene-talk.reply-offer.i-ve-got-a-little-set-aside-use-it-for-the-contractor",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "I've got a little set aside. Use it for the builder.",
+      "text": "I've got a little set aside. Use it for the contractor.",
       "uses": [
         {
           "subject": "scene",
@@ -118506,10 +118508,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.the-builder-can-wait-a-week-nothing-s-going-to-change-by-then",
+      "key": "scene-talk.reply-deflect.the-contractor-can-wait-a-week-nothing-s-going-to-change-by-then",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "The builder can wait a week. Nothing's going to change by then.",
+      "text": "The contractor can wait a week. Nothing's going to change by then.",
       "uses": [
         {
           "subject": "scene",
@@ -119079,10 +119081,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-refuse.no-keep-it-you-ll-need-that-more-than-the-builder-does",
+      "key": "scene-talk.follow-refuse.no-keep-it-you-ll-need-that-more-than-the-contractor-does",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "No, keep it. You'll need that more than the builder does.",
+      "text": "No, keep it. You'll need that more than the contractor does.",
       "uses": [
         {
           "subject": "scene",
@@ -119207,10 +119209,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-call-the-builder-and-set-a-date",
+      "key": "scene-talk.close-promise.i-ll-call-the-contractor-and-set-a-date",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll call the builder and set a date.",
+      "text": "I'll call the contractor and set a date.",
       "uses": [
         {
           "subject": "scene",
@@ -119357,10 +119359,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.think-about-it-the-builder-won-t-hold-the-date-much-longer",
+      "key": "scene-talk.close-press.think-about-it-the-contractor-won-t-hold-the-date-much-longer",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Think about it. The builder won't hold the date much longer.",
+      "text": "Think about it. The contractor won't hold the date much longer.",
       "uses": [
         {
           "subject": "scene",
@@ -119480,10 +119482,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.did-the-builder-say-the-work-is-done-for-good",
+      "key": "scene-talk.reply-ask.did-the-contractor-say-the-work-is-done-for-good",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Did the builder say the work is done for good?",
+      "text": "Did the contractor say the work is done for good?",
       "uses": [
         {
           "subject": "scene",
@@ -124423,10 +124425,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.the-roll-call-is-public-start-there-then-ask-me-what-it-leaves-out",
+      "key": "scene-talk.reply-deflect.the-vote-is-on-the-record-start-there-then-ask-me-what-it-leaves-out",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "The roll call is public. Start there, then ask me what it leaves out.",
+      "text": "The vote is on the record. Start there, then ask me what it leaves out.",
       "uses": [
         {
           "subject": "scene",
@@ -125555,10 +125557,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.nobody-told-me-what-to-do-i-haven-t-heard-a-complaint",
+      "key": "scene-talk.reply-lie.nobody-told-me-what-to-do-that-vote-was-mine",
       "move": "reply-lie",
       "kind": "spoken",
-      "text": "Nobody told me what to do. I haven't heard a complaint.",
+      "text": "Nobody told me what to do. That vote was mine.",
       "uses": [
         {
           "subject": "scene",
@@ -128499,10 +128501,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.don-t-write-me-down-yet-i-m-waiting-on-the-fiscal-note",
+      "key": "scene-talk.reply-stall.don-t-count-me-yet-i-want-to-see-what-it-costs",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "Don't write me down yet. I'm waiting on the fiscal note.",
+      "text": "Don't count me yet. I want to see what it costs.",
       "uses": [
         {
           "subject": "scene",
@@ -130495,10 +130497,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.put-in-the-sunset-clause-and-i-can-explain-a-yes-at-the-grocery-store",
+      "key": "scene-talk.reply-bargain.put-an-end-date-on-it-and-i-can-explain-a-yes-at-the-grocery-store",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Put in the sunset clause and I can explain a yes at the grocery store.",
+      "text": "Put an end date on it and I can explain a yes at the grocery store.",
       "uses": [
         {
           "subject": "scene",
@@ -132451,10 +132453,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-is-leaving-the-household-behind-and-has-come-to-say-goodbye-prope",
+      "key": "scene-talk.narrate-narrate.name-is-leaving-the-household-behind-and-has-come-to-say-a-real-goodby",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is leaving the household behind, and has come to say goodbye properly.",
+      "text": "{name} is leaving the household behind, and has come to say a real goodbye.",
       "uses": [
         {
           "subject": "scene",
@@ -136494,10 +136496,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-do-you-need-from-me-while-i-find-my-feet",
+      "key": "scene-talk.reply-ask.what-do-you-need-from-me-while-i-get-back-on-my-feet",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What do you need from me while I find my feet?",
+      "text": "What do you need from me while I get back on my feet?",
       "uses": [
         {
           "subject": "scene",
@@ -137353,10 +137355,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.who-is-looking-after-child-i-can-t-do-a-thing-about-it-from-in-here",
+      "key": "scene-talk.state-request.who-is-taking-care-of-child-i-can-t-do-a-thing-about-it-from-in-here",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Who is looking after {child}? I can't do a thing about it from in here.",
+      "text": "Who is taking care of {child}? I can't do a thing about it from in here.",
       "uses": [
         {
           "subject": "scene",
@@ -137381,7 +137383,7 @@
       "key": "scene-talk.state-request.child-will-grow-a-lot-in-sentence-please-look-after-child-for-me-and-bring-child-to-see-me-if-you-can",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{child} is going to be so much bigger by the time I'm out. Please look after {child} for me, and bring them by if you can.",
+      "text": "{child} is going to be so much bigger by the time I'm out. Please take care of {child} for me, and bring them by if you can.",
       "uses": [
         {
           "subject": "scene",
@@ -140042,10 +140044,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-wish-i-could-but-i-don-t-have-the-time-to-do-it-properly-right-now",
+      "key": "scene-talk.reply-decline.i-wish-i-could-but-i-don-t-have-the-time-to-do-it-right-just-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I wish I could, but I don't have the time to do it properly right now.",
+      "text": "I wish I could, but I don't have the time to do it right just now.",
       "uses": [
         {
           "subject": "scene",
@@ -141199,10 +141201,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-i-just-need-to-sort-out-my-days-first",
+      "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-i-just-need-to-clear-my-schedule-first",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll do it, I promise. I just need to sort out my days first.",
+      "text": "I'll do it, I promise. I just need to clear my schedule first.",
       "uses": [
         {
           "subject": "scene",
@@ -141737,7 +141739,7 @@
       "key": "scene-talk.narrate-narrate.everyone-has-come-together-to-celebrate-name-who-you-last-quarreled-with-is-here-too-and-wants-a-word",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Everyone has come together to celebrate. {name} is here too, and the last time you two talked it ended in a quarrel.",
+      "text": "Everyone has come together to celebrate. {name} is here too, and the last time you two talked it ended in a fight.",
       "uses": [
         {
           "subject": "scene",
@@ -142683,7 +142685,7 @@
       "key": "scene-talk.narrate-narrate.a-birthday-at-home-went-by-with-a-relative-missing-from-it-and-name-wants-to-talk-to-you-about-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A birthday at home went by with a relative missing from it, and {name} wants to talk to you about it.",
+      "text": "A gathering at home went by with a relative missing, and {name} wants to talk about it.",
       "uses": [
         {
           "subject": "scene",
@@ -142823,10 +142825,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-wants-to-talk-to-you-about-absent-who-missed-the-birthday-at-home-the-last-time-you-two-talked-it-ended-in-a-quarrel",
+      "key": "scene-talk.narrate-narrate.name-wants-to-talk-to-you-about-absent-who-missed-the-birthday-at-home-the-last-time-you-two-talked-it-ended-in-a-fight",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} wants to talk to you about {absent}, who missed the birthday at home. The last time you two talked, it ended in a quarrel.",
+      "text": "{name} wants to talk to you about {absent}, who missed the birthday at home. The last time you two talked, it ended in a fight.",
       "uses": [
         {
           "subject": "scene",
@@ -143769,10 +143771,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.when-you-fell-seriously-ill-name-was-the-one-who-called-for-help-now-they-want-to-ask-you-something",
+      "key": "scene-talk.narrate-narrate.when-you-got-seriously-sick-name-was-the-one-who-called-for-help-now-they-want-to-ask-you-something",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "When you fell seriously ill, {name} was the one who called for help. Now they want to ask you something.",
+      "text": "When you got seriously sick, {name} was the one who called for help. Now they want to ask you something.",
       "uses": [
         {
           "subject": "scene",
@@ -143792,10 +143794,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.when-you-fell-seriously-ill-your-partner-name-called-for-help-afterward-they-sit-you-down-to-ask-you-something",
+      "key": "scene-talk.narrate-narrate.when-you-got-seriously-sick-your-partner-name-called-for-help-afterward-they-sit-you-down-to-ask-you-something",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "When you fell seriously ill, your partner {name} called for help. Afterward they sit you down to ask you something.",
+      "text": "When you got seriously sick, your partner {name} called for help. Afterward they sit you down to ask you something.",
       "uses": [
         {
           "subject": "scene",
@@ -143816,10 +143818,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-fell-seriously-ill-at-home-with-child-in-the-room-name-called-for-help-and-afterward-comes-to-ask-you-something",
+      "key": "scene-talk.narrate-narrate.you-got-seriously-sick-at-home-with-child-in-the-room-name-called-for-help-and-afterward-comes-to-ask-you-something",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You fell seriously ill at home with {child} in the room. {name} called for help, and afterward comes to ask you something.",
+      "text": "You got seriously sick at home with {child} in the room. {name} called for help, and afterward comes to ask you something.",
       "uses": [
         {
           "subject": "scene",
@@ -143840,10 +143842,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.other-people-in-the-house-saw-you-fall-seriously-ill-and-name-was-the-one-who-called-for-help-now-they-pull-you-aside-with-a-question",
+      "key": "scene-talk.narrate-narrate.other-people-in-the-house-saw-you-get-seriously-sick-and-name-was-the-one-who-called-for-help-now-they-pull-you-aside-with-a-question",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Other people in the house saw you fall seriously ill, and {name} was the one who called for help. Now they pull you aside with a question.",
+      "text": "Other people in the house saw you get seriously sick, and {name} was the one who called for help. Now they pull you aside with a question.",
       "uses": [
         {
           "subject": "scene",
@@ -144081,10 +144083,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.will-you-talk-to-child-yourself-first-they-were-in-the-room-when-you-fell-ill",
+      "key": "scene-talk.state-request.the-youngest-in-the-house-child-was-in-the-room-when-you-got-sick-will-you-talk-to-them-yourself-first",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The youngest in the house, {child}, was in the room when you fell ill. Will you talk to them yourself, {first}?",
+      "text": "The youngest in the house, {child}, was in the room when you got sick. Will you talk to them yourself, {first}?",
       "uses": [
         {
           "subject": "scene",
@@ -144363,10 +144365,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-fell-ill",
+      "key": "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-got-sick",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Why are you asking me now? What did you see when I fell ill?",
+      "text": "Why are you asking me now? What did you see when I got sick?",
       "uses": [
         {
           "subject": "scene",
@@ -144655,10 +144657,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.i-only-want-you-looked-after-first-whatever-you-can-manage-is-enough-for-me",
+      "key": "scene-talk.follow-answer.i-only-want-you-taken-care-of-first-whatever-you-can-manage-is-enough-for-me",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I only want you looked after, {first}. Whatever you can manage is enough for me.",
+      "text": "I only want you taken care of, {first}. Whatever you can manage is enough for me.",
       "uses": [
         {
           "subject": "scene",
@@ -146172,10 +146174,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.repeat.you-and-name-have-quarreled-over-money-before-and-the-missed-payment-has-opened-it-up-again",
+      "key": "scene-talk.narrate-narrate.repeat.you-and-name-have-fought-over-money-before-and-the-missed-payment-has-opened-it-up-again",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You and {name} have quarreled over money before, and the missed payment has opened it up again.",
+      "text": "You and {name} have fought over money before, and the missed payment has opened it up again.",
       "uses": [
         {
           "subject": "scene",
@@ -146183,7 +146185,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology.repeat",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["quarreled-before"]
         }
       ],
       "origin": "authored",
@@ -148015,10 +148018,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-the-whole-of-it",
+      "key": "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I did say something about money. Let me tell you the whole of it.",
+      "text": "I did say something about money. Let me tell you all of it.",
       "uses": [
         {
           "subject": "scene",
@@ -155839,8 +155842,8 @@
         "move": "thank",
         "key": "loss"
       },
-      "key": "scene-talk.follow-thank.good-i-ll-let-the-others-know-it-s-in-hand",
-      "text": "Good. I'll let the others know it's in hand.",
+      "key": "scene-talk.follow-thank.good-i-ll-let-the-others-know-it-s-handled",
+      "text": "Good. I'll let the others know it's handled.",
       "bearing": "calm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 1)",
@@ -156087,8 +156090,8 @@
         "move": "promise",
         "key": "news-received"
       },
-      "key": "scene-talk.reply-promise.i-will-give-me-a-little-time-to-sort-my-days",
-      "text": "I will. Give me a little time to sort my days.",
+      "key": "scene-talk.reply-promise.i-will-give-me-a-little-time-to-clear-my-schedule",
+      "text": "I will. Give me a little time to clear my schedule.",
       "bearing": "calm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 1)",
@@ -158290,8 +158293,8 @@
         "move": "promise",
         "key": "news-received"
       },
-      "key": "scene-talk.close-promise.look-after-yourself-i-ll-write-again-soon",
-      "text": "Look after yourself. I'll write again soon.",
+      "key": "scene-talk.close-promise.take-care-of-yourself-i-ll-write-again-soon",
+      "text": "Take care of yourself. I'll write again soon.",
       "bearing": "warm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 3)",
@@ -158460,8 +158463,8 @@
         "move": "promise",
         "key": "no-diploma"
       },
-      "key": "scene-talk.close-promise.tomorrow-you-and-i-will-sort-it-out",
-      "text": "Tomorrow, you and I will sort it out.",
+      "key": "scene-talk.close-promise.tomorrow-you-and-i-will-work-it-out",
+      "text": "Tomorrow, you and I will work it out.",
       "bearing": "steady",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 3)",
@@ -158902,8 +158905,8 @@
         "move": "leave",
         "key": "school-goodbye"
       },
-      "key": "scene-talk.reply-leave.i-should-head-out-look-after-yourself",
-      "text": "I should head out. Look after yourself.",
+      "key": "scene-talk.reply-leave.i-should-head-out-take-care-of-yourself",
+      "text": "I should head out. Take care of yourself.",
       "bearing": "warm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 3)",
@@ -161200,10 +161203,10 @@
       }
     },
     {
-      "key": "scene-talk.state-accept-terms.understood-i-ll-sort-it-out-and-come-back-for-seat",
+      "key": "scene-talk.state-accept-terms.understood-i-ll-get-it-straightened-out-and-come-back-for-seat",
       "move": "state-accept-terms",
       "kind": "spoken",
-      "text": "Understood. I'll sort it out and come back for {seat}.",
+      "text": "Understood. I'll get it straightened out and come back for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -162223,7 +162226,7 @@
       "key": "scene-talk.follow-accept.your-name-s-in-for-seat-in-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "your name's in for {seat} in {place}.",
+      "text": "your name's in for {seat} in {seat-place}.",
       "uses": [
         {
           "subject": "scene",
@@ -162233,7 +162236,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "place"]
+          "requiresFacts": ["seat", "seat-place"]
         }
       ],
       "origin": "authored",
@@ -162343,7 +162346,7 @@
       "key": "scene-talk.follow-accept.i-ve-got-you-on-the-list-for-seat-with-filed",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I've got you on the list for {seat} with {filed}.",
+      "text": "I've got you on the list for {seat}. That's you and {filed} so far.",
       "uses": [
         {
           "subject": "scene",
@@ -162373,7 +162376,7 @@
       "key": "scene-talk.follow-accept.you-re-on-file-for-seat-in-place-as-of-now",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "you're on file for {seat} in {place} as of now.",
+      "text": "you're on file for {seat} in {seat-place} as of now.",
       "uses": [
         {
           "subject": "scene",
@@ -162383,7 +162386,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "place"]
+          "requiresFacts": ["seat", "seat-place"]
         }
       ],
       "origin": "authored",
@@ -163185,10 +163188,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-duty.win-it-and-you-d-help-set-the-county-s-budget-and-look-after-its-roads-its-jail",
+      "key": "scene-talk.state-tell-duty.win-it-and-you-d-help-set-the-county-s-budget-and-take-care-of-its-roa-its-jail",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "Win it, and you'd help set the county's budget and look after its roads, its jail and the courthouse, for {place} and every town around it.",
+      "text": "Win it, and you'd help set the county's budget and take care of its roads, its jail and the courthouse, for {place} and every town around it.",
       "uses": [
         {
           "subject": "scene",
@@ -166241,10 +166244,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-hope-it-sorts-out-before-deadline",
+      "key": "scene-talk.follow-accept.i-hope-it-works-out-before-deadline",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I hope it sorts out before {deadline}.",
+      "text": "I hope it works out before {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -176293,10 +176296,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-comfort.look-after-yourself",
+      "key": "scene-talk.follow-comfort.take-it-easy",
       "move": "follow-comfort",
       "kind": "spoken",
-      "text": "Look after yourself.",
+      "text": "Take it easy.",
       "uses": [
         {
           "subject": "scene",
@@ -176593,10 +176596,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.looking-after-relative-takes-everything-i-ve-got-right-now",
+      "key": "scene-talk.reply-tell.taking-care-of-relative-takes-everything-i-ve-got-right-now",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Looking after {relative} takes everything I've got right now.",
+      "text": "Taking care of {relative} takes everything I've got right now.",
       "uses": [
         {
           "subject": "scene",
