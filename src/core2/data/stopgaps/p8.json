@@ -405,20 +405,6 @@
     "resolvedBy": "stand-in triage T5"
   },
   {
-    "id": "SG-P8-civic-inputs",
-    "kind": "civic-data-vintage-and-permission",
-    "file": "src/core2/data/civic-inputs.json",
-    "line": 3,
-    "whatItFakes": "Current indexed institution and canonical generated employer classifications stand in for historical public directories. Meeting permissions, membership acceptance, and public authority are not established by these names.",
-    "why": "Prototype offers need source-grounded civic targets while historical directory and access records are incomplete.",
-    "addedBy": "SOL-1258",
-    "addedAt": "2026-10-09",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Era-specific directories with explicit institution access, membership and authority records. Oct 23, 2026 (research-deep-past-sourced-parameters): the band a school meeting-place offer should land in is in data/research/core/shpps-2012-joint-use.json (CDC School Health Policies and Practices Study 2012, Jones and Wendel 2015: 61.6% of districts, 57.5% to 65.5%, had a formal agreement letting outside groups use school property, by metro status, district size and region), reported by scripts/research/deep-past-year.ts; the builder item core-stopgap-civic-inputs-civic-data-vintage-and-permission establishes access from the district's own record and checks the town against it. Historical directories remain unsourced.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T5"
-  },
-  {
     "id": "SG-P8-authored-job-mix",
     "kind": "authored content",
     "file": "src/core2/data/opening-employment.json",
