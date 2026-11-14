@@ -557,7 +557,7 @@ for (const entry of manifest) {
     const n = { i: 0 };
     const ids = { next: () => `${sceneNo}.1.${(n.i += 1)}` };
     const META =
-      /^(Seed:|Place:|Filed:|COUNTER TEXT|CAMPAIGN TAB|\[screen|Continue$|MEANING-COUNT|- ?outlet:|World seed)/;
+      /^(Seed:|Place:|Filed:|COUNTER TEXT|CAMPAIGN TAB|\[screen|Continue$|MEANING-COUNT|outlet:|World seed)/;
     const lines = (entry.lines ?? [])
       .filter((l) => !(l.role === "plain" && META.test(l.text)))
       .map<OutLine>((l) => ({
