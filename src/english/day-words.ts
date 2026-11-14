@@ -37,6 +37,21 @@ export function dayOpening(iso: string, minuteOfDay: number): string {
 }
 
 /**
+ * The day as the opening's landing names it, after "It's": "the evening of
+ * January 20", "late on January 20" (the date with no ordinal; Words lead,
+ * Nov 14), the part by the minute the player lands.
+ */
+export function dayLanding(iso: string, minuteOfDay: number): string {
+  const rows = data.landing.parts;
+  const part =
+    rows.find(
+      (row) => row.upToMinute === null || minuteOfDay < row.upToMinute,
+    ) ?? rows[rows.length - 1]!;
+  const month = data.months[Number(iso.slice(5, 7)) - 1] ?? iso;
+  return part.said.replace("{date}", `${month} ${Number(iso.slice(8, 10))}`);
+}
+
+/**
  * A record's own day told as past from the day a scene plays: "yesterday",
  * "the other day", "on January 3rd", and for a day in another year "last
  * February" or "in February 2023". Null on the same day, or for a later one.
