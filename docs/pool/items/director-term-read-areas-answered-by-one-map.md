@@ -22,7 +22,7 @@ root: none
 
 **Cause.** Found in code: `answersCondition` in src/director/speech-outline.ts read `answerTopics` of src/director/data/speech-outlines.json, which had rows for six areas (rent, crime, schools, health, roads, environment) and none for jobs, pay or prices, so a hurt address's answer for those fell to the macro measure's subjects and found no question (probe: prices and pay answered false at Bee Cave TX, Kingsbury NV and Medford MA, seed a7c13e). The campaign side reads no term read at all (src/core2/modules/campaigns.ts).
 
-**Fix.** Move the six rows into `answeredBy` in src/core2/data/term-read/areas.json beside the area's measures, add jobs, pay and prices, add `topicsAnsweringArea`, `questionAnswersArea` and `areasAnswered` to src/core2/term-read.ts, and make `answersCondition` read them; delete `answerTopics`. Campaigns read the same reader in a second pull request.
+**Fix.** Move the six rows and the director's budget-line rows (`budgetLineTopics`) into `answeredBy` in src/core2/data/term-read/areas.json beside the area's measures, add jobs, pay and prices, add `topicsAnsweringArea`, `questionAnswersArea` and `areasAnswered` to src/core2/term-read.ts, and make `answersCondition` read them; delete `answerTopics` and `budgetLineTopics`. A budget line answers an area too (welfare and income security answer pay, regional development jobs), which is how a mayor, who holds three policy questions and the town's budget lines, answers pay. Campaigns read the same reader in a second pull request.
 
 **Time box.** 3 hours for an Opus session.
 
@@ -34,4 +34,4 @@ root: none
 
 **Files.** src/core2/data/term-read/areas.json, src/core2/term-read.ts, src/director/speech-outline.ts, src/director/data/speech-outlines.json
 
-**Notes.** Filed Nov 14 with the pull request that builds it. Resolves words-pay-and-prices-have-no-question-that-answers-them once both are on the train.
+**Notes.** A town has no stance question for its own wages, prices or taxes yet (city-level `law:minimum-wage` and the sales-tax rate carry no `question` in the bill catalog, and `PLATFORM_QUESTIONS` offers a town none of them), so a mayor answers jobs and prices only where a budget line or such a question exists; filed as `core-town-wage-and-price-questions`. Filed Nov 14 with the pull request that builds it. Resolves words-pay-and-prices-have-no-question-that-answers-them once both are on the train.

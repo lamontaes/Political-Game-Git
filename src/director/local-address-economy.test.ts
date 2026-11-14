@@ -70,7 +70,7 @@ function writeTerm(
 describe("a hurt address opens on the town's pay or prices", () => {
   it("opens on prices, then on pay, where it slid furthest and the speaker holds a stand that answers it", () => {
     const lines: string[] = [];
-    let opened = 0;
+    const opened = { state: 0, town: 0 };
     for (const n of DRAWS) {
       const place = fixture(n);
       for (const [hurt, change] of [
@@ -108,11 +108,14 @@ describe("a hurt address opens on the town's pay or prices", () => {
           expect(asked, `${place.where} ${level}: ${hurt} asks nothing`).toBe(
             true,
           );
-          opened += 1;
+          opened[level] += 1;
         }
       }
     }
     process.stdout.write(`ECONOMY ADDRESSES\n${lines.join("\n")}\n`);
-    expect(opened, lines.join("; ")).toBeGreaterThan(0);
+    expect(opened.state, lines.join("; ")).toBeGreaterThan(0);
+    // A mayor holds a few policy questions and the town's budget lines, and
+    // answers pay through the welfare line (areas.json `answeredBy`).
+    expect(opened.town, lines.join("; ")).toBeGreaterThan(0);
   }, 600_000);
 });

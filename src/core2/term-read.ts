@@ -46,7 +46,12 @@ const DATA = areaData as unknown as {
   minimumMonths: { value: number };
   warmupMonths: { value: number };
   areas: Readonly<Record<string, Readonly<Record<string, number>>>>;
-  answeredBy: Readonly<Record<string, readonly string[] | string>>;
+  answeredBy: Readonly<
+    Record<
+      string,
+      { topics: readonly string[]; lines: readonly string[] } | string
+    >
+  >;
 };
 
 /** Every area the read keeps, in the data's order. */
@@ -90,16 +95,27 @@ const TOPIC_OF_QUESTION: ReadonlyMap<string, string> = new Map(
 
 /**
  * The catalog topics whose questions answer an area of the term read
- * (`answeredBy` in the area data), or none where the data names no row for
- * the name (a measure of the macro year, not an area).
+ * (`answeredBy.<area>.topics` in the area data), or none for a name that is
+ * not an area (a measure of the macro year).
  */
 export function topicsAnsweringArea(area: string): readonly string[] {
   const row = DATA.answeredBy[area];
-  return Array.isArray(row) ? row : [];
+  return typeof row === "object" ? row.topics : [];
 }
 
-/** Whether a policy question answers an area of the term read, through its catalog topic. */
+/** The budget lines ("budget-line:<line>") that bear on an area of the term read. */
+function linesAnsweringArea(area: string): readonly string[] {
+  const row = DATA.answeredBy[area];
+  return typeof row === "object" ? row.lines : [];
+}
+
+/**
+ * Whether a question answers an area of the term read: a budget line that
+ * bears on it, or a policy question under one of its catalog topics.
+ */
 export function questionAnswersArea(question: string, area: string): boolean {
+  if (question.startsWith("budget-line:"))
+    return linesAnsweringArea(area).includes(question);
   const topic = TOPIC_OF_QUESTION.get(question);
   return !!topic && topicsAnsweringArea(area).includes(topic);
 }

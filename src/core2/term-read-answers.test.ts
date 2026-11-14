@@ -44,6 +44,17 @@ describe("the catalog topics whose questions answer each area of the term read",
     expect(areasAnswered("us-policy-positions:not-a-question")).toEqual([]);
   });
 
+  it("lets a budget line answer an area, so a mayor with a few questions and the town's lines can answer pay", () => {
+    expect(questionAnswersArea("budget-line:welfareAndMedicaid", "pay")).toBe(
+      true,
+    );
+    expect(areasAnswered("budget-line:welfareAndMedicaid")).toEqual(
+      expect.arrayContaining(["health", "pay"]),
+    );
+    expect(areasAnswered("budget-line:police")).toEqual(["crime"]);
+    expect(areasAnswered("budget-line:interest")).toEqual([]);
+  });
+
   it("keeps a question's area to its catalog topic, never its whole subject", () => {
     // Restoring the vote after a sentence is justice, and no answer to crime
     // (the words lead, Nov 12): a question answers an area only through its topic.
