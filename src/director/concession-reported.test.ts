@@ -249,7 +249,7 @@ const NORTH_WESTMINSTER: Pin = {
 };
 
 for (const move of ["agree", "refuse"] as const)
-  it(`${NORTH_WESTMINSTER.name}: a ${move} on the call after the count is told in the race's story in the paper`, () => {
+  it(`${NORTH_WESTMINSTER.name}: a ${move === "agree" ? "concession" : "refusal"} on the call after the count is told in the race's story in the paper`, () => {
     const out = run(NORTH_WESTMINSTER, move);
     process.stdout.write(`${out.done ? "shown" : "not shown"}: ${out.note}\n`);
     expect(out.done, out.note).toBe(true);
