@@ -49,7 +49,8 @@
       "people": {
         "ageFrom": "medicaidExpansionAgeFrom",
         "ageBelow": "medicaidExpansionAgeBelow",
-        "incomeBelowPovertyShare": "medicaidExpansionIncomeShare"
+        "incomeBelowPovertyShare": "medicaidExpansionIncomeShare",
+        "servesGroupQuarters": ["nursing", "otherInstitutional"]
       },
       "terms": {
         "incomeLimitShare": "medicaidExpansionIncomeShare"
@@ -67,7 +68,8 @@
         "ageBelow": "medicaidExpansionAgeBelow",
         "incomeBelowPovertyShare": "medicaidExpansionIncomeShare",
         "hoursBelowPerMonth": "medicaidWorkHoursPerMonth",
-        "noChildBelow": "medicaidWorkExemptChildBelow"
+        "noChildBelow": "medicaidWorkExemptChildBelow",
+        "servesGroupQuarters": ["nursing", "otherInstitutional"]
       },
       "terms": {
         "hoursPerMonth": "medicaidWorkHoursPerMonth"
@@ -158,8 +160,7 @@
         "capShare": "propertyTaxGrowthCapShare"
       },
       "enforcer": "county assessor",
-      "source": "California Constitution art. XIII A; Lincoln Institute, Significant Features of the Property Tax (2023)",
-      "stopgapId": "SG-GOV-REACH-B-property-tax-bills"
+      "source": "California Constitution art. XIII A; Lincoln Institute, Significant Features of the Property Tax (2023)"
     },
     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
       "mechanic": "records",

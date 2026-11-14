@@ -236,20 +236,27 @@ const rankedAt = (r: Read, slope: number) =>
     .map((x) => x.s);
 
 /**
- * What a candidate would have said at another slope: every act carries the
- * campaign's lead (`platformLead`), so the statements on the lead the
- * platform the world recorded gave move to the lead the rule would have
- * chosen at that slope from the recorded scores.
+ * What a candidate would have said at another slope: every act is about the
+ * question its campaign is furthest behind on (`nextTopic`), so over a
+ * campaign the statements follow the platform's score shares. At another
+ * slope the same number of statements is shared over the platform that slope
+ * would have chosen, by that slope's score shares.
  */
 function saidAt(r: Read, slope: number): ReadonlyMap<string, number> {
-  const lead = r.platform.find((s) => s.position !== 0)?.question;
-  const next = rankedAt(r, slope)[0]?.question;
-  if (!lead || !next || lead === next) return r.said;
-  const out = new Map(r.said);
-  const onLead = out.get(lead) ?? 0;
-  out.set(lead, 0);
-  out.set(next, (out.get(next) ?? 0) + onLead);
-  return out;
+  const total = saidTotal(r);
+  const run = r.platform.filter((s) => s.position !== 0).length;
+  const top = rankedAt(r, slope).slice(0, run);
+  const sum = top.reduce(
+    (t, s) => t + s.conviction * Math.exp(slope * s.support),
+    0,
+  );
+  if (!total || !(sum > 0)) return r.said;
+  return new Map(
+    top.map((s) => [
+      s.question,
+      (total * s.conviction * Math.exp(slope * s.support)) / sum,
+    ]),
+  );
 }
 
 function levelOf(api: CoreAPI, contest: ContestRow): string {
@@ -815,10 +822,10 @@ it("every contested local race's candidates run on their top questions by the ru
   // The town agrees more with what the rule runs on than with the strongest views.
   expect(agree.rule, total).toBeGreaterThan(agree.strongest);
   // C1, emphasis by record rising with support inside the research band, is
-  // printed above and not held (governing lead, Nov 2). Every campaign act
-  // carries one question, so a campaign's emphasis falls on its lead
-  // (SG-GOV-platform-emphasis-lead-only) and no slope meets the band
-  // (SG-GOV-platform-slope-c1-out-of-band). The band check moves to pool
-  // item campaign-platform-emphasis-c1, with acts sharing their emphasis
-  // over the platform; the band is not widened.
+  // printed above and not held (governing lead, Nov 2). Each campaign act
+  // is about the question its campaign is furthest behind on over the
+  // platform's score shares (`nextTopic`), so a candidate's emphasis follows
+  // the platform's scores; whether the pooled total meets the band is read
+  // from the printed lines (pool item campaign-platform-emphasis-c1), and
+  // the band is not widened.
 }, 7_200_000);

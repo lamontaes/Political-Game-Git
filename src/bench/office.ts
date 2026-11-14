@@ -39,6 +39,7 @@ import {
   orderQuestionOf,
   pendingGovernorOrders,
 } from "../core2/modules/executive";
+import controls from "./data/controls.json" with { type: "json" };
 import { policyNames } from "./words";
 import {
   hireReasons,
@@ -46,6 +47,7 @@ import {
   servingStaffOf,
   staffCandidates,
 } from "../core2/modules/staff";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { billOf as legislatureBillOf } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import {
@@ -73,8 +75,14 @@ import {
   officeHost,
   officeJobsOf,
   prepareAct,
+  setStops,
   speakOnItem,
+  stopKinds,
+  stopsOf,
   takeUpItem,
+  federalSeatOf,
+  stateOfficeOf,
+  votesOnPassage,
   type MeetingRow,
   nextMeetingDate,
 } from "../core2/modules/office-day";
@@ -350,6 +358,94 @@ export function leaveHoldsToCharacter(core: CoreState, holderId?: string) {
     for (const entry of waitingEntries(api, holderId)) actOn(api, entry);
 }
 
+/**
+ * The switches Your office offers (owner's card, Nov 14, 2026: "Stop me at every vote"): each is
+ * one name the player knows over the registered stop kinds it sets together, and shows only when
+ * the seat has that kind of moment. On by default; off leaves the player away from that kind of
+ * vote (the engine records them absent, a desk bill waits, nothing is cast or signed for them).
+ */
+const STOP_SWITCHES = [
+  // The own-bill and deciding-vote stops are moments of the same meetings and floor votes: left on
+  // under an Off switch they would still hold the player at some of them.
+  {
+    key: "meetings",
+    kinds: ["every-meeting", "own-bill-vote", "deciding-vote"],
+  },
+  { key: "floor", kinds: ["floor-vote", "state-floor-vote", "own-bill-vote"] },
+  { key: "desk", kinds: ["desk"] },
+] as const;
+
+/** The elected executive seats whose desk a passed bill reaches (the legislature engine's own set). */
+const EXECUTIVE_OFFICE = /^(mayor|governor|county-executive|president)$/;
+
+/** Which switches this seat has: a local body's meetings, a legislator's floor, an executive's desk. */
+function seatSwitches(api: ReturnType<typeof coreAPI>, personId: string) {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const executive = (
+    offices.table("terms").query("byPerson", [personId]) as unknown as {
+      status: string;
+      officeId: string;
+    }[]
+  ).some((term) => {
+    const office = offices.table("offices").get(term.officeId) as unknown as
+      { kind: string } | undefined;
+    return (
+      term.status === "serving" && EXECUTIVE_OFFICE.test(office?.kind ?? "")
+    );
+  });
+  const federal = federalSeatOf(api, personId);
+  const has: Record<(typeof STOP_SWITCHES)[number]["key"], boolean> = {
+    // A seat in a body that meets, whether or not a meeting is on the calendar this week: a mayor's
+    // office has a body record (kind "mayor") but no meetings, so no switch for nothing.
+    meetings: officeJobsOf(api, personId).some((j) => {
+      const body = bodyOf(api, j.officeId);
+      return body !== undefined && !EXECUTIVE_OFFICE.test(body.kind);
+    }),
+    floor:
+      stateOfficeOf(api, personId)?.role === "legislator" ||
+      (federal !== null && votesOnPassage(federal.kind)),
+    desk: executive,
+  };
+  return STOP_SWITCHES.filter((row) => has[row.key]);
+}
+
+/**
+ * The meetings switch's label in the body's own short word, read from the first body the player sits
+ * on by the rules in controls.json (a body whose name has no word there reads plain "Meetings").
+ */
+function bodyWord(api: ReturnType<typeof coreAPI>, officeIds: string[]) {
+  for (const officeId of officeIds) {
+    const name = bodyOf(api, officeId)?.bodyName?.toLowerCase();
+    if (!name) continue;
+    const rule = controls.officeStops.bodySwitches.find((r) =>
+      r.has.every((word) => name.includes(word)),
+    );
+    if (rule) return rule.label;
+  }
+  return null;
+}
+
+/** The player switches one kind of stop off or on; the view comes back with it. */
+export function officeStops(
+  core: CoreState,
+  personId: string,
+  key: string,
+  on: boolean,
+) {
+  const api = coreAPI(core);
+  const row = seatSwitches(api, personId).find((r) => r.key === key);
+  if (!row) throw new Error("Your seat has no such stop.");
+  const known = stopKinds();
+  setStops(
+    api,
+    personId,
+    Object.fromEntries(
+      row.kinds.filter((k) => known.includes(k)).map((k) => [k, on]),
+    ),
+  );
+  return officeView(core, personId);
+}
+
 /** The office panel: the seat as a job, the next meetings, what stops the player, and the acts kept. */
 export function officeView(core: CoreState, personId: string) {
   const api = coreAPI(core);
@@ -364,6 +460,15 @@ export function officeView(core: CoreState, personId: string) {
       lastPaid: j.lastPaid ?? null,
       citation: j.citation,
       nextMeeting: nextMeetingDate(api, j.officeId),
+    })),
+    // The body's short said word for the meetings switch ("Council meetings"), from the body's own name; none when no word fits.
+    stopsBody: bodyWord(
+      api,
+      jobs.map((j) => j.officeId),
+    ),
+    stops: seatSwitches(api, personId).map((row) => ({
+      key: row.key,
+      on: row.kinds.every((k) => stopsOf(api, personId)[k] !== false),
     })),
     // The town posts the official appoints that stand open, each with the people it could go to, best first by the official's own reasons.
     heads: [
@@ -399,7 +504,8 @@ export function officeView(core: CoreState, personId: string) {
     // Each of the player's bills waiting for a vote, with the colleagues who will vote and the deal set to offer each when they talk.
     deals: pendingBills(api, personId).map((bill) => ({
       billId: bill.id,
-      number: bill.number,
+      // Said with its form's word ("Ordinance 2025-8"), never bare.
+      number: spokenDesignation(bill.number, bill.form.kind),
       colleagues: colleaguesOn(api, bill, personId).map((key) => {
         // Where the player learned this colleague stands, and how (a talk or
         // an aide's brief), from the legislature's record of it.
