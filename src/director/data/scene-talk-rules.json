@@ -2,7 +2,7 @@
   "schema": "director-scene-talk-rules/1",
   "note": "How a scene with a purpose picks the player's path. Moves only, no sentence. The player's character leans toward the reply whose act kinds (`scene-talk.move` in data/content/trait-decisions.json) its traits pull toward most, by the same lean the asker's answers read. Nothing here is a roll; a tie goes to the stable hash of the scene.",
   "terminalFollow": ["thank", "accept"],
-  "answerMoves": ["press"],
+  "answerMoves": ["press", "plea"],
   "tree": {
     "about": "Owner, Oct 15, night: a scene is a tree, a branch for each thing the player might say. The bounds keep a page readable: past maxNodes only the branch the player's traits lean toward is kept.",
     "maxReplies": {
