@@ -4,6 +4,7 @@
  * Age, household size and income, work hours and the children in the house
  * come from each person's own records (jobs, work commitments, household).
  */
+import type { GroupQuartersType } from "../group-quarters-types";
 import parameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
@@ -66,6 +67,13 @@ export interface PeopleSelector {
   readonly noChildBelow?: string;
   /** One record per household: its oldest member who matches. */
   readonly householdHead?: boolean;
+  /**
+   * The group-quarters types a means-tested program serves. A room has no
+   * household income of its own to test, so a selector with an income line
+   * reaches a room only where its type is named here (a program's own
+   * eligibility rule); absent, it serves none.
+   */
+  readonly servesGroupQuarters?: readonly GroupQuartersType[];
 }
 
 /** One resident's facts, named or counted. */
@@ -94,6 +102,8 @@ export interface HouseholdFacts {
   readonly ages: readonly number[];
   /** Real households this counted row stands for (absent means one). */
   readonly scale?: number;
+  /** The group-quarters type of its room; absent for a household. */
+  readonly quarters?: GroupQuartersType;
 }
 
 export interface TownFacts {
@@ -218,6 +228,9 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
         ? { retirementDollars: retirementMinor / cents }
         : {}),
       ages,
+      ...(core.households.get(householdId)?.quarters
+        ? { quarters: core.households.get(householdId)!.quarters }
+        : {}),
     });
   }
   // Counted residents: their groups' members, read from the packed columns
@@ -277,6 +290,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
             : {}),
           ages,
           ...(scale !== 1 ? { scale } : {}),
+          ...(h.quarters ? { quarters: h.quarters } : {}),
         });
     }
   }
@@ -333,6 +347,14 @@ export function selectResidents(
     if (weekly !== undefined && r.weeklyMinutes >= weekly) continue;
     const household = facts.households.get(r.householdId);
     if (!household) continue;
+    // A room has no household income to test: a means-tested program
+    // reaches it only where its own rule serves the room's type.
+    if (
+      incomeShare !== undefined &&
+      household.quarters &&
+      !selector.servesGroupQuarters?.includes(household.quarters)
+    )
+      continue;
     if (
       incomeShare !== undefined &&
       household.incomeDollars >=
