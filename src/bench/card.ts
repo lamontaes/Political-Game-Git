@@ -799,12 +799,9 @@ function lineOf(
       return line;
     }
     case "politics/lost":
-      // The race's year, for the pieces that say it (person-history's
-      // office.lost lines with {year}, written by the Story session).
       return facts.office
         ? make("office.lost", {
             office: inSentence(String(facts.office).replace(/-/g, " ")),
-            year: event.date.slice(0, 4),
           })
         : null;
     case "politics/lost-primary":
