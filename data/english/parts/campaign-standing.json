@@ -321,6 +321,90 @@
       }
     },
     {
+      "key": "campaign-standing.moved-all-warmer.every-one-of-them-for-office",
+      "move": "moved-all-warmer",
+      "kind": "written",
+      "text": "Every one of them came away warmer toward your run for {office}.",
+      "uses": [
+        {
+          "move": "moved-all-warmer",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-all-warmer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead carry of #8391",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-all-warmer"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-all-warmer.everyone-you-reached-for-office",
+      "move": "moved-all-warmer",
+      "kind": "written",
+      "text": "Everyone you reached warmed to you as a candidate for {office}.",
+      "uses": [
+        {
+          "move": "moved-all-warmer",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-all-warmer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead carry of #8391",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-all-warmer"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-all-cooler.every-one-of-them-for-office",
+      "move": "moved-all-cooler",
+      "kind": "written",
+      "text": "Every one of them came away cooler toward your run for {office}.",
+      "uses": [
+        {
+          "move": "moved-all-cooler",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-all-cooler"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead carry of #8391",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-all-cooler"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-all-cooler.everyone-you-reached-for-office",
+      "move": "moved-all-cooler",
+      "kind": "written",
+      "text": "Everyone you reached cooled toward you as a candidate for {office}.",
+      "uses": [
+        {
+          "move": "moved-all-cooler",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-all-cooler"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead carry of #8391",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-all-cooler"
+      }
+    },
+    {
       "key": "campaign-standing.moved-both.of-the-voters-you-reached-warmer-warmed-to-you-and-cooler-co",
       "move": "moved-both",
       "kind": "written",
@@ -783,10 +867,10 @@
       }
     },
     {
-      "key": "campaign-standing.moved-none.none-of-the-reached-voters-you-reached-has-changed-their-mind-yet",
+      "key": "campaign-standing.moved-none.none-of-them-has-changed-their-mind-about-office-yet",
       "move": "moved-none",
       "kind": "written",
-      "text": "None of the {reached} voters you reached has changed their mind yet.",
+      "text": "None of them has changed their mind about your run for {office} yet.",
       "uses": [
         {
           "move": "moved-none",
@@ -804,10 +888,10 @@
       }
     },
     {
-      "key": "campaign-standing.moved-none.the-reached-voters-you-reached-feel-the-same-about-you-as-before",
+      "key": "campaign-standing.moved-none.they-feel-the-same-about-office-as-before",
       "move": "moved-none",
       "kind": "written",
-      "text": "The {reached} voters you reached feel the same about you as before.",
+      "text": "They feel the same about your run for {office} as before.",
       "uses": [
         {
           "move": "moved-none",

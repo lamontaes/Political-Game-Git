@@ -163,7 +163,7 @@ export function campaignView(core: CoreState, personId: string) {
           : null,
         campaign: {
           ...campaign,
-          volunteers: campaign.volunteerIds.length,
+          volunteers: volunteersApart(campaign).length,
           doors: campaign.doorsKnockedCount ?? 0,
           // The people and groups who said yes, from the endorsement records.
           endorsements: endorsementsOf(api, filing.id).filter(
@@ -176,9 +176,10 @@ export function campaignView(core: CoreState, personId: string) {
             id,
             name: personName(core, id),
           })),
-          volunteers: campaign.volunteerIds
-            .filter((id) => !campaign.staffIds.includes(id))
-            .map((id) => ({ id, name: personName(core, id) })),
+          volunteers: volunteersApart(campaign).map((id) => ({
+            id,
+            name: personName(core, id),
+          })),
         },
         polls: polls.slice(-3),
         petition: petitionView(api, filing.id),
@@ -439,6 +440,17 @@ function saidAgain(
 }
 
 /**
+ * The volunteers who are not on the staff: the one read behind the board's
+ * count, the team list beside it and the shift's count, so the three agree.
+ */
+function volunteersApart(campaign: {
+  volunteerIds: readonly string[];
+  staffIds: readonly string[];
+}): string[] {
+  return campaign.volunteerIds.filter((id) => !campaign.staffIds.includes(id));
+}
+
+/**
  * Where the race stands, as sentences from the English engine's
  * campaign-standing bank: the voters the player reached and how many moved,
  * the opponents on the contest's filings and how many voters each reached,
@@ -485,15 +497,21 @@ export function raceStanding(
             mine.warmer > 0 && mine.cooler > 0
               ? "moved-both"
               : mine.warmer > 0
-                ? "moved-warmer"
+                ? // Everyone reached moved the same way: said once, without the figure twice.
+                  mine.warmer >= mine.reached && race
+                  ? "moved-all-warmer"
+                  : "moved-warmer"
                 : mine.cooler > 0
-                  ? "moved-cooler"
+                  ? mine.cooler >= mine.reached && race
+                    ? "moved-all-cooler"
+                    : "moved-cooler"
                   : "moved-none",
             id,
             {
               warmer: mine.warmer,
               cooler: mine.cooler,
               reached: mine.reached,
+              ...(race ? { office: race.office } : {}),
             },
           ),
         ]
@@ -600,7 +618,7 @@ export function campaignAct(
       // The count shown is the campaign record's, the one the header reads.
       return {
         answers,
-        volunteers: campaignFor(api, input.filingId).volunteerIds.length,
+        volunteers: volunteersApart(campaignFor(api, input.filingId)).length,
         // The shift is at the campaign office, the player at it.
         scene: askScene(core, personId, scenePlaces.volunteerOfficePlace),
       };

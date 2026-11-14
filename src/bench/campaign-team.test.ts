@@ -134,6 +134,8 @@ it(`the campaign board's team lists the manager and the volunteers from the camp
     ).not.toContain(offer.helper);
     for (const p of [...view!.team.staff, ...view!.team.volunteers])
       expect(p.name, `${where}: ${p.id}`).toBe(named(p.id));
+    // The board's money panel counts the same volunteers the team list shows.
+    expect(view!.campaign.volunteers, where).toBe(view!.team.volunteers.length);
     // One source: the lists are the campaign row's, nothing kept on the screen's side.
     expect(view!.team.staff.length + view!.team.volunteers.length, where).toBe(
       new Set([...campaign.staffIds, ...campaign.volunteerIds]).size,
