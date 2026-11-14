@@ -37,7 +37,7 @@ import {
 import { corePlaceByKey } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import type { Director } from "./director";
+import type { Director } from "./ledger";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 

@@ -4059,6 +4059,24 @@ const sheets = {
               labels.hours,
               `${Number(job.hoursDaily.toFixed(1))} ${labels.daily}`,
             ),
+            // Leaving is the holder's own press. A post held by office, or a
+            // business you own, has its own way out and shows no button.
+            ...(job.leave === null
+              ? [
+                  (() => {
+                    const leave = makeButton({
+                      textContent: labels.leaveJob,
+                    });
+                    leave.dataset.testid = "leave-job";
+                    leave.addEventListener("click", async () => {
+                      await post("/api/job/leave");
+                      await renderCard();
+                      openSheet("jobs");
+                    });
+                    return leave;
+                  })(),
+                ]
+              : []),
           ]
         : [
             prose(labels.noJob, "record-empty"),
@@ -4874,13 +4892,31 @@ const sheets = {
           .filter((name) => !known.has(name))
           .map((name) => ({ name })),
       ]);
+      const open = p.filing
+        ? opensLine || labels.filing
+        : p.presentCount
+          ? labels.open
+          : labels.closed;
+      // Why it is listed (play-travel-in-a-village-lists-no-town-office): each
+      // of the records' reasons once, or open to the public where none.
+      const why = p.filing
+        ? [labels.reasons?.filing].filter(Boolean)
+        : [
+            ...new Set(
+              (p.reasons ?? [])
+                .map((r) => labels.reasons?.[r.kind])
+                .filter(Boolean),
+            ),
+          ];
+      if (!p.filing && !why.length && labels.reasons?.public)
+        why.push(labels.reasons.public);
       return {
-        openLabel: labels.openLabel,
-        open: p.filing
-          ? opensLine || labels.filing
-          : p.presentCount
-            ? labels.open
-            : labels.closed,
+        facts: [
+          { label: labels.openLabel, value: open },
+          ...(why.length
+            ? [{ label: labels.why, value: why.join(" · ") }]
+            : []),
+        ],
         who,
         does: doHere(p),
       };
