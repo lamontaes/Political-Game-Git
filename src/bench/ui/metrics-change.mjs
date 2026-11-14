@@ -33,9 +33,9 @@ export function metricsFigure(row, value, percentWord) {
 
 /**
  * The change from last year: its direction ("same", "up" or "down", null with no last year)
- * and the size as words ("" when the shown figures match). Both come from the shown figures.
+ * and the size as words ("" when the shown figures match; a percent moves in points). Both come from the shown figures.
  */
-export function metricsChange(row) {
+export function metricsChange(row, pointsWord) {
   if (row.before === null || row.before === undefined)
     return { direction: null, size: "" };
   const moved = shownValue(row, row.now) - shownValue(row, row.before);
@@ -47,6 +47,6 @@ export function metricsChange(row) {
       ? moneyWords(Math.round(size * 100), { rounded: true })
       : row.unit === "count"
         ? size.toLocaleString("en-US")
-        : size.toFixed(1);
+        : `${size.toFixed(1)} ${pointsWord}`;
   return { direction: moved > 0 ? "up" : "down", size: text };
 }

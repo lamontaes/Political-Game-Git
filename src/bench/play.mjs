@@ -4179,7 +4179,7 @@ const sheets = {
         // A section that shows one government's books is headed by that government's name.
         section.name ?? words[section.key],
         ...section.rows.map((row) => {
-          const change = metricsChange(row);
+          const change = metricsChange(row, words.points);
           const direction =
             change.direction === null ? "" : words[change.direction];
           return typedRow(

@@ -46,13 +46,13 @@ describe("Metrics change from last year comes from the shown figures", () => {
       direction: "up",
       size: "499",
     });
-    expect(metricsChange(row("percent", 5.04, 4.96))).toEqual({
+    expect(metricsChange(row("percent", 5.04, 4.96), "points")).toEqual({
       direction: "same",
       size: "",
     });
-    expect(metricsChange(row("percent", 5.2, 4.8))).toEqual({
+    expect(metricsChange(row("percent", 5.2, 4.8), "points")).toEqual({
       direction: "up",
-      size: "0.4",
+      size: "0.4 points",
     });
   });
 
