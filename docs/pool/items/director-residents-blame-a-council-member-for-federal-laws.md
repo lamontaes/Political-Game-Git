@@ -35,5 +35,3 @@ claimed-at:
 **Waits on.** Nothing.
 
 **Files.** src/director/data/situation-types.json, src/director/purpose-scene.ts
-
-**Notes.** Nov 14 (Account lead interview check, train 04a2c7e4): the stop also reaches a candidate who holds no office. Shelby, Mississippi (2867040), place seed b9c9caeca52322c89c12ddea061719a6525f2e846c2e89bae66a1b2091f26977, May 18, 2025: "You're Pat, aren't you? I want a word about working with federal immigration enforcement. Working with federal immigration enforcement took effect, and I'm the one living with it." The first reply offered was "It was a hard vote. I'll tell you what I weighed." The player had only filed for alderman. The same happened at Climax, Georgia on Oct 17, 2025, about the maximum monthly food assistance benefit.

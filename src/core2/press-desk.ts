@@ -383,7 +383,16 @@ export function printItem(
     slant < 0
       ? (FLIP[item.desiredChange] ?? item.desiredChange)
       : item.desiredChange;
-  const readers = ctx.followers(outlet.id);
+  // The one person a story is about hears it the day it runs, whether or not
+  // they follow the outlet (a candidate knows their own interview aired), as
+  // the news of the years before the start does (past-news.ts).
+  const named = item.subjectIds.filter((id) => api.state.people.has(id));
+  const subject = named.length === 1 ? (named[0] as PersonId) : null;
+  const followers = ctx.followers(outlet.id);
+  const readers =
+    subject && !followers.includes(subject)
+      ? [...followers, subject]
+      : followers;
   const story: PrintedStory = {
     id: `printed:${outlet.id}:${item.id}`,
     outletId: outlet.id,
@@ -400,7 +409,7 @@ export function printItem(
     slant,
     pick,
     slantReasons: reasons,
-    readers: readers.length,
+    readers: followers.length,
     receivedNamed: 0,
     receivedCounted: 0,
     interviewId: options.interviewId ?? null,
@@ -432,8 +441,14 @@ export function printItem(
       },
     },
     readers as PersonId[],
+    subject ? [subject] : [],
   );
-  const share = readers.length ? received / readers.length : 0;
+  // The counted followers it reached, by the share of named followers who did
+  // (the subject who does not follow the outlet is not one of them).
+  const share = followers.length
+    ? Math.max(0, received - (readers.length - followers.length)) /
+      followers.length
+    : 0;
   const saved: PrintedStory = {
     ...story,
     receivedNamed: received,
