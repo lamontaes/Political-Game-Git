@@ -32,10 +32,12 @@
  * purpose no type plays gets no tags. None of these is a spot field, so the
  * pickers' alternatives (`spotsOf`) are unchanged.
  *
- * Pure: reads the two director files it imports, no world.
+ * Pure: reads the director's casting records (`situation-casting.ts`), no world.
  */
-import situationFile from "../director/data/situation-types.json" with { type: "json" };
-import variantFile from "../director/data/arc-variants.json" with { type: "json" };
+import {
+  ARC_VARIANT_FAMILIES,
+  SITUATION_TYPES,
+} from "../director/situation-casting";
 
 interface TypeRole {
   readonly key: string;
@@ -190,9 +192,8 @@ let played: ReadonlyMap<string, readonly SituationType[]> | undefined;
 export function spotTags(
   use: Readonly<Record<string, unknown>>,
 ): Partial<Record<SpotTag, readonly string[]>> {
-  played ??= typesByPurpose(
-    (situationFile as unknown as { types: SituationType[] }).types,
-    variantFile as unknown as VariantsFile,
-  );
+  played ??= typesByPurpose(SITUATION_TYPES as readonly SituationType[], {
+    families: ARC_VARIANT_FAMILIES as VariantsFile["families"],
+  });
   return spotTagsOf(use, played);
 }
