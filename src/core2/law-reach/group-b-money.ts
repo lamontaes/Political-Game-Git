@@ -37,6 +37,7 @@ import type { LawRowInput } from "../laws-starting";
 import {
   graduatedSchedule,
   reachParameter,
+  reachParameterSpread,
   townFacts,
   type ResidentFacts,
   type TownFacts,
@@ -1942,6 +1943,33 @@ function graduatedTax(row: LawRowInput | null): boolean {
 }
 
 /**
+ * The flat rate a repeal of a graduated tax writes: the place's old top rate
+ * times the share a sponsor chooses. A sponsor who holds the question hard
+ * writes the deepest cut real conversions chose (the low end of the share's
+ * spread) and one who barely holds it the shallowest (the high end), sliding
+ * between by the strength of their own stance; a repeal that recorded no
+ * sponsor's stance (a measure voters passed) takes the median share. The
+ * share's median and ends are measured from five real conversions (Mississippi
+ * 1.0, Georgia 0.955, Iowa 0.667, Louisiana 0.706, Ohio 0.786; Tax Foundation
+ * January 1 tables, data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json)
+ * and tagged ESTIMATED with that spread in `graduatedRepealFlatShareOfTopRate`;
+ * the linear slide with conviction is an estimate
+ * (pool item research-flat-tax-share-sponsor-conviction).
+ */
+export function flatRateOf(
+  topRate: number,
+  sponsorStance: number | undefined,
+  medianShare: number,
+  [low, high]: readonly [number, number],
+): number {
+  const share =
+    typeof sponsorStance === "number" && Number.isFinite(sponsorStance)
+      ? high - (high - low) * Math.min(1, Math.abs(sponsorStance))
+      : medianShare;
+  return Math.round(topRate * share * 1000) / 1000;
+}
+
+/**
  * An income-tax act at a level: adopt a flat tax where the level has none, or
  * replace a flat tax with a graduated schedule. The new row is law today, and
  * payroll withholding (budgets module) collects it from the next paycheck. A
@@ -1955,6 +1983,8 @@ export function incomeTaxAct(
     readonly lawId: string;
     readonly enacting: boolean;
     readonly graduated: boolean;
+    /** The sponsor's own stance on the question when the act was written (-1 to 1), where the bill recorded it. */
+    readonly sponsorStance?: number;
   },
 ): TaxRow | null {
   const chain = lawChain(api);
@@ -2008,16 +2038,13 @@ export function incomeTaxAct(
           "remove",
         );
       } else {
-        // stopgapId: SG-GOV-REACH-B-flat-tax-replacement — the catalog's binary
-        // question carries no rate the sponsor writes; the place's own old top
-        // rate times the median share real conversions chose stands in for it.
-        api.stopgap("SG-GOV-REACH-B-flat-tax-replacement");
         replacement = enact(
-          Math.round(
-            current!.value! *
-              reachParameter("graduatedRepealFlatShareOfTopRate") *
-              1000,
-          ) / 1000,
+          flatRateOf(
+            current!.value!,
+            input.sponsorStance,
+            reachParameter("graduatedRepealFlatShareOfTopRate"),
+            reachParameterSpread("graduatedRepealFlatShareOfTopRate"),
+          ),
           "percent-flat",
           undefined,
           "flatten",
