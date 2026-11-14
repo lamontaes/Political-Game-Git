@@ -162,18 +162,27 @@ for (let year = 1; year <= years; year++) {
     `| ${year} (${read.month}) | ${dollars(now)} | ${pct(now / last)} | ${buyers.toFixed(0)} | ${offered.toFixed(0)} | ${read.owned.toFixed(0)} | ${read.payIndex.toFixed(3)} | ${read.ratePct.toFixed(2)}% | ${((performance.now() - began) / 1000).toFixed(0)} |`,
   );
   last = now;
+  // Kept on stderr each year, so a run cut off early still carries the lean.
+  const sofar = withoutPressure();
+  console.error(
+    `year ${year}: with the rule ${pct(Math.exp(ruled[year - 1]! - startLog))}, pay and rate alone ${pct(Math.exp(sofar[year - 1]! - startLog))}, lean ${pct(Math.exp(ruled[year - 1]! - sofar[year - 1]!))}`,
+  );
 }
 
 // The same months with no pressure: what pay and the rate alone would have done.
-let log = startLog;
-const recent = [...startRecent];
-const alone: number[] = [];
-reads.forEach((read, i) => {
-  log = stepLogLevel(log, recent, { ...read, pressure: 0 }, p);
-  recent.push(log);
-  if (recent.length > months + 1) recent.shift();
-  if ((i + 1) % months === 0) alone.push(log);
-});
+function withoutPressure(): number[] {
+  let log = startLog;
+  const recent = [...startRecent];
+  const out: number[] = [];
+  reads.forEach((read, i) => {
+    log = stepLogLevel(log, recent, { ...read, pressure: 0 }, p);
+    recent.push(log);
+    if (recent.length > months + 1) recent.shift();
+    if ((i + 1) % months === 0) out.push(log);
+  });
+  return out;
+}
+const alone = withoutPressure();
 console.log(
   "\n| Years | With the rule | Pay and rate alone | Lean from pressure |",
 );
