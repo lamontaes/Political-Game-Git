@@ -32,11 +32,7 @@ import { coreAPI } from "../../src/core2/state";
 import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
 import type { PersonId } from "../../src/core2/types";
 import { purposeScene, replyInScene } from "../../src/director/purpose-scene";
-import {
-  openConversation,
-  say,
-  sayNothing,
-} from "../../src/director/conversation";
+import { openConversation, say } from "../../src/director/conversation";
 import { composeScene } from "../../src/director/scene";
 import type { TreeNode } from "../../src/director/scene-talk";
 import { gatherSignatures } from "../../src/core2/campaign-petition-kit";
