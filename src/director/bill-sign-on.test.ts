@@ -303,26 +303,9 @@ describe("asking colleagues to sign on", () => {
         if (!core.durableLog.get(id)) continue;
         livePlayer(core, player, addDays(makeIsoDate(core.date), 2));
         const found = staged().find((row) => row.causeId === id);
-        // The director stages a scene type at most so many times a season
-        // (situation-types.json seasonCap); past it the ask is a Journal line,
-        // and the player is not asked twice in one sitting.
-        if (!found) {
-          const held = book.schedule.find(
-            (row) =>
-              book.momentsById.get(row.momentId)?.causeId === id &&
-              row.heldBack?.some(
-                (h) => h.typeKey === TYPE && h.reason === "season-cap",
-              ),
-          );
-          expect(
-            held,
-            `${where}: the second ask is staged or capped`,
-          ).toBeTruthy();
-          process.stdout.write(
-            `SIGN-ON ${where} asked again: held, the season's asks are full\n`,
-          );
-          continue;
-        }
+        // The player's own ask is not held by a season count: the record
+        // limits it (scheduling.ts pressedByPlayer), so the second ask plays.
+        expect(found, `${where}: the second ask is staged`).toBeTruthy();
         const { entry, unit } = found!;
         const result = purposeScene(core, director, player, entry, {
           typeKey: unit,

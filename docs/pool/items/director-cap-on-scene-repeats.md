@@ -50,3 +50,18 @@ The jobs engine's half (an employer reads its own earlier offer to the same pers
 Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 01:19 UTC) on branch claude/pool-director-cap-on-scene-repeats.
 
 **Notes (stages of a bill, Nov 14).** Measured: the cap also swallows the player's own asks. `src/director/bill-sign-on.test.ts` (co-sponsor ask, scene-bill-sign-on-colleague-ask) at Manteca, California (0645484, world seed 1d3c1565): the player drafted a bill on 2025-02-12 on a question a colleague had turned down, and the second sign-on ask to that colleague was scheduled with `heldBack: [{ typeKey: "bill-sign-on", reason: "season-cap" }]`, a Journal line only, because the type's six moments in 91 days were spent on the player's earlier drafting days. What limits it should be a reason on the record (the colleague was just asked, the session calendar, the player's own time), never a count per season (account lead, Nov 14).
+
+**Notes (stages of a bill, Nov 14, 20:55Z).** The player's own asks no longer count against the season. This is built on branch `claude/project-thread-lcf812` as the next PR after #9305, in `scheduling.ts` `pressedByPlayer`. It covers the types that are `playerAsks` and caused only by an event of the player's own act: `bill-sign-on`, `vote-sought` and `serve-sought`. What limits them is on the record:
+
+- one sitting a day with the same person;
+- the repeat window by bill or by cause;
+- the colleague's own memory of being asked ("You asked me this before. It's still no.").
+
+At Manteca (0645484, world seed 1d3c1565) the second sign-on ask, which the cap held, now plays.
+
+What the other 80 types need before `seasonCap` can be deleted (it stays for them until then):
+
+- **Doors** (`door-ask`, `door-signature`). Each is the circumstance producer's pick of the day, already spaced by its `everyParameter`. The cap is a second count on top. They can drop it once the producer reads "this resident was talked to, and nothing changed since" from the canvass record.
+- **The other 31 types caused by events** (vote asks, reporters, offers, invitations). Each needs what #8424 gave job offers and letters: the caller's earlier ask of the same person, and what changed since, read from records. The floor vote's 121 scenes a year (Neodesha) is the case the cap was set for. There the session calendar is the record that limits it: one sitting folds a floor day's votes, and a vote the player already cast needs no second scene.
+- **The 18 types caused by circumstances.** Their producer keeps the spacing; the cap is redundant once each row's spacing reads what the last scene settled.
+- **Feeling, tie and money types (21).** These are paced by the life's `paces` budget, which already ranks scenes. The cap only stops one feeling from filling a season, which the ranking by importance should do on its own.

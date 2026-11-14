@@ -187,6 +187,11 @@ export interface SituationType {
    */
   eachCause?: boolean;
   /**
+   * The player asks it of someone (to sign on, to vote, to serve, at a
+   * door): the player's own act is the scene's cause.
+   */
+  playerAsks?: boolean;
+  /**
    * What the repeat window tells scenes apart by besides the cast: "bill"
    * for a scene about one bill (a vote asked for), so the same two people
    * about another bill on a later day is a new scene; "cause" for a scene
@@ -1024,7 +1029,24 @@ export function scheduleMoment(
     );
     return Object.keys(said).length === zero;
   };
+  // A scene the player pressed for themselves (their own ask to a colleague
+  // to sign on, to vote, to serve) is not counted against a season: each one
+  // is a record of the player's own act, already limited by what is on the
+  // record (one sitting a day with the same person, the same bill asked of
+  // the same person once in the repeat window, a person who said no knows it
+  // and says so). A door on the player's canvass is the circumstance
+  // producer's pick of the day and stays under the cap.
+  const pressedByPlayer = (row: SceneBinding) => {
+    const type = library.types.find((t) => t.key === row.typeKey);
+    return (
+      !!type?.playerAsks &&
+      type.causes.every(
+        (cause) => cause.match?.label?.startsWith("cause:event:") ?? false,
+      )
+    );
+  };
   const seasonFull = (row: SceneBinding) =>
+    !pressedByPlayer(row) &&
     (inSeason.get(row.typeKey) ?? zero) >= library.scheduling.seasonCap.value;
   const heldBack = wanted.flatMap(
     (row): NonNullable<ScheduleEntry["heldBack"]> =>
