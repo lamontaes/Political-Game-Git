@@ -223,6 +223,32 @@ describe("the interview sitting's words", () => {
     for (const said of rivalLines) expect(said.text).toContain("Sam Rivera");
   });
 
+  it("takes a brief answer in by whether the candidate holds a stand: undecided only where the record has none", () => {
+    // Owner, Nov 12: "the just non-replies". A brief answer says nothing of a
+    // stand, so a candidate whose record holds one is not called undecided
+    // (they held it and did not say); one with no stand on the question is.
+    const brief = (flag: string, moment: string) =>
+      say(
+        `${rules.subjects.takePrefix}brief`,
+        "reply",
+        {
+          about: fact("a higher minimum wage"),
+          stranger: fact("yes"),
+          "said-none": fact("yes"),
+          [flag]: fact("yes"),
+        },
+        moment,
+      )!.text;
+    const moments = ["m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8"];
+    for (const moment of moments) {
+      expect(brief("no-stand", moment), moment).toBe("Still undecided.");
+      for (const held of ["stance-for", "stance-against"])
+        expect(brief(held, moment), `${held} ${moment}`).toBe(
+          "No comment, then.",
+        );
+    }
+  });
+
   it("puts the same question differently to someone the reporter knows and to a stranger", () => {
     // Over forty moments of the same question, each tie has lines the other
     // never says (a witness over the whole bank, not one draw).

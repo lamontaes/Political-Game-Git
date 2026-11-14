@@ -44034,7 +44034,7 @@
           "subject": "interview-take-brief",
           "role": "reply",
           "choice": "take",
-          "requiresFacts": ["said-none"]
+          "requiresFacts": ["said-none", "no-stand"]
         },
         {
           "move": "debate-take-plain-reply-take",
@@ -44048,7 +44048,7 @@
           "subject": "debate-take-brief",
           "role": "reply",
           "choice": "take",
-          "requiresFacts": ["said-none"]
+          "requiresFacts": ["said-none", "no-stand"]
         }
       ],
       "origin": "authored",
@@ -44141,10 +44141,26 @@
           "choice": "take"
         },
         {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"],
+          "excludesFacts": ["no-stand"]
+        },
+        {
           "move": "debate-take-declined-reply-take",
           "subject": "debate-take-declined",
           "role": "reply",
           "choice": "take"
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"],
+          "excludesFacts": ["no-stand"]
         }
       ],
       "origin": "authored",
