@@ -85,20 +85,25 @@ describe(`civic inputs, ${place.displayName}, ${state.name}, seed ${seed}`, () =
       expect(target.source.asOf).toBe(sourceRow.asOf);
       expect(target.source.tag).toBe("ESTIMATED");
       if (startedAt < sourceRow.asOf)
-        expect(target.source.estimatedFrom).toMatch(
-          /historical name and existence are not verified/,
-        );
+        expect(target.source.estimatedFrom).toMatch(/taken from that listing/);
       expect(target.facts!.placeName).toBe(targetPlace.displayName);
       expect(target.facts!.identityStatus).toBe(
         startedAt < sourceRow.asOf
           ? "opening-identity-proxy"
           : "directory-identity",
       );
-      expect(target.facts!.stopgapId).toBe("SG-P8-civic-inputs");
+      expect(target.facts!.civicInputsVersion).toBe(
+        DEFAULT_CIVIC_INPUTS_DATA.version,
+      );
       expect("liquidMinor" in target).toBe(false);
+      // A directory listing is a meeting place only when it is a school whose
+      // district has a joint use agreement on record (an association's own
+      // hall is not a directory listing).
       if (target.affordances?.includes("public-meeting-place")) {
-        expect(target.facts!.meetingAccess).toBe("permission-not-established");
-        expect(target.facts!.meetingSchedule).toBe("not-established");
+        expect(target.facts!.sourceKind).toBe("high-school");
+        expect(target.facts!.meetingAccess).toBe(
+          "district-joint-use-agreement",
+        );
       }
     }
   });
