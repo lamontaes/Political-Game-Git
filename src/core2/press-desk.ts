@@ -34,10 +34,7 @@ import {
 } from "./modules/views";
 import { residentsRuntime } from "./modules/residents";
 import { onContestRoll, VOTING_MODULE_ID } from "./modules/voting";
-import {
-  BALLOT_MEASURES_MODULE_ID,
-  onMeasureRoll,
-} from "./modules/ballot-measures";
+import { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./modules/elections";
 
 /**
  * The facts that name the counted household a record happened to and its
@@ -737,7 +734,7 @@ export function runDesk(
       facts.measureId &&
       api.state.modules.has(BALLOT_MEASURES_MODULE_ID)
     )
-      return (id) => onMeasureRoll(api, facts.measureId!, id);
+      return (id) => !!measureVoteOf(api, facts.measureId!, id);
     // A recall's vote is put to every adult of the town (recalls.ts
     // `townVoters`); its petition's steps are not a count.
     if (
@@ -848,6 +845,11 @@ export function runDesk(
       ),
     }));
   const taken = new Set<string>();
+  // The bills and races this outlet has a story on this week: one story
+  // each, though a race's seats reach the wire on different days or a second
+  // reporter takes another of its seats (Kewanna, Indiana, seed
+  // 3c91e07a5d2f8b14:agree:0, printed council seats 0 and 2 of one race).
+  const bills = new Set<string>();
   const out: PrintedStory[] = [];
   for (const reporterId of outlet.reporterIds) {
     if (!api.state.people.get(reporterId)?.alive) continue;
@@ -903,7 +905,6 @@ export function runDesk(
                   sameSitting(row.item, other.item)),
             )
           : [row];
-      const bills = new Set<string>();
       for (const one of sitting) {
         taken.add(one.item.id);
         // One story a bill: a failed bill's vote and its failure are one.

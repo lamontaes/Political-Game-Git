@@ -1678,12 +1678,24 @@ const electionResult: Builder = (read, f) => {
   // names its winners together, from the race's own count: everyone who did
   // not miss the cut (Words lead, Nov 13, rule 30).
   const seats = num(f.seats) ?? 1;
-  const out = new Set<string>(
-    f.outIds ? (JSON.parse(f.outIds) as string[]) : [],
-  );
+  // A seat's record names as out only those who filed for that seat, so a
+  // race for several seats reads its winners from each seat's result (a tie
+  // at the cut is settled by the place's law, not by the totals) and the
+  // first who missed from the whole race's count.
+  const seatWinners =
+    seats > 1 && contest
+      ? atLargeGroup(read.api, contest).flatMap((seat) => {
+          const won = read.row<{ winnerId?: string | null }>(
+            VOTING_MODULE_ID,
+            "results",
+            `result:${seat.id}`,
+          )?.winnerId;
+          return won ? [won] : [];
+        })
+      : [];
   const winners =
     seats > 1
-      ? ranked.map(([id]) => id).filter((id) => !out.has(id))
+      ? ranked.map(([id]) => id).filter((id) => seatWinners.includes(id))
       : [f.winnerId ?? ""];
   // No more names on the ballot than seats is a race without opposition,
   // for one seat or several (rules 32 and the Words lead's read, Nov 14).
@@ -1691,7 +1703,13 @@ const electionResult: Builder = (read, f) => {
   // The one the winner beat: first among those who missed the cut, read from
   // this race's own count (in an at-large race the other winners were seated
   // too).
-  const beaten = unopposed ? null : beatenRunnerUp(f, f.winnerId ?? "");
+  const beaten = unopposed
+    ? null
+    : seats > 1
+      ? (ranked
+          .map(([id]) => ({ id }))
+          .find(({ id }) => !winners.includes(id)) ?? null)
+      : beatenRunnerUp(f, f.winnerId ?? "");
   const rival = beaten && read.name(beaten.id) ? beaten.id : undefined;
   const cast = ranked.reduce((sum, [, votes]) => sum + votes, 0);
   // Each person in the story is named in full once, then by last name; two
@@ -1754,7 +1772,7 @@ const electionResult: Builder = (read, f) => {
     rival && lastWinner !== undefined
       ? (totals[lastWinner] ?? 0) - (totals[rival] ?? 0)
       : 0;
-  const body = officeId ? saidBody(read, officeId) : null;
+  const body = read.body(officeId);
   const winnerVotes = f.winnerId ? totals[f.winnerId] : undefined;
   const share =
     cast > 0 && winnerVotes !== undefined ? (winnerVotes / cast) * 100 : null;
@@ -1869,29 +1887,6 @@ function raceTurn(read: Reader, contest: ContestRow | undefined): number {
       outlets.add(row.outletId);
   const mine = /^printed:(.+?):election-result:/.exec(read.story.id)?.[1];
   return Math.max(0, [...outlets].sort().indexOf(mine ?? ""));
-}
-
-/**
- * A body's name as people say it: its town by the place record's own name,
- * without the listing's "Town of" ("Montville Board of Selectmen").
- */
-function saidBody(read: Reader, officeId: string): string | null {
-  const name = read.body(officeId);
-  if (!name) return null;
-  const office = read.row<{ governmentName?: string; jurisdiction?: string }>(
-    OFFICES_MODULE_ID,
-    "offices",
-    officeId,
-  );
-  if (!office?.governmentName || !office.jurisdiction) return name;
-  const proper = governmentProperName(
-    office.governmentName,
-    office.jurisdiction,
-  );
-  const of = /^(?:[A-Z][a-z]+ )+of (.+)$/.exec(proper);
-  return of && name.startsWith(`${proper} `)
-    ? `${of[1]}${name.slice(proper.length)}`
-    : name;
 }
 
 /** A vote count as a paper prints it, always in figures: "23 votes to 5". */
@@ -3580,10 +3575,7 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
           : {}),
         ...(seat.atLarge && body
           ? {
-              office: read.fact(
-                `a seat on the ${saidBody(read, f.officeId!) ?? body}`,
-                f.officeId ?? "",
-              ),
+              office: read.fact(`a seat on the ${body}`, f.officeId ?? ""),
               seat: read.yes(),
             }
           : office

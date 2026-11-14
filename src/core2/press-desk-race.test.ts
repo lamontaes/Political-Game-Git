@@ -2,7 +2,11 @@ import { expect, it } from "vitest";
 import { wordPrintedStory } from "../bench/archive-words";
 import { ballot } from "./modules/elections";
 import { coreAPI } from "./state";
-import { playTownRace } from "./press-race-test-kit";
+import { buildBenchWorld } from "../bench/world";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { setBookkeeping } from "./bookkeeping";
+import { playTownRace } from "./campaign-race-test-kit";
+import { gameStartDate } from "./game-start";
 
 // A town race's result is news to everyone who could vote in it, so the
 // town's paper prints it the week of the count, naming the winner, though
@@ -12,8 +16,24 @@ import { playTownRace } from "./press-race-test-kit";
 // de4ef0f8ff6efdfb:agree:15.
 const DRAW = "de4ef0f8ff6efdfb:agree:15";
 
+/** A bench world on concession-reported's draw, as the race kit plays it. */
+function townWorld(draw: string) {
+  const place = drawPlace(draw, "concession-reported");
+  setBookkeeping(false);
+  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  return { core, where: `${place.name} (${place.key}), seed ${draw}` };
+}
+
 it(`the town's paper prints its own race's result, naming the winner (${DRAW})`, () => {
-  const { core, where, race, winnerId, printed } = playTownRace(DRAW, 10);
+  const world = townWorld(DRAW);
+  const { core, where, race, winnerId, printed } = playTownRace(
+    world.core,
+    world.where,
+    10,
+  );
   expect(race, `${where}: a town race on the calendar`).toBeTruthy();
   expect(ballot(coreAPI(core), race!.id).length, where).toBeGreaterThanOrEqual(
     2,

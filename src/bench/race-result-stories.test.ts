@@ -2,7 +2,11 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { wordPrintedStory } from "./archive-words";
 import type { EntityId } from "../core2/kernel/brands";
-import { playTownRace } from "../core2/press-race-test-kit";
+import { setBookkeeping } from "../core2/bookkeeping";
+import { playTownRace } from "../core2/campaign-race-test-kit";
+import { gameStartDate } from "../core2/game-start";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { buildBenchWorld } from "./world";
 
 // The paper's race result stories read like a paper (Words lead, Nov 13,
 // rules 30 to 37): one story for a race that fills several seats, a name in
@@ -23,12 +27,25 @@ const PLACES = [
   `${seed}:drawn`,
 ];
 
+/** A bench world on concession-reported's draw, as the race kit plays it. */
+function townWorld(draw: string) {
+  const place = drawPlace(draw, "concession-reported");
+  setBookkeeping(false);
+  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  return { core, where: `${place.name} (${place.key}), seed ${draw}` };
+}
+
+function play(draw: string) {
+  const { core, where } = townWorld(draw);
+  return playTownRace(core, where, 10);
+}
+
 for (const draw of PLACES)
   it(`the race result stories read like a paper (${draw})`, () => {
-    let played = playTownRace(
-      draw.endsWith(":drawn") ? `${seed}:agree:0` : draw,
-      10,
-    );
+    let played = play(draw.endsWith(":drawn") ? `${seed}:agree:0` : draw);
     const passed: string[] = [];
     for (let n = 1; draw.endsWith(":drawn") && n < 6; n += 1) {
       if (
@@ -38,7 +55,7 @@ for (const draw of PLACES)
       )
         break;
       passed.push(`${played.where}: no race story printed`);
-      played = playTownRace(`${seed}:agree:${n}`, 10);
+      played = play(`${seed}:agree:${n}`);
     }
     if (passed.length)
       process.stdout.write(`passed over: ${passed.join("; ")}\n`);
@@ -85,6 +102,9 @@ for (const draw of PLACES)
           /\bvotes?\b|\bvoted\b|\bvoters\b/,
         );
       }
+      // A race for several seats names as many winners as seats.
+      if (seats > 1 && seats <= 3)
+        expect(body, `${here}: ${body}`).not.toMatch(/ and \w+ others?\b/);
       // A share under half says the field it led.
       const share = /(\d+) percent/.exec(body)?.[1];
       if (share && Number(share) < 50)

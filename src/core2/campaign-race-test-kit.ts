@@ -1,15 +1,11 @@
 /**
- * For tests of what the paper prints after a town race: a drawn place plays
+ * For tests of what the paper prints after a town race: a played world plays
  * to its first local race with a filing still open, three residents file as
  * concession-reported's drawn race does, their petitions are carried by the
  * campaign engine, and the world lives to some days after the count. Returns
  * the race, its winner and every story printed after the count.
  */
-import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../scripts/core2-year/place";
-import { setBookkeeping } from "./bookkeeping";
 import { gatherSignatures } from "./campaign-petition-kit";
-import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import {
@@ -41,14 +37,16 @@ export interface PlayedRace {
   readonly printed: readonly PrintedRow[];
 }
 
-export function playTownRace(draw: string, paperDays: number): PlayedRace {
-  const place = drawPlace(draw, "concession-reported");
-  const where = `${place.name} (${place.key}), seed ${draw}`;
-  setBookkeeping(false);
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
+/**
+ * Plays `core` (a bench world the test built, so this kit reaches no further
+ * into the bench than its callers do) to its first local race with a filing
+ * still open, and `paperDays` past the count.
+ */
+export function playTownRace(
+  core: CoreState,
+  where: string,
+  paperDays: number,
+): PlayedRace {
   const api = coreAPI(core);
   const townId = core.people.get(core.playerId!)?.placeId;
   const today = core.date;
