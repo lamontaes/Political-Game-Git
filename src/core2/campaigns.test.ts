@@ -8,7 +8,7 @@
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { setBookkeeping } from "./bookkeeping";
+import { bookkeeping, setBookkeeping } from "./bookkeeping";
 import type { CoreState } from "./types";
 import { advanceToFilingOpen } from "./gov-test-clock";
 import { govReport } from "./gov-test-report";
@@ -114,6 +114,8 @@ function waitForFiling(core: CoreState): void {
   } finally {
     setBookkeeping(previous);
   }
+  // Only the wait runs with the checks off; every assertion after it has them on.
+  expect(bookkeeping()).toBe(previous);
 }
 
 describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
