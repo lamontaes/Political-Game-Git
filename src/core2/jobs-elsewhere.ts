@@ -228,7 +228,7 @@ export function workConditions(api: CoreAPI): WorkConditions {
 export function regionalConditions(
   api: CoreAPI,
   placeId: string,
-): { meanOverNow: number; rise: number } {
+): { meanOverNow: number; rise: number; separation: number } {
   return workConditions(api).of(uspsOf(placeId));
 }
 
