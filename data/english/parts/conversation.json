@@ -91,7 +91,8 @@
     "probation": "A sentence's probation, as people say a length (\"two years\"), from the justice engine's sentence.",
     "fine": "A sentence's fine, as people round it, from the justice engine's sentence.",
     "official": "The office or body of the official a refused bribe was offered to, said as someone outside government says it (\"someone on the Starr County Board of Commissioners\", \"the mayor\"), from the corruption crime row.",
-    "contested": "A mark: convicted at a trial the defendant fought (no guilty plea on the case)."
+    "contested": "A mark: convicted at a trial the defendant fought (no guilty plea on the case).",
+    "said": "The subject of a policy question as a person names it after 'on' or 'about' (\"drug prices\"), from the question's `said` in data/english/question-names.json; never a side (the side is said as what it does to the speaker). `about` stays for lines that name the thing itself."
   },
   "maxWords": 10,
   "lineWords": {
@@ -30425,7 +30426,7 @@
       "key": "conversation.news-ask-core.about-was-in-the-news-ran-about-time-i-say",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "{about} was in the news {ran}. About time, I say.",
+      "text": "{about} came up in the news {ran}. About time, I say.",
       "piece": {
         "of": "news-ask",
         "part": "core",
@@ -30491,7 +30492,7 @@
       "key": "conversation.news-ask-core.about-was-in-the-news-ran-i-don-t-like-it",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "{about} was in the news {ran}. I don't like it.",
+      "text": "{about} came up in the news {ran}. I don't like it.",
       "piece": {
         "of": "news-ask",
         "part": "core",
@@ -35010,7 +35011,7 @@
       "key": "conversation.government-news-say-core.i-was-at-the-town-hall-when-all-about",
       "move": "government-news-say-core",
       "kind": "spoken",
-      "text": "I was at the town hall {when}. All {about}.",
+      "text": "I was at the town hall {when}. All about {said}.",
       "uses": [
         {
           "move": "government-news-say-core",
@@ -35034,7 +35035,7 @@
       "key": "conversation.government-news-say-core.the-town-hall-when-was-packed-everyone-was-on-about",
       "move": "government-news-say-core",
       "kind": "spoken",
-      "text": "The town hall {when} was packed. Everyone was on {about}.",
+      "text": "The town hall {when} was packed. Everyone was on {said}.",
       "uses": [
         {
           "move": "government-news-say-core",
@@ -35534,7 +35535,7 @@
       "key": "conversation.government-news-back-core.we-re-on-the-same-side-of-about-then",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "We're on the same side of {about}, then.",
+      "text": "We're on the same side of {said}, then.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -35631,7 +35632,7 @@
       "key": "conversation.government-news-back-core.then-we-split-on-about",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "Then we split on {about}.",
+      "text": "Then we split on {said}.",
       "uses": [
         {
           "move": "government-news-back-core",
