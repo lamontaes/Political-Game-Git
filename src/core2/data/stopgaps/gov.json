@@ -2090,8 +2090,8 @@
     "why": "Asks whose bill never reaches a roll call are pulls no vote reads (pool item legislature-ask-skips-bills-the-committee-will-hold); the model gives a bill one floor day for every chamber.",
     "addedBy": "governing lead",
     "addedAt": "2026-11-02",
-    "replacement": "A later chamber takes up a bill on a floor day of its own after the first chamber passes it, with its own committee meeting the evening before and its own asks.",
-    "status": "open"
+    "replacement": "A later chamber takes up a bill on a floor day of its own after the first chamber passes it, with its own committee meeting the evening before and its own asks. Resolved 2026-11-14 (pool item laws-second-chamber-takes-the-bill-on-its-own-day): countVote runs one chamber per call, a carried bill is booked on the next chamber's sitting through scheduleVote and holdCommittee (chamberNow, voteKeyOf), and askBeforeTheRoll asks in the chamber whose turn it is. Shown in second-chamber-own-day.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-player-emergency-offer",

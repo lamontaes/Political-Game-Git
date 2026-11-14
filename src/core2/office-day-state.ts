@@ -76,6 +76,7 @@ import {
   memberKey,
   members,
   scheduleVote,
+  voteKeyOf,
   LEGISLATURE_MODULE_ID,
 } from "./modules/legislature";
 import {
@@ -1809,7 +1810,7 @@ export function askLeaderForHearing(
   const granted = bare + traits > 0;
   const schedule = options?.schedule ?? true;
   const already = schedule
-    ? api.moduleCalendar(LEGISLATURE_MODULE_ID).get(`meeting:${billId}`)
+    ? api.moduleCalendar(LEGISLATURE_MODULE_ID).get(voteKeyOf(bill))
     : undefined;
   const row: LeaderRequestRow = {
     id,
