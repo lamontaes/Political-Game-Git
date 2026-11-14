@@ -21,7 +21,12 @@ import { addDays, ageInYears, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { bankYes, heldMortgages, mortgageRoom } from "./modules/credit";
 import { rentHomeValue, weighCountedBuyers } from "./modules/housing";
-import { householdIncome, residentsRuntime } from "./modules/residents";
+import {
+  departingCash,
+  householdIncome,
+  residentsRuntime,
+} from "./modules/residents";
+import { fundBalance, peopleInGroup } from "./counted-money";
 import { coreAPI } from "./state";
 
 const PLACE = "2204685";
@@ -89,6 +94,18 @@ it("counted renters on their lease month buy from their own savings, short ones 
   const heldBefore = heldMortgages(api, bankId).now,
     bankBefore = bankCash();
 
+  // Each weighing household's group and its share of the group's account, and each group's money per person, before.
+  const shareBefore = new Map(
+    weighing.map((row) => {
+      const h = rt.store.liveHousehold(row.id)!;
+      return [row.id, { group: h.group, cash: departingCash(rt, h) }];
+    }),
+  );
+  const perPerson = (group: number) =>
+    fundBalance(api, rt, group) / peopleInGroup(rt, group);
+  const perPersonBefore = new Map(
+    [...shareBefore.values()].map((row) => [row.group, perPerson(row.group)]),
+  );
   const rentIds = new Map(
     weighing.map((row) => [row.id, rt.flows.get(`rent:${row.id}`)!]),
   );
@@ -137,6 +154,23 @@ it("counted renters on their lease month buy from their own savings, short ones 
     expect(rt.store.liveHousehold(row.householdId)?.tenure, row.id).toBe(
       "mortgage",
     );
+  }
+  // Its share of its renter group's account covered the down payment for every household it stands for.
+  for (const row of bought)
+    expect(
+      shareBefore.get(row.householdId)!.cash,
+      `${detail}: ${row.id}`,
+    ).toBeGreaterThanOrEqual(row.downMinor * row.weight);
+  // The renters left behind paid none of it: each renter group a buyer left holds the same money per person (to the cent each move rounds).
+  const left = new Set(
+    bought.map((row) => shareBefore.get(row.householdId)!.group),
+  );
+  for (const group of left) {
+    if (peopleInGroup(rt, group) <= 0) continue;
+    expect(
+      Math.abs(perPerson(group) - perPersonBefore.get(group)!),
+      `${detail}: group ${group}`,
+    ).toBeLessThanOrEqual(bought.length);
   }
   // The reasons differ between buyers: each comes from its own record.
   expect(new Set(bought.map((row) => JSON.stringify(row.reasons))).size).toBe(

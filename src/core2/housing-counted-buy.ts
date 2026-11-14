@@ -23,14 +23,11 @@ import { buyMarket, monthlyPayment, weighHome } from "./housing-buy";
 import { takeNewHome } from "./housing-construction";
 import { countedMortgageFlowId, MORTGAGE_PREFIX } from "./housing-mortgages";
 import { countBuyer, placePriceLevel } from "./housing-price-level";
-import {
-  countedHousingInArrears,
-  countedPayment,
-  fundBalance,
-} from "./counted-money";
+import { countedHousingInArrears, countedPayment } from "./counted-money";
 import type { CountedHousehold } from "./counted-groups";
 import { ageInYears, daysBetweenText, makeIsoDate } from "./kernel/dates";
 import {
+  departingCash,
   householdIncome,
   regroupHousehold,
   residentsRuntime,
@@ -233,8 +230,8 @@ export function buyCountedHomes(api: CoreAPI, world: CountedBuyWorld): void {
     if (!weighed.buy) continue;
     const weight = rt.store.weightOf(h);
     const down = Math.round(weighed.downMinor);
-    // The group's account holds the record's savings with its group's: it must hold the down payment for every household the record stands for.
-    if (fundBalance(api, rt, h.group) < down * weight) continue;
+    // Its money is its share of its group's account (what moves with it when it changes groups): that share must cover the down payment for every household the record stands for, so the renters it leaves behind pay none of it.
+    if (departingCash(rt, h) < down * weight) continue;
     buy(
       api,
       rt,
@@ -285,8 +282,11 @@ function buy(
     citation: housingData.mortgage.source,
     estimatedFrom: `A counted household (standing for ${weight}) bought a home for ${Math.round((deal.principal + deal.down) / 100)} dollars each with ${Math.round(deal.down / 100)} down at ${(deal.rate * 100).toFixed(2)}%, from ${Math.round(deal.savings.savingsMinor / 100)} dollars of its own savings (${Math.round(deal.savings.monthlyLeftMinor / 100)} a month over ${deal.savings.months.toFixed(0)} months of its lease).`,
   };
+  // It joins the town's owners first, taking its share of the renters' account with it; the down payment then comes out of that money, not the renters' left behind.
+  h.tenure = "mortgage";
+  regroupHousehold(rt, h, c.date);
   const sellers = sellersOf(api, h.placeId, deal.outsideId, weight);
-  // The down payment, from the group's account to each seller for its homes.
+  // The down payment, from the account its share moved to, to each seller for its homes.
   let downPaid = 0;
   for (const seller of sellers)
     downPaid += countedPayment(api, {
@@ -299,7 +299,12 @@ function buy(
       reasonKey: "housing.counted-down-payment",
       source,
     });
-  if (downPaid <= 0) return;
+  if (downPaid <= 0) {
+    // Nothing was paid: it stays a renter, and its share goes back with it.
+    h.tenure = "rent";
+    regroupHousehold(rt, h, c.date);
+    return;
+  }
   // The loan never exceeds what the down payment actually paid supports at the lender's loan-to-value rule.
   const share = housingData.mortgage.downPayment.firstTime;
   const loanWanted = Math.min(
@@ -405,7 +410,10 @@ function buy(
   } as never);
   // It moved into its new home today, and now keeps company with the town's owners.
   h.since = makeIsoDate(c.date);
-  h.tenure = loanEach > 0 ? "mortgage" : "other";
-  regroupHousehold(rt, h, c.date);
+  if (loanEach <= 0) {
+    // Bought outright: it keeps company with the owners who owe nothing.
+    h.tenure = "other";
+    regroupHousehold(rt, h, c.date);
+  }
   countBuyer(api, h.placeId, weight);
 }
