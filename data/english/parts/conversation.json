@@ -13159,7 +13159,8 @@
           "subject": "family",
           "role": "answer",
           "choice": "well",
-          "raises": "their-family"
+          "raises": "their-family",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -42511,56 +42512,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.greet-core.phone-well-hello-what-can-i-do-for-you",
-      "move": "greet-core",
-      "kind": "spoken",
-      "text": "Well, hello. What can I do for you?",
-      "piece": {
-        "of": "greet-open",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "greet-core",
-          "subject": "greet",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (by-phone lines, round 12)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.greet-core.phone-hey-you-what-s-up",
       "move": "greet-core",
       "kind": "spoken",
       "text": "Hey, you. What's up?",
-      "piece": {
-        "of": "greet-open",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "greet-core",
-          "subject": "greet",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["by-phone", "close-tie"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (by-phone lines, round 12)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.greet-core.phone-oh-hi-is-everything-okay",
-      "move": "greet-core",
-      "kind": "spoken",
-      "text": "Oh, hi. Is everything okay?",
       "piece": {
         "of": "greet-open",
         "part": "core",
@@ -42596,29 +42551,6 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["by-phone", "close-tie"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (by-phone lines, round 12)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.greet-core.phone-hey-everything-okay",
-      "move": "greet-core",
-      "kind": "spoken",
-      "text": "Hey. Everything okay?",
-      "piece": {
-        "of": "greet-open",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "greet-core",
-          "subject": "greet",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["by-phone", "kin-or-household"]
         }
       ],
       "origin": "authored",
@@ -42664,7 +42596,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["by-phone", "kin-or-household"]
+          "requiresFacts": ["by-phone", "kin-or-household"],
+          "excludesFacts": ["voice-said"]
         }
       ],
       "origin": "authored",
@@ -42975,7 +42908,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["by-phone", "close-tie"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["voice-said"]
         }
       ],
       "origin": "authored",
@@ -42994,7 +42928,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["by-phone", "kin-or-household"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["voice-said"]
         }
       ],
       "origin": "authored",
