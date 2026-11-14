@@ -516,13 +516,11 @@ function scaleFor(api: CoreAPI, monthlyPayMinor: number, good: Good): number {
 /** Who lives in a household, from its records: what its use of a good follows. */
 export interface Composition {
   persons: number;
-  /** Members 18 and over. */
+  /** Members at the voting age (the `votingAge` parameter). */
   adults: number;
   /** Members with a job (a recorded one, or work outside the recorded firms). */
   workers: number;
 }
-
-const ADULT_AGE = 18;
 
 function ageOn(date: string, born: string): number {
   return (
@@ -1421,6 +1419,7 @@ function withWebRules(api: CoreAPI, rules: Rule[]): Rule[] {
 }
 
 function fullComposition(
+  api: CoreAPI,
   c: CoreState,
   members: readonly string[],
 ): Composition {
@@ -1428,7 +1427,7 @@ function fullComposition(
     workers = 0;
   for (const id of members) {
     const person = c.people.get(id)!;
-    if (ageOn(c.date, person.birthDate) >= ADULT_AGE) adults++;
+    if (ageOn(c.date, person.birthDate) >= api.parameter("votingAge")) adults++;
     const job = person.jobId ? c.jobs.get(person.jobId) : undefined;
     if (job && job.endsAt === undefined) workers++;
   }
@@ -1436,6 +1435,7 @@ function fullComposition(
 }
 
 function countedComposition(
+  api: CoreAPI,
   date: string,
   store: NonNullable<ReturnType<typeof residentsRuntime>>["store"],
   household: Parameters<typeof store.countedCount>[0],
@@ -1443,7 +1443,7 @@ function countedComposition(
 ): Composition {
   let adults = 0;
   for (const facts of store.factsOfHousehold(household))
-    if (ageOn(date, facts.birthDate) >= ADULT_AGE) adults++;
+    if (ageOn(date, facts.birthDate) >= api.parameter("votingAge")) adults++;
   const workers =
     household.jobs.filter((job) => job.endsAt === undefined).length +
     household.unplacedWorkers;
@@ -1538,7 +1538,7 @@ function month(api: CoreAPI): void {
           pay +=
             (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / MONTHS;
       }
-      const who = fullComposition(c, members);
+      const who = fullComposition(api, c, members);
       const use = useFor(rule, pay);
       const change = monthlyChange(
         use.rule,
@@ -1598,7 +1598,13 @@ function month(api: CoreAPI): void {
           pay +=
             (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / MONTHS;
       }
-      const who = countedComposition(c.date, rt!.store, household, persons);
+      const who = countedComposition(
+        api,
+        c.date,
+        rt!.store,
+        household,
+        persons,
+      );
       const use = useFor(rule, pay);
       const change = monthlyChange(
         use.rule,
