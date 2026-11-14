@@ -1689,6 +1689,9 @@ function askForCandidates(
           filingDeadline: rules.deadline ?? contest.filingDeadline,
         },
       });
+      // A seasoned officeholder of the party takes the member under their
+      // wing; the next day's advice scene reads who.
+      takeUnderWing(api, person.id, party.id, recordId);
       // The player answers in the scene the ask stages, and the party waits
       // on that answer: a yes is the decision to run (`answerPartyAsk`), a no
       // or a not-now sends the party on to its next member.
@@ -2057,3 +2060,160 @@ export const candidacyModule: CoreModule = {
 
 /** The filing clerk who takes a local race's papers, read by other families through this entry. */
 export { localClerkFor } from "./filing-clerk";
+
+export const PARTY_MENTORSHIP = "party.mentorship-formed";
+
+/** A party member's mentor in politics: who took them under their wing, and the party's ask that brought it about. */
+export interface PartyMentorRow {
+  readonly id: string;
+  readonly partyId: string;
+  readonly mentorId: string;
+  readonly since: string;
+  readonly askId: string;
+}
+
+/**
+ * When a party asks a member to run, one of its seated officeholders in town
+ * who has held a seat for a year or more takes the newcomer under their wing:
+ * the one closest to them already, then the longest seated. Written once per
+ * member and party, as a tie between the two and a `party.mentorship-formed`
+ * record the advice scene reads (`partyMentorOf`). Nothing is rolled; no
+ * seasoned officeholder of the party in town, no mentor. Returns the mentor.
+ */
+export function takeUnderWing(
+  api: CoreAPI,
+  personId: PersonId,
+  partyId: string,
+  askId: string,
+): PersonId | null {
+  const core = api.state as CoreState;
+  const mentors = api.moduleState(PARTIES_MODULE_ID).table("mentors");
+  const id = `${partyId}:${personId}`;
+  const held = mentors.get(id) as unknown as PartyMentorRow | undefined;
+  if (held) return held.mentorId as PersonId;
+  const person = core.people.get(personId);
+  if (!person) return null;
+  const mentor = seasonedOfficeholders(api, partyId, person.placeId)
+    .filter((held) => held.id !== personId)
+    .map((held) => ({
+      ...held,
+      tie: closenessBetween(core, personId, held.id),
+    }))
+    .sort(
+      (a, b) =>
+        b.tie - a.tie ||
+        a.since.localeCompare(b.since) ||
+        a.id.localeCompare(b.id),
+    )[0];
+  if (!mentor) return null;
+  const recordId = `${PARTY_MENTORSHIP}:${partyId}:${personId}:${mentor.id}`;
+  mentors.put({
+    id,
+    partyId,
+    mentorId: mentor.id,
+    since: core.date,
+    askId,
+  } satisfies PartyMentorRow as unknown as ModuleRow);
+  api.relationship(
+    personId,
+    mentor.id,
+    "contact",
+    api.parameter("mentorFirstHours"),
+    undefined,
+    { cause: "mentorship", sourceId: recordId },
+  );
+  const holder = core.people.get(mentor.id)!;
+  api.emit({
+    id: recordId,
+    date: core.date,
+    kind: PARTY_MENTORSHIP,
+    personIds: [personId, mentor.id],
+    placeId: person.placeId,
+    publicRecord: false,
+    source: {
+      tag: "ESTIMATED",
+      asOf: core.date,
+      citation: `${holder.givenName} ${holder.familyName} took ${person.givenName} ${person.familyName} under their wing when the party asked them to run.`,
+      estimatedFrom:
+        "The party's ask and its seated officeholders in town of a year or more, the closest to the member first.",
+    },
+    facts: { partyId, mentorId: mentor.id, askId },
+  });
+  return mentor.id;
+}
+
+/** The member's mentor in a party, where one took them under their wing and is still alive and in their town. */
+export function partyMentorOf(
+  api: CoreAPI,
+  personId: string,
+  partyId: string,
+): PersonId | null {
+  const core = api.state as CoreState;
+  if (!core.modules.has(PARTIES_MODULE_ID)) return null;
+  const row = api
+    .moduleState(PARTIES_MODULE_ID)
+    .table("mentors")
+    .get(`${partyId}:${personId}`) as unknown as PartyMentorRow | undefined;
+  const mentor = row ? core.people.get(row.mentorId as PersonId) : undefined;
+  const person = core.people.get(personId as PersonId);
+  return mentor?.alive && person && mentor.placeId === person.placeId
+    ? mentor.id
+    : null;
+}
+
+/**
+ * A party's seated officeholders living in a place who have held a seat for a
+ * year or more, with the day their service began: the veterans who can take a
+ * newcomer under their wing. Read from the offices engine's serving terms.
+ */
+export function seasonedOfficeholders(
+  api: CoreAPI,
+  partyId: string,
+  placeId: string,
+): { readonly id: PersonId; readonly since: string }[] {
+  const core = api.state as CoreState;
+  if (
+    !core.modules.has(OFFICES_MODULE_ID) ||
+    !core.modules.has(PARTIES_MODULE_ID)
+  )
+    return [];
+  const members = new Set(
+    (
+      api
+        .moduleState(PARTIES_MODULE_ID)
+        .table("ties")
+        .query("byParty", [partyId]) as unknown as {
+        personId: string;
+        tie: string;
+      }[]
+    )
+      .filter((tie) => tie.tie === "party")
+      .map((tie) => tie.personId),
+  );
+  const seasoned = addDays(
+    core.date,
+    -Math.round(api.parameter("daysPerMeanYear")),
+  );
+  return (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("byStatus", ["serving"]) as unknown as TermRow[]
+  )
+    .filter((term) => {
+      const holder = term.personId
+        ? core.people.get(term.personId as PersonId)
+        : undefined;
+      return (
+        !!holder &&
+        holder.alive &&
+        holder.placeId === placeId &&
+        members.has(holder.id) &&
+        (term.serviceStart ?? term.startDate) <= seasoned
+      );
+    })
+    .map((term) => ({
+      id: term.personId as PersonId,
+      since: term.serviceStart ?? term.startDate,
+    }));
+}

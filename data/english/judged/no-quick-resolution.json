@@ -1,0 +1,8 @@
+{
+  "schema": "english-judged/2",
+  "rule": "no-quick-resolution",
+  "rubric": "No instant, agreeable wrap-up: a reply may push back, deflect or escalate instead of giving in in one line.",
+  "judged": 20,
+  "no": {},
+  "yesHash": "1b1qsdnnz8l"
+}
