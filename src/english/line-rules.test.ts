@@ -636,6 +636,9 @@ describe("the rules that judge a piece in its spot, over the banks", () => {
         return row.note?.trim() ? [] : [`${row.id} waits with no reason`];
       // A composed rule reads whole texts; tests/guards/english/composed-rules.test.ts holds it.
       if (row.test.kind === "composed") return [];
+      // A judged rule is held by its saved verdicts, its catches and its
+      // spares: tests/guards/english/line-rules.test.ts holds it.
+      if (row.test.kind === "judged") return [];
       const tested = ["phrases", "patterns", "sentences"].includes(
         row.test.kind,
       );
