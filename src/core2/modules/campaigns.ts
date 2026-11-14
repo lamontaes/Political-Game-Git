@@ -6463,7 +6463,7 @@ export interface SteppedUp {
 export interface RaceReading {
   /** The poll or the word of a rival it came from (a `polls` or `rivalWord` row id). */
   readonly sourceRecordId: string;
-  readonly sourceKind: "poll" | "word" | "doors";
+  readonly sourceKind: "poll" | "word" | "doors" | "told";
   /** A door reading's evening: the day its newest answers were told (one stepped-up row an evening). */
   readonly sourceDate?: string;
   /** The rival who stands best in it, or null where it names none. */
@@ -6570,6 +6570,17 @@ export function raceReading(
         })
       : null;
   if (fromWord) return fromWord;
+  // No word or doors newer than the poll: a yes someone they know told them
+  // since (one who gave a candidate their word and has been in touch).
+  const heard = newestCircleYes(api, campaign, candidate, town);
+  if (heard && (!poll || heard.date > poll.date)) {
+    const fromCircle = toldReading(api, campaign, candidate, town, {
+      id: heard.id,
+      kind: "told",
+      date: heard.date,
+    });
+    if (fromCircle) return fromCircle;
+  }
   if (!poll) return null;
   const own = (poll.answers[candidate.id] ?? 0) / poll.contacted;
   const best = Object.entries(poll.answers)
@@ -6588,6 +6599,66 @@ export function raceReading(
     rivalShare: rival,
     threat: (rival - own) * sure,
   };
+}
+
+/**
+ * The yeses the people a candidate knows in town have told them: each one a
+ * person alive in town who has given a candidate on the ballot in the contest
+ * their word and has been in touch with the candidate since it was first
+ * given. `covered` gains everyone they know in town, told or not.
+ */
+function circleYeses(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  candidate: Readonly<PersonState>,
+  town: string,
+  onBallot: ReadonlySet<string>,
+  covered: Set<string>,
+): { readonly voterId: string; readonly pledge: PledgeRow }[] {
+  const core = api.state as CoreState;
+  const out: { voterId: string; pledge: PledgeRow }[] = [];
+  for (const id of candidate.knownIds) {
+    const person = api.state.people.get(id);
+    if (person?.alive !== true || person.placeId !== town) continue;
+    covered.add(id);
+    for (const pledge of pledgesOf(api, id))
+      if (
+        pledge.contestId === campaign.contestId &&
+        onBallot.has(pledge.candidateId) &&
+        inTouchSince(core, id, candidate.id, pledge.firstDate ?? pledge.date)
+      )
+        out.push({ voterId: id, pledge });
+  }
+  return out;
+}
+
+/** The newest yes a candidate's circle has told them (its pledge row and day), or none. */
+function newestCircleYes(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  candidate: Readonly<PersonState>,
+  town: string,
+): { readonly id: string; readonly date: string } | undefined {
+  const onBallot = new Set(
+    ballot(api, campaign.contestId).map((f) => f.personId),
+  );
+  onBallot.add(candidate.id);
+  let best: { id: string; date: string } | undefined;
+  for (const { pledge } of circleYeses(
+    api,
+    campaign,
+    candidate,
+    town,
+    onBallot,
+    new Set(),
+  ))
+    if (
+      !best ||
+      pledge.date > best.date ||
+      (pledge.date === best.date && pledge.id < best.id)
+    )
+      best = { id: pledge.id, date: pledge.date };
+  return best;
 }
 
 /**
@@ -6617,7 +6688,7 @@ function toldReading(
   town: string,
   source: {
     readonly id: string;
-    readonly kind: "word" | "doors";
+    readonly kind: "word" | "doors" | "told";
     readonly date: string;
   },
 ): RaceReading | null {
@@ -6639,18 +6710,15 @@ function toldReading(
   const covered = new Set<string>();
   // Each yes told to a candidate on the ballot, by its pledge id, to whom.
   const told = new Map<string, string>();
-  for (const id of candidate.knownIds) {
-    const person = api.state.people.get(id);
-    if (person?.alive !== true || person.placeId !== town) continue;
-    covered.add(id);
-    for (const pledge of pledgesOf(api, id))
-      if (
-        pledge.contestId === contestId &&
-        onBallot.has(pledge.candidateId) &&
-        inTouchSince(core, id, candidate.id, pledge.firstDate ?? pledge.date)
-      )
-        told.set(pledge.id, pledge.candidateId);
-  }
+  for (const { pledge } of circleYeses(
+    api,
+    campaign,
+    candidate,
+    town,
+    onBallot,
+    covered,
+  ))
+    told.set(pledge.id, pledge.candidateId);
   // Each resident's latest answer at the campaign's doors, whichever home
   // they answered it at.
   const answered = new Map<string, { at: string; yes: string | null }>();
@@ -6682,7 +6750,7 @@ function toldReading(
   return {
     sourceRecordId: source.id,
     sourceKind: source.kind,
-    ...(source.kind === "doors" ? { sourceDate: source.date } : {}),
+    ...(source.kind !== "word" ? { sourceDate: source.date } : {}),
     rivalId: best?.[0] ?? null,
     ownShare: own,
     rivalShare: rival,
@@ -6871,7 +6939,7 @@ export interface SteppedUpRow {
   readonly date: string;
   /** The poll or word row the candidate read (`polls` or `rivalWord`). */
   readonly sourceRecordId: string;
-  readonly sourceKind: "poll" | "word" | "doors";
+  readonly sourceKind: "poll" | "word" | "doors" | "told";
   readonly rivalId: string;
   readonly ownShare: number;
   readonly rivalShare: number;
