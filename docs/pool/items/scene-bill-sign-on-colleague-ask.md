@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-lcf812
-pr:
+pr: #9305
 claimed-at: 2026-11-14T15:00:00.000Z
 after: scene-hearing-witness-after-the-hearing
 blocked-on:
