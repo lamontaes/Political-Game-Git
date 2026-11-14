@@ -350,6 +350,8 @@ export interface Conversation {
   minuteOfDay?: number;
   /** The organization whose place the player came to for the talk, when the screen knows it (internal). */
   visitOrganizationId?: string;
+  /** The talk is by phone: the greeting and goodbye carry the fact "by-phone" (internal). */
+  byPhone?: boolean;
   /** A look only: whether there is anything to say, with nothing learned (internal). */
   look?: boolean;
   /** The director's ledger, read for what happened to whom (internal). */
@@ -3114,6 +3116,8 @@ function openConversationNow(
     minuteOfDay?: number;
     /** The organization whose place the player came to (a visit), where the screen knows it. */
     visitOrganizationId?: string;
+    /** The talk is a phone call: words that fit only in person are held back by the fact "by-phone". */
+    byPhone?: boolean;
     /** Only looking whether there is anything to say (the room's check): nothing is learned. */
     look?: boolean;
   } = {},
@@ -3138,6 +3142,7 @@ function openConversationNow(
     ...(options.visitOrganizationId
       ? { visitOrganizationId: options.visitOrganizationId }
       : {}),
+    ...(options.byPhone ? { byPhone: true } : {}),
     ...(options.look ? { look: true } : {}),
   };
   const occasion = options.occasionId
@@ -3165,7 +3170,7 @@ function openConversationNow(
     core.people.get(otherId)?.householdId === player.householdId;
   const greeting = housemate
     ? null
-    : greetingLine(core, data, playerId, otherId, !!knows);
+    : greetingLine(core, data, playerId, otherId, !!knows, !!options.byPhone);
   if (greeting) {
     // The hello is its own short turn, as people say it ("Hi." then "Back
     // again?"): a composed greeting's opener is said first, the rest after.
@@ -4193,6 +4198,7 @@ function greetingLine(
   playerId: PersonId,
   otherId: PersonId,
   knows: boolean,
+  byPhone = false,
 ): ReturnType<typeof words> {
   const player = core.people.get(playerId)!;
   const momentKey = `${playerId}:${otherId}:${core.date}:greet`;
@@ -4208,6 +4214,8 @@ function greetingLine(
       }
     : {};
   const facts: Facts = { ...name };
+  // A call: the greetings that fit only in person ("Good to see you") wait on this.
+  if (byPhone) facts["by-phone"] = { text: "yes", sourceRecordIds: [playerId] };
   // When they last met, said in passing, from the tie's own contact date;
   // never a meeting earlier today.
   const seen = lastContact(core, otherId, playerId);
@@ -4272,6 +4280,11 @@ function partingLine(
     conversation.lines.some((line) => line.text.includes(topic[found]!.text));
   const key = named ? undefined : found;
   const player = core.people.get(conversation.playerId);
+  if (conversation.byPhone)
+    facts["by-phone"] = {
+      text: "yes",
+      sourceRecordIds: [conversation.playerId],
+    };
   if (named && player?.givenName) {
     facts["about-again"] = topic[found!]!;
     facts["player-first"] = {

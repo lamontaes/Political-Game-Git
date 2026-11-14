@@ -9,7 +9,7 @@
  * other.
  */
 import data from "./data/encounters.json" with { type: "json" };
-import type { CoreAPI } from "./types";
+import type { CoreAPI, DecisionResult } from "./types";
 
 export const ENCOUNTERS = data;
 
@@ -41,6 +41,29 @@ export function meetAtVisit(
       met += api.parameter("one");
   }
   return met;
+}
+
+/**
+ * One visit's time together, in one place for every visitor: the hours are
+ * time together on the tie (its closeness fades slower the more they visit),
+ * both people's last contact is today, and the visitor meets the people who
+ * live with the host. The people engine's "get in touch" act and the player's
+ * Visit both write it, so a visit is one kind of record whoever makes it.
+ */
+export function recordVisit(
+  api: CoreAPI,
+  visitorId: string,
+  hostId: string,
+  hours: number,
+  decision?: DecisionResult,
+): number {
+  api.relationship(visitorId, hostId, "contact", hours, decision, {
+    cause: data.causes.visit,
+    sourceId: `visit:${api.state.date}:${visitorId}:${hostId}`,
+  });
+  api.updatePerson(visitorId, { lastContactDate: api.state.date });
+  api.updatePerson(hostId, { lastContactDate: api.state.date });
+  return meetAtVisit(api, visitorId, hostId, hours);
 }
 
 /**
