@@ -4716,7 +4716,12 @@ function mainTopic(
   asks: boolean;
 } | null {
   const { playerId, otherId, director } = conversation;
-  let best: { subject: Subject; asks: boolean; weight: number } | null = null;
+  let best: {
+    subject: Subject;
+    asks: boolean;
+    weight: number;
+    hard: boolean;
+  } | null = null;
   // The occasion comes first: a talk a scene opens is about the scene's
   // moment.
   const occasion = conversation.occasion;
@@ -4804,8 +4809,21 @@ function mainTopic(
       )
     )
       return;
-    if (weight > zero && (!best || weight > best.weight))
-      best = { subject, asks, weight };
+    // Hard news of the teller's own life (an eviction, a lost job, a death)
+    // leads before any other opener, whatever the day's news weighs, until
+    // it has been told (Words lead, Nov 14: a relative put out that day
+    // opened on consumer loan interest because an unwatched person's moment
+    // weighs only the book's floor and a story with a stand weighs more).
+    // A talk a scene opens keeps to its occasion.
+    const hard =
+      !occasion && !asks && NEWS_SUBJECTS.has(subject.kind) && weight > zero;
+    if (
+      weight > zero &&
+      (!best ||
+        (hard && !best.hard) ||
+        (hard === best.hard && weight > best.weight))
+    )
+      best = { subject, asks, weight, hard };
   };
   for (const subject of subjectsBetween(
     core,
