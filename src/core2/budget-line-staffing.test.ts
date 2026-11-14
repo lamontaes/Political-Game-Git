@@ -94,7 +94,7 @@ for (const key of Object.keys(STAFFING))
           measureId: `test:${line}:up`,
         });
         advanceCore(core, addDays(makeIsoDate(core.date), 2));
-        const row = staffingOf(api, key, gov.organizationId);
+        const row = staffingOf(api, key, gov.organizationId, gov.id);
         expect(
           row?.positions,
           `${where}: ${line} on the record`,
@@ -125,7 +125,7 @@ for (const key of Object.keys(STAFFING))
         continue;
       }
       const funded = employers.reduce(
-        (n, o) => n + Math.round(staffingOf(api, key, o.id)!.positions),
+        (n, o) => n + Math.round(staffingOf(api, key, o.id, gov.id)!.positions),
         0,
       );
       const up = staff();
