@@ -33,15 +33,22 @@ import { governmentProperName } from "./government-proper-name";
  * The place as its body's name says it: a town's, village's or city's class
  * word goes where the body's own name follows ("Town of Montville" seats the
  * "Montville Board of Selectmen"), a township's follows its name ("Township
- * of Ocean" seats the "Ocean Township Committee"), and a Puerto Rico
+ * of Ocean" seats the "Ocean Township Committee", and so does a charter
+ * township's: "Charter Township of Green" seats the "Green Township Board"), and a Puerto Rico
  * municipio is said by its name alone ("Ciales Municipal Legislature").
  * Counties, parishes and boroughs keep theirs ("Example County Commission").
  * One rule in the name reader (Words lead, Nov 14), so the paper, the
  * meeting panel and every other view read one name from the office record.
  */
 function placeOfBody(area: string): string {
-  const of = /^(Town|Village|City|Plantation|Township) of (.+)$/.exec(area);
-  if (of) return of[1] === "Township" ? `${of[2]} Township` : of[2]!;
+  // A charter, civil or metro township is a township: the listing's extra word
+  // is its legal form, which people leave out ("Charter Township of Green" is
+  // "Green Township").
+  const of =
+    /^(Town|Village|City|Plantation|(?:Charter |Civil |Metro )?Township) of (.+)$/.exec(
+      area,
+    );
+  if (of) return of[1]!.endsWith("Township") ? `${of[2]} Township` : of[2]!;
   return area.replace(/ Municipio$/, "");
 }
 
@@ -114,6 +121,12 @@ export interface OfficeInput {
   };
   /** True when the office's seats represent the player's town. */
   readonly coversTown: boolean;
+  /**
+   * An executive office whose holder presides over the government's board (a commission
+   * county's probate judge): the holder puts a bill before the board in their own name, as its
+   * chair, instead of asking a member. From the place's own county data.
+   */
+  readonly presidesOverBody?: boolean;
   readonly source: string;
   readonly estimate: boolean;
 }
@@ -170,8 +183,8 @@ export function townAndBody(town: string, body: string): string {
  * The council's name: as its charter names it where the town's government is
  * compiled, else the usual body of its kind of municipality in its state
  * ("VILLAGE OF EOLIA" in a state whose villages elect a board of trustees is
- * "Eolia Board of Trustees"), else the generic municipal name
- * (SG-GOV-municipal-body-name).
+ * "Eolia Board of Trustees"), else the generic municipal name, an ESTIMATED
+ * row in `src/core2/data/offices/body-names.json`.
  */
 function municipalBodyName(unit: GovernmentUnitIdentity): string {
   const charter = localGoverningBodyName(unit);
@@ -185,7 +198,7 @@ function municipalBodyName(unit: GovernmentUnitIdentity): string {
   const proper = governmentProperName(unit.name, unit.id);
   if (usual)
     return townAndBody(proper.split(" ").slice(2).join(" "), usual.value);
-  // stopgapId: SG-GOV-municipal-body-name (a listing name that gives no kind)
+  // A listing name that gives no kind: the estimated generic body name.
   return `${proper} ${bodyNames.municipal.value}`;
 }
 
@@ -293,6 +306,7 @@ function boardOffices(
         elected: true,
         districted: false,
         coversTown: true,
+        ...(board.executive.presidesOverBody ? { presidesOverBody: true } : {}),
         source: `${board.citation} ${board.url}`.trim(),
         estimate: board.executive.status !== "SOURCED",
       });

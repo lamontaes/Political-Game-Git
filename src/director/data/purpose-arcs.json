@@ -1647,7 +1647,7 @@
         },
         {
           "id": "accepted",
-          "label": "You took the post",
+          "label": "You took the job",
           "keeps": "favor-owed",
           "when": {
             "reply": ["agree"]
