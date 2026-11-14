@@ -89412,7 +89412,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for", "bill", "deadline"]
+          "requiresFacts": ["for", "bill", "deadline"],
+          "setsFacts": ["asked-only"]
         }
       ],
       "bearing": "calm",
@@ -89429,31 +89430,6 @@
       "move": "state-request",
       "kind": "spoken",
       "text": "I carried {bill} to the floor and it passed. It's yours to sign.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["for", "bill"]
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "request",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.before-you-decide-on-bill-hear-it-from-the-person-who-brought-it",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Before you decide on {bill}, hear it from the person who brought it.",
       "uses": [
         {
           "subject": "scene",
@@ -89537,7 +89513,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against", "bill", "cost"]
+          "requiresFacts": ["against", "bill", "cost"],
+          "setsFacts": ["cost-claimed"]
         }
       ],
       "bearing": "guarded",
@@ -89562,7 +89539,9 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "after": "request",
+          "excludesFacts": ["asked-only"]
         }
       ],
       "bearing": "calm",
@@ -89587,7 +89566,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "after": "request"
         }
       ],
       "bearing": "calm",
@@ -89612,7 +89592,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "after": "request"
         }
       ],
       "bearing": "calm",
@@ -89637,7 +89618,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "after": "request"
         }
       ],
       "bearing": "calm",
@@ -89662,7 +89644,29 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "after": "request"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-why"],
+          "excludesFacts": ["why-dismissed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-cost", "budget-cost"]
         }
       ],
       "bearing": "guarded",
@@ -89687,7 +89691,29 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "after": "request"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-why"],
+          "excludesFacts": ["why-dismissed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-cost", "budget-cost"]
         }
       ],
       "bearing": "guarded",
@@ -89712,7 +89738,19 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "after": "request"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-why"],
+          "excludesFacts": ["why-dismissed"]
         }
       ],
       "bearing": "guarded",
@@ -89737,7 +89775,18 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "after": "request"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against", "heard-cost"]
         }
       ],
       "bearing": "guarded",
@@ -89762,7 +89811,18 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "after": "request"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against", "heard-cost"]
         }
       ],
       "bearing": "guarded",
@@ -89787,7 +89847,18 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "after": "request"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against", "heard-cost"]
         }
       ],
       "bearing": "guarded",
@@ -89812,7 +89883,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "after": "request"
         }
       ],
       "bearing": "calm",
@@ -89837,7 +89909,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "after": "request"
         }
       ],
       "bearing": "calm",
@@ -89862,7 +89935,20 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for", "opposed"]
+          "requiresFacts": ["for", "opposed"],
+          "after": "request",
+          "excludesFacts": ["heard-who", "heard-why"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "opposed", "heard-cost"],
+          "excludesFacts": ["heard-who", "heard-why"]
         }
       ],
       "bearing": "curious",
@@ -89887,7 +89973,20 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "after": "request",
+          "excludesFacts": ["heard-cost"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "request",
+          "requiresFacts": ["against"],
+          "excludesFacts": ["cost-claimed", "heard-cost"]
         }
       ],
       "bearing": "curious",
@@ -89912,7 +90011,20 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for", "opposed"]
+          "requiresFacts": ["for", "opposed"],
+          "after": "request",
+          "excludesFacts": ["heard-why"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "opposed", "heard-who"],
+          "excludesFacts": ["heard-why"]
         }
       ],
       "bearing": "curious",
@@ -89937,7 +90049,9 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against", "cost-claimed"],
+          "after": "request",
+          "excludesFacts": ["heard-cost"]
         }
       ],
       "bearing": "curious",
@@ -90275,7 +90389,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "ask",
-          "requiresFacts": ["against", "cost"]
+          "requiresFacts": ["against", "cost"],
+          "setsFacts": ["heard-cost"]
         }
       ],
       "bearing": "guarded",
@@ -90301,7 +90416,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "ask",
-          "requiresFacts": ["against", "cost"]
+          "requiresFacts": ["against", "cost"],
+          "setsFacts": ["heard-cost"]
         }
       ],
       "bearing": "guarded",
@@ -90327,33 +90443,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "ask",
-          "requiresFacts": ["against"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-people-who-pay-this-weren-t-in-the-room-when-it-passed",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The people who pay this weren't in the room when it passed.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "ask",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["heard-cost", "cost-dodged"]
         }
       ],
       "bearing": "guarded",
@@ -90441,7 +90532,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "refuse",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["asks-time"]
         }
       ],
       "bearing": "nervous",
@@ -90467,7 +90559,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "refuse",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["asks-time"]
         }
       ],
       "bearing": "nervous",
@@ -90493,7 +90586,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "refuse",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "setsFacts": ["warned"]
         },
         {
           "subject": "scene",
@@ -90503,7 +90597,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "stall",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "setsFacts": ["warned"]
         },
         {
           "subject": "scene",
@@ -90513,7 +90608,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "decline",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "setsFacts": ["warned"]
         }
       ],
       "bearing": "braced",
@@ -90585,7 +90681,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "refuse",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["warned"]
         },
         {
           "subject": "scene",
@@ -90595,7 +90692,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "stall",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["warned"]
         },
         {
           "subject": "scene",
@@ -90605,7 +90703,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "decline",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["warned"]
         },
         {
           "subject": "scene",
@@ -90641,7 +90740,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "refuse",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["warned"]
         },
         {
           "subject": "scene",
@@ -90651,7 +90751,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "stall",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["warned"]
         },
         {
           "subject": "scene",
@@ -90661,7 +90762,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "decline",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["warned"]
         }
       ],
       "bearing": "braced",
@@ -90723,7 +90825,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "refuse",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["election-threat"]
         },
         {
           "subject": "scene",
@@ -90733,7 +90836,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "decline",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["election-threat"]
         }
       ],
       "bearing": "braced",
@@ -90794,7 +90898,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "confront"
+          "after": "confront",
+          "setsFacts": ["conceded"]
         }
       ],
       "bearing": "guarded",
@@ -90845,7 +90950,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "plea",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "excludesFacts": ["conceded"]
         },
         {
           "subject": "scene",
@@ -90855,7 +90961,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "press",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "excludesFacts": ["conceded"]
         },
         {
           "subject": "scene",
@@ -90865,7 +90972,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "threaten",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "excludesFacts": ["conceded"]
         }
       ],
       "bearing": "calm",
@@ -90891,7 +90999,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "plea",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "excludesFacts": ["asks-time", "election-threat", "conceded"]
         },
         {
           "subject": "scene",
@@ -90901,7 +91010,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "press",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "excludesFacts": ["asks-time", "election-threat", "conceded"]
         },
         {
           "subject": "scene",
@@ -90911,7 +91021,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "threaten",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "excludesFacts": ["asks-time", "election-threat", "conceded"]
         }
       ],
       "bearing": "calm",
@@ -90963,7 +91074,18 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "answer"
+          "after": "answer",
+          "requiresFacts": ["heard-why"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against", "heard-cost"]
         }
       ],
       "bearing": "guarded",
@@ -91015,7 +91137,18 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "answer"
+          "after": "answer",
+          "requiresFacts": ["heard-why"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against", "heard-cost"]
         }
       ],
       "bearing": "guarded",
@@ -91040,7 +91173,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["warned", "conceded"]
         }
       ],
       "bearing": "guarded",
@@ -91065,7 +91199,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["conceded"]
         }
       ],
       "bearing": "guarded",
@@ -91111,7 +91246,7 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "answer",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against", "heard-cost"]
         }
       ],
       "bearing": "calm",
@@ -91157,7 +91292,7 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "answer",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against", "heard-cost"]
         }
       ],
       "bearing": "calm",
@@ -91209,7 +91344,19 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "answer"
+          "after": "answer",
+          "requiresFacts": ["for", "heard-why"],
+          "excludesFacts": ["why-dismissed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against", "heard-cost"]
         }
       ],
       "bearing": "calm",
@@ -91285,7 +91432,17 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "answer",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for", "heard-why"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-cost"]
         }
       ],
       "bearing": "calm",
@@ -91311,7 +91468,17 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "answer",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for", "heard-why"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-cost"]
         }
       ],
       "bearing": "calm",
@@ -91337,7 +91504,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "answer",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against", "heard-cost"],
+          "excludesFacts": ["cost-dodged"]
         }
       ],
       "bearing": "calm",
@@ -91363,7 +91531,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "answer",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against", "heard-cost"],
+          "excludesFacts": ["cost-dodged"]
         }
       ],
       "bearing": "calm",
@@ -181516,7 +181685,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for", "bill", "short-of-override"]
+          "requiresFacts": ["for", "bill", "short-of-override"],
+          "setsFacts": ["asked-only"]
         }
       ],
       "bearing": "calm",
@@ -181692,7 +181862,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-voters"]
+          "requiresFacts": ["for", "opposed-voters"],
+          "setsFacts": ["heard-why"]
         }
       ],
       "bearing": "calm",
@@ -181718,7 +181889,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-voters"]
+          "requiresFacts": ["for", "opposed-voters"],
+          "setsFacts": ["heard-why"]
         }
       ],
       "bearing": "guarded",
@@ -181744,7 +181916,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-groups", "group"]
+          "requiresFacts": ["for", "opposed-groups", "group"],
+          "setsFacts": ["heard-why"]
         }
       ],
       "bearing": "calm",
@@ -181770,7 +181943,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-groups", "group"]
+          "requiresFacts": ["for", "opposed-groups", "group"],
+          "setsFacts": ["heard-why"]
         }
       ],
       "bearing": "guarded",
@@ -181796,7 +181970,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-party"]
+          "requiresFacts": ["for", "opposed-party"],
+          "setsFacts": ["heard-why"]
         }
       ],
       "bearing": "calm",
@@ -181822,7 +181997,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-party"]
+          "requiresFacts": ["for", "opposed-party"],
+          "setsFacts": ["heard-why", "why-dismissed"]
         }
       ],
       "bearing": "guarded",
@@ -181848,36 +182024,11 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-views"]
+          "requiresFacts": ["for", "opposed-views"],
+          "setsFacts": ["heard-why", "why-dismissed"]
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words lead (desk thread, ruled Nov 14 2026)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.they-re-against-this-kind-of-thing-nothing-i-said-moved-them",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "They're against this kind of thing. Nothing I said moved them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-views"]
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Words lead (desk thread, ruled Nov 14 2026)",
       "date": "2026-11-14",
@@ -181900,7 +182051,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.who-is-against-it",
-          "requiresFacts": ["for", "names"]
+          "requiresFacts": ["for", "names"],
+          "setsFacts": ["heard-who"]
         }
       ],
       "bearing": "calm",
@@ -181927,7 +182079,8 @@
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.who-is-against-it",
           "requiresFacts": ["for", "opposed-voters"],
-          "excludesFacts": ["names"]
+          "excludesFacts": ["names"],
+          "setsFacts": ["heard-who"]
         }
       ],
       "bearing": "calm",
@@ -181954,7 +182107,8 @@
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.who-is-against-it",
           "requiresFacts": ["for", "opposed-groups", "group"],
-          "excludesFacts": ["names"]
+          "excludesFacts": ["names"],
+          "setsFacts": ["heard-who"]
         }
       ],
       "bearing": "calm",
@@ -181981,7 +182135,8 @@
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.who-is-against-it",
           "requiresFacts": ["for", "opposed-party"],
-          "excludesFacts": ["names"]
+          "excludesFacts": ["names"],
+          "setsFacts": ["heard-why", "why-dismissed"]
         }
       ],
       "bearing": "guarded",
@@ -182008,7 +182163,8 @@
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.who-is-against-it",
           "requiresFacts": ["for", "opposed-views"],
-          "excludesFacts": ["names"]
+          "excludesFacts": ["names"],
+          "setsFacts": ["heard-who"]
         }
       ],
       "bearing": "calm",
@@ -182034,7 +182190,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-does-it-cost",
-          "requiresFacts": ["for", "budget-cost"]
+          "requiresFacts": ["for", "budget-cost"],
+          "setsFacts": ["heard-cost"]
         }
       ],
       "bearing": "calm",
@@ -182060,7 +182217,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-does-it-cost",
-          "requiresFacts": ["for", "no-cost"]
+          "requiresFacts": ["for", "no-cost"],
+          "setsFacts": ["heard-cost"]
         }
       ],
       "bearing": "calm",
@@ -187619,6 +187777,59 @@
       "tag": {
         "move": "agree",
         "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.then-i-ll-hear-from-them-myself-before-i-decide",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Then I'll hear from them myself before I decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-who"],
+          "excludesFacts": ["heard-why"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Account lead (desk thread, M5 noes on #9292)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.good-to-know-i-ll-still-use-the-time-i-have",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Good to know. I'll still use the time I have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-cost", "no-cost"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Account lead (desk thread, M5 noes on #9292)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "desk-visit"
       }
     }
   ]

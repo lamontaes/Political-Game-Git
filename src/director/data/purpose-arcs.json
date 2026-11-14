@@ -926,6 +926,13 @@
       ]
     },
     "desk-visit": {
+      "apart": [
+        ["for", "against"],
+        ["opposed", "unopposed"],
+        ["unopposed", "veto-proof", "short-of-override"],
+        ["budget-cost", "no-cost"],
+        ["opposed-voters", "opposed-groups", "opposed-party", "opposed-views"]
+      ],
       "actEnds": ["deadline"],
       "acts": {
         "note": "The replies that say the act in their own words (Account lead, Nov 14): a reply that names the act ends the talk with one closing line from the visitor and signs or vetoes the bill through the desk (Words lead, Nov 14 20:35Z). Any other reply, a no included, leaves it on the desk and the talk goes on.",
@@ -956,7 +963,7 @@
         "confront": ["press", "accept"]
       },
       "again": {
-        "answer": ["agree", "refuse", "bargain", "leave"]
+        "answer": ["agree", "refuse", "bargain", "leave", "ask"]
       },
       "endings": [
         {
