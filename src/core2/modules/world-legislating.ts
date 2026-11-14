@@ -77,9 +77,12 @@ import {
   type SettledQuestion,
 } from "./laws";
 import type { LawRowInput } from "./laws";
-import { lawInForce, policySeriesAtLevel } from "./laws";
-import { billValueInForce } from "../laws-bill-values";
-import { stateAmountOn } from "../laws-starting";
+import {
+  billValueInForce,
+  lawInForce,
+  policySeriesAtLevel,
+  stateAmountOn,
+} from "./laws";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import agendaData from "../data/legislature/outside-agenda.json" with { type: "json" };

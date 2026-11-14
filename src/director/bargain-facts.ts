@@ -110,7 +110,7 @@ export function sponsorAmountFacts(
   const bill = billOf(api, billId);
   // The section the sponsor filed is the bill's first; sections added since
   // (a trade on the floor) are not the figure they came to say.
-  const section = bill?.provisions[0];
+  const [section] = bill?.provisions ?? [];
   if (!bill || bill.sponsorId !== sponsorId) return;
   if (section?.kind !== "law-amount" || !section.series) return;
   const words = amountWords(section.series);
