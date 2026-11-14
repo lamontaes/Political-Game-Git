@@ -79,6 +79,7 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
       tried.push(`${where}: no sitting member who is a full person`);
       continue;
     }
+    const startedAt = Date.now();
     core.focusPersonIds.add(personId);
     director.watch(core, personId);
     const book = director.ledger.people.get(personId)!;
@@ -90,7 +91,7 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
         minuteOfDay: P.zero,
       },
     });
-    while (packet.kind !== "complete") {
+    while (packet.kind !== "complete" && !found) {
       if (packet.kind === "stop") {
         for (const stop of packet.stop.modules) {
           const entry = book.schedule.find(
@@ -179,15 +180,17 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
               `FLOOR DEBATE ${here}\n  ${scene.talk.state.text}\n  ${told!.headline} / ${told!.lede}\n`,
             );
         }
-        // The way the meeting panel answers a held stop: take up what is on
-        // the agenda, adjourn, leave the desk, release the holds.
+        // A held meeting keeps the player's clock until they act on it, so the
+        // test plays the night as a player who leaves each item to their own
+        // position and adjourns (the calls the meeting panel makes); resuming
+        // without it brings the same stop back forever.
         const api = coreAPI(core);
-        const meeting = meetingInProgress(api);
-        if (meeting) {
-          for (const billId of meeting.agenda.filter(
-            (id) => !meeting.takenUp.includes(id),
-          ))
-            takeUpItem(api, meeting.id, billId, "own");
+        for (let guard = 0; guard < 8; guard += 1) {
+          const meeting = meetingInProgress(api);
+          if (!meeting) break;
+          for (const billId of meeting.agenda)
+            if (!meeting.takenUp.includes(billId))
+              takeUpItem(api, meeting.id, billId, "own");
           adjourn(api, meeting.id);
         }
         for (const bill of deskWaiting(api, true))
@@ -206,7 +209,7 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
         });
     }
     process.stdout.write(
-      `FLOOR DEBATES ${where}: ${found} scenes in the year\n`,
+      `FLOOR DEBATES ${where}: ${found} scenes, ${Date.now() - startedAt} ms\n`,
     );
     if (found) return;
     tried.push(`${where}: no floor-debate scene in the year`);
