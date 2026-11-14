@@ -113,15 +113,26 @@ it(`a race's gifts and endorsements take the level of its office, and the desk t
     (s) => `${s.kind}:${wire.find((w) => w.id === s.wireId)?.facts?.contestId}`,
   );
   expect(new Set(keys).size, `${where}: ${keys.join(", ")}`).toBe(keys.length);
-  // Only a local outlet carries them.
+  // A national outlet carries a federal race's endorsements, one a race, and
+  // no donor's gift nor a state race's endorsement.
+  const federal = byLevel("federal")!;
+  const abroad: WireItem[] = [];
+  for (const race of [federal, byLevel("state")!])
+    for (let n = 0; n < 3; n++)
+      for (const kind of ["campaign-gift", "campaign-endorsed"])
+        abroad.push(wireItem(api, event(kind, race.id, n), town)!);
   const national = outletsHere(api).find(
     (o) => o.tier === "national" && o.reporterIds.length,
   );
-  if (national)
-    expect(
-      runDesk(api, deskContext(api), national, wire).filter((s) =>
-        ["campaign-gift", "campaign-endorsed"].includes(s.kind),
-      ),
-      `${where}: ${national.id} takes no donor's gift`,
-    ).toHaveLength(0);
+  expect(national, `${where}: a national outlet with a reporter`).toBeTruthy();
+  const nationally = runDesk(api, deskContext(api), national!, abroad).filter(
+    (s) => ["campaign-gift", "campaign-endorsed"].includes(s.kind),
+  );
+  expect(
+    nationally.map((s) => [
+      s.kind,
+      abroad.find((w) => w.id === s.wireId)?.facts?.contestId,
+    ]),
+    `${where}: ${national!.id}`,
+  ).toEqual([["campaign-endorsed", federal.id]]);
 }, 300_000);

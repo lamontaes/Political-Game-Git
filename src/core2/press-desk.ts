@@ -44,23 +44,27 @@ import { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./modules/elections";
 const COUNTED_HOUSEHOLD = "counted-household";
 const COUNTED_SUBJECTS = "counted-subjects";
 
-/** The record kinds a local outlet prints in its briefs column. */
 /**
  * A race's gifts and endorsements: a paper tells a race's money and backing
  * as one story a week, not one for each donor or endorser (a town's gifts were
  * 94 of its 142 front-page stories in the weeks after filings opened,
- * Williamstown, Kentucky, seed survey-b), and only a local outlet carries
- * them: they are a town's donors' records, not the nation's news.
+ * Williamstown, Kentucky, seed survey-b), and a national outlet carries only a
+ * federal race's endorsements (`nationalCarries`).
  */
 const RACE_KINDS: ReadonlySet<string> = new Set([
   "campaign-gift",
   "campaign-endorsed",
 ]);
+/** A national outlet carries a federal race's endorsements, never a donor's gift or a state or county race's. */
+const nationalCarries = (item: WireItem): boolean =>
+  !RACE_KINDS.has(item.kind) ||
+  (item.kind === "campaign-endorsed" && item.level === "nation");
 const raceTold = (item: WireItem): string | null =>
   RACE_KINDS.has(item.kind) && item.facts?.contestId
     ? `${item.kind}:${item.facts.contestId}`
     : null;
 
+/** The record kinds a local outlet prints in its briefs column. */
 const BRIEF_KINDS: ReadonlySet<string> = new Set(briefs.kinds);
 /** The briefs about the whole town, which name no one: they involve every follower. */
 const TOWN_WIDE_BRIEFS: ReadonlySet<string> = new Set(briefs.townWide);
@@ -675,7 +679,7 @@ export function runDesk(
     (item) =>
       item.date >= since &&
       !ctx.printed(item.id, outlet.id) &&
-      !(outlet.tier === "national" && RACE_KINDS.has(item.kind)),
+      !(outlet.tier === "national" && !nationalCarries(item)),
   );
   if (!open.length || !outlet.reporterIds.length) return [];
   // A body's sitting is news for what it did, not that it sat (CTO, Nov 1,
