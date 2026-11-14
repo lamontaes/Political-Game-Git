@@ -44,6 +44,8 @@ describe("a room resident's partner", { timeout: 600_000 }, () => {
       )
       .sort((a, b) => a.id.localeCompare(b.id))[0];
     expect(resident, "a full resident of a room at Storrs").toBeDefined();
+    // Nobody they know is a fit, so the partner comes from the wider population.
+    resident!.knownIds.clear();
     const room = resident!.householdId;
     const before = core.households.get(room)!.memberIds.length;
     api
