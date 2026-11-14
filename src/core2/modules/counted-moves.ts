@@ -27,6 +27,7 @@ import type { LawInForceAnswer } from "../laws-in-force";
 import { ageOn, type CountedHousehold } from "../counted-groups";
 import { openingTemperaments } from "../opening-personality";
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
+import { groupQuartersStayOf } from "../gov-rules/place-population";
 import { returnedMembersLeave } from "../returned-members-move";
 import { isDemoted } from "../counted-groups";
 import { stateFigures, type RegionMonth } from "../regional-model";
@@ -175,6 +176,10 @@ export interface Runtime {
   roomCapacity: Map<string, number>;
   /** Next in line on each institution type's waiting list (admitToRooms). */
   roomQueue: Map<string, number>;
+  /** People each institution type owes a discharge to, carried month to month (admitToRooms). */
+  roomOwed: Map<string, number>;
+  /** Next room to be discharged in each institution type's turn (admitToRooms). */
+  roomRelease: Map<string, number>;
   serial: number;
   /** After-tax real income by state and wage, for this month (cleared each month). */
   netCache: Map<string, number>;
@@ -419,6 +424,8 @@ export function runtimeOf(api: CoreAPI): Runtime | undefined {
     holdNorm: new Map(),
     roomCapacity: new Map(),
     roomQueue: new Map(),
+    roomOwed: new Map(),
+    roomRelease: new Map(),
     serial: 0,
     netCache: new Map(),
   };
@@ -724,8 +731,8 @@ function month(api: CoreAPI): void {
     }
   >();
   for (const h of store.liveHouseholds()) {
-    // An institution admits and discharges its residents (not built yet):
-    // nobody leaves group quarters by the households' leaving rates.
+    // An institution admits and discharges its residents on its own calendar
+    // (admitToRooms): nobody leaves group quarters by the households' leaving rates.
     if (h.tenure === "group") continue;
     const home = homeOf(h.placeId);
     if (!rt.states.has(home)) continue;
@@ -1336,9 +1343,8 @@ function arrivals(
     { all: CountedHousehold[]; byBand: CountedHousehold[][] }
   >();
   for (const h of store.liveHouseholds()) {
-    // A newcomer copying a room would join group quarters, and institutions
-    // admit nobody yet: their rooms only empty as residents die or are met.
-    // stopgapId: SG-GQ-no-turnover
+    // A newcomer copying a room would join group quarters: institutions
+    // admit on their own calendar (admitToRooms), never as households do.
     if (h.tenure === "group") continue;
     // A household without a home is no shape a newcomer arrives in.
     if (h.tenure === "none") continue;
@@ -1501,8 +1507,11 @@ function arrivals(
  * next person on the institution's waiting list moves in, a person drawn
  * like one the type's rooms hold (same ages, new identity, seeded), so a
  * nursing home, a dormitory or a barracks stays occupied the way its beds are.
- * Nobody is discharged yet: students and service members still age in place
- * (SG-GQ-no-turnover, narrowed to discharge).
+ * Residents are discharged on the type's own calendar (`groupQuartersStayOf`):
+ * a type's beds turn over once in its stay, in the months its calendar names
+ * (a college graduates its class in May and admits the next in August), the
+ * rooms in turn by id and never by a chance. A nursing home has no stay: its
+ * residents leave when they die.
  */
 function admitToRooms(
   api: CoreAPI,
@@ -1524,19 +1533,63 @@ function admitToRooms(
   for (const key of [...rooms.keys()].sort()) {
     const held = rooms.get(key)!;
     const filled = held.filter((h) => store.countedMembers(h).length > 0);
-    const occupied = filled.reduce((n, h) => n + store.weightedCount(h), 0);
+    let occupied = filled.reduce((n, h) => n + store.weightedCount(h), 0);
     const known = rt.roomCapacity.get(key);
     if (known === undefined) {
       rt.roomCapacity.set(key, occupied);
       continue;
     }
-    let vacancy = known - occupied;
     if (!filled.length) continue;
+    const type = held[0]!.quarters!;
+    const stay = groupQuartersStayOf(type);
+    const month = Number(date.slice(5, 7));
+    const left = new Set<string>();
+    // Discharge: the beds turn over once in a stay. The year's turn comes due
+    // in the months the type's calendar names, else a twelfth each month, and
+    // the rooms leave in turn by id until what is owed is paid.
+    if (stay) {
+      const share = stay.leaveMonths
+        ? stay.leaveMonths.includes(month)
+          ? 1 / stay.leaveMonths.length
+          : 0
+        : 1 / 12;
+      let owed = (rt.roomOwed.get(key) ?? 0) + (occupied * share) / stay.years;
+      const order = [...filled].sort((a, b) => (a.id < b.id ? -1 : 1));
+      for (;;) {
+        // One room always stays: the institution's intake draws a new
+        // resident like the ones its rooms hold.
+        if (order.length - left.size <= 1) break;
+        const turn = rt.roomRelease.get(key) ?? 0;
+        const next = order[turn % order.length]!;
+        if (left.has(next.id)) {
+          rt.roomRelease.set(key, turn + 1);
+          continue;
+        }
+        const size = store.weightedCount(next);
+        if (!(owed >= size) || size <= 0) break;
+        rt.roomRelease.set(key, turn + 1);
+        if (
+          !moveCountedHouseholdAway(api, next.id, next.placeId, {
+            "the institution's calendar": 1,
+          })
+        )
+          break;
+        left.add(next.id);
+        owed -= size;
+        occupied -= size;
+      }
+      rt.roomOwed.set(key, owed);
+    }
+    // Intake waits for the institution's own months.
+    if (stay?.intakeMonths && !stay.intakeMonths.includes(month)) continue;
+    let vacancy = known - occupied;
     // The waiting list is read in order, never drawn: applicants queue in the
     // order of the type's own households (by id), and the next room goes to
     // the next in line.
     // stopgapId: SG-GQ-waiting-list-order
-    const line = [...filled].sort((a, b) => (a.id < b.id ? -1 : 1));
+    const line = [...filled]
+      .filter((h) => !left.has(h.id))
+      .sort((a, b) => (a.id < b.id ? -1 : 1));
     for (;;) {
       const turn = rt.roomQueue.get(key) ?? 0;
       const template = line[turn % line.length]!;

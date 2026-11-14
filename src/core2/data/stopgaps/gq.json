@@ -28,18 +28,6 @@
     "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
-    "id": "SG-GQ-no-turnover",
-    "kind": "faked-mechanic",
-    "file": "src/core2/modules/counted-moves.ts",
-    "line": 1319,
-    "whatItFakes": "Institutions refill a room when a resident dies or is filled in (admitToRooms in counted-moves.ts), but nobody is discharged on the institution's own calendar: students and service members still age in place and an institution never grows or shrinks from its beds.",
-    "why": "The moves engines move households by the ACS leaving rates, which would drift a SOURCED count of residents who arrive and leave by an institution's own calendar (a college's intake, a prison's admissions), so rooms are skipped, by the same rule for counted and full residents, and no intake is built yet.",
-    "addedBy": "claude/speed-group-quarters-population",
-    "addedAt": "2026-11-01",
-    "replacement": "Discharge by each type's own calendar (a college's graduating class each spring and intake each fall, a prison's releases and admissions, a nursing home's stays) so rooms turn over; today only the vacancy refill (admitToRooms in counted-moves.ts) exists.",
-    "status": "open"
-  },
-  {
     "id": "SG-GQ-census-day-2020",
     "kind": "assumed-data",
     "file": "src/core2/gov-rules/place-population.ts",
