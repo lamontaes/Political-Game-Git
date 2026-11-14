@@ -27,7 +27,7 @@ const DRAWS = JSON.parse(
   process.env.SAID_DRAWS ??
     '[["s1","Olla, Louisiana"],["s4","South Eliot, Maine"],["s5","Thorne Bay, Alaska"]]',
 ) as [string, string][];
-const DAYS = 30;
+const DAYS = Number(process.env.SAID_DAYS ?? 30);
 const EVERY = 5;
 const TURNS = 6;
 
@@ -91,8 +91,18 @@ it(`the lines the said field changed read as played in ${DRAWS.length} pinned pl
         const talk = openConversation(core, me, other.id as PersonId, {
           director,
         });
-        for (let turn = 0; turn < TURNS && talk.choices.length; turn += 1)
-          say(core, talk, talk.choices[turn % talk.choices.length]!.key);
+        for (let turn = 0; turn < TURNS && talk.choices.length; turn += 1) {
+          // Take an offered reply whose shape has not played yet, else go round.
+          const unseen = talk.choices.find((choice) =>
+            SHAPES.some(
+              (row) => !shapes.has(row.key) && row.pattern.test(choice.text),
+            ),
+          );
+          const pick = unseen ?? talk.choices[turn % talk.choices.length]!;
+          for (const row of SHAPES)
+            if (row.pattern.test(pick.text)) shapes.add(row.key);
+          say(core, talk, pick.key);
+        }
         const lines = talk.lines.map(
           (line) =>
             `${line.speakerId === me ? "You" : other.givenName}: ${line.text}`,
@@ -125,8 +135,10 @@ it(`the lines the said field changed read as played in ${DRAWS.length} pinned pl
   process.stdout.write(
     `SAID shapes seen ${shapes.size} of ${SHAPES.length}: ${[...shapes].join(", ")}\n`,
   );
-  // The telling of the news (a town hall) and the answer after it (agreeing
-  // or splitting) are both played; the rarer asks are read by the table test.
-  expect([...shapes].some((key) => /-say-core\./.test(key))).toBe(true);
-  expect([...shapes].some((key) => /-back-core\./.test(key))).toBe(true);
+  // Every line left on {said} is read as played here; a line that no path
+  // in the game reached stays on {about} (the Words lead, Nov 14).
+  expect(
+    [...shapes].sort(),
+    "a said line was not played in the pinned places",
+  ).toEqual(SHAPES.map((row) => row.key).sort());
 }, 600000);
