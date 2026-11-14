@@ -94465,10 +94465,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-that-s-one-closer",
+      "key": "scene-talk.follow-thank.thank-you-that-helps",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. That's one closer.",
+      "text": "Thank you. That helps.",
       "uses": [
         {
           "subject": "scene",

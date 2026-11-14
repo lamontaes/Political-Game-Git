@@ -143,3 +143,15 @@ The residency line ("your address has you in lives elsewhere") is an existing pi
 - (ask) You: Not really. Can you walk me through a run for County Commissioner? / Rebekah Gallagher: Signatures first. Doors are slow but they work, and a table outside the grocery on a Saturday works faster. Once you're on, it's money and the press. Raise what you can, buy ads in the Brookhaven Enterprise or send mailers, and get to know whoever covers the town there.
 - (confront) You: Who decided County Commissioner takes that many? / Rebekah Gallagher: That's the law's number, not mine, and so is the January 31 deadline.
 - (leave) You: I'll go start knocking on doors in Brookhaven.
+
+## The doors strip says the doors answered (Words lead's go, Nov 14 03:04Z)
+
+"Reached" counted only the full people met; a counted resident who opens is asked to sign too and stays a count, so the strip could show more signed than reached. A petition outing now shows the doors that opened (the people met plus the counted openers), and "reached" stays on vote-asking outings. Pinned in `src/bench/campaign-doors-answered.test.ts` at Otisville, New York (seed 580915c55b122496eedbb4aef26193e639a89d50e6df380c1a1073abc59559a5): six outings, signed never more than answered, answered never fewer than reached.
+
+As played, train merged at 5f9e3ba8 (pictures `answered-1/2/3-doors-strip.png`):
+
+- Acosta, Pennsylvania (4616f4a0-d9e4-4bc9-8680-9c78f8eed4b0): "Knock on doors · 45 doors · 26 answered · 23 signed"
+- Empire, Colorado (df6f08d8-187a-4aa0-bffa-57d01a9329c8): "Knock on doors · 45 doors · 22 answered · 21 signed"
+- Edgar, Wisconsin (4d8a2d61-6aea-48c7-8043-906d5c563aaa): "Knock on doors · 49 doors · 34 answered · 33 signed"
+
+The clerk's residency refusal no longer reads a broken slot: "You have to live in {required} to run for {office}, and my records have you somewhere else." ({required} is the town's or state's name as the place records give it, such as "Brookhaven, West Virginia"; only a place with no record falls back to the research note's text.) The porch thank-you "Thank you. That's one closer." is now "Thank you. That helps." (rule 50: no progress said aloud).
