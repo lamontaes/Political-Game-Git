@@ -97275,10 +97275,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.first-i-ve-been-thinking-about-this-campaign-all-week",
+      "key": "scene-talk.open-greet.first-i-ve-been-thinking-about-this-campaign-since-i-heard-you-filed",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "{first}. I've been thinking about this campaign all week.",
+      "text": "{first}. I've been thinking about this campaign since I heard you filed.",
       "uses": [
         {
           "subject": "scene",
@@ -97750,10 +97750,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-the-offer-stays-open",
+      "key": "scene-talk.follow-accept.fair-it-s-your-campaign",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair. The offer stays open.",
+      "text": "Fair. It's your campaign.",
       "uses": [
         {
           "subject": "scene",
@@ -97881,7 +97881,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "leave",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["daytime"]
         }
       ],
       "origin": "authored",
@@ -97893,10 +97894,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.not-tonight-ask-me-again-this-weekend",
+      "key": "scene-talk.reply-leave.not-tonight-let-me-think-on-it",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Not tonight. Ask me again this weekend.",
+      "text": "Not tonight. Let me think on it.",
       "uses": [
         {
           "subject": "scene",

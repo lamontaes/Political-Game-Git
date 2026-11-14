@@ -4963,6 +4963,7 @@
           "bearing": "curious"
         }
       ],
+      "stopsDay": true,
       "setting": ["home"],
       "timing": "at-cause",
       "causes": [

@@ -26,17 +26,35 @@ import { campaignFor } from "../core2/modules/campaigns";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 
-const PLACE = "5175840";
-const WORLD_SEED =
-  "8f24b411dde6c73638211e2756d6f3899707979906e0ceff6fd58e6e4144ef03";
-const CONTEST = "contest:seat:gus2025:136051:council:0:2025-11-04";
-const where = `Stony Creek, Virginia (${PLACE}), world seed ${WORLD_SEED}, ${CONTEST}`;
+const STONY_CREEK = {
+  name: "Stony Creek, Virginia",
+  place: "5175840",
+  seed: "8f24b411dde6c73638211e2756d6f3899707979906e0ceff6fd58e6e4144ef03",
+  contest: "contest:seat:gus2025:136051:council:0:2025-11-04",
+  opens: "2025-04-21",
+};
+// The county board race there is not at the top of the day's impact, so the
+// type itself stops the day (stopsDay) where the offer's weight would not.
+const PATRICK_AFB = {
+  name: "Patrick AFB, Florida",
+  place: "1255375",
+  seed: "8cace34a6d31334e7f59ce6072715a15fc4635c6c9a9b2d6da606338769b2332",
+  contest: "contest:seat:gus2025:161546:board:2:2026-11-03",
+  opens: "2026-02-23",
+};
 
-it("an offer to run the campaign from someone at home stops the day as its own scene", () => {
+function offerAtHomeStopsTheDay(c: {
+  name: string;
+  place: string;
+  seed: string;
+  contest: string;
+  opens: string;
+}) {
+  const where = `${c.name} (${c.place}), world seed ${c.seed}, ${c.contest}`;
   setBookkeeping(false);
-  const world = buildBenchWorld(WORLD_SEED, gameStartDate(), {
+  const world = buildBenchWorld(c.seed, gameStartDate(), {
     twoLevel: true,
-    placeKey: PLACE,
+    placeKey: c.place,
   });
   const { core, director } = world;
   const me = world.playerId! as PersonId;
@@ -52,21 +70,15 @@ it("an offer to run the campaign from someone at home stops the day as its own s
   for (const id of home.memberIds)
     if (core.people.get(id)?.alive) director.watch(core, id as PersonId);
   const api = coreAPI(core);
-  while (core.date < "2025-04-21")
-    advanceCore(
-      core,
-      [addDays(makeIsoDate(core.date), 7), "2025-04-21"].sort()[0]!,
-    );
-  const filed = fileForOffice(core, me, CONTEST) as {
+  while (core.date < c.opens)
+    advanceCore(core, [addDays(makeIsoDate(core.date), 7), c.opens].sort()[0]!);
+  const filed = fileForOffice(core, me, c.contest) as {
     filing?: { id?: string };
   };
-  const filingId = filed.filing?.id ?? `filing:${CONTEST}:${me}`;
+  const filingId = filed.filing?.id ?? `filing:${c.contest}:${me}`;
   gatherSignatures(core, filingId);
   const afterPetition = core.date;
-  advanceCore(
-    core,
-    afterPetition > "2025-06-15" ? afterPetition : "2025-06-15",
-  );
+  advanceCore(core, addDays(makeIsoDate(afterPetition), 90));
 
   const offers = [...(core.logByKind.get("volunteer-offered") ?? [])]
     .map((id) => core.durableLog.get(id as never)!)
@@ -98,4 +110,16 @@ it("an offer to run the campaign from someone at home stops the day as its own s
     entry!.bindings[0]!.roles.find((r) => r.role === "helper")!.personIds,
   ).toEqual([helper]);
   expect(entry!.bindings[0]!.setting.kind).toBe("home");
-}, 240_000);
+}
+
+it(
+  "Stony Creek, Virginia: an offer from someone at home stops the day as its own scene",
+  () => offerAtHomeStopsTheDay(STONY_CREEK),
+  240_000,
+);
+
+it(
+  "Patrick AFB, Florida: the same for a county race",
+  () => offerAtHomeStopsTheDay(PATRICK_AFB),
+  240_000,
+);
