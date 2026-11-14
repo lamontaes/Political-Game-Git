@@ -21558,7 +21558,7 @@
       "key": "scene-talk.narrate-narrate.the-service-is-over-people-are-standing-around-the-coffee-urn-and-name",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The service is over. People are standing around the coffee urn, and {name} makes their way over to you.",
+      "text": "The service is over. People are standing around the coffee urn, and {name} comes over to you.",
       "uses": [
         {
           "subject": "scene",
@@ -23894,7 +23894,7 @@
       "key": "scene-talk.narrate-narrate.before-the-vote-on-bill-name-leans-over-and-lowers-their-voice",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Before the vote on {bill}, {name} leans over and lowers their voice.",
+      "text": "Before the vote on {bill}, {name} leans over and speaks low.",
       "uses": [
         {
           "subject": "scene",
@@ -24327,7 +24327,7 @@
       "key": "scene-talk.narrate-narrate.name-is-waiting-by-your-car-they-don-t-say-hello",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is waiting by your car. They don't say hello.",
+      "text": "{name} is waiting by your car and doesn't say hello.",
       "uses": [
         {
           "subject": "scene",
@@ -80951,7 +80951,7 @@
       "key": "scene-talk.narrate-narrate.name-catches-you-before-the-vote-on-bill-there-s-a-section-they-want-changed",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} catches you before the vote on {bill}. There's a section they want changed.",
+      "text": "{name} catches you before the vote on {bill} and wants a section changed.",
       "uses": [
         {
           "subject": "scene",
@@ -83237,7 +83237,7 @@
       "key": "scene-talk.narrate-narrate.name-doesn-t-take-off-their-coat",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} doesn't take off their coat.",
+      "text": "{name} leaves the coat on.",
       "uses": [
         {
           "subject": "scene",
@@ -87349,7 +87349,7 @@
       "key": "scene-talk.narrate-narrate.name-is-family-and-from-today-part-of-your-household-knowing-someone-a",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is family, and from today part of your household. Knowing someone and sharing a home with them are two different things.",
+      "text": "{name} is family, and from today part of your household. Knowing someone and sharing a home are two different things.",
       "uses": [
         {
           "subject": "scene",
@@ -87399,7 +87399,7 @@
       "key": "scene-talk.narrate-narrate.name-is-someone-you-don-t-know-yet-and-from-today-name-is-part-of-your",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is someone you don't know yet, and from today they are part of your household.",
+      "text": "{name} is someone you don't know yet, and from today part of your household.",
       "uses": [
         {
           "subject": "scene",
@@ -98451,7 +98451,7 @@
       "key": "scene-talk.narrate-narrate.name-held-this-office-until-now-and-has-stayed-to-hand-it-over-the-oath",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} held this office until now, and has stayed to hand it over. The oath is theirs to give.",
+      "text": "{name} held this office until now, and has stayed to hand it over and give the oath.",
       "uses": [
         {
           "subject": "scene",
@@ -100272,7 +100272,7 @@
       "key": "scene-talk.narrate-narrate.name-sat-in-this-seat-until-you-took-it-and-gives-the-oath-themselves",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} sat in this seat until you took it, and gives the oath themselves.",
+      "text": "{name} sat in this seat until you took it, and gives the oath in person.",
       "uses": [
         {
           "subject": "scene",
@@ -104938,7 +104938,7 @@
       "key": "scene-talk.narrate-narrate.name-catches-you-after-the-vote-on-bill-they-are-smiling-which",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} catches you after the vote on {bill}. They are smiling, which is not the same as friendly.",
+      "text": "{name} catches you after the vote on {bill}, smiling, which is not the same as friendly.",
       "uses": [
         {
           "subject": "scene",
@@ -106688,7 +106688,7 @@
       "key": "scene-talk.narrate-narrate.the-workers-are-out-and-name-has-been-watching-you-carry-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The workers are out, and {name} has been watching you carry it. They sit down across from you.",
+      "text": "The workers are out. {name}, who has been watching you carry it, sits down across from you.",
       "uses": [
         {
           "subject": "scene",
@@ -116104,7 +116104,7 @@
       "key": "scene-talk.narrate-narrate.name-is-there-again-this-is-not-their-first-visit-about-it-and-you-bot",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is there again. This is not their first visit about it, and you both know it.",
+      "text": "{name} is there again. This is not the first visit about it, and you both know it.",
       "uses": [
         {
           "subject": "scene",
@@ -139360,7 +139360,7 @@
       "key": "scene-talk.narrate-narrate.name-has-just-started-at-employer-and-the-kids-from-your-two-houses-are-at-school-together",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has just started at {employer}, and your kids and theirs are at {school} together.",
+      "text": "{name} has just started at {employer}, and the kids from your two houses are at {school} together.",
       "uses": [
         {
           "subject": "scene",
@@ -141195,7 +141195,7 @@
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-and-there-is-something-they-want-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A letter from {name} has come, and there is something they want to ask you.",
+      "text": "A letter from {name} has come, with something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -141218,7 +141218,7 @@
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-from-hometown-they-have-something-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A letter from {name} has come from {hometown}. They have something to ask you.",
+      "text": "A letter from {name} has come from {hometown}, with something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -141242,7 +141242,7 @@
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-since-their-last-one-they-have-had-a-child-new-child-and-they-have-something-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A letter from {name} has come. Since their last one they have had a child, {new-child}, and they have something to ask you.",
+      "text": "A letter from {name} has come, with news of a child, {new-child}, and something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -141266,7 +141266,7 @@
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-since-their-last-one-they-married-married-and-they-have-something-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A letter from {name} has come. Since their last one they married {married}, and they have something to ask you.",
+      "text": "A letter from {name} has come, with news of a marriage to {married} and something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -141290,7 +141290,7 @@
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-they-were-missing-from-your-birthday-table-and-they-have-something-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A letter from {name} has come. They were missing from your birthday table, and they have something to ask you.",
+      "text": "A letter has come from {name}, who was missing from your birthday table and has something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -141314,7 +141314,7 @@
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-since-their-last-one-they-started-at-new-employer-and-they-have-something-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A letter from {name} has come. Since their last one they started at {new-employer}, and they have something to ask you.",
+      "text": "A letter has come from {name}, who has started at {new-employer} and has something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -141509,7 +141509,7 @@
       "key": "scene-talk.state-request.my-kid-new-child-was-born-since-my-last-letter-first-will-you-come-meet-them",
       "move": "state-request",
       "kind": "spoken",
-      "text": "My kid {new-child} was born since my last letter, {first}. Will you come meet them?",
+      "text": "My kid {new-child} was born since my last letter. Will you come meet the baby?",
       "uses": [
         {
           "subject": "scene",
@@ -141534,7 +141534,7 @@
       "key": "scene-talk.state-request.i-married-married-since-i-last-wrote-first-will-you-come-and-meet-them",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I married {married} since I last wrote, {first}. Will you come and meet them?",
+      "text": "I married {married} since I last wrote. Will you come and meet us?",
       "uses": [
         {
           "subject": "scene",
@@ -144030,7 +144030,7 @@
       "key": "scene-talk.narrate-narrate.it-was-name-s-birthday-and-absent-wasn-t-at-the-table-they-turned-age-and-want-to-talk-to-you-about-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "It was {name}'s birthday, and {absent} wasn't at the table. They turned {age} and want to talk to you about it.",
+      "text": "It was {name}'s birthday, and {absent} wasn't at the table. {name} turned {age} and wants to talk to you about it.",
       "uses": [
         {
           "subject": "scene",
@@ -144199,7 +144199,7 @@
       "key": "scene-talk.state-request.would-you-call-absent-first-i-think-they-d-like-to-hear-from-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you call {absent}, {first}? I think they'd like to hear from you.",
+      "text": "Would you call {absent}? I think it would mean a lot.",
       "uses": [
         {
           "subject": "scene",
@@ -144224,7 +144224,7 @@
       "key": "scene-talk.state-request.would-you-write-to-absent-and-tell-them-how-the-birthday-went-first",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you write to {absent} and tell them how the birthday went, {first}?",
+      "text": "Would you write to {absent} about how the birthday went?",
       "uses": [
         {
           "subject": "scene",
@@ -144249,7 +144249,7 @@
       "key": "scene-talk.state-request.would-you-ask-absent-to-come-to-the-next-family-birthday-first-i-think-they-d-come-if-you-asked",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you ask {absent} to come to the next family birthday, {first}? I think they'd come if you asked.",
+      "text": "Would you ask {absent} to come to the next family birthday? I think a word from you would do it.",
       "uses": [
         {
           "subject": "scene",
@@ -144299,7 +144299,7 @@
       "key": "scene-talk.state-request.absent-has-been-seriously-ill-first-would-you-call-and-see-how-they-are",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{absent} has been seriously ill, {first}. Would you call and see how they are?",
+      "text": "{absent} has been seriously ill. Would you call and see how things are?",
       "uses": [
         {
           "subject": "scene",
@@ -144349,7 +144349,7 @@
       "key": "scene-talk.state-request.absent-has-a-new-baby-new-child-first-would-you-call-and-congratulate-them",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{absent} has a new baby, {new-child}, {first}. Would you call and congratulate them?",
+      "text": "{absent} has a new baby, {new-child}. Would you call with congratulations?",
       "uses": [
         {
           "subject": "scene",
@@ -144374,7 +144374,7 @@
       "key": "scene-talk.state-request.absent-moved-to-hometown-first-would-you-call-and-see-how-they-re-settling-in",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{absent} moved to {hometown}, {first}. Would you call and see how they're settling in?",
+      "text": "{absent} moved to {hometown}. Would you call and see how the move went?",
       "uses": [
         {
           "subject": "scene",
@@ -144399,7 +144399,7 @@
       "key": "scene-talk.state-request.i-miss-absent-first-and-i-don-t-know-what-to-say-would-you-call-them-for-me",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I miss {absent}, {first}, and I don't know what to say. Would you call them for me?",
+      "text": "I miss {absent}, and I don't know what to say. Would you call for me?",
       "uses": [
         {
           "subject": "scene",
@@ -144927,7 +144927,7 @@
       "key": "scene-talk.follow-answer.i-only-want-them-to-hear-from-you-first-it-doesn-t-have-to-be-much",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I only want them to hear from you, {first}. It doesn't have to be much.",
+      "text": "I only want {absent} to hear from you. It doesn't have to be much.",
       "uses": [
         {
           "subject": "scene",
@@ -145048,7 +145048,7 @@
       "key": "scene-talk.narrate-narrate.when-you-got-seriously-sick-name-was-the-one-who-called-for-help-now-they-want-to-ask-you-something",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "When you got seriously sick, {name} was the one who called for help. Now they want to ask you something.",
+      "text": "When you got seriously sick, {name} was the one who called for help, and now has something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -145071,7 +145071,7 @@
       "key": "scene-talk.narrate-narrate.when-you-got-seriously-sick-your-partner-name-called-for-help-afterward-they-sit-you-down-to-ask-you-something",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "When you got seriously sick, your partner {name} called for help. Afterward they sit you down to ask you something.",
+      "text": "When you got seriously sick, your partner {name} called for help, and afterward sits you down with a question.",
       "uses": [
         {
           "subject": "scene",
@@ -145119,7 +145119,7 @@
       "key": "scene-talk.narrate-narrate.other-people-in-the-house-saw-you-get-seriously-sick-and-name-was-the-one-who-called-for-help-now-they-pull-you-aside-with-a-question",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Other people in the house saw you get seriously sick, and {name} was the one who called for help. Now they pull you aside with a question.",
+      "text": "Other people in the house saw you get seriously sick, and {name} was the one who called for help, and now pulls you aside with a question.",
       "uses": [
         {
           "subject": "scene",
@@ -145360,7 +145360,7 @@
       "key": "scene-talk.state-request.the-youngest-in-the-house-child-was-in-the-room-when-you-got-sick-will-you-talk-to-them-yourself-first",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The youngest in the house, {child}, was in the room when you got sick. Will you talk to them yourself, {first}?",
+      "text": "The youngest in the house, {child}, was in the room when you got sick. Will you sit down with {child} yourself?",
       "uses": [
         {
           "subject": "scene",
@@ -146055,7 +146055,7 @@
       "key": "scene-talk.narrate-narrate.money.you-missed-a-payment-and-the-trouble-landed-on-name-too-now-they-want-to-talk-about-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You missed a payment, and the trouble landed on {name} too. Now they want to talk about it.",
+      "text": "You missed a payment, and the trouble landed on {name} too, who now wants to talk about it.",
       "uses": [
         {
           "subject": "scene",
@@ -148187,7 +148187,7 @@
       "key": "scene-talk.close-react.repeat.name-shakes-their-head-and-walks-away",
       "move": "close-react",
       "kind": "spoken",
-      "text": "{name} shakes their head and walks away.",
+      "text": "{name} turns and walks away.",
       "uses": [
         {
           "subject": "scene",
@@ -148233,7 +148233,7 @@
       "key": "scene-talk.narrate-narrate.pressed.money-is-tight-for-name-as-well-and-they-have-come-to-talk-about-the-missed-payment",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Money is tight for {name} as well, and they have come to talk about the missed payment.",
+      "text": "Money is tight for {name} as well, who has come to talk about the missed payment.",
       "uses": [
         {
           "subject": "scene",
@@ -148991,7 +148991,7 @@
       "key": "scene-talk.close-react.pressed.name-rubs-their-forehead-and-lets-it-go",
       "move": "close-react",
       "kind": "spoken",
-      "text": "{name} rubs their forehead and lets it go.",
+      "text": "{name} lets out a breath and lets it go.",
       "uses": [
         {
           "subject": "scene",
@@ -149014,7 +149014,7 @@
       "key": "scene-talk.narrate-narrate.witness.name-says-you-offered-them-money-and-has-gone-to-the-prosecutor-about-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} says you offered them money, and has gone to the prosecutor about it.",
+      "text": "{name} says you made an offer of money, and has gone to the prosecutor about it.",
       "uses": [
         {
           "subject": "scene",
@@ -149037,7 +149037,7 @@
       "key": "scene-talk.narrate-narrate.witness.name-is-the-one-you-offered-money-to-and-has-reported-it-now-they-have-come-to-say-so-to-your-face",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is the one you offered money to, and has reported it. Now they have come to say so to your face.",
+      "text": "{name} is the one you offered money to, has reported it, and has now come to say so to your face.",
       "uses": [
         {
           "subject": "scene",
@@ -149890,7 +149890,7 @@
       "key": "scene-talk.narrate-narrate.hearsay.name-was-told-about-a-bribe-by-someone-who-knew-of-it-and-made-a-complaint-now-they-want-to-hear-it-from-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} was told about a bribe by someone who knew of it, and made a complaint. Now they want to hear it from you.",
+      "text": "{name} was told about a bribe by someone who knew of it, made a complaint, and now wants to hear it from you.",
       "uses": [
         {
           "subject": "scene",
@@ -150817,7 +150817,7 @@
       "key": "scene-talk.narrate-narrate.taken.a-bribe-was-offered-and-taken-and-name-made-a-complaint-to-the-prosecutor-that-names-more-than-one-person-now-they-want-to-hear-it-from-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A bribe was offered and taken, and {name} made a complaint to the prosecutor that names more than one person. Now they want to hear it from you.",
+      "text": "A bribe was offered and taken, and {name} made a complaint to the prosecutor that names more than one person, and now wants to hear it from you.",
       "uses": [
         {
           "subject": "scene",
@@ -151501,7 +151501,7 @@
       "key": "scene-talk.narrate-narrate.friend.name-is-close-to-you-and-went-to-the-prosecutor-anyway-now-they-are-asking-you-to-tell-them-the-truth",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is close to you, and went to the prosecutor anyway. Now they are asking you to tell them the truth.",
+      "text": "{name} is close to you, and went to the prosecutor anyway, and is now asking you for the truth.",
       "uses": [
         {
           "subject": "scene",
@@ -152212,7 +152212,7 @@
       "key": "scene-talk.close-react.friend.name-wipes-their-eyes-and-nods",
       "move": "close-react",
       "kind": "spoken",
-      "text": "{name} wipes their eyes and nods.",
+      "text": "{name} nods, eyes wet.",
       "uses": [
         {
           "subject": "scene",
@@ -155757,7 +155757,7 @@
       "key": "scene-talk.narrate-narrate.name-says-relative-s-name-twice-in-the-first-minute-before-saying-why-they-came",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} says {relative}'s name twice in the first minute, before saying why they came.",
+      "text": "{name} says {relative}'s name twice in the first minute, before saying what the visit is about.",
       "uses": [
         {
           "subject": "scene",
