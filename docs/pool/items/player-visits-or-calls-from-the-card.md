@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-soscar
-pr:
+pr: 9171
 after:
 blocked-on:
 lead: words
