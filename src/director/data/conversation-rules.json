@@ -731,6 +731,11 @@
   },
   "givesBack": {
     "about": "Lead, Nov 13, 2026 (conversation.test, Jackson Center: every talk away from home ended on the player's answer): a person who asks the player a small question gives their own answer back after the player's, from their own record, and that closes the talk with something said; a question with nothing to give back is not asked. The asked kinds; their give-back lines are composed under `<kind>-give`.",
-    "kinds": ["home-new", "own-work-new", "asked-kin"]
+    "kinds": ["home-new", "own-work-new", "asked-kin"],
+    "covers": {
+      "about": "Lead, Nov 14, rule 53 (one fact, once): a give-back already said where the asker lives, so the player's own question about it (a raised `home`) is not answered a second time. The asked kind, then the raised kinds its give-back covers.",
+      "home-new": ["home"],
+      "own-work-new": ["their-work"]
+    }
   }
 }

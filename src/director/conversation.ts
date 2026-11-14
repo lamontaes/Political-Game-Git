@@ -3522,6 +3522,16 @@ const GIVES_BACK: readonly string[] = (
   CONVERSATION_RULES as unknown as { givesBack: { kinds: string[] } }
 ).givesBack.kinds;
 
+/** The raised kinds a give-back already told, by the asked kind (conversation-rules.json givesBack.covers). */
+const GIVES_COVER: Readonly<Record<string, readonly string[]>> = (() => {
+  const { about: _about, ...covers } = (
+    CONVERSATION_RULES as unknown as {
+      givesBack: { covers: Record<string, string[] | string> };
+    }
+  ).givesBack.covers;
+  return covers as Record<string, string[]>;
+})();
+
 /**
  * What the asker of a small question gives back after the player's answer,
  * from their own record (lead, Nov 13: "a person who asks the player a small
@@ -4474,7 +4484,7 @@ function openConversationNow(
   // A greeting first; a "How are you?" would need its own answer, so only a
   // greeting that asks nothing opens. The player's name only if they know it.
   const player = core.people.get(playerId)!;
-  const knows = core.people.get(otherId)?.knownIds.has(playerId);
+  const knows = saysName(core, otherId, playerId);
   // People who live together don't greet each other at home.
   const housemate =
     core.people.get(otherId)?.householdId === player.householdId;
@@ -5844,6 +5854,25 @@ const GREET_AND_PART = (
  * met, from the tie's contact record. A stranger, with neither on record,
  * gets a short hello alone.
  */
+/**
+ * Whether the other person says the player's name: they knew the player
+ * before today (or are kin). A stranger met in this very scene has not been
+ * given it (lead, Nov 14, rule 51).
+ */
+function saysName(
+  core: Readonly<CoreState>,
+  otherId: PersonId,
+  playerId: PersonId,
+): boolean {
+  const other = core.people.get(otherId);
+  if (!other?.knownIds.has(playerId)) return false;
+  if (other.familyIds.has(playerId)) return true;
+  const learned = other.knownIdSources?.[playerId]?.learnedAt;
+  if (learned !== undefined) return learned < core.date;
+  const seen = lastContact(core, otherId, playerId);
+  return !!seen && seen.date < core.date;
+}
+
 function greetingLine(
   core: Readonly<CoreState>,
   data: ConversationData,
@@ -5929,7 +5958,11 @@ function partingLine(
     conversation.lines.some((line) => line.text.includes(topic[found]!.text));
   const key = named ? undefined : found;
   const player = core.people.get(conversation.playerId);
-  if (named && player?.givenName) {
+  if (
+    named &&
+    player?.givenName &&
+    saysName(core, speakerId, conversation.playerId)
+  ) {
     facts["about-again"] = topic[found!]!;
     facts["player-first"] = {
       text: player.givenName,
@@ -6381,7 +6414,11 @@ function sayNow(
     !choice.lie &&
     GIVES_BACK.includes(last.kind) &&
     sayGiveBack(core, conversation, data, last, choice.answers, eventId);
-  if (gave && !raised) {
+  // A raised answer the give-back already told (where they live, said as the
+  // give-back) is not told again (lead, Nov 14, rule 53: one fact, once).
+  const covered =
+    gave && !!raised && GIVES_COVER[last.kind]?.includes(raised.kind) === true;
+  if (gave && (!raised || covered)) {
     carryOn(core, conversation, data);
     return conversation;
   }
