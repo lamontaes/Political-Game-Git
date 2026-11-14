@@ -67,6 +67,11 @@
     "venue": "Where",
     "retold": "retold"
   },
+  "campaignGatherers": {
+    "hired": "{cost} set aside to pay people to gather signatures until {due}. {signed} signed so far.",
+    "noMoneyYet": "The campaign has no money to pay anyone yet.",
+    "noMoney": "The campaign has no money left to pay anyone. All {raised} is spent or set aside."
+  },
   "campaignVolunteers": {
     "one": "1 volunteer",
     "other": "{n} volunteers",
@@ -1120,7 +1125,8 @@
     "endorsement": "Endorsements",
     "ad": "Ad",
     "mail": "Mail",
-    "poll": "Poll"
+    "poll": "Poll",
+    "circulators": "Pay people to gather signatures"
   },
   "campaignResults": {
     "doors": "{n} doors",
@@ -1144,7 +1150,29 @@
     "firstStep": "Takes effect when it becomes law",
     "stepDate": "Takes effect on",
     "askedCarried": "{name} agreed to carry your bill.",
-    "askedRefused": "{name} declined to carry your bill, and nothing was filed."
+    "askedRefused": "{name} said no to sponsoring your bill, so nothing was filed.",
+    "askedRefusedSaid": "{name} said no to sponsoring your bill, so nothing was filed. \"{words},\" {subject} said.",
+    "askedRefusedBecause": "{name} said no to sponsoring your bill, so nothing was filed: {reason}.",
+    "askedBefore": "You asked {object} once before, on {date}.",
+    "askedBeforeMore": "You have asked {object} before; the last time was {date}.",
+    "askedReasons": {
+      "views": "{subject} doesn't believe in it",
+      "constituents": "the people {subject} represents don't want it",
+      "standing": "{subject} doesn't know you well enough to put {possessive} name on it",
+      "trait": "it isn't the kind of bill {subject} brings",
+      "consistency": "it runs against how {subject} voted last",
+      "party": "{possessive} party's leaders are against it",
+      "wing": "{possessive} wing of the party is against it"
+    },
+    "askedReasonsThey": {
+      "views": "they don't believe in it",
+      "constituents": "the people they represent don't want it",
+      "standing": "they don't know you well enough to put their name on it",
+      "trait": "it isn't the kind of bill they bring",
+      "consistency": "it runs against how they voted last",
+      "party": "their party's leaders are against it",
+      "wing": "their wing of the party is against it"
+    }
   },
   "journal": {
     "title": "My story",
@@ -1313,6 +1341,11 @@
     "raised": "Raised",
     "spent": "Spent",
     "volunteers": "Volunteers",
+    "volunteer": "Volunteer",
+    "team": "Your team",
+    "staff": "On your staff",
+    "inbox": "Waiting for your answer",
+    "inboxOpen": "Answer",
     "doors": "Doors knocked",
     "signatures": "Signatures",
     "signaturesHeld": "{signed} of {needed}, due {date}",
@@ -1333,7 +1366,8 @@
   },
   "runningMate": {
     "title": "Your running mate",
-    "choose": "Choose",
+    "ask": "Ask",
+    "declined": "{name} turned you down. You can ask again later.",
     "own": "Choose for me",
     "later": "You name your running mate after the primary.",
     "nominee": "Your party's nominee for {ticket} joins your ticket after the primary.",
