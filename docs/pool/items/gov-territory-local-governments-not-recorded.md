@@ -37,4 +37,4 @@ checked:
 
 **Files.** src/core2/offices-local.ts, src/core2/gov-rules/, src/core2/data/places/territory-places.json, src/director/local-address.ts
 
-**Notes.** Related, kept separate: words-territory-town-head-gives-no-address (the address half, which this item's fix clears); play-nothing-to-enter-at-eighteen (the golden path's first contest at 18 in Yona, Guam).
+**Notes.** The owner ruled Nov 14 (card "After early access") that this waits until after early access; the plain notice meanwhile is play-territory-pick-says-local-office-is-not-there-yet. Related, kept separate: words-territory-town-head-gives-no-address (the address half, which this item's fix clears); play-nothing-to-enter-at-eighteen (the golden path's first contest at 18 in Yona, Guam).
